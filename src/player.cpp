@@ -2587,7 +2587,7 @@ bool player::in_climate_control()
         next_climate_control_check = calendar::turn + 20_turns;
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             regulated_area = (
-                                 vp->vehicle().is_inside( vp->part_index() ) &&  // Already checks for opened doors
+                                 vp->is_inside() &&  // Already checks for opened doors
                                  vp->vehicle().total_power( true ) > 0 // Out of gas? No AC for you!
                              );  // TODO: (?) Force player to scrounge together an AC unit
         }

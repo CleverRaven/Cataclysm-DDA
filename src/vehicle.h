@@ -234,7 +234,7 @@ public:
     bool is_broken() const;
 
     int blood        = 0;         // how much blood covers part (in turns).
-    bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
+    bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vpart_position::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
     bool enabled     = true;      //
@@ -1039,8 +1039,6 @@ public:
     void stop ();
 
     void refresh_insides ();
-
-    bool is_inside (int p) const;
 
     void unboard_all ();
 

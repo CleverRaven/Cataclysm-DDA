@@ -295,7 +295,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
         if( in_veh != nullptr ) {
             const optional_vpart_position other = g->m.veh_at( tp );
-            if( in_veh == veh_pointer_or_null( other ) && in_veh->is_inside( other->part_index() ) ) {
+            if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
                 continue; // Turret is on the roof and can't hit anything inside
             }
         }

@@ -39,6 +39,8 @@ class vpart_position
         size_t part_index() const {
             return part_index_;
         }
+
+        bool is_inside() const;
 };
 
 /**

@@ -674,7 +674,7 @@ void npc::execute_action( npc_action action )
                     const npc *who = pt.crew();
                     priority = who && who->getID() == getID() ? 3 : 2;
 
-                } else if( veh->is_inside( p2 ) ) {
+                } else if( vpart_position( *veh, p2 ).is_inside() ) {
                     priority = 1;
                 }
 

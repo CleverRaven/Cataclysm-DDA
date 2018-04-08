@@ -3587,7 +3587,7 @@ void map::crush( const tripoint &p )
         bool player_inside = false;
         if( crushed_player->in_vehicle ) {
             const optional_vpart_position vp = veh_at( p );
-            player_inside = vp && vp->vehicle().is_inside( vp->part_index() );
+            player_inside = vp && vp->is_inside();
         }
         if (!player_inside) { //If there's a player at p and he's not in a covered vehicle...
             //This is the roof coming down on top of us, no chance to dodge
@@ -7523,7 +7523,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 continue;
             }
 
-            if( v.v->is_inside( part ) ) {
+            if( vpart_position( *v.v, part ).is_inside() ) {
                 outside_cache[px][py] = false;
             }
 

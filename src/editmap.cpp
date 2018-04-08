@@ -506,7 +506,7 @@ void editmap::update_view( bool update_info )
     int veh_in = -1;
     const optional_vpart_position vp = g->m.veh_at( target );
     if( vp ) {
-        veh_in = vp->vehicle().is_inside( vp->part_index() );
+        veh_in = vp->is_inside();
     }
 
     target_ter = g->m.ter( target );

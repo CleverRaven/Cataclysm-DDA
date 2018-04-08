@@ -2654,7 +2654,7 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
                         ( int )i == hl ? hilite( col_cond ) : col_cond, partname );
         wprintz( win, sym_color, right_sym );
 
-        if (i == 0 && is_inside(pl[i])) {
+        if( i == 0 && vpart_position( const_cast<vehicle&>( *this ), pl[i] ).is_inside() ) {
             //~ indicates that a vehicle part is inside
             mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_light_gray, _("Interior"));
         } else if (i == 0) {
@@ -5356,17 +5356,14 @@ void vehicle::refresh_insides ()
     }
 }
 
-bool vehicle::is_inside(int const p) const
+bool vpart_position::is_inside() const
 {
-    if (p < 0 || p >= (int)parts.size()) {
-        return false;
-    }
-    if (insides_dirty) {
+    if( vehicle().insides_dirty ) {
         // TODO: this is a bit of a hack as refresh_insides has side effects
         // this should be called elsewhere and not in a function that intends to just query
-        const_cast<vehicle*>(this)->refresh_insides();
+        vehicle().refresh_insides();
     }
-    return parts[p].inside;
+    return vehicle().parts[part_index()].inside;
 }
 
 void vehicle::unboard_all ()
