@@ -161,6 +161,7 @@ public:
 
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color) override;
 protected:
+    TTF_Font *get_font();
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
     TTF_Font_Ptr font;
@@ -184,6 +185,9 @@ protected:
     std::map<key_t, cached_t> glyph_cache_map;
 
     const bool fontblending;
+    std::string typeface;
+    int fontsize;
+    int faceIndex;
 };
 
 /**
@@ -527,7 +531,8 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
+    TTF_Font *_font = get_font();
+    SDL_Surface_Ptr sglyph( function( _font, ch.c_str(), windowsPalette[color] ) );
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return NULL;
@@ -1887,11 +1892,13 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
 
 
 
-CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize, const bool fontblending )
+CachedTTFFont::CachedTTFFont( const int w, const int h, std::string _typeface, int _fontsize, const bool _fontblending )
 : Font( w, h )
-, fontblending( fontblending )
+, fontblending( _fontblending )
+, typeface( _typeface )
+, fontsize( _fontsize )
+, faceIndex( 0 )
 {
-    int faceIndex = 0;
     const std::string sysfnt = find_system_font(typeface, faceIndex);
     if (!sysfnt.empty()) {
         typeface = sysfnt;
@@ -1918,11 +1925,47 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
         strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0 ) {
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
     }
-    font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );
-    if( !font ) {
-        throw std::runtime_error(TTF_GetError());
+
+    // Preload normal styled font to force exception here
+    TTF_Font *font = get_font();
+    (void) font;
+}
+
+TTF_Font *CachedTTFFont::get_font()
+{
+    TTF_Font *_font = font.get();
+    if (_font) {
+        return _font;
     }
-    TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
+
+    int style = TTF_STYLE_NORMAL;
+    int shrink_to_fit_style = TTF_STYLE_NORMAL;
+
+    int _fontsize = fontsize;
+    while ( _fontsize > 0 ) {
+        _font = TTF_OpenFontIndex( typeface.c_str(), _fontsize, faceIndex );
+        if( !_font ) {
+            throw std::runtime_error(TTF_GetError());
+        }
+        TTF_SetFontStyle( _font, shrink_to_fit_style );
+        int width = 0;
+        int height = 0;
+        // @todo: Check all to get maximum?
+        TTF_SizeText( _font, "#", &width, &height );
+        if ( width <= fontwidth && height <= fontheight ) {
+            break;
+        }
+        TTF_CloseFont( _font );
+        _font = NULL;
+        _fontsize--;
+    }
+    if (!_font) {
+        throw std::runtime_error("No font size that satisfies the requirements found");
+    }
+    TTF_SetFontStyle( _font, style );
+    font.reset( _font );
+
+    return _font;
 }
 
 int map_font_width() {
