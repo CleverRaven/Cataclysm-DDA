@@ -522,7 +522,7 @@ std::string monster::extended_description() const
     } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
-        ss << _( "It has head." ) << std::endl;
+        ss << _( "It has a head." ) << std::endl;
     }
 
     return replace_colors( ss.str() );
