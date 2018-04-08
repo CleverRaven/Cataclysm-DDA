@@ -14,7 +14,7 @@
         "item" : "tank_gun_manual",
         "difficulty" : 8,
         "size" : 10,
-        "flags" : ["MANUAL"],
+        "extend": { "flags" : ["MANUAL"] },
         "breaks_into" : [
             {"item": "tank_gun_manual", "prob": 50}
         ]
@@ -33,7 +33,7 @@
         "item" : "tank_gun_auto",
         "difficulty" : 8,
         "size" : 50,
-        "flags" : ["MANUAL"],
+        "extend": { "flags" : ["MANUAL"] },
         "breaks_into" : [
             {"item": "tank_gun_auto", "prob": 50}
         ]
@@ -52,7 +52,7 @@
         "item" : "tank_gun_rws",
         "difficulty" : 8,
         "size" : 100,
-        "flags" : ["NEEDS_BATTERY_MOUNT"],
+        "extend": { "flags" : ["NEEDS_BATTERY_MOUNT"] },
         "breaks_into" : [
             {"item": "tank_gun_rws", "prob": 50}
         ]
@@ -71,7 +71,7 @@
         "item" : "howitzer_gun",
         "difficulty" : 8,
         "size" : 15,
-        "flags" : ["MANUAL"],
+        "extend": {"flags" : ["MANUAL"] },
         "breaks_into" : [
             {"item": "howitzer_gun", "prob": 50}
         ]
@@ -111,7 +111,7 @@
         "item" : "atgm_launcher",
         "difficulty" : 8,
         "size" : 35,
-        "flags" : ["MANUAL"],
+        "extend": { "flags" : ["MANUAL"] },
         "breaks_into" : [
             {"item": "atgm_launcher", "prob": 50}
         ]
@@ -130,7 +130,7 @@
         "item" : "atgm_turret",
         "difficulty" : 8,
         "size" : 35,
-        "flags" : ["NEEDS_BATTERY_MOUNT"],
+        "extend": { "flags" : ["NEEDS_BATTERY_MOUNT"] },
         "breaks_into" : [
             {"item": "atgm_turret", "prob": 50}
         ]
@@ -149,7 +149,7 @@
         "item" : "30mm_autocannon",
         "difficulty" : 8,
         "size" : 50,
-        "flags" : ["MANUAL"],
+        "extend": { "flags" : ["MANUAL"] },
         "breaks_into" : [
             {"item": "30mm_autocannon", "prob": 50}
         ]
