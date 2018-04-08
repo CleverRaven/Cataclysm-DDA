@@ -5,6 +5,7 @@
         "category" : "spare_parts",
         "price" : 12000,
         "name" : "battery",
+        "name_plural" : "batteries",
         "symbol" : "=",
         "color" : "yellow",
         "description" : "A set of universal batteries.  Used to charge almost any electronic device.",
