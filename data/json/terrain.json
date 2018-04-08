@@ -6669,7 +6669,7 @@
   {
     "id": "t_railroad_rubble",
     "type": "terrain",
-    "name": "railroad rubble",
+    "name": "gravel",
     "symbol": "^",
     "color": [ "brown" ],
     "move_cost": 2,
