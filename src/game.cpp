@@ -4346,22 +4346,16 @@ void game::disp_NPC_epilogues()
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
-    std::vector<std::string> data;
     epilogue epi;
-    //This search needs to be expanded to all NPCs
+    // @todo: This search needs to be expanded to all NPCs
     for( const npc &guy : all_npcs() ) {
         if( guy.is_friend() ) {
-            if( guy.male ) {
-                epi.random_by_group( "male", guy.name );
-            } else {
-                epi.random_by_group( "female", guy.name );
-            }
-            for( auto &ln : epi.lines ) {
-                data.push_back( ln );
-            }
-            display_table(w, "", 1, data);
+            epi.random_by_group( guy.male ? "male" : "female" );
+            std::vector<std::string> txt;
+            txt.emplace_back( epi.text );
+            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
+            multipage( w, txt, "", 2 );
         }
-        data.clear();
     }
 
     refresh_all();
