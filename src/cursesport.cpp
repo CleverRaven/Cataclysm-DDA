@@ -343,6 +343,7 @@ inline void printstring(cata_cursesport::WINDOW *win, const std::string &text)
         if( dlen >= 1 ) {
             curcell->FG = win->FG;
             curcell->BG = win->BG;
+            curcell->FS = win->FS;
             addedchar( win );
         }
         if( dlen == 1 ) {
@@ -364,6 +365,7 @@ inline void printstring(cata_cursesport::WINDOW *win, const std::string &text)
             }
             seccell->FG = win->FG;
             seccell->BG = win->BG;
+            seccell->FS = win->FS;
             seccell->ch.erase();
             addedchar( win );
             // Have just written a wide-character into the last cell, it would not
@@ -537,6 +539,12 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
     if (attrs.is_blink()) {
         win->BG = static_cast<base_color>( win->BG + 8 );
     }
+    if (attrs.is_italic()) {
+        win->FS.set( cata_cursesport::FS_ITALIC );
+    }
+    if (attrs.is_underline()) {
+        win->FS.set( cata_cursesport::FS_UNDERLINE );
+    }
 }
 
 void catacurses::wattroff(const window &win_, int)
@@ -549,6 +557,9 @@ void catacurses::wattroff(const window &win_, int)
 
     win->FG = static_cast<base_color>( 8 );                                //reset to white
     win->BG = black;                                //reset to black
+    win->FS.reset( cata_cursesport::FS_BOLD );
+    win->FS.reset( cata_cursesport::FS_ITALIC );
+    win->FS.reset( cata_cursesport::FS_UNDERLINE );
 }
 
 void catacurses::waddch(const window &win, const chtype ch)
