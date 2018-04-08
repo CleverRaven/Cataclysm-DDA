@@ -160,7 +160,6 @@ class inventory : public visitable<inventory>
         void json_save_invcache( JsonOut &jsout ) const;
         void json_save_items( JsonOut &jsout ) const;
 
-        item nullitem;
         std::list<item> nullstack;
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is

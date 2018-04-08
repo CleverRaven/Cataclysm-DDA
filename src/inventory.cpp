@@ -25,8 +25,7 @@ bool invlet_wrapper::valid( const long invlet ) const
 }
 
 inventory::inventory()
-: nullitem()
-, nullstack()
+: nullstack()
 , invlet_cache()
 , items()
 {
@@ -579,7 +578,7 @@ void inventory::dump(std::vector<item *> &dest)
 const item &inventory::find_item(int position) const
 {
     if (position < 0 || position >= (int)items.size()) {
-        return nullitem;
+        return null_item_reference();
     }
     invstack::const_iterator iter = items.begin();
     for (int j = 0; j < position; ++j) {
@@ -718,7 +717,7 @@ bool inventory::has_enough_painkiller(int pain) const
 item *inventory::most_appropriate_painkiller(int pain)
 {
     int difference = 9999;
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
@@ -744,7 +743,7 @@ item *inventory::most_appropriate_painkiller(int pain)
 
 item *inventory::best_for_melee( player &p, double &best )
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         auto score = p.melee_value( elem.front() );
         if( score > best ) {
@@ -758,7 +757,7 @@ item *inventory::best_for_melee( player &p, double &best )
 
 item *inventory::most_loaded_gun()
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     int max = 0;
     for( auto &elem : items ) {
         item &gun = elem.front();
