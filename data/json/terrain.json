@@ -6682,7 +6682,7 @@
     "name": "railroad track",
     "symbol": "X",
     "color": [ "cyan" ],
-    "move_cost": 2,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6691,7 +6691,7 @@
     "name": "railroad track",
     "symbol": "x",
     "color": [ "cyan" ],
-    "move_cost": 2,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6700,7 +6700,7 @@
     "name": "railroad tie",
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
   {
