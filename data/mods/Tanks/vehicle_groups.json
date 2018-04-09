@@ -65,12 +65,5 @@
             ["tractor_heavy_reaper",250],
             ["tractor_bandit", 100]
         ]
-    },
-    {
-        "id": "warehouse_vehicles",
-        "type": "vehicle_group",
-        "vehicles": [
-            [ "forklift", 100 ]
-        ]
     }
 ]

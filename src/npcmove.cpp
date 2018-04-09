@@ -1586,7 +1586,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
-            add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
+            add_msg_if_npc( m_neutral, _( "%1$s tries to climb the %2$s but slips." ),
                             name.c_str(), g->m.tername( p ).c_str() );
             moves -= 400;
         } else {
