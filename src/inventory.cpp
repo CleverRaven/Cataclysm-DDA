@@ -25,9 +25,7 @@ bool invlet_wrapper::valid( const long invlet ) const
 }
 
 inventory::inventory()
-: nullitem()
-, nullstack()
-, invlet_cache()
+: invlet_cache()
 , items()
 {
 }
@@ -54,6 +52,7 @@ const std::list<item> &inventory::const_stack(int i) const
 {
     if (i < 0 || i >= (int)items.size()) {
         debugmsg("Attempted to access stack %d in an inventory (size %d)", i, items.size());
+        static const std::list<item> nullstack{};
         return nullstack;
     }
 
@@ -507,7 +506,7 @@ item inventory::remove_item(const item *it)
         return tmp.front();
     }
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
-    return nullitem;
+    return item();
 }
 
 item inventory::remove_item( const int position )
@@ -532,7 +531,7 @@ item inventory::remove_item( const int position )
         ++pos;
     }
 
-    return nullitem;
+    return item();
 }
 
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
@@ -579,7 +578,7 @@ void inventory::dump(std::vector<item *> &dest)
 const item &inventory::find_item(int position) const
 {
     if (position < 0 || position >= (int)items.size()) {
-        return nullitem;
+        return null_item_reference();
     }
     invstack::const_iterator iter = items.begin();
     for (int j = 0; j < position; ++j) {
@@ -718,7 +717,7 @@ bool inventory::has_enough_painkiller(int pain) const
 item *inventory::most_appropriate_painkiller(int pain)
 {
     int difference = 9999;
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
@@ -744,7 +743,7 @@ item *inventory::most_appropriate_painkiller(int pain)
 
 item *inventory::best_for_melee( player &p, double &best )
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         auto score = p.melee_value( elem.front() );
         if( score > best ) {
@@ -758,7 +757,7 @@ item *inventory::best_for_melee( player &p, double &best )
 
 item *inventory::most_loaded_gun()
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     int max = 0;
     for( auto &elem : items ) {
         item &gun = elem.front();

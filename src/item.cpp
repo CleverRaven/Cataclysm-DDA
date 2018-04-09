@@ -117,6 +117,14 @@ static const itype *nullitem()
     return &nullitem_m;
 }
 
+item &null_item_reference()
+{
+    static item result{};
+    // reset it, in case a previous caller has changed it
+    result = item();
+    return result;
+}
+
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
 
 item::item() : bday( calendar::time_of_cataclysm )

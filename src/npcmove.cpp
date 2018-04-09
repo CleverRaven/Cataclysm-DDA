@@ -1098,7 +1098,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    return ret_null;
+    return null_item_reference();
 }
 
 const item &npc::find_reloadable() const
@@ -2370,7 +2370,7 @@ bool npc::wield_better_weapon()
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
     // Fists aren't checked below
-    compare_weapon( ret_null );
+    compare_weapon( null_item_reference() );
 
     visit_items( [&compare_weapon]( item * node ) {
         // Skip some bad items
@@ -2419,7 +2419,7 @@ void npc::wield_best_melee()
     item *it = inv.best_for_melee( *this, best_value );
     if( unarmed_value() >= best_value ) {
         // "I cast fist!"
-        it = &ret_null;
+        it = &null_item_reference();
     }
 
     wield( *it );

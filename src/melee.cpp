@@ -93,7 +93,7 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
 
 const item &Character::used_weapon() const
 {
-    return dynamic_cast<const player &>( *this ).get_combat_style().force_unarmed ? ret_null : weapon;
+    return dynamic_cast<const player &>( *this ).get_combat_style().force_unarmed ? null_item_reference() : weapon;
 }
 
 item &Character::used_weapon()
@@ -1219,7 +1219,7 @@ item &player::best_shield()
 {
     // Note: wielded weapon, not one used for attacks
     int best_value = blocking_ability( weapon );
-    item *best = best_value > 0 ? &weapon : &ret_null;
+    item *best = best_value > 0 ? &weapon : &null_item_reference();
     for( item &shield : worn ) {
         if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= best_value ) {
             best = &shield;
@@ -1924,7 +1924,7 @@ double player::melee_value( const item &weap ) const
 double player::unarmed_value() const
 {
     // TODO: Martial arts
-    return melee_value( ret_null );
+    return melee_value( item() );
 }
 
 void player::disarm( npc &target )

@@ -1759,5 +1759,11 @@ enum hint_rating {
     HINT_GOOD = -999
 };
 
+/**
+ * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
+ * and stays valid until the program ends.
+ */
+item &null_item_reference();
+
 #endif
 
