@@ -188,7 +188,7 @@ Optional, if not defined, "NONE" is used. Otherwise one of "NONE", "LIE", "PERSU
 The `difficulty` is only required if type is not "NONE" and specifies the success chance in percent (it is however modified by various things like mutations).
 
 ### success and failure
-Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the the response, see below.
+Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, see below.
 
 The opinion of the NPC affects several aspects of the interaction with NPCs:
 - Higher trust makes it easier to lie and persuade, and it usually a good thing.
