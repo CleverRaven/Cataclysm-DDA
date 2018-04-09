@@ -339,8 +339,9 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
-                if( (    calendar::turn % 2   && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
-                    ( !( calendar::turn % 2 ) && vp.has_flag( VPFLAG_EVENTURN ) ) ||
+                const bool odd_turn = calendar::once_every( 2_turns );
+                if( (  odd_turn && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
+                    ( !odd_turn && vp.has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
 
                     add_light_source( src, vp.bonus );

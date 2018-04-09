@@ -108,11 +108,36 @@ options_manager::cOpt::cOpt()
     hide = COPT_NO_HIDE;
 }
 
+//add hidden external option with value
+void options_manager::add_external( const std::string sNameIn, const std::string sPageIn,
+                                    const std::string sType,
+                                    const std::string sMenuTextIn, const std::string sTooltipIn )
+{
+    cOpt thisOpt;
+
+    thisOpt.sName = sNameIn;
+    thisOpt.sPage = sPageIn;
+    thisOpt.sMenuText = sMenuTextIn;
+    thisOpt.sTooltip = sTooltipIn;
+    thisOpt.sType = sType;
+
+    thisOpt.iMin = INT_MIN;
+    thisOpt.iMax = INT_MAX;
+
+    thisOpt.fMin = INT_MIN;
+    thisOpt.fMax = INT_MAX;
+
+    thisOpt.hide = COPT_ALWAYS_HIDE;
+    thisOpt.setSortPos( sPageIn );
+
+    options[sNameIn] = thisOpt;
+}
+
 //add string select option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
-                            std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
-                            copt_hide_t opt_hide)
+void options_manager::add( const std::string sNameIn, const std::string sPageIn,
+                           const std::string sMenuTextIn, const std::string sTooltipIn,
+                           std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
+                           copt_hide_t opt_hide )
 {
     cOpt thisOpt;
 
@@ -125,14 +150,14 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.hide = opt_hide;
     thisOpt.vItems = sItemsIn;
 
-    if (thisOpt.getItemPos(sDefaultIn) == -1) {
+    if( thisOpt.getItemPos( sDefaultIn ) == -1 ) {
         sDefaultIn = thisOpt.vItems[0].first;
     }
 
     thisOpt.sDefault = sDefaultIn;
     thisOpt.sSet = sDefaultIn;
 
-    thisOpt.setSortPos(sPageIn);
+    thisOpt.setSortPos( sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -582,7 +607,7 @@ void options_manager::cOpt::setNext()
         int iMenuTextLength = sMenuText.length();
         string_input_popup()
         .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength + 1) )
-        .description( sMenuText )
+        .description( _( sMenuText.c_str() ) )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -2036,6 +2061,10 @@ void options_manager::serialize(JsonOut &json) const
             const auto iter = options.find( elem );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
+                //Skip hidden option because it is set by mod and should not be saved
+                if ( opt.hide == COPT_ALWAYS_HIDE ) {
+                    continue;
+                }
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );

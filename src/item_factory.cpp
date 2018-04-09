@@ -263,8 +263,6 @@ void Item_factory::finalize_pre( itype &obj )
     npc_implied_flags( obj );
 
     if( obj.comestible ) {
-        obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
-
         if( get_option<bool>( "NO_VITAMINS" ) ) {
             obj.comestible->vitamins.clear();
         } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -1431,7 +1429,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "stim", slot.stim, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "spoils_in", slot.spoils, strict, 0 );
+    assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
 
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );

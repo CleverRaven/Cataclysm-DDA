@@ -387,7 +387,7 @@ class Character : public Creature, public visitable<Character>
 
         /**
          * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or @ref ret_null.
+         * At the moment it's always @ref weapon or a reference to a null item.
          */
         /*@{*/
         const item &used_weapon() const;
@@ -617,7 +617,6 @@ class Character : public Creature, public visitable<Character>
         inventory inv;
         itype_id last_item;
         item weapon;
-        item ret_null; // Null item, sometimes returns by weapon() etc
 
         pimpl<bionic_collection> my_bionics;
 

@@ -366,9 +366,9 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const int spoils = get_edible_comestible( loc ).spoils;
+                const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
-                    return to_string_clipped( time_duration::from_turns( spoils ) );
+                    return to_string_clipped( spoils );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );

@@ -88,9 +88,9 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
                                            mt.in_category( "WILDLIFE" ) );
         }
         //Insure that the time is not before the spawn first appears or after it stops appearing
-        valid_entry = valid_entry && ( HOURS( it->starts ) < calendar::turn.get_turn() );
+        valid_entry = valid_entry && ( calendar::time_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
-                                       HOURS( it->ends ) > calendar::turn.get_turn() );
+                                       calendar::time_of_cataclysm + it->ends > calendar::turn );
 
         std::vector<std::pair<int, int> > valid_times_of_day;
         bool season_limited = false;
@@ -332,22 +332,23 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
                 pack_min = packarr.next_int();
                 pack_max = packarr.next_int();
             }
-            int starts = 0;
-            int ends = 0;
+            static const time_duration tdfactor = 1_hours;
+            time_duration starts = 0;
+            time_duration ends = 0;
             if( mon.has_member( "starts" ) ) {
                 if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-                    starts = mon.get_int( "starts" ) * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+                    starts = tdfactor * mon.get_int( "starts" ) * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
-                    starts = mon.get_int( "starts" );
+                    starts = tdfactor * mon.get_int( "starts" );
                 }
             }
             if( mon.has_member( "ends" ) ) {
                 if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-                    ends = mon.get_int( "ends" ) * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+                    ends = tdfactor * mon.get_int( "ends" ) * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
-                    ends = mon.get_int( "ends" );
+                    ends = tdfactor * mon.get_int( "ends" );
                 }
             }
             MonsterGroupEntry new_mon_group = MonsterGroupEntry( name, freq, cost, pack_min, pack_max, starts,
