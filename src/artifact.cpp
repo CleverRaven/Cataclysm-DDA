@@ -539,10 +539,10 @@ static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor
     },
 } };
 static const std::array<std::string, 20> artifact_adj = { {
-    translate_marker( "Forbidden" ), translate_marker( "Unknown" ), translate_marker( "Forgotten" ), translate_marker( "Hideous" ), translate_marker( "Eldritch" ),
+    translate_marker( "Forbidden" ), translate_marker( "Unknowable" ), translate_marker( "Forgotten" ), translate_marker( "Hideous" ), translate_marker( "Eldritch" ),
     translate_marker( "Gelatinous" ), translate_marker( "Ancient" ), translate_marker( "Cursed" ), translate_marker( "Bloody" ), translate_marker( "Undying" ),
     translate_marker( "Shadowy" ), translate_marker( "Silent" ), translate_marker( "Cyclopean" ), translate_marker( "Fungal" ), translate_marker( "Unspeakable" ),
-    translate_marker( "Grotesque" ), translate_marker( "Frigid" ), translate_marker( "Shattered" ), translate_marker( "Sleeping" ), translate_marker( "Repellent" )
+    translate_marker( "Antediluvian" ), translate_marker( "Frigid" ), translate_marker( "Shattered" ), translate_marker( "Sleeping" ), translate_marker( "Repellent" )
 } };
 static const std::array<std::string, 20> artifact_noun = { {
     translate_marker( "%s Technique" ), translate_marker( "%s Dreams" ), translate_marker( "%s Beasts" ), translate_marker( "%s Evil" ), translate_marker( "%s Miasma" ),
