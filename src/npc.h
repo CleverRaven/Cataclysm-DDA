@@ -890,7 +890,6 @@ struct epilogue {
 
     std::string id; //Unique name for declaring an ending for a given individual
     std::string group; //Male/female (dog/cyborg/mutant... whatever you want)
-    bool is_unique; //If true, will not occur in random endings
     std::string text;
 
     static epilogue_map _all_epilogue;

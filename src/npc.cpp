@@ -2124,7 +2124,6 @@ epilogue::epilogue()
 {
     id = "NONE";
     group = "NONE";
-    is_unique = false;
     text = "Error: file lost!";
 }
 
@@ -2135,7 +2134,6 @@ void epilogue::load_epilogue( JsonObject &jsobj )
     epilogue base;
     base.id = jsobj.get_string( "id" );
     base.group = jsobj.get_string( "group" );
-    base.is_unique = jsobj.get_bool( "unique", false );
     base.text = jsobj.get_string( "text" );
 
     _all_epilogue[base.id] = base;
@@ -2167,7 +2165,6 @@ void epilogue::random_by_group( std::string group )
     epilogue epi = random_entry( v );
     id = epi.id;
     group = epi.group;
-    is_unique = epi.is_unique;
     text = epi.text;
 }
 
