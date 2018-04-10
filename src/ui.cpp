@@ -218,7 +218,7 @@ void uimenu::filterlist()
     fselected = -1;
     int f = 0;
     for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( nocase == false && (int)entries[ i ].txt.find(filter) != -1 ) ||
+        if( notfiltering || ( !nocase && (int)entries[ i ].txt.find(filter) != -1 ) ||
             lcmatch(entries[i].txt, fstr ) ) {
             fentries.push_back( i );
             if ( i == selected ) {
@@ -277,7 +277,7 @@ std::string uimenu::inputfilter()
         event = popup.context().get_raw_input();
         // key = filter_input->keypress;
         if ( event.get_first_input() != KEY_ESCAPE ) {
-            if ( scrollby( scroll_amount_from_key( event.get_first_input() ) ) == false ) {
+            if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
                 filterlist();
             }
             show();

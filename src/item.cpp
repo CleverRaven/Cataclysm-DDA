@@ -3102,7 +3102,7 @@ bool item::can_revive() const
 
 bool item::ready_to_revive( const tripoint &pos ) const
 {
-    if(can_revive() == false) {
+    if( !can_revive() ) {
         return false;
     }
     int age_in_hours = to_hours<int>( age() );

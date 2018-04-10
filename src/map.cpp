@@ -3956,7 +3956,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     int vpart = -1;
     vehicle *veh = veh_at( p, vpart );
     if( ter.open ) {
-        if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
+        if ( has_flag("OPENCLOSE_INSIDE", p) && !inside ) {
             return false;
         }
 
@@ -3967,7 +3967,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
 
         return true;
     } else if( furn.open ) {
-        if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
+        if ( has_flag("OPENCLOSE_INSIDE", p) && !inside ) {
             return false;
         }
 

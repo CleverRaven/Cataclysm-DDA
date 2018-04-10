@@ -113,7 +113,7 @@ advanced_inventory::~advanced_inventory()
 
 void advanced_inventory::save_settings( bool only_panes )
 {
-    if( only_panes == false ) {
+    if( !only_panes ) {
         uistate.adv_inv_last_coords = g->u.pos();
         uistate.adv_inv_src = src;
         uistate.adv_inv_dest = dest;
@@ -1955,7 +1955,7 @@ int advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
         } else {
             g->m.i_rem( s.pos, sitem.items.front() );
         }
-        if(rc == false) {
+        if( !rc ) {
             break;
         }
         sitem.items.erase(sitem.items.begin());
