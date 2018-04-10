@@ -68,10 +68,9 @@
     "dispersion": 120,
     "durability": 8,
     "clip_size": 5,
-    "reload": 75,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "magazines": [ [ "3006", [ "3006_clip" ] ] ]
   },
   {
     "id": "m1918",
