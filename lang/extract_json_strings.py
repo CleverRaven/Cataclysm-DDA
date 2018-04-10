@@ -119,6 +119,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
+    "epilogue",
     "faction",
     "fault",
     "furniture",
