@@ -653,7 +653,7 @@ void advanced_inv_area::init()
                 desc[1] = veh->get_label(part.mount.x, part.mount.y);
             }
             // get graffiti or terrain name
-            desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ?
+            desc[0] = g->m.has_graffiti_at( pos ) ?
                 g->m.graffiti_at( pos ) : g->m.name( pos );
         default:
             break;
@@ -1683,7 +1683,7 @@ void advanced_inventory::display()
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
             }
-            if( sitem->autopickup == true ) {
+            if( sitem->autopickup ) {
                 get_auto_pickup().remove_rule( sitem->items.front()->tname() );
                 sitem->autopickup = false;
             } else {

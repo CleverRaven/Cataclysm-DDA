@@ -206,7 +206,7 @@ void uimenu::filterlist()
 {
     bool notfiltering = ( ! filtering || filter.empty() );
     int num_entries = entries.size();
-    bool nocase = (filtering_nocase == true); // @todo: && is_all_lc( filter )
+    bool nocase = filtering_nocase; // @todo: && is_all_lc( filter )
     std::string fstr = "";
     fstr.reserve(filter.size());
     if ( nocase ) {
@@ -428,7 +428,7 @@ void uimenu::setup()
         } else if ( textwidth != -1 ) {
             realtextwidth = textwidth;
         }
-        if ( formattxt == true ) {
+        if ( formattxt ) {
             textformatted = foldstring(text, realtextwidth);
         }
     }
@@ -818,7 +818,7 @@ void uimenu::query(bool loop)
 
         if ( skipkey ) {
             /* nothing */
-        } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
+        } else if( scrollby( scroll_amount_from_action( action ) ) ) {
             /* nothing */
         } else if ( action == "HELP_KEYBINDINGS" ) {
             /* nothing, handled by input_context */

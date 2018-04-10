@@ -368,7 +368,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             ctxt->set_edittext( edit.c_str() );
             redraw = true;
         }
-    } while( loop == true );
+    } while( loop );
     _text = ret.str();
     return _text;
 }

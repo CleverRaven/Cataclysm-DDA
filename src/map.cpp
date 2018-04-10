@@ -3115,7 +3115,7 @@ void map::smash_items(const tripoint &p, const int power)
     std::vector<item> contents;
     auto items = g->m.i_at(p);
     for( auto i = items.begin(); i != items.end(); ) {
-        if (i->active == true) {
+        if( i->active ) {
             // Get the explosion item actor
             if (i->type->get_use( "explosion" ) != nullptr) {
                 const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>(
