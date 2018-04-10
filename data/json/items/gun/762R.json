@@ -49,7 +49,8 @@
     "clip_size": 5,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
-    "magazines": [ [ "762R", [ "762R_clip" ] ] ]
+    "magazines": [ [ "762R", [ "762R_clip" ] ] ],
+    "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "mosin91_30_ebr",

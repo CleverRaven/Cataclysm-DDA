@@ -70,7 +70,8 @@
     "clip_size": 5,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
-    "magazines": [ [ "3006", [ "3006_clip" ] ] ]
+    "magazines": [ [ "3006", [ "3006_clip" ] ] ],
+    "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "m1918",
