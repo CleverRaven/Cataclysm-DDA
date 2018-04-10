@@ -1741,9 +1741,6 @@ public:
 bool item_compare_by_charges( const item& left, const item& right);
 bool item_ptr_compare_by_charges( const item *left, const item *right);
 
-std::ostream &operator<<(std::ostream &, const item &);
-std::ostream &operator<<(std::ostream &, const item *);
-
 /**
  *  Hint value used in a hack to decide text color.
  *
