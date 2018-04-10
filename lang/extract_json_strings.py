@@ -294,7 +294,7 @@ def extract_effect_type(item):
         else:
             writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
-    # aplly and remove memorial messages.
+    # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:
         writestr(outfile, msg, context="memorial_male")
