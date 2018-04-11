@@ -148,6 +148,9 @@ class worldfactory
 
 void load_world_option( JsonObject &jo );
 
+//load external option from json
+void load_external_option( JsonObject &jo );
+
 extern std::unique_ptr<worldfactory> world_generator;
 
 #endif

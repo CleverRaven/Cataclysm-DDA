@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "options.h"
 #include "output.h"
+#include "calendar.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
@@ -70,7 +71,7 @@ void weather_effect::glare()
 
 int get_hourly_rotpoints_at_temp( int temp );
 
-int get_rot_since( const int startturn, const int endturn, const tripoint &location )
+time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
 {
     // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
@@ -81,11 +82,11 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
         return 0;
     }
     // TODO: maybe have different rotting speed when underground?
-    int ret = 0;
+    time_duration ret = 0;
     const auto &wgen = g->get_cur_weather_gen();
-    for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
+    for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
-        ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
+        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( w.temperature ) * 1_turns;
     }
     return ret;
 }
@@ -145,15 +146,15 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, int endturn,
-                                     const tripoint &location )
+void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
+                                     const time_point &end, const tripoint &location )
 {
-    if( startturn > endturn || !tr.is_funnel() ) {
+    if( start > end || !tr.is_funnel() ) {
         return;
     }
 
-    it.set_birthday( endturn ); // bday == last fill check
-    auto data = sum_conditions( startturn, endturn, location );
+    it.set_birthday( end ); // bday == last fill check
+    auto data = sum_conditions( start, end, location );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
@@ -496,6 +497,16 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
+static std::string print_time_just_hour( const time_point &p )
+{
+    const int hour = to_hours<int>( time_past_midnight( p ) );
+    int hour_param = hour % 12;
+    if( hour_param == 0 ) {
+        hour_param = 12;
+    }
+    return string_format( hour < 12 ? _( "%d AM" ) : _( "%d PM" ), hour_param );
+}
+
 // Script from Wikipedia:
 // Current time
 // The current time is hour/minute Eastern Standard Time
@@ -532,7 +543,7 @@ std::string weather_forecast( point const &abs_sm_pos )
     // Current time
     weather_report << string_format(
                        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
-                       calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(),
+                       to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                        city_name.c_str(),
                        weather_data(g->weather).name.c_str(), print_temperature(g->temperature).c_str()
                    );

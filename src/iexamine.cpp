@@ -1911,7 +1911,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             // must be on the square of the plant, therefore this hack:
             const auto old_furn = g->m.furn( examp );
             g->m.furn_set( examp, f_null );
-            g->m.spawn_item( examp, "fertilizer", 1, 1, (int)calendar::turn );
+            g->m.spawn_item( examp, "fertilizer", 1, 1, calendar::turn );
             g->m.furn_set( examp, old_furn );
         }
     }

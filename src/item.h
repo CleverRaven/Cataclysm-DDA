@@ -677,18 +677,23 @@ class item : public visitable<item>
     bool has_rotten_away() const { return get_relative_rot() > 2.0; }
 
 private:
-    int rot = 0; /** Accumulated rot is compared to shelf life to decide if item is rotten. */
-    /** Turn when the rot calculation was last performed */
-    int last_rot_check = 0;
+    /**
+     * Accumulated rot, expressed as time the item has been in standard temperature.
+     * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
+     * the item is rotten.
+     */
+    time_duration rot = 0;
+    /** Time when the rot calculation was last performed. */
+    time_point last_rot_check = calendar::time_of_cataclysm;
 
 public:
     int get_rot() const
     {
-        return rot;
+        return to_turns<int>( rot );
     }
 
-    /** Turn item was put into a fridge or 0 if not in any fridge. */
-    int fridge = 0;
+    /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
+    time_point fridge = calendar::before_time_starts;
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
@@ -1736,9 +1741,6 @@ public:
 bool item_compare_by_charges( const item& left, const item& right);
 bool item_ptr_compare_by_charges( const item *left, const item *right);
 
-std::ostream &operator<<(std::ostream &, const item &);
-std::ostream &operator<<(std::ostream &, const item *);
-
 /**
  *  Hint value used in a hack to decide text color.
  *
@@ -1753,6 +1755,12 @@ enum hint_rating {
     /** Item should display as green */
     HINT_GOOD = -999
 };
+
+/**
+ * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
+ * and stays valid until the program ends.
+ */
+item &null_item_reference();
 
 #endif
 
