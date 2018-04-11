@@ -93,17 +93,15 @@ void game::list_missions()
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), 3, 0 );
 
+        int lines = 0;
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             const auto miss = umissions[i];
-            nc_color col = c_white;
-            if( u.get_active_mission() == miss ) {
-                col = c_light_red;
-            }
-            const int y = i - top_of_page + 3;
+            nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
+            int y = 3 + lines;
             if( ( int )selection == i ) {
-                mvwprintz( w_missions, y, 1, hilite( col ), miss->name() );
+                lines += fold_and_print( w_missions, y, 1, 30, hilite( col ), miss->name() );
             } else {
-                mvwprintz( w_missions, y, 1, col, miss->name() );
+                lines += fold_and_print( w_missions, y, 1, 30, col, miss->name() );
             }
         }
 
