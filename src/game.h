@@ -9,6 +9,7 @@
 #include "int_id.h"
 #include "cursesdef.h"
 #include "pimpl.h"
+#include "monstergenerator.h"
 
 #include <array>
 #include <vector>
@@ -71,6 +72,7 @@ struct special_game;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using species_id = string_id<species_type>;
 using itype_id = std::string;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
@@ -486,8 +488,10 @@ class game
         void reload_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id &id );
-        /** Increments the number of kills of the given mtype_id by the player upwards. */
-        void increase_kill_count( const mtype_id &id );
+        /** Returns the number of kills of the given monster species by the player. */
+        int species_kill_count( const species_id& spec );
+        /** Increments the number of kills of the given mtype_id by the player upwards. Species defaults to ZOMBIE.*/
+        void increase_kill_count( const mtype_id &id, const species_id& spec = species_id( "ZOMBIE" ) );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
 
@@ -1042,6 +1046,7 @@ class game
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
         std::map<mtype_id, int> kills;         // Player's kill count
+        std::map<species_id, int> species_kills;
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
         time_t last_save_timestamp;
