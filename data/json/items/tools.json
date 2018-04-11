@@ -6467,7 +6467,7 @@
     "id": "sm_extinguisher",
     "type": "TOOL",
     "name": "small fire extinguisher",
-    "description": "This is a hand held fire extinguisher containing a liter of highly compressed C02 gas.  It would be useful for putting out adjacent fires.",
+    "description": "This is a hand held fire extinguisher containing a liter of highly compressed CO2 gas.  It would be useful for putting out adjacent fires.",
     "weight": 2267,
     "volume": 6,
     "price": 4000,

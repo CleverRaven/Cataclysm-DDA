@@ -1,13 +1,10 @@
 #include "clzones.h"
 #include "game.h"
-#include "player.h"
 #include "json.h"
 #include "debug.h"
 #include "output.h"
 #include "cata_utility.h"
 #include "translations.h"
-#include "worldfactory.h"
-#include "catacharset.h"
 #include "ui.h"
 #include "string_input_popup.h"
 
@@ -188,8 +185,7 @@ void zone_manager::deserialize( JsonIn &jsin )
 
 bool zone_manager::save_zones()
 {
-    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
-                               g->u.name ) + ".zones.json";
+    std::string savefile = g->get_player_base_save_path() + ".zones.json";
 
     return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -199,8 +195,7 @@ bool zone_manager::save_zones()
 
 void zone_manager::load_zones()
 {
-    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
-                               g->u.name ) + ".zones.json";
+    std::string savefile = g->get_player_base_save_path() + ".zones.json";
 
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );

@@ -5,14 +5,13 @@
 #include "json.h"
 #include "debug.h"
 #include "item_factory.h"
-#include "catacharset.h"
 #include "translations.h"
 #include "cata_utility.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "filesystem.h"
 #include "input.h"
-#include "worldfactory.h"
+#include "options.h"
 #include "itype.h"
 #include "string_input_popup.h"
 
@@ -595,9 +594,9 @@ bool auto_pickup::save(const bool bCharacter)
     auto savefile = FILENAMES["autopickup"];
 
         if (bCharacter) {
-            savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+            savefile = g->get_player_base_save_path() + ".apu.json";
 
-            const std::string player_save = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav";
+            const std::string player_save = g->get_player_base_save_path() + ".sav";
             if( !file_exist( player_save ) ) {
                 return true; //Character not saved yet.
             }
@@ -625,7 +624,7 @@ void auto_pickup::load(const bool bCharacter)
 
     std::string sFile = FILENAMES["autopickup"];
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+        sFile = g->get_player_base_save_path() + ".apu.json";
     }
 
     if( !read_from_file_optional_json( sFile, [this]( JsonIn &jsin ) { deserialize( jsin ); } ) ) {
@@ -678,7 +677,7 @@ bool auto_pickup::load_legacy(const bool bCharacter)
     std::string sFile = FILENAMES["legacy_autopickup2"];
 
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
     auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];

@@ -88,7 +88,7 @@ void init_global_game_state( const std::vector<mod_id> &mods )
 
     loading_ui ui( false );
     g->load_core_data( ui );
-    g->load_world_modfiles( world_generator->active_world, ui );
+    g->load_world_modfiles( ui );
 
     g->u = player();
     g->u.create( PLTYPE_NOW );

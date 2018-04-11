@@ -71,6 +71,7 @@
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
+      "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT", "MAG_BULKY" ]

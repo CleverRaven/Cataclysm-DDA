@@ -1029,8 +1029,6 @@ void npc::load(JsonObject &data)
     int misstmp = 0;
     int classtmp = 0;
     int atttmp = 0;
-    int comp_miss_t = 0;
-    int stock = 0;;
     std::string facID;
     std::string comp_miss;
     std::string classid;
@@ -1121,12 +1119,12 @@ void npc::load(JsonObject &data)
         companion_mission = comp_miss;
     }
 
-    if ( data.read( "companion_mission_time", comp_miss_t) ) {
-        companion_mission_time = comp_miss_t;
+    if( !data.read( "companion_mission_time", companion_mission_time ) ) {
+        companion_mission_time = calendar::before_time_starts;
     }
 
-    if ( data.read( "restock", stock) ) {
-        restock = stock;
+    if( !data.read( "restock", restock ) ) {
+        restock = calendar::before_time_starts;
     }
 
     data.read("op_of_u", op_of_u);
@@ -1136,9 +1134,18 @@ void npc::load(JsonObject &data)
         data.read("combat_rules", rules);
     }
 
-    last_updated = data.get_int( "last_updated", calendar::turn );
-    if( data.has_object( "complaints" ) ) {
-        data.read( "complaints", complaints );
+    if( !data.read( "last_updated", last_updated ) ) {
+        last_updated = calendar::turn;
+    }
+    //@todo time_point does not have a default constructor, need to read in the map manually
+    {
+        complaints.clear();
+        JsonObject jo = data.get_object( "complaints" );
+        for( const std::string &key : jo.get_member_names() ) {
+            time_point p = 0;
+            jo.read( key, p );
+            complaints.emplace( key, p );
+        }
     }
 }
 
@@ -1457,6 +1464,16 @@ void time_point::deserialize( JsonIn &jsin )
     turn_ = jsin.get_int();
 }
 
+void time_duration::serialize( JsonOut &jsout ) const
+{
+    jsout.write( turns_ );
+}
+
+void time_duration::deserialize( JsonIn &jsin )
+{
+    turns_ = jsin.get_int();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
@@ -1504,9 +1521,9 @@ void item::io( Archive& archive )
     archive.io( "damage", damage_, 0.0 );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
-    archive.io( "fridge", fridge, 0 );
-    archive.io( "rot", rot, 0 );
-    archive.io( "last_rot_check", last_rot_check, 0 );
+    archive.io( "fridge", fridge, calendar::before_time_starts );
+    archive.io( "rot", rot, 0_turns );
+    archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
@@ -1892,6 +1909,11 @@ void vehicle::deserialize(JsonIn &jsin)
             }
         }
     }
+
+    for( auto turret : get_parts( "TURRET", false ) ) {
+        install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
+    }
+
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     if ( savegame_loading_version < 11 ) {

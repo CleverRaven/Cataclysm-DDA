@@ -42,11 +42,13 @@ List of known flags, used in both terrain.json and furniture.json
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
-Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
-```
--X-    -Y-
- |      O
-```
+    Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
+
+    `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
+    ```
+    -X-    -Y-
+     |      O
+    ```
 
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
 - ```BARRICADABLE_DOOR_DAMAGED```
@@ -57,12 +59,12 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 - ```COLLAPSES``` Has a roof that can collapse.
-- ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry "connects_to", but retained for backward compatibility.
+- ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
-- ```DESTROY_ITEM``` Items that land here are destroyed. See also NOITEM
+- ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
@@ -72,32 +74,32 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAT``` Player can build and move furniture on.
-- ```GOES_DOWN``` Can use `>` to go down a level.
-- ```GOES_UP``` Can use '<' to go up a level.
+- ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
+- ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
-- ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if 'SEALED'.
+- ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
-- ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
+- ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
-- ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also DESTROY_ITEM
-- ```NO_FLOOR```
+- ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
+- ```NO_FLOOR``` Things should fall when placed on this tile
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
-- ```PLACE_ITEM``` Valid terrain for place_item() to put items on.
+- ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
-- ```RAMP```
+- ```RAMP``` Can be used to move up a z-level
 - ```RAMP_END```
 - ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```ROUGH``` May hurt the player's feet.
-- ```RUG```
+- ```RUG``` Enables the `Remove Carpet` Construction entry.
 - ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
-- ```SEALED``` Can't use `e` to retrieve items; must smash them open first.
-- ```SEEN_FROM_ABOVE```
+- ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
+- ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor)
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
@@ -107,7 +109,7 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
-- ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies "CONNECT_TO_WALL".
+- ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 
 ### Examine actions
 
@@ -459,7 +461,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CAMERA```
 - ```CAMERA_CONTROL```
 - ```CARGO``` Cargo holding area.
-- ```CARGO_LOCKING``` This cargo area is inaccessable to NPCs.
+- ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.

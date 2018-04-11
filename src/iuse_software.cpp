@@ -4,6 +4,7 @@
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
 #include "iuse_software_minesweeper.h"
+#include "iuse_software_lightson.h"
 #include "string_formatter.h"
 #include "cursesdef.h"
 #include "output.h"
@@ -64,6 +65,12 @@ bool play_videogame( std::string function_name, std::map<std::string, std::strin
     } else if( function_name == "minesweeper_game" ) {
         minesweeper_game mg;
         score = mg.start_game();
+
+        return true;
+    } else if( function_name == "lightson_game" ) {
+        lightson_game lg;
+        int iScore = lg.start_game();
+        score = std::min( 15, iScore * 3 );
 
         return true;
     } else {

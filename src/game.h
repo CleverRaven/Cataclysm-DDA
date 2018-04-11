@@ -142,9 +142,18 @@ class game
          */
         bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
 
-        /** Loads core data and mods from the given world. May throw. */
-        void load_world_modfiles( WORLDPTR world, loading_ui &ui );
-
+        /** Loads core data and mods from the active world. May throw. */
+        void load_world_modfiles( loading_ui &ui );
+        /**
+         * Base path for saving player data. Just add a suffix (unique for
+         * the thing you want to save) and use the resulting path.
+         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
+         */
+        std::string get_player_base_save_path() const;
+        /**
+         * Base path for saving world data. This yields a path to a folder.
+         */
+        std::string get_world_base_save_path() const;
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
@@ -561,11 +570,11 @@ class game
         bool has_gametype() const;
         special_game_id gametype() const;
 
-        void toggle_sidebar_style( void );
-        void toggle_fullscreen( void );
-        void toggle_pixel_minimap( void );
-        void temp_exit_fullscreen( void );
-        void reenter_fullscreen( void );
+        void toggle_sidebar_style();
+        void toggle_fullscreen();
+        void toggle_pixel_minimap();
+        void temp_exit_fullscreen();
+        void reenter_fullscreen();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -808,10 +817,10 @@ class game
 
     private:
         // Game-start procedures
-        void load( std::string worldname, const save_t &name ); // Load a player-specific save file
-        void load_master( const std::string &worldname ); // Load the master data file, with factions &c
+        void load( const save_t &name ); // Load a player-specific save file
+        void load_master(); // Load the master data file, with factions &c
         void load_weather( std::istream &fin );
-        bool start_game( std::string worldname ); // Starts a new game in a world
+        bool start_game(); // Starts a new game in the active world
         void start_special_game( special_game_id gametype ); // See gamemode.cpp
 
         //private save functions.
@@ -823,9 +832,6 @@ class game
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather( std::ostream &fout );
-        // returns false if saving failed for whatever reason
-        bool save_uistate();
-        void load_uistate( std::string worldname );
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void init_lua();          // Initializes lua interpreter.

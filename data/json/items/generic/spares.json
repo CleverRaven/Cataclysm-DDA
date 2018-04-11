@@ -4,6 +4,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "spare parts",
+    "name_plural": "spare parts",
     "description": "Items with are not themselves useful but are instead requirements for crafting or repairs",
     "symbol": ";",
     "color": "dark_gray"

@@ -36,6 +36,96 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
+enum face_type : int {
+    face_human = 0,
+    face_bird,
+    face_bear,
+    face_cat,
+    num_face_types
+};
+
+std::string morale_emotion( const int morale_cur, const face_type face,
+                            const bool horizontal_style )
+{
+    if( horizontal_style ) {
+        if( face == face_bear || face == face_cat ) {
+            if( morale_cur >= 200 ) {
+                return "@W@";
+            } else if( morale_cur >= 100 ) {
+                return "OWO";
+            } else if( morale_cur >= 50 ) {
+                return "owo";
+            } else if( morale_cur >= 10 ) {
+                return "^w^";
+            } else if( morale_cur >= -10 ) {
+                return "-w-";
+            } else if( morale_cur >= -50 ) {
+                return "-m-";
+            } else if( morale_cur >= -100 ) {
+                return "TmT";
+            } else if( morale_cur >= -200 ) {
+                return "XmX";
+            } else {
+                return "@m@";
+            }
+        } else if( face == face_bird ) {
+            if( morale_cur >= 200 ) {
+                return "@v@";
+            } else if( morale_cur >= 100 ) {
+                return "OvO";
+            } else if( morale_cur >= 50 ) {
+                return "ovo";
+            } else if( morale_cur >= 10 ) {
+                return "^v^";
+            } else if( morale_cur >= -10 ) {
+                return "-v-";
+            } else if( morale_cur >= -50 ) {
+                return ".v.";
+            } else if( morale_cur >= -100 ) {
+                return "TvT";
+            } else if( morale_cur >= -200 ) {
+                return "XvX";
+            } else {
+                return "@v@";
+            }
+        } else if( morale_cur >= 200 ) {
+            return "@U@";
+        } else if( morale_cur >= 100 ) {
+            return "OuO";
+        } else if( morale_cur >= 50 ) {
+            return "^u^";
+        } else if( morale_cur >= 10 ) {
+            return "n_n";
+        } else if( morale_cur >= -10 ) {
+            return "-_-";
+        } else if( morale_cur >= -50 ) {
+            return "-n-";
+        } else if( morale_cur >= -100 ) {
+            return "TnT";
+        } else if( morale_cur >= -200 ) {
+            return "XnX";
+        } else {
+            return "@n@";
+        }
+    } else if( morale_cur >= 100 ) {
+        return "8D";
+    } else if( morale_cur >= 50 ) {
+        return ":D";
+    } else if( face == face_cat && morale_cur >= 10 ) {
+        return ":3";
+    } else if( face != face_cat && morale_cur >= 10 ) {
+        return ":)";
+    } else if( morale_cur >= -10 ) {
+        return ":|";
+    } else if( morale_cur >= -50 ) {
+        return "):";
+    } else if( morale_cur >= -100 ) {
+        return "D:";
+    } else {
+        return "D8";
+    }
+}
+
 void draw_HP( const player &p, const catacurses::window &w_HP )
 {
     werase( w_HP );
@@ -183,6 +273,16 @@ int define_temp_level( const int lvl )
         return 2;
     }
     return 1;
+}
+
+nc_color stat_color( const int bonus )
+{
+    if( bonus > 0 ) {
+        return c_green;
+    } else if( bonus < 0 ) {
+        return c_red;
+    }
+    return c_white;
 }
 
 void player::disp_status( const catacurses::window &w, const catacurses::window &w2 )
@@ -349,85 +449,18 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( morale_cur <= -10 ) {
         col_morale = c_red;
     }
-    const char *morale_str;
-    if( get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) {
-        if( has_trait( trait_THRESH_FELINE ) || has_trait( trait_THRESH_URSINE ) ) {
-            if( morale_cur >= 200 ) {
-                morale_str = "@W@";
-            } else if( morale_cur >= 100 ) {
-                morale_str = "OWO";
-            } else if( morale_cur >= 50 ) {
-                morale_str = "owo";
-            } else if( morale_cur >= 10 ) {
-                morale_str = "^w^";
-            } else if( morale_cur >= -10 ) {
-                morale_str = "-w-";
-            } else if( morale_cur >= -50 ) {
-                morale_str = "-m-";
-            } else if( morale_cur >= -100 ) {
-                morale_str = "TmT";
-            } else if( morale_cur >= -200 ) {
-                morale_str = "XmX";
-            } else {
-                morale_str = "@m@";
-            }
-        } else if( has_trait( trait_THRESH_BIRD ) ) {
-            if( morale_cur >= 200 ) {
-                morale_str = "@v@";
-            } else if( morale_cur >= 100 ) {
-                morale_str = "OvO";
-            } else if( morale_cur >= 50 ) {
-                morale_str = "ovo";
-            } else if( morale_cur >= 10 ) {
-                morale_str = "^v^";
-            } else if( morale_cur >= -10 ) {
-                morale_str = "-v-";
-            } else if( morale_cur >= -50 ) {
-                morale_str = ".v.";
-            } else if( morale_cur >= -100 ) {
-                morale_str = "TvT";
-            } else if( morale_cur >= -200 ) {
-                morale_str = "XvX";
-            } else {
-                morale_str = "@v@";
-            }
-        } else if( morale_cur >= 200 ) {
-            morale_str = "@U@";
-        } else if( morale_cur >= 100 ) {
-            morale_str = "OuO";
-        } else if( morale_cur >= 50 ) {
-            morale_str = "^u^";
-        } else if( morale_cur >= 10 ) {
-            morale_str = "n_n";
-        } else if( morale_cur >= -10 ) {
-            morale_str = "-_-";
-        } else if( morale_cur >= -50 ) {
-            morale_str = "-n-";
-        } else if( morale_cur >= -100 ) {
-            morale_str = "TnT";
-        } else if( morale_cur >= -200 ) {
-            morale_str = "XnX";
-        } else {
-            morale_str = "@n@";
-        }
-    } else if( morale_cur >= 100 ) {
-        morale_str = "8D";
-    } else if( morale_cur >= 50 ) {
-        morale_str = ":D";
-    } else if( has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":3";
-    } else if( !has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":)";
-    } else if( morale_cur >= -10 ) {
-        morale_str = ":|";
-    } else if( morale_cur >= -50 ) {
-        morale_str = "):";
-    } else if( morale_cur >= -100 ) {
-        morale_str = "D:";
-    } else {
-        morale_str = "D8";
+
+    face_type fc = face_human;
+    if( has_trait( trait_THRESH_FELINE ) ) {
+        fc = face_cat;
+    } else if( has_trait( trait_THRESH_URSINE ) ) {
+        fc = face_bear;
+    } else if( has_trait( trait_THRESH_BIRD ) ) {
+        fc = face_bird;
     }
-    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str );
+
+    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale,
+               morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -437,7 +470,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
         nc_color col_indf1 = c_light_gray;
 
-        float strain = veh->strain();
+        const float strain = veh->strain();
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
@@ -446,10 +479,10 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         int speedox = sideStyle ? 0 : 28;
         int speedoy = sideStyle ? 5 :  3;
 
-        bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
-        // Logic below is not applicable to translated units and should be changed
-        int velx    = metric ? 4 : 3; // strlen(units) + 1
-        int cruisex = metric ? 9 : 8; // strlen(units) + 6
+        const bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
+        // @todo: Logic below is not applicable to translated units and should be changed
+        const int velx    = metric ? 4 : 3; // strlen(units) + 1
+        const int cruisex = metric ? 9 : 8; // strlen(units) + 6
 
         if( !sideStyle ) {
             if( !veh->cruise_on ) {
@@ -495,56 +528,20 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
             print_stamina_bar( *this, w );
         }
     } else {  // Not in vehicle
-        nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-                 col_per = c_white, col_spd = c_white, col_time = c_white;
-        int str_bonus = get_str_bonus();
-        int dex_bonus = get_dex_bonus();
-        int int_bonus = get_int_bonus();
-        int per_bonus = get_per_bonus();
-        int spd_bonus = get_speed_bonus();
-        if( str_bonus < 0 ) {
-            col_str = c_red;
-        }
-        if( str_bonus > 0 ) {
-            col_str = c_green;
-        }
-        if( dex_bonus  < 0 ) {
-            col_dex = c_red;
-        }
-        if( dex_bonus  > 0 ) {
-            col_dex = c_green;
-        }
-        if( int_bonus  < 0 ) {
-            col_int = c_red;
-        }
-        if( int_bonus  > 0 ) {
-            col_int = c_green;
-        }
-        if( per_bonus  < 0 ) {
-            col_per = c_red;
-        }
-        if( per_bonus  > 0 ) {
-            col_per = c_green;
-        }
-        if( spd_bonus < 0 ) {
-            col_spd = c_red;
-        }
-        if( spd_bonus > 0 ) {
-            col_spd = c_green;
-        }
-
-        int wx  = sideStyle ? 18 : 12;
-        int wy  = sideStyle ?  0 :  3;
-        int dx = sideStyle ?  0 :  7;
-        int dy = sideStyle ?  1 :  0;
-        mvwprintz( w, wy + dy * 0, wx + dx * 0, col_str, _( "Str %d" ), str_cur );
-        mvwprintz( w, wy + dy * 1, wx + dx * 1, col_dex, _( "Dex %d" ), dex_cur );
-        mvwprintz( w, wy + dy * 2, wx + dx * 2, col_int, _( "Int %d" ), int_cur );
-        mvwprintz( w, wy + dy * 3, wx + dx * 3, col_per, _( "Per %d" ), per_cur );
+        const int wx = sideStyle ? 18 : 12;
+        const int wy = sideStyle ?  0 :  3;
+        const int dx = sideStyle ?  0 :  7;
+        const int dy = sideStyle ?  1 :  0;
+        mvwprintz( w, wy + dy * 0, wx + dx * 0, stat_color( get_str_bonus() ), _( "Str %d" ), str_cur );
+        mvwprintz( w, wy + dy * 1, wx + dx * 1, stat_color( get_dex_bonus() ), _( "Dex %d" ), dex_cur );
+        mvwprintz( w, wy + dy * 2, wx + dx * 2, stat_color( get_int_bonus() ), _( "Int %d" ), int_cur );
+        mvwprintz( w, wy + dy * 3, wx + dx * 3, stat_color( get_per_bonus() ), _( "Per %d" ), per_cur );
 
         const int spdx = sideStyle ?  0 : wx + dx * 4 + 1;
         const int spdy = sideStyle ?  5 : wy + dy * 4;
-        mvwprintz( w, spdy, spdx, col_spd, _( "Spd %d" ), get_speed() );
+        mvwprintz( w, spdy, spdx, stat_color( get_speed_bonus() ), _( "Spd %d" ), get_speed() );
+
+        nc_color col_time = c_white;
         if( this->weight_carried() > this->weight_capacity() ) {
             col_time = h_black;
         }
@@ -568,5 +565,4 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         }
     }
 }
-
 

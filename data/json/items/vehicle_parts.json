@@ -782,6 +782,7 @@
         "type":"GENERIC",
         "id" : "chimes",
         "name" : "chime loudspeakers",
+        "name_plural" : "chime loudspeakers",
         "description" : "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
         "weight" : 2600,
         "to_hit" : -2,
@@ -1048,5 +1049,17 @@
         "weight": 500,
         "volume": 1,
         "price": 800
+    },{
+        "id": "turret_mount",
+        "type":"GENERIC",
+        "name": "turret mount",
+        "description": "A universal mount for weapons intended to be installed as turrets.",
+        "color": "cyan",
+        "symbol": "X",
+        "material": "steel",
+        "category": "veh_parts",
+        "weight": 10000,
+        "volume": 10,
+        "price": 5500
     }
 ]
