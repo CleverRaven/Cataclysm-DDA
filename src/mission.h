@@ -10,6 +10,7 @@
 
 #include "enums.h"
 #include "npc_favor.h"
+#include "monstergenerator.h"
 
 class player;
 class mission;
@@ -28,6 +29,7 @@ enum npc_mission : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
+using species_id = string_id<species_type>;
 
 namespace debug_menu
 {
@@ -55,6 +57,7 @@ enum mission_goal {
     MGOAL_ASSASSINATE,       // Kill a given NPC
     MGOAL_KILL_MONSTER,      // Kill a particular hostile monster
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
+    MGOAL_KILL_MONSTER_SPEC, // Kill a number of monsters from a given species
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
@@ -256,6 +259,7 @@ private:
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
         std::string monster_type;    // Monster ID that are to be killed
+        species_id monster_species;
         int monster_kill_goal;  // the kill count you wish to reach
         int deadline;           // Turn number
         int npc_id;             // ID of a related npc
