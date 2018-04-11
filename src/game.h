@@ -490,7 +490,9 @@ class game
         int kill_count( const mtype_id &id );
         /** Returns the number of kills of the given monster species by the player. */
         int species_kill_count( const species_id& spec );
-        /** Increments the number of kills of the given mtype_id by the player upwards. Species defaults to ZOMBIE.*/
+        /** Increments the number of kills of the given mtype_id by the player upwards.
+         * Species defaults to ZOMBIE.
+         */
         void increase_kill_count( const mtype_id &id, const species_id& spec = species_id( "ZOMBIE" ) );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
