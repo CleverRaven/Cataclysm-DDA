@@ -99,9 +99,9 @@ void game::list_missions()
             nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             int y = 3 + lines;
             if( ( int )selection == i ) {
-                lines += fold_and_print( w_missions, y, 1, 30, hilite( col ), miss->name() );
+                lines += fold_and_print( w_missions, y, 1, 28, hilite( col ), miss->name() );
             } else {
-                lines += fold_and_print( w_missions, y, 1, 30, col, miss->name() );
+                lines += fold_and_print( w_missions, y, 1, 28, col, miss->name() );
             }
         }
 
