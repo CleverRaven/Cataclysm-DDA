@@ -17,7 +17,8 @@
     "name": "S&W 619",
     "name_plural": "S&W 619",
     "description": "A seven-round .357 Magnum revolver sold by Smith & Wesson.  It features a fixed rear sight and a reinforced frame.",
-    "ammo": "357_mag"
+    "ammo": "357_mag",
+    "magazines": [ [ "357_mag", [ "357_mag_speedloader" ] ] ]
   },
   {
     "id": "sw_610",
