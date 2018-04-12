@@ -1204,6 +1204,7 @@
             {"item": "solar_cell", "count": [1, 4]}
         ]
     },{
+        "type" : "vehicle_part",
         "id" : "reinforced_solar_panel",
         "copy-from": "solar_panel",        
         "name" : "reinforced solar panel",
@@ -1220,6 +1221,7 @@
             {"item": "solar_cell", "count": [1, 4]}
         ]
     },{
+        "type" : "vehicle_part",
         "id" : "solar_panel_v2",
         "copy-from": "solar_panel",        
         "name" : "upgraded solar panel",       
@@ -1233,12 +1235,14 @@
             {"item": "solar_cell", "count": [1, 6]}
         ]
     },{
+        "type" : "vehicle_part",
         "id" : "reinforced_solar_panel_v2",
         "copy-from": "solar_panel_v2",        
         "name" : "upgraded reinforced solar panel",       
         "color" : "light_blue",
         "broken_color" : "light_gray",        
         "proportional": { "epower": 0.9 },
+        "damage_modifier" : 80,        
         "durability" : 300,
         "difficulty" : 6,
         "item" : "reinforced_solar_panel_v2",
@@ -1249,6 +1253,7 @@
             {"item": "solar_cell", "count": [1, 6]}
         ]
     },{
+        "type" : "vehicle_part",
         "id" : "solar_panel_v3",
         "copy-from": "solar_panel",        
         "name" : "quantum solar panel",       
