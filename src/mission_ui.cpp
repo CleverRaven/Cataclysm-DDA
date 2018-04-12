@@ -96,8 +96,8 @@ void game::list_missions()
         int lines = 0;
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             const auto miss = umissions[i];
-            nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
-            int y = 3 + lines;
+            const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
+            const int y = 3 + lines;
             lines += fold_and_print( w_missions, y, 1, 28, ( int )selection == i ? hilite( col ) : col,
                                      miss->name() );
         }
