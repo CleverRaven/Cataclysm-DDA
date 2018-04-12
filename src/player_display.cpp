@@ -810,7 +810,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             }
             case 4: // Traits tab
                 werase( w_traits );
-                mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces.c_str() );
+                mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces );
                 center_print( w_traits, 0, h_light_gray, title_TRAITS );
                 if( line <= ( trait_win_size_y - 1 ) / 2 ) {
                     min = 0;
