@@ -617,6 +617,28 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
   },
   {
+    "id": "solar_array2r",
+    "type": "vehicle_part",
+    "name": "upgraded reinforced solar array",
+    "item": "solar_array2r",
+    "location": "center",
+    "symbol": "#",
+    "broken_symbol": "x",
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "difficulty": 8,
+    "durability": 500,
+    "epower": 1080,
+    "damage_modifier": 10,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 11 ] },
+      { "item": "steel_chunk", "count": [ 12, 23 ] },
+      { "item": "scrap", "count": [ 16, 31 ] },
+      { "item": "solar_cell", "count": [ 20, 60 ] }
+    ],
+    "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
+  },  
+  {
     "id": "spring_plate",
     "type": "vehicle_part",
     "name": "shock absorber",

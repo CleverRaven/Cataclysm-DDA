@@ -45,6 +45,21 @@
     "color": "yellow"
   },
   {
+    "id": "solar_array2r",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "upgraded reinforced solar array",
+    "description": "A dozen upgraded reinforced solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able to track the sun.  However, this comes at the cost of being prohibitively heavy and obstructive.",
+    "weight": 382736,
+    "volume": 322,
+    "price": 150000,
+    "to_hit": -4,
+    "bashing": 1,
+    "material": [ "glass", "steel" ],
+    "symbol": "]",
+    "color": "light_blue"
+  },  
+  {
     "id": "spring_plate",
     "type": "GENERIC",
     "category": "veh_parts",
