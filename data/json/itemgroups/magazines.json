@@ -47,6 +47,7 @@
     "id" : "mags_surplus",
     "//" : "Obsolete military magazines no longer in common use.",
     "items": [
+      ["3006_clip", 5],
       ["pressurized_tank", 5],
       ["falmag", 20],
       ["g3mag", 15],
@@ -245,6 +246,7 @@
     "id" : "mags_obscure",
     "//" : "Magazines for imported firearms.",
     "items": [
+      ["762R_clip", 10],
       ["ak74mag", 10],
       ["makarovmag", 10],
       ["ppshmag", 10],
