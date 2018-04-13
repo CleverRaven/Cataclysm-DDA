@@ -5,6 +5,7 @@
 #include "compatibility.h"
 
 #include <functional>
+#include <array>
 
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
@@ -79,6 +80,12 @@ inline const V & random_entry_ref( const C &container )
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
+}
+template<typename V, unsigned int N>
+inline const V &random_entry_ref( const std::array<V, N> &container )
+{
+    static_assert( N > 0, "Need a non-empty array to get a random value from it" );
+    return container[rng( 0, N - 1 )];
 }
 /**
  * Returns a random entry in the container and removes it from the container.

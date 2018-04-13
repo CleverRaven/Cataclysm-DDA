@@ -108,7 +108,6 @@ static const std::array<int, NUM_AEAS> active_effect_cost = { {
 } };
 
 enum artifact_natural_shape {
-    ARTSHAPE_NULL,
     ARTSHAPE_SPHERE,
     ARTSHAPE_ROD,
     ARTSHAPE_TEARDROP,
@@ -146,7 +145,6 @@ struct artifact_property_datum {
 };
 
 enum artifact_weapon_type {
-    ARTWEAP_NULL,
     ARTWEAP_BULK,  // A bulky item that works okay for bashing
     ARTWEAP_CLUB,  // An item designed to bash
     ARTWEAP_SPEAR, // A stab-only weapon
@@ -168,7 +166,6 @@ struct artifact_tool_form_datum {
 };
 
 enum artifact_tool_form {
-    ARTTOOLFORM_NULL,
     ARTTOOLFORM_HARP,
     ARTTOOLFORM_STAFF,
     ARTTOOLFORM_SWORD,
@@ -219,7 +216,6 @@ struct artifact_armor_form_datum {
 };
 
 enum artifact_armor_form {
-    ARTARMFORM_NULL,
     ARTARMFORM_ROBE,
     ARTARMFORM_COAT,
     ARTARMFORM_MASK,
@@ -231,7 +227,6 @@ enum artifact_armor_form {
 };
 
 static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data = { {
-    {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
     {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
     {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
     {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
@@ -382,11 +377,6 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
 } };
 static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
     {
-        "", '*', def_c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
-        {{NUM_ARTWEAPS, NUM_ARTWEAPS, NUM_ARTWEAPS}}
-    },
-
-    {
         translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
         {{ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}}
     },
@@ -412,7 +402,6 @@ static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_too
     }
 } };
 static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_data = { {
-    { "", 0_ml, 0_gram, 0, 0, 0, 0, 0, 0, 0, 0, ""},
     // Adjective      Vol   Weight    Bashing Cutting Stabbing To-hit Flag
     { translate_marker( "Heavy" ),   0_ml,   1400_gram, 10, 20,  0,  0,  0,  0, -2, 0, "" },
     { translate_marker( "Knobbed" ), 250_ml,  250_gram, 14, 30,  0,  0,  0,  0, -1, 1, "" },
@@ -421,11 +410,6 @@ static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_dat
     { translate_marker( "Bladed" ),  250_ml, 2250_gram,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
 } };
 static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_armor_form_data = { {
-    {
-        "", def_c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-        {}, false,
-        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
-    },
     // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
     {
         translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
@@ -612,9 +596,7 @@ std::string new_artifact()
 
         it_artifact_tool def;
 
-        int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
-
-        const artifact_tool_form_datum &info = artifact_tool_form_data[form];
+        const artifact_tool_form_datum &info = random_entry_ref( artifact_tool_form_data );
         def.create_name( _( info.name.c_str() ) );
         def.color = info.color;
         def.sym = std::string( 1, info.sym );
@@ -731,8 +713,7 @@ std::string new_artifact()
 
         it_artifact_armor def;
 
-        int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
-        const artifact_armor_form_datum &info = artifact_armor_form_data[form];
+        const artifact_armor_form_datum &info = random_entry_ref( artifact_armor_form_data );
 
         def.create_name( _( info.name.c_str() ) );
         def.sym = "["; // Armor is always [
@@ -841,9 +822,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     it_artifact_tool def;
 
     // Pick a form
-    artifact_natural_shape shape =
-        artifact_natural_shape(rng(ARTSHAPE_NULL + 1, ARTSHAPE_MAX - 1));
-    const artifact_shape_datum &shape_data = artifact_shape_data[shape];
+    const artifact_shape_datum &shape_data = random_entry_ref( artifact_shape_data );
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1,
