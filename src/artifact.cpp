@@ -614,9 +614,9 @@ std::string new_artifact()
         }
         // Add an extra weapon perhaps?
         if (one_in(2)) {
-            int select = rng(0, 2);
-            if (info.extra_weapons[select] != NUM_ARTWEAPS) {
-                const artifact_weapon_datum &weapon = artifact_weapon_data[info.extra_weapons[select]];
+            const artifact_weapon_type select = random_entry_ref( info.extra_weapons );
+            if( select != NUM_ARTWEAPS ) {
+                const artifact_weapon_datum &weapon = artifact_weapon_data[select];
                 def.volume += weapon.volume;
                 def.weight += weapon.weight;
                 def.melee[DT_BASH] += rng(weapon.bash_min, weapon.bash_max);
@@ -739,9 +739,8 @@ std::string new_artifact()
 
         // Modify the armor further
         if (!one_in(4)) {
-            int index = rng(0, 4);
-            if (info.available_mods[index] != ARMORMOD_NULL) {
-                artifact_armor_mod mod = info.available_mods[index];
+            const artifact_armor_mod mod = random_entry_ref( info.available_mods );
+            if( mod != ARMORMOD_NULL ) {
                 const artifact_armor_form_datum &modinfo = artifact_armor_mod_data[mod];
                 if( modinfo.volume >= 0 || def.volume > -modinfo.volume ) {
                     def.volume += modinfo.volume;
@@ -868,25 +867,25 @@ std::string new_natural_artifact(artifact_natural_property prop)
 
     do {
         if (good_passive) {
-            aep_good = property_data.passive_good[ rng(0, 3) ];
+            aep_good = random_entry_ref( property_data.passive_good );
             if (aep_good == AEP_NULL || one_in(4)) {
                 aep_good = art_effect_passive(rng(AEP_NULL + 1, AEP_SPLIT - 1));
             }
         }
         if (bad_passive) {
-            aep_bad = property_data.passive_bad[ rng(0, 3) ];
+            aep_bad = random_entry_ref( property_data.passive_bad );
             if (aep_bad == AEP_NULL || one_in(4)) {
                 aep_bad = art_effect_passive(rng(AEP_SPLIT + 1, NUM_AEAS - 1));
             }
         }
         if (good_active) {
-            aea_good = property_data.active_good[ rng(0, 3) ];
+            aea_good = random_entry_ref( property_data.active_good );
             if (aea_good == AEA_NULL || one_in(4)) {
                 aea_good = art_effect_active(rng(AEA_NULL + 1, AEA_SPLIT - 1));
             }
         }
         if (bad_active) {
-            aea_bad = property_data.active_bad[ rng(0, 3) ];
+            aea_bad = random_entry_ref( property_data.active_bad );
             if (aea_bad == AEA_NULL || one_in(4)) {
                 aea_bad = art_effect_active(rng(AEA_SPLIT + 1, NUM_AEAS - 1));
             }
