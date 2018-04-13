@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-30 05:45-0400\n"
-"PO-Revision-Date: 2018-04-03 16:17+0000\n"
+"POT-Creation-Date: 2018-04-04 06:42-0400\n"
+"PO-Revision-Date: 2018-04-13 10:59+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -510,11 +510,11 @@ msgstr "自動瞄準目標"
 msgid "If true, automatically follow the crosshair when firing/throwing."
 msgstr "設定為 是 ，會自動把游標移動到可攻擊或投擲的目標上。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Ask to save before sleeping"
 msgstr "睡覺前詢問是否存檔"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "If true, game will ask to save the map before sleeping."
 msgstr "設定為 是，遊戲將會在睡覺前詢問存檔意願。"
 
@@ -612,7 +612,7 @@ msgstr "狹長"
 msgid "Sidebar style"
 msgstr "側邊欄形式"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
 msgstr "切換較狹長或較寬的側邊欄。需要重新啟動遊戲。"
 
@@ -2555,7 +2555,7 @@ msgstr "這根高科技碳纖維箭桿上裝著 100 格令寬刃箭頭。質輕�
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive arrow"
-msgstr ""
+msgstr "爆炸箭"
 
 #. ~ Description for explosive arrow
 #: lang/json/AMMO_from_json.py
@@ -13977,19 +13977,6 @@ msgid ""
 msgstr "你能夠產生強大的震波，震飛所有靠近你的生物。目標將會被短暫擊昏，並擊退任何撞上的生物，若然碰上無法通過的地形還會受到額外傷害。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
-msgid "Solar Panels CBM"
-msgid_plural "Solar Panels CBMs"
-msgstr[0] "CBM：太陽能板"
-
-#. ~ Description for Solar Panels CBM
-#. ~ Description for Solar Panels
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
-msgid ""
-"You have a few solar panels installed.  While in direct sunlight, your power"
-" level will slowly recharge."
-msgstr "你身上安裝了數個太陽能板。只要陽光直射你就能夠慢慢充能。"
-
-#: lang/json/BIONIC_ITEM_from_json.py
 msgid "Synaptic Accelerator CBM"
 msgid_plural "Synaptic Accelerator CBMs"
 msgstr[0] "CBM：突觸加速器"
@@ -14165,6 +14152,19 @@ msgid ""
 "out of a dead body, cleanse it of impurities and convert it into drinkable "
 "water.  You must, however, have a container to store the water in."
 msgstr "你的手掌埋入了奈米碳管讓你能從屍體中提取水分，並淨化成可飲用的淨水。但是你要先準備個容器裝水。"
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Solar Panels CBM"
+msgid_plural "Solar Panels CBMs"
+msgstr[0] "CBM：太陽能板"
+
+#. ~ Description for Solar Panels CBM
+#. ~ Description for Solar Panels
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+msgid ""
+"You have a few solar panels installed.  While in direct sunlight, your power"
+" level will slowly recharge."
+msgstr "你身上安裝了數個太陽能板。只要陽光直射你就能夠慢慢充能。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "EMP Projector CBM"
@@ -22444,7 +22444,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "'special' brownie"
-msgstr ""
+msgstr "「特製」布朗尼"
 
 #. ~ Description for 'special' brownie
 #: lang/json/COMESTIBLE_from_json.py
@@ -25488,7 +25488,7 @@ msgstr "一個巨大而無比強力的十二缸內燃式引擎，通常用於重
 #: lang/json/GENERIC_from_json.py
 msgid "explosive arrowhead"
 msgid_plural "explosive arrowheads"
-msgstr[0] ""
+msgstr[0] "爆炸箭頭"
 
 #. ~ Description for explosive arrowhead
 #: lang/json/GENERIC_from_json.py
@@ -32224,6 +32224,17 @@ msgid "A compact steel box magazine for use with the Taurus Pro .38 pistol."
 msgstr "一個簡潔精巧的鋼製盒型彈匣，適用於 Taurus Pro .38 手槍。"
 
 #: lang/json/MAGAZINE_from_json.py
+msgid "38 Speedloader"
+msgstr ""
+
+#. ~ Description for 38 Speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 7 rounds of .38 and quickly reload a compatible "
+"revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
 msgid "Glock .40S&W extended magazine"
 msgstr "格洛克 .40 S&W 加長彈匣"
 
@@ -32788,7 +32799,7 @@ msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "RM450-2 fuel canister"
-msgstr ""
+msgstr "RM450-2 燃料罐"
 
 #. ~ Description for RM450-2 fuel canister
 #: lang/json/MAGAZINE_from_json.py
@@ -32799,7 +32810,7 @@ msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "RM450-4 fuel canister"
-msgstr ""
+msgstr "RM450-4 燃料罐"
 
 #. ~ Description for RM450-4 fuel canister
 #: lang/json/MAGAZINE_from_json.py
@@ -49721,7 +49732,7 @@ msgid ""
 "drops, poor performance and mutiny may become issues."
 msgstr "這些生存者把他們的幸福託付給你，如果隊伍士氣降低，他們的表現就會變差，甚至有可能發生叛亂。"
 
-#: lang/json/faction_from_json.py
+#: lang/json/faction_from_json.py src/game.cpp
 msgid "The Old Guard"
 msgstr "舊日守衛"
 
@@ -49732,7 +49743,7 @@ msgid ""
 "unknown but squads of patrolling soldiers have been seen under their banner."
 msgstr "聯邦政府所遺留下來的東西，你並不清楚它們有多麼強大，但是他們有許多巡邏的士兵。"
 
-#: lang/json/faction_from_json.py
+#: lang/json/faction_from_json.py src/game.cpp
 msgid "The Free Merchants"
 msgstr "自由商會"
 
@@ -49743,7 +49754,7 @@ msgid ""
 "hammer-out an existence through trade and industry."
 msgstr "一群由企業家、商人所組成的團體，共同延續著貿易與工業。"
 
-#: lang/json/faction_from_json.py
+#: lang/json/faction_from_json.py src/game.cpp
 msgid "The Tacoma Commune"
 msgstr "塔科馬公社"
 
@@ -49754,7 +49765,7 @@ msgid ""
 " materials."
 msgstr "一個由自由商會建立的哨站，提供食物和原材料。"
 
-#: lang/json/faction_from_json.py
+#: lang/json/faction_from_json.py src/game.cpp
 msgid "The Wasteland Scavengers"
 msgstr "廢土清道夫"
 
@@ -49765,7 +49776,7 @@ msgid ""
 "the old-world for gear and provisions."
 msgstr "由自治團體組成或個人獨立為之，在舊世界的廢墟之中找尋設備或飲食維生的人們。 "
 
-#: lang/json/faction_from_json.py
+#: lang/json/faction_from_json.py src/game.cpp
 msgid "Hell's Raiders"
 msgstr "地獄掠奪者"
 
@@ -57947,13 +57958,13 @@ msgstr "重新指定穿著層次"
 msgid "Remove bionic"
 msgstr "移除生化插件"
 
-#: lang/json/keybinding_from_json.py src/construction.cpp src/game.cpp
-#: src/mission_companion.cpp
+#: lang/json/keybinding_from_json.py src/construction.cpp src/faction.cpp
+#: src/game.cpp src/mission_companion.cpp
 msgid "Move cursor up"
 msgstr "移動游標向上"
 
-#: lang/json/keybinding_from_json.py src/construction.cpp src/game.cpp
-#: src/mission_companion.cpp
+#: lang/json/keybinding_from_json.py src/construction.cpp src/faction.cpp
+#: src/game.cpp src/mission_companion.cpp
 msgid "Move cursor down"
 msgstr "移動游標向下"
 
@@ -59420,7 +59431,7 @@ msgstr "到圖書館試試。"
 msgid "Got that book for me?"
 msgstr "有我要的書本嗎？"
 
-#: lang/json/mission_def_from_json.py src/npctalk.cpp
+#: lang/json/mission_def_from_json.py src/npctalk.cpp src/npctalk.cpp
 msgid "Thanks!"
 msgstr "謝謝！"
 
@@ -63360,6 +63371,28 @@ msgstr "復原慢"
 #: lang/json/mutation_from_json.py
 msgid "You heal a little slower than most; sleeping will heal less lost HP."
 msgstr "你的復原能力比一般人差了點；睡眠時回復的HP比較少。"
+
+#: lang/json/mutation_from_json.py
+msgid "Very Slow Sleep Healing"
+msgstr ""
+
+#. ~ Description for Very Slow Sleep Healing
+#: lang/json/mutation_from_json.py
+msgid ""
+"You heal much slower than most; sleeping will heal only one third HP compare"
+" to the average person."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Extremely Slow Sleep Healing"
+msgstr ""
+
+#. ~ Description for Extremely Slow Sleep Healing
+#: lang/json/mutation_from_json.py
+msgid ""
+"You almost cannot recover lost health by sleeping; sleeping will heal only "
+"one tenth HP compare to the average person."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Far-Sighted"
@@ -67961,10 +67994,6 @@ msgid ""
 " and I don't plan to keep being one."
 msgstr ""
 
-#: lang/json/npc_class_from_json.py
-msgid "NPC with starting traits"
-msgstr ""
-
 #: lang/json/npc_from_json.py
 msgid "Representative"
 msgstr ""
@@ -69139,7 +69168,7 @@ msgstr "學校"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "projects"
-msgstr ""
+msgstr "國民住宅"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "2-story motel"
@@ -75097,34 +75126,10 @@ msgstr "當你有時間時，屠宰屍體是個好主意，就算你沒有要去
 
 #: lang/json/snippet_from_json.py
 msgid ""
-"Triffids are tough.  They've got natural armor, and it takes a lot to bring "
-"them down.  I don't recommend getting into a fight with them."
-msgstr "食人樹很強。他們有天然的護甲，所以要付出更多代價才能打倒。我不建議跟他們對戰。"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Triffids can't see!  They figure out where you are by your smell, but if you"
-" mask it with smoke or something, you're as good as invisible."
-msgstr "食人樹看不見！他們是利用嗅覺來判斷你的方位，但是你若使用煙霧彈或是一些東西就能夠遮蔽，你就等於是隱形了。"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I figured out how to take care of those triffids!  Let me just say this: "
-"they're made of wood, and wood and fire don't mix."
-msgstr "我知道怎麼對付這些食人樹了！我就這麼說吧：他們是木質的，乾柴烈火。"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Have you heard about those queen triffids?  You gotta keep your distance "
-"from them, unless you like having a tree grow right through your chest."
-msgstr "你有聽過王后食人樹嗎？你最好跟他們保持距離，除非你想要胸膛被樹刺穿。"
-
-#: lang/json/snippet_from_json.py
-msgid ""
 "I have a buddy who was sleeping in this cabin way out in the woods, when he "
 "suddenly woke up to trees and vines growing right up through the floor and "
-"walls!  He said it was some kind of huge triffid making it happen..."
-msgstr "我有個朋友在遠離塵囂的森林小屋中睡覺時，他突然醒來發現樹與籐蔓生長刺穿了地板與牆壁！他說這是某種巨大的食人樹造成的..."
+"walls!  He said it was some kind of huge tree beast..."
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -84623,77 +84628,264 @@ msgstr ""
 msgid "closed metal door"
 msgstr "關閉的金屬門"
 
+#. ~ Description for closed metal door
+#: lang/json/terrain_from_json.py
+msgid ""
+"An extremely resilient door made of assorted steel, carved and pounded into "
+"shape."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open metal door"
 msgstr "打開的金屬門"
+
+#. ~ Description for open metal door
+#: lang/json/terrain_from_json.py
+msgid ""
+"An extremely resilient door made of assorted steel, carved and pounded into "
+"shape.  It's open, so no tools are needed to break in."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed metal door with peephole"
 msgstr "關閉的窺孔金屬門"
 
+#. ~ Description for closed metal door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"An extremely resilient door made of assorted steel, carved and pounded into "
+"shape.  If you examined it more closely, you'd be able to peek through the "
+"hole."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open metal door with peephole"
 msgstr "打開的窺孔金屬門"
+
+#. ~ Description for open metal door with peephole
+#: lang/json/terrain_from_json.py
+msgid ""
+"An extremely resilient door made of assorted steel, carved and pounded into "
+"shape.  If you examined it more closely, you'd be able to peek through the "
+"hole.  Although, you don't need to peek through it since the door is open "
+"anyway."
+msgstr ""
+
+#. ~ Description for closed metal door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A galvanized steel door, forged to withstand punishment and impede anyone or"
+" anything.  Typically used in conjunction with automated electronic locking "
+"mechanisms that require an external source to unlock."
+msgstr ""
+
+#. ~ Description for closed metal door
+#: lang/json/terrain_from_json.py
+msgid ""
+"An extremely resilient door made of assorted steel, carved and pounded into "
+"shape.  This one has an extra keyhole, so it's likely locked.  You could "
+"probably pick the lock."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed bar door"
 msgstr "關閉的酒吧門"
 
+#. ~ Description for closed bar door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A detention door made up of crisscrossed stainless steel bars.  The locking "
+"mechanism doesn't appear to be engaged."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open bar door"
 msgstr "開啟的酒吧門"
+
+#. ~ Description for open bar door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A detention door made up of crisscrossed stainless steel bars.  It's swung "
+"wide open.  Freedom!"
+msgstr ""
+
+#. ~ Description for closed bar door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A detention door made up of crisscrossed stainless steel bars.  The locking "
+"mechanism appears to be engaged.  The mechanism could be picked open with "
+"enough skill."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed glass door"
 msgstr "關閉的玻璃門"
 
+#. ~ Description for closed glass door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A sliding glass door, the kind that was on social media with people and "
+"animals running into.  This one is closed, so don't hurt yourself."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open glass door"
 msgstr "打開的玻璃門"
+
+#. ~ Description for open glass door
+#: lang/json/terrain_from_json.py
+msgid ""
+"A sliding glass door that has been left open for all manner of things to "
+"travel through."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "makeshift portcullis"
 msgstr "粗製吊閘"
 
+#. ~ Description for makeshift portcullis
+#: lang/json/terrain_from_json.py
+msgid ""
+"An immense gateway scrapped together with various bits of steel and metal "
+"scraps."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "steel compactor"
 msgstr "鋼製壓縮機"
+
+#. ~ Description for steel compactor
+#: lang/json/terrain_from_json.py
+msgid ""
+"An advanced recycling unit that can accept inputs of various metals and "
+"through a complex system of hydraulics, be reshaped into more useful parts "
+"and pieces."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "window"
 msgstr "窗戶"
 
+#. ~ Description for window
+#: lang/json/terrain_from_json.py
+msgid ""
+"A giant sheet of glass inserted into a window, typically found on the side "
+"of shops to showcase goods."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "taped window"
 msgstr "貼膠帶的窗戶"
+
+#. ~ Description for taped window
+#: lang/json/terrain_from_json.py
+msgid ""
+"Duct tape covers this window, blocking sunlight and visibility.  You could "
+"remove the duct tape by cutting it off."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "window with curtains"
 msgstr "有窗簾的窗戶"
 
+#. ~ Description for window with curtains
+#: lang/json/terrain_from_json.py
+msgid ""
+"A window with fancy curtains on the inside that can be drawn closed to block"
+" visibility and shut out any light."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "window without curtains"
 msgstr "無窗簾的窗戶"
+
+#. ~ Description for window without curtains
+#: lang/json/terrain_from_json.py
+msgid ""
+"A smaller window typically found in residential homes.  You could install a "
+"curtain rod and drapes if you had the supplies and skill."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "open window without curtains"
 msgstr "無窗簾的開啟窗戶"
 
+#. ~ Description for open window without curtains
+#: lang/json/terrain_from_json.py
+msgid ""
+"A smaller window typically found in residential homes.  It's open and can be"
+" crawled through."
+msgstr ""
+
+#. ~ Description for taped window
+#: lang/json/terrain_from_json.py
+msgid ""
+"A smaller window typically found in residential homes.  This one has been "
+"blocked out with duct tape.  You could remove the duct tape by cutting it "
+"off."
+msgstr ""
+
+#. ~ Description for taped window
+#: lang/json/terrain_from_json.py
+msgid ""
+"A window with fancy curtains on the inside.  This one has been blocked out "
+"with duct tape.  You could remove the duct tape by cutting it off."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "open window with curtains"
 msgstr "有窗簾的開啟窗戶"
+
+#. ~ Description for open window with curtains
+#: lang/json/terrain_from_json.py
+msgid ""
+"A window with fancy curtains on the inside that can be drawn closed to block"
+" visibility and shut out any light.  It's open and you can crawl through."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "window with closed curtains"
 msgstr "窗簾關閉的窗戶"
 
+#. ~ Description for window with closed curtains
+#: lang/json/terrain_from_json.py
+msgid ""
+"A window with fancy curtains that have been drawn shut, blocking sunlight "
+"and visibility.  The curtains can only be opened on the inside.  If you "
+"examined the curtains more closely, you could peek through the drapes or "
+"tear down everything.  Or you could just smash the window open."
+msgstr ""
+
+#. ~ Description for taped window
+#: lang/json/terrain_from_json.py
+msgid ""
+"Duct tape covers this window, blocking out any sunlight and visibility.  You"
+" could remove the duct tape by cutting it off."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "empty window"
 msgstr "空窗戶"
 
+#. ~ Description for empty window
+#: lang/json/terrain_from_json.py
+msgid ""
+"An empty window frame consisting of two by fours and nails.  You could "
+"install a sheet of glass, or even board it up for protection.  You could "
+"also convert it into a wall if you took the time to construct it."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "window frame"
 msgstr "窗框"
+
+#. ~ Description for window frame
+#: lang/json/terrain_from_json.py
+msgid ""
+"A wooden window frame that has shattered glass around it.  You'll probably "
+"get hurt if you crawled through the sharp and jagged shards.  You could "
+"smash out the remaining pieces, or take your time and quietly clean them up."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "glass crunching!"
@@ -84703,33 +84895,141 @@ msgstr "玻璃破碎！"
 msgid "boarded up window"
 msgstr "加固窗戶"
 
+#. ~ Description for boarded up window
+#: lang/json/terrain_from_json.py
+msgid ""
+"A glass window that has been covered with nailed down planks, blocking "
+"sunlight and visibility.  It's not much stronger, but it could be further "
+"reinforced with strategically placed two by fours."
+msgstr ""
+
+#. ~ Description for boarded up window
+#: lang/json/terrain_from_json.py
+msgid ""
+"An empty window frame that has been covered with nailed down planks, "
+"blocking sunlight and visibility.  It's not much stronger, but it could be "
+"further reinforced with strategically placed two by fours."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "reinforced boarded up window"
 msgstr "強化加固的窗戶"
+
+#. ~ Description for reinforced boarded up window
+#: lang/json/terrain_from_json.py
+msgid ""
+"A heavily fortified glass window with carefully placed planks across the "
+"glass to block vision.  Adding a few spikes and metal plating would further "
+"increase its durability."
+msgstr ""
+
+#. ~ Description for reinforced boarded up window
+#: lang/json/terrain_from_json.py
+msgid ""
+"A heavily fortified window with carefully placed planks across the open "
+"frame to block vision.  Adding a few spikes and metal plating would further "
+"increase its durability."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "armored boarded up window"
 msgstr "裝甲加固的窗戶"
 
+#. ~ Description for armored boarded up window
+#: lang/json/terrain_from_json.py
+msgid ""
+"This once normal glass window now menaces with spikes along the edges, with "
+"laboriously placed metal sheeting to further strengthen the wooden "
+"reinforcements underneath."
+msgstr ""
+
+#. ~ Description for armored boarded up window
+#: lang/json/terrain_from_json.py
+msgid ""
+"This once normal window frame now menaces with spikes along the edges, with "
+"laboriously placed metal sheeting to further strengthen the wooden "
+"reinforcements underneath."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "window frame with metal bars"
 msgstr "鐵條窗框"
+
+#. ~ Description for window frame with metal bars
+#: lang/json/terrain_from_json.py
+msgid ""
+"A giant sheet of glass inserted into a window with thick security grilles, "
+"making it impossible to crawl through.  Typically installed for high-value "
+"stores, or at least stores in bad neighborhoods."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "window with metal bars"
 msgstr "鐵條窗"
 
+#. ~ Description for window with metal bars
+#: lang/json/terrain_from_json.py
+msgid ""
+"A giant sheet of glass inserted into a window with thick security grilles, "
+"making it impossible to crawl through.  Typically installed for high-value "
+"stores, or at least stores in bad neighborhoods.  This one has a small "
+"sticker in a corner stating, 'Protected by AtmoWeb, leading AI in "
+"terminating crime'."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "high stained glass window"
 msgstr "彩繪玻璃窗"
+
+#. ~ Description for high stained glass window
+#: lang/json/terrain_from_json.py
+msgid ""
+"Breathtaking craftsmanship of stained glass featuring an elegant emerald "
+"landscape."
+msgstr ""
+
+#. ~ Description for high stained glass window
+#: lang/json/terrain_from_json.py
+msgid ""
+"Breathtaking craftsmanship of stained glass featuring an otherworldly "
+"radiant ruby flower blooming."
+msgstr ""
+
+#. ~ Description for high stained glass window
+#: lang/json/terrain_from_json.py
+msgid ""
+"Breathtaking craftsmanship of stained glass featuring an alluring azure "
+"oceanic abyss."
+msgstr ""
+
+#. ~ Description for solid rock
+#: lang/json/terrain_from_json.py
+msgid ""
+"It's solid rock, could be full of all kinds of interesting things.  Best "
+"grab your pickaxe or equivalent digging implement, and strike the earth!"
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "smoothed rock"
 msgstr "光滑的岩石"
 
+#. ~ Description for smoothed rock
+#: lang/json/terrain_from_json.py
+msgid ""
+"A block of stone that's been smoothed and shaped, commonly granite or marble"
+" for funerary chapels and mausoleums."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "odd fault"
 msgstr "奇特的斷層"
+
+#. ~ Description for odd fault
+#: lang/json/terrain_from_json.py
+msgid ""
+"An unnaturally humanoid-shaped hole, it seems oddly familiar.  There's a "
+"strange sensation to examine it closer, as if it belongs to you somehow."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "paper wall"
@@ -88658,6 +88958,18 @@ msgid "%s finishes with you..."
 msgstr "%s 與你一同完成..."
 
 #: src/activity_handlers.cpp
+msgid "You can no longer see well enough to keep crafting."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You are too frustrated to continue and just give up."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You can't focus and are working slowly."
+msgstr ""
+
+#: src/activity_handlers.cpp
 msgid "You feel much better."
 msgstr "你感覺好多了。"
 
@@ -89393,7 +89705,7 @@ msgstr "無效的容器"
 
 #: src/animation.cpp
 msgid "Hang on a bit..."
-msgstr ""
+msgstr "請稍候..."
 
 #: src/armor_layers.cpp
 msgid "This is worn next to the skin."
@@ -91471,7 +91783,7 @@ msgstr "改變顏色後，需要重啟遊戲才會有效果。"
 msgid "Colorname"
 msgstr "顏色名稱"
 
-#: src/color.cpp src/player.cpp
+#: src/color.cpp src/sidebar.cpp
 msgid "Normal"
 msgstr "正常"
 
@@ -95380,10 +95692,6 @@ msgid "%1$s of %2$s"
 msgstr "%2$s 之 %1$s"
 
 #: src/faction.cpp
-msgid "The army"
-msgstr "軍隊"
-
-#: src/faction.cpp
 #, c-format
 msgid "%1$s have the ultimate goal of %2$s."
 msgstr "%1$s 的最終目標是 %2$s。"
@@ -96040,6 +96348,39 @@ msgstr "衰弱"
 #: src/faction.cpp
 msgid "Worthless"
 msgstr "廢材"
+
+#: src/faction.cpp
+msgid "You don't know of any factions.  Press Spacebar..."
+msgstr "你還不知道有什麼派系。按下空白鍵..."
+
+#: src/faction.cpp
+msgid "FACTIONS:"
+msgstr "派系:"
+
+#: src/faction.cpp
+#, c-format
+msgid "Ranking:           %s"
+msgstr "排行: %s"
+
+#: src/faction.cpp
+#, c-format
+msgid "Respect:           %s"
+msgstr "地位: %s"
+
+#: src/faction.cpp
+#, c-format
+msgid "Wealth:            %s"
+msgstr "財富: %s"
+
+#: src/faction.cpp
+#, c-format
+msgid "Food Supply:       %s"
+msgstr "食物供應: %s"
+
+#: src/faction.cpp
+#, c-format
+msgid "Combat Ability:    %s"
+msgstr "戰鬥力: %s"
 
 #: src/field.cpp
 msgid "blood splatter"
@@ -97113,10 +97454,6 @@ msgstr "真的要自殺？"
 msgid "Save and quit?"
 msgstr "存檔並退出？"
 
-#: src/game.cpp
-msgid "FACTIONS:"
-msgstr "派系:"
-
 #. ~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
 #: src/game.cpp
 #, c-format
@@ -97333,9 +97670,9 @@ msgstr "地點 %d:%d 在 %d:%d, %s\n"
 #: src/game.cpp
 #, c-format
 msgid ""
-"Current turn: %d; Next spawn %d.\n"
+"Current turn: %d.\n"
 "%s\n"
-msgstr "當前回合: %d; 下次生成 %d.\n%s\n"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -97488,6 +97825,101 @@ msgid "KILL COUNT: %d"
 msgstr "殺戮統計: %d"
 
 #: src/game.cpp
+msgid "       You are forgotten among the billions lost in the cataclysm..."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    Locked in an endless battle, the Old Guard was forced to consolidate "
+"their resources in a handful of fortified bases along the coast.  Without "
+"the menor material to rebuild, the soldiers that remained lost all hope..."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    The steadfastness of individual survivors after the cataclysm impressed "
+"the tattered remains of the once glorious union.  Spurred on by small "
+"successes, a number of operations to re-secure facilities met with limited "
+"success.  Forced to eventually consolidate to large bases, the Old Guard "
+"leftthese facilities in the hands of the few survivors that remained.  As "
+"the years past, little materialized from the hopes of rebuilding "
+"civilization..."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    Life in the refugee shelter deteriorated as food shortages and disease "
+"destroyed any hope of maintaining a civilized enclave.  The merchants and "
+"craftsmen dispersed to found new colonies but most became victims "
+"ofmarauding bandits.  Those who survived never found a place to call home..."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    The Free Merchants struggled for years to keep themselves fed but "
+"theironce profitable trade routes were plundered by bandits and thugs.  In "
+"squalorand filth the first generations born after the cataclysm are told "
+"stories ofthe old days when food was abundant and the children were allowed "
+"to play inthe sun..."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    The fledgling outpost was abandoned a few months later.  The "
+"externalthreats combined with low crop yields caused the Free Merchants to "
+"withdrawtheir support.  When the exhausted migrants returned to the refugee "
+"centerthey were turned away to face the world on their own."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    The commune continued to grow rapidly through the years despite "
+"constantexternal threat.  While maintaining a reputation as a haven for all "
+"lawabiding citizens, the commune's leadership remained loyal to the "
+"interests ofthe Free Merchants.  Hard labor for little reward remained the "
+"price to bepaid for those who sought the safety of the community."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    The lone bands of survivors who wandered the now alien world dwindled "
+"innumber through the years.  Unable to compete with the growing number of "
+"monstrosities that had adapted to live in their world, those who did "
+"survivelived in dejected poverty and hopelessness..."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    The scavengers who flourished in the opening days of the cataclysm "
+"foundan ever increasing challenge in finding and maintaining equipment from "
+"the old world.  Enormous hordes made cities impossible to enter while new "
+"eldritch horrors appeared mysteriously near old research labs.  But on the "
+"fringes of where civilization once ended, bands of hunter-gatherers began "
+"toadopt agrarian lifestyles in fortified enclaves..."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    The raiders grew more powerful than any other faction as attrition "
+"destroyed the Old Guard.  The ruthless men and women who banded together "
+"torob refugees and pillage settlements soon found themselves without enough "
+"victims to survive.  The Hell's Raiders were eventually destroyed when "
+"infighting erupted into civil war but there were few survivors left to "
+"celebrate their destruction."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail "
+"tooverthrow the last strongholds of the Old Guard.  The costly victories "
+"brought the warlords abundant territory and slaves but little in the way "
+"ofstability.  Within weeks, infighting led to civil war as tribes vied for "
+"leadership of the faction.  When only one warlord finally secured "
+"control,there was nothing left to fight for... just endless cities full of "
+"the dead."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "Your overmap position: %d, %d, %d"
 msgstr "你的大地圖位置: %d, %d, %d"
@@ -97496,35 +97928,6 @@ msgstr "你的大地圖位置: %d, %d, %d"
 #, c-format
 msgid "Your local position: %d, %d, %d"
 msgstr "你的區域位置: %d, %d, %d"
-
-#: src/game.cpp
-msgid "You don't know of any factions.  Press Spacebar..."
-msgstr "你還不知道有什麼派系。按下空白鍵..."
-
-#: src/game.cpp
-#, c-format
-msgid "Ranking:           %s"
-msgstr "排行: %s"
-
-#: src/game.cpp
-#, c-format
-msgid "Respect:           %s"
-msgstr "地位: %s"
-
-#: src/game.cpp
-#, c-format
-msgid "Wealth:            %s"
-msgstr "財富: %s"
-
-#: src/game.cpp
-#, c-format
-msgid "Food Supply:       %s"
-msgstr "食物供應: %s"
-
-#: src/game.cpp
-#, c-format
-msgid "Combat Ability:    %s"
-msgstr "戰鬥力: %s"
 
 #: src/game.cpp
 msgid "Time: ???"
@@ -97547,14 +97950,6 @@ msgstr "光源:"
 #, c-format
 msgid "%s, day %d"
 msgstr " %s, 第%d日"
-
-#: src/game.cpp
-msgid "POWER"
-msgstr "能量"
-
-#: src/game.cpp
-msgid "Stm"
-msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -98414,7 +98809,7 @@ msgstr "投擲物品"
 msgid "You don't have any items to throw."
 msgstr "你沒有可投擲的物品。"
 
-#: src/game.cpp
+#: src/game.cpp src/player.cpp
 msgid "You don't have that item."
 msgstr "你沒有那個物品。"
 
@@ -99671,7 +100066,7 @@ msgstr ""
 
 #: src/game_inventory.cpp
 msgid "You're fully charged"
-msgstr ""
+msgstr "你的能量已滿"
 
 #: src/game_inventory.cpp
 msgid "Consume item"
@@ -101286,24 +101681,32 @@ msgid "Climb %s?"
 msgstr "攀爬 %s？"
 
 #: src/iexamine.cpp
-msgid "Climbing the fence is trivial for one such as you."
-msgstr "翻柵欄對你來說輕而易舉。"
+msgid "You vault over the obstacle with ease."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You vault over the obstacle."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Climbing this obstacle is trivial for one such as you."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You quickly scale the fence."
 msgstr "你迅速的翻過柵欄。"
 
 #: src/iexamine.cpp
-msgid "The fence is no match for your freerunning abilities."
-msgstr "這個柵欄無法阻礙你的跑酷。"
+msgid "This obstacle is no match for your freerunning abilities."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You slip while climbing and fall down again."
 msgstr "你爬的時候滑了一下，結果又掉下來了。"
 
 #: src/iexamine.cpp
-msgid "Climbing this is impossible in your current state."
-msgstr "你目前的狀態不妙，無法攀爬。"
+msgid "Climbing this obstacle is impossible in your current state."
+msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
@@ -110817,6 +111220,12 @@ msgstr "你沒有完成過任務！"
 msgid "You haven't failed any missions!"
 msgstr "你的任務沒有失敗過！"
 
+#. ~ name of a mod that has no name entry, (%s is the mods identifier)
+#: src/mod_manager.cpp
+#, c-format
+msgid "No name (%s)"
+msgstr "無名 (%s)"
+
 #: src/mod_manager.cpp
 msgid "CORE CONTENT PACKS"
 msgstr "核心內容包"
@@ -110872,12 +111281,6 @@ msgstr "黑名單"
 #: src/mod_manager.cpp
 msgid "Balance"
 msgstr "平衡性"
-
-#. ~ name of a mod that has no name entry, (%s is the mods identifier)
-#: src/mod_manager.cpp
-#, c-format
-msgid "No name (%s)"
-msgstr "無名 (%s)"
 
 #: src/mod_manager.cpp
 msgid "list of default mods"
@@ -112479,7 +112882,7 @@ msgstr "友好"
 
 #: src/monster.cpp
 msgid "Passive."
-msgstr ""
+msgstr "被動"
 
 #: src/monster.cpp
 msgid "Fleeing!"
@@ -115133,15 +115536,15 @@ msgstr "智力 %d - %d"
 msgid "Per %d - %d"
 msgstr "感知 %d - %d"
 
-#: src/npctalk.cpp src/player.cpp
+#: src/npctalk.cpp src/sidebar.cpp
 msgid "Exhausted"
 msgstr "筋疲力竭"
 
-#: src/npctalk.cpp src/player.cpp
+#: src/npctalk.cpp src/sidebar.cpp
 msgid "Dead tired"
 msgstr "累得要死"
 
-#: src/npctalk.cpp src/player.cpp
+#: src/npctalk.cpp src/sidebar.cpp
 msgid "Tired"
 msgstr "疲倦"
 
@@ -115690,6 +116093,10 @@ msgstr "謝謝…"
 #: src/npctalk.cpp
 msgid "What should we do now?"
 msgstr "我們現在該怎麼辦？"
+
+#: src/npctalk.cpp
+msgid "Any tips?"
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "Can I do anything for you?"
@@ -116613,6 +117020,10 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Switch between a narrower or wider sidebar."
+msgstr ""
+
+#: src/options.cpp
 msgid "Message log flow"
 msgstr ""
 
@@ -117485,22 +117896,22 @@ msgstr "右腿: %d/%d"
 msgid "Final Stats:"
 msgstr "最終屬性:"
 
-#: src/player.cpp
+#: src/player.cpp src/sidebar.cpp
 #, c-format
 msgid "Str %d"
 msgstr "力量%d"
 
-#: src/player.cpp
+#: src/player.cpp src/sidebar.cpp
 #, c-format
 msgid "Dex %d"
 msgstr "敏捷%d"
 
-#: src/player.cpp
+#: src/player.cpp src/sidebar.cpp
 #, c-format
 msgid "Int %d"
 msgstr "智力%d"
 
-#: src/player.cpp
+#: src/player.cpp src/sidebar.cpp
 #, c-format
 msgid "Per %d"
 msgstr "感知%d"
@@ -117608,168 +118019,6 @@ msgstr "遊戲歷史"
 #, c-format
 msgid "Year %1$d, %2$s %3$d, %4$s"
 msgstr "年 %1$d, %2$s %3$d, %4$s"
-
-#: src/player.cpp
-msgid "No Style"
-msgstr "無招式"
-
-#: src/player.cpp
-msgid "Starving!"
-msgstr "快餓死！"
-
-#: src/player.cpp
-msgid "Near starving"
-msgstr "極度飢餓"
-
-#: src/player.cpp
-msgid "Famished"
-msgstr "非常飢餓"
-
-#: src/player.cpp
-msgid "Very hungry"
-msgstr "飢餓"
-
-#: src/player.cpp
-msgid "Hungry"
-msgstr "肚餓"
-
-#: src/player.cpp
-msgid "Engorged"
-msgstr "吃撐"
-
-#: src/player.cpp
-msgid "Sated"
-msgstr "吃太飽"
-
-#: src/player.cpp
-msgid "Full"
-msgstr "吃飽"
-
-#: src/player.cpp
-msgid " (Rising!!)"
-msgstr " 上升中！！"
-
-#: src/player.cpp
-msgid " (Rising!)"
-msgstr " 上升中！"
-
-#: src/player.cpp
-msgid " (Rising)"
-msgstr " 上升中"
-
-#: src/player.cpp
-msgid " (Falling)"
-msgstr " 下降中"
-
-#: src/player.cpp
-msgid " (Falling!)"
-msgstr " 下降中！"
-
-#: src/player.cpp
-msgid " (Falling!!)"
-msgstr " 下降中！！"
-
-#: src/player.cpp
-#, c-format
-msgid "Scorching!%s"
-msgstr "酷熱！%s"
-
-#: src/player.cpp
-#, c-format
-msgid "Very hot!%s"
-msgstr "非常酷熱！%s"
-
-#: src/player.cpp
-#, c-format
-msgid "Warm%s"
-msgstr "溫熱%s"
-
-#: src/player.cpp
-#, c-format
-msgid "Comfortable%s"
-msgstr "舒適%s"
-
-#: src/player.cpp
-#, c-format
-msgid "Chilly%s"
-msgstr "寒冷%s"
-
-#: src/player.cpp
-#, c-format
-msgid "Very cold!%s"
-msgstr "非常寒冷！%s"
-
-#: src/player.cpp
-#, c-format
-msgid "Freezing!%s"
-msgstr "冰凍！%s"
-
-#: src/player.cpp
-msgid "Deaf!"
-msgstr "聽不見！"
-
-#: src/player.cpp
-#, c-format
-msgid "Sound %d"
-msgstr "聲響 %d"
-
-#: src/player.cpp
-msgid "Parched"
-msgstr "脫水"
-
-#: src/player.cpp
-msgid "Dehydrated"
-msgstr "極渴"
-
-#: src/player.cpp
-msgid "Very thirsty"
-msgstr "非常口渴"
-
-#: src/player.cpp
-msgid "Thirsty"
-msgstr "口渴"
-
-#: src/player.cpp
-msgid "Turgid"
-msgstr "水腫"
-
-#: src/player.cpp
-msgid "Hydrated"
-msgstr "滋潤"
-
-#: src/player.cpp
-msgid "Slaked"
-msgstr "喝足"
-
-#: src/player.cpp
-msgid "Focus"
-msgstr "專注"
-
-#: src/player.cpp
-#, c-format
-msgid "Pain %d"
-msgstr "疼痛 %d"
-
-#: src/player.cpp
-msgid "Stm "
-msgstr "體力"
-
-#: src/player.cpp
-#, c-format
-msgid "Spd %d"
-msgstr "速度 %d"
-
-#. ~ Movement type: "walking". Max string length: one letter.
-#: src/player.cpp
-msgctxt "movement-type"
-msgid "W"
-msgstr "行"
-
-#. ~ Movement type: "running". Max string length: one letter.
-#: src/player.cpp
-msgctxt "movement-type"
-msgid "R"
-msgstr "跑"
 
 #: src/player.cpp
 msgid "You roll on the ground, trying to smother the fire!"
@@ -118605,8 +118854,8 @@ msgstr "沒有東西要重新裝填！"
 
 #: src/player.cpp
 #, c-format
-msgid "Out of %s!"
-msgstr "%s 沒有了！"
+msgid "You don't have any %s to reload your %s!"
+msgstr "你沒有 %s 去裝填你的 %s !"
 
 #: src/player.cpp
 #, c-format
@@ -118614,8 +118863,8 @@ msgid "Putting on a %s would be tricky."
 msgstr "你不太可能把 %s 穿戴上。"
 
 #: src/player.cpp
-msgid "You can't wear power armor over other gear!"
-msgstr "你不能把動力裝甲穿在其他裝備之上！"
+msgid "Can't wear power armor over other gear!"
+msgstr ""
 
 #: src/player.cpp
 msgid "You can only wear power armor components with power armor!"
@@ -118623,13 +118872,13 @@ msgstr "你只能在身上穿動力裝甲時才能穿戴其他部位。"
 
 #: src/player.cpp
 #, c-format
-msgid "You cannot wear more than one %s!"
-msgstr "你不能穿戴多於一件的 %s！"
+msgid "Can't wear more than one %s!"
+msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You can't wear %s with power armor!"
-msgstr "你無法將 %s 跟動力護甲穿在一起！"
+msgid "Can't wear %s with power armor!"
+msgstr ""
 
 #: src/player.cpp
 msgid "You don't have a hand free to wear that."
@@ -118637,15 +118886,30 @@ msgstr "你的手沒空來穿它"
 
 #: src/player.cpp
 #, c-format
-msgid "You can't wear %i or more %s at once."
-msgstr "你無法一次穿上 %i 或更多的 %s"
+msgid "%s doesn't have a hand free to wear that."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Can't wear %i or more %s at once."
+msgstr ""
 
 #: src/player.cpp
 msgid "You're already wearing footwear!"
 msgstr "你已經穿了鞋了！"
 
 #: src/player.cpp
+#, c-format
+msgid "%s is already wearing footwear!"
+msgstr ""
+
+#: src/player.cpp
 msgid "You can't wear that with other headgear!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "%s can't wear that with other headgear!"
 msgstr ""
 
 #: src/player.cpp
@@ -118653,22 +118917,27 @@ msgid "You can't wear that much on your head!"
 msgstr ""
 
 #: src/player.cpp
-msgid "You can't wear that, it's made of wool!"
-msgstr "你無法穿戴羊毛製品！"
+#, c-format
+msgid "%s can't wear that much on their head!"
+msgstr ""
 
 #: src/player.cpp
-msgid "You can't wear that, it's filthy!"
-msgstr "你無法穿戴它，它很髒！"
+msgid "Can't wear that, it's made of wool!"
+msgstr ""
+
+#: src/player.cpp
+msgid "Can't wear that, it's filthy!"
+msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your mutation %s prevents you from wearing that %s."
-msgstr "你的突變 %s 不允許你穿戴 %s"
+msgid "Mutation %s prevents from wearing %s."
+msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You cannot wear a helmet over your %s."
-msgstr "你無法在你的 %s 上戴頭盔。"
+msgid "Cannot wear a helmet over %s."
+msgstr ""
 
 #: src/player.cpp
 msgid "horns"
@@ -118814,13 +119083,22 @@ msgid "You are already wearing that."
 msgstr "你已經穿戴了。"
 
 #: src/player.cpp
-msgid "You don't have that item. "
-msgstr "你沒有該物品。"
+msgid "<npcname> is already wearing that."
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname> doesn't have that item."
+msgstr ""
 
 #: src/player.cpp
 #, c-format
 msgid "You put on your %s."
 msgstr "你穿戴上你的 %s。"
+
+#: src/player.cpp
+#, c-format
+msgid "<npcname> puts on their %s."
+msgstr "<npcname> 穿戴上他的 %s。"
 
 #: src/player.cpp
 #, c-format
@@ -118835,11 +119113,6 @@ msgstr "你的 %s 受到嚴重累贅！ %s"
 #: src/player.cpp
 msgid "You're deafened!"
 msgstr "你聽不見了！"
-
-#: src/player.cpp
-#, c-format
-msgid "<npcname> puts on their %s."
-msgstr "<npcname> 穿戴上他的 %s。"
 
 #: src/player.cpp
 #, c-format
@@ -120661,6 +120934,176 @@ msgstr "已限定"
 msgid ""
 "Sets which video display will be used to show the game. Requires restart."
 msgstr "設定遊戲使用哪個顯示器。需要重開遊戲。"
+
+#: src/sidebar.cpp
+msgid "POWER"
+msgstr "能量"
+
+#: src/sidebar.cpp
+msgid "Stm"
+msgstr ""
+
+#: src/sidebar.cpp
+msgid "No Style"
+msgstr "無招式"
+
+#: src/sidebar.cpp
+msgid "Starving!"
+msgstr "快餓死！"
+
+#: src/sidebar.cpp
+msgid "Near starving"
+msgstr "極度飢餓"
+
+#: src/sidebar.cpp
+msgid "Famished"
+msgstr "非常飢餓"
+
+#: src/sidebar.cpp
+msgid "Very hungry"
+msgstr "飢餓"
+
+#: src/sidebar.cpp
+msgid "Hungry"
+msgstr "肚餓"
+
+#: src/sidebar.cpp
+msgid "Engorged"
+msgstr "吃撐"
+
+#: src/sidebar.cpp
+msgid "Sated"
+msgstr "吃太飽"
+
+#: src/sidebar.cpp
+msgid "Full"
+msgstr "吃飽"
+
+#: src/sidebar.cpp
+msgid " (Rising!!)"
+msgstr " 上升中！！"
+
+#: src/sidebar.cpp
+msgid " (Rising!)"
+msgstr " 上升中！"
+
+#: src/sidebar.cpp
+msgid " (Rising)"
+msgstr " 上升中"
+
+#: src/sidebar.cpp
+msgid " (Falling)"
+msgstr " 下降中"
+
+#: src/sidebar.cpp
+msgid " (Falling!)"
+msgstr " 下降中！"
+
+#: src/sidebar.cpp
+msgid " (Falling!!)"
+msgstr " 下降中！！"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Scorching!%s"
+msgstr "酷熱！%s"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Very hot!%s"
+msgstr "非常酷熱！%s"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Warm%s"
+msgstr "溫熱%s"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Comfortable%s"
+msgstr "舒適%s"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Chilly%s"
+msgstr "寒冷%s"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Very cold!%s"
+msgstr "非常寒冷！%s"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Freezing!%s"
+msgstr "冰凍！%s"
+
+#: src/sidebar.cpp
+msgid "Deaf!"
+msgstr "聽不見！"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Sound %d"
+msgstr "聲響 %d"
+
+#: src/sidebar.cpp
+msgid "Parched"
+msgstr "脫水"
+
+#: src/sidebar.cpp
+msgid "Dehydrated"
+msgstr "極渴"
+
+#: src/sidebar.cpp
+msgid "Very thirsty"
+msgstr "非常口渴"
+
+#: src/sidebar.cpp
+msgid "Thirsty"
+msgstr "口渴"
+
+#: src/sidebar.cpp
+msgid "Turgid"
+msgstr "水腫"
+
+#: src/sidebar.cpp
+msgid "Hydrated"
+msgstr "滋潤"
+
+#: src/sidebar.cpp
+msgid "Slaked"
+msgstr "喝足"
+
+#: src/sidebar.cpp
+msgid "Focus"
+msgstr "專注"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Pain %d"
+msgstr "疼痛 %d"
+
+#: src/sidebar.cpp
+msgid "Stm "
+msgstr "體力"
+
+#: src/sidebar.cpp
+#, c-format
+msgid "Spd %d"
+msgstr "速度 %d"
+
+#. ~ Movement type: "walking". Max string length: one letter.
+#: src/sidebar.cpp
+msgctxt "movement-type"
+msgid "W"
+msgstr "行"
+
+#. ~ Movement type: "running". Max string length: one letter.
+#: src/sidebar.cpp
+msgctxt "movement-type"
+msgid "R"
+msgstr "跑"
 
 #: src/sounds.cpp
 msgid "Your eardrums suddenly ache!"
