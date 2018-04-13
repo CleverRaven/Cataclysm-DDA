@@ -7806,9 +7806,8 @@ void silo_rooms(map *m)
     } while (okay);
 
     m->ter_set( rooms[0].first.x, rooms[0].first.y, t_stairs_up );
-    int down_room = rng(0, rooms.size() - 1);
-    point dp = rooms[down_room].first, ds = rooms[down_room].second;
-    m->ter_set(dp.x + ds.x, dp.y + ds.y, t_stairs_down);
+    const auto &room = random_entry( rooms );
+    m->ter_set( room.first.x + room.second.x, room.first.y + room.second.y, t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
 
     while (rooms.size() > 1) {

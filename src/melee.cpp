@@ -1167,8 +1167,8 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
         //hit only one valid target (pierce through doesn't spread out)
         if (technique.aoe == "impale") {
-            size_t victim = rng(0, targets.size() - 1);
-            const auto v = targets[victim];
+            //@todo what if targets is empty
+            Creature *const v = random_entry( targets );
             targets.clear();
             targets.push_back( v );
         }
