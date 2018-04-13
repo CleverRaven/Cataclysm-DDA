@@ -106,7 +106,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3284,6 +3284,18 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "acidchitin_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 55000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",

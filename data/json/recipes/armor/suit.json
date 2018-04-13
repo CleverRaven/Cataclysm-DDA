@@ -93,6 +93,23 @@
     "components": [ [ [ "chitin_piece", 15 ] ] ]
   },
   {
+    "result": "armor_acidchitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
+    "time": 200000,
+    "autolearn": true,
+    "using": [ [ "cordage", 2 ] ],
+    "qualities": [
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [ [ [ "acidchitin_piece", 15 ] ] ]
+  },
+  {
     "result": "armor_farmor",
     "type": "recipe",
     "category": "CC_ARMOR",

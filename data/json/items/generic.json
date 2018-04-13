@@ -224,6 +224,17 @@
     },
     {
         "type":"GENERIC",
+        "id": "acidchitin_piece",
+        "copy-from": "chitin_piece",
+        "name": "chunk of biosilicified chitin",
+        "name_plural": "chunks of biosilicified chitin",
+        "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
+        "material": "acidchitin",
+        "proportional": { "weight": 1.25 },
+        "relative": { "bashing": 2 }
+    },
+    {
+        "type":"GENERIC",
         "id": "biollante_bud",
         "symbol": ",",
         "color": "magenta",

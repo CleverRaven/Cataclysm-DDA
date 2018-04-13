@@ -63,6 +63,25 @@
     ]
   },
   {
+    "result": "armguard_acidchitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
+    "time": 60000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+      [ [ "acidchitin_piece", 6 ] ]
+    ]
+  },
+  {
     "result": "armguard_hard",
     "type": "recipe",
     "category": "CC_ARMOR",
