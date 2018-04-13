@@ -2896,7 +2896,7 @@ int item::spoilage_sort_order()
     item *subject;
     int bottom = std::numeric_limits<int>::max();
 
-    if ( type->container && contents.size() >= 1 ) {
+    if ( type->container && !contents.empty() ) {
         if ( type->container->preserves ) {
             return bottom - 3;
         }
@@ -3605,7 +3605,7 @@ bool item::is_brewable() const
 
 bool item::is_food_container() const
 {
-    return (contents.size() >= 1 && contents.front().is_food());
+    return !contents.empty() && contents.front().is_food();
 }
 
 bool item::is_corpse() const

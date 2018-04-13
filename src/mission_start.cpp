@@ -99,7 +99,7 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
                                bool must_see, int range )
 {
     auto places = overmap_buffer.find_all( g->u.global_omt_location(), omter, range, must_see );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         return g->u.global_omt_location();
     }
     const auto &cur_om = g->get_cur_om();

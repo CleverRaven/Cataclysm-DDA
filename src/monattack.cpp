@@ -2864,7 +2864,7 @@ bool mattack::searchlight(monster *z)
     const int zposy = z->posy();
 
     //this searchlight is not initialized
-    if (z->inv.size() == 0) {
+    if( z->inv.empty() ) {
 
         for (int i = 0; i < max_lamp_count; i++) {
 

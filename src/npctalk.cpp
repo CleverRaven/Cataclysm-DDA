@@ -3103,7 +3103,7 @@ void talk_function::buy_10_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
@@ -3130,7 +3130,7 @@ void talk_function::buy_100_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }

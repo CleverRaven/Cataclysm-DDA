@@ -2045,7 +2045,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     std::vector<monster*> fishables = g->get_fishable(60);
-    if ( fishables.size() < 1){
+    if( fishables.empty() ) {
         p->add_msg_if_player(m_info, _("There are no fish around.  Try another spot.")); // maybe let the player find that out by himself?
         return 0;
     }
@@ -2096,7 +2096,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         std::vector<monster*> fishables = g->get_fishable(60);
-        if ( fishables.size() < 1){
+        if( fishables.empty() ) {
             p->add_msg_if_player(m_info, _("There is no fish around.  Try another spot.")); // maybe let the player find that out by himself?
             return 0;
         }
@@ -4993,7 +4993,7 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
     g->m.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
-    if (unfold_msg.size() == 0) {
+    if( unfold_msg.empty() ) {
         unfold_msg = _("You painstakingly unfold the %s and make it ready to ride.");
     } else {
         unfold_msg = _(unfold_msg.c_str());
@@ -5662,7 +5662,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
             std::string s;
             while (getline(f, s, ',')) {
 
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
 
@@ -5896,7 +5896,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             int k = 1;
             while (getline(f, s, ',')) {
 
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
 
@@ -5943,7 +5943,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             std::string s;
             int k = 1;
             while (getline(f, s, ',')) {
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
                 monster_photos.push_back( mtype_id( s ) );
@@ -6247,7 +6247,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         int k = 1;
         while (getline(f, s, ',')) {
 
-            if (s.size() == 0) {
+            if( s.empty() ) {
                 continue;
             }
 
@@ -6720,7 +6720,7 @@ vehicle *pickveh( const tripoint& center, bool advanced )
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
     }
 
-    if( vehs.size() == 0 ) {
+    if( vehs.empty() ) {
         add_msg( m_bad, _("No vehicle available.") );
         return nullptr;
     }

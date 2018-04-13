@@ -204,7 +204,7 @@ void uimenu::init()
  */
 void uimenu::filterlist()
 {
-    bool notfiltering = ( ! filtering || filter.size() < 1 );
+    bool notfiltering = ( ! filtering || filter.empty() );
     int num_entries = entries.size();
     bool nocase = (filtering_nocase == true); // @todo: && is_all_lc( filter )
     std::string fstr = "";

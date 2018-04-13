@@ -134,7 +134,7 @@ void string_input_popup::add_to_history( const std::string &value ) const
 {
     if( !_identifier.empty() && !value.empty() ) {
         std::vector<std::string> &hist = uistate.gethistory( _identifier );
-        if( hist.size() == 0 || hist[hist.size() - 1] != value ) {
+        if( hist.empty() || hist[hist.size() - 1] != value ) {
             hist.push_back( value );
         }
     }

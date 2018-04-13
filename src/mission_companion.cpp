@@ -105,7 +105,7 @@ void talk_function::bionic_install(npc &p)
 void talk_function::bionic_remove(npc &p)
 {
     bionic_collection all_bio = *g->u.my_bionics;
-    if (all_bio.size() == 0){
+    if( all_bio.empty() ) {
         popup(_("You don't have any bionics installed..."));
         return;
     }
@@ -626,8 +626,8 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 //A random NPC on one team attacks a random NPC on the opposite
 void talk_function::attack_random( const std::vector<std::shared_ptr<npc>> &attacker, const std::vector<std::shared_ptr<npc>> &defender )
 {
-    if (attacker.size() == 0 || defender.size() ==0){
-            return;
+    if( attacker.empty() || defender.empty() ) {
+        return;
     }
     const auto att = random_entry( attacker );
     const auto def = random_entry( defender );
@@ -848,7 +848,7 @@ void talk_function::field_harvest( npc &p, std::string place )
             }
         }
     }
-    if (plant_names.size() ==0){
+    if( plant_names.empty() ) {
         popup(_("There aren't any plants that are ready to harvest..."));
         return;
     }

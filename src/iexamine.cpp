@@ -1690,7 +1690,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
         add_msg(m_info, _("You have no seeds to plant."));
         return;
     }
-    if (g->m.i_at(examp).size() != 0) {
+    if( !g->m.i_at(examp).empty() ) {
         add_msg(_("Something's lying there..."));
         return;
     }
