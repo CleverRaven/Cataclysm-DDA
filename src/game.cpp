@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "rng.h"
+#include "dependency_tree.h"
 #include "input.h"
 #include "output.h"
 #include "skill.h"
@@ -100,6 +101,7 @@
 #include "string_input_popup.h"
 #include "monexamine.h"
 #include "loading_ui.h"
+#include "sidebar.h"
 
 #include <map>
 #include <set>
@@ -186,7 +188,6 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INCONSPICUOUS( "INCONSPICUOUS" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -274,7 +275,6 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
-    nextspawn( calendar::before_time_starts ),
     nextweather( calendar::before_time_starts ),
     remoteveh_cache_time( calendar::before_time_starts ),
     gamemode(),
@@ -312,19 +312,18 @@ void game::load_static_data()
     get_safemode().load_global();
 }
 
-bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui )
+bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 {
-    auto &mods = world_generator->get_mod_manager().mod_map;
     auto &tree = world_generator->get_mod_manager().get_tree();
 
     // deduplicated list of mods to check
-    std::set<std::string> check( opts.begin(), opts.end() );
+    std::set<mod_id> check( opts.begin(), opts.end() );
 
     // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
-        for( const auto &e : mods ) {
-            if( !e.second.obsolete ) {
-                check.emplace( e.first );
+        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
+            if( !e->obsolete ) {
+                check.emplace( e );
             }
         }
     }
@@ -340,32 +339,31 @@ bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui 
     }
 
     for( const auto &e : check ) {
-        auto iter = mods.find( e );
-        if( iter == mods.end() ) {
-            std::cerr << "Unknown mod: " << e << std::endl;
+        if( !e.is_valid() ) {
+            std::cerr << "Unknown mod: " << e.str() << std::endl;
             return false;
         }
 
-        MOD_INFORMATION &mod = iter->second;
+        const MOD_INFORMATION &mod = *e;
 
         if( !tree.is_available( mod.ident ) ) {
-            std::cerr << "Missing dependencies: " << mod.name << "\n"
+            std::cerr << "Missing dependencies: " << mod.name() << "\n"
                       << tree.get_node( mod.ident )->s_errors() << std::endl;
             return false;
         }
 
-        std::cout << "Checking mod " << mod.name << " [" << mod.ident << "]" << std::endl;
+        std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
 
         try {
             load_core_data( ui );
 
             // Load any dependencies
             for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-                load_data_from_dir( mods[dep].path, mods[dep].ident, ui );
+                load_data_from_dir( dep->path, dep->ident.str(), ui );
             }
 
             // Load mod itself
-            load_data_from_dir( mod.path, mod.ident, ui );
+            load_data_from_dir( mod.path, mod.ident.str(), ui );
             DynamicDataLoader::get_instance().finalize_loaded_data( ui );
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
@@ -738,12 +736,11 @@ void game::setup()
     loading_ui ui( true );
     load_core_data( ui );
 
-    load_world_modfiles( world_generator->active_world, ui );
+    load_world_modfiles( ui );
 
     m =  map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
-    next_faction_id = 1;
     next_mission_id = 1;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
@@ -760,7 +757,7 @@ void game::setup()
     clear_zombies();
     coming_to_stairs.clear();
     active_npc.clear();
-    factions.clear();
+    faction_manager_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
     events = event_manager();
@@ -793,7 +790,7 @@ void game::load_map( tripoint pos_sm )
 }
 
 // Set up all default values for a new game
-bool game::start_game(std::string worldname)
+bool game::start_game()
 {
     if( !gamemode ) {
         gamemode.reset( new special_game() );
@@ -811,10 +808,7 @@ bool game::start_game(std::string worldname)
     catacurses::clear();
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
-    // Init some factions.
-    if( !load_master( worldname ) || factions.empty() ) { // Master data record contains factions.
-        create_factions();
-    }
+    load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
@@ -846,7 +840,6 @@ bool game::start_game(std::string worldname)
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    nextspawn = calendar::turn;
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
@@ -910,18 +903,6 @@ bool game::start_game(std::string worldname)
    lua_callback("on_new_player_created");
 
     return true;
-}
-
-void game::create_factions()
-{
-    faction tmp;
-    std::vector<std::string> faction_vector = tmp.all_json_factions();
-    for(auto &cur_fac : faction_vector) {
-        tmp = faction(cur_fac);
-        tmp.randomize();
-        tmp.load_faction_template(cur_fac);
-        factions.push_back(tmp);
-    }
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
@@ -1442,12 +1423,7 @@ bool game::do_turn()
     update_weather();
     reset_light_level();
 
-    // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100_turns) ||
-        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400_turns)) {
-        spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
-        nextspawn = calendar::turn;
-    }
+    perhaps_add_random_npc();
 
     process_activity();
 
@@ -3092,21 +3068,19 @@ bool game::handle_action()
                 uimenu as_m;
                 as_m.return_invalid = true;
                 as_m.text = _("Are you sure you want to sleep?");
-                as_m.entries.emplace_back(uimenu_entry(0, true,
-                                                    (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y'),
-                                                    _("Yes.")));
+                as_m.entries.emplace_back( uimenu_entry( 0, true,
+                                           ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
+                                           _( "Yes." ) ) );
 
-                if (get_option<bool>( "SAVE_SLEEP" ) ) {
-                    as_m.entries.emplace_back(uimenu_entry(1, (moves_since_last_save),
-                                                        (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's'),
-                                                        _("Yes, and save game before sleeping.")));
-                }
-                as_m.entries.emplace_back(uimenu_entry(2, true, (get_option<bool>( "FORCE_CAPITAL_YN" ) ?
-                                                    'N' : 'n'), _("No.")));
+                as_m.entries.emplace_back( uimenu_entry( 1, ( moves_since_last_save ),
+                                           ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's' ),
+                                           _( "Yes, and save game before sleeping." ) ) );
+                as_m.entries.emplace_back( uimenu_entry( 2, true, ( get_option<bool>( "FORCE_CAPITAL_YN" ) ?
+                                           'N' : 'n' ), _( "No." ) ) );
 
                 if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) {
                     as_m.text =
-                        _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
+                        _( "You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?" );
                 }
                 // List all active items, bionics or mutations so player can deactivate them
                 std::vector<std::string> active;
@@ -3294,7 +3268,8 @@ bool game::handle_action()
             break;
 
         case ACTION_FACTIONS:
-            list_factions(_("FACTIONS:"));
+            faction_manager_ptr->display();
+            refresh_all();
             break;
 
         case ACTION_MORALE:
@@ -3544,7 +3519,7 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    const std::string &save_dir      = world_generator->active_world->world_path;
+    const std::string &save_dir      = get_world_base_save_path();
     const std::string &graveyard_dir = FILENAMES["graveyarddir"];
     const std::string &prefix        = base64_encode(u.name) + ".";
 
@@ -3575,21 +3550,12 @@ void game::move_save_to_graveyard()
     }
 }
 
-bool game::load_master(std::string worldname)
+void game::load_master()
 {
     using namespace std::placeholders;
-    const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
-    return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
-}
-
-void game::load_uistate(std::string worldname)
-{
-    using namespace std::placeholders;
-    const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
-    read_from_file_optional( savefile, []( std::istream &stream ) {
-        JsonIn jsin( stream );
-        uistate.deserialize( jsin );
-    } );
+    const auto datafile = get_world_base_save_path() + "/master.gsav";
+    read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    faction_manager_ptr->create_if_needed();
 }
 
 bool game::load( const std::string &world ) {
@@ -3606,7 +3572,7 @@ bool game::load( const std::string &world ) {
     try {
         world_generator->set_active_world( wptr );
         g->setup();
-        g->load( world, wptr->world_saves.front() );
+        g->load( wptr->world_saves.front() );
     } catch( const std::exception &err ) {
         debugmsg( "cannot load world '%s': %s", world.c_str(), err.what() );
         return false;
@@ -3615,21 +3581,18 @@ bool game::load( const std::string &world ) {
     return true;
 }
 
-void game::load(std::string worldname, const save_t &name)
+void game::load( const save_t &name )
 {
     using namespace std::placeholders;
 
-    const std::string worldpath = world_generator->get_world( worldname )->world_path + "/";
+    const std::string worldpath = get_world_base_save_path() + "/";
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    if( !load_master( worldname ) || factions.empty() ) {
-        create_factions();
-    }
+    load_master();
     u = player();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
-    u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
     if( !read_from_file( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
         return;
@@ -3655,7 +3618,10 @@ void game::load(std::string worldname, const save_t &name)
     get_auto_pickup().load_character(); // Load character auto pickup rules
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    load_uistate(worldname);
+    read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream &stream ) {
+        JsonIn jsin( stream );
+        uistate.deserialize( jsin );
+    } );
 
     reload_npcs();
     update_map( u );
@@ -3681,43 +3647,41 @@ void game::load(std::string worldname, const save_t &name)
     draw();
 }
 
-void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
+void game::load_world_modfiles( loading_ui &ui )
 {
     catacurses::erase();
     catacurses::refresh();
 
-    if( world ) {
-        auto &mods = world->active_mod_order;
+    auto &mods = world_generator->active_world->active_mod_order;
 
-        // remove any duplicates whilst preserving order (fixes #19385)
-        std::set<std::string> found;
-        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const std::string &e ) {
-            if( found.count( e ) ) {
-                return true;
-            } else {
-                found.insert( e );
-                return false;
-            }
-        } ), mods.end() );
-
-        // require at least one core mod (saves before version 6 may implicitly require dda pack)
-        if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
-            return world_generator->get_mod_manager().mod_map[e].core;
-        } ) ) {
-            mods.insert( mods.begin(), "dda" );
+    // remove any duplicates whilst preserving order (fixes #19385)
+    std::set<mod_id> found;
+    mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id &e ) {
+        if( found.count( e ) ) {
+            return true;
+        } else {
+            found.insert( e );
+            return false;
         }
+    } ), mods.end() );
 
-        load_artifacts(world->world_path + "/artifacts.gsav");
-        // this code does not care about mod dependencies,
-        // it assumes that those dependencies are static and
-        // are resolved during the creation of the world.
-        // That means world->active_mod_order contains a list
-        // of mods in the correct order.
-        load_packs( _( "Loading files" ), mods, ui );
-
-        // Load additional mods from that world-specific folder
-        load_data_from_dir( world->world_path + "/mods", "custom", ui );
+    // require at least one core mod (saves before version 6 may implicitly require dda pack)
+    if( std::none_of( mods.begin(), mods.end(), []( const mod_id &e ) {
+        return e->core;
+    } ) ) {
+        mods.insert( mods.begin(), mod_id( "dda" ) );
     }
+
+    load_artifacts( get_world_base_save_path() + "/artifacts.gsav" );
+    // this code does not care about mod dependencies,
+    // it assumes that those dependencies are static and
+    // are resolved during the creation of the world.
+    // That means world->active_mod_order contains a list
+    // of mods in the correct order.
+    load_packs( _( "Loading files" ), mods, ui );
+
+    // Load additional mods from that world-specific folder
+    load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
 
     catacurses::erase();
     catacurses::refresh();
@@ -3725,17 +3689,16 @@ void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
-bool game::load_packs( const std::string &msg, const std::vector<std::string>& packs, loading_ui &ui )
+bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui )
 {
     ui.new_context( msg );
-    std::vector<std::string> missing;
-    std::vector<std::string> available;
+    std::vector<mod_id> missing;
+    std::vector<mod_id> available;
 
-    mod_manager &mm = world_generator->get_mod_manager();
-    for( const auto &e : packs ) {
-        if( mm.has_mod( e ) ) {
+    for( const mod_id &e : packs ) {
+        if( e.is_valid() ) {
             available.emplace_back( e );
-            ui.add_entry( e );
+            ui.add_entry( e->name() );
         } else {
             missing.push_back( e );
         }
@@ -3743,15 +3706,15 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 
     ui.show();
     for( const auto &e : available ) {
-        MOD_INFORMATION &mod = mm.mod_map[e];
-        load_data_from_dir( mod.path, mod.ident, ui );
+        const MOD_INFORMATION &mod = *e;
+        load_data_from_dir( mod.path, mod.ident.str(), ui );
 
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
             for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
                 popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
                               e.c_str(), i, core_version - 1 );
-                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident, ui );
+                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident.str(), ui );
             }
         }
 
@@ -3768,7 +3731,7 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
-    std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
+    std::string masterfile = get_world_base_save_path() + "/master.gsav";
     return write_to_file_exclusive( masterfile, [&]( std::ostream &fout ) {
         serialize_master(fout);
     }, _( "factions data" ) );
@@ -3776,7 +3739,7 @@ bool game::save_factions_missions_npcs()
 
 bool game::save_artifacts()
 {
-    std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    std::string artfilename = get_world_base_save_path() + "/artifacts.gsav";
     return ::save_artifacts( artfilename );
 }
 
@@ -3793,18 +3756,9 @@ bool game::save_maps()
     }
 }
 
-bool game::save_uistate()
-{
-    std::string savefile = world_generator->active_world->world_path + "/uistate.json";
-    return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        JsonOut jsout( fout );
-        uistate.serialize( jsout );
-    }, _( "uistate data" ) );
-}
-
 bool game::save_player_data()
 {
-    const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    const std::string playerfile = get_player_base_save_path();
 
     const bool saved_data = write_to_file( playerfile + ".sav", [&]( std::ostream &fout ) {
         serialize(fout);
@@ -3828,7 +3782,10 @@ bool game::save()
              !save_maps() ||
              !get_auto_pickup().save_character() ||
              !get_safemode().save_character() ||
-             !save_uistate()){
+             !write_to_file_exclusive( get_world_base_save_path() + "/uistate.json", [&]( std::ostream &fout ) {
+                JsonOut jsout( fout );
+                uistate.serialize( jsout );
+             }, _( "uistate data" ) ) ) {
             return false;
         } else {
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
@@ -4000,13 +3957,13 @@ void game::debug()
         case 7: {
             std::string s;
             s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d; Next spawn %d.\n%s\n" );
+            s += _( "Current turn: %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
-                int( calendar::turn ), to_turn<int>( nextspawn ),
+                int( calendar::turn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_creatures() );
@@ -4416,164 +4373,85 @@ void game::disp_faction_ends()
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
     std::vector<std::string> data;
 
-    for( auto &elem : factions ) {
+    for( const faction &elem : faction_manager_ptr->all() ) {
         if(elem.known_by_u) {
             if (elem.name == "Your Followers"){
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "" );
-                data.emplace_back( "       You are forgotten among the billions lost in the cataclysm..." );
-
-                display_table(w, "", 1, data);
+                data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm..." ) );
+                display_table( w, "", 1, data );
             } else if (elem.name == "The Old Guard" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    Locked in an endless battle, the Old Guard was forced to consolidate their");
-                    data.emplace_back( "resources in a handful of fortified bases along the coast.  Without the men" );
-                    data.emplace_back( "or material to rebuild, the soldiers that remained lost all hope..." );
+                    data.emplace_back( _( "    Locked in an endless battle, the Old Guard was forced to consolidate their \
+resources in a handful of fortified bases along the coast.  Without the men\
+or material to rebuild, the soldiers that remained lost all hope..." ) );
                 } else {
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    The steadfastness of individual survivors after the cataclysm impressed ");
-                    data.emplace_back( "the tattered remains of the once glorious union.  Spurred on by small ");
-                    data.emplace_back( "successes, a number of operations to re-secure facilities met with limited ");
-                    data.emplace_back( "success.  Forced to eventually consolidate to large bases, the Old Guard left");
-                    data.emplace_back( "these facilities in the hands of the few survivors that remained.  As the ");
-                    data.emplace_back( "years past, little materialized from the hopes of rebuilding civilization...");
+                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed \
+the tattered remains of the once glorious union.  Spurred on by small \
+successes, a number of operations to re-secure facilities met with limited \
+success.  Forced to eventually consolidate to large bases, the Old Guard left\
+these facilities in the hands of the few survivors that remained.  As the \
+years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
-                display_table(w, "The Old Guard", 1, data);
+                display_table( w, _( "The Old Guard" ), 1, data );
             } else if (elem.name == "The Free Merchants" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    Life in the refugee shelter deteriorated as food shortages and disease ");
-                    data.emplace_back( "destroyed any hope of maintaining a civilized enclave.  The merchants and ");
-                    data.emplace_back( "craftsmen dispersed to found new colonies but most became victims of");
-                    data.emplace_back( "marauding bandits.  Those who survived never found a place to call home...");
+                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease \
+destroyed any hope of maintaining a civilized enclave.  The merchants and \
+craftsmen dispersed to found new colonies but most became victims of\
+marauding bandits.  Those who survived never found a place to call home..." ) );
                 } else {
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    The Free Merchants struggled for years to keep themselves fed but their");
-                    data.emplace_back( "once profitable trade routes were plundered by bandits and thugs.  In squalor");
-                    data.emplace_back( "and filth the first generations born after the cataclysm are told stories of");
-                    data.emplace_back( "the old days when food was abundant and the children were allowed to play in");
-                    data.emplace_back( "the sun...");
+                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their\
+once profitable trade routes were plundered by bandits and thugs.  In squalor\
+and filth the first generations born after the cataclysm are told stories of\
+the old days when food was abundant and the children were allowed to play in\
+the sun..." ) );
                 }
-                display_table(w, "The Free Merchants", 1, data);
+                display_table( w, _( "The Free Merchants" ), 1, data );
             } else if (elem.name == "The Tacoma Commune" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    The fledgling outpost was abandoned a few months later.  The external");
-                    data.emplace_back( "threats combined with low crop yields caused the Free Merchants to withdraw");
-                    data.emplace_back( "their support.  When the exhausted migrants returned to the refugee center");
-                    data.emplace_back( "they were turned away to face the world on their own.");
+                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external\
+threats combined with low crop yields caused the Free Merchants to withdraw\
+their support.  When the exhausted migrants returned to the refugee center\
+they were turned away to face the world on their own." ) );
                 } else {
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    The commune continued to grow rapidly through the years despite constant");
-                    data.emplace_back( "external threat.  While maintaining a reputation as a haven for all law");
-                    data.emplace_back( "abiding citizens, the commune's leadership remained loyal to the interests of");
-                    data.emplace_back( "the Free Merchants.  Hard labor for little reward remained the price to be");
-                    data.emplace_back( "paid for those who sought the safety of the community.");
+                    data.emplace_back( _( "    The commune continued to grow rapidly through the years despite constant\
+external threat.  While maintaining a reputation as a haven for all law\
+abiding citizens, the commune's leadership remained loyal to the interests of\
+the Free Merchants.  Hard labor for little reward remained the price to be\
+paid for those who sought the safety of the community." ) );
                 }
-                display_table(w, "The Tacoma Commune", 1, data);
+                display_table( w, _( "The Tacoma Commune" ), 1, data );
             } else if (elem.name == "The Wasteland Scavengers" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    The lone bands of survivors who wandered the now alien world dwindled in");
-                    data.emplace_back( "number through the years.  Unable to compete with the growing number of ");
-                    data.emplace_back( "monstrosities that had adapted to live in their world, those who did survive");
-                    data.emplace_back( "lived in dejected poverty and hopelessness...");
+                    data.emplace_back( _( "    The lone bands of survivors who wandered the now alien world dwindled in\
+number through the years.  Unable to compete with the growing number of \
+monstrosities that had adapted to live in their world, those who did survive\
+lived in dejected poverty and hopelessness..." ) );
                 } else {
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    The scavengers who flourished in the opening days of the cataclysm found");
-                    data.emplace_back( "an ever increasing challenge in finding and maintaining equipment from the ");
-                    data.emplace_back( "old world.  Enormous hordes made cities impossible to enter while new ");
-                    data.emplace_back( "eldritch horrors appeared mysteriously near old research labs.  But on the ");
-                    data.emplace_back( "fringes of where civilization once ended, bands of hunter-gatherers began to");
-                    data.emplace_back( "adopt agrarian lifestyles in fortified enclaves...");
+                    data.emplace_back( _( "    The scavengers who flourished in the opening days of the cataclysm found\
+an ever increasing challenge in finding and maintaining equipment from the \
+old world.  Enormous hordes made cities impossible to enter while new \
+eldritch horrors appeared mysteriously near old research labs.  But on the \
+fringes of where civilization once ended, bands of hunter-gatherers began to\
+adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
-                display_table(w, "The Wasteland Scavengers", 1, data);
+                display_table( w, _( "The Wasteland Scavengers" ), 1, data );
             } else if (elem.name == "Hell's Raiders" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    The raiders grew more powerful than any other faction as attrition ");
-                    data.emplace_back( "destroyed the Old Guard.  The ruthless men and women who banded together to");
-                    data.emplace_back( "rob refugees and pillage settlements soon found themselves without enough ");
-                    data.emplace_back( "victims to survive.  The Hell's Raiders were eventually destroyed when ");
-                    data.emplace_back( "infighting erupted into civil war but there were few survivors left to ");
-                    data.emplace_back( "celebrate their destruction.");
+                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition \
+destroyed the Old Guard.  The ruthless men and women who banded together to\
+rob refugees and pillage settlements soon found themselves without enough \
+victims to survive.  The Hell's Raiders were eventually destroyed when \
+infighting erupted into civil war but there were few survivors left to \
+celebrate their destruction." ) );
                 } else {
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "" );
-                    data.emplace_back( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to");
-                    data.emplace_back( "overthrow the last strongholds of the Old Guard.  The costly victories ");
-                    data.emplace_back( "brought the warlords abundant territory and slaves but little in the way of");
-                    data.emplace_back( "stability.  Within weeks, infighting led to civil war as tribes vied for ");
-                    data.emplace_back( "leadership of the faction.  When only one warlord finally secured control,");
-                    data.emplace_back( "there was nothing left to fight for... just endless cities full of the dead.");
+                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to\
+overthrow the last strongholds of the Old Guard.  The costly victories \
+brought the warlords abundant territory and slaves but little in the way of\
+stability.  Within weeks, infighting led to civil war as tribes vied for \
+leadership of the faction.  When only one warlord finally secured control,\
+there was nothing left to fight for... just endless cities full of the dead." ) );
                 }
-                display_table(w, "Hell's Raiders", 1, data);
+                display_table( w, _( "Hell's Raiders" ), 1, data );
             }
 
         }
@@ -4620,96 +4498,6 @@ void game::disp_NPCs()
     }
     wrefresh(w);
     inp_mngr.wait_for_any_key();
-}
-
-faction *game::list_factions(std::string title)
-{
-    std::vector<faction *> valfac; // Factions that we know of.
-    for( auto &elem : factions ) {
-        if( elem.known_by_u ) {
-            valfac.push_back( &elem );
-        }
-    }
-    if (valfac.empty()) { // We don't know of any factions!
-        popup(_("You don't know of any factions.  Press Spacebar..."));
-        return nullptr;
-    }
-
-    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                            ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
-                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
-                            1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
-                            MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
-
-    int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
-    size_t sel = 0;
-    bool redraw = true;
-
-    input_context ctxt("FACTIONS");
-    ctxt.register_action("UP", _("Move cursor up"));
-    ctxt.register_action("DOWN", _("Move cursor down"));
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    faction *cur_frac = nullptr;
-    while (true) {
-        cur_frac = valfac[sel];
-        if (redraw) {
-            // Init w_list content
-            werase(w_list);
-            draw_border(w_list);
-            mvwprintz( w_list, 1, 1, c_white, title );
-            for (size_t i = 0; i < valfac.size(); i++) {
-                nc_color col = (i == sel ? h_white : c_white);
-                mvwprintz( w_list, i + 2, 1, col, valfac[i]->name );
-            }
-            wrefresh(w_list);
-            // Init w_info content
-            // fac_*_text() is in faction.cpp
-            werase(w_info);
-            mvwprintz(w_info, 0, 0, c_white,
-                      _("Ranking:           %s"), fac_ranking_text(cur_frac->likes_u).c_str());
-            mvwprintz(w_info, 1, 0, c_white,
-                      _("Respect:           %s"), fac_respect_text(cur_frac->respects_u).c_str());
-            mvwprintz(w_info, 2, 0, c_white,
-                      _("Wealth:            %s"), fac_wealth_text(cur_frac->wealth, cur_frac->size).c_str());
-            mvwprintz(w_info, 3, 0, c_white,
-                      _("Food Supply:       %s"), fac_food_supply_text(cur_frac->food_supply, cur_frac->size).c_str());
-            mvwprintz(w_info, 4, 0, c_white,
-                      _("Combat Ability:    %s"), fac_combat_ability_text(cur_frac->combat_ability).c_str());
-            fold_and_print(w_info, 6, 0, maxlength, c_white, cur_frac->describe());
-            wrefresh(w_info);
-            redraw = false;
-        }
-        const std::string action = ctxt.handle_input();
-        if (action == "DOWN") {
-            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac->name );
-            if (sel == valfac.size() - 1) {
-                sel = 0;    // Wrap around
-            } else {
-                sel++;
-            }
-            redraw = true;
-        } else if (action == "UP") {
-            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac->name );
-            if (sel == 0) {
-                sel = valfac.size() - 1;    // Wrap around
-            } else {
-                sel--;
-            }
-            redraw = true;
-        } else if ( action == "HELP_KEYBINDINGS" ) {
-            redraw = true;
-        } else if (action == "QUIT") {
-            cur_frac = nullptr;
-            break;
-        } else if (action == "CONFIRM") {
-            break;
-        }
-    }
-    refresh_all();
-    return cur_frac;
 }
 
 // A little helper to draw footstep glyphs.
@@ -4768,7 +4556,7 @@ void game::draw_sidebar()
     const bool sideStyle = use_narrow_sidebar();
 
     // Draw Status
-    draw_HP();
+    draw_HP( u, w_HP );
     werase(w_status);
     if( sideStyle ) {
         werase(w_status2);
@@ -4778,7 +4566,7 @@ void game::draw_sidebar()
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( u.has_watch() ) {
-        wprintz( time_window, c_white, calendar::turn.print_time() );
+        wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( get_levz() >= 0 ) {
         std::vector<std::pair<char, nc_color> > vGlyphs;
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -5045,113 +4833,6 @@ void game::refresh_all()
     catacurses::refresh();
 }
 
-void game::draw_HP()
-{
-    werase(w_HP);
-
-    // The HP window can be in "tall" mode (7x14) or "wide" mode (14x7).
-    bool wide = (getmaxy(w_HP) == 7);
-    int hpx = wide ? 7 : 0;
-    int hpy = wide ? 0 : 1;
-    int dy = wide ? 1 : 2;
-
-    bool const is_self_aware = u.has_trait( trait_id( "SELFAWARE" ) );
-
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        wmove( w_HP, i * dy + hpy, hpx );
-
-        static auto print_symbol_num = []( const catacurses::window &w, int num, const std::string &sym,
-                                           const nc_color color ) {
-            while( num-- > 0 ) {
-                wprintz( w, color, sym.c_str() );
-            }
-        };
-
-        if( u.hp_cur[i] == 0 && ( i >= hp_arm_l && i <= hp_leg_r ) ) {
-            //Limb is broken
-            std::string limb = "~~%~~";
-            nc_color color = c_light_red;
-
-            const auto bp = u.hp_to_bp( static_cast<hp_part>( i ) );
-            if( u.worn_with_flag( "SPLINT", bp ) ) {
-                static const efftype_id effect_mending( "mending" );
-                const auto &eff = u.get_effect( effect_mending, bp );
-                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
-                    ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
-
-                if( is_self_aware ) {
-                    limb = string_format( "=%2d%%=", mend_perc );
-                    color = c_blue;
-                } else {
-                    const int num = static_cast<int>( mend_perc / 20 );
-                    print_symbol_num( w_HP, num, "#", c_blue );
-                    print_symbol_num( w_HP, 5 - num, "=", c_blue );
-                    continue;
-                }
-            }
-
-            wprintz( w_HP, color, limb );
-            continue;
-        }
-
-        auto const &hp = get_hp_bar( u.hp_cur[i], u.hp_max[i] );
-
-        if( is_self_aware ) {
-            wprintz( w_HP, hp.second, "%3d  ", u.hp_cur[i] );
-        } else {
-            wprintz( w_HP, hp.second, hp.first );
-
-            //Add the trailing symbols for a not-quite-full health bar
-            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
-        }
-    }
-
-    const size_t num_parts = 7;
-    static std::array<body_part, num_parts> part = {{
-        bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
-    }};
-    for (size_t i = 0; i < num_parts; i++) {
-        const std::string str = ( i == num_parts - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
-        wmove(w_HP, i * dy, 0);
-        if (wide) {
-            wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
-        }
-        wprintz(w_HP, u.limb_color(part[i], true, true, true), str.c_str());
-        if (!wide) {
-            wprintz(w_HP, u.limb_color(part[i], true, true, true), ":");
-        }
-    }
-
-    int powx = hpx;
-    int powy = wide ? 6 : 13;
-    if (u.max_power_level == 0) {
-        wmove(w_HP, powy, powx);
-        if (wide)
-            for (int i = 0; i < 2; i++) {
-                wputch(w_HP, c_light_gray, LINE_OXOX);
-            }
-        else {
-            wprintz(w_HP, c_light_gray, " --   ");
-        }
-    } else {
-        nc_color color = c_red;
-        if (u.power_level == u.max_power_level) {
-            color = c_blue;
-        } else if (u.power_level >= u.max_power_level * .5) {
-            color = c_light_blue;
-        } else if (u.power_level > 0) {
-            color = c_yellow;
-        }
-        mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
-    }
-    if( !wide ) {
-        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("Stm"));
-        wmove(w_HP, 15, hpx);
-        u.print_stamina_bar(w_HP);
-    }
-    wrefresh(w_HP);
-}
-
 void game::draw_minimap()
 {
     // Draw the box
@@ -5414,23 +5095,6 @@ int game::assign_npc_id()
     int ret = next_npc_id;
     next_npc_id++;
     return ret;
-}
-
-int game::assign_faction_id()
-{
-    int ret = next_faction_id;
-    next_faction_id++;
-    return ret;
-}
-
-faction *game::faction_by_ident(std::string id)
-{
-    for( auto &elem : factions ) {
-        if( elem.id == id ) {
-            return &elem;
-        }
-    }
-    return nullptr;
 }
 
 Creature *game::is_hostile_nearby()
@@ -10923,7 +10587,7 @@ void game::chat()
         .query();
 
         std::string sentence = popup.text();
-        add_msg( _( "You yell %s" ), sentence.c_str() );
+        add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
         u.shout();
 
     } else if( nmenu.ret <= ( int )available.size() ) {
@@ -11793,7 +11457,7 @@ void game::place_player( const tripoint &dest_loc )
     m.creature_on_trap( u );
     // Drench the player if swimmable
     if( m.has_flag( "SWIMMABLE", u.pos() ) ) {
-        u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
+        u.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
     }
 
     // List items here
@@ -12222,11 +11886,11 @@ void game::plswim( const tripoint &p )
 
     u.burn_move_stamina( movecost );
 
-    int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
-        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_hand_l) | mfb(bp_hand_r);
+    body_part_set drenchFlags{ { bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+        bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r } };
 
     if (u.is_underwater()) {
-        drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
+        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
     }
     u.drench( 100, drenchFlags, true );
 }
@@ -12942,9 +12606,6 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-    if( calendar::turn >= nextspawn ) {
-        spawn_mon(shiftx, shifty);
-    }
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
 
@@ -13258,8 +12919,11 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     rebuild_mon_at_cache();
 }
 
-void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
+void game::perhaps_add_random_npc()
 {
+    if( !calendar::once_every( 1_hours ) ) {
+        return;
+    }
     // Create a new NPC?
     // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
     if( !get_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
@@ -13267,51 +12931,56 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     float density = get_option<float>( "NPC_DENSITY" );
+    //@todo This is inaccurate when the player is near a overmap border, and it will
+    //immediately spawn new npcs upon entering a new overmap. Rather use number of npcs *nearby*.
     const int npc_num = get_cur_om().get_npcs().size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
     }
 
-    if( x_in_y( density, 100 ) ) {
-        std::shared_ptr<npc> tmp = std::make_shared<npc>();
-        tmp->normalize();
-        tmp->randomize();
-        //tmp->stock_missions();
-        // Create the NPC in one of the outermost submaps,
-        // hopefully far away to be invisible to the player,
-        // to prevent NPCs appearing out of thin air.
-        // This can be changed to let the NPC spawn further away,
-        // so it does not became active immediately.
-        int msx = get_levx();
-        int msy = get_levy();
-        switch (rng(0, 4)) { // on which side of the map to spawn
+    if( !x_in_y( density, 100 ) ) {
+        return;
+    }
+
+    std::shared_ptr<npc> tmp = std::make_shared<npc>();
+    tmp->normalize();
+    tmp->randomize();
+    //tmp->stock_missions();
+    // Create the NPC in one of the outermost submaps,
+    // hopefully far away to be invisible to the player,
+    // to prevent NPCs appearing out of thin air.
+    // This can be changed to let the NPC spawn further away,
+    // so it does not became active immediately.
+    int msx = get_levx();
+    int msy = get_levy();
+    switch( rng( 0, 4 ) ) { // on which side of the map to spawn
         case 0:
-            msy += rng(0, MAPSIZE - 1);
+            msy += rng( 0, MAPSIZE - 1 );
             break;
         case 1:
             msx += MAPSIZE - 1;
-            msy += rng(0, MAPSIZE - 1);
+            msy += rng( 0, MAPSIZE - 1 );
             break;
         case 2:
-            msx += rng(0, MAPSIZE - 1);
+            msx += rng( 0, MAPSIZE - 1 );
             break;
         case 3:
             msy += MAPSIZE - 1;
-            msx += rng(0, MAPSIZE - 1);
+            msx += rng( 0, MAPSIZE - 1 );
             break;
         default:
             break;
-        }
-        // adds the npc to the correct overmap.
-        tmp->spawn_at_sm( msx, msy, 0 );
-        overmap_buffer.insert_npc( tmp );
-        tmp->form_opinion( u );
-        tmp->mission = NPC_MISSION_NULL;
-        tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );
-        // This will make the new NPC active
-        load_npcs();
     }
+    // adds the npc to the correct overmap.
+    tmp->spawn_at_sm( msx, msy, 0 );
+    overmap_buffer.insert_npc( tmp );
+    tmp->form_opinion( u );
+    tmp->mission = NPC_MISSION_NULL;
+    tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
+                          tmp->getID() ) );
+    // This will make the new NPC active
+    load_npcs();
 }
 
 void game::wait()
@@ -13358,7 +13027,7 @@ void game::wait()
 
     add_menu_item( 12, 'q', _( "Exit" ) );
 
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += _( "Wait for how long?" );
     as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
@@ -13463,18 +13132,6 @@ void game::nuke( const tripoint &p )
     }
 }
 
-std::vector<faction *> game::factions_at( const tripoint &p )
-{
-    // TODO: Factions with z-levels
-    std::vector<faction *> ret;
-    for( auto &elem : factions ) {
-        if( trig_dist( p.x, p.y, elem.mapx, elem.mapy ) <= elem.size ) {
-            ret.push_back( &( elem ) );
-        }
-    }
-    return ret;
-}
-
 void game::display_scent()
 {
     int div;
@@ -13529,7 +13186,7 @@ void game::quickload()
             } catch( const std::exception &err ) {
                 debugmsg( "Error: %s", err.what() );
             }
-            load( active_world->world_name, save_t::from_player_name( u.name ) );
+            load( save_t::from_player_name( u.name ) );
         }
     } else {
         popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
@@ -14093,4 +13750,14 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
         }
     }
     return nullptr;
+}
+
+std::string game::get_player_base_save_path() const
+{
+    return get_world_base_save_path() + "/" + base64_encode( u.name );
+}
+
+std::string game::get_world_base_save_path() const
+{
+    return world_generator->active_world->folder_path();
 }

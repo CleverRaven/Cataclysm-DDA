@@ -587,7 +587,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
     if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
-            weapon = ret_null;
+            weapon = item();
         }
     } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
@@ -715,8 +715,8 @@ void player::process_bionic( int b )
                 charge_power( -5 );
             }
         }
-        for( int i = 0; i < num_bp; i++ ) {
-            if( power_level >= 2 && remove_effect( effect_bleed, ( body_part )i ) ) {
+        for( const body_part bp : all_body_parts ) {
+            if( power_level >= 2 && remove_effect( effect_bleed, bp ) ) {
                 charge_power( -2 );
             }
         }

@@ -220,6 +220,13 @@ bool string_id<oter_type_t>::is_valid() const
     return terrain_types.is_valid( *this );
 }
 
+/** @relates int_id */
+template<>
+const string_id<oter_type_t> &int_id<oter_type_t>::id() const
+{
+    return terrain_types.convert( *this );
+}
+
 /** @relates string_id */
 template<>
 int_id<oter_type_t> string_id<oter_type_t>::id() const
@@ -2092,12 +2099,13 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
 
     // For use with place_special: cache the color and symbol of each submap
     // and record the bounds to optimize lookups below
-    std::unordered_map<tripoint, std::pair<long, nc_color>> special_cache;
+    std::unordered_map<point, std::pair<long, nc_color>> special_cache;
+
     point s_begin, s_end = point( 0, 0 );
     if( blink && uistate.place_special ) {
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
-                const tripoint rp = om_direction::rotate( s_ter.p, uistate.omedit_rotation );
+                const point rp = om_direction::rotate( point( s_ter.p.x, s_ter.p.y ), uistate.omedit_rotation );
                 const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
@@ -2272,7 +2280,9 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
-                        auto sm = special_cache.find( tripoint( omx - cursx, omy - cursy, z ) );
+                        const point cache_point( omx - cursx, omy - cursy );
+                        const auto sm = special_cache.find( cache_point );
+
                         if( sm != special_cache.end() ) {
                             ter_color = sm->second.second;
                             ter_sym = sm->second.first;

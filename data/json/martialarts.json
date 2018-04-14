@@ -808,7 +808,7 @@
                 "min_unarmed" : 2,
                 "buff_duration" : 3,
                 "max_stacks" : 8,
-                "flat_bonuses" : [["damage", "bash", "per", 3.0]]
+                "flat_bonuses" : [["damage", "bash", 3.0]]
             }
         ],
         "techniques" : [

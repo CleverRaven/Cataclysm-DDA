@@ -7,6 +7,42 @@
     "items": [ [ "rechargeable_battery", 50 ] ]
   },
   {
+    "id" : "bionics",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 10 ]
+    ]
+  },
+  {
+    "id" : "bionics_common",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 10 ]
+    ]
+  },
+  {
+    "id" : "bionics_sci",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 5 ]
+    ]
+  },
+  {
+    "id" : "bionics_op",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "bn_bio_solar", 15 ]
+    ]
+  },
+  {
     "id": "hardware_plumbing",
     "type": "item_group",
     "items": [

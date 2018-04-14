@@ -98,7 +98,8 @@ static const morale_mult badtemper( 0.75, 1.25 );
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
-static const morale_mult prozac_bad( 0.25, 1.0 );}
+static const morale_mult prozac_bad( 0.25, 1.0 );
+}
 
 
 std::string player_morale::morale_point::get_name() const
@@ -506,9 +507,7 @@ void player_morale::clear()
 {
     points.clear();
     no_body_part = body_part_data();
-    for( int i = 0; i < num_bp; ++i ) {
-        body_parts[i] = body_part_data();
-    }
+    body_parts.fill( body_part_data() );
     for( auto &m : mutations ) {
         m.second.clear();
     }
@@ -600,9 +599,9 @@ void player_morale::set_worn( const item &it, bool worn )
     const auto covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( int i = 0; i < num_bp; ++i ) {
-            if( covered.test( i ) ) {
-                update_body_part( body_parts[i] );
+        for( const body_part bp : all_body_parts ) {
+            if( covered.test( bp ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {

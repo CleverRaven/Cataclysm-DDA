@@ -5,6 +5,7 @@
 #include "player.h"
 #include "faction.h"
 #include "pimpl.h"
+#include "calendar.h"
 
 #include <vector>
 #include <string>
@@ -22,11 +23,14 @@ class npc_class;
 class auto_pickup;
 class monfaction;
 struct mission_type;
+struct overmap_location;
+
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
+using overmap_location_str_id = string_id<overmap_location>;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -450,7 +454,7 @@ class npc : public player
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
-        void set_fac( std::string fac_name );
+        void set_fac( const string_id<faction> &id );
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -607,6 +611,13 @@ class npc : public player
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
+
+        static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
+
+        static std::string get_need_str_id( const npc_need &need );
+
+        static overmap_location_str_id get_location_for( const npc_need &need );
+
         npc_action address_needs();
         npc_action address_needs( float danger );
         npc_action address_player();
@@ -757,7 +768,7 @@ class npc : public player
          */
         point submap_coords;
         // Type of complaint->last time we complained about this type
-        std::map<std::string, int> complaints;
+        std::map<std::string, time_point> complaints;
 
         npc_short_term_cache ai_cache;
     public:
@@ -797,7 +808,7 @@ class npc : public player
          */
         tripoint pulp_location;
 
-        int restock;
+        time_point restock;
         bool fetching_item;
         bool has_new_items; // If true, we have something new and should re-equip
         int  worst_item_value; // The value of our least-wanted item
@@ -805,9 +816,9 @@ class npc : public player
         std::vector<tripoint> path; // Our movement plans
 
         // Personality & other defining characteristics
-        std::string fac_id; // A temp variable used to inform the game which faction to link
+        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac;
-        int companion_mission_time;
+        time_point companion_mission_time;
         npc_mission mission;
         npc_personality personality;
         npc_opinion op_of_u;
@@ -820,7 +831,7 @@ class npc : public player
         // Dummy point that indicates that the goal is invalid.
         static const tripoint no_goal_point;
 
-        int last_updated;
+        time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
          */
@@ -891,7 +902,7 @@ struct epilogue {
     void random_by_group( std::string group, std::string name );
 };
 
-std::ostream &operator<< ( std::ostream &os, npc_need need );
+std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();

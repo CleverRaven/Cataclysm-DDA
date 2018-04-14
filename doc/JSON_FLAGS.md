@@ -42,11 +42,13 @@ List of known flags, used in both terrain.json and furniture.json
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
-Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
-```
--X-    -Y-
- |      O
-```
+    Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
+
+    `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
+    ```
+    -X-    -Y-
+     |      O
+    ```
 
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
 - ```BARRICADABLE_DOOR_DAMAGED```
@@ -57,12 +59,12 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 - ```COLLAPSES``` Has a roof that can collapse.
-- ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry "connects_to", but retained for backward compatibility.
+- ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
-- ```DESTROY_ITEM``` Items that land here are destroyed. See also NOITEM
+- ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
@@ -72,32 +74,32 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAT``` Player can build and move furniture on.
-- ```GOES_DOWN``` Can use `>` to go down a level.
-- ```GOES_UP``` Can use '<' to go up a level.
+- ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
+- ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
-- ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if 'SEALED'.
+- ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
-- ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
+- ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
-- ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also DESTROY_ITEM
-- ```NO_FLOOR```
+- ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
+- ```NO_FLOOR``` Things should fall when placed on this tile
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
-- ```PLACE_ITEM``` Valid terrain for place_item() to put items on.
+- ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
-- ```RAMP```
+- ```RAMP``` Can be used to move up a z-level
 - ```RAMP_END```
 - ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```ROUGH``` May hurt the player's feet.
-- ```RUG```
+- ```RUG``` Enables the `Remove Carpet` Construction entry.
 - ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
-- ```SEALED``` Can't use `e` to retrieve items; must smash them open first.
-- ```SEEN_FROM_ABOVE```
+- ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
+- ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor)
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
@@ -107,12 +109,11 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
-- ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies "CONNECT_TO_WALL".
+- ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 
 ### Examine actions
 
 - ```none``` None
-- ```acid_source``` Get acid from an acid source.
 - ```aggie_plant``` Harvest plants.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
 - ```bulletin_board``` Create a home camp; currently not implemented.
@@ -122,20 +123,15 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```dirtmound``` Plant seeds and plants.
 - ```elevator``` Use the elevator to change floors.
 - ```fault``` Displays descriptive message, but otherwise unused.
-- ```fence_post``` Build a fence.
 - ```flower_poppy``` Pick the mutated poppy.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```gaspump``` Use the gas-pump.
-- ```harvest_tree_shrub``` Harvest a fruit tree or shrub.
 - ```pit``` Cover the pit if you have some planks of wood.
 - ```pit_covered``` Uncover the pit.
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```pedestal_wyrm``` Spawn wyrms.
 - ```recycler``` Recycle metal objects.
-- ```remove_fence_barbed``` Remove the barbed wire from the fence.
-- ```remove_fence_rope``` Remove the rope from the fence.
-- ```remove_fence_wire``` Remove the wire from the fence.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
@@ -146,7 +142,6 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```toilet``` Either drink or get water out of the toilet.
 - ```trap``` Interact with a trap.
 - ```water_source``` Drink or get water from a water source.
-- ```wreckage``` Clear up the wreckage if you have a shovel.
 
 ### Currently only used for Fungal conversions
 
@@ -466,7 +461,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```CAMERA```
 - ```CAMERA_CONTROL```
 - ```CARGO``` Cargo holding area.
-- ```CARGO_LOCKING``` This cargo area is inaccessable to NPCs.
+- ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
@@ -876,6 +871,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MAG_COMPACT``` Can be stashed in an appropriate ammo pouch (intended for compact magazines)
 - ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts). Has precedence over MAG_EJECT.
 - ```MAG_EJECT``` Magazine is ejected from the gun/tool when the last round is consumed
+- ```SPEEDLOADER``` Acts like a magazine, except it transfers rounds to the target gun instead of being inserted into it.
 
 ## Tools
 
@@ -907,7 +903,6 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
-- ```WRAP``` Unused?
 
 ### Flags that apply to items, not to item types.
 
@@ -932,28 +927,20 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ## Books
 
-- ```INSPIRATIONAL```` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
+- ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
 
 ### Use actions
 
 - ```NONE``` Do nothing.
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
-- ```adv_UPS_ON``` Turn on the advanced UPS.
-- ```adv_UPS_OFF``` Turn off the advanced UPS.
-- ```AIRHORN``` Sound the horn.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
-- ```ATOMIC_BATTERY```
 - ```BATTLETORCH``` Light the battle torch.
 - ```BATTLETORCH_LIT``` Extinguish the battle torch.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
-- ```BULLET_PULLER``` Pull bullets; says it right on the package.
 - ```C4``` Arm the C4.
-- ```C4ARMED``` Just set it and forget it (get away from it though)!
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
-- ```CANDLE``` Light the candle.
-- ```CANDLE_LIT``` Extinguish the candle.
 - ```CAN_GOO``` Release a little blob buddy.
 - ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
 - ```CARVER_OFF``` Turn the carver on.
@@ -967,57 +954,33 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```DYNAMITE``` Light a stick of dynamite.
-- ```DYNAMITE_ACT``` Sister Sara still needs her mules.
 - ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
 - ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
-- ```EMPBOMB``` Pull the pin on an EMP grenade.
-- ```EMPBOMB_ACT``` You may not be a robot, but you probably shouldn't keep holding it.
 - ```EXTINGUISHER``` Put out fires.
-- ```EXTRA_BATTERY``` Doubles the amount of charges a battery-powered item holds.
 - ```FIRECRACKER``` Light a singular firecracker.
 - ```FIRECRACKER_ACT``` The saddest Fourth of July.
 - ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
 - ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
-- ```FIRESTARTER``` Light a fire with a lens, primitive tools or lighters.
-- ```FISHING_BASIC``` Use a fishing rod
 - ```FLASHBANG``` Pull the pin on a flashbang.
-- ```FLASHBANG_ACT``` Hope it doesn't light any fires.
-- ```GASBOMB``` Pull the pin on a teargas canister.
-- ```GASBOMB_ACT``` Don't cry or pout, just get rid of it.
-- ```GASOLINE_LANTERN_OFF``` Turns the lantern on.
-- ```GASOLINE_LANTERN_ON``` Turns the lantern off.
 - ```GEIGER``` Detect local radiation levels.
-- ```GLOWSTICK``` Turn on the glowstick.
-- ```GLOWSTICK_ACTIVE``` The glowstick fades and dies.
 - ```GRANADE``` Pull the pin on Granade.
 - ```GRANADE_ACT``` Assaults enemies with source code fixes?
 - ```GRENADE``` Pull the pin on a grenade.
-- ```GRENADE_ACT``` Throw it dummy!
 - ```HACKSAW``` Cut metal into chunks.
 - ```HAMMER``` Pry boards off of windows, doors and fences.
-- ```HANDFLARE``` Light the flare.
-- ```HANDFLARE_LIT``` The flare dies out.
 - ```HEATPACK``` Activate the heatpack and get warm.
 - ```HEAT_FOOD``` Heat food around fires.
-- ```HORN_BICYCLE``` Honk the horn.
 - ```HOTPLATE``` Use the hotplate.
 - ```JACKHAMMER``` Bust down walls and other constructions.
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
-- ```KNIFE``` Cut things up.
 - ```LAW``` Unpack the LAW for firing.
-- ```LIGHT_OFF``` Turns the light on.
-- ```LIGHT_ON``` Turns the light off.
 - ```LIGHTSTRIP``` Activates the lightstrip.
-- ```LIGHTSTRIP_ACTIVE``` The lightstrip fades and dies.
 - ```LUMBER``` Cut logs into planks.
 - ```MAKEMOUND``` Make a mound of dirt.
 - ```MANHACK``` Activate a manhack.
 - ```MATCHBOMB``` Light the matchbomb.
-- ```MATCHBOMB_ACT``` This thing is so hokey that you might actually be safe just holding onto it.
 - ```MILITARYMAP``` Learn of local military installations, and show roads.
 - ```MININUKE``` Set the timer and run. Or hit with a hammer (not really).
-- ```MININUKE_ACT``` If you move quick enough, you might survive long enough to see _The Day After_.
 - ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```MOP``` Mop up the mess.
@@ -1027,7 +990,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
 - ```PHEROMONE``` Makes zombies love you.
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
-- ```PICKLOCK``` Attempt to pick the lock on doors.
 - ```PIPEBOMB``` Light a pipebomb.
 - ```PIPEBOMB_ACT``` Let's hope it doesn't fizzle out.
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
@@ -1035,15 +997,11 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```PORTAL``` Create portal traps.
 - ```RADIO_OFF``` Turn the radio on.
 - ```RADIO_ON``` Turn the radio off.
-- ```RAD_BADGE``` Take the radiation badge out of its protective case to start measuring absorbed dosage.
 - ```RAG``` Stop the bleeding.
 - ```RESTAURANTMAP``` Learn of local eateries, and show roads.
 - ```ROADMAP``` Learn of local common points-of-interest and show roads.
 - ```SCISSORS``` Cut up clothing.
-- ```SCRAMBLER``` Pull the pin on the scrambler grenade.
-- ```SCRAMBLER_ACT``` I don't even know what this does, so you better get rid of it quick.
 - ```SEED``` Asks if you are sure that you want to eat the seed. As it is better to plant seeds.
-- ```SET_TRAP``` Set a trap.
 - ```SEW``` Sew clothing.
 - ```SHELTER``` Put up a full-blown shelter.
 - ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
@@ -1062,12 +1020,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
 - ```TURRET``` Activate a turret.
-- ```TURRET_LASER``` Activate a laser turret.
-- ```TWO_WAY_RADIO``` Listen to, or talk to others over the radio.
-- ```UNFOLD_BICYCLE``` Unfold the folding bicycle.
-- ```UPS_OFF``` Turn on the UPS.
-- ```UPS_ON``` Turn off the UPS.
-- ```VACUTAINER``` Sucks the blood out of things like a robotic vampire.
 - ```WASHCLOTHES``` Wash clothes with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
 

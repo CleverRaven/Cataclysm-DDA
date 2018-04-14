@@ -20,9 +20,9 @@
 #include <cstring>
 #include <chrono>
 
-std::vector<std::string> extract_mod_selection( std::vector<const char *> &arg_vec )
+std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
-    std::vector<std::string> ret;
+    std::vector<mod_id> ret;
     static const char *mod_tag = "--mods=";
     std::string mod_string;
     for( auto iter = arg_vec.begin(); iter != arg_vec.end(); iter++ ) {
@@ -37,23 +37,23 @@ std::vector<std::string> extract_mod_selection( std::vector<const char *> &arg_v
     size_t i = 0;
     size_t pos = mod_string.find( delim );
     if( pos == std::string::npos && !mod_string.empty() ) {
-        ret.push_back( mod_string );
+        ret.emplace_back( mod_string );
     }
 
     while( pos != std::string::npos ) {
-        ret.push_back( mod_string.substr( i, pos - i ) );
+        ret.emplace_back( mod_string.substr( i, pos - i ) );
         i = ++pos;
         pos = mod_string.find( delim, pos );
 
         if( pos == std::string::npos ) {
-            ret.push_back( mod_string.substr( i, mod_string.length() ) );
+            ret.emplace_back( mod_string.substr( i, mod_string.length() ) );
         }
     }
 
     return ret;
 }
 
-void init_global_game_state( const std::vector<std::string> &mods )
+void init_global_game_state( const std::vector<mod_id> &mods )
 {
     PATH_INFO::init_base_path( "" );
     PATH_INFO::init_user_dir( "./" );
@@ -88,7 +88,7 @@ void init_global_game_state( const std::vector<std::string> &mods )
 
     loading_ui ui( false );
     g->load_core_data( ui );
-    g->load_world_modfiles( world_generator->active_world, ui );
+    g->load_world_modfiles( ui );
 
     g->u = player();
     g->u.create( PLTYPE_NOW );
@@ -128,9 +128,9 @@ int main( int argc, const char *argv[] )
 
     std::vector<const char *> arg_vec( argv, argv + argc );
 
-    std::vector<std::string> mods = extract_mod_selection( arg_vec );
-    if( std::find( mods.begin(), mods.end(), "dda" ) == mods.end() ) {
-        mods.insert( mods.begin(), "dda" ); // @todo move unit test items to core
+    std::vector<mod_id> mods = extract_mod_selection( arg_vec );
+    if( std::find( mods.begin(), mods.end(), mod_id( "dda" ) ) == mods.end() ) {
+        mods.insert( mods.begin(), mod_id( "dda" ) ); // @todo move unit test items to core
     }
 
     bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );

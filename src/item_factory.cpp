@@ -57,7 +57,7 @@ bool item_is_blacklisted(const std::string &id)
 
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
-                                       std::bitset<num_bp> &parts, bool &sided )
+                                       body_part_set &parts, bool &sided )
 {
     auto parse = [&parts,&sided]( const std::string &val ) {
         if( val == "ARMS" || val == "ARM_EITHER" ) {
@@ -263,8 +263,6 @@ void Item_factory::finalize_pre( itype &obj )
     npc_implied_flags( obj );
 
     if( obj.comestible ) {
-        obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
-
         if( get_option<bool>( "NO_VITAMINS" ) ) {
             obj.comestible->vitamins.clear();
         } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -334,7 +332,7 @@ void Item_factory::finalize_post( itype &obj )
     // handle wood/paper/bone/chitin items as a special case
     if( !obj.gun && !obj.count_by_charges() && std::any_of( obj.materials.begin(), obj.materials.end(),
         []( const material_id &m ) { return m == material_id( "wood" ) || m == material_id( "paper" ) ||
-            m == material_id( "bone" ) || m == material_id( "chitin" ); } ) ) {
+            m == material_id( "bone" ) || m == material_id( "chitin" ) || m == material_id( "acidchitin" ); } ) ) {
         std::copy( misc_tools.begin(), misc_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;
     }
@@ -846,11 +844,6 @@ void Item_factory::check_definitions() const
                 }
 
             } else {
-                // whereas if it does use ammo enforce specifying either (but not both)
-                if( bool( type->gun->clip ) == !type->magazines.empty() ) {
-                    msg << "missing or duplicate clip_size or magazine" << "\n";
-                }
-
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
                     msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
                 }
@@ -859,7 +852,6 @@ void Item_factory::check_definitions() const
                     msg << "specified magazine but none provided for default ammo type" << "\n";
                 }
             }
-
             if( type->gun->barrel_length < 0 ) {
                 msg << "gun barrel length cannot be negative" << "\n";
             }
@@ -897,6 +889,9 @@ void Item_factory::check_definitions() const
 
             for( const auto &e : type->mod->magazine_adaptor ) {
                 check_ammo_type( msg, e.first );
+                if( e.second.empty() ) {
+                    msg << "No magazines specified for ammo type " << e.first.str() << "\n";
+                }
                 for( const itype_id &opt : e.second ) {
                     const itype *mag = find_template( opt );
                     if( !mag->magazine || mag->magazine->type != e.first ) {
@@ -931,14 +926,27 @@ void Item_factory::check_definitions() const
             }
         }
 
-        for( const auto& typ : type->magazines ) {
-            for( const auto& opt : typ.second ) {
-                const itype *mag = find_template( opt );
-                if( !mag->magazine ) {
-                    msg << "unknown magazine \"" << opt << "\"\n";
-                } else if( mag->magazine->type != typ.first ) {
-                    msg << "magazine \"" << opt << "\" holds incompatible ammo (\""
-                        << mag->magazine->type.str() << "\" instead of \"" << typ.first.str() << "\")\n";
+        for( const std::pair<const string_id<ammunition_type>, std::set<std::string>> &ammo_variety : type->magazines ) {
+            if( ammo_variety.second.empty() ) {
+                msg << "No magazine specified for " << ammo_variety.first.str() << "\n";
+            }
+            for( const std::string &magazine : ammo_variety.second ) {
+                const itype *mag_ptr = find_template( magazine );
+                if( mag_ptr == nullptr ) {
+                    msg << "Magazine \"" << magazine << "\" specified for \""
+                        << ammo_variety.first.str() << "\" does not exist\n";
+                } else if( !mag_ptr->magazine ) {
+                    msg << "Magazine \"" << magazine << "\" specified for \""
+                        << ammo_variety.first.str() << "\" is not a magazine\n";
+                } else if( mag_ptr->magazine->type != ammo_variety.first ) {
+                    msg << "magazine \"" << magazine << "\" holds incompatible ammo (\""
+                        << mag_ptr->magazine->type.str() << "\" instead of \""
+                        << ammo_variety.first.str() << "\")\n";
+                } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
+                           mag_ptr->magazine->capacity != type->gun->clip ) {
+                    msg << "Speedloader " << magazine << " capacity ("
+                        << mag_ptr->magazine->capacity << ") does not match gun capacity ("
+                        << type->gun->clip << ").\n";
                 }
             }
         }
@@ -1421,7 +1429,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "stim", slot.stim, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "spoils_in", slot.spoils, strict, 0 );
+    assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
 
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );

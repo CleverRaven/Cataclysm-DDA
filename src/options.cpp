@@ -108,11 +108,36 @@ options_manager::cOpt::cOpt()
     hide = COPT_NO_HIDE;
 }
 
+//add hidden external option with value
+void options_manager::add_external( const std::string sNameIn, const std::string sPageIn,
+                                    const std::string sType,
+                                    const std::string sMenuTextIn, const std::string sTooltipIn )
+{
+    cOpt thisOpt;
+
+    thisOpt.sName = sNameIn;
+    thisOpt.sPage = sPageIn;
+    thisOpt.sMenuText = sMenuTextIn;
+    thisOpt.sTooltip = sTooltipIn;
+    thisOpt.sType = sType;
+
+    thisOpt.iMin = INT_MIN;
+    thisOpt.iMax = INT_MAX;
+
+    thisOpt.fMin = INT_MIN;
+    thisOpt.fMax = INT_MAX;
+
+    thisOpt.hide = COPT_ALWAYS_HIDE;
+    thisOpt.setSortPos( sPageIn );
+
+    options[sNameIn] = thisOpt;
+}
+
 //add string select option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
-                            std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
-                            copt_hide_t opt_hide)
+void options_manager::add( const std::string sNameIn, const std::string sPageIn,
+                           const std::string sMenuTextIn, const std::string sTooltipIn,
+                           std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
+                           copt_hide_t opt_hide )
 {
     cOpt thisOpt;
 
@@ -125,14 +150,14 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.hide = opt_hide;
     thisOpt.vItems = sItemsIn;
 
-    if (thisOpt.getItemPos(sDefaultIn) == -1) {
+    if( thisOpt.getItemPos( sDefaultIn ) == -1 ) {
         sDefaultIn = thisOpt.vItems[0].first;
     }
 
     thisOpt.sDefault = sDefaultIn;
     thisOpt.sSet = sDefaultIn;
 
-    thisOpt.setSortPos(sPageIn);
+    thisOpt.setSortPos( sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -582,7 +607,7 @@ void options_manager::cOpt::setNext()
         int iMenuTextLength = sMenuText.length();
         string_input_popup()
         .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength + 1) )
-        .description( sMenuText )
+        .description( _( sMenuText.c_str() ) )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -1044,11 +1069,6 @@ void options_manager::init()
         false
         );
 
-    add( "SAVE_SLEEP", "interface", translate_marker( "Ask to save before sleeping" ),
-        translate_marker( "If true, game will ask to save the map before sleeping." ),
-        false
-        );
-
     add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly" ),
         translate_marker( "If true, will query before disassembling items." ),
         true
@@ -1107,7 +1127,7 @@ void options_manager::init()
         );
 
     add( "SIDEBAR_STYLE", "interface", translate_marker( "Sidebar style" ),
-        translate_marker( "Switch between a narrower or wider sidebar.  Requires restart." ),
+        translate_marker( "Switch between a narrower or wider sidebar." ),
         //~ sidebar style
         { { "wider", translate_marker( "Wider" ) }, { "narrow", translate_marker( "Narrow" ) } }, "narrow"
         );
@@ -1954,6 +1974,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool lang_changed = false;
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
+    bool sidebar_style_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
@@ -1967,6 +1988,10 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
               || iter.first == "PIXEL_MINIMAP_RATIO"
               || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
+            }
+
+            if( iter.first == "SIDEBAR_STYLE" ) {
+                sidebar_style_changed = true;
             }
 
             if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
@@ -2003,6 +2028,18 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
         set_language();
     }
 
+    if( sidebar_style_changed ) {
+        if( ingame ) {
+            g->toggle_sidebar_style();
+        } else {
+            #ifdef TILES
+                tilecontext->reinit_minimap();
+            #endif
+            g->narrow_sidebar = !g->narrow_sidebar;
+            g->init_ui();
+        }
+    }
+
     refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
 
     return "";
@@ -2024,6 +2061,10 @@ void options_manager::serialize(JsonOut &json) const
             const auto iter = options.find( elem );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
+                //Skip hidden option because it is set by mod and should not be saved
+                if ( opt.hide == COPT_ALWAYS_HIDE ) {
+                    continue;
+                }
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );

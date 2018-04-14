@@ -13,7 +13,6 @@
 #include "calendar.h"
 
 #include <unordered_set>
-#include <bitset>
 #include <memory>
 #include <array>
 
@@ -191,8 +190,6 @@ class player : public Character
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Print the player's stamina bar. **/
-        void print_stamina_bar( const catacurses::window &w ) const;
         /** Generates the sidebar and it's data in-game */
         void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 
@@ -724,7 +721,7 @@ class player : public Character
         void vomit();
 
         /** Drenches the player with water, saturation is the percent gotten wet */
-        void drench( int saturation, int flags, bool ignore_waterproof );
+        void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
@@ -1170,8 +1167,8 @@ class player : public Character
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
 
-        bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
-        bool is_waterproof( const std::bitset<num_bp> &parts ) const;
+        bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
+        bool is_waterproof( const body_part_set &parts ) const;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
@@ -1232,8 +1229,17 @@ class player : public Character
                                                        const recipe *r ) const;
 
         // crafting.cpp
+        float morale_crafting_speed_multiplier( const recipe & rec ) const;
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
-        int time_to_craft( const recipe &rec, int batch_size = 1 );
+        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
+        /**
+         * Time to craft not including speed multiplier
+         */
+        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        /**
+         * Expected time to craft a recipe, with assumption that multipliers stay constant.
+         */
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;

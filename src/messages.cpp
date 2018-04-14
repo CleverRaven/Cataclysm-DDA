@@ -26,7 +26,7 @@ Messages player_messages;
 
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
-    calendar          timestamp_in_turns  = 0;
+    time_point timestamp_in_turns  = 0;
     int               timestamp_in_user_actions = 0;
     int               count = 1;
     game_message_type type  = m_neutral;
@@ -39,8 +39,8 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         type( t ) {
     }
 
-    int turn() const {
-        return timestamp_in_turns.get_turn();
+    const time_point &turn() const {
+        return timestamp_in_turns;
     }
 
     std::string get_with_count() const {
@@ -51,15 +51,15 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         return string_format( _( "%s x %d" ), message.c_str(), count );
     }
 
-    bool is_new( int const current ) const {
+    bool is_new( const time_point &current ) const {
         return turn() >= current;
     }
 
-    bool is_recent( int const current ) const {
-        return turn() + 5 >= current;
+    bool is_recent( const time_point &current ) const {
+        return turn() + 5_turns >= current;
     }
 
-    nc_color get_color( int const current ) const {
+    nc_color get_color( const time_point &current ) const {
         if( is_new( current ) ) {
             // color for new messages
             return msgtype_to_color( type, false );
@@ -75,7 +75,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
 
     void deserialize( JsonIn &jsin ) override {
         JsonObject obj = jsin.get_object();
-        timestamp_in_turns = obj.get_int( "turn" );
+        obj.read( "turn", timestamp_in_turns );
         message = obj.get_string( "message" );
         count = obj.get_int( "count" );
         type = static_cast<game_message_type>( obj.get_int( "type" ) );
@@ -83,7 +83,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
 
     void serialize( JsonOut &jsout ) const override {
         jsout.start_object();
-        jsout.member( "turn", static_cast<int>( timestamp_in_turns ) );
+        jsout.member( "turn", timestamp_in_turns );
         jsout.member( "message", message );
         jsout.member( "count", count );
         jsout.member( "type", static_cast<int>( type ) );
@@ -103,7 +103,7 @@ class Messages::impl_t
 {
     public:
         std::deque<game_message> messages;   // Messages to be printed
-        int                      curmes = 0; // The last-seen message.
+        time_point curmes = 0; // The last-seen message.
 
         bool has_undisplayed_messages() const {
             return !messages.empty() && messages.back().turn() > curmes;
@@ -120,7 +120,7 @@ class Messages::impl_t
             }
 
             auto &last_msg = messages.back();
-            if( last_msg.turn() + 3 < calendar::turn.get_turn() ) {
+            if( last_msg.turn() + 3_turns < calendar::turn ) {
                 return false;
             }
 
@@ -174,7 +174,7 @@ class Messages::impl_t
 
             std::transform( begin( messages ) + offset, end( messages ), back_inserter( result ),
             []( game_message const & msg ) {
-                return std::make_pair( msg.timestamp_in_turns.print_time(),
+                return std::make_pair( to_string_time_of_day( msg.timestamp_in_turns ),
                                        msg.count ? msg.message + to_string( msg.count ) : msg.message );
             }
                           );
@@ -309,11 +309,12 @@ void Messages::display_messages()
     for( ;; ) {
         werase( w );
         draw_border( w );
-        mvwprintz( w, bottom + 1, 32, c_red, _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() );
+        center_print( w, bottom + 1, c_red,
+                      string_format( _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() ) );
         draw_scrollbar( w, offset, bottom, msg_count, 1, 0, c_white, true );
 
         int line = 1;
-        int lasttime = -1;
+        time_duration lasttime = -1_turns;
         for( int i = offset; i < msg_count; ++i ) {
             const int retrieve_history = abs( i - flip );
             if( line > bottom ) {
@@ -324,8 +325,8 @@ void Messages::display_messages()
             }
 
             const game_message &m     = player_messages.impl_->history( retrieve_history );
-            const calendar timepassed = calendar::turn - m.timestamp_in_turns;
-            std::string long_ago      = to_string_clipped( time_duration::from_turns( timepassed ) );
+            const time_duration timepassed = calendar::turn - m.timestamp_in_turns;
+            std::string long_ago      = to_string_clipped( timepassed );
             nc_color col              = msgtype_to_color( m.type, false );
 
             // Here we separate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
@@ -333,10 +334,10 @@ void Messages::display_messages()
             const auto amount_len = long_ago.find_first_not_of( "0123456789" );
             std::string amount = long_ago.substr( 0, amount_len );
             std::string unit = long_ago.substr( amount_len );
-            if( timepassed.get_turn() != lasttime ) {
+            if( timepassed != lasttime ) {
                 right_print( w, line, 2, c_light_blue, string_format( _( "%-3s%-10s" ), amount.c_str(),
                              unit.c_str() ) );
-                lasttime = timepassed.get_turn();
+                lasttime = timepassed;
             }
 
             nc_color col_out = col;
@@ -363,13 +364,6 @@ void Messages::display_messages()
                 line++;
             }
         }
-
-        if( offset < msg_count - bottom ) {
-            mvwprintz( w, bottom + 1, 5, c_magenta, "vvv" );
-        }
-        if( offset > 0 ) {
-            mvwprintz( w, bottom + 1, FULL_SCREEN_WIDTH - 8, c_magenta, "^^^" );
-        }
         wrefresh( w );
 
         const std::string &action = ctxt.handle_input();
@@ -382,7 +376,7 @@ void Messages::display_messages()
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn.get_turn();
+    player_messages.impl_->curmes = calendar::turn;
 }
 
 void Messages::display_messages( const catacurses::window &ipk_target, int const left,
@@ -453,7 +447,7 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn.get_turn();
+    player_messages.impl_->curmes = calendar::turn;
 }
 
 void add_msg( std::string msg )

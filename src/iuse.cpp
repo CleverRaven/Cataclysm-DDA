@@ -423,24 +423,24 @@ int iuse::smoking(player *p, item *it, bool, const tripoint&)
 
     item cig;
     if (it->typeId() == "cig") {
-        cig = item("cig_lit", int(calendar::turn));
+        cig = item( "cig_lit", calendar::turn );
         cig.item_counter = 40;
         p->mod_hunger(-3);
         p->mod_thirst(2);
     } else if (it->typeId() == "handrolled_cig") {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
-        cig = item("cig_lit", int(calendar::turn));
+        cig = item( "cig_lit", calendar::turn );
         cig.item_counter = 40;
         p->mod_thirst(2);
         p->mod_hunger(-3);
     } else if (it->typeId() == "cigar") {
-        cig = item("cigar_lit", int(calendar::turn));
+        cig = item( "cigar_lit", calendar::turn );
         cig.item_counter = 120;
         p->mod_thirst(3);
         p->mod_hunger(-4);
     } else if (it->typeId() == "joint") {
-        cig = item("joint_lit", int(calendar::turn));
+        cig = item( "joint_lit", calendar::turn );
         cig.item_counter = 40;
         p->mod_hunger(4);
         p->mod_thirst(6);
@@ -507,8 +507,8 @@ int iuse::antibiotic(player *p, item *it, bool, const tripoint& )
         if (x_in_y(95, 100)) {
             // Add recovery effect for each infected wound
             int infected_tot = 0;
-            for (int i = 0; i < num_bp; ++i) {
-                int infected_dur = p->get_effect_dur( effect_infected, body_part(i) );
+            for( const body_part bp : all_body_parts ) {
+                int infected_dur = p->get_effect_dur( effect_infected, bp );
                 if (infected_dur > 0) {
                     infected_tot += infected_dur;
                 }
@@ -3877,7 +3877,8 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
         as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E")));
         as_m.entries.push_back(uimenu_entry(3, true, '3', _("Sokoban")));
         as_m.entries.push_back(uimenu_entry(4, true, '4', _("Minesweeper")));
-        as_m.entries.push_back(uimenu_entry(5, true, '5', _("Cancel")));
+        as_m.entries.push_back(uimenu_entry(5, true, '5', _("Lights on!")));
+        as_m.entries.push_back(uimenu_entry(6, true, '6', _("Cancel")));
         as_m.query();
 
         switch (as_m.ret) {
@@ -3893,7 +3894,10 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
             case 4:
                 loaded_software = "minesweeper_game";
                 break;
-            case 5: //Cancel
+            case 5:
+                loaded_software = "lightson_game";
+                break;
+            case 6: //Cancel
                 return 0;
         }
 
@@ -4078,8 +4082,8 @@ void iuse::cut_log_into_planks( player &p )
 {
     p.moves -= 300;
     p.add_msg_if_player(_("You cut the log into planks."));
-    item plank("2x4", int(calendar::turn));
-    item scrap("splinter", int(calendar::turn));
+    item plank( "2x4", calendar::turn );
+    item scrap( "splinter", calendar::turn );
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
     int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );
@@ -5009,9 +5013,7 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
     // dry off from being wet
     } else if (abs(p->has_morale(MORALE_WET))) {
         p->rem_morale(MORALE_WET);
-        for (int i = 0; i < num_bp; ++i) {
-            p->body_wetness[i] = 0;
-        }
+        p->body_wetness.fill( 0 );
         p->add_msg_if_player(_("You use the %s to dry off, saturating it with water!"),
                              it->tname().c_str());
 
@@ -5358,7 +5360,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair"), []( const item & itm ) {
         return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
-                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) &&
+                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ||
+                                 itm.made_of( material_id( "acidchitin" ) ) ) &&
                !itm.count_by_charges();
     } );
     item &fix = p->i_at(inventory_index );

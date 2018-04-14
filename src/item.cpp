@@ -11,6 +11,7 @@
 #include "skill.h"
 #include "vitamin.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -114,6 +115,14 @@ static const itype *nullitem()
 {
     static itype nullitem_m;
     return &nullitem_m;
+}
+
+item &null_item_reference()
+{
+    static item result{};
+    // reset it, in case a previous caller has changed it
+    result = item();
+    return result;
 }
 
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
@@ -374,21 +383,17 @@ bool item::is_null() const
 
 bool item::covers( const body_part bp ) const
 {
-    if( bp >= num_bp ) {
-        debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
-        return false;
-    }
-    return get_covered_body_parts().test(bp);
+    return get_covered_body_parts().test( bp );
 }
 
-std::bitset<num_bp> item::get_covered_body_parts() const
+body_part_set item::get_covered_body_parts() const
 {
     return get_covered_body_parts( get_side() );
 }
 
-std::bitset<num_bp> item::get_covered_body_parts( side s ) const
+body_part_set item::get_covered_body_parts( const side s ) const
 {
-    std::bitset<num_bp> res;
+    body_part_set res;
 
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
@@ -533,7 +538,7 @@ bool item::stacks_with( const item &rhs ) const
         // Because spoiling items are only processed every processing_speed()-th turn
         // the rotting value becomes slightly different for items that have
         // been created at the same time and place and with the same initial rot.
-        if( std::abs( rot - rhs.rot ) > processing_speed() ) {
+        if( std::abs( to_turns<int>( rot - rhs.rot ) ) > processing_speed() ) {
             return false;
         } else if( rotten() != rhs.rotten() ) {
             // just to be save that rotten and unrotten food is *never* stacked.
@@ -817,13 +822,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
                                               to_turns<int>( food->age() ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
-                                              ( int )food->rot, true, "", true, true ) );
+                                              to_turns<int>( food->rot ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
-                                              food->type->comestible->spoils, true, "", true, true ) );
+                                              to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
-                                              ( int )food->fridge, true, "", true, true ) );
+                                              to_turn<int>( food->fridge ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
-                                              ( int )food->last_rot_check, true, "", true, true ) );
+                                              to_turn<int>( food->last_rot_check ), true, "", true, true ) );
                 }
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
@@ -887,7 +892,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         if( food_item->goes_bad() ) {
-            const std::string rot_time = to_string_clipped( time_duration::from_turns( food_item->type->comestible->spoils ) );
+            const std::string rot_time = to_string_clipped( food_item->type->comestible->spoils );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
@@ -2065,14 +2070,14 @@ void item::on_wear( Character &p )
 
         set_side( side::LEFT );
         const auto left_enc = p.get_encumbrance( *this );
-        for( size_t i = 0; i < num_bp; i++ ) {
-            lhs += left_enc[i].encumbrance;
+        for( const body_part bp : all_body_parts ) {
+            lhs += left_enc[bp].encumbrance;
         }
 
         set_side( side::RIGHT );
         const auto right_enc = p.get_encumbrance( *this );
-        for( size_t i = 0; i < num_bp; i++ ) {
-            rhs += right_enc[i].encumbrance;
+        for( const body_part bp : all_body_parts ) {
+            rhs += right_enc[bp].encumbrance;
         }
 
         set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -2866,22 +2871,22 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    return is_food() && type->comestible->spoils;
+    return is_food() && type->comestible->spoils != 0;
 }
 
 double item::get_relative_rot() const
 {
-    return goes_bad() ? rot / double( type->comestible->spoils ) : 0;
+    return goes_bad() ? rot / type->comestible->spoils : 0;
 }
 
 void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
         rot = type->comestible->spoils * val;
-        // calc_rot uses last_rot_check (when it's not 0) instead of bday.
+        // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
-        fridge = 0;
+        fridge = calendar::before_time_starts;
         active = !rotten();
     }
 }
@@ -2901,7 +2906,7 @@ int item::spoilage_sort_order()
     }
 
     if ( subject->goes_bad() ) {
-        return subject->type->comestible->spoils - subject->rot;
+        return to_turns<int>( subject->type->comestible->spoils - subject->rot );
     }
 
     if ( subject->type->comestible ) {
@@ -2918,22 +2923,20 @@ int item::spoilage_sort_order()
 
 void item::calc_rot(const tripoint &location)
 {
-    const int now = calendar::turn;
-    if ( last_rot_check + 10 < now ) {
-        const int since = ( last_rot_check == 0 ? to_turn<int>( bday ) : last_rot_check );
-        const int until = ( fridge > 0 ? fridge : now );
+    const time_point now = calendar::turn;
+    if( now - last_rot_check > 10_turns ) {
+        const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
+        const time_point until = fridge != calendar::before_time_starts ? fridge : now;
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
-            int old = rot;
             rot += get_rot_since( since, until, location );
-            add_msg( m_debug, "r: %s %d,%d %d->%d", typeId().c_str(), since, until, old, rot );
         }
         last_rot_check = now;
 
-        if (fridge > 0) {
+        if( fridge != calendar::before_time_starts ) {
             // Flat 20%, rot from time of putting it into fridge up to now
-            rot += (now - fridge) * 0.2;
-            fridge = 0;
+            rot += ( now - fridge ) * 0.2;
+            fridge = calendar::before_time_starts;
         }
         // item stays active to let the item counter work
         if( item_counter == 0 && rotten() ) {
@@ -3789,7 +3792,8 @@ bool item::is_reloadable_helper( const itype_id& ammo, bool now ) const
                 }
             } else {
                 auto at = find_type( ammo );
-                if( !at->ammo || !at->ammo->type.count( ammo_type() ) ) {
+                if( ( !at->ammo || !at->ammo->type.count( ammo_type() ) ) &&
+                    !magazine_compatible().count( ammo ) ) {
                     return false;
                 }
             }
@@ -4037,7 +4041,8 @@ int item::gun_dispersion( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         dispersion_sum += mod->type->gunmod->dispersion;
     }
-    dispersion_sum += damage() * 60;
+    int dispPerDamage = get_option< int >( "DISPERSION_PER_GUN_DAMAGE" );
+    dispersion_sum += damage() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
@@ -4373,21 +4378,15 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
 
 bool item::magazine_integral() const
 {
-    // Finds the first mod which changes magazines and returns if it adds a list of them (can just unset instead)
-    // If no mod changes them, checks if there is a magazine set for the base item type
+    // If a mod sets a magazine type, we're not integral.
     for( const auto m : is_gun() ? gunmods() : toolmods() ) {
-        const auto &mod_mags = m->type->mod->magazine_adaptor;
-        if( !mod_mags.empty() ) {
-            return std::none_of( mod_mags.begin(), mod_mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
-                return !e.second.empty();
-            } );
+        if( !m->type->mod->magazine_adaptor.empty() ) {
+            return false;
         }
     }
 
-    const auto& mags = type->magazines;
-    return std::none_of( mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
-        return !e.second.empty();
-    } );
+    // We have an integral magazine if we're a gun with an ammo capacity (clip) or we have no magazines.
+    return ( is_gun() && type->gun->clip > 0 ) || type->magazines.empty();
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -4692,25 +4691,15 @@ item::reload_option &item::reload_option::operator=( const reload_option &rhs )
     return *this;
 }
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
+item::reload_option::reload_option( const player *who, const item *target, const item *parent,
+                                    item_location&& ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
         max_qty = this->who->charges_of( this->target->type->magazine->linkage );
     }
-
-    // magazine, ammo or ammo container
-    item& tmp = ( this->ammo->is_ammo_container() || this->ammo->is_watertight_container() )
-        ? this->ammo->contents.front()
-        : *this->ammo;
-
-    if( this->ammo->is_watertight_container() || ( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) ) {
-        qty( tmp.charges );
-    } else {
-        qty( 1 );
-    }
+    qty( max_qty );
 }
-
 
 int item::reload_option::moves() const
 {
@@ -4727,37 +4716,35 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( long val )
 {
-    if( ammo->is_magazine() || target->has_flag( "RELOAD_ONE" )) {
-        qty_ = 1L;
+    bool ammo_in_container = ammo->is_ammo_container();
+    bool ammo_in_liquid_container = ammo->is_watertight_container();
+    item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
+        ammo->contents.front() : *ammo;
+
+    if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
+        ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
+        debugmsg( "Invalid reload option: %s", ammo_obj.tname().c_str() );
         return;
     }
 
-    item* obj = nullptr;
-    bool is_ammo_container = ammo->is_ammo_container();
-    bool is_liquid_container = ammo->is_watertight_container();
-    if ( is_ammo_container || is_liquid_container ) {
-        obj = &( ammo->contents.front() );
-    } else {
-        obj = &*ammo;
+    // Checking ammo capacity implicitly limits guns with removable magazines to capacity 0.
+    // This gets rounded up to 1 later.
+    long remaining_capacity = target->is_watertight_container() ?
+        target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
+        target->ammo_capacity() - target->ammo_remaining();
+    if( target->has_flag( "RELOAD_ONE" ) && !ammo->has_flag( "SPEEDLOADER" ) ) {
+        remaining_capacity = 1;
     }
-
-    if( ( is_ammo_container && !obj->is_ammo() ) ||
-            ( is_liquid_container && !obj->made_of( LIQUID ) ) ) {
-        debugmsg( "Invalid reload option: %s", obj->tname().c_str() );
-        return;
-    }
-
-    long limit = is_liquid_container
-            ? target->get_remaining_capacity_for_liquid( *obj, true )
-            : target->ammo_capacity() - target->ammo_remaining();
-
     if( target->ammo_type() == ammotype( "plutonium" ) ) {
-        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+        remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
+            ( remaining_capacity % PLUTONIUM_CHARGES != 0 );
     }
 
+    bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
+    long available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
-    qty_ = std::min( { val, obj->charges, limit, max_qty } );
+    qty_ = std::min( { val, available_ammo, remaining_capacity, max_qty } );
 
     // always expect to reload at least one charge
     qty_ = std::max( qty_, 1L );
@@ -4875,23 +4862,27 @@ bool item::reload( player &u, item_location loc, long qty )
         return true;
 
     } else {
-        curammo = find_type( ammo->typeId() );
-
-        if( ammo_type() == ammotype( "plutonium" ) ) {
+        if( ammo->has_flag( "SPEEDLOADER" ) ) {
+            curammo = find_type( ammo->contents.front().typeId() );
+            qty = std::min( qty, ammo->ammo_remaining() );
+            ammo->ammo_consume( qty, { 0, 0, 0 } );
+            charges += qty;
+        } else if( ammo_type() == ammotype( "plutonium" ) ) {
+            curammo = find_type( ammo->typeId() );
             ammo->charges -= qty;
 
             // any excess is wasted rather than overfilling the item
             charges += qty * PLUTONIUM_CHARGES;
             charges = std::min( charges, ammo_capacity() );
-
         } else {
+            curammo = find_type( ammo->typeId() );
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
             charges += qty;
         }
     }
 
-    if( ammo->charges == 0 ) {
+    if( ammo->charges == 0 && !ammo->has_flag( "SPEEDLOADER" ) ) {
         if( container != nullptr ) {
             container->contents.erase(container->contents.begin());
             u.inv.restack( u ); // emptied containers do not stack with non-empty ones
@@ -5013,24 +5004,6 @@ bool item::flammable( int threshold ) const
     }
 
     return flammability > threshold;
-}
-
-std::ostream & operator<<(std::ostream & out, const item * it)
-{
-    out << "item(";
-    if(!it)
-    {
-        out << "NULL)";
-        return out;
-    }
-    out << it->tname() << ")";
-    return out;
-}
-
-std::ostream & operator<<(std::ostream & out, const item & it)
-{
-    out << (&it);
-    return out;
 }
 
 itype_id item::typeId() const

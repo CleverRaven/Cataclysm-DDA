@@ -1481,8 +1481,8 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                     std::function<void( npc & )> effect_success,
-                                     dialogue_consequence consequence )
+                                       std::function<void( npc & )> effect_success,
+                                       dialogue_consequence consequence )
 {
     talk_response &result = add_response( text, r );
     result.success.set_effect_consequence( effect_success, consequence );
@@ -1737,14 +1737,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_EVAC_GUARD3_HOSTILE" ) {
         p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 15;
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
         p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 5;
 
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
         add_response_done( _( "Don't mind me..." ) );
@@ -3510,7 +3510,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     formatted_text = foldstring( ftext, fold_width );
 
     std::set<dialogue_consequence> consequences = get_consequences( d );
-    if(  consequences.count( dialogue_consequence::hostile ) > 0 ) {
+    if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
         color = c_red;
     } else if( text[0] == '*' || consequences.count( dialogue_consequence::helpless ) > 0 ) {
         color = c_light_red;
@@ -3544,7 +3544,8 @@ talk_topic talk_response::effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-void talk_response::effect_t::set_effect_consequence( std::function<void (npc&)> fun, dialogue_consequence con )
+void talk_response::effect_t::set_effect_consequence( std::function<void ( npc & )> fun,
+        dialogue_consequence con )
 {
     effect = fun;
     guaranteed_consequence = con;
@@ -3556,7 +3557,8 @@ void talk_response::effect_t::set_effect( dialogue_fun_ptr ptr )
     // Kinda hacky
     if( ptr == &talk_function::hostile ) {
         guaranteed_consequence = dialogue_consequence::hostile;
-    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away || ptr == &talk_function::start_mugging ) {
+    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away ||
+               ptr == &talk_function::start_mugging ) {
         guaranteed_consequence = dialogue_consequence::helpless;
     } else {
         guaranteed_consequence = dialogue_consequence::none;
@@ -3861,7 +3863,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             std::set<item *> without;
             std::vector<item *> added;
 
-            inventory newinv;
             for( auto &pricing : yours ) {
                 if( pricing.selected ) {
                     added.push_back( pricing.loc.get_item() );

@@ -206,7 +206,7 @@ static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
-static const bionic_id bio_solar( "bio_solar" );
+static const bionic_id bn_bio_solar( "bn_bio_solar" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_tools( "bio_tools" );
@@ -222,33 +222,21 @@ static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
-static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
-static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
-static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
-static const trait_id trait_ARM_FEATHERS( "ARM_FEATHERS" );
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BADCARDIO( "BADCARDIO" );
 static const trait_id trait_BADHEARING( "BADHEARING" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
-static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BARK( "BARK" );
-static const trait_id trait_BEAK( "BEAK" );
-static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
-static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
 static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
 static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANINE_EARS( "CANINE_EARS" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
@@ -261,11 +249,6 @@ static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
-static const trait_id trait_CLAWS( "CLAWS" );
-static const trait_id trait_CLAWS_RAT( "CLAWS_RAT" );
-static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
-static const trait_id trait_CLAWS_ST( "CLAWS_ST" );
-static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
 static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
@@ -285,95 +268,63 @@ static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
-static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_FASTHEALER( "FASTHEALER" );
 static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
 static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
-static const trait_id trait_FEATHERS( "FEATHERS" );
 static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FLEET( "FLEET" );
 static const trait_id trait_FLEET2( "FLEET2" );
-static const trait_id trait_FLIMSY( "FLIMSY" );
-static const trait_id trait_FLIMSY2( "FLIMSY2" );
-static const trait_id trait_FLIMSY3( "FLIMSY3" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
-static const trait_id trait_GIZZARD( "GIZZARD" );
 static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
-static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_HERBIVORE( "HERBIVORE" );
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_HOOVES( "HOOVES" );
-static const trait_id trait_HORNS_CURLED( "HORNS_CURLED" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
-static const trait_id trait_HUNGER( "HUNGER" );
-static const trait_id trait_HUNGER2( "HUNGER2" );
-static const trait_id trait_HUNGER3( "HUNGER3" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_JITTERY( "JITTERY" );
-static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
-static const trait_id trait_LIGHTEATER( "LIGHTEATER" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LUPINE_EARS( "LUPINE_EARS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
-static const trait_id trait_LYNX_FUR( "LYNX_FUR" );
-static const trait_id trait_MANDIBLES( "MANDIBLES" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
-static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
-static const trait_id trait_MET_RAT( "MET_RAT" );
-static const trait_id trait_MINOTAUR( "MINOTAUR" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
-static const trait_id trait_MOUTH_TENTACLES( "MOUTH_TENTACLES" );
 static const trait_id trait_MOREPAIN( "MORE_PAIN" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
-static const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_MUZZLE_RAT( "MUZZLE_RAT" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN( "M_SKIN" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINREC1( "PAINREC1" );
@@ -387,7 +338,6 @@ static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PLANTSKIN( "PLANTSKIN" );
 static const trait_id trait_PONDEROUS1( "PONDEROUS1" );
 static const trait_id trait_PONDEROUS2( "PONDEROUS2" );
 static const trait_id trait_PONDEROUS3( "PONDEROUS3" );
@@ -395,7 +345,6 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PRETTY( "PRETTY" );
-static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_QUILLS( "QUILLS" );
@@ -403,33 +352,21 @@ static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
-static const trait_id trait_RAP_TALONS( "RAP_TALONS" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_ROT2( "ROT2" );
-static const trait_id trait_ROT3( "ROT3" );
-static const trait_id trait_RUMINANT( "RUMINANT" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
-static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
-static const trait_id trait_SCALES( "SCALES" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLEEK_SCALES( "SLEEK_SCALES" );
-static const trait_id trait_SLEEPY( "SLEEPY" );
-static const trait_id trait_SLEEPY2( "SLEEPY2" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SLIT_NOSTRILS( "SLIT_NOSTRILS" );
 static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SLOWREADER( "SLOWREADER" );
@@ -444,22 +381,9 @@ static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TAIL_FIN( "TAIL_FIN" );
-static const trait_id trait_TALONS( "TALONS" );
-static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
-static const trait_id trait_THINSKIN( "THINSKIN" );
-static const trait_id trait_THIRST( "THIRST" );
-static const trait_id trait_THIRST2( "THIRST2" );
-static const trait_id trait_THIRST3( "THIRST3" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
-static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
-static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
-static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
-static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -469,12 +393,8 @@ static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
-static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
-static const trait_id trait_WAKEFUL( "WAKEFUL" );
-static const trait_id trait_WAKEFUL2( "WAKEFUL2" );
-static const trait_id trait_WAKEFUL3( "WAKEFUL3" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
@@ -484,7 +404,6 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
-static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
@@ -574,12 +493,10 @@ player::player() : Character()
 
     empty_traits();
 
-    for( int i = 0; i < num_bp; i++ ) {
-        temp_cur[i] = BODYTEMP_NORM;
-        frostbite_timer[i] = 0;
-        temp_conv[i] = BODYTEMP_NORM;
-        body_wetness[i] = 0;
-    }
+    temp_cur.fill( BODYTEMP_NORM );
+    frostbite_timer.fill( 0 );
+    temp_conv.fill( BODYTEMP_NORM );
+    body_wetness.fill( 0 );
     nv_cached = false;
     volume = 0;
 
@@ -624,9 +541,7 @@ void player::normalize()
 
     recalc_hp();
 
-    for( int i = 0 ; i < num_bp; i++ ) {
-        temp_conv[i] = BODYTEMP_NORM;
-    }
+    temp_conv.fill( BODYTEMP_NORM );
     stamina = get_stamina_max();
 }
 
@@ -683,7 +598,7 @@ void player::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bp_torso ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" )[bp_torso] ) {
+        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -783,9 +698,6 @@ void player::reset_stats()
         update_mental_focus();
     }
 
-    recalc_sight_limits();
-    recalc_speed_bonus();
-
     // Effects
     for( auto maps : *effects ) {
         for( auto i : maps.second ) {
@@ -799,6 +711,9 @@ void player::reset_stats()
     }
 
     Character::reset_stats();
+
+    recalc_sight_limits();
+    recalc_speed_bonus();
 }
 
 void player::process_turn()
@@ -1056,10 +971,8 @@ HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 void player::update_bodytemp()
 {
     if( has_trait( trait_DEBUG_NOTEMP ) ) {
-        for( int i = 0 ; i < num_bp ; i++ ) {
-            temp_cur[i] = BODYTEMP_NORM;
-            temp_conv[i] = BODYTEMP_NORM;
-        }
+        temp_cur.fill( BODYTEMP_NORM );
+        temp_conv.fill( BODYTEMP_NORM );
         return;
     }
     // NOTE : visit weather.h for some details on the numbers used
@@ -1152,9 +1065,9 @@ void player::update_bodytemp()
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
     // Current temperature and converging temperature calculations
-    for( int i = 0 ; i < num_bp; i++ ) {
+    for( const body_part bp : all_body_parts ) {
         // Skip eyes
-        if( i == bp_eyes ) {
+        if( bp == bp_eyes ) {
             continue;
         }
 
@@ -1165,15 +1078,14 @@ void player::update_bodytemp()
         // Represents the fact that the body generates heat when it is cold.
         // TODO : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
-                                    temp_cur[i] );
+                                    temp_cur[bp] );
         // Produces a smooth curve between 30.0 and 60.0.
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = int( homeostasis_adjustement * warmth( body_part( i ) ) );
-        int clothing_warmth_adjusted_bonus = int( homeostasis_adjustement * bonus_item_warmth(
-                body_part( i ) ) );
+        int clothing_warmth_adjustement = int( homeostasis_adjustement * warmth( bp ) );
+        int clothing_warmth_adjusted_bonus = int( homeostasis_adjustement * bonus_item_warmth( bp ) );
         // WINDCHILL
 
-        bp_windpower = int( ( float )bp_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ) );
+        bp_windpower = int( ( float )bp_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
         // Calculate windchill
         int windchill = get_local_windchill( g->get_temperature(),
                                              get_local_humidity( weather.humidity, g->weather,
@@ -1184,31 +1096,31 @@ void player::update_bodytemp()
         // Convert to 0.01C
         if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ) ||
             ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ) &&
-              ( i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r ) ) ) {
+              ( bp == bp_foot_l || bp == bp_foot_r || bp == bp_leg_l || bp == bp_leg_r ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
 
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
-        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
+        temp_conv[bp] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
         // HUNGER
-        temp_conv[i] += hunger_warmth;
+        temp_conv[bp] += hunger_warmth;
         // FATIGUE
-        temp_conv[i] += fatigue_warmth;
+        temp_conv[bp] += fatigue_warmth;
         // Mutations
-        temp_conv[i] += mutation_heat_low;
+        temp_conv[bp] += mutation_heat_low;
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -10; harder to get blisters
         int blister_count = ( has_bark ? -10 : 0 ); // If the counter is high, your skin starts to burn
         for( const auto &intensity_dist : fires ) {
             const int intensity = intensity_dist.first;
             const int distance = intensity_dist.second;
-            if( frostbite_timer[i] > 0 ) {
-                frostbite_timer[i] -= std::max( 0, intensity - distance / 2 );
+            if( frostbite_timer[bp] > 0 ) {
+                frostbite_timer[bp] -= std::max( 0, intensity - distance / 2 );
             }
             const int heat_here = intensity * intensity / distance;
-            temp_conv[i] += 300 * heat_here;
+            temp_conv[bp] += 300 * heat_here;
             blister_count += heat_here;
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
@@ -1217,24 +1129,24 @@ void player::update_bodytemp()
             blister_count -= 20;
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - get_env_resist( body_part( i ) ) > 10 ) {
-            add_effect( effect_blisters, 1, ( body_part )i );
+        if( blister_count - get_env_resist( bp ) > 10 ) {
+            add_effect( effect_blisters, 1, bp );
         }
 
-        temp_conv[i] += fire_warmth;
-        temp_conv[i] += sunlight_warmth;
+        temp_conv[bp] += fire_warmth;
+        temp_conv[bp] += sunlight_warmth;
         // DISEASES
-        if( i == bp_head && has_effect( effect_flu ) ) {
-            temp_conv[i] += 1500;
+        if( bp == bp_head && has_effect( effect_flu ) ) {
+            temp_conv[bp] += 1500;
         }
         if( has_common_cold ) {
-            temp_conv[i] -= 750;
+            temp_conv[bp] -= 750;
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        temp_conv[i] -= blood_loss( body_part( i ) ) * temp_conv[i] / 200;
+        temp_conv[bp] -= blood_loss( bp ) * temp_conv[bp] / 200;
 
         // EQUALIZATION
-        switch( i ) {
+        switch( bp ) {
             case bp_torso:
                 temp_equalizer( bp_torso, bp_arm_l );
                 temp_equalizer( bp_torso, bp_arm_r );
@@ -1284,7 +1196,7 @@ void player::update_bodytemp()
 
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
-            temp_conv[i] = temp_corrected_by_climate_control( temp_conv[i] );
+            temp_conv[bp] = temp_corrected_by_climate_control( temp_conv[bp] );
         }
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.
@@ -1292,7 +1204,7 @@ void player::update_bodytemp()
         if( !has_sleep_state && best_fire > 0 ) {
             // Warming up over a fire
             // Extremities are easier to extend over a fire
-            switch( i ) {
+            switch( bp ) {
                 case bp_head:
                 case bp_torso:
                 case bp_mouth:
@@ -1327,36 +1239,36 @@ void player::update_bodytemp()
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
-            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[i];
+            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[bp];
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
             } else if( desired > BODYTEMP_HOT ) {
                 desired = BODYTEMP_HOT; // Cap excess at sane temperature
             }
 
-            if( desired < temp_conv[i] ) {
+            if( desired < temp_conv[bp] ) {
                 // Too hot, can't help here
-            } else if( desired < temp_conv[i] + bonus_warmth ) {
+            } else if( desired < temp_conv[bp] + bonus_warmth ) {
                 // Use some heat, but not all of it
-                temp_conv[i] = desired;
+                temp_conv[bp] = desired;
             } else {
                 // Use all the heat
-                temp_conv[i] += bonus_warmth;
+                temp_conv[bp] += bonus_warmth;
             }
 
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                calendar::turn % MINUTES( 1 ) == ( MINUTES( i ) / MINUTES( num_bp ) ) &&
+                calendar::turn % MINUTES( 1 ) == ( MINUTES( bp ) / MINUTES( num_bp ) ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
-                temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
+                temp_cur[bp] > BODYTEMP_COLD && temp_cur[bp] <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 20, 10, true );
             }
         }
 
-        int temp_before = temp_cur[i];
-        int temp_difference = temp_before - temp_conv[i]; // Negative if the player is warming up.
+        int temp_before = temp_cur[bp];
+        int temp_difference = temp_before - temp_conv[bp]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
         int rounding_error = 0;
@@ -1364,44 +1276,44 @@ void player::update_bodytemp()
         if( temp_difference < 0 && temp_difference > -600 ) {
             rounding_error = 1;
         }
-        if( temp_cur[i] != temp_conv[i] ) {
-            temp_cur[i] = int( temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error );
+        if( temp_cur[bp] != temp_conv[bp] ) {
+            temp_cur[bp] = int( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
         }
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
         if( clothing_warmth_adjusted_bonus != 0 &&
-            ( ( temp_conv[i] + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
-              temp_cur[i] < BODYTEMP_COLD ) ) {
-            temp_conv[i] += clothing_warmth_adjusted_bonus;
+            ( ( temp_conv[bp] + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
+              temp_cur[bp] < BODYTEMP_COLD ) ) {
+            temp_conv[bp] += clothing_warmth_adjusted_bonus;
             rounding_error = 0;
             if( temp_difference < 0 && temp_difference > -600 ) {
                 rounding_error = 1;
             }
-            if( temp_before != temp_conv[i] ) {
-                temp_difference = temp_before - temp_conv[i];
-                temp_cur[i] = int( temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error );
+            if( temp_before != temp_conv[bp] ) {
+                temp_difference = temp_before - temp_conv[bp];
+                temp_cur[bp] = int( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
             }
         }
-        int temp_after = temp_cur[i];
+        int temp_after = temp_cur[bp];
         // PENALTIES
-        if( temp_cur[i] < BODYTEMP_FREEZING ) {
-            add_effect( effect_cold, 1, ( body_part )i, true, 3 );
-        } else if( temp_cur[i] < BODYTEMP_VERY_COLD ) {
-            add_effect( effect_cold, 1, ( body_part )i, true, 2 );
-        } else if( temp_cur[i] < BODYTEMP_COLD ) {
-            add_effect( effect_cold, 1, ( body_part )i, true, 1 );
-        } else if( temp_cur[i] > BODYTEMP_SCORCHING ) {
-            add_effect( effect_hot, 1, ( body_part )i, true, 3 );
-        } else if( temp_cur[i] > BODYTEMP_VERY_HOT ) {
-            add_effect( effect_hot, 1, ( body_part )i, true, 2 );
-        } else if( temp_cur[i] > BODYTEMP_HOT ) {
-            add_effect( effect_hot, 1, ( body_part )i, true, 1 );
+        if( temp_cur[bp] < BODYTEMP_FREEZING ) {
+            add_effect( effect_cold, 1, bp, true, 3 );
+        } else if( temp_cur[bp] < BODYTEMP_VERY_COLD ) {
+            add_effect( effect_cold, 1, bp, true, 2 );
+        } else if( temp_cur[bp] < BODYTEMP_COLD ) {
+            add_effect( effect_cold, 1, bp, true, 1 );
+        } else if( temp_cur[bp] > BODYTEMP_SCORCHING ) {
+            add_effect( effect_hot, 1, bp, true, 3 );
+        } else if( temp_cur[bp] > BODYTEMP_VERY_HOT ) {
+            add_effect( effect_hot, 1, bp, true, 2 );
+        } else if( temp_cur[bp] > BODYTEMP_HOT ) {
+            add_effect( effect_hot, 1, bp, true, 1 );
         } else {
-            if( temp_cur[i] >= BODYTEMP_COLD ) {
-                remove_effect( effect_cold, ( body_part )i );
+            if( temp_cur[bp] >= BODYTEMP_COLD ) {
+                remove_effect( effect_cold, bp );
             }
-            if( temp_cur[i] <= BODYTEMP_HOT ) {
-                remove_effect( effect_hot, ( body_part )i );
+            if( temp_cur[bp] <= BODYTEMP_HOT ) {
+                remove_effect( effect_hot, bp );
             }
         }
         // FROSTBITE - only occurs to hands, feet, face
@@ -1431,122 +1343,122 @@ void player::update_bodytemp()
         Less than -35F, more than 10 mp
         **/
 
-        if( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l ) {
+        if( bp == bp_mouth || bp == bp_foot_r || bp == bp_foot_l || bp == bp_hand_r || bp == bp_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[i] / drench_capacity[i]; // 0 - 100
+            int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             int Ftemperature = int( g->get_temperature() +
-                                    warmth( ( body_part )i ) * 0.2 - 20 * wetness_percentage / 100 );
+                                    warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
             // Windchill reduced by your armor
-            int FBwindPower = int( total_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ) );
+            int FBwindPower = int( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
-            int intense = get_effect_int( effect_frostbite, ( body_part )i );
+            int intense = get_effect_int( effect_frostbite, bp );
 
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
-            if( temp_cur[i] < BODYTEMP_COLD &&
+            if( temp_cur[bp] < BODYTEMP_COLD &&
                 ( ( Ftemperature < 30 && Ftemperature >= 10 ) ||
                   ( Ftemperature < 10 && Ftemperature >= -5 &&
                     FBwindPower < 20 && -4 * Ftemperature + 3 * FBwindPower - 20 >= 0 ) ) ) {
-                if( frostbite_timer[i] < 2000 ) {
-                    frostbite_timer[i] += 3;
+                if( frostbite_timer[bp] < 2000 ) {
+                    frostbite_timer[bp] += 3;
                 }
-                if( one_in( 100 ) && !has_effect( effect_frostbite, ( body_part )i ) ) {
+                if( one_in( 100 ) && !has_effect( effect_frostbite, bp ) ) {
                     add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
-                             body_part_name( body_part( i ) ).c_str() );
+                             body_part_name( bp ).c_str() );
                 }
                 // Medium risk zones
-            } else if( temp_cur[i] < BODYTEMP_COLD &&
+            } else if( temp_cur[bp] < BODYTEMP_COLD &&
                        ( ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
                            -4 * Ftemperature + 3 * FBwindPower - 20 < 0 ) ||
                          ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20 ) ||
                          ( Ftemperature < -5 && FBwindPower < 10 ) ||
                          ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 >= 0 ) ) ) {
-                frostbite_timer[i] += 8;
+                frostbite_timer[bp] += 8;
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten within the hour!" ),
-                             body_part_name( body_part( i ) ).c_str() );
+                             body_part_name( bp ).c_str() );
                 }
                 // High risk zones
-            } else if( temp_cur[i] < BODYTEMP_COLD &&
+            } else if( temp_cur[bp] < BODYTEMP_COLD &&
                        ( ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 < 0 ) ||
                          ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
-                frostbite_timer[i] += 72;
+                frostbite_timer[bp] += 72;
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten any minute now!!" ),
-                             body_part_name( body_part( i ) ).c_str() );
+                             body_part_name( bp ).c_str() );
                 }
                 // Risk free, so reduce frostbite timer
             } else {
-                frostbite_timer[i] -= 3;
+                frostbite_timer[bp] -= 3;
             }
 
             // Handle the bestowing of frostbite
-            if( frostbite_timer[i] < 0 ) {
-                frostbite_timer[i] = 0;
-            } else if( frostbite_timer[i] > 4200 ) {
+            if( frostbite_timer[bp] < 0 ) {
+                frostbite_timer[bp] = 0;
+            } else if( frostbite_timer[bp] > 4200 ) {
                 // This ensures that the player will recover in at most 3 hours.
-                frostbite_timer[i] = 4200;
+                frostbite_timer[bp] = 4200;
             }
             // Frostbite, no recovery possible
-            if( frostbite_timer[i] >= 3600 ) {
-                add_effect( effect_frostbite, 1, ( body_part )i, true, 2 );
-                remove_effect( effect_frostbite_recovery, ( body_part )i );
+            if( frostbite_timer[bp] >= 3600 ) {
+                add_effect( effect_frostbite, 1, bp, true, 2 );
+                remove_effect( effect_frostbite_recovery, bp );
                 // Else frostnip, add recovery if we were frostbitten
-            } else if( frostbite_timer[i] >= 1800 ) {
+            } else if( frostbite_timer[bp] >= 1800 ) {
                 if( intense == 2 ) {
-                    add_effect( effect_frostbite_recovery, 1, ( body_part )i, true );
+                    add_effect( effect_frostbite_recovery, 1, bp, true );
                 }
-                add_effect( effect_frostbite, 1, ( body_part )i, true, 1 );
+                add_effect( effect_frostbite, 1, bp, true, 1 );
                 // Else fully recovered
-            } else if( frostbite_timer[i] == 0 ) {
-                remove_effect( effect_frostbite, ( body_part )i );
-                remove_effect( effect_frostbite_recovery, ( body_part )i );
+            } else if( frostbite_timer[bp] == 0 ) {
+                remove_effect( effect_frostbite, bp );
+                remove_effect( effect_frostbite_recovery, bp );
             }
         }
         // Warn the player if condition worsens
         if( temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s beginning to go numb from the cold!" ),
-                     body_part_name( body_part( i ) ).c_str() );
+                     body_part_name( bp ).c_str() );
         } else if( temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting very cold." ),
-                     body_part_name( body_part( i ) ).c_str() );
+                     body_part_name( bp ).c_str() );
         } else if( temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting chilly." ),
-                     body_part_name( body_part( i ) ).c_str() );
+                     body_part_name( bp ).c_str() );
         } else if( temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING ) {
             //~ %s is bodypart
             add_msg( m_bad, _( "You feel your %s getting red hot from the heat!" ),
-                     body_part_name( body_part( i ) ).c_str() );
+                     body_part_name( bp ).c_str() );
         } else if( temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting very hot." ),
-                     body_part_name( body_part( i ) ).c_str() );
+                     body_part_name( bp ).c_str() );
         } else if( temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting warm." ),
-                     body_part_name( body_part( i ) ).c_str() );
+                     body_part_name( bp ).c_str() );
         }
 
         // Warn the player that wind is going to be a problem.
         // But only if it can be a problem, no need to spam player with "wind chills your scorching body"
-        if( temp_conv[i] <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
+        if( temp_conv[bp] <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
             add_msg( m_bad, _( "The wind is making your %s feel quite cold." ),
-                     body_part_name( body_part( i ) ).c_str() );
-        } else if( temp_conv[i] <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
+                     body_part_name( bp ).c_str() );
+        } else if( temp_conv[bp] <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
             add_msg( m_bad,
                      _( "The wind is very strong, you should find some more wind-resistant clothing for your %s." ),
-                     body_part_name( body_part( i ) ).c_str() );
-        } else if( temp_conv[i] <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
+                     body_part_name( bp ).c_str() );
+        } else if( temp_conv[bp] <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
-                     body_part_name( body_part( i ) ).c_str() );
+                     body_part_name( bp ).c_str() );
         }
     }
 }
@@ -1756,20 +1668,27 @@ int player::temp_corrected_by_climate_control( int temperature ) const
 
 int player::blood_loss( body_part bp ) const
 {
-    int blood_loss = 0;
+    int hp_cur_sum = 1;
+    int hp_max_sum = 1;
+    
     if( bp == bp_leg_l || bp == bp_leg_r ) {
-        blood_loss = ( 100 - 100 * ( hp_cur[hp_leg_l] + hp_cur[hp_leg_r] ) /
-                       ( hp_max[hp_leg_l] + hp_max[hp_leg_r] ) );
+        hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
+        hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
     } else if( bp == bp_arm_l || bp == bp_arm_r ) {
-        blood_loss = ( 100 - 100 * ( hp_cur[hp_arm_l] + hp_cur[hp_arm_r] ) /
-                       ( hp_max[hp_arm_l] + hp_max[hp_arm_r] ) );
+        hp_cur_sum = hp_cur[hp_arm_l] + hp_cur[hp_arm_r];
+        hp_max_sum = hp_max[hp_arm_l] + hp_max[hp_arm_r];
     } else if( bp == bp_torso ) {
-        blood_loss = ( 100 - 100 * hp_cur[hp_torso] / hp_max[hp_torso] );
+        hp_cur_sum = hp_cur[hp_torso];
+        hp_max_sum = hp_max[hp_torso];
     } else if( bp == bp_head ) {
-        blood_loss = ( 100 - 100 * hp_cur[hp_head] / hp_max[hp_head] );
+        hp_cur_sum = hp_cur[hp_head];
+        hp_max_sum = hp_max[hp_head];
     }
-    return blood_loss;
+    
+    hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
+    return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
+
 
 void player::temp_equalizer( body_part bp1, body_part bp2 )
 {
@@ -2268,10 +2187,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
     memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
                                     pronoun.c_str(), profession_name.c_str() ) << eol;
-    memorial_file << string_format( _( "%1$s died on %2$s of year %3$d, day %4$d, at %5$s." ),
-                                    pronoun, calendar::name_season( season_of_year( calendar::turn ) ),
-                                    ( calendar::turn.years() + 1 ),
-                                    day_of_season<int>( calendar::turn ) + 1, calendar::turn.print_time() ) << eol;
+    memorial_file << string_format( _( "%1$s died on %2$s." ), pronoun, to_string( time_point( calendar::turn ) ) ) << eol;
     memorial_file << kill_place << eol;
     memorial_file << eol;
 
@@ -2464,18 +2380,11 @@ void player::add_memorial_log( const std::string &male_msg, const std::string &f
         return;
     }
 
-    std::stringstream timestamp;
-    //~ A timestamp. Parameters from left to right: Year, season, day, time
-    timestamp << string_format( _( "Year %1$d, %2$s %3$d, %4$s" ), calendar::turn.years() + 1,
-                                calendar::name_season( season_of_year( calendar::turn ) ),
-                                day_of_season<int>( calendar::turn ) + 1, calendar::turn.print_time()
-                              );
-
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
     const std::string &location = cur_ter->get_name();
 
     std::stringstream log_message;
-    log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
+    log_message << "| " << to_string( time_point( calendar::turn ) ) << " | " << location << " | " << msg;
 
     memorial_log.push_back( log_message.str() );
 
@@ -2534,444 +2443,6 @@ void player::mod_stat( const std::string &stat, float modifier )
 void player::disp_morale()
 {
     morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
-}
-
-static std::string print_gun_mode( const player &p )
-{
-    auto m = p.weapon.gun_current_mode();
-    if( m ) {
-        if( m.melee() || !m->is_gunmod() ) {
-            return string_format( m.mode.empty() ? "%s" : "%s (%s)",
-                                  p.weapname().c_str(), _( m.mode.c_str() ) );
-        } else {
-            return string_format( "%s (%i/%i)", m->tname().c_str(),
-                                  m->ammo_remaining(), m->ammo_capacity() );
-        }
-    } else {
-        return p.weapname();
-    }
-}
-
-void player::print_stamina_bar( const catacurses::window &w ) const
-{
-    std::string sta_bar;
-    nc_color sta_color;
-    std::tie( sta_bar, sta_color ) = get_hp_bar( stamina ,  get_stamina_max() );
-    wprintz( w, sta_color, sta_bar.c_str() );
-}
-
-void player::disp_status( const catacurses::window &w, const catacurses::window &w2 )
-{
-    bool sideStyle = use_narrow_sidebar();
-    const catacurses::window &weapwin = sideStyle ? w2 : w;
-
-    {
-        const int y = sideStyle ? 1 : 0;
-        const int wn = getmaxx( weapwin );
-        trim_and_print( weapwin, y, 0, wn, c_light_gray, print_gun_mode( *this ) );
-    }
-
-    // Print currently used style or weapon mode.
-    std::string style;
-    const auto style_color = is_armed() ? c_red : c_blue;
-    const auto &cur_style = style_selected.obj();
-    if( cur_style.force_unarmed || cur_style.weapon_valid( weapon ) ) {
-        style = cur_style.name;
-    } else if( is_armed() ) {
-        style = _( "Normal" );
-    } else {
-        style = _( "No Style" );
-    }
-
-    if( !style.empty() ) {
-        int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
-        mvwprintz( weapwin, 1, x, style_color, style.c_str() );
-    }
-
-    wmove( w, sideStyle ? 1 : 2, 0 );
-    if( get_hunger() > 2800 ) {
-        wprintz( w, c_red,    _( "Starving!" ) );
-    } else if( get_hunger() > 1400 ) {
-        wprintz( w, c_light_red,  _( "Near starving" ) );
-    } else if( get_hunger() > 300 ) {
-        wprintz( w, c_light_red,  _( "Famished" ) );
-    } else if( get_hunger() > 100 ) {
-        wprintz( w, c_yellow, _( "Very hungry" ) );
-    } else if( get_hunger() > 40 ) {
-        wprintz( w, c_yellow, _( "Hungry" ) );
-    } else if( get_hunger() < -60 ) {
-        wprintz( w, c_green,  _( "Engorged" ) );
-    } else if( get_hunger() < -20 ) {
-        wprintz( w, c_green,  _( "Sated" ) );
-    } else if( get_hunger() < 0 ) {
-        wprintz( w, c_green,  _( "Full" ) );
-    }
-
-    /// Find hottest/coldest bodypart
-    // Calculate the most extreme body temperatures
-    int current_bp_extreme = 0, conv_bp_extreme = 0;
-    for( int i = 0; i < num_bp ; i++ ) {
-        if( abs( temp_cur[i] - BODYTEMP_NORM ) > abs( temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
-            current_bp_extreme = i;
-        }
-        if( abs( temp_conv[i] - BODYTEMP_NORM ) > abs( temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
-            conv_bp_extreme = i;
-        }
-    }
-
-    // Assign zones for comparisons
-    int cur_zone = 0, conv_zone = 0;
-    if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
-        cur_zone = 7;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
-        cur_zone = 6;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_HOT ) {
-        cur_zone = 5;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_COLD ) {
-        cur_zone = 4;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD ) {
-        cur_zone = 3;
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING ) {
-        cur_zone = 2;
-    } else if( temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
-        cur_zone = 1;
-    }
-
-    if( temp_conv[conv_bp_extreme] >  BODYTEMP_SCORCHING ) {
-        conv_zone = 7;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_HOT ) {
-        conv_zone = 6;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_HOT ) {
-        conv_zone = 5;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_COLD ) {
-        conv_zone = 4;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_COLD ) {
-        conv_zone = 3;
-    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_FREEZING ) {
-        conv_zone = 2;
-    } else if( temp_conv[conv_bp_extreme] <= BODYTEMP_FREEZING ) {
-        conv_zone = 1;
-    }
-
-    // delta will be positive if temp_cur is rising
-    int delta = conv_zone - cur_zone;
-    // Decide if temp_cur is rising or falling
-    const char *temp_message = "Error";
-    if( delta >   2 ) {
-        temp_message = _( " (Rising!!)" );
-    } else if( delta ==  2 ) {
-        temp_message = _( " (Rising!)" );
-    } else if( delta ==  1 ) {
-        temp_message = _( " (Rising)" );
-    } else if( delta ==  0 ) {
-        temp_message = "";
-    } else if( delta == -1 ) {
-        temp_message = _( " (Falling)" );
-    } else if( delta == -2 ) {
-        temp_message = _( " (Falling!)" );
-    } else {
-        temp_message = _( " (Falling!!)" );
-    }
-
-    // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
-    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
-    if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
-        wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
-        wprintz( w, c_light_red, _( "Very hot!%s" ), temp_message );
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_HOT ) {
-        wprintz( w, c_yellow, _( "Warm%s" ), temp_message );
-    } else if( temp_cur[current_bp_extreme] >
-               BODYTEMP_COLD ) { // If you're warmer than cold, you are comfortable
-        wprintz( w, c_green, _( "Comfortable%s" ), temp_message );
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD ) {
-        wprintz( w, c_light_blue, _( "Chilly%s" ), temp_message );
-    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING ) {
-        wprintz( w, c_cyan,  _( "Very cold!%s" ), temp_message );
-    } else if( temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
-        wprintz( w, c_blue,  _( "Freezing!%s" ), temp_message );
-    }
-
-    int x = 32;
-    int y = sideStyle ?  0 :  1;
-    if( is_deaf() ) {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
-    } else {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound %d" ), volume );
-    }
-    volume = 0;
-
-    wmove( w, 2, sideStyle ? 0 : 15 );
-    if( get_thirst() > 520 ) {
-        wprintz( w, c_light_red,  _( "Parched" ) );
-    } else if( get_thirst() > 240 ) {
-        wprintz( w, c_light_red,  _( "Dehydrated" ) );
-    } else if( get_thirst() > 80 ) {
-        wprintz( w, c_yellow, _( "Very thirsty" ) );
-    } else if( get_thirst() > 40 ) {
-        wprintz( w, c_yellow, _( "Thirsty" ) );
-    } else if( get_thirst() < -60 ) {
-        wprintz( w, c_green,  _( "Turgid" ) );
-    } else if( get_thirst() < -20 ) {
-        wprintz( w, c_green,  _( "Hydrated" ) );
-    } else if( get_thirst() < 0 ) {
-        wprintz( w, c_green,  _( "Slaked" ) );
-    }
-
-    wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 30 );
-    if( get_fatigue() > EXHAUSTED ) {
-        wprintz( w, c_red,    _( "Exhausted" ) );
-    } else if( get_fatigue() > DEAD_TIRED ) {
-        wprintz( w, c_light_red,  _( "Dead tired" ) );
-    } else if( get_fatigue() > TIRED ) {
-        wprintz( w, c_yellow, _( "Tired" ) );
-    }
-
-    wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 41 );
-    wprintz( w, c_white, _( "Focus" ) );
-    nc_color col_xp = c_dark_gray;
-    if( focus_pool >= 100 ) {
-        col_xp = c_white;
-    } else if( focus_pool >  0 ) {
-        col_xp = c_light_gray;
-    }
-    wprintz( w, col_xp, " %d", focus_pool );
-
-    nc_color col_pain = c_yellow;
-    if( get_perceived_pain() >= 60 ) {
-        col_pain = c_red;
-    } else if( get_perceived_pain() >= 40 ) {
-        col_pain = c_light_red;
-    }
-    if( get_perceived_pain() > 0 ) {
-        mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), get_perceived_pain() );
-    }
-
-    int morale_cur = get_morale_level();
-    nc_color col_morale = c_white;
-    if( morale_cur >= 10 ) {
-        col_morale = c_green;
-    } else if( morale_cur <= -10 ) {
-        col_morale = c_red;
-    }
-    const char *morale_str;
-    if ( get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) {
-        if( has_trait( trait_THRESH_FELINE ) || has_trait( trait_THRESH_URSINE ) ) {
-            if( morale_cur >= 200) {
-                morale_str = "@W@";
-            } else if( morale_cur >= 100 ) {
-                morale_str = "OWO";
-            } else if( morale_cur >= 50 ) {
-                morale_str = "owo";
-            } else if( morale_cur >= 10 ) {
-                morale_str = "^w^";
-            } else if( morale_cur >= -10 ) {
-                morale_str = "-w-";
-            } else if( morale_cur >= -50 ) {
-                morale_str = "-m-";
-            } else if( morale_cur >= -100 ) {
-                morale_str = "TmT";
-            } else if( morale_cur >= -200 ) {
-                morale_str = "XmX";
-            } else {
-                morale_str = "@m@";
-            }
-        } else if( has_trait( trait_THRESH_BIRD ) ) {
-            if( morale_cur >= 200) {
-                morale_str = "@v@";
-            } else if( morale_cur >= 100 ) {
-                morale_str = "OvO";
-            } else if( morale_cur >= 50 ) {
-                morale_str = "ovo";
-            } else if( morale_cur >= 10 ) {
-                morale_str = "^v^";
-            } else if( morale_cur >= -10 ) {
-                morale_str = "-v-";
-            } else if( morale_cur >= -50 ) {
-                morale_str = ".v.";
-            } else if( morale_cur >= -100 ) {
-                morale_str = "TvT";
-            } else if( morale_cur >= -200 ) {
-                morale_str = "XvX";
-            } else {
-                morale_str = "@v@";
-            }
-        } else if( morale_cur >= 200) {
-            morale_str = "@U@";
-        } else if( morale_cur >= 100 ) {
-            morale_str = "OuO";
-        } else if( morale_cur >= 50 ) {
-            morale_str = "^u^";
-        } else if( morale_cur >= 10 ) {
-            morale_str = "n_n";
-        } else if( morale_cur >= -10 ) {
-            morale_str = "-_-";
-        } else if( morale_cur >= -50 ) {
-            morale_str = "-n-";
-        } else if( morale_cur >= -100 ) {
-            morale_str = "TnT";
-        } else if( morale_cur >= -200 ) {
-            morale_str = "XnX";
-        } else {
-            morale_str = "@n@";
-        }
-    } else if( morale_cur >= 100 ) {
-        morale_str = "8D";
-    } else if( morale_cur >= 50 ) {
-        morale_str = ":D";
-    } else if( has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":3";
-    } else if( !has_trait( trait_THRESH_FELINE ) && morale_cur >= 10 ) {
-        morale_str = ":)";
-    } else if( morale_cur >= -10 ) {
-        morale_str = ":|";
-    } else if( morale_cur >= -50 ) {
-        morale_str = "):";
-    } else if( morale_cur >= -100 ) {
-        morale_str = "D:";
-    } else {
-        morale_str = "D8";
-    }
-    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str );
-
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && in_vehicle ) {
-        veh = g->m.veh_at( pos() );
-    }
-    if( veh ) {
-        veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
-        nc_color col_indf1 = c_light_gray;
-
-        float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
-
-        // Draw the speedometer.
-        int speedox = sideStyle ? 0 : 28;
-        int speedoy = sideStyle ? 5 :  3;
-
-        bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
-        // Logic below is not applicable to translated units and should be changed
-        int velx    = metric ? 4 : 3; // strlen(units) + 1
-        int cruisex = metric ? 9 : 8; // strlen(units) + 6
-
-        if( !sideStyle ) {
-            if( !veh->cruise_on ) {
-                speedox += 2;
-            }
-            if( !metric ) {
-                speedox++;
-            }
-        }
-
-        const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
-        mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
-        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
-                   int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
-        if( veh->cruise_on ) {
-            mvwprintz( w, speedoy, speedox + cruisex, c_light_green, "%4d",
-                       int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
-        }
-
-        const int vel_offset = 11 + ( veh->velocity != 0 ? 2 : 0 );
-        wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - vel_offset );
-        if( veh->velocity != 0 ) {
-            nc_color col_indc = veh->skidding ? c_red : c_green;
-            int dfm = veh->face.dir() - veh->move.dir();
-
-            if( dfm == 0 ) {
-                wprintz( w, col_indc, "^" );
-            } else if( dfm < 0 ) {
-                wprintz( w, col_indc, "<" );
-            } else {
-                wprintz( w, col_indc, ">" );
-            }
-
-            wprintz( w, c_white, " ");
-        }
-
-        //Vehicle direction indicator in 0-359° where 0 is north (veh->face.dir() 0° is west)
-        wprintz( w, c_white, string_format( "%3d°", ( veh->face.dir() + 90 ) % 360 ).c_str() );
-
-        if( sideStyle ) {
-            // Make sure this is left-aligned.
-            mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
-            print_stamina_bar( w );
-        }
-    } else {  // Not in vehicle
-        nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-                 col_per = c_white, col_spd = c_white, col_time = c_white;
-        int str_bonus = get_str_bonus();
-        int dex_bonus = get_dex_bonus();
-        int int_bonus = get_int_bonus();
-        int per_bonus = get_per_bonus();
-        int spd_bonus = get_speed_bonus();
-        if( str_bonus < 0 ) {
-            col_str = c_red;
-        }
-        if( str_bonus > 0 ) {
-            col_str = c_green;
-        }
-        if( dex_bonus  < 0 ) {
-            col_dex = c_red;
-        }
-        if( dex_bonus  > 0 ) {
-            col_dex = c_green;
-        }
-        if( int_bonus  < 0 ) {
-            col_int = c_red;
-        }
-        if( int_bonus  > 0 ) {
-            col_int = c_green;
-        }
-        if( per_bonus  < 0 ) {
-            col_per = c_red;
-        }
-        if( per_bonus  > 0 ) {
-            col_per = c_green;
-        }
-        if( spd_bonus < 0 ) {
-            col_spd = c_red;
-        }
-        if( spd_bonus > 0 ) {
-            col_spd = c_green;
-        }
-
-        int wx  = sideStyle ? 18 : 12;
-        int wy  = sideStyle ?  0 :  3;
-        int dx = sideStyle ?  0 :  7;
-        int dy = sideStyle ?  1 :  0;
-        mvwprintz( w, wy + dy * 0, wx + dx * 0, col_str, _( "Str %d" ), str_cur );
-        mvwprintz( w, wy + dy * 1, wx + dx * 1, col_dex, _( "Dex %d" ), dex_cur );
-        mvwprintz( w, wy + dy * 2, wx + dx * 2, col_int, _( "Int %d" ), int_cur );
-        mvwprintz( w, wy + dy * 3, wx + dx * 3, col_per, _( "Per %d" ), per_cur );
-
-        int spdx = sideStyle ?  0 : wx + dx * 4 + 1;
-        int spdy = sideStyle ?  5 : wy + dy * 4;
-        mvwprintz( w, spdy, spdx, col_spd, _( "Spd %d" ), get_speed() );
-        if( this->weight_carried() > this->weight_capacity() ) {
-            col_time = h_black;
-        }
-        if( this->volume_carried() > this->volume_capacity() ) {
-            if( this->weight_carried() > this->weight_capacity() ) {
-                col_time = c_dark_gray_magenta;
-            } else {
-                col_time = c_dark_gray_red;
-            }
-        }
-        wprintz( w, col_time, " %d", movecounter );
-
-        //~ Movement type: "walking". Max string length: one letter.
-        const auto str_walk = pgettext( "movement-type", "W" );
-        //~ Movement type: "running". Max string length: one letter.
-        const auto str_run = pgettext( "movement-type", "R" );
-        wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
-        if( sideStyle ) {
-            mvwprintz( w, spdy, wx + dx * 4 - 3, c_white, _( "Stm " ) );
-            print_stamina_bar( w );
-        }
-    }
 }
 
 bool player::has_conflicting_trait( const trait_id &flag ) const
@@ -3396,17 +2867,17 @@ void player::pause()
     if( !in_vehicle ) {
         if( underwater ) {
             practice( skill_swimming, 1 );
-            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
-                         mfb( bp_arm_r ) | mfb( bp_head ) | mfb( bp_eyes ) | mfb( bp_mouth ) |
-                         mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
+            drench( 100, { { bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+                         bp_arm_r, bp_head, bp_eyes, bp_mouth,
+                         bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r } }, true );
         } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
-            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
-                         mfb( bp_arm_r ) | mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) |
-                         mfb( bp_hand_r ), true );
+            drench( 100, { { bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+                         bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
+                         bp_hand_r } }, true );
         } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-            drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
+            drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
         }
     }
 
@@ -3415,8 +2886,7 @@ void player::pause()
         int total_removed = 0;
         int total_left = 0;
         bool on_ground = has_effect( effect_downed );
-        for( size_t i = 0; i < num_bp; i++ ) {
-            body_part bp = body_part( i );
+        for( const body_part bp : all_body_parts ) {
             effect &eff = get_effect( effect_onfire, bp );
             if( eff.is_null() ) {
                 continue;
@@ -4835,7 +4305,7 @@ void player::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    if( has_bionic( bio_solar ) && g->is_in_sunlight( pos() ) ) {
+    if( has_bionic( bn_bio_solar ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 25 );
     }
 
@@ -5602,27 +5072,19 @@ void player::suffer()
             if (one_in(3600)) {
                 if (one_in(3)) {
                     add_msg_if_player(m_bad, _("You suddenly feel very cold."));
-                    for (int i = 0 ; i < num_bp ; i++) {
-                        temp_cur[i] = BODYTEMP_VERY_COLD;
-                    }
+                    temp_cur.fill( BODYTEMP_VERY_COLD );
                 } else {
                     add_msg_if_player(m_bad, _("You suddenly feel cold."));
-                    for (int i = 0 ; i < num_bp ; i++) {
-                        temp_cur[i] = BODYTEMP_COLD;
-                    }
+                    temp_cur.fill( BODYTEMP_COLD );
                 }
             }
             if (one_in(3600)) {
                 if (one_in(3)) {
                     add_msg_if_player(m_bad, _("You suddenly feel very hot."));
-                    for (int i = 0 ; i < num_bp ; i++) {
-                        temp_cur[i] = BODYTEMP_VERY_HOT;
-                    }
+                    temp_cur.fill( BODYTEMP_VERY_HOT );
                 } else {
                     add_msg_if_player(m_bad, _("You suddenly feel hot."));
-                    for (int i = 0 ; i < num_bp ; i++) {
-                        temp_cur[i] = BODYTEMP_HOT;
-                    }
+                    temp_cur.fill( BODYTEMP_HOT );
                 }
             }
         }
@@ -5827,8 +5289,11 @@ void player::suffer()
     }
 
     if (has_trait( trait_SORES )) {
-        for (int i = bp_head; i < num_bp; i++) {
-            int sores_pain = 5 + (int)(0.4 * abs( encumb( body_part( i ) ) ) );
+        for( const body_part bp : all_body_parts ) {
+            if( bp == bp_head ) {
+                continue;
+            }
+            int sores_pain = 5 + 0.4 * abs( encumb( bp ) );
             if (get_pain() < sores_pain) {
                 set_pain( sores_pain );
             }
@@ -6000,7 +5465,7 @@ void player::suffer()
     }
 
     const bool radiogenic = has_trait( trait_RADIOGENIC );
-    if( radiogenic && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
+    if( radiogenic && calendar::once_every( 30_minutes ) && radiation > 0 ) {
         // At 200 irradiation, twice as fast as REGEN
         if( x_in_y( radiation, 200 ) ) {
             healall( 1 );
@@ -6020,7 +5485,7 @@ void player::suffer()
         }
     }
 
-    if( radiation > 200 && ( int(calendar::turn) % MINUTES(10) == 0 ) && x_in_y( radiation, 1000 ) ) {
+    if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
         hurtall( 1, nullptr );
         radiation -= 5;
     }
@@ -6414,7 +5879,7 @@ void player::vomit()
     }
 }
 
-void player::drench( int saturation, int flags, bool ignore_waterproof )
+void player::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
     if( saturation < 1 ) {
         return;
@@ -6427,11 +5892,11 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
     }
 
     // Make the body wet
-    for( int i = bp_torso; i < num_bp; ++i ) {
+    for( const body_part bp : all_body_parts ) {
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
-        if( mfb(i) & flags ){
-            bp_wetness_max = drench_capacity[i];
+        if( flags.test( bp ) ) {
+            bp_wetness_max = drench_capacity[bp];
         }
 
         if( bp_wetness_max == 0 ){
@@ -6442,8 +5907,8 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
         int wetness_increment = ignore_waterproof ? 100 : 2;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
-        if( body_wetness[i] < wetness_max ){
-            body_wetness[i] = std::min( wetness_max, body_wetness[i] + wetness_increment );
+        if( body_wetness[bp] < wetness_max ){
+            body_wetness[bp] = std::min( wetness_max, body_wetness[bp] + wetness_increment );
         }
     }
 
@@ -6455,8 +5920,7 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
 
 void player::drench_mut_calc()
 {
-    for( size_t i = 0; i < num_bp; i++ ) {
-        body_part bp = static_cast<body_part>( i );
+    for( const body_part bp : all_body_parts ) {
         int ignored = 0;
         int neutral = 0;
         int good = 0;
@@ -6471,9 +5935,9 @@ void player::drench_mut_calc()
             }
         }
 
-        mut_drench[i][WT_GOOD] = good;
-        mut_drench[i][WT_NEUTRAL] = neutral;
-        mut_drench[i][WT_IGNORED] = ignored;
+        mut_drench[bp][WT_GOOD] = good;
+        mut_drench[bp][WT_NEUTRAL] = neutral;
+        mut_drench[bp][WT_IGNORED] = ignored;
     }
 }
 
@@ -6492,14 +5956,14 @@ void player::apply_wetness_morale( int temperature )
 
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
-    for( int i = bp_torso; i < num_bp; ++i ) {
+    for( const body_part bp : all_body_parts ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = body_wetness[i];
+        const int part_drench = body_wetness[bp];
         if( part_drench == 0 ) {
             continue;
         }
 
-        const auto &part_arr = mut_drench[i];
+        const auto &part_arr = mut_drench[bp];
         const int part_ignored = part_arr[WT_IGNORED];
         const int part_neutral = part_arr[WT_NEUTRAL];
         const int part_good    = part_arr[WT_GOOD];
@@ -6509,7 +5973,7 @@ void player::apply_wetness_morale( int temperature )
         }
 
         int bp_morale = 0;
-        const bool is_friendly = wet_friendliness[i];
+        const bool is_friendly = wet_friendliness.test( bp );
         const int effective_drench = part_drench - part_ignored;
         if( is_friendly ) {
             // Using entire bonus from mutations and then some "human" bonus
@@ -6526,7 +5990,7 @@ void player::apply_wetness_morale( int temperature )
 
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[i] ) );
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp] ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = (part_temperature - BODYTEMP_COLD) /
                                 (BODYTEMP_HOT - BODYTEMP_COLD);
@@ -6595,21 +6059,21 @@ void player::update_body_wetness( const w_point &weather )
         return;
     }
 
-    for( int i = 0; i < num_bp; ++i ) {
-        if( body_wetness[i] == 0 ) {
+    for( const body_part bp : all_body_parts ) {
+        if( body_wetness[bp] == 0 ) {
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = drench_capacity[i];
+        int drying_chance = drench_capacity[bp];
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        if( temp_conv[i] >= BODYTEMP_SCORCHING ) {
+        if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
-        } else if( temp_conv[i] >=  BODYTEMP_VERY_HOT ) {
+        } else if( temp_conv[bp] >=  BODYTEMP_VERY_HOT ) {
             drying_chance = drying_chance * 3 / 2;
-        } else if( temp_conv[i] >= BODYTEMP_HOT ) {
+        } else if( temp_conv[bp] >= BODYTEMP_HOT ) {
             drying_chance = drying_chance * 4 / 3;
-        } else if( temp_conv[i] > BODYTEMP_COLD ) {
+        } else if( temp_conv[bp] > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
@@ -6622,9 +6086,9 @@ void player::update_body_wetness( const w_point &weather )
 
         // @todo: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            body_wetness[i] -= 1;
-            if( body_wetness[i] < 0 ) {
-                body_wetness[i] = 0;
+            body_wetness[bp] -= 1;
+            if( body_wetness[bp] < 0 ) {
+                body_wetness[bp] = 0;
             }
         }
     }
@@ -6695,7 +6159,7 @@ void player::check_and_recover_morale()
 void player::process_active_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
-        weapon = ret_null;
+        weapon = item();
     }
 
     std::vector<item *> inv_active = inv.active_items();
@@ -6800,7 +6264,7 @@ item player::reduce_charges( int position, long quantity )
     item &it = i_at( position );
     if( it.is_null() ) {
         debugmsg( "invalid item position %d for reduce_charges", position );
-        return ret_null;
+        return item();
     }
     if( it.charges <= quantity ) {
         return i_rem( position );
@@ -6815,7 +6279,7 @@ item player::reduce_charges( item *it, long quantity )
 {
     if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
-        return ret_null;
+        return item();
     }
     if( it->charges <= quantity ) {
         return i_rem( it );
@@ -7102,13 +6566,13 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     return res;
 }
 
-bool player::covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const
+bool player::covered_with_flag( const std::string &flag, const body_part_set &parts ) const
 {
     if( parts.none() ) {
         return true;
     }
 
-    std::bitset<num_bp> to_cover( parts );
+    body_part_set to_cover( parts );
 
     for( const auto &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
@@ -7125,7 +6589,7 @@ bool player::covered_with_flag( const std::string &flag, const std::bitset<num_b
     return to_cover.none();
 }
 
-bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
+bool player::is_waterproof( const body_part_set &parts ) const
 {
     return covered_with_flag("WATERPROOF", parts);
 }
@@ -7558,7 +7022,10 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
                 ? ammo->contents.front().typeId()
                 : ammo->typeId();
             if( e->can_reload_with( id ) ) {
-                ammo_match_found = true;
+                // Speedloaders require an empty target.
+                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
+                    ammo_match_found = true;
+                }
             }
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
@@ -7570,7 +7037,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
             add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ), base.tname().c_str() );
 
-        } else if ( ammo_match_found ) {
+        } else if( ammo_match_found ) {
             add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
             std::string name;
@@ -7581,7 +7048,8 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
             } else {
                 name = base.ammo_type()->name();
             }
-            add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
+            add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
+                               name.c_str(), base.tname() );
         }
         return reload_option();
     }
@@ -7626,7 +7094,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
             if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
-                return ret_val<bool>::make_failure( _( "You can't wear power armor over other gear!" ) );
+                return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
         if( !it.covers( bp_torso ) ) {
@@ -7646,7 +7114,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
 
         for( auto &i : worn ) {
             if( i.is_power_armor() && i.typeId() == it.typeId() ) {
-                return ret_val<bool>::make_failure( _( "You cannot wear more than one %s!" ), it.tname().c_str() );
+                return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname().c_str() );
             }
         }
     } else {
@@ -7655,17 +7123,18 @@ ret_val<bool> player::can_wear( const item& it  ) const
         bool has_helmet = false;
         if( is_wearing_power_armor( &has_helmet ) &&
             ( has_helmet || !(it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
-            return ret_val<bool>::make_failure( _( "You can't wear %s with power armor!" ), it.tname().c_str() );
+            return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname().c_str() );
         }
     }
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( "RESTRICT_HANDS" ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) || weapon.is_two_handed( *this ) ) ) {
-        return ret_val<bool>::make_failure( _("You don't have a hand free to wear that.") );
+        return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
+                                              : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
-        return ret_val<bool>::make_failure( _( "You can't wear %i or more %s at once." ),
+        return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
                                MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ).c_str() );
     }
 
@@ -7674,7 +7143,8 @@ ret_val<bool> player::can_wear( const item& it  ) const
           ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
           !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
-        return ret_val<bool>::make_failure( _( "You're already wearing footwear!" ) );
+        return ret_val<bool>::make_failure( ( is_player() ? _( "You're already wearing footwear!" )
+                                              : string_format( _( "%s is already wearing footwear!" ), name.c_str() ) ) );
     }
 
     if( it.covers( bp_head ) &&
@@ -7683,28 +7153,30 @@ ret_val<bool> player::can_wear( const item& it  ) const
         !it.has_flag( "OVERSIZE" ) &&
         is_wearing_helmet() ) {
         return ret_val<bool>::make_failure( wearing_something_on( bp_head ),
-                                            _( "You can't wear that with other headgear!" ) );
+                                            ( is_player() ? _( "You can't wear that with other headgear!" )
+                                             : string_format( _( "%s can't wear that with other headgear!" ), name.c_str() ) ) );
     }
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
         ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
-        return ret_val<bool>::make_failure( _( "You can't wear that much on your head!" ) );
+        return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
+                                              : string_format( _( "%s can't wear that much on their head!" ), name.c_str() ) ) );
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
-        return ret_val<bool>::make_failure( _( "You can't wear that, it's made of wool!" ) );
+        return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
     if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "You can't wear that, it's filthy!" ) );
+        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
     if( !it.has_flag( "OVERSIZE" ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( _( "Your mutation %s prevents you from wearing that %s." ),
+                return ret_val<bool>::make_failure( _( "Mutation %s prevents from wearing %s." ),
                              branch.name.c_str(), it.type_name().c_str() );
             }
         }
@@ -7712,7 +7184,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
             !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
             !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) || has_trait( trait_ANTLERS ) ) ) {
-            return ret_val<bool>::make_failure( _( "You cannot wear a helmet over your %s." ),
+            return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
                             ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
                             ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
         }
@@ -8302,13 +7774,18 @@ bool player::wear( item& to_wear, bool interactive )
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
-            add_msg( m_info, _( "You are already wearing that." ) );
+            add_msg_player_or_npc( m_info,
+                                   _( "You are already wearing that." ),
+                                   _( "<npcname> is already wearing that.")
+                                   );
         }
         return false;
     }
     if( to_wear.is_null() ) {
         if( interactive ) {
-            add_msg( m_info, _( "You don't have that item. ") );
+            add_msg_player_or_npc( m_info,
+                                   _( "You don't have that item."),
+                                   _( "<npcname> doesn't have that item."));
         }
         return false;
     }
@@ -8316,7 +7793,7 @@ bool player::wear( item& to_wear, bool interactive )
     bool was_weapon;
     item to_wear_copy( to_wear );
     if( &to_wear == &weapon ) {
-        weapon = ret_null;
+        weapon = item();
         was_weapon = true;
     } else {
         inv.remove_item( &to_wear );
@@ -8349,17 +7826,19 @@ bool player::wear_item( const item &to_wear, bool interactive )
     worn.push_back(to_wear);
 
     if( interactive ) {
-        add_msg( _("You put on your %s."), to_wear.tname().c_str() );
+        add_msg_player_or_npc(
+                              _("You put on your %s."),
+                              _("<npcname> puts on their %s."),
+                              to_wear.tname().c_str() );
         moves -= item_wear_cost( to_wear );
 
-        for( int i = 0; i < num_bp; i++ ) {
-            body_part bp = body_part( i );
+        for( const body_part bp : all_body_parts ) {
             if (to_wear.covers(bp) && encumb(bp) >= 40)
             {
                 add_msg_if_player(m_warning,
-                    i == bp_eyes ?
+                    bp == bp_eyes ?
                     _("Your %s are very encumbered! %s"):_("Your %s is very encumbered! %s"),
-                    body_part_name(body_part(i)).c_str(), encumb_text(body_part(i)).c_str());
+                    body_part_name( bp ), encumb_text( bp ) );
             }
         }
         if( !was_deaf && is_deaf() ) {
@@ -8493,9 +7972,9 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
                 drop( get_item_position( &it ) );
-                return true;
+            } else {
+                return false;
             }
-            return false;
         }
         iter->on_takeoff( *this );
         inv.add_item_keep_invlet( it );

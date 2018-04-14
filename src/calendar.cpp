@@ -1,6 +1,5 @@
 #include "calendar.h"
 #include <cmath>
-#include <sstream>
 #include <limits>
 #include <array>
 
@@ -8,7 +7,6 @@
 #include "options.h"
 #include "translations.h"
 #include "string_formatter.h"
-#include "debug.h"
 #include "rng.h"
 
 // Divided by 100 to prevent overflowing when converted to moves
@@ -391,41 +389,32 @@ std::string to_string_approx( const time_duration &d, const bool verbose )
     return make_result( turns, _( "about %s" ), "%s" );
 }
 
-std::string calendar::print_time(bool just_hour) const
+std::string to_string_time_of_day( const time_point &p )
 {
-    std::ostringstream time_string;
-    int hour_param;
+    const int hour = hour_of_day<int>( p );
+    const int minute = minute_of_hour<int>( p );
+    //@todo add a to_seconds function?
+    const int second = ( to_turns<int>( time_past_midnight( p ) ) * 6 ) % 60;
+    const std::string format_type = get_option<std::string>( "24_HOUR" );
 
-    if (get_option<std::string>( "24_HOUR" ) == "military") {
-        hour_param = hour % 24;
-        time_string << string_format("%02d%02d.%02d", hour_param, minute, second);
-    } else if (get_option<std::string>( "24_HOUR" ) == "24h") {
-        hour_param = hour % 24;
-        if (just_hour) {
-            time_string << hour_param;
-        } else {
-            //~ hour:minute (24hr time display)
-            time_string << string_format(_("%02d:%02d:%02d"), hour_param, minute, second);
-        }
+    if( format_type == "military" ) {
+        return string_format( "%02d%02d.%02d", hour, minute, second );
+    } else if( format_type == "24h" ) {
+        //~ hour:minute (24hr time display)
+        return string_format( _( "%02d:%02d:%02d" ), hour, minute, second );
     } else {
-        hour_param = hour % 12;
-        if (hour_param == 0) {
+        int hour_param = hour % 12;
+        if( hour_param == 0 ) {
             hour_param = 12;
         }
         // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
-        std::string padding = hour_param < 10 ? " " : "";
-        if (just_hour && hour < 12) {
-            time_string << string_format(_("%d AM"), hour_param);
-        } else if (just_hour) {
-            time_string << string_format(_("%d PM"), hour_param);
-        } else if (hour < 12) {
-            time_string << string_format(_("%d:%02d:%02d%sAM"), hour_param, minute, second, padding.c_str());
+        const std::string padding = hour_param < 10 ? " " : "";
+        if( hour < 12 ) {
+            return string_format( _( "%d:%02d:%02d%sAM" ), hour_param, minute, second, padding );
         } else {
-            time_string << string_format(_("%d:%02d:%02d%sPM"), hour_param, minute, second, padding.c_str());
+            return string_format( _( "%d:%02d:%02d%sPM" ), hour_param, minute, second, padding );
         }
     }
-
-    return time_string.str();
 }
 
 std::string calendar::day_of_week() const
@@ -494,12 +483,6 @@ float calendar::season_from_default_ratio()
     return to_days<float>( season_length() ) / default_season_length;
 }
 
-int calendar::turn_of_year() const
-{
-    const int season_turns = to_turns<int>( season_length() );
-    return (season * season_turns) + (turn_number % season_turns);
-}
-
 int calendar::day_of_year() const
 {
     return day + to_days<int>( season_length() ) * season;
@@ -554,6 +537,11 @@ time_duration rng( time_duration lo, time_duration hi )
     return time_duration( rng( lo.turns_, hi.turns_ ) );
 }
 
+bool x_in_y( const time_duration &a, const time_duration &b )
+{
+    return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
+}
+
 season_type season_of_year( const time_point &p )
 {
     static time_point prev_turn = calendar::before_time_starts;
@@ -572,4 +560,20 @@ season_type season_of_year( const time_point &p )
     }
     
     return prev_season;
+}
+
+std::string to_string( const time_point &p )
+{
+    const int year = to_turns<int>( p - calendar::time_of_cataclysm ) / to_turns<int>( calendar::year_length() ) + 1;
+    const std::string time = to_string_time_of_day( p );
+    if( calendar::eternal_season() ) {
+        const int day = to_days<int>( time_past_new_year( p ) );
+        //~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in its usual format
+        return string_format( _( "Year %1$d, day %2$d %3$s" ), year, day, time );
+    } else {
+        const int day = day_of_season<int>( p );
+        //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
+        return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
+                              calendar::name_season( season_of_year( p ) ), day, time );
+    }
 }

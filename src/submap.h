@@ -9,6 +9,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "active_item_cache.h"
+#include "calendar.h"
 
 #include <vector>
 #include <list>
@@ -167,7 +168,7 @@ struct submap {
     active_item_cache active_items;
 
     int field_count = 0;
-    int turn_last_touched = 0;
+    time_point last_touched = 0;
     int temperature = 0;
     std::vector<spawn_point> spawns;
     /**

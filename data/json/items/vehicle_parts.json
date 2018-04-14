@@ -782,6 +782,7 @@
         "type":"GENERIC",
         "id" : "chimes",
         "name" : "chime loudspeakers",
+        "name_plural" : "chime loudspeakers",
         "description" : "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
         "weight" : 2600,
         "to_hit" : -2,
@@ -863,6 +864,15 @@
         "bashing": 8,
         "to_hit": -4,
         "category": "veh_parts"
+    },
+    {
+        "type":"GENERIC",
+        "id": "acidchitin_plate",
+        "copy-from": "chitin_plate",
+        "name": "biosilicified chitin armor kit",
+        "description": "Durable silica-coated chitin plating made for a vehicle.",
+        "material": ["acidchitin"],
+        "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
     },
     {
         "type":"GENERIC",
@@ -1048,5 +1058,17 @@
         "weight": 500,
         "volume": 1,
         "price": 800
+    },{
+        "id": "turret_mount",
+        "type":"GENERIC",
+        "name": "turret mount",
+        "description": "A universal mount for weapons intended to be installed as turrets.",
+        "color": "cyan",
+        "symbol": "X",
+        "material": "steel",
+        "category": "veh_parts",
+        "weight": 10000,
+        "volume": 10,
+        "price": 5500
     }
 ]

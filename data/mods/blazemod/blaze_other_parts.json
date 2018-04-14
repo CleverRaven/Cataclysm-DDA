@@ -739,6 +739,7 @@
     "id": "turretframe",
     "type": "vehicle_part",
     "name": "turret chassis",
+    "name_plural": "turret chassis",
     "item": "turretframe",
     "symbol": "Y",
     "broken_symbol": "#",

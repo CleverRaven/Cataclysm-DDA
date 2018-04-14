@@ -50,6 +50,8 @@ using namespace activity_handlers;
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
 {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
+    { activity_id( "ACT_CRAFT" ), craft_do_turn },
+    { activity_id( "ACT_LONGCRAFT" ), craft_do_turn },
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
@@ -263,7 +265,7 @@ void set_up_butchery( player_activity &act, player &u )
     act.moves_left = time_to_cut;
 }
 
-void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point &age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point &age, const std::function<int()> &roll_butchery )
 {
     itype_id meat = corpse->get_meat_itype();
     if( corpse->made_of( material_id( "bone" ) ) ) {
@@ -536,7 +538,7 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
     }
 }
 
-void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int()> &roll_butchery )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
 
@@ -1278,6 +1280,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     int qty = act->index;
+    bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname().c_str() );
@@ -1289,7 +1292,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable.has_flag( "RELOAD_ONE" ) ) {
+        if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
                 if( reloadable.ammo_type() == ammotype( "bolt" ) ) {
                     msg = _( "You insert a bolt into the %s." );
@@ -1965,6 +1968,27 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
     act->set_to_null();
+}
+
+void activity_handlers::craft_do_turn( player_activity *act, player *p )
+{
+    const recipe &rec = recipe_id( act->name ).obj();
+    float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    if( crafting_speed <= 0.0f ) {
+        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        }
+        act->set_to_null();
+        return;
+    }
+    act->moves_left -= crafting_speed * p->get_moves();
+    p->set_moves( 0 );
+    if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
+        // @todo Describe the causes of slowdown
+        p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+    }
 }
 
 void activity_handlers::craft_finish( player_activity *act, player *p )

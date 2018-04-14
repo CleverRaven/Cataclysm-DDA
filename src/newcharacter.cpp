@@ -131,16 +131,21 @@ struct points_left {
         return 0;
     }
 
+    bool is_freeform()
+    {
+        return limit == FREEFORM;
+    }
+
     bool is_valid()
     {
-        return limit == FREEFORM ||
+        return is_freeform() ||
             (stat_points_left() >= 0 && trait_points_left() >= 0 &&
             skill_points_left() >= 0);
     }
 
     bool has_spare()
     {
-        return limit != FREEFORM && is_valid() && skill_points_left() > 0;
+        return !is_freeform() && is_valid() && skill_points_left() > 0;
     }
 
     std::string to_string()
@@ -191,7 +196,7 @@ void Character::pick_name(bool bUseDefault)
 
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
-    if( type == PLTYPE_NOW ) {
+    if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
     }
     if( styles.size() == 1 ) {
@@ -428,7 +433,7 @@ bool player::create(character_type type, std::string tempname)
 
 
     catacurses::window w;
-    if( type != PLTYPE_NOW ) {
+    if( type != PLTYPE_NOW && type != PLTYPE_FULL_RANDOM ) {
         w = catacurses::newwin( TERMY, TERMX, 0, 0 );
     }
 
@@ -436,12 +441,16 @@ bool player::create(character_type type, std::string tempname)
     points_left points = points_left();
 
     switch (type) {
+    case PLTYPE_NULL:
     case PLTYPE_CUSTOM:
         break;
     case PLTYPE_NOW:
     case PLTYPE_RANDOM:
         randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
+        break;
+    case PLTYPE_FULL_RANDOM:
+        randomize( true, points );
         break;
     case PLTYPE_TEMPLATE:
         if( !load_template( tempname ) ) {
@@ -544,8 +553,7 @@ bool player::create(character_type type, std::string tempname)
         scent = 300;
     }
 
-    ret_null = item("null", 0);
-    weapon = ret_null;
+    weapon = item("null", 0);
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
@@ -1076,8 +1084,10 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
 
     do {
         draw_points( w, points );
-        mvwprintz(w, 3, 26, c_light_green, "%2d/%-2d", num_good, max_trait_points);
-        mvwprintz(w, 3, 32, c_light_red, "%3d/-%-2d ", num_bad, max_trait_points);
+        if( !points.is_freeform() ) {
+            mvwprintz(w, 3, 26, c_light_green, "%2d/%-2d", num_good, max_trait_points);
+            mvwprintz(w, 3, 32, c_light_red, "%3d/-%-2d ", num_bad, max_trait_points);
+        }
 
         // Clear the bottom of the screen.
         werase(w_description);
@@ -1214,13 +1224,13 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
                 popup(_("The scenario you picked prevents you from taking this trait!"));
             } else if (iCurWorkingPage == 0 && num_good + mdata.points >
-                       max_trait_points) {
+                       max_trait_points && !points.is_freeform()) {
                 popup(ngettext("Sorry, but you can only take %d point of advantages.",
                                "Sorry, but you can only take %d points of advantages.", max_trait_points),
                       max_trait_points);
 
             } else if (iCurWorkingPage != 0 && num_bad + mdata.points <
-                       -max_trait_points) {
+                       -max_trait_points && !points.is_freeform()) {
                 popup(ngettext("Sorry, but you can only take %d point of disadvantages.",
                                "Sorry, but you can only take %d points of disadvantages.", max_trait_points),
                       max_trait_points);
