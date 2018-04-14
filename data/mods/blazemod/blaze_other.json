@@ -58,7 +58,7 @@
     "material": [ "glass", "steel" ],
     "symbol": "]",
     "color": "light_blue"
-  },  
+  },
   {
     "id": "spring_plate",
     "type": "GENERIC",
