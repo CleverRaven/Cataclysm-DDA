@@ -929,7 +929,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_5",
     "type": "mission_definition",
-    "name": "Find 2 55-Gallon Drums",
+    "name": "Find 2 200-Liter Drums",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -940,11 +940,11 @@
     "followup": "MISSION_RANCH_BARTENDER_5",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "The other survivor outposts that we have contact with have been more than eager to trade for beer or other drinks.  Transporting the drinks to them has presented a number of challenges though.  If you could locate a pair of 55-gallon drums we should be able to keep them supplied while turning a significant profit.",
+      "offer": "The other survivor outposts that we have contact with have been more than eager to trade for beer or other drinks.  Transporting the drinks to them has presented a number of challenges though.  If you could locate a pair of 200-liter drums we should be able to keep them supplied while turning a significant profit.",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "Factories or junk yards are the only places I know where to look.",
-      "inquire": "Do you have the 55-gallon drums?",
+      "inquire": "Do you have the 200-liter drums?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
