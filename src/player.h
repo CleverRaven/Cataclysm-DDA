@@ -141,7 +141,7 @@ class player : public Character
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
-        void randomize( bool random_scenario, points_left &points );
+        void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature
