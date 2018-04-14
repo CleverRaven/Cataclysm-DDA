@@ -28,7 +28,7 @@
     "copy-from": "clothboard",
     "type": "vehicle_part",
     "name": "cloth quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -36,33 +36,33 @@
     "copy-from": "board",
     "type": "vehicle_part",
     "name": "quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
-    "abstract" : "stowboard",
-    "type" : "vehicle_part",
-    "name" : "stow board",
-    "item" : "sheet_metal",
-    "location" : "center",
-    "color" : "white",
-    "broken_symbol" : "#",
-    "broken_color" : "light_gray",
-    "difficulty" : 2,
-    "durability" : 200,
-    "size" : 250,
-    "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
+    "abstract": "stowboard",
+    "type": "vehicle_part",
+    "name": "stow board",
+    "item": "sheet_metal",
+    "location": "center",
+    "color": "white",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "difficulty": 2,
+    "durability": 200,
+    "size": 250,
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED" ]
   },
   {
-    "abstract" : "hdstowboard",
-    "copy-from" : "stowboard",
-    "type" : "vehicle_part",
-    "name" : "heavy duty stow board",
-    "item" : "steel_plate",
-    "color" : "brown",
-    "broken_color" : "dark_gray",
-    "proportional" : { "durability" : 4.15, "size" : 0.76 },
-    "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
+    "abstract": "hdstowboard",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "name": "heavy duty stow board",
+    "item": "steel_plate",
+    "color": "brown",
+    "broken_color": "dark_gray",
+    "proportional": { "durability": 4.15, "size": 0.76 },
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED" ]
   },
   {
     "abstract": "hdboard",
@@ -81,7 +81,7 @@
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "name": "heavy duty quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -102,7 +102,7 @@
     "copy-from": "woodboard",
     "type": "vehicle_part",
     "name": "wooden quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
