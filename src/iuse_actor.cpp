@@ -1272,7 +1272,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     for( auto salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
-        item result( mat_name, int(calendar::turn) );
+        item result( mat_name, calendar::turn );
         if (amount > 0) {
             add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount),
                      amount, result.display_name( amount ).c_str() );
@@ -1840,7 +1840,9 @@ void musical_instrument_actor::load( JsonObject &obj )
     volume = obj.get_int( "volume" );
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
-    description_frequency = obj.get_int( "description_frequency" );
+    if( !obj.read( "description_frequency", description_frequency ) ) {
+        obj.throw_error( "missing member \"description_frequency\"" );
+    }
     player_descriptions = obj.get_string_array( "player_descriptions" );
     npc_descriptions = obj.get_string_array( "npc_descriptions" );
 }
@@ -1913,14 +1915,13 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     std::string desc = "";
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
-    //@todo: change description_frequency to time_duration
-    if( morale_effect >= 0 && calendar::once_every( time_duration::from_turns( description_frequency ) ) ) {
+    if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
         if( !player_descriptions.empty() && p.is_player() ) {
             desc = _( random_entry( player_descriptions ).c_str() );
         } else if (!npc_descriptions.empty() && p.is_npc() ) {
             desc = string_format(_("%1$s %2$s"), p.disp_name(false).c_str(), random_entry( npc_descriptions ).c_str() );
         }
-    } else if( morale_effect < 0 && ( int(calendar::turn) % 10 ) == 0 ) {
+    } else if( morale_effect < 0 && calendar::once_every( 10_turns ) ) {
         // No musical skills = possible morale penalty
         if ( p.is_player() ) {
             desc = _("You produce an annoying sound");

@@ -588,7 +588,7 @@ bool player::has_miss_recovery_tec( const item &weap ) const
 // This one isn't used with a weapon
 bool player::has_grab_break_tec() const
 {
-    for( auto &technique : get_all_techniques( ret_null ) ) {
+    for( auto &technique : get_all_techniques( item() ) ) {
         if( technique.obj().grab_break ) {
             return true;
         }

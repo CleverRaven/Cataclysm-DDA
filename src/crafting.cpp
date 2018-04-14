@@ -1167,7 +1167,7 @@ item &get_item_for_uncraft( player &p, int item_pos,
     if( from_ground ) {
         auto items_on_ground = g->m.i_at( loc );
         if( static_cast<size_t>( item_pos ) >= items_on_ground.size() ) {
-            return p.ret_null;
+            return null_item_reference();
         }
         org_item = &items_on_ground[item_pos];
     } else {

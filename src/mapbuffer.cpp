@@ -223,7 +223,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.write( submap_addr.z );
         jsout.end_array();
 
-        jsout.member( "turn_last_touched", sm->turn_last_touched );
+        jsout.member( "turn_last_touched", sm->last_touched );
         jsout.member( "temperature", sm->temperature );
 
         jsout.member( "terrain" );
@@ -439,7 +439,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 jsin.end_array();
                 submap_coordinates = tripoint( locx, locy, locz );
             } else if( submap_member_name == "turn_last_touched" ) {
-                sm->turn_last_touched = jsin.get_int();
+                sm->last_touched = jsin.get_int();
             } else if( submap_member_name == "temperature" ) {
                 sm->temperature = jsin.get_int();
             } else if( submap_member_name == "terrain" ) {

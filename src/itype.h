@@ -110,8 +110,8 @@ struct islot_comestible
     /** effect on character nutrition (may be negative) */
     int nutr = 0;
 
-    /** turns until becomes rotten, or zero if never spoils */
-    int spoils = 0;
+    /** Time until becomes rotten at standard temperature, or zero if never spoils */
+    time_duration spoils = 0;
 
     /** addiction potential */
     int addict = 0;
