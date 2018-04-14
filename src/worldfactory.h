@@ -47,23 +47,30 @@ class save_t
 };
 
 struct WORLD {
-    std::string world_path;
-    std::string world_name;
-    options_manager::options_container WORLD_OPTIONS;
-    std::vector<save_t> world_saves;
-    /**
-     * A (possibly empty) list of (idents of) mods that
-     * should be loaded for this world.
-     */
-    std::vector<mod_id> active_mod_order;
+    public:
+        /**
+         * @returns A path to a folder in the file system that should contain
+         * all the world specific files. It depends on @ref world_name,
+         * changing that will also change the result of this function.
+         */
+        std::string folder_path() const;
 
-    WORLD();
+        std::string world_name;
+        options_manager::options_container WORLD_OPTIONS;
+        std::vector<save_t> world_saves;
+        /**
+         * A (possibly empty) list of (idents of) mods that
+         * should be loaded for this world.
+         */
+        std::vector<mod_id> active_mod_order;
 
-    bool save_exists( const save_t &name ) const;
-    void add_save( const save_t &name );
+        WORLD();
 
-    void load_options( JsonIn &jsin );
-    void load_legacy_options( std::istream &fin );
+        bool save_exists( const save_t &name ) const;
+        void add_save( const save_t &name );
+
+        void load_options( JsonIn &jsin );
+        void load_legacy_options( std::istream &fin );
 };
 
 class mod_manager;

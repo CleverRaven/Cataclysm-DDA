@@ -119,6 +119,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
+    "EXTERNAL_OPTION",
     "faction",
     "fault",
     "furniture",
