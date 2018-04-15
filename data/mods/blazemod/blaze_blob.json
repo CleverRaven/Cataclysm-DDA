@@ -176,7 +176,7 @@
     "bashing": 10,
     "material": [ "flesh", "bone" ],
     "symbol": "&",
-    "color": "purple",
+    "color": "magenta",
     "skill": "pistol",
     "range": 12,
     "ranged_damage": 7,
@@ -198,7 +198,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "purple",
+    "color": "magenta",
     "use_action": {
       "target": "clutter",
       "msg": "The blob balloons to full size.",
@@ -503,7 +503,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "light__gray",
+    "color": "light_gray",
     "ammo": "bfeed",
     "max_charges": 250,
     "charges_per_use": 250,
@@ -559,7 +559,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "gray",
+    "color": "light_gray",
     "contains": 100,
     "seals": true,
     "watertight": true
@@ -576,7 +576,7 @@
     "bashing": 9,
     "material": [ "flesh" ],
     "symbol": "]",
-    "color": "light__gray",
+    "color": "light_gray",
     "diameter": 40,
     "width": 40
   },
@@ -593,7 +593,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "light__gray",
+    "color": "light_gray",
     "use_action": {
       "target": "gray",
       "msg": "The blob balloons to full size.",
@@ -615,7 +615,7 @@
     "bashing": 9,
     "material": [ "stone", "flesh" ],
     "symbol": "]",
-    "color": "light__gray",
+    "color": "light_gray",
     "diameter": 60,
     "width": 60
   },
