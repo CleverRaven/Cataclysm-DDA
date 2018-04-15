@@ -185,7 +185,7 @@
         "description": "A variety of plant, used for decoration.",
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "SHORT"],
+        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY"],
         "bash": {
             "str_min": 2, "str_max": 18,
             "sound": "smash!",
@@ -208,6 +208,7 @@
         "color": "yellow",
         "move_cost_mod": 2,
         "required_str": 5,
+        "max_volume": 2000,
         "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY"],
         "bash": {
             "str_min": 2, "str_max": 18,
