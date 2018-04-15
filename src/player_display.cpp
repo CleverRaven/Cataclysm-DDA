@@ -675,7 +675,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_stats, 8, 0, c_light_gray, "%26s", "" );
 
                 if( line == 0 ) {
-                    // Display player current strength effects
+                    // Display information on player strength in appropriate window
                     mvwprintz( w_stats, 2, 1, h_light_gray, _( "Strength:" ) );
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
@@ -692,7 +692,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_info, 5, 22, c_magenta, "%3.1f", bonus_damage( false ) );
 
                 } else if( line == 1 ) {
-                    // Display player current dexterity effects
+                    // Display information on player dexterity in appropriate window
                     mvwprintz( w_stats, 3, 1, h_light_gray, _( "Dexterity:" ) );
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
@@ -704,7 +704,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_info, 5, 1, c_magenta, _( "Throwing penalty per target's dodge:" ) );
                     mvwprintz( w_info, 5, 38, c_magenta, "%+3d", throw_dispersion_per_dodge( false ) );
                 } else if( line == 2 ) {
-                    // Display player current intelligence effects
+                    // Display information on player intelligence in appropriate window
                     mvwprintz( w_stats, 4, 1, h_light_gray, _( "Intelligence:" ) );
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
@@ -716,7 +716,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_info, 5, 1, c_magenta, _( "Crafting bonus:" ) );
                     mvwprintz( w_info, 5, 22, c_magenta, "%2d%%", get_int() );
                 } else if( line == 3 ) {
-                    // Display player current perception effects
+                    // Display information on player perception in appropriate window
                     mvwprintz( w_stats, 5, 1, h_light_gray, _( "Perception:" ) );
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Perception is the most important stat for ranged combat.  It's also used for "
