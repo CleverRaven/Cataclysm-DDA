@@ -6689,7 +6689,8 @@
   {
     "id": "t_railroad_rubble",
     "type": "terrain",
-    "name": "railroad rubble",
+    "name": "gravel",
+    "description": "A small mallet that a judge uses to call - er, wait.  Oh, gravel!  Gravel is a collection of small stones often used for roads, as railroad ballast, and in many other applications.",
     "symbol": "^",
     "color": [ "brown" ],
     "move_cost": 2,
@@ -6701,7 +6702,7 @@
     "name": "railroad track",
     "symbol": "X",
     "color": [ "cyan" ],
-    "move_cost": 2,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6710,7 +6711,7 @@
     "name": "railroad track",
     "symbol": "x",
     "color": [ "cyan" ],
-    "move_cost": 2,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6719,7 +6720,7 @@
     "name": "railroad tie",
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
   {
