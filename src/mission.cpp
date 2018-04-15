@@ -328,7 +328,7 @@ bool mission::is_complete( const int _npc_id ) const
             return g->kill_count( mtype_id( monster_type ) ) >= monster_kill_goal;
 
         case MGOAL_KILL_MONSTER_SPEC:
-            return g->species_kill_count( species_id( monster_species ) ) >= monster_kill_goal;
+            return g->species_kill_count( monster_species ) >= monster_kill_goal;
 
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
