@@ -475,14 +475,14 @@ void init_colors()
     all_colors.load_default();
     all_colors.load_custom();
 
-    // The color codes are intentionally untranslatable.
+    // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, _( "brown" )}}, {"lg", {c_light_gray, _( "light_gray" )}},
-        {"dg", {c_dark_gray, _( "dark gray" )}}, {"r", {c_light_red, _( "light_red" )}},
-        {"R", {c_red, _( "red" )}}, {"g", {c_light_green, _( "light_green" )}},
-        {"G", {c_green, _( "green" )}}, {"b", {c_light_blue, _( "light_blue" )}},
+        {"br", {c_brown, _( "brown" )}}, {"lg", {c_light_gray, _( "light gray" )}},
+        {"dg", {c_dark_gray, _( "dark gray" )}}, {"r", {c_light_red, _( "light red" )}},
+        {"R", {c_red, _( "red" )}}, {"g", {c_light_green, _( "light green" )}},
+        {"G", {c_green, _( "green" )}}, {"b", {c_light_blue, _( "light blue" )}},
         {"B", {c_blue, _( "blue" )}}, {"W", {c_white, _( "white" )}},
-        {"C", {c_cyan, _( "cyan" )}}, {"c", {c_light_cyan, _( "light_cyan" )}},
+        {"C", {c_cyan, _( "cyan" )}}, {"c", {c_light_cyan, _( "light cyan" )}},
         {"P", {c_pink, _( "pink" )}}, {"m", {c_magenta, _( "magenta" )}}
     };
 }
