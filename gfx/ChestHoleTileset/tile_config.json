@@ -39717,7 +39717,7 @@
           "rotates": false
         },
         {
-          "id": "t_claymound",
+          "id": ["t_claymound", "t_clay"],
           "fg": 2929,
           "bg": 640,
           "rotates": false
