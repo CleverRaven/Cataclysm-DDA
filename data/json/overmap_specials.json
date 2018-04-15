@@ -533,8 +533,6 @@
         "type" : "overmap_special",
         "id" : "Cathedral",
         "overmaps" : [
-            { "point" : [0,-1,0], "overmap": "road_end_north"},
-            { "point" : [1,-1,0], "overmap": "road_end_north"},
             { "point" : [0,0,0], "overmap": "cathedral_1_NW_north"},
             { "point" : [1,0,0], "overmap": "cathedral_1_NE_north"},
             { "point" : [0,1,0], "overmap": "cathedral_1_SW_north"},
@@ -545,8 +543,8 @@
             { "point" : [1,1,-1], "overmap": "cathedral_b_SE_north"}
         ],
         "connections" : [
-            { "point" : [0,-1,0] },
-            { "point" : [1,-1,0] }
+            { "point" : [0,-1,0], "terrain" : "road" },
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
