@@ -35190,7 +35190,7 @@
           "rotates": false
         },
         {
-          "id": ["overlay_wielded_wakizashi_fake", "scimitar_inferior"],
+          "id": "overlay_wielded_wakizashi_fake",
           "fg": 3388,
           "bg": 632,
           "rotates": false
@@ -41716,6 +41716,18 @@
        {
           "id": "mon_ant_acid_larva",
           "fg": 4249,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": ["overlay_wielded_scimitar", "overlay_wielded_scimitar_inferior", "overlay_wielded_scimitar_fake"],
+          "fg": 4282,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": ["scimitar", "scimitar_inferior", "scimitar_fake"],
+          "fg": 4283,
           "bg": 632,
           "rotates": false
         },
