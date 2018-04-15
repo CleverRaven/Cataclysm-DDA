@@ -934,7 +934,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     if( p == g->u.pos() ) {
-        melee_attack( g->u, true );
+        melee_attack( g->u );
         return true;
     }
 
@@ -955,7 +955,7 @@ bool monster::attack_at( const tripoint &p )
         auto attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
-            melee_attack( mon, true );
+            melee_attack( mon );
             return true;
         }
 
@@ -967,7 +967,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack( *guy, true );
+        melee_attack( *guy );
         return true;
     }
 
