@@ -546,8 +546,8 @@ bool main_menu::new_character_tab()
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now! (<F|f>ixed Scenario)" ) );
+        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     std::vector<std::vector<std::string>> vNewGameHotkeys;
     for( auto item : vSubItems ) {
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
@@ -600,7 +600,7 @@ bool main_menu::new_character_tab()
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
-                    WORLDPTR world = world_generator->pick_world( sel2 != 3 || sel2 != 4 );
+                    WORLDPTR world = world_generator->pick_world( sel2 != 3 && sel2 != 4 );
                     if( world == NULL ) {
                         continue;
                     }
@@ -612,7 +612,7 @@ bool main_menu::new_character_tab()
                         g->u = player();
                         continue;
                     }
-                    character_type play_type = PLTYPE_NULL;
+                    character_type play_type = PLTYPE_CUSTOM;
                     switch( sel2 ) {
                         case 0:
                             play_type = PLTYPE_CUSTOM;
@@ -625,6 +625,7 @@ bool main_menu::new_character_tab()
                             break;
                         case 4:
                             play_type = PLTYPE_FULL_RANDOM;
+                            break;
                     }
                     if( !g->u.create( play_type ) ) {
                         g->u = player();

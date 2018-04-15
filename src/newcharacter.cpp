@@ -233,7 +233,7 @@ bool player::load_template( const std::string &template_name )
     } );
 }
 
-void player::randomize( const bool random_scenario, points_left &points )
+void player::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
 
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
@@ -242,7 +242,7 @@ void player::randomize( const bool random_scenario, points_left &points )
 
     male = ( rng( 1, 100 ) > 50 );
     if(!MAP_SHARING::isSharing()) {
-        pick_name( true );
+        play_now ? pick_name() : pick_name( true );
     } else {
         name = MAP_SHARING::getUsername();
     }
@@ -441,16 +441,17 @@ bool player::create(character_type type, std::string tempname)
     points_left points = points_left();
 
     switch (type) {
-    case PLTYPE_NULL:
     case PLTYPE_CUSTOM:
         break;
-    case PLTYPE_NOW:
-    case PLTYPE_RANDOM:
+    case PLTYPE_RANDOM: //fixed scenario, default name if exist
         randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
         break;
-    case PLTYPE_FULL_RANDOM:
-        randomize( true, points );
+    case PLTYPE_NOW: //fixed scenario, random name
+        randomize( false, points, true );
+        break;
+    case PLTYPE_FULL_RANDOM: //random scenario, random name
+        randomize( true, points, true );
         break;
     case PLTYPE_TEMPLATE:
         if( !load_template( tempname ) ) {
