@@ -2744,6 +2744,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             }
 
             if( locations.empty() ) {
+                popup( _("No results found.") );
                 continue;
             }
 
