@@ -23,6 +23,7 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #include "cata_utility.h"
+#include "sounds.h"
 #include "uistate.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -2744,6 +2745,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             }
 
             if( locations.empty() ) {
+                sfx::play_variant_sound( "menu_error", "default", 100 );
                 popup( _("No results found.") );
                 continue;
             }
