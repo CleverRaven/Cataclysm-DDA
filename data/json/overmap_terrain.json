@@ -528,7 +528,7 @@
         "color" : "i_light_red",
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "flags" : [ "SIDEWALK", "KNOWN_DOWN" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_1_NE",
@@ -545,7 +545,8 @@
         "type" : "overmap_terrain",
         "id" : "cathedral_b_NW",
         "copy-from" : "cathedral_1_NW",
-        "name" : "cathedral basement"
+        "name" : "cathedral basement",
+        "delete": { "flags" : [ "SIDEWALK", "KNOWN_DOWN" ] }
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_b_NE",
