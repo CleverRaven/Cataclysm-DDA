@@ -53656,9 +53656,8 @@
           "bg": 632
         },
         {
-          "id": ["f_coffin_c", "f_coffin_o"],
-          "fg": 4059,
-          "bg": 632
+          "id": "f_coffin_c",
+          "bg": 4059
         },
         {
           "id": "t_tree_maple_tapped",
@@ -57229,8 +57228,7 @@
         },
         {
           "id": "f_coffin_o",
-          "fg": 4255,
-          "rotates": true
+          "fg": 4255
         },
         {
           "id": "overlay_wielded_torch",
