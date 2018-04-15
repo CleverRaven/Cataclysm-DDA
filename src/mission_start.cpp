@@ -373,7 +373,7 @@ void mission_start::kill_20_nightmares( mission *miss )
     miss->monster_type = mon_charred_nightmare.str();
     int killed = 0;
     killed += g->kill_count( mon_charred_nightmare );
-    miss->monster_kill_goal = 20 + killed; //your kill score must increase by 100
+    miss->monster_kill_goal = 20 + killed; //your kill score must increase by 20
 }
 
 void mission_start::kill_horde_master( mission *miss )
