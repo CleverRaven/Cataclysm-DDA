@@ -4300,7 +4300,7 @@ bool mattack::kamikaze(monster *z)
 
     // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if (z->has_effect( effect_countdown )) {
-        if (z->get_effect( effect_countdown).get_duration() == 1) {
+        if( z->get_effect( effect_countdown).get_duration() == 1_turns ) {
             z->die(nullptr);
             // Timer is out, detonate
             item i_explodes( act_bomb_type, calendar::turn, 0 );

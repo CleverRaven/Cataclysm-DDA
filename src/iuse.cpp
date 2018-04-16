@@ -467,7 +467,7 @@ int iuse::smoking(player *p, item *it, bool, const tripoint&)
             weed_msg( *p );
         }
     }
-    if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    if( p->get_effect_dur( effect_cig ) > 100_turns * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
         p->add_msg_if_player(m_bad, _("Ugh, too much smoke... you feel nasty."));
     }
 
@@ -492,7 +492,7 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
     p->mod_thirst(1);
     p->mod_hunger(-1);
     p->add_effect( effect_cig, 10_minutes );
-    if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    if( p->get_effect_dur( effect_cig ) > 100_turns * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
         p->add_msg_if_player(m_bad, _("Ugh, too much nicotine... you feel nasty."));
     }
     return it->type->charges_to_use();
@@ -509,7 +509,7 @@ int iuse::antibiotic(player *p, item *it, bool, const tripoint& )
             // Add recovery effect for each infected wound
             time_duration infected_tot = 0_turns;
             for( const body_part bp : all_body_parts ) {
-                const time_duration infected_dur = time_duration::from_turns( p->get_effect_dur( effect_infected, bp ) );
+                const time_duration infected_dur = p->get_effect_dur( effect_infected, bp );
                 if( infected_dur > 0_turns ) {
                     infected_tot += infected_dur;
                 }
@@ -873,7 +873,7 @@ int iuse::prozac(player *p, item *it, bool, const tripoint& )
     }
     if ( one_in(50) ) {  // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player(m_warning, _("You suddenly feel hollow inside."));
-        p->add_effect( effect_took_prozac_bad, time_duration::from_turns( p->get_effect_dur( effect_took_prozac ) ) );
+        p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
     return it->type->charges_to_use();
 }
@@ -5007,7 +5007,7 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
 
 int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 {
-    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 300 ) {
+    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 30_minutes ) {
         return 0;
     }
 
@@ -5043,7 +5043,7 @@ int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
     }
 
     if (p->has_effect( effect_jetinjector)) {
-        if (p->get_effect_dur( effect_jetinjector ) > 200) {
+        if( p->get_effect_dur( effect_jetinjector ) > 20_minutes ) {
             p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
         }
     }

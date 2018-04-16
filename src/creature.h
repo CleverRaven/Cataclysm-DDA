@@ -317,7 +317,7 @@ class Creature
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
-        int get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns true if the creature resists an effect */

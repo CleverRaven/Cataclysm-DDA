@@ -765,10 +765,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
             effect &e = found_effect->second;
             const int prev_int = e.get_intensity();
             // If we do, mod the duration, factoring in the mod value
-            e.mod_duration( to_turns<int>( dur ) * e.get_dur_add_perc() / 100);
+            e.mod_duration( dur * e.get_dur_add_perc() / 100);
             // Limit to max duration
-            if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
-                e.set_duration(e.get_max_duration());
+            if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
+                e.set_duration( e.get_max_duration() );
             }
             // Adding a permanent effect makes it permanent
             if( e.is_permanent() ) {
@@ -776,7 +776,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
             }
             // int_dur_factor overrides all other intensity settings
             // ...but it's handled in set_duration, so explicitly do nothing here
-            if( e.get_int_dur_factor() > 0 ) {
+            if( e.get_int_dur_factor() > 0_turns ) {
                 // Set intensity if value is given
             } else if (intensity > 0) {
                 e.set_intensity(intensity);
@@ -814,16 +814,16 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
 
         // Now we can make the new effect for application
-        effect e( &type, to_turns<int>( dur ), bp, permanent, intensity, calendar::turn );
+        effect e( &type, dur, bp, permanent, intensity, calendar::turn );
         // Bound to max duration
-        if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
-            e.set_duration(e.get_max_duration());
+        if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
         }
 
         // Force intensity if it is duration based
-        if( e.get_int_dur_factor() != 0 ) {
+        if( e.get_int_dur_factor() != 0_turns ) {
             // + 1 here so that the lowest is intensity 1, not 0
-             e.set_intensity( ( e.get_duration() / e.get_int_dur_factor() ) + 1 );
+             e.set_intensity( e.get_duration() / e.get_int_dur_factor() + 1 );
         }
         // Bound new effect intensity by [1, max intensity]
         if (e.get_intensity() < 1) {
@@ -944,14 +944,14 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
     }
     return effect::null_effect;
 }
-int Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
+time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
 {
     const effect &eff = get_effect(eff_id, bp);
     if( !eff.is_null() ) {
         return eff.get_duration();
     }
 
-    return 0;
+    return 0_turns;
 }
 int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
 {
@@ -983,7 +983,7 @@ void Creature::process_effects()
             // Run decay effects, marking effects for removal as necessary.
             e.decay( rem_ids, rem_bps, calendar::turn, is_player() );
 
-            if( e.get_intensity() != prev_int && e.get_duration() > 0 ) {
+            if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
                 on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
             }
         }

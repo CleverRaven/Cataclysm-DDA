@@ -158,8 +158,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             if( p.worn_with_flag( "SPLINT", bp ) ) {
                 static const efftype_id effect_mending( "mending" );
                 const auto &eff = p.get_effect( effect_mending, bp );
-                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
-                                                  ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
+                const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 if( is_self_aware ) {
                     limb = string_format( "=%2d%%=", mend_perc );

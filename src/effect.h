@@ -81,14 +81,14 @@ class effect_type
 
     protected:
         int max_intensity;
-        int max_duration;
+        time_duration max_duration;
 
         int dur_add_perc;
         int int_add_val;
 
         int int_decay_step;
         int int_decay_tick;
-        int int_dur_factor;
+        time_duration int_dur_factor;
 
         bool main_parts_only;
 
@@ -134,10 +134,10 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( NULL ), duration( 0 ), bp( num_bp ),
+        effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
             permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
         }
-        effect( const effect_type *peff_type, int dur, body_part part,
+        effect( const effect_type *peff_type, const time_duration dur, body_part part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
@@ -168,13 +168,13 @@ class effect
                     const time_point &time, bool player );
 
         /** Returns the remaining duration of an effect. */
-        int get_duration() const;
+        time_duration get_duration() const;
         /** Returns the maximum duration of an effect. */
-        int get_max_duration() const;
+        time_duration get_max_duration() const;
         /** Sets the duration, capping at max_duration if it exists. */
-        void set_duration( int dur, bool alert = false );
+        void set_duration( time_duration dur, bool alert = false );
         /** Mods the duration, capping at max_duration if it exists. */
-        void mod_duration( int dur, bool alert = false );
+        void mod_duration( time_duration dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration( double dur, bool alert = false );
 
@@ -249,7 +249,7 @@ class effect
         /** Returns the percentage value by further applications of existing effects' duration is multiplied by. */
         int get_dur_add_perc() const;
         /** Returns the number of turns it takes for the intensity to fall by 1 or 0 if intensity isn't based on duration. */
-        int get_int_dur_factor() const;
+        time_duration get_int_dur_factor() const;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
         int get_int_add_val() const;
 
@@ -272,7 +272,7 @@ class effect
 
     protected:
         const effect_type *eff_type;
-        int duration;
+        time_duration duration;
         body_part bp;
         bool permanent;
         int intensity;

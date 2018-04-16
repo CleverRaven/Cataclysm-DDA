@@ -121,7 +121,7 @@ bionic_data::bionic_data()
 
 void force_comedown( effect &eff )
 {
-    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1 ) {
+    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1_turns ) {
         return;
     }
 
@@ -976,8 +976,9 @@ bool player::install_bionics( const itype &type, int skill_level )
     }
 
     const int pk = get_painkiller();
-    const int overall_pk_dur = ( get_effect_dur( effect_pkill1 ) + get_effect_dur( effect_pkill2 ) +
-                                 get_effect_dur( effect_pkill3 ) + get_effect_dur( effect_pkill_l ) ) / MINUTES( 1 );
+    const int overall_pk_dur = to_minutes<int>( get_effect_dur( effect_pkill1 ) + get_effect_dur(
+                                   effect_pkill2 ) +
+                               get_effect_dur( effect_pkill3 ) + get_effect_dur( effect_pkill_l ) );
     int pain_cap = 100;
     if( has_trait( trait_PAINRESIST_TROGLO ) ) {
         pain_cap = pain_cap / 2;

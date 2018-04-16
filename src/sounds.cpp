@@ -336,7 +336,7 @@ void sounds::process_sound_markers( player *p )
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
             !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
-            if( p->get_effect( effect_alarm_clock ).get_duration() < 2 ) {
+            if( p->get_effect( effect_alarm_clock ).get_duration() < 2_turns ) {
                 if( slept_through ) {
                     p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
                 } else {
@@ -344,7 +344,7 @@ void sounds::process_sound_markers( player *p )
                 }
                 p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }
-            p->get_effect( effect_alarm_clock ).set_duration( 0 );
+            p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
 
         const std::string &sfx_id = sound.id;

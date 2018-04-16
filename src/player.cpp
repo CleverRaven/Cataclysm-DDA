@@ -604,22 +604,22 @@ void player::reset_stats()
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
-    const auto set_fake_effect_dur = [this]( const efftype_id &type, int dur ) {
+    const auto set_fake_effect_dur = [this]( const efftype_id &type, const time_duration dur ) {
         effect &eff = get_effect( type );
         if( eff.get_duration() == dur ) {
             return;
         }
 
-        if( eff.is_null() && dur > 0 ) {
-            add_effect( type, time_duration::from_turns( dur ), num_bp, true );
-        } else if( dur > 0 ) {
+        if( eff.is_null() && dur > 0_turns ) {
+            add_effect( type, dur, num_bp, true );
+        } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
             remove_effect( type, num_bp );
         }
     };
     // Painkiller
-    set_fake_effect_dur( effect_pkill, pkill );
+    set_fake_effect_dur( effect_pkill, 1_turns * pkill );
 
     // Pain
     if( get_perceived_pain() > 0 ) {
@@ -634,16 +634,16 @@ void player::reset_stats()
     }
 
     // Radiation
-    set_fake_effect_dur( effect_irradiated, radiation );
+    set_fake_effect_dur( effect_irradiated, 1_turns * radiation );
     // Morale
     const int morale = get_morale_level();
-    set_fake_effect_dur( effect_happy, morale );
-    set_fake_effect_dur( effect_sad, -morale );
+    set_fake_effect_dur( effect_happy, 1_turns * morale );
+    set_fake_effect_dur( effect_sad, 1_turns * -morale );
 
     // Stimulants
-    set_fake_effect_dur( effect_stim, stim );
-    set_fake_effect_dur( effect_depressants, -stim );
-    set_fake_effect_dur( effect_stim_overdose, stim - 30 );
+    set_fake_effect_dur( effect_stim, 1_turns * stim );
+    set_fake_effect_dur( effect_depressants, 1_turns * -stim );
+    set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
     // Hunger
     if( get_hunger() >= 500 ) {
         // We die at 6000
@@ -2881,8 +2881,8 @@ void player::pause()
 
     // Try to put out clothing/hair fire
     if( has_effect( effect_onfire ) ) {
-        int total_removed = 0;
-        int total_left = 0;
+        time_duration total_removed = 0_turns;
+        time_duration total_left = 0_turns;
         bool on_ground = has_effect( effect_downed );
         for( const body_part bp : all_body_parts ) {
             effect &eff = get_effect( effect_onfire, bp );
@@ -2893,18 +2893,18 @@ void player::pause()
             // @todo: Tools and skills
             total_left += eff.get_duration();
             // Being on the ground will smother the fire much faster because you can roll
-            int dur_removed = on_ground ? eff.get_duration() / 2 + 2 : 1;
+            const time_duration dur_removed = on_ground ? eff.get_duration() / 2 + 2_turns : 1_turns;
             eff.mod_duration( -dur_removed );
             total_removed += dur_removed;
         }
 
         // Don't drop on the ground when the ground is on fire
-        if( total_left > 10 && !is_dangerous_fields( g->m.field_at( pos() ) ) ) {
+        if( total_left > 1_minutes && !is_dangerous_fields( g->m.field_at( pos() ) ) ) {
             add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
             add_msg_player_or_npc( m_warning,
                                    _( "You roll on the ground, trying to smother the fire!" ),
                                    _( "<npcname> rolls on the ground!" ) );
-        } else if( total_removed > 0 ) {
+        } else if( total_removed > 0_turns ) {
             add_msg_player_or_npc( m_warning,
                                    _( "You attempt to put out the fire on you!" ),
                                    _( "<npcname> attempts to put out the fire on them!" ) );
@@ -4089,7 +4089,7 @@ void player::check_needs_extremes()
         add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
         hp_cur[hp_torso] = 0;
-    } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 400 ) {
+    } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if (!(has_trait( trait_NOPAIN ))) {
             add_msg_if_player(m_bad, _("Your heart spasms painfully and stops."));
         } else {
@@ -4098,7 +4098,7 @@ void player::check_needs_extremes()
         add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
                            pgettext("memorial_female", "Died of a healing stimulant overdose."));
         hp_cur[hp_torso] = 0;
-    } else if( get_effect_dur( effect_adrenaline ) > 500 ) {
+    } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_if_player( m_bad, _("Your heart spasms and stops.") );
         add_memorial_log( pgettext("memorial_male", "Died of adrenaline overdose."),
                           pgettext("memorial_female", "Died of adrenaline overdose.") );
@@ -4262,7 +4262,7 @@ void player::update_needs( int rate_multiplier )
             int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
             if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
-                sleep.set_duration( 1 );
+                sleep.set_duration( 1_turns );
                 mod_fatigue(-25);
             } else {
                 mod_fatigue(-recovered);
@@ -5788,10 +5788,10 @@ void player::mend( int rate_multiplier )
             continue;
         }
 
-        int dur_inc = roll_remainder( rate_multiplier * healing_factor );
+        const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
         auto &eff = get_effect( effect_mending, part );
         if( eff.is_null() ) {
-            add_effect( effect_mending, time_duration::from_turns( dur_inc ), part, true );
+            add_effect( effect_mending, dur_inc, part, true );
             continue;
         }
 
@@ -5839,7 +5839,7 @@ void player::vomit()
     if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
         const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
-                                             dummy_nausea.get_int_dur_factor() ) * 1_turns );
+                                             dummy_nausea.get_int_dur_factor() ) );
     }
 
     moves -= 100;
@@ -5847,9 +5847,9 @@ void player::vomit()
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             if( it.get_id() == effect_foodpoison ) {
-                it.mod_duration(-300);
+                it.mod_duration( -30_minutes );
             } else if( it.get_id() == effect_drunk ) {
-                it.mod_duration(rng(-100, -500));
+                it.mod_duration( rng( -10_minutes, -50_minutes ) );
             }
         }
     }
@@ -10946,8 +10946,8 @@ float player::hearing_ability() const
     }
 
     if( has_effect( effect_deaf ) ) {
-        // Scale linearly up to 300
-        volume_multiplier *= ( 300.0 - get_effect_dur( effect_deaf ) ) / 300.0;
+        // Scale linearly up to 30 minutes
+        volume_multiplier *= ( 30_minutes - get_effect_dur( effect_deaf ) ) / 30_minutes;
     }
 
     if( has_effect( effect_earphones ) ) {

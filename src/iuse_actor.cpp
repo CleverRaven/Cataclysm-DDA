@@ -2879,7 +2879,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
     if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
-            const time_duration infected_dur = time_duration::from_turns( patient.get_effect_dur( effect_infected, bp_healed ) );
+            const time_duration infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
             patient.remove_effect( effect_infected, bp_healed );
             patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
@@ -2986,9 +2986,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             // Consider states too
             // Weights are arbitrary, may need balancing
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
             if (damage > highest_damage) {
                 highest_damage = damage;
                 healed = hp_part(i);

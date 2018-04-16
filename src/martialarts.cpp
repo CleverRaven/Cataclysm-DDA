@@ -276,14 +276,14 @@ class ma_buff_effect_type : public effect_type
             max_intensity = buff.max_stacks;
             // add_effect add the duration to an existing effect, but it must never be
             // above buff_duration, this keeps the old ma_buff behavior
-            max_duration = buff.buff_duration;
+            max_duration = time_duration::from_turns( buff.buff_duration );
             dur_add_perc = 100;
             // each add_effect call increases the intensity by 1
             int_add_val = 1;
             // effect intensity increases by -1 each turn.
             int_decay_step = -1;
             int_decay_tick = 1;
-            int_dur_factor = 0;
+            int_dur_factor = 0_turns;
             name.push_back( buff.name );
             desc.push_back( buff.description );
             rating = e_good;
