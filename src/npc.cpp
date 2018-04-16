@@ -1979,16 +1979,14 @@ void npc::die( Creature *nkiller )
             g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),
                                    pgettext( "memorial_female", "Killed an innocent, %s." ),
                                    name.c_str() );
-            //@todo Why / MINUTES?
-            g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days / MINUTES( 1 ), 3_hours / MINUTES( 1 ) );
+            g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
             g->u.add_memorial_log( pgettext( "memorial_male",
                                              "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
                                    pgettext( "memorial_female",
                                              "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
                                    name.c_str() );
-            //@todo Why / MINUTES?
-            g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days / MINUTES( 1 ), 3_hours / MINUTES( 1 ) );
+            g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }
 

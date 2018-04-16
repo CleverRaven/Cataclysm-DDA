@@ -774,11 +774,9 @@ void player::consume_effects( const item &food )
         rem_morale( addiction_craving( comest.add ) );
     }
 
-    // Morale is in minutes
-    // @todo ^^ No, it's not, it's time_duration
-    time_duration morale_time = 2_hours / MINUTES( 1 );
+    time_duration morale_time = 2_hours;
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
-        morale_time = 3_hours / MINUTES( 1 );
+        morale_time = 3_hours;
         int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
         add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
     }

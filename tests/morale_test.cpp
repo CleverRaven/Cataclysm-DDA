@@ -312,20 +312,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
+            AND_WHEN( "1 turn has passed" ) {
                 m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "2 minutes have passed" ) {
+            AND_WHEN( "2 turns have passed" ) {
                 m.decay( 2_turns );
                 CHECK( m.get_level() == -4 );
             }
-            AND_WHEN( "3 minutes have passed" ) {
+            AND_WHEN( "3 turns have passed" ) {
                 m.decay( 3_turns );
                 CHECK( m.get_level() == -6 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60_turns );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -10 );
             }
         }
@@ -347,20 +347,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
+            AND_WHEN( "1 turn has passed" ) {
                 m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "9 minutes have passed" ) {
+            AND_WHEN( "9 turns have passed" ) {
                 m.decay( 9_turns );
                 CHECK( m.get_level() == -18 );
             }
-            AND_WHEN( "10 minutes have passed" ) {
-                m.decay( 10_turns );
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == -20 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60_turns );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "warmed up afterwards" ) {
@@ -377,7 +377,7 @@ TEST_CASE( "player_morale" )
                 m.on_effect_int_change( effect_cold, 0, bp_foot_l );
                 m.on_effect_int_change( effect_cold, 0, bp_foot_r );
 
-                m.decay( 10_turns );
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
             }
         }
@@ -399,20 +399,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
+            AND_WHEN( "1 turn has passed" ) {
                 m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "2 minutes have passed" ) {
+            AND_WHEN( "2 turns have passed" ) {
                 m.decay( 2_turns );
                 CHECK( m.get_level() == -4 );
             }
-            AND_WHEN( "3 minutes have passed" ) {
+            AND_WHEN( "3 turns have passed" ) {
                 m.decay( 3_turns );
                 CHECK( m.get_level() == -6 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60_turns );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -10 );
             }
         }
@@ -434,20 +434,20 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
             }
-            AND_WHEN( "1 minute has passed" ) {
+            AND_WHEN( "1 turn has passed" ) {
                 m.decay( 1_turns );
                 CHECK( m.get_level() == -2 );
             }
-            AND_WHEN( "9 minutes have passed" ) {
+            AND_WHEN( "9 turns have passed" ) {
                 m.decay( 9_turns );
                 CHECK( m.get_level() == -18 );
             }
-            AND_WHEN( "10 minutes have passed" ) {
-                m.decay( 10_turns );
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == -20 );
             }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60_turns );
+            AND_WHEN( "6 minutes have passed" ) {
+                m.decay( 6_minutes );
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "cooled afterwards" ) {
@@ -464,7 +464,7 @@ TEST_CASE( "player_morale" )
                 m.on_effect_int_change( effect_hot, 0, bp_foot_l );
                 m.on_effect_int_change( effect_hot, 0, bp_foot_r );
 
-                m.decay( 10_turns );
+                m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
             }
         }

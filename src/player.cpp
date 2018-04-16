@@ -8898,8 +8898,7 @@ bool player::read( int inventory_position, const bool continuous )
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
-    //@todo why minutes? What unit is time_taken in?
-    const time_duration minutes = 1_turns * time_taken / 1000;
+    const time_duration decay_start = 1_turns * time_taken / 1000;
     std::set<player *> apply_morale = { this };
     for( const auto &elem : learners ) {
         apply_morale.insert( elem.first );
@@ -8912,11 +8911,11 @@ bool player::read( int inventory_position, const bool continuous )
         if( ( elem->has_trait( trait_CANNIBAL ) || elem->has_trait( trait_PSYCHOPATH ) ||
               elem->has_trait( trait_SAPIOVORE ) ) &&
             it.typeId() == "cookbook_human" ) {
-            elem->add_morale( MORALE_BOOK, 0, 75, minutes + 3_minutes, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 75, decay_start + 3_minutes, decay_start, false, it.type );
         } else if( elem->has_trait( trait_SPIRITUAL ) && it.has_flag( "INSPIRATIONAL" ) ) {
-            elem->add_morale( MORALE_BOOK, 0, 90, minutes + 6_minutes, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 90, decay_start + 6_minutes, decay_start, false, it.type );
         } else {
-            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, minutes + 3_minutes, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, decay_start + 3_minutes, decay_start, false, it.type );
         }
     }
 
