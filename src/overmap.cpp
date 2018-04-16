@@ -2746,11 +2746,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
             if( locations.empty() ) {
                 sfx::play_variant_sound( "menu_error", "default", 100 );
-                popup( _("No results found.") );
+                popup( _( "No results found." ) );
                 continue;
             }
 
-            std::sort( locations.begin(), locations.end(), [&](const point &lhs, const point &rhs) {
+            std::sort( locations.begin(), locations.end(), [&]( const point &lhs, const point &rhs ) {
                 return trig_dist( curs, tripoint( lhs, curs.z ) ) < trig_dist( curs, tripoint( rhs, curs.z ) );
             } );
 
