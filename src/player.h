@@ -1110,8 +1110,8 @@ class player : public Character
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
-                        int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+        void add_morale( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
+                        time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;

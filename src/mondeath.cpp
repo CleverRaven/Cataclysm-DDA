@@ -395,8 +395,8 @@ void mdeath::guilt( monster &z )
 
     int moraleMalus = -50 * (1.0 - ((float) kill_count / maxKills));
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
-    int duration = 300 * (1.0 - ((float) kill_count / maxKills));
-    int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
+    time_duration duration = 30_minutes * (1.0 - ((float) kill_count / maxKills));
+    time_duration decayDelay = 3_minutes * (1.0 - ((float) kill_count / maxKills));
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
         if (g->u.has_trait( trait_PACIFIST )) {

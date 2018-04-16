@@ -805,7 +805,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale->decay( 1 );
+    morale->decay( 1_turns );
     apply_persistent_morale();
 }
 
@@ -826,7 +826,7 @@ void player::apply_persistent_morale()
             pen = pen / 2;
         }
         if( pen > 0 ) {
-            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
+            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5_turns, 5_turns, true );
         }
     }
 }
@@ -1264,7 +1264,7 @@ void player::update_bodytemp()
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
                 temp_cur[bp] > BODYTEMP_COLD && temp_cur[bp] <= BODYTEMP_NORM ) {
-                add_morale( MORALE_COMFY, 1, 10, 20, 10, true );
+                add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
 
@@ -5845,7 +5845,7 @@ void player::vomit()
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
         rem_morale( MORALE_HONEY ); // bears must suffer too
-        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90, 45, false ); // 1.5 times longer
+        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90_turns, 45_turns, false ); // 1.5 times longer
 
         g->m.add_field( adjacent_tile(), fd_bile, 1, 0 );
 
@@ -6022,7 +6022,7 @@ void player::apply_wetness_morale( int temperature )
         }
     }
 
-    add_morale( MORALE_WET, morale_effect, total_morale, 5, 5, true );
+    add_morale( MORALE_WET, morale_effect, total_morale, 5_turns, 5_turns, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
@@ -6102,7 +6102,7 @@ int player::get_morale_level() const
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        int duration, int decay_start,
+                        const time_duration duration, const time_duration decay_start,
                         bool capped, const itype* item_type)
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
@@ -8898,7 +8898,8 @@ bool player::read( int inventory_position, const bool continuous )
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
-    const int minutes = time_taken / 1000;
+    //@todo why minutes? What unit is time_taken in?
+    const time_duration minutes = 1_turns * time_taken / 1000;
     std::set<player *> apply_morale = { this };
     for( const auto &elem : learners ) {
         apply_morale.insert( elem.first );
@@ -8911,11 +8912,11 @@ bool player::read( int inventory_position, const bool continuous )
         if( ( elem->has_trait( trait_CANNIBAL ) || elem->has_trait( trait_PSYCHOPATH ) ||
               elem->has_trait( trait_SAPIOVORE ) ) &&
             it.typeId() == "cookbook_human" ) {
-            elem->add_morale( MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 75, minutes + 3_minutes, minutes, false, it.type );
         } else if( elem->has_trait( trait_SPIRITUAL ) && it.has_flag( "INSPIRATIONAL" ) ) {
-            elem->add_morale( MORALE_BOOK, 0, 90, minutes + 60, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 90, minutes + 6_minutes, minutes, false, it.type );
         } else {
-            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, minutes + 30, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, minutes + 3_minutes, minutes, false, it.type );
         }
     }
 
@@ -9020,12 +9021,12 @@ void player::do_read( item &book )
                   learner->has_trait( trait_SAPIOVORE ) ) &&
                 book.typeId() == "cookbook_human" ) {
                 fun_bonus = 25;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 6_minutes, 3_minutes, true, book.type );
             } else if( learner->has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
                 fun_bonus = 15;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 9_minutes, 9_minutes, true, book.type );
             } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 6_minutes, 3_minutes, true, book.type );
             }
         }
 
