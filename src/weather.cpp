@@ -54,15 +54,15 @@ void weather_effect::glare()
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4_turns );
             } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
             }
         } else {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
             } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1_turns );
             }
         }
     }

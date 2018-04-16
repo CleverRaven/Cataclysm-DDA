@@ -302,7 +302,7 @@ class Creature
         virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                                  bool permanent = false, int intensity = 0, bool force = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,
+        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength, time_duration dur,
                              body_part bp = num_bp, bool permanent = false, int intensity = 1,
                              bool force = false );
         /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove

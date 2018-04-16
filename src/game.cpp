@@ -5623,7 +5623,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
             } else if( u.worn_with_flag( "BLIND" ) || u.worn_with_flag( "FLASH_PROTECTION" ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist );
+            u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, time_duration::from_turns( 10 - dist ) );
         }
     }
     for( monster &critter : all_monsters() ) {

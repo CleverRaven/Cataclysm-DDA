@@ -4068,16 +4068,10 @@ void player::get_sick()
     if (one_in(disease_rarity)) {
         if (one_in(6)) {
             // The flu typically lasts 3-10 days.
-            const int short_flu = DAYS(3);
-            const int long_flu = DAYS(10);
-            const int duration = rng(short_flu, long_flu);
-            add_env_effect( effect_flu, bp_mouth, 3, duration );
+            add_env_effect( effect_flu, bp_mouth, 3, rng( 3_days, 10_days ) );
         } else {
             // A cold typically lasts 1-14 days.
-            int short_cold = DAYS(1);
-            int long_cold = DAYS(14);
-            int duration = rng(short_cold, long_cold);
-            add_env_effect( effect_common_cold, bp_mouth, 3, duration );
+            add_env_effect( effect_common_cold, bp_mouth, 3, rng( 1_days, 14_days ) );
         }
     }
 }

@@ -1691,7 +1691,7 @@ void map::player_in_field( player &u )
                     total_damage += ddi.total_damage();
                 }
                 // Represents acid seeping in rather than being splashed on
-                u.add_env_effect( effect_corroding, bp, 2 + density, rng( 2, 1 + density ), bp, false, 0 );
+                u.add_env_effect( effect_corroding, bp, 2 + density, time_duration::from_turns( rng( 2, 1 + density ) ), bp, false, 0 );
             };
 
             // 1-3 at density, 1-4 at 2, 1-5 at 3
@@ -1840,16 +1840,16 @@ void map::player_in_field( player &u )
                     //Get smoke disease from standing in smoke.
                     int density = cur.getFieldDensity();
                     int coughStr;
-                    int coughDur;
+                    time_duration coughDur = 0_turns;
                     if (density >= 3) {   // thick smoke
                         coughStr = 4;
-                        coughDur = 15;
+                        coughDur = 15_turns;
                     } else if (density == 2) {  // smoke
                         coughStr = 2;
-                        coughDur = 7;
+                        coughDur = 7_turns;
                     } else {    // density 1, thin smoke
                         coughStr = 1;
-                        coughDur = 2;
+                        coughDur = 2_turns;
                     }
                     u.add_env_effect( effect_smoke, bp_mouth, coughStr, coughDur );
                 }
@@ -1860,33 +1860,33 @@ void map::player_in_field( player &u )
             //Tear gas will both give you teargas disease and/or blind you.
             if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
-                u.add_env_effect( effect_teargas, bp_mouth, 5, 20 );
+                u.add_env_effect( effect_teargas, bp_mouth, 5, 2_minutes );
             }
             if (cur.getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {
-                u.add_env_effect( effect_blind, bp_eyes, cur.getFieldDensity() * 2, 10 );
+                u.add_env_effect( effect_blind, bp_eyes, cur.getFieldDensity() * 2, 1_minutes );
             }
             break;
 
         case fd_relax_gas:
             if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
-                u.add_env_effect( effect_relax_gas, bp_mouth, cur.getFieldDensity() * 2, 3 );
+                u.add_env_effect( effect_relax_gas, bp_mouth, cur.getFieldDensity() * 2, 3_turns );
             }
             break;
 
         case fd_fungal_haze:
             if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || (inside && one_in(4))) ) {
-                u.add_env_effect( effect_fungus, bp_mouth, 4, 100, num_bp, true );
-                u.add_env_effect( effect_fungus, bp_eyes, 4, 100, num_bp, true );
+                u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
+                u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
             }
             break;
 
         case fd_dazzling:
             if (cur.getFieldDensity() > 1 || one_in(5)){
-                u.add_env_effect( effect_blind, bp_eyes, 10, 10 );
+                u.add_env_effect( effect_blind, bp_eyes, 10, 10_turns );
             } else{
-                u.add_env_effect( effect_blind, bp_eyes, 2, 2 );
+                u.add_env_effect( effect_blind, bp_eyes, 2, 2_turns );
             }
             break;
 
@@ -1897,11 +1897,11 @@ void map::player_in_field( player &u )
                 bool inhaled = false;
                 if( cur.getFieldDensity() == 2 &&
                     (!inside || (cur.getFieldDensity() == 3 && inside)) ) {
-                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 30 );
+                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 3_minutes );
                 } else if( cur.getFieldDensity() == 3 && !inside ) {
-                    inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 30 );
+                    inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 3_minutes );
                 } else if( cur.getFieldDensity() == 1 && (!inside) ) {
-                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 2, 20 );
+                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 2, 2_minutes );
                 }
                 if( inhaled ) {
                     // player does not know how the npc feels, so no message.
@@ -1985,21 +1985,21 @@ void map::player_in_field( player &u )
                 // If the bees can get at you, they cause steadily increasing pain.
                 // TODO: Specific stinging messages.
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( effect_stung, bp_torso, density, 90 );
+                    u.add_env_effect( effect_stung, bp_torso, density, 9_minutes );
                 switch( times_stung ) {
                 case 0:
                     // Woo, unscathed!
@@ -2050,9 +2050,9 @@ void map::player_in_field( player &u )
                 }
                 bool inhaled = false;
                 const int density = cur.getFieldDensity();
-                inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, density * 10 );
+                inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, density * 1_minutes );
                 if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
-                    inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, density * 10 );
+                    inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, density * 1_minutes );
                     u.hurtall( rng( density, density * 2 ), nullptr );
                     u.add_msg_if_player( m_bad, _("The %s burns your skin."), cur.name().c_str() );
                 }

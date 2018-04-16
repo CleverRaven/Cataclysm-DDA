@@ -556,7 +556,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        add_env_effect( effect_blind, bp_eyes, 5, rng( 3, 10 ) );
+        add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
@@ -849,8 +849,8 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         process_one_effect( e, true );
     }
 }
-bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,
-                               body_part bp, bool permanent, int intensity, bool force )
+bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+                               const time_duration dur, body_part bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
@@ -859,7 +859,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, 1_turns * dur, bp, permanent, intensity, true );
+        add_effect( eff_id, dur, bp, permanent, intensity, true );
         return true;
     } else {
         return false;

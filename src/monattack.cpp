@@ -470,7 +470,7 @@ bool mattack::acid_barf(monster *z)
     body_part hit = target->get_random_body_part();
     int dam = rng(5, 12);
     dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
-    target->add_env_effect( effect_corroding, hit, 5, dam / 2 + 5, hit );
+    target->add_env_effect( effect_corroding, hit, 5, time_duration::from_turns( dam / 2 + 5 ), hit );
 
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
@@ -483,7 +483,7 @@ bool mattack::acid_barf(monster *z)
             dam );
 
         if( hit == bp_eyes ) {
-            target->add_env_effect( effect_blind, bp_eyes, 3, 10 );
+            target->add_env_effect( effect_blind, bp_eyes, 3, 1_minutes );
         }
     } else {
         target->add_msg_player_or_npc(
@@ -651,7 +651,7 @@ bool mattack::boomer(monster *z)
     if( !target->uncanny_dodge() ) {
         ///\EFFECT_DODGE increases chance to avoid boomer effect
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bp_eyes, 3, 12 );
+            target->add_env_effect( effect_boomered, bp_eyes, 3, 12_turns );
         } else if( u_see ) {
             target->add_msg_player_or_npc( _("You dodge it!"),
                                            _("<npcname> dodges it!") );
@@ -691,11 +691,11 @@ bool mattack::boomer_glow(monster *z)
     if( !target->uncanny_dodge() ) {
         ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bp_eyes, 5, 25 );
+            target->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             target->on_dodge( z, 10 );
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
-                target->add_env_effect( effect_glowing, bp, 4, 40 );
+                target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( target->has_effect( effect_glowing ) ) {
                     break;
                 }
