@@ -464,7 +464,7 @@ iuse_actor *consume_drug_iuse::clone() const
 
 static effect_data load_effect_data( JsonObject &e )
 {
-    return effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+    return effect_data( efftype_id( e.get_string( "id" ) ), time_duration::from_turns( e.get_int( "duration", 0 ) ),
         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
@@ -544,7 +544,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     }
     // Apply the various effects.
     for( auto eff : effects ) {
-        time_duration dur = time_duration::from_turns( eff.duration );
+        time_duration dur = eff.duration;
         if (p.has_trait( trait_TOLERANCE )) {
             dur *= .8;
         } else if (p.has_trait( trait_LIGHTWEIGHT )) {
@@ -2895,7 +2895,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
 
     for( auto eff : effects ) {
-        patient.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.bp, eff.permanent );
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
     if( !used_up_item.empty() ) {
