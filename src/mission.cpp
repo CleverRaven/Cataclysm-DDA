@@ -29,6 +29,7 @@ mission mission_type::create( const int npc_id ) const
     ret.item_count = item_count;
     ret.value = value;
     ret.follow_up = follow_up;
+    ret.monster_species = monster_species;
 
     if( deadline_low != 0 || deadline_high != 0 ) {
         ret.deadline = int( calendar::turn ) + rng( deadline_low, deadline_high );

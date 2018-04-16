@@ -305,6 +305,10 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         follow_up = mission_type_id( jo.get_string( "followup" ) );
     }
 
+    if( jo.has_member( "monster_species" ) ) {
+        monster_species = species_id( jo.get_string( "monster_species" ) );
+    }
+
     assign( jo, "destination", target_id, strict );
 }
 
