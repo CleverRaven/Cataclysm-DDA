@@ -79,9 +79,7 @@
 		"g": "t_fencegate_c",
 		"X": "t_shrub_blueberry",
 		"x": "t_shrub_strawberry",
-		"~": "t_wall_glass"
-		
-		
+		"~": "t_wall_glass"		
       },
       "furniture": {
         "?": "f_sofa",
@@ -101,8 +99,7 @@
         "r": "f_rack",
         "u": "f_sink",
 		"b": "f_bench",
-		"t": "f_table"
-		
+		"t": "f_table"		
       },
       "toilets": { "t": {  } },
       "place_loot": [
