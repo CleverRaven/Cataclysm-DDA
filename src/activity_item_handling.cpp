@@ -119,7 +119,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 
     for( auto &it : items ) {
-        pet.add_effect( effect_controlled, 5 );
+        pet.add_effect( effect_controlled, 5_turns );
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );

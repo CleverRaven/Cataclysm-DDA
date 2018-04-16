@@ -1302,7 +1302,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     } else if( monster * const mon = dynamic_cast<monster*>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 100 );
+        mon->add_effect( effect_hit_by_player, 10_minutes );
     }
 
     return ret;

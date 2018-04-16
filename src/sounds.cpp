@@ -256,7 +256,7 @@ void sounds::process_sound_markers( player *p )
         // Deaf players hear no sound, but still are at risk of additional hearing loss.
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-                p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
+                p->add_effect( effect_deaf, std::min( 4_minutes, time_duration::from_turns( felt_volume - 130 ) / 8 ) );
                 if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
@@ -268,11 +268,11 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-            const int deafness_duration = ( felt_volume - 130 ) / 4;
+            const time_duration deafness_duration = time_duration::from_turns( felt_volume - 130 ) / 4;
             p->add_effect( effect_deaf, deafness_duration );
             if( p->is_deaf() ) {
                 is_deaf = true;
-                sfx::do_hearing_loss( deafness_duration );
+                sfx::do_hearing_loss( to_turns<int>( deafness_duration ) );
                 continue;
             }
         }

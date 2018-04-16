@@ -544,7 +544,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     }
     // Apply the various effects.
     for( auto eff : effects ) {
-        int dur = eff.duration;
+        time_duration dur = time_duration::from_turns( eff.duration );
         if (p.has_trait( trait_TOLERANCE )) {
             dur *= .8;
         } else if (p.has_trait( trait_LIGHTWEIGHT )) {
@@ -1462,7 +1462,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         }
         const body_part bp = player::hp_to_bp( hpart );
         if (p.has_effect( effect_bite, bp)) {
-            p.add_effect( effect_bite, 2600, bp, true);
+            p.add_effect( effect_bite, 260_minutes, bp, true);
         }
 
         p.moves = 0;
@@ -1902,7 +1902,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2, num_bp, false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
     }
 
     std::string desc = "";
@@ -1926,7 +1926,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     sounds::ambient_sound( p.pos(), volume, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
-        p.add_effect( effect_music, 1 );
+        p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
         p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
     }
@@ -2879,7 +2879,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
     if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
-            int infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
+            const time_duration infected_dur = time_duration::from_turns( patient.get_effect_dur( effect_infected, bp_healed ) );
             patient.remove_effect( effect_infected, bp_healed );
             patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
@@ -2895,7 +2895,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
 
     for( auto eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        patient.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.bp, eff.permanent );
     }
 
     if( !used_up_item.empty() ) {

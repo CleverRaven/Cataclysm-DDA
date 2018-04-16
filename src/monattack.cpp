@@ -294,7 +294,7 @@ bool mattack::shriek_alert(monster *z)
 
     z->moves -= 150;
     sounds::sound(z->pos(), 120, _("a piercing wail!"));
-    z->add_effect( effect_shrieking, 10 );
+    z->add_effect( effect_shrieking, 1_minutes );
 
     return true;
 }
@@ -334,7 +334,7 @@ bool mattack::shriek_stun(monster *z)
             continue;
         }
         if ( one_in(dist/2) && !(target->is_immune_effect( effect_deaf ) ) ) {
-            target->add_effect( effect_dazed, rng( 10 , 20 ), num_bp, false, rng( 1, ( 15 - dist ) / 3 ) );
+            target->add_effect( effect_dazed, rng( 1_minutes, 2_minutes ), num_bp, false, rng( 1, ( 15 - dist ) / 3 ) );
         }
 
     }
@@ -753,7 +753,7 @@ bool mattack::resurrect(monster *z)
                     add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
                 }
                 while( z->moves >= 0 ) {
-                    z->add_effect( effect_raising, 10 );
+                    z->add_effect( effect_raising, 1_minutes );
                     z->moves -= 100;
                 }
                 return false;
@@ -773,7 +773,7 @@ bool mattack::resurrect(monster *z)
                 add_msg(m_info, _("The %s gesticulates wildly."), z->name().c_str());
             }
             while( z->moves >= 0 ) {
-                z->add_effect( effect_raising, 10 );
+                z->add_effect( effect_raising, 1_minutes );
                 z->moves -= 100;
                 return false;
             }
@@ -1579,7 +1579,7 @@ bool mattack::fungus_inject(monster *z)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(10 - dam)) {
-            g->u.add_effect( effect_fungus, 100, num_bp, true);
+            g->u.add_effect( effect_fungus, 10_minutes, num_bp, true );
             add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
     } else {
@@ -1633,7 +1633,7 @@ bool mattack::fungus_bristle(monster *z)
                                 body_part_name_accusative(hit).c_str());
 
         if(one_in(15 - dam)) {
-            target->add_effect( effect_fungus, 200, num_bp, true);
+            target->add_effect( effect_fungus, 20_minutes, num_bp, true );
             target->add_msg_if_player(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
     } else {
@@ -1794,7 +1794,7 @@ bool mattack::fungus_fortify(monster *z)
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg(m_bad, _("The %1$s sinks its point into your %2$s!"), z->name().c_str(),
             body_part_name_accusative(hit).c_str());
-        g->u.add_effect( effect_fungus, 400, num_bp, true);
+        g->u.add_effect( effect_fungus, 40_minutes, num_bp, true );
         add_msg(m_warning, _("You feel millions of live spores pumping into you..."));
         } else {
             //~ 1$s is monster name, 2$s bodypart in accusative
@@ -1842,11 +1842,11 @@ bool mattack::impale(monster *z)
 
         target->on_hit( z, bp_torso,  z->type->melee_skill );
         if( one_in( 60 / (dam + 20)) && (dam > 0) ) {
-            target->add_effect( effect_bleed, rng( 75, 125 ), bp_torso, true );
+            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
         }
 
         if( rng(0, 200 + dam) > 100 ) {
-            target->add_effect( effect_downed, 3);
+            target->add_effect( effect_downed, 3_turns );
         }
         z->moves -= 80; //Takes extra time for the creature to pull out the protrusion
     } else {
@@ -1932,7 +1932,7 @@ bool mattack::dermatik(monster *z)
     target->add_msg_if_player( m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
                             body_part_name_accusative(targeted).c_str());
     if ( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
-        foe->add_effect( effect_dermatik, 1, targeted, true);
+        foe->add_effect( effect_dermatik, 1_turns, targeted, true );
         foe->add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
     }
@@ -2017,7 +2017,7 @@ static bool blobify( monster &blob, monster &target )
             break;
         case MS_HUGE:
             // No polymorphing huge stuff
-            target.add_effect( effect_slimed, rng( 2, 10 ) );
+            target.add_effect( effect_slimed, rng( 2_turns, 10_turns ) );
             break;
         default:
             debugmsg("Tried to blobify %s with invalid size: %d",
@@ -2060,7 +2060,7 @@ bool mattack::formblob(monster *z)
             // If we hit the player or some NPC, cover them with slime
             didit = true;
             // TODO: Add some sort of a resistance/dodge roll
-            critter->add_effect( effect_slimed, rng( 0, z->get_hp() ) );
+            critter->add_effect( effect_slimed, rng( 0_turns, 1_turns * z->get_hp() ) );
             break;
         }
 
@@ -2143,7 +2143,7 @@ bool mattack::callblobs(monster *z)
         }
         (*ally)->set_dest( post );
         if (!(*ally)->has_effect( effect_controlled )) {
-            (*ally)->add_effect( effect_controlled, 1, num_bp, true);
+            (*ally)->add_effect( effect_controlled, 1_turns, num_bp, true );
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -2179,7 +2179,7 @@ bool mattack::jackson(monster *z)
         }
         (*ally)->set_dest( post );
         if (!(*ally)->has_effect( effect_controlled )) {
-            (*ally)->add_effect( effect_controlled, 1, num_bp, true);
+            (*ally)->add_effect( effect_controlled, 1_turns, num_bp, true );
         }
     }
     // Did we convert anybody?
@@ -2366,7 +2366,7 @@ bool mattack::ranged_pull(monster *z)
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will immediately be removed
+    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 4 ); //Duration needs to be at least 2, or grab will immediately be removed
 
     return true;
 }
@@ -2417,7 +2417,7 @@ bool mattack::grab(monster *z)
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 1);
+    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 1 );
     target->add_msg_player_or_npc( m_bad, _("The %s grabs you!"), _("The %s grabs <npcname>!"),
                                    z->name().c_str() );
 
@@ -2468,7 +2468,7 @@ bool mattack::grab_drag(monster *z)
                                 _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
     }
     int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2, bp_torso, false, prev_effect + 3);
+    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 3 );
 
     return true; // cooldown was not reset prior to refactor here
 }
@@ -2510,7 +2510,7 @@ bool mattack::para_sting(monster *z)
     }
     target->add_msg_if_player(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
     target->add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-    target->add_effect( effect_paralyzepoison, 50);
+    target->add_effect( effect_paralyzepoison, 5_minutes );
 
     return true;
 }
@@ -2539,7 +2539,7 @@ bool mattack::stare(monster *z)
         } else {
             add_msg(m_bad, _("You feel like you're being watched, it makes you sick."));
         }
-        g->u.add_effect( effect_teleglow, 800);
+        g->u.add_effect( effect_teleglow, 80_minutes );
     }
 
     return true;
@@ -2556,7 +2556,7 @@ bool mattack::fear_paralyze(monster *z)
         ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if ( rng(0, 20) > g->u.get_int() ) {
             add_msg( m_bad, _("The terrifying visage of the %s paralyzes you."), z->name().c_str() );
-            g->u.add_effect( effect_fearparalyze, 5 );
+            g->u.add_effect( effect_fearparalyze, 5_turns );
             g->u.moves -= 400;
         } else
             add_msg( _("You manage to avoid staring at the horrendous %s."), z->name().c_str() );
@@ -2713,7 +2713,7 @@ void mattack::rifle( monster *z, Creature *target )
     if( target == &g->u ) {
         if (!z->has_effect( effect_targeted )) {
             sounds::sound(z->pos(), 8, _("beep-beep."));
-            z->add_effect( effect_targeted, 8);
+            z->add_effect( effect_targeted, 8_turns );
             z->moves -= 100;
             return;
         }
@@ -2738,7 +2738,7 @@ void mattack::rifle( monster *z, Creature *target )
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if (target == &g->u) {
-        z->add_effect( effect_targeted, 3);
+        z->add_effect( effect_targeted, 3_turns );
     }
 }
 
@@ -2755,9 +2755,9 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
         if (!z->has_effect( effect_targeted )) {
             //~Potential grenading detected.
             add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
-            g->u.add_effect( effect_laserlocked, 3); // Effect removed in game.cpp, duration doesn't much matter
+            g->u.add_effect( effect_laserlocked, 3_turns ); // Effect removed in game.cpp, duration doesn't much matter
             sounds::sound(z->pos(), 10, _("Targeting."));
-            z->add_effect( effect_targeted, 5);
+            z->add_effect( effect_targeted, 5_turns );
             z->moves -= 150;
             // Should give some ability to get behind cover,
             // even though it's patently unrealistic.
@@ -2788,7 +2788,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if (target == &g->u) {
-        z->add_effect( effect_targeted, 3);
+        z->add_effect( effect_targeted, 3_turns );
     }
 }
 
@@ -2813,8 +2813,8 @@ void mattack::tankgun( monster *z, Creature *target )
         target->add_msg_if_player( m_warning, _("You're not sure why you've got a laser dot on you...") );
         //~ Sound of a tank turret swiveling into place
         sounds::sound(z->pos(), 10, _("whirrrrrclick."));
-        z->add_effect( effect_targeted, 10 );
-        target->add_effect( effect_laserlocked, 10 );
+        z->add_effect( effect_targeted, 1_minutes );
+        target->add_effect( effect_laserlocked, 1_minutes );
         z->moves -= 200;
         // Should give some ability to get behind cover,
         // even though it's patently unrealistic.
@@ -3095,7 +3095,7 @@ void mattack::flame( monster *z, Creature *target )
             }
             g->m.add_field( i, fd_fire, 1 );
         }
-        target->add_effect( effect_onfire, 8, bp_torso );
+        target->add_effect( effect_onfire, 8_turns, bp_torso );
 
         return;
     }
@@ -3118,7 +3118,7 @@ void mattack::flame( monster *z, Creature *target )
         g->m.add_field( i, fd_fire, 1 );
     }
     if( !target->uncanny_dodge() ) {
-        target->add_effect( effect_onfire, 8, bp_torso );
+        target->add_effect( effect_onfire, 8_turns, bp_torso );
     }
 }
 
@@ -3370,7 +3370,7 @@ bool mattack::ratking(monster *z)
         break;
     }
     if (rl_dist( z->pos(), g->u.pos() ) <= 10) {
-        g->u.add_effect( effect_rat, 30);
+        g->u.add_effect( effect_rat, 3_minutes );
     }
 
     return true;
@@ -3494,7 +3494,7 @@ bool mattack::stretch_bite(monster *z)
 
     for (auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ){
         if( g->m.impassable( pnt ) ){
-            z->add_effect( effect_stunned, 6);
+            z->add_effect( effect_stunned, 6_turns );
             target->add_msg_player_or_npc( _("The %1$s stretches its head at you, but bounces off the %2$s"),
                                            _("The %1$s stretches its head at <npcname>, but bounces off the %2$s"),
                                            z->name().c_str(), g->m.obstacle_name( pnt ).c_str() );
@@ -3505,7 +3505,7 @@ bool mattack::stretch_bite(monster *z)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( uncanny || dodge_check(z, target) ) {
         z->moves -= 150;
-        z->add_effect( effect_stunned, 3);
+        z->add_effect( effect_stunned, 3_turns );
         auto msg_type = target == &g->u ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _("The %s's head extends to bite you, but you dodge and the head sails past!"),
                                               _("The %s's head extends to bite <npcname>, but they dodge and the head sails past!"),
@@ -3531,11 +3531,11 @@ bool mattack::stretch_bite(monster *z)
 
         if( one_in( 16 - dam ) ) {
             if( target->has_effect( effect_bite, hit)) {
-                target->add_effect( effect_bite, 400, hit, true);
+                target->add_effect( effect_bite, 40_minutes, hit, true );
             } else if( target->has_effect( effect_infected, hit ) ) {
-                target->add_effect( effect_infected, 250, hit, true );
+                target->add_effect( effect_infected, 25_minutes, hit, true );
             } else {
-                target->add_effect( effect_bite, 1, hit, true );
+                target->add_effect( effect_bite, 1_turns, hit, true );
             }
         }
     } else {
@@ -3616,7 +3616,7 @@ bool mattack::flesh_golem(monster *z)
     //~ 1$s is bodypart name, 2$d is damage value.
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     if( one_in( 6 ) ) {
-        target->add_effect( effect_downed, 30);
+        target->add_effect( effect_downed, 3_minutes );
     }
 
     target->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
@@ -3691,7 +3691,7 @@ bool mattack::lunge(monster *z)
                                     body_part_name_accusative( hit ).c_str() );
     }
     if( one_in( 6 ) ) {
-        target->add_effect( effect_downed, 3);
+        target->add_effect( effect_downed, 3_turns );
     }
     target->on_hit( z, hit,  z->type->melee_skill );
     target->check_dead_state();
@@ -3782,7 +3782,7 @@ bool mattack::longswipe(monster *z)
         target->add_msg_player_or_npc(msg_type, _("The %1$s slashes at your neck, cutting your throat for %2$d damage!"),
                                                 _("The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!"),
                                                 z->name().c_str(), dam );
-        target->add_effect( effect_bleed, 100, hit);
+        target->add_effect( effect_bleed, 10_minutes, hit );
     } else {
         target->add_msg_player_or_npc( _("The %1$s slashes at your %2$s, but glances off your armor!"),
                                     _("The %1$s slashes at <npcname>'s %2$s, but glances off armor!"),
@@ -3863,7 +3863,7 @@ bool mattack::darkman(monster *z)
         add_msg(_("\"Please dont\""));
         break;
     }
-    g->u.add_effect( effect_darkness, 1, num_bp, true );
+    g->u.add_effect( effect_darkness, 1_turns, num_bp, true );
 
     return true;
 }
@@ -3956,7 +3956,7 @@ bool mattack::thrown_by_judo(monster *z)
                 foe->check_dead_state();
             }
             // Monster is down,
-            z->add_effect( effect_downed, 5);
+            z->add_effect( effect_downed, 5_turns );
             // Deal moderate damage
             const auto damage = rng( 10, 20 );
             z->apply_damage( foe, bp_torso, damage );
@@ -4198,7 +4198,7 @@ bool mattack::bio_op_takedown(monster *z)
         dam = rng(6, 18); // Always aim for the torso
         target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) ); // Two hits - "leg" and torso
         target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
-        target->add_effect( effect_downed, 3);
+        target->add_effect( effect_downed, 3_turns );
         if( seen ) {
             add_msg(_("%1$s slams %2$s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
         }
@@ -4233,7 +4233,7 @@ bool mattack::bio_op_takedown(monster *z)
                 target->add_msg_if_player(m_bad, _("and slams you to the ground for %d damage!"), dam);
                 foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
             }
-            foe->add_effect( effect_downed, 3);
+            foe->add_effect( effect_downed, 3_turns );
         }
     } else if( !thrown_by_judo(z) ) {
         // Saved by the tentacle-bracing! :)
@@ -4378,7 +4378,7 @@ bool mattack::kamikaze(monster *z)
     // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
     // Once we have proper monster inventory item processing replace the following
     // line with the code below.
-    z->add_effect( effect_countdown, charges + 1);
+    z->add_effect( effect_countdown, 1_turns * charges + 1_turns );
     /* Replacement code here for once we have working monster inventories
 
     item i_explodes(act_bomb_type->id, 0);

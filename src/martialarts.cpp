@@ -415,7 +415,7 @@ const ma_buff *ma_buff::from_effect( const effect &eff )
 
 void ma_buff::apply_buff( player &u ) const
 {
-    u.add_effect( get_effect_id(), buff_duration );
+    u.add_effect( get_effect_id(), time_duration::from_turns( buff_duration ) );
 }
 
 bool ma_buff::is_valid_player( const player &u ) const

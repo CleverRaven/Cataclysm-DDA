@@ -291,7 +291,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
         // @todo: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
-        t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
+        t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
 
     item &cur_weapon = used_weapon();
@@ -1119,7 +1119,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {
-            t.add_effect( effect_downed, rng(1, technique.down_dur));
+            t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
             auto &bash = get_damage_unit( di.damage_units, DT_BASH );
             if( bash.amount > 0 ) {
                 bash.amount += 3;
@@ -1128,7 +1128,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 
     if (technique.stun_dur > 0) {
-        t.add_effect( effect_stunned, rng(1, technique.stun_dur));
+        t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
     if( technique.knockback_dist > 0 ) {
@@ -1437,10 +1437,10 @@ void player::perform_special_attacks(Creature &t)
     if( can_poison && (has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 )) ) {
         if( has_trait( trait_POISONOUS ) ) {
             add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-            t.add_effect( effect_poison, 6);
+            t.add_effect( effect_poison, 6_turns );
         } else if( has_trait( trait_POISONOUS2 ) ) {
             add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-            t.add_effect( effect_badpoison, 6);
+            t.add_effect( effect_badpoison, 6_turns );
         }
     }
 }

@@ -1423,7 +1423,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         add_msg(_("You slowly suck up the nectar."));
         p.mod_hunger(-25);
         p.mod_fatigue(20);
-        p.add_effect( effect_pkill2, 70);
+        p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if (one_in(20)) {
             p.add_addiction(ADD_PKILLER, 1);
@@ -1597,7 +1597,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
         p.moves -= 50; // Takes 30 seconds
         add_msg(m_bad, _("This flower tastes very wrong..."));
         // If you can drink flowers, you're post-thresh and the Mycus does not want you.
-        p.add_effect( effect_teleglow, 100 );
+        p.add_effect( effect_teleglow, 10_minutes );
     }
     if(!query_yn(_("Pick %s?"), g->m.furnname(examp).c_str())) {
         none( p, examp );

@@ -238,11 +238,11 @@ bool player::activate_bionic( int b, bool eff_only )
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if( one_in( 5 ) ) {
-            add_effect( effect_teleglow, rng( 50, 400 ) );
+            add_effect( effect_teleglow, rng( 5_minutes, 40_minutes ) );
         }
     } else if( bio.id == "bio_teleport" ) {
         g->teleport();
-        add_effect( effect_teleglow, 300 );
+        add_effect( effect_teleglow, 30_minutes );
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
@@ -388,7 +388,7 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_bad, _( "The bionic refuses to activate!" ) );
             charge_power( bionics[bio.id].power_activate );
         } else {
-            add_effect( effect_adrenaline, 200 );
+            add_effect( effect_adrenaline, 20_minutes );
         }
 
     } else if( bio.id == "bio_emp" ) {

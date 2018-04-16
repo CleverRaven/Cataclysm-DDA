@@ -473,7 +473,7 @@ void npc::execute_action( npc_action action )
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
-                    add_effect( effect_lying_down, 300, num_bp, false, 1 );
+                    add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
                     if( g->u.sees( *this ) ) {
                         add_msg( _( "%s lies down to sleep." ), name.c_str() );
                     }
@@ -1238,7 +1238,7 @@ npc_action npc::address_player()
             int intense = get_effect_int( effect_catch_up );
             if( intense < 10 ) {
                 say( "<keep_up>" );
-                add_effect( effect_catch_up, 5 );
+                add_effect( effect_catch_up, 5_turns );
                 return npc_pause;
             } else {
                 say( "<im_leaving_you>" );
@@ -1480,7 +1480,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 void npc::move_to( const tripoint &pt, bool no_bashing )
 {
     if( g->m.has_flag( "UNSTABLE", pt ) ) {
-        add_effect( effect_bouldering, 1, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }

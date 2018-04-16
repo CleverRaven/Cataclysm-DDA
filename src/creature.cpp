@@ -371,7 +371,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
         if( d.type_damage(DT_BASH) * hit_spread > get_hp_max() ) {
-            add_effect( effect_stunned, 1 ); // 1 turn is enough
+            add_effect( effect_stunned, 1_turns ); // 1 turn is enough
         }
     }
 
@@ -390,7 +390,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
                                            disp_name().c_str() );
         }
 
-        add_effect( effect_downed, 1);
+        add_effect( effect_downed, 1_turns );
         mod_moves(-stab_moves / 2);
     } else {
         mod_moves(-stab_moves);
@@ -450,7 +450,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // Bounce applies whether it does damage or not.
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        add_effect( effect_bounced, 1);
+        add_effect( effect_bounced, 1_turns );
     }
 
     body_part bp_hit;
@@ -531,26 +531,26 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(8, 20), bp_hit );
+            add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng(5, 10), bp_hit );
+            add_effect( effect_onfire, rng( 5_turns, 10_turns ), bp_hit );
         }
     } else if (proj.proj_effects.count("INCENDIARY") ) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(2, 6), bp_hit );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if ( (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) &&
                     one_in(4) ) {
-            add_effect( effect_onfire, rng(1, 4), bp_hit );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if (proj.proj_effects.count("IGNITE")) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(6, 6), bp_hit );
+            add_effect( effect_onfire, 6_turns, bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng(10, 10), bp_hit );
+            add_effect( effect_onfire, 10_turns, bp_hit );
         }
     }
 
@@ -560,7 +560,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
-        add_effect( effect_sap, dealt_dam.total_damage() );
+        add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
 
     int stun_strength = 0;
@@ -588,7 +588,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             stun_strength /= 4;
             break;
         }
-        add_effect( effect_stunned, rng(stun_strength / 2, stun_strength) );
+        add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
     if(u_see_this) {
@@ -694,13 +694,13 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1, 3 ), bp );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
             }
             break;
 
         case DT_ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
-            add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
+            add_effect( effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
             break;
 
         case DT_ACID:
@@ -735,7 +735,7 @@ void Creature::set_fake(const bool fake_value)
     fake = fake_value;
 }
 
-void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
+void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
                            bool permanent, int intensity, bool force )
 {
     // Check our innate immunity
@@ -765,7 +765,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
             effect &e = found_effect->second;
             const int prev_int = e.get_intensity();
             // If we do, mod the duration, factoring in the mod value
-            e.mod_duration(dur * e.get_dur_add_perc() / 100);
+            e.mod_duration( to_turns<int>( dur ) * e.get_dur_add_perc() / 100);
             // Limit to max duration
             if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
                 e.set_duration(e.get_max_duration());
@@ -814,7 +814,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
 
         // Now we can make the new effect for application
-        effect e( &type, dur, bp, permanent, intensity, calendar::turn );
+        effect e( &type, to_turns<int>( dur ), bp, permanent, intensity, calendar::turn );
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
             e.set_duration(e.get_max_duration());
@@ -859,7 +859,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, dur, bp, permanent, intensity, true );
+        add_effect( eff_id, 1_turns * dur, bp, permanent, intensity, true );
         return true;
     } else {
         return false;

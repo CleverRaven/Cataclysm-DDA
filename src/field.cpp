@@ -1656,7 +1656,7 @@ void map::player_in_field( player &u )
             //Moving through multiple webs stacks the effect.
             if (!u.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1, num_bp, true, cur.getFieldDensity());
+                u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.getFieldDensity());
                 cur.setFieldDensity( 0 ); //Its spent.
                 continue;
                 //If you are in a vehicle destroy the web.
@@ -1736,7 +1736,7 @@ void map::player_in_field( player &u )
                 break; //sap does nothing to cars.
             }
             u.add_msg_player_or_npc(m_bad, _("The sap sticks to you!"), _("The sap sticks to <npcname>!"));
-            u.add_effect( effect_sap, cur.getFieldDensity() * 2);
+            u.add_effect( effect_sap, cur.getFieldDensity() * 2_turns );
             cur.setFieldDensity(cur.getFieldDensity() - 1); //Use up sap.
             break;
 
@@ -2032,7 +2032,7 @@ void map::player_in_field( player &u )
                 u.hurtall(rng(1, 3), nullptr);
             } else {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary melts into your skin!"), _("The incendiary melts into <npcname>s skin!"));
-                u.add_effect( effect_onfire, 8, bp_torso );
+                u.add_effect( effect_onfire, 8_turns, bp_torso );
                 u.hurtall(rng(2, 6), nullptr);
             }
             break;
@@ -2107,7 +2107,7 @@ void map::monster_in_field( monster &z )
 
         case fd_web:
             if (!z.has_flag(MF_WEBWALK)) {
-                z.add_effect( effect_webbed, 1, num_bp, true, cur.getFieldDensity());
+                z.add_effect( effect_webbed, 1_turns, num_bp, true, cur.getFieldDensity());
                 cur.setFieldDensity( 0 );
             }
             break;
@@ -2164,7 +2164,7 @@ void map::monster_in_field( monster &z )
                 if (!z.has_flag(MF_FLIES)) {
                     z.moves -= 20;
                     if( dam > 0 ) {
-                        z.add_effect( effect_onfire, rng(dam / 2, dam * 2));
+                        z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
                     }
                 }
             } else if (cur.getFieldDensity() == 3) {
@@ -2172,7 +2172,7 @@ void map::monster_in_field( monster &z )
                 if (!z.has_flag(MF_FLIES) || one_in(3)) {
                     z.moves -= 40;
                     if( dam > 0 ) {
-                        z.add_effect( effect_onfire, rng(dam / 2, dam * 2));
+                        z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
                     }
                 }
             }
@@ -2195,20 +2195,20 @@ void map::monster_in_field( monster &z )
             if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
                 if (cur.getFieldDensity() == 3) {
-                    z.add_effect( effect_stunned, rng(10, 20));
+                    z.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
                     dam += rng(4, 10);
                 } else if (cur.getFieldDensity() == 2) {
-                    z.add_effect( effect_stunned, rng(5, 10));
+                    z.add_effect( effect_stunned, rng( 5_turns, 10_turns ) );
                     dam += rng(2, 5);
                 } else {
-                    z.add_effect( effect_stunned, rng(1, 5));
+                    z.add_effect( effect_stunned, rng( 1_turns, 5_turns ) );
                 }
                 if (z.made_of( material_id( "veggy" ) )) {
                     z.moves -= rng(cur.getFieldDensity() * 5, cur.getFieldDensity() * 12);
                     dam += cur.getFieldDensity() * rng(8, 14);
                 }
                 if (z.has_flag(MF_SEES)) {
-                     z.add_effect( effect_blind, cur.getFieldDensity() * 8);
+                     z.add_effect( effect_blind, cur.getFieldDensity() * 8_turns );
                 }
             }
             break;
@@ -2216,14 +2216,14 @@ void map::monster_in_field( monster &z )
         case fd_relax_gas:
             if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
-                z.add_effect( effect_stunned, rng(cur.getFieldDensity() * 4, cur.getFieldDensity() * 8));
+                z.add_effect( effect_stunned, rng( cur.getFieldDensity() * 4_turns, cur.getFieldDensity() * 8_turns ) );
             }
             break;
 
         case fd_dazzling:
             if (z.has_flag(MF_SEES)) {
-                z.add_effect( effect_blind, cur.getFieldDensity() * 12);
-                z.add_effect( effect_stunned, cur.getFieldDensity() * rng(5, 12));
+                z.add_effect( effect_blind, cur.getFieldDensity() * 12_turns );
+                z.add_effect( effect_stunned, cur.getFieldDensity() * rng( 5_turns, 12_turns ) );
             }
             break;
 
@@ -2326,14 +2326,14 @@ void map::monster_in_field( monster &z )
                 z.moves -= 20;
                 if (!z.made_of(LIQUID) && !z.made_of( material_id( "stone" ) ) && !z.made_of( material_id( "kevlar" ) ) &&
                 !z.made_of( material_id( "steel" ) ) && !z.has_flag(MF_FIREY)) {
-                    z.add_effect( effect_onfire, rng(8, 12));
+                    z.add_effect( effect_onfire, rng( 8_turns, 12_turns ) );
                 }
             } else if (cur.getFieldDensity() == 3) {
                 dam += rng(10, 20);
                 z.moves -= 40;
                 if (!z.made_of(LIQUID) && !z.made_of( material_id( "stone" ) ) && !z.made_of( material_id( "kevlar" ) ) &&
                 !z.made_of( material_id( "steel" ) ) && !z.has_flag(MF_FIREY)) {
-                        z.add_effect( effect_onfire, rng(12, 16));
+                        z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                 }
             }
             break;

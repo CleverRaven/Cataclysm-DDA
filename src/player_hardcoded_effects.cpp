@@ -78,7 +78,7 @@ static void eff_fun_spores( player &u, effect &it )
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_id( "M_IMMUNE" ) ) ) && ( one_in( 100 ) &&
             x_in_y( intense, 150 + u.get_healthy() / 10 ) ) ) {
-        u.add_effect( effect_fungus, 1, num_bp, true );
+        u.add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 }
 static void eff_fun_fungus( player &u, effect &it )
@@ -250,7 +250,7 @@ static void eff_fun_hallu( player &u, effect &it )
     } else if( dur == peakTime ) {
         // Visuals start
         u.add_msg_if_player( m_bad, _( "Fractal patterns dance across your vision." ) );
-        u.add_effect( effect_visuals, peakTime - comedownTime );
+        u.add_effect( effect_visuals, time_duration::from_turns( peakTime - comedownTime ) );
     } else if( dur > comedownTime && dur < peakTime ) {
         // Full symptoms
         u.mod_per_bonus( -2 );
@@ -443,7 +443,7 @@ void player::hardcoded_effects( effect &it )
             formication_chance += 2400 - dur;
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 600, bp );
+            add_effect( effect_formication, 60_minutes, bp );
         }
         if( dur < 14400 && one_in( 2400 ) ) {
             vomit();
@@ -570,7 +570,7 @@ void player::hardcoded_effects( effect &it )
             } else if( one_in( 500 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
                 body_part itch = random_body_part( true );
-                add_effect( effect_formication, 600, itch );
+                add_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 500 ) ) {
                 add_msg_if_player( m_bad,
@@ -657,18 +657,18 @@ void player::hardcoded_effects( effect &it )
         if( dur > 2400 ) {
             // 8 teleports
             if( one_in( 10000 - dur ) && !has_effect( effect_valium ) ) {
-                add_effect( effect_shakes, rng( 40, 80 ) );
+                add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
             if( one_in( 12000 - dur ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights..." ) );
-                add_effect( effect_blind, rng( 10, 20 ) );
+                add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0 );
                 }
             }
             if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
-                add_effect( effect_hallu, 3600 );
+                add_effect( effect_hallu, 6_hours );
                 if( one_in( 5 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0 );
@@ -677,7 +677,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( one_in( 4000 ) ) {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
-            add_effect( effect_boomered, 100 );
+            add_effect( effect_boomered, 10_minutes );
             if( one_in( 4 ) ) {
                 // Set ourselves up for removal
                 it.set_duration( 0 );
@@ -685,7 +685,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( one_in( 10000 ) ) {
             if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
-                add_effect( effect_fungus, 1, num_bp, true );
+                add_effect( effect_fungus, 1_turns, num_bp, true );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
             }
@@ -730,7 +730,7 @@ void player::hardcoded_effects( effect &it )
             apply_damage( nullptr, bp_head, rng( 0, 1 ) );
             if( !has_effect( effect_visuals ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is getting fuzzy." ) );
-                add_effect( effect_visuals, rng( 10, 600 ) );
+                add_effect( effect_visuals, rng( 1_minutes, 60_minutes ) );
             }
         }
         if( one_in( 4096 ) ) {
@@ -738,7 +738,7 @@ void player::hardcoded_effects( effect &it )
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
             if( !has_effect( effect_blind ) ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
-                add_effect( effect_blind, rng( 5, 20 ) );
+                add_effect( effect_blind, rng( 5_turns, 20_turns ) );
             }
         }
     } else if( id == effect_tapeworm ) {
@@ -761,8 +761,8 @@ void player::hardcoded_effects( effect &it )
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 512 ) ) {
                 add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                add_effect( effect_downed, rng( 1, 4 ), num_bp, false, 0, true );
-                add_effect( effect_stunned, rng( 1, 4 ) );
+                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+                add_effect( effect_stunned, rng( 1_turns, 4_turns ) );
                 if( one_in( 10 ) ) {
                     mod_pain( rng( 1, 10 ) );
                 }
@@ -782,7 +782,7 @@ void player::hardcoded_effects( effect &it )
             mod_pain( rng( -1, -8 ) );
         }
         if( ( !has_effect( effect_hallu ) ) && ( dur > 5000 && one_in( 4 ) ) ) {
-            add_effect( effect_hallu, 3600 );
+            add_effect( effect_hallu, 6_hours );
         }
         if( dur > 6000 && one_in( 128 ) ) {
             mod_pain( rng( -3, -24 ) );
@@ -790,7 +790,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player( m_bad,
                                    _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
                 add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
-                add_effect( effect_downed, rng( 1, 4 ), num_bp, false, 0, true );
+                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
                 if( one_in( 8 ) || x_in_y( vomit_mod(), 10 ) ) {
                     vomit();
                 }
@@ -800,12 +800,12 @@ void player::hardcoded_effects( effect &it )
             focus_pool--;
         }
         if( dur > 8000 && one_in( 256 ) ) {
-            add_effect( effect_visuals, rng( 40, 200 ) );
+            add_effect( effect_visuals, rng( 4_minutes, 20_minutes ) );
             mod_pain( rng( -8, -40 ) );
         }
         if( dur > 12000 && one_in( 256 ) ) {
             add_msg_if_player( m_bad, _( "There's some kind of big machine in the sky." ) );
-            add_effect( effect_visuals, rng( 80, 400 ) );
+            add_effect( effect_visuals, rng( 8_minutes, 40_minutes ) );
             if( one_in( 32 ) ) {
                 add_msg_if_player( m_bad, _( "It's some kind of electric snake, coming right at you!" ) );
                 mod_pain( rng( 4, 40 ) );
@@ -815,7 +815,7 @@ void player::hardcoded_effects( effect &it )
         if( dur > 14000 && one_in( 128 ) ) {
             add_msg_if_player( m_bad,
                                _( "Order us some golf shoes, otherwise we'll never get out of this place alive." ) );
-            add_effect( effect_visuals, rng( 400, 2000 ) );
+            add_effect( effect_visuals, rng( 40_minutes, 200_minutes ) );
             if( one_in( 8 ) ) {
                 add_msg_if_player( m_bad,
                                    _( "The possibility of physical and mental collapse is now very real." ) );
@@ -848,7 +848,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( zed_number > 0 ) {
-            add_effect( effect_grabbed, 2, bp_torso, false,
+            add_effect( effect_grabbed, 2_turns, bp_torso, false,
                         ( intense + zed_number ) / 2 ); //If intensity isn't pass the cap, average it with # of zeds
         }
     } else if( id == effect_bite ) {
@@ -898,7 +898,7 @@ void player::hardcoded_effects( effect &it )
         if( !recovered ) {
             // Move up to infection
             if( dur > 3600 ) {
-                add_effect( effect_infected, 1, bp, true );
+                add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0 );
             } else {
@@ -923,7 +923,7 @@ void player::hardcoded_effects( effect &it )
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better." ),
                                    body_part_name( bp ).c_str() );
-                add_effect( effect_recover, 4 * dur );
+                add_effect( effect_recover, 4_turns * dur );
                 // Set ourselves up for removal
                 it.set_duration( 0 );
                 recovered = true;
@@ -1150,7 +1150,7 @@ void player::hardcoded_effects( effect &it )
                         }
                     } else {
                         if( !has_effect( effect_slept_through_alarm ) ) {
-                            add_effect( effect_slept_through_alarm, 1, num_bp, true );
+                            add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                         }
                         // 10 minute cyber-snooze
                         it.mod_duration( 100 );
@@ -1159,7 +1159,7 @@ void player::hardcoded_effects( effect &it )
             } else {
                 if( dur <= 1 ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
-                        add_effect( effect_slept_through_alarm, 1, num_bp, true );
+                        add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 100 );

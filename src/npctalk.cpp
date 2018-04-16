@@ -1795,7 +1795,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "necropolis_freq",
                 0 ).tname().c_str() );
         g->u.i_add( item( "necropolis_freq", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose sane duration
         add_response( _( "Thanks." ), "TALK_OLD_GUARD_NEC_COMMO" );
 
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
@@ -1870,7 +1870,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "commune_prospectus",
                 0 ).tname().c_str() );
         g->u.i_add( item( "commune_prospectus", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose a sane duration
         add_response( _( "Thanks." ), "TALK_RANCH_FOREMAN" );
     } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
         add_response( _( "How many refugees are you expecting?" ), "TALK_RANCH_FOREMAN_REFUGEES" );
@@ -3031,13 +3031,13 @@ void talk_function::give_equipment( npc &p )
 
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
-    p.add_effect( effect_asked_for_item, 1800 );
+    p.add_effect( effect_asked_for_item, 3_hours );
 }
 
 void talk_function::give_aid( npc &p )
 {
     g->u.cash -= 20000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
         bp_healed = player::hp_to_bp( hp_part( i ) );
@@ -3059,7 +3059,7 @@ void talk_function::give_aid( npc &p )
 void talk_function::give_all_aid( npc &p )
 {
     g->u.cash -= 30000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
@@ -3121,7 +3121,7 @@ void talk_function::buy_10_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 10 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 14400 );
+    p.add_effect( effect_currently_busy, 1_days );
     g->u.cash -= 200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3148,7 +3148,7 @@ void talk_function::buy_100_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 100 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 100800 );
+    p.add_effect( effect_currently_busy, 7_days );
     g->u.cash -= 1200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3163,27 +3163,27 @@ void talk_function::follow( npc &p )
 
 void talk_function::deny_follow( npc &p )
 {
-    p.add_effect( effect_asked_to_follow, 3600 );
+    p.add_effect( effect_asked_to_follow, 6_hours );
 }
 
 void talk_function::deny_lead( npc &p )
 {
-    p.add_effect( effect_asked_to_lead, 3600 );
+    p.add_effect( effect_asked_to_lead, 6_hours );
 }
 
 void talk_function::deny_equipment( npc &p )
 {
-    p.add_effect( effect_asked_for_item, 600 );
+    p.add_effect( effect_asked_for_item, 1_hours );
 }
 
 void talk_function::deny_train( npc &p )
 {
-    p.add_effect( effect_asked_to_train, 3600 );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void talk_function::deny_personal_info( npc &p )
 {
-    p.add_effect( effect_asked_personal_info, 1800 );
+    p.add_effect( effect_asked_personal_info, 3_hours );
 }
 
 void talk_function::hostile( npc &p )
@@ -3302,7 +3302,7 @@ void talk_function::start_training( npc &p )
         return;
     }
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
-    p.add_effect( effect_asked_to_train, 3600 );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void parse_tags( std::string &phrase, const player &u, const npc &me )

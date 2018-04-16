@@ -36,7 +36,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
-            critter.add_effect( effect_stunned, rng( 1, 3 ) );
+            critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
             critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
         }
     } else if( gm.u.pos() == sporep ) {

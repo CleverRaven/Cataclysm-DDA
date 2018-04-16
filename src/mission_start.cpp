@@ -165,7 +165,7 @@ void mission_start::infect_npc( mission *miss )
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
-    p->add_effect( effect_infection, 1, num_bp, 1, true );
+    p->add_effect( effect_infection, 1_turns, num_bp, 1, true );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
