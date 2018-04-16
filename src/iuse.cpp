@@ -5107,7 +5107,7 @@ int iuse::contacts(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-    int duration = rng(80640, 120960); // Around 7 days.
+    int duration = rng(86400, 120960); // Around 7 days.
     if (p->has_effect( effect_contacts)) {
         if (query_yn(_("Replace your current lenses?"))) {
             p->moves -= 200;
