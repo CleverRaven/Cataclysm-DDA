@@ -125,7 +125,7 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-    optional( jo, was_loaded, "buff_duration", buff_duration, 2 );
+    optional( jo, was_loaded, "buff_duration", buff_duration, 2_turns );
     optional( jo, was_loaded, "max_stacks", max_stacks, 1 );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
@@ -276,7 +276,7 @@ class ma_buff_effect_type : public effect_type
             max_intensity = buff.max_stacks;
             // add_effect add the duration to an existing effect, but it must never be
             // above buff_duration, this keeps the old ma_buff behavior
-            max_duration = time_duration::from_turns( buff.buff_duration );
+            max_duration = buff.buff_duration;
             dur_add_perc = 100;
             // each add_effect call increases the intensity by 1
             int_add_val = 1;
@@ -386,9 +386,8 @@ bool ma_technique::is_valid_player( const player &u ) const
 
 
 ma_buff::ma_buff()
+    : buff_duration( 2_turns )
 {
-
-    buff_duration = 2; // total length this buff lasts
     max_stacks = 1; // total number of stacks this buff can have
 
     dodges_bonus = 0; // extra dodges, like karate
