@@ -16,7 +16,7 @@
             { "point":[0,0,0], "overmap": "river_center"}
         ],
         "locations" : [ "wilderness" ],
-        "city_distance" : [10, -1],
+        "city_distance" : [1, -1],
         "city_sizes" : [0, 12],
         "occurrences" : [0, 10],
         "rotate" : false,
@@ -1651,7 +1651,7 @@
             { "point":[0,0,0], "overmap": "pond_field"}
         ],
         "locations" : [ "field" ],
-        "city_distance" : [-1, 120],
+        "city_distance" : [1, -1],
         "occurrences" : [0, 30],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1662,7 +1662,7 @@
             { "point":[0,0,0], "overmap": "pond_forest"}
         ],
         "locations" : [ "forest" ],
-        "city_distance" : [-1, -1],
+        "city_distance" : [1, -1],
         "occurrences" : [0, 12],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1673,7 +1673,7 @@
       { "point":[0,0,0], "overmap": "pond_swamp"}
     ],
     "locations" : [ "swamp" ],
-    "city_distance" : [-1, -1],
+    "city_distance" : [1, -1],
     "occurrences" : [0, 9],
     "rotate" : false,
     "flags" : [ "CLASSIC" ]
