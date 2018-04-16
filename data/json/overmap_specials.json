@@ -1958,12 +1958,12 @@
       { "point": [ 1, 1, 0 ], "overmap": "lumberyard_1_1_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true }
+      { "point": [ 0, -1, 0 ], "terrain": "road" },
+      { "point": [ 1, -1, 0 ], "terrain": "road" }
     ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ -1, 3 ],
-    "city_sizes": [ 4, 12 ],
+    "locations": [ "forest" ],
+    "city_distance": [ -1, 10 ],
+    "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 5 ]
-  }  
+  }
 ]
