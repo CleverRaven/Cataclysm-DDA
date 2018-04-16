@@ -124,9 +124,7 @@
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 5 ], "y": [ 12, 13 ], "chance": 6 } 
 	  ],
-	  "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 4, "y": 2, "chance": 15, "fuel": 80, "status": 50, "rotation": 270 }
-      ]
+	  "place_vehicles": [ { "vehicle": "suburban_home", "x": 4, "y": 2, "chance": 15, "fuel": 80, "status": 50, "rotation": 270 } ]
     }
   }
 ]
