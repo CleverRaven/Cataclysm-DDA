@@ -361,9 +361,8 @@ void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
-    miss->monster_species = ZOMBIE;
     int killed = 0;
-    killed += g->species_kill_count( ZOMBIE );
+    killed += g->species_kill_count( miss->monster_species );
     miss->monster_kill_goal = 100 + killed; //your kill score must increase by 100
 }
 
