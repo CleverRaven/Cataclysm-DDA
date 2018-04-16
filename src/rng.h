@@ -82,13 +82,28 @@ inline V random_entry( const C &container )
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
 }
+
+template<typename ...T>
+class is_std_array_helper : public std::false_type
+{
+};
+template<typename T, std::size_t N>
+class is_std_array_helper<std::array<T, N>> : public std::true_type
+{
+};
+template<typename T>
+class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
+{
+};
+
 /**
  * Same as above, but with a statically allocated default value (using the default
  * constructor). This allows to return a reference, either into the given container
  * or to the default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline const V & random_entry_ref( const C &container )
+inline typename std::enable_if < !is_std_array<C>::value,
+       const V & >::type random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();
@@ -98,7 +113,7 @@ inline const V & random_entry_ref( const C &container )
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
 }
-template<typename V, unsigned int N>
+template<typename V, std::size_t N>
 inline const V &random_entry_ref( const std::array<V, N> &container )
 {
     static_assert( N > 0, "Need a non-empty array to get a random value from it" );
