@@ -753,7 +753,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
                             const std::string sItemName, const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding)
 {
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
@@ -765,7 +766,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wrefresh( win );
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
+                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
+                                        padding);
     return result;
 }
 
@@ -932,7 +934,8 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
                             const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding)
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
@@ -942,7 +945,8 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
     if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
-    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+	for (unsigned int i = 0; i < padding; i++)
+		buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
