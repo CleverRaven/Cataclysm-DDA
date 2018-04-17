@@ -10,7 +10,6 @@
 
 #include "enums.h"
 #include "npc_favor.h"
-#include "monstergenerator.h"
 
 class player;
 class mission;
@@ -24,6 +23,7 @@ class JsonIn;
 class JsonOut;
 struct mission_type;
 struct oter_type_t;
+struct species_type;
 
 enum npc_mission : int;
 
