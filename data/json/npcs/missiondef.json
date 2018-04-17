@@ -505,7 +505,6 @@
     "type": "mission_definition",
     "name": "Kill 100 Zombies",
     "goal": "MGOAL_KILL_MONSTER_SPEC",
-    "monster_species": "ZOMBIE",
     "difficulty": 5,
     "value": 250000,
     "start": "kill_100_z",

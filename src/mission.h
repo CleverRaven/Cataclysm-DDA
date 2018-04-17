@@ -182,7 +182,6 @@ struct mission_type {
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
     std::string monster_type = "mon_null";
-    species_id monster_species;
     int monster_kill_goal = -1;
     string_id<oter_type_t> target_id;
     mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
