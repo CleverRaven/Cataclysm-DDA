@@ -37,8 +37,6 @@ const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 const efftype_id effect_infection( "infection" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
