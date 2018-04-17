@@ -42,7 +42,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W;
 
-    const double now( time_past_new_year( t ) / calendar::year_length() ); // [0,1)
+	const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) / calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
 
     // Temperature variation
