@@ -5697,7 +5697,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     const int dist = rl_dist( g->u.pos(), p );
     
     // Being outside of the world bubble overrides Clairvoyance.
-    if(p.x < 0 || p.y < 0) {
+    if(!inbounds(p)){
         return LL_BLANK;
     }
 
