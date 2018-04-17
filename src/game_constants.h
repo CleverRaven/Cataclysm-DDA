@@ -89,16 +89,16 @@
 #define RANGE_HARD_CAP 60
 
 /** Player view distance FLOAT */
-#define PLAYER_VIEW_DISTANCE 60.0f
+constexpr float player_view_distance = 60.0f;
 
 /** Player view distance INTEGER */
-#define PLAYER_VIEW_DISTANCE_INT 60
+constexpr int player_view_distance_int = player_view_distance;
 
-/** Kind of related... but not to view distance exactly? Changing this would change balance of things I think? */
-#define DISTANCE_FROM_CENTER 60
+/** Distance to search for fishables from trap/fishing pole/etc */
+constexpr int fishing_distance = 60;
 
-/** Was used based off lighting but I'm not sure?*/
-#define LIGHT_SIXTY_F 60.0f
+/** Light level to use for starting a fire */
+constexpr float min_light_level_for_firestarter = 60.0f;
 
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;
