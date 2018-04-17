@@ -9,7 +9,7 @@
 #include "int_id.h"
 #include "cursesdef.h"
 #include "pimpl.h"
-#include "monstergenerator.h"
+#include "string_id.h"
 
 #include <array>
 #include <vector>
@@ -72,6 +72,7 @@ struct special_game;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+struct species_type;
 using species_id = string_id<species_type>;
 using itype_id = std::string;
 class ammunition_type;
