@@ -5695,11 +5695,6 @@ const visibility_variables &map::get_visibility_variables_cache() const {
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
     const int dist = rl_dist( g->u.pos(), p );
-    
-    // Being outside of the world bubble overrides Clairvoyance.
-    if(!inbounds(p)){
-        return LL_BLANK;
-    }
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
