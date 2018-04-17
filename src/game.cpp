@@ -1146,7 +1146,7 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        int turns = calendar::turn.get_turn() - HOURS( get_option<int>( "INITIAL_TIME" ) );
+        int turns = calendar::turn.get_turn() - calendar::start.get_turn();
         int minutes = ( turns / MINUTES( 1 ) ) % 60;
         int hours = ( turns / HOURS( 1 ) ) % 24;
         int days = turns / DAYS( 1 );
