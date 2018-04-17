@@ -945,8 +945,8 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
     if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
-	for (unsigned int i = 0; i < padding; i++)
-		buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+    for (unsigned int i = 0; i < padding; i++)
+        buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
