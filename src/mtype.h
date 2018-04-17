@@ -152,6 +152,8 @@ enum m_flag : int {
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
+	MF_BASIC_INVISIBILITY,  // Monsters that are invisible at distances greater than 5 tiles
+	MF_FULL_INVISIBILITY,   // Monsters that are invisible
     MF_REVIVES_HEALTHY,     // When revived, this monster has full hitpoints and speed
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
