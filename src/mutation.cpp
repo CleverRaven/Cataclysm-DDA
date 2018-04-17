@@ -614,7 +614,7 @@ void player::mutate()
 
     do {
         // If we tried once with a non-NULL category, and couldn't find anything valid
-        // there, try again with MUTCAT_NULL
+        // there, try again with empty category
         if (!first_pass) {
             cat.clear();
         }
@@ -664,7 +664,7 @@ void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // @todo: Turn it into the null id
-    if( cat == "MUTCAT_ANY" ) {
+    if( cat == "ANY" ) {
         mutate();
         return;
     }

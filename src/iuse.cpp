@@ -1133,25 +1133,18 @@ int iuse::mutagen( player *p, item *it, bool, const tripoint& )
     }
 
     // Categorized/targeted mutagens go here.
-    for( auto& iter : mutation_category_trait::get_all() ) {
-        mutation_category_trait m_category = iter.second;
-        if( !it->has_flag( m_category.mutagen_flag ) ) {
-            continue;
-        }
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+        it->get_property_string("mutagen_category", "ANY") );
 
-        int mut_count = 1 + ( it->has_flag( "MUTAGEN_STRONG" ) ? one_in( 3 ) : 0 );
+    int mut_count = 1 + ( it->has_flag( "MUTAGEN_STRONG" ) ? one_in( 3 ) : 0 );
 
-        p->add_msg_if_player( m_category.mutagen_message.c_str() );
-        const std::string &mutation_category = m_category.category_full;
-        for( int i = 0; i < mut_count; i++ ) {
-            p->mutate_category( mutation_category );
-            p->mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
-            p->mod_hunger( m_category.mutagen_hunger );
-            p->mod_thirst( m_category.mutagen_thirst );
-            p->mod_fatigue( m_category.mutagen_fatigue );
-        }
-
-        return it->type->charges_to_use();
+    p->add_msg_if_player( m_category.mutagen_message.c_str() );
+    for( int i = 0; i < mut_count; i++ ) {
+        p->mutate_category( m_category.id );
+        p->mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
+        p->mod_hunger( m_category.mutagen_hunger );
+        p->mod_thirst( m_category.mutagen_thirst );
+        p->mod_fatigue( m_category.mutagen_fatigue );
     }
 
     return it->type->charges_to_use();
@@ -1169,10 +1162,10 @@ static void test_crossing_threshold( player &p, const mutation_category_trait &m
         return;
     }
 
-    std::string mutation_category = m_category.category_full;
+    std::string mutation_category = m_category.id;
     int total = 0;
     for( const auto& iter : mutation_category_trait::get_all() ){
-        total += p.mutation_category_level[ iter.second.category_full ];
+        total += p.mutation_category_level[ iter.first ];
     }
     // Threshold-breaching
     const std::string &primary = p.get_highest_category();
@@ -1186,7 +1179,7 @@ static void test_crossing_threshold( player &p, const mutation_category_trait &m
         // Alpha is similarly eclipsed by other mutation categories.
         // Will add others if there's serious/demonstrable need.
         int booster = 0;
-        if (mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA") {
+        if (mutation_category == "URSINE"  || mutation_category == "ALPHA") {
             booster = 50;
         }
         int breacher = breach_power + booster;
@@ -1199,7 +1192,7 @@ static void test_crossing_threshold( player &p, const mutation_category_trait &m
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == "MUTCAT_URSINE" && p.has_trait( trait_CARNIVORE ) ) {
+            if( mutation_category == "URSINE" && p.has_trait( trait_CARNIVORE ) ) {
                 p.unset_mutation( trait_CARNIVORE );
                 p.add_msg_if_player( _( "Your appetite for blood fades." ) );
             }
@@ -1230,61 +1223,55 @@ int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
         return checks.charges_used;
     }
 
-    for( auto& iter : mutation_category_trait::get_all() ) {
-        // @todo: Get rid of this revolting string hack
-        if( !it->has_flag( iter.second.mutagen_flag ) ) {
-            continue;
-        }
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+        it->get_property_string("mutagen_category", "ANY") );
 
-        const mutation_category_trait &m_category = iter.second;
-        const std::string &mutation_category = m_category.category_full;
+    // try to cross the threshold to be able to get post-threshold mutations this iv.
+    test_crossing_threshold( *p, m_category );
 
-        // try to cross the threshold to be able to get post-threshold mutations this iv.
-        test_crossing_threshold( *p, m_category );
-
-        if( p->has_trait( trait_MUT_JUNKIE ) ) {
-            p->add_msg_if_player( m_category.junkie_message.c_str() );
-        } else {
-            p->add_msg_if_player( m_category.iv_message.c_str() );
-        }
-        // TODO: Remove the "is_player" part, implement NPC screams
-        if( p->is_player() && !(p->has_trait( trait_NOPAIN )) && m_category.iv_sound ) {
-            p->mod_pain(m_category.iv_pain);
-            /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-            sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
-        }
-        for( int i = 0; i < m_category.iv_min_mutations; i++ ){
-            p->mutate_category(mutation_category);
-            p->mod_pain(m_category.iv_pain * rng(1, 5));
-            p->mod_hunger(m_category.iv_hunger);
-            p->mod_thirst(m_category.iv_thirst);
-            p->mod_fatigue(m_category.iv_fatigue);
-        }
-        for( int i = 0; i < m_category.iv_additional_mutations; i++ ){
-            if (!one_in(m_category.iv_additional_mutations_chance)) {
-                p->mutate_category(mutation_category);
-                p->mod_pain(m_category.iv_pain * rng(1, 5));
-                p->mod_hunger(m_category.iv_hunger);
-                p->mod_thirst(m_category.iv_thirst);
-                p->mod_fatigue(m_category.iv_fatigue);
-            }
-        }
-        if( m_category.category == "CHIMERA" ) {
-             p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
-        } else if( m_category.category == "ELFA" ) {
-             p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
-        } else if( m_category.iv_morale > 0 ){
-            p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
-        }
-
-        if( m_category.iv_sleep && !one_in( 3 ) ) {
-            p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
-            /** @EFFECT_INT reduces sleep duration when using IV mutagen */
-            p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
-        }
-        // try crossing again after getting new in-category mutations.
-        test_crossing_threshold( *p, m_category );
+    if( p->has_trait( trait_MUT_JUNKIE ) ) {
+        p->add_msg_if_player( m_category.junkie_message.c_str() );
+    } else {
+        p->add_msg_if_player( m_category.iv_message.c_str() );
     }
+
+    // TODO: Remove the "is_player" part, implement NPC screams
+    if( p->is_player() && !(p->has_trait( trait_NOPAIN )) && m_category.iv_sound ) {
+        p->mod_pain( m_category.iv_pain );
+        /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
+        sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
+    }
+
+    int mut_count = m_category.iv_min_mutations;
+    for (int i = 0; i < m_category.iv_additional_mutations; ++i) {
+        if (!one_in(m_category.iv_additional_mutations_chance)) {
+            ++mut_count;
+        }
+    }
+
+    for( int i = 0; i < mut_count; i++ ){
+        p->mutate_category( m_category.id );
+        p->mod_pain( m_category.iv_pain * rng(1, 5) );
+        p->mod_hunger( m_category.iv_hunger );
+        p->mod_thirst( m_category.iv_thirst );
+        p->mod_fatigue( m_category.iv_fatigue );
+    }
+
+    if( m_category.id == "CHIMERA" ) {
+         p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
+    } else if( m_category.id == "ELFA" ) {
+         p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
+    } else if( m_category.iv_morale > 0 ){
+        p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
+    }
+
+    if( m_category.iv_sleep && !one_in( 3 ) ) {
+        p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
+        /** @EFFECT_INT reduces sleep duration when using IV mutagen */
+        p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
+    }
+    // try crossing again after getting new in-category mutations.
+    test_crossing_threshold( *p, m_category );
 
     return it->type->charges_to_use();
 }
@@ -1602,7 +1589,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
     }
     else if (p->has_trait( trait_THRESH_MYCUS ) && !p->has_trait( trait_M_DEPENDENT )) { // OK, now set the hook.
         if (!one_in(3)) {
-            p->mutate_category("MUTCAT_MYCUS");
+            p->mutate_category("MYCUS");
             p->mod_hunger(10);
             p->mod_thirst(10);
             p->mod_fatigue(5);
@@ -5405,10 +5392,10 @@ int iuse::bell(player *p, item *it, bool, const tripoint& )
     if (it->typeId() == "cow_bell") {
         sounds::sound(p->pos(), 12, _("Clank! Clank!"));
         if (!p->is_deaf()) {
-            const int cow_factor = 1 + (p->mutation_category_level.find("MUTCAT_CATTLE") ==
+            const int cow_factor = 1 + (p->mutation_category_level.find("CATTLE") ==
                                         p->mutation_category_level.end() ?
                                         0 :
-                                        (p->mutation_category_level.find("MUTCAT_CATTLE")->second) / 8
+                                        (p->mutation_category_level.find("CATTLE")->second) / 8
                                        );
             if (x_in_y(cow_factor, 1 + cow_factor)) {
                 p->add_morale(MORALE_MUSIC, 1, 15 * (cow_factor > 10 ? 10 : cow_factor));
