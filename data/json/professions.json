@@ -2467,7 +2467,6 @@
         "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
         "points": 8,
         "CBMs":[
-            "bio_solar",
             "bio_eye_enhancer",
             "bio_targeting",
             "bio_climate",

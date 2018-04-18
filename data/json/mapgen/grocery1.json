@@ -4,9 +4,12 @@
     "type": "item_group",
     "items": [
       [ "bread", 65 ],
+      [ "cake2", 10 ],
+      [ "cake3", 10 ],
       [ "cornbread", 35 ],
       [ "brioche", 50 ],
       [ "hardtack", 30 ],
+      [ "jihelucake", 10 ],
       [ "biscuit", 50 ],
       [ "crackers", 40 ]
     ]
@@ -93,12 +96,14 @@
       [ "mayonnaise", 40 ],
       [ "ketchup", 60 ],
       [ "mustard", 60 ],
+      [ "horseradish", 10 ],
       [ "honey_bottled", 35 ],
       [ "honey_glassed", 35 ],
       [ "peanutbutter", 60 ],
-      [ "pickle", 40 ],
+      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "coffee_syrup", 35 ],
       [ "coffee_raw", 45 ],
+      [ "tea_raw", 45 ],
       [ "salt", 50 ],
       [ "pepper", 50 ],
       [ "cinnamon", 20 ],

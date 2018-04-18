@@ -1360,7 +1360,6 @@ void advanced_inventory::display()
 {
     init();
 
-    g->u.inv.sort();
     g->u.inv.restack( g->u );
 
     input_context ctxt( "ADVANCED_INVENTORY" );
@@ -1428,7 +1427,7 @@ void advanced_inventory::display()
                        w_width - ( minimap_width + 2 ) - utf8_width(msg) - 1,
                        c_white, msg.c_str() );
             if( g->u.has_watch() ) {
-                const std::string time = calendar::turn.print_time();
+                const std::string time = to_string_time_of_day( calendar::turn );
                 mvwprintz( head, 0, 2, c_white, time.c_str() );
             }
             wrefresh( head );
@@ -1639,7 +1638,6 @@ void advanced_inventory::display()
             // This is only reached when at least one item has been moved.
             g->u.mod_moves( -move_cost );
             // Just in case the items have moved from/to the inventory
-            g->u.inv.sort();
             g->u.inv.restack( g->u );
             // if dest was AIM_ALL then we used query_destination and should undo that
             if (restore_area) {

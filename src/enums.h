@@ -355,10 +355,14 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static const tripoint tripoint_zero { 0, 0, 0 };
 
-constexpr inline unsigned long mfb( const int v )
+struct sphere
 {
-    return 1 << v;
-}
+    int radius;
+    tripoint center;
 
+    sphere() : radius( 0 ), center() {}
+    explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
+    explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
+};
 
 #endif

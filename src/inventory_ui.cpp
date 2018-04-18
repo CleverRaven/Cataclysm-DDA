@@ -166,7 +166,15 @@ inventory_selector_preset::inventory_selector_preset()
 
 bool inventory_selector_preset::sort_compare( const item_location &lhs, const item_location &rhs ) const
 {
-    return lhs->tname( 1 ).compare( rhs->tname( 1 ) ) < 0; // Simple alphabetic order
+    // Place items with an assigned inventory letter first, since the player cared enough to assign them
+    const bool left_fav  = g->u.inv.assigned_invlet.count(lhs->invlet);
+    const bool right_fav = g->u.inv.assigned_invlet.count(rhs->invlet);
+    if ((left_fav && right_fav) || (!left_fav && !right_fav)) {
+        return lhs->tname(1).compare(rhs->tname(1)) < 0; // Simple alphabetic order
+    } else if (left_fav) {
+        return true;
+    }
+    return false;
 }
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
@@ -795,14 +803,14 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( new item_category( id, name, 0 ) ) {}
+    selected_cat( id, name, 0 ) {}
 
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
 
     if( entries.empty() ) { // Category must always persist
-        entries.emplace_back( selected_cat.get() );
+        entries.emplace_back( &*selected_cat );
         expand_to_fit( entries.back() );
     }
 
@@ -817,7 +825,7 @@ void selection_column::prepare_paging( const std::string &filter )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, selected_cat.get() );
+    inventory_entry my_entry( entry, &*selected_cat );
 
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 

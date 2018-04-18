@@ -74,6 +74,10 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
+    : player()
+    , restock( calendar::before_time_starts )
+    , companion_mission_time( calendar::before_time_starts )
+    , last_updated( calendar::turn )
 {
     submap_coords = point( 0, 0 );
     position.x = -1;
@@ -100,9 +104,7 @@ npc::npc()
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
     patience = 0;
-    restock = -1;
-    companion_mission_time = 0;
-    last_updated = calendar::turn;
+    attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
 }
@@ -164,7 +166,7 @@ void npc_template::load( JsonObject &jsobj )
         }
     }
     if( jsobj.has_string( "faction" ) ) {
-        guy.fac_id = jsobj.get_string( "faction" );
+        guy.fac_id = faction_id( jsobj.get_string( "faction" ) );
     }
 
     if( jsobj.has_int( "class" ) ) {
@@ -173,7 +175,7 @@ void npc_template::load( JsonObject &jsobj )
         guy.myclass = npc_class_id( jsobj.get_string( "class" ) );
     }
 
-    guy.attitude = npc_attitude( jsobj.get_int( "attitude" ) );
+    guy.set_attitude( npc_attitude( jsobj.get_int( "attitude" ) ) );
     guy.mission = npc_mission( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
@@ -265,7 +267,7 @@ void npc::load_info( std::string data )
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad npc json\n%s", jsonerr.c_str() );
     }
-    if( !fac_id.empty() ) {
+    if( !fac_id.str().empty() ) {
         set_fac( fac_id );
     }
 }
@@ -304,7 +306,7 @@ void npc::randomize( const npc_class_id &type )
     per_max = the_class.roll_perception();
 
     if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
-        restock = DAYS( 3 );
+        restock = calendar::turn + 3_days;
         cash += 100000;
     }
 
@@ -660,14 +662,10 @@ void npc::randomize_from_faction( faction *fac )
     }
 }
 
-void npc::set_fac( std::string fac_name )
+void npc::set_fac( const string_id<faction> &id )
 {
-    my_fac = g->faction_by_ident( fac_name );
-    if( my_fac == nullptr ) {
-        debugmsg( "The game could not find the %s faction", fac_name.c_str() );
-    } else {
-        fac_id = my_fac->id;
-    }
+    my_fac = g->faction_manager_ptr->get( id );
+    fac_id = my_fac->id;
 }
 
 // item id from group "<class-name>_<what>" or from fallback group
@@ -941,18 +939,17 @@ bool npc::wear_if_wanted( const item &it )
         const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
-        for( size_t i = 0; i < num_bp; i++ ) {
-            const auto bp = static_cast<body_part>( i );
+        for( const body_part bp : all_body_parts ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
 
-            if( it_encumber > max_encumb[i] ) {
+            if( it_encumber > max_encumb[bp] ) {
                 // Not an NPC-friendly item
                 return false;
             }
 
-            if( new_enc[i].encumbrance > max_encumb[i] ) {
+            if( new_enc[bp].encumbrance > max_encumb[bp] ) {
                 encumb_ok = false;
                 break;
             }
@@ -964,8 +961,7 @@ bool npc::wear_if_wanted( const item &it )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( size_t j = 0; j < num_bp; j++ ) {
-            const body_part bp = static_cast<body_part>( j );
+        for( const body_part bp : all_body_parts ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
@@ -1010,7 +1006,7 @@ bool npc::wield( item &it )
     }
 
     if( it.is_null() ) {
-        weapon = ret_null;
+        weapon = item();
         return true;
     }
 
@@ -1162,13 +1158,13 @@ void npc::form_opinion( const player &u )
 
     if( op_of_u.fear < personality.bravery + 10 &&
         op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8 ) {
-        attitude = NPCATT_TALK;
+        set_attitude( NPCATT_TALK );
     } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
-        attitude = NPCATT_KILL;
+        set_attitude( NPCATT_KILL );
     } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
-        attitude = NPCATT_KILL;
+        set_attitude( NPCATT_KILL );
     } else {
-        attitude = NPCATT_FLEE;
+        set_attitude( NPCATT_FLEE );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
@@ -1227,19 +1223,15 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
-    if( g->u.sees( *this ) ) {
-        add_msg( _( "%s gets angry!" ), name.c_str() );
-    }
-
     // Make associated faction, if any, angry at the player too.
     if( my_fac != nullptr ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
         my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-        attitude = NPCATT_FLEE; // We don't want to take u on!
+        set_attitude( NPCATT_FLEE ); // We don't want to take u on!
     } else {
-        attitude = NPCATT_KILL; // Yeah, we think we could take you!
+        set_attitude( NPCATT_KILL ); // Yeah, we think we could take you!
     }
 }
 
@@ -1418,7 +1410,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
 
 void npc::shop_restock()
 {
-    restock = calendar::turn + DAYS( 3 );
+    restock = calendar::turn + 3_days;
     if( is_friend() ) {
         return;
     }
@@ -1559,7 +1551,7 @@ bool npc::has_healing_item( bool bleed, bool bite, bool infect )
 
 item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best )
 {
-    item *best = &ret_null;
+    item *best = &null_item_reference();
     visit_items( [&best, bleed, bite, infect, first_best]( item * node ) {
         const auto use = node->type->get_use( "heal" );
         if( use == nullptr ) {
@@ -2031,7 +2023,7 @@ std::string npc_attitude_name( npc_attitude att )
     }
 
     debugmsg( "Invalid attitude: %d", att );
-    return _( "Unknown" );
+    return _( "Unknown attitude" );
 }
 
 void npc::setID( int i )
@@ -2092,23 +2084,21 @@ void npc::on_unload()
 
 void npc::on_load()
 {
-    const int now = calendar::turn;
+    // Cap at some reasonable number, say 2 days
+    const time_duration dt = std::min( calendar::turn - last_updated, 2_days );
     // TODO: Sleeping, healing etc.
-    int dt = now - last_updated;
     last_updated = calendar::turn;
-    // Cap at some reasonable number, say 2 days (2 * 48 * 30 minutes)
-    dt = std::min( dt, 2 * 48 * MINUTES( 30 ) );
-    int cur = now - dt;
-    add_msg( m_debug, "on_load() by %s, %d turns", name.c_str(), dt );
+    time_point cur = calendar::turn - dt;
+    add_msg( m_debug, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
-    for( ; cur < now - MINUTES( 30 ); cur += MINUTES( 30 ) + 1 ) {
-        update_body( cur, cur + MINUTES( 30 ) );
+    for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
+        update_body( to_turn<int>( cur ), to_turn<int>( cur + 30_minutes ) );
     }
-    for( ; cur < now - MINUTES( 5 ); cur += MINUTES( 5 ) + 1 ) {
-        update_body( cur, cur + MINUTES( 5 ) );
+    for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
+        update_body( to_turn<int>( cur ), to_turn<int>( cur + 5_minutes ) );
     }
-    for( ; cur < now; cur++ ) {
-        update_body( cur, cur + 1 );
+    for( ; cur < calendar::turn; cur += 1_turns ) {
+        update_body( to_turn<int>( cur ), to_turn<int>( cur + 1_turns ) );
     }
 
     if( dt > 0 ) {
@@ -2316,25 +2306,30 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-std::ostream &operator<< ( std::ostream &os, npc_need need )
+std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {
+    {
+        { "need_none", overmap_location_str_id( "source_of_anything" ) },
+        { "need_ammo", overmap_location_str_id( "source_of_ammo" )},
+        { "need_weapon", overmap_location_str_id( "source_of_weapon" )},
+        { "need_gun", overmap_location_str_id( "source_of_gun" ) },
+        { "need_food", overmap_location_str_id( "source_of_food" )},
+        { "need_drink", overmap_location_str_id( "source_of_drink" ) }
+    }
+};
+
+std::string npc::get_need_str_id( const npc_need &need )
 {
-    switch( need ) {
-        case need_none :
-            return os << "need_none";
-        case need_ammo :
-            return os << "need_ammo";
-        case need_weapon :
-            return os << "need_weapon";
-        case need_gun :
-            return os << "need_gun";
-        case need_food :
-            return os << "need_food";
-        case need_drink :
-            return os << "need_drink";
-        case num_needs :
-            return os << "num_needs";
-    };
-    return os << "unknown need";
+    return need_data[static_cast<size_t>( need )].first;
+};
+
+overmap_location_str_id npc::get_location_for( const npc_need &need )
+{
+    return need_data[static_cast<size_t>( need )].second;
+}
+
+std::ostream &operator<< ( std::ostream &os, const npc_need &need )
+{
+    return os << npc::get_need_str_id( need );
 }
 
 bool npc::will_accept_from_player( const item &it ) const
@@ -2458,4 +2453,56 @@ bool npc::has_companion_mission() const
 std::string npc::get_companion_mission() const
 {
     return companion_mission;
+}
+
+attitude_group get_attitude_group( npc_attitude att )
+{
+    switch( att ) {
+        case NPCATT_MUG:
+        case NPCATT_WAIT_FOR_LEAVE:
+        case NPCATT_KILL:
+            return attitude_group::hostile;
+        case NPCATT_FLEE:
+            return attitude_group::fearful;
+        case NPCATT_FOLLOW:
+        case NPCATT_LEAD:
+            return attitude_group::friendly;
+        default:
+            break;
+    }
+    return attitude_group::neutral;
+}
+
+npc_attitude npc::get_attitude() const
+{
+    return attitude;
+}
+
+void npc::set_attitude( npc_attitude new_attitude )
+{
+    if( new_attitude == attitude ) {
+        return;
+    }
+    add_msg( m_debug, "%s changes attitude from %s to %s",
+             npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
+    attitude_group new_group = get_attitude_group( new_attitude );
+    attitude_group old_group = get_attitude_group( attitude );
+    if( new_group != old_group && !is_fake() ) {
+        switch( new_group ) {
+            case attitude_group::hostile:
+                add_msg_if_npc( m_bad, _( "<npcname> gets angry!" ) );
+                break;
+            case attitude_group::fearful:
+                add_msg_if_npc( m_warning, _( "<npcname> gets scared!" ) );
+                break;
+            default:
+                if( old_group == attitude_group::hostile ) {
+                    add_msg_if_npc( m_good, _( "<npcname> calms down." ) );
+                } else if( old_group == attitude_group::fearful ) {
+                    add_msg_if_npc( _( "<npcname> is no longer afraid." ) );
+                }
+                break;
+        }
+    }
+    attitude = new_attitude;
 }

@@ -60,6 +60,26 @@
     ]
   },
   {
+    "result": "boots_acidchitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
+    "time": 80000,
+    "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "acidchitin_piece", 12 ] ],
+      [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
+    ]
+  },
+  {
     "result": "boots_fsurvivor",
     "type": "recipe",
     "category": "CC_ARMOR",

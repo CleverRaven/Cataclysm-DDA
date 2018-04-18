@@ -42,6 +42,27 @@
     ]
   },
   {
+    "result": "pallet_lifter",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 2,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "jack", 1 ] ],
+      [ [ "pipe", 4 ] ]
+    ]
+  },
+  {
     "result": "drivebelt_makeshift",
     "type" : "recipe",
     "category": "CC_OTHER",

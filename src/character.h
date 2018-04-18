@@ -12,6 +12,7 @@
 
 #include <map>
 #include <vector>
+#include <bitset>
 
 class Skill;
 struct pathfinding_settings;
@@ -30,6 +31,7 @@ struct mutation_branch;
 class bionic_collection;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+class recipe;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -175,7 +177,8 @@ class Character : public Creature, public visitable<Character>
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
+        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
+        int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
         double aim_speed_encumbrance_modifier() const;
@@ -222,7 +225,7 @@ class Character : public Creature, public visitable<Character>
         bool is_blind() const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
+        body_part_set exclusive_flag_coverage( const std::string &flag ) const;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
@@ -384,7 +387,7 @@ class Character : public Creature, public visitable<Character>
 
         /**
          * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or @ref ret_null.
+         * At the moment it's always @ref weapon or a reference to a null item.
          */
         /*@{*/
         const item &used_weapon() const;
@@ -614,7 +617,6 @@ class Character : public Creature, public visitable<Character>
         inventory inv;
         itype_id last_item;
         item weapon;
-        item ret_null; // Null item, sometimes returns by weapon() etc
 
         pimpl<bionic_collection> my_bionics;
 

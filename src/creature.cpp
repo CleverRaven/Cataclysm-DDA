@@ -255,7 +255,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         if( const npc *const npc_ptr = dynamic_cast<const npc*>( &critter ) ) {
             // friendly to the player, not a target for us
-            return npc_ptr->attitude == NPCATT_KILL;
+            return npc_ptr->get_attitude() == NPCATT_KILL;
         }
         //@todo: what about g->u?
         return false;
@@ -323,12 +323,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         best_target_rating = target_rating;
     }
     return target;
-}
-
-void Creature::melee_attack(Creature &t, bool allow_special)
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
 }
 
 /*
@@ -486,13 +480,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
-        damage_mult *= rng_float(2.45, 3.35);
+        damage_mult *= rng_float(1.95, 2.05);
         bp_hit = bp_head; // headshot hits the head, of course
 
     } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
-        damage_mult *= rng_float(1.75, 2.3);
+        damage_mult *= rng_float(1.5, 2.0);
 
     } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
@@ -1068,6 +1062,10 @@ int Creature::get_perceived_pain() const
     return get_pain();
 }
 
+int Creature::get_moves() const
+{
+    return moves;
+}
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;

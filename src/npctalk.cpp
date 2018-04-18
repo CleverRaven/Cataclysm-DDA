@@ -30,6 +30,7 @@
 #include "vehicle_selector.h"
 #include "skill.h"
 #include "ui.h"
+#include "help.h"
 
 #include "string_formatter.h"
 #include <vector>
@@ -82,6 +83,15 @@ enum talk_trial_type {
     NUM_TALK_TRIALS
 };
 
+enum class dialogue_consequence {
+    none = 0,
+    hostile,
+    helpless,
+    action
+};
+
+using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+
 /**
  * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
  * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
@@ -125,7 +135,7 @@ struct talk_topic {
 struct talk_response {
     /**
      * What the player character says (literally). Should already be translated and will be
-     * displayed. The first character controls the color of it ('*'/'&'/'!').
+     * displayed.
      */
     std::string text;
     talk_trial trial;
@@ -140,24 +150,41 @@ struct talk_response {
      * TALK_TRIAL_NONE it always succeeds.
      */
     struct effect_t {
-        /**
-         * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
-         */
-        npc_opinion opinion;
-        /**
-         * Function that is called when the response is chosen.
-         */
-        std::function<void( npc & )> effect = &talk_function::nothing;
-        /**
-         * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
-         */
-        talk_topic next_topic = talk_topic( "TALK_NONE" );
+            /**
+             * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+             */
+            npc_opinion opinion;
+            /**
+             * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
+             */
+            talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-        talk_topic apply( dialogue &d ) const;
-        void load_effect( JsonObject &jo );
+            talk_topic apply( dialogue &d ) const;
+            dialogue_consequence get_consequence( const dialogue &d ) const;
 
-        effect_t() = default;
-        effect_t( JsonObject );
+            const std::function<void( npc & )> &get_effect() const {
+                return effect;
+            }
+
+            /**
+             * Sets the effect and consequence based on function pointer.
+             */
+            void set_effect( dialogue_fun_ptr effect );
+            /**
+             * Sets the effect to a function object and consequence to explicitly given one.
+             */
+            void set_effect_consequence( std::function<void( npc & )> eff, dialogue_consequence con );
+
+            void load_effect( JsonObject &jo );
+
+            effect_t() = default;
+            effect_t( JsonObject );
+        private:
+            /**
+             * Function that is called when the response is chosen.
+             */
+            std::function<void( npc & )> effect = &talk_function::nothing;
+            dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
     };
     effect_t success;
     effect_t failure;
@@ -170,6 +197,7 @@ struct talk_response {
     nc_color color = c_white;
 
     void do_formatting( const dialogue &d, char letter );
+    std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
     talk_response() = default;
     talk_response( JsonObject );
@@ -241,10 +269,18 @@ struct dialogue {
         talk_response &add_response_none( const std::string &text );
         /**
          * Add a simple response that switches the topic to the new one and executes the given
-         * action. The response always succeeds.
+         * action. The response always succeeds. Consequence is based on function used.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     std::function<void( npc & )> effect_success );
+                                     dialogue_fun_ptr effect_success );
+
+        /**
+         * Add a simple response that switches the topic to the new one and executes the given
+         * action. The response always succeeds. Consequence must be explicitly specified.
+         */
+        talk_response &add_response( const std::string &text, const std::string &r,
+                                     std::function<void( npc & )> effect_success,
+                                     dialogue_consequence consequence );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about mission to the given one. The mission pointer must be valid.
@@ -385,8 +421,11 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 #define FAILURE_OPINION(T, F, V, A, O)   ret.back().failure.opinion =\
         npc_opinion(T, F, V, A, O)
 
-#define SUCCESS_ACTION(func)  ret.back().success.effect = func
-#define FAILURE_ACTION(func)  ret.back().failure.effect = func
+#define SUCCESS_ACTION(func)  ret.back().success.set_effect( func )
+#define FAILURE_ACTION(func)  ret.back().failure.set_effect( func )
+
+#define SUCCESS_ACTION_CONSEQUENCE(func, con)  ret.back().success.set_effect_consequence( func, con )
+#define FAILURE_ACTION_CONSEQUENCE(func, con)  ret.back().failure.set_effect_consequence( func, con )
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -472,17 +511,17 @@ void npc_chatbin::check_missions()
 void npc::talk_to_u()
 {
     if( g->u.is_dead_state() ) {
-        attitude = NPCATT_NULL;
+        set_attitude( NPCATT_NULL );
         return;
     }
     const bool has_mind_control = g->u.has_trait( trait_DEBUG_MIND_CONTROL );
     // This is necessary so that we don't bug the player over and over
-    if( attitude == NPCATT_TALK ) {
-        attitude = NPCATT_NULL;
-    } else if( attitude == NPCATT_FLEE && !has_mind_control ) {
+    if( get_attitude() == NPCATT_TALK ) {
+        set_attitude( NPCATT_NULL );
+    } else if( get_attitude() == NPCATT_FLEE && !has_mind_control ) {
         add_msg( _( "%s is fleeing from you!" ), name.c_str() );
         return;
-    } else if( attitude == NPCATT_KILL && !has_mind_control ) {
+    } else if( get_attitude() == NPCATT_KILL && !has_mind_control ) {
         add_msg( _( "%s is hostile!" ), name.c_str() );
         return;
     }
@@ -1058,7 +1097,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             case 2:
                 return _( "At least we've got shelter." );
         }
-
+    } else if( topic == "TALK_SHELTER_ADVICE" ) {
+        return get_hint();
     } else if( topic == "TALK_SHELTER_PLANS" ) {
         switch( rng( 1, 5 ) ) {
             case 1:
@@ -1405,7 +1445,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return give_item_to( *p, false, true );
         // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
-        p->attitude = NPCATT_FOLLOW;
+        p->set_attitude( NPCATT_FOLLOW );
         return _( "YES MASTER" );
     }
 
@@ -1433,10 +1473,19 @@ talk_response &dialogue::add_response_none( const std::string &text )
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       std::function<void( npc & )> effect_success )
+                                       dialogue_fun_ptr effect_success )
 {
     talk_response &result = add_response( text, r );
-    result.success.effect = effect_success;
+    result.success.set_effect( effect_success );
+    return result;
+}
+
+talk_response &dialogue::add_response( const std::string &text, const std::string &r,
+                                       std::function<void( npc & )> effect_success,
+                                       dialogue_consequence consequence )
+{
+    talk_response &result = add_response( text, r );
+    result.success.set_effect_consequence( effect_success, consequence );
     return result;
 }
 
@@ -1688,14 +1737,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_EVAC_GUARD3_HOSTILE" ) {
         p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 15;
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
         p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 5;
 
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
         add_response_done( _( "Don't mind me..." ) );
@@ -1994,7 +2043,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         for( const auto &entry : entries ) {
             if( g->u.cash >= entry.cost ) {
                 add_response( entry.desc, "TALK_DONE" );
-                SUCCESS_ACTION( std::bind( buy_alcohol, entry ) );
+                SUCCESS_ACTION_CONSEQUENCE( std::bind( buy_alcohol, entry ), dialogue_consequence::none );
             }
         }
 
@@ -2024,6 +2073,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Thanks..." ), "TALK_DONE" );
     } else if( topic == "TALK_SHELTER" ) {
         add_response( _( "What should we do now?" ), "TALK_SHELTER_PLANS" );
+        add_response( _( "Any tips?" ), "TALK_SHELTER_ADVICE" );
         add_response( _( "Can I do anything for you?" ), "TALK_MISSION_LIST" );
         if( !p->is_following() ) {
             add_response( _( "Want to travel with me?" ), "TALK_SUGGEST_FOLLOW" );
@@ -2031,7 +2081,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Let's trade items." ), "TALK_NONE", &talk_function::start_trade );
         add_response( _( "I can't leave the shelter without equipment..." ), "TALK_SHARE_EQUIPMENT" );
         add_response_done( _( "Well, bye." ) );
-
+    } else if( topic == "TALK_SHELTER_ADVICE" ) {
+        add_response_none( _( "Thanks!" ) );
     } else if( topic == "TALK_SHELTER_PLANS" ) {
         // TODO: Add _("follow me")
         add_response_none( _( "Hmm, okay." ) );
@@ -2185,7 +2236,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             FAILURE( "TALK_DENY_FOLLOW" );
             FAILURE_ACTION( &talk_function::deny_follow );
             FAILURE_OPINION( -1, -2, -1, 1, 0 );
-            RESPONSE( _( "!I'll kill you if you don't." ) );
+            RESPONSE( _( "I'll kill you if you don't." ) );
             TRIAL( TALK_TRIAL_INTIMIDATE, strength * 2 );
             SUCCESS( "TALK_AGREE_FOLLOW" );
             SUCCESS_ACTION( &talk_function::follow );
@@ -2370,7 +2421,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             combat_engagement eng = setting.rule;
             add_response( setting.description, "TALK_NONE", [eng]( npc & np ) {
                 np.rules.engagement = eng;
-            } );
+            }, dialogue_consequence::none );
         }
         add_response_none( _( "Never mind." ) );
 
@@ -2395,7 +2446,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             aim_rule ar = setting.rule;
             add_response( setting.description, "TALK_NONE", [ar]( npc & np ) {
                 np.rules.aim = ar;
-            } );
+            }, dialogue_consequence::none );
         }
         add_response_none( _( "Never mind." ) );
 
@@ -2430,14 +2481,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             FAILURE_ACTION( &talk_function::flee );
         }
         if( !p->unarmed_attack() ) {
-            RESPONSE( _( "!Drop your weapon!" ) );
+            RESPONSE( _( "Drop your weapon!" ) );
             TRIAL( TALK_TRIAL_INTIMIDATE, 30 );
             SUCCESS( "TALK_WEAPON_DROPPED" );
             SUCCESS_ACTION( &talk_function::drop_weapon );
             FAILURE( "TALK_DONE" );
             FAILURE_ACTION( &talk_function::hostile );
         }
-        RESPONSE( _( "!Get out of here or I'll kill you." ) );
+        RESPONSE( _( "Get out of here or I'll kill you." ) );
         TRIAL( TALK_TRIAL_INTIMIDATE, 20 );
         SUCCESS( "TALK_DONE" );
         SUCCESS_ACTION( &talk_function::flee );
@@ -2449,14 +2500,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             int chance = 30 + p->personality.bravery - 3 * p->personality.aggression +
                          2 * p->personality.altruism - 2 * p->op_of_u.fear +
                          3 * p->op_of_u.trust;
-            RESPONSE( _( "!Calm down.  I'm not going to hurt you." ) );
+            RESPONSE( _( "Calm down.  I'm not going to hurt you." ) );
             TRIAL( TALK_TRIAL_PERSUADE, chance );
             SUCCESS( "TALK_STRANGER_WARY" );
             SUCCESS_OPINION( 1, -1, 0, 0, 0 );
             SUCCESS_ACTION( &talk_function::stranger_neutral );
             FAILURE( "TALK_DONE" );
             FAILURE_ACTION( &talk_function::hostile );
-            RESPONSE( _( "!Screw you, no." ) );
+            RESPONSE( _( "Screw you, no." ) );
             TRIAL( TALK_TRIAL_INTIMIDATE, chance - 5 );
             SUCCESS( "TALK_STRANGER_SCARED" );
             SUCCESS_OPINION( -2, 1, 0, 1, 0 );
@@ -2474,14 +2525,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             int chance = 35 + p->personality.bravery - 3 * p->personality.aggression +
                          2 * p->personality.altruism - 2 * p->op_of_u.fear +
                          3 * p->op_of_u.trust;
-            RESPONSE( _( "!Calm down.  I'm not going to hurt you." ) );
+            RESPONSE( _( "Calm down.  I'm not going to hurt you." ) );
             TRIAL( TALK_TRIAL_PERSUADE, chance );
             SUCCESS( "TALK_STRANGER_WARY" );
             SUCCESS_OPINION( 1, -1, 0, 0, 0 );
             SUCCESS_ACTION( &talk_function::stranger_neutral );
             FAILURE( "TALK_DONE" );
             FAILURE_ACTION( &talk_function::hostile );
-            RESPONSE( _( "!Screw you, no." ) );
+            RESPONSE( _( "Screw you, no." ) );
             TRIAL( TALK_TRIAL_INTIMIDATE, chance - 5 );
             SUCCESS( "TALK_STRANGER_SCARED" );
             SUCCESS_OPINION( -2, 1, 0, 1, 0 );
@@ -2907,13 +2958,13 @@ void talk_function::assign_base( npc &p )
 
     add_msg( _( "%1$s waits at %2$s" ), p.name.c_str(), camp->camp_name().c_str() );
     p.mission = NPC_MISSION_BASE;
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::assign_guard( npc &p )
 {
     add_msg( _( "%s is posted as a guard." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_destination();
@@ -2921,7 +2972,7 @@ void talk_function::assign_guard( npc &p )
 
 void talk_function::stop_guard( npc &p )
 {
-    p.attitude = NPCATT_FOLLOW;
+    p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name.c_str() );
     p.mission = NPC_MISSION_NULL;
     p.chatbin.first_topic = "TALK_FRIEND";
@@ -2953,7 +3004,7 @@ void talk_function::insult_combat( npc &p )
 {
     add_msg( _( "You start a fight with %s!" ), p.name.c_str() );
     p.chatbin.first_topic = "TALK_DONE";
-    p.attitude =  NPCATT_KILL;
+    p.set_attitude( NPCATT_KILL );
 }
 
 void talk_function::give_equipment( npc &p )
@@ -3105,7 +3156,7 @@ void talk_function::buy_100_logs( npc &p )
 
 void talk_function::follow( npc &p )
 {
-    p.attitude = NPCATT_FOLLOW;
+    p.set_attitude( NPCATT_FOLLOW );
     g->u.cash += p.cash;
     p.cash = 0;
 }
@@ -3137,7 +3188,7 @@ void talk_function::deny_personal_info( npc &p )
 
 void talk_function::hostile( npc &p )
 {
-    if( p.attitude == NPCATT_KILL ) {
+    if( p.get_attitude() == NPCATT_KILL ) {
         return;
     }
 
@@ -3148,38 +3199,38 @@ void talk_function::hostile( npc &p )
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
                            p.name.c_str() );
-    p.attitude = NPCATT_KILL;
+    p.set_attitude( NPCATT_KILL );
 }
 
 void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.name.c_str() );
-    p.attitude = NPCATT_FLEE;
+    p.set_attitude( NPCATT_FLEE );
 }
 
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::stranger_neutral( npc &p )
 {
     add_msg( _( "%s feels less threatened by you." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
 void talk_function::start_mugging( npc &p )
 {
-    p.attitude = NPCATT_MUG;
+    p.set_attitude( NPCATT_MUG );
     add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ),
              p.name.c_str() );
 }
 
 void talk_function::player_leaving( npc &p )
 {
-    p.attitude = NPCATT_WAIT_FOR_LEAVE;
+    p.set_attitude( NPCATT_WAIT_FOR_LEAVE );
     p.patience = 15 - p.personality.aggression;
 }
 
@@ -3205,7 +3256,7 @@ void talk_function::lead_to_safety( npc &p )
     const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
     mission->assign( g->u );
     p.goal = mission->get_target();
-    p.attitude = NPCATT_LEAD;
+    p.set_attitude( NPCATT_LEAD );
 }
 
 bool pay_npc( npc &np, int cost )
@@ -3458,11 +3509,12 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
     formatted_text = foldstring( ftext, fold_width );
 
-    if( text[0] == '!' ) {
+    std::set<dialogue_consequence> consequences = get_consequences( d );
+    if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
         color = c_red;
-    } else if( text[0] == '*' ) {
+    } else if( text[0] == '*' || consequences.count( dialogue_consequence::helpless ) > 0 ) {
         color = c_light_red;
-    } else if( text[0] == '&' ) {
+    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ) {
         color = c_green;
     } else {
         color = c_white;
@@ -3490,6 +3542,47 @@ talk_topic talk_response::effect_t::apply( dialogue &d ) const
     }
 
     return next_topic;
+}
+
+void talk_response::effect_t::set_effect_consequence( std::function<void ( npc & )> fun,
+        dialogue_consequence con )
+{
+    effect = fun;
+    guaranteed_consequence = con;
+}
+
+void talk_response::effect_t::set_effect( dialogue_fun_ptr ptr )
+{
+    effect = ptr;
+    // Kinda hacky
+    if( ptr == &talk_function::hostile ) {
+        guaranteed_consequence = dialogue_consequence::hostile;
+    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away ||
+               ptr == &talk_function::start_mugging ) {
+        guaranteed_consequence = dialogue_consequence::helpless;
+    } else {
+        guaranteed_consequence = dialogue_consequence::none;
+    }
+}
+
+std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &d ) const
+{
+    int chance = trial.calc_chance( d );
+    if( chance >= 100 ) {
+        return { success.get_consequence( d ) };
+    } else if( chance <= 0 ) {
+        return { failure.get_consequence( d ) };
+    }
+
+    return {{ success.get_consequence( d ), failure.get_consequence( d ) }};
+}
+
+dialogue_consequence talk_response::effect_t::get_consequence( const dialogue &d ) const
+{
+    if( d.beta->op_of_u.anger + opinion.anger >= d.beta->hostile_anger_level() ) {
+        return dialogue_consequence::hostile;
+    }
+    return guaranteed_consequence;
 }
 
 talk_topic dialogue::opt( const talk_topic &topic )
@@ -3537,13 +3630,12 @@ talk_topic dialogue::opt( const talk_topic &topic )
             }
             ch -= 'a';
         } while( ( ch < 0 || ch >= ( int )responses.size() ) );
-        okay = false;
-        if( responses[ch].color == c_white || responses[ch].color == c_green ) {
-            okay = true;
-        } else if( responses[ch].color == c_red && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
-            okay = true;
-        } else if( responses[ch].color == c_light_red && query_yn( _( "You'll be helpless! Proceed?" ) ) ) {
-            okay = true;
+        okay = true;
+        std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
+        if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
+            okay = query_yn( _( "You may be attacked! Proceed?" ) );
+        } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
+            okay = query_yn( _( "You'll be helpless! Proceed?" ) );
         }
     } while( !okay );
     history.push_back( "" );
@@ -3771,7 +3863,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             std::set<item *> without;
             std::vector<item *> added;
 
-            inventory newinv;
             for( auto &pricing : yours ) {
                 if( pricing.selected ) {
                     added.push_back( pricing.loc.get_item() );
@@ -4077,7 +4168,7 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
         };
         const auto iter = static_functions_map.find( type );
         if( iter != static_functions_map.end() ) {
-            effect = iter->second;
+            set_effect( iter->second );
             return;
         }
         // more functions can be added here, they don't need to be in the map above.

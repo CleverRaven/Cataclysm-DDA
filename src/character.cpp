@@ -201,16 +201,13 @@ int Character::effective_dispersion( int dispersion ) const
     return std::max( dispersion, 0 );
 }
 
-std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) const
+std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
 {
     // Get fastest sight that can be used to improve aim further below @ref recoil.
     int sight_speed_modifier = INT_MIN;
     int limit = 0;
-    if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = 6;
-        limit = effective_dispersion( gun.type->gun->sight_dispersion );
-    } else if ( gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = 0;
+    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+        sight_speed_modifier = gun.has_flag( "DISABLE_SIGHTS" ) ? 0 : 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -225,6 +222,23 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
         }
     }
     return std::make_pair( sight_speed_modifier, limit );
+}
+
+int Character::get_most_accurate_sight( const item &gun ) const
+{
+    if( !gun.is_gun() ) {
+        return 0;
+    }
+
+    int limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    for( const auto e : gun.gunmods() ) {
+        const islot_gunmod &mod = *e->type->gunmod;
+        if( mod.aim_speed >= 0 ) {
+            limit = std::min( limit, effective_dispersion( mod.sight_dispersion ) );
+        }
+    }
+
+    return limit;
 }
 
 double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
@@ -278,7 +292,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
         return 0.0;
     }
 
-    std::pair<int, int> best_sight = get_best_sight( gun, recoil );
+    std::pair<int, int> best_sight = get_fastest_sight( gun, recoil );
     int sight_speed_modifier = best_sight.first;
     int limit = best_sight.second;
     if( sight_speed_modifier == INT_MIN ) {
@@ -795,7 +809,7 @@ item Character::i_rem(int pos)
  item tmp;
  if (pos == -1) {
      tmp = weapon;
-     weapon = ret_null;
+     weapon = item();
      return tmp;
  } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
      auto iter = worn.begin();
@@ -813,7 +827,7 @@ item Character::i_rem(const item *it)
     auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; }, 1 );
     if( tmp.empty() ) {
         debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
-        return ret_null;
+        return item();
     }
     return tmp.front();
 }
@@ -867,7 +881,7 @@ bool Character::has_active_item(const itype_id & id) const
 item Character::remove_weapon()
 {
  item tmp = weapon;
- weapon = ret_null;
+ weapon = item();
  return tmp;
 }
 
@@ -919,9 +933,10 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();
+        const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
-            if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
+        src.visit_items( [&src,&nested,&out,&mags,ammo]( item *node ) {
+            if( node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
@@ -938,9 +953,13 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
             if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
                 out = item_location( src, node );
             }
+            if( node->is_magazine() && node->has_flag( "SPEEDLOADER" ) ) {
+                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                    out = item_location( src, node );
+                }
+            }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
-
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
@@ -1271,7 +1290,6 @@ void Character::normalize()
 {
     Creature::normalize();
 
-    ret_null = item("null", 0);
     weapon   = item("null", 0);
 
     recalc_hp();
@@ -1419,7 +1437,7 @@ void Character::reset_encumbrance()
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
 {
-    return calc_encumbrance( ret_null );
+    return calc_encumbrance( item() );
 }
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
@@ -1471,17 +1489,16 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
     const int armorenc = !power_armor || !it.is_power_armor() ?
         encumber_val : std::max( 0, encumber_val - 40 );
 
-    for( size_t i = 0; i < num_bp; i++ ) {
-        body_part bp = body_part( i );
+    for( const body_part bp : all_body_parts ) {
         if( !it.covers( bp ) ) {
             continue;
         }
 
-        int &this_layer = layers[i][item_layer];
+        int &this_layer = layers[bp][item_layer];
         this_layer = std::max( this_layer, layering_encumbrance );
 
-        vals[i].armor_encumbrance += armorenc;
-        vals[i].layer_penalty += layering_encumbrance;
+        vals[bp].armor_encumbrance += armorenc;
+        vals[bp].layer_penalty += layering_encumbrance;
     }
 }
 
@@ -1531,9 +1548,9 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const i
     // The stacking penalty applies by doubling the encumbrance of
     // each item except the highest encumbrance one.
     // So we add them together and then subtract out the highest.
-    for( size_t i = 0; i < num_bp; i++ ) {
+    for( const body_part bp : all_body_parts ) {
         for( size_t j = 0; j < MAX_CLOTHING_LAYER; j++ ) {
-            vals[i].layer_penalty -= std::max( 0, layers[i][j] );
+            vals[bp].layer_penalty -= std::max( 0, layers[bp][j] );
         }
     }
 
@@ -1553,7 +1570,7 @@ int Character::encumb( body_part bp ) const
 
 void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                             const mutation_branch &mut,
-                            const std::bitset<num_bp> &oversize )
+                            const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
@@ -1597,14 +1614,14 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     }
 }
 
-std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
+body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
 {
-    std::bitset<num_bp> ret;
-    ret.set();
+    body_part_set ret = body_part_set::all();
+
     for( const auto &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
             // Unset the parts covered by this item
-            ret &= ( ~elem.get_covered_body_parts() );
+            ret &= ~elem.get_covered_body_parts();
         }
     }
 

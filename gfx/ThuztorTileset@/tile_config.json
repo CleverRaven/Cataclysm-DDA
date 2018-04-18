@@ -14742,14 +14742,14 @@
          "multitile" : false
         },
         {
-         "id" : "novel_crime",
+         "id" : [ "novel_crime", "novel_crime2" ],
          "fg" : 2124,
          "bg" : 1167,
          "rotates" : false,
          "multitile" : false
         },
         {
-         "id" : "novel_coa",
+         "id" : [ "novel_coa", "novel_coa2" ],
          "fg" : 2125,
          "bg" : 1167,
          "rotates" : false,
@@ -14784,7 +14784,7 @@
          "multitile" : false
         },
         {
-         "id" : "novel_war",
+         "id" : [ "novel_war", "novel_war2" ],
          "fg" : 2130,
          "bg" : 1167,
          "rotates" : false,

@@ -18,6 +18,7 @@
 #include <numeric>
 #include "cursesdef.h"
 #include "effect.h"
+#include "melee.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
@@ -276,7 +277,7 @@ void monster::try_upgrade(bool pin_time) {
         return;
     }
 
-    const int current_day = calendar::turn.get_turn() / DAYS(1);
+    const int current_day = to_days<int>( calendar::time_of_cataclysm - calendar::turn );
 
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
@@ -288,7 +289,7 @@ void monster::try_upgrade(bool pin_time) {
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start / DAYS(1);
+            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
         }
     }
 
@@ -522,7 +523,7 @@ std::string monster::extended_description() const
     } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
-        ss << _( "It has head." ) << std::endl;
+        ss << _( "It has a head." ) << std::endl;
     }
 
     return replace_colors( ss.str() );
@@ -736,7 +737,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         const npc *np = dynamic_cast< const npc * >( u );
-        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
+        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
     }
@@ -784,7 +785,7 @@ monster_attitude monster::attitude( const Character *u ) const
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
-                    effective_morale += 5;
+                    effective_morale += 55;
                 }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
@@ -805,7 +806,11 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        return MATT_IGNORE;
+        if( get_hp() != get_hp_max() ) {
+            return MATT_FLEE;
+        } else {
+            return MATT_IGNORE;
+        }
     }
 
     if( effective_anger < 10 ) {
@@ -1004,14 +1009,14 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack( Creature &target, bool allow_special, const matec_id& force_technique )
+void monster::melee_attack( Creature &target )
 {
-    int hitspread = target.deal_melee_attack(this, hit_roll());
-    melee_attack( target, allow_special, force_technique, hitspread );
+    melee_attack( target, get_hit() );
 }
 
-void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspread )
+void monster::melee_attack( Creature &target, float accuracy )
 {
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
@@ -1463,7 +1468,7 @@ float monster::hit_roll() const {
         hit /= 4;
     }
 
-    return normal_roll( hit * 5, 25.0f );
+    return melee::melee_hit_range( hit );
 }
 
 bool monster::has_grab_break_tec() const
@@ -1675,7 +1680,7 @@ void monster::die(Creature* nkiller)
     if( !is_hallucination() && ch != nullptr ) {
         if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( trait_PACIFIST ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
-            mdeath::guilt(this);
+            mdeath::guilt( *this );
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
@@ -1733,13 +1738,13 @@ void monster::die(Creature* nkiller)
     // Also, perform our death function
     if(is_hallucination()) {
         //Hallucinations always just disappear
-        mdeath::disappear(this);
+        mdeath::disappear( *this );
         return;
     }
 
     //Not a hallucination, go process the death effects.
     for (auto const &deathfunction : type->dies) {
-        deathfunction(this);
+        deathfunction( *this );
     }
 
     // If our species fears seeing one of our own die, process that

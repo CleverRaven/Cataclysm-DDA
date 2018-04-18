@@ -114,18 +114,13 @@ void game::list_missions()
                 mvwprintz( w_missions, y++, 31, c_white, miss->get_description() );
             }
             if( miss->has_deadline() ) {
-                const calendar deadline( miss->get_deadline() );
-                //@todo: make a function to print the time (don't we already have one?)
-                //~ 1 season name, 2 day of season, 3 time of day
-                std::string dl = string_format( _( "%1$s, day %2$d %3$s" ),
-                                                calendar::name_season( season_of_year( deadline ) ),
-                                                day_of_season<int>( deadline ) + 1, deadline.print_time() );
-                mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
+                const time_point deadline = miss->get_deadline();
+                mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), to_string( deadline ) );
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
                     // @TODO: But displaying when you completed it would be useful.
-                    const time_duration remaining = time_duration::from_turns( deadline.get_turn() - calendar::turn );
+                    const time_duration remaining = deadline - calendar::turn;
                     std::string remaining_time;
 
                     if( remaining <= 0_turns ) {

@@ -60,7 +60,6 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
                                    const std::string &hint = std::string() )
 {
     u.inv.restack( u );
-    u.inv.sort();
 
     inventory_pick_selector inv_s( u, preset );
 
@@ -87,7 +86,6 @@ void game_menus::inv::common( player &p )
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
 
     p.inv.restack( p );
-    p.inv.sort();
 
     inventory_pick_selector inv_s( p );
 
@@ -368,9 +366,9 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const int spoils = get_edible_comestible( loc ).spoils;
+                const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
-                    return to_string_clipped( time_duration::from_turns( spoils ) );
+                    return to_string_clipped( spoils );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -747,11 +745,11 @@ class weapon_inventory_preset: public inventory_selector_preset
                     return std::string();
                 }
 
-                const int total_damage = loc->gun_damage( true );
+                const int total_damage = loc->gun_damage( true ).total_damage();
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
-                    const int basic_damage = loc->gun_damage( false );
-                    const int ammo_damage = loc->ammo_data()->ammo->damage;
+                    const int basic_damage = loc->gun_damage( false ).total_damage();
+                    const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
 
                     return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
                                           get_damage_string( basic_damage, true ).c_str(),
@@ -908,7 +906,6 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( p );
-    p.inv.sort();
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
         return p.can_unwield( *location ).success();
@@ -931,7 +928,6 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 void game_menus::inv::compare( player &p, const tripoint &offset )
 {
     p.inv.restack( p );
-    p.inv.sort();
 
     inventory_compare_selector inv_s( p );
 
@@ -950,6 +946,15 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
         popup( std::string( _( "There are no items to compare." ) ), PF_GET_KEY );
         return;
     }
+
+    std::string action;
+    input_context ctxt;
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
 
     do {
         const auto to_compare = inv_s.execute();
@@ -971,25 +976,26 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
 
         int iScrollPos = 0;
         int iScrollPosLast = 0;
-        int ch = ( int ) ' ';
 
         do {
             draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch(
-            ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                                 0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
-                                 iScrollPos ).get_first_input();
+                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true );
+            draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
+                            0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
+                            iScrollPos, true );
 
-            if( ch == KEY_PPAGE ) {
+            action = ctxt.handle_input();
+
+            if( action == "UP" || action == "PAGE_UP" ) {
                 iScrollPos--;
                 iScrollPosLast--;
-            } else if( ch == KEY_NPAGE ) {
+            } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
                 iScrollPos++;
                 iScrollPosLast++;
             }
 
-            g->refresh_all();
-        } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
+        } while( action != "QUIT" );
+        g->refresh_all();
     } while( true );
 }
 
@@ -1014,7 +1020,6 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 void game_menus::inv::swap_letters( player &p )
 {
     p.inv.restack( p );
-    p.inv.sort();
 
     inventory_pick_selector inv_s( p );
 

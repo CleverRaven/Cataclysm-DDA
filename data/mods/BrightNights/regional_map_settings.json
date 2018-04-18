@@ -64,7 +64,7 @@
                   "mx_anomaly": 3
               }
           },
-          "building": {
+          "build": {
               "chance": 90,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",
                   "mx_military": 2,

@@ -4,7 +4,6 @@
 #include "player.h"
 #include "output.h"
 #include "debug.h"
-#include "catacharset.h"
 #include "translations.h"
 #include "string_formatter.h"
 #include "cata_utility.h"
@@ -13,7 +12,7 @@
 #include "input.h"
 #include "mtype.h"
 #include "json.h"
-#include "worldfactory.h"
+#include "options.h"
 #include "monstergenerator.h"
 #include "string_input_popup.h"
 
@@ -436,17 +435,13 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     catacurses::window w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
             1 + offset_y, 1 + offset_x );
 
-    draw_border( w_test_rule_border );
-
     int nmatch = creature_list.size();
     std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
                                      "%1$d monsters match: %2$s",
                                      nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
-    mvwprintz( w_test_rule_border, 0, content_width / 2 - utf8_width( buf ) / 2, hilite( c_white ),
-               buf );
-
-    mvwprintz( w_test_rule_border, content_height + 1, 1, red_background( c_white ),
-               _( "Lists monsters regardless of their attitude." ) );
+    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+    center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
+                  _( "Lists monsters regardless of their attitude." ) );
 
     wrefresh( w_test_rule_border );
 
@@ -631,10 +626,8 @@ bool safemode::save( const bool is_character_in )
     auto file = FILENAMES["safemode"];
 
     if( is_character ) {
-        file = world_generator->active_world->world_path + "/" + base64_encode(
-                   g->u.name ) + ".sfm.json";
-        if( !file_exist( world_generator->active_world->world_path + "/" +
-                         base64_encode( g->u.name ) + ".sav" ) ) {
+        file = g->get_player_base_save_path() + ".sfm.json";
+        if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -666,7 +659,7 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     std::string file = FILENAMES["safemode"];
     if( is_character ) {
-        file = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sfm.json";
+        file = g->get_player_base_save_path() + ".sfm.json";
     }
 
     fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );

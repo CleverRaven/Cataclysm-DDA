@@ -49,6 +49,7 @@ void rubble( player &p, const tripoint &examp );
 void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
 void bars( player &p, const tripoint &examp );
+void deployed_furniture( player &p, const tripoint &pos );
 void portable_structure( player &p, const tripoint &examp );
 void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );

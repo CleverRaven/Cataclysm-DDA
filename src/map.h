@@ -1292,11 +1292,10 @@ class map
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
-         * Try to fill funnel based items here. Simulates rain from `since_turn` till now.
+         * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
-         * @param since_turn First turn of simulated filling.
          */
-        void fill_funnels( const tripoint &p, int since_turn );
+        void fill_funnels( const tripoint &p, const time_point &since );
         /**
          * Try to grow a harvestable plant to the next stage(s).
          */
@@ -1304,22 +1303,22 @@ class map
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param p Place to restock
-         * @param time_since_last_actualize Time (in turns) since this function has been
+         * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void restock_fruits( const tripoint &p, int time_since_last_actualize );
+        void restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize );
         /**
          * Produce sap on tapped maple trees
          * @param p Location of tapped tree
-         * @param time_since_last_actualize Time (in turns) since this function has been
+         * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void produce_sap( const tripoint &p, int time_since_last_actualize );
+        void produce_sap( const tripoint &p, const time_duration &time_since_last_actualize );
         /**
          * Radiation-related plant (and fungus?) death.
          */
-        void rad_scorch( const tripoint &p, int time_since_last_actualize );
-        void decay_cosmetic_fields( const tripoint &p, int time_since_last_actualize );
+        void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
+        void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
         void player_in_field( player &u );
         void monster_in_field( monster &z );
@@ -1546,6 +1545,9 @@ class map
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+
+        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
+
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );

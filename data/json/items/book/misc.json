@@ -563,6 +563,14 @@
     "fun": 2
   },
   {
+    "id": "novel_coa2",
+    "type": "BOOK",
+    "name": "coming of age novel",
+    "copy-from": "novel_coa",
+    "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
+    "relative": { "time": -4, "chapters": -2, "fun": 1 }
+  },
+  {
     "id": "novel_crime",
     "type": "BOOK",
     "name": "crime novel",
@@ -577,6 +585,14 @@
     "time": 20,
     "chapters": 24,
     "fun": 3
+  },
+  {
+    "id": "novel_crime2",
+    "type": "BOOK",
+    "name": "crime novel",
+    "copy-from": "novel_crime",
+    "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
+    "relative": { "time": -3, "chapters": -3 }
   },
   {
     "id": "novel_drama",
@@ -865,6 +881,14 @@
     "time": 20,
     "chapters": 28,
     "fun": 4
+  },
+  {
+    "id": "novel_war2",
+    "type": "BOOK",
+    "name": "war novel",
+    "copy-from": "novel_war",
+    "description": "A story about a Bosnian citizen who goes through many hardships and near death during the breakup of Yugoslavia.",
+    "relative": { "time": -4, "chapters": -4 }
   },
   {
     "id": "novel_western",

@@ -790,18 +790,27 @@ void iexamine::crate(player &p, const tripoint &examp)
  */
 void iexamine::chainfence( player &p, const tripoint &examp )
 {
-    if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
-        none( p, examp );
-        return;
+    // Skip prompt if easy to climb.
+    if( !g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
+        if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
+            none( p, examp );
+            return;
+        }
     }
-    if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
-        add_msg( _( "Climbing the fence is trivial for one such as you." ) );
+    if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.has_trait( trait_PARKOUR ) ) {
+        add_msg( _( "You vault over the obstacle with ease." ) );
+        p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+    } else if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
+        add_msg( _( "You vault over the obstacle." ) );
+        p.moves -= 300; // Most common move cost for barricades pre-change.
+    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+        add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         p.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( p.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
     } else if( p.has_trait( trait_PARKOUR ) ) {
-        add_msg( _( "The fence is no match for your freerunning abilities." ) );
+        add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         p.moves -= 100;
     } else {
         p.moves -= 400;
@@ -813,7 +822,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         if( one_in( climb ) ) {
             add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
             if( climb <= 1 ) {
-                add_msg( m_bad, _( "Climbing this is impossible in your current state." ) );
+                add_msg( m_bad, _( "Climbing this obstacle is impossible in your current state." ) );
             }
             return;
         }
@@ -855,6 +864,18 @@ void iexamine::bars(player &p, const tripoint &examp)
     p.moves -= 200;
     add_msg(_("You slide right between the bars."));
     p.setpos( examp );
+}
+
+void iexamine::deployed_furniture( player &p, const tripoint &pos )
+{
+    if ( !query_yn( _( "Take down the %s?" ), g->m.furn( pos ).obj().name().c_str() ) ) {
+        return;
+    }
+    p.add_msg_if_player( m_info, _( "You take down the %s." ),
+                         g->m.furn( pos ).obj().name().c_str() );
+    const auto furn_item = g->m.furn( pos ).obj().deployed_item;
+    g->m.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
+    g->m.furn_set( pos, f_null );
 }
 
 /**
@@ -1422,7 +1443,10 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         add_msg(m_warning, _("This flower has a heady aroma."));
     }
 
-    if (one_in(3) && resist < 5)  {
+    auto recentWeather = sum_conditions( calendar::turn-10_minutes, calendar::turn, p.pos() );
+
+    // If it has been raining recently, then this event is twice less likely. 
+    if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
         add_msg(m_bad, _("You fall asleep..."));
@@ -1887,7 +1911,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             // must be on the square of the plant, therefore this hack:
             const auto old_furn = g->m.furn( examp );
             g->m.furn_set( examp, f_null );
-            g->m.spawn_item( examp, "fertilizer", 1, 1, (int)calendar::turn );
+            g->m.spawn_item( examp, "fertilizer", 1, 1, calendar::turn );
             g->m.furn_set( examp, old_furn );
         }
     }
@@ -3487,6 +3511,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
 {
     static const std::map<std::string, iexamine_function> function_map = {{
         { "none", &iexamine::none },
+        { "deployed_furniture", &iexamine::deployed_furniture },
         { "cvdmachine", &iexamine::cvdmachine },
         { "gaspump", &iexamine::gaspump },
         { "atm", &iexamine::atm },
