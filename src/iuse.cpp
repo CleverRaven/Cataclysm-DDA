@@ -7564,46 +7564,66 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
 
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
-    if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
+    player player = *p;
+
+    player.inv.restack( player );
+
+    const inventory_filter_preset preset( [ &player ]( const item_location & location ) {
+        return player.can_unwield( *location ).success();
+    } );
+
+    inventory_drop_selector inv_s( player, preset );
+
+    inv_s.add_character_items( player );
+    inv_s.set_title( _( "Multidrop" ) );
+    inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
+
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
         return 0;
     }
 
-    const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
-    item &mod = p->i_at( pos );
-    if( pos == INT_MIN ) {
-        p->add_msg_if_player( m_info, _( "Never mind." ) );
-        return 0;
-    }
+    inv_s.execute();
+    // if( it->charges < it->type->charges_to_use() ) {
+    //     p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
+    //     return 0;
+    // }
 
-    const int required_water = 2 * mod.volume() / 250_ml;
-    const int time = 1000 * mod.volume() / 250_ml;
-    int required_cleanser = mod.volume() / 1000_ml;
+    // const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
+    // item &mod = p->i_at( pos );
+    // if( pos == INT_MIN ) {
+    //     p->add_msg_if_player( m_info, _( "Never mind." ) );
+    //     return 0;
+    // }
 
-    if( required_cleanser < 1 ) {
-        required_cleanser = 1;
-    }
+    // const int required_water = 2 * mod.volume() / 250_ml;
+    // const int time = 1000 * mod.volume() / 250_ml;
+    // int required_cleanser = mod.volume() / 1000_ml;
 
-    const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash your %2$s." ), required_water, mod.tname().c_str() );
-        return 0;
-    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) && !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
-        return 0;
-    }
+    // if( required_cleanser < 1 ) {
+    //     required_cleanser = 1;
+    // }
 
-    std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", required_water ) );
-    comps.push_back( item_comp( "water_clean", required_water ) );
-    p->consume_items( comps );
+    // const inventory &crafting_inv = p->crafting_inventory();
+    // if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
+    //     p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash your %2$s." ), required_water, mod.tname().c_str() );
+    //     return 0;
+    // } else if( !crafting_inv.has_charges( "soap", required_cleanser ) && !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+    //     p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
+    //     return 0;
+    // }
 
-    std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( "soap", required_cleanser ) );
-    comps1.push_back( item_comp( "detergent", required_cleanser ) );
-    p->consume_items( comps1 );
+    // std::vector<item_comp> comps;
+    // comps.push_back( item_comp( "water", required_water ) );
+    // comps.push_back( item_comp( "water_clean", required_water ) );
+    // p->consume_items( comps );
 
-    p->assign_activity( activity_id( "ACT_WASH" ), time, 0, p->get_item_position( &mod ) );
+    // std::vector<item_comp> comps1;
+    // comps1.push_back( item_comp( "soap", required_cleanser ) );
+    // comps1.push_back( item_comp( "detergent", required_cleanser ) );
+    // p->consume_items( comps1 );
+
+    // p->assign_activity( activity_id( "ACT_WASH" ), time, 0, p->get_item_position( &mod ) );
 
     return 0;
 }
