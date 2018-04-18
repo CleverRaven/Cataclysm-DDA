@@ -301,7 +301,7 @@ std::string name_and_value( std::string name, std::string value, int field_width
     std::stringstream result;
     result << name.c_str();
     for( int i = ( name_width + value_width );
-         i < std::max( field_width, name_width + value_width ); ++i ) {
+            i < std::max( field_width, name_width + value_width ); ++i ) {
         result << " ";
     }
     result << value.c_str();
@@ -891,7 +891,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     if( k.sValue != "-999" ) {
                         if( vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType ) {
                             if( vItemDisplay[i].dValue > k.dValue - .1 &&
-                                vItemDisplay[i].dValue < k.dValue + .1 ) {
+                                    vItemDisplay[i].dValue < k.dValue + .1 ) {
                                 thisColor = c_light_gray;
                             } else if( vItemDisplay[i].dValue > k.dValue ) {
                                 if( vItemDisplay[i].bLowerIsBetter ) {
@@ -1010,26 +1010,26 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
 char rand_char()
 {
     switch( rng( 0, 9 ) ) {
-        case 0:
-            return '|';
-        case 1:
-            return '-';
-        case 2:
-            return '#';
-        case 3:
-            return '?';
-        case 4:
-            return '&';
-        case 5:
-            return '.';
-        case 6:
-            return '%';
-        case 7:
-            return '{';
-        case 8:
-            return '*';
-        case 9:
-            return '^';
+    case 0:
+        return '|';
+    case 1:
+        return '-';
+    case 2:
+        return '#';
+    case 3:
+        return '?';
+    case 4:
+        return '&';
+    case 5:
+        return '.';
+    case 6:
+        return '%';
+    case 7:
+        return '{';
+    case 8:
+        return '*';
+    case 9:
+        return '^';
     }
     return '?';
 }
@@ -1039,22 +1039,22 @@ char rand_char()
 long special_symbol( long sym )
 {
     switch( sym ) {
-        case 'j':
-            return LINE_XOXO;
-        case 'h':
-            return LINE_OXOX;
-        case 'c':
-            return LINE_XXXX;
-        case 'y':
-            return LINE_OXXO;
-        case 'u':
-            return LINE_OOXX;
-        case 'n':
-            return LINE_XOOX;
-        case 'b':
-            return LINE_XXOO;
-        default:
-            return sym;
+    case 'j':
+        return LINE_XOXO;
+    case 'h':
+        return LINE_OXOX;
+    case 'c':
+        return LINE_XXXX;
+    case 'y':
+        return LINE_OXXO;
+    case 'u':
+        return LINE_OOXX;
+    case 'n':
+        return LINE_XOOX;
+    case 'b':
+        return LINE_XXOO;
+    default:
+        return sym;
     }
 }
 
@@ -1980,15 +1980,15 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
     for( auto it = pattern.begin(); it != pattern.end(); ++it ) {
         if( it == pattern.begin() && *it != "" ) {
             if( text.length() < it->length() ||
-                ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
+                    ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
                 return false;
             }
 
             text = text.substr( it->length(), text.length() - it->length() );
         } else if( it == pattern.end() - 1 && *it != "" ) {
             if( text.length() < it->length() ||
-                ci_find_substr( text.substr( text.length() - it->length(),
-                                             it->length() ), *it ) == -1 ) {
+                    ci_find_substr( text.substr( text.length() - it->length(),
+                                                 it->length() ), *it ) == -1 ) {
                 return false;
             }
         } else {
