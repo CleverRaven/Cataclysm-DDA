@@ -301,7 +301,7 @@ std::string name_and_value( std::string name, std::string value, int field_width
     std::stringstream result;
     result << name.c_str();
     for( int i = ( name_width + value_width );
-            i < std::max( field_width, name_width + value_width ); ++i ) {
+         i < std::max( field_width, name_width + value_width ); ++i ) {
         result << " ";
     }
     result << value.c_str();
@@ -754,7 +754,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
-                            const unsigned int padding)
+                            const unsigned int padding )
 {
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
@@ -767,7 +767,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                                         selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
-                                        padding);
+                                        padding );
     return result;
 }
 
@@ -891,7 +891,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     if( k.sValue != "-999" ) {
                         if( vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType ) {
                             if( vItemDisplay[i].dValue > k.dValue - .1 &&
-                                    vItemDisplay[i].dValue < k.dValue + .1 ) {
+                                vItemDisplay[i].dValue < k.dValue + .1 ) {
                                 thisColor = c_light_gray;
                             } else if( vItemDisplay[i].dValue > k.dValue ) {
                                 if( vItemDisplay[i].bLowerIsBetter ) {
@@ -935,7 +935,7 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
-                            const unsigned int padding)
+                            const unsigned int padding )
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
@@ -945,8 +945,9 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
     if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
-    for (unsigned int i = 0; i < padding; i++)
-        buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+    for( unsigned int i = 0; i < padding; i++ ) {
+        buffer << " \n";    //This space is required, otherwise it won't make an empty line.
+    }
 
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
@@ -1010,26 +1011,26 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
 char rand_char()
 {
     switch( rng( 0, 9 ) ) {
-    case 0:
-        return '|';
-    case 1:
-        return '-';
-    case 2:
-        return '#';
-    case 3:
-        return '?';
-    case 4:
-        return '&';
-    case 5:
-        return '.';
-    case 6:
-        return '%';
-    case 7:
-        return '{';
-    case 8:
-        return '*';
-    case 9:
-        return '^';
+        case 0:
+            return '|';
+        case 1:
+            return '-';
+        case 2:
+            return '#';
+        case 3:
+            return '?';
+        case 4:
+            return '&';
+        case 5:
+            return '.';
+        case 6:
+            return '%';
+        case 7:
+            return '{';
+        case 8:
+            return '*';
+        case 9:
+            return '^';
     }
     return '?';
 }
@@ -1039,22 +1040,22 @@ char rand_char()
 long special_symbol( long sym )
 {
     switch( sym ) {
-    case 'j':
-        return LINE_XOXO;
-    case 'h':
-        return LINE_OXOX;
-    case 'c':
-        return LINE_XXXX;
-    case 'y':
-        return LINE_OXXO;
-    case 'u':
-        return LINE_OOXX;
-    case 'n':
-        return LINE_XOOX;
-    case 'b':
-        return LINE_XXOO;
-    default:
-        return sym;
+        case 'j':
+            return LINE_XOXO;
+        case 'h':
+            return LINE_OXOX;
+        case 'c':
+            return LINE_XXXX;
+        case 'y':
+            return LINE_OXXO;
+        case 'u':
+            return LINE_OOXX;
+        case 'n':
+            return LINE_XOOX;
+        case 'b':
+            return LINE_XXOO;
+        default:
+            return sym;
     }
 }
 
@@ -1980,15 +1981,15 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
     for( auto it = pattern.begin(); it != pattern.end(); ++it ) {
         if( it == pattern.begin() && *it != "" ) {
             if( text.length() < it->length() ||
-                    ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
+                ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
                 return false;
             }
 
             text = text.substr( it->length(), text.length() - it->length() );
         } else if( it == pattern.end() - 1 && *it != "" ) {
             if( text.length() < it->length() ||
-                    ci_find_substr( text.substr( text.length() - it->length(),
-                                                 it->length() ), *it ) == -1 ) {
+                ci_find_substr( text.substr( text.length() - it->length(),
+                                             it->length() ), *it ) == -1 ) {
                 return false;
             }
         } else {

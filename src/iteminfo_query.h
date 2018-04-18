@@ -204,19 +204,20 @@ enum class iteminfo_parts : size_t {
     MAX_VALUE = DESCRIPTION_APPLICABLE_RECIPES
 };
 
-using iteminfo_query_base = std::bitset<static_cast<size_t>( iteminfo_parts::MAX_VALUE ) + 1>;
+using iteminfo_query_base = std::bitset < static_cast<size_t>( iteminfo_parts::MAX_VALUE ) + 1 >;
 
-class iteminfo_query : public iteminfo_query_base {
-public:
-    iteminfo_query();
-    iteminfo_query( const std::string &bits );
-    iteminfo_query( const std::vector<iteminfo_parts> &setBits );
+class iteminfo_query : public iteminfo_query_base
+{
+    public:
+        iteminfo_query();
+        iteminfo_query( const std::string &bits );
+        iteminfo_query( const std::vector<iteminfo_parts> &setBits );
 
-    bool test( const iteminfo_parts& value ) const;
+        bool test( const iteminfo_parts &value ) const;
 
-    static const iteminfo_query all;
-    static const iteminfo_query notext;
-    static const iteminfo_query anyflags;
+        static const iteminfo_query all;
+        static const iteminfo_query notext;
+        static const iteminfo_query anyflags;
 };
 
 #endif

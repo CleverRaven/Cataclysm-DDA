@@ -4,19 +4,23 @@
 #include <string>
 
 
-iteminfo_query::iteminfo_query() : iteminfo_query_base() {
+iteminfo_query::iteminfo_query() : iteminfo_query_base()
+{
 };
 
-iteminfo_query::iteminfo_query( const std::string &bits ) : iteminfo_query_base( bits ) {
+iteminfo_query::iteminfo_query( const std::string &bits ) : iteminfo_query_base( bits )
+{
 };
 
-iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &setBits ) {
-    for (auto &bit : setBits) {
-        set( static_cast<size_t>(bit) );
+iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &setBits )
+{
+    for( auto &bit : setBits ) {
+        set( static_cast<size_t>( bit ) );
     }
 }
 
-bool iteminfo_query::test( const iteminfo_parts& value ) const {
+bool iteminfo_query::test( const iteminfo_parts &value ) const
+{
     return iteminfo_query_base::test( static_cast<size_t>( value ) );
 }
 
