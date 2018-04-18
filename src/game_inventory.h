@@ -11,6 +11,17 @@ class item;
 class item_location;
 class player;
 
+class inventory_filter_preset : public inventory_selector_preset
+{
+    public:
+        inventory_filter_preset(const item_location_filter &filter);
+
+        bool is_shown const item_location &location) const override;
+
+    private:
+        item_location_filter filter;
+};
+
 namespace game_menus
 {
 
