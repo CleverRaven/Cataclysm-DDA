@@ -24,9 +24,13 @@ const iteminfo_query iteminfo_query::all = iteminfo_query(
             std::string( static_cast<size_t>( iteminfo_parts::MAX_VALUE ) + 1, '1' ) );
 
 const iteminfo_query iteminfo_query::notext = iteminfo_query(
-            std::string( static_cast<size_t>( iteminfo_parts::MAX_VALUE ) - static_cast<size_t>( iteminfo_parts::RANGE_TEXT_END ), '1' )
-            + std::string( static_cast<size_t>( iteminfo_parts::RANGE_TEXT_END ) - static_cast<size_t>( iteminfo_parts::RANGE_TEXT_START ) + 1, '0' )
-            + std::string( static_cast<size_t>( iteminfo_parts::RANGE_TEXT_START ), '1' ) );
+            std::string( static_cast<size_t>( iteminfo_parts::MAX_VALUE ) -
+                         static_cast<size_t>( iteminfo_parts::RANGE_TEXT_END ),
+                         '1' ) +
+            std::string( static_cast<size_t>( iteminfo_parts::RANGE_TEXT_END ) -
+                         static_cast<size_t>( iteminfo_parts::RANGE_TEXT_START ) + 1,
+                         '0' ) +
+            std::string( static_cast<size_t>( iteminfo_parts::RANGE_TEXT_START ), '1' ) );
 
 const iteminfo_query iteminfo_query::anyflags = iteminfo_query(
 std::vector<iteminfo_parts> {

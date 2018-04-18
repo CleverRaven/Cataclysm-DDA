@@ -217,8 +217,6 @@ public:
     static const iteminfo_query all;
     static const iteminfo_query notext;
     static const iteminfo_query anyflags;
-
-
 };
 
 #endif
