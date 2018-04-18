@@ -141,5 +141,24 @@
     "material": [ "superalloy", "ceramic" ],
     "aim_speed": 2,
     "flags": [ "ZOOM", "IRREMOVABLE" ]
+  },
+  {
+    "id": "tele_sight",
+    "type": "GUNMOD",
+    "name": "telescopic sight",
+    "description": "A simplpe telescopic sight, essentially a small telescope with crosshairs.",,
+    "weight": 300,
+    "volume": 0.5,
+    "price": 30000,
+    "material": [ "platic", "steel", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
+    "install_time": 30000,
+    "sight_dispersion": 60,
+    "aim_speed": 8,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   }
 ]
