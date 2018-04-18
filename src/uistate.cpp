@@ -1,6 +1,7 @@
 #include "uistate.h"
 #include "item.h"
 #include "json.h"
+#include "json2.h"
 #include "crafting.h"
 #include "advanced_inv.h"
 #include "construction.h"
