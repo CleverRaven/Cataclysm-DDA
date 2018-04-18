@@ -8,13 +8,13 @@
  */
 class JsonSerDes : public JsonSerializer, public JsonDeserializer
 {
- public:
-    virtual ~JsonSerDes() = default;
-    JsonSerDes() = default;
-    JsonSerDes(JsonSerDes &&) = default;
-    JsonSerDes(const JsonSerDes &) = default;
-    JsonSerDes &operator=(JsonSerDes &&) = default;
-    JsonSerDes &operator=(const JsonSerDes &) = default;
+    public:
+        virtual ~JsonSerDes() = default;
+        JsonSerDes() = default;
+        JsonSerDes( JsonSerDes && ) = default;
+        JsonSerDes( const JsonSerDes & ) = default;
+        JsonSerDes &operator=( JsonSerDes && ) = default;
+        JsonSerDes &operator=( const JsonSerDes & ) = default;
 };
 
 /* JsonSerDesAdapter
