@@ -205,7 +205,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
-                        rng( range - offset, proj_arg.range );
+                        rng( range - offset, double( proj_arg.range ) );
         new_range = std::max( new_range, 1 );
 
         target.x = source.x + roll_remainder( new_range * cos( rad ) );

@@ -1571,7 +1571,7 @@ int monster::impact( const int force, const tripoint &p )
     apply_damage( nullptr, bp_torso, bash_damage );
     total_dealt += force * mod;
 
-    add_effect( effect_downed, rng( 0, mod * 3 + 1 ) );
+    add_effect( effect_downed, rng( float(0), mod * 3 + 1 ) );
 
     return total_dealt;
 }

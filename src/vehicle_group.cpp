@@ -100,7 +100,7 @@ const VehicleLocation *VehiclePlacement::pick() const
         return NULL;
     }
 
-    return &( locations[rng( 0, locations.size() - 1 )] );
+    return &( locations[rng( size_t(0), locations.size() - 1 )] );
 }
 
 VehicleFunction_json::VehicleFunction_json( JsonObject &jo )

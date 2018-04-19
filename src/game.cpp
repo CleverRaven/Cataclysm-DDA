@@ -6546,7 +6546,7 @@ void game::smash()
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if (vol > 20) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( double(0), vol * .5 ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();

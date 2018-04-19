@@ -930,7 +930,7 @@ find_empty_neighbors(Creature const &c) {
  * Get a size_t value in the closed interval [0, size]; a convenience to avoid messy casting.
   */
 size_t get_random_index(size_t const size) {
-    return static_cast<size_t>(rng(0, static_cast<long>(size - 1)));
+    return rng(size_t(0), size - 1);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4617,7 +4617,7 @@ bool mattack::stretch_attack(monster *z)
 
 bool mattack::dodge_check( monster *z, Creature *target ) {
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
-    float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
+    float dodge = std::max( target->get_dodge() - rng( 0.0f, z->get_hit() ), 0.0f );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
         return true;
     }

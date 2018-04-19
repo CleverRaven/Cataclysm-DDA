@@ -5708,7 +5708,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
     // leak up to 1/3 of remaining fuel per iteration and continue until the part is empty
     auto *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining() ) {
-        int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1L ) ), global_part_pos3( pt ) );
+        int qty = pt.ammo_consume( rng( 0L, std::max( pt.ammo_remaining() / 3, 1L ) ), global_part_pos3( pt ) );
         if( qty > 0 ) {
             g->m.add_item_or_charges( random_entry( tiles ), item( fuel, calendar::turn, qty ) );
         }

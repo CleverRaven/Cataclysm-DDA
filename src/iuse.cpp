@@ -1295,7 +1295,7 @@ static void do_purify( player &p )
         p.add_msg_if_player(_("You feel cleansed."));
         return;
     }
-    int num_cured = rng( 1, valid.size() );
+    int num_cured = rng( size_t(1), valid.size() );
     num_cured = std::min( 4, num_cured );
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
@@ -1339,7 +1339,7 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
         return it->type->charges_to_use();
     }
     int num_cured = rng(4,
-                        valid.size()); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
+                        int(valid.size())); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
     if (num_cured > 8) {
         num_cured = 8;
     }
@@ -2132,7 +2132,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                 success += rng(surv, surv * surv);
             }
 
-            it->charges = rng(-1, it->charges);
+            it->charges = rng(-1L, it->charges);
             if (it->charges < 0) {
                 it->charges = 0;
             }
@@ -2166,7 +2166,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                     //lets say it is a 5% chance per fish to catch
                     if (one_in(20)) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                        const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                        const mtype_id& fish_mon = fish_group[rng(size_t(1), fish_group.size()) - 1];
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
@@ -2229,7 +2229,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
         dest.x += (dest.x - p->posx());
         dest.y += (dest.y - p->posy());
 
-        g->m.adjust_field_strength(dest, fd_fire, std::min(0 - rng(0, 1) + rng(0, 1), 0L));
+        g->m.adjust_field_strength(dest, fd_fire, std::min(0 - rng(0, 1) + rng(0, 1), 0));
     }
 
     return it->type->charges_to_use();
@@ -3759,7 +3759,7 @@ const std::string &get_music_description()
         return rare;
     }
 
-    size_t i = (size_t)rng( 0, descriptions.size() * 2 );
+    size_t i = rng( size_t(0), descriptions.size() * 2 );
     if( i < descriptions.size() ) {
         return descriptions[i];
     }
@@ -4483,9 +4483,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
     }
 
     const auto &art = it->type->artifact;
-    size_t num_used = rng(1, art->effects_activated.size());
+    size_t num_used = rng(size_t(1), art->effects_activated.size());
     if (num_used < art->effects_activated.size()) {
-        num_used += rng(1, art->effects_activated.size() - num_used);
+        num_used += rng(size_t(1), art->effects_activated.size() - num_used);
     }
 
     std::vector<art_effect_active> effects = art->effects_activated;

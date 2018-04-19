@@ -507,7 +507,7 @@ int stumble( player &u, const item &weap )
 
 bool player::scored_crit( float target_dodge, const item &weap ) const
 {
-    return rng( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weap );
+    return rng( 0.0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weap );
 }
 
 /**
@@ -633,7 +633,7 @@ float player::bonus_damage( bool random ) const
 {
     /** @EFFECT_STR increases bashing damage */
     if( random ) {
-        return rng( get_str() / 2.0f, get_str());
+        return rng( get_str() / 2.0f, float(get_str()));
     }
 
     return get_str() * 0.75f;
@@ -1167,7 +1167,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
         //hit only one valid target (pierce through doesn't spread out)
         if (technique.aoe == "impale") {
-            size_t victim = rng(0, targets.size() - 1);
+            size_t victim = rng(size_t(0), targets.size() - 1);
             const auto v = targets[victim];
             targets.clear();
             targets.push_back( v );

@@ -892,7 +892,7 @@ void talk_function::field_harvest( npc &p, std::string place )
                             plantCount = 1;
                         }
                         number_plants += plantCount;
-                        number_seeds += std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+                        number_seeds += std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
                     }
                 }
             }
@@ -1324,7 +1324,7 @@ bool talk_function::forage_return( npc &p )
 
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
     int skill = comp->get_skill_level( skill_survival );
-    if( skill > rng( -.5, 8 ) ) {
+    if( skill > rng( -.5, 8.0 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){
             switch( season_of_year( calendar::turn ) ) {

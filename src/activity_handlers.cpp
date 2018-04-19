@@ -609,7 +609,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_shift += rng( 0, p->dex_cur - 8 ) / 4.0;
 
         if( factor < 0 ) {
-            skill_shift -= rng( 0, -factor / 5.0 );
+            skill_shift -= rng( double(0), -factor / 5.0 );
         }
 
         return static_cast<int>( round( skill_shift ) );
@@ -896,7 +896,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
             if( one_in(20) ) {
                 item fish;
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                const mtype_id& fish_mon = fish_group[rng(size_t(1), fish_group.size()) - 1];
                 g->m.add_item_or_charges(p->pos(), item::make_corpse( fish_mon ) );
                 p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {

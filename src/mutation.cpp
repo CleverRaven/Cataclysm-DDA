@@ -589,7 +589,7 @@ void player::mutate()
     if(one_in(2)) {
         if (!upgrades.empty()) {
             // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
-            size_t roll = rng(0, upgrades.size() + 4);
+            size_t roll = rng(size_t(0), upgrades.size() + 4);
             if (roll < upgrades.size()) {
                 // We got a valid upgrade index, so use it and return.
                 mutate_towards(upgrades[roll]);
@@ -599,7 +599,7 @@ void player::mutate()
     } else {
         // Remove existing mutations that don't fit into our category
         if( !downgrades.empty() && !cat.empty() ) {
-            size_t roll = rng(0, downgrades.size() + 4);
+            size_t roll = rng(size_t(0), downgrades.size() + 4);
             if (roll < downgrades.size()) {
                 remove_mutation(downgrades[roll]);
                 return;

@@ -647,7 +647,7 @@ public:
         if( alternatives.empty() ) {
             return;
         }
-        auto &chosen = alternatives[rng( 0, alternatives.size() - 1 )];
+        auto &chosen = alternatives[rng( size_t(0), alternatives.size() - 1 )];
         chosen.apply( dat, x, y, mon_density );
     }
 };
@@ -7807,7 +7807,7 @@ void silo_rooms(map *m)
     } while (okay);
 
     m->ter_set(rooms[0].x, rooms[0].y, t_stairs_up);
-    int down_room = rng(0, rooms.size() - 1);
+    int down_room = rng(size_t(0), rooms.size() - 1);
     point dp = rooms[down_room], ds = room_sizes[down_room];
     m->ter_set(dp.x + ds.x, dp.y + ds.y, t_stairs_down);
     rooms.push_back(point(SEEX, SEEY)); // So the center circle gets connected

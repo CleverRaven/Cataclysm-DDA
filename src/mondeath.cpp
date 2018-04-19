@@ -128,7 +128,7 @@ void mdeath::normal( monster &z )
                 if( one_in( 2 ) && type_blood != fd_null ) {
                     g->m.add_splatter( type_blood, tarp );
                 } else {
-                    g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
+                    g->m.add_splatter( type_gib, tarp, rng( size_t(1), j + 1 ) );
                 }
                 if( g->m.impassable( tarp ) ) {
                     g->m.bash( tarp, 3 );

@@ -51,7 +51,7 @@ struct VehicleFacings {
     VehicleFacings( JsonObject &jo, const std::string &key );
 
     int pick() const {
-        return values[rng( 0, values.size() - 1 )];
+        return values[rng( size_t(0), values.size() - 1 )];
     }
 
     std::vector<int> values;

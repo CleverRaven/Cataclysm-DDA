@@ -139,7 +139,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 static const auto max_spill_volume = units::from_liter( 1 );
                 const long max_spill_charges = std::max( 1l, item_it->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const int qty = rng( 1l, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
+                const int qty = rng( double(1), max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
                 item spill = item_it->split( qty );
                 if( spill.is_null() ) {
@@ -1850,7 +1850,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             } else if( plantCount <= 0 ) {
                 plantCount = 1;
             }
-            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+            const int seedCount = std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
             for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
                 g->m.add_item_or_charges( examp, i );
             }
