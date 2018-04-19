@@ -615,7 +615,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         const auto spread_to = [&]( maptile &dst ) {
             field_entry *candidate_field = dst.find_field( curtype );
             // Nearby gas grows thicker, and ages are shared.
-            int age_fraction = 0.5 + current_age / current_density;
+            int age_fraction = current_age / current_density ;
             if ( candidate_field != nullptr ) {
                 candidate_field->setFieldDensity( candidate_field->getFieldDensity() + 1 );
                 cur.setFieldDensity( current_density - 1 );
