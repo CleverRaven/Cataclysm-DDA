@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -1336,7 +1337,7 @@ std::string cata::string_formatter::raw_string_format( char const *const format,
     int const result = _vscprintf_p( format, args_copy );
     va_end( args_copy );
     if( result == -1 ) {
-        return std::string( "Bad format string for printf." );
+        throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
     }
 
     std::string buffer( result, '\0' );
@@ -1426,7 +1427,7 @@ std::string rewrite_vsnprintf( const char *msg )
             std::string argument( arg_start, end + 1 );
             rewritten_msg << argument;
         } else {
-            rewritten_msg << "<formatting error>";
+            throw std::runtime_error( "<formatting error> in rewrite_vsnprintf" );
         }
 
         // write argument without position to rewritten_msg_optimised
@@ -1481,7 +1482,7 @@ std::string cata::string_formatter::raw_string_format( char const *const format,
         // Some non-standard versions return -1 to indicate a bigger buffer is needed.
         // Some of the latter set errno to ERANGE at the same time.
         if( result < 0 && errno && errno != ERANGE ) {
-            return std::string( "Bad format string for printf." );
+            throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
         }
 
         // Looks like we need to grow... bigger, definitely bigger.
