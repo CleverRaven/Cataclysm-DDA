@@ -3,6 +3,7 @@
 #define RNG_H
 
 #include "compatibility.h"
+#include "optional.h"
 
 #include <functional>
 #include <array>
@@ -50,6 +51,22 @@ inline V random_entry( const C &container, D default_value )
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
+}
+/**
+ * Same as above but returns a reference to the chosen entry (if the container
+ * is not empty) or an empty `optional` object (if the container is empty).
+ * This function handles empty containers without requiring an instance of the
+ * contained type when container is empty.
+ */
+template<typename C, typename V = const typename C::value_type>
+inline cata::optional<std::reference_wrapper<V>> random_entry_opt( const C &container )
+{
+    if( container.empty() ) {
+        return cata::nullopt;
+    }
+    auto iter = container.begin();
+    std::advance( iter, rng( 0, container.size() - 1 ) );
+    return std::ref( *iter );
 }
 /**
  * Same as above, but returns a default constructed value if the container

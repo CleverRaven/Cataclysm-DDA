@@ -644,11 +644,9 @@ public:
     jmapgen_alternativly() = default;
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float mon_density ) const override
     {
-        if( alternatives.empty() ) {
-            return;
+        if( const auto chosen = random_entry_opt( alternatives ) ) {
+            chosen->get().apply( dat, x, y, mon_density );
         }
-        auto &chosen = alternatives[rng( 0, alternatives.size() - 1 )];
-        chosen.apply( dat, x, y, mon_density );
     }
 };
 
