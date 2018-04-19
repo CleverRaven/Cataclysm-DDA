@@ -292,8 +292,6 @@ class string_formatter
             }
         }
 
-        static std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
-
         template<typename T>
         void do_formating( T &&value ) {
             output.append( raw_string_format( current_format.c_str(), value ) );
@@ -342,6 +340,12 @@ class string_formatter
         std::string get_output() const {
             return output;
         }
+        /**
+         * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
+         * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
+         */
+        // Implemented in output.cpp
+        static std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
 };
 
 } // namespace cata
