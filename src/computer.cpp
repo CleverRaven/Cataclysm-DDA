@@ -548,8 +548,8 @@ void computer::activate_function( computer_action action )
         for(int i = g->u.posx() + 8; i < g->u.posx() + 15; i++) {
             for(int j = g->u.posy() + 3; j < g->u.posy() + 12; j++)
                 if(!one_in(4)) {
-                    tripoint dest( i + rng(-2, 2), j + rng(-2, 2), g->u.posz() );
-                    g->m.add_field( dest, fd_smoke, rng(1, 9), 0 );
+                    tripoint dest( i + rng_int(-2, 2), j + rng_int(-2, 2), g->u.posz() );
+                    g->m.add_field( dest, fd_smoke, rng_int(1, 9), 0 );
                 }
         }
 
@@ -1239,13 +1239,13 @@ void computer::activate_failure(computer_failure_type fail)
         break;
 
     case COMPFAIL_MANHACKS: {
-        int num_robots = rng(4, 8);
+        int num_robots = rng_int(4, 8);
         for (int i = 0; i < num_robots; i++) {
             tripoint mp( 0, 0, g->u.posz() );
             int tries = 0;
             do {
-                mp.x = rng(g->u.posx() - 3, g->u.posx() + 3);
-                mp.y = rng(g->u.posy() - 3, g->u.posy() + 3);
+                mp.x = rng_int(g->u.posx() - 3, g->u.posx() + 3);
+                mp.y = rng_int(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
             } while (!g->is_empty( mp ) && tries < 10);
             if (tries != 10) {
@@ -1262,8 +1262,8 @@ void computer::activate_failure(computer_failure_type fail)
             tripoint mp( 0, 0, g->u.posz() );
             int tries = 0;
             do {
-                mp.x = rng(g->u.posx() - 3, g->u.posx() + 3);
-                mp.y = rng(g->u.posy() - 3, g->u.posy() + 3);
+                mp.x = rng_int(g->u.posx() - 3, g->u.posx() + 3);
+                mp.y = rng_int(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
             } while (!g->is_empty(mp) && tries < 10);
             if (tries != 10) {
@@ -1303,7 +1303,7 @@ void computer::activate_failure(computer_failure_type fail)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     point p(x, y);
-                    int leak_size = rng(4, 10);
+                    int leak_size = rng_int(4, 10);
                     for (int i = 0; i < leak_size; i++) {
                         std::vector<point> next_move;
                         if (g->m.passable(p.x, p.y - 1)) {
@@ -1334,8 +1334,8 @@ void computer::activate_failure(computer_failure_type fail)
     case COMPFAIL_AMIGARA:
         g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
         g->u.add_effect( effect_amigara, 20);
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
+        g->explosion( tripoint( rng_int(0, SEEX * MAPSIZE), rng_int(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
+        g->explosion( tripoint( rng_int(0, SEEX * MAPSIZE), rng_int(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         remove_option( COMPACT_AMIGARA_START );
         break;
 
@@ -1494,7 +1494,7 @@ void computer::print_text( const char *const mes, Args &&... args )
 void computer::print_gibberish_line()
 {
     std::string gibberish;
-    int length = rng(50, 70);
+    int length = rng_int(50, 70);
     for (int i = 0; i < length; i++) {
         switch (rng(0, 4)) {
         case 0:
