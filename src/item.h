@@ -811,7 +811,7 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /** How much damage has the item sustained? */
-    int damage() const { return fast_floor( damage_ ); }
+    int damage() const;
 
     /** Precise damage */
     double precise_damage() const { return damage_; }
