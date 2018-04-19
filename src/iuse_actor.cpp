@@ -341,7 +341,7 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
         std::vector<tripoint> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
             const int dens = rng(fields_min_density, fields_max_density);
-            g->m.add_field( gas_source, fields_type, dens, 1 );
+            g->m.add_field( gas_source, fields_type, dens, 1_turns );
         }
     }
     if (scrambler_blast_radius >= 0) {
@@ -993,7 +993,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
 {
-    if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
+    if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
         p.add_msg_if_player(_("You successfully light a fire."));
     }
 }

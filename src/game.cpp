@@ -13349,7 +13349,7 @@ void game::process_artifact( item &it, player &p )
 
         case AEP_EXTINGUISH:
             for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
-                m.adjust_field_age( dest, fd_fire, -1 );
+                m.adjust_field_age( dest, fd_fire, -1_turns );
             }
             break;
 

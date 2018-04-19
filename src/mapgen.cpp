@@ -662,11 +662,11 @@ class jmapgen_field : public jmapgen_piece {
 public:
     field_id ftype;
     int density;
-    int age;
+    time_duration age;
     jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
     , ftype( field_from_ident( jsi.get_string( "field" ) ) )
     , density( jsi.get_int( "density", 1 ) )
-    , age( jsi.get_int( "age", 0 ) )
+    , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
     {
         if( ftype == fd_null ) {
             jsi.throw_error( "invalid field type", "field" );

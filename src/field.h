@@ -132,9 +132,9 @@ bool field_type_dangerous( field_id id );
 class field_entry
 {
     public:
-        field_entry() : type( fd_null ), density( 1 ), age( 0 ), is_alive( false ) { }
-        field_entry( const field_id t, const int d, const int a ) : type( t ), density( d ), age( a ),
-            is_alive( true ) { }
+        field_entry() : type( fd_null ), density( 1 ), age( 0_turns ), is_alive( false ) { }
+        field_entry( const field_id t, const int d, const time_duration a ) : type( t ), density( d ),
+            age( a ), is_alive( true ) { }
 
     nc_color color() const;
 
@@ -149,9 +149,6 @@ class field_entry
     //Returns the current density (aka intensity) of the current field entry.
     int getFieldDensity() const;
 
-    //Returns the age (usually turns to live) of the current field entry.
-    int getFieldAge() const;
-
     //Allows you to modify the field_id of the current field entry.
     //This probably shouldn't be called outside of field::replaceField, as it
     //breaks the field drawing code and field lookup
@@ -160,11 +157,14 @@ class field_entry
     //Allows you to modify the density of the current field entry.
     int setFieldDensity(const int new_density);
 
-    //Allows you to modify the age of the current field entry.
-    int setFieldAge(const int new_age);
-
-    /** Adds a number to current age. */
-    int mod_age( int mod ) {
+    /// @returns @ref age.
+    time_duration getFieldAge() const;
+    /// Sets @ref age to the given value.
+    /// @returns New value of @ref age.
+    time_duration setFieldAge( time_duration new_age );
+    /// Adds given value to @ref age.
+    /// @returns New value of @ref age.
+    time_duration mod_age( const time_duration mod ) {
         return setFieldAge( getFieldAge() + mod );
     }
 
@@ -194,7 +194,7 @@ class field_entry
 private:
     field_id type; //The field identifier.
     int density; //The density, or intensity (higher is stronger), of the field entry.
-    int age; //The age, or time to live, of the field effect. 0 is permanent.
+    time_duration age; //The age, of the field effect. 0 is permanent.
     bool is_alive; //True if this is an active field, false if it should be destroyed next check.
 };
 
@@ -233,7 +233,7 @@ public:
      * The density is added to an existing field entry, but the age is only used for newly added entries.
      * @return false if the field_id already exists, true otherwise.
      */
-    bool addField(const field_id field_to_add,const int new_density = 1, const int new_age = 0);
+    bool addField( field_id field_to_add, int new_density = 1, time_duration new_age = 0_turns );
 
     /**
      * Removes the field entry with a type equal to the field_id parameter.
