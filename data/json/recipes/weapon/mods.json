@@ -68,28 +68,6 @@
   },
   {
     "type": "recipe",
-    "result": "red_dot_simple",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "skills_required": [ "gun", 3 ],
-    "time": 15000,
-    "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "textbook_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ 
-        [ [ "plastic_chunk", 2 ] ],
-        [ [ "amplifier", 1 ] ],
-        [ [ "power_supply", 1 ] ],
-        [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
-        [ [ "lens", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "tele_sight",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",

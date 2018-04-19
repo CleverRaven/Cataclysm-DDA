@@ -178,24 +178,5 @@
     "aim_speed": 1,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
-  },
-  {
-    "id": "red_dot_simple",
-    "type": "GUNMOD",
-    "name": "makeshift 'red dot' sight",
-    "description": "Adds a poor emulation of a red dot optic to the top of your gun, replacing the iron sights.  Increases accuracy and weight.",
-    "weight": 300,
-    "volume": 1.5,
-    "integral_volume": 0,
-    "price": 34000,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "sights",
-    "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
-    "sight_dispersion": 120,
-    "aim_speed": 5,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
-    "flags": [ "DISABLE_SIGHTS" ]
   }
 ]
