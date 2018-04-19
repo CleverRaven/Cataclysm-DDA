@@ -68,7 +68,7 @@
   },
   {
     "type": "recipe",
-    "result": "red_dot_sight",
+    "result": "red_dot_simple",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "electronics",
@@ -112,7 +112,7 @@
   },
   {
     "type": "recipe",
-    "result": "pistol_scope",
+    "result": "tele_sight_pistol",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
