@@ -208,8 +208,8 @@ void faction::randomize()
 {
     // Set up values
     // TODO: Not always in overmap 0,0
-    mapx = rng(OMAPX / 10, OMAPX - OMAPX / 10);
-    mapy = rng(OMAPY / 10, OMAPY - OMAPY / 10);
+    mapx = rng_int(OMAPX / 10, OMAPX - OMAPX / 10);
+    mapy = rng_int(OMAPY / 10, OMAPY - OMAPY / 10);
     // Pick an overall goal.
     goal = faction_goal(rng(1, NUM_FACGOALS - 1));
     if (one_in(4)) {
@@ -234,7 +234,7 @@ void faction::randomize()
     int tries = 0;
     values = 0;
     do {
-        int v = rng(1, NUM_FACVALS - 1);
+        int v = rng_int(1, NUM_FACVALS - 1);
         if (!has_value(faction_value(v)) && matches_us(faction_value(v))) {
             values |= mfb(v);
             tries = 0;
@@ -456,7 +456,7 @@ std::string invent_name()
 {
     std::string ret = "";
     std::string tmp;
-    int syllables = rng(2, 3);
+    int syllables = rng_int(2, 3);
     for (int i = 0; i < syllables; i++) {
         switch (rng(0, 25)) {
         case  0:
