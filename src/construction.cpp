@@ -870,7 +870,7 @@ bool construct::check_down_OK( const tripoint & )
 void construct::done_trunk_plank( const tripoint &p )
 {
     ( void )p; //unused
-    int num_logs = rng( 2, 3 );
+    int num_logs = rng_int( 2, 3 );
     for( int i = 0; i < num_logs; ++i ) {
         iuse::cut_log_into_planks( g->u );
     }
