@@ -695,7 +695,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
         for( int counter = 0; counter < 5; counter++ ) {
             tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
-            add_field( dst, hot_air, 1, 0 );
+            add_field( dst, hot_air, 1 );
         }
     };
 
@@ -1283,7 +1283,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (tmpfld && tmpfld->getFieldDensity() < 3) {
                                 tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
                             } else {
-                                add_field( pnt, fd_toxic_gas, 3, 0 );
+                                add_field( pnt, fd_toxic_gas, 3 );
                             }
                         }
                     }
@@ -1440,7 +1440,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;
-                                    add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng(2, 3), 0 );
+                                    add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng(2, 3) );
                                     if (one_in(4)) {
                                         if (xdir == 0) {
                                             xdir = rng(0, 1) * 2 - 1;
@@ -1476,7 +1476,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         newdens = 3;
                                     }
                                     if (newdens > 0) {
-                                        add_field( t, fd_acid, newdens, 0 );
+                                        add_field( t, fd_acid, newdens );
                                     }
                                 }
                             }
@@ -1544,12 +1544,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                                 has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
                                 has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
-                                add_field( dst, fd_fire, 1, 0 );
+                                add_field( dst, fd_fire, 1 );
                             }
 
                             //check piles for flammable items and set those on fire
                             if( flammable_items_at( dst ) ) {
-                                add_field( dst, fd_fire, 1, 0 );
+                                add_field( dst, fd_fire, 1 );
                             }
 
                             spread_gas( cur, p, curtype, 66, 40 );

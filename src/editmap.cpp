@@ -1159,7 +1159,7 @@ int editmap::edit_fld()
                         if( t_dens != 0 ) {
                             g->m.set_field_strength( elem, fid, fsel_dens );
                         } else {
-                            g->m.add_field( elem, fid, fsel_dens, 0 );
+                            g->m.add_field( elem, fid, fsel_dens );
                         }
                     } else {
                         if( t_dens != 0 ) {

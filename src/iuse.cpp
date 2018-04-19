@@ -742,7 +742,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         }
         // breathe out some smoke
         for (int i = 0; i < 3; i++) {
-            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)),p->posz()}, fd_methsmoke, 2,0);
+            g->m.add_field( {p->posx() + int( rng( -2, 2 ) ), p->posy() + int( rng( -2, 2 ) ), p->posz()}, fd_methsmoke, 2 );
         }
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
@@ -3334,7 +3334,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 g->draw_explosion( pos, explosion_radius, c_yellow);
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if (one_in(5) && !g->critter_at( dest ) ) {
-                        g->m.add_field(dest, fd_bees, rng(1, 3), 0 );
+                        g->m.add_field( dest, fd_bees, rng( 1, 3 ) );
                     }
                 }
                 break;
@@ -3363,7 +3363,7 @@ int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
     if( !p->has_item( *it ) ) {
         it->charges = -1;
         for( const tripoint &tmp : g->m.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
-            g->m.add_field( tmp, fd_acid, 3, 0 );
+            g->m.add_field( tmp, fd_acid, 3 );
         }
         return 1;
     }
@@ -3387,12 +3387,12 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
             tripoint dest( pos.x + rng( -5, 5 ), pos.y + rng( -5, 5 ), pos.z );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                g->m.add_field( flame, fd_fire, rng( 0, 2 ), 0 );
+                g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
         g->explosion( pos, 8, 0.8, true );
         for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
-            g->m.add_field( dest, fd_incendiary, 3, 0 );
+            g->m.add_field( dest, fd_incendiary, 3 );
         }
 
     }
@@ -3438,7 +3438,7 @@ int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
         if( !t ) {
             for( auto &&pt : g->m.points_in_radius( pos, 1, 0 ) ) {
                 const int density = 1 + one_in( 3 ) + one_in( 5 );
-                g->m.add_field( pt, fd_fire, density, 0 );
+                g->m.add_field( pt, fd_fire, density );
             }
         }
     }
@@ -4504,7 +4504,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     for (int n = 0; n < dist; n++) {
                         boltx += xdir;
                         bolty += ydir;
-                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng(2, 3), 0 );
+                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng( 2, 3 ) );
                         if (one_in(4)) {
                             if (xdir == 0) {
                                 xdir = rng(0, 1) * 2 - 1;
@@ -4551,7 +4551,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_BLOOD: {
                 bool blood = false;
                 for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
-                    if (!one_in(4) && g->m.add_field(tmp, fd_blood, 3, 0 ) &&
+                    if (!one_in(4) && g->m.add_field(tmp, fd_blood, 3 ) &&
                         (blood || g->u.sees(tmp))) {
                         blood = true;
                     }
@@ -4565,7 +4565,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_FATIGUE: {
                 p->add_msg_if_player(m_warning, _("The fabric of space seems to decay."));
                 int x = rng(p->posx() - 3, p->posx() + 3), y = rng(p->posy() - 3, p->posy() + 3);
-                g->m.add_field({x, y, p->posz()}, fd_fatigue, rng(1, 2), 0);
+                g->m.add_field( {x, y, p->posz()}, fd_fatigue, rng( 1, 2 ) );
             }
             break;
 
@@ -4573,7 +4573,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 tripoint acidball = g->look_around();
                 if( acidball != tripoint_min ) {
                     for( const tripoint &tmp : g->m.points_in_radius( acidball, 1 ) ) {
-                        g->m.add_field( tmp, fd_acid, rng(2, 3), 0 );
+                        g->m.add_field( tmp, fd_acid, rng( 2, 3 ) );
                     }
                 }
             }
@@ -4673,7 +4673,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_RADIATION:
                 add_msg(m_warning, _("Horrible gases are emitted!"));
                 for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    g->m.add_field(dest, fd_nuke_gas, rng(2, 3), 0 );
+                    g->m.add_field( dest, fd_nuke_gas, rng( 2, 3 ) );
                 }
                 break;
 

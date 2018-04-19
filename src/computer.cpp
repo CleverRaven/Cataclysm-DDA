@@ -547,7 +547,7 @@ void computer::activate_function( computer_action action )
             for(int j = g->u.posy() + 3; j < g->u.posy() + 12; j++)
                 if(!one_in(4)) {
                     tripoint dest( i + rng(-2, 2), j + rng(-2, 2), g->u.posz() );
-                    g->m.add_field( dest, fd_smoke, rng(1, 9), 0 );
+                    g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
                 }
         }
 

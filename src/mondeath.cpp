@@ -163,7 +163,7 @@ void mdeath::acid( monster &z )
             add_msg( m_warning, _( "The %s's body leaks acid." ), z.name().c_str() );
         }
     }
-    g->m.add_field( z.pos(), fd_acid, 3, 0 );
+    g->m.add_field( z.pos(), fd_acid, 3 );
 }
 
 void mdeath::boomer( monster &z )
@@ -547,7 +547,7 @@ void mdeath::focused_beam( monster &z )
             if( !g->m.trans( elem ) ) {
                 break;
             }
-            g->m.add_field( elem, fd_dazzling, 2, 0 );
+            g->m.add_field( elem, fd_dazzling, 2 );
         }
     }
 

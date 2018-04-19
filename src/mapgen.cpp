@@ -4016,7 +4016,7 @@ ff.......|....|WWWWWWWW|\n\
                     } else if (trig_dist(i, j, SEEX, SEEY) > 5) {
                         ter_set(i, j, t_metal_floor);
                         if (one_in(30)) {
-                            add_field({i, j, abs_sub.z}, fd_nuke_gas, 2,0);    // NULL game; no messages
+                            add_field( {i, j, abs_sub.z}, fd_nuke_gas, 2 );
                         }
                     } else if (trig_dist(i, j, SEEX, SEEY) == 5) {
                         ter_set(i, j, t_hole);
@@ -4073,8 +4073,8 @@ ff.......|....|WWWWWWWW|\n\
                 square(this, t_rock, 0, 0, SEEX - 1, SEEY * 2 - 1);
                 square(this, t_rock, SEEX + 2, 0, SEEX * 2 - 1, SEEY * 2 - 1);
                 for (int i = 2; i < SEEY * 2 - 4; i++) {
-                    add_field({SEEX    , i, abs_sub.z}, fd_fire_vent, rng(1, 3), 0 );
-                    add_field({SEEX + 1, i, abs_sub.z}, fd_fire_vent, rng(1, 3), 0 );
+                    add_field( {SEEX    , i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
+                    add_field( {SEEX + 1, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
                 }
                 break;
 
@@ -4657,7 +4657,7 @@ ff.......|....|WWWWWWWW|\n\
             case 1: { // Toxic gas
                 int cx = rng(9, 14), cy = rng(9, 14);
                 ter_set(cx, cy, t_rock);
-                add_field({cx, cy, abs_sub.z}, fd_gas_vent, 1, 0);
+                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 1 );
             }
             break;
 
@@ -6214,7 +6214,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     one_in(4)) {
                     ter_set(i, j, t_rock_floor);
                     if (!one_in(3)) {
-                        add_field({x, y, abs_sub.z}, fd_web, rng(1, 3), 0);
+                        add_field( {x, y, abs_sub.z}, fd_web, rng( 1, 3 ) );
                     }
                 } else {
                     ter_set(i, j, t_rock);
@@ -6313,7 +6313,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 } else {
                     for (int webx = nodex; webx <= nodex + 3; webx++) {
                         for (int weby = nodey; weby <= nodey + 3; weby++) {
-                            add_field({webx, weby, abs_sub.z}, fd_web, rng(1, 3), 0);
+                            add_field( {webx, weby, abs_sub.z}, fd_web, rng( 1, 3 ) );
                         }
                     }
                     add_spawn(mon_spider_web, 1, spawnx, spawny);
@@ -8197,7 +8197,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
-                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1 );
                 }
             }
         }
@@ -8218,7 +8218,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
-                    m.add_field( {p->x +( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x +( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1 );
                 }
             }
         }
@@ -8287,7 +8287,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
                     m.add_field({x + (j * x_offset), y + (j * y_offset), abs_sub.z},
-                              fd_blood, 1, 0);
+                              fd_blood, 1 );
                 }
             }
             if (a_has_drugs && num_drugs > 0) {
@@ -8325,7 +8325,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
                     m.add_field( {x + (j * x_offset), y + (j * y_offset), abs_sub.z},
-                               fd_blood, 1, 0 );
+                               fd_blood, 1 );
                 }
                 if (!a_has_drugs && num_drugs > 0) {
                     int drugs_placed = rng(2, 6);
@@ -8478,7 +8478,7 @@ void mx_portal_in(map &m, const tripoint &abs_sub)
         mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank,
     } };
     int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
-    m.add_field({x, y, abs_sub.z}, fd_fatigue, 3, 0);
+    m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3 );
     fungal_effects fe( *g, m );
     for (int i = x - 5; i <= x + 5; i++) {
         for (int j = y - 5; j <= y + 5; j++) {
@@ -8550,7 +8550,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    add_field({i, j, abs_sub.z}, fd_push_items, 1, 0);
+                    add_field( {i, j, abs_sub.z}, fd_push_items, 1 );
                     if (one_in(3)) {
                         spawn_item(i, j, "rock");
                     }
@@ -8625,18 +8625,18 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
 
     case ARTPROP_ELECTRIC:
     case ARTPROP_CRACKLING:
-        add_field({cx, cy, abs_sub.z}, fd_shock_vent, 3, 0);
+        add_field( {cx, cy, abs_sub.z}, fd_shock_vent, 3 );
         break;
 
     case ARTPROP_SLIMY:
-        add_field({cx, cy, abs_sub.z}, fd_acid_vent, 3, 0);
+        add_field( {cx, cy, abs_sub.z}, fd_acid_vent, 3 );
         break;
 
     case ARTPROP_WARM:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    add_field({i, j, abs_sub.z}, fd_fire_vent, 1 + (rl_dist(cx, cy, i, j) % 3), 0);
+                    add_field( {i, j, abs_sub.z}, fd_fire_vent, 1 + ( rl_dist( cx, cy, i, j ) % 3 ) );
                 }
             }
         }
