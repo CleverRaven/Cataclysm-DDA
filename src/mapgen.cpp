@@ -6610,7 +6610,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     }
 
     float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
-    float thenum = ( multiplier * rng(10.0f, 50.0f) );
+    float thenum = ( multiplier * rng( 10.0f, 50.0f ) );
     int num = roll_remainder( thenum );
 
     // GetResultFromGroup decrements num

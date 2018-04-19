@@ -697,7 +697,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         }
 
         for( int counter = 0; counter < 5; counter++ ) {
-            tripoint dst( p.x + rng(-1, 1), p.y + rng(-1, 1), p.z );
+            tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
             add_field( dst, hot_air, 1, 0 );
         }
     };
@@ -1154,7 +1154,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     maptile dst = maptile_at_internal( up );
                                     const auto &dst_ter = dst.get_ter_t();
                                     if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-                                        dst.add_field( fd_smoke, rng(1, cur.getFieldDensity()), 0 );
+                                        dst.add_field( fd_smoke, rng( 1, cur.getFieldDensity()), 0 );
                                     } else {
                                         // Can't create smoke above
                                         smoke_up = false;
@@ -1263,7 +1263,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_nuke_gas:
                     {
                         dirty_transparency_cache = true;
-                        int extra_radiation = rng(0, cur.getFieldDensity());
+                        int extra_radiation = rng( 0, cur.getFieldDensity());
                         adjust_radiation( p, extra_radiation );
                         spread_gas( cur, p, curtype, 50, 10 );
                         break;
@@ -1327,8 +1327,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 tripoint pnt;
                                 pnt.z = p.z;
                                 while (tries < 10 && cur.getFieldAge() < 50 && cur.getFieldDensity() > 1) {
-                                    pnt.x = p.x + rng(-1, 1);
-                                    pnt.y = p.y + rng(-1, 1);
+                                    pnt.x = p.x + rng( -1, 1 );
+                                    pnt.y = p.y + rng( -1, 1 );
                                     if( passable( pnt ) ) {
                                         add_field( pnt, fd_electricity, 1, cur.getFieldAge() + 1);
                                         cur.setFieldDensity(cur.getFieldDensity() - 1);
@@ -1349,7 +1349,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                                 if( valid.empty() ) {    // Spread to adjacent space, then
-                                    tripoint dst( p.x + rng(-1, 1), p.y + rng(-1, 1), p.z );
+                                    tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
                                     field_entry *elec = get_field( dst ).findField( fd_electricity );
                                     if( passable( dst ) && elec != nullptr &&
                                         elec->getFieldDensity() < 3) {
@@ -1445,29 +1445,29 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         } else {
                             cur.setFieldDensity(3);
-                            int num_bolts = rng(3, 6);
+                            int num_bolts = rng( 3, 6 );
                             for (int i = 0; i < num_bolts; i++) {
                                 int xdir = 0, ydir = 0;
                                 while (xdir == 0 && ydir == 0) {
-                                    xdir = rng(-1, 1);
-                                    ydir = rng(-1, 1);
+                                    xdir = rng( -1, 1 );
+                                    ydir = rng( -1, 1 );
                                 }
-                                int dist = rng(4, 12);
+                                int dist = rng( 4, 12 );
                                 int boltx = p.x, bolty = p.y;
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;
-                                    add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng(2, 3), 0 );
+                                    add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng( 2, 3 ), 0 );
                                     if (one_in(4)) {
                                         if (xdir == 0) {
-                                            xdir = rng(0, 1) * 2 - 1;
+                                            xdir = rng( 0, 1 ) * 2 - 1;
                                         } else {
                                             xdir = 0;
                                         }
                                     }
                                     if (one_in(4)) {
                                         if (ydir == 0) {
-                                            ydir = rng(0, 1) * 2 - 1;
+                                            ydir = rng( 0, 1 ) * 2 - 1;
                                         } else {
                                             ydir = 0;
                                         }
@@ -1559,7 +1559,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         {
                             //Needed for variable scope
                             dirty_transparency_cache = true;
-                            tripoint dst( p.x + rng(-1, 1), p.y + rng(-1, 1), p.z );
+                            tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
                             if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                                 has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
                                 has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
@@ -1961,7 +1961,7 @@ void map::player_in_field( player &u )
             int total_damage = 0;
             for( size_t i = 0; i < num_hp_parts; i++ ) {
                 const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );
-                const int dmg = rng(1, cur.getFieldDensity());
+                const int dmg = rng( 1, cur.getFieldDensity());
                 total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
             }
 
@@ -2133,7 +2133,7 @@ void map::monster_in_field( monster &z )
 
         case fd_acid:
             if( !z.has_flag( MF_FLIES ) ) {
-                const int d = rng(cur.getFieldDensity(), cur.getFieldDensity() * 3);
+                const int d = rng( cur.getFieldDensity(), cur.getFieldDensity() * 3 );
                 z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
             }
@@ -2183,7 +2183,7 @@ void map::monster_in_field( monster &z )
                 if (!z.has_flag(MF_FLIES)) {
                     z.moves -= 20;
                     if( dam > 0 ) {
-                        z.add_effect( effect_onfire, rng(dam / 2, dam * 2));
+                        z.add_effect( effect_onfire, rng( dam / 2, dam * 2 ));
                     }
                 }
             } else if (cur.getFieldDensity() == 3) {
@@ -2191,7 +2191,7 @@ void map::monster_in_field( monster &z )
                 if (!z.has_flag(MF_FLIES) || one_in(3)) {
                     z.moves -= 40;
                     if( dam > 0 ) {
-                        z.add_effect( effect_onfire, rng(dam / 2, dam * 2));
+                        z.add_effect( effect_onfire, rng( dam / 2, dam * 2 ));
                     }
                 }
             }
@@ -2214,13 +2214,13 @@ void map::monster_in_field( monster &z )
             if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
                 if (cur.getFieldDensity() == 3) {
-                    z.add_effect( effect_stunned, rng(10, 20));
+                    z.add_effect( effect_stunned, rng( 10, 20 ));
                     dam += rng(4, 10);
                 } else if (cur.getFieldDensity() == 2) {
-                    z.add_effect( effect_stunned, rng(5, 10));
+                    z.add_effect( effect_stunned, rng( 5, 10 ));
                     dam += rng(2, 5);
                 } else {
-                    z.add_effect( effect_stunned, rng(1, 5));
+                    z.add_effect( effect_stunned, rng( 1, 5 ));
                 }
                 if (z.made_of( material_id( "veggy" ) )) {
                     z.moves -= rng(cur.getFieldDensity() * 5, cur.getFieldDensity() * 12);
@@ -2235,14 +2235,14 @@ void map::monster_in_field( monster &z )
         case fd_relax_gas:
             if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
-                z.add_effect( effect_stunned, rng(cur.getFieldDensity() * 4, cur.getFieldDensity() * 8));
+                z.add_effect( effect_stunned, rng( cur.getFieldDensity() * 4, cur.getFieldDensity() * 8 ));
             }
             break;
 
         case fd_dazzling:
             if (z.has_flag(MF_SEES)) {
                 z.add_effect( effect_blind, cur.getFieldDensity() * 12);
-                z.add_effect( effect_stunned, cur.getFieldDensity() * rng(5, 12));
+                z.add_effect( effect_stunned, cur.getFieldDensity() * rng( 5, 12 ));
             }
             break;
 
@@ -2303,8 +2303,8 @@ void map::monster_in_field( monster &z )
                 int tries = 0;
                 tripoint newpos = z.pos();
                 do {
-                    newpos.x = rng(z.posx() - SEEX, z.posx() + SEEX);
-                    newpos.y = rng(z.posy() - SEEY, z.posy() + SEEY);
+                    newpos.x = rng( z.posx() - SEEX, z.posx() + SEEX );
+                    newpos.y = rng( z.posy() - SEEY, z.posy() + SEEY );
                     tries++;
                 } while (impassable(newpos) && tries != 10);
 

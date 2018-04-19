@@ -1535,7 +1535,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     for( const auto &entry : harvest ) {
         float min_num = entry.base_num.first + lev * entry.scale_num.first;
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round(rng(min_num, max_num) ) );
+        int roll = std::min<int>( entry.max, round( rng( min_num, max_num ) ) );
         for( int i = 0; i < roll; i++ ) {
             const item &it = g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
             p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
@@ -3492,7 +3492,7 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 
     p.moves -= 100 + 100 * fall_mod;
     p.setpos( examp );
-    if( climb_cost > 0 || rng(0.8, 1.0) > fall_mod ) {
+    if( climb_cost > 0 || rng( 0.8, 1.0 ) > fall_mod ) {
         // One tile of falling less (possibly zero)
         g->vertical_move( -1, true );
     }

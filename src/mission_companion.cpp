@@ -509,7 +509,7 @@ void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
     for( auto &elem : npc_list ) {
         if( elem->companion_mission_time == calendar::before_time_starts ) {
             //Adds a 10% error in estimated travel time
-            elem->companion_mission_time = calendar::turn + time_duration::from_turns( time + time * rng(-.1, .1) );
+            elem->companion_mission_time = calendar::turn + time_duration::from_turns( time + time * rng( -.1, .1 ) );
         }
     }
 
@@ -973,7 +973,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
         } else {
             popup(_("Combat took place in close quarters, focusing on melee skills..."));
             int monsters = rng( 8, 30 );
-            if( skill * rng(.60, 1.4) > (.35 * monsters * rng(.6, 1.4)) ) {
+            if( skill * rng( .60, 1.4 ) > (.35 * monsters * rng( .6, 1.4 )) ) {
                 popup(_("Through brute force the party smashed through the group of %d undead!"),
                       monsters);
                 experience += rng ( 2, 10 );
@@ -1064,7 +1064,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         } else {
             popup(_("Combat took place in close quarters, focusing on melee skills..."));
             int monsters = rng (8, 30);
-            if( skill * rng(.60, 1.4) > (.35 * monsters * rng(.6, 1.4)) ) {
+            if( skill * rng( .60, 1.4 ) > (.35 * monsters * rng( .6, 1.4 )) ) {
                 popup(_("Through brute force the party smashed through the group of %d undead!"), monsters);
                 experience += rng( 2, 10 );
             } else {
@@ -1276,7 +1276,7 @@ bool talk_function::forage_return( npc &p )
             comp->get_skill_level( skill_cutting ) + comp->get_skill_level( skill_stabbing ) + comp->get_skill_level( skill_unarmed )
             + comp->get_skill_level( skill_dodge );
             int monsters = rng( 0, 10 );
-            if( skill * rng(.80, 1.2) > (monsters * rng(.8, 1.2)) ){
+            if( skill * rng( .80, 1.2 ) > (monsters * rng( .8, 1.2 )) ){
                 if( one_in(2) ){
                     popup(_("%s was able to scare off the bear after delivering a nasty blow!"), comp->name.c_str());
                 } else {
@@ -1324,7 +1324,7 @@ bool talk_function::forage_return( npc &p )
 
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
     int skill = comp->get_skill_level( skill_survival );
-    if( skill > rng(-.5, 8) ) {
+    if( skill > rng( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){
             switch( season_of_year( calendar::turn ) ) {

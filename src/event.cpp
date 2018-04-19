@@ -60,13 +60,13 @@ void event::actualize()
         }
         g->u.add_memorial_log(pgettext("memorial_male", "Drew the attention of more dark wyrms!"),
                                 pgettext("memorial_female", "Drew the attention of more dark wyrms!"));
-        int num_wyrms = rng(1, 4);
+        int num_wyrms = rng( 1, 4 );
         for (int i = 0; i < num_wyrms; i++) {
             int tries = 0;
             tripoint monp = g->u.pos();
             do {
-                monp.x = rng(0, SEEX * MAPSIZE);
-                monp.y = rng(0, SEEY * MAPSIZE);
+                monp.x = rng( 0, SEEX * MAPSIZE );
+                monp.y = rng( 0, SEEY * MAPSIZE );
                 tries++;
             } while (tries < 10 && !g->is_empty(monp) &&
                     rl_dist(g->u.pos(), monp) <= 2);
@@ -91,7 +91,7 @@ void event::actualize()
     case EVENT_AMIGARA: {
         g->u.add_memorial_log(pgettext("memorial_male", "Angered a group of amigara horrors!"),
                               pgettext("memorial_female", "Angered a group of amigara horrors!"));
-        int num_horrors = rng(3, 5);
+        int num_horrors = rng( 3, 5 );
         int faultx = -1, faulty = -1;
         bool horizontal = false;
         for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
@@ -108,14 +108,14 @@ void event::actualize()
             int monx = -1, mony = -1;
             do {
                 if (horizontal) {
-                    monx = rng(faultx, faultx + 2 * SEEX - 8);
+                    monx = rng( faultx, faultx + 2 * SEEX - 8 );
                     for (int n = -1; n <= 1; n++) {
                         if (g->m.ter(monx, faulty + n) == t_rock_floor) {
                             mony = faulty + n;
                         }
                     }
                 } else { // Vertical fault
-                    mony = rng(faulty, faulty + 2 * SEEY - 8);
+                    mony = rng( faulty, faulty + 2 * SEEY - 8 );
                     for (int n = -1; n <= 1; n++) {
                         if (g->m.ter(faultx + n, mony) == t_rock_floor) {
                             monx = faultx + n;
@@ -226,8 +226,8 @@ void event::actualize()
         const mtype_id &montype = random_entry( temple_monsters );
         int tries = 0, x, y;
         do {
-            x = rng(g->u.posx() - 5, g->u.posx() + 5);
-            y = rng(g->u.posy() - 5, g->u.posy() + 5);
+            x = rng( g->u.posx() - 5, g->u.posx() + 5 );
+            y = rng( g->u.posy() - 5, g->u.posy() + 5 );
             tries++;
         } while (tries < 20 && !g->is_empty({x, y, g->u.posz()}) &&
                     rl_dist(x, y, g->u.posx(), g->u.posy()) <= 2);

@@ -42,7 +42,7 @@ void weed_msg( player &p ) {
     ///\EFFECT_INT changes messages when smoking weed
     int smarts = p.get_int();
     if(howhigh > 125 && one_in(7)) {
-        int msg = rng(0, 5);
+        int msg = rng( 0, 5 );
         switch(msg) {
         case 0: // Freakazoid
             p.add_msg_if_player( _( "The scariest thing in the world would be... if all the air in the world turned to WOOD!" ) );
@@ -90,7 +90,7 @@ void weed_msg( player &p ) {
             return;
         }
     } else if(howhigh > 100 && one_in(5)) {
-        int msg = rng(0, 5);
+        int msg = rng( 0, 5 );
         switch(msg) {
         case 0: // Bob Marley
             p.add_msg_if_player( _( "The herb reveals you to yourself." ) );
@@ -130,7 +130,7 @@ void weed_msg( player &p ) {
             return;
         }
     } else if(howhigh > 50 && one_in(3)) {
-        int msg = rng(0, 5);
+        int msg = rng( 0, 5 );
         switch(msg) {
         case 0: // Cheech and Chong
             p.add_msg_if_player( _( "Dave's not here, man." ) );
@@ -799,7 +799,7 @@ int effect::get_mod(std::string arg, bool reduced) const
     }
     if (int(max) != 0) {
         // Return a random value between [min, max]
-        return rng(int(min), int(max));
+        return rng( int( min ), int( max ));
     } else {
         // Else return the minimum value
         return min;

@@ -1245,7 +1245,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     if (count > 0 && cut.damage() > 0) {
         float component_success_chance = std::min( std::pow( 0.8, cut.damage() ), 1.0 );
         for(int i = count; i > 0; i--) {
-            if(component_success_chance < rng(0, 1)) {
+            if(component_success_chance < rng( 0, 1 )) {
                 count--;
             }
         }
@@ -2618,7 +2618,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     const auto action = default_action( fix, current_skill_level );
     const auto chance = repair_chance( pl, fix, action );
     const int practice_amount = repair_recipe_difficulty( pl, fix, true );
-    float roll_value = rng(0.0, 1.0);
+    float roll_value = rng( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
         FAILURE,

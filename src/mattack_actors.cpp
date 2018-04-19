@@ -230,7 +230,7 @@ bool melee_actor::call( monster &z ) const
 
     damage_instance damage = damage_max_instance;
 
-    double multiplier = rng(min_mul, max_mul);
+    double multiplier = rng( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
     body_part bp_hit = body_parts.empty() ?

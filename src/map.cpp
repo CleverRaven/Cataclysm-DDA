@@ -3514,7 +3514,7 @@ bash_params map::bash( const tripoint &p, const int str,
                        const vehicle *bashing_vehicle )
 {
     bash_params bsh{
-        str, silent, destroy, bash_floor, (float) rng(0, 1.0f), false, false, false
+        str, silent, destroy, bash_floor, (float) rng( 0, 1.0f ), false, false, false
     };
 
     bash_field( p, bsh );
