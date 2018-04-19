@@ -24,7 +24,7 @@ static const itype_id null_itype( "null" );
 tripoint random_perimeter( const tripoint &src, const int radius )
 {
     tripoint dst;
-    calc_ray_end( rng_int( 1, 360 ), radius, src, dst );
+    calc_ray_end(rng(1, 360), radius, src, dst );
     return dst;
 }
 
@@ -88,7 +88,7 @@ void game::do_blast( const tripoint &p, const float power,
     // Find all points to blast
     while( !open.empty() ) {
         // Add some random factor to effective distance to make it look cooler
-        const float distance = open.top().first * rng_float( 1.0f, 1.2f );
+        const float distance = open.top().first * rng(1.0f, 1.2f);
         const tripoint pt = open.top().second;
         open.pop();
 
@@ -223,7 +223,7 @@ void game::do_blast( const tripoint &p, const float power,
         if( pl == nullptr ) {
             // TODO: player's fault?
             const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
-            const int actual_dmg = rng_int( dmg * 2, dmg * 3 );
+            const int actual_dmg = rng(dmg * 2, dmg * 3);
             critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name().c_str(), actual_dmg );
@@ -368,7 +368,7 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
         if( critter && !critter->is_dead_state() ) {
             dealt_projectile_attack frag;
             frag.proj = proj;
-            frag.missed_by = rng_float( 0.2, 0.6 );
+            frag.missed_by = rng(0.2, 0.6);
             frag.proj.impact = damage_instance::physical( 0, kinetic * 3, 0, std::min( kinetic, mass ) );
 
             distrib[ e ] += kinetic; // increase received damage for tile in distribution

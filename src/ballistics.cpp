@@ -263,7 +263,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
-    int projectile_skip_current_frame = rng_int( 0, projectile_skip_calculation );
+    int projectile_skip_current_frame = rng(0, projectile_skip_calculation);
     bool has_momentum = true;
 
     for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
@@ -328,7 +328,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // at the start, misses should stay as misses
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(),
+            cur_missed_by = std::max(rng(0.1, 1.5 - aim.missed_by) / critter->ranged_target_size(),
                                       0.4 );
         }
 

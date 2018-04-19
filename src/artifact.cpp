@@ -612,7 +612,7 @@ std::string new_artifact()
 
         it_artifact_tool def;
 
-        int form = rng_int(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
+        int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
         const artifact_tool_form_datum &info = artifact_tool_form_data[form];
         def.create_name( _( info.name.c_str() ) );
@@ -623,16 +623,16 @@ std::string new_artifact()
         def.weight = rng(info.weight_min, info.weight_max);
         // Set up the basic weapon type
         const artifact_weapon_datum &weapon = artifact_weapon_data[info.base_weapon];
-        def.melee[DT_BASH] = rng_int(weapon.bash_min, weapon.bash_max);
-        def.melee[DT_CUT] = rng_int(weapon.cut_min, weapon.cut_max);
-        def.melee[DT_STAB] = rng_int(weapon.stab_min, weapon.stab_max);
-        def.m_to_hit = rng_int(weapon.to_hit_min, weapon.to_hit_max);
+        def.melee[DT_BASH] = rng(weapon.bash_min, weapon.bash_max);
+        def.melee[DT_CUT] = rng(weapon.cut_min, weapon.cut_max);
+        def.melee[DT_STAB] = rng(weapon.stab_min, weapon.stab_max);
+        def.m_to_hit = rng(weapon.to_hit_min, weapon.to_hit_max);
         if( !weapon.tag.empty() ) {
             def.item_tags.insert(weapon.tag);
         }
         // Add an extra weapon perhaps?
         if (one_in(2)) {
-            int select = rng_int(0, 2);
+            int select = rng(0, 2);
             if (info.extra_weapons[select] != ARTWEAP_NULL) {
                 const artifact_weapon_datum &weapon = artifact_weapon_data[info.extra_weapons[select]];
                 def.volume += weapon.volume;
@@ -731,7 +731,7 @@ std::string new_artifact()
 
         it_artifact_armor def;
 
-        int form = rng_int(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
+        int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
         const artifact_armor_form_datum &info = artifact_armor_form_data[form];
 
         def.create_name( _( info.name.c_str() ) );
@@ -758,7 +758,7 @@ std::string new_artifact()
 
         // Modify the armor further
         if (!one_in(4)) {
-            int index = rng_int(0, 4);
+            int index = rng(0, 4);
             if (info.available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info.available_mods[index];
                 const artifact_armor_form_datum &modinfo = artifact_armor_mod_data[mod];
@@ -955,9 +955,9 @@ std::string architects_cube()
     def.weight = rng(info.weight_min, info.weight_max);
     // Set up the basic weapon type
     const artifact_weapon_datum &weapon = artifact_weapon_data[info.base_weapon];
-    def.melee[DT_BASH] = rng_int(weapon.bash_min, weapon.bash_max);
-    def.melee[DT_CUT] = rng_int(weapon.cut_min, weapon.cut_max);
-    def.m_to_hit = rng_int(weapon.to_hit_min, weapon.to_hit_max);
+    def.melee[DT_BASH] = rng(weapon.bash_min, weapon.bash_max);
+    def.melee[DT_CUT] = rng(weapon.cut_min, weapon.cut_max);
+    def.m_to_hit = rng(weapon.to_hit_min, weapon.to_hit_max);
     if( !weapon.tag.empty() ) {
         def.item_tags.insert(weapon.tag);
     }

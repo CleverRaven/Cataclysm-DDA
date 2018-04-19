@@ -6,7 +6,7 @@ double dispersion_sources::roll() const
 {
     double this_roll = 0.0;
     for( const double &source : linear_sources ) {
-        this_roll += rng_float( 0.0, source );
+        this_roll += rng(0.0, source);
     }
     for( const double &source : normal_sources ) {
         this_roll += rng_normal( source );

@@ -1436,14 +1436,14 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
     while( true ) {
         if( location == DEFLOC_HOSPITAL || location == DEFLOC_MALL ) {
             // Always spawn to the north!
-            pnt = point( rng_int( SEEX * ( MAPSIZE / 2 ), SEEX * ( 1 + MAPSIZE / 2 ) ), SEEY );
+            pnt = point(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)), SEEY );
         } else if( one_in( 2 ) ) {
-            pnt = point( rng_int( SEEX * ( MAPSIZE / 2 ), SEEX * ( 1 + MAPSIZE / 2 ) ), rng_int( 1, SEEY ) );
+            pnt = point(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)), rng(1, SEEY) );
             if( one_in( 2 ) ) {
                 pnt = point( pnt.x, SEEY * MAPSIZE - 1 - pnt.y );
             }
         } else {
-            pnt = point( rng_int( 1, SEEX ), rng_int( SEEY * ( MAPSIZE / 2 ), SEEY * ( 1 + MAPSIZE / 2 ) ) );
+            pnt = point(rng(1, SEEX), rng(SEEY * (MAPSIZE / 2), SEEY * (1 + MAPSIZE / 2)) );
             if( one_in( 2 ) ) {
                 pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
             }

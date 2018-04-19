@@ -547,7 +547,7 @@ void vehicle::smash() {
         }
 
         //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
-        if( mod_hp( part, 0 - ( rng_float( 0.1f, 1.2f ) * part.info().durability ) ), DT_BASH ) {
+        if( mod_hp( part, 0 - (rng(0.1f, 1.2f) * part.info().durability ) ), DT_BASH ) {
             part.ammo_unset();
         }
     }

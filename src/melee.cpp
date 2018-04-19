@@ -506,7 +506,7 @@ int stumble( player &u, const item &weap )
 
 bool player::scored_crit( float target_dodge, const item &weap ) const
 {
-    return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weap );
+    return rng(0, 1.0) < crit_chance( hit_roll(), target_dodge, weap );
 }
 
 /**
@@ -632,7 +632,7 @@ float player::bonus_damage( bool random ) const
 {
     /** @EFFECT_STR increases bashing damage */
     if( random ) {
-        return rng_float( get_str() / 2.0f, get_str() );
+        return rng(get_str() / 2.0f, get_str());
     }
 
     return get_str() * 0.75f;
@@ -704,7 +704,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     /** @EFFECT_STR boosts low cap on bashing damage */
     const float low_cap = std::min( 1.0f, stat / 20.0f );
     const float bash_min = low_cap * weap_dam;
-    weap_dam = average ? (bash_min + weap_dam) * 0.5f : rng_float(bash_min, weap_dam);
+    weap_dam = average ? (bash_min + weap_dam) * 0.5f : rng(bash_min, weap_dam);
 
     bash_dam += weap_dam;
     bash_mul *= mabuff_damage_mult( DT_BASH );

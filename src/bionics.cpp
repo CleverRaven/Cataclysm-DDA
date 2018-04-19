@@ -234,14 +234,14 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg( m_good, _( "Your speed suddenly increases!" ) );
         if( one_in( 3 ) ) {
             add_msg( m_bad, _( "Your muscles tear with the strain." ) );
-            apply_damage( nullptr, bp_arm_l, rng_int( 5, 10 ) );
-            apply_damage( nullptr, bp_arm_r, rng_int( 5, 10 ) );
-            apply_damage( nullptr, bp_leg_l, rng_int( 7, 12 ) );
-            apply_damage( nullptr, bp_leg_r, rng_int( 7, 12 ) );
-            apply_damage( nullptr, bp_torso, rng_int( 5, 15 ) );
+            apply_damage( nullptr, bp_arm_l, rng(5, 10) );
+            apply_damage( nullptr, bp_arm_r, rng(5, 10) );
+            apply_damage( nullptr, bp_leg_l, rng(7, 12) );
+            apply_damage( nullptr, bp_leg_r, rng(7, 12) );
+            apply_damage( nullptr, bp_torso, rng(5, 15) );
         }
         if( one_in( 5 ) ) {
-            add_effect( effect_teleglow, rng_int( 50, 400 ) );
+            add_effect( effect_teleglow, rng(50, 400) );
         }
     } else if( bio.id == "bio_teleport" ) {
         g->teleport();
@@ -789,7 +789,7 @@ void bionics_uninstall_failure( player *u )
             break;
     }
     add_msg( m_bad, _( "Your body is severely damaged!" ) );
-    u->hurtall( rng_int( 30, 80 ), u ); // stop hurting yourself!
+    u->hurtall(rng(30, 80), u ); // stop hurting yourself!
 }
 
 // bionic manipulation chance of success
@@ -916,7 +916,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
     practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
     practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
 
-    int success = chance_of_success - rng_int( 1, 100 );
+    int success = chance_of_success - rng(1, 100);
 
     if( success > 0 ) {
         add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
@@ -1049,7 +1049,7 @@ bool player::install_bionics( const itype &type, int skill_level )
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
     practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
     practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
-    int success = chance_of_success - rng_int( 0, 99 );
+    int success = chance_of_success - rng(0, 99);
     if( success > 0 ) {
         add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
                           pgettext( "memorial_female", "Installed bionic: %s." ),
@@ -1140,7 +1140,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
         // Take MD and be immune to faulty bionics.
         if( fail_type == 5 ) {
-            fail_type = rng_int( 1, 3 );
+            fail_type = rng(1, 3);
         }
     }
 
@@ -1153,13 +1153,13 @@ void bionics_install_failure( player *u, int difficulty, int success )
         case 1:
             if( !( u->has_trait( trait_id( "NOPAIN" ) ) ) ) {
                 add_msg( m_bad, _( "It really hurts!" ) );
-                u->mod_pain( rng_int( failure_level * 3, failure_level * 6 ) );
+                u->mod_pain(rng(failure_level * 3, failure_level * 6) );
             }
             break;
 
         case 2:
             add_msg( m_bad, _( "Your body is damaged!" ) );
-            u->hurtall( rng_int( failure_level, failure_level * 2 ), u ); // you hurt yourself
+            u->hurtall(rng(failure_level, failure_level * 2), u ); // you hurt yourself
             break;
 
         case 3:
@@ -1186,7 +1186,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
                 if( u->max_power_level > 0 ) {
                     int old_power = u->max_power_level;
                     add_msg( m_bad, _( "You lose power capacity!" ) );
-                    u->max_power_level = rng_int( 0, u->max_power_level - 25 );
+                    u->max_power_level = rng(0, u->max_power_level - 25);
                     u->add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                          pgettext( "memorial_female", "Lost %d units of power capacity." ),
                                          old_power - u->max_power_level );
@@ -1389,7 +1389,7 @@ bool player::remove_random_bionic()
 {
     const int numb = num_bionics();
     if( numb ) {
-        int rem = rng_int( 0, num_bionics() - 1 );
+        int rem = rng(0, num_bionics() - 1);
         const auto bionic = ( *my_bionics )[rem];
         remove_bionic( bionic.id );
         add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );

@@ -376,8 +376,8 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     }
 
     // Stabbing effects
-    int stab_moves = rng_int( d.type_damage(DT_STAB) / 2,
-                              d.type_damage(DT_STAB) * 1.5 );
+    int stab_moves = rng(d.type_damage(DT_STAB) / 2,
+                         d.type_damage(DT_STAB) * 1.5);
     if (critical_hit) {
         stab_moves *= 1.5;
     }
@@ -454,7 +454,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     body_part bp_hit;
-    double hit_value = missed_by + rng_float(-0.5, 0.5);
+    double hit_value = missed_by + rng(-0.5, 0.5);
     // Headshots considered elsewhere
     if( hit_value <= 0.4 ) {
         bp_hit = bp_torso;
@@ -480,26 +480,26 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
-        damage_mult *= rng_float(1.95, 2.05);
+        damage_mult *= rng(1.95, 2.05);
         bp_hit = bp_head; // headshot hits the head, of course
 
     } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
-        damage_mult *= rng_float(1.5, 2.0);
+        damage_mult *= rng(1.5, 2.0);
 
     } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
         gmtSCTcolor = m_good;
-        damage_mult *= rng_float(1, 1.5);
+        damage_mult *= rng(1, 1.5);
 
     } else if( goodhit < accuracy_standard ) {
-        damage_mult *= rng_float(0.5, 1);
+        damage_mult *= rng(0.5, 1);
 
     } else if( goodhit < accuracy_grazing ) {
         message = _("Grazing hit.");
         gmtSCTcolor = m_grazing;
-        damage_mult *= rng_float(0, .25);
+        damage_mult *= rng(0, .25);
     }
 
     if( source != nullptr && !message.empty() ) {
@@ -531,32 +531,32 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng_int(8, 20), bp_hit );
+            add_effect( effect_onfire, rng(8, 20), bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng_int(5, 10), bp_hit );
+            add_effect( effect_onfire, rng(5, 10), bp_hit );
         }
     } else if (proj.proj_effects.count("INCENDIARY") ) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng_int(2, 6), bp_hit );
+            add_effect( effect_onfire, rng(2, 6), bp_hit );
         } else if ( (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) &&
                     one_in(4) ) {
-            add_effect( effect_onfire, rng_int(1, 4), bp_hit );
+            add_effect( effect_onfire, rng(1, 4), bp_hit );
         }
     } else if (proj.proj_effects.count("IGNITE")) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng_int(6, 6), bp_hit );
+            add_effect( effect_onfire, rng(6, 6), bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng_int(10, 10), bp_hit );
+            add_effect( effect_onfire, rng(10, 10), bp_hit );
         }
     }
 
     if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        add_env_effect( effect_blind, bp_eyes, 5, rng_int( 3, 10 ) );
+        add_env_effect( effect_blind, bp_eyes, 5, rng(3, 10) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
@@ -588,7 +588,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             stun_strength /= 4;
             break;
         }
-        add_effect( effect_stunned, rng_int(stun_strength / 2, stun_strength) );
+        add_effect( effect_stunned, rng(stun_strength / 2, stun_strength) );
     }
 
     if(u_see_this) {
@@ -694,7 +694,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng_int( 1, 3 ), bp );
+                add_effect( effect_onfire, rng(1, 3), bp );
             }
             break;
 

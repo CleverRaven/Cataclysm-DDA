@@ -6,9 +6,8 @@
 
 #include <functional>
 
-int rng_int( int val1, int val2 );
-long rng( long val1, long val2 );
-double rng_float( double val1, double val2 );
+template<class T>
+const T& rng(const T& val1, const T& val2);
 bool one_in( int chance );
 bool one_in_improved( double chance );
 bool x_in_y( double x, double y );

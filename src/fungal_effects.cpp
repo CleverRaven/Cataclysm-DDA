@@ -35,8 +35,8 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
-            critter.add_effect( effect_stunned, rng_int( 1, 3 ) );
-            critter.apply_damage( origin, bp_torso, rng_int( 25, 50 ) );
+            critter.add_effect( effect_stunned, rng(1, 3) );
+            critter.apply_damage( origin, bp_torso, rng(25, 50) );
         }
     } else if( gm.u.pos() == sporep ) {
         player &pl = gm.u; // TODO: Make this accept NPCs when they understand fungals

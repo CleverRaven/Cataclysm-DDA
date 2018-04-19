@@ -3262,8 +3262,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                         if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                             monster &critter = *mon_ptr;
                             critter.set_speed_base(
-                                critter.get_speed_base() * rng_float(1.1, 2.0) );
-                            critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
+                                critter.get_speed_base() * rng(1.1, 2.0) );
+                            critter.set_hp( critter.get_hp() * rng(1.1, 2.0) );
                         } else if( npc * const person = g->critter_at<npc>( dest ) ) {
                             /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
                             buff_stat(person->str_max, rng(0, person->str_max / 2));
