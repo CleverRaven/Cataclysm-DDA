@@ -9,7 +9,6 @@
 #include "int_id.h"
 #include "cursesdef.h"
 #include "pimpl.h"
-#include "string_id.h"
 
 #include <array>
 #include <vector>
