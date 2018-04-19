@@ -128,21 +128,12 @@ bool field_type_dangerous( field_id id );
  * An active or passive effect existing on a tile.
  * Each effect can vary in intensity (density) and age (usually used as a time to live).
  */
-class field_entry {
-public:
-    field_entry() {
-      type = fd_null;
-      density = 1;
-      age = 0;
-      is_alive = false;
-    };
-
-    field_entry(field_id t, int d, int a) {
-        type = t;
-        density = d;
-        age = a;
-        is_alive = true;
-    }
+class field_entry
+{
+    public:
+        field_entry() : type( fd_null ), density( 1 ), age( 0 ), is_alive( false ) { }
+        field_entry( const field_id t, const int d, const int a ) : type( t ), density( d ), age( a ),
+            is_alive( true ) { }
 
     nc_color color() const;
 
