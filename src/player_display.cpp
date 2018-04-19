@@ -75,8 +75,20 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
-        out = string_format( "%-7s", body_part_name_as_heading( all_body_parts[bp],
-                             combine ? 2 : 1 ).c_str() );
+        // @todo: utf8 aware printf would be nice... this works well enough for now
+        out = body_part_name_as_heading( all_body_parts[bp],
+                                         combine ? 2 : 1 ).c_str();
+
+        int len = 7 - utf8_width( out );
+        switch( sgn( len ) ) {
+            case -1:
+                out = utf8_truncate( out, 7 );
+                break;
+            case 1:
+                out = out + std::string( len, ' ' );
+                break;
+        }
+
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
         nc_color limb_color = ( orig_line == bp ) ?
