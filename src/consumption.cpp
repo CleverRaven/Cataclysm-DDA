@@ -512,7 +512,7 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
-            add_effect( effect_foodpoison, rng( 60, ( nutr + 1 ) * 60 ) );
+            add_effect( effect_foodpoison, rng_int( 60, ( nutr + 1 ) * 60 ) );
         }
         consume_effects( food );
     } else if( spoiled && saprophage ) {
@@ -578,13 +578,13 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
-        charge_power( rng( 50, 200 ) );
+        charge_power( rng_int( 50, 200 ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
-        charge_power( rng( 25, 100 ) );
+        charge_power( rng_int( 25, 100 ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
-        charge_power( rng( 75, 300 ) );
+        charge_power( rng_int( 75, 300 ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
