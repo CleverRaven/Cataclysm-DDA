@@ -534,7 +534,7 @@ const std::string calendar::name_season( season_type s )
 
 time_duration rng( time_duration lo, time_duration hi )
 {
-    return time_duration( rng( lo.turns_, hi.turns_ ) );
+    return time_duration( rng_int( lo.turns_, hi.turns_ ) );
 }
 
 bool x_in_y( const time_duration &a, const time_duration &b )
