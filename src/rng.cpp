@@ -8,6 +8,13 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+int rng_int( int val1, int val2 )
+{
+    int minVal = ( val1 < val2 ) ? val1 : val2;
+    int maxVal = ( val1 < val2 ) ? val2 : val1;
+    return minVal + int( ( maxVal - minVal + 1 ) * double( rand() / double( RAND_MAX + 1.0 ) ) );
+}
+
 long rng( long val1, long val2 )
 {
     long minVal = ( val1 < val2 ) ? val1 : val2;

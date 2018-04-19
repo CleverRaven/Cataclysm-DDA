@@ -6,6 +6,7 @@
 
 #include <functional>
 
+int rng_int( int val1, int val2 );
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );
