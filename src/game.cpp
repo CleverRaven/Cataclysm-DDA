@@ -1593,9 +1593,9 @@ void game::process_activity()
 
 void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &pos, player *p, int catch_duration) // catching function
 {
-    int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
+    int index = rng_int(1, (int)catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
-    m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
+    m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + rng_int( 0, catch_duration ) ) );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the caught
     catchables[index]->no_corpse_quiet = true;
@@ -2217,8 +2217,8 @@ input_context game::get_player_input(std::string &action)
                 wPrint.vdrops.clear();
 
                 for( int i = 0; i < dropCount; i++ ) {
-                    const int iRandX = rng( iStartX, iEndX - 1 );
-                    const int iRandY = rng( iStartY, iEndY - 1 );
+                    const int iRandX = rng_int( iStartX, iEndX - 1 );
+                    const int iRandY = rng_int( iStartY, iEndY - 1 );
                     const int mapx = iRandX + offset_x;
                     const int mapy = iRandY + offset_y;
 
@@ -5946,7 +5946,7 @@ void game::resonance_cascade( const tripoint &p )
         minglow = 0;
     }
     if (maxglow > 0) {
-        u.add_effect( effect_teleglow, rng(minglow, maxglow) * 100);
+        u.add_effect( effect_teleglow, rng_int(minglow, maxglow) * 100);
     }
     int startx = (p.x < 8 ? 0 : p.x - 8), endx = (p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8);
     int starty = (p.y < 8 ? 0 : p.y - 8), endy = (p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8);
@@ -6046,7 +6046,7 @@ void game::emp_blast( const tripoint &p )
     }
     // TODO: More terrain effects.
     if (m.ter(x, y) == t_card_science || m.ter(x, y) == t_card_military) {
-        rn = rng(1, 100);
+        rn = rng_int(1, 100);
         if (rn > 92 || rn < 40) {
             add_msg(_("The card reader is rendered non-functional."));
             m.ter_set(x, y, t_card_reader_broken);
@@ -6108,7 +6108,7 @@ void game::emp_blast( const tripoint &p )
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
             int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
-            u.charge_power(-rng(1 + max_drain / 3, max_drain));
+            u.charge_power(-rng_int(1 + max_drain / 3, max_drain));
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -6266,7 +6266,7 @@ bool game::spawn_hallucination()
 {
     monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
     phantasm.hallucination = true;
-    phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
+    phantasm.spawn({u.posx() + rng_int(-10, 10), u.posy() + rng_int(-10, 10), u.posz()});
 
     //Don't attempt to place phantasms inside of other creatures
     if( !critter_at( phantasm.pos(), true ) ) {
@@ -6532,7 +6532,7 @@ void game::smash()
         u.mod_stat("stamina", mod_sta);
 
         if (u.get_skill_level( skill_melee ) == 0) {
-            u.practice( skill_melee, rng(0, 1) * rng(0, 1));
+            u.practice( skill_melee, rng_int(0, 1) * rng_int(0, 1));
         }
         const int vol = u.weapon.volume() / units::legacy_volume_factor;
         if (u.weapon.made_of( material_id( "glass" ) ) &&
@@ -6631,8 +6631,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
     for (int i = 0; i < 20; i++) {
-        const int x_ = x + rng(-1, +1);
-        const int y_ = y + rng(-1, +1);
+        const int x_ = x + rng_int(-1, +1);
+        const int y_ = y + rng_int(-1, +1);
         if (is_empty({x_, y_, get_levz()})) {
             // invert direction, as game::knockback needs
             // the source of the force that knocks back
@@ -10893,8 +10893,8 @@ bool game::plmove(int dx, int dy, int dz)
 
     tripoint dest_loc;
     if( dz == 0 && u.has_effect( effect_stunned ) ) {
-        dest_loc.x = rng(u.posx() - 1, u.posx() + 1);
-        dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
+        dest_loc.x = rng_int(u.posx() - 1, u.posx() + 1);
+        dest_loc.y = rng_int(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
         if( tile_iso && use_tiles && !u.has_destination() ) {
@@ -11971,7 +11971,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             monster &critter = *mon_ptr;
             // Approximate critter's "stopping power" with its max hp
             force = std::min<float>( 1.5f * critter.type->hp, flvel );
-            const int damage = rng( force, force * 2.0f ) / 6;
+            const int damage = rng_int( force, force * 2.0f ) / 6;
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
             const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
@@ -11997,7 +11997,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             } else {
                 force = std::min<float>( m.bash_strength( pt ), flvel );
             }
-            const int damage = rng( force, force * 2.0f ) / 9;
+            const int damage = rng_int( force, force * 2.0f ) / 9;
             c->impact( damage, pt );
             if( m.is_bashable( pt ) ) {
                 // Only go through if we successfully make the tile passable
@@ -12046,7 +12046,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     // Fall down to the ground - always on the last reached tile
     if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
         // Fall on ground
-        int force = rng( flvel, flvel * 2 ) / 9;
+        int force = rng_int( flvel, flvel * 2 ) / 9;
         if( controlled ) {
             force = std::max( force / 2 - 5, 0 );
         }
@@ -12354,7 +12354,7 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( m.ter( stairs ) == t_manhole_cover ) {
-        m.spawn_item( stairs + point( rng(-1, 1), rng(-1, 1) ), "manhole_cover" );
+        m.spawn_item( stairs + point( rng_int(-1, 1), rng_int(-1, 1) ), "manhole_cover" );
         m.ter_set( stairs, t_manhole );
     }
 
@@ -12657,8 +12657,8 @@ void game::replace_stair_monsters()
                 break;
             }
 
-            spawn_point.x = elem.posx() + rng( -10, 10 );
-            spawn_point.y = elem.posy() + rng( -10, 10 );
+            spawn_point.x = elem.posx() + rng_int( -10, 10 );
+            spawn_point.y = elem.posy() + rng_int( -10, 10 );
         }
     }
 
@@ -12797,7 +12797,7 @@ void game::update_stair_monsters()
             critter.spawn( dest );
             while (tries < creature_push_attempts) {
                 tries++;
-                pushx = rng(-1, 1), pushy = rng(-1, 1);
+                pushx = rng_int(-1, 1), pushy = rng_int(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
                 tripoint pos( iposx, iposy, get_levz() );
@@ -12856,8 +12856,8 @@ void game::update_stair_monsters()
             int pushy = 0;
             while( tries < creature_push_attempts ) {
                 tries++;
-                pushx = rng(-1, 1);
-                pushy = rng(-1, 1);
+                pushx = rng_int(-1, 1);
+                pushy = rng_int(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
                 tripoint pos( iposx, iposy, get_levz() );
@@ -13056,8 +13056,8 @@ void game::teleport(player *p, bool add_teleglow)
         p->add_effect( effect_teleglow, 300);
     }
     do {
-        new_pos.x = p->posx() + rng(0, SEEX * 2) - SEEX;
-        new_pos.y = p->posy() + rng(0, SEEY * 2) - SEEY;
+        new_pos.x = p->posx() + rng_int(0, SEEX * 2) - SEEX;
+        new_pos.y = p->posy() + rng_int(0, SEEY * 2) - SEEY;
         tries++;
     } while ( tries < 15 && m.impassable( new_pos ) );
     bool can_see = ( is_u || u.sees( new_pos ) );
@@ -13121,7 +13121,7 @@ void game::nuke( const tripoint &p )
             if (one_in(3)) {
                 tmpmap.add_field( dest, fd_nuke_gas, 3, 0 );
             }
-            tmpmap.adjust_radiation( dest, rng(20, 80));
+            tmpmap.adjust_radiation( dest, rng_int(20, 80));
         }
     }
     tmpmap.save();
@@ -13291,7 +13291,7 @@ void game::process_artifact( item &it, player &p )
             case ARTC_PAIN:
                 if( calendar::once_every( 1_minutes ) ) {
                     add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p.mod_pain_noresist( 3 * rng( 1, 3 ) );
+                    p.mod_pain_noresist( 3 * rng_int( 1, 3 ) );
                     it.charges++;
                 }
                 break;
@@ -13337,10 +13337,10 @@ void game::process_artifact( item &it, player &p )
 
         case AEP_SMOKE:
             if( one_in( 10 ) ) {
-                tripoint pt( p.posx() + rng( -1, 1 ),
-                             p.posy() + rng( -1, 1 ),
+                tripoint pt( p.posx() + rng_int( -1, 1 ),
+                             p.posy() + rng_int( -1, 1 ),
                              p.posz() );
-                m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
+                m.add_field( pt, fd_smoke, rng_int( 1, 3 ), 0 );
             }
             break;
 
