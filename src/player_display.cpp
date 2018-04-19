@@ -809,7 +809,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 break;
             }
             case 4: // Traits tab
-                mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces.c_str() );
+                werase( w_traits );
+                mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces );
                 center_print( w_traits, 0, h_light_gray, title_TRAITS );
                 if( line <= ( trait_win_size_y - 1 ) / 2 ) {
                     min = 0;
@@ -822,7 +823,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     max = traitslist.size();
                 } else {
                     min = line - ( trait_win_size_y - 1 ) / 2;
-                    max = line + ( trait_win_size_y + 1 ) / 2;
+                    max = line + trait_win_size_y / 2 + 1;
                     if( traitslist.size() < max ) {
                         max = traitslist.size();
                     }
@@ -830,7 +831,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                 for( size_t i = min; i < max; i++ ) {
                     const auto &mdata = traitslist[i].obj();
-                    mvwprintz( w_traits, int( 1 + i - min ), 1, c_light_gray, "                         " );
                     const auto color = mdata.get_display_color();
                     trim_and_print( w_traits, int( 1 + i - min ), 1, getmaxx( w_traits ) - 1,
                                     i == line ? hilite( color ) : color, mdata.name );

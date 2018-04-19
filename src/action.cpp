@@ -12,6 +12,7 @@
 #include "translations.h"
 #include "input.h"
 #include "crafting.h"
+#include "map_iterator.h"
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
@@ -599,34 +600,28 @@ action_id handle_action_menu()
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz();
-            const tripoint pos( x, y, z );
-            if( dx != 0 || dy != 0 ) {
-                // Check for actions that work on nearby tiles
-                if( can_interact_at( ACTION_OPEN, pos ) ) {
-                    action_weightings[ACTION_OPEN] = 200;
-                }
-                if( can_interact_at( ACTION_CLOSE, pos ) ) {
-                    action_weightings[ACTION_CLOSE] = 200;
-                }
-                if( can_interact_at( ACTION_EXAMINE, pos ) ) {
-                    action_weightings[ACTION_EXAMINE] = 200;
-                }
-            } else {
-                // Check for actions that work on own tile only
-                if( can_interact_at( ACTION_BUTCHER, pos ) ) {
-                    action_weightings[ACTION_BUTCHER] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
-                    action_weightings[ACTION_MOVE_UP] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
-                    action_weightings[ACTION_MOVE_DOWN] = 200;
-                }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( pos != g->u.pos() ) {
+            // Check for actions that work on nearby tiles
+            if( can_interact_at( ACTION_OPEN, pos ) ) {
+                action_weightings[ACTION_OPEN] = 200;
+            }
+            if( can_interact_at( ACTION_CLOSE, pos ) ) {
+                action_weightings[ACTION_CLOSE] = 200;
+            }
+            if( can_interact_at( ACTION_EXAMINE, pos ) ) {
+                action_weightings[ACTION_EXAMINE] = 200;
+            }
+        } else {
+            // Check for actions that work on own tile only
+            if( can_interact_at( ACTION_BUTCHER, pos ) ) {
+                action_weightings[ACTION_BUTCHER] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
+                action_weightings[ACTION_MOVE_UP] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
+                action_weightings[ACTION_MOVE_DOWN] = 200;
             }
         }
     }
@@ -944,18 +939,11 @@ bool choose_adjacent_highlight( std::string message, tripoint &p,
 {
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz(); // TODO: Z
-            tripoint pos( x, y, z );
-
-            if( can_interact_at( action_to_highlight, pos ) ) {
-                highlighted = true;
-                g->m.drawsq( g->w_terrain, g->u, pos,
-                             true, true, g->u.pos() + g->u.view_offset );
-            }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( can_interact_at( action_to_highlight, pos ) ) {
+            highlighted = true;
+            g->m.drawsq( g->w_terrain, g->u, pos,
+                         true, true, g->u.pos() + g->u.view_offset );
         }
     }
     if( highlighted ) {

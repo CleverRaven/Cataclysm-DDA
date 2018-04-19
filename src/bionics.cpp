@@ -218,13 +218,10 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
         sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
-        for( int i = posx() - 1; i <= posx() + 1; i++ ) {
-            for( int j = posy() - 1; j <= posy() + 1; j++ ) {
-                tripoint bashpoint( i, j, posz() );
-                g->m.bash( bashpoint, 110 );
-                g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( bashpoint, 110 );
-            }
+        for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
+            g->m.bash( bashpoint, 110 );
+            g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
+            g->m.bash( bashpoint, 110 );
         }
 
         mod_moves( -100 );

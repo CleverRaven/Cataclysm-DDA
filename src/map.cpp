@@ -1406,29 +1406,24 @@ bool map::displace_water( const tripoint &p )
                 sel_place = rng( 0, dis_places - 1 );
                 dis_places = 0;
             }
-            tripoint temp( p );
-            int &tx = temp.x;
-            int &ty = temp.y;
-            for( tx = p.x - 1; tx <= p.x + 1; tx++ ) {
-                for( ty = p.y -1; ty <= p.y + 1; ty++ ) {
-                    if( ( tx != p.x && ty != p.y )
-                            || impassable_ter_furn( temp )
-                            || has_flag( TFLAG_DEEP_WATER, temp ) ) {
-                        continue;
-                    }
-                    ter_id ter0 = ter( temp );
-                    if( ter0 == t_water_sh ||
-                        ter0 == t_water_dp) {
-                        continue;
-                    }
-                    if( pass != 0 && dis_places == sel_place ) {
-                        ter_set( temp, t_water_sh );
-                        ter_set( temp, t_dirt );
-                        return true;
-                    }
-
-                    dis_places++;
+            for( const tripoint &temp : points_in_radius( p, 1 ) ) {
+                if( temp != p
+                        || impassable_ter_furn( temp )
+                        || has_flag( TFLAG_DEEP_WATER, temp ) ) {
+                    continue;
                 }
+                ter_id ter0 = ter( temp );
+                if( ter0 == t_water_sh ||
+                    ter0 == t_water_dp) {
+                    continue;
+                }
+                if( pass != 0 && dis_places == sel_place ) {
+                    ter_set( temp, t_water_sh );
+                    ter_set( temp, t_dirt );
+                    return true;
+                }
+
+                dis_places++;
             }
         }
     }
@@ -3000,15 +2995,12 @@ bool map::has_adjacent_furniture( const tripoint &p )
 
 bool map::has_nearby_fire( const tripoint &p, int radius )
 {
-    for(int dx = -radius; dx <= radius; dx++) {
-        for(int dy = -radius; dy <= radius; dy++) {
-            const tripoint pt( p.x + dx, p.y + dy, p.z );
-            if( get_field( pt, fd_fire ) != nullptr ) {
-                return true;
-            }
-            if (ter(pt) == t_lava) {
-                return true;
-            }
+    for( const tripoint &pt : points_in_radius( p, radius ) ) {
+        if( get_field( pt, fd_fire ) != nullptr ) {
+            return true;
+        }
+        if (ter(pt) == t_lava) {
+            return true;
         }
     }
     return false;
@@ -4908,15 +4900,10 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
-        tripoint p( origin.x - radius, origin.y - radius, origin.z );
-        int &x = p.x;
-        int &y = p.y;
-        for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
-            for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                if( rl_dist( origin, p ) >= radius ) {
-                    std::list<item> tmp = use_amount_square( p , type, quantity );
-                    ret.splice( ret.end(), tmp );
-                }
+        for( const tripoint &p : points_in_radius( origin, radius ) ) {
+            if( rl_dist( origin, p ) >= radius ) {
+                std::list<item> tmp = use_amount_square( p, type, quantity );
+                ret.splice( ret.end(), tmp );
             }
         }
     }

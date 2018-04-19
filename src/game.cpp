@@ -4623,7 +4623,7 @@ void game::draw_sidebar()
         mvwprintz( w_location, 0, 18, weather_data( weather ).color, weather_data( weather ).name );
     }
 
-    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
@@ -13348,10 +13348,8 @@ void game::process_artifact( item &it, player &p )
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-                for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                    m.adjust_field_age( tripoint( x, y, p.posz() ), fd_fire, -1 );
-                }
+            for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                m.adjust_field_age( dest, fd_fire, -1 );
             }
             break;
 
