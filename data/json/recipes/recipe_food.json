@@ -4202,7 +4202,6 @@
   ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
     ]
