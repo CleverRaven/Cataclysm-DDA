@@ -1736,20 +1736,20 @@ int game::kill_count( const mtype_id& mon )
     return 0;
 }
 
-int game::species_kill_count( const species_id& spec )
+int game::kill_count( const species_id &spec )
 {
-    if( species_kills.find( spec ) != species_kills.end() ) {
-        return species_kills[spec];
+    int result = 0;
+    for( const auto &pair : kills ) {
+        if( pair.first->in_species( spec ) ) {
+            result += pair.second;
+        }
     }
-    return 0;
+    return result;
 }
 
-void game::increase_kill_count( const mtype_id& id, const species_id& spec )
+void game::increase_kill_count( const mtype_id& id )
 {
     kills[id]++;
-    if( id.obj().in_species( spec ) ) {
-        species_kills[spec]++;
-    }
 }
 
 void game::record_npc_kill( const npc &p )

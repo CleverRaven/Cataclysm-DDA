@@ -490,11 +490,9 @@ class game
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id &id );
         /** Returns the number of kills of the given monster species by the player. */
-        int species_kill_count( const species_id &spec );
-        /** Increments the number of kills of the given mtype_id by the player upwards.
-         * Species defaults to ZOMBIE.
-         */
-        void increase_kill_count( const mtype_id &id, const species_id &spec = species_id( "ZOMBIE" ) );
+        int kill_count( const species_id &spec );
+        /** Increments the number of kills of the given mtype_id by the player upwards. */
+        void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
 
@@ -1049,7 +1047,6 @@ class game
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
         std::map<mtype_id, int> kills;         // Player's kill count
-        std::map<species_id, int> species_kills;
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
         time_t last_save_timestamp;
