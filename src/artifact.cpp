@@ -383,7 +383,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
 static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
     {
         "", '*', def_c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
-        {{ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}}
+        {{NUM_ARTWEAPS, NUM_ARTWEAPS, NUM_ARTWEAPS}}
     },
 
     {
@@ -398,17 +398,17 @@ static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_too
 
     {
         translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
-        {{ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}}
+        {{ARTWEAP_BULK, NUM_ARTWEAPS, NUM_ARTWEAPS}}
     },
 
     {
         translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
-        {{ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}}
+        {{NUM_ARTWEAPS, NUM_ARTWEAPS, NUM_ARTWEAPS}}
     },
 
     {
         translate_marker( "Cube" ), '*', def_c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
-        {{ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}}
+        {{ARTWEAP_SPEAR, NUM_ARTWEAPS, NUM_ARTWEAPS}}
     }
 } };
 static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_data = { {
@@ -633,7 +633,7 @@ std::string new_artifact()
         // Add an extra weapon perhaps?
         if (one_in(2)) {
             int select = rng(0, 2);
-            if (info.extra_weapons[select] != ARTWEAP_NULL) {
+            if (info.extra_weapons[select] != NUM_ARTWEAPS) {
                 const artifact_weapon_datum &weapon = artifact_weapon_data[info.extra_weapons[select]];
                 def.volume += weapon.volume;
                 def.weight += weapon.weight;
