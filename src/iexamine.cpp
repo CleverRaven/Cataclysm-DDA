@@ -916,18 +916,16 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         furn_id center_floor =
             dropped == "large_tent_kit" ? f_center_groundsheet : floor;
         // Traversing all the tiles this tent occupies
-        for( int i = -radius; i <= radius; i++ ) {
-            for( int j = -radius; j <= radius; j++ ) {
-                const furn_id &furn_here = g->m.furn( examp.x + i, examp.y + j );
-                if( i != -radius && i != radius && j != -radius && j != radius ) {
-                    // So we are inside the tent
-                    if( furn_here != floor && furn_here != center_floor ) {
-                        return false;
-                    }
-                } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
-                    // We are on the border of the tent
+        for( const tripoint &dest : g->m.points_in_radius( examp, radius ) ) {
+            const furn_id &furn_here = g->m.furn( dest );
+            if( square_dist( dest, examp ) < radius ) {
+                // So we are inside the tent
+                if( furn_here != floor && furn_here != center_floor ) {
                     return false;
                 }
+            } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
+                // We are on the border of the tent
+                return false;
             }
         }
         return true;
@@ -2999,19 +2997,11 @@ void iexamine::sign(player &p, const tripoint &examp)
 
 static int getNearPumpCount(const tripoint &p)
 {
-    const int radius = 12;
-
     int result = 0;
-
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for (i = p.x - radius; i <= p.x + radius; i++) {
-        for (j = p.y - radius; j <= p.y + radius; j++) {
-            const auto t = g->m.ter( tmp );
-            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
-                result++;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
+        const auto t = g->m.ter( tmp );
+        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+            result++;
         }
     }
     return result;
@@ -3019,37 +3009,30 @@ static int getNearPumpCount(const tripoint &p)
 
 static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
 {
-    const int radius = 24;
-
     tripoint tank_loc = tripoint_min;
-    int distance = radius + 1;
+    int distance = INT_MAX;
     gas_units = 0;
 
-    tripoint tmp = center;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for (i = center.x - radius; i <= center.x + radius; i++) {
-        for (j = center.y - radius; j <= center.y + radius; j++) {
-            if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
-                continue;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( center, 24 ) ) {
+        if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
+            continue;
+        }
 
-            int new_distance = rl_dist( center, tmp );
+        const int new_distance = rl_dist( center, tmp );
 
-            if( new_distance >= distance ) {
-                continue;
-            }
-            if( tank_loc == tripoint_min ) {
-                // Return a potentially empty tank, but only if we don't find a closer full one.
+        if( new_distance >= distance ) {
+            continue;
+        }
+        if( tank_loc == tripoint_min ) {
+            // Return a potentially empty tank, but only if we don't find a closer full one.
+            tank_loc = tmp;
+        }
+        for( auto &k : g->m.i_at(tmp)) {
+            if(k.made_of(LIQUID)) {
+                distance = new_distance;
                 tank_loc = tmp;
-            }
-            for( auto &k : g->m.i_at(tmp)) {
-                if(k.made_of(LIQUID)) {
-                    distance = new_distance;
-                    tank_loc = tmp;
-                    gas_units = k.charges;
-                    break;
-                }
+                gas_units = k.charges;
+                break;
             }
         }
     }
@@ -3134,22 +3117,13 @@ static long getGasPricePerLiter( int discount )
 
 static tripoint getGasPumpByNumber( const tripoint &p, int number )
 {
-    const int radius = 12;
-
     int k = 0;
-
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p.x - radius; i <= p.x + radius; i++ ) {
-        for( j = p.y - radius; j <= p.y + radius; j++ ) {
-            const auto t = g->m.ter( tmp );
-            if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
-                return tmp;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
+        const auto t = g->m.ter( tmp );
+        if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
+            return tmp;
         }
     }
-
     return tripoint_min;
 }
 
@@ -3215,21 +3189,14 @@ static long fromPumpFuel( const tripoint &dst, const tripoint &src )
 
 static void turnOnSelectedPump( const tripoint &p, int number )
 {
-    const int radius = 12;
-
     int k = 0;
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p.x - radius; i <= p.x + radius; i++ ) {
-        for( j = p.y - radius; j <= p.y + radius; j++ ) {
-            const auto t = g->m.ter( tmp );
-            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
-                if( number == k++ ) {
-                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
-                } else {
-                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
-                }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
+        const auto t = g->m.ter( tmp );
+        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+            if( number == k++ ) {
+                g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
+            } else {
+                g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
             }
         }
     }

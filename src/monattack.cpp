@@ -1454,22 +1454,18 @@ bool mattack::fungus(monster *z)
     }
 
     fungal_effects fe( *g, g->m );
-    for (int i = -radius; i <= radius; i++) {
-        for (int j = -radius; j <= radius; j++) {
-            if( i == 0 && j == 0 ) {
-                continue;
-            }
-
-            tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
-            const int dist = rl_dist( z->pos(), sporep );
-            if( !one_in( dist ) ||
-                g->m.impassable(sporep) ||
-                ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
-                continue;
-            }
-
-            fe.fungalize( sporep, z, spore_chance );
+    for( const tripoint &sporep : g->m.points_in_radius( z->pos(), radius ) ) {
+        if( sporep == z->pos() ) {
+            continue;
         }
+        const int dist = rl_dist( z->pos(), sporep );
+        if( !one_in( dist ) ||
+            g->m.impassable(sporep) ||
+            ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
+            continue;
+        }
+
+        fe.fungalize( sporep, z, spore_chance );
     }
 
     return true;

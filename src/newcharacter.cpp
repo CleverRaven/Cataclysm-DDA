@@ -612,6 +612,8 @@ bool player::create(character_type type, std::string tempname)
             }
         }
         if( !styles.empty() ) {
+            werase( w );
+            wrefresh( w );
             const auto ma_type = choose_ma_style( type, styles );
             ma_styles.push_back( ma_type );
             style_selected = ma_type;

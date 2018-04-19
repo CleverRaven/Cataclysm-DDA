@@ -23,6 +23,7 @@
 #include "mtype.h"
 #include "emit.h"
 #include "scent_map.h"
+#include "map_iterator.h"
 
 #include <queue>
 
@@ -586,12 +587,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
         field_entry &cur, const tripoint &p, field_id curtype,
         int percent_spread, int outdoor_age_speedup ) {
         // Reset nearby scents to zero
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 1; tmp.x <= p.x + 1; tmp.x++ ) {
-            for( tmp.y = p.y - 1; tmp.y <= p.y + 1; tmp.y++ ) {
-                g->scent.set( tmp, 0 );
-            }
+        for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
+            g->scent.set( tmp, 0 );
         }
 
         const int current_density = cur.getFieldDensity();
@@ -1280,16 +1277,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_gas_vent:
                     {
                         dirty_transparency_cache = true;
-                        for( int i = -1; i <= 1; i++ ) {
-                            for( int j = -1; j <= 1; j++ ) {
-                                const tripoint pnt( p.x + i, p.y + j, p.z );
-                                field &wandering_field = get_field( pnt );
-                                tmpfld = wandering_field.findField(fd_toxic_gas);
-                                if (tmpfld && tmpfld->getFieldDensity() < 3) {
-                                    tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-                                } else {
-                                    add_field( pnt, fd_toxic_gas, 3, 0 );
-                                }
+                        for( const tripoint &pnt : points_in_radius( p, 1 ) ) {
+                            field &wandering_field = get_field( pnt );
+                            tmpfld = wandering_field.findField(fd_toxic_gas);
+                            if (tmpfld && tmpfld->getFieldDensity() < 3) {
+                                tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
+                            } else {
+                                add_field( pnt, fd_toxic_gas, 3, 0 );
                             }
                         }
                     }
@@ -1338,14 +1332,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                             } else {    // We're not grounded; attempt to ground
-                                for (int a = -1; a <= 1; a++) {
-                                    for (int b = -1; b <= 1; b++) {
-                                        tripoint dst( p.x + a, p.y + b, p.z );
-                                        if( impassable( dst ) ) // Grounded tiles first
-
-                                        {
-                                            valid.push_back( dst );
-                                        }
+                                for( const tripoint &dst : points_in_radius( p, 1 ) ) {
+                                    if( impassable( dst ) ) { // Grounded tiles first
+                                        valid.push_back( dst );
                                     }
                                 }
                                 if( valid.empty() ) {    // Spread to adjacent space, then
@@ -1396,15 +1385,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 tmp.set_age( 0_turns );
                                 pushee = items.erase( pushee );
                                 std::vector<tripoint> valid;
-                                tripoint dst;
-                                dst.z = p.z;
-                                int &xx = dst.x;
-                                int &yy = dst.y;
-                                for( xx = p.x - 1; xx <= p.x + 1; xx++ ) {
-                                    for( yy = p.y - 1; yy <= p.y + 1; yy++ ) {
-                                        if( get_field( dst, fd_push_items ) != nullptr ) {
-                                            valid.push_back( dst );
-                                        }
+                                for( const tripoint &dst : points_in_radius( p, 1 ) ) {
+                                    if( get_field( dst, fd_push_items ) != nullptr ) {
+                                        valid.push_back( dst );
                                     }
                                 }
                                 if (!valid.empty()) {
@@ -1485,17 +1468,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         } else {
                             cur.setFieldDensity(3);
-                            for( int i = p.x - 5; i <= p.x + 5; i++ ) {
-                                for( int j = p.y - 5; j <= p.y + 5; j++ ) {
-                                    const field_entry *acid = get_field( tripoint( i, j, p.z ), fd_acid );
-                                    if( acid != nullptr && acid->getFieldDensity() == 0 ) {
-                                            int newdens = 3 - (rl_dist( p.x, p.y, i, j) / 2) + (one_in(3) ? 1 : 0);
-                                            if (newdens > 3) {
-                                                newdens = 3;
-                                            }
-                                            if (newdens > 0) {
-                                                add_field( tripoint( i, j, p.z ), fd_acid, newdens, 0 );
-                                            }
+                            for( const tripoint &t : points_in_radius( p, 5 ) ) {
+                                const field_entry *acid = get_field( t, fd_acid );
+                                if( acid != nullptr && acid->getFieldDensity() == 0 ) {
+                                    int newdens = 3 - (rl_dist( p, t ) / 2) + (one_in(3) ? 1 : 0);
+                                    if (newdens > 3) {
+                                        newdens = 3;
+                                    }
+                                    if (newdens > 0) {
+                                        add_field( t, fd_acid, newdens, 0 );
                                     }
                                 }
                             }
