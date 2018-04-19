@@ -5,7 +5,6 @@
 //@todo: replace with std::optional
 #include "optional.h"
 #include "compatibility.h"
-#include "printf_check.h"
 
 #include <string>
 #include <typeinfo>
@@ -340,6 +339,11 @@ class string_formatter
         std::string get_output() const {
             return output;
         }
+#if defined(__GNUC__)
+#define PRINTF_LIKE(a,b) __attribute__((format(gnu_printf,a,b)))
+#else
+#define PRINTF_LIKE(a,b)
+#endif
         /**
          * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
          * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
@@ -348,6 +352,7 @@ class string_formatter
          */
         // Implemented in output.cpp
         static std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
+#undef PRINTF_LIKE
 };
 
 } // namespace cata
