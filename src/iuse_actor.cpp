@@ -345,17 +345,13 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
         }
     }
     if (scrambler_blast_radius >= 0) {
-        for (int x = pos.x - scrambler_blast_radius; x <= pos.x + scrambler_blast_radius; x++) {
-            for (int y = pos.y - scrambler_blast_radius; y <= pos.y + scrambler_blast_radius; y++) {
-                g->scrambler_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
+            g->scrambler_blast( dest );
         }
     }
     if (emp_blast_radius >= 0) {
-        for (int x = pos.x - emp_blast_radius; x <= pos.x + emp_blast_radius; x++) {
-            for (int y = pos.y - emp_blast_radius; y <= pos.y + emp_blast_radius; y++) {
-                g->emp_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
+            g->emp_blast( dest );
         }
     }
     return 1;
@@ -629,18 +625,15 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-long place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
+long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
 {
     monster newmon( mtypeid );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
-        for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-            for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                tripoint dest( x, y, pos.z );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         if( valid.empty() ) { // No valid points!

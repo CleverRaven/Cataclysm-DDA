@@ -239,25 +239,22 @@ void mdeath::kill_vines( monster &z )
 void mdeath::vine_cut( monster &z )
 {
     std::vector<monster*> vines;
-    tripoint tmp = z.pos();
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for( x = z.posx() - 1; x <= z.posx() + 1; x++ ) {
-        for( y = z.posy() - 1; y <= z.posy() + 1; y++ ) {
-            if( tmp == z.pos() ) {
-                y++; // Skip ourselves
-            }
-            if( monster * const z = g->critter_at<monster>( tmp ) ) {
-                if( z->type->id == mon_creeper_vine ) {
-                    vines.push_back( z );
-                }
+    for( const tripoint &tmp : g->m.points_in_radius( z.pos(), 1 ) ) {
+        if( tmp == z.pos() ) {
+            continue; // Skip ourselves
+        }
+        if( monster * const z = g->critter_at<monster>( tmp ) ) {
+            if( z->type->id == mon_creeper_vine ) {
+                vines.push_back( z );
             }
         }
     }
 
     for (auto &vine : vines) {
         bool found_neighbor = false;
-        tmp = vine->pos();
+        tripoint tmp = vine->pos();
+        int &x = tmp.x;
+        int &y = tmp.y;
         for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
             for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
                 if( x != z.posx() || y != z.posy() ) {

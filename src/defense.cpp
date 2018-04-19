@@ -13,6 +13,7 @@
 #include "monstergenerator.h"
 #include "construction.h"
 #include "messages.h"
+#include "map_iterator.h"
 #include "rng.h"
 #include "mongroup.h"
 #include "translations.h"
@@ -318,12 +319,9 @@ void defense_game::init_map()
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
     std::vector<tripoint> valid;
-    for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
-        for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
-            tripoint dest( x, y, g->u.posz() );
-            if( generator.can_move_to( dest ) && g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
+    for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( generator.can_move_to( dest ) && g->is_empty( dest ) ) {
+            valid.push_back( dest );
         }
     }
     if( !valid.empty() ) {
