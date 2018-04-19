@@ -4,6 +4,7 @@
 
 #include "game_constants.h"
 #include "color.h"
+#include "calendar.h"
 
 #include <vector>
 #include <string>
@@ -44,8 +45,8 @@ struct field_t {
      /** Where tile is dangerous (prompt before moving into) at given density */
      bool dangerous[ MAX_FIELD_DENSITY ];
 
- //Controls, albeit randomly, how long a field of a given type will last before going down in density.
- int halflife; // In turns
+    //Controls, albeit randomly, how long a field of a given type will last before going down in density.
+    time_duration halflife;
 
      /** cost of moving into and out of this field at given density */
     int move_cost[ MAX_FIELD_DENSITY ];
