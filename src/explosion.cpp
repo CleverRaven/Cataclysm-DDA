@@ -24,7 +24,7 @@ static const itype_id null_itype( "null" );
 tripoint random_perimeter( const tripoint &src, const int radius )
 {
     tripoint dst;
-    calc_ray_end( rng( 1, 360 ), radius, src, dst );
+    calc_ray_end( rng_int( 1, 360 ), radius, src, dst );
     return dst;
 }
 
@@ -223,7 +223,7 @@ void game::do_blast( const tripoint &p, const float power,
         if( pl == nullptr ) {
             // TODO: player's fault?
             const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
-            const int actual_dmg = rng( dmg * 2, dmg * 3 );
+            const int actual_dmg = rng_int( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name().c_str(), actual_dmg );
