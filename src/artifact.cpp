@@ -955,9 +955,9 @@ std::string architects_cube()
     def.weight = rng(info.weight_min, info.weight_max);
     // Set up the basic weapon type
     const artifact_weapon_datum &weapon = artifact_weapon_data[info.base_weapon];
-    def.melee[DT_BASH] = rng(weapon.bash_min, weapon.bash_max);
-    def.melee[DT_CUT] = rng(weapon.cut_min, weapon.cut_max);
-    def.m_to_hit = rng(weapon.to_hit_min, weapon.to_hit_max);
+    def.melee[DT_BASH] = rng_int(weapon.bash_min, weapon.bash_max);
+    def.melee[DT_CUT] = rng_int(weapon.cut_min, weapon.cut_max);
+    def.m_to_hit = rng_int(weapon.to_hit_min, weapon.to_hit_max);
     if( !weapon.tag.empty() ) {
         def.item_tags.insert(weapon.tag);
     }
