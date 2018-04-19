@@ -7721,8 +7721,8 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
 
 void silo_rooms(map *m)
 {
-    std::vector<point> rooms;
-    std::vector<point> room_sizes;
+    // first is room position, second is its size
+    std::vector<std::pair<point, point>> rooms;
     bool okay = true;
     do {
         int x, y, height, width;
@@ -7753,8 +7753,7 @@ void silo_rooms(map *m)
             (m->ter(x, y) != t_rock || m->ter(x + width, y + height) != t_rock)) {
             okay = false;
         } else {
-            rooms.push_back(point(x, y));
-            room_sizes.push_back(point(width, height));
+            rooms.emplace_back( point( x, y ), point( width, height ) );
             for (int i = x; i <= x + width; i++) {
                 for (int j = y; j <= y + height; j++) {
                     if (m->ter(i, j) == t_rock) {
@@ -7806,24 +7805,23 @@ void silo_rooms(map *m)
         }
     } while (okay);
 
-    m->ter_set(rooms[0].x, rooms[0].y, t_stairs_up);
+    m->ter_set( rooms[0].first.x, rooms[0].first.y, t_stairs_up );
     int down_room = rng(0, rooms.size() - 1);
-    point dp = rooms[down_room], ds = room_sizes[down_room];
+    point dp = rooms[down_room].first, ds = rooms[down_room].second;
     m->ter_set(dp.x + ds.x, dp.y + ds.y, t_stairs_down);
-    rooms.push_back(point(SEEX, SEEY)); // So the center circle gets connected
-    room_sizes.push_back(point(5, 5));
+    rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
 
     while (rooms.size() > 1) {
         int best_dist = 999, closest = 0;
         for (size_t i = 1; i < rooms.size(); i++) {
-            int dist = trig_dist(rooms[0].x, rooms[0].y, rooms[i].x, rooms[i].y);
+            int dist = trig_dist( rooms[0].first.x, rooms[0].first.y, rooms[i].first.x, rooms[i].first.y );
             if (dist < best_dist) {
                 best_dist = dist;
                 closest = i;
             }
         }
         // We chose the closest room; now draw a corridor there
-        point origin = rooms[0], origsize = room_sizes[0], dest = rooms[closest];
+        point origin = rooms[0].first, origsize = rooms[0].second, dest = rooms[closest].first;
         int x = origin.x + origsize.x, y = origin.y + origsize.y;
         bool x_first = (abs(origin.x - dest.x) > abs(origin.y - dest.y));
         while (x != dest.x || y != dest.y) {
@@ -7845,7 +7843,6 @@ void silo_rooms(map *m)
             }
         }
         rooms.erase(rooms.begin());
-        room_sizes.erase(room_sizes.begin());
     }
 }
 
