@@ -4,13 +4,11 @@
 #include <string>
 
 
-iteminfo_query::iteminfo_query() : iteminfo_query_base()
-{
-};
+iteminfo_query::iteminfo_query() = default;
 
 iteminfo_query::iteminfo_query( const std::string &bits ) : iteminfo_query_base( bits )
 {
-};
+}
 
 iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &setBits )
 {
