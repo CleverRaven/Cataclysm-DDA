@@ -7571,19 +7571,26 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     const inventory_filter_preset preset( [ &player ]( const item_location & location ) {
         return player.can_unwield( *location ).success();
     } );
+    debugmsg("AAAAH!");
 
-    inventory_drop_selector inv_s( player, preset );
-
+    inventory_iuse_selector inv_s( player, "ITEMS TO CLEAN", preset );
+    // Filter to only dirty clothing here?
     inv_s.add_character_items( player );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
-
+    std::list<std::pair<int, int>> debuggo;
     if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
+        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+        debuggo = std::list<std::pair<int, int> >();
         return 0;
     }
 
-    inv_s.execute();
+    debuggo = inv_s.execute();
+    std::list<std::pair<int, int>>::iterator pairs;
+    for (pairs = debuggo.begin(); pairs != debuggo.end(); ++pairs){
+    debugmsg(std::to_string((*pairs).first));
+    debugmsg(std::to_string((*pairs).second));
+}
     // if( it->charges < it->type->charges_to_use() ) {
     //     p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
     //     return 0;
