@@ -2270,31 +2270,31 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
     return true;
 }
 
-/**
- * Returns the label at the coordinates given (mount coordinates)
- */
-std::string const& vehicle::get_label(int const x, int const y) const
+cata::optional<std::string> vpart_position::get_label() const
 {
-    auto const it = labels.find(label(x, y));
-    if (it == labels.end()) {
-        static std::string const fallback;
-        return fallback;
+    const vehicle_part &part = vehicle().parts[part_index()];
+    const auto it = vehicle().labels.find( label( part.mount.x, part.mount.y ) );
+    if( it == vehicle().labels.end() ) {
+        return cata::nullopt;
     }
-
+    if( it->text.empty() ) {
+        // legacy support @todo change labels into a map and keep track of deleted labels
+        return cata::nullopt;
+    }
     return it->text;
 }
 
-/**
- * Sets the label at the coordinates given (mount coordinates)
- */
-void vehicle::set_label(int x, int y, std::string text)
+void vpart_position::set_label( const std::string &text ) const
 {
-    auto const it = labels.find(label(x, y));
-    if (it == labels.end()) {
-        labels.insert(label(x, y, std::move(text)));
+    auto &labels = vehicle().labels;
+    const vehicle_part &part = vehicle().parts[part_index()];
+    const auto it = labels.find( label( part.mount.x, part.mount.y ) );
+    //@todo empty text should remove the label instead of just storing an empty string, see get_label
+    if( it == labels.end() ) {
+        labels.insert( label( part.mount.x, part.mount.y, text ) );
     } else {
         // labels should really be a map
-        labels.insert(labels.erase(it), label(x, y, std::move(text)));
+        labels.insert( labels.erase( it ), label( part.mount.x, part.mount.y, text ) );
     }
 }
 
@@ -2665,9 +2665,9 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
     }
 
     // print the label for this location
-    const std::string label = get_label(parts[p].mount.x, parts[p].mount.y);
-    if( !label.empty() && y <= max_y ) {
-        mvwprintz(win, y++, 1, c_light_red, _("Label: %s"), label.c_str());
+    const cata::optional<std::string> label = vpart_position( const_cast<vehicle&>( *this ), p ).get_label();
+    if( label && y <= max_y ) {
+        mvwprintz(win, y++, 1, c_light_red, _("Label: %s"), label->c_str());
     }
 
     return y;

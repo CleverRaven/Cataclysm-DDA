@@ -5,6 +5,7 @@
 #include "optional.h"
 
 #include <functional>
+#include <string>
 
 class vehicle;
 
@@ -41,6 +42,15 @@ class vpart_position
         }
 
         bool is_inside() const;
+
+        /**
+         * Sets the label at this part of the vehicle. Removes the label if @p text is empty.
+         */
+        void set_label( const std::string &text ) const;
+        /**
+         * @returns The label at this part of the vehicle, if there is any.
+         */
+        cata::optional<std::string> get_label() const;
 };
 
 /**
@@ -52,6 +62,10 @@ class optional_vpart_position : public cata::optional<vpart_position>
 {
     public:
         optional_vpart_position( cata::optional<vpart_position> p ) : cata::optional<vpart_position>( std::move( p ) ) { }
+
+        cata::optional<std::string> get_label() const {
+            return has_value() ? value().get_label() : cata::nullopt;
+        }
 };
 
 // For legacy code, phase out, don't use in new code.

@@ -11312,12 +11312,8 @@ bool game::walk_move( const tripoint &dest_loc )
 void game::place_player( const tripoint &dest_loc )
 {
     const optional_vpart_position vp1 = m.veh_at( dest_loc );
-    if( vp1 ) {
-        const vehicle_part &part = vp1->vehicle().parts[vp1->part_index()];
-        std::string label = vp1->vehicle().get_label( part.mount.x, part.mount.y );
-        if (!label.empty()) {
-            add_msg(m_info, _("Label here: %s"), label.c_str());
-        }
+    if( const cata::optional<std::string> label = vp1.get_label() ) {
+        add_msg( m_info, _( "Label here: %s" ), *label );
     }
     std::string signage = m.get_signage( dest_loc );
     if( !signage.empty() ) {

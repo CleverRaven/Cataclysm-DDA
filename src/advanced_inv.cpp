@@ -655,9 +655,7 @@ void advanced_inv_area::init()
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             if( can_store_in_vehicle() ) {
-                // get storage label
-                const auto part = veh->parts[veh->global_part_at(pos.x, pos.y)];
-                desc[1] = veh->get_label(part.mount.x, part.mount.y);
+                desc[1] = vpart_position( *veh, vstor ).get_label().value_or( "" );
             }
             // get graffiti or terrain name
             desc[0] = g->m.has_graffiti_at( pos ) ?

@@ -1510,12 +1510,13 @@ bool veh_interact::do_relabel( std::string &msg )
         return false;
     }
 
+    const vpart_position vp( *veh, cpart );
     std::string text = string_input_popup()
                        .title( _( "New label:" ) )
                        .width( 20 )
-                       .text( veh->get_label( -ddx, -ddy ) )
+                       .text( vp.get_label().value_or( "" ) )
                        .query_string();
-    veh->set_label(-ddx, -ddy, text); // empty input removes the label
+    vp.set_label( text ); // empty input removes the label
     // refresh w_disp & w_part windows:
     move_cursor( 0, 0 );
 

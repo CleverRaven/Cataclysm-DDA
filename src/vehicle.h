@@ -629,9 +629,6 @@ public:
      */
     void remove_remote_part(int part_num);
 
-    std::string const& get_label(int x, int y) const;
-    void set_label(int x, int y, std::string text);
-
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
     // returns the list of indices of parts at certain position (not accounting frame direction)
