@@ -7569,27 +7569,30 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     player.inv.restack( player );
 
     const inventory_filter_preset preset( [ &player ]( const item_location & location ) {
-        return player.can_unwield( *location ).success();
+        return (*location).item_tags.find("FILTHY") != (*location).item_tags.end();
     } );
     debugmsg("AAAAH!");
 
-    inventory_iuse_selector inv_s( player, "ITEMS TO CLEAN", preset );
+    inventory_iuse_selector inv_s( player, _("ITEMS TO CLEAN"), preset );
     // Filter to only dirty clothing here?
     inv_s.add_character_items( player );
-    inv_s.set_title( _( "Multidrop" ) );
-    inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
-    std::list<std::pair<int, int>> debuggo;
+    inv_s.set_title( _( "Multiclean" ) );
+    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+    std::list<std::pair<const item*, int>> debuggo;
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        debuggo = std::list<std::pair<int, int> >();
+        debuggo = std::list<std::pair<const item*, int> >();
         return 0;
     }
 
     debuggo = inv_s.execute();
-    std::list<std::pair<int, int>>::iterator pairs;
+    std::list<std::pair<const item*, int>>::iterator pairs;
     for (pairs = debuggo.begin(); pairs != debuggo.end(); ++pairs){
-    debugmsg(std::to_string((*pairs).first));
-    debugmsg(std::to_string((*pairs).second));
+        int item_pos = player.get_item_position((*pairs).first);
+        debugmsg(std::to_string(item_pos));
+        debugmsg(std::to_string((*pairs).second));
+        std::string dupe_string = "blah!";
+        const item *to_clean = (*pairs).first;
 }
     // if( it->charges < it->type->charges_to_use() ) {
     //     p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
@@ -7629,7 +7632,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     // comps1.push_back( item_comp( "soap", required_cleanser ) );
     // comps1.push_back( item_comp( "detergent", required_cleanser ) );
     // p->consume_items( comps1 );
-
     // p->assign_activity( activity_id( "ACT_WASH" ), time, 0, p->get_item_position( &mod ) );
 
     return 0;
