@@ -718,7 +718,7 @@
     "id": "bio_power_weakness",
     "type": "bionic",
     "name": "Power Overload",
-    "description": "Damaged power circuits cause short-circuiting inside your muscles when your batteries are above 75%%%% capacity, causing greatly reduced strength.  This has no effect if you have no internal batteries.",
+    "description": "Damaged power circuits cause short-circuiting inside your muscles when your batteries are above 75% capacity, causing greatly reduced strength.  This has no effect if you have no internal batteries.",
     "occupied_bodyparts": [ [ "TORSO", 3 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },

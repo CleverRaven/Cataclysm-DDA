@@ -889,7 +889,7 @@ std::string defense_location_description( defense_location location )
         case DEFLOC_BAR:
             return                 _( "A small building with plenty of alcohol." );
         case DEFLOC_MANSION:
-            return                 _( "A large house with many rooms and." );
+            return                 _( "A large house with many rooms." );
         case NUM_DEFENSE_LOCATIONS:
             break;
     }
