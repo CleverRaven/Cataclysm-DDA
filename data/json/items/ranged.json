@@ -339,7 +339,6 @@
     "bashing": 8,
     "to_hit": -3,
     "dispersion": 300,
-    "burst": 1,
     "durability": 8,
     "clip_size": 1,
     "reload": 300,
