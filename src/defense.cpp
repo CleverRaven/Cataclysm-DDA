@@ -883,7 +883,7 @@ std::string defense_location_description( defense_location location )
         case DEFLOC_HOSPITAL:
             return                 _( "One entrance and many rooms.  Some medical supplies." );
         case DEFLOC_WORKS:
-            return                 _( "An easy fortifiable building with lots of useful tools inside." );
+            return                 _( "Easily fortifiable building.  Lots of useful tools." );
         case DEFLOC_MALL:
             return                 _( "A large building with various supplies." );
         case DEFLOC_BAR:
