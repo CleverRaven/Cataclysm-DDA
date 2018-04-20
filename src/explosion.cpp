@@ -205,7 +205,7 @@ void game::do_blast( const tripoint &p, const float power,
             m.add_field( pt, fd_fire, density );
         }
 
-        if( const cata::optional<vpart_position> vp = m.veh_at( pt ) ) {
+        if( const optional_vpart_position vp = m.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
             vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
         }
@@ -381,7 +381,7 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
             int force = std::min( kinetic, mass );
             int resistance;
 
-            if( cata::optional<vpart_position> vp = m.veh_at( e ) ) {
+            if( optional_vpart_position vp = m.veh_at( e ) ) {
                 resistance = force - vp->vehicle().damage( vp->part_index(), force );
 
             } else {

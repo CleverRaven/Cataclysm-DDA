@@ -2,6 +2,8 @@
 #ifndef VPART_POSITION_H
 #define VPART_POSITION_H
 
+#include "optional.h"
+
 #include <functional>
 
 class vehicle;
@@ -39,16 +41,20 @@ class vpart_position
         }
 };
 
-namespace cata
+/**
+ * Simple wrapper to forward functions that may return a @ref cata::optional
+ * to @ref vpart_position. They generally return an empty `optional`, or
+ * forward to the same function in `vpart_position`.
+ */
+class optional_vpart_position : public cata::optional<vpart_position>
 {
-template<typename T>
-class optional;
-} // namespace cata
+    public:
+        optional_vpart_position( cata::optional<vpart_position> p ) : cata::optional<vpart_position>( std::move( p ) ) { }
+};
 
 // For legacy code, phase out, don't use in new code.
 //@todo remove this
-template<typename T>
-inline vehicle *veh_pointer_or_null( const cata::optional<T> &p )
+inline vehicle *veh_pointer_or_null( const optional_vpart_position &p )
 {
     return p ? &p->vehicle() : nullptr;
 }

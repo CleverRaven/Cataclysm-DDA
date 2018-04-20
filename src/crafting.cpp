@@ -236,7 +236,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         // also check if we're currently in a vehicle that has the necessary storage
         if( charges_to_store > 0 ) {
-            if( cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+            if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
                 const itype_id &ftype = prod.typeId();
                 int fuel_cap = vp->vehicle().fuel_capacity( ftype );
                 int fuel_amnt = vp->vehicle().fuel_left( ftype );
@@ -296,7 +296,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( cata::optional<vpart_position> vp = g->m.veh_at( loc ) ) {
+        if( optional_vpart_position vp = g->m.veh_at( loc ) ) {
             const int part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
             if( part != -1 ) {
                 for( const auto &it : vp->vehicle().get_items( part ) ) {
@@ -1369,7 +1369,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const cata::optional<vpart_position> vp = g->m.veh_at( pos() );
+        const optional_vpart_position vp = g->m.veh_at( pos() );
         const int veh_part = vp ? vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) : -1;
 
         if( act_item.made_of( LIQUID ) ) {

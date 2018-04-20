@@ -1365,7 +1365,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 color.r = 12;
                 color.g = 12;
                 color.b = 12;
-            } else if( const cata::optional<vpart_position> vp = g->m.veh_at( p ) ) {
+            } else if( const optional_vpart_position vp = g->m.veh_at( p ) ) {
                 color = cursesColorToSDL( vp->vehicle().part_color( vp->part_index() ) );
             } else if( g->m.has_furn( p ) ) {
                 auto &furniture = g->m.furn( p ).obj();
@@ -1736,7 +1736,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO also use some vehicle id, for less predictability
         {
             // new scope for variable declarations
-            const cata::optional<vpart_position> vp = g->m.veh_at( pos );
+            const optional_vpart_position vp = g->m.veh_at( pos );
             vehicle_part &part = vp->vehicle().parts[vp->part_index()];
             seed = part.mount.x + part.mount.y * 65536;
         }
@@ -2179,7 +2179,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*h
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
 {
-    const cata::optional<vpart_position> vp = g->m.veh_at( p );
+    const optional_vpart_position vp = g->m.veh_at( p );
 
     if( !vp ) {
         return false;

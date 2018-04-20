@@ -982,7 +982,7 @@ void player::update_bodytemp()
     int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature() ) );
     w_point const weather = *g->weather_precise;
     int vehwindspeed = 0;
-    if( const cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
@@ -1473,7 +1473,7 @@ int player::floor_bedding_warmth( const tripoint &pos )
     const furn_id furn_at_pos = g->m.furn( pos );
     int floor_bedding_warmth = 0;
 
-    const cata::optional<vpart_position> vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( pos );
     bool veh_bed = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "BED" ) >= 0 );
     bool veh_seat = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "SEAT" ) >= 0 );
 
@@ -2073,7 +2073,7 @@ double player::recoil_vehicle() const
     // @todo: vary penalty dependent upon vehicle part on which player is boarded
 
     if( in_vehicle ) {
-        if( const cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             return double( abs( vp->vehicle().velocity ) ) * 3 / 100;
         }
     }
@@ -2585,7 +2585,7 @@ bool player::in_climate_control()
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
-        if( const cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             regulated_area = (
                                  vp->vehicle().is_inside( vp->part_index() ) &&  // Already checks for opened doors
                                  vp->vehicle().total_power( true ) > 0 // Out of gas? No AC for you!
@@ -3785,7 +3785,7 @@ int player::impact( const int force, const tripoint &p )
         // TODO: Modify based on something?
         mod = 1.0f;
         effective_force = force;
-    } else if( const cata::optional<vpart_position> vp = g->m.veh_at( p ) ) {
+    } else if( const optional_vpart_position vp = g->m.veh_at( p ) ) {
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
@@ -8520,7 +8520,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that immediately disqualify the player from reading:
-    const cata::optional<vpart_position> vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = g->m.veh_at( pos() );
     if( vp && vp->vehicle().player_in_control( *this ) ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
@@ -9213,7 +9213,7 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
 
 void player::try_to_sleep()
 {
-    const cata::optional<vpart_position> vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = g->m.veh_at( pos() );
     const trap &trap_at_pos = g->m.tr_at(pos());
     const ter_id ter_at_pos = g->m.ter(pos());
     const furn_id furn_at_pos = g->m.furn(pos());
@@ -9320,7 +9320,7 @@ int player::sleep_spot( const tripoint &p ) const
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    const cata::optional<vpart_position> vp = g->m.veh_at( p );
+    const optional_vpart_position vp = g->m.veh_at( p );
     const maptile tile = g->m.maptile_at( p );
     const trap &trap_at_pos = tile.get_trap_t();
     const ter_id ter_at_pos = tile.get_ter();
@@ -9455,7 +9455,7 @@ std::string player::is_snuggling() const
     auto end = g->m.i_at( pos() ).end();
 
     if( in_vehicle ) {
-        if( const cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             vehicle *const veh = &vp->vehicle();
             const int cargo = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false );
             if( cargo >= 0 ) {

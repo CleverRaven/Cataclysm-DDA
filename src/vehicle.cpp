@@ -154,7 +154,7 @@ bool vehicle::player_in_control(player const& p) const
         return true;
     }
 
-    const cata::optional<vpart_position> vp = g->m.veh_at( p.pos() );
+    const optional_vpart_position vp = g->m.veh_at( p.pos() );
     if( vp && &vp->vehicle() == this &&
         part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 && p.controlling_vehicle ) {
         return true;
@@ -2945,7 +2945,7 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         // @todo: Allow NPCs to power those
-        const cata::optional<vpart_position> vp = g->m.veh_at( g->u.pos() );
+        const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
         bool player_controlling = player_in_control(g->u);
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
@@ -3657,7 +3657,7 @@ vehicle* vehicle::find_vehicle( const tripoint &where )
 {
     // Is it in the reality bubble?
     tripoint veh_local = g->m.getlocal( where );
-    if( const cata::optional<vpart_position> vp = g->m.veh_at( veh_local ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( veh_local ) ) {
         return &vp->vehicle();
     }
 
@@ -4382,7 +4382,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ph = nullptr;
     }
 
-    const cata::optional<vpart_position> ovp = g->m.veh_at( p );
+    const optional_vpart_position ovp = g->m.veh_at( p );
     // Disable vehicle/critter collisions when bashing floor
     // TODO: More elegant code
     const bool is_veh_collision = !bash_floor && ovp && &ovp->vehicle() != this;

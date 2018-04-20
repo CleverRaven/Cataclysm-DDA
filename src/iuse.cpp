@@ -2773,7 +2773,7 @@ int iuse::siphon(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const cata::optional<vpart_position> vp = g->m.veh_at( posp );
+    const optional_vpart_position vp = g->m.veh_at( posp );
     if( !vp ) {
         p->add_msg_if_player(m_info, _("There's no vehicle there."));
         return 0;
@@ -7164,7 +7164,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"),posp)) {
             return 0;
         }
-        const cata::optional<vpart_position> vp = g->m.veh_at( posp );
+        const optional_vpart_position vp = g->m.veh_at( posp );
         auto ter = g->m.ter( posp );
         if( !vp && ter != t_chainfence_h && ter != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
@@ -7202,7 +7202,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        const cata::optional<vpart_position> target_vp = g->m.veh_at( vpos );
+        const optional_vpart_position target_vp = g->m.veh_at( vpos );
         if( !target_vp ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
@@ -7212,7 +7212,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = g->m.getlocal(source_global);
-            const cata::optional<vpart_position> source_vp = g->m.veh_at( source_local );
+            const optional_vpart_position source_vp = g->m.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
 
             if(source_veh == target_veh) {
@@ -7328,7 +7328,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
 
     if( it->typeId() == "weather_reader" ) {
         int vehwindspeed = 0;
-        if( cata::optional<vpart_position> vp = g->m.veh_at( p->pos() ) ) {
+        if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
             vehwindspeed = abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );

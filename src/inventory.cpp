@@ -380,7 +380,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         // When a vehicle has multiple faucets in range, available water is
         //  multiplied by the number of faucets.
         // Same thing happens for all other tools and resources, but not cargo
-        const cata::optional<vpart_position> vp = g->m.veh_at( p );
+        const optional_vpart_position vp = g->m.veh_at( p );
         if( !vp ) {
             continue;
         }

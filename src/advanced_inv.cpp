@@ -605,7 +605,7 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            if( const cata::optional<vpart_position> vp = g->m.veh_at( pos ) ) {
+            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
                 veh = &vp->vehicle();
                 vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
             } else {
@@ -645,7 +645,7 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
-            if( const cata::optional<vpart_position> vp = g->m.veh_at( pos ) ) {
+            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
                 veh = &vp->vehicle();
                 vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
             } else {
@@ -2403,7 +2403,7 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    if( const cata::optional<vpart_position> vp = g->m.veh_at( pos ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
         veh = &vp->vehicle();
         vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
     } else {

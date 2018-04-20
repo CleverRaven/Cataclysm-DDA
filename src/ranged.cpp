@@ -204,7 +204,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     // usage of any attached bipod is dependent upon terrain
     bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
     if( !bipod ) {
-        if( const cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
         }
     }
@@ -766,7 +766,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
 static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number, const tripoint &targ )
 {
-    const cata::optional<vpart_position> vp = g->m.veh_at( p.pos() );
+    const optional_vpart_position vp = g->m.veh_at( p.pos() );
     if( !vp ) {
         debugmsg( "Tried to aim turret while outside vehicle" );
         return line_number;
@@ -1392,7 +1392,7 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const cata::optional<vpart_position> vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( pos );
     std::vector<vehicle_part *> cargo;
     if( vp && weap.has_flag( "VEHICLE" ) ) {
         cargo = vp->vehicle().get_parts( pos, "CARGO" );
@@ -1511,7 +1511,7 @@ item::sound_data item::gun_noise( bool const burst ) const
 
 static bool is_driving( const player &p )
 {
-    const cata::optional<vpart_position> vp = g->m.veh_at( p.pos() );
+    const optional_vpart_position vp = g->m.veh_at( p.pos() );
     return vp && vp->vehicle().velocity != 0 && vp->vehicle().player_in_control( p );
 }
 

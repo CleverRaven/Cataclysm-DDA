@@ -759,7 +759,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
 
-    const cata::optional<vpart_position> vp = veh_at( origin );
+    const optional_vpart_position vp = veh_at( origin );
     if( !vp ) {
         return;
     }

@@ -484,7 +484,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_meteorologist" ) {
         // Calculate local wind power
         int vehwindspeed = 0;
-        if( cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
+        if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
@@ -745,7 +745,7 @@ void player::process_bionic( int b )
         int wants_power_amt = battery_per_power;
         for( const item *cable : cables ) {
             const auto &target = cable->get_cable_target();
-            const cata::optional<vpart_position> vp = g->m.veh_at( target );
+            const optional_vpart_position vp = g->m.veh_at( target );
             if( !vp ) {
                 continue;
             }

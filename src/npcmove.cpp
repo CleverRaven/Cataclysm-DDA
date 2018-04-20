@@ -619,7 +619,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_follow_embarked: {
-            const cata::optional<vpart_position> vp = g->m.veh_at( g->u.pos() );
+            const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
 
             if( !vp ) {
                 debugmsg( "Following an embarked player with no vehicle at their location?" );
@@ -1562,8 +1562,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    if( const cata::optional<vpart_position> vp = g->m.veh_at( pos() ) ) {
-        const cata::optional<vpart_position> ovp = g->m.veh_at( p );
+    if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        const optional_vpart_position ovp = g->m.veh_at( p );
         if( abs( vp->vehicle().velocity ) > 0 &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
               vp->vehicle().part_with_feature( ovp->part_index(), VPFLAG_BOARDABLE ) < 0 ) ) {
@@ -1623,7 +1623,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
             doors::close_door( g->m, *this, old_pos );
         }
 
-        const cata::optional<vpart_position> vp = g->m.veh_at( p );
+        const optional_vpart_position vp = g->m.veh_at( p );
         if( vp && vp->vehicle().part_with_feature( vp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
             g->m.board_vehicle( p, this );
         }
@@ -1925,7 +1925,7 @@ void npc::find_item()
         // Allow terrain check without sight, because it would cost more CPU than it is worth
         consider_terrain( p );
 
-        const cata::optional<vpart_position> vp = g->m.veh_at( p );
+        const optional_vpart_position vp = g->m.veh_at( p );
         if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
             continue;
         }
@@ -1982,7 +1982,7 @@ void npc::pick_up_item()
         return;
     }
 
-    const cata::optional<vpart_position> vp = g->m.veh_at( wanted_item_pos );
+    const optional_vpart_position vp = g->m.veh_at( wanted_item_pos );
     vehicle *const veh = veh_pointer_or_null( vp );
     int veh_part = vp ? veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false ) : -1;
 

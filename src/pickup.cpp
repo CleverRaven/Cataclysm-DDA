@@ -525,7 +525,7 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     PickupMap mapPickup;
 
     if( from_vehicle ) {
-        const cata::optional<vpart_position> vp = g->m.veh_at( pickup_target );
+        const optional_vpart_position vp = g->m.veh_at( pickup_target );
         veh = &vp->vehicle();
         cargo_part = veh->part_with_feature( vp->part_index(), "CARGO", false );
     }
@@ -578,7 +578,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 {
     int cargo_part = -1;
 
-    const cata::optional<vpart_position> vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( pos );
     vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 

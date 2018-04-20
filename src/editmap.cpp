@@ -504,7 +504,7 @@ void editmap::update_view( bool update_info )
     // Debug helper 2, child of debug helper
     // Gather useful data
     int veh_in = -1;
-    const cata::optional<vpart_position> vp = g->m.veh_at( target );
+    const optional_vpart_position vp = g->m.veh_at( target );
     if( vp ) {
         veh_in = vp->vehicle().is_inside( vp->part_index() );
     }

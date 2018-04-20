@@ -1119,18 +1119,18 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
     return vehs;
 }
 
-cata::optional<vpart_position> map::veh_at( const tripoint &p ) const
+optional_vpart_position map::veh_at( const tripoint &p ) const
 {
     if( !const_cast<map*>( this )->get_cache( p.z ).veh_in_active_range || !inbounds( p ) ) {
-        return cata::nullopt; // Out-of-bounds - null vehicle
+        return optional_vpart_position( cata::nullopt );
     }
 
     int part_num = 1;
     vehicle *const veh = const_cast<map*>( this )->veh_at_internal( p, part_num );
     if( !veh ) {
-        return cata::nullopt;
+        return optional_vpart_position( cata::nullopt );
     }
-    return vpart_position( *veh, part_num );
+    return optional_vpart_position( vpart_position( *veh, part_num ) );
     
 }
 
@@ -1166,7 +1166,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
         return;
     }
 
-    const cata::optional<vpart_position> vp = veh_at( pos );
+    const optional_vpart_position vp = veh_at( pos );
     if( !vp ) {
         if( p->grab_point.x == 0 && p->grab_point.y == 0 ) {
             debugmsg ("map::board_vehicle: vehicle not found");
@@ -1201,7 +1201,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
 
 void map::unboard_vehicle( const tripoint &p )
 {
-    const cata::optional<vpart_position> vp = veh_at( p );
+    const optional_vpart_position vp = veh_at( p );
     player *passenger = nullptr;
     if( !vp ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
@@ -1478,7 +1478,7 @@ std::string map::disp_name( const tripoint &p )
 
 std::string map::obstacle_name( const tripoint &p )
 {
-    if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         const int part = vp->vehicle().obstacle_at_part( vp->part_index() );
         if( part > 0 ) {
             return vp->vehicle().parts[part].info().name();
@@ -1874,7 +1874,7 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 
     const furn_t &furniture = furn( p ).obj();
     const ter_t &terrain = ter( p ).obj();
-    const cata::optional<vpart_position> vp = veh_at( p );
+    const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
@@ -2300,7 +2300,7 @@ void map::drop_items( const tripoint &p )
 
 void map::drop_vehicle( const tripoint &p )
 {
-    const cata::optional<vpart_position> vp = veh_at( p );
+    const optional_vpart_position vp = veh_at( p );
     if( !vp ) {
         return;
     }
@@ -2432,7 +2432,7 @@ bool map::can_put_items( const tripoint &p ) const
     if (can_put_items_ter_furn( p )) {
         return true;
     }
-    const cata::optional<vpart_position> vp = veh_at( p );
+    const optional_vpart_position vp = veh_at( p );
     return vp && vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) >= 0;
 }
 
@@ -2586,7 +2586,7 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
         return false;
     }
 
-    if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         if( vp->vehicle().obstacle_at_part( vp->part_index() ) >= 0 ) {
             return true;
         }
@@ -2669,7 +2669,7 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
     const furn_t &furniture = furn( p ).obj();
     const ter_t &terrain = ter( p ).obj();
-    const cata::optional<vpart_position> vp = veh_at( p );
+    const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = vp ? &vp->vehicle() : nullptr;
     const int part = vp ? vp->part_index() : -1;
     return bash_rating_internal( str, furniture, terrain, allow_floor, veh, part );
@@ -3014,7 +3014,7 @@ bool map::mop_spills( const tripoint &p )
         retval |= fld.removeField( fid );
     }
 
-    if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
         std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount.x,
@@ -3538,7 +3538,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
 void map::bash_vehicle( const tripoint &p, bash_params &params )
 {
     // Smash vehicle if present
-    if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         vp->vehicle().damage( vp->part_index(), params.strength, DT_BASH );
         if( !params.silent ) {
             sounds::sound( p, 18, _("crash!"), false, "smash_success", "hit_vehicle" );
@@ -3586,7 +3586,7 @@ void map::crush( const tripoint &p )
     if( crushed_player != nullptr ) {
         bool player_inside = false;
         if( crushed_player->in_vehicle ) {
-            const cata::optional<vpart_position> vp = veh_at( p );
+            const optional_vpart_position vp = veh_at( p );
             player_inside = vp && vp->vehicle().is_inside( vp->part_index() );
         }
         if (!player_inside) { //If there's a player at p and he's not in a covered vehicle...
@@ -3626,7 +3626,7 @@ void map::crush( const tripoint &p )
         monhit->check_dead_state();
     }
 
-    if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         // Arbitrary number is better than collapsing house roof crushing APCs
         vp->vehicle().damage( vp->part_index(), rng(100, 1000), DT_BASH, false);
     }
@@ -3650,7 +3650,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     }
 
     const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
-    if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
 
@@ -3948,7 +3948,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         return true;
-    } else if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    } else if( const optional_vpart_position vp = veh_at( p ) ) {
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if (openable >= 0) {
             if( !check_only ) {
@@ -4851,7 +4851,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
         return ret;
     }
 
-    if( const cata::optional<vpart_position> vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         const int cargo = vp->vehicle().part_with_feature(vp->part_index(), "CARGO");
         if( cargo >= 0 ) {
             std::list<item> tmp = use_amount_stack( vp->vehicle().get_items(cargo), type,
@@ -5004,7 +5004,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             return ret;
         }
 
-        const cata::optional<vpart_position> vp = veh_at( p );
+        const optional_vpart_position vp = veh_at( p );
         if( !vp ) {
             continue;
         }
@@ -5508,7 +5508,7 @@ void map::add_splatter( const field_id type, const tripoint &where, int intensit
         return;
     }
     if( type == fd_blood || type == fd_gibs_flesh ) { // giblets are also good for painting
-        if( const cata::optional<vpart_position> vp = veh_at( where ) ) {
+        if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
             const int anchor_part = vp->part_index();
             // Might be -1 if all the vehicle's parts at where are marked for removal

@@ -191,7 +191,7 @@ void drop_on_map( const player &p, const std::list<item> &items, const tripoint 
 void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
                                const tripoint &where )
 {
-    if( const cata::optional<vpart_position> vp = g->m.veh_at( where ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( where ) ) {
         const int veh_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
         if( veh_part >= 0 ) {
             put_into_vehicle( p, items, vp->vehicle(), veh_part );
@@ -522,14 +522,14 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
     // load vehicle information if requested
     if( from_vehicle ) {
-        const cata::optional<vpart_position> vp = g->m.veh_at( source );
+        const optional_vpart_position vp = g->m.veh_at( source );
         assert( vp );
         s_veh = &vp->vehicle();
         s_cargo = s_veh->part_with_feature( vp->part_index(), "CARGO", false );
         assert( s_cargo >= 0 );
     }
     if( to_vehicle ) {
-        const cata::optional<vpart_position> vp = g->m.veh_at( destination );
+        const optional_vpart_position vp = g->m.veh_at( destination );
         assert( vp );
         d_veh = &vp->vehicle();
         d_cargo = d_veh->part_with_feature( vp->part_index(), "CARGO", false );

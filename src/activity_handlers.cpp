@@ -762,7 +762,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
         case LTT_VEHICLE:
-            if( const cata::optional<vpart_position> vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
+            if( const optional_vpart_position vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
                 p->pour_into( vp->vehicle(), liquid );
             } else {
                 throw std::runtime_error( "could not find target vehicle for liquid transfer" );
@@ -1018,7 +1018,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    if( const cata::optional<vpart_position> vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
         if( mech_skill > (int)rng(1, 6) ) {
@@ -1381,7 +1381,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    const cata::optional<vpart_position> vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
+    const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
     veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and

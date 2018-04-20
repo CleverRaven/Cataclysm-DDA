@@ -2443,7 +2443,7 @@ bool game::handle_action()
         ctxt = get_player_input(action);
     }
 
-    const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos() );
     bool veh_ctrl = !u.is_dead_state() &&
         ( ( vp && vp->vehicle().player_in_control(u) ) || remoteveh() != nullptr );
 
@@ -2863,7 +2863,7 @@ bool game::handle_action()
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
 
-                const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+                const optional_vpart_position vp = m.veh_at( u.pos() );
 
                 turret_data turret;
                 // @todo: move direct turret firing from ACTION_FIRE to separate function.
@@ -3637,7 +3637,7 @@ void game::load( const save_t &name )
         u.setID( assign_npc_id() );
         // The vehicle stores the IDs of the boarded players, so update it, too.
         if( u.in_vehicle ) {
-            if( const cata::optional<vpart_position> vp = m.veh_at( u.pos() ) ) {
+            if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
                 const int vpart = vp->vehicle().part_with_feature( vp->part_index(), "BOARDABLE" );
                 if( vpart >= 0 ) {
                     vp->vehicle().parts[vpart].passenger_id = u.getID();
@@ -4799,7 +4799,7 @@ tripoint game::get_veh_dir_indicator_location( bool next ) const
     if( !get_option<bool>( "VEHICLE_DIR_INDICATOR" ) ) {
         return tripoint_min;
     }
-    const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos() );
     if( !vp ) {
         return tripoint_min;
     }
@@ -6323,12 +6323,12 @@ bool game::swap_critters( Creature &a, Creature &b )
     second.setpos( first.pos() );
     first.setpos( temp );
 
-    const cata::optional<vpart_position> vp = g->m.veh_at( u_or_npc->pos() );
+    const optional_vpart_position vp = g->m.veh_at( u_or_npc->pos() );
     if( vp && vp->vehicle().part_with_feature( vp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
         g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
     }
 
-    const cata::optional<vpart_position> ovp = g->m.veh_at( other_npc->pos() );
+    const optional_vpart_position ovp = g->m.veh_at( other_npc->pos() );
     if( ovp && ovp->vehicle().part_with_feature( ovp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
         g->m.board_vehicle( other_npc->pos(), other_npc );
     }
@@ -6354,7 +6354,7 @@ bool game::is_in_sunlight( const tripoint &p )
 
 bool game::is_sheltered( const tripoint &p )
 {
-    const cata::optional<vpart_position> vp = m.veh_at( p );
+    const optional_vpart_position vp = m.veh_at( p );
 
     return ( !m.is_outside( p ) ||
              p.z < 0 ||
@@ -6412,7 +6412,7 @@ void game::open()
 
     u.moves -= 100;
 
-    if( const cata::optional<vpart_position> vp = m.veh_at( openp ) ) {
+    if( const optional_vpart_position vp = m.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
         int openable = veh->next_part_to_open( vp->part_index() );
         if (openable >= 0) {
@@ -6582,7 +6582,7 @@ void game::use_wielded_item()
 
 void game::handbrake()
 {
-    const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos() );
     if( !vp ) {
         return;
     }
@@ -6682,7 +6682,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
             }
         }
     }
-    if( const cata::optional<vpart_position> vp = m.veh_at( p ) ) {
+    if( const optional_vpart_position vp = m.veh_at( p ) ) {
         if (bash_dmg <= 0) {
             return false;
         }
@@ -6742,7 +6742,7 @@ void game::open_gate( const tripoint &p )
 
 void game::moving_vehicle_dismount( const tripoint &dest_loc )
 {
-    const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos() );
     if( !vp ) {
         debugmsg("Tried to exit non-existent vehicle.");
         return;
@@ -6774,7 +6774,7 @@ void game::control_vehicle()
     int veh_part = -1;
     vehicle *veh = remoteveh();
     if( veh == nullptr ) {
-        if( const cata::optional<vpart_position> vp = m.veh_at( u.pos() ) ) {
+        if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
             veh_part = vp->part_index();
         }
@@ -6797,7 +6797,7 @@ void game::control_vehicle()
         if (!choose_adjacent(_("Control vehicle where?"), examp)) {
             return;
         }
-        const cata::optional<vpart_position> vp = m.veh_at( examp );
+        const optional_vpart_position vp = m.veh_at( examp );
         if( !vp ) {
             add_msg(_("No vehicle there."));
             return;
@@ -7163,7 +7163,7 @@ void game::examine()
 {
     // if we are driving a vehicle, examine the
     // current tile without asking.
-    const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos() );
     if( vp && vp->vehicle().player_in_control( u ) ) {
         examine( u.pos() );
         return;
@@ -7199,7 +7199,7 @@ void game::examine( const tripoint &examp )
         }
     }
 
-    const cata::optional<vpart_position> vp = m.veh_at( examp );
+    const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));
@@ -7310,7 +7310,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     switch( visibility ) {
         case VIS_CLEAR:
             {
-                const cata::optional<vpart_position> vp = m.veh_at( lp );
+                const optional_vpart_position vp = m.veh_at( lp );
                 const Creature *creature = critter_at( lp, true );
                 print_terrain_info( lp, w_look, column, line );
                 print_fields_info( lp, w_look, column, line );
@@ -9191,7 +9191,7 @@ void game::grab()
 {
     tripoint grabp( 0, 0, 0 );
     if( u.grab_type != OBJECT_NONE ) {
-        if( const cata::optional<vpart_position> vp = m.veh_at( u.pos() + u.grab_point ) ) {
+        if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
         } else if (m.has_furn(u.pos() + u.grab_point)) {
             add_msg(_("You release the %s."), m.furnname(u.pos() + u.grab_point).c_str());
@@ -9210,7 +9210,7 @@ void game::grab()
             return;
         }
 
-        if( const cata::optional<vpart_position> vp = m.veh_at( grabp ) ) {
+        if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
             u.grab_point = grabp - u.pos();
             u.grab_type = OBJECT_VEHICLE;
             add_msg( _( "You grab the %s." ), vp->vehicle().name );
@@ -9628,7 +9628,7 @@ bool game::plfire_check( const targeting_data &args ) {
         return false;
     }
 
-    const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos() );
     if( vp && vp->vehicle().player_in_control( u ) && gun->is_two_handed( u ) ) {
         add_msg( m_info, _( "You need a free arm to drive!" ) );
         return false;
@@ -9674,7 +9674,7 @@ bool game::plfire_check( const targeting_data &args ) {
         }
 
         if( gun->has_flag( "MOUNTED_GUN" ) ) {
-            const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+            const optional_vpart_position vp = m.veh_at( u.pos() );
             bool v_mountable = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "MOUNTABLE" ) >= 0 );
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
             if( !t_mountable && !v_mountable ) {
@@ -10600,7 +10600,7 @@ void game::pldrive(int x, int y)
     bool remote = true;
     int part = -1;
     if( !veh ) {
-        if( const cata::optional<vpart_position> vp = m.veh_at( u.pos() ) ) {
+        if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
             part = vp->part_index();
         }
@@ -10836,7 +10836,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
     if( !u.is_blind() ) {
         const trap &tr = m.tr_at(dest_loc);
-        const cata::optional<vpart_position> vp = m.veh_at( dest_loc );
+        const optional_vpart_position vp = m.veh_at( dest_loc );
         const bool boardable = vp && vp->vehicle().part_with_feature( vp->part_index(), "BOARDABLE" ) >= 0;
         // Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
@@ -11006,9 +11006,9 @@ bool game::plmove(int dx, int dy, int dz)
 
     // GRAB: pre-action checking.
     int dpart = -1;
-    const cata::optional<vpart_position> vp0 = m.veh_at( u.pos() );
+    const optional_vpart_position vp0 = m.veh_at( u.pos() );
     vehicle *const veh0 = veh_pointer_or_null( vp0 );
-    const cata::optional<vpart_position> vp1 = m.veh_at( dest_loc );
+    const optional_vpart_position vp1 = m.veh_at( dest_loc );
     vehicle *const veh1 = veh_pointer_or_null( vp1 );
 
     bool veh_closed_door = false;
@@ -11157,8 +11157,8 @@ bool game::ramp_move( const tripoint &dest_loc )
 
 bool game::walk_move( const tripoint &dest_loc )
 {
-    const cata::optional<vpart_position> vp_here = m.veh_at( u.pos() );
-    const cata::optional<vpart_position> vp_there = m.veh_at( dest_loc );
+    const optional_vpart_position vp_here = m.veh_at( u.pos() );
+    const optional_vpart_position vp_there = m.veh_at( dest_loc );
 
     bool pushing = false;  // moving -into- grabbed tile; skip check for move_cost > 0
     bool pulling = false;  // moving -away- from grabbed tile; check for move_cost > 0
@@ -11311,7 +11311,7 @@ bool game::walk_move( const tripoint &dest_loc )
 
 void game::place_player( const tripoint &dest_loc )
 {
-    const cata::optional<vpart_position> vp1 = m.veh_at( dest_loc );
+    const optional_vpart_position vp1 = m.veh_at( dest_loc );
     if( vp1 ) {
         const vehicle_part &part = vp1->vehicle().parts[vp1->part_index()];
         std::string label = vp1->vehicle().get_label( part.mount.x, part.mount.y );
@@ -11624,7 +11624,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
-        const cata::optional<vpart_position> vp = m.veh_at( u.pos() );
+        const optional_vpart_position vp = m.veh_at( u.pos() );
         if( vp &&
             vp->vehicle().part_with_feature(vp->part_index(), "BOARDABLE") >= 0) {
             m.board_vehicle( u.pos(), &u );
@@ -11873,7 +11873,7 @@ void game::plswim( const tripoint &p )
     }
     u.setpos( p );
     update_map( u );
-    if( const cata::optional<vpart_position> vp = m.veh_at( u.pos() ) ) {
+    if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
         if( vp->vehicle().part_with_feature( vp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
             m.board_vehicle( u.pos(), &u );
         }
@@ -11979,7 +11979,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 thru = false;
             }
         } else if( m.impassable( pt ) ) {
-            if( const cata::optional<vpart_position> vp = m.veh_at( pt ) ) {
+            if( const optional_vpart_position vp = m.veh_at( pt ) ) {
                 const int part = vp->vehicle().obstacle_at_part( vp->part_index() );
                 if( part == -1 ) {
                     force = std::min<float>( m.bash_strength( pt ), flvel );

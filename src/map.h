@@ -35,6 +35,7 @@ class optional;
 class emit;
 using emit_id = string_id<emit>;
 class vpart_position;
+class optional_vpart_position;
 class player;
 class monster;
 class item;
@@ -499,7 +500,7 @@ class map
         *
         * @param p Tile to check for vehicle
         */
-        cata::optional<vpart_position> veh_at( const tripoint &p ) const;
+        optional_vpart_position veh_at( const tripoint &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // put player on vehicle at x,y

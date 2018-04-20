@@ -1624,7 +1624,7 @@ void map::player_in_field( player &u )
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if (u.in_vehicle) {
-        if( const cata::optional<vpart_position> vp = veh_at( u.pos() ) ) {
+        if( const optional_vpart_position vp = veh_at( u.pos() ) ) {
             inside = vp->vehicle().is_inside( vp->part_index() );
         }
     }
