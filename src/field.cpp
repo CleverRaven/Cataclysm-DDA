@@ -641,7 +641,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         }
 
         auto neighs = get_neighbors( p );
-        const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
+        const size_t end_it = rng( size_t(0), neighs.size() - 1 );
         std::vector<size_t> spread;
         spread.reserve( 8 );
         // Start at end_it + 1, then wrap around until i == end_it
@@ -1004,7 +1004,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // if there is more fire there, make it bigger and give it some fuel.
                                 // This is how big fires spend their excess age:
                                 // making other fires bigger. Flashpoint.
-                                const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
+                                const size_t end_it = rng( size_t(0), neighs.size() - 1 );
                                 for( size_t i = ( end_it + 1 ) % neighs.size();
                                      i != end_it && cur.getFieldAge() < 0;
                                      i = ( i + 1 ) % neighs.size() ) {
@@ -1088,7 +1088,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // Our iterator will start at end_i + 1 and increment from there and then wrap around.
                         // This guarantees it will check all neighbors, starting from a random one
-                        const size_t end_i = (size_t)rng( 0, neighs.size() - 1 );
+                        const size_t end_i = rng( size_t(0), neighs.size() - 1 );
                         for( size_t i = ( end_i + 1 ) % neighs.size();
                              i != end_i; i = ( i + 1 ) % neighs.size() ) {
                             if( one_in( cur.getFieldDensity() * 2 ) ) {

@@ -6,8 +6,10 @@
 
 #include <functional>
 
-template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-const T& rng(const T& val1, const T& val2);
+//template<typename T, typename          = typename std::enable_if  <std::is_arithmetic<T>::value, T>::type>
+//template<typename T, typename TEnabled = typename std::enable_if_t<std::is_arithmetic<T>::value, T>>
+template<typename T>
+const T rng(const T& val1, const T& val2);
 bool one_in( int chance );
 bool one_in_improved( double chance );
 bool x_in_y( double x, double y );

@@ -4201,7 +4201,7 @@ ff.......|....|WWWWWWWW|\n\
                 std::vector<point> path; // Path, from end to start
                 while (x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2) {
                     path.push_back( point(x, y) );
-                    ter_set(x, y, ter_id( rng(t_floor_red, t_floor_blue) ));
+                    ter_set(x, y, ter_id( rng( int( t_floor_red ), int( t_floor_blue ) ) ));
                     if (y == SEEY * 2 - 2) {
                         if (x < SEEX - 1) {
                             x++;
@@ -4251,7 +4251,7 @@ ff.......|....|WWWWWWWW|\n\
                     for (int j = 2; j <= SEEY * 2 - 2; j++) {
                         mtrap_set( this, i, j, tr_temple_toggle);
                         if (ter(i, j) == t_rock_floor) {
-                            ter_set(i, j, ter_id( rng(t_rock_red, t_floor_blue) ));
+                            ter_set(i, j, ter_id( rng( int(t_rock_red), int(t_floor_blue) ) ));
                         }
                     }
                 }
@@ -4568,7 +4568,7 @@ ff.......|....|WWWWWWWW|\n\
                     }
                 }
                 if (okay) {
-                    room_type type = room_type( rng(room_mine_office, room_mine_housing) );
+                    room_type type = room_type( rng( int(room_mine_office), int(room_mine_housing) ) );
                     build_mine_room(this, type, x1, y1, x2, y2, dat);
                     tries = 0;
                 } else {

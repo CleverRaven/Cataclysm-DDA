@@ -376,8 +376,8 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     }
 
     // Stabbing effects
-    int stab_moves = rng( d.type_damage( DT_STAB ) / 2,
-                          d.type_damage( DT_STAB ) * 1.5 );
+    int stab_moves = rng( double( d.type_damage( DT_STAB ) / 2 ), 
+                                  d.type_damage( DT_STAB ) * 1.5 );
     if (critical_hit) {
         stab_moves *= 1.5;
     }
@@ -491,15 +491,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
         gmtSCTcolor = m_good;
-        damage_mult *= rng( 1, 1.5 );
+        damage_mult *= rng( 1.0, 1.5 );
 
     } else if( goodhit < accuracy_standard ) {
-        damage_mult *= rng( 0.5, 1 );
+        damage_mult *= rng( 0.5, 1.0 );
 
     } else if( goodhit < accuracy_grazing ) {
         message = _("Grazing hit.");
         gmtSCTcolor = m_grazing;
-        damage_mult *= rng( 0, .25 );
+        damage_mult *= rng( 0.0, 0.25 );
     }
 
     if( source != nullptr && !message.empty() ) {

@@ -8,8 +8,9 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-const T& rng(const T& val1, const T& val2)
+//template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+template <class T>
+const T rng(const T& val1, const T& val2)
 {
     T minVal = ( val1 < val2 ) ? val1 : val2;
     T maxVal = ( val1 < val2 ) ? val2 : val1;
