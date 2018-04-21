@@ -13,10 +13,10 @@ class Creature;
 struct tripoint;
 namespace units
 {
-	template<typename V, typename U>
-	class quantity;
-	class mass_in_gram_tag;
-	using mass = quantity<int, mass_in_gram_tag>;
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
 }
 class JsonIn;
 class JsonOut;
@@ -25,7 +25,7 @@ class JsonOut;
  * Greater-than comparison operator; required by the sort interface
  */
 struct pair_greater_cmp {
-	bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) const;
+    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) const;
 };
 
 /**
@@ -33,68 +33,68 @@ struct pair_greater_cmp {
  * while displaying vehicle speed in km/h.
  */
 enum units_type {
-	VU_VEHICLE,
-	VU_WIND
+    VU_VEHICLE,
+    VU_WIND
 };
 
 constexpr double in_to_m( double val )
 {
-	return val * 0.0254;
+    return val * 0.0254;
 }
 
 constexpr double m_to_in( double val )
 {
-	return val / 0.0254;
+    return val / 0.0254;
 }
 
 constexpr double ms_to_mph( double val )
 {
-	return val * 2.237;
+    return val * 2.237;
 }
 
 // Convert to internal velocity unit.
 constexpr double mph_to_internal( double val )
 {
-	return val * 100;
+    return val * 100;
 }
 
 constexpr double mph_to_ms( double val )
 {
-	return val / 2.237;
+    return val / 2.237;
 }
 
 // Convert to internal velocity unit.
 constexpr double ms_to_internal( double val )
 {
-	return ms_to_mph(val) * 100;
+    return ms_to_mph( val ) * 100;
 }
 
 // Convert to internal velocity unit.
 constexpr double internal_to_ms( double val )
 {
-	return mph_to_ms(val / 100);
+    return mph_to_ms( val / 100 );
 }
 
 /** convert velocity (m/s) to arbitrary display units */
 constexpr double ms_to_display( double val )
 {
-	return ms_to_mph( val ) * 100 * 2;
+    return ms_to_mph( val ) * 100 * 2;
 }
 
 /** convert velocity (m/s) to fractional tiles per turn */
 constexpr double ms_to_tt( double v )
 {
-	return ms_to_mph( v ) / 10.0;
+    return ms_to_mph( v ) / 10.0;
 }
 
 constexpr double hp_to_watt( double val )
 {
-	return val * 745.7;
+    return val * 745.7;
 }
 
 constexpr double watt_to_hp( double val )
 {
-	return val / 745.7;
+    return val / 745.7;
 }
 
 /**
@@ -104,7 +104,7 @@ constexpr double watt_to_hp( double val )
  */
 inline int fast_floor( double v )
 {
-	return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+    return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
 }
 
 /**
@@ -286,7 +286,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
 template<typename T>
 constexpr T clamp( const T &val, const T &min, const T &max )
 {
-	return std::max( min, std::min( max, val ) );
+    return std::max( min, std::min( max, val ) );
 }
 
 /**
@@ -296,14 +296,14 @@ constexpr T clamp( const T &val, const T &min, const T &max )
 template<typename T>
 constexpr T lerp( const T &min, const T &max, float t )
 {
-	return ( 1.0f - t ) * min + t * max;
+    return ( 1.0f - t ) * min + t * max;
 }
 
 /** Linear interpolation with t clamped to [0, 1] */
 template<typename T>
 constexpr T lerp_clamped( const T &min, const T &max, float t )
 {
-	return lerp( min, max, clamp( t, 0.0f, 1.0f ) );
+    return lerp( min, max, clamp( t, 0.0f, 1.0f ) );
 }
 
 /**
@@ -324,28 +324,28 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x );
 template<typename T>
 class list_circularizer
 {
-private:
-	unsigned int _index = 0;
-	std::vector<T> *_list;
-public:
-	/** Construct list_circularizer from an existing std::vector. */
-	list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
-	}
-	
-	/** Advance list to next item, wrapping back to 0 at end of list */
-	void next() {
-		_index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
-	}
-	
-	/** Advance list to previous item, wrapping back to end at zero */
-	void prev() {
-		_index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
-	}
-	
-	/** Return list element at the current location */
-	T &cur() const {
-		return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
-	}
+    private:
+        unsigned int _index = 0;
+        std::vector<T> *_list;
+    public:
+        /** Construct list_circularizer from an existing std::vector. */
+        list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
+        }
+
+        /** Advance list to next item, wrapping back to 0 at end of list */
+        void next() {
+            _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
+        }
+
+        /** Advance list to previous item, wrapping back to end at zero */
+        void prev() {
+            _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
+        }
+
+        /** Return list element at the current location */
+        T &cur() const {
+            return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
+        }
 };
 
 /**
@@ -363,21 +363,21 @@ public:
  */
 class ofstream_wrapper
 {
-private:
-	std::ofstream file_stream;
-	
-public:
-	ofstream_wrapper( const std::string &path );
-	~ofstream_wrapper();
-	
-	std::ostream &stream() {
-		return file_stream;
-	}
-	operator std::ostream &() {
-		return file_stream;
-	}
-	
-	void close();
+    private:
+        std::ofstream file_stream;
+
+    public:
+        ofstream_wrapper( const std::string &path );
+        ~ofstream_wrapper();
+
+        std::ostream &stream() {
+            return file_stream;
+        }
+        operator std::ostream &() {
+            return file_stream;
+        }
+
+        void close();
 };
 
 /**
@@ -390,7 +390,7 @@ public:
  * @return Whether saving succeeded (no error was caught).
  */
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
-				   const char *fail_message );
+                    const char *fail_message );
 class JsonDeserializer;
 /**
  * Try to open and read from given file using the given callback.
@@ -417,9 +417,9 @@ bool read_from_file_json( const std::string &path, const std::function<void( Jso
 bool read_from_file( const std::string &path, JsonDeserializer &reader );
 
 bool read_from_file_optional( const std::string &path,
-							 const std::function<void( std::istream & )> &reader );
+                              const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
-								  const std::function<void( JsonIn & )> &reader );
+                                   const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
 /**
@@ -429,27 +429,27 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
  */
 class ofstream_wrapper_exclusive
 {
-private:
-	std::ofstream file_stream;
-	std::string path;
-	
-public:
-	ofstream_wrapper_exclusive( const std::string &path );
-	~ofstream_wrapper_exclusive();
-	
-	std::ostream &stream() {
-		return file_stream;
-	}
-	operator std::ostream &() {
-		return file_stream;
-	}
-	
-	void close();
+    private:
+        std::ofstream file_stream;
+        std::string path;
+
+    public:
+        ofstream_wrapper_exclusive( const std::string &path );
+        ~ofstream_wrapper_exclusive();
+
+        std::ostream &stream() {
+            return file_stream;
+        }
+        operator std::ostream &() {
+            return file_stream;
+        }
+
+        void close();
 };
 
 /** See @ref write_to_file, but uses the exclusive I/O functions. */
 bool write_to_file_exclusive( const std::string &path,
-							 const std::function<void( std::ostream & )> &writer,  const char *fail_message );
+                              const std::function<void( std::ostream & )> &writer,  const char *fail_message );
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
@@ -486,22 +486,22 @@ std::string obscure_message( const std::string &str, std::function<char()> f );
 /**@{*/
 std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
 void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
-						 const std::string &data );
+                          const std::string &data );
 
 template<typename T>
 inline std::string serialize( const T &obj )
 {
-	return serialize_wrapper( [&obj]( JsonOut & jsout ) {
-		obj.serialize( jsout );
-	} );
+    return serialize_wrapper( [&obj]( JsonOut & jsout ) {
+        obj.serialize( jsout );
+    } );
 }
 
 template<typename T>
 inline void deserialize( T &obj, const std::string &data )
 {
-	deserialize_wrapper( [&obj]( JsonIn & jsin ) {
-		obj.deserialize( jsin );
-	}, data );
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj.deserialize( jsin );
+    }, data );
 }
 /**@}*/
 

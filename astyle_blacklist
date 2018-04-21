@@ -23,7 +23,6 @@ src/iexamine.cpp
 src/init.cpp
 src/inventory.cpp
 src/inventory_ui.cpp
-src/item.cpp
 src/item_factory.cpp
 src/iuse_actor.cpp
 src/iuse.cpp
