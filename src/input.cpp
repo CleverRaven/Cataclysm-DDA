@@ -966,7 +966,7 @@ void input_context::display_help()
             scroll_offset = 0;
         }
 
-        if( filtered_registered_actions.size() == 0 && action != "QUIT" ) {
+        if( filtered_registered_actions.empty() && action != "QUIT" ) {
             continue;
         }
 

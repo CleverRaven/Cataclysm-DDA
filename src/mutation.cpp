@@ -417,7 +417,7 @@ void player::activate_mutation( const trait_id &mut )
             }
         }
         // Oops, no room to divide!
-        if (valid.size() == 0) {
+        if( valid.empty() ) {
             add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
             tdata.powered = false;
             return;

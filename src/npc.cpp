@@ -2198,7 +2198,7 @@ void epilogue::random_by_group( std::string group, std::string name )
             v.push_back( epi.second );
         }
     }
-    if( v.size() == 0 ) {
+    if( v.empty() ) {
         return;
     }
     epilogue epi = random_entry( v );
