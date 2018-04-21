@@ -583,7 +583,7 @@ void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
         g->u.add_msg_if_player(m_debug, "Floating.");
         return;
     }
-    
+
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size(), submerged_wheels = 0, air_wheels = 0;
     if( num_wheels == 0 ) {
@@ -592,10 +592,10 @@ void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
         // TODO: Set values.
         return;
     }
-    
+
     // Make sure mass is in kilograms. We want kgm/s^2.
     float area = veh.wheel_area( false ), weight = 9.8 * veh.total_mass().value() / 1000.0;
-    
+
     // Calculate wheel terrian.
     for( auto &wheel_index : wheel_indices ) {
         const tripoint part_point = point + veh.parts[ wheel_index ].precalc[0];
@@ -615,7 +615,7 @@ void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
             // TODO: Alter weight distribution.
             continue;
         }
-        
+
         int move_mod = move_cost_ter_furn( part_point );
         if( move_mod == 0 ) {
             // Vehicle locked in wall
@@ -647,7 +647,7 @@ void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
             default:
                 break;
         }
-        
+
         if ( season_of_year( calendar::turn ) == WINTER ) {
             weather_mult *= 0.25;
         }
@@ -660,7 +660,7 @@ void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
             move_mod += 2;
             friction_mult *= 2.0 / 3.0;
         }
-        
+
         float pressure = weight / wheel_area;
         // Calculate sinkage in proportion to 100kPa.
         float sinkage = (pressure / 1000) / 100;
@@ -668,24 +668,23 @@ void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
         if ( terrian.has_flag( TFLAG_DIGGABLE ) ) {
             // TODO: Integrate with JSON.
             // Increase sinkage in proportion to pressure.
-            //            g->u.add_msg_if_player(m_debug, "Raw sinkage is %d.", sinkage_ter( part_point ));
             sinkage *= sinkage_ter( part_point ) / 10000.0;
         } else {
             sinkage *= 0.0001;
         }
-        
+
         // TODO: Set a threshold in globals.
         returns[OBSTACLE] = std::max(move_mod / (10 * wheel_area), returns[OBSTACLE]);
         // Multiply by proportion of wheel area because this is for the entire vehicle.
         returns[K_FRICTION] += weather_mult * std::sqrt(sinkage / veh.parts[ wheel_index ].wheel_diameter()) * veh.parts[ wheel_index ].wheel_area() / area;
         returns[K_TRACTION] += friction_mult * weather_mult * veh.parts[ wheel_index ].wheel_friction() * veh.parts[ wheel_index ].wheel_area() / area;
     }
-    
+
     // Submerged wheels threshold is 2/3.
     if( num_wheels > 0 && submerged_wheels * 3 > num_wheels * 2 ) {
         returns[K_TRACTION] = -1;
     }
-    
+
     return;
 }
 

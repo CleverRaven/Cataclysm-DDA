@@ -3171,13 +3171,12 @@ void vehicle::noise_and_smoke( double load, double time )
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         if( is_engine_on(e) &&
-           (is_engine_type(e, fuel_type_muscle) || fuel_left (part_info(p).fuel_type)) ) {
+                (is_engine_type(e, fuel_type_muscle) || fuel_left (part_info(p).fuel_type)) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
             double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-                
                 if( is_engine_type( e, fuel_type_gasoline ) ) {
                     double dmg = 1.0 - double( parts[p].hp() ) / part_info( p ).durability;
                     if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
@@ -3188,7 +3187,7 @@ void vehicle::noise_and_smoke( double load, double time )
                     }
                 }
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
-                
+
                 if( parts[ p ].base.faults.count( fault_filter_air ) ) {
                     bad_filter = true;
                     j *= j;
@@ -3210,17 +3209,17 @@ void vehicle::noise_and_smoke( double load, double time )
     }
 
     if( (exhaust_part != -1) && engine_on &&
-       has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
+        has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
     }
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
     int lvl = 0;
     if( one_in(4) && rng(0, 30) < noise &&
-       has_engine_type_not(fuel_type_muscle, true)) {
-        while( noise > sound_levels[lvl] ) {
-            lvl++;
-        }
+        has_engine_type_not(fuel_type_muscle, true)) {
+       while( noise > sound_levels[lvl] ) {
+           lvl++;
+       }
     }
     sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }

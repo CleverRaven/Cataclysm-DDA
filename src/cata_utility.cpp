@@ -145,7 +145,6 @@ const char *volume_units_long()
     }
 }
 
-// From m/s to X
 double convert_velocity( int velocity, const units_type vel_units )
 {
     if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
@@ -158,7 +157,6 @@ double convert_velocity( int velocity, const units_type vel_units )
                 return double( velocity );
         }
     }
-
     // mph
     return ms_to_mph( double( velocity ) );
 }
