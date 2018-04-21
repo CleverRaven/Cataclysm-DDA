@@ -1369,18 +1369,18 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
     const vehicle_part& vp = parts[ index ];
 
     const itype *fueltype = item::find_type( vp.ammo_current() );
-float density = 0, ratio = 1;
-if( fueltype->fuel )
-{
-    assert( fueltype->fuel->energy > 0 );
-    // kW per cc
-    density = fueltype->fuel->energy / 1000;
-    ratio = fueltype->fuel->ratio;
-}
+    float density = 0, ratio = 1;
+    if( fueltype->fuel )
+    {
+        assert( fueltype->fuel->energy > 0 );
+        // kW per cc
+        density = fueltype->fuel->energy / 1000;
+        ratio = fueltype->fuel->ratio;
+    }
 
-// cc * % efficiency * kW / cc = kW
-float fuel = vp.base.engine_displacement() / ( ratio + 1 );
-int pwr = 4 * fuel * vp.info().efficiency / 100.0 * density;
+    // cc * % efficiency * kW / cc = kW
+    float fuel = vp.base.engine_displacement() / ( ratio + 1 );
+    int pwr = 4 * fuel * vp.info().efficiency / 100.0 * density;
 
     if( pwr == 0 ) {
         pwr = vp.info().power;
