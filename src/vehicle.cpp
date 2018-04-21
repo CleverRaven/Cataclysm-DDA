@@ -3177,6 +3177,7 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
+
                 if( is_engine_type( e, fuel_type_gasoline ) ) {
                     double dmg = 1.0 - double( parts[p].hp() ) / part_info( p ).durability;
                     if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
