@@ -1609,8 +1609,8 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
         /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
         int moraleMalus = -50 * (5.0 / p.get_skill_level( skill_survival ));
         int maxMalus = -250 * (5.0 / p.get_skill_level( skill_survival ));
-        int duration = 300 * (5.0 / p.get_skill_level( skill_survival ));
-        int decayDelay = 30 * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration duration = 30_minutes * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration decayDelay = 3_minutes * (5.0 / p.get_skill_level( skill_survival ));
 
         if (p.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
@@ -1928,7 +1928,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
         p.add_effect( effect_music, 1 );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
     }
 
     return 0;

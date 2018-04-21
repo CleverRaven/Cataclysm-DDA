@@ -617,10 +617,10 @@ bool player::eat( item &food, bool force )
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 600, 300 );
+            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 600, 300 );
+            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         }
     }
 
@@ -628,19 +628,19 @@ bool player::eat( item &food, bool force )
     const auto allergy = allergy_type( food );
     if( allergy != MORALE_NULL ) {
         add_msg_if_player( m_bad, _( "Yuck! How can anybody eat this stuff?" ) );
-        add_morale( allergy, -75, -400, 300, 240 );
+        add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
     }
     // Carnivores CAN eat junk food, but they won't like it much.
     // Pizza-scraping happens in consume_effects.
     if( has_trait( trait_id( "CARNIVORE" ) ) && food.has_flag( "ALLERGEN_JUNK" ) &&
         !food.has_flag( "CARNIVORE_OK" ) ) {
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-        add_morale( MORALE_NO_DIGEST, -25, -125, 300, 240 );
+        add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
     }
     if( !spoiled && chew && has_trait( trait_id( "SAPROPHAGE" ) ) ) {
         // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-        add_morale( MORALE_NO_DIGEST, -75, -400, 300, 240 );
+        add_morale( MORALE_NO_DIGEST, -75, -400, 30_minutes, 24_minutes );
     }
     if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() ||
             has_trait( trait_id( "THRESH_URSINE" ) ) ) &&
@@ -774,10 +774,9 @@ void player::consume_effects( const item &food )
         rem_morale( addiction_craving( comest.add ) );
     }
 
-    // Morale is in minutes
-    int morale_time = HOURS( 2 ) / MINUTES( 1 );
+    time_duration morale_time = 2_hours;
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
-        morale_time = HOURS( 3 ) / MINUTES( 1 );
+        morale_time = 3_hours;
         int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
         add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
     }

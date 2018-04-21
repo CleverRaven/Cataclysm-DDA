@@ -821,9 +821,9 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
 
    //Fake a normal food morale effect
     if (p->has_trait(trait_SPIRITUAL)) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
     } else {
-         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 60, 30, false, it->type );
+         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false, it->type );
     }
     if (!p->has_effect( effect_hallu)) {
         p->add_effect( effect_hallu, 3600);
@@ -893,7 +893,7 @@ int iuse::datura(player *p, item *it, bool, const tripoint& )
     p->add_effect( effect_datura, rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
     if (p->has_trait(trait_SPIRITUAL)) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
     }
     return it->type->charges_to_use();
 }
@@ -966,7 +966,7 @@ int iuse::blech(player *p, item *it, bool, const tripoint& )
         p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
         p->mod_stomach_water( 20 );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 60, 30, false, it->type );
+        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
     } else {
         p->add_msg_if_player(m_bad, _("Blech, that burns your throat!"));
         p->mod_pain( rng( 32, 64));
@@ -992,7 +992,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         p->mod_hunger( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier);
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
         return blech( p, it, true, pos );
@@ -3787,7 +3787,7 @@ void iuse::play_music( player &p, const tripoint &source, int const volume, int 
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1 );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_turns, 2_turns );
         // mp3 player reduces hearing
         if( volume == 0 ) {
              p.add_effect( effect_earphones, 1 );
@@ -4726,7 +4726,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 sounds::sound(p->pos(), 40, "");
                 if (!p->is_deaf()) {
                     p->add_msg_if_player(m_warning, _("Your %s screams disturbingly."), it->tname().c_str());
-                    p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
+                    p->add_morale(MORALE_SCREAM, -10, 0, 30_minutes, 5_turns);
                 }
                 break;
 
@@ -7269,7 +7269,7 @@ int iuse::shavekit(player *p, item *it, bool, const tripoint&)
     } else {
         p->add_msg_if_player(_("You open up your kit and shave."));
         p->moves -= 3000;
-        p->add_morale(MORALE_SHAVE, 8, 8, 2400, 30);
+        p->add_morale(MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes);
     }
     return it->type->charges_to_use();
 }
@@ -7278,7 +7278,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 {
         p->add_msg_if_player(_("You give your hair a trim."));
         p->moves -= 3000;
-        p->add_morale(MORALE_HAIRCUT, 3, 3, 4800, 30);
+        p->add_morale(MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes);
     return it->type->charges_to_use();
 }
 
