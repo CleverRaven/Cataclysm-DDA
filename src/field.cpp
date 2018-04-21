@@ -53,7 +53,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_null",
         {"", "", ""}, '%', 0,
-        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
         PNULL,
         false
@@ -61,7 +61,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_blood",
         {translate_marker( "blood splatter" ), translate_marker( "blood stain" ), translate_marker( "puddle of blood" )}, '%', 0,
-        {def_c_red,def_c_red,def_c_red}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_red,def_c_red,def_c_red}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         LIQUID,
         true
@@ -69,7 +69,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_bile",
         {translate_marker( "bile splatter" ), translate_marker( "bile stain" ), translate_marker( "puddle of bile" )}, '%', 0,
-        {def_c_pink,def_c_pink,def_c_pink}, {true, true, true}, {false, false, false}, HOURS( 24 ),
+        {def_c_pink,def_c_pink,def_c_pink}, {true, true, true}, {false, false, false}, 1_days,
         {0,0,0},
         LIQUID,
         true
@@ -78,7 +78,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_gibs_flesh",
         {translate_marker( "scraps of flesh" ), translate_marker( "bloody meat chunks" ), translate_marker( "heap of gore" )}, '~', 0,
-        {def_c_brown,def_c_light_red,def_c_red}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_brown,def_c_light_red,def_c_red}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         SOLID,
         true
@@ -87,7 +87,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_gibs_veggy",
         {translate_marker( "shredded leaves and twigs" ), translate_marker( "shattered branches and leaves" ), translate_marker( "broken vegetation tangle" )}, '~', 0,
-        {def_c_light_green,def_c_light_green,def_c_green}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_light_green,def_c_light_green,def_c_green}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         SOLID,
         true
@@ -96,7 +96,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_web",
         {translate_marker( "cobwebs" ),translate_marker( "webs" ), translate_marker( "thick webs" )}, '}', 2,
-        {def_c_white,def_c_white,def_c_white}, {true, true, false},{true, true, true}, 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, false},{true, true, true}, 0_turns,
         {0,0,0},
         SOLID,
         false
@@ -105,7 +105,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_slime",
         {translate_marker( "slime trail" ), translate_marker( "slime stain" ), translate_marker( "puddle of slime" )}, '%', 0,
-        {def_c_light_green,def_c_light_green,def_c_green},{true, true, true},{false, false, false}, HOURS( 24 ),
+        {def_c_light_green,def_c_light_green,def_c_green},{true, true, true},{false, false, false}, 1_days,
         {0,0,0},
         LIQUID,
         true
@@ -114,7 +114,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_acid",
         {translate_marker( "acid splatter" ), translate_marker( "acid streak" ), translate_marker( "pool of acid" )}, '5', 2,
-        {def_c_light_green,def_c_green,def_c_green}, {true, true, true}, {true, true, true}, MINUTES( 2 ),
+        {def_c_light_green,def_c_green,def_c_green}, {true, true, true}, {true, true, true}, 2_minutes,
         {0,0,0},
         LIQUID,
         false
@@ -123,7 +123,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_sap",
         {translate_marker( "sap splatter" ), translate_marker( "glob of sap" ), translate_marker( "pool of sap" )}, '5', 2,
-        {def_c_yellow,def_c_brown,def_c_brown}, {true, true, true}, {true, true, true}, MINUTES( 2 ),
+        {def_c_yellow,def_c_brown,def_c_brown}, {true, true, true}, {true, true, true}, 2_minutes,
         {0,0,0},
         LIQUID,
         false
@@ -132,7 +132,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_sludge",
         {translate_marker( "thin sludge trail" ), translate_marker( "sludge trail" ), translate_marker( "thick sludge trail" )}, '5', 2,
-        {def_c_light_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true}, {true, true, true}, HOURS( 6 ),
+        {def_c_light_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true}, {true, true, true}, 6_hours,
         {0,0,0},
         LIQUID,
         false
@@ -141,7 +141,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_fire",
         {translate_marker( "small fire" ), translate_marker( "fire" ), translate_marker( "raging fire" )}, '4', 4,
-        {def_c_yellow,def_c_light_red,def_c_red}, {true, true, true}, {true, true, true}, MINUTES( 30 ),
+        {def_c_yellow,def_c_light_red,def_c_red}, {true, true, true}, {true, true, true}, 30_minutes,
         {0,0,0},
         PLASMA,
         false
@@ -150,7 +150,7 @@ const std::array<field_t, num_fields> fieldlist = { {
    {
        "fd_rubble",
        {translate_marker( "legacy rubble" ), translate_marker( "legacy rubble" ), translate_marker( "legacy rubble" )}, '#', 0,
-       {def_c_dark_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true},{false, false, false},  1,
+       {def_c_dark_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 1_turns,
        {0,0,0},
        SOLID,
        false
@@ -159,7 +159,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_smoke",
         {translate_marker( "thin smoke" ), translate_marker( "smoke" ), translate_marker( "thick smoke" )}, '8', 8,
-        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, false, false},{true, true, true}, MINUTES( 2 ),
+        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, false, false},{true, true, true}, 2_minutes,
         {0,0,0},
         GAS,
         true
@@ -167,7 +167,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_toxic_gas",
         {translate_marker( "hazy cloud" ),translate_marker( "toxic gas" ),translate_marker( "thick toxic gas" )}, '8', 8,
-        {def_c_white,def_c_light_green,def_c_green}, {true, false, false},{true, true, true}, MINUTES( 90 ),
+        {def_c_white,def_c_light_green,def_c_green}, {true, false, false},{true, true, true}, 90_minutes,
         {0,0,0},
         GAS,
         false
@@ -176,7 +176,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_tear_gas",
         {translate_marker( "hazy cloud" ),translate_marker( "tear gas" ),translate_marker( "thick tear gas" )}, '8', 8,
-        {def_c_white,def_c_yellow,def_c_brown}, {true, false, false},{true, true, true}, MINUTES( 5 ),
+        {def_c_white,def_c_yellow,def_c_brown}, {true, false, false},{true, true, true}, 5_minutes,
         {0,0,0},
         GAS,
         false
@@ -185,7 +185,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_nuke_gas",
         {translate_marker( "hazy cloud" ),translate_marker( "radioactive gas" ), translate_marker( "thick radioactive gas" )}, '8', 8,
-        {def_c_white,def_c_light_green,def_c_green}, {true, true, false}, {true, true, true}, MINUTES( 100 ),
+        {def_c_white,def_c_light_green,def_c_green}, {true, true, false}, {true, true, true}, 100_minutes,
         {0,0,0},
         GAS,
         false
@@ -194,7 +194,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_gas_vent",
         {translate_marker( "gas vent" ), translate_marker( "gas vent" ), translate_marker( "gas vent" )}, '%', 0,
-        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
         GAS,
         false
@@ -203,7 +203,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     { // Fire Vents
         "fd_fire_vent",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
         GAS,
         false
@@ -212,7 +212,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_flame_burst",
         {translate_marker( "fire" ), translate_marker( "fire" ), translate_marker( "fire" )}, '5', 4,
-        {def_c_red,def_c_red,def_c_red}, {true, true, true}, {true, true, true}, 0,
+        {def_c_red,def_c_red,def_c_red}, {true, true, true}, {true, true, true}, 0_turns,
         {0,0,0},
         GAS,
         false
@@ -221,7 +221,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_electricity",
         {translate_marker( "sparks" ), translate_marker( "electric crackle" ), translate_marker( "electric cloud" )}, '9', 4,
-        {def_c_white,def_c_cyan,def_c_blue}, {true, true, true}, {true, true, true}, 2,
+        {def_c_white,def_c_cyan,def_c_blue}, {true, true, true}, {true, true, true}, 2_turns,
         {0,0,0},
         PLASMA,
         false
@@ -230,7 +230,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_fatigue",
         {translate_marker( "odd ripple" ), translate_marker( "swirling air" ), translate_marker( "tear in reality" )}, '*', 8,
-        {def_c_light_gray,def_c_dark_gray,def_c_magenta},{true, true, false},{true, true, true},  0,
+        {def_c_light_gray,def_c_dark_gray,def_c_magenta},{true, true, false},{true, true, true}, 0_turns,
         {0,0,0},
         PNULL,
         false
@@ -239,7 +239,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     { //Push Items
         "fd_push_items",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
         PNULL,
         false
@@ -248,7 +248,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     { // shock vents
         "fd_shock_vent",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
         PLASMA,
         false
@@ -257,7 +257,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     { // acid vents
         "fd_acid_vent",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
         LIQUID,
         false
@@ -266,7 +266,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     { // plasma glow ( for plasma weapons )
         "fd_plasma",
         {translate_marker( "faint plasma" ), translate_marker( "glowing plasma" ), translate_marker( "glaring plasma" )}, '9', 4,
-        {def_c_magenta,def_c_pink,def_c_white}, {true, true, true}, {false, false, false}, 2,
+        {def_c_magenta,def_c_pink,def_c_white}, {true, true, true}, {false, false, false}, 2_turns,
         {0,0,0},
         PLASMA,
         false
@@ -275,7 +275,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     { // laser beam ( for laser weapons )
         "fd_laser",
         {translate_marker( "faint glimmer" ), translate_marker( "beam of light" ), translate_marker( "intense beam of light" )}, '#', 4,
-        {def_c_blue,def_c_light_blue,def_c_white}, {true, true, true}, {false, false, false}, 1,
+        {def_c_blue,def_c_light_blue,def_c_white}, {true, true, true}, {false, false, false}, 1_turns,
         {0,0,0},
         PLASMA,
         false
@@ -283,7 +283,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_spotlight",
         { translate_marker( "spotlight" ), translate_marker( "spotlight" ), translate_marker( "spotlight" ) }, '&', 1,
-        {def_c_white,def_c_white,def_c_white}, { true, true, true }, { false, false, false }, 1,
+        {def_c_white,def_c_white,def_c_white}, { true, true, true }, { false, false, false }, 1_turns,
         {0,0,0},
         PNULL,
         false
@@ -291,7 +291,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_dazzling",
         { translate_marker( "dazzling" ), translate_marker( "dazzling" ), translate_marker( "dazzling" ) }, '#', 4,
-        {def_c_light_red_yellow,def_c_light_red_yellow,def_c_light_red_yellow}, { true, true, true }, { false, false, false }, 1,
+        {def_c_light_red_yellow,def_c_light_red_yellow,def_c_light_red_yellow}, { true, true, true }, { false, false, false }, 1_turns,
         { 0, 0, 0 },
         PLASMA,
         false
@@ -299,7 +299,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_blood_veggy",
         {translate_marker( "plant sap splatter" ), translate_marker( "plant sap stain" ), translate_marker( "puddle of resin" )}, '%', 0,
-        {def_c_light_green,def_c_light_green,def_c_light_green}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_light_green,def_c_light_green,def_c_light_green}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         LIQUID,
         true
@@ -307,7 +307,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_blood_insect",
         {translate_marker( "bug blood splatter" ), translate_marker( "bug blood stain" ), translate_marker( "puddle of bug blood" )}, '%', 0,
-        {def_c_green,def_c_green,def_c_green}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_green,def_c_green,def_c_green}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         LIQUID,
         true
@@ -315,7 +315,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_blood_invertebrate",
         {translate_marker( "hemolymph splatter" ), translate_marker( "hemolymph stain" ), translate_marker( "puddle of hemolymph" )}, '%', 0,
-        {def_c_light_gray,def_c_light_gray,def_c_light_gray}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_light_gray,def_c_light_gray,def_c_light_gray}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         LIQUID,
         true
@@ -323,7 +323,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_gibs_insect",
         {translate_marker( "shards of chitin" ), translate_marker( "shattered bug leg" ), translate_marker( "torn insect organs" )}, '~', 0,
-        {def_c_light_green,def_c_green,def_c_yellow}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_light_green,def_c_green,def_c_yellow}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         SOLID,
         true
@@ -331,7 +331,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_gibs_invertebrate",
         {translate_marker( "gooey scraps" ), translate_marker( "icky mess" ), translate_marker( "heap of squishy gore" )}, '~', 0,
-        {def_c_light_gray,def_c_light_gray,def_c_dark_gray}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {def_c_light_gray,def_c_light_gray,def_c_dark_gray}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
         SOLID,
         true
@@ -339,7 +339,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_cigsmoke",
         {translate_marker( "swirl of tobacco smoke" ), translate_marker( "tobacco smoke" ), translate_marker( "thick tobacco smoke" )}, '%', 8,
-        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, MINUTES( 35 ),
+        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 35_minutes,
         {0,0,0},
         GAS,
         true
@@ -347,7 +347,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_weedsmoke",
         {translate_marker( "swirl of pot smoke" ), translate_marker( "pot smoke" ), translate_marker( "thick pot smoke" )}, '%', 8,
-        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false},  325,
+        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 325_turns,
         {0,0,0},
         GAS,
         true
@@ -356,7 +356,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_cracksmoke",
         {translate_marker( "swirl of crack smoke" ), translate_marker( "crack smoke" ), translate_marker( "thick crack smoke" )}, '%', 8,
-        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false},  225,
+        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 225_turns,
         {0,0,0},
         GAS,
         true
@@ -364,7 +364,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_methsmoke",
         {translate_marker( "swirl of meth smoke" ), translate_marker( "meth smoke" ), translate_marker( "thick meth smoke" )}, '%', 8,
-        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false},  275,
+        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 275_turns,
         {0,0,0},
         GAS,
         true
@@ -372,7 +372,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_bees",
         {translate_marker( "some bees" ), translate_marker( "swarm of bees" ), translate_marker( "angry swarm of bees" )}, '8', 8,
-        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{true, true, true}, MINUTES( 100 ),
+        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{true, true, true}, 100_minutes,
         {0,0,0},
         PNULL,
         false
@@ -381,7 +381,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_incendiary",
         {translate_marker( "smoke" ),translate_marker( "airborne incendiary" ), translate_marker( "airborne incendiary" )}, '8', 8,
-        {def_c_white,def_c_light_red,def_c_light_red_red}, {true, true, false}, {true, true, true}, MINUTES( 50 ),
+        {def_c_white,def_c_light_red,def_c_light_red_red}, {true, true, false}, {true, true, true}, 50_minutes,
         {0,0,0},
         GAS,
         false
@@ -390,7 +390,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_relax_gas",
         {translate_marker( "hazy cloud" ),translate_marker( "sedative gas" ),translate_marker( "relaxation gas" )}, '.', 8,
-        {def_c_white,def_c_pink,def_c_cyan }, { true, true, true }, { true, true, true }, MINUTES( 50 ),
+        {def_c_white,def_c_pink,def_c_cyan }, { true, true, true }, { true, true, true }, 50_minutes,
         {0,0,0},
         GAS,
         false
@@ -399,7 +399,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_fungal_haze",
         {translate_marker( "hazy cloud" ),translate_marker( "fungal haze" ),translate_marker( "thick fungal haze" )}, '.', 8,
-        {def_c_white,def_c_cyan,def_c_cyan }, { true, true, false }, { true, true, true }, MINUTES( 4 ),
+        {def_c_white,def_c_cyan,def_c_cyan }, { true, true, false }, { true, true, true }, 4_minutes,
         {0,0,0},
         GAS,
         false
@@ -408,7 +408,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_hot_air1",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
         GAS,
         false
@@ -417,7 +417,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_hot_air2",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
         GAS,
         false
@@ -426,7 +426,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_hot_air3",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
         GAS,
         false
@@ -435,7 +435,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_hot_air4",
         {"", "", ""}, '&', -1,
-        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
         GAS,
         false
@@ -444,7 +444,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_fungicidal_gas",
         {translate_marker( "hazy cloud" ),translate_marker( "fungicidal gas" ),translate_marker( "thick fungicidal gas" )}, '8', 8,
-        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, false}, {true, true, true}, MINUTES( 90 ),
+        {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, false}, {true, true, true}, 90_minutes,
         {0,0,0},
         GAS,
         false
@@ -585,14 +585,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
     const auto spread_gas = [this, &get_neighbors] (
         field_entry &cur, const tripoint &p, field_id curtype,
-        int percent_spread, int outdoor_age_speedup ) {
+        int percent_spread, const time_duration outdoor_age_speedup ) {
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
         }
 
         const int current_density = cur.getFieldDensity();
-        const int current_age = cur.getFieldAge();
+        const time_duration current_age = cur.getFieldAge();
         // Dissipate faster outdoors.
         if( is_outside( p ) ) {
             cur.setFieldAge( current_age + outdoor_age_speedup );
@@ -615,14 +615,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
         const auto spread_to = [&]( maptile &dst ) {
             field_entry *candidate_field = dst.find_field( curtype );
             // Nearby gas grows thicker, and ages are shared.
-            int age_fraction = 0.5 + current_age / current_density;
+            const time_duration age_fraction = current_age / current_density ;
             if ( candidate_field != nullptr ) {
                 candidate_field->setFieldDensity( candidate_field->getFieldDensity() + 1 );
                 cur.setFieldDensity( current_density - 1 );
                 candidate_field->setFieldAge(candidate_field->getFieldAge() + age_fraction);
                 cur.setFieldAge(current_age - age_fraction);
             // Or, just create a new field.
-            } else if( dst.add_field( curtype, 1, 0 ) ) {
+            } else if( dst.add_field( curtype, 1, 0_turns ) ) {
                 dst.find_field( curtype )->setFieldAge(age_fraction);
                 cur.setFieldDensity( current_density - 1 );
                 cur.setFieldAge(current_age - age_fraction);
@@ -695,7 +695,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
         for( int counter = 0; counter < 5; counter++ ) {
             tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
-            add_field( dst, hot_air, 1, 0 );
+            add_field( dst, hot_air, 1 );
         }
     };
 
@@ -747,7 +747,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
-                if( cur.getFieldAge() == 0 ) {
+                if( cur.getFieldAge() == 0_turns ) {
                     curtype = fd_null;
                 }
 
@@ -769,7 +769,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_gibs_invertebrate:
                         // Dissipate faster in water
                         if( map_tile.get_ter_t().has_flag( TFLAG_SWIMMABLE ) ) {
-                            cur.setFieldAge( cur.getFieldAge() + 250 );
+                            cur.setFieldAge( cur.getFieldAge() + 25_minutes );
                         }
                         break;
 
@@ -777,7 +777,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     {
                         const auto &ter = map_tile.get_ter_t();
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
-                            cur.setFieldAge( cur.getFieldAge() + 20 );
+                            cur.setFieldAge( cur.getFieldAge() + 2_minutes );
                         }
 
                         // Try to fall by a z-level
@@ -799,7 +799,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 const int new_density = std::min( 3, sum_density );
                                 // No way to get precise elapsed time, let's always reset
                                 // Allow falling acid to last longer than regular acid to show it off
-                                const int new_age = -MINUTES( sum_density - new_density );
+                                const time_duration new_age = -1_minutes * ( sum_density - new_density );
                                 acid_there->setFieldDensity( new_density );
                                 acid_there->setFieldAge( new_age );
                             }
@@ -845,7 +845,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int smoke = 0;
                         int consumed = 0;
                         // How much time to add to the fire's life due to burned items/terrain/furniture
-                        int time_added = 0;
+                        time_duration time_added = 0_turns;
                         // Checks if the fire can spread
                         // If the flames are in furniture with fire_container flag like brazier or oven,
                         // they're fully contained, so skip consuming terrain
@@ -891,7 +891,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             spawn_items( p, new_content );
                             smoke = roll_remainder( frd.smoke_produced );
-                            time_added = roll_remainder( frd.fuel_produced );
+                            time_added = 1_turns * roll_remainder( frd.fuel_produced );
                         }
 
                         //Get the part of the vehicle in the fire.
@@ -903,13 +903,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if( can_spread ) {
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water
-                                cur.setFieldAge( cur.getFieldAge() + MINUTES(4) );
+                                cur.setFieldAge( cur.getFieldAge() + 4_minutes );
                             }
 
                             // Consume the terrain we're on
                             if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
                                 // The fire feeds on the ground itself until max density.
-                                time_added += 5 - cur.getFieldDensity();
+                                time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
@@ -919,7 +919,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
                                        one_in( 3 ) ) {
                                 // The fire feeds on the ground itself until max density.
-                                time_added += 4 - cur.getFieldDensity();
+                                time_added += 1_turns * ( 4 - cur.getFieldDensity() );
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
@@ -928,7 +928,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
                                 // The fire feeds on the ground itself until max density.
-                                time_added += 5 - cur.getFieldDensity();
+                                time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
@@ -937,7 +937,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
                                 // The fire feeds on the ground itself until max density.
-                                time_added += 5 - cur.getFieldDensity();
+                                time_added += 1_turns * ( 5 - cur.getFieldDensity() );
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
                                     one_in( 200 - cur.getFieldDensity() * 50 ) ) {
@@ -952,7 +952,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     maptile dst_tile = maptile_at_internal( dst );
                                     field_entry *fire_there = dst_tile.find_field( fd_fire );
                                     if( fire_there == nullptr ) {
-                                        dst_tile.add_field( fd_fire, 1, 0 );
+                                        dst_tile.add_field( fd_fire, 1, 0_turns );
                                         cur.setFieldDensity( cur.getFieldDensity() - 1 );
                                     } else {
                                         // Don't fuel raging fires or they'll burn forever
@@ -978,13 +978,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
 
                         // Lower age is a longer lasting fire
-                        if( time_added != 0 ) {
+                        if( time_added != 0_turns ) {
                             cur.setFieldAge( cur.getFieldAge() - time_added );
                         } else if( can_spread || !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) ) {
                             // Nothing to burn = fire should be dying out faster
                             // Drain more power from big fires, so that they stop raging over nothing
                             // Except for fires on stoves and fireplaces, those are made to keep the fire alive
-                            cur.setFieldAge( cur.getFieldAge() + 2 * cur.getFieldDensity() );
+                            cur.setFieldAge( cur.getFieldAge() + 2_turns * cur.getFieldDensity() );
                         }
 
                         // Below we will access our nearest 8 neighbors, so let's cache them now
@@ -1006,7 +1006,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // making other fires bigger. Flashpoint.
                                 const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
                                 for( size_t i = ( end_it + 1 ) % neighs.size();
-                                     i != end_it && cur.getFieldAge() < 0;
+                                     i != end_it && cur.getFieldAge() < 0_turns;
                                      i = ( i + 1 ) % neighs.size() ) {
                                     maptile &dst = neighs[i];
                                     auto dstfld = dst.find_field( fd_fire );
@@ -1019,15 +1019,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             dstfld->setFieldDensity(dstfld->getFieldDensity() + 1);
                                         }
 
-                                        dstfld->setFieldAge( dstfld->getFieldAge() - MINUTES(5) );
-                                        cur.setFieldAge( cur.getFieldAge() + MINUTES(5) );
+                                        dstfld->setFieldAge( dstfld->getFieldAge() - 5_minutes );
+                                        cur.setFieldAge( cur.getFieldAge() + 5_minutes );
                                     }
 
                                     if( dstfld != nullptr ) {
                                         adjacent_fires++;
                                     }
                                 }
-                            } else if( cur.getFieldAge() < 0 && cur.getFieldDensity() < 3 ) {
+                            } else if( cur.getFieldAge() < 0_turns && cur.getFieldDensity() < 3 ) {
                                 // See if we can grow into a stage 2/3 fire, for this
                                 // burning neighbors are necessary in addition to
                                 // field age < 0, or alternatively, a LOT of fuel.
@@ -1040,7 +1040,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // 1. Calculate maximum field density based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
                                 // 2. Calculate maximum field density based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
                                 // 3. Pick the higher maximum between 1. and 2.
-                                if( cur.getFieldAge() < -MINUTES(500) ) {
+                                if( cur.getFieldAge() < -500_minutes ) {
                                     maximum_density = 3;
                                 } else {
                                     for( size_t i = 0; i < neighs.size(); i++ ) {
@@ -1050,17 +1050,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     maximum_density = 1 + (adjacent_fires >= 3) + (adjacent_fires >= 7);
 
-                                    if( maximum_density < 2 && cur.getFieldAge() < -MINUTES(50) ) {
+                                    if( maximum_density < 2 && cur.getFieldAge() < -50_minutes ) {
                                         maximum_density = 2;
                                     }
                                 }
 
                                 // If we consumed a lot, the flames grow higher
-                                if( cur.getFieldDensity() < maximum_density && cur.getFieldAge() < 0 ) {
+                                if( cur.getFieldDensity() < maximum_density && cur.getFieldAge() < 0_turns ) {
                                     // Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
                                     // Weaken the newly-grown fire
                                     cur.setFieldDensity( cur.getFieldDensity() + 1 );
-                                    cur.setFieldAge( cur.getFieldAge() + MINUTES( cur.getFieldDensity() * 10 ) );
+                                    cur.setFieldAge( cur.getFieldAge() + 10_minutes * cur.getFieldDensity() );
                                 }
                             }
                         }
@@ -1078,9 +1078,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 dst_ter.has_flag( TFLAG_FLAMMABLE_HARD ) ) {
                                 field_entry *nearfire = dst.find_field( fd_fire );
                                 if( nearfire != nullptr ) {
-                                    nearfire->setFieldAge( nearfire->getFieldAge() - MINUTES(2) );
+                                    nearfire->setFieldAge( nearfire->getFieldAge() - 2_minutes );
                                 } else {
-                                    dst.add_field( fd_fire, 1, 0 );
+                                    dst.add_field( fd_fire, 1, 0_turns );
                                 }
                                 // Fueling fires above doesn't cost fuel
                             }
@@ -1121,19 +1121,19 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( can_spread && rng(1, 100) < spread_chance &&
                                   (in_pit == (dster.id.id() == t_pit)) &&
                                   (
-                                    (power >= 3 && cur.getFieldAge() < 0 && one_in( 20 ) ) ||
+                                    (power >= 3 && cur.getFieldAge() < 0_turns && one_in( 20 ) ) ||
                                     (power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in(2) ) ) ||
                                     (power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in(2) ) ) ||
                                     (power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in(5) ) ) ||
                                     nearwebfld || ( dst.get_item_count() > 0 && flammable_items_at( offset_by_index( i, p ) ) && one_in(5) )
                                   ) ) {
-                                dst.add_field( fd_fire, 1, 0 ); // Nearby open flammable ground? Set it on fire.
+                                dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
                                 tmpfld = dst.find_field(fd_fire);
                                 if( tmpfld != nullptr ) {
                                     // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                                    tmpfld->setFieldAge( MINUTES(2) );
+                                    tmpfld->setFieldAge( 2_minutes );
                                     // Consume a bit of our fuel
-                                    cur.setFieldAge( cur.getFieldAge() + MINUTES(1) );
+                                    cur.setFieldAge( cur.getFieldAge() + 1_minutes );
                                 }
                                 if( nearwebfld ) {
                                     nearwebfld->setFieldDensity( 0 );
@@ -1151,7 +1151,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     maptile dst = maptile_at_internal( up );
                                     const auto &dst_ter = dst.get_ter_t();
                                     if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-                                        dst.add_field( fd_smoke, rng( 1, cur.getFieldDensity() ), 0 );
+                                        dst.add_field( fd_smoke, rng( 1, cur.getFieldDensity() ), 0_turns );
                                     } else {
                                         // Can't create smoke above
                                         smoke_up = false;
@@ -1161,7 +1161,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if( !smoke_up ) {
                                     maptile dst = maptile_at_internal( p );
                                     // Create thicker smoke
-                                    dst.add_field( fd_smoke, cur.getFieldDensity(), 0 );
+                                    dst.add_field( fd_smoke, cur.getFieldDensity(), 0_turns );
                                 }
 
                                 dirty_transparency_cache = true; // Smoke affects transparency
@@ -1178,22 +1178,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_smoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 50, 0 );
+                        spread_gas( cur, p, curtype, 50, 0_turns );
                         break;
 
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 30, 0 );
+                        spread_gas( cur, p, curtype, 30, 0_turns );
                         break;
 
                     case fd_relax_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 25, 50 );
+                        spread_gas( cur, p, curtype, 25, 5_minutes );
                         break;
 
                     case fd_fungal_haze:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 33,  5);
+                        spread_gas( cur, p, curtype, 33, 5_turns );
                         if( one_in( 10 - 2 * cur.getFieldDensity() ) ) {
                             // Haze'd terrain
                             fungal_effects( *g, g->m ).spread_fungus( p );
@@ -1203,18 +1203,18 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_toxic_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 50, 30 );
+                        spread_gas( cur, p, curtype, 50, 3_minutes );
                         break;
 
                     case fd_cigsmoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 250, 65 );
+                        spread_gas( cur, p, curtype, 250, 65_turns );
                         break;
 
                     case fd_weedsmoke:
                     {
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 200, 60 );
+                        spread_gas( cur, p, curtype, 200, 6_minutes );
 
                         if(one_in(20)) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
@@ -1230,7 +1230,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_methsmoke:
                     {
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 175, 70 );
+                        spread_gas( cur, p, curtype, 175, 7_minutes );
 
                         if(one_in(20)) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
@@ -1245,7 +1245,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_cracksmoke:
                     {
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 175, 80 );
+                        spread_gas( cur, p, curtype, 175, 8_minutes );
 
                         if(one_in(20)) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
@@ -1262,7 +1262,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         dirty_transparency_cache = true;
                         int extra_radiation = rng(0, cur.getFieldDensity());
                         adjust_radiation( p, extra_radiation );
-                        spread_gas( cur, p, curtype, 50, 10 );
+                        spread_gas( cur, p, curtype, 50, 1_minutes );
                         break;
                     }
 
@@ -1271,7 +1271,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_hot_air3:
                     case fd_hot_air4:
                         // No transparency cache wrecking here!
-                        spread_gas( cur, p, curtype, 100, 1000 );
+                        spread_gas( cur, p, curtype, 100, 100_minutes );
                         break;
 
                     case fd_gas_vent:
@@ -1283,7 +1283,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (tmpfld && tmpfld->getFieldDensity() < 3) {
                                 tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
                             } else {
-                                add_field( pnt, fd_toxic_gas, 3, 0 );
+                                add_field( pnt, fd_toxic_gas, 3 );
                             }
                         }
                     }
@@ -1320,11 +1320,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 int tries = 0;
                                 tripoint pnt;
                                 pnt.z = p.z;
-                                while (tries < 10 && cur.getFieldAge() < 50 && cur.getFieldDensity() > 1) {
+                                while (tries < 10 && cur.getFieldAge() < 5_minutes && cur.getFieldDensity() > 1) {
                                     pnt.x = p.x + rng(-1, 1);
                                     pnt.y = p.y + rng(-1, 1);
                                     if( passable( pnt ) ) {
-                                        add_field( pnt, fd_electricity, 1, cur.getFieldAge() + 1);
+                                        add_field( pnt, fd_electricity, 1, cur.getFieldAge() + 1_turns );
                                         cur.setFieldDensity(cur.getFieldDensity() - 1);
                                         tries = 0;
                                     } else {
@@ -1345,13 +1345,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         elec->setFieldDensity( elec->getFieldDensity() + 1 );
                                         cur.setFieldDensity(cur.getFieldDensity() - 1);
                                     } else if( passable( dst ) ) {
-                                        add_field( dst, fd_electricity, 1, cur.getFieldAge() + 1 );
+                                        add_field( dst, fd_electricity, 1, cur.getFieldAge() + 1_turns );
                                     }
                                     cur.setFieldDensity(cur.getFieldDensity() - 1);
                                 }
                                 while( !valid.empty() && cur.getFieldDensity() > 1 ) {
                                     const tripoint target = random_entry_removed( valid );
-                                    add_field(target, fd_electricity, 1, cur.getFieldAge() + 1);
+                                    add_field( target, fd_electricity, 1, cur.getFieldAge() + 1_turns );
                                     cur.setFieldDensity(cur.getFieldDensity() - 1);
                                 }
                             }
@@ -1440,7 +1440,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;
-                                    add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng(2, 3), 0 );
+                                    add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng(2, 3) );
                                     if (one_in(4)) {
                                         if (xdir == 0) {
                                             xdir = rng(0, 1) * 2 - 1;
@@ -1462,9 +1462,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_acid_vent:
                         if (cur.getFieldDensity() > 1) {
-                            if (cur.getFieldAge() >= 10) {
+                            if( cur.getFieldAge() >= 1_minutes ) {
                                 cur.setFieldDensity(cur.getFieldDensity() - 1);
-                                cur.setFieldAge(0);
+                                cur.setFieldAge( 0_turns );
                             }
                         } else {
                             cur.setFieldDensity(3);
@@ -1476,7 +1476,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         newdens = 3;
                                     }
                                     if (newdens > 0) {
-                                        add_field( t, fd_acid, newdens, 0 );
+                                        add_field( t, fd_acid, newdens );
                                     }
                                 }
                             }
@@ -1531,7 +1531,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                             } else {
-                                spread_gas( cur, p, curtype, 5, 0 );
+                                spread_gas( cur, p, curtype, 5, 0_turns );
                             }
                         }
                         break;
@@ -1544,15 +1544,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                                 has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
                                 has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
-                                add_field( dst, fd_fire, 1, 0 );
+                                add_field( dst, fd_fire, 1 );
                             }
 
                             //check piles for flammable items and set those on fire
                             if( flammable_items_at( dst ) ) {
-                                add_field( dst, fd_fire, 1, 0 );
+                                add_field( dst, fd_fire, 1 );
                             }
 
-                            spread_gas( cur, p, curtype, 66, 40 );
+                            spread_gas( cur, p, curtype, 66, 4_minutes );
                             create_hot_air( p, cur.getFieldDensity());
                         }
                         break;
@@ -1565,7 +1565,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_fungicidal_gas:
                         {
                             dirty_transparency_cache = true;
-                            spread_gas( cur, p, curtype, 120, 10 );
+                            spread_gas( cur, p, curtype, 120, 1_minutes );
                             //check the terrain and replace it accordingly to simulate the fungus dieing off
                             const auto &ter = map_tile.get_ter_t();
                             const auto &frn = map_tile.get_furn_t();
@@ -1585,11 +1585,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                 } // switch (curtype)
 
-                cur.setFieldAge(cur.getFieldAge() + 1);
+                cur.setFieldAge( cur.getFieldAge() + 1_turns );
                 auto &fdata = fieldlist[cur.getFieldType()];
-                if( fdata.halflife > 0 && cur.getFieldAge() > 0 &&
-                    dice( 2, cur.getFieldAge() ) > fdata.halflife ) {
-                    cur.setFieldAge( 0 );
+                if( fdata.halflife > 0_turns && cur.getFieldAge() > 0_turns &&
+                    dice( 2, to_turns<int>( cur.getFieldAge() ) ) > to_turns<int>( fdata.halflife ) ) {
+                    cur.setFieldAge( 0_turns );
                     cur.setFieldDensity( cur.getFieldDensity() - 1 );
                 }
                 if( !cur.isAlive() ) {
@@ -2392,8 +2392,7 @@ int field_entry::getFieldDensity() const{
     return density;
 }
 
-
-int field_entry::getFieldAge() const{
+time_duration field_entry::getFieldAge() const{
     return age;
 }
 
@@ -2416,11 +2415,9 @@ int field_entry::setFieldDensity(const int new_density)
     return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
 }
 
-int field_entry::setFieldAge(const int new_age){
-
-    age = new_age;
-
-    return age;
+time_duration field_entry::setFieldAge( const time_duration new_age )
+{
+    return age = new_age;
 }
 
 field::field()
@@ -2465,7 +2462,9 @@ If the field already exists, it will return false BUT it will add the density/ag
 If you wish to modify an already existing field use findField and modify the result.
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
-bool field::addField(const field_id field_to_add, const int new_density, const int new_age){
+bool field::addField( const field_id field_to_add, const int new_density,
+                      const time_duration new_age )
+{
     auto it = field_list.find(field_to_add);
     if (fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority)
         draw_symbol = field_to_add;

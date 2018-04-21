@@ -5290,7 +5290,7 @@ void player::suffer()
     }
         //Web Weavers...weave web
     if (has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle) {
-      g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
+      g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
 
      }
 
@@ -5314,7 +5314,7 @@ void player::suffer()
     }
 
     if (has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in(3)) {
-        g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
     }
 
     if (has_trait( trait_UNSTABLE ) && one_in(28800)) { // Average once per 2 days
@@ -5835,7 +5835,7 @@ void player::vomit()
         rem_morale( MORALE_HONEY ); // bears must suffer too
         add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90_turns, 45_turns, false ); // 1.5 times longer
 
-        g->m.add_field( adjacent_tile(), fd_bile, 1, 0 );
+        g->m.add_field( adjacent_tile(), fd_bile, 1 );
 
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
@@ -11100,7 +11100,7 @@ void player::blossoms()
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, _("Pouf!"));
     for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
-        g->m.add_field( tmp, fd_fungal_haze, rng(1, 2), 0 );
+        g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
 

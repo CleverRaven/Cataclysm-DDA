@@ -341,7 +341,7 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
         std::vector<tripoint> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
             const int dens = rng(fields_min_density, fields_max_density);
-            g->m.add_field( gas_source, fields_type, dens, 1 );
+            g->m.add_field( gas_source, fields_type, dens, 1_turns );
         }
     }
     if (scrambler_blast_radius >= 0) {
@@ -558,7 +558,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field({p.posx() + int(rng(-2, 2)), p.posy() + int(rng(-2, 2)), p.posz()}, fid, field->second, 0);
+            g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid, field->second );
         }
     }
 
@@ -993,7 +993,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
 {
-    if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
+    if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
         p.add_msg_if_player(_("You successfully light a fire."));
     }
 }
