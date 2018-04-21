@@ -1290,16 +1290,16 @@ void game::calc_driving_offset(vehicle *veh)
     // The maximal offset will leave at least this many tiles
     // between the PC and the edge of the main window.
     static const int border_range = 2;
-    float velocity = veh->velocity;
+    float velocity = ms_to_internal(veh->velocity);
     rl_vec2d offset = veh->move_vec();
-    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
+    if (!veh->skidding && ms_to_internal(std::abs(veh->cruise_velocity - veh->velocity)) < 14 * 100 &&
         veh->player_in_control(u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
         // Using it makes would make the offset change far too often.
         offset = veh->face_vec();
-        velocity = veh->cruise_velocity;
+        velocity = ms_to_internal(veh->cruise_velocity);
     }
     float rel_offset;
     if (std::fabs(velocity) < min_offset_vel) {
@@ -6597,12 +6597,13 @@ void game::handbrake()
     }
     add_msg(_("You pull a handbrake."));
     veh->cruise_velocity = 0;
-    if (veh->last_turn != 0 && rng(15, 60) * 100 < abs(veh->velocity)) {
+	const float velocity = ms_to_internal(veh->velocity);
+    if (veh->last_turn != 0 && rng(15, 60) * 100 < abs(velocity)) {
         veh->skidding = true;
         add_msg(m_warning, _("You lose control of %s."), veh->name.c_str());
         veh->turn(veh->last_turn > 0 ? 60 : -60);
     } else {
-        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
+        float braking_power = (veh->k_traction() * 9.8 + veh->drag( )) * 6;
         if( abs( veh->velocity ) < braking_power ) {
             veh->stop();
         } else {
@@ -6772,9 +6773,9 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     // Hit the ground according to vehicle speed
     if (!m.has_flag("SWIMMABLE", u.pos())) {
         if (veh->velocity > 0) {
-            fling_creature(&u, veh->face.dir(), veh->velocity / (float)100);
+            fling_creature(&u, veh->face.dir(), ms_to_internal(veh->velocity) / (float)100);
         } else {
-            fling_creature(&u, veh->face.dir() + 180, -(veh->velocity) / (float)100);
+            fling_creature(&u, veh->face.dir() + 180, -ms_to_internal(veh->velocity) / (float)100);
         }
     }
 }
@@ -10688,7 +10689,8 @@ void game::pldrive(int x, int y)
     }
 
     if( y != 0 ) {
-        int thr_amount = 10 * 100;
+		// 5m/s = 18kph, 11.1mph
+        int thr_amount = 5;
         if( veh->cruise_on ) {
             veh->cruise_thrust( -y * thr_amount );
         } else {
@@ -10704,8 +10706,8 @@ void game::pldrive(int x, int y)
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
-            u.practice( skill_driving, veh->velocity / 5 );
-            veh->velocity = int(veh->forward_velocity());
+            u.practice( skill_driving, int(ms_to_internal(veh->velocity) / 5) );
+            veh->velocity = veh->forward_velocity();
             veh->skidding = false;
             veh->move.init(veh->turn_dir);
         }
@@ -11023,7 +11025,7 @@ bool game::plmove(int dx, int dy, int dz)
         veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
     }
 
-    if( veh0 != nullptr && abs(veh0->velocity) > 100 ) {
+    if( veh0 != nullptr && ms_to_internal(abs(veh0->velocity)) > 100 ) {
         if( veh1 == nullptr ) {
             if (query_yn(_("Dive from moving vehicle?"))) {
                 moving_vehicle_dismount( dest_loc );

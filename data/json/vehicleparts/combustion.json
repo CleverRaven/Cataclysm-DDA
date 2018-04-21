@@ -6,11 +6,24 @@
     "symbol": "*",
     "color": "light_red",
     "broken_color": "red",
+    "start_time": 100,
     "flags": [ "ENGINE", "TOOL_WRENCH" ]
   },
   {
-    "id": "diesel_engine_i6",
+    "abstract": "engine_diesel",
+    "type": "vehicle_part",
     "copy-from": "engine_combustion",
+    "efficiency": 40
+  },
+  {
+    "abstract": "engine_gasoline",
+    "type": "vehicle_part",
+    "copy-from": "engine_combustion",
+    "efficiency": 30
+  },
+  {
+    "id": "diesel_engine_i6",
+    "copy-from": "engine_diesel",
     "type": "vehicle_part",
     "item": "i6_diesel",
     "fuel_type": "diesel",
@@ -27,7 +40,7 @@
   },
   {
     "id": "diesel_engine_v6",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_diesel",
     "type": "vehicle_part",
     "item": "v6_diesel",
     "fuel_type": "diesel",
@@ -43,7 +56,7 @@
   },
   {
     "id": "diesel_engine_v8",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_diesel",
     "type": "vehicle_part",
     "item": "v8_diesel",
     "fuel_type": "diesel",
@@ -59,7 +72,7 @@
   },
   {
     "id": "engine_1cyl",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_gasoline",
     "type": "vehicle_part",
     "item": "1cyl_combustion",
     "fuel_type": "gasoline",
@@ -75,7 +88,7 @@
   },
   {
     "id": "engine_1cyl_small",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_gasoline",
     "type": "vehicle_part",
     "item": "1cyl_combustion_small",
     "fuel_type": "gasoline",
@@ -91,7 +104,7 @@
   },
   {
     "id": "engine_inline4",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_gasoline",
     "type": "vehicle_part",
     "item": "i4_combustion",
     "fuel_type": "gasoline",
@@ -107,7 +120,7 @@
   },
   {
     "id": "engine_v12",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_gasoline",
     "type": "vehicle_part",
     "item": "v12_combustion",
     "fuel_type": "gasoline",
@@ -123,7 +136,7 @@
   },
   {
     "id": "diesel_engine_v12",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_diesel",
     "type": "vehicle_part",
     "item": "v12_diesel",
     "fuel_type": "diesel",
@@ -139,7 +152,7 @@
   },
   {
     "id": "engine_v6",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_gasoline",
     "type": "vehicle_part",
     "item": "v6_combustion",
     "fuel_type": "gasoline",
@@ -155,7 +168,7 @@
   },
   {
     "id": "engine_v8",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_gasoline",
     "type": "vehicle_part",
     "item": "v8_combustion",
     "fuel_type": "gasoline",
@@ -171,7 +184,7 @@
   },
   {
     "id": "engine_vtwin",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_gasoline",
     "type": "vehicle_part",
     "item": "v2_combustion",
     "fuel_type": "gasoline",
