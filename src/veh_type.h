@@ -121,11 +121,7 @@ class vpart_info
         int efficiency = 0;
 
         // Electrical power (watts). Is positive for generation, negative for consumption
-        int noise = 0;
-
-        // Electrical power (watts). Is positive for generation, negative for consumption
         int epower = 0;
-
 
         /*
          * For engines this is maximum output
