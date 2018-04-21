@@ -3490,7 +3490,6 @@ std::map<itype_id, int> vehicle::fuel_usage() const
         } else if( !is_engine_type( i, fuel_type_muscle ) ) {
             // kW of energy content consumed converted to mL of fuel.
             float usage = part_power( e ) / (info.efficiency / 100.0) / density;
-            g->u.add_msg_if_player(m_debug, "Usage: %f", usage);
             if( parts[ e ].faults().count( fault_filter_air ) ) {
                 usage *= 2;
             }
@@ -4560,7 +4559,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     do {
         smashed = false;
         // Impulse of vehicle
-        const float vel1 = coll_velocity / 100.0f;
+        const float vel1 = coll_velocity;
         // Velocity of car after collision
         const float vel1_a = (mass*vel1 + mass2*vel2 + e*mass2*(vel2 - vel1)) / (mass + mass2);
         // Velocity of object after collision
@@ -4587,7 +4586,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         add_msg( m_debug, "Deformation energy: %.2f", d_E );
         // Damage calculation
         // Damage dealt overall
-        dmg += d_E * 10;
+        dmg += d_E;
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
