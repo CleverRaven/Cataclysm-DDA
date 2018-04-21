@@ -8361,7 +8361,7 @@ bool player::gunmod_remove( item &gun, item& mod )
         return false;
     }
 
-    gun.gun_set_mode( "DEFAULT" );
+    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
     moves -= mod.type->gunmod->install_time / 2;
 
     if( mod.typeId() == "brass_catcher" ) {

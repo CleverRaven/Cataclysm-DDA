@@ -2,6 +2,7 @@
 
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "gun_mode.h"
 #include "dispersion.h"
 #include "game.h"
 #include "map.h"
@@ -1055,10 +1056,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             if( relevant != m.target ) {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
-                           m->tname().c_str(), m.mode.c_str(), m.qty );
+                           m->tname().c_str(), m.name(), m.qty );
             } else {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
-                           m.mode.c_str(), m.qty );
+                           m.name(), m.qty );
             }
 
             const itype *cur = ammo ? ammo : m->ammo_data();

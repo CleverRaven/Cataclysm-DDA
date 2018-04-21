@@ -26,7 +26,7 @@ struct mission_type;
 struct overmap_location;
 
 enum game_message_type : int;
-
+class gun_mode;
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
@@ -631,7 +631,7 @@ class npc : public player
         // Multiplier for acceptable angle of inaccuracy
         double confidence_mult() const;
         int confident_shoot_range( const item &it, int at_recoil ) const;
-        int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const;
+        int confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
         bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;

@@ -19,6 +19,7 @@
 #include "mondefense.h"
 #include "projectile.h"
 #include "iuse_actor.h"
+#include "gun_mode.h"
 #include "weighted_list.h"
 #include "mongroup.h"
 #include "translations.h"
@@ -2732,7 +2733,7 @@ void mattack::rifle( monster *z, Creature *target )
     }
 
     tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( "AUTO" ).qty, 1 );
+    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 
@@ -2782,7 +2783,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     }
 
     tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( "AUTO" ).qty, 1 );
+    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 
@@ -2844,7 +2845,7 @@ void mattack::tankgun( monster *z, Creature *target )
         add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
     tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( "AUTO" ).qty, 1 );
+    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 }

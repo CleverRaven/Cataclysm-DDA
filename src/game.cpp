@@ -19,6 +19,7 @@
 #include "map_item_stack.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "gun_mode.h"
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
@@ -2971,8 +2972,8 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE_BURST: {
-            auto mode = u.weapon.gun_get_mode_id();
-            if( u.weapon.gun_set_mode( "AUTO" ) ) {
+            gun_mode_id mode = u.weapon.gun_get_mode_id();
+            if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                 plfire( u.weapon );
                 u.weapon.gun_set_mode( mode );
             }
@@ -9712,7 +9713,7 @@ bool game::plfire()
     }
 
     int reload_time = 0;
-    item::gun_mode gun = args.relevant->gun_current_mode();
+    gun_mode gun = args.relevant->gun_current_mode();
 
     // @todo: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -9789,7 +9790,7 @@ bool game::plfire()
 bool game::plfire( item &weapon, int bp_cost )
 {
     // @todo: bionic power cost of firing should be derived from a value of the relevant weapon.
-    item::gun_mode gun = weapon.gun_current_mode();
+    gun_mode gun = weapon.gun_current_mode();
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname().c_str() );
