@@ -175,8 +175,6 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "damage_modifier", def.dmg_mod );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
-    assign( jo, "efficiency", def.efficiency );
-    assign( jo, "noise", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );

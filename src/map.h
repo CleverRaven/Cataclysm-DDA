@@ -267,14 +267,14 @@ class map
         void draw( const catacurses::window &w, const tripoint &center );
 
         /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-         *
-         * @param w The window we are drawing in
-         * @param u The player
-         * @param p The tile on this map to draw.
-         * @param invert Invert colors if this flag is true
-         * @param show_items Draw items in tile if this flag is true
-         *        see `center` in `map::draw()`
-         */
+        *
+        * @param w The window we are drawing in
+        * @param u The player
+        * @param p The tile on this map to draw.
+        * @param invert Invert colors if this flag is true
+        * @param show_items Draw items in tile if this flag is true
+        *        see `center` in `map::draw()`
+        */
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      const bool invert = false, const bool show_items = true ) const;
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
@@ -345,36 +345,35 @@ class map
         // Move cost: 3D
 
         /**
-         * Calculate the cost to move past the tile at p.
-         *
-         * The move cost is determined by various obstacles, such
-         * as terrain, vehicles and furniture.
-         *
-         * @note Movement costs for players and zombies both use this function.
-         *
-         * @return The return value is interpreted as follows:
-         * Move Cost | Meaning
-         * --------- | -------
-         * 0         | Impassable. Use `passable`/`impassable` to check for this.
-         * n > 0     | x*n turns to move past this
-         */
+        * Calculate the cost to move past the tile at p.
+        *
+        * The move cost is determined by various obstacles, such
+        * as terrain, vehicles and furniture.
+        *
+        * @note Movement costs for players and zombies both use this function.
+        *
+        * @return The return value is interpreted as follows:
+        * Move Cost | Meaning
+        * --------- | -------
+        * 0         | Impassable. Use `passable`/`impassable` to check for this.
+        * n > 0     | x*n turns to move past this
+        */
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
         bool impassable( const tripoint &p ) const;
         bool passable( const tripoint &p ) const;
 
         /**
-         * Similar behavior to `move_cost()`, but ignores vehicles.
-         */
+        * Similar behavior to `move_cost()`, but ignores vehicles.
+        */
         int move_cost_ter_furn( const tripoint &p ) const;
-        int sinkage_ter( const tripoint &p ) const;
         bool impassable_ter_furn( const tripoint &p ) const;
         bool passable_ter_furn( const tripoint &p ) const;
 
         /**
-         * Cost to move out of one tile and into the next.
-         *
-         * @return The cost in turns to move out of tripoint `from` and into `to`
-         */
+        * Cost to move out of one tile and into the next.
+        *
+        * @return The cost in turns to move out of tripoint `from` and into `to`
+        */
         int combined_movecost( const tripoint &from, const tripoint &to,
                                const vehicle *ignored_vehicle = nullptr,
                                const int modifier = 0, const bool flying = false ) const;
@@ -397,8 +396,8 @@ class map
 
         // 3D Sees:
         /**
-         * Returns whether `F` sees `T` with a view range of `range`.
-         */
+        * Returns whether `F` sees `T` with a view range of `range`.
+        */
         bool sees( const tripoint &F, const tripoint &T, int range ) const;
     private:
         /**
@@ -410,7 +409,7 @@ class map
          * @param bresenham_slope Indicates the start offset of Bresenham line used to connect
          * the two points, and may subsequently be used to form a path between them.
          * Set to zero if the function returns false.
-         **/
+        **/
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
     public:
         /**
@@ -490,19 +489,19 @@ class map
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
         /**
-         * Checks if tile is occupied by vehicle and by which part.
-         *
-         * @param p Tile to check for vehicle
-         * @param part_num The part number of the part at this tile will be returned in this parameter.
-         * @return A pointer to the vehicle in this tile.
-         */
+        * Checks if tile is occupied by vehicle and by which part.
+        *
+        * @param p Tile to check for vehicle
+        * @param part_num The part number of the part at this tile will be returned in this parameter.
+        * @return A pointer to the vehicle in this tile.
+        */
         vehicle *veh_at( const tripoint &p, int &part_num );
         const vehicle *veh_at( const tripoint &p, int &part_num ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         /**
-         * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
-         */
+        * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
+        */
         vehicle *veh_at( const tripoint &p );// checks if tile is occupied by vehicle
         const vehicle *veh_at( const tripoint &p ) const;
         // put player on vehicle at x,y
@@ -516,7 +515,7 @@ class map
 
         // Returns the wheel area of the vehicle multiplied by traction of the surface
         // TODO: Remove the ugly sinking vehicle hack
-        void vehicle_wheel_traction( const vehicle &veh, float *returns ) const;
+        float vehicle_wheel_traction( const vehicle &veh ) const;
 
         // Like traction, except for water
         // TODO: Actually implement (this is a stub)
@@ -557,9 +556,9 @@ class map
         std::string name( const tripoint &p );
         std::string disp_name( const tripoint &p );
         /**
-         * Returns the name of the obstacle at p that might be blocking movement/projectiles/etc.
-         * Note that this only accounts for vehicles, terrain, and furniture.
-         */
+        * Returns the name of the obstacle at p that might be blocking movement/projectiles/etc.
+        * Note that this only accounts for vehicles, terrain, and furniture.
+        */
         std::string obstacle_name( const tripoint &p );
         bool has_furn( const tripoint &p ) const;
 
@@ -696,7 +695,7 @@ class map
         /** Returns min_str of the furniture or terrain at p */
         int bash_resistance( const tripoint &p, bool allow_floor = false ) const;
         /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
-         *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
+        *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
         int bash_rating( const int str, const tripoint &p, bool allow_floor = false ) const;
 
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
@@ -790,14 +789,14 @@ class map
 
         bool has_adjacent_furniture( const tripoint &p );
         /** Remove moppable fields/items at this location
-         *  @param p the location
-         *  @return true if anything moppable was there, false otherwise.
-         */
+        *  @param p the location
+        *  @return true if anything moppable was there, false otherwise.
+        */
         bool mop_spills( const tripoint &p );
         /**
-         * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
-         * Washable fields are decayed only by 1/3 of the amount fire is.
-         */
+        * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
+        * Washable fields are decayed only by 1/3 of the amount fire is.
+        */
         void decay_fields_and_scent( const int amount );
 
         // Signs
@@ -812,8 +811,8 @@ class map
         void set_radiation( const int x, const int y, const int value );
 
         /** Increment the radiation in the given tile by the given delta
-         *  (decrement it if delta is negative)
-         */
+        *  (decrement it if delta is negative)
+        */
         void adjust_radiation( const tripoint &p, const int delta );
         // Overload for mapgen
         void adjust_radiation( const int x, const int y, const int delta );
@@ -921,33 +920,33 @@ class map
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
         /**
-         * Place items from item group in the rectangle f - t. Several items may be spawned
-         * on different places. Several items may spawn at once (at one place) when the item group says
-         * so (uses @ref item_group::items_from which may return several items at once).
-         * @param loc Current location of items to be placed
-         * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
-         * it's the chance that more items will be created (place items until the random roll with that
-         * chance fails). The chance is used for the first item as well, so it may not spawn an item at
-         * all. Values <= 0 or > 100 are invalid.
-         * @param f One corner of rectangle in which to spawn items
-         * @param t Second corner of rectangle in which to spawn items
-         * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
-         * @param turn The birthday that the created items shall have.
-         * @param magazine percentage chance item will contain the default magazine
-         * @param ammo percentage chance item will be filled with default ammo
-         * @return vector containing all placed items
-         */
+        * Place items from item group in the rectangle f - t. Several items may be spawned
+        * on different places. Several items may spawn at once (at one place) when the item group says
+        * so (uses @ref item_group::items_from which may return several items at once).
+        * @param loc Current location of items to be placed
+        * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
+        * it's the chance that more items will be created (place items until the random roll with that
+        * chance fails). The chance is used for the first item as well, so it may not spawn an item at
+        * all. Values <= 0 or > 100 are invalid.
+        * @param f One corner of rectangle in which to spawn items
+        * @param t Second corner of rectangle in which to spawn items
+        * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
+        * @param turn The birthday that the created items shall have.
+        * @param magazine percentage chance item will contain the default magazine
+        * @param ammo percentage chance item will be filled with default ammo
+        * @return vector containing all placed items
+        */
         std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
                                          const tripoint &t, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         /**
-         * Place items from an item group at p. Places as much items as the item group says.
-         * (Most item groups are distributions and will only create one item.)
-         * @param loc Current location of items
-         * @param p Destination of items
-         * @param turn The birthday that the created items shall have.
-         * @return Vector of pointers to placed items (can be empty, but no nulls).
-         */
+        * Place items from an item group at p. Places as much items as the item group says.
+        * (Most item groups are distributions and will only create one item.)
+        * @param loc Current location of items
+        * @param p Destination of items
+        * @param turn The birthday that the created items shall have.
+        * @return Vector of pointers to placed items (can be empty, but no nulls).
+        */
         std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p,
                                                 const time_point &turn = calendar::time_of_cataclysm );
 
@@ -1487,14 +1486,14 @@ class map
             ITER_FINISH         // End iteration
         };
         /**
-         * Runs a functor over given submaps
-         * over submaps in the area, getting next submap only when the current one "runs out" rather than every time.
-         * gp in the functor is Grid (like `get_submap_at_grid`) coordinate of the submap,
-         * Will silently clip the area to map bounds.
-         * @param start Starting point for function
-         * @param end End point for function
-         * @param fun Function to run
-         */
+        * Runs a functor over given submaps
+        * over submaps in the area, getting next submap only when the current one "runs out" rather than every time.
+        * gp in the functor is Grid (like `get_submap_at_grid`) coordinate of the submap,
+        * Will silently clip the area to map bounds.
+        * @param start Starting point for function
+        * @param end End point for function
+        * @param fun Function to run
+        */
         /*@{*/
         template<typename Functor>
         void function_over( const tripoint &start, const tripoint &end, Functor fun ) const;
@@ -1567,3 +1566,4 @@ class tinymap : public map
 };
 
 #endif
+
