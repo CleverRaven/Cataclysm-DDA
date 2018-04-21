@@ -341,6 +341,7 @@ class map
         bool impassable( int x, int y ) const;
         bool passable( int x, int y ) const;
         int move_cost_ter_furn( const int x, const int y ) const;
+        int sinkage_ter( const tripoint &p ) const;
 
         // Move cost: 3D
 
@@ -515,7 +516,7 @@ class map
 
         // Returns the wheel area of the vehicle multiplied by traction of the surface
         // TODO: Remove the ugly sinking vehicle hack
-        float vehicle_wheel_traction( const vehicle &veh ) const;
+        void vehicle_wheel_traction( const vehicle &veh, float* returns ) const;
 
         // Like traction, except for water
         // TODO: Actually implement (this is a stub)

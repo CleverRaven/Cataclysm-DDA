@@ -408,17 +408,8 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    // Mph lost per tile when coasting, by an ideal vehicle
-    int base_slowdown = veh.skidding ? 50 : 5;
-    if( should_fall ) {
-        // Just air resistance
-        base_slowdown = 1;
-    }
-
-    // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
-    const float k_slowdown = 20.0f / ( 2.0f + 9 * ( veh.k_dynamics() * veh.k_mass() ) );
-    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
-    add_msg( m_debug, "%s vel: %d, slowdown: %d", veh.name.c_str(), veh.velocity, slowdown );
+    const float slowdown = veh.drag() + veh.k_friction() * 9.8;
+    add_msg( m_debug, "%s vel: %.2f, slowdown: %.2f", veh.name.c_str(), veh.velocity, slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
@@ -427,20 +418,17 @@ bool map::vehact( vehicle &veh )
         veh.velocity -= slowdown;
     }
 
+    const float velocity = ms_to_internal(veh.velocity);
     // Low enough for bicycles to go in reverse.
-    if( !should_fall && abs( veh.velocity ) < 20 ) {
+    if( !should_fall && abs( velocity ) < 20 ) {
         veh.stop();
-    }
-
-    if( !should_fall && abs( veh.velocity ) < 20 ) {
         veh.of_turn -= .321f;
         return true;
     }
 
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
-    const float traction = veh.k_traction( wheel_traction_area );
+    const float traction = veh.k_traction();
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( wheel_traction_area < 0 ) {
+    if( traction < 0 ) {
         add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
         if( pl_ctrl ) {
             veh.unboard_all();
@@ -466,7 +454,7 @@ bool map::vehact( vehicle &veh )
             }
         }
     }
-    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( veh.velocity ) );
+    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( velocity ) );
 
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
@@ -531,8 +519,8 @@ bool map::vehact( vehicle &veh )
     }
 
     tripoint dp;
-    if( abs( veh.velocity ) >= 20 && !falling_only ) {
-        mdir.advance( veh.velocity < 0 ? -1 : 1 );
+    if( abs( velocity ) >= 20 && !falling_only ) {
+        mdir.advance( velocity < 0 ? -1 : 1 );
         dp.x = mdir.dx();
         dp.y = mdir.dy();
     }
@@ -581,65 +569,124 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh ) const
+void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
 {
-    const tripoint pt = veh.global_pos3();
+    // Return average friction, average traction, and an obstacle dificulty rating.
+    const int K_FRICTION = 0, K_TRACTION = 1, OBSTACLE = 2;
+    returns[K_FRICTION] = 0;
+    returns[K_TRACTION] = 0;
+    returns[OBSTACLE] = 0;
+    const tripoint point = veh.global_pos3();
     // TODO: Remove this and allow amphibious vehicles
     if( !veh.floating.empty() ) {
-        return vehicle_buoyancy( veh );
+        returns[OBSTACLE] = vehicle_buoyancy( veh );
+        g->u.add_msg_if_player(m_debug, "Floating.");
+        return;
     }
-
-    // Sink in water?
+    
     const auto &wheel_indices = veh.wheelcache;
-    int num_wheels = wheel_indices.size();
+    int num_wheels = wheel_indices.size(), submerged_wheels = 0, air_wheels = 0;
     if( num_wheels == 0 ) {
         // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
-        return 1.0f;
+        // TODO: Set values.
+        return;
     }
-
-    int submerged_wheels = 0;
-    float traction_wheel_area = 0.0f;
-    for( int w = 0; w < num_wheels; w++ ) {
-        const int p = wheel_indices[w];
-        const tripoint pp = pt + veh.parts[p].precalc[0];
-
-        const float wheel_area = veh.parts[ p ].wheel_area();
-
-        const auto &tr = ter( pp ).obj();
+    
+    // Make sure mass is in kilograms. We want kgm/s^2.
+    float area = veh.wheel_area( false ), weight = 9.8 * veh.total_mass().value() / 1000.0;
+    
+    // Calculate wheel terrian.
+    for( auto &wheel_index : wheel_indices ) {
+        const tripoint part_point = point + veh.parts[ wheel_index ].precalc[0];
+        
+        const float wheel_area = veh.parts[ wheel_index ].wheel_area();
+        float friction_mult = 1.0;
+        
+        const auto &terrian = ter( part_point ).obj();
         // Deep water and air
-        if( tr.has_flag( TFLAG_DEEP_WATER ) ) {
+        if( terrian.has_flag( TFLAG_DEEP_WATER ) ) {
             submerged_wheels++;
             // No traction from wheel in water
             continue;
-        } else if( tr.has_flag( TFLAG_NO_FLOOR ) ) {
+        } else if( terrian.has_flag( TFLAG_NO_FLOOR ) ) {
+            air_wheels++;
             // Ditto for air, but with no submerging
+            // TODO: Alter weight distribution.
             continue;
         }
-
-        int move_mod = move_cost_ter_furn( pp );
+        
+        int move_mod = move_cost_ter_furn( part_point );
         if( move_mod == 0 ) {
             // Vehicle locked in wall
             // Shouldn't happen, but does
-            return 0.0f;
+            returns[K_FRICTION] = 0;
+            returns[K_TRACTION] = 0;
+            returns[OBSTACLE] = 0;
+            g->u.add_msg_if_player(m_debug, "Wall?");
+            return;
         }
-
-        if( !tr.has_flag( "FLAT" ) ) {
+        
+        float weather_mult = 1.0;
+        switch (g->weather) {
+            case WEATHER_DRIZZLE:
+                weather_mult = terrian.has_flag( "ROAD" ) ? 0.9 : 0.95;
+                break;
+            case WEATHER_RAINY:
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+            case WEATHER_ACID_RAIN:
+            case WEATHER_FLURRIES:
+                weather_mult = terrian.has_flag( "ROAD" ) ? 0.6 : 0.9;
+                break;
+            case WEATHER_SNOW:
+            case WEATHER_SNOWSTORM:
+                // If there's a snowstorm it should be winter.
+                weather_mult = 0.4;
+                break;
+            default:
+                break;
+        }
+        
+        if ( season_of_year( calendar::turn ) == WINTER ) {
+            weather_mult *= 0.25;
+        }
+        
+        if( !terrian.has_flag( "FLAT" ) ) {
             // Wheels aren't as good as legs on rough terrain
             move_mod += 4;
-        } else if( !tr.has_flag( "ROAD" ) ) {
+            friction_mult *= 1.0 / 2.0;
+        } else if( !terrian.has_flag( "ROAD" ) ) {
             move_mod += 2;
+            friction_mult *= 2.0 / 3.0;
         }
-
-        traction_wheel_area += 2 * wheel_area / move_mod;
+        
+        float pressure = weight / wheel_area;
+        // Calculate sinkage in proportion to 100kPa.
+        float sinkage = (pressure / 1000) / 100;
+        // Wheels may become stuck in diggable terrain.
+        if ( terrian.has_flag( TFLAG_DIGGABLE ) ) {
+            // TODO: Integrate with JSON.
+            // Increase sinkage in proportion to pressure.
+            //            g->u.add_msg_if_player(m_debug, "Raw sinkage is %d.", sinkage_ter( part_point ));
+            sinkage *= sinkage_ter( part_point ) / 10000.0;
+        } else {
+            sinkage *= 0.0001;
+        }
+        
+        // TODO: Set a threshold in globals.
+        returns[OBSTACLE] = std::max(move_mod / (10 * wheel_area), returns[OBSTACLE]);
+        // Multiply by proportion of wheel area because this is for the entire vehicle.
+        returns[K_FRICTION] += weather_mult * std::sqrt(sinkage / veh.parts[ wheel_index ].wheel_diameter()) * veh.parts[ wheel_index ].wheel_area() / area;
+        returns[K_TRACTION] += friction_mult * weather_mult * veh.parts[ wheel_index ].wheel_friction() * veh.parts[ wheel_index ].wheel_area() / area;
     }
-
+    
     // Submerged wheels threshold is 2/3.
     if( num_wheels > 0 && submerged_wheels * 3 > num_wheels * 2 ) {
-        return -1;
+        returns[K_TRACTION] = -1;
     }
-
-    return traction_wheel_area;
+    
+    return;
 }
 
 float map::vehicle_buoyancy( const vehicle &veh ) const
@@ -1905,6 +1952,18 @@ bool map::impassable( const tripoint &p ) const
 bool map::passable( const tripoint &p ) const
 {
     return move_cost( p ) != 0;
+}
+
+int map::sinkage_ter( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return 0;
+    }
+    
+    int lx, ly;
+    submap * const current_submap = get_submap_at( p, lx, ly );
+    
+    return current_submap->get_ter( lx, ly ).obj().sinkage;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const

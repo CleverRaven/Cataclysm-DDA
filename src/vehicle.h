@@ -159,14 +159,23 @@ struct vehicle_part
     /** Try to set fault returning false if specified fault cannot occur with this item */
     bool fault_set( const fault_id &f );
 
-    /** Get wheel diameter times wheel width (inches^2) or return 0 if part is not wheel */
-    int wheel_area() const;
+    /** Get wheel diameter times wheel width (meters^2) or return 0 if part is not wheel */
+    float wheel_area() const;
 
-    /** Get wheel diameter (inches) or return 0 if part is not wheel */
-    int wheel_diameter() const;
+    /** Get wheel radius (meters) or return 0 if part is not wheel */
+    float wheel_radius() const;
 
-    /** Get wheel width (inches) or return 0 if part is not wheel */
-    int wheel_width() const;
+    /** Get wheel mass (g) or return 0 if part is not wheel */
+    float wheel_mass() const;
+
+    /** Get wheel diameter (meters) or return 0 if part is not wheel */
+    float wheel_diameter() const;
+
+    /** Get wheel friction (percent) or return 0 if part is not wheel */
+    float wheel_friction() const;
+
+    /** Get wheel width (meters) or return 0 if part is not wheel */
+    float wheel_width() const;
 
     /**
      *  Get NPC currently assigned to this part (seat, turret etc)?
@@ -848,6 +857,9 @@ public:
 
     // get the total mass of vehicle, including cargo and passengers
     units::mass total_mass () const;
+    
+    // get the mass of vehicle, not including wheels
+    float nowheel_mass () const;
 
     // Gets the center of mass calculated for precalc[0] coordinates
     const point &rotated_center_of_mass() const;
@@ -869,15 +881,16 @@ public:
 
     // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
-    int acceleration (bool fueled = true) const;
+    float acceleration (bool fueled = true) const;
+    float get_load (bool fueled, float delta_v) const;
 
     // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
-    int max_velocity (bool fueled = true) const;
+    float max_velocity (bool fueled = true) const;
 
     // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
-    int safe_velocity (bool fueled = true) const;
+    float safe_velocity (bool fueled = true) const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part, int density = 1 );
@@ -890,6 +903,18 @@ public:
      * @param boat If true, calculates the area under "wheels" that allow swimming.
      */
     float wheel_area( bool boat ) const;
+    
+    /**
+     * Calculates the average radius of the wheels of the vehicle.
+     * @param boat If true, calculates the area under "wheels" that allow swimming.
+     */
+    float wheel_radius( bool boat ) const;
+    
+    /**
+     * Calculates the mass of the wheels of the vehicle.
+     * @param boat If true, calculates the area under "wheels" that allow swimming.
+     */
+    float wheel_mass( bool boat ) const;
 
     /**
      * Physical coefficients used for vehicle calculations.
@@ -920,6 +945,7 @@ public:
      * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
      */
     float k_aerodynamics() const;
+    float reference_area() const;
 
     /**
      * Mass coefficient of the vehicle.
@@ -937,11 +963,11 @@ public:
      * 
      * Affects safe velocity, acceleration and handling difficulty.
      */
-    float k_traction( float wheel_traction_area ) const;
+    float k_traction() const;
     /*@}*/
 
     // Extra drag on the vehicle from components other than wheels.
-    float drag() const;
+    float drag( float velocity_override = 0 ) const;
 
     // strain of engine(s) if it works higher that safe speed (0-1.0)
     float strain () const;
@@ -1264,9 +1290,9 @@ public:
     int posy = 0;
     tileray face;       // frame direction
     tileray move;       // direction we are moving
-    int velocity = 0;       // vehicle current velocity, mph * 100
+    float velocity = 0;       // vehicle current velocity, mph * 100
     int cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
-    int vertical_velocity = 0; // Only used for collisions, vehicle falls instantly
+    float vertical_velocity = 0; // Only used for collisions, vehicle falls instantly
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     int turn_dir = 0;       // direction, to which vehicle is turning (player control). will rotate frame on next move
 
@@ -1314,6 +1340,9 @@ private:
     mutable bool mass_dirty                     = true;
     mutable bool mass_center_precalc_dirty      = true;
     mutable bool mass_center_no_precalc_dirty   = true;
+    
+    mutable float dynamics_cache[3] = {0, 0, 0};
+    mutable bool dynamics_dirty   = true;
 
     mutable units::mass mass_cache;
     mutable point mass_center_precalc;

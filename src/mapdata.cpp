@@ -279,6 +279,7 @@ ter_t null_terrain_t() {
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
   new_terrain.movecost = 0;
+  new_terrain.sinkage = 0;
   new_terrain.transparent = true;
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
@@ -994,6 +995,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "move_cost", movecost );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
+    optional( jo, was_loaded, "sinkage", sinkage );
 
     load_symbol( jo );
 
