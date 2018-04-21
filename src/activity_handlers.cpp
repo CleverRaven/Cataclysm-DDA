@@ -890,7 +890,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 static void rod_fish( player *p, int sSkillLevel, int fishChance )
 {
    if( sSkillLevel > fishChance ) {
-        std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
+        std::vector<monster *> fishables = g->get_fishable(fishing_distance); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.size() < 1 ) {
             if( one_in(20) ) {

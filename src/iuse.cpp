@@ -2044,7 +2044,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
         return 0;
     }
-    std::vector<monster*> fishables = g->get_fishable(60);
+    std::vector<monster*> fishables = g->get_fishable(fishing_distance);
     if ( fishables.size() < 1){
         p->add_msg_if_player(m_info, _("There are no fish around.  Try another spot.")); // maybe let the player find that out by himself?
         return 0;
@@ -2095,7 +2095,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
         }
-        std::vector<monster*> fishables = g->get_fishable(60);
+        std::vector<monster*> fishables = g->get_fishable(fishing_distance);
         if ( fishables.size() < 1){
             p->add_msg_if_player(m_info, _("There is no fish around.  Try another spot.")); // maybe let the player find that out by himself?
             return 0;
@@ -2155,7 +2155,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
 
                 return 0;
             }
-            std::vector<monster*> fishables = g->get_fishable(60); //get the fishables around the trap's spot
+            std::vector<monster*> fishables = g->get_fishable(fishing_distance); //get the fishables around the trap's spot
             for (int i = 0; i < fishes; i++) {
                 p->practice( skill_survival, rng(3, 10));
                 if (fishables.size() > 1){

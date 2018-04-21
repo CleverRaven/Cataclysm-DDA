@@ -2725,7 +2725,7 @@ int player::sight_range( int light_level ) const
 
 int player::unimpaired_range() const
 {
-    return std::min( sight_max, 60 );
+    return std::min( sight_max, player_view_distance_int );
 }
 
 bool player::overmap_los( const tripoint &omt, int sight_points )
