@@ -3082,6 +3082,9 @@ float vehicle::acceleration(bool const fueled) const
     traction = k_traction() * 9.8 * mass,
     friction = k_friction() * 9.8 * mass,
     ang_to_lin = wheelradius / ( M_PI );
+    g->u.add_msg_if_player(m_debug, "Power: %.0f", power / 1000);
+    g->u.add_msg_if_player(m_debug, "Accel: %.2f", angular * ang_to_lin);
+    g->u.add_msg_if_player(m_debug, "Max: %.2f", (traction - friction) / mass);
     if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
         return std::min(angular * ang_to_lin, (traction - friction) / mass);
     }
@@ -3486,7 +3489,8 @@ std::map<itype_id, int> vehicle::fuel_usage() const
             ret[ fuel_type_battery ] -= epower_to_power( part_epower( e ) );
         } else if( !is_engine_type( i, fuel_type_muscle ) ) {
             // kW of energy content consumed converted to mL of fuel.
-            float usage = part_power( e ) / (info.efficiency * 100.0) / density;
+            float usage = part_power( e ) / (info.efficiency / 100.0) / density;
+            g->u.add_msg_if_player(m_debug, "Usage: %f", usage);
             if( parts[ e ].faults().count( fault_filter_air ) ) {
                 usage *= 2;
             }
