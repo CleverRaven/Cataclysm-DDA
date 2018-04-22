@@ -1097,14 +1097,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
-        g->m.add_field( pos(), fd_acid, 3, 0 );
+        g->m.add_field( pos(), fd_acid, 3 );
     }
 
     if( has_flag( MF_SLUDGETRAIL ) ) {
         for( const tripoint &sludge_p : g->m.points_in_radius( pos(), 1 ) ) {
             const int fstr = 3 - ( abs( sludge_p.x - posx() ) + abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
-                g->m.add_field( sludge_p, fd_sludge, fstr, 0 );
+                g->m.add_field( sludge_p, fd_sludge, fstr );
             }
         }
     }

@@ -128,7 +128,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
         //Make sure the current time of day is within one of the valid time ranges for this spawn
         bool is_valid_time_of_day = false;
-        if( valid_times_of_day.size() < 1 ) {
+        if( valid_times_of_day.empty() ) {
             //Then it can spawn whenever, since no times were defined
             is_valid_time_of_day = true;
         } else {

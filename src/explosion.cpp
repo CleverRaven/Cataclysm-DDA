@@ -201,7 +201,7 @@ void game::do_blast( const tripoint &p, const float power,
                 density++;
             }
 
-            m.add_field( pt, fd_fire, density, 0 );
+            m.add_field( pt, fd_fire, density );
         }
 
         int vpart;

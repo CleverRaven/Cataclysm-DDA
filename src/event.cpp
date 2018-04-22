@@ -80,7 +80,7 @@ void event::actualize()
             sounds::sound(g->u.pos(), 60, "");
             if (!g->u.is_deaf()) {
                 add_msg(_("The eye you're carrying lets out a tortured scream!"));
-                g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+                g->u.add_morale(MORALE_SCREAM, -15, 0, 30_minutes, 5_turns);
             }
         }
         if (!one_in(25)) { // They just keep coming!

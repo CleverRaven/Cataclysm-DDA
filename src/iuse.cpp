@@ -742,7 +742,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         }
         // breathe out some smoke
         for (int i = 0; i < 3; i++) {
-            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)),p->posz()}, fd_methsmoke, 2,0);
+            g->m.add_field( {p->posx() + int( rng( -2, 2 ) ), p->posy() + int( rng( -2, 2 ) ), p->posz()}, fd_methsmoke, 2 );
         }
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
@@ -821,9 +821,9 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
 
    //Fake a normal food morale effect
     if (p->has_trait(trait_SPIRITUAL)) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
     } else {
-         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 60, 30, false, it->type );
+         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false, it->type );
     }
     if (!p->has_effect( effect_hallu)) {
         p->add_effect( effect_hallu, 3600);
@@ -893,7 +893,7 @@ int iuse::datura(player *p, item *it, bool, const tripoint& )
     p->add_effect( effect_datura, rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
     if (p->has_trait(trait_SPIRITUAL)) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
     }
     return it->type->charges_to_use();
 }
@@ -966,7 +966,7 @@ int iuse::blech(player *p, item *it, bool, const tripoint& )
         p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
         p->mod_stomach_water( 20 );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 60, 30, false, it->type );
+        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
     } else {
         p->add_msg_if_player(m_bad, _("Blech, that burns your throat!"));
         p->mod_pain( rng( 32, 64));
@@ -992,7 +992,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         p->mod_hunger( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier);
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
         return blech( p, it, true, pos );
@@ -2045,7 +2045,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     std::vector<monster*> fishables = g->get_fishable(60);
-    if ( fishables.size() < 1){
+    if( fishables.empty() ) {
         p->add_msg_if_player(m_info, _("There are no fish around.  Try another spot.")); // maybe let the player find that out by himself?
         return 0;
     }
@@ -2096,7 +2096,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         std::vector<monster*> fishables = g->get_fishable(60);
-        if ( fishables.size() < 1){
+        if( fishables.empty() ) {
             p->add_msg_if_player(m_info, _("There is no fish around.  Try another spot.")); // maybe let the player find that out by himself?
             return 0;
         }
@@ -2166,7 +2166,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                     //lets say it is a 5% chance per fish to catch
                     if (one_in(20)) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                        const mtype_id& fish_mon = fish_group[rng(size_t(1), fish_group.size()) - 1];
+                        const mtype_id& fish_mon = random_entry_ref( fish_group );
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
@@ -3337,7 +3337,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 g->draw_explosion( pos, explosion_radius, c_yellow);
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if (one_in(5) && !g->critter_at( dest ) ) {
-                        g->m.add_field(dest, fd_bees, rng(1, 3), 0 );
+                        g->m.add_field( dest, fd_bees, rng( 1, 3 ) );
                     }
                 }
                 break;
@@ -3366,7 +3366,7 @@ int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
     if( !p->has_item( *it ) ) {
         it->charges = -1;
         for( const tripoint &tmp : g->m.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
-            g->m.add_field( tmp, fd_acid, 3, 0 );
+            g->m.add_field( tmp, fd_acid, 3 );
         }
         return 1;
     }
@@ -3390,12 +3390,12 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
             tripoint dest( pos.x + rng( -5, 5 ), pos.y + rng( -5, 5 ), pos.z );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                g->m.add_field( flame, fd_fire, rng( 0, 2 ), 0 );
+                g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
         g->explosion( pos, 8, 0.8, true );
         for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
-            g->m.add_field( dest, fd_incendiary, 3, 0 );
+            g->m.add_field( dest, fd_incendiary, 3 );
         }
 
     }
@@ -3441,7 +3441,7 @@ int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
         if( !t ) {
             for( auto &&pt : g->m.points_in_radius( pos, 1, 0 ) ) {
                 const int density = 1 + one_in( 3 ) + one_in( 5 );
-                g->m.add_field( pt, fd_fire, density, 0 );
+                g->m.add_field( pt, fd_fire, density );
             }
         }
     }
@@ -3790,7 +3790,7 @@ void iuse::play_music( player &p, const tripoint &source, int const volume, int 
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1 );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_turns, 2_turns );
         // mp3 player reduces hearing
         if( volume == 0 ) {
              p.add_effect( effect_earphones, 1 );
@@ -4507,7 +4507,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     for (int n = 0; n < dist; n++) {
                         boltx += xdir;
                         bolty += ydir;
-                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng(2, 3), 0 );
+                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng( 2, 3 ) );
                         if (one_in(4)) {
                             if (xdir == 0) {
                                 xdir = rng(0, 1) * 2 - 1;
@@ -4554,7 +4554,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_BLOOD: {
                 bool blood = false;
                 for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
-                    if (!one_in(4) && g->m.add_field(tmp, fd_blood, 3, 0 ) &&
+                    if (!one_in(4) && g->m.add_field(tmp, fd_blood, 3 ) &&
                         (blood || g->u.sees(tmp))) {
                         blood = true;
                     }
@@ -4568,7 +4568,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_FATIGUE: {
                 p->add_msg_if_player(m_warning, _("The fabric of space seems to decay."));
                 int x = rng(p->posx() - 3, p->posx() + 3), y = rng(p->posy() - 3, p->posy() + 3);
-                g->m.add_field({x, y, p->posz()}, fd_fatigue, rng(1, 2), 0);
+                g->m.add_field( {x, y, p->posz()}, fd_fatigue, rng( 1, 2 ) );
             }
             break;
 
@@ -4576,7 +4576,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 tripoint acidball = g->look_around();
                 if( acidball != tripoint_min ) {
                     for( const tripoint &tmp : g->m.points_in_radius( acidball, 1 ) ) {
-                        g->m.add_field( tmp, fd_acid, rng(2, 3), 0 );
+                        g->m.add_field( tmp, fd_acid, rng( 2, 3 ) );
                     }
                 }
             }
@@ -4676,7 +4676,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_RADIATION:
                 add_msg(m_warning, _("Horrible gases are emitted!"));
                 for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    g->m.add_field(dest, fd_nuke_gas, rng(2, 3), 0 );
+                    g->m.add_field( dest, fd_nuke_gas, rng( 2, 3 ) );
                 }
                 break;
 
@@ -4704,7 +4704,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 std::vector<tripoint> ps = closest_tripoints_first( 3, p->pos() );
                 for (auto p_it : ps) {
                     if (!one_in(3)) {
-                        g->m.add_field(p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
+                        g->m.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
                     }
                 }
                 break;
@@ -4729,7 +4729,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 sounds::sound(p->pos(), 40, "");
                 if (!p->is_deaf()) {
                     p->add_msg_if_player(m_warning, _("Your %s screams disturbingly."), it->tname().c_str());
-                    p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
+                    p->add_morale(MORALE_SCREAM, -10, 0, 30_minutes, 5_turns);
                 }
                 break;
 
@@ -4996,7 +4996,7 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
     g->m.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
-    if (unfold_msg.size() == 0) {
+    if( unfold_msg.empty() ) {
         unfold_msg = _("You painstakingly unfold the %s and make it ready to ride.");
     } else {
         unfold_msg = _(unfold_msg.c_str());
@@ -5665,7 +5665,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
             std::string s;
             while (getline(f, s, ',')) {
 
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
 
@@ -5899,7 +5899,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             int k = 1;
             while (getline(f, s, ',')) {
 
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
 
@@ -5946,7 +5946,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             std::string s;
             int k = 1;
             while (getline(f, s, ',')) {
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
                 monster_photos.push_back( mtype_id( s ) );
@@ -6250,7 +6250,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         int k = 1;
         while (getline(f, s, ',')) {
 
-            if (s.size() == 0) {
+            if( s.empty() ) {
                 continue;
             }
 
@@ -6723,7 +6723,7 @@ vehicle *pickveh( const tripoint& center, bool advanced )
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
     }
 
-    if( vehs.size() == 0 ) {
+    if( vehs.empty() ) {
         add_msg( m_bad, _("No vehicle available.") );
         return nullptr;
     }
@@ -7272,7 +7272,7 @@ int iuse::shavekit(player *p, item *it, bool, const tripoint&)
     } else {
         p->add_msg_if_player(_("You open up your kit and shave."));
         p->moves -= 3000;
-        p->add_morale(MORALE_SHAVE, 8, 8, 2400, 30);
+        p->add_morale(MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes);
     }
     return it->type->charges_to_use();
 }
@@ -7281,7 +7281,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 {
         p->add_msg_if_player(_("You give your hair a trim."));
         p->moves -= 3000;
-        p->add_morale(MORALE_HAIRCUT, 3, 3, 4800, 30);
+        p->add_morale(MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes);
     return it->type->charges_to_use();
 }
 

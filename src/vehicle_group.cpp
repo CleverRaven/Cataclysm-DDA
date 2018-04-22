@@ -95,12 +95,11 @@ void VehiclePlacement::load( JsonObject &jo )
 
 const VehicleLocation *VehiclePlacement::pick() const
 {
-    if( locations.size() == 0 ) {
-        debugmsg( "vehicleplacement has no locations" );
-        return NULL;
+    if( const auto chosen = random_entry_opt( locations ) ) {
+        return &chosen->get();
     }
-
-    return &( locations[rng( size_t(0), locations.size() - 1 )] );
+    debugmsg( "vehicleplacement has no locations" );
+    return nullptr;
 }
 
 VehicleFunction_json::VehicleFunction_json( JsonObject &jo )

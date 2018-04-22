@@ -6,12 +6,16 @@
 #include "damage.h"
 #include "weighted_list.h"
 #include "mattack_common.h"
+#include "string_id.h"
+
 #include <tuple>
 #include <vector>
 #include <map>
 
 class JsonObject;
 class monster;
+class gun_mode;
+using gun_mode_id = string_id<gun_mode>;
 
 class leap_actor : public mattack_actor
 {
@@ -120,7 +124,7 @@ class gun_actor : public mattack_actor
         /*@}*/
 
         /** Specify weapon mode to use at different engagement distances */
-        std::map<std::pair<int, int>, std::string> ranges;
+        std::map<std::pair<int, int>, gun_mode_id> ranges;
 
         int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
 
@@ -157,7 +161,7 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target, const std::string &mode ) const;
+        void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
 
         gun_actor();
         ~gun_actor() override = default;

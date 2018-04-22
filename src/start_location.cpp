@@ -380,7 +380,7 @@ void start_location::burn( const tripoint &omtstart,
     }
     random_shuffle( valid.begin(), valid.end() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], fd_fire, 3, 0 );
+        m.add_field( valid[i], fd_fire, 3 );
     }
     m.save();
 }
