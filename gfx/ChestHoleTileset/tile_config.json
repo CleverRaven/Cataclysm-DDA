@@ -41755,7 +41755,7 @@
           "rotates": false
         },
        {
-          "id": "mon_gloople",
+          "id": ["mon_gloople", "mon_oozle"],
           "fg": 4287,
           "bg": 632,
           "rotates": false
