@@ -104,7 +104,7 @@
       "city": {
           "type": "town",
           "shop_radius": 80,                "//": "determine radial frequency of shops / parks / houses for towns. tldr: less means more",
-          "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "park_radius": 90,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
           "houses": {
               "house_two_story_basement": 1,
               "house": 1000,
@@ -117,7 +117,8 @@
               "skate_park": 1,
               "small_wooded_trail": 3,
               "pavilion": 2,
-              "cemetery_small":2
+              "cemetery_small": 2,
+              "Pond": 2
           },
           "shops": {                        "//": "weighted list of oterrains for commercial zoning",
               "s_gas": 5,

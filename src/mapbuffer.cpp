@@ -565,7 +565,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         if( sm->fld[i][j].findField( field_id( type ) ) == NULL ) {
                             sm->field_count++;
                         }
-                        sm->fld[i][j].addField( field_id( type ), density, age );
+                        sm->fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
                     }
                 }
             } else if( submap_member_name == "graffiti" ) {

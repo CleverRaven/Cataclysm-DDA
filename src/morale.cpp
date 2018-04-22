@@ -110,7 +110,7 @@ std::string player_morale::morale_point::get_name() const
 int player_morale::morale_point::get_net_bonus() const
 {
     return bonus * ( ( !is_permanent() && age > decay_start ) ?
-                     logarithmic_range( decay_start, duration, age ) : 1 );
+                     logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ), to_turns<int>( age ) ) : 1 );
 }
 
 int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
@@ -126,7 +126,7 @@ bool player_morale::morale_point::is_expired() const
 
 bool player_morale::morale_point::is_permanent() const
 {
-    return ( duration == 0 );
+    return ( duration == 0_turns );
 }
 
 bool player_morale::morale_point::matches( morale_type _type, const itype *_item_type ) const
@@ -139,14 +139,13 @@ bool player_morale::morale_point::matches( const morale_point &mp ) const
     return ( type == mp.type ) && ( item_type == mp.item_type );
 }
 
-void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new_duration,
-                                       int new_decay_start,
-                                       bool new_cap )
+void player_morale::morale_point::add( const int new_bonus, const int new_max_bonus,
+                                       time_duration new_duration, time_duration new_decay_start, bool new_cap )
 {
-    new_duration = std::max( 0, new_duration );
-    new_decay_start = std::max( 0, new_decay_start );
+    new_duration = std::max( 0_turns, new_duration );
+    new_decay_start = std::max( 0_turns, new_decay_start );
 
-    if( new_cap || new_duration == 0 ) {
+    if( new_cap || new_duration == 0_turns ) {
         duration = new_duration;
         decay_start = new_decay_start;
     } else {
@@ -160,16 +159,17 @@ void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new
     age = 0; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
-int player_morale::morale_point::pick_time( int current_time, int new_time, bool same_sign ) const
+time_duration player_morale::morale_point::pick_time( const time_duration current_time,
+        const time_duration new_time, bool same_sign ) const
 {
-    const int remaining_time = current_time - age;
+    const time_duration remaining_time = current_time - age;
     return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
 }
 
-void player_morale::morale_point::decay( int ticks )
+void player_morale::morale_point::decay( const time_duration ticks )
 {
-    if( ticks < 0 ) {
-        debugmsg( "The function called with negative ticks %d.", ticks );
+    if( ticks < 0_turns ) {
+        debugmsg( "The function called with negative ticks %d.", to_turns<int>( ticks ) );
         return;
     }
 
@@ -240,10 +240,10 @@ player_morale::player_morale() :
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
-                         int duration, int decay_start,
+                         const time_duration duration, const time_duration decay_start,
                          bool capped, const itype *item_type )
 {
-    if( ( duration == 0 ) & !is_permanent_morale( type ) ) {
+    if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
                   type.obj().describe( item_type ).c_str() );
         return;
@@ -275,7 +275,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
 
 void player_morale::set_permanent( morale_type type, int bonus, const itype *item_type )
 {
-    add( type, bonus, bonus, 0, 0, true, item_type );
+    add( type, bonus, bonus, 0_turns, 0_turns, true, item_type );
 }
 
 int player_morale::has( morale_type type, const itype *item_type ) const
@@ -350,7 +350,7 @@ int player_morale::get_level() const
     return level;
 }
 
-void player_morale::decay( int ticks )
+void player_morale::decay( const time_duration ticks )
 {
     const auto do_decay = [ ticks ]( morale_point & m ) {
         m.decay( ticks );
@@ -701,7 +701,7 @@ void player_morale::update_masochist_bonus()
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
 }
 
-void player_morale::update_bodytemp_penalty( int ticks )
+void player_morale::update_bodytemp_penalty( const time_duration ticks )
 {
     using bp_int_func = std::function<int( body_part )>;
     const auto apply_pen = [ this, ticks ]( morale_type type, bp_int_func bp_int ) -> void {
@@ -721,7 +721,7 @@ void player_morale::update_bodytemp_penalty( int ticks )
 
         if( max_pen != 0 )
         {
-            add( type, -2 * ticks, -std::abs( max_pen ), 10, 5, true );
+            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 10_turns, 5_turns, true );
         }
     };
     apply_pen( MORALE_COLD, [ this ]( body_part bp ) {

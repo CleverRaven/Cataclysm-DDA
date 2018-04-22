@@ -42,9 +42,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-04 06:42-0400\n"
-"PO-Revision-Date: 2018-04-13 10:59+0000\n"
-"Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
+"POT-Creation-Date: 2018-04-13 09:09-0400\n"
+"PO-Revision-Date: 2018-04-20 07:02+0000\n"
+"Last-Translator: xap\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1839,7 +1839,8 @@ msgstr "選項"
 
 #: lang/json/AMMO_from_json.py
 msgid "battery"
-msgstr "電池"
+msgid_plural "batteries"
+msgstr[0] "99d8b20cf7042be43c3855ac670d4ec2_pl_0"
 
 #. ~ Description for battery
 #: lang/json/AMMO_from_json.py
@@ -10364,7 +10365,7 @@ msgid ""
 " compartment can store other things if you don't mind powering the suit "
 "yourself.  Like all DoubleTech power armor, the control and climate-"
 "regulation systems require direct skin contact."
-msgstr ""
+msgstr "DoubleTech 工業的 Mk. I 動力裝甲: 一套沈重的基本動力裝甲，提供了對攻擊的絕佳保護性，但是讓人很難移動。若是由自身供電的話，能夠移除原本的 UPS，空出來的艙室能用來儲存其他東西。就像其他的 DoubleTech 動力裝甲，控制與氣候調節系統必須直接接觸皮膚。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "power armor hauling frame"
@@ -10388,7 +10389,7 @@ msgid ""
 "improvements over the Mk. I, most notably the improved environmental "
 "protection.  Like all DoubleTech power armor, the control and climate-"
 "regulation systems require direct skin contact."
-msgstr ""
+msgstr "一件由 DoubleTech 設計的動力裝甲，Mk. II-H。這個型號相較 Mk. I 做了許多改進。特別是環境傷害防護的能力。就像其他的 DoubleTech 動力裝甲，控制與氣候調節系統必須直接接觸皮膚。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "basic power armor helmet"
@@ -10445,7 +10446,7 @@ msgid ""
 "improvements over the Mk. I, most notably the reduced weight.  Like all "
 "DoubleTech power armor, the control and climate-regulation systems require "
 "direct skin contact."
-msgstr ""
+msgstr "由 DoubleTech 工業研發的動力裝甲，型號 Mk. II-L。這個型號相比 Mk. I 做了許多改進，特別是重量部分。就像其他的 DoubleTech 動力裝甲，控制與氣候調節系統必須直接接觸皮膚。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "purse"
@@ -14165,6 +14166,15 @@ msgid ""
 "You have a few solar panels installed.  While in direct sunlight, your power"
 " level will slowly recharge."
 msgstr "你身上安裝了數個太陽能板。只要陽光直射你就能夠慢慢充能。"
+
+#. ~ Description for Solar Panels CBM
+#. ~ Description for Solar Panels
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+msgid ""
+"Installed on your back is a set of retractable solar panels.  When in direct"
+" sunlight, they will automatically deploy and slowly recharge your power "
+"level."
+msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "EMP Projector CBM"
@@ -22926,12 +22936,12 @@ msgstr "用在消除寄生蟲侵擾的泛用化學藥片。雖然是用於寵物
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "aspirin"
-msgstr "阿司匹林"
+msgstr "阿斯匹靈"
 
 #. ~ Use action activation_message for aspirin.
 #: lang/json/COMESTIBLE_from_json.py
 msgid "You take some aspirin."
-msgstr "你服用一些阿斯匹林。"
+msgstr "你服用一些阿斯匹靈。"
 
 #. ~ Description for aspirin
 #: lang/json/COMESTIBLE_from_json.py
@@ -24221,10 +24231,6 @@ msgid "Some chili pepper seeds."
 msgstr "一些辣椒種子。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "chili_pepper"
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "cucumber seeds"
 msgid_plural "cucumber seeds"
 msgstr[0] "黃瓜種子"
@@ -24687,8 +24693,8 @@ msgstr "一個附有上蓋，可以重新密封的大塑膠桶。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "steel drum (100L)"
-msgid_plural "steel drum (100L)s"
-msgstr[0] "鋼桶（100公升）"
+msgid_plural "steel drums (100L)"
+msgstr[0] ""
 
 #. ~ Description for steel drum (100L)
 #: lang/json/CONTAINER_from_json.py
@@ -24697,8 +24703,8 @@ msgstr "一個附有上蓋，可以重新密封的大鋼桶。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "steel drum (200L)"
-msgid_plural "steel drum (200L)s"
-msgstr[0] "鋼桶（200公升）"
+msgid_plural "steel drums (200L)"
+msgstr[0] ""
 
 #. ~ Description for steel drum (200L)
 #: lang/json/CONTAINER_from_json.py
@@ -25150,8 +25156,8 @@ msgstr "一個大型生物的胃袋，清洗後用線密封。可容納3升的�
 
 #: lang/json/CONTAINER_from_json.py
 msgid "metal tank (60L)"
-msgid_plural "metal tank (60L)s"
-msgstr[0] "鐵製油桶（60公升）"
+msgid_plural "metal tanks (60L)"
+msgstr[0] ""
 
 #. ~ Description for metal tank (60L)
 #: lang/json/CONTAINER_from_json.py
@@ -25160,8 +25166,8 @@ msgstr "用來裝液體的大型金屬桶。製作物品時很有用。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "metal tank (2L)"
-msgid_plural "metal tank (2L)s"
-msgstr[0] "鐵製油桶（2公升）"
+msgid_plural "metal tanks (2L)"
+msgstr[0] ""
 
 #. ~ Description for metal tank (2L)
 #: lang/json/CONTAINER_from_json.py
@@ -25484,6 +25490,15 @@ msgid ""
 "A massive and extremely powerful V12 engine, usually built into heavy "
 "trucks."
 msgstr "一個巨大而無比強力的十二缸內燃式引擎，通常用於重型卡車。"
+
+#: lang/json/EXTERNAL_OPTION_from_json.py
+msgid "DISPERSION_PER_GUN_DAMAGE"
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/EXTERNAL_OPTION_from_json.py
+msgid "Value that adds to weapon dispersion per weapon damage value."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "explosive arrowhead"
@@ -26968,7 +26983,7 @@ msgstr[0] "柳樹樹皮"
 msgid ""
 "A sheet of bark taken from a willow tree.  Used in the production of "
 "aspirin."
-msgstr "一片從柳樹上取得的樹皮，可用於製作阿司匹林。"
+msgstr "一片從柳樹上取得的樹皮，可用於製作阿斯匹靈。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "peephole"
@@ -29879,8 +29894,8 @@ msgstr "一個有擴音器的立體音響系統。可以安裝在車輛上來播
 
 #: lang/json/GENERIC_from_json.py
 msgid "chime loudspeakers"
-msgid_plural "chime loudspeakerss"
-msgstr[0] "音樂鈴擴音器"
+msgid_plural "chime loudspeakers"
+msgstr[0] ""
 
 #. ~ Description for chime loudspeakers
 #: lang/json/GENERIC_from_json.py
@@ -30052,6 +30067,16 @@ msgstr[0] "貨架上鎖工具"
 #: lang/json/GENERIC_from_json.py
 msgid "A set of locks designed to be installed on a vehicle."
 msgstr "一套設計用作安裝在車輛上的鎖。"
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "turret mount"
+msgid_plural "turret mounts"
+msgstr[0] ""
+
+#. ~ Description for turret mount
+#: lang/json/GENERIC_from_json.py
+msgid "A universal mount for weapons intended to be installed as turrets."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "The Spirit of Aikido"
@@ -30614,8 +30639,8 @@ msgstr "一個空的霰彈彈殼。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "spare parts"
-msgid_plural "spare partss"
-msgstr[0] "備品"
+msgid_plural "spare parts"
+msgstr[0] ""
 
 #. ~ Description for spare parts
 #: lang/json/GENERIC_from_json.py
@@ -31686,8 +31711,8 @@ msgstr "這件令人生畏的附件由車輛的發動機驅動。啟動後，裝
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "turret chassis"
-msgid_plural "turret chassiss"
-msgstr[0] "槍塔底盤"
+msgid_plural "turret chassis"
+msgstr[0] ""
 
 #. ~ Description for turret chassis
 #: lang/json/GENERIC_from_json.py
@@ -32054,6 +32079,18 @@ msgid "A 5-round box magazine used by M2010 ESR sniper rifle."
 msgstr "一個 5 發盒狀彈匣，適用於 M2010 ESR 狙擊槍。"
 
 #: lang/json/MAGAZINE_from_json.py
+msgid "rifle clip - .30-06"
+msgstr ""
+
+#. ~ Description for rifle clip - .30-06
+#. ~ Description for rifle clip - 7.62x54mmR
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A tiny piece of grooved metal designed to allow a shooter to quickly load a "
+"bolt-action rifle."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
 msgid "Browning BLR magazine"
 msgstr "白朗寧 BLR 彈匣"
 
@@ -32224,10 +32261,10 @@ msgid "A compact steel box magazine for use with the Taurus Pro .38 pistol."
 msgstr "一個簡潔精巧的鋼製盒型彈匣，適用於 Taurus Pro .38 手槍。"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "38 Speedloader"
+msgid ".38 speedloader"
 msgstr ""
 
-#. ~ Description for 38 Speedloader
+#. ~ Description for .38 speedloader
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "This speedloader can hold 7 rounds of .38 and quickly reload a compatible "
@@ -32496,6 +32533,10 @@ msgid ""
 "A standard 30-round magazine made for the AKM rifle, made of stamped sheet "
 "metal."
 msgstr "一個標準的 AKM 步槍彈匣，以沖壓後的金屬薄板製成。能容納 30 發子彈。"
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "rifle clip - 7.62x54mmR"
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "PPSh 71-round drum magazine"
@@ -33287,6 +33328,17 @@ msgid ""
 ".410 bore shotshells."
 msgstr "一個可移除的塑料彈匣，適用於 Saiga-410 霰彈槍，能容納 30 發 .410 號徑霰彈。"
 
+#: lang/json/MAGAZINE_from_json.py
+msgid ".357 Magnum speedloader"
+msgstr ""
+
+#. ~ Description for .357 Magnum speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 7 rounds of .357 Magnum and quickly reload a "
+"compatible revolver."
+msgstr ""
+
 #: lang/json/MOD_INFO_from_json.py src/color.cpp src/color.cpp
 msgid "default"
 msgstr "預設"
@@ -33391,8 +33443,8 @@ msgstr "DeadLeaves 的虛構武器包"
 
 #. ~ Description for DeadLeaves' Fictional Guns
 #: lang/json/MOD_INFO_from_json.py
-msgid "Adds a bunch of rare weapons loosely based fiction."
-msgstr "增加了大量參考自小說的罕見武器。"
+msgid "Adds a bunch of rare, fictional weapons."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Filthy Clothing"
@@ -38591,8 +38643,8 @@ msgstr[0] "整合工具手"
 
 #: lang/json/TOOL_from_json.py
 msgid "bionic goggles"
-msgid_plural "bionic goggless"
-msgstr[0] "生化護目鏡"
+msgid_plural "bionic goggles"
+msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "bionic razor"
@@ -42885,8 +42937,8 @@ msgstr[0] "小滅火器"
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a hand held fire extinguisher containing a liter of highly "
-"compressed C02 gas.  It would be useful for putting out adjacent fires."
-msgstr "這是一個手提滅火器，內含高壓的二氧化碳。能夠有效的撲滅附近的火勢。"
+"compressed CO2 gas.  It would be useful for putting out adjacent fires."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "firearm repair kit"
@@ -44338,9 +44390,9 @@ msgstr "你已經點燃了 %s 的引信，試著把它投出去看看。"
 #. ~ Description for active nail bomb
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is an active nail_bomb, likely to explode any second now.  Better throw"
+"This is an active nail bomb, likely to explode any second now.  Better throw"
 " it!"
-msgstr "這個鐵釘炸彈已經啟動，隨時都會爆炸。你最好趕快投擲出去！"
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "Granade"
@@ -44714,7 +44766,7 @@ msgstr "勝利之劍雷瓦汀，豐饒之神弗雷的佩劍複製品。傳說能
 
 #: lang/json/TOOL_from_json.py
 msgid "autonomous surgical razors"
-msgid_plural "autonomous surgical razorss"
+msgid_plural "autonomous surgical razors"
 msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
@@ -52647,7 +52699,7 @@ msgid ""
 "chambered in .45.  It soon earned a reputation as one of the most "
 "intimidating guns on the market, for firer and target alike.  Similar to "
 "other Leadworks products it doesn't accept third-party modifications."
-msgstr ""
+msgstr "在9mm系列廣受歡迎之後，Leadworks LLC 推出了L39B系列搭載.45口徑彈膛。很快地它的兇猛性在市場流傳開來，並廣受各方打手喜愛。但就像 Leadworks 的其他產品一樣，它無法安裝市面上的改造模組。"
 
 #: lang/json/gun_from_json.py
 msgid "L39-45"
@@ -53216,7 +53268,7 @@ msgid ""
 "firepower with its three-round burst mode.  Users praised its accuracy and "
 "fearsome appearance.  Similar to other Leadworks products it doesn't accept "
 "third-party modifications."
-msgstr ""
+msgstr "一把在2039年推出具有多射擊模式的9mm手槍，由Leadworks LLC生產的L39B手槍具有高精準度的單發模式以及可控制短程火力的三發點放模式。使用者總是對它的準度與嚇人的外型感到讚嘆。但就像 Leadworks 的其他產品一樣，它無法安裝市面上的改造模組。"
 
 #: lang/json/gun_from_json.py
 msgid "L39"
@@ -53275,8 +53327,8 @@ msgstr "TEC-9 是一把由廉價聚合物製成的自動手槍。因其低廉的
 
 #: lang/json/gun_from_json.py
 msgid "USP 9mm"
-msgid_plural "USP 9mms"
-msgstr[0] "USP 9mm"
+msgid_plural "USP 9mm"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53287,8 +53339,8 @@ msgstr "一把受歡迎的 9mm 口徑手槍，通常為執法部門配槍。已�
 
 #: lang/json/gun_from_json.py
 msgid "Uzi 9mm"
-msgid_plural "Uzi 9mms"
-msgstr[0] "烏茲 9mm"
+msgid_plural "Uzi 9mm"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53835,8 +53887,8 @@ msgstr[0] ".223 鋼管步槍"
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .22"
-msgid_plural "pipe SMG: .22s"
-msgstr[0] ".22 鋼管衝鋒槍"
+msgid_plural "pipe SMGs: .22"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -53847,23 +53899,23 @@ msgstr "一把粗製的衝鋒槍，各部件都使用廢品砌成：鋼管構成
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .38"
-msgid_plural "pipe SMG: .38s"
-msgstr[0] ".38 鋼管衝鋒槍"
+msgid_plural "pipe SMGs: .38"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: 9x19mm"
-msgid_plural "pipe SMG: 9x19mms"
-msgstr[0] "9x19mm 鋼管衝鋒槍"
+msgid_plural "pipe SMGs: 9x19mm"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .40"
-msgid_plural "pipe SMG: .40s"
-msgstr[0] ".40 鋼管衝鋒槍"
+msgid_plural "pipe SMGs: .40"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .45"
-msgid_plural "pipe SMG: .45s"
-msgstr[0] ".45 鋼管衝鋒槍"
+msgid_plural "pipe SMGs: .45"
+msgstr[0] ""
 
 #: lang/json/gun_from_json.py
 msgid "SVS-24"
@@ -57238,6 +57290,14 @@ msgid "Toggle Flag"
 msgstr "切換旗標"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle lights"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Reset level"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Confirm Choice"
 msgstr "確認選擇"
 
@@ -59335,7 +59395,7 @@ msgstr "橡膠"
 msgid "Nomex"
 msgstr "諾梅克斯"
 
-#: lang/json/material_from_json.py src/artifact.cpp src/npc.cpp
+#: lang/json/material_from_json.py
 msgid "Unknown"
 msgstr "未知"
 
@@ -61397,7 +61457,7 @@ msgstr "你有沒有漂白水？"
 
 #: lang/json/mission_def_from_json.py
 msgid "Collect 100 Aspirin"
-msgstr "收集 100 顆阿司匹林"
+msgstr "收集 100 顆阿斯匹靈"
 
 #: lang/json/mission_def_from_json.py
 msgid ""
@@ -61407,15 +61467,15 @@ msgid ""
 "the scavengers bring in but I imagine the black market for the stuff will "
 "prevent me from ever seeing it.  I could use your help getting a few bottles"
 " of aspirin to start with."
-msgstr "我現在手上只有一些繃帶和少量的急救箱… 換句話說，我無法處理最嚴重的醫療緊急情況。我以為拾荒者會優先向我提供醫療物資，但我想這方面的黑市賣家早已把物資買光。我想你首先幫我搜集幾瓶阿司匹林。"
+msgstr "我現在手上只有一些繃帶和少量的急救箱… 換句話說，我無法處理最嚴重的醫療緊急情況。我以為拾荒者會優先向我提供醫療物資，但我想這方面的黑市賣家早已把物資買光。我想你首先幫我搜集幾瓶阿斯匹靈。"
 
 #: lang/json/mission_def_from_json.py
 msgid "Aspirin is pretty common in homes and convenience stores."
-msgstr "阿司匹林在家居和便利店都很常見。"
+msgstr "阿斯匹靈在家居和便利店都很常見。"
 
 #: lang/json/mission_def_from_json.py
 msgid "Do you have the aspirin?"
-msgstr "你有沒有阿斯匹林？"
+msgstr "你有沒有阿斯匹靈？"
 
 #: lang/json/mission_def_from_json.py
 msgid "We'll go through this pretty quickly but it does help."
@@ -65949,7 +66009,7 @@ msgstr "至尊精明"
 #. ~ Description for Prime Perception
 #: lang/json/mutation_from_json.py
 msgid "Your senses are keenly honed."
-msgstr "你的精明程度完美無敵。"
+msgstr "你的感知能力完美無敵。"
 
 #: lang/json/mutation_from_json.py
 msgid "Sensory Disintegration"
@@ -66123,7 +66183,7 @@ msgid ""
 " to your appearance."
 msgstr "你畸形程度讓人看不下去。重視外表的人會對你非常歧視。"
 
-#: lang/json/mutation_from_json.py src/artifact.cpp
+#: lang/json/mutation_from_json.py
 msgid "Grotesque"
 msgstr "古怪"
 
@@ -69007,7 +69067,7 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "baseball field"
-msgstr ""
+msgstr "棒球場"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "abandoned shopping plaza"
@@ -85035,53 +85095,224 @@ msgstr ""
 msgid "paper wall"
 msgstr "蜂巢牆"
 
+#. ~ Description for paper wall
+#: lang/json/terrain_from_json.py
+msgid ""
+"A huge wall of pulpy mass that has been salvaged from nearby buildings, "
+"covered in sticky wasp saliva.  Whatever structure was underneath has been "
+"reformed and long gone.  You could smash it down effortlessly."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "oak tree"
 msgstr "橡樹"
+
+#. ~ Description for oak tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A massive deciduous tree belonging to the 'Quercus' genus, commonly found "
+"throughout New England region.  You could cut it down with the right tools."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "dead tree"
 msgstr "枯死的樹"
 
+#. ~ Description for dead tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"An indiscernible tree that has withered away, whether by weather, fire or "
+"otherworldy.  You could cut it down with the right tools."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "young tree"
 msgstr "小樹"
+
+#. ~ Description for young tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A relatively young sapling of an indeterminate species.  It could take "
+"decades before reaching maturity, so there's no use waiting around."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "apple tree"
 msgstr "蘋果樹"
 
+#. ~ Description for apple tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This tree is a member of the 'Malus' genus, producing fruit commonly known "
+"as apples.  If you examined the branches more closely, you could probably "
+"find a few mature ones in autumn.  You could also cut it down with the right"
+" tools."
+msgstr ""
+
+#. ~ Description for apple tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This tree is a member of the 'Malus' genus, producing fruit commonly known "
+"as apples.  There doesn't appear to be any ripe apples now.  You could also "
+"cut it down with the right tools."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "pear tree"
 msgstr "梨子樹"
+
+#. ~ Description for pear tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This is 'Pyrus communis', or the common pear tree, which produces viable "
+"pears in the fall.  If you examined the branches more closely, you could "
+"probably find a few mature ones.  You could also cut it down with the right "
+"tools."
+msgstr ""
+
+#. ~ Description for pear tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This is 'Pyrus communis', or the common pear tree, which produces viable "
+"pears in the fall.  Looks like all the ripe pears have been picked.  You "
+"could also cut it down with the right tools."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "cherry tree"
 msgstr "櫻桃樹"
 
+#. ~ Description for cherry tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"One of the several species of 'Prunus' trees found in New England, it bears "
+"cherries in the summer.  If you examined the foliage more closely, you could"
+" probably find some viable clusters.  You could also cut it down with the "
+"right tools."
+msgstr ""
+
+#. ~ Description for cherry tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"One of the several species of 'Prunus' trees found in New England, it bears "
+"cherries in the summer.  Looks like all the ripe bunches of cherries have "
+"been picked.  You could also cut it down with the right tools."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "peach tree"
 msgstr "桃子樹"
+
+#. ~ Description for peach tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"One of the several species of 'Prunus' trees found in New England, it bears "
+"peaches in the summer.  If you examined the branches more closely, you could"
+" probably find some mature peaches.  You could also cut it down with the "
+"right tools."
+msgstr ""
+
+#. ~ Description for peach tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"One of the several species of 'Prunus' trees found in New England, it bears "
+"peaches in the summer.  Looks like all the ripe peaches have been picked.  "
+"You could also cut it down with the right tools."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "apricot tree"
 msgstr "杏子樹"
 
+#. ~ Description for apricot tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A transplanted species of 'Prunus armeniaca', rarely found in New England.  "
+"It produces apricots in the summer.  If you examined the spurs more closely,"
+" you could probably find some mature apricots.  You could also cut it down "
+"with the right tools."
+msgstr ""
+
+#. ~ Description for apricot tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A transplanted species of 'Prunus armeniaca', rarely found in New England.  "
+"It produces apricots in the summer.  Looks like all the ripe apricots have "
+"been picked.  You could also cut it down with the right tools."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "plum tree"
 msgstr "李子樹"
+
+#. ~ Description for plum tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"One of the several species of 'Prunus' trees found in New England, it "
+"produces plums in the summer.  If you examined the spurs more closely, you "
+"could probably find some ripe plums.  You could also cut it down with the "
+"right tools."
+msgstr ""
+
+#. ~ Description for plum tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"One of the several species of 'Prunus' trees found in New England, it "
+"produces plums in the summer.  Looks like all the ripe plums have been "
+"picked.  You could also cut it down with the right tools."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "pine tree"
 msgstr "松子樹"
 
+#. ~ Description for pine tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A towering deciduous tree that belongs to the 'Pinus' genus, with the New "
+"England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  "
+"If you examined the tree more closely, you might find usable sticky whorls "
+"and unharvested pinecones.  Also, you could cut it down with the right "
+"tools."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "dead pine tree"
 msgstr "枯死的松子樹"
 
+#. ~ Description for dead pine tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A towering deciduous tree that belongs to the 'Pinus' genus, with the New "
+"England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  "
+"Some of the branches have been stripped away and many of the pinecones "
+"aren't developed fully yet, but given a season, it could be harvestable "
+"again.  You could also cut it down with the right tools."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "birch tree"
 msgstr "樺樹"
+
+#. ~ Description for birch tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A tall deciduous tree of the 'Betula' genus, with the characteristic peeling"
+" bark.  Species like 'B. alleghaniensis', 'B. papyrifera', and 'B. "
+"populifolia' are the most common in the New England region.  You could tear "
+"off some strips of bark if you examined the tree more closely.  You could "
+"cut it down with the right tools."
+msgstr ""
+
+#. ~ Description for birch tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"A tall deciduous tree of the 'Betula' genus, with the characteristic peeling"
+" bark.  Species like 'B. alleghaniensis', 'B. papyrifera', and 'B. "
+"populifolia' are the most common in the New England region.  Looks like "
+"there isn't enough rhytidome to peel off yet.  You could cut it down with "
+"the right tools."
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "willow tree"
@@ -86523,6 +86754,10 @@ msgid "Road Roller"
 msgstr "壓路機"
 
 #: lang/json/vehicle_from_json.py
+msgid "Forklift"
+msgstr "鏟車"
+
+#: lang/json/vehicle_from_json.py
 msgid "Armored Car"
 msgstr "裝甲車"
 
@@ -86625,10 +86860,6 @@ msgstr "重型犁具拖拉機"
 #: lang/json/vehicle_from_json.py
 msgid "Heavy Reaper Tractor"
 msgstr "重型收割拖拉機"
-
-#: lang/json/vehicle_from_json.py
-msgid "Forklift"
-msgstr "鏟車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Infantry Fighting Vehicle"
@@ -86943,6 +87174,10 @@ msgid "telescopic crane"
 msgstr "伸縮臂起重機"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "forklift arm"
+msgstr "鏟車臂"
+
+#: lang/json/vehicle_part_from_json.py
 msgid "foldable light frame"
 msgstr "折疊輕型框架"
 
@@ -87150,10 +87385,6 @@ msgstr "120mm 坦克炮（自動裝填）"
 #: lang/json/vehicle_part_from_json.py
 msgid "120mm RWS"
 msgstr "120mm 遙控武器系統"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "forklift arm"
-msgstr "鏟車臂"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted ATGM launcher"
@@ -90269,6 +90500,10 @@ msgid "Hideous"
 msgstr "猙獰"
 
 #: src/artifact.cpp
+msgid "Unknowable"
+msgstr ""
+
+#: src/artifact.cpp
 msgid "Ancient"
 msgstr "上古"
 
@@ -90307,6 +90542,10 @@ msgstr "沉寂"
 #: src/artifact.cpp
 msgid "Unspeakable"
 msgstr "無語"
+
+#: src/artifact.cpp
+msgid "Antediluvian"
+msgstr ""
 
 #: src/artifact.cpp
 msgid "Frigid"
@@ -91350,16 +91589,6 @@ msgstr "%02d:%02d:%02d"
 
 #: src/calendar.cpp
 #, c-format
-msgid "%d AM"
-msgstr "%d 上午"
-
-#: src/calendar.cpp
-#, c-format
-msgid "%d PM"
-msgstr "%d 下午"
-
-#: src/calendar.cpp
-#, c-format
 msgid "%d:%02d:%02d%sAM"
 msgstr "%d:%02d:%02d%s上午"
 
@@ -91398,6 +91627,20 @@ msgstr "星期六"
 
 #: src/calendar.cpp
 msgid "End times"
+msgstr ""
+
+#. ~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in
+#. its usual format
+#: src/calendar.cpp
+#, c-format
+msgid "Year %1$d, day %2$d %3$s"
+msgstr ""
+
+#. ~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is
+#. the time of the day in its usual format
+#: src/calendar.cpp
+#, c-format
+msgid "Year %1$d, %2$s, day %3$d %4$s"
 msgstr ""
 
 #: src/cata_utility.cpp
@@ -97499,10 +97742,6 @@ msgid "Failed to save the maps: %s"
 msgstr "無法儲存地圖: %s"
 
 #: src/game.cpp
-msgid "uistate data"
-msgstr "使用者介面資料"
-
-#: src/game.cpp
 msgid "player data"
 msgstr "玩家資料"
 
@@ -97513,6 +97752,10 @@ msgstr "天氣狀態"
 #: src/game.cpp
 msgid "player memorial"
 msgstr "玩家墓誌銘"
+
+#: src/game.cpp
+msgid "uistate data"
+msgstr "使用者介面資料"
 
 #: src/game.cpp
 msgid "Failed to save game data"
@@ -99078,8 +99321,8 @@ msgstr "輸入你想喊出的說話"
 
 #: src/game.cpp
 #, c-format
-msgid "You yell %s"
-msgstr "你大喊 %s"
+msgid "You yell, \"%s\""
+msgstr ""
 
 #: src/game.cpp
 msgid "You can't drive the vehicle from here. You need controls!"
@@ -100637,7 +100880,7 @@ msgid ""
 "oxycodone, and more are all great options. Be aware that while under the "
 "influence of many painkillers, the physiological side effects may slow you "
 "or reduce your stats."
-msgstr "當你在任何狀況下受到傷害，你將會感到疼痛。疼痛會減緩你的速度以及降低屬性，所以想辦法儘早處理疼痛是勢在必行。最普遍的方法是服用藥物；阿司匹林、可待因、曲馬多、可待因酮，以及其他更多的好選擇。但是要小心的是在止痛藥的作用下，一些生理上的影響也可能減緩你的速度或是降低屬性。"
+msgstr "當你在任何狀況下受到傷害，你將會感到疼痛。疼痛會減緩你的速度以及降低屬性，所以想辦法儘早處理疼痛是勢在必行。最普遍的方法是服用藥物；阿斯匹靈、可待因、曲馬多、可待因酮，以及其他更多的好選擇。但是要小心的是在止痛藥的作用下，一些生理上的影響也可能減緩你的速度或是降低屬性。"
 
 #: src/help.cpp
 msgid ""
@@ -101613,7 +101856,7 @@ msgstr "你必須插入一張已儲值的現金卡！"
 #: src/iexamine.cpp
 #, c-format
 msgid "Money left: $%.2f"
-msgstr ""
+msgstr "剩餘現金: $%.2f"
 
 #: src/iexamine.cpp
 msgid "That item is too expensive!"
@@ -101682,15 +101925,15 @@ msgstr "攀爬 %s？"
 
 #: src/iexamine.cpp
 msgid "You vault over the obstacle with ease."
-msgstr ""
+msgstr "你輕鬆地跨越了障礙物。"
 
 #: src/iexamine.cpp
 msgid "You vault over the obstacle."
-msgstr ""
+msgstr "你跨越了障礙物。"
 
 #: src/iexamine.cpp
 msgid "Climbing this obstacle is trivial for one such as you."
-msgstr ""
+msgstr "攀越這個障礙物對你來說輕而易舉。"
 
 #: src/iexamine.cpp
 msgid "You quickly scale the fence."
@@ -101698,7 +101941,7 @@ msgstr "你迅速的翻過柵欄。"
 
 #: src/iexamine.cpp
 msgid "This obstacle is no match for your freerunning abilities."
-msgstr ""
+msgstr "這個障礙物無法阻礙你的跑酷。"
 
 #: src/iexamine.cpp
 msgid "You slip while climbing and fall down again."
@@ -101706,7 +101949,7 @@ msgstr "你爬的時候滑了一下，結果又掉下來了。"
 
 #: src/iexamine.cpp
 msgid "Climbing this obstacle is impossible in your current state."
-msgstr ""
+msgstr "以你目前的狀態是無法攀越這個障礙物。"
 
 #: src/iexamine.cpp
 #, c-format
@@ -105902,6 +106145,10 @@ msgstr "倉庫番"
 msgid "Minesweeper"
 msgstr "踩地雷"
 
+#: src/iuse.cpp src/iuse_software_lightson.cpp
+msgid "Lights on!"
+msgstr ""
+
 #: src/iuse.cpp
 #, c-format
 msgid "You play on your %s for a while."
@@ -109017,6 +109264,35 @@ msgstr "無效指令: 使用方向鍵或按 'q'。"
 msgid "You found kitten! Way to go, robot!"
 msgstr "你找到小貓了！幹得好，機器人！"
 
+#: src/iuse_software_lightson.cpp
+msgid "<spacebar or 5> toggle lights"
+msgstr ""
+
+#: src/iuse_software_lightson.cpp src/iuse_software_sokoban.cpp
+msgid "<r>eset"
+msgstr "<r>重設"
+
+#: src/iuse_software_lightson.cpp src/iuse_software_minesweeper.cpp
+#: src/iuse_software_snake.cpp src/iuse_software_sokoban.cpp
+msgid "<q>uit"
+msgstr "<q>離開"
+
+#: src/iuse_software_lightson.cpp
+msgid "<color_white>Game goal:</color> Switch all the lights on."
+msgstr ""
+
+#: src/iuse_software_lightson.cpp
+msgid "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off."
+msgstr ""
+
+#: src/iuse_software_lightson.cpp
+msgid "Toggle lights switches selected light and 4 its neighbors."
+msgstr ""
+
+#: src/iuse_software_lightson.cpp src/iuse_software_minesweeper.cpp
+msgid "Congratulations, you won!"
+msgstr "恭喜你勝出遊戲！"
+
 #: src/iuse_software_minesweeper.cpp
 msgid "Max:"
 msgstr "最大:"
@@ -109056,15 +109332,6 @@ msgstr "<n> 新關卡"
 #: src/iuse_software_minesweeper.cpp
 msgid "<f>lag"
 msgstr "<f> 棋標"
-
-#: src/iuse_software_minesweeper.cpp src/iuse_software_snake.cpp
-#: src/iuse_software_sokoban.cpp
-msgid "<q>uit"
-msgstr "<q>離開"
-
-#: src/iuse_software_minesweeper.cpp
-msgid "Congratulations, you won!"
-msgstr "恭喜你勝出遊戲！"
 
 #: src/iuse_software_minesweeper.cpp
 msgid "Boom, you're dead! Better luck next time."
@@ -109106,10 +109373,6 @@ msgstr "<+> 下一項"
 #: src/iuse_software_sokoban.cpp
 msgid "<-> prev"
 msgstr "<-> 上一項"
-
-#: src/iuse_software_sokoban.cpp
-msgid "<r>eset"
-msgstr "<r>重設"
 
 #: src/iuse_software_sokoban.cpp
 msgid "<u>ndo move"
@@ -109491,6 +109754,11 @@ msgstr "<R|r>隨機角色"
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|New Game"
+msgid "Play Now! (<F|f>ixed Scenario)"
+msgstr ""
+
+#: src/main_menu.cpp
+msgctxt "Main Menu|New Game"
 msgid "Play <N|n>ow!"
 msgstr "<N|n>立刻玩！"
 
@@ -109676,12 +109944,12 @@ msgstr "金屬欄杆融化了！"
 #: src/map.cpp
 #, c-format
 msgid "It should take %d minutes to finish washing items in the %s."
-msgstr ""
+msgstr "應該還需要 %d 分鐘去洗滌 %s 裡的物品。"
 
 #: src/map.cpp
 #, c-format
 msgid "The washing machine in the %s has finished washing."
-msgstr ""
+msgstr "%s 裡的洗衣機已經完成洗滌。"
 
 #: src/map.cpp
 msgid "You disarm the trap!"
@@ -111182,12 +111450,6 @@ msgstr "完成的任務"
 #: src/mission_ui.cpp
 msgid "FAILED MISSIONS"
 msgstr "失敗的任務"
-
-#. ~ 1 season name, 2 day of season, 3 time of day
-#: src/mission_ui.cpp
-#, c-format
-msgid "%1$s, day %2$d %3$s"
-msgstr ""
 
 #: src/mission_ui.cpp
 #, c-format
@@ -113049,7 +113311,7 @@ msgid "cause bleed"
 msgstr ""
 
 #: src/monster.cpp
-msgid "It has head."
+msgid "It has a head."
 msgstr ""
 
 #: src/monster.cpp
@@ -114410,6 +114672,10 @@ msgid "Healing you"
 msgstr "治療你"
 
 #: src/npc.cpp
+msgid "Unknown attitude"
+msgstr ""
+
+#: src/npc.cpp
 msgid "Is trying to kill you."
 msgstr "要殺你。"
 
@@ -114464,8 +114730,8 @@ msgstr "別想<swear>亂動..."
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%1$s falls tries to climb the %2$s but slips."
-msgstr "%1$s 嘗試爬過 %2$s 但失手掉下了。"
+msgid "%1$s tries to climb the %2$s but slips."
+msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
@@ -117850,8 +118116,8 @@ msgstr "大災變發生時，%1$s 是一位 %2$s。"
 
 #: src/player.cpp
 #, c-format
-msgid "%1$s died on %2$s of year %3$d, day %4$d, at %5$s."
-msgstr "%1$s 死於 %3$d 年 %2$s，%4$d 日，於%5$s。"
+msgid "%1$s died on %2$s."
+msgstr ""
 
 #: src/player.cpp
 #, c-format
@@ -118013,12 +118279,6 @@ msgstr "爆頭: %d"
 #: src/player.cpp
 msgid "Game History"
 msgstr "遊戲歷史"
-
-#. ~ A timestamp. Parameters from left to right: Year, season, day, time
-#: src/player.cpp
-#, c-format
-msgid "Year %1$d, %2$s %3$d, %4$s"
-msgstr "年 %1$d, %2$s %3$d, %4$s"
 
 #: src/player.cpp
 msgid "You roll on the ground, trying to smother the fire!"
@@ -122378,7 +122638,7 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Wheel Diameter"
-msgstr ""
+msgstr "輪胎直徑"
 
 #: src/veh_interact.cpp
 msgid "Wdt"
@@ -122386,7 +122646,7 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Wheel Width"
-msgstr ""
+msgstr "輪胎寬度"
 
 #: src/veh_interact.cpp
 msgid "Bat"
@@ -123106,7 +123366,7 @@ msgstr "(故障)"
 msgid ""
 "You turn the washing machine off before it's finished the program, and open "
 "its lid."
-msgstr ""
+msgstr "你在洗衣機完成洗滌程序之前把它關閉，並打開蓋子。"
 
 #: src/vehicle.cpp
 #, c-format
@@ -123122,13 +123382,13 @@ msgstr "你需要 5 單位的洗衣粉給洗衣機使用。"
 msgid ""
 "You need to remove all non-filthy items from the washing machine to start "
 "the washing program."
-msgstr ""
+msgstr "你需要移除所有在洗衣機裡的非污穢物品才能開始洗滌程序。"
 
 #: src/vehicle.cpp
 msgid ""
 "You pour some detergent into the washing machine, close its lid, and turn it"
 " on.  The washing machine is being filled with water from vehicle tanks."
-msgstr ""
+msgstr "你把一些洗衣粉倒進洗衣機中，把蓋子蓋上，然後開著洗衣機。洗衣機正從儲水箱注入水。"
 
 #: src/vehicle_group.cpp
 msgid "pile-up"
@@ -123178,6 +123438,16 @@ msgstr "你的動力裝甲保護了你不被酸雨傷害。"
 #: src/weather.cpp
 msgid "The acid rain burns!"
 msgstr "酸雨灼傷了你！"
+
+#: src/weather.cpp
+#, c-format
+msgid "%d AM"
+msgstr "%d 上午"
+
+#: src/weather.cpp
+#, c-format
+msgid "%d PM"
+msgstr "%d 下午"
 
 #: src/weather.cpp
 msgid "middle of nowhere"
