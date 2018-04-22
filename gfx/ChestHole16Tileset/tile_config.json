@@ -41732,6 +41732,24 @@
           "rotates": false
         },
        {
+          "id": "mon_acid_ant_queen",
+          "fg": 4284,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_moruboru",
+          "fg": 4285,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_archon",
+          "fg": 4286,
+          "bg": 632,
+          "rotates": false
+        },
+       {
           "id": ["vp_seed_drill_advanced", "v_planter_item_advanced"],
           "fg": 3609,
           "bg": 632,
