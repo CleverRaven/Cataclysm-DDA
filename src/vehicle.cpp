@@ -3968,7 +3968,7 @@ void vehicle::operate_scoop()
             _("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")
         }};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
-                       sound_msgs[rng( 0, 3 )] );
+                       random_entry_ref( sound_msgs ) );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
                  g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
@@ -4023,7 +4023,7 @@ void vehicle::alarm() {
             const std::array<std::string, 4> sound_msgs = {{
                 _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")
             }};
-            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
+            sounds::sound( global_pos3(), (int) rng(45,80), random_entry_ref( sound_msgs ) );
             if( one_in(1000) ) {
                 is_alarm_on = false;
             }
