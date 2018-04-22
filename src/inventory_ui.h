@@ -600,20 +600,20 @@ class inventory_compare_selector : public inventory_multiselector
 };
 
 // This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
-// Needs to accept a function to calculate dummy values.
+// Should accept a function to calculate dummy values.
 class inventory_iuse_selector : public inventory_multiselector{
     public:
         inventory_iuse_selector(const player &p,
                                 const std::string &selector_title,
                                 const inventory_selector_preset &preset = default_preset);
-        std::list<std::pair<const item*, int>> execute();
+        std::list<std::pair<int, int>> execute();
     
     protected:
         const player &get_player_for_stats() const;
         void set_chosen_count(inventory_entry &entry, size_t count);
 
     private:
-        std::map<const item *, int> to_use;
+        std::map<const item*, int> to_use;
         size_t max_chosen_count;
         mutable std::unique_ptr<player> dummy;
 };

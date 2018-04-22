@@ -2040,21 +2040,6 @@ void activity_handlers::aim_finish( player_activity *, player * )
     return;
 }
 
-void activity_handlers::washing_finish( player_activity *act, player *p )
-{
-    item &filthy_item = p->i_at( act->position );
-
-    if( p->is_worn( filthy_item ) ) {
-        filthy_item.on_takeoff( *p );
-        filthy_item.item_tags.erase( "FILTHY" );
-        filthy_item.on_wear( *p );
-    }
-    filthy_item.item_tags.erase( "FILTHY" );
-
-    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
-    act->set_to_null();
-}
-
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!

@@ -7562,77 +7562,93 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
+
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
-    player player = *p;
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if (p->volume_capacity() < p->volume_carried()){
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return 0;
+    }
+    if( it->charges < it->type->charges_to_use() ) {
+        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
+        return 0;
+    }
 
+
+
+    player player = *p;
+    
     player.inv.restack( player );
+    volatile inventory in = player.inv;
 
     const inventory_filter_preset preset( [ &player ]( const item_location & location ) {
         return (*location).item_tags.find("FILTHY") != (*location).item_tags.end();
     } );
-    debugmsg("AAAAH!");
-
+    // Maybe this should also search surrounding area, not just player inventory?
     inventory_iuse_selector inv_s( player, _("ITEMS TO CLEAN"), preset );
-    // Filter to only dirty clothing here?
     inv_s.add_character_items( player );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
-    std::list<std::pair<const item*, int>> debuggo;
+    std::list<std::pair<int, int>> to_clean;
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        debuggo = std::list<std::pair<const item*, int> >();
+        to_clean = std::list<std::pair<int, int> >();
         return 0;
     }
 
-    debuggo = inv_s.execute();
-    std::list<std::pair<const item*, int>>::iterator pairs;
-    for (pairs = debuggo.begin(); pairs != debuggo.end(); ++pairs){
-        int item_pos = player.get_item_position((*pairs).first);
-        debugmsg(std::to_string(item_pos));
-        debugmsg(std::to_string((*pairs).second));
-        std::string dupe_string = "blah!";
-        const item *to_clean = (*pairs).first;
+    to_clean = inv_s.execute();
+    if (to_clean.size() == 0){
+        return 0;
+    }
+    std::list<std::pair<int, int>>::iterator pairs;
+    int required_water = 0;
+    int time = 0;
+    int required_cleanser = 0;
+    volatile units::volume vol;
+
+    // Determine if we have enough water and cleanser for all the items.
+    for (pairs = to_clean.begin(); pairs != to_clean.end(); ++pairs){
+        item mod = p->i_at((*pairs).first);
+        if ( (*pairs).first == INT_MIN ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ));
+            return 0;
+        }
+        required_water += (2 * mod.volume() / 250_ml) * (*pairs).second;
+        time += (1000 * mod.volume() / 250_ml) * (*pairs).second;
+        required_cleanser += (mod.volume() / 1000_ml) * (*pairs).second;
 }
-    // if( it->charges < it->type->charges_to_use() ) {
-    //     p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
-    //     return 0;
-    // }
+    if (required_cleanser < 1){
+        required_cleanser = 1;
+    }
 
-    // const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
-    // item &mod = p->i_at( pos );
-    // if( pos == INT_MIN ) {
-    //     p->add_msg_if_player( m_info, _( "Never mind." ) );
-    //     return 0;
-    // }
+    debugmsg("Required cleanser: %s", to_string(required_cleanser).c_str());
+    debugmsg("Required water: %s", to_string(required_water).c_str());
 
-    // const int required_water = 2 * mod.volume() / 250_ml;
-    // const int time = 1000 * mod.volume() / 250_ml;
-    // int required_cleanser = mod.volume() / 1000_ml;
 
-    // if( required_cleanser < 1 ) {
-    //     required_cleanser = 1;
-    // }
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ), required_water);
+            return 0;
+        } else if( !crafting_inv.has_charges( "soap", required_cleanser ) && !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+            p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ), required_cleanser);
+            return 0;
+        }
+    volatile bool has_soap = false;
+    has_soap = crafting_inv.has_charges( "soap", required_cleanser );
+    debugmsg("Has soap? %s", has_soap.c_str());
 
-    // const inventory &crafting_inv = p->crafting_inventory();
-    // if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
-    //     p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash your %2$s." ), required_water, mod.tname().c_str() );
-    //     return 0;
-    // } else if( !crafting_inv.has_charges( "soap", required_cleanser ) && !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
-    //     p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
-    //     return 0;
-    // }
+    
+    const std::string cur_time = to_string_time_of_day( calendar::turn );
+    debugmsg( "Time before wash: %s", cur_time.c_str() );
+    // Assign the activity values.
+    p->assign_activity(activity_id( "ACT_WASH" ), time);
 
-    // std::vector<item_comp> comps;
-    // comps.push_back( item_comp( "water", required_water ) );
-    // comps.push_back( item_comp( "water_clean", required_water ) );
-    // p->consume_items( comps );
-
-    // std::vector<item_comp> comps1;
-    // comps1.push_back( item_comp( "soap", required_cleanser ) );
-    // comps1.push_back( item_comp( "detergent", required_cleanser ) );
-    // p->consume_items( comps1 );
-    // p->assign_activity( activity_id( "ACT_WASH" ), time, 0, p->get_item_position( &mod ) );
+    for (pairs = to_clean.begin(); pairs != to_clean.end(); ++pairs){
+        p->activity.values.push_back((*pairs).first);
+        p->activity.values.push_back((*pairs).second);
+    }
 
     return 0;
 }

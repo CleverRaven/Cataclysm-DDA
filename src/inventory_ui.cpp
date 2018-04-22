@@ -1672,7 +1672,7 @@ inventory_iuse_selector::inventory_iuse_selector( const player &p,
     inventory_multiselector(p, preset, selector_title),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {}
 
-std::list<std::pair<const item*, int>> inventory_iuse_selector::execute()
+std::list<std::pair<int, int>> inventory_iuse_selector::execute()
 {
     int count = 0;
     while( true ) {
@@ -1717,20 +1717,19 @@ std::list<std::pair<const item*, int>> inventory_iuse_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return std::list<std::pair<const item*, int> >();
+            return std::list<std::pair<int, int> >();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
-            // This should be set by the iuse in question.
         } else {
             on_input( input );
             count = 0;
         }
     }
 
-    std::list<std::pair<const item*, int>> dropped_pos_and_qty;
+    std::list<std::pair<int, int>> dropped_pos_and_qty;
 
     for( auto use_pair : to_use ) {
-        dropped_pos_and_qty.push_back( std::make_pair( use_pair.first, use_pair.second ) );
+        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( use_pair.first ), use_pair.second ));
     }
 
     return dropped_pos_and_qty;
