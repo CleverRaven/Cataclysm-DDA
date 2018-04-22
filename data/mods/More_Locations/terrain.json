@@ -32,7 +32,7 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 100,
             "str_max": 400,

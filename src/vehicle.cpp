@@ -3155,7 +3155,7 @@ void vehicle::noise_and_smoke( double load, double time )
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
         "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
-        _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!")
+        _("BRRROARRR!"), _("BRUMBRUMBRUMBRUM!")
     }};
     double noise = 0.0;
     double mufflesmoke = 0.0;
