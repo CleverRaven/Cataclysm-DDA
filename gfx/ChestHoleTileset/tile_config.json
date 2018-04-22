@@ -41728,7 +41728,6 @@
        {
           "id": ["overlay_wielded_scimitar", "overlay_wielded_scimitar_inferior", "overlay_wielded_scimitar_fake"],
           "fg": 4282,
-          "bg": 632,
           "rotates": false
         },
        {
@@ -53598,13 +53597,11 @@
         },
         {
           "id": ["overlay_wielded_pepperbox"],
-          "fg": 4042,
-          "bg": 632
+          "fg": 4042
         },
         {
           "id": ["overlay_worn_gloves_fingerless", "overlay_worn_gloves_fingerless_mod", "overlay_worn_gloves_fsurvivor"],
-          "fg": 4044,
-          "bg": 632
+          "fg": 4044
         },
         {
           "id": "mon_alpha_razorclaw",
@@ -53745,7 +53742,6 @@
         {
           "id": ["overlay_wielded_elec_jackhammer", "overlay_wielded_jackhammer", "overlay_wielded_jacqueshammer"],
           "fg": 4098,
-          "bg": 632,
           "rotates": false
         },
         {
@@ -54262,7 +54258,6 @@
     {
       "id": "overlay_wielded_bone_flute",
       "fg": 4188,
-      "bg": 632,
       "rotates": false
     },
     {
