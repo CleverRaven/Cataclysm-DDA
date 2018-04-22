@@ -41756,6 +41756,12 @@
           "rotates": false
         },
        {
+          "id": "mon_ant_kwama",
+          "fg": 4328,
+          "bg": 632,
+          "rotates": false
+        },
+       {
           "id": ["vp_seed_drill_advanced", "v_planter_item_advanced"],
           "fg": 3609,
           "bg": 632,
