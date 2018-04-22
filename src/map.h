@@ -797,7 +797,7 @@ class map
         * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
         * Washable fields are decayed only by 1/3 of the amount fire is.
         */
-        void decay_fields_and_scent( const int amount );
+        void decay_fields_and_scent( const time_duration amount );
 
         // Signs
         const std::string get_signage( const tripoint &p ) const;
@@ -1002,9 +1002,9 @@ class map
         field &field_at( const tripoint &p );
         /**
          * Get the age of a field entry (@ref field_entry::age), if there is no
-         * field of that type, returns -1.
+         * field of that type, returns `-1_turns`.
          */
-        int get_field_age( const tripoint &p, const field_id t ) const;
+        time_duration get_field_age( const tripoint &p, const field_id t ) const;
         /**
          * Get the density of a field entry (@ref field_entry::density),
          * if there is no field of that type, returns 0.
@@ -1012,9 +1012,9 @@ class map
         int get_field_strength( const tripoint &p, const field_id t ) const;
         /**
          * Increment/decrement age of field entry at point.
-         * @return resulting age or -1 if not present (does *not* create a new field).
+         * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        int adjust_field_age( const tripoint &p, const field_id t, const int offset );
+        time_duration adjust_field_age( const tripoint &p, field_id t, time_duration offset );
         /**
          * Increment/decrement density of field entry at point, creating if not present,
          * removing if density becomes 0.
@@ -1028,9 +1028,10 @@ class map
          * @param age New age of specified field
          * @param isoffset If true, the given age value is added to the existing value,
          * if false, the existing age is ignored and overridden.
-         * @return resulting age or -1 if not present (does *not* create a new field).
+         * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        int set_field_age( const tripoint &p, const field_id t, const int age, bool isoffset = false );
+        time_duration set_field_age( const tripoint &p, field_id t, time_duration age,
+                                     bool isoffset = false );
         /**
          * Set density of field entry at point, creating if not present,
          * removing if density becomes 0.
@@ -1051,7 +1052,7 @@ class map
          * Add field entry at point, or set density if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id t, const int density, const int age = 0 );
+        bool add_field( const tripoint &p, field_id t, int density, time_duration age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
@@ -1292,11 +1293,10 @@ class map
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
-         * Try to fill funnel based items here. Simulates rain from `since_turn` till now.
+         * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
-         * @param since_turn First turn of simulated filling.
          */
-        void fill_funnels( const tripoint &p, int since_turn );
+        void fill_funnels( const tripoint &p, const time_point &since );
         /**
          * Try to grow a harvestable plant to the next stage(s).
          */
@@ -1304,22 +1304,22 @@ class map
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param p Place to restock
-         * @param time_since_last_actualize Time (in turns) since this function has been
+         * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void restock_fruits( const tripoint &p, int time_since_last_actualize );
+        void restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize );
         /**
          * Produce sap on tapped maple trees
          * @param p Location of tapped tree
-         * @param time_since_last_actualize Time (in turns) since this function has been
+         * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void produce_sap( const tripoint &p, int time_since_last_actualize );
+        void produce_sap( const tripoint &p, const time_duration &time_since_last_actualize );
         /**
          * Radiation-related plant (and fungus?) death.
          */
-        void rad_scorch( const tripoint &p, int time_since_last_actualize );
-        void decay_cosmetic_fields( const tripoint &p, int time_since_last_actualize );
+        void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
+        void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
         void player_in_field( player &u );
         void monster_in_field( monster &z );

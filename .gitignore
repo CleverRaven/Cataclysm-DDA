@@ -121,6 +121,9 @@ msvc-full-features/ipch
 lnk*.tmp
 Cataclysm.exe.lastcodeanalysissucceeded
 
+#Visual Studio 2017
+msvc-full-features/PredictedInputCache_Debug_x64.dat
+
 # cppcheck
 *cppcheck.xml
 *.cppcheck

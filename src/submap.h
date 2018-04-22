@@ -9,6 +9,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "active_item_cache.h"
+#include "calendar.h"
 
 #include <vector>
 #include <list>
@@ -167,7 +168,7 @@ struct submap {
     active_item_cache active_items;
 
     int field_count = 0;
-    int turn_last_touched = 0;
+    time_point last_touched = 0;
     int temperature = 0;
     std::vector<spawn_point> spawns;
     /**
@@ -233,7 +234,7 @@ struct maptile {
             return sm->fld[x][y].findField( field_to_find );
         }
 
-        bool add_field( const field_id field_to_add, const int new_density, const int new_age ) {
+        bool add_field( const field_id field_to_add, const int new_density, const time_duration new_age ) {
             const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
             if( ret ) {
                 sm->field_count++;

@@ -1313,7 +1313,7 @@ void vehicle::beeper_sound()
         return;
     }
 
-    const bool odd_turn = (calendar::turn % 2 == 0);
+    const bool odd_turn = calendar::once_every( 2_turns );
     for( size_t p = 0; p < parts.size(); ++p ) {
         if( !part_flag( p, "BEEPER" ) ) {
             continue;
@@ -1655,6 +1655,20 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         }
     }
 
+    //Turrets must be installed on a turret mount
+    if( part.has_flag( "TURRET" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -1692,6 +1706,11 @@ bool vehicle::can_unmount(int const p) const
 
     //Can't remove a battery mount if there's still a battery there
     if(part_flag(p, "BATTERY_MOUNT") && part_with_feature(p, "NEEDS_BATTERY_MOUNT") >= 0) {
+        return false;
+    }
+
+    //Can't remove a turret mount if there's still a turret there
+    if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET" ) >= 0 ) {
         return false;
     }
 
@@ -3949,7 +3968,7 @@ void vehicle::operate_scoop()
             _("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")
         }};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
-                       sound_msgs[rng( 0, 3 )] );
+                       random_entry_ref( sound_msgs ) );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
                  g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
@@ -4004,7 +4023,7 @@ void vehicle::alarm() {
             const std::array<std::string, 4> sound_msgs = {{
                 _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")
             }};
-            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
+            sounds::sound( global_pos3(), (int) rng(45,80), random_entry_ref( sound_msgs ) );
             if( one_in(1000) ) {
                 is_alarm_on = false;
             }

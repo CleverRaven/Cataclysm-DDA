@@ -366,9 +366,9 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const int spoils = get_edible_comestible( loc ).spoils;
+                const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
-                    return to_string_clipped( time_duration::from_turns( spoils ) );
+                    return to_string_clipped( spoils );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -947,6 +947,15 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
         return;
     }
 
+    std::string action;
+    input_context ctxt;
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+
     do {
         const auto to_compare = inv_s.execute();
 
@@ -967,25 +976,26 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
 
         int iScrollPos = 0;
         int iScrollPosLast = 0;
-        int ch = ( int ) ' ';
 
         do {
             draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch(
-            ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                                 0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
-                                 iScrollPos ).get_first_input();
+                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true );
+            draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
+                            0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
+                            iScrollPos, true );
 
-            if( ch == KEY_PPAGE ) {
+            action = ctxt.handle_input();
+
+            if( action == "UP" || action == "PAGE_UP" ) {
                 iScrollPos--;
                 iScrollPosLast--;
-            } else if( ch == KEY_NPAGE ) {
+            } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
                 iScrollPos++;
                 iScrollPosLast++;
             }
 
-            g->refresh_all();
-        } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
+        } while( action != "QUIT" );
+        g->refresh_all();
     } while( true );
 }
 

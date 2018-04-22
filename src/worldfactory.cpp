@@ -63,13 +63,15 @@ std::string get_next_valid_worldname()
 WORLD::WORLD()
 {
     world_name = get_next_valid_worldname();
-    std::ostringstream path;
-    path << FILENAMES["savedir"] << utf8_to_native( world_name );
-    world_path = path.str();
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
+}
+
+std::string WORLD::folder_path() const
+{
+    return FILENAMES["savedir"] + utf8_to_native( world_name );
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -107,10 +109,6 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
 {
     // add world to world list
     all_worlds[ retworld->world_name ] = retworld;
-
-    std::ostringstream path;
-    path << FILENAMES[ "savedir" ] << utf8_to_native( retworld->world_name );
-    retworld->world_path = path.str();
 
     if( !save_world( retworld ) ) {
         std::string worldname = retworld->world_name;
@@ -206,10 +204,6 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     // add world to world list!
     all_worlds[worldname] = special_world;
 
-    std::ostringstream path;
-    path << FILENAMES["savedir"] << utf8_to_native( worldname );
-    special_world->world_path = path.str();
-
     if (!save_world(special_world)) {
         delete all_worlds[worldname];
         delete special_world;
@@ -231,17 +225,13 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     WORLDPTR newworld = new WORLD();
     newworld->world_name = worldname;
 
-    std::ostringstream path;
-    path << FILENAMES["savedir"] << utf8_to_native( worldname );
-    newworld->world_path = path.str();
-
     // save world as conversion world
     if (save_world(newworld, true)) {
         // move files from origin_path into new world path
         for( auto &origin_file : get_files_from_path(".", origin_path, false) ) {
             std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-            rename( origin_file.c_str(), std::string( newworld->world_path + filename ).c_str() );
+            rename( origin_file.c_str(), std::string( newworld->folder_path() + filename ).c_str() );
         }
 
         DebugLog( D_INFO, DC_ALL ) << "worldfactory::convert_to_world -- World Converted Successfully!";
@@ -269,21 +259,22 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         return false;
     }
 
-    if (!assure_dir_exist(world->world_path)) {
+    if (!assure_dir_exist(world->folder_path())) {
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world->world_name <<
                                     "] directory for saving";
         return false;
     }
 
     if (!is_conversion) {
-        const auto savefile = world->world_path + "/" + FILENAMES["worldoptions"];
+        const auto savefile = world->folder_path() + "/" + FILENAMES["worldoptions"];
         const bool saved = write_to_file( savefile, [&]( std::ostream &fout ) {
             JsonOut jout( fout );
 
             jout.start_array();
 
             for( auto &elem : world->WORLD_OPTIONS ) {
-                if( elem.second.getDefaultText() != "" ) {
+                // Skip hidden option because it is set by mod and should not be saved
+                if( elem.second.getDefaultText() != "" && !elem.second.is_hidden() ) {
                     jout.start_object();
 
                     jout.member( "info", elem.second.getTooltip() );
@@ -343,8 +334,6 @@ void worldfactory::init()
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
         }
-        // set world path
-        all_worlds[worldname]->world_path = world_dir;
         mman->load_mods_list(all_worlds[worldname]);
 
         // load options into the world
@@ -358,7 +347,7 @@ void worldfactory::init()
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
     if( has_world( "save" ) ) {
-        WORLDPTR converted_world = convert_to_world(all_worlds["save"]->world_path);
+        WORLDPTR converted_world = convert_to_world(all_worlds["save"]->folder_path());
         if (converted_world) {
             converted_world->world_saves = all_worlds["save"]->world_saves;
             converted_world->WORLD_OPTIONS = all_worlds["save"]->WORLD_OPTIONS;
@@ -1396,12 +1385,12 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     world->WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
+    const auto path = world->folder_path() + "/" + FILENAMES["worldoptions"];
     if( read_from_file_optional_json( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
         return true;
     }
 
-    const auto legacy_path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
+    const auto legacy_path = world->folder_path() + "/" + FILENAMES["legacy_worldoptions"];
     if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
         if( save_world( world ) ) {
             // Remove old file as the options have been saved to the new file.
@@ -1423,6 +1412,35 @@ void load_world_option( JsonObject &jo )
         get_options().get_option( arr.next_string() ).setValue( "true" );
     }
 }
+
+//load external option from json
+void load_external_option( JsonObject &jo )
+{
+    auto name = jo.get_string( "name" );
+    auto stype = jo.get_string( "stype" );
+    options_manager &opts = get_options();
+    if( !opts.has_option( name ) ) {
+        auto sinfo = jo.get_string( "info" );
+        opts.add_external( name, "world_default", stype, sinfo, sinfo );
+    }
+    options_manager::cOpt &opt = opts.get_option( name );
+    if( stype == "float" ) {
+        opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
+    } else if( stype == "int" ) {
+        opt.setValue( jo.get_int( "value" ) );
+    } else if( stype == "bool" ) {
+        if( jo.get_bool( "value" ) ) {
+            opt.setValue( "true" );
+        } else {
+            opt.setValue( "false" );
+        }
+    } else if( stype == "string" ) {
+        opt.setValue( jo.get_string( "value" ) );
+    } else {
+        jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+    }
+}
+
 
 mod_manager &worldfactory::get_mod_manager()
 {
@@ -1451,7 +1469,7 @@ static bool isForbidden(std::string candidate)
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = get_world( worldname )->world_path;
+    std::string worldpath = get_world( worldname )->folder_path();
     std::set<std::string> directory_paths;
 
     auto file_paths = get_files_from_path("", worldpath, true, true);

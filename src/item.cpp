@@ -13,6 +13,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "game.h"
+#include "gun_mode.h"
 #include "map.h"
 #include "debug.h"
 #include "cursesdef.h"
@@ -115,6 +116,14 @@ static const itype *nullitem()
 {
     static itype nullitem_m;
     return &nullitem_m;
+}
+
+item &null_item_reference()
+{
+    static item result{};
+    // reset it, in case a previous caller has changed it
+    result = item();
+    return result;
 }
 
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
@@ -530,7 +539,7 @@ bool item::stacks_with( const item &rhs ) const
         // Because spoiling items are only processed every processing_speed()-th turn
         // the rotting value becomes slightly different for items that have
         // been created at the same time and place and with the same initial rot.
-        if( std::abs( rot - rhs.rot ) > processing_speed() ) {
+        if( std::abs( to_turns<int>( rot - rhs.rot ) ) > processing_speed() ) {
             return false;
         } else if( rotten() != rhs.rotten() ) {
             // just to be save that rotten and unrotten food is *never* stacked.
@@ -814,13 +823,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
                                               to_turns<int>( food->age() ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
-                                              ( int )food->rot, true, "", true, true ) );
+                                              to_turns<int>( food->rot ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
-                                              food->type->comestible->spoils, true, "", true, true ) );
+                                              to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
-                                              ( int )food->fridge, true, "", true, true ) );
+                                              to_turn<int>( food->fridge ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
-                                              ( int )food->last_rot_check, true, "", true, true ) );
+                                              to_turn<int>( food->last_rot_check ), true, "", true, true ) );
                 }
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
@@ -884,7 +893,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         if( food_item->goes_bad() ) {
-            const std::string rot_time = to_string_clipped( time_duration::from_turns( food_item->type->comestible->spoils ) );
+            const std::string rot_time = to_string_clipped( food_item->type->comestible->spoils );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
@@ -1106,7 +1115,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
         auto fire_modes = mod->gun_all_modes();
         if( std::any_of( fire_modes.begin(), fire_modes.end(),
-            []( const std::pair<std::string, gun_mode>& e ) {
+            []( const std::pair<gun_mode_id, gun_mode>& e ) {
                 return e.second.qty > 1 && !e.second.melee();
         } ) ) {
             info.emplace_back( "GUN", _( "Recommended strength (burst): "), "",
@@ -1120,7 +1129,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         std::vector<std::string> fm;
         for( const auto &e : fire_modes ) {
             if( e.second.target == this && !e.second.melee() ) {
-                fm.emplace_back( string_format( "%s (%i)", _( e.second.mode.c_str() ), e.second.qty ) );
+                fm.emplace_back( string_format( "%s (%i)", e.second.name(), e.second.qty ) );
             }
         }
         if( !fm.empty() ) {
@@ -2863,22 +2872,22 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    return is_food() && type->comestible->spoils;
+    return is_food() && type->comestible->spoils != 0;
 }
 
 double item::get_relative_rot() const
 {
-    return goes_bad() ? rot / double( type->comestible->spoils ) : 0;
+    return goes_bad() ? rot / type->comestible->spoils : 0;
 }
 
 void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
         rot = type->comestible->spoils * val;
-        // calc_rot uses last_rot_check (when it's not 0) instead of bday.
+        // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
-        fridge = 0;
+        fridge = calendar::before_time_starts;
         active = !rotten();
     }
 }
@@ -2888,7 +2897,7 @@ int item::spoilage_sort_order()
     item *subject;
     int bottom = std::numeric_limits<int>::max();
 
-    if ( type->container && contents.size() >= 1 ) {
+    if ( type->container && !contents.empty() ) {
         if ( type->container->preserves ) {
             return bottom - 3;
         }
@@ -2898,7 +2907,7 @@ int item::spoilage_sort_order()
     }
 
     if ( subject->goes_bad() ) {
-        return subject->type->comestible->spoils - subject->rot;
+        return to_turns<int>( subject->type->comestible->spoils - subject->rot );
     }
 
     if ( subject->type->comestible ) {
@@ -2915,22 +2924,20 @@ int item::spoilage_sort_order()
 
 void item::calc_rot(const tripoint &location)
 {
-    const int now = calendar::turn;
-    if ( last_rot_check + 10 < now ) {
-        const int since = ( last_rot_check == 0 ? to_turn<int>( bday ) : last_rot_check );
-        const int until = ( fridge > 0 ? fridge : now );
+    const time_point now = calendar::turn;
+    if( now - last_rot_check > 10_turns ) {
+        const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
+        const time_point until = fridge != calendar::before_time_starts ? fridge : now;
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
-            int old = rot;
             rot += get_rot_since( since, until, location );
-            add_msg( m_debug, "r: %s %d,%d %d->%d", typeId().c_str(), since, until, old, rot );
         }
         last_rot_check = now;
 
-        if (fridge > 0) {
+        if( fridge != calendar::before_time_starts ) {
             // Flat 20%, rot from time of putting it into fridge up to now
-            rot += (now - fridge) * 0.2;
-            fridge = 0;
+            rot += ( now - fridge ) * 0.2;
+            fridge = calendar::before_time_starts;
         }
         // item stays active to let the item counter work
         if( item_counter == 0 && rotten() ) {
@@ -3599,7 +3606,7 @@ bool item::is_brewable() const
 
 bool item::is_food_container() const
 {
-    return (contents.size() >= 1 && contents.front().is_food());
+    return !contents.empty() && contents.front().is_food();
 }
 
 bool item::is_corpse() const
@@ -4035,7 +4042,8 @@ int item::gun_dispersion( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         dispersion_sum += mod->type->gunmod->dispersion;
     }
-    dispersion_sum += damage() * 60;
+    int dispPerDamage = get_option< int >( "DISPERSION_PER_GUN_DAMAGE" );
+    dispersion_sum += damage() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
@@ -4510,9 +4518,9 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
     return ret_val<bool>::make_success();
 }
 
-std::map<std::string, const item::gun_mode> item::gun_all_modes() const
+std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
 {
-    std::map<std::string, const item::gun_mode> res;
+    std::map<gun_mode_id, gun_mode> res;
 
     if( !is_gun() || is_gunmod() ) {
         return res;
@@ -4530,20 +4538,20 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
-                auto qty = std::get<1>( m.second );
-                if( m.first == "AUTO" && e == this && has_flag( "RAPIDFIRE" ) ) {
+                auto qty = m.second.qty();
+                if( m.first == gun_mode_id( "AUTO" ) && e == this && has_flag( "RAPIDFIRE" ) ) {
                     qty *= 1.5;
                 }
 
-                res.emplace( prefix += m.first, item::gun_mode( std::get<0>( m.second ), const_cast<item *>( e ),
-                                                                qty, std::get<2>( m.second ) ) );
+                res.emplace( gun_mode_id( prefix + m.first.str() ), gun_mode( m.second.name(), const_cast<item *>( e ),
+                                                                qty, m.second.flags() ) );
             };
 
         // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
-                                                       std::get<1>( m.second ), std::get<2>( m.second ) } );
+                res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
+                                                       m.second.qty(), m.second.flags() } );
             }
         }
     }
@@ -4551,7 +4559,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     return res;
 }
 
-const item::gun_mode item::gun_get_mode( const std::string& mode ) const
+gun_mode item::gun_get_mode( const gun_mode_id &mode ) const
 {
     if( is_gun() ) {
         for( auto e : gun_all_modes() ) {
@@ -4563,25 +4571,25 @@ const item::gun_mode item::gun_get_mode( const std::string& mode ) const
     return gun_mode();
 }
 
-item::gun_mode item::gun_current_mode()
+gun_mode item::gun_current_mode() const
 {
-    return gun_get_mode( const_cast<item *>( this )->gun_get_mode_id() );
+    return gun_get_mode( gun_get_mode_id() );
 }
 
-std::string item::gun_get_mode_id() const
+gun_mode_id item::gun_get_mode_id() const
 {
     if( !is_gun() || is_gunmod() ) {
-        return "";
+        return gun_mode_id();
     }
-    return get_var( GUN_MODE_VAR_NAME, "DEFAULT" );
+    return gun_mode_id( get_var( GUN_MODE_VAR_NAME, "DEFAULT" ) );
 }
 
-bool item::gun_set_mode( const std::string& mode )
+bool item::gun_set_mode( const gun_mode_id &mode )
 {
     if( !is_gun() || is_gunmod() || !gun_all_modes().count( mode ) ) {
         return false;
     }
-    set_var( GUN_MODE_VAR_NAME, mode );
+    set_var( GUN_MODE_VAR_NAME, mode.str() );
     return true;
 }
 
@@ -4606,11 +4614,6 @@ void item::gun_cycle_mode()
     gun_set_mode( modes.begin()->first );
 
     return;
-}
-
-const item::gun_mode item::gun_current_mode() const
-{
-    return const_cast<item *>( this )->gun_current_mode();
 }
 
 const use_function *item::get_use( const std::string &use_name ) const
@@ -4997,24 +5000,6 @@ bool item::flammable( int threshold ) const
     }
 
     return flammability > threshold;
-}
-
-std::ostream & operator<<(std::ostream & out, const item * it)
-{
-    out << "item(";
-    if(!it)
-    {
-        out << "NULL)";
-        return out;
-    }
-    out << it->tname() << ")";
-    return out;
-}
-
-std::ostream & operator<<(std::ostream & out, const item & it)
-{
-    out << (&it);
-    return out;
 }
 
 itype_id item::typeId() const
@@ -5600,12 +5585,12 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         // If not carried by someone, but laying on the ground:
         // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), smoke_type, 1, 0 );
+            g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), smoke_type, 1 );
             // lit cigarette can start fires
             if( g->m.flammable_items_at( pos ) ||
                 g->m.has_flag( "FLAMMABLE", pos ) ||
                 g->m.has_flag( "FLAMMABLE_ASH", pos ) ) {
-                g->m.add_field( pos, fd_fire, 1, 0 );
+                g->m.add_field( pos, fd_fire, 1 );
             }
         }
     }
@@ -5623,7 +5608,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             convert( "joint_roach" );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 10 ); // one last puff
-                g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
+                g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2 );
                 weed_msg( *carrier );
             }
         }

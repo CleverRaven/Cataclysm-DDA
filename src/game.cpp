@@ -19,6 +19,7 @@
 #include "map_item_stack.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "gun_mode.h"
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
@@ -802,7 +803,7 @@ void game::setup()
     loading_ui ui( true );
     load_core_data( ui );
 
-    load_world_modfiles( world_generator->active_world, ui );
+    load_world_modfiles( ui );
 
     m =  map( get_option<bool>( "ZLEVELS" ) );
 
@@ -856,7 +857,7 @@ void game::load_map( tripoint pos_sm )
 }
 
 // Set up all default values for a new game
-bool game::start_game(std::string worldname)
+bool game::start_game()
 {
     if( !gamemode ) {
         gamemode.reset( new special_game() );
@@ -874,7 +875,7 @@ bool game::start_game(std::string worldname)
     catacurses::clear();
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
-    load_master( worldname );
+    load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
@@ -953,7 +954,7 @@ bool game::start_game(std::string worldname)
     if (scen->has_flag("BAD_DAY")){
         u.add_effect( effect_flu, 10000 );
         u.add_effect( effect_drunk, 2700 );
-        u.add_morale( MORALE_FEELING_BAD, -100, -100, MINUTES( 5 ), MINUTES( 5 ) );
+        u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
     }
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
@@ -1659,14 +1660,13 @@ void game::process_activity()
 
 void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &pos, player *p, int catch_duration) // catching function
 {
-    int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
+    monster *const fish = random_entry_removed( catchables );
     //spawn the corpse, rotten by a part of the duration
-    m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
-    u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
+    m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
+    u.add_msg_if_player(m_good, _("You caught a %s."), fish->type->nname().c_str());
     //quietly kill the caught
-    catchables[index]->no_corpse_quiet = true;
-    catchables[index]->die( p );
-    catchables.erase (catchables.begin()+index);
+    fish->no_corpse_quiet = true;
+    fish->die( p );
 }
 
 
@@ -3038,8 +3038,8 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE_BURST: {
-            auto mode = u.weapon.gun_get_mode_id();
-            if( u.weapon.gun_set_mode( "AUTO" ) ) {
+            gun_mode_id mode = u.weapon.gun_get_mode_id();
+            if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                 plfire( u.weapon );
                 u.weapon.gun_set_mode( mode );
             }
@@ -3407,7 +3407,7 @@ bool game::handle_action()
             get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
             get_options().save();
             //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
-            add_msg( string_format( _( "Auto %s is now %s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? "ON" : "OFF" ).c_str() );
+            add_msg( string_format( _( "Auto %1$s is now %2$s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) ).c_str() );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -3585,7 +3585,7 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    const std::string &save_dir      = world_generator->active_world->world_path;
+    const std::string &save_dir      = get_world_base_save_path();
     const std::string &graveyard_dir = FILENAMES["graveyarddir"];
     const std::string &prefix        = base64_encode(u.name) + ".";
 
@@ -3616,22 +3616,12 @@ void game::move_save_to_graveyard()
     }
 }
 
-void game::load_master( const std::string &worldname )
+void game::load_master()
 {
     using namespace std::placeholders;
-    const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
+    const auto datafile = get_world_base_save_path() + "/master.gsav";
     read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
     faction_manager_ptr->create_if_needed();
-}
-
-void game::load_uistate(std::string worldname)
-{
-    using namespace std::placeholders;
-    const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
-    read_from_file_optional( savefile, []( std::istream &stream ) {
-        JsonIn jsin( stream );
-        uistate.deserialize( jsin );
-    } );
 }
 
 bool game::load( const std::string &world ) {
@@ -3648,7 +3638,7 @@ bool game::load( const std::string &world ) {
     try {
         world_generator->set_active_world( wptr );
         g->setup();
-        g->load( world, wptr->world_saves.front() );
+        g->load( wptr->world_saves.front() );
     } catch( const std::exception &err ) {
         debugmsg( "cannot load world '%s': %s", world.c_str(), err.what() );
         return false;
@@ -3657,19 +3647,18 @@ bool game::load( const std::string &world ) {
     return true;
 }
 
-void game::load(std::string worldname, const save_t &name)
+void game::load( const save_t &name )
 {
     using namespace std::placeholders;
 
-    const std::string worldpath = world_generator->get_world( worldname )->world_path + "/";
+    const std::string worldpath = get_world_base_save_path() + "/";
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    load_master( worldname );
+    load_master();
     u = player();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
-    u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
     if( !read_from_file( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
         return;
@@ -3695,7 +3684,10 @@ void game::load(std::string worldname, const save_t &name)
     get_auto_pickup().load_character(); // Load character auto pickup rules
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    load_uistate(worldname);
+    read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream &stream ) {
+        JsonIn jsin( stream );
+        uistate.deserialize( jsin );
+    } );
 
     reload_npcs();
     update_map( u );
@@ -3721,43 +3713,41 @@ void game::load(std::string worldname, const save_t &name)
     draw();
 }
 
-void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
+void game::load_world_modfiles( loading_ui &ui )
 {
     catacurses::erase();
     catacurses::refresh();
 
-    if( world ) {
-        auto &mods = world->active_mod_order;
+    auto &mods = world_generator->active_world->active_mod_order;
 
-        // remove any duplicates whilst preserving order (fixes #19385)
-        std::set<mod_id> found;
-        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id &e ) {
-            if( found.count( e ) ) {
-                return true;
-            } else {
-                found.insert( e );
-                return false;
-            }
-        } ), mods.end() );
-
-        // require at least one core mod (saves before version 6 may implicitly require dda pack)
-        if( std::none_of( mods.begin(), mods.end(), []( const mod_id &e ) {
-            return e->core;
-        } ) ) {
-            mods.insert( mods.begin(), mod_id( "dda" ) );
+    // remove any duplicates whilst preserving order (fixes #19385)
+    std::set<mod_id> found;
+    mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id &e ) {
+        if( found.count( e ) ) {
+            return true;
+        } else {
+            found.insert( e );
+            return false;
         }
+    } ), mods.end() );
 
-        load_artifacts(world->world_path + "/artifacts.gsav");
-        // this code does not care about mod dependencies,
-        // it assumes that those dependencies are static and
-        // are resolved during the creation of the world.
-        // That means world->active_mod_order contains a list
-        // of mods in the correct order.
-        load_packs( _( "Loading files" ), mods, ui );
-
-        // Load additional mods from that world-specific folder
-        load_data_from_dir( world->world_path + "/mods", "custom", ui );
+    // require at least one core mod (saves before version 6 may implicitly require dda pack)
+    if( std::none_of( mods.begin(), mods.end(), []( const mod_id &e ) {
+        return e->core;
+    } ) ) {
+        mods.insert( mods.begin(), mod_id( "dda" ) );
     }
+
+    load_artifacts( get_world_base_save_path() + "/artifacts.gsav" );
+    // this code does not care about mod dependencies,
+    // it assumes that those dependencies are static and
+    // are resolved during the creation of the world.
+    // That means world->active_mod_order contains a list
+    // of mods in the correct order.
+    load_packs( _( "Loading files" ), mods, ui );
+
+    // Load additional mods from that world-specific folder
+    load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
 
     catacurses::erase();
     catacurses::refresh();
@@ -3807,7 +3797,7 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
-    std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
+    std::string masterfile = get_world_base_save_path() + "/master.gsav";
     return write_to_file_exclusive( masterfile, [&]( std::ostream &fout ) {
         serialize_master(fout);
     }, _( "factions data" ) );
@@ -3815,7 +3805,7 @@ bool game::save_factions_missions_npcs()
 
 bool game::save_artifacts()
 {
-    std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    std::string artfilename = get_world_base_save_path() + "/artifacts.gsav";
     return ::save_artifacts( artfilename );
 }
 
@@ -3832,18 +3822,9 @@ bool game::save_maps()
     }
 }
 
-bool game::save_uistate()
-{
-    std::string savefile = world_generator->active_world->world_path + "/uistate.json";
-    return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
-        JsonOut jsout( fout );
-        uistate.serialize( jsout );
-    }, _( "uistate data" ) );
-}
-
 bool game::save_player_data()
 {
-    const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    const std::string playerfile = get_player_base_save_path();
 
     const bool saved_data = write_to_file( playerfile + ".sav", [&]( std::ostream &fout ) {
         serialize(fout);
@@ -3867,7 +3848,10 @@ bool game::save()
              !save_maps() ||
              !get_auto_pickup().save_character() ||
              !get_safemode().save_character() ||
-             !save_uistate()){
+             !write_to_file_exclusive( get_world_base_save_path() + "/uistate.json", [&]( std::ostream &fout ) {
+                JsonOut jsout( fout );
+                uistate.serialize( jsout );
+             }, _( "uistate data" ) ) ) {
             return false;
         } else {
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
@@ -4648,7 +4632,7 @@ void game::draw_sidebar()
     const catacurses::window &time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( u.has_watch() ) {
-        wprintz( time_window, c_white, calendar::turn.print_time() );
+        wprintz( time_window, c_white, to_string_time_of_day( calendar::turn ) );
     } else if( get_levz() >= 0 ) {
         std::vector<std::pair<char, nc_color> > vGlyphs;
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -4705,7 +4689,7 @@ void game::draw_sidebar()
         mvwprintz( w_location, 0, 18, weather_data( weather ).color, weather_data( weather ).name );
     }
 
-    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
@@ -6066,7 +6050,7 @@ void game::resonance_cascade( const tripoint &p )
                             break;
                         }
                         if (!one_in(3)) {
-                            m.add_field( {k, l, p.z}, type, 3, 0 );
+                            m.add_field( {k, l, p.z}, type, 3 );
                         }
                     }
                 }
@@ -9795,7 +9779,7 @@ bool game::plfire()
     }
 
     int reload_time = 0;
-    item::gun_mode gun = args.relevant->gun_current_mode();
+    gun_mode gun = args.relevant->gun_current_mode();
 
     // @todo: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -9872,7 +9856,7 @@ bool game::plfire()
 bool game::plfire( item &weapon, int bp_cost )
 {
     // @todo: bionic power cost of firing should be derived from a value of the relevant weapon.
-    item::gun_mode gun = weapon.gun_current_mode();
+    gun_mode gun = weapon.gun_current_mode();
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname().c_str() );
@@ -10669,7 +10653,7 @@ void game::chat()
         .query();
 
         std::string sentence = popup.text();
-        add_msg( _( "You yell %s" ), sentence.c_str() );
+        add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
         u.shout();
 
     } else if( nmenu.ret <= ( int )available.size() ) {
@@ -12791,19 +12775,15 @@ void game::update_stair_monsters()
     }
 
     // Find up to 4 stairs for distance stairdist[si] +1
-    int nearest[4] = { 0 };
-    int found = 0;
-    nearest[found++] = si;
-    for (size_t i = 0; i < stairdist.size(); i++) {
+    std::vector<int> nearest;
+    nearest.push_back( si );
+    for (size_t i = 0; i < stairdist.size() && nearest.size() < 4; i++) {
         if ((i != si) && (stairdist[i] <= stairdist[si] + 1)) {
-            nearest[found++] = i;
-            if (found == 4) {
-                break;
-            }
+            nearest.push_back( i );
         }
     }
     // Randomize the stair choice
-    si = nearest[rng( 0, found - 1 )];
+    si = random_entry_ref( nearest );
 
     // Attempt to spawn zombies.
     for (size_t i = 0; i < coming_to_stairs.size(); i++) {
@@ -12920,7 +12900,7 @@ void game::update_stair_monsters()
             add_msg(m_warning,
                     _("The %s tried to push you back but failed! It attacks you!"),
                     critter.name().c_str());
-            critter.melee_attack(u, false);
+            critter.melee_attack( u );
             u.moves -= 50;
             return;
         } else if( monster *const mon_ptr = critter_at<monster>( dest ) ) {
@@ -13109,7 +13089,7 @@ void game::wait()
 
     add_menu_item( 12, 'q', _( "Exit" ) );
 
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += _( "Wait for how long?" );
     as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
@@ -13201,7 +13181,7 @@ void game::nuke( const tripoint &p )
                 tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                tmpmap.add_field( dest, fd_nuke_gas, 3, 0 );
+                tmpmap.add_field( dest, fd_nuke_gas, 3 );
             }
             tmpmap.adjust_radiation( dest, rng(20, 80));
         }
@@ -13268,7 +13248,7 @@ void game::quickload()
             } catch( const std::exception &err ) {
                 debugmsg( "Error: %s", err.what() );
             }
-            load( active_world->world_name, save_t::from_player_name( u.name ) );
+            load( save_t::from_player_name( u.name ) );
         }
     } else {
         popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
@@ -13422,7 +13402,7 @@ void game::process_artifact( item &it, player &p )
                 tripoint pt( p.posx() + rng( -1, 1 ),
                              p.posy() + rng( -1, 1 ),
                              p.posz() );
-                m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
+                m.add_field( pt, fd_smoke, rng( 1, 3 ) );
             }
             break;
 
@@ -13430,10 +13410,8 @@ void game::process_artifact( item &it, player &p )
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-                for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                    m.adjust_field_age( tripoint( x, y, p.posz() ), fd_fire, -1 );
-                }
+            for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                m.adjust_field_age( dest, fd_fire, -1_turns );
             }
             break;
 
@@ -13832,4 +13810,14 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
         }
     }
     return nullptr;
+}
+
+std::string game::get_player_base_save_path() const
+{
+    return get_world_base_save_path() + "/" + base64_encode( u.name );
+}
+
+std::string game::get_world_base_save_path() const
+{
+    return world_generator->active_world->folder_path();
 }

@@ -5,6 +5,7 @@
 #include "player.h"
 #include "faction.h"
 #include "pimpl.h"
+#include "calendar.h"
 
 #include <vector>
 #include <string>
@@ -25,7 +26,7 @@ struct mission_type;
 struct overmap_location;
 
 enum game_message_type : int;
-
+class gun_mode;
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
@@ -630,7 +631,7 @@ class npc : public player
         // Multiplier for acceptable angle of inaccuracy
         double confidence_mult() const;
         int confident_shoot_range( const item &it, int at_recoil ) const;
-        int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const;
+        int confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
         bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
@@ -767,7 +768,7 @@ class npc : public player
          */
         point submap_coords;
         // Type of complaint->last time we complained about this type
-        std::map<std::string, int> complaints;
+        std::map<std::string, time_point> complaints;
 
         npc_short_term_cache ai_cache;
     public:
@@ -807,7 +808,7 @@ class npc : public player
          */
         tripoint pulp_location;
 
-        int restock;
+        time_point restock;
         bool fetching_item;
         bool has_new_items; // If true, we have something new and should re-equip
         int  worst_item_value; // The value of our least-wanted item
@@ -817,7 +818,7 @@ class npc : public player
         // Personality & other defining characteristics
         string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac;
-        int companion_mission_time;
+        time_point companion_mission_time;
         npc_mission mission;
         npc_personality personality;
         npc_opinion op_of_u;
@@ -830,7 +831,7 @@ class npc : public player
         // Dummy point that indicates that the goal is invalid.
         static const tripoint no_goal_point;
 
-        int last_updated;
+        time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
          */

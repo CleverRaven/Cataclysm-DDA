@@ -196,7 +196,7 @@ void Character::pick_name(bool bUseDefault)
 
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
-    if( type == PLTYPE_NOW ) {
+    if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
     }
     if( styles.size() == 1 ) {
@@ -233,7 +233,7 @@ bool player::load_template( const std::string &template_name )
     } );
 }
 
-void player::randomize( const bool random_scenario, points_left &points )
+void player::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
 
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
@@ -242,7 +242,7 @@ void player::randomize( const bool random_scenario, points_left &points )
 
     male = ( rng( 1, 100 ) > 50 );
     if(!MAP_SHARING::isSharing()) {
-        pick_name( true );
+        play_now ? pick_name() : pick_name( true );
     } else {
         name = MAP_SHARING::getUsername();
     }
@@ -433,7 +433,7 @@ bool player::create(character_type type, std::string tempname)
 
 
     catacurses::window w;
-    if( type != PLTYPE_NOW ) {
+    if( type != PLTYPE_NOW && type != PLTYPE_FULL_RANDOM ) {
         w = catacurses::newwin( TERMY, TERMX, 0, 0 );
     }
 
@@ -443,10 +443,15 @@ bool player::create(character_type type, std::string tempname)
     switch (type) {
     case PLTYPE_CUSTOM:
         break;
-    case PLTYPE_NOW:
-    case PLTYPE_RANDOM:
+    case PLTYPE_RANDOM: //fixed scenario, default name if exist
         randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
+        break;
+    case PLTYPE_NOW: //fixed scenario, random name
+        randomize( false, points, true );
+        break;
+    case PLTYPE_FULL_RANDOM: //random scenario, random name
+        randomize( true, points, true );
         break;
     case PLTYPE_TEMPLATE:
         if( !load_template( tempname ) ) {
@@ -549,8 +554,7 @@ bool player::create(character_type type, std::string tempname)
         scent = 300;
     }
 
-    ret_null = item("null", 0);
-    weapon = ret_null;
+    weapon = item("null", 0);
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
@@ -608,6 +612,8 @@ bool player::create(character_type type, std::string tempname)
             }
         }
         if( !styles.empty() ) {
+            werase( w );
+            wrefresh( w );
             const auto ma_type = choose_ma_style( type, styles );
             ma_styles.push_back( ma_type );
             style_selected = ma_type;

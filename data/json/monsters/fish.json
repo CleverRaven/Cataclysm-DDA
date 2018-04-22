@@ -185,7 +185,7 @@
     "id": "mon_fish_bluegill",
     "type": "MONSTER",
     "name": "bluegill",
-    "description": "A bluegill, An invasive species in Japan.  Commonly gutted and cooked whole.",
+    "description": "A bluegill, an invasive species in Japan.  Commonly gutted and cooked whole.",
     "default_faction": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],

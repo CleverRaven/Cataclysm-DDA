@@ -1406,29 +1406,24 @@ bool map::displace_water( const tripoint &p )
                 sel_place = rng( 0, dis_places - 1 );
                 dis_places = 0;
             }
-            tripoint temp( p );
-            int &tx = temp.x;
-            int &ty = temp.y;
-            for( tx = p.x - 1; tx <= p.x + 1; tx++ ) {
-                for( ty = p.y -1; ty <= p.y + 1; ty++ ) {
-                    if( ( tx != p.x && ty != p.y )
-                            || impassable_ter_furn( temp )
-                            || has_flag( TFLAG_DEEP_WATER, temp ) ) {
-                        continue;
-                    }
-                    ter_id ter0 = ter( temp );
-                    if( ter0 == t_water_sh ||
-                        ter0 == t_water_dp) {
-                        continue;
-                    }
-                    if( pass != 0 && dis_places == sel_place ) {
-                        ter_set( temp, t_water_sh );
-                        ter_set( temp, t_dirt );
-                        return true;
-                    }
-
-                    dis_places++;
+            for( const tripoint &temp : points_in_radius( p, 1 ) ) {
+                if( temp != p
+                        || impassable_ter_furn( temp )
+                        || has_flag( TFLAG_DEEP_WATER, temp ) ) {
+                    continue;
                 }
+                ter_id ter0 = ter( temp );
+                if( ter0 == t_water_sh ||
+                    ter0 == t_water_dp) {
+                    continue;
+                }
+                if( pass != 0 && dis_places == sel_place ) {
+                    ter_set( temp, t_water_sh );
+                    ter_set( temp, t_dirt );
+                    return true;
+                }
+
+                dis_places++;
             }
         }
     }
@@ -2868,16 +2863,16 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
     return false;
 }
 
-void map::decay_fields_and_scent( const int amount )
+void map::decay_fields_and_scent( const time_duration amount )
 {
     // Decay scent separately, so that later we can use field count to skip empty submaps
     tripoint tmp;
     tmp.z = abs_sub.z; // TODO: Make this happen on all z-levels
     g->scent.decay();
 
-    const int amount_fire = amount / 3; // Decay fire by this much
-    const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
-    const int amount_gas = amount / 5; // Decay gas type fields by this
+    const time_duration amount_fire = amount / 3; // Decay fire by this much
+    const time_duration amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
+    const time_duration amount_gas = amount / 5; // Decay gas type fields by this
     // Coordinate code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
@@ -3000,15 +2995,12 @@ bool map::has_adjacent_furniture( const tripoint &p )
 
 bool map::has_nearby_fire( const tripoint &p, int radius )
 {
-    for(int dx = -radius; dx <= radius; dx++) {
-        for(int dy = -radius; dy <= radius; dy++) {
-            const tripoint pt( p.x + dx, p.y + dy, p.z );
-            if( get_field( pt, fd_fire ) != nullptr ) {
-                return true;
-            }
-            if (ter(pt) == t_lava) {
-                return true;
-            }
+    for( const tripoint &pt : points_in_radius( p, radius ) ) {
+        if( get_field( pt, fd_fire ) != nullptr ) {
+            return true;
+        }
+        if (ter(pt) == t_lava) {
+            return true;
         }
     }
     return false;
@@ -3813,7 +3805,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             ter_set(p, t_dirt);
         }
         if( inc ) {
-            add_field(p, fd_fire, 1, 0);
+            add_field( p, fd_fire, 1 );
         }
     } else if( terrain == t_gas_pump ) {
         if (hit_items || one_in(3)) {
@@ -3851,31 +3843,31 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
-        add_field(p, fd_smoke, rng(1, 2), 0 );
+        add_field( p, fd_smoke, rng( 1, 2 ) );
     }
 
     if (ammo_effects.count("STREAM") && !one_in(3)) {
-        add_field(p, fd_fire, rng(1, 2), 0 );
+        add_field( p, fd_fire, rng( 1, 2 ) );
     }
 
     if (ammo_effects.count("STREAM_GAS_FUNGICIDAL") && !one_in(3)) {
-        add_field(p, fd_fungicidal_gas, rng(1, 2), 0 );
+        add_field( p, fd_fungicidal_gas, rng( 1, 2 ) );
     }
 
     if (ammo_effects.count("STREAM_BIG") && !one_in(4)) {
-        add_field(p, fd_fire, 2, 0 );
+        add_field( p, fd_fire, 2 );
     }
 
     if (ammo_effects.count("LIGHTNING")) {
-        add_field(p, fd_electricity, rng(2, 3), 0 );
+        add_field( p, fd_electricity, rng( 2, 3 ) );
     }
 
     if (ammo_effects.count("PLASMA") && one_in(2)) {
-        add_field(p, fd_plasma, rng(1, 2), 0 );
+        add_field( p, fd_plasma, rng( 1, 2 ) );
     }
 
     if (ammo_effects.count("LASER") || ammo_effects.count("DRAW_LASER_BEAM")) {
-        add_field(p, fd_laser, 2, 0 );
+        add_field( p, fd_laser, 2 );
     }
 
     dam = std::max( 0.0f, dam );
@@ -3884,7 +3876,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     const field_entry *fieldhit = get_field( p, fd_web );
     if( fieldhit != nullptr ) {
         if( inc ) {
-            add_field( p, fd_fire, fieldhit->getFieldDensity() - 1, 0 );
+            add_field( p, fd_fire, fieldhit->getFieldDensity() - 1 );
         } else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
                    one_in(5 - fieldhit->getFieldDensity())) {
             dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
@@ -3952,7 +3944,7 @@ bool map::hit_with_fire( const tripoint &p )
     // non passable but flammable terrain, set it on fire
     if (has_flag("FLAMMABLE", p ) || has_flag("FLAMMABLE_ASH", p))
     {
-        add_field(p, fd_fire, 3, 0);
+        add_field( p, fd_fire, 3 );
     }
     return true;
 }
@@ -4591,8 +4583,8 @@ void map::make_active( item_location &loc )
 static void apply_in_fridge(item &it)
 {
     if (it.is_food()) {
-        if (it.fridge == 0) {
-            it.fridge = (int) calendar::turn;
+        if( it.fridge == calendar::before_time_starts ) {
+            it.fridge = calendar::turn;
         }
         // cool down of the HOT flag, is unsigned, don't go below 1
         if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
@@ -4908,15 +4900,10 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
-        tripoint p( origin.x - radius, origin.y - radius, origin.z );
-        int &x = p.x;
-        int &y = p.y;
-        for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
-            for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                if( rl_dist( origin, p ) >= radius ) {
-                    std::list<item> tmp = use_amount_square( p , type, quantity );
-                    ret.splice( ret.end(), tmp );
-                }
+        for( const tripoint &p : points_in_radius( origin, radius ) ) {
+            if( rl_dist( origin, p ) >= radius ) {
+                std::list<item> tmp = use_amount_square( p, type, quantity );
+                ret.splice( ret.end(), tmp );
             }
         }
     }
@@ -5407,27 +5394,22 @@ field &map::field_at( const tripoint &p )
     return current_submap->fld[lx][ly];
 }
 
-int map::adjust_field_age( const tripoint &p, const field_id t, const int offset ) {
-    return set_field_age( p, t, offset, true);
+time_duration map::adjust_field_age( const tripoint &p, const field_id t, const time_duration offset )
+{
+    return set_field_age( p, t, offset, true );
 }
 
 int map::adjust_field_strength( const tripoint &p, const field_id t, const int offset ) {
     return set_field_strength( p, t, offset, true );
 }
 
-/*
- * Set age of field type at point, or increment/decrement if offset=true
- * returns resulting age or -1 if not present.
- */
-int map::set_field_age( const tripoint &p, const field_id t, const int age, bool isoffset ) {
-    field_entry *field_ptr = get_field( p, t );
-    if( field_ptr != nullptr ) {
-        int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
-        field_ptr->setFieldAge( adj );
-        return adj;
+time_duration map::set_field_age( const tripoint &p, const field_id t, const time_duration age,
+                                  const bool isoffset )
+{
+    if( field_entry *const field_ptr = get_field( p, t ) ) {
+        return field_ptr->setFieldAge( ( isoffset ? field_ptr->getFieldAge() : 0_turns ) + age );
     }
-
-    return -1;
+    return -1_turns;
 }
 
 /*
@@ -5446,16 +5428,16 @@ int map::set_field_strength( const tripoint &p, const field_id t, const int str,
             return 0;
         }
     } else if( 0 + str > 0 ) {
-        return ( add_field( p, t, str, 0 ) ? str : 0 );
+        return add_field( p, t, str ) ? str : 0;
     }
 
     return 0;
 }
 
-int map::get_field_age( const tripoint &p, const field_id t ) const
+time_duration map::get_field_age( const tripoint &p, const field_id t ) const
 {
     auto field_ptr = field_at( p ).findField( t );
-    return ( field_ptr == nullptr ? -1 : field_ptr->getFieldAge() );
+    return field_ptr == nullptr ? -1_turns : field_ptr->getFieldAge();
 }
 
 int map::get_field_strength( const tripoint &p, const field_id t ) const
@@ -5475,7 +5457,7 @@ field_entry *map::get_field( const tripoint &p, const field_id t ) {
     return current_submap->fld[lx][ly].findField( t );
 }
 
-bool map::add_field(const tripoint &p, const field_id t, int density, const int age)
+bool map::add_field( const tripoint &p, const field_id t, int density, const time_duration age )
 {
     if( !inbounds( p ) ) {
         return false;
@@ -6590,7 +6572,7 @@ void map::saven( const int gridx, const int gridy, const int gridz )
 
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y << "  abs_z: " << abs_z
                   << "  gridn: " << gridn;
-    submap_to_save->turn_last_touched = int(calendar::turn);
+    submap_to_save->last_touched = calendar::turn;
     MAPBUFFER.add_submap( abs_x, abs_y, abs_z, submap_to_save );
 }
 
@@ -6630,7 +6612,7 @@ static void generate_uniform( const int x, const int y, const int z, const ter_i
             submap *sm = new submap();
             sm->is_uniform = true;
             std::uninitialized_fill_n( &sm->ter[0][0], block_size, terrain_type );
-            sm->turn_last_touched = int(calendar::turn);
+            sm->last_touched = calendar::turn;
             MAPBUFFER.add_submap( x + xd, y + yd, z, sm );
         }
     }
@@ -6779,7 +6761,7 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt )
     }
 }
 
-void map::fill_funnels( const tripoint &p, int since_turn )
+void map::fill_funnels( const tripoint &p, const time_point &since )
 {
     const auto &tr = tr_at( p );
     if( !tr.is_funnel() ) {
@@ -6798,7 +6780,7 @@ void map::fill_funnels( const tripoint &p, int since_turn )
         }
     }
     if( biggest_container != items.end() ) {
-        retroactively_fill_from_funnel( *biggest_container, tr, since_turn, calendar::turn, getabs( p ) );
+        retroactively_fill_from_funnel( *biggest_container, tr, since, calendar::turn, getabs( p ) );
     }
 }
 
@@ -6838,21 +6820,21 @@ void map::grow_plant( const tripoint &p )
     }
 }
 
-void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
+void map::restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const auto &ter = this->ter( p ).obj();
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
         return; // Already harvestable. Do nothing.
     }
     // Make it harvestable again if the last actualization was during a different season or year.
-    const calendar last_touched = calendar::turn - time_since_last_actualize;
+    const time_point last_touched = calendar::turn - time_since_last_actualize;
     if( season_of_year( calendar::turn ) != season_of_year( last_touched ) ||
-        time_since_last_actualize >= to_turns<int>( calendar::season_length() ) ) {
+        time_since_last_actualize >= calendar::season_length() ) {
         ter_set( p, ter.transforms_into );
     }
 }
 
-void map::produce_sap( const tripoint &p, int time_since_last_actualize )
+void map::produce_sap( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     if( time_since_last_actualize <= 0 ) {
         return;
@@ -6866,34 +6848,33 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     static const int maple_sap_per_season = 56;
 
     // How many turns to produce 1 charge (250 ml) of sap?
-    const int turns_season = to_turns<int>( calendar::season_length() );
-    const int producing_length = int( 0.75f * turns_season );
+    const time_duration producing_length = 0.75 * calendar::season_length();
 
-    const int turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
+    const time_duration turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
 
     // How long of this time_since_last_actualize have we been in the producing period (late winter, early spring)?
-    int time_producing = 0;
+    time_duration time_producing = 0;
 
-    if( time_since_last_actualize >= to_turns<int>( calendar::year_length() ) ) {
+    if( time_since_last_actualize >= calendar::year_length() ) {
         time_producing = producing_length;
     } else {
         // We are only producing sap on the intersection with the sap producing season.
-        int early_spring_end = int( 0.5f * turns_season );
-        int late_winter_start = int( 3.75f * turns_season );
+        const time_duration early_spring_end = 0.5f * calendar::season_length();
+        const time_duration late_winter_start = 3.75f * calendar::season_length();
 
-        calendar last_actualize = calendar::turn - time_since_last_actualize;
-        int last_actualize_tof = last_actualize.turn_of_year();
+        const time_point last_actualize = calendar::turn - time_since_last_actualize;
+        const time_duration last_actualize_tof = time_past_new_year( last_actualize );
         bool last_producing = (
             last_actualize_tof >= late_winter_start ||
             last_actualize_tof < early_spring_end
         );
-        int current_tof = calendar::turn.turn_of_year();
+        const time_duration current_tof = time_past_new_year( calendar::turn );
         bool current_producing = (
             current_tof >= late_winter_start ||
             current_tof < early_spring_end
         );
 
-        int non_producing_length = int( 3.25f * turns_season );
+        const time_duration non_producing_length = 3.25 * calendar::season_length();
 
         if( last_producing && current_producing ) {
             if( time_since_last_actualize < non_producing_length ) {
@@ -6910,19 +6891,19 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
             if( last_actualize_tof < early_spring_end ) {
                 time_producing = early_spring_end - last_actualize_tof;
             } else {
-                time_producing = to_turns<int>( calendar::year_length() ) - last_actualize_tof + early_spring_end;
+                time_producing = calendar::year_length() - last_actualize_tof + early_spring_end;
             }
         } else if ( !last_producing && current_producing ) {
             // We hit the start of late winter
             if( current_tof >= late_winter_start ) {
                 time_producing = current_tof - late_winter_start;
             } else {
-                time_producing = int( 0.25f * turns_season ) + current_tof;
+                time_producing = 0.25f * calendar::season_length() + current_tof;
             }
         }
     }
 
-    long new_charges = roll_remainder( (double)time_producing / turns_to_produce );
+    long new_charges = roll_remainder( time_producing / turns_to_produce );
     // Not enough time to produce 1 charge of sap
     if( new_charges <= 0 ) {
         return;
@@ -6950,7 +6931,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     }
 }
 
-void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
+void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const int rads = get_radiation( p );
     if( rads == 0 ) {
@@ -6958,7 +6939,7 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     }
 
     // TODO: More interesting rad scorch chance - base on season length?
-    if( !x_in_y( 1.0 * rads * rads * time_since_last_actualize, DAYS(91) ) ) {
+    if( !x_in_y( 1.0 * rads * rads * time_since_last_actualize, 91_days ) ) {
         return;
     }
 
@@ -6996,7 +6977,7 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     }
 }
 
-void map::decay_cosmetic_fields( const tripoint &p, int time_since_last_actualize )
+void map::decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     for( auto &pr : field_at( p ) ) {
         auto &fd = pr.second;
@@ -7004,9 +6985,9 @@ void map::decay_cosmetic_fields( const tripoint &p, int time_since_last_actualiz
             continue;
         }
 
-        const int added_age = 2 * time_since_last_actualize / rng( 2, 4 );
+        const time_duration added_age = 2 * time_since_last_actualize / rng( 2, 4 );
         fd.mod_age( added_age );
-        const int hl = fieldlist[ fd.getFieldType() ].halflife;
+        const time_duration hl = fieldlist[ fd.getFieldType() ].halflife;
         const int density_drop = fd.getFieldAge() / hl;
         if( density_drop > 0 ) {
             fd.setFieldDensity( fd.getFieldDensity() - density_drop );
@@ -7023,7 +7004,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
         return;
     }
 
-    const auto time_since_last_actualize = calendar::turn - tmpsub->turn_last_touched;
+    const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
     const bool do_funnels = ( gridz >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
@@ -7047,7 +7028,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             }
 
             if( do_funnels ) {
-                fill_funnels( pnt, tmpsub->turn_last_touched );
+                fill_funnels( pnt, tmpsub->last_touched );
             }
 
             grow_plant( pnt );
@@ -7064,13 +7045,13 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
     //Check for Merchants to restock
     for( npc &guy : g->all_npcs() ) {
-        if( guy.restock > 0 && calendar::turn > guy.restock ) {
+        if( guy.restock != calendar::before_time_starts && calendar::turn > guy.restock ) {
             guy.shop_restock();
         }
     }
 
     // the last time we touched the submap, is right now.
-    tmpsub->turn_last_touched = calendar::turn;
+    tmpsub->last_touched = calendar::turn;
 }
 
 void map::add_roofs( const int gridx, const int gridy, const int gridz )

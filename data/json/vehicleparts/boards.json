@@ -28,7 +28,7 @@
     "copy-from": "clothboard",
     "type": "vehicle_part",
     "name": "cloth quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -36,7 +36,7 @@
     "copy-from": "board",
     "type": "vehicle_part",
     "name": "quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -56,7 +56,7 @@
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "name": "heavy duty quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -77,7 +77,7 @@
     "copy-from": "woodboard",
     "type": "vehicle_part",
     "name": "wooden quarterpanel",
-    "relative": { "durability": 0.8 },
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {

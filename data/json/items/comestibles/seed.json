@@ -235,7 +235,7 @@
     "name_plural": "chili pepper seeds",
     "color": "white",
     "description": "Some chili pepper seeds.",
-    "seed_data": { "plant_name": "chili_pepper", "fruit": "chili_pepper", "byproducts": [ "withered" ], "grow": 65 }
+    "seed_data": { "plant_name": "chili pepper", "fruit": "chili_pepper", "byproducts": [ "withered" ], "grow": 65 }
   },
   {
     "type": "COMESTIBLE",

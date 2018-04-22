@@ -227,6 +227,17 @@
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
+    "id": "armguard_acidchitin",
+    "copy-from": "armguard_chitin",
+    "type": "ARMOR",
+    "name": "pair of biosilicified chitin arm guards",
+    "name_plural": "pairs of biosilicified chitin arm guards",
+    "description": "A pair of arm guards crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "material_thickness": 1 }
+  },
+  {
     "id": "armguard_hard",
     "type": "ARMOR",
     "category": "armor",
@@ -417,6 +428,16 @@
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "STURDY" ]
+  },
+  {
+    "id": "armor_acidchitin",
+    "copy-from": "armor_chitin",
+    "type": "ARMOR",
+    "name": "biosilicified chitin armor",
+    "description": "Leg and body armor crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1 }
   },
   {
     "id": "armor_farmor",
@@ -2872,6 +2893,17 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "gauntlets_acidchitin",
+    "copy-from": "gauntlets_chitin",
+    "type": "ARMOR",
+    "name": "pair of biosilicified chitin gauntlets",
+    "name_plural": "pairs of biosilicified chitin gauntlets",
+    "description": "Gauntlets crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1 }
+  },
+  {
     "id": "gauntlets_larmor",
     "type": "ARMOR",
     "category": "armor",
@@ -4237,6 +4269,16 @@
     "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "helmet_acidchitin",
+    "copy-from": "helmet_chitin",
+    "type": "ARMOR",
+    "name": "biosilicified chitin helmet",
+    "description": "A helmet crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1 }
   },
   {
     "id": "helmet_football",
@@ -8644,6 +8686,7 @@
       "type": "holster",
       "holster_prompt": "Sheath blade",
       "holster_msg": "You sheath your %s",
+      "min_volume": 1,      
       "max_volume": 4,
       "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]

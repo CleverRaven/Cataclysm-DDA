@@ -35,6 +35,8 @@ using volume = quantity<int, volume_in_milliliter_tag>;
 class gun_type_type;
 class gunmod_location;
 class game;
+class gun_mode;
+using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class npc;
@@ -677,18 +679,23 @@ class item : public visitable<item>
     bool has_rotten_away() const { return get_relative_rot() > 2.0; }
 
 private:
-    int rot = 0; /** Accumulated rot is compared to shelf life to decide if item is rotten. */
-    /** Turn when the rot calculation was last performed */
-    int last_rot_check = 0;
+    /**
+     * Accumulated rot, expressed as time the item has been in standard temperature.
+     * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
+     * the item is rotten.
+     */
+    time_duration rot = 0;
+    /** Time when the rot calculation was last performed. */
+    time_point last_rot_check = calendar::time_of_cataclysm;
 
 public:
     int get_rot() const
     {
-        return rot;
+        return to_turns<int>( rot );
     }
 
-    /** Turn item was put into a fridge or 0 if not in any fridge. */
-    int fridge = 0;
+    /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
+    time_point fridge = calendar::before_time_starts;
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
@@ -1493,52 +1500,20 @@ public:
          */
         ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
-        struct gun_mode {
-            /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
-             * `gunmod_data:mode_modifier` for GENERIC or TOOL types */
-            /** name of this mode, e.g. `bayonet` for bayonets, `auto` for automatic fire, etc. */
-            std::string mode;
-            /** pointer to item providing this mode - base gun or attached gunmod */
-            item *target = nullptr;
-            /** burst size for is_gun() firearms, or melee range for is_melee() weapons */
-            int qty = 0;
-            /** flags change behavior of gun mode, e.g. MELEE for bayonets that make a reach attack instead of firing - these are **not** equivalent to item flags! */
-            std::set<std::string> flags;
-
-            gun_mode() = default;
-            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
-                mode( mode ),
-                target( target ),
-                qty( qty ),
-                flags( flags ) {}
-
-            /** if true perform a melee attach as opposed to shooting */
-            bool melee() const { return flags.count( "MELEE" ); }
-
-            operator bool() const { return target != nullptr; }
-
-            item &operator*() { return *target; }
-            const item &operator*() const { return *target; }
-
-            item *operator->() { return target; }
-            const item *operator->() const { return target; }
-        };
-
         /** Get all possible modes for this gun inclusive of any attached gunmods */
-        std::map<std::string, const item::gun_mode> gun_all_modes() const;
+        std::map<gun_mode_id, gun_mode> gun_all_modes() const;
 
         /** Check if gun supports a specific mode returning an invalid/empty mode if not */
-        const gun_mode gun_get_mode( const std::string& mode ) const;
+        gun_mode gun_get_mode( const gun_mode_id &mode ) const;
 
         /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
-        gun_mode gun_current_mode();
-        const gun_mode gun_current_mode() const;
+        gun_mode gun_current_mode() const;
 
         /** Get id of mode a gun is currently set to, e.g. DEFAULT, AUTO, BURST */
-        std::string gun_get_mode_id() const;
+        gun_mode_id gun_get_mode_id() const;
 
         /** Try to set the mode for a gun, returning false if no such mode is possible */
-        bool gun_set_mode( const std::string& mode );
+        bool gun_set_mode( const gun_mode_id &mode );
 
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
@@ -1736,9 +1711,6 @@ public:
 bool item_compare_by_charges( const item& left, const item& right);
 bool item_ptr_compare_by_charges( const item *left, const item *right);
 
-std::ostream &operator<<(std::ostream &, const item &);
-std::ostream &operator<<(std::ostream &, const item *);
-
 /**
  *  Hint value used in a hack to decide text color.
  *
@@ -1753,6 +1725,12 @@ enum hint_rating {
     /** Item should display as green */
     HINT_GOOD = -999
 };
+
+/**
+ * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
+ * and stays valid until the program ends.
+ */
+item &null_item_reference();
 
 #endif
 

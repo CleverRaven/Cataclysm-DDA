@@ -25,12 +25,10 @@ src/inventory.cpp
 src/inventory_ui.cpp
 src/item.cpp
 src/item_factory.cpp
-src/item_group.cpp
 src/iuse_actor.cpp
 src/iuse.cpp
 src/iuse_software_kitten.cpp
 src/iuse_software_minesweeper.cpp
-src/iuse_software_sokoban.cpp
 src/json.cpp
 src/lightmap.cpp
 src/line.cpp
@@ -39,7 +37,6 @@ src/map.cpp
 src/mapdata.cpp
 src/mapgen.cpp
 src/mapgen_functions.cpp
-src/martialarts.cpp
 src/melee.cpp
 src/mission_companion.cpp
 src/missiondef.cpp
@@ -85,7 +82,6 @@ src/mission.h
 src/overmapbuffer.h
 src/overmap.h
 src/player.h
-src/simplexnoise.h
 src/vehicle.h
 src/wcwidth.h
 src/wdirent.h

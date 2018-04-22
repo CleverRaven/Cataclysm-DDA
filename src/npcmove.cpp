@@ -25,6 +25,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overmap_location.h"
+#include "gun_mode.h"
 #include "visitable.h"
 #include "cata_algo.h"
 
@@ -942,14 +943,14 @@ npc_action npc::method_of_attack()
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
-    std::vector<std::pair<std::string, item::gun_mode>> modes;
+    std::vector<std::pair<gun_mode_id, gun_mode>> modes;
     if( rules.use_guns || !is_following() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
             modes.push_back( e );
         }
 
         modes.erase( std::remove_if( modes.begin(), modes.end(),
-        [&]( const std::pair<std::string, item::gun_mode> &e ) {
+        [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
 
             const auto &m = e.second;
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
@@ -963,8 +964,8 @@ npc_action npc::method_of_attack()
 
     // prefer modes that result in more total damage
     std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
-    const std::pair<std::string, item::gun_mode> &rhs ) {
+                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return ( lhs.second->gun_damage().total_damage() * lhs.second.qty ) >
                ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
     } );
@@ -972,8 +973,8 @@ npc_action npc::method_of_attack()
     const int cur_recoil = recoil_total();
     // modes outside confident range should always be the last option(s)
     std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
-    const std::pair<std::string, item::gun_mode> &rhs ) {
+                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return ( confident_gun_mode_range( lhs.second, cur_recoil ) >= dist ) >
                ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
     } );
@@ -1098,7 +1099,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    return ret_null;
+    return null_item_reference();
 }
 
 const item &npc::find_reloadable() const
@@ -1311,7 +1312,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     return res;
 }
 
-int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
+int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
 {
     if( !gun || gun.melee() ) {
         return 0;
@@ -1323,7 +1324,7 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range,
+    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
              max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
@@ -1586,7 +1587,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
-            add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
+            add_msg_if_npc( m_neutral, _( "%1$s tries to climb the %2$s but slips." ),
                             name.c_str(), g->m.tername( p ).c_str() );
             moves -= 400;
         } else {
@@ -2370,7 +2371,7 @@ bool npc::wield_better_weapon()
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
     // Fists aren't checked below
-    compare_weapon( ret_null );
+    compare_weapon( null_item_reference() );
 
     visit_items( [&compare_weapon]( item * node ) {
         // Skip some bad items
@@ -2419,7 +2420,7 @@ void npc::wield_best_melee()
     item *it = inv.best_for_melee( *this, best_value );
     if( unarmed_value() >= best_value ) {
         // "I cast fist!"
-        it = &ret_null;
+        it = &null_item_reference();
     }
 
     wield( *it );
@@ -3177,15 +3178,30 @@ bool npc::complain()
     // Don't wake player up with non-serious complaints
     const bool do_complain = rules.allow_complain && !g->u.in_sleep_state();
 
+    // Don't have a default constructor for time_point, so accessing it in the
+    // complaints map is a bit difficult, those lambdas should cover it.
+    const auto complain_since = [this]( const std::string & key, const time_duration & d ) {
+        const auto iter = complaints.find( key );
+        return iter == complaints.end() || iter->second < calendar::turn - d;
+    };
+    const auto set_complain_since = [this]( const std::string & key ) {
+        const auto iter = complaints.find( key );
+        if( iter == complaints.end() ) {
+            complaints.emplace( key, calendar::turn );
+        } else {
+            iter->second = calendar::turn;
+        }
+    };
+
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
-        if( complaints[infected_string] < calendar::turn - HOURS( 4 - eff.get_intensity() ) &&
+        if( complain_since( infected_string, time_duration::from_hours( 4 - eff.get_intensity() ) ) &&
             ( do_complain || eff.get_intensity() >= 3 ) ) {
             say( _( "My %s wound is infected..." ), body_part_name( bp ).c_str() );
-            complaints[infected_string] = calendar::turn;
+            set_complain_since( infected_string );
             // Only one complaint per turn
             return true;
         }
@@ -3194,61 +3210,55 @@ bool npc::complain()
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
         body_part bp = bp_affected( *this, effect_bite );
-        if( do_complain &&
-            complaints[bite_string] < calendar::turn - HOURS( 1 ) ) {
+        if( do_complain && complain_since( bite_string, 1_hours ) ) {
             say( _( "The bite wound on my %s looks bad." ), body_part_name( bp ).c_str() );
-            complaints[bite_string] = calendar::turn;
+            set_complain_since( bite_string );
             return true;
         }
     }
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( get_fatigue() > TIRED &&
-        complaints[fatigue_string] < calendar::turn - MINUTES( 30 ) &&
+    if( get_fatigue() > TIRED && complain_since( fatigue_string, 30_minutes ) &&
         ( do_complain || get_fatigue() > MASSIVE_FATIGUE - 100 ) ) {
         say( "<yawn>" );
-        complaints[fatigue_string] = calendar::turn;
+        set_complain_since( fatigue_string );
         return true;
     }
 
     // Radiation every 10 minutes
-    if( radiation > 90 &&
-        complaints[radiation_string] < calendar::turn - MINUTES( 10 ) &&
+    if( radiation > 90 && complain_since( radiation_string, 10_minutes ) &&
         ( do_complain || radiation > 150 ) ) {
         say( _( "I'm suffering from radiation sickness..." ) );
-        complaints[radiation_string] = calendar::turn;
+        set_complain_since( radiation_string );
         return true;
     }
 
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > 160 &&
-        complaints[hunger_string] < calendar::turn - std::max( HOURS( 3 ),
-                MINUTES( 60 * 8 - get_hunger() ) ) &&
+    if( get_hunger() > 160 && complain_since( hunger_string, std::max( 3_hours,
+            time_duration::from_minutes( 60 * 8 - get_hunger() ) ) ) &&
         do_complain ) {
         say( _( "<hungry>" ) );
-        complaints[hunger_string] = calendar::turn;
+        set_complain_since( hunger_string );
         return true;
     }
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( get_thirst() > 80
-        && complaints[thirst_string] < calendar::turn - HOURS( 2 ) &&
+    if( get_thirst() > 80 && complain_since( thirst_string, 2_hours ) &&
         do_complain ) {
         say( _( "<thirsty>" ) );
-        complaints[thirst_string] = calendar::turn;
+        set_complain_since( thirst_string );
         return true;
     }
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
         body_part bp = bp_affected( *this, effect_bleed );
-        if( do_complain &&
-            complaints[bleed_string] < calendar::turn - MINUTES( 5 ) ) {
+        if( do_complain && complain_since( bleed_string, 5_minutes ) ) {
             say( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
-            complaints[bleed_string] = calendar::turn;
+            set_complain_since( bleed_string );
             return true;
         }
     }

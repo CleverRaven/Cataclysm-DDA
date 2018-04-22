@@ -179,22 +179,6 @@ class Creature
          */
         Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0 );
 
-        /** Make a single melee attack with the currently equipped weapon against the targeted
-         *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
-        virtual void melee_attack( Creature &t, bool allow_special,
-                                   const matec_id &technique ) = 0;
-
-        /** Make a single melee attack with the currently equipped weapon against the targeted
-         *  creature with prerolled hitspread. Should always be overwritten by the appropriate
-         *  player/NPC/monster function. */
-        virtual void melee_attack( Creature &t, bool allow_special,
-                                   const matec_id &technique, int hitspread ) = 0;
-        /**
-         * Calls the to other melee_attack function with an empty technique id (meaning no specific
-         * technique should be used).
-         */
-        void melee_attack( Creature &t, bool allow_special );
-
         /**
          * Size of the target this creature presents to ranged weapons.
          * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.

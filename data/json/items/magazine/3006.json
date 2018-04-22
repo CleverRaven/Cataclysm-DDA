@@ -1,5 +1,21 @@
 [
   {
+    "id": "3006_clip",
+    "type": "MAGAZINE",
+    "name": "rifle clip - .30-06",
+    "//": "Provisional.",
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
+    "weight": 40,
+    "volume": "50ml",
+    "price": 500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "3006",
+    "capacity": 5,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
     "id": "blrmag",
     "type": "MAGAZINE",
     "name": "Browning BLR magazine",
