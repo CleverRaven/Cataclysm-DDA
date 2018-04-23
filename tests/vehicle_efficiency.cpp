@@ -180,9 +180,75 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     long adjusted_tiles_travelled = 1000.0 * tiles_travelled / fuel_used;
     CHECK( adjusted_tiles_travelled >= min_dist );
     CHECK( adjusted_tiles_travelled <= max_dist );
-    printf( "Mass: %d, Power: %d, Meters: %d, mL: %d\n", int(veh.total_mass().value() / 1000), (int)veh.total_power(), (int)tiles_travelled, (int)fuel_used );
+//    printf( "Mass: %d, Power: %d, Meters: %d, mL: %d\n", int(veh.total_mass().value() / 1000), (int)veh.total_power(), (int)tiles_travelled, (int)fuel_used );
 
     return adjusted_tiles_travelled;
+}
+
+void test_power( const vproto_id &veh_id, const ter_id &terrain, double target_power, double target_acceleration, double target_max_vel, double target_safe_vel )
+{
+    double min_power = target_power * 0.9, min_acceleration = target_acceleration * 0.9;
+    double max_power = target_power * 1.1, max_acceleration = target_acceleration * 1.1;
+    double min_safe_vel = target_safe_vel * 0.9, min_max_vel = target_max_vel * 0.9;
+    double max_safe_vel = target_safe_vel * 1.1, max_max_vel = target_max_vel * 1.1;
+    clear_game( terrain );
+    
+    const tripoint map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 100, 0 );
+    
+    REQUIRE( veh_ptr != nullptr );
+    if( veh_ptr == nullptr ) {
+        return;
+    }
+    
+    vehicle &veh = *veh_ptr;
+    set_vehicle_fuel( veh );
+    // Remove all items from cargo to normalize weight.
+    for( size_t p = 0; p < veh.parts.size(); p++ ) {
+        auto &pt = veh.parts[ p ];
+        while( veh.remove_item( p, 0 ) );
+    }
+    set_vehicle_fuel( veh );
+    
+    const tripoint starting_point = veh.global_pos3();
+    veh.tags.insert( "IN_CONTROL_OVERRIDE" );
+    veh.engine_on = true;
+    
+    // More than 13hp per ton.
+    CHECK( veh.total_power( false ) / ( veh.total_mass().value() / (1000.0 * 1000.0) ) >= 10  );
+    // Power
+    CHECK( veh.total_power( false ) >= min_power );
+    CHECK( veh.total_power( false ) <= max_power );
+    // Acceleration
+    CHECK( veh.acceleration( false ) >= min_acceleration );
+    CHECK( veh.acceleration( false ) <= max_acceleration );
+    // Maximum Velocity
+    CHECK( veh.max_velocity( false ) >= min_max_vel );
+    CHECK( veh.max_velocity( false ) <= max_max_vel );
+    // Safe Velocity
+    CHECK( veh.safe_velocity( false ) >= min_safe_vel );
+    CHECK( veh.safe_velocity( false ) <= max_safe_vel );
+}
+
+void test_drag( const vproto_id &veh_id, const ter_id &terrain, double target_drag )
+{
+    double min_drag = target_drag * 0.9;
+    double max_drag = target_drag * 1.1;
+    clear_game( terrain );
+    
+    const tripoint map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 100, 0 );
+    
+    REQUIRE( veh_ptr != nullptr );
+    if( veh_ptr == nullptr ) {
+        return;
+    }
+    
+    vehicle &veh = *veh_ptr;
+    
+    // More than 13hp per ton.
+    CHECK( min_drag <= veh.k_aerodynamics() * 100 );
+    CHECK( max_drag >= veh.k_aerodynamics() * 100 );
 }
 
 statistics find_inner( std::string type, std::string terrain, int delay, bool smooth )
@@ -245,7 +311,7 @@ void print_test_strings( std::string type )
 
 void test_vehicle( std::string type,
                    long pavement_target, long dirt_target,
-                   long pavement_target_w_stops, long dirt_target_w_stops,
+                   long pavement_target_w_stops, long dirt_target_w_stops, double target_drag, double target_power, double target_acceleration, double target_max_vel, double target_safe_vel,
                    long pavement_target_smooth_stops = 0, long dirt_target_smooth_stops = 0 )
 {
     SECTION( type + " on pavement" ) {
@@ -259,6 +325,12 @@ void test_vehicle( std::string type,
     }
     SECTION( type + " on dirt, full stop every 5 turns" ) {
         test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, dirt_target_w_stops );
+    }
+    SECTION( type + " power test" ) {
+        test_power( vproto_id( type ), ter_id( "t_pavement" ), target_power, target_acceleration, target_max_vel, target_safe_vel );
+    }
+    SECTION( type + " drag test" ) {
+        test_drag( vproto_id( type ), ter_id( "t_pavement" ), target_drag );
     }
     if( pavement_target_smooth_stops > 0 ) {
         SECTION( type + " on pavement, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
@@ -316,21 +388,21 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    // Max/Min kmpL at cruise, Max/Min mpL while accelerating.
-    test_vehicle( "beetle", 10000, 8000, 3000, 2700 );
-    test_vehicle( "car", 10000, 8000, 3000, 2400 );
-    test_vehicle( "car_sports", 9000, 8000, 3400, 2800 );
+    // PaveCruise, DirtCruise, PaveAccel, DirtAccel, Drag, Power, Accel, MaxVel, MinVel.
+    test_vehicle( "beetle", 10000, 8000, 3000, 2700, 30, 56, 8, 67, 33 );
+    test_vehicle( "car", 10000, 8000, 3000, 2400, 30, 93, 9, 69, 35 );
+    test_vehicle( "car_sports", 9000, 8000, 3400, 2800, 30, 287, 9, 71, 36 );
 //    test_vehicle( "electric_car", 62800, 45280, 3590, 2519 );
-    test_vehicle( "suv", 10000, 8000, 3000, 2400 );
-    test_vehicle( "motorcycle", 13000, 10000, 7000, 6000 );
-    test_vehicle( "quad_bike", 11000, 9000, 5000, 4000 );
-    test_vehicle( "scooter", 13000, 13000, 8000, 6000 );
-    test_vehicle( "superbike", 13000, 13000, 7500, 6000 );
-    test_vehicle( "ambulance", 3500, 3000, 690, 620 );
-    test_vehicle( "fire_engine", 3400, 2500, 360, 330 );
-    test_vehicle( "fire_truck", 4000, 2500, 400, 320 );
-    test_vehicle( "truck_swat", 4000, 3000, 630, 530 );
-    test_vehicle( "tractor_plow", 8600, 8300, 1600, 1500 );
-    test_vehicle( "apc", 2500, 1500, 220, 170 );
-    test_vehicle( "humvee", 5000, 3700, 530, 480 );
+    test_vehicle( "suv", 10000, 8000, 3000, 2400, 30, 93, 9, 73, 37 );
+    test_vehicle( "motorcycle", 13000, 10000, 7000, 6000, 6.5, 22, 7, 148, 74 );
+    test_vehicle( "quad_bike", 11000, 9000, 5000, 4000, 20, 22, 7, 55, 27 );
+    test_vehicle( "scooter", 13000, 13000, 8000, 6000, 5, 12, 7, 110, 55 );
+    test_vehicle( "superbike", 13000, 13000, 7500, 6000, 6.5, 58, 7, 156, 78 );
+    test_vehicle( "ambulance", 3500, 3000, 690, 620, 40, 152, 6, 50, 25 );
+    test_vehicle( "fire_engine", 3400, 2500, 360, 330, 40, 152, 4, 54, 27 );
+    test_vehicle( "fire_truck", 4000, 2500, 400, 320, 50, 152, 6, 73, 37 );
+    test_vehicle( "truck_swat", 4000, 3000, 630, 530, 55, 140, 5, 58, 29 );
+    test_vehicle( "tractor_plow", 8600, 8300, 1600, 1500, 20, 140, 5, 72, 36 );
+    test_vehicle( "apc", 2500, 1500, 220, 170, 50, 140, 1.8, 37, 18 );
+    test_vehicle( "humvee", 5000, 3700, 530, 480, 50, 231, 6, 75, 38 );
 }
