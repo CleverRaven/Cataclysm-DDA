@@ -41227,7 +41227,7 @@
           "rotates": false
         },
         {
-          "id": "mon_generator",
+          "id": ["mon_generator", "mon_generator_SCINET"],
           "fg": 1700,
           "bg": 642,
           "rotates": false
@@ -41631,7 +41631,7 @@
           "rotates": false
         },
         {
-          "id": "mon_turret",
+          "id": ["mon_turret", "mon_turret_shockcannon"],
           "fg": 1770,
           "bg": 642
         },
