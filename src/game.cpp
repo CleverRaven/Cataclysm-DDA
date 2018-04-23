@@ -7330,8 +7330,8 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const visibility_variables &cache )
 {
     visibility_type visibility;
-    if (g->map_ptr->inbounds(lp)) {
-        visibility = m.get_visibility(m.apparent_light_at(lp, cache), cache);
+    if ( g->map_ptr->inbounds( lp ) ) {
+        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     } else {
         visibility = VIS_HIDDEN;
     }

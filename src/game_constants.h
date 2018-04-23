@@ -88,18 +88,6 @@
 /** Maximum range at which ranged attacks can be executed */
 #define RANGE_HARD_CAP 60
 
-/** Player view distance FLOAT */
-constexpr float player_view_distance = 60.0f;
-
-/** Player view distance INTEGER */
-constexpr int player_view_distance_int = player_view_distance;
-
-/** Distance to search for fishables from trap/fishing pole/etc */
-constexpr int fishing_distance = 60;
-
-/** Light level to use for starting a fire */
-constexpr float min_light_level_for_firestarter = 60.0f;
-
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;
 constexpr double accuracy_critical = 0.2;

@@ -99,6 +99,12 @@ struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 
+/** Player view distance FLOAT */
+constexpr float player_view_distance = 60.0f;
+
+/** Player view distance INTEGER */
+constexpr int player_view_distance_int = player_view_distance;
+
 class map_stack : public item_stack
 {
     private:

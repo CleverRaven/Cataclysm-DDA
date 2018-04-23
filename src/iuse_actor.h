@@ -41,6 +41,13 @@ struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 struct furn_t;
 
+
+/** Distance to search for fishables from trap/fishing pole/etc */
+constexpr int fishing_distance = 60;
+
+/** Light level to use for starting a fire */
+constexpr float min_light_level_for_firestarter = 60.0f;
+
 /**
  * Transform an item into a specific type.
  * Optionally activate it.
