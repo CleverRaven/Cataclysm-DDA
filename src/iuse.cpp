@@ -7510,7 +7510,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     
     player.inv.restack( player );
 
-    const inventory_filter_preset preset( [ &player ]( const item_location & location ) {
+    const inventory_filter_preset preset( []( const item_location & location ) {
         return (*location).item_tags.find("FILTHY") != (*location).item_tags.end();
     } );
     // Maybe this should also search surrounding area, not just player inventory?
