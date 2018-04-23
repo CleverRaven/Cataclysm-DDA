@@ -34,13 +34,13 @@ std::string good_bad_none( int value )
 
 }
 
-inventory_filter_preset::inventory_filter_preset(const item_location_filter &filter) 
-   : filter( filter ) 
+inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
+    : filter( filter )
 {}
 
-bool inventory_filter_preset::is_shown(const item_location &location) const  
+bool inventory_filter_preset::is_shown( const item_location &location ) const
 {
-   return filter( location );
+    return filter( location );
 }
 
 item_location_filter convert_filter( const item_filter &filter )

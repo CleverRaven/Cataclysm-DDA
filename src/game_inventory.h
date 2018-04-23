@@ -18,9 +18,9 @@ typedef std::function<bool( const item_location & )> item_location_filter;
 class inventory_filter_preset : public inventory_selector_preset
 {
     public:
-        inventory_filter_preset(const item_location_filter &filter);
+        inventory_filter_preset( const item_location_filter &filter );
 
-        bool is_shown(const item_location &location) const override;
+        bool is_shown( const item_location &location ) const override;
 
     private:
         item_location_filter filter;
