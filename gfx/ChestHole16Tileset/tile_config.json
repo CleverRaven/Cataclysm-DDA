@@ -56632,7 +56632,7 @@
           "rotates": false
         },
         {
-          "id": "mon_hallu_mom",
+          "id": ["mon_hallu_mom", "mon_hallu_mannequin"],
           "fg": 4742,
           "rotates": false
         },
@@ -57277,6 +57277,16 @@
         {
           "id": "mon_robin",
           "fg": 4271,
+          "rotates": false
+        },
+        {
+          "id": "mon_pidgeon",
+          "fg": 4493,
+          "rotates": false
+        },
+        {
+          "id": "mon_bjay",
+          "fg": 4478,
           "rotates": false
         },
         {
