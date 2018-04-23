@@ -7509,7 +7509,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     player player = *p;
     
     player.inv.restack( player );
-    volatile inventory in = player.inv;
 
     const inventory_filter_preset preset( [ &player ]( const item_location & location ) {
         return (*location).item_tags.find("FILTHY") != (*location).item_tags.end();
@@ -7534,7 +7533,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     int required_water = 0;
     int time = 0;
     int required_cleanser = 0;
-    volatile units::volume vol;
 
     // Determine if we have enough water and cleanser for all the items.
     for (pairs = to_clean.begin(); pairs != to_clean.end(); ++pairs){
@@ -7559,18 +7557,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
             p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ), required_cleanser);
             return 0;
         }
-    volatile bool has_soap = false;
-    has_soap = crafting_inv.has_charges( "soap", required_cleanser );
-    std::string dbg = "";
-    if(has_soap){
-        dbg = "true";
-    }
-    else{
-        dbg = "false";
-    }
-
-    
-    const std::string cur_time = to_string_time_of_day( calendar::turn );
     // Assign the activity values.
     p->assign_activity(activity_id( "ACT_WASH" ), time);
 
