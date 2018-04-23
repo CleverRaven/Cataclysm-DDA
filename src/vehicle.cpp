@@ -3063,18 +3063,24 @@ int vehicle::total_power(bool const fueled) const
 
 float vehicle::get_load(bool fueled, float delta_v) const
 {
-    float wheelradius = wheel_radius( false ),
+    const float wheelradius = wheel_radius( false ),
+    mass = total_mass().value() / 1000.0,
+    power = total_power( fueled ) * 1000.0,
+    traction = k_traction() * 9.8 * mass,
+    friction = exp( (2 * k_friction() - 1) / 2 ) / 200 * 9.8 * pow( log10( mass ), 3 ),
     torque = total_power( fueled ) * 1000.0 / ( 100 * M_PI ),
     angular = torque / ( wheel_mass( false ) * wheelradius * wheelradius ),
     ang_to_lin = wheelradius / ( M_PI );
-    printf( "Max: %.2f, dV: %.2f, kF: %.3f, Load: %.2f, Drag: %.2f, cV: %.2f, cV: %.2f\n", angular * ang_to_lin, delta_v, k_friction() * 9.8, delta_v / (angular * ang_to_lin), drag( cruise_velocity ), cruise_velocity, velocity);
+//    printf( "Max: %.2f, dV: %.2f, kF: %.3f, Load: %.2f, Drag: %.2f, cV: %.2f, cV: %.2f\n", std::min(angular * ang_to_lin, traction / mass), delta_v, k_friction() * 9.8, delta_v / (angular * ang_to_lin), drag( cruise_velocity ), cruise_velocity, velocity);
     // The proportion of engine output being used.
-    return std::min( 1.0f, abs( delta_v ) / (angular * ang_to_lin) );
+    const float load = std::min( 1.0f, abs( delta_v ) / (angular * ang_to_lin) );
+    // Approximate efficiency increase from gearing. TODO: Improve this approximation.
+    return load * std::sqrt(std::sqrt(load)) * std::min(std::max(( friction - 0.2f ), 0.5f), 2.0f);
 }
 
 float vehicle::acceleration(bool const fueled) const
 {
-    float wheelmass = wheel_mass( false ),
+    const float wheelmass = wheel_mass( false ),
     wheelradius = wheel_radius( false ),
     mass = total_mass().value() / 1000.0,
     power = total_power( fueled ) * 1000.0,
@@ -3082,17 +3088,13 @@ float vehicle::acceleration(bool const fueled) const
     torque = power / ( 100 * M_PI ),
     angular = torque / ( wheelmass * wheelradius * wheelradius ),
     traction = k_traction() * 9.8 * mass,
-    friction = k_friction() * 9.8 * mass,
     ang_to_lin = wheelradius / ( M_PI );
-//    g->u.add_msg_if_player(m_debug, "Power: %.0f", power / 1000);
-//    g->u.add_msg_if_player(m_debug, "Accel: %.2f", angular * ang_to_lin);
-//    g->u.add_msg_if_player(m_debug, "Max: %.2f", (traction - friction) / mass);
     if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
-        return std::min(angular * ang_to_lin, (traction - friction) / mass);
+        return std::min(angular * ang_to_lin, traction / mass);
     }
     if (has_engine_type(fuel_type_muscle, true)){
         ///\EFFECT_STR caps vehicle weight for muscle engines
-        return mass <= std::max( g->u.str_cur * 25, 150 ) * 1000 ? std::min(angular * ang_to_lin, (traction - friction) / mass) : 0;
+        return mass <= std::max( g->u.str_cur * 25, 150 ) * 1000 ? std::min(angular * ang_to_lin, traction / mass) : 0;
     }
     return 0;
 }

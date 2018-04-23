@@ -670,7 +670,7 @@ void map::vehicle_wheel_traction( const vehicle &veh, float* returns ) const
             // Increase sinkage in proportion to pressure.
             sinkage *= sinkage_ter( part_point ) / 10000.0;
         } else {
-            sinkage *= 0.0001;
+            sinkage *= 0.00002;
         }
 
         // TODO: Set a threshold in globals.

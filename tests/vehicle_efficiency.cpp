@@ -136,7 +136,8 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
-    veh.cruise_velocity = veh.safe_velocity();
+    // Don't go above ~60mph, the drag disrupts the results.
+    veh.cruise_velocity = std::min(27.0f, veh.safe_velocity());
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     if( reset_velocity_turn == -1 ) {
         veh.velocity = veh.cruise_velocity;
@@ -159,9 +160,6 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
         const tripoint displacement = starting_point - veh.global_pos3();
         tripoint veh_pos = veh.global_pos3();
         g->m.displace_vehicle( veh_pos, displacement );
-        printf( "Used: %d, Distance: %ld, Velocity: %.2f\n",
-               int(fuel_liters_used( veh )),
-               tiles_travelled, veh.velocity);
         if( reset_velocity_turn < 0 ) {
             continue;
         }
@@ -319,20 +317,20 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
     // Max/Min kmpL at cruise, Max/Min mpL while accelerating.
-//    test_vehicle( "beetle", 117600, 113600, 12580, 11550 );
-    test_vehicle( "car", 13000, 10000, 2600, 2400 );
-//    test_vehicle( "car_sports", 243500, 164300, 15780, 9458 );
+    test_vehicle( "beetle", 10000, 8000, 3000, 2700 );
+    test_vehicle( "car", 10000, 8000, 3000, 2400 );
+    test_vehicle( "car_sports", 9000, 8000, 3400, 2800 );
 //    test_vehicle( "electric_car", 62800, 45280, 3590, 2519 );
 //    test_vehicle( "suv", 294300, 221000, 27040, 15720 );
-//    test_vehicle( "motorcycle", 15370, 13050, 2304, 1322 );
-//    test_vehicle( "quad_bike", 11400, 10650, 1963, 1302 );
-//    test_vehicle( "scooter", 9692, 9692, 1723, 1723 );
-//    test_vehicle( "superbike", 32350, 24760, 3322, 1576 );
-//    test_vehicle( "ambulance", 253600, 233000, 22480, 19650 );
-//    test_vehicle( "fire_engine", 296300, 286300, 24780, 23800 );
-//    test_vehicle( "fire_truck", 220100, 66910, 18740, 4813 );
+    test_vehicle( "motorcycle", 13000, 10000, 7000, 6000 );
+    test_vehicle( "quad_bike", 11000, 9000, 5000, 4000 );
+    test_vehicle( "scooter", 13000, 13000, 8000, 6000 );
+    test_vehicle( "superbike", 13000, 13000, 7500, 6000 );
+    test_vehicle( "ambulance", 3500, 3000, 690, 620 );
+    test_vehicle( "fire_engine", 3400, 2500, 360, 330 );
+    test_vehicle( "fire_truck", 4000, 2500, 400, 320 );
 //    test_vehicle( "truck_swat", 198100, 69170, 21020, 4691 );
 //    test_vehicle( "tractor_plow", 145500, 145500, 14120, 14120 );
-//    test_vehicle( "apc", 623700, 593300, 65960, 60720 );
-//    test_vehicle( "humvee", 2500, 2200, 600, 550 );
+    test_vehicle( "apc", 2500, 1500, 220, 170 );
+    test_vehicle( "humvee", 5000, 3700, 530, 480 );
 }
