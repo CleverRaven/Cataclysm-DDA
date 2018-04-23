@@ -7565,7 +7565,14 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         }
     volatile bool has_soap = false;
     has_soap = crafting_inv.has_charges( "soap", required_cleanser );
-    debugmsg("Has soap? %s", has_soap.c_str());
+    std::string dbg = "";
+    if(has_soap){
+        dbg = "true";
+    }
+    else{
+        dbg = "false";
+    }
+    debugmsg("Has soap? %s", dbg.c_str());
 
     
     const std::string cur_time = to_string_time_of_day( calendar::turn );
