@@ -396,7 +396,7 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 }
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
-{    
+{
     const std::string cur_time = to_string_time_of_day( calendar::turn );
 
     auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
@@ -407,34 +407,38 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     int required_cleanser = 0;
 
     std::list<act_item>::iterator item_to_clean;
-        for (item_to_clean = items.begin(); item_to_clean != items.end(); ++item_to_clean){
+    for( item_to_clean = items.begin(); item_to_clean != items.end(); ++item_to_clean ) {
         act_item mod = *item_to_clean;
 
-        required_water += (2 * mod.it->volume() / 250_ml);
+        required_water += ( 2 * mod.it->volume() / 250_ml );
         required_cleanser += mod.it->volume() / 1000_ml;
-}
-    if (required_cleanser < 1){
+    }
+    if( required_cleanser < 1 ) {
         required_cleanser = 1;
     }
 
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ), required_water);
-            act->set_to_null();
-            return;
-        } else if( !crafting_inv.has_charges( "soap", required_cleanser ) && !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
-            p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ), required_cleanser
-            );
-            act->set_to_null();
-            return;
-        }
+    if( !crafting_inv.has_charges( "water", required_water ) &&
+        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                              required_water );
+        act->set_to_null();
+        return;
+    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                              required_cleanser
+                            );
+        act->set_to_null();
+        return;
+    }
 
-    
+
 
     for( const auto ait : items ) {
-        item* filthy_item = const_cast<item *>( ait.it );
+        item *filthy_item = const_cast<item *>( ait.it );
         std::string filthy( "FILTHY" );
-        filthy_item->item_tags.erase(filthy);
+        filthy_item->item_tags.erase( filthy );
     }
 
     std::vector<item_comp> comps;
