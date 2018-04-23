@@ -321,7 +321,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "car", 10000, 8000, 3000, 2400 );
     test_vehicle( "car_sports", 9000, 8000, 3400, 2800 );
 //    test_vehicle( "electric_car", 62800, 45280, 3590, 2519 );
-//    test_vehicle( "suv", 294300, 221000, 27040, 15720 );
+    test_vehicle( "suv", 10000, 8000, 3000, 2400 );
     test_vehicle( "motorcycle", 13000, 10000, 7000, 6000 );
     test_vehicle( "quad_bike", 11000, 9000, 5000, 4000 );
     test_vehicle( "scooter", 13000, 13000, 8000, 6000 );
@@ -329,8 +329,8 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "ambulance", 3500, 3000, 690, 620 );
     test_vehicle( "fire_engine", 3400, 2500, 360, 330 );
     test_vehicle( "fire_truck", 4000, 2500, 400, 320 );
-//    test_vehicle( "truck_swat", 198100, 69170, 21020, 4691 );
-//    test_vehicle( "tractor_plow", 145500, 145500, 14120, 14120 );
+    test_vehicle( "truck_swat", 4000, 3000, 630, 530 );
+    test_vehicle( "tractor_plow", 8600, 8300, 1600, 1500 );
     test_vehicle( "apc", 2500, 1500, 220, 170 );
     test_vehicle( "humvee", 5000, 3700, 530, 480 );
 }
