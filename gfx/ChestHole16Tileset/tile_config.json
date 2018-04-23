@@ -40676,7 +40676,7 @@
           "bg": 642
         },
         {
-          "id": ["mon_ant_larva", "mon_ant_larva_pk"],
+          "id": ["mon_ant_larva", "mon_ant_larva_pk", "mon_bee_larvae", "mon_wasp_larvae"],
           "fg": 1620,
           "bg": 642,
           "rotates": false
@@ -53453,7 +53453,7 @@
           "rotates": false
         },
         {
-          "id": ["mon_bee_queen", "mon_bee_king"],
+          "id": ["mon_bee_queen", "mon_bee_king", "mon_wasp_queen"],
           "fg": 4019,
           "bg": 632,
           "rotates": false
