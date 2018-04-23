@@ -7551,10 +7551,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         required_cleanser = 1;
     }
 
-    debugmsg("Required cleanser: %s", to_string(required_cleanser).c_str());
-    debugmsg("Required water: %s", to_string(required_water).c_str());
-
-
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ), required_water);
@@ -7572,11 +7568,9 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     else{
         dbg = "false";
     }
-    debugmsg("Has soap? %s", dbg.c_str());
 
     
     const std::string cur_time = to_string_time_of_day( calendar::turn );
-    debugmsg( "Time before wash: %s", cur_time.c_str() );
     // Assign the activity values.
     p->assign_activity(activity_id( "ACT_WASH" ), time);
 

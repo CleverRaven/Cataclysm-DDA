@@ -398,7 +398,6 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {    
     const std::string cur_time = to_string_time_of_day( calendar::turn );
-    debugmsg( "Time after wash: %s", cur_time.c_str() );
 
     auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
 
@@ -417,9 +416,6 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     if (required_cleanser < 1){
         required_cleanser = 1;
     }
-
-    debugmsg("Required cleanser: %s", to_string(required_cleanser).c_str());
-    debugmsg("Required water: %s", to_string(required_water).c_str());
 
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
