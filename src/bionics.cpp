@@ -1386,8 +1386,8 @@ bool player::remove_random_bionic()
     if( numb ) {
         int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = ( *my_bionics )[rem];
-		//Todo: Currently, contained/containing bionics don't get explicitly deactivated when the removal of a linked bionic removes them too
-		deactivate_bionic( rem, true );
+        //Todo: Currently, contained/containing bionics don't get explicitly deactivated when the removal of a linked bionic removes them too
+        deactivate_bionic( rem, true );
         remove_bionic( bionic.id );
         add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );
         recalc_sight_limits();
