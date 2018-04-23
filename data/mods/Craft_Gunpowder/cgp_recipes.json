@@ -354,7 +354,7 @@
   },
   {
     "type": "recipe",
-    "result": "red_dot",
+    "result": "red_dot_sight",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "electronics",
