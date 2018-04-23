@@ -456,7 +456,7 @@ task_reason veh_interact::cant_do (char mode)
         return UNKNOWN_TASK;
     }
 
-    if( abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
+    if( abs( veh->velocity ) > 0.5 || g->u.controlling_vehicle ) {
         return MOVING_VEHICLE;
     }
     if( !enough_morale ) {
@@ -1813,7 +1813,7 @@ void veh_interact::display_stats()
     fold_and_print( w_stats, y[1], x[1], w[1], c_light_gray,
                     //~ /t means per turn
                     _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
-                    int( 6 * convert_velocity( veh->acceleration( false ), VU_WIND ) ),
+                    int( convert_velocity( veh->acceleration( false ), VU_WIND ) ),
                     velocity_units( VU_WIND ) );
     fold_and_print( w_stats, y[2], x[2], w[2], c_light_gray,
                     _( "Mass: <color_light_blue>%5.0f</color> %s" ),

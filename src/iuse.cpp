@@ -7328,7 +7328,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         vehicle *veh = g->m.veh_at( p->pos(), vpart );
         int vehwindspeed = 0;
         if( veh ) {
-            vehwindspeed = abs( veh->velocity / 100 ); // For mph
+            vehwindspeed = abs( veh->velocity ); // For m/s
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */

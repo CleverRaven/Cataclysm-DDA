@@ -6603,7 +6603,7 @@ void game::handbrake()
         add_msg(m_warning, _("You lose control of %s."), veh->name.c_str());
         veh->turn(veh->last_turn > 0 ? 60 : -60);
     } else {
-        float braking_power = (veh->k_traction() * 9.8 + veh->drag( )) * 6;
+        float braking_power = veh->k_traction() * 9.8;
         if( abs( veh->velocity ) < braking_power ) {
             veh->stop();
         } else {
@@ -10690,7 +10690,7 @@ void game::pldrive(int x, int y)
 
     if( y != 0 ) {
 		// 5m/s = 18kph, 11.1mph
-        int thr_amount = 5;
+        int thr_amount = 1;
         if( veh->cruise_on ) {
             veh->cruise_thrust( -y * thr_amount );
         } else {

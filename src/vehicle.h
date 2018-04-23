@@ -1001,7 +1001,7 @@ public:
     float forward_velocity() const;
 
     // cruise control
-    void cruise_thrust (int amount);
+    void cruise_thrust (float amount);
 
     // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
@@ -1290,8 +1290,9 @@ public:
     int posy = 0;
     tileray face;       // frame direction
     tileray move;       // direction we are moving
-    float velocity = 0;       // vehicle current velocity, mph * 100
-    int cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
+    float velocity = 0;       // vehicle current velocity, m/s
+    float old_velocity = 0;       // vehicle previous velocity, m/s
+    float cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
     float vertical_velocity = 0; // Only used for collisions, vehicle falls instantly
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     int turn_dir = 0;       // direction, to which vehicle is turning (player control). will rotate frame on next move
@@ -1318,6 +1319,7 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
+    mutable bool slowdown = false; // Has the vehicle experienced friction/drag this turn?
 
 private:
     void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty
@@ -1342,7 +1344,7 @@ private:
     mutable bool mass_center_no_precalc_dirty   = true;
     
     mutable float dynamics_cache[3] = {0, 0, 0};
-    mutable bool dynamics_dirty   = true;
+    mutable bool dynamics_dirty = true;
 
     mutable units::mass mass_cache;
     mutable point mass_center_precalc;

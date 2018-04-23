@@ -396,36 +396,36 @@ bool map::vehact( vehicle &veh )
     if( should_fall ) {
         const float tile_height = 4; // 4 meters
         const float g = 9.8f; // 9.8 m/s^2
-        // Convert from 100*mph to m/s
-        const float old_vel = veh.vertical_velocity / 2.23694 / 100;
+        const float old_vel = veh.vertical_velocity;
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
-        // Note: That drops the sign
         const float new_vel = -sqrt( 2 * tile_height * g +
                                      old_vel * old_vel );
-        veh.vertical_velocity = new_vel * 2.23694 * 100;
+        veh.vertical_velocity = new_vel;
     } else {
         // Not actually falling, was just marked for fall test
         veh.falling = false;
     }
 
-    const float slowdown = veh.drag() + veh.k_friction() * 9.8;
-    add_msg( m_debug, "%s vel: %.2f, slowdown: %.2f", veh.name.c_str(), veh.velocity, slowdown );
-    if( slowdown > abs( veh.velocity ) ) {
-        veh.stop();
-    } else if( veh.velocity < 0 ) {
-        veh.velocity += slowdown;
-    } else {
-        veh.velocity -= slowdown;
+    if ( veh.slowdown ) {
+        const float slowdown = veh.drag( veh.old_velocity ) + veh.k_friction() * 9.8;
+        add_msg( m_debug, "%s vel: %.2f, slowdown: %.2f", veh.name.c_str(), veh.velocity, slowdown );
+        if( slowdown > abs( veh.velocity ) ) {
+            veh.stop();
+            veh.of_turn -= .321f;
+            return true;
+        } else if( veh.velocity < 0 ) {
+            veh.velocity += slowdown;
+        } else {
+            veh.velocity -= slowdown;
+        }
+        veh.slowdown = false;
+    }
+    
+    if ( abs(veh.cruise_velocity - veh.velocity) < 0.05f ) {
+        veh.velocity = veh.cruise_velocity;
     }
 
     const float velocity = ms_to_internal(veh.velocity);
-    // Low enough for bicycles to go in reverse.
-    if( !should_fall && abs( velocity ) < 20 ) {
-        veh.stop();
-        veh.of_turn -= .321f;
-        return true;
-    }
-
     const float traction = veh.k_traction();
     // TODO: Remove this hack, have vehicle sink a z-level
     if( traction < 0 ) {
@@ -454,7 +454,7 @@ bool map::vehact( vehicle &veh )
             }
         }
     }
-    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( velocity ) );
+    const float turn_cost = 1.0f / std::max<float>( 0.0001f, abs( veh.velocity ) );
 
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
@@ -747,8 +747,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     // Find collisions
     // Velocity of car before collision
     // Split into vertical and horizontal movement
-    const int &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
-    const int velocity_before = coll_velocity;
+    const float &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
+    const float velocity_before = coll_velocity;
     if( velocity_before == 0 ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name.c_str(), vertical ? "vertically" : "horizontally" );
@@ -801,7 +801,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         veh.vertical_velocity = 0;
     }
 
-    const int velocity_after = coll_velocity;
+    const float velocity_after = coll_velocity;
     const bool can_move = velocity_after != 0 && sgn(velocity_after) == sgn(velocity_before);
 
     int coll_turn = 0;
@@ -819,7 +819,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     // If not enough wheels, mess up the ground a bit.
     if( !vertical && !veh.valid_wheel_config( !veh.floating.empty() ) ) {
-        veh.velocity += veh.velocity < 0 ? 2000 : -2000;
+        veh.velocity += veh.velocity < 0 ? 25 : -25;
         for( const auto &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
             if( pter == t_dirt || pter == t_grass ) {
@@ -899,7 +899,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direction )
 {
     const tripoint &pt = veh.global_pos3();
-    const int d_vel = abs( veh.velocity - velocity_before ) / 100;
+    const int d_vel = ms_to_internal(abs( veh.velocity - velocity_before )) / 100;
 
     const std::vector<int> boarded = veh.boarded_parts();
 
@@ -1046,10 +1046,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
         veh.move.init( final1.x, final1.y );
-        veh.velocity = final1.magnitude();
+        veh.velocity = internal_to_ms(final1.magnitude());
 
         veh2.move.init( final2.x, final2.y );
-        veh2.velocity = final2.magnitude();
+        veh2.velocity = internal_to_ms(final2.magnitude());
         //give veh2 the initiative to proceed next before veh1
         float avg_of_turn = (veh2.of_turn + veh.of_turn) / 2;
         if( avg_of_turn < .1f ) {

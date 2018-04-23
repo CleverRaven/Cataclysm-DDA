@@ -984,7 +984,7 @@ void player::update_bodytemp()
     vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
     if( veh != nullptr ) {
-        vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph
+        vehwindspeed = abs( veh->velocity ); // vehicle velocity in m/s
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
@@ -2923,7 +2923,7 @@ void player::pause()
         veh = v.v;
         if( veh && veh->velocity != 0 && veh->player_in_control( *this ) ) {
             if( one_in( 8 ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 3200.0 );
+                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 10.0 );
                 int experience = int( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
