@@ -404,10 +404,9 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     int required_water = 0;
     int required_cleanser = 0;
 
-    std::list<act_item>::iterator item_to_clean;
-    for( item_to_clean = items.begin(); item_to_clean != items.end(); ++item_to_clean ) {
-        act_item filthy_item = *item_to_clean;
-
+    // std::list<act_item>::iterator item_to_clean;
+    // for( item_to_clean = items.begin(); item_to_clean != items.end(); ++item_to_clean ) {
+    for (const act_item &filthy_item : items){
         required_water += ( 2 * filthy_item.it->volume() / 250_ml );
         required_cleanser += filthy_item.it->volume() / 1000_ml;
     }
