@@ -131,7 +131,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE * SEEX, MAPSIZE * SEEY );
     // Randomly choose cluster seeds.
     for( size_t i = recent_sounds.size(); i > stopping_point; i-- ) {
-        size_t index = rng( size_t(0), i - 1 );
+        size_t index = rng( size_t( 0 ), i - 1 );
         // The volume and cluster weight are the same for the first element.
         sound_clusters.push_back(
             // Assure the compiler that these int->float conversions are safe.

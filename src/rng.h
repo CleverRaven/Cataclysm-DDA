@@ -11,7 +11,7 @@
 //template<typename T, typename          = typename std::enable_if  <std::is_arithmetic<T>::value, T>::type>
 //template<typename T, typename TEnabled = typename std::enable_if_t<std::is_arithmetic<T>::value, T>>
 template<typename T>
-const T rng(const T& val1, const T& val2);
+const T rng( const T& val1, const T& val2 );
 bool one_in( int chance );
 bool one_in_improved( double chance );
 bool x_in_y( double x, double y );
@@ -51,7 +51,7 @@ inline V random_entry( const C &container, D default_value )
         return default_value;
     }
     auto iter = container.begin();
-    std::advance( iter, rng( size_t(0), container.size() - 1 ) );
+    std::advance( iter, rng( size_t( 0 ), container.size() - 1 ) );
     return *iter;
 }
 /**
@@ -81,7 +81,7 @@ inline V random_entry( const C &container )
         return V();
     }
     auto iter = container.begin();
-    std::advance( iter, rng( size_t(0), container.size() - 1 ) );
+    std::advance( iter, rng( size_t( 0 ), container.size() - 1 ) );
     return *iter;
 }
 
@@ -112,7 +112,7 @@ inline typename std::enable_if < !is_std_array<C>::value,
         return default_value;
     }
     auto iter = container.begin();
-    std::advance( iter, rng( size_t(0), container.size() - 1 ) );
+    std::advance( iter, rng( size_t( 0 ), container.size() - 1 ) );
     return *iter;
 }
 template<typename V, std::size_t N>
@@ -129,7 +129,7 @@ template<typename C, typename V = typename C::value_type>
 inline V random_entry_removed( C &container )
 {
     auto iter = container.begin();
-    std::advance( iter, rng( size_t(0), container.size() - 1 ) );
+    std::advance( iter, rng( size_t( 0 ), container.size() - 1 ) );
     const V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
     container.erase( iter );
     return result;

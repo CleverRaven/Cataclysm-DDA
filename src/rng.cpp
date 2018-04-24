@@ -10,7 +10,7 @@
 
 //template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
 template <class T>
-const T rng(const T& val1, const T& val2)
+const T rng( const T& val1, const T& val2 )
 {
     T minVal = ( val1 < val2 ) ? val1 : val2;
     T maxVal = ( val1 < val2 ) ? val2 : val1;
@@ -25,7 +25,7 @@ bool one_in( int chance )
 //this works just like one_in, but it accepts doubles as input to calculate chances like "1 in 350,52"
 bool one_in_improved( double chance )
 {
-    return ( chance <= 1 || rng( double(0), chance ) < 1 );
+    return ( chance <= 1 || rng( double( 0 ), chance ) < 1 );
 }
 
 bool x_in_y( double x, double y )
