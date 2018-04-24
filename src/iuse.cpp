@@ -7508,7 +7508,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     player.inv.restack( player );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
-        return (*location).item_tags.find("FILTHY") != (*location).item_tags.end();
+        return location->item_tags.find("FILTHY") != location->item_tags.end();
     } );
     // Maybe this should also search surrounding area, not just player inventory?
     inventory_iuse_selector inv_s( player, _("ITEMS TO CLEAN"), preset );
@@ -7533,14 +7533,14 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 
     // Determine if we have enough water and cleanser for all the items.
     for (pairs = to_clean.begin(); pairs != to_clean.end(); ++pairs){
-        item mod = p->i_at((*pairs).first);
-        if ( (*pairs).first == INT_MIN ) {
+        item mod = p->i_at(pairs->first);
+        if ( pairs->first == INT_MIN ) {
             p->add_msg_if_player( m_info, _( "Never mind." ));
             return 0;
         }
-        required_water += (mod.volume() / 125_ml) * (*pairs).second;
-        time += (1000 * mod.volume() / 250_ml) * (*pairs).second;
-        required_cleanser += (mod.volume() / 1000_ml) * (*pairs).second;
+        required_water += (mod.volume() / 125_ml) * pairs->second;
+        time += (1000 * mod.volume() / 250_ml) * pairs->second;
+        required_cleanser += (mod.volume() / 1000_ml) * pairs->second;
 }
     if (required_cleanser < 1){
         required_cleanser = 1;

@@ -431,8 +431,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const auto ait : items ) {
         item *filthy_item = const_cast<item *>( ait.it );
-        std::string filthy( "FILTHY" );
-        filthy_item->item_tags.erase( filthy );
+        filthy_item->item_tags.erase( "FILTHY" );
     }
 
     std::vector<item_comp> comps;
