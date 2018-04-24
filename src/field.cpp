@@ -898,7 +898,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
 									        itype_id by = itype_id( "ash" );
 									        int by_n = floor( eff * ( by_weight / item( by ).type->weight ) );
 
-
 									        all_by.emplace_back( by );
 									        all_by_n.emplace_back( by_n );
 									    }
