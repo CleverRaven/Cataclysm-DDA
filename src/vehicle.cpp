@@ -3281,7 +3281,7 @@ float vehicle::reference_area() const
     std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
     for( auto &structure_indice : structure_indices ) {
         int p = structure_indice;
-        float frame_size = 1 + (part_with_feature(p, VPFLAG_OBSTACLE) > 0 ? 1 : 0) + (part_with_feature(p, VPFLAG_ARMOR) > 0 ? 1 : 0) + parts[p].info().durability / 1000.0f;
+        float frame_size = 1 + (part_with_feature(p, VPFLAG_OBSTACLE) > 0 ? 1 : 0) + (part_with_feature(p, VPFLAG_ARMOR) > 0 ? 1 : 0)  + parts[p].info().durability / 1000.0f;
         
         if (parts[p].mount.x < x[parts[p].mount.y]) {
             continue;
@@ -3300,10 +3300,11 @@ float vehicle::reference_area() const
 
 float vehicle::k_aerodynamics() const
 {
-    float ae0 = 200.0;
+    // Hardcode bicycle fix.
+    float ae0 = all_parts_at_location(part_location_structure).size() > 6 ? 200.0 : 50.0;
 
     // calculate aerodynamic coefficient
-    float ka = 1.0f - ae0 / (ae0 + reference_area() * 10);
+    float ka = 1.0f - ( ae0 ) / (ae0 + reference_area() * 10.0);
     return ka;
 }
 
@@ -5311,7 +5312,7 @@ void vehicle::refresh_pivot() const {
         yc_denominator += weight_i;
     }
 
-    if (xc_denominator < 0.001 || yc_denominator < 0.001) {
+    if (xc_denominator <= 0 || yc_denominator <= 0) {
         debugmsg("vehicle::refresh_pivot had a bad weight: xc=%.4f/%.4f yc=%.4f/%.4f",
                  xc_numerator, xc_denominator, yc_numerator, yc_denominator);
         pivot_cache = local_center_of_mass();
