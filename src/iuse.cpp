@@ -7538,7 +7538,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
             p->add_msg_if_player( m_info, _( "Never mind." ));
             return 0;
         }
-        required_water += (2 * mod.volume() / 250_ml) * (*pairs).second;
+        required_water += (mod.volume() / 125_ml) * (*pairs).second;
         time += (1000 * mod.volume() / 250_ml) * (*pairs).second;
         required_cleanser += (mod.volume() / 1000_ml) * (*pairs).second;
 }
