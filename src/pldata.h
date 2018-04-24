@@ -25,7 +25,6 @@ using trait_id = string_id<mutation_branch>;
 typedef std::string dis_type;
 
 enum character_type : int {
-    PLTYPE_NULL,
     PLTYPE_CUSTOM,
     PLTYPE_RANDOM,
     PLTYPE_TEMPLATE,

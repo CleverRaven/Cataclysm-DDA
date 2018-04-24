@@ -149,7 +149,7 @@
   {
     "id": "mon_ant_acid",
     "type": "MONSTER",
-    "name": "giant spitter ant",
+    "name": "giant acidic ant",
     "description": "A monstrous red ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid seems to drip out periodically.",
     "default_faction": "ant",
     "species": [ "INSECT" ],
@@ -171,15 +171,16 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "into": "mon_ant_acid_soldier", "half_life": 0 },
-    "special_attacks": [ [ "ACID", 15 ] ],
+    "special_attacks": [ [ "ACID", 23 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
-    "flags": [ "ACIDPROOF", "CHITIN", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
+    "harvest": "acidant_med",
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
   },
   {
     "id": "mon_ant_acid_larva",
     "type": "MONSTER",
-    "name": "acid ant larva",
+    "name": "acidic ant larva",
     "description": "A squirming yellow grub that seems to be oozing liquid from both ends of its body.  It appears its chitin hasn't developed enough to resist acid.",
     "default_faction": "acid_ant",
     "species": [ "INSECT" ],
@@ -197,12 +198,13 @@
     "melee_cut": 0,
     "upgrades": { "into": "mon_ant_acid", "half_life": 0 },
     "death_function": [ "ACID", "NORMAL" ],
+    "harvest": "acidant_larva",
     "flags": [ "LARVA", "POISON", "SMELLS" ]
   },
   {
     "id": "mon_ant_acid_queen",
     "type": "MONSTER",
-    "name": "queen acid ant",
+    "name": "acidic queen ant",
     "description": "An enormous brown ant with an elongated, pulsating abdomen.  Its orifice seems developed only for egg-laying rather than spraying acid like the rest of the colony, but it doesn't seem affected by the acrid liquid either.",
     "default_faction": "acid_ant",
     "species": [ "INSECT" ],
@@ -225,12 +227,13 @@
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "ACIDPROOF", "CHITIN", "CLIMBS", "FAT", "HEARS", "QUEEN", "SEES", "SMELLS" ]
+    "harvest": "acidant_queen",
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS" ]
   },
   {
     "id": "mon_ant_acid_soldier",
     "type": "MONSTER",
-    "name": "soldier acid ant",
+    "name": "acidic soldier ant",
     "description": "A massive woolly brown ant that towers over the worker ants with a giant head crest.  Along with its huge mandibles, a corrosive liquid seeps from the end of its bloated abdomen.",
     "default_faction": "ant",
     "species": [ "INSECT" ],
@@ -252,10 +255,11 @@
     "armor_cut": 14,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "ACID", 10 ] ],
+    "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
-    "flags": [ "ACIDPROOF", "ACIDTRAIL", "CHITIN", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
+    "harvest": "acidant_med",
+    "flags": [ "ACIDPROOF", "ACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
   },
   {
     "id": "mon_ant_fungus",
@@ -2664,7 +2668,7 @@
     "id": "mon_hallu_multicooker",
     "type": "MONSTER",
     "name": "evil multi-cooker",
-    "description": "The multi-cooker's got a mind of its own!  Look out!!",
+    "description": "The multi-cooker's got a mind of its own!  Look out!",
     "default_faction": "factionless",
     "species": [ "HALLUCINATION" ],
     "size": "SMALL",

@@ -2118,11 +2118,7 @@ const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
     if( iter == sound_effects_p.end() ) {
         return nullptr;
     }
-    const auto &vector = iter->second;
-    if( vector.empty() ) {
-        return nullptr;
-    }
-    return &vector[rng( 0, vector.size() - 1 )];
+	return &random_entry_ref( iter->second );
 }
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
 const sound_effect* find_random_effect( const std::string &id, const std::string& variant )

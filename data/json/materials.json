@@ -38,6 +38,26 @@
   },
   {
     "type": "material",
+    "ident": "acidchitin",
+    "name": "Biosilicified Chitin",
+    "density": 15,
+    "bash_resist": 3,
+    "cut_resist": 4,
+    "acid_resist": 13,
+    "fire_resist": 2,
+    "elec_resist": 2,
+    "chip_resist": 10,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 1, "burn": 1, "chance": 5 },
+      { "fuel": 1, "smoke": 3, "burn": 1 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
     "ident": "bone",
     "name": "Bone",
     "density": 7,

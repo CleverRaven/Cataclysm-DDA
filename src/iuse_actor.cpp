@@ -341,21 +341,17 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
         std::vector<tripoint> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
             const int dens = rng(fields_min_density, fields_max_density);
-            g->m.add_field( gas_source, fields_type, dens, 1 );
+            g->m.add_field( gas_source, fields_type, dens, 1_turns );
         }
     }
     if (scrambler_blast_radius >= 0) {
-        for (int x = pos.x - scrambler_blast_radius; x <= pos.x + scrambler_blast_radius; x++) {
-            for (int y = pos.y - scrambler_blast_radius; y <= pos.y + scrambler_blast_radius; y++) {
-                g->scrambler_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
+            g->scrambler_blast( dest );
         }
     }
     if (emp_blast_radius >= 0) {
-        for (int x = pos.x - emp_blast_radius; x <= pos.x + emp_blast_radius; x++) {
-            for (int y = pos.y - emp_blast_radius; y <= pos.y + emp_blast_radius; y++) {
-                g->emp_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
+            g->emp_blast( dest );
         }
     }
     return 1;
@@ -562,7 +558,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field({p.posx() + int(rng(-2, 2)), p.posy() + int(rng(-2, 2)), p.posz()}, fid, field->second, 0);
+            g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid, field->second );
         }
     }
 
@@ -629,18 +625,15 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-long place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
+long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
 {
     monster newmon( mtypeid );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
-        for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-            for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                tripoint dest( x, y, pos.z );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         if( valid.empty() ) { // No valid points!
@@ -1000,7 +993,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
 {
-    if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
+    if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
         p.add_msg_if_player(_("You successfully light a fire."));
     }
 }
@@ -1616,8 +1609,8 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
         /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
         int moraleMalus = -50 * (5.0 / p.get_skill_level( skill_survival ));
         int maxMalus = -250 * (5.0 / p.get_skill_level( skill_survival ));
-        int duration = 300 * (5.0 / p.get_skill_level( skill_survival ));
-        int decayDelay = 30 * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration duration = 30_minutes * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration decayDelay = 3_minutes * (5.0 / p.get_skill_level( skill_survival ));
 
         if (p.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
@@ -1935,7 +1928,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
         p.add_effect( effect_music, 1 );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
     }
 
     return 0;

@@ -934,7 +934,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     if( p == g->u.pos() ) {
-        melee_attack( g->u, true );
+        melee_attack( g->u );
         return true;
     }
 
@@ -955,7 +955,7 @@ bool monster::attack_at( const tripoint &p )
         auto attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
-            melee_attack( mon, true );
+            melee_attack( mon );
             return true;
         }
 
@@ -967,7 +967,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack( *guy, true );
+        melee_attack( *guy );
         return true;
     }
 
@@ -1097,14 +1097,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
-        g->m.add_field( pos(), fd_acid, 3, 0 );
+        g->m.add_field( pos(), fd_acid, 3 );
     }
 
     if( has_flag( MF_SLUDGETRAIL ) ) {
         for( const tripoint &sludge_p : g->m.points_in_radius( pos(), 1 ) ) {
             const int fstr = 3 - ( abs( sludge_p.x - posx() ) + abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
-                g->m.add_field( sludge_p, fd_sludge, fstr, 0 );
+                g->m.add_field( sludge_p, fd_sludge, fstr );
             }
         }
     }

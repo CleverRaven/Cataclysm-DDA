@@ -325,12 +325,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     return target;
 }
 
-void Creature::melee_attack(Creature &t, bool allow_special)
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
-}
-
 /*
  * Damage-related functions
  */
@@ -486,13 +480,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
-        damage_mult *= rng_float(2.45, 3.35);
+        damage_mult *= rng_float(1.95, 2.05);
         bp_hit = bp_head; // headshot hits the head, of course
 
     } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
-        damage_mult *= rng_float(1.75, 2.3);
+        damage_mult *= rng_float(1.5, 2.0);
 
     } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");

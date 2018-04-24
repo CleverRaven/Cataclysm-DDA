@@ -101,9 +101,7 @@ const scenario *scenario::weighted_random()
 
     const auto &list = all_scenarios.get_all();
     while( true ) {
-        auto iter = list.begin();
-        std::advance( iter, rng( 0, list.size() - 1 ) );
-        const scenario &scen = *iter;
+        const scenario &scen = random_entry_ref( list );
 
         if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
             return &scen;

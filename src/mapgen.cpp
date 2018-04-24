@@ -644,11 +644,9 @@ public:
     jmapgen_alternativly() = default;
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float mon_density ) const override
     {
-        if( alternatives.empty() ) {
-            return;
+        if( const auto chosen = random_entry_opt( alternatives ) ) {
+            chosen->get().apply( dat, x, y, mon_density );
         }
-        auto &chosen = alternatives[rng( 0, alternatives.size() - 1 )];
-        chosen.apply( dat, x, y, mon_density );
     }
 };
 
@@ -662,11 +660,11 @@ class jmapgen_field : public jmapgen_piece {
 public:
     field_id ftype;
     int density;
-    int age;
+    time_duration age;
     jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
     , ftype( field_from_ident( jsi.get_string( "field" ) ) )
     , density( jsi.get_int( "density", 1 ) )
-    , age( jsi.get_int( "age", 0 ) )
+    , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
     {
         if( ftype == fd_null ) {
             jsi.throw_error( "invalid field type", "field" );
@@ -4016,7 +4014,7 @@ ff.......|....|WWWWWWWW|\n\
                     } else if (trig_dist(i, j, SEEX, SEEY) > 5) {
                         ter_set(i, j, t_metal_floor);
                         if (one_in(30)) {
-                            add_field({i, j, abs_sub.z}, fd_nuke_gas, 2,0);    // NULL game; no messages
+                            add_field( {i, j, abs_sub.z}, fd_nuke_gas, 2 );
                         }
                     } else if (trig_dist(i, j, SEEX, SEEY) == 5) {
                         ter_set(i, j, t_hole);
@@ -4073,8 +4071,8 @@ ff.......|....|WWWWWWWW|\n\
                 square(this, t_rock, 0, 0, SEEX - 1, SEEY * 2 - 1);
                 square(this, t_rock, SEEX + 2, 0, SEEX * 2 - 1, SEEY * 2 - 1);
                 for (int i = 2; i < SEEY * 2 - 4; i++) {
-                    add_field({SEEX    , i, abs_sub.z}, fd_fire_vent, rng(1, 3), 0 );
-                    add_field({SEEX + 1, i, abs_sub.z}, fd_fire_vent, rng(1, 3), 0 );
+                    add_field( {SEEX    , i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
+                    add_field( {SEEX + 1, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
                 }
                 break;
 
@@ -4657,7 +4655,7 @@ ff.......|....|WWWWWWWW|\n\
             case 1: { // Toxic gas
                 int cx = rng(9, 14), cy = rng(9, 14);
                 ter_set(cx, cy, t_rock);
-                add_field({cx, cy, abs_sub.z}, fd_gas_vent, 1, 0);
+                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 1 );
             }
             break;
 
@@ -6214,7 +6212,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     one_in(4)) {
                     ter_set(i, j, t_rock_floor);
                     if (!one_in(3)) {
-                        add_field({x, y, abs_sub.z}, fd_web, rng(1, 3), 0);
+                        add_field( {x, y, abs_sub.z}, fd_web, rng( 1, 3 ) );
                     }
                 } else {
                     ter_set(i, j, t_rock);
@@ -6313,7 +6311,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 } else {
                     for (int webx = nodex; webx <= nodex + 3; webx++) {
                         for (int weby = nodey; weby <= nodey + 3; weby++) {
-                            add_field({webx, weby, abs_sub.z}, fd_web, rng(1, 3), 0);
+                            add_field( {webx, weby, abs_sub.z}, fd_web, rng( 1, 3 ) );
                         }
                     }
                     add_spawn(mon_spider_web, 1, spawnx, spawny);
@@ -7721,8 +7719,8 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
 
 void silo_rooms(map *m)
 {
-    std::vector<point> rooms;
-    std::vector<point> room_sizes;
+    // first is room position, second is its size
+    std::vector<std::pair<point, point>> rooms;
     bool okay = true;
     do {
         int x, y, height, width;
@@ -7753,8 +7751,7 @@ void silo_rooms(map *m)
             (m->ter(x, y) != t_rock || m->ter(x + width, y + height) != t_rock)) {
             okay = false;
         } else {
-            rooms.push_back(point(x, y));
-            room_sizes.push_back(point(width, height));
+            rooms.emplace_back( point( x, y ), point( width, height ) );
             for (int i = x; i <= x + width; i++) {
                 for (int j = y; j <= y + height; j++) {
                     if (m->ter(i, j) == t_rock) {
@@ -7806,24 +7803,22 @@ void silo_rooms(map *m)
         }
     } while (okay);
 
-    m->ter_set(rooms[0].x, rooms[0].y, t_stairs_up);
-    int down_room = rng(0, rooms.size() - 1);
-    point dp = rooms[down_room], ds = room_sizes[down_room];
-    m->ter_set(dp.x + ds.x, dp.y + ds.y, t_stairs_down);
-    rooms.push_back(point(SEEX, SEEY)); // So the center circle gets connected
-    room_sizes.push_back(point(5, 5));
+    m->ter_set( rooms[0].first.x, rooms[0].first.y, t_stairs_up );
+    const auto &room = random_entry( rooms );
+    m->ter_set( room.first.x + room.second.x, room.first.y + room.second.y, t_stairs_down );
+    rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
 
     while (rooms.size() > 1) {
         int best_dist = 999, closest = 0;
         for (size_t i = 1; i < rooms.size(); i++) {
-            int dist = trig_dist(rooms[0].x, rooms[0].y, rooms[i].x, rooms[i].y);
+            int dist = trig_dist( rooms[0].first.x, rooms[0].first.y, rooms[i].first.x, rooms[i].first.y );
             if (dist < best_dist) {
                 best_dist = dist;
                 closest = i;
             }
         }
         // We chose the closest room; now draw a corridor there
-        point origin = rooms[0], origsize = room_sizes[0], dest = rooms[closest];
+        point origin = rooms[0].first, origsize = rooms[0].second, dest = rooms[closest].first;
         int x = origin.x + origsize.x, y = origin.y + origsize.y;
         bool x_first = (abs(origin.x - dest.x) > abs(origin.y - dest.y));
         while (x != dest.x || y != dest.y) {
@@ -7845,7 +7840,6 @@ void silo_rooms(map *m)
             }
         }
         rooms.erase(rooms.begin());
-        room_sizes.erase(room_sizes.begin());
     }
 }
 
@@ -8197,7 +8191,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
-                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1 );
                 }
             }
         }
@@ -8218,7 +8212,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
-                    m.add_field( {p->x +( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1, 0 );
+                    m.add_field( {p->x +( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1 );
                 }
             }
         }
@@ -8287,7 +8281,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
                     m.add_field({x + (j * x_offset), y + (j * y_offset), abs_sub.z},
-                              fd_blood, 1, 0);
+                              fd_blood, 1 );
                 }
             }
             if (a_has_drugs && num_drugs > 0) {
@@ -8325,7 +8319,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
                     m.add_field( {x + (j * x_offset), y + (j * y_offset), abs_sub.z},
-                               fd_blood, 1, 0 );
+                               fd_blood, 1 );
                 }
                 if (!a_has_drugs && num_drugs > 0) {
                     int drugs_placed = rng(2, 6);
@@ -8478,7 +8472,7 @@ void mx_portal_in(map &m, const tripoint &abs_sub)
         mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank,
     } };
     int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
-    m.add_field({x, y, abs_sub.z}, fd_fatigue, 3, 0);
+    m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3 );
     fungal_effects fe( *g, m );
     for (int i = x - 5; i <= x + 5; i++) {
         for (int j = y - 5; j <= y + 5; j++) {
@@ -8550,7 +8544,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    add_field({i, j, abs_sub.z}, fd_push_items, 1, 0);
+                    add_field( {i, j, abs_sub.z}, fd_push_items, 1 );
                     if (one_in(3)) {
                         spawn_item(i, j, "rock");
                     }
@@ -8625,18 +8619,18 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
 
     case ARTPROP_ELECTRIC:
     case ARTPROP_CRACKLING:
-        add_field({cx, cy, abs_sub.z}, fd_shock_vent, 3, 0);
+        add_field( {cx, cy, abs_sub.z}, fd_shock_vent, 3 );
         break;
 
     case ARTPROP_SLIMY:
-        add_field({cx, cy, abs_sub.z}, fd_acid_vent, 3, 0);
+        add_field( {cx, cy, abs_sub.z}, fd_acid_vent, 3 );
         break;
 
     case ARTPROP_WARM:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    add_field({i, j, abs_sub.z}, fd_fire_vent, 1 + (rl_dist(cx, cy, i, j) % 3), 0);
+                    add_field( {i, j, abs_sub.z}, fd_fire_vent, 1 + ( rl_dist( cx, cy, i, j ) % 3 ) );
                 }
             }
         }

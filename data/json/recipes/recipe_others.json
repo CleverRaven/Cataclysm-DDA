@@ -106,7 +106,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3287,6 +3287,18 @@
   },
   {
     "type": "recipe",
+    "result": "acidchitin_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 55000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bone_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -3838,6 +3850,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3851,6 +3864,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3864,6 +3878,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3877,6 +3892,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],

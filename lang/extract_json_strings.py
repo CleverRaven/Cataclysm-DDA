@@ -43,7 +43,6 @@ warning_suppressed_list = {
     "data/mods/alt_map_key/overmap_terrain.json",
     "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
-    "data/mods/PKs_Rebalance/monsters/",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
     "data/mods/Tanks/monsters.json"
@@ -119,6 +118,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
+    "EXTERNAL_OPTION",
     "faction",
     "fault",
     "furniture",
@@ -368,6 +368,10 @@ def extract_gunmod(item):
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
+    if "mode_modifier" in item:
+        modes = item.get("mode_modifier")
+        for fire_mode in modes:
+            writestr(outfile, fire_mode[1])
     if "location" in item:
         location = item.get("location")
         writestr(outfile, location)

@@ -27,6 +27,7 @@
 #include "crafting.h"
 #include "craft_command.h"
 #include "requirements.h"
+#include "melee.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -804,7 +805,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale->decay( 1 );
+    morale->decay( 1_turns );
     apply_persistent_morale();
 }
 
@@ -825,7 +826,7 @@ void player::apply_persistent_morale()
             pen = pen / 2;
         }
         if( pen > 0 ) {
-            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
+            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5_turns, 5_turns, true );
         }
     }
 }
@@ -1028,28 +1029,25 @@ void player::update_bodytemp()
     std::vector<std::pair<int, int>> fires;
     fires.reserve( 13 * 13 );
     int best_fire = 0;
-    for( int j = -6 ; j <= 6 ; j++ ) {
-        for( int k = -6 ; k <= 6 ; k++ ) {
-            tripoint dest( posx() + j, posy() + k, posz() );
-            int heat_intensity = 0;
+    for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
+        int heat_intensity = 0;
 
-            int ffire = g->m.get_field_strength( dest, fd_fire );
-            if( ffire > 0 ) {
-                heat_intensity = ffire;
-            } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
-                heat_intensity = 3;
-            }
-            if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
-                // No heat source here
-                continue;
-            }
-            // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-            const int fire_dist = std::max( 1, std::max( std::abs( j ), std::abs( k ) ) );
-            fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
-            if( fire_dist <= 1 ) {
-                // Extend limbs/lean over a single adjacent fire to warm up
-                best_fire = std::max( best_fire, heat_intensity );
-            }
+        int ffire = g->m.get_field_strength( dest, fd_fire );
+        if( ffire > 0 ) {
+            heat_intensity = ffire;
+        } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
+            heat_intensity = 3;
+        }
+        if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
+            // No heat source here
+            continue;
+        }
+        // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
+        const int fire_dist = std::max( 1, square_dist( dest, pos() ) );
+        fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
+        if( fire_dist <= 1 ) {
+            // Extend limbs/lean over a single adjacent fire to warm up
+            best_fire = std::max( best_fire, heat_intensity );
         }
     }
 
@@ -1263,7 +1261,7 @@ void player::update_bodytemp()
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
                 temp_cur[bp] > BODYTEMP_COLD && temp_cur[bp] <= BODYTEMP_NORM ) {
-                add_morale( MORALE_COMFY, 1, 10, 20, 10, true );
+                add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
 
@@ -1389,7 +1387,7 @@ void player::update_bodytemp()
                          ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
                 frostbite_timer[bp] += 72;
                 if( one_in( 100 ) && intense < 2 ) {
-                    add_msg( m_warning, _( "Your %s will be frostbitten any minute now!!" ),
+                    add_msg( m_warning, _( "Your %s will be frostbitten any minute now!" ),
                              body_part_name( bp ).c_str() );
                 }
                 // Risk free, so reduce frostbite timer
@@ -1668,20 +1666,27 @@ int player::temp_corrected_by_climate_control( int temperature ) const
 
 int player::blood_loss( body_part bp ) const
 {
-    int blood_loss = 0;
+    int hp_cur_sum = 1;
+    int hp_max_sum = 1;
+    
     if( bp == bp_leg_l || bp == bp_leg_r ) {
-        blood_loss = ( 100 - 100 * ( hp_cur[hp_leg_l] + hp_cur[hp_leg_r] ) /
-                       ( hp_max[hp_leg_l] + hp_max[hp_leg_r] ) );
+        hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
+        hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
     } else if( bp == bp_arm_l || bp == bp_arm_r ) {
-        blood_loss = ( 100 - 100 * ( hp_cur[hp_arm_l] + hp_cur[hp_arm_r] ) /
-                       ( hp_max[hp_arm_l] + hp_max[hp_arm_r] ) );
+        hp_cur_sum = hp_cur[hp_arm_l] + hp_cur[hp_arm_r];
+        hp_max_sum = hp_max[hp_arm_l] + hp_max[hp_arm_r];
     } else if( bp == bp_torso ) {
-        blood_loss = ( 100 - 100 * hp_cur[hp_torso] / hp_max[hp_torso] );
+        hp_cur_sum = hp_cur[hp_torso];
+        hp_max_sum = hp_max[hp_torso];
     } else if( bp == bp_head ) {
-        blood_loss = ( 100 - 100 * hp_cur[hp_head] / hp_max[hp_head] );
+        hp_cur_sum = hp_cur[hp_head];
+        hp_max_sum = hp_max[hp_head];
     }
-    return blood_loss;
+    
+    hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
+    return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
+
 
 void player::temp_equalizer( body_part bp1, body_part bp2 )
 {
@@ -3017,31 +3022,28 @@ void player::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for( int xd = -5; xd <= 5; xd++ ) {
-        for( int yd = -5; yd <= 5; yd++ ) {
-            const tripoint tp = pos() + tripoint( xd, yd, 0 );
-            const trap &tr = g->m.tr_at( tp );
-            if( tr.is_null() || tp == pos() ) {
-                continue;
+    for( const tripoint &tp : g->m.points_in_radius( pos(), 5 ) ) {
+        const trap &tr = g->m.tr_at( tp );
+        if( tr.is_null() || tp == pos() ) {
+            continue;
+        }
+        if( !sees( tp ) ) {
+            continue;
+        }
+        if( tr.name().empty() || tr.can_see( tp, *this ) ) {
+            // Already seen, or has no name -> can never be seen
+            continue;
+        }
+        // Chance to detect traps we haven't yet seen.
+        if (tr.detect_trap( tp, *this )) {
+            if( tr.get_visibility() > 0 ) {
+                // Only bug player about traps that aren't trivial to spot.
+                const std::string direction = direction_name(
+                    direction_from( pos(), tp ) );
+                add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
+                                  tr.name().c_str(), direction.c_str());
             }
-            if( !sees( tp ) ) {
-                continue;
-            }
-            if( tr.name().empty() || tr.can_see( tp, *this ) ) {
-                // Already seen, or has no name -> can never be seen
-                continue;
-            }
-            // Chance to detect traps we haven't yet seen.
-            if (tr.detect_trap( tp, *this )) {
-                if( tr.get_visibility() > 0 ) {
-                    // Only bug player about traps that aren't trivial to spot.
-                    const std::string direction = direction_name(
-                        direction_from( pos(), tp ) );
-                    add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
-                                      tr.name().c_str(), direction.c_str());
-                }
-                add_known_trap( tp, tr);
-            }
+            add_known_trap( tp, tr);
         }
     }
 }
@@ -3336,12 +3338,9 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     if( has_artifact_with( AEP_SNAKES ) && dam >= 6 ) {
         int snakes = dam / 6;
         std::vector<tripoint> valid;
-        for( int x = posx() - 1; x <= posx() + 1; x++ ) {
-            for( int y = posy() - 1; y <= posy() + 1; y++ ) {
-                tripoint dest( x, y, posz() );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         if( snakes > int( valid.size() ) ) {
@@ -3363,12 +3362,9 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     // And slimespawners too
     if( ( has_trait( trait_SLIMESPAWNER ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
         std::vector<tripoint> valid;
-        for( int x = posx() - 1; x <= posx() + 1; x++ ) {
-            for( int y = posy() - 1; y <= posy() + 1; y++ ) {
-                tripoint dest( x, y, posz() );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         add_msg( m_warning, _( "Slime is torn from you, and moves on its own!" ) );
@@ -5294,7 +5290,7 @@ void player::suffer()
     }
         //Web Weavers...weave web
     if (has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle) {
-      g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
+      g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
 
      }
 
@@ -5318,7 +5314,7 @@ void player::suffer()
     }
 
     if (has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in(3)) {
-        g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 ); //this adds density to if its not already there.
     }
 
     if (has_trait( trait_UNSTABLE ) && one_in(28800)) { // Average once per 2 days
@@ -5837,9 +5833,9 @@ void player::vomit()
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
         rem_morale( MORALE_HONEY ); // bears must suffer too
-        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90, 45, false ); // 1.5 times longer
+        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90_turns, 45_turns, false ); // 1.5 times longer
 
-        g->m.add_field( adjacent_tile(), fd_bile, 1, 0 );
+        g->m.add_field( adjacent_tile(), fd_bile, 1 );
 
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
@@ -6014,7 +6010,7 @@ void player::apply_wetness_morale( int temperature )
         }
     }
 
-    add_morale( MORALE_WET, morale_effect, total_morale, 5, 5, true );
+    add_morale( MORALE_WET, morale_effect, total_morale, 5_turns, 5_turns, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
@@ -6094,7 +6090,7 @@ int player::get_morale_level() const
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        int duration, int decay_start,
+                        const time_duration duration, const time_duration decay_start,
                         bool capped, const itype* item_type)
 {
     morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
@@ -8365,7 +8361,7 @@ bool player::gunmod_remove( item &gun, item& mod )
         return false;
     }
 
-    gun.gun_set_mode( "DEFAULT" );
+    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
     moves -= mod.type->gunmod->install_time / 2;
 
     if( mod.typeId() == "brass_catcher" ) {
@@ -8890,7 +8886,7 @@ bool player::read( int inventory_position, const bool continuous )
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
-    const int minutes = time_taken / 1000;
+    const time_duration decay_start = 1_turns * time_taken / 1000;
     std::set<player *> apply_morale = { this };
     for( const auto &elem : learners ) {
         apply_morale.insert( elem.first );
@@ -8903,11 +8899,11 @@ bool player::read( int inventory_position, const bool continuous )
         if( ( elem->has_trait( trait_CANNIBAL ) || elem->has_trait( trait_PSYCHOPATH ) ||
               elem->has_trait( trait_SAPIOVORE ) ) &&
             it.typeId() == "cookbook_human" ) {
-            elem->add_morale( MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 75, decay_start + 3_minutes, decay_start, false, it.type );
         } else if( elem->has_trait( trait_SPIRITUAL ) && it.has_flag( "INSPIRATIONAL" ) ) {
-            elem->add_morale( MORALE_BOOK, 0, 90, minutes + 60, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 90, decay_start + 6_minutes, decay_start, false, it.type );
         } else {
-            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, minutes + 30, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, decay_start + 3_minutes, decay_start, false, it.type );
         }
     }
 
@@ -9012,12 +9008,12 @@ void player::do_read( item &book )
                   learner->has_trait( trait_SAPIOVORE ) ) &&
                 book.typeId() == "cookbook_human" ) {
                 fun_bonus = 25;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 6_minutes, 3_minutes, true, book.type );
             } else if( learner->has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
                 fun_bonus = 15;
-                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 9_minutes, 9_minutes, true, book.type );
             } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 6_minutes, 3_minutes, true, book.type );
             }
         }
 
@@ -11091,15 +11087,11 @@ void player::spores()
     fungal_effects fe( *g, g->m );
     //~spore-release sound
     sounds::sound( pos(), 10, _("Pouf!"));
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            if (i == 0 && j == 0) {
-                continue;
-            }
-
-            tripoint sporep( posx() + i, posy() + j, posz() );
-            fe.fungalize( sporep, this, 0.25 );
+    for( const tripoint &sporep : g->m.points_in_radius( pos(), 1 ) ) {
+        if (sporep == pos()) {
+            continue;
         }
+        fe.fungalize( sporep, this, 0.25 );
     }
 }
 
@@ -11107,13 +11099,8 @@ void player::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, _("Pouf!"));
-    tripoint tmp = pos();
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for ( i = posx() - 2; i <= posx() + 2; i++) {
-        for ( j = posy() - 2; j <= posy() + 2; j++) {
-            g->m.add_field( tmp, fd_fungal_haze, rng(1, 2), 0 );
-        }
+    for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
+        g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
 

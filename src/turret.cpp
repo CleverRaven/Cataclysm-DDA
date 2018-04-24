@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "string_formatter.h"
 #include "veh_type.h"
+#include "gun_mode.h"
 #include "vehicle_selector.h"
 #include "npc.h"
 #include "ranged.h"
@@ -352,7 +353,7 @@ void vehicle::turrets_set_mode()
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
-                           p->name().c_str(), p->base.gun_current_mode().mode.c_str() );
+                           p->name().c_str(), p->base.gun_current_mode().name() );
         }
 
         menu.query();

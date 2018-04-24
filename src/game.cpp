@@ -19,6 +19,7 @@
 #include "map_item_stack.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "gun_mode.h"
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
@@ -887,7 +888,7 @@ bool game::start_game()
     if (scen->has_flag("BAD_DAY")){
         u.add_effect( effect_flu, 10000 );
         u.add_effect( effect_drunk, 2700 );
-        u.add_morale( MORALE_FEELING_BAD, -100, -100, MINUTES( 5 ), MINUTES( 5 ) );
+        u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
     }
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
@@ -1593,14 +1594,13 @@ void game::process_activity()
 
 void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &pos, player *p, int catch_duration) // catching function
 {
-    int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
+    monster *const fish = random_entry_removed( catchables );
     //spawn the corpse, rotten by a part of the duration
-    m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
-    u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
+    m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
+    u.add_msg_if_player(m_good, _("You caught a %s."), fish->type->nname().c_str());
     //quietly kill the caught
-    catchables[index]->no_corpse_quiet = true;
-    catchables[index]->die( p );
-    catchables.erase (catchables.begin()+index);
+    fish->no_corpse_quiet = true;
+    fish->die( p );
 }
 
 
@@ -2972,8 +2972,8 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE_BURST: {
-            auto mode = u.weapon.gun_get_mode_id();
-            if( u.weapon.gun_set_mode( "AUTO" ) ) {
+            gun_mode_id mode = u.weapon.gun_get_mode_id();
+            if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                 plfire( u.weapon );
                 u.weapon.gun_set_mode( mode );
             }
@@ -3341,7 +3341,7 @@ bool game::handle_action()
             get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
             get_options().save();
             //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
-            add_msg( string_format( _( "Auto %s is now %s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? "ON" : "OFF" ).c_str() );
+            add_msg( string_format( _( "Auto %1$s is now %2$s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) ).c_str() );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -4381,13 +4381,13 @@ void game::disp_faction_ends()
             } else if (elem.name == "The Old Guard" && elem.power != 100){
                 if (elem.power < 150){
                     data.emplace_back( _( "    Locked in an endless battle, the Old Guard was forced to consolidate their \
-resources in a handful of fortified bases along the coast.  Without the men\
+resources in a handful of fortified bases along the coast.  Without the men \
 or material to rebuild, the soldiers that remained lost all hope..." ) );
                 } else {
                     data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed \
 the tattered remains of the once glorious union.  Spurred on by small \
 successes, a number of operations to re-secure facilities met with limited \
-success.  Forced to eventually consolidate to large bases, the Old Guard left\
+success.  Forced to eventually consolidate to large bases, the Old Guard left \
 these facilities in the hands of the few survivors that remained.  As the \
 years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
@@ -4396,59 +4396,59 @@ years past, little materialized from the hopes of rebuilding civilization..." ) 
                 if (elem.power < 150){
                     data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease \
 destroyed any hope of maintaining a civilized enclave.  The merchants and \
-craftsmen dispersed to found new colonies but most became victims of\
+craftsmen dispersed to found new colonies but most became victims of \
 marauding bandits.  Those who survived never found a place to call home..." ) );
                 } else {
-                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their\
-once profitable trade routes were plundered by bandits and thugs.  In squalor\
-and filth the first generations born after the cataclysm are told stories of\
-the old days when food was abundant and the children were allowed to play in\
+                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their \
+once profitable trade routes were plundered by bandits and thugs.  In squalor \
+and filth the first generations born after the cataclysm are told stories of \
+the old days when food was abundant and the children were allowed to play in \
 the sun..." ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
             } else if (elem.name == "The Tacoma Commune" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external\
-threats combined with low crop yields caused the Free Merchants to withdraw\
-their support.  When the exhausted migrants returned to the refugee center\
+                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external \
+threats combined with low crop yields caused the Free Merchants to withdraw \
+their support.  When the exhausted migrants returned to the refugee center \
 they were turned away to face the world on their own." ) );
                 } else {
-                    data.emplace_back( _( "    The commune continued to grow rapidly through the years despite constant\
-external threat.  While maintaining a reputation as a haven for all law\
-abiding citizens, the commune's leadership remained loyal to the interests of\
-the Free Merchants.  Hard labor for little reward remained the price to be\
+                    data.emplace_back( _( "    The commune continued to grow rapidly through the years despite constant \
+external threat.  While maintaining a reputation as a haven for all law-\
+abiding citizens, the commune's leadership remained loyal to the interests of \
+the Free Merchants.  Hard labor for little reward remained the price to be \
 paid for those who sought the safety of the community." ) );
                 }
                 display_table( w, _( "The Tacoma Commune" ), 1, data );
             } else if (elem.name == "The Wasteland Scavengers" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( _( "    The lone bands of survivors who wandered the now alien world dwindled in\
+                    data.emplace_back( _( "    The lone bands of survivors who wandered the now alien world dwindled in \
 number through the years.  Unable to compete with the growing number of \
-monstrosities that had adapted to live in their world, those who did survive\
+monstrosities that had adapted to live in their world, those who did survive \
 lived in dejected poverty and hopelessness..." ) );
                 } else {
-                    data.emplace_back( _( "    The scavengers who flourished in the opening days of the cataclysm found\
+                    data.emplace_back( _( "    The scavengers who flourished in the opening days of the cataclysm found \
 an ever increasing challenge in finding and maintaining equipment from the \
 old world.  Enormous hordes made cities impossible to enter while new \
 eldritch horrors appeared mysteriously near old research labs.  But on the \
-fringes of where civilization once ended, bands of hunter-gatherers began to\
+fringes of where civilization once ended, bands of hunter-gatherers began to \
 adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
             } else if (elem.name == "Hell's Raiders" && elem.power != 100){
                 if (elem.power < 150){
                     data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition \
-destroyed the Old Guard.  The ruthless men and women who banded together to\
+destroyed the Old Guard.  The ruthless men and women who banded together to \
 rob refugees and pillage settlements soon found themselves without enough \
 victims to survive.  The Hell's Raiders were eventually destroyed when \
 infighting erupted into civil war but there were few survivors left to \
 celebrate their destruction." ) );
                 } else {
-                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to\
+                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to \
 overthrow the last strongholds of the Old Guard.  The costly victories \
-brought the warlords abundant territory and slaves but little in the way of\
+brought the warlords abundant territory and slaves but little in the way of \
 stability.  Within weeks, infighting led to civil war as tribes vied for \
-leadership of the faction.  When only one warlord finally secured control,\
+leadership of the faction.  When only one warlord finally secured control, \
 there was nothing left to fight for... just endless cities full of the dead." ) );
                 }
                 display_table( w, _( "Hell's Raiders" ), 1, data );
@@ -4623,7 +4623,7 @@ void game::draw_sidebar()
         mvwprintz( w_location, 0, 18, weather_data( weather ).color, weather_data( weather ).name );
     }
 
-    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
@@ -5984,7 +5984,7 @@ void game::resonance_cascade( const tripoint &p )
                             break;
                         }
                         if (!one_in(3)) {
-                            m.add_field( {k, l, p.z}, type, 3, 0 );
+                            m.add_field( {k, l, p.z}, type, 3 );
                         }
                     }
                 }
@@ -9713,7 +9713,7 @@ bool game::plfire()
     }
 
     int reload_time = 0;
-    item::gun_mode gun = args.relevant->gun_current_mode();
+    gun_mode gun = args.relevant->gun_current_mode();
 
     // @todo: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -9790,7 +9790,7 @@ bool game::plfire()
 bool game::plfire( item &weapon, int bp_cost )
 {
     // @todo: bionic power cost of firing should be derived from a value of the relevant weapon.
-    item::gun_mode gun = weapon.gun_current_mode();
+    gun_mode gun = weapon.gun_current_mode();
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname().c_str() );
@@ -10064,7 +10064,7 @@ void game::eat(int pos)
     if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
         m.ter( u.pos() ) == t_underbrush ) {
         if( u.get_hunger() < 20 ) {
-            add_msg( _( "You're too full to eat the undershrub." ) );
+            add_msg( _( "You're too full to eat the underbrush." ) );
         } else {
             u.moves -= 400;
             u.mod_hunger( -20 );
@@ -12709,19 +12709,15 @@ void game::update_stair_monsters()
     }
 
     // Find up to 4 stairs for distance stairdist[si] +1
-    int nearest[4] = { 0 };
-    int found = 0;
-    nearest[found++] = si;
-    for (size_t i = 0; i < stairdist.size(); i++) {
+    std::vector<int> nearest;
+    nearest.push_back( si );
+    for (size_t i = 0; i < stairdist.size() && nearest.size() < 4; i++) {
         if ((i != si) && (stairdist[i] <= stairdist[si] + 1)) {
-            nearest[found++] = i;
-            if (found == 4) {
-                break;
-            }
+            nearest.push_back( i );
         }
     }
     // Randomize the stair choice
-    si = nearest[rng( 0, found - 1 )];
+    si = random_entry_ref( nearest );
 
     // Attempt to spawn zombies.
     for (size_t i = 0; i < coming_to_stairs.size(); i++) {
@@ -12838,7 +12834,7 @@ void game::update_stair_monsters()
             add_msg(m_warning,
                     _("The %s tried to push you back but failed! It attacks you!"),
                     critter.name().c_str());
-            critter.melee_attack(u, false);
+            critter.melee_attack( u );
             u.moves -= 50;
             return;
         } else if( monster *const mon_ptr = critter_at<monster>( dest ) ) {
@@ -13119,7 +13115,7 @@ void game::nuke( const tripoint &p )
                 tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                tmpmap.add_field( dest, fd_nuke_gas, 3, 0 );
+                tmpmap.add_field( dest, fd_nuke_gas, 3 );
             }
             tmpmap.adjust_radiation( dest, rng(20, 80));
         }
@@ -13340,7 +13336,7 @@ void game::process_artifact( item &it, player &p )
                 tripoint pt( p.posx() + rng( -1, 1 ),
                              p.posy() + rng( -1, 1 ),
                              p.posz() );
-                m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
+                m.add_field( pt, fd_smoke, rng( 1, 3 ) );
             }
             break;
 
@@ -13348,10 +13344,8 @@ void game::process_artifact( item &it, player &p )
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-                for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                    m.adjust_field_age( tripoint( x, y, p.posz() ), fd_fire, -1 );
-                }
+            for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                m.adjust_field_age( dest, fd_fire, -1_turns );
             }
             break;
 
@@ -13759,5 +13753,5 @@ std::string game::get_player_base_save_path() const
 
 std::string game::get_world_base_save_path() const
 {
-    return world_generator->active_world->world_path;
+    return world_generator->active_world->folder_path();
 }

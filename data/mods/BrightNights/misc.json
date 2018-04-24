@@ -30,7 +30,7 @@
     "price_postapoc": 30000,
     "bashing": 10,
     "material": [ "steel" ],
-    "color": "gray",
+    "color": "light_gray",
     "capacity": 1000
   },
   {
