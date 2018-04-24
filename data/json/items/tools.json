@@ -1006,7 +1006,7 @@
       "target_id": "broadfire_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "Charge!!",
+      "success_message": "Charge!",
       "lacks_fuel_message": "No strength to fight!"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]

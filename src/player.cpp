@@ -1387,7 +1387,7 @@ void player::update_bodytemp()
                          ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
                 frostbite_timer[bp] += 72;
                 if( one_in( 100 ) && intense < 2 ) {
-                    add_msg( m_warning, _( "Your %s will be frostbitten any minute now!!" ),
+                    add_msg( m_warning, _( "Your %s will be frostbitten any minute now!" ),
                              body_part_name( bp ).c_str() );
                 }
                 // Risk free, so reduce frostbite timer
