@@ -232,6 +232,40 @@ void test_power( const vproto_id &veh_id, const ter_id &terrain, double target_p
     CHECK( veh.safe_velocity( false ) <= max_safe_vel );
 }
 
+void test_traction( const vproto_id &veh_id, const ter_id &terrain, double target_traction, double target_friction )
+{
+    double min_traction = target_traction * 0.9;
+    double max_traction = target_traction * 1.1;
+    double min_friction = target_friction * 0.9;
+    double max_friction = target_friction * 1.1;
+    clear_game( terrain );
+    
+    const tripoint map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 100, 0 );
+    
+    REQUIRE( veh_ptr != nullptr );
+    if( veh_ptr == nullptr ) {
+        return;
+    }
+    
+    vehicle &veh = *veh_ptr;
+    // Remove all items from cargo to normalize weight.
+    for( size_t p = 0; p < veh.parts.size(); p++ ) {
+        auto &pt = veh.parts[ p ];
+        while( veh.remove_item( p, 0 ) );
+    }
+    set_vehicle_fuel( veh );
+    
+    const tripoint starting_point = veh.global_pos3();
+    veh.tags.insert( "IN_CONTROL_OVERRIDE" );
+    veh.engine_on = true;
+    
+    CHECK( min_traction <= veh.k_traction() * 100 );
+    CHECK( max_traction >= veh.k_traction() * 100 );
+    CHECK( min_friction <= veh.k_friction() * 100 );
+    CHECK( max_friction >= veh.k_friction() * 100 );
+}
+
 void test_drag( const vproto_id &veh_id, const ter_id &terrain, double target_drag )
 {
     double min_drag = target_drag * 0.9;
@@ -247,8 +281,7 @@ void test_drag( const vproto_id &veh_id, const ter_id &terrain, double target_dr
     }
 
     vehicle &veh = *veh_ptr;
-
-    // More than 13hp per ton.
+    
     CHECK( min_drag <= veh.k_aerodynamics() * 100 );
     CHECK( max_drag >= veh.k_aerodynamics() * 100 );
 }
@@ -314,7 +347,7 @@ void print_test_strings( std::string type )
 void test_vehicle( std::string type,
                    long pavement_target, long dirt_target,
                    long pavement_target_w_stops, long dirt_target_w_stops, double target_drag, double target_power,
-                   double target_acceleration, double target_max_vel, double target_safe_vel,
+                   double target_acceleration, double target_max_vel, double target_safe_vel, double target_traction, double target_friction, double target_traction_dirt, double target_friction_dirt,
                    long pavement_target_smooth_stops = 0, long dirt_target_smooth_stops = 0 )
 {
     SECTION( type + " on pavement" ) {
@@ -335,6 +368,12 @@ void test_vehicle( std::string type,
     }
     SECTION( type + " drag test" ) {
         test_drag( vproto_id( type ), ter_id( "t_pavement" ), target_drag );
+    }
+    SECTION( type + " pavement traction test" ) {
+        test_traction( vproto_id( type ), ter_id( "t_pavement" ), target_traction, target_friction );
+    }
+    SECTION( type + " dirt traction test" ) {
+        test_traction( vproto_id( type ), ter_id( "t_dirt" ), target_traction_dirt, target_friction_dirt );
     }
     if( pavement_target_smooth_stops > 0 ) {
         SECTION( type + " on pavement, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
@@ -392,21 +431,21 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    // PaveCruise, DirtCruise, PaveAccel, DirtAccel, Drag, Power, Accel, MaxVel, MinVel.
-    test_vehicle( "beetle", 10000, 8000, 3000, 2700, 30, 56, 8, 67, 33 );
-    test_vehicle( "car", 10000, 8000, 3000, 2400, 30, 93, 9, 69, 35 );
-    test_vehicle( "car_sports", 9000, 8000, 3400, 2800, 30, 287, 9, 71, 36 );
+    // PaveCruise, DirtCruise, PaveAccel, DirtAccel, Drag, Power, Accel, MaxVel, MinVel, PaveTraction, PaveFriction, DirtTraction, DirtFriction.
+    test_vehicle( "beetle", 10000, 8000, 3000, 2700, 30, 56, 8, 67, 33, 100, 0.6, 60, 4 );
+    test_vehicle( "car", 10000, 8000, 3000, 2400, 30, 93, 9, 69, 35, 100, 0.7, 60, 5.2 );
+    test_vehicle( "car_sports", 9000, 8000, 3400, 2800, 30, 287, 9, 71, 36, 100, 0.75, 60, 5.5 );
     //    test_vehicle( "electric_car", 62800, 45280, 3590, 2519 );
-    test_vehicle( "suv", 10000, 8000, 3000, 2400, 30, 93, 9, 73, 37 );
-    test_vehicle( "motorcycle", 13000, 12500, 7000, 6000, 20, 22, 7, 81, 40 );
-    test_vehicle( "quad_bike", 11000, 9000, 5000, 4000, 20, 22, 7, 55, 27 );
-    test_vehicle( "scooter", 13000, 11600, 8000, 6000, 20, 12, 7, 60, 30 );
-    test_vehicle( "superbike", 13000, 13000, 7500, 6000, 20, 58, 7, 85, 42 );
-    test_vehicle( "ambulance", 3500, 3000, 690, 620, 40, 152, 6, 50, 25 );
-    test_vehicle( "fire_engine", 3400, 2500, 360, 330, 40, 152, 4, 54, 27 );
-    test_vehicle( "fire_truck", 4000, 2500, 400, 320, 50, 152, 6, 73, 37 );
-    test_vehicle( "truck_swat", 4000, 3000, 630, 530, 55, 140, 5, 58, 29 );
-    test_vehicle( "tractor_plow", 8600, 8300, 1600, 1500, 20, 140, 5, 72, 36 );
-    test_vehicle( "apc", 2500, 1500, 220, 170, 50, 140, 1.8, 37, 18 );
-    test_vehicle( "humvee", 5000, 3700, 530, 480, 50, 231, 6, 75, 38 );
+    test_vehicle( "suv", 10000, 8000, 3000, 2400, 30, 93, 9, 73, 37, 100, 0.8, 60, 5.5 );
+    test_vehicle( "motorcycle", 13000, 12500, 7000, 6000, 20, 22, 7, 81, 40, 75, 0.6, 50, 4.5 );
+    test_vehicle( "quad_bike", 11000, 9000, 5000, 4000, 20, 22, 7, 55, 27, 75, 0.8, 50, 6 );
+    test_vehicle( "scooter", 13000, 11600, 8000, 6000, 20, 12, 7, 60, 30, 75, 0.5, 46, 3.6 );
+    test_vehicle( "superbike", 13000, 13000, 7500, 6000, 20, 58, 7, 85, 42, 75, 0.7, 50, 5 );
+    test_vehicle( "ambulance", 3500, 3000, 690, 620, 40, 152, 6, 50, 25, 80, 0.5, 53, 3.5 );
+    test_vehicle( "fire_engine", 3400, 2500, 360, 330, 40, 152, 4, 54, 27, 80, 0.6, 53, 4 );
+    test_vehicle( "fire_truck", 4000, 2500, 400, 320, 50, 152, 6, 73, 37, 80, 1, 53, 6.5 );
+    test_vehicle( "truck_swat", 4000, 3000, 630, 530, 55, 140, 5, 58, 29, 80, 1, 53, 6 );
+    test_vehicle( "tractor_plow", 8600, 8300, 1600, 1500, 20, 140, 5, 72, 36, 80, 0.3, 53, 2.2 );
+    test_vehicle( "apc", 2500, 1500, 220, 170, 50, 140, 1.8, 37, 18, 100, 0.6, 66, 4 );
+    test_vehicle( "humvee", 5000, 3700, 530, 480, 50, 231, 6, 75, 38, 100, 0.5, 66, 4 );
 }
