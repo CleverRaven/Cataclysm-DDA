@@ -1781,8 +1781,6 @@ inventory_drop_selector::inventory_drop_selector( const player &p,
     inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {}
 
-
-
 std::list<std::pair<int, int>> inventory_drop_selector::execute()
 {
     int count = 0;

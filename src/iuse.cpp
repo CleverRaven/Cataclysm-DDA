@@ -7490,12 +7490,11 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
-    if (p->volume_capacity() < p->volume_carried()){
+    if ( p->volume_capacity() < p->volume_carried() ){
         p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
         return 0;
     }
@@ -7503,8 +7502,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
-
-
 
     player player = *p;
     
