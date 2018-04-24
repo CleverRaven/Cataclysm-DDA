@@ -168,7 +168,7 @@ void talk_function::companion_mission(npc &p)
  // Name checks determining role? Horrible!
  if (p.name.find("Scavenger Boss") != a){
     id = "SCAVENGER";
-    title = _("Junkshop Missions");
+    title = _("Junk Shop Missions");
  }
  if (p.name.find("Crop Overseer") != a){
     id = "COMMUNE CROPS";

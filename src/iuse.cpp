@@ -3227,7 +3227,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
         };
         switch (effect_roll) {
             case 1:
-                sounds::sound(pos, 100, _("BUGFIXES!!"));
+                sounds::sound(pos, 100, _("BUGFIXES!"));
                 g->draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
@@ -3238,7 +3238,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 break;
 
             case 2:
-                sounds::sound(pos, 100, _("BUFFS!!"));
+                sounds::sound(pos, 100, _("BUFFS!"));
                 g->draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3276,7 +3276,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 break;
 
             case 3:
-                sounds::sound(pos, 100, _("NERFS!!"));
+                sounds::sound(pos, 100, _("NERFS!"));
                 g->draw_explosion( pos, explosion_radius, c_red);
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3313,7 +3313,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 break;
 
             case 4:
-                sounds::sound(pos, 100, _("REVERTS!!"));
+                sounds::sound(pos, 100, _("REVERTS!"));
                 g->draw_explosion( pos, explosion_radius, c_pink);
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3330,7 +3330,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 }
                 break;
             case 5:
-                sounds::sound(pos, 100, _("BEES!!"));
+                sounds::sound(pos, 100, _("BEES!"));
                 g->draw_explosion( pos, explosion_radius, c_yellow);
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if (one_in(5) && !g->critter_at( dest ) ) {
