@@ -397,8 +397,6 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {
-    const std::string cur_time = to_string_time_of_day( calendar::turn );
-
     auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
