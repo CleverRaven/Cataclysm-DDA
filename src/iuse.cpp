@@ -7526,21 +7526,20 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     if ( to_clean.size() == 0 ){
         return 0;
     }
-    std::list<std::pair<int, int>>::iterator pairs;
     int required_water = 0;
     int time = 0;
     int required_cleanser = 0;
 
     // Determine if we have enough water and cleanser for all the items.
-    for ( pairs = to_clean.begin(); pairs != to_clean.end(); ++pairs ){
-        item mod = p->i_at( pairs->first );
-        if ( pairs->first == INT_MIN ) {
+    for( std::pair<int, int> pair : to_clean ) {
+        item mod = p->i_at( pair.first );
+        if ( pair.first == INT_MIN ) {
             p->add_msg_if_player( m_info, _( "Never mind." ));
             return 0;
         }
-        required_water += ( mod.volume() / 125_ml ) * pairs->second;
-        time += ( 1000 * mod.volume() / 250_ml ) * pairs->second;
-        required_cleanser += ( mod.volume() / 1000_ml ) * pairs->second;
+        required_water += ( mod.volume() / 125_ml ) * pair.second;
+        time += ( 1000 * mod.volume() / 250_ml ) * pair.second;
+        required_cleanser += ( mod.volume() / 1000_ml ) * pair.second;
 }
     if ( required_cleanser < 1 ){
         required_cleanser = 1;
@@ -7557,9 +7556,9 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     // Assign the activity values.
     p->assign_activity( activity_id( "ACT_WASH" ), time );
 
-    for ( pairs = to_clean.begin(); pairs != to_clean.end(); ++pairs ){
-        p->activity.values.push_back((*pairs).first);
-        p->activity.values.push_back((*pairs).second);
+    for ( std::pair<int, int> pair : to_clean ){
+        p->activity.values.push_back( pair.first );
+        p->activity.values.push_back( pair.second );
     }
 
     return 0;
