@@ -903,7 +903,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
 									    }
 									    //Add more materials
 
-									    for( int i = 0; i < all_by.size(); i++ ) {
+									    for( unsigned int i = 0; i < ( unsigned int )( all_by.size() ); i++ )
+									    {
 									        if( all_by_n[i] > 0 ) {
 									            new_content.emplace_back( item( all_by[i], calendar::turn, all_by_n[i] ) );
 									        }
