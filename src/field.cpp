@@ -881,6 +881,34 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 bool destroyed = fuel->burn( frd, can_spread);
 
                                 if( destroyed ) {
+									//Check what the item is made of and spawn appropriate byproducts
+									std::vector<material_id> all_mats = fuel->made_of();
+									if (all_mats.size() > 0) {
+										units::mass fuel_weight = fuel->type->weight;
+										//Items that are multiple materials are assumed to be equal parts each.
+										units::mass by_weight = fuel_weight / all_mats.size();
+
+										std::vector<itype_id> all_by;
+										std::vector<int> all_by_n;
+
+										if (fuel->made_of(material_id("wood"))) {
+											//Efficiency as decimal proportion. Value from: https://en.wikipedia.org/wiki/Wood_ash
+											const double eff = 0.018;
+											itype_id by = itype_id("ash");
+											int by_n = floor(eff * (by_weight / item(by).type->weight));
+
+
+											all_by.emplace_back(by);
+											all_by_n.emplace_back(by_n);
+										}
+										//Add more materials
+
+										for (int i = 0; i < all_by.size(); i++) {
+											if (all_by_n[i] > 0) {
+												new_content.emplace_back(item(all_by[i], calendar::turn, all_by_n[i]));
+											}
+										}
+									}
                                     // If we decided the item was destroyed by fire, remove it.
                                     // But remember its contents
                                     std::copy( fuel->contents.begin(), fuel->contents.end(),
