@@ -342,6 +342,9 @@ struct islot_wheel
 
         /** width of wheel (inches) */
         int width = 0;
+
+        /** coefficient of friction (percent) */
+        int friction = 100;
 };
 
 struct islot_fuel
@@ -349,6 +352,9 @@ struct islot_fuel
     public:
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
+
+        /** Air to fuel ratio.  */
+        float ratio = 1.0f;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?

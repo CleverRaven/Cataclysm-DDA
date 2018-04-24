@@ -1188,6 +1188,7 @@ void Item_factory::load( islot_wheel &slot, JsonObject &jo, const std::string & 
 {
     assign( jo, "diameter", slot.diameter );
     assign( jo, "width", slot.width );
+    assign( jo, "friction", slot.friction );
 }
 
 void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
@@ -1204,6 +1205,7 @@ void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &sr
     bool strict = src == "dda";
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
+    assign( jo, "ratio", slot.ratio, strict, 0.001f );
 }
 
 void Item_factory::load_fuel( JsonObject &jo, const std::string &src )

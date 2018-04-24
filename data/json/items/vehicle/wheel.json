@@ -30,6 +30,7 @@
     "material": [ "hardsteel", "ceramic" ],
     "symbol": "]",
     "color": "green",
+    "friction": 100,
     "diameter": 32,
     "width": 20
   },
@@ -47,6 +48,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
+    "friction": 100,
     "diameter": 8,
     "width": 3
   },
@@ -64,6 +66,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
+    "friction": 75,
     "diameter": 10,
     "width": 2
   },
@@ -82,6 +85,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
+    "friction": 60,
     "diameter": 4,
     "width": 1
   },
@@ -99,6 +103,7 @@
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
+    "friction": 60,
     "diameter": 20,
     "width": 4
   },
@@ -116,6 +121,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
+    "friction": 75,
     "diameter": 11,
     "width": 4
   },
@@ -133,6 +139,7 @@
     "material": [ "steel" ],
     "symbol": "m",
     "color": "light_gray",
+    "friction": 50,
     "diameter": 60,
     "width": 60
   },
@@ -150,6 +157,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
+    "friction": 70,
     "diameter": 10,
     "width": 3
   },
@@ -168,6 +176,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
+    "friction": 65,
     "diameter": 20,
     "width": 2
   },
@@ -185,6 +194,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
+    "friction": 80,
     "diameter": 24,
     "width": 14
   },
@@ -202,6 +212,7 @@
     "material": [ "wood" ],
     "symbol": "]",
     "color": "brown",
+    "friction": 70,
     "diameter": 20,
     "width": 3
   },
