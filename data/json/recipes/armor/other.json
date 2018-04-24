@@ -202,7 +202,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "components": [ [ [ "charcoal", 1 ] ], [ [ "paper", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
     "result": "gasfilter_m",
@@ -216,7 +216,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "components": [ [ [ "charcoal", 2 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
     "result": "gasfilter_l",
