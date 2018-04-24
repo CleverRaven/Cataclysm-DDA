@@ -516,7 +516,7 @@ class map
 
         // Returns the wheel area of the vehicle multiplied by traction of the surface
         // TODO: Remove the ugly sinking vehicle hack
-        void vehicle_wheel_traction( const vehicle &veh, float* returns ) const;
+        void vehicle_wheel_traction( const vehicle &veh, float *returns ) const;
 
         // Like traction, except for water
         // TODO: Actually implement (this is a stub)

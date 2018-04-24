@@ -76,7 +76,7 @@ void set_vehicle_fuel( vehicle &v )
             pt.ammo_set( "battery", pt.ammo_capacity() );
         } else if( pt.is_tank() && !liquid_fuel.empty() ) {
             auto fuel = liquid_fuel.begin();
-            pt.ammo_set( *fuel, long(-1 >> 1) );
+            pt.ammo_set( *fuel, long( -1 >> 1 ) );
             liquid_fuel.erase( fuel );
         } else {
             pt.ammo_unset();
@@ -89,7 +89,7 @@ float fuel_liters_used( vehicle &v )
     float used = 0.0f;
     for( size_t p = 0; p < v.parts.size(); p++ ) {
         auto &pt = v.parts[ p ];
-        
+
         if( ( pt.is_tank() || pt.is_battery() ) && pt.ammo_current() != "null" ) {
             used += pt.ammo_capacity() - pt.ammo_remaining();
         }
@@ -137,7 +137,7 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     veh.engine_on = true;
 
     // Don't go above ~60mph, the drag disrupts the results.
-    veh.cruise_velocity = std::min(27.0f, veh.safe_velocity());
+    veh.cruise_velocity = std::min( 27.0f, veh.safe_velocity() );
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     if( reset_velocity_turn == -1 ) {
         veh.velocity = veh.cruise_velocity;
@@ -175,32 +175,34 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
             reset_counter = 0;
         }
     }
-    
-    float fuel_used = fuel_liters_used( veh );\
+
+    float fuel_used = fuel_liters_used( veh );
+    \
     long adjusted_tiles_travelled = 1000.0 * tiles_travelled / fuel_used;
     CHECK( adjusted_tiles_travelled >= min_dist );
     CHECK( adjusted_tiles_travelled <= max_dist );
-//    printf( "Mass: %d, Power: %d, Meters: %d, mL: %d\n", int(veh.total_mass().value() / 1000), (int)veh.total_power(), (int)tiles_travelled, (int)fuel_used );
+    //    printf( "Mass: %d, Power: %d, Meters: %d, mL: %d\n", int(veh.total_mass().value() / 1000), (int)veh.total_power(), (int)tiles_travelled, (int)fuel_used );
 
     return adjusted_tiles_travelled;
 }
 
-void test_power( const vproto_id &veh_id, const ter_id &terrain, double target_power, double target_acceleration, double target_max_vel, double target_safe_vel )
+void test_power( const vproto_id &veh_id, const ter_id &terrain, double target_power,
+                 double target_acceleration, double target_max_vel, double target_safe_vel )
 {
     double min_power = target_power * 0.9, min_acceleration = target_acceleration * 0.9;
     double max_power = target_power * 1.1, max_acceleration = target_acceleration * 1.1;
     double min_safe_vel = target_safe_vel * 0.9, min_max_vel = target_max_vel * 0.9;
     double max_safe_vel = target_safe_vel * 1.1, max_max_vel = target_max_vel * 1.1;
     clear_game( terrain );
-    
+
     const tripoint map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 100, 0 );
-    
+
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
         return;
     }
-    
+
     vehicle &veh = *veh_ptr;
     set_vehicle_fuel( veh );
     // Remove all items from cargo to normalize weight.
@@ -209,13 +211,13 @@ void test_power( const vproto_id &veh_id, const ter_id &terrain, double target_p
         while( veh.remove_item( p, 0 ) );
     }
     set_vehicle_fuel( veh );
-    
+
     const tripoint starting_point = veh.global_pos3();
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
-    
+
     // More than 13hp per ton.
-    CHECK( veh.total_power( false ) / ( veh.total_mass().value() / (1000.0 * 1000.0) ) >= 10  );
+    CHECK( veh.total_power( false ) / ( veh.total_mass().value() / ( 1000.0 * 1000.0 ) ) >= 10 );
     // Power
     CHECK( veh.total_power( false ) >= min_power );
     CHECK( veh.total_power( false ) <= max_power );
@@ -235,17 +237,17 @@ void test_drag( const vproto_id &veh_id, const ter_id &terrain, double target_dr
     double min_drag = target_drag * 0.9;
     double max_drag = target_drag * 1.1;
     clear_game( terrain );
-    
+
     const tripoint map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 100, 0 );
-    
+
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
         return;
     }
-    
+
     vehicle &veh = *veh_ptr;
-    
+
     // More than 13hp per ton.
     CHECK( min_drag <= veh.k_aerodynamics() * 100 );
     CHECK( max_drag >= veh.k_aerodynamics() * 100 );
@@ -311,7 +313,8 @@ void print_test_strings( std::string type )
 
 void test_vehicle( std::string type,
                    long pavement_target, long dirt_target,
-                   long pavement_target_w_stops, long dirt_target_w_stops, double target_drag, double target_power, double target_acceleration, double target_max_vel, double target_safe_vel,
+                   long pavement_target_w_stops, long dirt_target_w_stops, double target_drag, double target_power,
+                   double target_acceleration, double target_max_vel, double target_safe_vel,
                    long pavement_target_smooth_stops = 0, long dirt_target_smooth_stops = 0 )
 {
     SECTION( type + " on pavement" ) {
@@ -327,7 +330,8 @@ void test_vehicle( std::string type,
         test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, dirt_target_w_stops );
     }
     SECTION( type + " power test" ) {
-        test_power( vproto_id( type ), ter_id( "t_pavement" ), target_power, target_acceleration, target_max_vel, target_safe_vel );
+        test_power( vproto_id( type ), ter_id( "t_pavement" ), target_power, target_acceleration,
+                    target_max_vel, target_safe_vel );
     }
     SECTION( type + " drag test" ) {
         test_drag( vproto_id( type ), ter_id( "t_pavement" ), target_drag );
@@ -392,7 +396,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 10000, 8000, 3000, 2700, 30, 56, 8, 67, 33 );
     test_vehicle( "car", 10000, 8000, 3000, 2400, 30, 93, 9, 69, 35 );
     test_vehicle( "car_sports", 9000, 8000, 3400, 2800, 30, 287, 9, 71, 36 );
-//    test_vehicle( "electric_car", 62800, 45280, 3590, 2519 );
+    //    test_vehicle( "electric_car", 62800, 45280, 3590, 2519 );
     test_vehicle( "suv", 10000, 8000, 3000, 2400, 30, 93, 9, 73, 37 );
     test_vehicle( "motorcycle", 13000, 10000, 7000, 6000, 6.5, 22, 7, 148, 74 );
     test_vehicle( "quad_bike", 11000, 9000, 5000, 4000, 20, 22, 7, 55, 27 );
