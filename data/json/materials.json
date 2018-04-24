@@ -713,6 +713,21 @@
   },
   {
     "type": "material",
+    "ident": "powder_nonflam",
+    "name": "Powder",
+    "density": 1,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 0,
+    "fire_resist": 20,
+    "elec_resist": 2,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged"
+  },
+  {
+    "type": "material",
     "ident": "silver",
     "name": "Silver",
     "density": 70,
