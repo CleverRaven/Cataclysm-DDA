@@ -1373,7 +1373,7 @@
     "type": "TOOL",
     "name": "cell phone",
     "name_plural": "cell phones",
-    "description": "This is a typical smartphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
+    "description": "This is a typical smartphone that features an LED for use as a flash and a clock and alarm app.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
     "weight": 226,
     "volume": 1,
     "price": 10000,
