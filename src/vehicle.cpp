@@ -4152,7 +4152,7 @@ void vehicle::thrust( int thd ) {
         brk = accel;
     }
     if (brk < 10 * 100) {
-        brk = 10 * 100;
+        brk = 10.0f * 100;
     }
     //pos or neg if accelerator or brake
     float vel_inc = ((thrusting) ? accel : brk) * thd;
@@ -4173,7 +4173,7 @@ void vehicle::thrust( int thd ) {
     //find power ratio used of engines max
     double load;
     if( cruise_on ) {
-        load = ((float)abs(vel_inc)) / std::max((thrusting ? accel : brk),1);
+        load = abs(vel_inc) / std::max( (thrusting ? accel : brk), 1.0f );
     } else {
         load = (thrusting ? 1.0 : 0.0);
     }
@@ -4223,13 +4223,7 @@ void vehicle::thrust( int thd ) {
         stop ();
     } else {
         // Increase velocity up to max_vel or min_vel, but not above.
-        const int min_vel = -max_vel / 4;
-        if( vel_inc > 0 ) {
-            // Don't allow braking by accelerating (could happen with damaged engines)
-            velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
-        } else {
-            velocity = std::min( velocity, std::max( velocity + vel_inc, min_vel ) );
-        }
+        velocity = std::min( std::max( velocity + vel_inc, -max_vel / 4.0f ), max_vel );
     }
 }
 
