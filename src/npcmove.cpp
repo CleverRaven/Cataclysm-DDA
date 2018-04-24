@@ -336,8 +336,11 @@ void npc::move()
         }
     }
 
-    // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
-    if( sees_dangerous_field( pos() ) ) {
+    /* This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
+	 * NPC won't avoid dangerous terrain while accompanying the player inside a vehicle
+	 * to keep them from inadvertantly getting themselves run over and/or cause vehicle related errors.
+	 */
+    if( sees_dangerous_field( pos() ) && ( !g->u.in_vehicle && is_following() ) ) { 
         const tripoint escape_dir = good_escape_direction( *this );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
