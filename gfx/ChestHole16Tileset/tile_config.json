@@ -41762,6 +41762,18 @@
           "rotates": false
         },
        {
+          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_diskrack", "vp_flintrack", "vp_harpoonrack", "vp_nailrack", "vp_pebblerack", "vp_sballistarack", "vp_sboltrack", "vp_shardrack", "vp_stonerack"],
+          "fg": 4329,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": ["vp_seed_drill", "v_planter_item"],
+          "fg": 3608,
+          "bg": 632,
+          "rotates": false
+        },
+       {
           "id": ["vp_seed_drill_advanced", "v_planter_item_advanced"],
           "fg": 3609,
           "bg": 632,
