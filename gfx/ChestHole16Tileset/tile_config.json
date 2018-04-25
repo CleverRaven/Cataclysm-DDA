@@ -40716,7 +40716,7 @@
           "bg": 642
         },
         {
-          "id": "mon_beekeeper",
+          "id": ["mon_beekeeper", "mon_beekeeper_pk"],
           "fg": 1627,
           "bg": 642
         },
@@ -40775,7 +40775,7 @@
           "bg": 642
         },
         {
-          "id": "mon_zombie_acidic",
+          "id": ["mon_zombie_acidic", "mon_zombie_acidic_pk"],
           "fg": 2951,
           "bg": 642
         },
@@ -53099,7 +53099,7 @@
           "rotates": false
         },
         {
-          "id": ["mon_zombie_rot_pk", "mon_zombie_rot_pk_flu", "mon_zombie_rot_worms", "mon_zombie_rot_worms_pk"],
+          "id": ["mon_zombie_rot_pk", "mon_zombie_rot_pk_flu", "mon_zombie_rot_worms", "mon_zombie_rot_worms_pk", "mon_zombie_rot_pk_worms", "mon_zombie_rot_pain", "mon_zombie_rot_pk_pain"],
           "fg": 3959,
           "bg": 632,
           "rotates": false
