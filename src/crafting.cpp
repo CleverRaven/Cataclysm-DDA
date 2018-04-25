@@ -755,7 +755,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                     player_ha.type ) );
             cmenu.addentry( tmpStr );
         }
-        for( auto &elem : mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
+        for( auto &elem :
+             mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( elem.type ),
                                                 ( elem.count * batch ),
