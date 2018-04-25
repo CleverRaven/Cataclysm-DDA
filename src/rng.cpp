@@ -8,14 +8,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-//template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-template <class T>
-const T rng( const T& val1, const T& val2 )
-{
-    T minVal = ( val1 < val2 ) ? val1 : val2;
-    T maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + T( ( maxVal - minVal + 1 ) * double( rand() / double( RAND_MAX + 1.0 ) ) );
-}
 
 bool one_in( int chance )
 {

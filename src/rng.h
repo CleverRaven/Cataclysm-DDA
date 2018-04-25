@@ -8,10 +8,14 @@
 #include <functional>
 #include <array>
 
-//template<typename T, typename          = typename std::enable_if  <std::is_arithmetic<T>::value, T>::type>
-//template<typename T, typename TEnabled = typename std::enable_if_t<std::is_arithmetic<T>::value, T>>
-template<typename T>
-const T rng( const T& val1, const T& val2 );
+template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+const T rng( const T& val1, const T& val2 )
+{
+    T minVal = ( val1 < val2 ) ? val1 : val2;
+    T maxVal = ( val1 < val2 ) ? val2 : val1;
+    return minVal + T( ( maxVal - minVal + 1 ) * double( rand() / double( RAND_MAX + 1.0 ) ) );
+}
+
 bool one_in( int chance );
 bool one_in_improved( double chance );
 bool x_in_y( double x, double y );
