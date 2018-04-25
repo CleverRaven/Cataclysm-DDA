@@ -67,7 +67,7 @@ inline cata::optional<std::reference_wrapper<V>> random_entry_opt( const C &cont
         return cata::nullopt;
     }
     auto iter = container.begin();
-    std::advance( iter, rng( 0, container.size() - 1 ) );
+    std::advance( iter, rng( size_t( 0 ), container.size() - 1 ) );
     return std::ref( *iter );
 }
 /**
@@ -119,7 +119,7 @@ template<typename V, std::size_t N>
 inline const V &random_entry_ref( const std::array<V, N> &container )
 {
     static_assert( N > 0, "Need a non-empty array to get a random value from it" );
-    return container[rng( 0, N - 1 )];
+    return container[rng( size_t( 0 ), N - 1 )];
 }
 /**
  * Returns a random entry in the container and removes it from the container.
