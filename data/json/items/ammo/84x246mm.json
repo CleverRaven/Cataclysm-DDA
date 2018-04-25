@@ -46,11 +46,8 @@
     "description": "A 84x246mm smoke marker round for the Carl Gustav M3 recoilless rifle.  Commonly used for signaling, target designation, and for screening troop movements.",
     "volume": 6,
     "weight": 3100,
-    "damage": 60,
-    "pierce": 10,
     "range": 140,
     "dispersion": 30,
-    "recoil": 45,
     "extend": { "effects": [ "SMOKE_BIG" ] },
     "delete": { "effects": [ "EXPLOSIVE_BIG", "FRAG" ] }
   }
