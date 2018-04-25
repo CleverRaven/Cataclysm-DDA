@@ -41799,6 +41799,84 @@
           ]
         },
        {
+          "id": "vp_auto_m1918",
+          "fg": 4583,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4677
+            }
+          ]
+        },
+       {
+          "id": "vp_auto_abzats",
+          "fg": 4585,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4679
+            }
+          ]
+        },
+       {
+          "id": "vp_auto_rm614",
+          "fg": 4586,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4680
+            }
+          ]
+        },
+       {
+          "id": "vp_auto_m134",
+          "fg": 4587,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4681
+            }
+          ]
+        },
+       {
+          "id": "vp_auto_mk19",
+          "fg": 4588,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4682
+            }
+          ]
+        },
+       {
+          "id": "vp_auto_rm298",
+          "fg": 4589,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4683
+            }
+          ]
+        },
+       {
           "id": ["vp_seed_drill", "v_planter_item"],
           "fg": 3608,
           "bg": 632,
