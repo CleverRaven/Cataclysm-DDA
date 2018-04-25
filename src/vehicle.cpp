@@ -6383,7 +6383,7 @@ float vehicle_part::wheel_area() const
 /** Get wheel radius or return 0 if part is not wheel */
 float vehicle_part::wheel_radius() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter : 0;
+    return base.is_wheel() ? base.type->wheel->diameter / 2 : 0;
 }
 
 /** Get wheel mass or return 0 if part is not wheel */
