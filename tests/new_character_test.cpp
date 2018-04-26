@@ -7,6 +7,7 @@
 #include "scenario.h"
 #include "mutation.h"
 #include "string_id.h"
+#include "itype.h"
 
 #include <algorithm>
 #include <set>
@@ -148,6 +149,15 @@ TEST_CASE( "starting_items" )
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
                             failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
+                        }
+
+                        bool is_holster = it.is_armor() && it.type->get_use( "holster" );
+                        if( is_holster ) {
+                            const item &holstered_it = it.get_contained();
+                            bool empty_holster = holstered_it.is_null();
+                            if( !empty_holster && !it.can_holster( holstered_it, true ) ) {
+                                failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
+                            }
                         }
                     }
                 } // all genders
