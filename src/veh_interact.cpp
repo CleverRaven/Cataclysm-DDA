@@ -79,21 +79,46 @@ player_activity veh_interact::serialize_activity()
     int time = 1000;
     switch( sel_cmd ) {
         case 'i':
-            time = vp->install_time( g->u );
+			if( !g->u.has_trait( trait_id("DEBUG_HS") ) ){ 
+				time = vp->install_time( g->u );
+			}
+			else{
+				time = 1;
+			}
             break;
         case 'r':
             if( pt->is_broken() ) {
-                time = vp->install_time( g->u );
+				if( !g->u.has_trait(trait_id("DEBUG_HS"))){
+					time = vp->install_time( g->u );
+				}
+				else{
+					time = 1;
+				}
             } else {
                 assert( pt->base.max_damage() > 0 ); // why repairing part that cannot be damaged?
-                time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
+				if (!g->u.has_trait(trait_id("DEBUG_HS"))) {
+					time = vp->repair_time(g->u) * double(pt->base.damage()) / pt->base.max_damage();
+				}
+				else{
+					time = 1;
+				}
             }
             break;
         case 'o':
-            time = vp->removal_time( g->u );
+			if (!g->u.has_trait(trait_id("DEBUG_HS"))){
+				time = vp->removal_time(g->u);
+			}
+			else{
+				time = 1;
+			}
             break;
         case 'c':
-            time = vp->removal_time( g->u ) + vp->install_time( g->u );
+			if (!g->u.has_trait(trait_id("DEBUG_HS"))){
+				time = vp->removal_time(g->u) + vp->install_time(g->u);
+			}
+			else{
+				time = 1;
+			}
             break;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
