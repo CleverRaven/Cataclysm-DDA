@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-13 09:09-0400\n"
-"PO-Revision-Date: 2018-04-13 23:22+0000\n"
+"POT-Creation-Date: 2018-04-20 06:24-0400\n"
+"PO-Revision-Date: 2018-04-20 22:40+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -5692,6 +5692,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "IED"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "blast canister"
 msgstr ""
 
@@ -5758,6 +5762,10 @@ msgstr ""
 msgid ""
 "A large spear carved from wood.  This was fashioned specifically to be fired"
 " from a compatible weapon; thus unsuitable for melee combat."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "IED on a bolt"
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -6297,6 +6305,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "pair of biosilicified chitin arm guards"
+msgid_plural "pairs of biosilicified chitin arm guards"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for pair of biosilicified chitin arm guards
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A pair of arm guards crafted from carefully cleaned and pruned biosilicified"
+" exoskeletons of acidic ants.  Acid-resistant and very durable."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "pair of hard arm guards"
 msgid_plural "pairs of hard arm guards"
 msgstr[0] ""
@@ -6413,6 +6435,20 @@ msgstr[2] ""
 msgid ""
 "Leg and body armor made from the exoskeletons of insects.  Light and "
 "durable."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "biosilicified chitin armor"
+msgid_plural "biosilicified chitin armors"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for biosilicified chitin armor
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Leg and body armor crafted from carefully cleaned and pruned biosilicified "
+"exoskeletons of acidic ants.  Acid-resistant and very durable."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -8203,6 +8239,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "pair of biosilicified chitin gauntlets"
+msgid_plural "pairs of biosilicified chitin gauntlets"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for pair of biosilicified chitin gauntlets
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Gauntlets crafted from carefully cleaned and pruned biosilicified "
+"exoskeletons of acidic ants.  Acid-resistant and very durable."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "pair of leather armor gauntlets"
 msgid_plural "pairs of leather armor gauntlets"
 msgstr[0] ""
@@ -9114,6 +9164,21 @@ msgstr[2] ""
 msgid ""
 "A helmet made from the exoskeletons of insects.  Covers the entire head; "
 "very light and durable."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "biosilicified chitin helmet"
+msgid_plural "biosilicified chitin helmets"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for biosilicified chitin helmet
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A helmet crafted from carefully cleaned and pruned biosilicified "
+"exoskeletons of acidic ants.  Covers the entire head; acid-resistant and "
+"very durable."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -13326,6 +13391,20 @@ msgstr[2] ""
 #. ~ Description for pair of chitinous boots
 #: lang/json/ARMOR_from_json.py
 msgid "Boots made from the exoskeletons of insects.  Light and durable."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "pair of biosilicified chitin boots"
+msgid_plural "pairs of biosilicified chitin boots"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for pair of biosilicified chitin boots
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Boots crafted from carefully cleaned and pruned biosilicified exoskeletons "
+"of acidic ants.  Acid-resistant and very durable."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -28657,6 +28736,20 @@ msgid "A piece of an insect's exoskeleton.  It is light and very durable."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "chunk of biosilicified chitin"
+msgid_plural "chunks of biosilicified chitin"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for chunk of biosilicified chitin
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A lump of exoskeleton that has undergone biosilicification.  It is acid-"
+"resistant and remarkably sturdy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "biollante bud"
 msgid_plural "biollante buds"
 msgstr[0] ""
@@ -33459,6 +33552,18 @@ msgid "Light chitin plating made for a vehicle."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "biosilicified chitin armor kit"
+msgid_plural "biosilicified chitin armor kits"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for biosilicified chitin armor kit
+#: lang/json/GENERIC_from_json.py
+msgid "Durable silica-coated chitin plating made for a vehicle."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "bone armor kit"
 msgid_plural "bone armor kits"
 msgstr[0] ""
@@ -35548,6 +35653,23 @@ msgid ""
 "  It keeps the fragile panels safely away from any potential threats and "
 "improves efficiency due to being able to track the sun.  However, this comes"
 " at the cost of being prohibitively heavy and obstructive."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "upgraded reinforced solar array"
+msgid_plural "upgraded reinforced solar arrays"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for upgraded reinforced solar array
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A dozen upgraded reinforced solar panels set on a chassis reaching several "
+"meters high.  It keeps the fragile panels safely away from any potential "
+"threats and improves efficiency due to being able to track the sun.  "
+"However, this comes at the cost of being prohibitively heavy and "
+"obstructive."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -37832,10 +37954,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "giant spitter ant"
+msgid "giant acidic ant"
 msgstr ""
 
-#. ~ Description for giant spitter ant
+#. ~ Description for giant acidic ant
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A monstrous red ant with a swollen abdomen, that ends with a small orifice "
@@ -37843,10 +37965,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "acid ant larva"
+msgid "acidic ant larva"
 msgstr ""
 
-#. ~ Description for acid ant larva
+#. ~ Description for acidic ant larva
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A squirming yellow grub that seems to be oozing liquid from both ends of its"
@@ -37854,10 +37976,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "queen acid ant"
+msgid "acidic queen ant"
 msgstr ""
 
-#. ~ Description for queen acid ant
+#. ~ Description for acidic queen ant
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
@@ -37866,10 +37988,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "soldier acid ant"
+msgid "acidic soldier ant"
 msgstr ""
 
-#. ~ Description for soldier acid ant
+#. ~ Description for acidic soldier ant
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A massive woolly brown ant that towers over the worker ants with a giant "
@@ -55092,6 +55214,15 @@ msgstr ""
 msgid "A variety of plant, used for decoration."
 msgstr ""
 
+#: lang/json/furniture_from_json.py
+msgid "yellow indoor plant"
+msgstr ""
+
+#. ~ Description for yellow indoor plant
+#: lang/json/furniture_from_json.py
+msgid "A variety of plant for decoration.  It's yellow."
+msgstr ""
+
 #: lang/json/furniture_from_json.py lang/json/vehicle_part_from_json.py
 msgid "bed"
 msgstr ""
@@ -55670,15 +55801,6 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "wooden keg"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "yellow indoor plant"
-msgstr ""
-
-#. ~ Description for yellow indoor plant
-#: lang/json/furniture_from_json.py
-msgid "A variety of plant for decoration.  It's yellow."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -57073,7 +57195,8 @@ msgstr ""
 msgid "semi-auto"
 msgstr ""
 
-#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
+#: lang/json/gun_from_json.py lang/json/gun_from_json.py src/item_factory.cpp
+#: src/turret.cpp
 msgid "auto"
 msgstr ""
 
@@ -62185,6 +62308,19 @@ msgid ""
 "experiment"
 msgstr ""
 
+#: lang/json/harvest_from_json.py
+msgid "You carefully carve open the carapace, avoiding the acrid corrosion."
+msgstr ""
+
+#: lang/json/harvest_from_json.py
+msgid ""
+"You delicately cut open the soft tissue, avoiding the corroding fluids."
+msgstr ""
+
+#: lang/json/harvest_from_json.py
+msgid "You laboriously dissect the colossal insect."
+msgstr ""
+
 #: lang/json/item_action_from_json.py
 msgid "Repair cotton/leather/wool/Nomex/fur"
 msgstr ""
@@ -65099,7 +65235,7 @@ msgid "shattered"
 msgstr ""
 
 #: lang/json/material_from_json.py
-msgid "Bone"
+msgid "Biosilicified Chitin"
 msgstr ""
 
 #: lang/json/material_from_json.py
@@ -65112,6 +65248,10 @@ msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "cut"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Bone"
 msgstr ""
 
 #: lang/json/material_from_json.py
@@ -66827,7 +66967,7 @@ msgid "Do you have the metal tanks?"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Find 2 55-Gallon Drums"
+msgid "Find 2 200-Liter Drums"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -66835,7 +66975,7 @@ msgid ""
 "The other survivor outposts that we have contact with have been more than "
 "eager to trade for beer or other drinks.  Transporting the drinks to them "
 "has presented a number of challenges though.  If you could locate a pair of "
-"55-gallon drums we should be able to keep them supplied while turning a "
+"200-liter drums we should be able to keep them supplied while turning a "
 "significant profit."
 msgstr ""
 
@@ -66844,7 +66984,7 @@ msgid "Factories or junk yards are the only places I know where to look."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Do you have the 55-gallon drums?"
+msgid "Do you have the 200-liter drums?"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -74765,11 +74905,31 @@ msgid "dairy farm"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "orchard"
+msgid "dispensary"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "dispensary"
+msgid "art gallery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "state park"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "state park parking"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fishing pond"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small cemetery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "orchard"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -74785,27 +74945,11 @@ msgid "small wooded trail"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "art gallery"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "derelict property"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "state park"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "state park parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "pavilion"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fishing pond"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -74814,10 +74958,6 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "small storage units"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small cemetery"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -91761,7 +91901,15 @@ msgid "bulk tank"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "railroad rubble"
+msgid "gravel"
+msgstr ""
+
+#. ~ Description for gravel
+#: lang/json/terrain_from_json.py
+msgid ""
+"A small mallet that a judge uses to call - er, wait.  Oh, gravel!  Gravel is"
+" a collection of small stones often used for roads, as railroad ballast, and"
+" in many other applications."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -92990,6 +93138,10 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "chitin plating"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "biosilicified chitin plating"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -94254,10 +94406,6 @@ msgid "nail rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Security camera"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
 msgid "pebble rack"
 msgstr ""
 
@@ -94306,15 +94454,15 @@ msgid "stone rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Rubber Treads"
+msgid "rubber treads"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Steel Treads"
+msgid "steel treads"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Tank Treads"
+msgid "tank treads"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -94347,14 +94495,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "Quantum solar panel"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline tank (little)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel tank (little)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -97880,7 +98020,7 @@ msgid "brown"
 msgstr ""
 
 #: src/color.cpp
-msgid "light_gray"
+msgid "light gray"
 msgstr ""
 
 #: src/color.cpp
@@ -97888,11 +98028,11 @@ msgid "dark gray"
 msgstr ""
 
 #: src/color.cpp
-msgid "light_red"
+msgid "light red"
 msgstr ""
 
 #: src/color.cpp
-msgid "light_green"
+msgid "light green"
 msgstr ""
 
 #: src/color.cpp src/item.cpp
@@ -97904,7 +98044,7 @@ msgid "green"
 msgstr ""
 
 #: src/color.cpp
-msgid "light_blue"
+msgid "light blue"
 msgstr ""
 
 #: src/color.cpp src/item.cpp
@@ -97920,7 +98060,7 @@ msgid "cyan"
 msgstr ""
 
 #: src/color.cpp
-msgid "light_cyan"
+msgid "light cyan"
 msgstr ""
 
 #: src/color.cpp
@@ -115604,6 +115744,18 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
+#: src/lua_console.cpp
+msgid "This build does not support Lua."
+msgstr ""
+
+#: src/lua_console.cpp
+msgid "Welcome to the Lua console! Here you can enter Lua code."
+msgstr ""
+
+#: src/lua_console.cpp
+msgid "Press [Esc] to close the Lua console."
+msgstr ""
+
 #: src/main.cpp
 msgid "Really Quit? All unsaved changes will be lost."
 msgstr ""
@@ -116327,16 +116479,6 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "<npcname> hits %s!"
-msgstr ""
-
-#: src/melee.cpp
-#, c-format
-msgid "You hit %s!"
-msgstr ""
-
-#: src/melee.cpp
-#, c-format
 msgid "%d enemy hit!"
 msgid_plural "%d enemies hit!"
 msgstr[0] ""
@@ -116687,6 +116829,11 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "%s for %d damage."
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "You lunge for the %s, but miss!"
 msgstr ""
 
 #: src/melee.cpp
@@ -123618,6 +123765,10 @@ msgstr ""
 
 #: src/overmap.cpp
 msgid "Search term:"
+msgstr ""
+
+#: src/overmap.cpp
+msgid "No results found."
 msgstr ""
 
 #: src/overmap.cpp
