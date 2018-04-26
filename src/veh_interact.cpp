@@ -77,8 +77,7 @@ player_activity veh_interact::serialize_activity()
     }
 
 	int time = 1000;
-	if( !g->u.has_trait( trait_id( "DEBUG_HS" ) ) )
-	{
+    if( !g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
 	    switch( sel_cmd ) {
 	        case 'i':
 	            time = vp->install_time( g->u );
@@ -97,11 +96,10 @@ player_activity veh_interact::serialize_activity()
 	        case 'c':
 	            time = vp->removal_time( g->u ) + vp->install_time( g->u );
 	            break;
-	    }
-	} else
-	{
-	    time = 1;
-	}
+        }
+    } else {
+        time = 1;
+    }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
 
     // if we're working on an existing part, use that part as the reference point
