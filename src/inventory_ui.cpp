@@ -1,3 +1,4 @@
+// *INDENT-OFF*
 #include "inventory_ui.h"
 
 #include "game.h"
@@ -1665,11 +1666,12 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 
     on_change( *entry );
 }
+
 inventory_iuse_selector::inventory_iuse_selector( const player &p,
         const std::string &selector_title,
         const inventory_selector_preset &preset
-        ) :
-    inventory_multiselector(p, preset, selector_title),
+                                                ) :
+    inventory_multiselector( p, preset, selector_title ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {}
 
 std::list<std::pair<int, int>> inventory_iuse_selector::execute()
@@ -1696,7 +1698,7 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
 
             if( count == 0 ) {
                 const bool clear = std::none_of( selected.begin(), selected.end(),
-                []( const inventory_entry *elem ) {
+                []( const inventory_entry * elem ) {
                     return elem->chosen_count > 0;
                 } );
 
@@ -1729,7 +1731,8 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
     std::list<std::pair<int, int>> dropped_pos_and_qty;
 
     for( auto use_pair : to_use ) {
-        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( use_pair.first ), use_pair.second ));
+        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( use_pair.first ),
+                                       use_pair.second ) );
     }
 
     return dropped_pos_and_qty;
