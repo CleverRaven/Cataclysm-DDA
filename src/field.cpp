@@ -905,7 +905,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 bool destroyed = fuel->burn( frd, can_spread);
 
                                 if( destroyed ) {
-									create_burnproducts( p, *fuel );
+                                    create_burnproducts( p, *fuel );
                                     // If we decided the item was destroyed by fire, remove it.
                                     // But remember its contents
                                     std::copy( fuel->contents.begin(), fuel->contents.end(),
