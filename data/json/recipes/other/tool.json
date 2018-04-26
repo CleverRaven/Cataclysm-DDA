@@ -163,14 +163,13 @@
     "time": 20000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [
+    "using": [ [ "welding_standard", 1 ] ],
+    "qualities":[
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 2 },
-      { "id": "SAW_M", "level": 2 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 2 }
     ],
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
     "components": [
       [ [ "foot_crank", 1 ] ],
       [ [ "scrap", 8 ] ],
