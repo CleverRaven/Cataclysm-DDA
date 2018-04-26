@@ -52027,7 +52027,7 @@
       ]
         },
         {
-          "id": "vp_xlhalfboard_horizontal",
+          "id": ["vp_xlhalfboard_horizontal", "vp_fxlhalfboard_horizontal"],
           "fg": 2703,
           "rotates": true,
           "multitile": true,
@@ -52063,7 +52063,7 @@
       ]
         },
         {
-          "id": "vp_xlhalfboard_horizontal_2",
+          "id": ["vp_xlhalfboard_horizontal_2", "vp_fxlhalfboard_horizontal_2"],
           "fg": 2704,
           "rotates": true,
           "multitile": true,
@@ -52160,7 +52160,7 @@
       ]
         },
         {
-          "id": "vp_xlhalfboard_ne",
+          "id": ["vp_xlhalfboard_ne", "vp_fxlhalfboard_ne"],
           "fg": 2705,
           "rotates": true,
          "multitile": true,
@@ -52197,7 +52197,7 @@
           ]
         },
         {
-          "id": "vp_xlhalfboard_nw",
+          "id": ["vp_xlhalfboard_nw", "vp_fxlhalfboard_nw"],
           "fg": 2706,
           "rotates": true,
           "multitile": true,
@@ -52209,7 +52209,7 @@
       ]
         },
         {
-          "id": "vp_xlhalfboard_se",
+          "id": ["vp_xlhalfboard_se", "vp_fxlhalfboard_se"],
           "fg": 2707,
           "rotates": true,
           "multitile": true,
@@ -52221,7 +52221,7 @@
       ]
         },
         {
-          "id": "vp_xlhalfboard_sw",
+          "id": ["vp_xlhalfboard_sw", "vp_fxlhalfboard_sw"],
           "fg": 2708,
           "rotates": true,
           "multitile": true,
