@@ -2810,12 +2810,12 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             const bool terrain = action == "PLACE_TERRAIN";
 
             if( terrain ) {
-                pmenu.title = "Select terrain to place:";
+                pmenu.title = _( "Select terrain to place:" );
                 for( const auto &oter : terrains.get_all() ) {
                     pmenu.addentry( oter.id.id(), true, 0, oter.id.str() );
                 }
             } else {
-                pmenu.title = "Select special to place:";
+                pmenu.title = _( "Select special to place:" );
                 for( const auto &elem : specials.get_all() ) {
                     oslist.push_back( &elem );
                     pmenu.addentry( oslist.size()-1, true, 0, elem.id.str() );

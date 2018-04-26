@@ -5710,6 +5710,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 static const std::string &photo_quality_name( const int index )
 {
     static std::array<std::string, 6> const names { {
+          //~ photo quality adjective
         { _("awful") }, { _("bad") }, { _("not bad") }, { _("good") }, { _("fine") }, { _("exceptional") } } };
     return names[index];
 }
@@ -6208,8 +6209,9 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         if (p->is_blind()) {
                             p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
                         } else {
-                            p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
-                                             guy->name.c_str());
+                            //~ 1s - thing being photographed, 2s - photo quality (adjective).
+                            p->add_msg_if_player(_("You took a photo of %1$s. It is %2$s."), guy->name.c_str(),
+                                             quality_name.c_str());
                         }
                     } else {
                         p->add_msg_if_player(m_warning, _("%s got in the way of your photo."), guy->name.c_str());

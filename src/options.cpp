@@ -849,7 +849,7 @@ void options_manager::init()
     mOptionsSort["general"]++;
 
     add( "AUTO_PICKUP", "general", translate_marker( "Auto pickup enabled" ),
-        translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager in the Help Menu ?3" ),
+        translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
         false
         );
 
