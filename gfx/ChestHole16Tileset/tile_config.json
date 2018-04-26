@@ -41762,7 +41762,7 @@
           "rotates": false
         },
        {
-          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_diskrack", "vp_flintrack", "vp_harpoonrack", "vp_nailrack", "vp_pebblerack", "vp_sballistarack", "vp_sboltrack", "vp_shardrack", "vp_stonerack"],
+          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_boltrack", "vp_diskrack", "vp_flintrack", "vp_harpoonrack", "vp_nailrack", "vp_pebblerack", "vp_sballistarack", "vp_sboltrack", "vp_shardrack", "vp_stonerack"],
           "fg": 4329,
           "rotates": false
         },
@@ -41800,33 +41800,7 @@
         },
        {
           "id": "vp_auto_m1918",
-          "fg": 4583,
-          "bg": 632,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "broken",
-              "fg": 4677
-            }
-          ]
-        },
-       {
-          "id": "vp_auto_abzats",
-          "fg": 4585,
-          "bg": 632,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "broken",
-              "fg": 4679
-            }
-          ]
-        },
-       {
-          "id": "vp_auto_rm614",
-          "fg": 4586,
+          "fg": 4584,
           "bg": 632,
           "rotates": false,
           "multitile": true,
@@ -41838,8 +41812,8 @@
           ]
         },
        {
-          "id": "vp_auto_m134",
-          "fg": 4587,
+          "id": "vp_bolter",
+          "fg": 4585,
           "bg": 632,
           "rotates": false,
           "multitile": true,
@@ -41851,8 +41825,8 @@
           ]
         },
        {
-          "id": "vp_auto_mk19",
-          "fg": 4588,
+          "id": "vp_auto_abzats",
+          "fg": 4586,
           "bg": 632,
           "rotates": false,
           "multitile": true,
@@ -41864,8 +41838,8 @@
           ]
         },
        {
-          "id": "vp_auto_rm298",
-          "fg": 4589,
+          "id": "vp_auto_rm614",
+          "fg": 4587,
           "bg": 632,
           "rotates": false,
           "multitile": true,
@@ -41877,8 +41851,8 @@
           ]
         },
        {
-          "id": "vp_bfg_mounted",
-          "fg": 4590,
+          "id": ["vp_auto_m134", "vp_bfg_mounted"],
+          "fg": 4588,
           "bg": 632,
           "rotates": false,
           "multitile": true,
@@ -41886,6 +41860,32 @@
             {
               "id": "broken",
               "fg": 4684
+            }
+          ]
+        },
+       {
+          "id": "vp_auto_mk19",
+          "fg": 4589,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4685
+            }
+          ]
+        },
+       {
+          "id": "vp_auto_rm298",
+          "fg": 4590,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4686
             }
           ]
         },
@@ -41898,7 +41898,20 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 4685
+              "fg": 4687
+            }
+          ]
+        },
+       {
+          "id": "vp_cangun",
+          "fg": 4216,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4344
             }
           ]
         },
