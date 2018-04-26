@@ -79,13 +79,14 @@ player_activity veh_interact::serialize_activity()
     int time = 1000;
     switch( sel_cmd ) {
         case 'i':
-            time = vp->install_time( g->u );
+               time = vp->install_time( g->u );
             break;
         case 'r':
             if( pt->is_broken() ) {
                 time = vp->install_time( g->u );
             } else {
-                assert( pt->base.max_damage() > 0 ); // why repairing part that cannot be damaged?
+                // why repairing part that cannot be damaged?
+                assert( pt->base.max_damage() > 0 );
                 time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
             }
             break;
@@ -95,6 +96,9 @@ player_activity veh_interact::serialize_activity()
         case 'c':
             time = vp->removal_time( g->u ) + vp->install_time( g->u );
             break;
+    }
+    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        time = 1;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
 
