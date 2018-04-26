@@ -872,7 +872,8 @@
       { "fuel": 1, "smoke": 1, "burn": 0.02, "chance": 5 },
       { "fuel": 2, "smoke": 1, "burn": 0.04, "chance": 20 },
       { "fuel": 3, "smoke": 1, "burn": 0.06 }
-    ]
+    ],
+    "burn_products": [ [ "ash", 0.013 ] ]
   },
   {
     "type": "material",

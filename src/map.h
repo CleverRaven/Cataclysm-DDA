@@ -974,9 +974,10 @@ class map
 
 		/*
 		 * Spawns byproducts from items destroyed in fire.
-		 * See decleration for more info.
+		 * Byproducts are declared in JSON as:
+		 * "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
 		 */
-		void create_burnproducts( const tripoint p, item &fuel );
+        void create_burnproducts( const tripoint p, item &fuel );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp

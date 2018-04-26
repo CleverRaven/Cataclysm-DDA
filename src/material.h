@@ -18,6 +18,7 @@ using itype_id = std::string;
 class JsonObject;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
+using mat_burn_products = std::vector<std::pair<itype_id, float>>;
 
 class material_type
 {
@@ -46,6 +47,7 @@ class material_type
         std::map<vitamin_id, double> _vitamins;
 
         std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
+        mat_burn_products _burn_products;
 
     public:
         material_type();
@@ -78,6 +80,7 @@ class material_type
         }
 
         const mat_burn_data &burn_data( size_t intensity ) const;
+        const mat_burn_products burn_products() const;
 };
 
 namespace materials
