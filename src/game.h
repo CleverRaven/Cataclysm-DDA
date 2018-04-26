@@ -71,6 +71,8 @@ struct special_game;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+struct species_type;
+using species_id = string_id<species_type>;
 using itype_id = std::string;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
@@ -486,6 +488,8 @@ class game
         void reload_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id &id );
+        /** Returns the number of kills of the given monster species by the player. */
+        int kill_count( const species_id &spec );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */

@@ -1145,27 +1145,22 @@ bool game::cleanup_at_end()
         std::string sTemp;
         std::stringstream ssTemp;
 
-        int days_survived = calendar::turn.get_turn() / DAYS(1);
-        int days_adventured = (calendar::turn.get_turn() - calendar::start.get_turn()) / DAYS(1);
+        center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        for (int lifespan = 0; lifespan < 2; ++lifespan) {
-            // Show the second, "Adventured", lifespan
-            // only if it's different from the first.
-            if (lifespan && days_adventured == days_survived) {
-                continue;
-            }
+        int turns = calendar::turn.get_turn() - calendar::start.get_turn();
+        int minutes = ( turns / MINUTES( 1 ) ) % 60;
+        int hours = ( turns / HOURS( 1 ) ) % 24;
+        int days = turns / DAYS( 1 );
 
-            sTemp = lifespan ? _("Adventured:") : _("Survived:");
-            mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_light_gray, (sTemp + " ").c_str());
-
-            int iDays = lifespan ? days_adventured : days_survived;
-            ssTemp << iDays;
-            wprintz(w_rip, c_magenta, ssTemp.str().c_str());
-            ssTemp.str("");
-
-            sTemp = (iDays == 1) ? _("day") : _("days");
-            wprintz(w_rip, c_white, (" " + sTemp).c_str());
+        if( days > 0 ) {
+            sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
+        } else if( hours > 0 ) {
+            sTemp = string_format( "%dh %dm", hours, minutes );
+        } else {
+            sTemp = string_format( "%dm", minutes );
         }
+
+        center_print( w_rip, iInfoLine++, c_white, sTemp );
 
         int iTotalKills = 0;
 
@@ -1734,6 +1729,17 @@ int game::kill_count( const mtype_id& mon )
         return kills[mon];
     }
     return 0;
+}
+
+int game::kill_count( const species_id &spec )
+{
+    int result = 0;
+    for( const auto &pair : kills ) {
+        if( pair.first->in_species( spec ) ) {
+            result += pair.second;
+        }
+    }
+    return result;
 }
 
 void game::increase_kill_count( const mtype_id& id )
@@ -4345,22 +4351,16 @@ void game::disp_NPC_epilogues()
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
-    std::vector<std::string> data;
     epilogue epi;
-    //This search needs to be expanded to all NPCs
+    // @todo: This search needs to be expanded to all NPCs
     for( const npc &guy : all_npcs() ) {
         if( guy.is_friend() ) {
-            if( guy.male ) {
-                epi.random_by_group( "male", guy.name );
-            } else {
-                epi.random_by_group( "female", guy.name );
-            }
-            for( auto &ln : epi.lines ) {
-                data.push_back( ln );
-            }
-            display_table(w, "", 1, data);
+            epi.random_by_group( guy.male ? "male" : "female" );
+            std::vector<std::string> txt;
+            txt.emplace_back( epi.text );
+            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
+            multipage( w, txt, "", 2 );
         }
-        data.clear();
     }
 
     refresh_all();

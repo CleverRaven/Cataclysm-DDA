@@ -5077,8 +5077,8 @@ void player::suffer()
                 }
             }
         }
-        if ((has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with(AEP_SCHIZO)) &&
-            one_in(2400)) { // Every 4 hours or so
+        if ( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
+            one_in( 2400 ) ) && is_player() ) { // Every 4 hours or so
             monster phantasm;
             int i;
             switch(rng(0, 11)) {
