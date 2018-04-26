@@ -23292,7 +23292,7 @@
           "rotates": false
         },
         {
-          "id": ["vp_clothboard_horizontal", "vp_cloth_halfboard_horizontal"],
+          "id": ["vp_dboard_horizontal", "vp_clothboard_horizontal", "vp_cloth_halfboard_horizontal"],
           "fg": 3849,
           "bg": 632,
           "rotates": false,
@@ -23304,7 +23304,7 @@
       ]
         },
         {
-          "id": ["vp_clothboard_ne", "vp_cloth_halfboard_ne"],
+          "id": ["vp_dboard_ne", "vp_clothboard_ne", "vp_cloth_halfboard_ne"],
           "fg": 3850,
           "bg": 632,
           "rotates": false,
@@ -23316,7 +23316,7 @@
       ]
         },
         {
-          "id": ["vp_clothboard_nw", "vp_cloth_halfboard_nw"],
+          "id": ["vp_dboard_nw", "vp_clothboard_nw", "vp_cloth_halfboard_nw"],
           "fg": 3851,
           "bg": 632,
           "rotates": false,
@@ -23328,7 +23328,7 @@
       ]
         },
         {
-          "id": ["vp_clothboard_se", "vp_cloth_halfboard_se"],
+          "id": ["vp_dboard_se", "vp_clothboard_se", "vp_cloth_halfboard_se"],
           "fg": 3852,
           "bg": 632,
           "rotates": false,
@@ -23340,7 +23340,7 @@
       ]
         },
         {
-          "id": ["vp_clothboard_sw", "vp_cloth_halfboard_sw"],
+          "id": ["vp_dboard_sw", "vp_clothboard_sw", "vp_cloth_halfboard_sw"],
           "fg": 3853,
           "bg": 632,
           "rotates": false,
@@ -23352,7 +23352,7 @@
       ]
         },
         {
-          "id": ["vp_cloth_halfboard_vertical", "vp_clothboard_vertical", "vp_cloth_halfboard_vertical_2"],
+          "id": ["vp_dboard_vertical", "vp_cloth_halfboard_vertical", "vp_clothboard_vertical", "vp_cloth_halfboard_vertical_2"],
           "fg": 3854,
           "bg": 632,
           "rotates": false,
@@ -23364,7 +23364,7 @@
       ]
         },
         {
-          "id": "vp_cloth_halfboard_horizontal_2",
+          "id": ["vp_dframe_cover", "vp_cloth_halfboard_horizontal_2"],
           "fg": 3855,
           "bg": 632,
           "rotates": false,
