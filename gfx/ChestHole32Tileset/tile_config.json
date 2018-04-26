@@ -41875,6 +41875,32 @@
           ]
         },
        {
+          "id": "vp_bfg_mounted",
+          "fg": 4590,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4684
+            }
+          ]
+        },
+       {
+          "id": "vp_awatercannon",
+          "fg": 4591,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4685
+            }
+          ]
+        },
+       {
           "id": ["vp_seed_drill", "v_planter_item"],
           "fg": 3608,
           "bg": 632,
@@ -50908,7 +50934,7 @@
       ]
         },
         {
-          "id": "vp_basketlg",
+          "id": ["vp_basketlg", "vp_basketlg_external", "basketsm_external"],
           "fg": 2643,
           "rotates": false,
           "multitile": true,
