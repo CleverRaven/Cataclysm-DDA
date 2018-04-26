@@ -1605,7 +1605,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"?"
+                "key":"0"
             }
         ]
     },
@@ -2126,7 +2126,7 @@
     { "type":"keybinding", "name": "View Kills", "category":"DEFAULTMODE", "id":"kills", "bindings":[ { "input_method":"keyboard", "key":")" } ] },
     { "type":"keybinding", "name": "View Morale", "category":"DEFAULTMODE", "id":"morale", "bindings":[ { "input_method":"keyboard", "key":"v" } ] },
     { "type":"keybinding", "name": "View Message Log", "category":"DEFAULTMODE", "id":"messages", "bindings":[ { "input_method":"keyboard", "key":"P" } ] },
-    { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"?" } ] },
+    { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"0" } ] },
     { "type":"keybinding", "name": "Zoom In", "category":"DEFAULTMODE", "id":"zoom_in", "bindings":[ { "input_method":"keyboard", "key":"z" } ] },
     { "type":"keybinding", "name": "Zoom Out", "category":"DEFAULTMODE", "id":"zoom_out", "bindings":[ { "input_method":"keyboard", "key":"Z" } ] },
     { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode" },
