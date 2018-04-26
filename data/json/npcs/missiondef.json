@@ -1347,7 +1347,7 @@
     "followup": "MISSION_RANCH_FOREMAN_10",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 150 units of bleach so we can get started.",
+      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 5 gallon jugs of bleach so we can get started.",
       "accepted": "I'm sure you can find bleach in most homes...",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "If you can't find a large supply I'd recommend checking hospitals or research labs.",

@@ -4532,7 +4532,7 @@ bool mattack::grenadier_elite(monster *const z)
     grenades["bot_c4_hack"].chance = 8;
     grenades["bot_c4_hack"].ammo_percentage = .75;
     // Mininuke
-    grenades["bot_mininuke_hack"].message = _("The %s opens its pack and spreads its hands, a mininuke hack floats out!!");
+    grenades["bot_mininuke_hack"].message = _("The %s opens its pack and spreads its hands, a mininuke hack floats out!");
     grenades["bot_mininuke_hack"].chance = 50;
     grenades["bot_mininuke_hack"].ammo_percentage = .75;
 

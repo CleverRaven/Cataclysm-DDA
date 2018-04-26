@@ -30,7 +30,7 @@ std::string robot_finds_kitten::getmessage(int idx)
         _("Not kitten, just a packet of Kool-Aid(tm)."),
         _("A freshly-baked pumpkin pie."),
         _("A lone, forgotten comma, sits here, sobbing."),
-        _("ONE HUNDRED THOUSAND CARPET FIBERS!!!!!"),
+        _("ONE HUNDRED THOUSAND CARPET FIBERS!"),
         _("It's Richard Nixon's nose!"),
         _("It's Lucy Ricardo. \"Aaaah, Ricky!\", she says."),
         _("You stumble upon Bill Gates' stand-up act."),

@@ -783,11 +783,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( g->u.is_wearing( "badge_marshal" ) )
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    return _( "Hello marshal." );
+                    return _( "Hello, marshal." );
                 case 2:
                     return _( "Marshal, I'm afraid I can't talk now." );
                 case 3:
-                    return _( "I'm not in charge here marshal." );
+                    return _( "I'm not in charge here, marshal." );
                 case 4:
                     return _( "I'm supposed to direct all questions to my leadership, marshal." );
             }
@@ -888,7 +888,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         if( g->u.has_trait( trait_PROF_FED ) ) {
-            return _( "Can I help you marshal?" );
+            return _( "Can I help you, marshal?" );
         }
         if( g->u.male ) {
             return _( "Morning sir, how can I help you?" );
