@@ -8,12 +8,10 @@
 #include <list>
 #include <string>
 
-
 class item;
 class item_location;
 class player;
 typedef std::function<bool( const item_location & )> item_location_filter;
-
 
 class inventory_filter_preset : public inventory_selector_preset
 {
@@ -25,7 +23,6 @@ class inventory_filter_preset : public inventory_selector_preset
     private:
         item_location_filter filter;
 };
-
 namespace game_menus
 {
 
