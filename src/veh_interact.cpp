@@ -1494,10 +1494,8 @@ bool veh_interact::do_rename( std::string & )
             overmap_buffer.add_vehicle( veh );
         }
     }
-    // refresh w_disp & w_part windows:
-    move_cursor( 0, 0 );
 
-    return false;
+    return true;
 }
 
 bool veh_interact::do_relabel( std::string &msg )
