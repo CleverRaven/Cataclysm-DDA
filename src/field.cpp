@@ -461,26 +461,20 @@ field_id field_from_ident(const std::string &field_ident)
     return fd_null;
 }
 
-void map::create_burnproducts( const tripoint p, item &fuel ) {
+void map::create_burnproducts( const tripoint p, const item &fuel ) {
 	std::vector<material_id> all_mats = fuel.made_of();
-	if( !all_mats.empty() )
-	{
-	    units::mass fuel_weight = fuel.weight( false );
-	    //Items that are multiple materials are assumed to be equal parts each.
-	    units::mass by_weight = fuel_weight / all_mats.size();
-	    for( auto &mat : all_mats ) {
-	        if( !mat->burn_products().empty() ) {
-	            mat_burn_products all_bp = mat->burn_products();
-	            for( auto &bp : all_bp ) {
-	                itype_id id = bp.first;
-	                float eff = bp.second;
-	                int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+    if ( all_mats.empty() ) { return; }
+	units::mass fuel_weight = fuel.weight( false );
+	//Items that are multiple materials are assumed to be equal parts each.
+	units::mass by_weight = fuel_weight / all_mats.size();
+	for( auto &mat : all_mats ) {
+	    for( auto &bp : mat->burn_products() ) {
+	        itype_id id = bp.first;
+	        float eff = bp.second;
+	        int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
 
-	                if( n > 0 ) {
-	                    spawn_item( p, id, n, 1, calendar::turn );
-	                }
-	            }
-	        }
+            if( n <= 0 ) continue;
+	        spawn_item( p, id, n, 1, calendar::turn );
 	    }
 	}
 }

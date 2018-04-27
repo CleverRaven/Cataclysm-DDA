@@ -972,12 +972,8 @@ class map
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &trap_locations( trap_id t ) const;
 
-		/*
-		 * Spawns byproducts from items destroyed in fire.
-		 * Byproducts are declared in JSON as:
-		 * "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
-		 */
-        void create_burnproducts( const tripoint p, item &fuel );
+        //Spawns byproducts from items destroyed in fire.
+        void create_burnproducts( const tripoint p, const item &fuel );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp
