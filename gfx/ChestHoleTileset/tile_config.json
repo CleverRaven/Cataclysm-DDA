@@ -41919,6 +41919,19 @@
           ]
         },
        {
+          "id": "vp_fuzzle",
+          "fg": 4502,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4504
+            }
+          ]
+        },
+       {
           "id": "vp_clutter",
           "fg": 4577,
           "bg": 632,
@@ -50952,7 +50965,7 @@
       ]
         },
         {
-          "id": ["vp_basketlg", "vp_basketlg_external", "basketsm_external"],
+          "id": ["vp_basketlg", "vp_basketlg_external", "vp_basketsm_external", "basketsm_external"],
           "fg": 2643,
           "rotates": false,
           "multitile": true,
