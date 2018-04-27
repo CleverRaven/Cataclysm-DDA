@@ -1427,7 +1427,7 @@ std::string rewrite_vsnprintf( const char *msg )
             std::string argument( arg_start, end + 1 );
             rewritten_msg << argument;
         } else {
-            throw std::runtime_error( "<formatting error> in rewrite_vsnprintf" );
+            rewritten_msg << "<formatting error>";
         }
 
         // write argument without position to rewritten_msg_optimised
