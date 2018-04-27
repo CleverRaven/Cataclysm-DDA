@@ -51227,7 +51227,7 @@
       ]
         },
         {
-          "id": "vp_door",
+          "id": ["vp_door", "vp_fdoor"],
           "fg": 2656,
           "rotates": true,
           "multitile": true,

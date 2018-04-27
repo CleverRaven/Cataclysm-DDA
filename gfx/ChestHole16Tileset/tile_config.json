@@ -51223,7 +51223,7 @@
       ]
         },
         {
-          "id": "vp_door",
+          "id": ["vp_door", "vp_fdoor"],
           "fg": 2656,
           "rotates": true,
           "multitile": true,
@@ -52314,7 +52314,7 @@
       ]
         },
         {
-          "id": "vp_xlhalfboard_vertical_2",
+          "id": ["vp_xlhalfboard_vertical", "vp_fxlhalfboard_vertical"],
           "fg": 2709,
           "rotates": true,
           "multitile": true,
@@ -52326,7 +52326,7 @@
       ]
         },
         {
-          "id": "vp_xlhalfboard_vertical",
+          "id": ["vp_xlhalfboard_vertical_2", "vp_fxlhalfboard_vertical_2"],
           "fg": 2709,
           "rotates": true,
           "multitile": true,
