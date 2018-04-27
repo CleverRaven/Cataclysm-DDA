@@ -107,7 +107,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "scrap", 1 ] ]
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -174,7 +174,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "scrap_copper", 1 ] ]
+    "burn_products": [ [ "scrap_copper", 1 ] ]
   },
   {
     "type": "material",
@@ -353,7 +353,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "gold_small", 1 ] ]
+    "burn_products": [ [ "gold_small", 1 ] ]
   },
   {
     "type": "material",
@@ -370,7 +370,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "scrap", 1 ] ]
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -749,7 +749,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "silver_small", 1 ] ]
+    "burn_products": [ [ "silver_small", 1 ] ]
   },
   {
     "type": "material",
@@ -766,7 +766,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "scrap", 1 ] ]
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
