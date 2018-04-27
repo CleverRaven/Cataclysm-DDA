@@ -41767,7 +41767,7 @@
           "rotates": false
         },
        {
-          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_diskrack", "vp_flintrack", "vp_harpoonrack", "vp_nailrack", "vp_pebblerack", "vp_sballistarack", "vp_sboltrack", "vp_shardrack", "vp_stonerack"],
+          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_boltrack", "vp_diskrack", "vp_flintrack", "vp_harpoonrack", "vp_nailrack", "vp_pebblerack", "vp_sballistarack", "vp_sboltrack", "vp_shardrack", "vp_stonerack"],
           "fg": 4329,
           "rotates": false
         },
