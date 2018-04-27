@@ -1218,7 +1218,7 @@ void reset_effect_types()
 void effect_type::register_ma_buff_effect( const effect_type &eff )
 {
     if( eff.id.is_valid() ) {
-        debugmsg( "effect id %s of a martial art buff is already used as id for an effect" );
+        debugmsg( "effect id %s of a martial art buff is already used as id for an effect", eff.id.c_str() );
         return;
     }
     effect_types.insert( std::make_pair( eff.id, eff ) );

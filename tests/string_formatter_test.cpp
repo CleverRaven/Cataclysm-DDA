@@ -8,15 +8,6 @@
 #include <vector>
 #include <cstdarg>
 
-static std::string raw_string_format( const char *const pattern, ... )
-{
-    va_list ap;
-    va_start( ap, pattern );
-    std::string result = vstring_format( pattern, ap );
-    va_end( ap );
-    return result;
-}
-
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>
 std::string throwing_string_format( const char *const format, Args &&...args )
@@ -33,7 +24,8 @@ void importet_test( const int serial, const char *const expected, const char *co
     CAPTURE( serial );
     CAPTURE( format );
 
-    const std::string original_result = raw_string_format( format, std::forward<Args>( args )... );
+    const std::string original_result = cata::string_formatter::raw_string_format( format,
+                                        std::forward<Args>( args )... );
     const std::string new_result = throwing_string_format( format, std::forward<Args>( args )... );
 
     // The expected string *is* what the raw printf would return.
@@ -68,7 +60,8 @@ void test_new_old_pattern( const char *const old_pattern, const char *const new_
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
 
-    std::string original_result = raw_string_format( old_pattern, std::forward<Args>( args )... );
+    std::string original_result = cata::string_formatter::raw_string_format( old_pattern,
+                                  std::forward<Args>( args )... );
     std::string old_result = throwing_string_format( old_pattern, std::forward<Args>( args )... );
     CHECK( original_result == old_result );
 
@@ -103,7 +96,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
-    std::string original_result = raw_string_format( old_pattern, value );
+    std::string original_result = cata::string_formatter::raw_string_format( old_pattern, value );
     std::string new_result = throwing_string_format( new_pattern, value );
     CHECK( original_result == new_result );
 }
@@ -144,7 +137,7 @@ TEST_CASE( "string_formatter" )
 
     // sprintf of some systems doesn't support the 'N$' syntax, if it's
     // not supported, the result is either empty, or the input string
-    if( raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
+    if( cata::string_formatter::raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
         test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
     }
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3 ) );
