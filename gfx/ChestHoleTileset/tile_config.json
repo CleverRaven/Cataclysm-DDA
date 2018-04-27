@@ -46164,7 +46164,7 @@
       ]
         },
         {
-          "id": "vp_frame_cross",
+          "id": ["vp_frame_cross", "vp_dframe_cross"],
           "fg": 1237,
           "rotates": true,
           "multitile": true,
@@ -52318,7 +52318,7 @@
       ]
         },
         {
-          "id": "vp_halfboard_vertical",
+          "id": ["vp_xlhalfboard_vertical", "vp_fxlhalfboard_vertical"],
           "fg": 2709,
           "rotates": true,
           "multitile": true,
