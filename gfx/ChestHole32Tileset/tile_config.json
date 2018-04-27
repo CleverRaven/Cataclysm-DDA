@@ -41908,6 +41908,19 @@
           ]
         },
        {
+          "id": ["vp_gloople_plate", "vp_gray_plate", "vp_oozle_plate", "vp_rebar_plate", "vp_rebar_plate", "vp_spring_plate"],
+          "fg": 4448,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4448
+            }
+          ]
+        },
+       {
           "id": "vp_clutter",
           "fg": 4577,
           "bg": 632,
@@ -52868,7 +52881,7 @@
       ]
         },
         {
-          "id": "vp_seatbelt",
+          "id": ["vp_seatbelt", "vp_gloople_belt"],
           "fg": 2744,
           "rotates": true,
     "multitile": true,
