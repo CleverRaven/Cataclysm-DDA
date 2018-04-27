@@ -462,21 +462,21 @@ field_id field_from_ident(const std::string &field_ident)
 }
 
 void map::create_burnproducts( const tripoint p, const item &fuel ) {
-	std::vector<material_id> all_mats = fuel.made_of();
+    std::vector<material_id> all_mats = fuel.made_of();
     if ( all_mats.empty() ) { return; }
-	units::mass fuel_weight = fuel.weight( false );
-	//Items that are multiple materials are assumed to be equal parts each.
-	units::mass by_weight = fuel_weight / all_mats.size();
-	for( auto &mat : all_mats ) {
-	    for( auto &bp : mat->burn_products() ) {
-	        itype_id id = bp.first;
-	        float eff = bp.second;
-	        int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+    units::mass fuel_weight = fuel.weight( false );
+    //Items that are multiple materials are assumed to be equal parts each.
+    units::mass by_weight = fuel_weight / all_mats.size();
+    for( auto &mat : all_mats ) {
+        for( auto &bp : mat->burn_products() ) {
+            itype_id id = bp.first;
+            float eff = bp.second;
+            int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
 
             if( n <= 0 ) continue;
-	        spawn_item( p, id, n, 1, calendar::turn );
-	    }
-	}
+            spawn_item( p, id, n, 1, calendar::turn );
+        }
+    }
 }
 
 bool map::process_fields()
