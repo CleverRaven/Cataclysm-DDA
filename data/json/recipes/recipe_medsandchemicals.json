@@ -2369,7 +2369,7 @@
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
-    [ [ "ash", 50 ] ]
+    [ [ "ash", 500 ] ]
   ]
 }
 ]
