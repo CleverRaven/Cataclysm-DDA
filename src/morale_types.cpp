@@ -191,7 +191,7 @@ void morale_type_data::load( JsonObject &jo, const std::string & )
 void morale_type_data::check() const
 {
     if( needs_item != ( text.find( "%s" ) != std::string::npos ) ) {
-        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%s'" );
+        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%%s'", id.c_str() );
     }
 }
 
