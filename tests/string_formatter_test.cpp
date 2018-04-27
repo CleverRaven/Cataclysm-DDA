@@ -325,7 +325,9 @@ TEST_CASE( "string_formatter" )
     /* 173: excluded for C */
     /* 174: excluded for C */
     // importet_test( 176, "%H", "%H", -1 ); // 'H' is not a valid format specifier
-    importet_test( 177, "%0", "%%0" );
+    // We are warning/erroring when not passing a format argument, i.e.
+    // error: format not a string literal and no format arguments [-Werror=format-security]
+    // importet_test( 177, "%0", "%%0" );
     // importet_test( 178, "2345", "%hx", 74565 ); // 74565 is not a valid short int, as required by %hx
     importet_test( 179, "61", "%hhx", 'a' );
     // We are warning/erroring when not passing a format argument, i.e.
