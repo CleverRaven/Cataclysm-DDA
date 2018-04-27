@@ -54663,7 +54663,7 @@
     { "id": ["vp_crane_small", "crane_small"],    "fg": 4277, "rotates": false },
     { "id": ["vp_crane_medium", "crane_medium"],     "fg": 4278, "rotates": false },
     { "id": ["vp_fridgeseat", "fridgeseat"],     "fg": 4279, "rotates": false },
-    { "id": ["vp_floorfridge", "floorfridge"],    "fg": 4280, "rotates": false },
+    { "id": ["vp_floorfridge", "floorfridge", "vp_fridge_cargo", "fridge_cargo"],    "fg": 4331, "rotates": false },
     { "id": ["rf_food_keeper", "f_rf_food_keeper"],    "fg": 4281, "rotates": false },
 
     { "id": "uekibati",         "fg": 4288, "rotates": false }, 
