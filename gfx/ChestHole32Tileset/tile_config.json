@@ -5259,12 +5259,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_vp_atomic_light",
-          "fg": 3200,
-          "bg": 632,
-          "rotates": false
-        },
-        {
           "id": "overlay_wielded_atomic_light",
           "fg": 3200,
           "bg": 632,
@@ -5275,19 +5269,6 @@
           "fg": 3199,
           "bg": 632,
           "rotates": false
-        },
-        {
-          "id": "overlay_wielded_vp_atomic_lamp",
-          "fg": 3019,
-          "bg": 632,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "overlay_wielded_broken",
-              "fg": 3021
-            }
-            ]
         },
         {
           "id": "overlay_wielded_atomic_lamp",
@@ -26934,7 +26915,7 @@
           "rotates": false
         },
         {
-          "id": "vp_atomic_light",
+          "id": ["vp_atomic_light", "vp_gel_lamp", "vp_gel_lamp_d"],
           "fg": 3200,
           "bg": 632,
           "rotates": false
