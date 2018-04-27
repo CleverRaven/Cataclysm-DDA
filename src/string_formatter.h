@@ -339,7 +339,9 @@ class string_formatter
         std::string get_output() const {
             return output;
         }
-#if defined(__GNUC__)
+#if defined(__clang__)
+#define PRINTF_LIKE(a,b) __attribute__((format(printf,a,b)))
+#elif defined(__GNUC__)
 #define PRINTF_LIKE(a,b) __attribute__((format(gnu_printf,a,b)))
 #else
 #define PRINTF_LIKE(a,b)
