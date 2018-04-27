@@ -51608,7 +51608,7 @@
       ]
         },
         {
-          "id": "vp_frame_horizontal",
+          "id": ["vp_frame_horizontal", "vp_dframe_horizontal"],
           "fg": 2683,
           "rotates": true,
           "multitile": true,
@@ -51620,7 +51620,7 @@
       ]
         },
         {
-          "id": "vp_frame_horizontal_2",
+          "id": ["vp_frame_horizontal_2", "vp_dframe_horizontal_2"],
           "fg": 2684,
           "rotates": true,
           "multitile": true,
@@ -51632,7 +51632,7 @@
       ]
         },
         {
-          "id": "vp_frame_ne",
+          "id": ["vp_frame_ne", "vp_dframe_ne"],
           "fg": 2685,
           "rotates": true,
           "multitile": true,
@@ -51644,7 +51644,7 @@
       ]
         },
         {
-          "id": "vp_frame_nw",
+          "id": ["vp_frame_nw", "vp_dframe_nw"],
           "fg": 2686,
           "rotates": true,
           "multitile": true,
@@ -51656,7 +51656,7 @@
       ]
         },
         {
-          "id": "vp_frame_se",
+          "id": ["vp_frame_se", "vp_dframe_se"],
           "fg": 2687,
           "rotates": true,
           "multitile": true,
@@ -51668,7 +51668,7 @@
       ]
         },
         {
-          "id": "vp_frame_sw",
+          "id": ["vp_frame_sw", "vp_dframe_sw"],
           "fg": 2688,
           "rotates": true,
           "multitile": true,
@@ -51680,7 +51680,7 @@
       ]
         },
         {
-          "id": "vp_frame_vertical",
+          "id": ["vp_frame_vertical", "vp_dframe_vertical"],
           "fg": 2689,
           "rotates": true,
           "multitile": true,
@@ -51692,7 +51692,7 @@
       ]
         },
         {
-          "id": "vp_frame_vertical_2",
+          "id": ["vp_frame_vertical_2", "vp_dframe_vertical_2"],
           "fg": 2690,
           "rotates": true,
           "multitile": true,
