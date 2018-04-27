@@ -76,9 +76,9 @@ player_activity veh_interact::serialize_activity()
         return player_activity();
     }
 
-	int time = 1000;
+    int time = 1000;
     if( !g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
-	    switch( sel_cmd ) {
+        switch( sel_cmd ) {
 	        case 'i':
 	            time = vp->install_time( g->u );
 	            break;
