@@ -41936,6 +41936,19 @@
           ]
         },
        {
+          "id": "vp_gloopletread",
+          "fg": 4333,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4317
+            }
+          ]
+        },
+       {
           "id": "vp_clutter",
           "fg": 4577,
           "bg": 632,
@@ -52890,7 +52903,7 @@
       ]
         },
         {
-          "id": ["vp_seatbelt", "vp_gloople_belt"],
+          "id": ["vp_seatbelt", "vp_gloople_belt", "vp_gray_belt"],
           "fg": 2744,
           "rotates": true,
     "multitile": true,
