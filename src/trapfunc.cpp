@@ -198,13 +198,9 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
             }
         } else if( n != nullptr ) {
             std::vector<tripoint> valid;
-            tripoint jk = p;
-            for( jk.x = p.x - 1; jk.x <= p.x + 1; jk.x++ ) {
-                for( jk.y = p.y - 1; jk.y <= p.y + 1; jk.y++ ) {
-                    if( g->is_empty( jk ) ) {
-                        // No monster, NPC, or player, plus valid for movement
-                        valid.push_back( jk );
-                    }
+            for( const tripoint &jk : g->m.points_in_radius( p, 1 ) ) {
+                if( g->is_empty( jk ) ) {
+                    valid.push_back( jk );
                 }
             }
             if( !valid.empty() ) {
@@ -905,14 +901,9 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
     }
 
     std::vector<tripoint> safe;
-    tripoint tmp = p->pos();
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p->posx() - 1; i <= p->posx() + 1; i++ ) {
-        for( j = p->posy() - 1; j <= p->posy() + 1; j++ ) {
-            if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
-                safe.push_back( tmp );
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 1 ) ) {
+        if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
+            safe.push_back( tmp );
         }
     }
     if( safe.empty() ) {

@@ -646,7 +646,7 @@ void editmap::update_view( bool update_info )
             mvwprintz( w_info, off, 1, cur.color(),
                        _( "field: %s (%d) density %d age %d" ),
                        cur.name().c_str(), cur.getFieldType(),
-                       cur.getFieldDensity(), cur.getFieldAge()
+                       cur.getFieldDensity(), to_turns<int>( cur.getFieldAge() )
                      );
             off++; // 5ish
         }
@@ -1159,7 +1159,7 @@ int editmap::edit_fld()
                         if( t_dens != 0 ) {
                             g->m.set_field_strength( elem, fid, fsel_dens );
                         } else {
-                            g->m.add_field( elem, fid, fsel_dens, 0 );
+                            g->m.add_field( elem, fid, fsel_dens );
                         }
                     } else {
                         if( t_dens != 0 ) {

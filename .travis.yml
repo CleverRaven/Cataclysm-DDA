@@ -45,6 +45,14 @@ matrix:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
 
   include:
+    # test mods
+    - env: COMPILER=g++-4.8 MODS=--mods=RL_Classes
+      compiler: gcc
+      addons: &gcc48
+        apt:
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
+          sources: *apt_sources
+
     # coverage
     - env: COMPILER=g++-4.8 CODE_COVERAGE=true
       compiler: gcc
@@ -121,7 +129,7 @@ before_script:
   - CXX="$COMPILER"
   - source build-scripts/requirements.sh
 
-script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test
+script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test $MODS
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi

@@ -1580,7 +1580,7 @@ void item::io( Archive& archive )
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
-        gun_set_mode(mode);
+        gun_set_mode( gun_mode_id( mode ) );
     }
 
     // Fixes #16751 (items could have null contents due to faulty spawn code)
@@ -2062,6 +2062,7 @@ void mission::deserialize(JsonIn &jsin)
 
     jo.read( "target_npc_id", target_npc_id );
     jo.read( "monster_type", monster_type );
+    jo.read( "monster_species", monster_species );
     jo.read( "monster_kill_goal", monster_kill_goal );
     jo.read("deadline", deadline );
     jo.read("step", step );
@@ -2102,6 +2103,7 @@ void mission::serialize(JsonOut &json) const
     json.member("recruit_class", recruit_class);
     json.member("target_npc_id", target_npc_id);
     json.member("monster_type", monster_type);
+    json.member("monster_species", monster_species);
     json.member("monster_kill_goal", monster_kill_goal);
     json.member("deadline", deadline);
     json.member("npc_id", npc_id);

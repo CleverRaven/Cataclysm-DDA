@@ -1006,7 +1006,7 @@
       "target_id": "broadfire_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "Charge!!",
+      "success_message": "Charge!",
       "lacks_fuel_message": "No strength to fight!"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
@@ -1373,7 +1373,7 @@
     "type": "TOOL",
     "name": "cell phone",
     "name_plural": "cell phones",
-    "description": "This is a typical smartphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
+    "description": "This is a typical cellphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries. Also it has a clock app that includes an alarm.",
     "weight": 226,
     "volume": 1,
     "price": 10000,
@@ -2358,7 +2358,7 @@
     },
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
+      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away and use the remote control to detonate.",
       "explosion": { "power": 50 }
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
@@ -5478,7 +5478,7 @@
     "max_charges": 1,
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away, and use the remote control to detonate.",
+      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away, and use the remote control to detonate.",
       "explosion": {
         "power": 12,
         "shrapnel": 4

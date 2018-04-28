@@ -218,13 +218,10 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
         sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
-        for( int i = posx() - 1; i <= posx() + 1; i++ ) {
-            for( int j = posy() - 1; j <= posy() + 1; j++ ) {
-                tripoint bashpoint( i, j, posz() );
-                g->m.bash( bashpoint, 110 );
-                g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( bashpoint, 110 );
-            }
+        for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
+            g->m.bash( bashpoint, 110 );
+            g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
+            g->m.bash( bashpoint, 110 );
         }
 
         mod_moves( -100 );
@@ -371,7 +368,7 @@ bool player::activate_bionic( int b, bool eff_only )
         g->refresh_all();
         tripoint dirp;
         if( choose_adjacent( _( "Start a fire where?" ), dirp ) &&
-            g->m.add_field( dirp, fd_fire, 1, 0 ) ) {
+            g->m.add_field( dirp, fd_fire, 1 ) ) {
             mod_moves( -100 );
         } else {
             add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -930,8 +927,8 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         remove_bionic( b_id );
         g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
     } else {
-        add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
-                          pgettext( "memorial_female", "Removed bionic: %s." ),
+        add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
+                          pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                           bionics[b_id].name.c_str() );
         bionics_uninstall_failure( this );
     }
@@ -1382,8 +1379,6 @@ bionic &player::bionic_at_index( int i )
     return ( *my_bionics )[i];
 }
 
-
-
 // Returns true if a bionic was removed.
 bool player::remove_random_bionic()
 {
@@ -1391,6 +1386,8 @@ bool player::remove_random_bionic()
     if( numb ) {
         int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = ( *my_bionics )[rem];
+        //Todo: Currently, contained/containing bionics don't get explicitly deactivated when the removal of a linked bionic removes them too
+        deactivate_bionic( rem, true );
         remove_bionic( bionic.id );
         add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );
         recalc_sight_limits();

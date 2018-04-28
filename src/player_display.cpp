@@ -75,8 +75,20 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
-        out = string_format( "%-7s", body_part_name_as_heading( all_body_parts[bp],
-                             combine ? 2 : 1 ).c_str() );
+        // @todo: utf8 aware printf would be nice... this works well enough for now
+        out = body_part_name_as_heading( all_body_parts[bp],
+                                         combine ? 2 : 1 ).c_str();
+
+        int len = 7 - utf8_width( out );
+        switch( sgn( len ) ) {
+            case -1:
+                out = utf8_truncate( out, 7 );
+                break;
+            case 1:
+                out = out + std::string( len, ' ' );
+                break;
+        }
+
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
         nc_color limb_color = ( orig_line == bp ) ?
@@ -274,7 +286,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
     unsigned skill_win_size_y = 1 + skillslist.size();
-    unsigned info_win_size_y = 4;
+    unsigned info_win_size_y = 6;
 
     unsigned infooffsetytop = 11;
     unsigned infooffsetybottom = infooffsetytop + 1 + info_win_size_y;
@@ -675,62 +687,58 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_stats, 8, 0, c_light_gray, "%26s", "" );
 
                 if( line == 0 ) {
-                    // Display player current strength effects
+                    // Display information on player strength in appropriate window
                     mvwprintz( w_stats, 2, 1, h_light_gray, _( "Strength:" ) );
-                    mvwprintz( w_stats, 6, 1, c_magenta, _( "Base HP:" ) );
-                    mvwprintz( w_stats, 6, 22, c_magenta, "%3d", hp_max[1] );
-                    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
-                        mvwprintz( w_stats, 7, 1, c_magenta, _( "Carry weight(kg):" ) );
-                    } else {
-                        mvwprintz( w_stats, 7, 1, c_magenta, _( "Carry weight(lbs):" ) );
-                    }
-                    mvwprintz( w_stats, 7, 21, c_magenta, "%4.1f", convert_weight( weight_capacity() ) );
-                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Melee damage:" ) );
-                    mvwprintz( w_stats, 8, 22, c_magenta, "%3.1f", bonus_damage( false ) );
-
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
                                        "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
+                    mvwprintz( w_info, 3, 1, c_magenta, _( "Base HP:" ) );
+                    mvwprintz( w_info, 3, 22, c_magenta, "%3d", hp_max[1] );
+                    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
+                        mvwprintz( w_info, 4, 1, c_magenta, _( "Carry weight(kg):" ) );
+                    } else {
+                        mvwprintz( w_info, 4, 1, c_magenta, _( "Carry weight(lbs):" ) );
+                    }
+                    mvwprintz( w_info, 4, 21, c_magenta, "%4.1f", convert_weight( weight_capacity() ) );
+                    mvwprintz( w_info, 5, 1, c_magenta, _( "Melee damage:" ) );
+                    mvwprintz( w_info, 5, 22, c_magenta, "%3.1f", bonus_damage( false ) );
+
                 } else if( line == 1 ) {
-                    // Display player current dexterity effects
+                    // Display information on player dexterity in appropriate window
                     mvwprintz( w_stats, 3, 1, h_light_gray, _( "Dexterity:" ) );
-
-                    mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-                    mvwprintz( w_stats, 6, 21, c_magenta, "%+.1lf", get_hit_base() );
-                    mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
-                    mvwprintz( w_stats, 7, 23, c_magenta, "%+3d", -( abs( ranged_dex_mod() ) ) );
-                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge:" ) );
-                    mvwprintz( w_stats, 8, 23, c_magenta, "%+3d", throw_dispersion_per_dodge( false ) );
-
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                                        "gun for ranged combat, and enhances many actions that require finesse." ) );
+                    mvwprintz( w_info, 3, 1, c_magenta, _( "Melee to-hit bonus:" ) );
+                    mvwprintz( w_info, 3, 38, c_magenta, "%+.1lf", get_hit_base() );
+                    mvwprintz( w_info, 4, 1, c_magenta, _( "Ranged penalty:" ) );
+                    mvwprintz( w_info, 4, 38, c_magenta, "%+3d", -( abs( ranged_dex_mod() ) ) );
+                    mvwprintz( w_info, 5, 1, c_magenta, _( "Throwing penalty per target's dodge:" ) );
+                    mvwprintz( w_info, 5, 38, c_magenta, "%+3d", throw_dispersion_per_dodge( false ) );
                 } else if( line == 2 ) {
-                    // Display player current intelligence effects
+                    // Display information on player intelligence in appropriate window
                     mvwprintz( w_stats, 4, 1, h_light_gray, _( "Intelligence:" ) );
-                    mvwprintz( w_stats, 6, 1, c_magenta, _( "Read times:" ) );
-                    mvwprintz( w_stats, 6, 21, c_magenta, "%3d%%", read_speed( false ) );
-                    mvwprintz( w_stats, 7, 1, c_magenta, _( "Skill rust:" ) );
-                    mvwprintz( w_stats, 7, 22, c_magenta, "%2d%%", rust_rate( false ) );
-                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Crafting bonus:" ) );
-                    mvwprintz( w_stats, 8, 22, c_magenta, "%2d%%", get_int() );
-
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                                        "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
+                    mvwprintz( w_info, 3, 1, c_magenta, _( "Read times:" ) );
+                    mvwprintz( w_info, 3, 21, c_magenta, "%3d%%", read_speed( false ) );
+                    mvwprintz( w_info, 4, 1, c_magenta, _( "Skill rust:" ) );
+                    mvwprintz( w_info, 4, 22, c_magenta, "%2d%%", rust_rate( false ) );
+                    mvwprintz( w_info, 5, 1, c_magenta, _( "Crafting bonus:" ) );
+                    mvwprintz( w_info, 5, 22, c_magenta, "%2d%%", get_int() );
                 } else if( line == 3 ) {
-                    // Display player current perception effects
+                    // Display information on player perception in appropriate window
                     mvwprintz( w_stats, 5, 1, h_light_gray, _( "Perception:" ) );
-                    mvwprintz( w_stats, 7, 1, c_magenta, _( "Trap detection level:" ) );
-                    mvwprintz( w_stats, 7, 23, c_magenta, "%2d", get_per() );
-                    if( ranged_per_mod() > 0 ) {
-                        mvwprintz( w_stats, 8, 1, c_magenta, _( "Aiming penalty:" ) );
-                        mvwprintz( w_stats, 8, 21, c_magenta, "%+4d", -ranged_per_mod() );
-                    }
-
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Perception is the most important stat for ranged combat.  It's also used for "
                                        "detecting traps and other things of interest." ) );
+                    mvwprintz( w_info, 4, 1, c_magenta, _( "Trap detection level:" ) );
+                    mvwprintz( w_info, 4, 23, c_magenta, "%2d", get_per() );
+                    if( ranged_per_mod() > 0 ) {
+                        mvwprintz( w_info, 5, 1, c_magenta, _( "Aiming penalty:" ) );
+                        mvwprintz( w_info, 5, 21, c_magenta, "%+4d", -ranged_per_mod() );
+                    }
                 }
                 wrefresh( w_stats );
                 wrefresh( w_info );
@@ -809,7 +817,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 break;
             }
             case 4: // Traits tab
-                mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces.c_str() );
+                werase( w_traits );
+                mvwprintz( w_traits, 0, 0, h_light_gray, header_spaces );
                 center_print( w_traits, 0, h_light_gray, title_TRAITS );
                 if( line <= ( trait_win_size_y - 1 ) / 2 ) {
                     min = 0;
@@ -822,7 +831,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     max = traitslist.size();
                 } else {
                     min = line - ( trait_win_size_y - 1 ) / 2;
-                    max = line + ( trait_win_size_y + 1 ) / 2;
+                    max = line + trait_win_size_y / 2 + 1;
                     if( traitslist.size() < max ) {
                         max = traitslist.size();
                     }
@@ -830,7 +839,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                 for( size_t i = min; i < max; i++ ) {
                     const auto &mdata = traitslist[i].obj();
-                    mvwprintz( w_traits, int( 1 + i - min ), 1, c_light_gray, "                         " );
                     const auto color = mdata.get_display_color();
                     trim_and_print( w_traits, int( 1 + i - min ), 1, getmaxx( w_traits ) - 1,
                                     i == line ? hilite( color ) : color, mdata.name );

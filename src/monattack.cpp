@@ -19,6 +19,7 @@
 #include "mondefense.h"
 #include "projectile.h"
 #include "iuse_actor.h"
+#include "gun_mode.h"
 #include "weighted_list.h"
 #include "mongroup.h"
 #include "translations.h"
@@ -428,7 +429,7 @@ bool mattack::acid(monster *z)
             if (g->m.passable( dest ) &&
                 g->m.clear_path( dest, hitp, 6, 1, 100 ) &&
                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
-                g->m.add_field( dest, fd_acid, 2, 0 );
+                g->m.add_field( dest, fd_acid, 2 );
             }
         }
     }
@@ -450,7 +451,7 @@ bool mattack::acid_barf(monster *z)
 
     z->moves -= 80;
     // Make sure it happens before uncanny dodge
-    g->m.add_field( target->pos(), fd_acid, 1, 0 );
+    g->m.add_field( target->pos(), fd_acid, 1 );
     bool uncanny = target->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( uncanny || dodge_check(z, target) ){
@@ -557,13 +558,13 @@ bool mattack::shockstorm(monster *z)
     std::vector<tripoint> bolt = line_to( z->pos(), tarp, 0, 0 );
     for( auto &i : bolt ) { // Fill the LOS with electricity
         if (!one_in(4)) {
-            g->m.add_field( i, fd_electricity, rng(1, 3), 0 );
+            g->m.add_field( i, fd_electricity, rng( 1, 3 ) );
         }
     }
     // 5x5 cloud of electricity at the square hit
     for( const auto &dest : g->m.points_in_radius( tarp, 2 ) ) {
         if( !one_in(4) ) {
-            g->m.add_field( dest, fd_electricity, rng(1, 3), 0 );
+            g->m.add_field( dest, fd_electricity, rng( 1, 3 ) );
         }
     }
 
@@ -637,10 +638,10 @@ bool mattack::boomer(monster *z)
         add_msg(m_warning, _("The %s spews bile!"), z->name().c_str());
     }
     for (auto &i : line) {
-        g->m.add_field( i, fd_bile, 1, 0 );
+        g->m.add_field( i, fd_bile, 1 );
         // If bile hit a solid tile, return.
         if (g->m.impassable( i )) {
-            g->m.add_field( i, fd_bile, 3, 0 );
+            g->m.add_field( i, fd_bile, 3 );
             if (g->u.sees( i ))
                 add_msg(_("Bile splatters on the %s!"),
                         g->m.tername( i ).c_str());
@@ -679,9 +680,9 @@ bool mattack::boomer_glow(monster *z)
         add_msg(m_warning, _("The %s spews bile!"), z->name().c_str());
     }
     for (auto &i : line) {
-        g->m.add_field(i, fd_bile, 1, 0);
+        g->m.add_field( i, fd_bile, 1 );
         if (g->m.impassable(i)) {
-            g->m.add_field(i, fd_bile, 3, 0);
+            g->m.add_field( i, fd_bile, 3 );
             if (g->u.sees( i ))
                 add_msg(_("Bile splatters on the %s!"), g->m.tername(i).c_str());
             return true;
@@ -1112,7 +1113,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
         // fill empty tiles with acid
         for (size_t i = 0; i < empty_neighbor_count; ++i) {
             const tripoint &p = empty_neighbors.first[i];
-            g->m.add_field( p, fd_acid, att_acid_density, 0 );
+            g->m.add_field( p, fd_acid, att_acid_density );
         }
 
         break;
@@ -1454,22 +1455,18 @@ bool mattack::fungus(monster *z)
     }
 
     fungal_effects fe( *g, g->m );
-    for (int i = -radius; i <= radius; i++) {
-        for (int j = -radius; j <= radius; j++) {
-            if( i == 0 && j == 0 ) {
-                continue;
-            }
-
-            tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
-            const int dist = rl_dist( z->pos(), sporep );
-            if( !one_in( dist ) ||
-                g->m.impassable(sporep) ||
-                ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
-                continue;
-            }
-
-            fe.fungalize( sporep, z, spore_chance );
+    for( const tripoint &sporep : g->m.points_in_radius( z->pos(), radius ) ) {
+        if( sporep == z->pos() ) {
+            continue;
         }
+        const int dist = rl_dist( z->pos(), sporep );
+        if( !one_in( dist ) ||
+            g->m.impassable(sporep) ||
+            ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
+            continue;
+        }
+
+        fe.fungalize( sporep, z, spore_chance );
     }
 
     return true;
@@ -1484,7 +1481,7 @@ bool mattack::fungus_haze(monster *z)
     }
     z->moves -= 150;
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
-        g->m.add_field( dest, fd_fungal_haze, rng(1, 2), 0 );
+        g->m.add_field( dest, fd_fungal_haze, rng( 1, 2 ) );
     }
 
     return true;
@@ -1502,7 +1499,7 @@ bool mattack::fungus_big_blossom(monster *z)
         if (firealarm) {
             g->m.remove_field( dest, fd_fire );
             g->m.remove_field( dest, fd_smoke );
-            g->m.add_field( dest, fd_fungal_haze, 3, 0 );
+            g->m.add_field( dest, fd_fungal_haze, 3 );
         }
     }
     // Special effects handled outside the loop
@@ -1529,7 +1526,7 @@ bool mattack::fungus_big_blossom(monster *z)
         }
         z->moves -= 150;
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 12 ) ) {
-            g->m.add_field( dest, fd_fungal_haze, rng(1, 2), 0 );
+            g->m.add_field( dest, fd_fungal_haze, rng( 1, 2 ) );
         }
     }
 
@@ -2736,7 +2733,7 @@ void mattack::rifle( monster *z, Creature *target )
     }
 
     tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( "AUTO" ).qty, 1 );
+    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 
@@ -2786,7 +2783,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     }
 
     tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( "AUTO" ).qty, 1 );
+    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 
@@ -2848,7 +2845,7 @@ void mattack::tankgun( monster *z, Creature *target )
         add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
     tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( "AUTO" ).qty, 1 );
+    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 }
@@ -2868,7 +2865,7 @@ bool mattack::searchlight(monster *z)
     const int zposy = z->posy();
 
     //this searchlight is not initialized
-    if (z->inv.size() == 0) {
+    if( z->inv.empty() ) {
 
         for (int i = 0; i < max_lamp_count; i++) {
 
@@ -3036,7 +3033,7 @@ bool mattack::searchlight(monster *z)
         settings.set_var( "SL_SPOT_X", x - zposx );
         settings.set_var( "SL_SPOT_Y", y - zposy );
 
-        g->m.add_field( tripoint( x, y, z->posz() ), fd_spotlight, 1, 0 );
+        g->m.add_field( tripoint( x, y, z->posz() ), fd_spotlight, 1 );
 
     }
 
@@ -3096,7 +3093,7 @@ void mattack::flame( monster *z, Creature *target )
                             g->m.tername(i.x, i.y).c_str());
                 return;
             }
-            g->m.add_field( i, fd_fire, 1, 0 );
+            g->m.add_field( i, fd_fire, 1 );
         }
         target->add_effect( effect_onfire, 8, bp_torso );
 
@@ -3118,7 +3115,7 @@ void mattack::flame( monster *z, Creature *target )
                         g->m.tername(i.x, i.y).c_str());
             return;
         }
-        g->m.add_field(i, fd_fire, 1, 0);
+        g->m.add_field( i, fd_fire, 1 );
     }
     if( !target->uncanny_dodge() ) {
         target->add_effect( effect_onfire, 8, bp_torso );
@@ -3987,7 +3984,7 @@ bool mattack::riotbot(monster *z)
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 4 ) ) {
             if( g->m.passable( dest ) &&
                 g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-                g->m.add_field( dest, fd_relax_gas, rng(1, 3), 0 );
+                g->m.add_field( dest, fd_relax_gas, rng( 1, 3 ) );
             }
         }
     }
@@ -4119,7 +4116,7 @@ bool mattack::riotbot(monster *z)
             for( const tripoint &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
                 if( g->m.passable( dest ) &&
                     g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-                    g->m.add_field( dest, fd_tear_gas, rng(1, 3), 0 );
+                    g->m.add_field( dest, fd_tear_gas, rng( 1, 3 ) );
                 }
             }
 
@@ -4154,7 +4151,7 @@ bool mattack::riotbot(monster *z)
             if( !g->m.trans( elem ) ) {
                 break;
             }
-            g->m.add_field( elem, fd_dazzling, 1, 0 );
+            g->m.add_field( elem, fd_dazzling, 1 );
         }
         return true;
 
@@ -4535,7 +4532,7 @@ bool mattack::grenadier_elite(monster *const z)
     grenades["bot_c4_hack"].chance = 8;
     grenades["bot_c4_hack"].ammo_percentage = .75;
     // Mininuke
-    grenades["bot_mininuke_hack"].message = _("The %s opens its pack and spreads its hands, a mininuke hack floats out!!");
+    grenades["bot_mininuke_hack"].message = _("The %s opens its pack and spreads its hands, a mininuke hack floats out!");
     grenades["bot_mininuke_hack"].chance = 50;
     grenades["bot_mininuke_hack"].ammo_percentage = .75;
 

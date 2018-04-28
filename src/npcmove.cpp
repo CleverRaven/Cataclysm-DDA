@@ -25,6 +25,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overmap_location.h"
+#include "gun_mode.h"
 #include "visitable.h"
 #include "cata_algo.h"
 
@@ -336,8 +337,11 @@ void npc::move()
         }
     }
 
-    // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
-    if( sees_dangerous_field( pos() ) ) {
+    /* This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
+     * NPC won't avoid dangerous terrain while accompanying the player inside a vehicle
+     * to keep them from inadvertantly getting themselves run over and/or cause vehicle related errors.
+     */
+    if( sees_dangerous_field( pos() ) && ( !g->u.in_vehicle && is_following() ) ) {
         const tripoint escape_dir = good_escape_direction( *this );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
@@ -942,14 +946,14 @@ npc_action npc::method_of_attack()
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
-    std::vector<std::pair<std::string, item::gun_mode>> modes;
+    std::vector<std::pair<gun_mode_id, gun_mode>> modes;
     if( rules.use_guns || !is_following() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
             modes.push_back( e );
         }
 
         modes.erase( std::remove_if( modes.begin(), modes.end(),
-        [&]( const std::pair<std::string, item::gun_mode> &e ) {
+        [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
 
             const auto &m = e.second;
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
@@ -963,8 +967,8 @@ npc_action npc::method_of_attack()
 
     // prefer modes that result in more total damage
     std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
-    const std::pair<std::string, item::gun_mode> &rhs ) {
+                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return ( lhs.second->gun_damage().total_damage() * lhs.second.qty ) >
                ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
     } );
@@ -972,8 +976,8 @@ npc_action npc::method_of_attack()
     const int cur_recoil = recoil_total();
     // modes outside confident range should always be the last option(s)
     std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
-    const std::pair<std::string, item::gun_mode> &rhs ) {
+                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return ( confident_gun_mode_range( lhs.second, cur_recoil ) >= dist ) >
                ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
     } );
@@ -1311,7 +1315,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     return res;
 }
 
-int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
+int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
 {
     if( !gun || gun.melee() ) {
         return 0;
@@ -1323,7 +1327,7 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range,
+    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
              max_dispersion );
     return std::max<int>( confident_range, 1 );
 }

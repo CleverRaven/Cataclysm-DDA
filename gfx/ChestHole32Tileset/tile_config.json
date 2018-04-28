@@ -30841,7 +30841,7 @@
           "rotates": false
         },
         {
-          "id": "jerrycan",
+          "id": ["jerrycan", "vp_tank_small"],
           "fg": 1023,
           "bg": 632,
           "rotates": false
@@ -30853,7 +30853,7 @@
           "rotates": false
         },
         {
-          "id": "jerrycan_big",
+          "id": ["jerrycan_big", "vp_tank_medium"],
           "fg": 1024,
           "bg": 632,
           "rotates": false
@@ -31457,7 +31457,7 @@
           "rotates": false
         },
         {
-          "id": "metal_tank",
+          "id": ["metal_tank", "vp_tank"],
           "fg": 1027,
           "bg": 632,
           "rotates": false
@@ -39711,7 +39711,7 @@
           "rotates": false
         },
         {
-          "id": "t_claymound",
+          "id": ["t_claymound", "t_clay"],
           "fg": 2929,
           "bg": 640,
           "rotates": false
@@ -41704,6 +41704,30 @@
        {
           "id": "f_ladder",
           "fg": 3607,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "vp_cargo_lock",
+          "fg": 4248,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_ant_acid_larva",
+          "fg": 4249,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": ["overlay_wielded_scimitar", "overlay_wielded_scimitar_inferior", "overlay_wielded_scimitar_fake"],
+          "fg": 4282,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": ["scimitar", "scimitar_inferior", "scimitar_fake"],
+          "fg": 4283,
           "bg": 632,
           "rotates": false
         },
@@ -44593,7 +44617,8 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3119
+              "fg": 3119,
+              "bg": 678
             }
           ]
         },
@@ -45136,11 +45161,11 @@
           "fg": 2770
         },
         {
-          "id": "metal_tank_little",
+          "id": ["metal_tank_little", "vp_tank_little"],
           "fg": 1028
         },
         {
-          "id": "wooden_barrel",
+          "id": ["wooden_barrel", "vp_tank_barrel"],
           "fg": 1030
         },
         {
@@ -46517,7 +46542,7 @@
           ]
         },
         {
-          "id": "vp_engine_v12",
+          "id": ["vp_engine_v12", "vp_diesel_engine_v12"],
           "fg": 1343,
           "rotates": true,
           "multitile": true,
@@ -50336,7 +50361,7 @@
           ]
         },
         {
-          "id": "vp_frame_wood_light_horizontal_2",
+          "id": ["vp_frame_wood_light_horizontal_2", "vp_frame_wood_light_horizontal"],
           "fg": 2619,
           "rotates": true,
           "multitile": true,
@@ -51002,7 +51027,7 @@
       ]
         },
         {
-          "id": ["vp_controls", "vp_controls_electronic"],
+          "id": ["vp_controls", "vp_controls_electronic", "vp_dashboard"],
           "fg": 2654,
           "rotates": true,
        "multitile": true,
@@ -52805,7 +52830,7 @@
       ]
         },
         {
-          "id": "vp_water_tank_small",
+          "id": ["vp_water_tank_small", "vp_tank_small"],
           "fg": 3262,
           "rotates": true,
     "multitile": true,
@@ -53631,9 +53656,8 @@
           "bg": 632
         },
         {
-          "id": ["f_coffin_c", "f_coffin_o"],
-          "fg": 4059,
-          "bg": 632
+          "id": "f_coffin_c",
+          "bg": 4059
         },
         {
           "id": "t_tree_maple_tapped",
@@ -57204,8 +57228,7 @@
         },
         {
           "id": "f_coffin_o",
-          "fg": 4255,
-          "rotates": true
+          "fg": 4255
         },
         {
           "id": "overlay_wielded_torch",

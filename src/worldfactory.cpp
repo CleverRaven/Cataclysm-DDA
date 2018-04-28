@@ -1134,7 +1134,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             }
 #endif
             if (worldname.empty()) {
-                mvwprintz(w_confirmation, namebar_y, namebar_x, h_light_gray, _("_______NO NAME ENTERED!!!!______"));
+                mvwprintz(w_confirmation, namebar_y, namebar_x, h_light_gray, _("________NO NAME ENTERED!________"));
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {

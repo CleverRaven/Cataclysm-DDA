@@ -131,15 +131,11 @@ static void eff_fun_fungus( player &u, effect &it )
 
                 u.moves = -500;
                 fungal_effects fe( *g, g->m );
-                for( int i = -1; i <= 1; i++ ) {
-                    for( int j = -1; j <= 1; j++ ) {
-                        if( i == 0 && j == 0 ) {
-                            continue;
-                        }
-
-                        tripoint sporep( u.posx() + i, u.posy() + j, u.posz() );
-                        fe.fungalize( sporep, &u, 0.25 );
+                for( const tripoint &sporep : g->m.points_in_radius( u.pos(), 1 ) ) {
+                    if( sporep == u.pos() ) {
+                        continue;
                     }
+                    fe.fungalize( sporep, &u, 0.25 );
                 }
                 // We're fucked
             } else if( one_in( 6000 + bonus * 20 ) ) {
@@ -462,25 +458,19 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
                                    _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( int i = posx() - 1; i <= posx() + 1; i++ ) {
-                for( int j = posy() - 1; j <= posy() + 1; j++ ) {
-                    if( num_insects == 0 ) {
-                        break;
-                    } else if( i == 0 && j == 0 ) {
-                        continue;
-                    }
-                    tripoint dest( i, j, posz() );
-                    if( !g->critter_at( dest ) ) {
-                        if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
-                            if( one_in( 3 ) ) {
-                                grub->friendly = -1;
-                            }
-                        }
-                        num_insects--;
-                    }
-                }
+            for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
                 if( num_insects == 0 ) {
                     break;
+                } else if( pos() == dest ) {
+                    continue;
+                }
+                if( !g->critter_at( dest ) ) {
+                    if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
+                        if( one_in( 3 ) ) {
+                            grub->friendly = -1;
+                        }
+                    }
+                    num_insects--;
                 }
             }
             add_memorial_log( pgettext( "memorial_male", "Dermatik eggs hatched." ),

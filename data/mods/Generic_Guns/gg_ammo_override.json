@@ -1,5 +1,26 @@
 [
   {
+    "id": "84x246mm_he",
+    "type": "AMMO",
+    "copy-from": "84x246mm_he",
+    "name": "84x246mm HE rocket",
+    "description": "A 84x246mm High Explosive anti-personnel round for the recoilless rifle.  Designed to be highly effective against personnel."
+  },
+  {
+    "id": "84x246mm_hedp",
+    "type": "AMMO",
+    "copy-from": "84x246mm_hedp",
+    "name": "84x246mm HEDP rocket",
+    "description": "A 84x246mm High Explosive Dual Purpose anti-materiel round for the recoilless rifle.  Designed to be highly effective against vehicles and structures."
+  },
+  {
+    "id": "84x246mm_smoke",
+    "type": "AMMO",
+    "copy-from": "84x246mm_smoke",
+    "name": "84x246mm smoke rocket",
+    "description": "A 84x246mm smoke marker round for the recoilless rifle.  Commonly used for signaling, target designation, and for screening troop movements."
+  },
+  {
     "id": "9mm_casing",
     "copy-from": "9mm_casing",
     "type": "GENERIC",
