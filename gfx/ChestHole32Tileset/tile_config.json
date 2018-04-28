@@ -41921,6 +41921,19 @@
           ]
         },
        {
+          "id": "vp_gelrazor",
+          "fg": 4553,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4558
+            }
+          ]
+        },
+       {
           "id": "vp_clutter",
           "fg": 4577,
           "bg": 632,
@@ -55076,7 +55089,7 @@
           "rotates": true
         },
         {
-          "id": "vp_gloopleboard_horizontal",
+          "id": ["vp_gloopleboard_horizontal", "vp_gloople_roof"],
           "fg": 4543,
           "rotates": true,
           "multitile": true,
@@ -55859,7 +55872,7 @@
           "rotates": true
         },
         {
-          "id": "vp_gloople_diesel_tank",
+          "id": ["vp_gloople_diesel_tank", "vp_gloople_tank"],
           "fg": 4553,
           "rotates": true
         },
