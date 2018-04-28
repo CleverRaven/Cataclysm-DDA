@@ -1840,7 +1840,7 @@ msgstr "選項"
 #: lang/json/AMMO_from_json.py
 msgid "battery"
 msgid_plural "batteries"
-msgstr[0] "99d8b20cf7042be43c3855ac670d4ec2_pl_0"
+msgstr[0] ""
 
 #. ~ Description for battery
 #: lang/json/AMMO_from_json.py

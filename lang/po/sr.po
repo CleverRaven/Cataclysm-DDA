@@ -1807,9 +1807,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "battery"
 msgid_plural "batteries"
-msgstr[0] "99d8b20cf7042be43c3855ac670d4ec2_pl_0"
-msgstr[1] "99d8b20cf7042be43c3855ac670d4ec2_pl_1"
-msgstr[2] "99d8b20cf7042be43c3855ac670d4ec2_pl_2"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #. ~ Description for battery
 #: lang/json/AMMO_from_json.py
