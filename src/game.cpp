@@ -11332,7 +11332,7 @@ void game::place_player( const tripoint &dest_loc )
             add_msg( m_info, _( "The sign says: %s" ), signage.c_str() );
         }
         if( m.has_graffiti_at( dest_loc ) ) {
-            add_msg( _( "Written here: %s" ), utf8_truncate( m.graffiti_at( dest_loc ), 40 ).c_str() );
+            add_msg( m_info, _( "Written here: %s" ), m.graffiti_at( dest_loc ).c_str() );
         }
     }
     else {
