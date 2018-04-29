@@ -273,7 +273,7 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
     p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
     // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( ( weap.is_null() || weap.has_flag( "UNARMED_WEAPON" ) ) ? skill_unarmed : skill_bashing,
+    p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
