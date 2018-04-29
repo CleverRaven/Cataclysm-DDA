@@ -11,11 +11,11 @@
     "using": [ [ "forging_standard", 7 ], [ "steel_standard", 7 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
@@ -47,11 +47,11 @@
     "using": [ [ "forging_standard", 8 ], [ "steel_standard", 8 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
@@ -112,11 +112,11 @@
     "using": [ [ "forging_standard", 15 ], [ "steel_standard", 15 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ]
     ],
     "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
@@ -172,11 +172,11 @@
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 },
-      { "id": "SEW", "level": 1 }
+      { "id": "SEW", "level": 1 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]

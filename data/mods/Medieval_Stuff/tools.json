@@ -78,5 +78,22 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "anvil_bronze",
+    "type": "TOOL",
+    "name": "bronze anvil",
+    "description": "This is a heavy block of oddly shaped bronze.  It's used in some basic metalworking fabrication recipes.",
+    "weight": 2180,
+    "volume": 10,
+    "price": 60000,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": "bronze",
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "ANVIL", 2 ] ],
+    "flags": [ "DURABLE_MELEE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_anvil_bronze" }
   }
 ]
