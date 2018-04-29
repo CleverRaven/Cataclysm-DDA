@@ -153,11 +153,11 @@
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 400 ], [ "oxy_torch", 80 ] ]
     ],
@@ -234,11 +234,11 @@
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
     ],
@@ -258,11 +258,11 @@
     "book_learn": [ [ "textbook_armeast", 8 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
     ],
