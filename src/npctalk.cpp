@@ -1446,7 +1446,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
         p->set_attitude( NPCATT_FOLLOW );
-        return _( "YES MASTER" );
+        return _( "YES, MASTER!" );
     }
 
     return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
