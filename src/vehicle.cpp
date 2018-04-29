@@ -4517,7 +4517,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
-    int turns_stunned = 0;
+    time_duration time_stunned = 0_turns;
 
     const int prev_velocity = coll_velocity;
     const int vel_sign = sgn( coll_velocity );
@@ -4603,9 +4603,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 check_environmental_effects = true;
             }
 
-            turns_stunned = ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 );
-            if( turns_stunned > 0 ) {
-                critter->add_effect( effect_stunned, turns_stunned );
+            time_stunned = time_duration::from_turns( ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 ) );
+            if( time_stunned > 0_turns ) {
+                critter->add_effect( effect_stunned, time_stunned );
             }
 
             if( ph != nullptr ) {
@@ -4658,7 +4658,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( critter != nullptr ) {
         if( !critter->is_hallucination() ) {
             if( pl_ctrl ) {
-                if( turns_stunned > 0 ) {
+                if( time_stunned > 0_turns ) {
                     //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                     add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
                              name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());

@@ -144,7 +144,7 @@ void map::apply_character_light( player &p )
     }
 
     if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
-        p.add_effect( effect_haslight, 1 );
+        p.add_effect( effect_haslight, 1_turns );
     }
 }
 

@@ -5552,11 +5552,11 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     if( carrier != nullptr ) {
         // only puff every other turn
         if( item_counter % 2 == 0 ) {
-            int duration = 10;
+            time_duration duration = 1_minutes;
             if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
-                duration = 5;
+                duration = 5_turns;
             } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
-                duration = 20;
+                duration = 2_minutes;
             }
             carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname().c_str() );
             if( has_flag( "TOBACCO" ) ) {
@@ -5607,7 +5607,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         } else { // joint
             convert( "joint_roach" );
             if( carrier != nullptr ) {
-                carrier->add_effect( effect_weed_high, 10 ); // one last puff
+                carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2 );
                 weed_msg( *carrier );
             }

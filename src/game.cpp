@@ -883,11 +883,11 @@ bool game::start_game()
         start_loc.burn( omtstart, 3, 3 );
     }
     if (scen->has_flag("INFECTED")){
-        u.add_effect( effect_infected, 1, random_body_part(), true);
+        u.add_effect( effect_infected, 1_turns, random_body_part(), true );
     }
     if (scen->has_flag("BAD_DAY")){
-        u.add_effect( effect_flu, 10000 );
-        u.add_effect( effect_drunk, 2700 );
+        u.add_effect( effect_flu, 1000_minutes );
+        u.add_effect( effect_drunk, 270_minutes );
         u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
     }
     if(scen->has_flag("HELI_CRASH")) {
@@ -3156,7 +3156,7 @@ bool game::handle_action()
                     quicksave();
                     bSleep = true;
                 } else if (as_m.ret >= 3 && as_m.ret <= 9) {
-                    u.add_effect( effect_alarm_clock, 600 * as_m.ret);
+                    u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
                     bSleep = true;
                 }
 
@@ -5279,10 +5279,10 @@ int game::mon_info( const catacurses::window &w )
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
-                        u.add_effect( effect_adrenaline_mycus, 300 );
+                        u.add_effect( effect_adrenaline_mycus, 30_minutes );
                     } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {
                         // Triffids present.  We ain't got TIME to adrenaline comedown!
-                        u.add_effect( effect_adrenaline_mycus, 150);
+                        u.add_effect( effect_adrenaline_mycus, 15_minutes );
                         u.mod_pain(3); // Does take it out of you, though
                         add_msg(m_info, _("Our fibers strain with renewed wrath!"));
                     }
@@ -5608,7 +5608,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
     int dist = rl_dist( u.pos(), p );
     if (dist <= 8 && !player_immune) {
         if (!u.has_bionic( bionic_id( "bio_ears" ) ) && !u.is_wearing("rm13_armor_on")) {
-            u.add_effect( effect_deaf, 40 - dist * 4);
+            u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
         if( m.sees( u.pos(), p, 8 ) ) {
             int flash_mod = 0;
@@ -5623,7 +5623,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
             } else if( u.worn_with_flag( "BLIND" ) || u.worn_with_flag( "FLASH_PROTECTION" ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist );
+            u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, time_duration::from_turns( 10 - dist ) );
         }
     }
     for( monster &critter : all_monsters() ) {
@@ -5631,13 +5631,13 @@ void game::flashbang( const tripoint &p, bool player_immune)
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
-                critter.add_effect( effect_stunned, 10 - dist);
+                critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
             if( critter.has_flag(MF_SEES) && m.sees( critter.pos(), p, 8 ) ) {
-                critter.add_effect( effect_blind, 18 - dist);
+                critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
             if( critter.has_flag(MF_HEARS) ) {
-                critter.add_effect( effect_deaf, 60 - dist * 4);
+                critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
             }
         }
     }
@@ -5707,7 +5707,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     int force_remaining = 0;
     if( monster *const targ = critter_at<monster>( tp, true ) ) {
         if (stun > 0) {
-            targ->add_effect( effect_stunned, stun);
+            targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg(_("%s was stunned!"), targ->name().c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
@@ -5715,7 +5715,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    targ->add_effect( effect_stunned, force_remaining);
+                    targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     add_msg(_("%s was stunned!"), targ->name().c_str());
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
                     targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
@@ -5727,7 +5727,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                     targ->add_effect( effect_stunned, force_remaining);
+                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                      add_msg(_("%s was stunned!"), targ->name().c_str());
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
@@ -5765,7 +5765,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         }
     } else if( npc * const targ = critter_at<npc>( tp ) ) {
         if (stun > 0) {
-            targ->add_effect( effect_stunned, stun);
+            targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg(_("%s was stunned!"), targ->name.c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
@@ -5773,7 +5773,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    targ->add_effect( effect_stunned, force_remaining);
+                    targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     if (targ->has_effect( effect_stunned))
                         add_msg(_("%s was stunned!"), targ->name.c_str());
 
@@ -5798,7 +5798,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
                     add_msg(_("%s was stunned!"), targ->name.c_str());
-                    targ->add_effect( effect_stunned, force_remaining);
+                    targ->add_effect( effect_stunned, 1_turns * force_remaining );
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
                 if( critter_at<monster>( traj.front() ) ) {
@@ -5827,7 +5827,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         }
     } else if( u.pos() == tp ) {
         if (stun > 0) {
-            u.add_effect( effect_stunned, stun);
+            u.add_effect( effect_stunned, 1_turns * stun );
             add_msg(m_bad, ngettext("You were stunned for %d turn!",
                                     "You were stunned for %d turns!",
                                     stun),
@@ -5849,7 +5849,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                                 force_remaining),
                                 force_remaining);
                     }
-                    u.add_effect( effect_stunned, force_remaining);
+                    u.add_effect( effect_stunned, 1_turns * force_remaining );
                     std::array<body_part, 8> bps = {{
                         bp_head,
                         bp_arm_l, bp_arm_r,
@@ -5881,7 +5881,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                                 force_remaining),
                                 force_remaining);
                     }
-                    u.add_effect( effect_stunned, force_remaining);
+                    u.add_effect( effect_stunned, 1_turns * force_remaining );
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
                 if( critter_at<monster>( traj.front() ) ) {
@@ -5938,15 +5938,12 @@ void game::use_computer( const tripoint &p )
 
 void game::resonance_cascade( const tripoint &p )
 {
-    int maxglow = 100 - 5 * trig_dist( p, u.pos() );
-    int minglow = 60 - 5 * trig_dist( p, u.pos() );
+    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, u.pos() ) );
+    const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p, u.pos() ) ) );
     MonsterGroupResult spawn_details;
     monster invader;
-    if (minglow < 0) {
-        minglow = 0;
-    }
-    if (maxglow > 0) {
-        u.add_effect( effect_teleglow, rng(minglow, maxglow) * 100);
+    if( maxglow > 0_turns ) {
+        u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
     int startx = (p.x < 8 ? 0 : p.x - 8), endx = (p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8);
     int starty = (p.y < 8 ? 0 : p.y - 8), endy = (p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8);
@@ -6387,11 +6384,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5, num_bp, true );
+    critter.add_effect( effect_downed, 5_turns, num_bp, true );
 
     if (it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1, num_bp, true );
-        critter.add_effect( effect_pet, 1, num_bp, true );
+        critter.add_effect( effect_pacified, 1_turns, num_bp, true );
+        critter.add_effect( effect_pet, 1_turns, num_bp, true );
     }
 
     if (it.get_var("no_ammo") == "no_ammo") {
@@ -6889,7 +6886,7 @@ bool pet_menu(monster *z)
             g->u.setpos( zp );
 
             if (t) {
-                z->add_effect( effect_tied, 1, num_bp, true);
+                z->add_effect( effect_tied, 1_turns, num_bp, true);
             }
 
             add_msg(_("You swap positions with your %s."), pet_name.c_str());
@@ -6951,7 +6948,7 @@ bool pet_menu(monster *z)
 
         g->u.i_rem(pos);
 
-        z->add_effect( effect_has_bag, 1, num_bp, true);
+        z->add_effect( effect_has_bag, 1_turns, num_bp, true);
 
         g->u.moves -= 200;
 
@@ -7011,7 +7008,7 @@ bool pet_menu(monster *z)
         const auto items_to_stash = game_menus::inv::multidrop( g->u );
         if( !items_to_stash.empty() ) {
             g->u.drop( items_to_stash, z->pos(), true );
-            z->add_effect( effect_controlled, 5);
+            z->add_effect( effect_controlled, 5_turns );
             return true;
         }
 
@@ -7041,7 +7038,7 @@ bool pet_menu(monster *z)
             item rope_6("rope_6", 0);
             g->u.i_add(rope_6);
         } else {
-            z->add_effect( effect_tied, 1, num_bp, true);
+            z->add_effect( effect_tied, 1_turns, num_bp, true);
             g->u.use_amount( "rope_6", 1 );
         }
 
@@ -10816,7 +10813,7 @@ bool game::disable_robot( const tripoint &p )
                                  critter.name().c_str() );
                     }
                 } else {
-                    critter.add_effect( effect_docile, 1, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name().c_str() );
@@ -11359,14 +11356,14 @@ void game::place_player( const tripoint &dest_loc )
                     body_part_name_accusative(bp).c_str(),
                     m.has_flag_ter( "SHARP", dest_loc ) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
             if ((u.has_trait( trait_INFRESIST )) && (one_in(1024))) {
-            u.add_effect( effect_tetanus, 1, num_bp, true);
+            u.add_effect( effect_tetanus, 1_turns, num_bp, true );
             } else if ((!u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST )) && (one_in(256))) {
-              u.add_effect( effect_tetanus, 1, num_bp, true);
+              u.add_effect( effect_tetanus, 1_turns, num_bp, true );
              }
         }
     }
     if (m.has_flag("UNSTABLE", dest_loc)) {
-        u.add_effect( effect_bouldering, 1, num_bp, true);
+        u.add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if (u.has_effect( effect_bouldering)) {
         u.remove_effect( effect_bouldering);
     }
@@ -11825,7 +11822,7 @@ void game::on_move_effects()
             u.toggle_move_mode();
         }
         if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
-            u.add_effect( effect_winded, 3 );
+            u.add_effect( effect_winded, 3_turns );
         }
     }
 
@@ -12822,7 +12819,7 @@ void game::update_stair_monsters()
                     if (!(resiststhrow) && (u.get_dodge() + rng(0, 3) < 12)) {
                         // dodge 12 - never get downed
                         // 11.. avoid 75%; 10.. avoid 50%; 9.. avoid 25%
-                        u.add_effect( effect_downed, 2);
+                        u.add_effect( effect_downed, 2_turns );
                         msg = _("The %s pushed you back hard!");
                     } else {
                         msg = _("The %s pushed you back!");
@@ -12867,7 +12864,7 @@ void game::update_stair_monsters()
                     other.moves -= 50;
                     std::string msg;
                     if (one_in(creature_throw_resist)) {
-                        other.add_effect( effect_downed, 2);
+                        other.add_effect( effect_downed, 2_turns );
                         msg = _("The %1$s pushed the %2$s hard.");
                     } else {
                         msg = _("The %1$s pushed the %2$s.");
@@ -13051,7 +13048,7 @@ void game::teleport(player *p, bool add_teleglow)
     bool is_u = (p == &u);
 
     if (add_teleglow) {
-        p->add_effect( effect_teleglow, 300);
+        p->add_effect( effect_teleglow, 30_minutes );
     }
     do {
         new_pos.x = p->posx() + rng(0, SEEX * 2) - SEEX;
@@ -13365,7 +13362,7 @@ void game::process_artifact( item &it, player &p )
 
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
-                p.add_effect( effect_evil, 300 );
+                p.add_effect( effect_evil, 30_minutes );
                 if( it.is_armor() ) {
                     if( !worn ) {
                     add_msg(_("You have an urge to wear the %s."),

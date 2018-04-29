@@ -38,10 +38,10 @@ bool string_id<effect_type>::is_valid() const
 const efftype_id effect_weed_high( "weed_high" );
 
 void weed_msg( player &p ) {
-    int howhigh = p.get_effect_dur( effect_weed_high );
+    const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
     int smarts = p.get_int();
-    if(howhigh > 125 && one_in(7)) {
+    if( howhigh > 125_turns && one_in( 7 ) ) {
         int msg = rng(0,5);
         switch(msg) {
         case 0: // Freakazoid
@@ -89,7 +89,7 @@ void weed_msg( player &p ) {
         default:
             return;
         }
-    } else if(howhigh > 100 && one_in(5)) {
+    } else if( howhigh > 100_turns && one_in( 5 ) ) {
         int msg = rng(0, 5);
         switch(msg) {
         case 0: // Bob Marley
@@ -129,7 +129,7 @@ void weed_msg( player &p ) {
         default:
             return;
         }
-    } else if(howhigh > 50 && one_in(3)) {
+    } else if( howhigh > 50_turns && one_in( 3 ) ) {
         int msg = rng(0, 5);
         switch(msg) {
         case 0: // Cheech and Chong
@@ -323,7 +323,7 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
     }
 }
 
-effect_type::effect_type() {}
+effect_type::effect_type() : max_duration( 0_turns ), int_dur_factor( 0_turns ) {}
 
 effect_rating effect_type::get_rating() const
 {
@@ -627,22 +627,22 @@ std::string effect::disp_desc(bool reduced) const
     return ret.str();
 }
 
-void effect::decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
-                   unsigned int turn, bool player)
+void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
+                    const time_point &time, const bool player )
 {
     // Decay duration if not permanent
     if( !is_permanent() ) {
-        mod_duration( -1, player );
+        mod_duration( -1_turns, player );
     }
 
     // Decay intensity if supposed to do so
     // @todo: Remove effects that would decay to 0 intensity?
-    if( intensity > 1 && eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0 ) {
+    if( intensity > 1 && eff_type->int_decay_tick != 0 && to_turn<int>( time ) % eff_type->int_decay_tick == 0 ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
     }
 
     // Add to removal list if duration is <= 0
-    if( duration <= 0 ) {
+    if( duration <= 0_turns ) {
         rem_ids.push_back(get_id());
         rem_bps.push_back(bp);
     }
@@ -653,31 +653,31 @@ bool effect::use_part_descs() const
     return eff_type->part_descs;
 }
 
-int effect::get_duration() const
+time_duration effect::get_duration() const
 {
     return duration;
 }
-int effect::get_max_duration() const
+time_duration effect::get_max_duration() const
 {
     return eff_type->max_duration;
 }
-void effect::set_duration( int dur, bool alert )
+void effect::set_duration( const time_duration dur, bool alert )
 {
     duration = dur;
     // Cap to max_duration if it exists
-    if( eff_type->max_duration > 0 && duration > eff_type->max_duration ) {
+    if( eff_type->max_duration > 0_turns && duration > eff_type->max_duration ) {
         duration = eff_type->max_duration;
     }
 
     // Force intensity if it is duration based
-    if( eff_type->int_dur_factor != 0 ) {
+    if( eff_type->int_dur_factor != 0_turns ) {
         // + 1 here so that the lowest is intensity 1, not 0
-        set_intensity( ( duration / eff_type->int_dur_factor ) + 1, alert );
+        set_intensity( duration / eff_type->int_dur_factor + 1, alert );
     }
 
-    add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
+    add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), to_turns<int>( duration ) );
 }
-void effect::mod_duration( int dur, bool alert )
+void effect::mod_duration( const time_duration dur, bool alert )
 {
     set_duration( duration + dur, alert );
 }
@@ -686,9 +686,9 @@ void effect::mult_duration( double dur, bool alert )
     set_duration( duration * dur, alert );
 }
 
-int effect::get_start_turn() const
+time_point effect::get_start_time() const
 {
-    return start_turn;
+    return start_time;
 }
 
 body_part effect::get_bp() const
@@ -967,7 +967,7 @@ double effect::get_percentage(std::string arg, int val, bool reduced) const
     return ret;
 }
 
-bool effect::activated(int turn, std::string arg, int val, bool reduced, double mod) const
+bool effect::activated( const time_point &when, std::string arg, int val, bool reduced, double mod ) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
@@ -1024,7 +1024,7 @@ bool effect::activated(int turn, std::string arg, int val, bool reduced, double 
     // mod multiplies the overall percentage chances
 
     // has to be an && here to avoid undefined behavior of turn % 0
-    if(tick > 0 && turn % tick == 0) {
+    if( tick > 0 && ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0 ) {
         if(bot_base != 0 && bot_scale != 0) {
             if (bot_base + bot_scale == 0) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"
@@ -1062,7 +1062,7 @@ int effect::get_dur_add_perc() const
 {
     return eff_type->dur_add_perc;
 }
-int effect::get_int_dur_factor() const
+time_duration effect::get_int_dur_factor() const
 {
     return eff_type->int_dur_factor;
 }
@@ -1183,12 +1183,12 @@ void load_effect_type(JsonObject &jo)
     }
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
-    new_etype.max_duration = jo.get_int("max_duration", 0);
+    new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
     new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
     new_etype.int_add_val = jo.get_int("int_add_val", 0);
     new_etype.int_decay_step = jo.get_int("int_decay_step", -1);
     new_etype.int_decay_tick = jo.get_int("int_decay_tick", 0);
-    new_etype.int_dur_factor = jo.get_int("int_dur_factor", 0);
+    new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
 
     new_etype.load_miss_msgs(jo, "miss_messages");
     new_etype.load_decay_msgs(jo, "decay_messages");
@@ -1228,11 +1228,11 @@ void effect::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member("eff_type", eff_type != NULL ? eff_type->id.str() : "");
-    json.member("duration", duration);
+    json.member( "duration", duration );
     json.member("bp", (int)bp);
     json.member("permanent", permanent);
     json.member("intensity", intensity);
-    json.member("start_turn", start_turn);
+    json.member( "start_turn", start_time );
     json.end_object();
 }
 void effect::deserialize(JsonIn &jsin)
@@ -1240,9 +1240,10 @@ void effect::deserialize(JsonIn &jsin)
     JsonObject jo = jsin.get_object();
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
-    duration = jo.get_int("duration");
+    jo.read( "duration", duration );
     bp = (body_part)jo.get_int("bp");
     permanent = jo.get_bool("permanent");
     intensity = jo.get_int("intensity");
-    start_turn = jo.get_int("start_turn", 0);
+    start_time = calendar::time_of_cataclysm;
+    jo.read( "start_turn", start_time );
 }

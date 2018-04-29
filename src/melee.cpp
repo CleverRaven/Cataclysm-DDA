@@ -200,7 +200,7 @@ float player::hit_roll() const
     float hit = get_hit();
     // Drunken master makes us hit better
     if( has_trait( trait_DRUNKEN ) ) {
-        hit += get_effect_dur( effect_drunk ) / ( used_weapon().is_null() ? 300.0f : 400.0f );
+        hit += to_turns<float>( get_effect_dur( effect_drunk ) ) / ( used_weapon().is_null() ? 300.0f : 400.0f );
     }
 
     // Farsightedness makes us hit worse
@@ -291,7 +291,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
         // @todo: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
-        t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
+        t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
 
     item &cur_weapon = used_weapon();
@@ -664,13 +664,13 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk = 0;
         int maxdrunk = 0;
-        const int drunk_dur = get_effect_dur( effect_drunk );
+        const time_duration drunk_dur = get_effect_dur( effect_drunk );
         if( unarmed ) {
-            mindrunk = drunk_dur / 600;
-            maxdrunk = drunk_dur / 250;
+            mindrunk = drunk_dur / 600_turns;
+            maxdrunk = drunk_dur / 250_turns;
         } else {
-            mindrunk = drunk_dur / 900;
-            maxdrunk = drunk_dur / 400;
+            mindrunk = drunk_dur / 900_turns;
+            maxdrunk = drunk_dur / 400_turns;
         }
 
         bash_dam += average ? (mindrunk + maxdrunk) * 0.5f : rng(mindrunk, maxdrunk);
@@ -1119,7 +1119,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {
-            t.add_effect( effect_downed, rng(1, technique.down_dur));
+            t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
             auto &bash = get_damage_unit( di.damage_units, DT_BASH );
             if( bash.amount > 0 ) {
                 bash.amount += 3;
@@ -1128,7 +1128,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 
     if (technique.stun_dur > 0) {
-        t.add_effect( effect_stunned, rng(1, technique.stun_dur));
+        t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
     if( technique.knockback_dist > 0 ) {
@@ -1437,10 +1437,10 @@ void player::perform_special_attacks(Creature &t)
     if( can_poison && (has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 )) ) {
         if( has_trait( trait_POISONOUS ) ) {
             add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-            t.add_effect( effect_poison, 6);
+            t.add_effect( effect_poison, 6_turns );
         } else if( has_trait( trait_POISONOUS2 ) ) {
             add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-            t.add_effect( effect_badpoison, 6);
+            t.add_effect( effect_badpoison, 6_turns );
         }
     }
 }

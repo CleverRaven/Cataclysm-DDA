@@ -179,7 +179,7 @@ void mdeath::boomer( monster &z )
     }
 
     if( rl_dist( z.pos(), g->u.pos() ) == 1 ) {
-        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24 );
+        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
     }
 
     g->m.propagate_field( z.pos(), fd_bile, 15, 1 );
@@ -197,10 +197,10 @@ void mdeath::boomer_glow( monster &z )
             z->moves -= 250;
         }
         if( Creature * const critter = g->critter_at( dest ) ) {
-            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25 );
+            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, bp, 4, 40 );
+                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if (critter != nullptr && critter->has_effect( effect_glowing)){
                     break;
                 }
@@ -711,7 +711,7 @@ void mdeath::detonate( monster &z )
         }
     }
     // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1, num_bp, true );
+    z.add_effect( effect_no_ammo, 1_turns, num_bp, true );
 
     // First die normally
     mdeath::normal( z );
