@@ -11326,17 +11326,20 @@ void game::place_player( const tripoint &dest_loc )
             add_msg(m_info, _("Label here: %s"), label.c_str());
         }
     }
-    if( !u.has_trait( trait_ILLITERATE ) ) {
-        std::string signage = m.get_signage( dest_loc );
-        if( !signage.empty() ) {
+    std::string signage = m.get_signage( dest_loc );
+    if( !signage.empty() ) {
+        if( !u.has_trait( trait_ILLITERATE ) ) {
             add_msg( m_info, _( "The sign says: %s" ), signage.c_str() );
-        }
-        if( m.has_graffiti_at( dest_loc ) ) {
-            add_msg( m_info, _( "Written here: %s" ), m.graffiti_at( dest_loc ).c_str() );
+        } else {
+            add_msg( m_info, _( "There is a sign here, but you are unable to read it." ) );
         }
     }
-    else {
-        add_msg( m_info, _( "Something is written here, but you are unable read it." ) );
+    if( m.has_graffiti_at( dest_loc ) ) {
+        if( !u.has_trait( trait_ILLITERATE ) ) {
+            add_msg( m_info, _( "Written here: %s" ), m.graffiti_at( dest_loc ).c_str() );
+        } else {
+            add_msg( m_info, _( "Something is written here, but you are unable to read it." ) );
+        }
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
     if (m.has_flag("ROUGH", dest_loc) && (!u.in_vehicle)) {
