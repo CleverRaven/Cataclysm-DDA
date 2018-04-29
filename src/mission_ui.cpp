@@ -93,24 +93,27 @@ void game::list_missions()
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), 3, 0 );
 
-        int lines = 0;
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             const auto miss = umissions[i];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
-            const int y = 3 + lines;
-            lines += fold_and_print( w_missions, y, 1, 28, ( int )selection == i ? hilite( col ) : col,
-                                     miss->name() );
+            const int y = i - top_of_page + 3;
+            trim_and_print( w_missions, y, 1, 28, ( int )selection == i ? hilite( col ) : col,
+                            miss->name() );
         }
 
         if( selection < umissions.size() ) {
+            int lines;
             const auto miss = umissions[selection];
-            int y = 4;
+            const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
+            lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col, miss->name() );
+
+            int y = 3 + lines;
             if( !miss->get_description().empty() ) {
-                mvwprintz( w_missions, y++, 31, c_white, miss->get_description() );
+                mvwprintz( w_missions, ++y, 31, c_white, miss->get_description() );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();
-                mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), to_string( deadline ) );
+                mvwprintz( w_missions, ++y, 31, c_white, _( "Deadline: %s" ), to_string( deadline ) );
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
@@ -126,13 +129,13 @@ void game::list_missions()
                         remaining_time = to_string_approx( remaining );
                     }
 
-                    mvwprintz( w_missions, y++, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );
+                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );
                 }
             }
             if( miss->has_target() ) {
                 const tripoint pos = u.global_omt_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
-                mvwprintz( w_missions, y++, 31, c_white, _( "Target: (%d, %d)   You: (%d, %d)" ),
+                mvwprintz( w_missions, ++y, 31, c_white, _( "Target: (%d, %d)   You: (%d, %d)" ),
                            miss->get_target().x, miss->get_target().y, pos.x, pos.y );
             }
         } else {
