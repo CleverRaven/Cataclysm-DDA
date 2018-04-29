@@ -336,7 +336,7 @@
       { "trait": "GLASSJAW", "prob": 50 },
       { "trait": "ANIMALDISCORD", "prob": 50 },
       { "trait": "UGLY", "prob": 50 },
-      { "trait": "LIZ_EYE", "prob": 50 },
+      { "collection": [ { "trait": "LIZ_EYE" }, { "trait": "LIZ_IR" } ], "prob": 50 },
       { "trait": "SCALES", "prob": 50 },
       { "trait": "NAILS", "prob": 50 },
       { "trait": "RAP_TALONS", "prob": 50 },
@@ -510,7 +510,7 @@
     "traits": [
       { "trait": "THICKSKIN", "prob": 50 },
       { "trait": "BADTEMPER", "prob": 50 },
-      { "trait": "LIZ_EYE", "prob": 50 },
+      { "collection": [ { "trait": "LIZ_EYE" }, { "trait": "LIZ_IR" } ], "prob": 50 },
       { "trait": "REGEN_LIZ", "prob": 50 },
       { "trait": "FANGS", "prob": 50 },
       { "trait": "MEMBRANE", "prob": 50 },
@@ -646,8 +646,7 @@
       { "trait": "WEAKSCENT", "prob": 50 },
       { "trait": "BADBACK", "prob": 50 },
       { "trait": "CHEMIMBALANCE", "prob": 50 },
-      { "trait": "ELFAEYES", "prob": 50 },
-      { "trait": "ELFA_FNV", "prob": 50 },
+      { "collection": [ { "trait": "ELFAEYES" }, { "trait": "ELFA_FNV" } ], "prob": 50 },
       { "trait": "PLANTSKIN", "prob": 50 },
       { "trait": "LEAVES", "prob": 50 },
       { "trait": "PARAIMMUNE", "prob": 50 },
@@ -686,8 +685,7 @@
       { "trait": "LIGHTSTEP", "prob": 50 },
       { "trait": "SMELLY", "prob": 50 },
       { "distribution": [ { "trait": "PRETTY" }, { "trait": "DEFORMED" }, { "trait": "UGLY" } ] },
-      { "trait": "FEL_EYE", "prob": 50 },
-      { "trait": "FEL_NV", "prob": 50 },
+      { "collection": [ { "trait": "FEL_EYE" }, { "trait": "FEL_NV" } ], "prob": 50 },
       { "trait": "FELINE_FUR", "prob": 50 },
       { "trait": "LYNX_FUR", "prob": 50 },
       { "trait": "CLAWS_RETRACT", "prob": 50 },
@@ -801,8 +799,7 @@
     "id": "trait_group_cephalopod",
     "subtype": "collection",
     "traits": [
-      { "trait": "CEPH_EYES", "prob": 50 },
-      { "trait": "CEPH_VISION", "prob": 50 },
+      { "collection": [ { "trait": "CEPH_EYES" }, { "trait": "CEPH_VISION" } ], "prob": 50 },
       { "trait": "GILLS_CEPH", "prob": 50 },
       { "trait": "SLIT_NOSTRILS", "prob": 50 },
       { "trait": "DEFORMED", "prob": 50 },
@@ -885,3 +882,4 @@
     ]
   }
 ]
+
