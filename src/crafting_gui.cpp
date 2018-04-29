@@ -263,6 +263,21 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
                                 break;
 
+                            case 'm': {
+                                auto &learned = g->u.get_learned_recipes();
+                                current.clear();
+                                if( ( qry.substr( 2 ) == "yes" ) || ( qry.substr( 2 ) == "y" ) || ( qry.substr( 2 ) == "1" ) ||
+                                    ( qry.substr( 2 ) == "true" ) || ( qry.substr( 2 ) == "t" ) || ( qry.substr( 2 ) == "on" ) ) {
+                                    std::set_intersection( available_recipes.begin(), available_recipes.end(), learned.begin(),
+                                                           learned.end(), std::back_inserter( current ) );
+                                } else {
+                                    std::set_difference( available_recipes.begin(), available_recipes.end(), learned.begin(),
+                                                         learned.end(),
+                                                         std::back_inserter( current ) );
+                                }
+                            }
+                            break;
+
                             default:
                                 current.clear();
                         }
@@ -605,12 +620,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                              "  [s] search skills\n"
                              "Special prefixes for results:\n"
                              "  [Q] search qualities\n"
+                             "Other:\n"
+                             "  [m] search for memorized or not\n"
                              "Examples:\n"
                              "  t:soldering iron\n"
                              "  c:two by four\n"
                              "  q:metal sawing\n"
                              "  s:cooking\n"
-                             "  Q:fine bolt turning"
+                             "  Q:fine bolt turning\n"
+                             "  m:no"
                            ) )
             .edit( filterstring );
             redraw = true;
