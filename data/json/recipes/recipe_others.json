@@ -482,7 +482,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],

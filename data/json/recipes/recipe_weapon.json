@@ -70,7 +70,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1}
+    {"id":"HAMMER","level":1},
+    { "id": "ANVIL", "level": 1 }
   ],
   "tools": [
     [
@@ -286,7 +287,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
+    {"id":"HAMMER","level":1},
+    { "id": "ANVIL", "level": 1 }
   ],
   "tools": [
     [
