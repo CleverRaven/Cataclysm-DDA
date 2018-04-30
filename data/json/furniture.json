@@ -2070,11 +2070,6 @@
         "move_cost_mod": -1,
         "required_str": 16,
         "crafting_pseudo_item": "anvil",
-        "deconstruct": {
-            "items": [
-                { "item": "anvil", "count": 1 }
-            ]
-        },
         "flags": ["PLACE_ITEM", "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
         "deployed_item": "brazier",
         "examine_action": "deployed_furniture",
