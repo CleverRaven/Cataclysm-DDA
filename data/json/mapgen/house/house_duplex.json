@@ -40,6 +40,7 @@
         "-": "t_wall",
         ".": "t_grass",
         "0": "t_floor",
+        ":": "t_floor",
         ";": "t_door_locked",
         "?": "t_floor",
         "@": "t_floor",
@@ -65,6 +66,7 @@
       },
       "furniture": {
         "$": "f_shower",
+        ":": "f_rack",
         "0": "f_fireplace",
         "?": "f_sofa",
         "@": "f_bed",
