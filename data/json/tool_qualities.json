@@ -165,5 +165,10 @@
     "type": "tool_quality",
     "id": "ANVIL",
     "name": "anvil"
+  },
+  {
+    "type": "tool_quality",
+    "id": "GRIP",
+    "name": "gripping"
   }
 ]
