@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 06:24-0400\n"
+"POT-Creation-Date: 2018-04-29 09:29-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2176,41 +2176,6 @@ msgstr ""
 #. ~ Description for medical tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of medical tape, similar to duct tape."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "FFV441B HE rocket"
-msgstr ""
-
-#. ~ Description for FFV441B HE rocket
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A 84x246mm High Explosive anti-personnel round for the Carl Gustav M3 "
-"recoilless rifle.  Designed to be highly effective against personnel."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "FFV502 HEDP rocket"
-msgstr ""
-
-#. ~ Description for FFV502 HEDP rocket
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A 84x246mm High Explosive Dual Purpose anti-materiel round for the Carl "
-"Gustav M3 recoilless rifle.  Designed to be highly effective against "
-"vehicles and structures."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "FFV469 smoke rocket"
-msgstr ""
-
-#. ~ Description for FFV469 smoke rocket
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A 84x246mm smoke marker round for the Carl Gustav M3 recoilless rifle.  "
-"Commonly used for signaling, target designation, and for screening troop "
-"movements."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4406,6 +4371,41 @@ msgid "reloaded 7.62x25mm"
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "84x246mm HE rocket"
+msgstr ""
+
+#. ~ Description for 84x246mm HE rocket
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A 84x246mm High Explosive anti-personnel round for the Carl Gustav M3 "
+"recoilless rifle.  Designed to be highly effective against personnel."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "84x246mm HEDP rocket"
+msgstr ""
+
+#. ~ Description for 84x246mm HEDP rocket
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A 84x246mm High Explosive Dual Purpose anti-materiel round for the Carl "
+"Gustav M3 recoilless rifle.  Designed to be highly effective against "
+"vehicles and structures."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "84x246mm smoke rocket"
+msgstr ""
+
+#. ~ Description for 84x246mm smoke rocket
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A 84x246mm smoke marker round for the Carl Gustav M3 recoilless rifle.  "
+"Commonly used for signaling, target designation, and for screening troop "
+"movements."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "bootleg 8x40mm JHP"
 msgstr ""
 
@@ -5196,6 +5196,28 @@ msgid ""
 "Hand-loaded ammunition for heavy machine guns and other military hardware, "
 "designed to burn hotly upon impact, piercing armor and igniting flammable "
 "substances."
+msgstr ""
+
+#. ~ Description for 84x246mm HE rocket
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A 84x246mm High Explosive anti-personnel round for the recoilless rifle.  "
+"Designed to be highly effective against personnel."
+msgstr ""
+
+#. ~ Description for 84x246mm HEDP rocket
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A 84x246mm High Explosive Dual Purpose anti-materiel round for the "
+"recoilless rifle.  Designed to be highly effective against vehicles and "
+"structures."
+msgstr ""
+
+#. ~ Description for 84x246mm smoke rocket
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A 84x246mm smoke marker round for the recoilless rifle.  Commonly used for "
+"signaling, target designation, and for screening troop movements."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
@@ -28937,7 +28959,7 @@ msgid ""
 "Whosoever holds this hammer,\n"
 "If he be worthy,\n"
 "Shall possess the power to...\n"
-"CRUSH!!'"
+"CRUSH!'"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -36935,7 +36957,7 @@ msgstr ""
 
 #. ~ Description for evil multi-cooker
 #: lang/json/MONSTER_from_json.py
-msgid "The multi-cooker's got a mind of its own!  Look out!!"
+msgid "The multi-cooker's got a mind of its own!  Look out!"
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -38528,7 +38550,7 @@ msgstr ""
 #. ~ Description for bluegill
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A bluegill, An invasive species in Japan.  Commonly gutted and cooked whole."
+"A bluegill, an invasive species in Japan.  Commonly gutted and cooked whole."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41660,7 +41682,7 @@ msgstr ""
 
 #. ~ Use action success_message for firebrand (off).
 #: lang/json/TOOL_from_json.py
-msgid "Charge!!"
+msgid "Charge!"
 msgstr ""
 
 #. ~ Description for firebrand (off)
@@ -41936,9 +41958,9 @@ msgstr ""
 #. ~ Description for cell phone
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a typical smartphone that features an LED for use as a flash.  Using "
+"This is a typical cellphone that features an LED for use as a flash.  Using "
 "this cellphone will turn it on and provide light, assuming it is charged "
-"with batteries."
+"with batteries. Also it has a clock app that includes an alarm."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -42569,7 +42591,7 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 #, no-python-format
 msgid ""
-"You can't disarm your %s'.  Place it, get away and use the remote control to "
+"You can't disarm your %s.  Place it, get away and use the remote control to "
 "detonate."
 msgstr ""
 
@@ -44674,8 +44696,8 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 #, no-python-format
 msgid ""
-"You can't disarm your %s'.  Place it, get away, and use the remote control "
-"to detonate."
+"You can't disarm your %s.  Place it, get away, and use the remote control to "
+"detonate."
 msgstr ""
 
 #. ~ Description for activated radio pipe bomb
@@ -47235,7 +47257,7 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "A cheap gadget combining a whistle, thermometer, magnifying glass, and "
-"button compass."
+"compass."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -48883,7 +48905,7 @@ msgstr ""
 #, no-python-format
 msgid ""
 "Damaged power circuits cause short-circuiting inside your muscles when your "
-"batteries are above 75%%%% capacity, causing greatly reduced strength.  This "
+"batteries are above 75% capacity, causing greatly reduced strength.  This "
 "has no effect if you have no internal batteries."
 msgstr ""
 
@@ -52346,6 +52368,446 @@ msgstr ""
 msgid "Stuck in a heavy snare"
 msgstr ""
 
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Died several years later at the hands of a Hell's Raiders band.  Till "
+"the end, he held out hope that his daughter was still alive in the wasteland."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Was making his way to Michigan to search for family when he broke his "
+"leg in the woods.  Died of hypothermia a week later.  A note found with his "
+"body read, 'I wish I could have saved her.'"
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Survived for a number of years and made a name for himself amongst "
+"other survivors.  Eventually he began augmenting himself with bionics... "
+"when a failed surgery left him permanently blind he committed suicide "
+"without leaving a note."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Met with some success as a craftsman working in a small survivor "
+"outpost.  Eventually he married a young refugee and had two children.  Died "
+"during a typhoid outbreak a few years later.  Survived by only his three "
+"year old son."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a skilled mechanic and assisted a number of refugees searching "
+"for settlements.  He left one day on a routine trading run and failed to "
+"return.  His wrecked truck was located by a scavenger band but he was never "
+"seen again."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a game hunter and trapper.  Eventually he left on a hunting trip "
+"never to be seen again.  Attempts to locate him were called off when one of "
+"the searchers disappeared without a trace."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Went on to enlist in the Old Guard.  Was killed in action a year later "
+"fighting the Hell's Raiders in Vermont.  In his will he requested that all "
+"entitlements and property be transferred to a young lady he had met while "
+"guarding a FEMA camp.  Was survived by the young lady and a newborn son."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a laborer for hire in any outpost that needed assistance.  Was "
+"hanged for stealing from an employer; weeks later it was revealed the "
+"employer never had the resources nor intention to pay him."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Never spent much time around settlements after your death.  Was last "
+"seen near the Adirondacks in New York."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Died of an infected bite a few weeks later.  Before he passed he told "
+"those present, 'Now I've lost everything in this world... but you haven't.  "
+"Keep searching, the world is big enough that there has to be a place out "
+"there that hasn't been overrun.'"
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Managed to contract some form of fungal infection a few months after "
+"your passing.  Unable to find treatment, he asked to be put down while "
+"listening to someone read from his favorite novel, Don Quixote."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a self-taught chemist and medic.  His work eventually led him to "
+"a life of alcohol abuse and morphine addiction.  Overdosed one night when "
+"left unattended.  The community he helped said, 'He was probably the best "
+"thing to happen to us in years... there just isn't any turning back when you "
+"lose all hope.'"
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Went on to become a notable scout and urban explorer.  Was tragically "
+"killed when cornered in an abandoned store when scavenging with a group of "
+"unskilled survivors."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     After your death he became a reclusive but friendly guy.  His continued "
+"supply runs helped keep many survivor colonies alive through the years.  "
+"Unfortunately, he bled to death over the course of several days after having "
+"stepped on a landmine intended to target local raiders."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Lost his way long before he met you.  The cataclysm offered him the "
+"chance to denounce the former vices that had led to his incarceration... an "
+"offer that went unanswered.  After you were killed, he returned to hunting "
+"those he saw as weak.  The number of people he murdered is unknown but prior "
+"to his execution he claimed that, 'butchering the dead was never as fun as "
+"the living.'"
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Found new meaning in life after your death.  Although he never informed "
+"you, his felonies in the departed world had prevented him from ever having a "
+"real place in society.  With the destruction of existing criminal records he "
+"took it upon himself to prove his worth to his fellow man.  Died from a "
+"heart attack while alone on a trip many years after the cataclysm."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Spent his entire life secretly addicted to one substance or another.  "
+"After your death he briefly worked as a laborer in a survivor camp before "
+"losing his grip on reality due to various side effects associated with his "
+"drugs of choice.  He died from complications due to a seizure.  In his last "
+"moments he saw Porkey the pig exclaim, 'That's all folks!' before an "
+"animated audience."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Was never known as a particularly brave individual nor an emotionally "
+"stable one.  His regret for not helping people during the opening days of "
+"the cataclysm led him to attempt suicide multiple times in the years that "
+"followed.  Life improved briefly when he married a fellow survivor but was "
+"shattered when his spouse was killed by members of a mysterious apocalypse "
+"cult.  He was killed when he attempted to sneak into the cult's compound to "
+"enact revenge himself."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Spent the remainder of his life assisting one adventurer party or "
+"another.  Eventually his luck ran out when he became ill after eating "
+"something rotten.  Was abandoned by his party in an infested neighborhood, "
+"never to be seen again."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Died from sepsis a few weeks after you.  The cut on his leg that "
+"ultimately killed him would have been easily treatable in nearly any other "
+"situation.  His final wish was that he be allowed to drink himself into his "
+"grave.  Upon consideration, the party that he was with opted to shoot him in "
+"the head and divide his belongings rather than waste the alcohol."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Worked hard following your death to organize his own band of "
+"survivors.  Went on to marry and have two children that were raised and "
+"taught every survival skill they would ever need.  His past eventually "
+"caught up to him when he ran afoul with an Old Guard colonel.  Since he fled "
+"his post as a National Guard soldier during the cataclysm he was hanged for "
+"desertion despite the protests of a huge number of survivors that had "
+"benefited from his service over the years."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Went on to the coast and salvaged a small sailboat.  Despite the "
+"protests of those that knew him, his decision to sail in search of some "
+"uninhabited tropical paradise in the north Atlantic was final.  His "
+"disappearance after starting the journey was described by his fellow "
+"survivors as 'a waste of a perfectly good boat.'"
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Within a few weeks of your death he was robbed by a pair of bandits.  "
+"For attempting to resist their demands they broke both of his arms in "
+"multiple places.  Alone and wounded it took nearly a month before he found "
+"refuge and primitive medical assistance with other survivors.  Having lost "
+"his ability to grasp or lift, he spent the last few years of his life "
+"begging for food and relying on charity from his fellow survivors."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Trained under your guidance, he became a renowned abomination hunter.  "
+"With what weapons he could salvage he led parties to reclaim town after town "
+"from the undead and other horrors that wandered the wasteland.  His success "
+"was temporal as monsters migrated into the cleared territories as quickly as "
+"he could clear them.  His life ended when antibiotic resistant infection "
+"spread between his countless minor wounds."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Renounced the adventurous lifestyle after your death and chose to "
+"establish a self sufficient camp away from the horrors found in the old "
+"cities.  His attempts at solitude were in vain as otherworldly visitors "
+"began to prey upon the weak and isolated.  The last moments of his life were "
+"spent in bewilderment and horror as he was awoken one night to an alien "
+"insect the size of a man opening his cabin's door and screaming in a dozen "
+"perfectly human voices as it flew straight at him."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Was detained and handcuffed by a police robot on multiple counts of "
+"looting and vandalism that were tracked and recorded by the few remaining "
+"security systems.  While being held on the ground awaiting additional police "
+"response units he was torn to pieces by the undead that were attracted by "
+"the commotion."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Committed suicide rather than fall into the hands of the Hell's "
+"Raiders.  Till the end, she held out hope that her son was still alive in "
+"the wasteland."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Was making her way to Ohio to search for family when she consumed a "
+"number of poisonous roots.  Over the course of three or four days she "
+"passed.  A note found with her body read, 'I wish I could have saved him.'"
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Survived for a number of years and made a name for herself amongst "
+"other survivors.  Eventually she began experimenting with mutagen... when a "
+"mutation left her permanently disfigured and in pain she committed suicide "
+"without leaving a note."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Met with some success as a craftswoman working in a small survivor "
+"outpost.  Eventually she married a refugee and had one child.  Died during "
+"childbirth a few years later.  Survived by her husband and two year old "
+"daughter."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a skilled mechanic and assisted a number of refugees searching "
+"for settlements.  She left one day driving a number of migrants to another "
+"settlement when she disappeared.  No trace of her or the vehicle was ever "
+"found."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a game hunter and trapper.  Eventually she left on a hunting "
+"trip never to be seen again.  Attempts to locate her were called off when a "
+"shredded jacket was found."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Went on to enlist in the Old Guard.  Was captured a year later fighting "
+"the Hell's Raiders in the disastrous Vermont campaign.  The hasty rescue "
+"mission that followed was one of the major defeats that forced the Old Guard "
+"to abandon the area.  It is unknown if she survived."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a laborer for hire in any outposts that needed assistance.  Was "
+"wrongly shot by her employer during a wage dispute."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Never spent much time around settlements after your death.  Was last "
+"seen near the old Canadian border."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Died of an infected bite a few weeks later.  Before she passed she told "
+"those present, 'I've outlived everyone that I have ever loved.  If anything "
+"death is a few months late'."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Managed to contract some form of infection a few months after your "
+"passing.  Unable to find treatment she asked to be put down while listening "
+"to someone read from her favorite novel, A Tale of Two Cities."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Became a self-taught chemist and medic.  Her work eventually led her to "
+"a life of alcohol abuse and morphine addicion.  Overdosed one night when "
+"left unattended.  The community she helped said, 'I've never known a nicer "
+"woman nor one who had fought off depression for so long.'"
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Went on to become a notable scout and urban explorer.  Was tragically "
+"killed by one of her students when leading a group of unskilled survivors on "
+"a night supply raid."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     After your death she became a reclusive and eccentric individual.  Her "
+"skills were invaluable to the outposts that she chose to assist.  "
+"Unfortunately, competition for resources and salvage rights led a group of "
+"survivors to coax a mob of undead to surround her when she was on a lone "
+"raid.  Without witnesses, no connection between her death and the other "
+"survivors could be proven."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Lost her way long before she met you.  The cataclysm offered her the "
+"chance to denounce the former vices that had led to her incarceration... an "
+"offer that went unanswered.  After you were killed, she returned to preying "
+"upon those she saw as weak.  It is rumored that she robbed dozens of "
+"survivors for everything they had before leaving them to die amongst the "
+"horrors that roamed the land.  Her eventual fate is unknown."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Found new meaning in life after your death.  Although she never "
+"informed you, her felonies in the departed world had prevented her from ever "
+"having a real place in society.  With the destruction of the criminal record "
+"system, she took it upon herself to make amends for her crimes.  Died on a "
+"dangerous rescue mission when witnesses saw an helicopter crash-land in a "
+"nearby town."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Spent her entire life secretly addicted to one substance or another.  "
+"After your death she briefly worked in a survivor camp before finding a "
+"place in the lucrative drug trade.  She died, predictably, from an "
+"overdose.  Drugs allowed her to relive the memories of friends, family, and "
+"loved ones... she died happier than could have ever been expected."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Was never known as a particularly brave individual nor an emotionally "
+"stable one.  Her inability to emotionally conform to life after the "
+"cataclysm led her to attempt suicide multiple times in the years that "
+"followed.  Attracted by promises of renewal and the prospect of belonging to "
+"a new family, she became involved with a charismatic cult.  She was an "
+"innocent casualty when Old Guard soldiers stormed the compound on suspicion "
+"of crimes against humanity."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Spent the remainder of her life assisting one adventurer party or "
+"another.  Eventually her luck ran out when she became ill after starvation "
+"led her to eat whatever she could forage from the woods.  The party she was "
+"with deemed her a lost cause and put a bullet in her head instead of letting "
+"her turn.  She had suffered from a treatable form of marasmus."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Was stabbed in the arm by an ill tempered survivor a few weeks after "
+"you passed.  The cut quickly became infected and she died from sepsis a "
+"short time later.  Her murderer was the first person to discover her "
+"corpse... and all the gear she had been saving."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Worked hard following your death to build her own band of survivors.  "
+"Thanks to the skills she had acquired, she was able to turn a hefty profit "
+"looting abandoned towns.  After a series of heated contract disputes with "
+"her followers she found herself locked in her own car as a pair of molotovs "
+"were thrown through the windows.  Her last desire was that she could have "
+"taken the bastards out with her."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Sought the coast in the hopes of finding an abandoned ship after your "
+"death.  Her journey ended when she discovered an Old Guard controlled dock "
+"in an abandoned fishing town.  Promised a new life if she agreed to serve as "
+"a contractor, she spent the next few years toiling to keep the camp supplied "
+"but never saw her reward.  A stray bullet struck her down when the Hell's "
+"Raiders launched a raid in an attempt to gain access to the sea."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Within a few months of your death she was robbed by a group of "
+"bandits.  When she shot the first dead in his tracks, one of his companions "
+"unleashed a blast from his flamethrower at close range.  Her ashes and a few "
+"odd pieces of jewelry were all that could be recovered."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Trained under your guidance, she became a renowned monster hunter.  "
+"Leading a band of warriors armed with primitive weapons she tracked down and "
+"killed numerous otherworldly horrors that wandered the wilderness.  Her "
+"quest to end the threat led her party to a shimmering gate that appeared to "
+"spew forth abominations and alien material.  With no means of closing the "
+"gate, her party was last seen venturing into the unknown to meet the threat "
+"at its source."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Renounced the adventurous lifestyle after your death and chose to start "
+"a family with a fellow survivor in an abandoned hunting cabin.  Survival was "
+"grim but the family grew through the years until she had three sons and a "
+"daughter.  Her end came when the horrors finally located her homestead... "
+"she and her husband were able to distract the monster as her children "
+"escaped."
+msgstr ""
+
+#: lang/json/epilogue_from_json.py
+msgid ""
+"     Was detained and incarcerated by a police robot on multiple counts of "
+"looting and vandalism that were tracked and recorded by the few remaining "
+"security systems.  Trapped in a cell awaiting police review, she spent weeks "
+"crying out for help and slowly consuming what supplies she carried.  Two "
+"weeks after being dragged to her cell she died from dehydration."
+msgstr ""
+
 #: lang/json/faction_from_json.py
 msgid "Your Followers"
 msgstr ""
@@ -52434,7 +52896,7 @@ msgid ""
 "The scattered remnants of civilization, these lucky few managed to barricade "
 "themselves inside during the earliest stages of the cataclysm. Although "
 "temporarily secure, they are short on supplies and lack the skills to obtain "
-"more. It's only a matter or time before they too become the prey of "
+"more. It's only a matter of time before they too become the prey of "
 "otherwordly creatures, or of all-too-human monsters."
 msgstr ""
 
@@ -54091,19 +54553,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "M3 recoilless rifle"
-msgid_plural "M3 recoilless rifles"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/gun_from_json.py
-msgid ""
-"Manufactured in Sweden, the Carl Gustav M3 is a breech-loading 84 millimeter "
-"man-portable, reusable, multi-role recoilless rifle commonly used by the US "
-"military."
-msgstr ""
-
-#: lang/json/gun_from_json.py
 msgid "M202 FLASH"
 msgid_plural "M202 FLASH"
 msgstr[0] ""
@@ -54572,7 +55021,8 @@ msgid "semi-auto"
 msgstr ""
 
 #: lang/json/gun_from_json.py
-#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
+#: lang/json/gun_from_json.py lang/json/gunmod_from_json.py
+#: lang/json/gunmod_from_json.py src/item_factory.cpp src/turret.cpp
 msgid "auto"
 msgstr ""
 
@@ -55822,6 +56272,19 @@ msgid ""
 "durability, accuracy, and uncomfortable grip angle.  It was chambered for "
 "the 7.62x25mm due to the popularity of the C96 pistol among Russian "
 "revolutionaries."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "M3 recoilless rifle"
+msgid_plural "M3 recoilless rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"Manufactured in Sweden, the Carl Gustav M3 is a breech-loading 84 millimeter "
+"man-portable, reusable, multi-role recoilless rifle commonly used by the US "
+"military."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -57364,7 +57827,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "Developed by a cutting edge weapons research team together with DARPA, this "
-"UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it "
+"UPS-powered energy weapon heats hydrogen to create plasma and envelopes it "
 "with polymers to reduce blooming.  While powerful, it suffers from short "
 "range.  It accepts hydrogen canisters as ammunition."
 msgstr ""
@@ -57379,6 +57842,18 @@ msgstr[1] ""
 msgid ""
 "A powerful semi-automatic pistol which fires revolver rounds.  Loads a "
 "detachable, 7-round magazine."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "recoilless rifle"
+msgid_plural "recoilless rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"The recoilless rifle is a breech-loading 84 millimeter man-portable, "
+"reusable, multi-role recoilless rifle commonly used by the US military."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -57545,7 +58020,7 @@ msgstr[1] ""
 msgid ""
 "A living blob turned into an autonomous weapon; meant to be stretched across "
 "a frame as a form of barrier.  It has evolved the ability to constantly "
-"generate calcified protrusions which are then controlled by sinous tensile "
+"generate calcified protrusions which are then controlled by sinuous tensile "
 "strands.  These \"teeth\" can then be used to latch and wound anything "
 "unfortunate enough to be nearby.  The outer membrane has also become "
 "significantly thicker in order to support its more strenuous movement; "
@@ -57577,7 +58052,7 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A living blob turned into an autonomous weapon.  A biological abberration "
+"A living blob turned into an autonomous weapon.  A biological aberration "
 "that exists at sub-zero temperatures.  After filtering nutrients from the "
 "water, it freezes the remainder into an incredibly sharp spear of ice; which "
 "it then launches at nearby threats.  The amorphous mass can be shaped and "
@@ -57715,7 +58190,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "A living blob turned into an autonomous weapon.  An enhanced metabolism "
-"allows it to calcify large. toothy discs that is then launched towards any "
+"allows it to calcify large, toothy discs which are then launched towards any "
 "nearby threats.  The amorphous mass can be shaped and attached at your "
 "touch, but the weapon itself is inert without something to control it."
 msgstr ""
@@ -57779,7 +58254,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "A living blob turned into an autonomous weapon.  It is capable of storing "
-"energy from sunlight inside itself in the forme of electricity.  Then, in a "
+"energy from sunlight inside itself in the form of electricity.  Then, in a "
 "truly baffling show of force, projects a highly concentrated stream of "
 "electricity towards any possible threats.  The amorphous mass can be shaped "
 "and attached at your touch, but the weapon itself is inert without something "
@@ -57817,9 +58292,9 @@ msgid ""
 "A weapon that is as deadly as it is dazzling.  The diamond matrix in this "
 "weapon's center acts as a catalyst; rapidly changing carbon-heavy materials "
 "into a crystalline substance that is nearly equal to diamond in hardness.  "
-"The substance rapidly decays when separated from the catalyst, and at  sizes "
+"The substance rapidly decays when separated from the catalyst, and at sizes "
 "as large as the projectile used, also rapidly decays when in contact with "
-"other matter. Thus the projectile is held and launched by the use of "
+"other matter.  Thus the projectile is held and launched by the use of "
 "pressurized air from a vortex stone.  Upon striking its target, the "
 "projectile undergoes explosive decomposition; shattering into a brilliant "
 "burst of diamond fragments."
@@ -58177,7 +58652,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "A modern reproduction of a Colt pump-action rifle.  Originally chambered "
-"in .44-40, modern versions most commonly use .45 Long Colt, complimenting "
+"in .44-40, modern versions most commonly use .45 Long Colt, complementing "
 "the Single Action Army as a Cowboy Action Shooting firearm."
 msgstr ""
 
@@ -58203,7 +58678,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "An old break-action shotgun, chambered in .410 bore.  Designed as a lower-"
-"recoil alternative to 12 guage, it is light and simple in manufacture."
+"recoil alternative to 12 gauge, it is light and simple in manufacture."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -58895,6 +59370,30 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
+msgid "telescopic sight"
+msgid_plural "telescopic sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A simple telescopic sight, essentially a small telescope with crosshairs. "
+"Increases weight but improves accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "telescopic pistol sight"
+msgid_plural "telescopic pistol sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A simple telescopic sight intended for use on a handgun.  Increases weight "
+"but improves accuracy greatly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
 msgid "adjustable stock"
 msgid_plural "adjustable stocks"
 msgstr[0] ""
@@ -59013,6 +59512,10 @@ msgstr[1] ""
 
 #: lang/json/gunmod_from_json.py
 msgid "This is the bayonet integrated in the firearm."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "bayonet"
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -59875,7 +60378,7 @@ msgstr ""
 #: lang/json/json_flag_from_json.py
 msgid ""
 "Don't offer to draw items from this holster when the fire key is pressed "
-"whilst the players hands are empty."
+"whilst the player's hands are empty."
 msgstr ""
 
 #: lang/json/json_flag_from_json.py
@@ -60024,7 +60527,7 @@ msgid "Can be made to fit via tailoring."
 msgstr ""
 
 #: lang/json/json_flag_from_json.py
-msgid "Layer for belts other things worn on the waist."
+msgid "Layer for belts and other things worn on the waist."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -62117,9 +62620,8 @@ msgstr ""
 #. ~ Description for martial art 'Lizard Kung Fu'
 #: lang/json/martial_art_from_json.py
 msgid ""
-"One of the Five Deadly Venoms, and likely to be refactored to a mutation at "
-"the next save-compatibility breaker.  Lizard Style focuses on using walls to "
-"your advantage."
+"One of the Five Deadly Venoms.  Lizard Style focuses on using walls to your "
+"advantage."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -62191,7 +62693,7 @@ msgid ""
 "The art of the longsword and other weapons, preceding the later development "
 "of fencing.  Designed for combat both unarmored and in armor, it includes "
 "grappling as well as defensive and offensive sword techniques, plus "
-"familiarity with other weapon like polearms."
+"familiarity with other weapons like polearms."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -63408,8 +63910,7 @@ msgid ""
 "for us survivors to start securing a foothold but we don't have anyone with "
 "the skills and equipment to thin the masses of undead.  I'll lend you a hand "
 "to the best of my ability but you really showed promise taking out that "
-"other beast.  You, I, and a 100 regular zombies laid to rest, what do you "
-"say?"
+"other beast.  You, I, and a 100 zombies laid to rest, what do you say?"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -63976,7 +64477,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Farms or supply stories might have a few seeds..."
+msgid "Farms or supply stores might have a few seeds..."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -64159,7 +64660,7 @@ msgid ""
 "that we use in small quantities.  We are going to start setting up a junk "
 "shop for them in the North end of the outpost so we could use your help with "
 "that.  Communication is the biggest obstacle for the teams... could you "
-"bring in a pair two two-way radios?"
+"bring in a pair of two-way radios?"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -64392,8 +64893,8 @@ msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid ""
-"I don't know the exact recipie but I'm sure you could make it from a "
-"comercial fertilizer or produce it from bonemeal."
+"I don't know the exact recipe but I'm sure you could make it from a "
+"commercial fertilizer or produce it from bonemeal."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -64505,7 +65006,7 @@ msgid ""
 "Without dedicated medical personnel and facilities I doubt everyone will be "
 "willing to stick around when the next outbreak happens.  Until we can get a "
 "former medic or nurse I'm just going to have to improvise.  Sterilization "
-"would be the first step I imagine.  Bring me five gallons of bleach so we "
+"would be the first step I imagine.  Bring me 5 gallon jugs of bleach so we "
 "can get started."
 msgstr ""
 
@@ -65303,7 +65804,7 @@ msgstr ""
 
 #. ~ Mutation class: Any iv_sound_message
 #: lang/json/mutation_category_from_json.py
-msgid "You scream in agony!!"
+msgid "You scream in agony!"
 msgstr ""
 
 #. ~ Mutation class: Any junkie_message
@@ -65818,7 +66319,7 @@ msgstr ""
 
 #. ~ Mutation class: Chimera iv_sound_message
 #: lang/json/mutation_category_from_json.py
-msgid "You roar in agony!!"
+msgid "You roar in agony!"
 msgstr ""
 
 #. ~ Mutation class: Chimera Male memorial messsage
@@ -66514,8 +67015,8 @@ msgstr ""
 #. ~ Description for Very Slow Sleep Healing
 #: lang/json/mutation_from_json.py
 msgid ""
-"You heal much slower than most; sleeping will heal only one third HP compare "
-"to the average person."
+"You heal much slower than most; sleeping will heal only one third HP "
+"compared to the average person."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -66526,7 +67027,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You almost cannot recover lost health by sleeping; sleeping will heal only "
-"one tenth HP compare to the average person."
+"one tenth HP compared to the average person."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -68572,8 +69073,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your brain has a lot more in common with predatory animal than a human, "
-"making it easer to control misplaced reactions to death of your prey.  "
-"Additionally, combat skills, which you use to hunt, are easer to learn and "
+"making it easier to control misplaced reactions to death of your prey.  "
+"Additionally, combat skills, which you use to hunt, are easier to learn and "
 "maintain."
 msgstr ""
 
@@ -72112,7 +72613,7 @@ msgid "wildlife field office"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "vfw hall"
+msgid "VFW hall"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -79634,8 +80135,8 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
-"\"Joe's Diner; 1/2 pound of meat, 3 toppings, \"your choice\", all with a "
-"side of freedom fries and a BIG Gulp size pop.\""
+"\"Joe's Diner; 1/2 pound of meat, 3 toppings, 'your choice', all with a side "
+"of freedom fries and a BIG Gulp size pop.\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -82784,7 +83285,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
-"\"Next person to call this infantry fighting vehicle a \"tank\" is walking "
+"\"Next person to call this infantry fighting vehicle a 'tank' is walking "
 "home.\""
 msgstr ""
 
@@ -82942,7 +83443,7 @@ msgid "See you... IN HELL!"
 msgstr ""
 
 #: lang/json/speech_from_json.py
-msgid "AAAIEEEEEEE!!!"
+msgid "AAAIEEEEEEE!"
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -84581,7 +85082,6 @@ msgid "About one of those jobs..."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
-#: src/npctalk.cpp
 msgid "Hello marshal."
 msgstr ""
 
@@ -86796,7 +87296,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "SMASH!!"
+msgid "SMASH!"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -86811,7 +87311,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "SCRRRASH!!"
+msgid "SCRRRASH!"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -88322,7 +88822,7 @@ msgstr ""
 #. ~ Description for pine tree
 #: lang/json/terrain_from_json.py
 msgid ""
-"A towering deciduous tree that belongs to the 'Pinus' genus, with the New "
+"A towering coniferous tree that belongs to the 'Pinus' genus, with the New "
 "England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  "
 "If you examined the tree more closely, you might find usable sticky whorls "
 "and unharvested pinecones.  Also, you could cut it down with the right tools."
@@ -88335,7 +88835,7 @@ msgstr ""
 #. ~ Description for dead pine tree
 #: lang/json/terrain_from_json.py
 msgid ""
-"A towering deciduous tree that belongs to the 'Pinus' genus, with the New "
+"A towering coniferous tree that belongs to the 'Pinus' genus, with the New "
 "England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  "
 "Some of the branches have been stripped away and many of the pinecones "
 "aren't developed fully yet, but given a season, it could be harvestable "
@@ -94292,6 +94792,18 @@ msgstr ""
 msgid "Successfully removed %s."
 msgstr ""
 
+#: src/bionics.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "Failed to remove bionic: %s."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "Failed to remove bionic: %s."
+msgstr ""
+
 #. ~ <Body part name>: <number of slots> more slot(s) needed.
 #: src/bionics.cpp
 #, c-format
@@ -94523,11 +95035,11 @@ msgstr ""
 msgid "%d PU deact"
 msgstr ""
 
-#: src/bionics_ui.cpp
+#: src/bionics_ui.cpp src/game.cpp
 msgid "OFF"
 msgstr ""
 
-#: src/bionics_ui.cpp
+#: src/bionics_ui.cpp src/game.cpp
 msgid "ON"
 msgstr ""
 
@@ -96852,6 +97364,20 @@ msgstr ""
 msgid "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)"
 msgstr ""
 
+#: src/debug.cpp
+msgid "An error has occurred! Written below is the error report:"
+msgstr ""
+
+#: src/debug.cpp
+msgid "Press <color_white>space bar</color> to continue the game."
+msgstr ""
+
+#: src/debug.cpp
+msgid ""
+"Press <color_white>I</color> (or <color_white>i</color>) to also ignore this "
+"particular message in the future."
+msgstr ""
+
 #: src/debug_menu.cpp
 #, c-format
 msgid "You teleport to point (%d,%d,%d)."
@@ -97500,7 +98026,7 @@ msgid "One entrance and many rooms.  Some medical supplies."
 msgstr ""
 
 #: src/defense.cpp
-msgid "An easy fortifiable building with lots of useful tools inside."
+msgid "Easily fortifiable building.  Lots of useful tools."
 msgstr ""
 
 #: src/defense.cpp
@@ -97512,7 +98038,7 @@ msgid "A small building with plenty of alcohol."
 msgstr ""
 
 #: src/defense.cpp
-msgid "A large house with many rooms and."
+msgid "A large house with many rooms."
 msgstr ""
 
 #: src/defense.cpp
@@ -100346,19 +100872,7 @@ msgid "%s began their journey into the Cataclysm."
 msgstr ""
 
 #: src/game.cpp
-msgid "Adventured:"
-msgstr ""
-
-#: src/game.cpp
 msgid "Survived:"
-msgstr ""
-
-#: src/game.cpp
-msgid "day"
-msgstr ""
-
-#: src/game.cpp
-msgid "days"
 msgstr ""
 
 #: src/game.cpp src/player.cpp
@@ -100791,7 +101305,7 @@ msgstr ""
 #. ~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
 #: src/game.cpp
 #, c-format
-msgid "Auto %s is now %s."
+msgid "Auto %1$s is now %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -101098,6 +101612,10 @@ msgid "season"
 msgstr ""
 
 #: src/game.cpp
+msgid "day"
+msgstr ""
+
+#: src/game.cpp
 msgid "hour"
 msgstr ""
 
@@ -101166,7 +101684,7 @@ msgstr ""
 msgid ""
 "    Locked in an endless battle, the Old Guard was forced to consolidate "
 "their resources in a handful of fortified bases along the coast.  Without "
-"the menor material to rebuild, the soldiers that remained lost all hope..."
+"the men or material to rebuild, the soldiers that remained lost all hope..."
 msgstr ""
 
 #: src/game.cpp
@@ -101175,7 +101693,7 @@ msgid ""
 "the tattered remains of the once glorious union.  Spurred on by small "
 "successes, a number of operations to re-secure facilities met with limited "
 "success.  Forced to eventually consolidate to large bases, the Old Guard "
-"leftthese facilities in the hands of the few survivors that remained.  As "
+"left these facilities in the hands of the few survivors that remained.  As "
 "the years past, little materialized from the hopes of rebuilding "
 "civilization..."
 msgstr ""
@@ -101184,59 +101702,59 @@ msgstr ""
 msgid ""
 "    Life in the refugee shelter deteriorated as food shortages and disease "
 "destroyed any hope of maintaining a civilized enclave.  The merchants and "
-"craftsmen dispersed to found new colonies but most became victims "
-"ofmarauding bandits.  Those who survived never found a place to call home..."
+"craftsmen dispersed to found new colonies but most became victims of "
+"marauding bandits.  Those who survived never found a place to call home..."
 msgstr ""
 
 #: src/game.cpp
 msgid ""
-"    The Free Merchants struggled for years to keep themselves fed but "
-"theironce profitable trade routes were plundered by bandits and thugs.  In "
-"squalorand filth the first generations born after the cataclysm are told "
-"stories ofthe old days when food was abundant and the children were allowed "
-"to play inthe sun..."
+"    The Free Merchants struggled for years to keep themselves fed but their "
+"once profitable trade routes were plundered by bandits and thugs.  In "
+"squalor and filth the first generations born after the cataclysm are told "
+"stories of the old days when food was abundant and the children were allowed "
+"to play in the sun..."
 msgstr ""
 
 #: src/game.cpp
 msgid ""
-"    The fledgling outpost was abandoned a few months later.  The "
-"externalthreats combined with low crop yields caused the Free Merchants to "
-"withdrawtheir support.  When the exhausted migrants returned to the refugee "
-"centerthey were turned away to face the world on their own."
+"    The fledgling outpost was abandoned a few months later.  The external "
+"threats combined with low crop yields caused the Free Merchants to withdraw "
+"their support.  When the exhausted migrants returned to the refugee center "
+"they were turned away to face the world on their own."
 msgstr ""
 
 #: src/game.cpp
 msgid ""
-"    The commune continued to grow rapidly through the years despite "
-"constantexternal threat.  While maintaining a reputation as a haven for all "
-"lawabiding citizens, the commune's leadership remained loyal to the "
-"interests ofthe Free Merchants.  Hard labor for little reward remained the "
-"price to bepaid for those who sought the safety of the community."
+"    The commune continued to grow rapidly through the years despite constant "
+"external threat.  While maintaining a reputation as a haven for all law-"
+"abiding citizens, the commune's leadership remained loyal to the interests "
+"of the Free Merchants.  Hard labor for little reward remained the price to "
+"be paid for those who sought the safety of the community."
 msgstr ""
 
 #: src/game.cpp
 msgid ""
-"    The lone bands of survivors who wandered the now alien world dwindled "
-"innumber through the years.  Unable to compete with the growing number of "
-"monstrosities that had adapted to live in their world, those who did "
-"survivelived in dejected poverty and hopelessness..."
+"    The lone bands of survivors who wandered the now alien world dwindled in "
+"number through the years.  Unable to compete with the growing number of "
+"monstrosities that had adapted to live in their world, those who did survive "
+"lived in dejected poverty and hopelessness..."
 msgstr ""
 
 #: src/game.cpp
 msgid ""
-"    The scavengers who flourished in the opening days of the cataclysm "
-"foundan ever increasing challenge in finding and maintaining equipment from "
-"the old world.  Enormous hordes made cities impossible to enter while new "
+"    The scavengers who flourished in the opening days of the cataclysm found "
+"an ever increasing challenge in finding and maintaining equipment from the "
+"old world.  Enormous hordes made cities impossible to enter while new "
 "eldritch horrors appeared mysteriously near old research labs.  But on the "
-"fringes of where civilization once ended, bands of hunter-gatherers began "
-"toadopt agrarian lifestyles in fortified enclaves..."
+"fringes of where civilization once ended, bands of hunter-gatherers began to "
+"adopt agrarian lifestyles in fortified enclaves..."
 msgstr ""
 
 #: src/game.cpp
 msgid ""
 "    The raiders grew more powerful than any other faction as attrition "
-"destroyed the Old Guard.  The ruthless men and women who banded together "
-"torob refugees and pillage settlements soon found themselves without enough "
+"destroyed the Old Guard.  The ruthless men and women who banded together to "
+"rob refugees and pillage settlements soon found themselves without enough "
 "victims to survive.  The Hell's Raiders were eventually destroyed when "
 "infighting erupted into civil war but there were few survivors left to "
 "celebrate their destruction."
@@ -101244,11 +101762,11 @@ msgstr ""
 
 #: src/game.cpp
 msgid ""
-"    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail "
-"tooverthrow the last strongholds of the Old Guard.  The costly victories "
-"brought the warlords abundant territory and slaves but little in the way "
-"ofstability.  Within weeks, infighting led to civil war as tribes vied for "
-"leadership of the faction.  When only one warlord finally secured control,"
+"    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to "
+"overthrow the last strongholds of the Old Guard.  The costly victories "
+"brought the warlords abundant territory and slaves but little in the way of "
+"stability.  Within weeks, infighting led to civil war as tribes vied for "
+"leadership of the faction.  When only one warlord finally secured control, "
 "there was nothing left to fight for... just endless cities full of the dead."
 msgstr ""
 
@@ -102267,7 +102785,7 @@ msgid "Cut up all you can"
 msgstr ""
 
 #: src/game.cpp
-msgid "You're too full to eat the undershrub."
+msgid "You're too full to eat the underbrush."
 msgstr ""
 
 #: src/game.cpp
@@ -103867,7 +104385,7 @@ msgid ""
 "Becoming a skilled mechanic, you may want to tune your car up.  The "
 "coefficients of aerodynamics, friction and mass efficiency play significant "
 "roles it this process.  Named coefficients are measured in the range from "
-"100%% (which means ideal conditions) to 0%% (terrible inefficiency)."
+"0%% (which means terrible inefficiency) to 100%% (ideal conditions)."
 msgstr ""
 
 #: src/help.cpp
@@ -104340,7 +104858,7 @@ msgid ""
 "are some examples of interchangeable ammo:\n"
 ".308 = 7.62x51mm,\n"
 ".223 = 5.56 NATO,\n"
-".270 = 30-06,\n"
+".270 = .30-06,\n"
 ".40 S&W = 10mm."
 msgstr ""
 
@@ -109116,23 +109634,23 @@ msgid "Merged!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "BUGFIXES!!"
+msgid "BUGFIXES!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "BUFFS!!"
+msgid "BUFFS!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "NERFS!!"
+msgid "NERFS!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "REVERTS!!"
+msgid "REVERTS!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "BEES!!"
+msgid "BEES!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -111674,7 +112192,7 @@ msgid "A lone, forgotten comma, sits here, sobbing."
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
-msgid "ONE HUNDRED THOUSAND CARPET FIBERS!!!!!"
+msgid "ONE HUNDRED THOUSAND CARPET FIBERS!"
 msgstr ""
 
 #: src/iuse_software_kitten.cpp
@@ -114000,7 +114518,7 @@ msgid "Outpost Missions"
 msgstr ""
 
 #: src/mission_companion.cpp
-msgid "Junkshop Missions"
+msgid "Junk Shop Missions"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -116086,7 +116604,7 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid ""
-"The %s opens its pack and spreads its hands, a mininuke hack floats out!!"
+"The %s opens its pack and spreads its hands, a mininuke hack floats out!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -117588,7 +118106,7 @@ msgid "Remaining points will be discarded, are you sure you want to proceed?"
 msgstr ""
 
 #: src/newcharacter.cpp
-msgid "______NO NAME ENTERED!!!______"
+msgid "_______NO NAME ENTERED!_______"
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -118370,11 +118888,15 @@ msgid "Smoke crack to get more shit done."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Hello, marshal."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Marshal, I'm afraid I can't talk now."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I'm not in charge here marshal."
+msgid "I'm not in charge here, marshal."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -118508,7 +119030,7 @@ msgid "Pleasure doing business!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Can I help you marshal?"
+msgid "Can I help you, marshal?"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -121262,7 +121784,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your %s will be frostbitten any minute now!!"
+msgid "Your %s will be frostbitten any minute now!"
 msgstr ""
 
 #. ~ %s is bodypart
@@ -123372,6 +123894,13 @@ msgid "Bionic Speed        +%s%d%%"
 msgstr ""
 
 #: src/player_display.cpp
+msgid ""
+"Strength affects your melee damage, the amount of weight you can carry, your "
+"total HP, your resistance to many diseases, and the effectiveness of actions "
+"which require brute force."
+msgstr ""
+
+#: src/player_display.cpp
 msgid "Base HP:"
 msgstr ""
 
@@ -123389,9 +123918,8 @@ msgstr ""
 
 #: src/player_display.cpp
 msgid ""
-"Strength affects your melee damage, the amount of weight you can carry, your "
-"total HP, your resistance to many diseases, and the effectiveness of actions "
-"which require brute force."
+"Dexterity affects your chance to hit in melee combat, helps you steady your "
+"gun for ranged combat, and enhances many actions that require finesse."
 msgstr ""
 
 #: src/player_display.cpp
@@ -123408,8 +123936,9 @@ msgstr ""
 
 #: src/player_display.cpp
 msgid ""
-"Dexterity affects your chance to hit in melee combat, helps you steady your "
-"gun for ranged combat, and enhances many actions that require finesse."
+"Intelligence is less important in most situations, but it is vital for more "
+"complex tasks like electronics crafting.  It also affects how much skill you "
+"can pick up from reading a book."
 msgstr ""
 
 #: src/player_display.cpp
@@ -123426,9 +123955,8 @@ msgstr ""
 
 #: src/player_display.cpp
 msgid ""
-"Intelligence is less important in most situations, but it is vital for more "
-"complex tasks like electronics crafting.  It also affects how much skill you "
-"can pick up from reading a book."
+"Perception is the most important stat for ranged combat.  It's also used for "
+"detecting traps and other things of interest."
 msgstr ""
 
 #: src/player_display.cpp
@@ -123437,12 +123965,6 @@ msgstr ""
 
 #: src/player_display.cpp
 msgid "Aiming penalty:"
-msgstr ""
-
-#: src/player_display.cpp
-msgid ""
-"Perception is the most important stat for ranged combat.  It's also used for "
-"detecting traps and other things of interest."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -124265,7 +124787,7 @@ msgid "Tsewww!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Kra-kow!!"
+msgid "Kra-kow!"
 msgstr ""
 
 #: src/ranged.cpp
@@ -124281,7 +124803,7 @@ msgid "Bzaapp!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Kra-koom!!"
+msgid "Kra-koom!"
 msgstr ""
 
 #: src/ranged.cpp
@@ -124305,7 +124827,7 @@ msgid "blam!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Kaboom!!"
+msgid "Kaboom!"
 msgstr ""
 
 #: src/ranged.cpp
@@ -126433,11 +126955,11 @@ msgid "whirrr!"
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "BRRROARRR!!"
+msgid "BRRROARRR!"
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "BRUMBRUMBRUMBRUM!!!"
+msgid "BRUMBRUMBRUMBRUM!"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -127049,7 +127571,7 @@ msgid "Mod '%s' requires Lua support."
 msgstr ""
 
 #: src/worldfactory.cpp
-msgid "_______NO NAME ENTERED!!!!______"
+msgid "________NO NAME ENTERED!________"
 msgstr ""
 
 #: src/worldfactory.cpp
