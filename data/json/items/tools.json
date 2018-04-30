@@ -186,7 +186,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_anvil" }
   },
   {
     "id": "atomic_coffeepot",

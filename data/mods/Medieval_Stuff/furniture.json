@@ -9,7 +9,7 @@
     "move_cost_mod": -1,
     "required_str": 10,
     "crafting_pseudo_item": "anvil_bronze",
-    "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
+    "flags": ["PLACE_ITEM", "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
     "deployed_item": "anvil_bronze",
     "examine_action": "deployed_furniture",
     "bash": {

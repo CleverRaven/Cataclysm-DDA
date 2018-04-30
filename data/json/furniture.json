@@ -2075,7 +2075,9 @@
                 { "item": "anvil", "count": 1 }
             ]
         },
-        "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
+        "flags": ["PLACE_ITEM", "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
+        "deployed_item": "brazier",
+        "examine_action": "deployed_furniture",
         "bash": {
             "str_min": 4, "str_max": 8,
             "sound": "crunch!",
