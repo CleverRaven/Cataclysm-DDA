@@ -5514,7 +5514,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ], [ "ANVIL", 1 ] ]
+    "qualities": [ [ "WRENCH", 1 ], [ "GRIP", 1 ] ]
   },
   {
     "id": "pockknife",
