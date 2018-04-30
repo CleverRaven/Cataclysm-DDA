@@ -3978,16 +3978,16 @@ void player::update_body( const time_point &from, const time_point &to )
     }
 
     for( const auto& v : vitamin::all() ) {
-        int rate = vitamin_rate( v.first );
-        if( rate > 0 ) {
-            int qty = ticks_between( from, to, time_duration::from_turns( rate ) );
+        const time_duration rate = vitamin_rate( v.first );
+        if( rate > 0_turns ) {
+            int qty = ticks_between( from, to, rate );
             if( qty > 0 ) {
                 vitamin_mod( v.first, 0 - qty );
             }
 
-        } else if ( rate < 0 ) {
+        } else if ( rate < 0_turns ) {
             // mutations can result in vitamins being generated (but never accumulated)
-            int qty = ticks_between( from, to, time_duration::from_turns( std::abs( rate ) ) );
+            int qty = ticks_between( from, to, -rate );
             if( qty > 0 ) {
                 vitamin_mod( v.first, qty );
             }

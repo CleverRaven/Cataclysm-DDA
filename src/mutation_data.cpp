@@ -228,7 +228,7 @@ void mutation_branch::load( JsonObject &jsobj )
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
         auto pair = vr.next_array();
-        new_mut.vitamin_rates[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        new_mut.vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ), time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
     new_mut.healing_awake = jsobj.get_float( "healing_awake", 0.0f );

@@ -766,7 +766,7 @@ class player : public Character
         std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        int vitamin_rate( const vitamin_id& vit ) const;
+        time_duration vitamin_rate( const vitamin_id& vit ) const;
 
         /**
          * Add or subtract vitamins from player storage pools

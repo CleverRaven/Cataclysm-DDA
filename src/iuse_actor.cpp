@@ -498,12 +498,12 @@ void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
 {
     const std::string vits = enumerate_as_string( vitamins.begin(), vitamins.end(),
     []( const decltype( vitamins )::value_type &v ) {
-        const int rate = g->u.vitamin_rate( v.first );
-        if( rate <= 0 ) {
+        const time_duration rate = g->u.vitamin_rate( v.first );
+        if( rate <= 0_turns ) {
             return std::string();
         }
-        const int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
-        const int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+        const int lo = int( v.second.first  * rate / 1_days * 100 );
+        const int hi = int( v.second.second * rate / 1_days * 100 );
 
         return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
     } );
@@ -565,7 +565,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto& v : vitamins ) {
         // players with mutations that remove the requirement for a vitamin cannot suffer accumulation of it
-        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ), p.vitamin_rate( v.first ) > 0 ? false : true );
+        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ), p.vitamin_rate( v.first ) > 0_turns ? false : true );
     }
 
     // Output message.
