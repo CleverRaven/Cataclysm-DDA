@@ -3201,7 +3201,6 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
     {
@@ -3222,7 +3221,6 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "flags" : ["EATEN_HOT"],
         "fun" : 8
     },
     {
@@ -3243,7 +3241,6 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
     {
