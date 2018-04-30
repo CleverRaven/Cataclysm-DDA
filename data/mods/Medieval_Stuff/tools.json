@@ -83,7 +83,7 @@
     "id": "anvil_bronze",
     "type": "TOOL",
     "name": "bronze anvil",
-    "description": "This is a heavy block of oddly shaped bronze.  It's used in some basic metalworking fabrication recipes.",
+    "description": "This is a block of oddly shaped bronze.  It's used in some basic metalworking fabrication recipes.",
     "weight": 2180,
     "volume": 10,
     "price": 60000,
