@@ -426,7 +426,9 @@
         ",": "t_dirt",
         "-": "t_chainfence_h",
         ".": "t_pavement",
+        "#": "t_rock",
         "H": "t_dirt",
+        "P": "t_dirt",
         "R": "t_dirt",
         "s": "t_sidewalk",
         "t": "t_tree",
@@ -436,6 +438,7 @@
       },
       "furniture": {
         "H": "f_bench",
+        "P": "f_sign",
         "R": "f_trashcan"
       },
       "place_signs": [
