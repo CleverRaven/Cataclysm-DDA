@@ -901,7 +901,7 @@ classes = {
             { name = "get_relative_rot", rval = "float", args = { } },
             { name = "get_remaining_capacity_for_liquid", rval = "int", args = { "item", "bool" } },
             { name = "get_remaining_chapters", rval = "int", args = { "player" } },
-            { name = "get_rot", rval = "int", args = { } },
+            { name = "get_rot", rval = "time_duration", args = { } },
             { name = "get_side", rval = "side", args = { } },
             { name = "get_storage", rval = "volume", args = { } },
             { name = "get_thickness", rval = "int", args = { } },
