@@ -1,0 +1,23 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_anvil_bronze",
+    "name": "bronze anvil",
+    "description": "Used in metalworking.",
+    "symbol": "^",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "crafting_pseudo_item": "anvil_bronze",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deployed_item": "anvil_bronze",
+    "examine_action": "deployed_furniture",
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_bronze", "count": 1 } ]
+    }
+  }
+]

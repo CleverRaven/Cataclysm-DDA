@@ -1,5 +1,22 @@
 [
   {
+    "id": "anvil",
+    "type": "TOOL",
+    "name": "anvil",
+    "description": "This is an enormously heavy block of oddly shaped steel with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
+    "weight": 54000,
+    "volume": 16,
+    "price": 100000,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": "iron",
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "ANVIL", 3 ] ],
+    "flags": [ "DURABLE_MELEE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_anvil" }
+  },
+  {
     "id": "brazier",
     "type": "TOOL",
     "name": "brazier",

@@ -35,12 +35,12 @@
       { "id":"CUT","level":1 },
       { "id":"HAMMER","level":3 },
       { "id":"SCREW_FINE","level":1 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ]
     ],
     "components": [
@@ -64,12 +64,12 @@
       { "id":"CUT","level":1 },
       { "id":"HAMMER","level":3 },
       { "id":"SCREW_FINE","level":1 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ]
     ],
     "components": [
@@ -93,12 +93,12 @@
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ]
     ],
     "components": [

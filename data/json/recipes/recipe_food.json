@@ -4095,7 +4095,8 @@
   "autolearn": true,
   "flags": ["BLIND_EASY"],
   "qualities":[
-    {"id":"HAMMER","level":1}
+    {"id":"HAMMER","level":1},
+    {"id":"ANVIL","level":1}
   ],
   "components": [
     [["hickory_nut", 1]]

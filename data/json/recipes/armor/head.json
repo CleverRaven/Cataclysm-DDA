@@ -102,11 +102,11 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
     ],
@@ -338,11 +338,11 @@
     "using": [ [ "forging_standard", 15 ], [ "steel_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
@@ -430,11 +430,11 @@
     "using": [ [ "forging_standard", 23 ], [ "steel_standard", 12 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [
@@ -490,11 +490,11 @@
     "using": [ [ "forging_standard", 18 ], [ "steel_standard", 14 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "CHISEL", "level": 3 },
+      { "id": "ANVIL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
     ],
