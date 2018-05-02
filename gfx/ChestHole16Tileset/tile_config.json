@@ -41936,7 +41936,7 @@
           ]
         },
        {
-          "id": "vp_gloopletread",
+          "id": ["vp_gloopletread", "vp_graytread"],
           "fg": 4333,
           "bg": 632,
           "rotates": false,
@@ -52531,7 +52531,7 @@
       ]
         },
         {
-          "id": "vp_roof",
+          "id": ["vp_roof", "vp_gray_roof"],
           "fg": 2722,
           "rotates": true,
     "multitile": true,
@@ -55881,7 +55881,7 @@
           "rotates": true
         },
         {
-          "id": ["vp_gloople_diesel_tank", "vp_gloople_tank"],
+          "id": ["vp_gloople_diesel_tank", "vp_gloople_tank", "vp_gray_tank"],
           "fg": 4553,
           "rotates": true
         },
