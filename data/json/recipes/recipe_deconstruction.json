@@ -1809,8 +1809,8 @@
     "time": 1000,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "cotton_ball", 4 ] ]
+      [ [ "rag", 4 ] ],
+      [ [ "cotton_ball", 8 ] ]
     ]
   },
   {
