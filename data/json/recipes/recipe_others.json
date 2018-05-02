@@ -838,7 +838,7 @@
     "time": 9000,
     "autolearn": true,
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 2 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
   {
     "type": "recipe",
