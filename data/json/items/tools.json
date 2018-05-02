@@ -185,6 +185,7 @@
     "material": "iron",
     "symbol": ";",
     "color": "dark_gray",
+    "qualities": [ [ "ANVIL", 3 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {

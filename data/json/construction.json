@@ -1846,19 +1846,8 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_standing_tank"
-    },{
-        "type" : "construction",
-        "description" : "Place Anvil",
-        "category" : "FURN",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "components" : [
-            [ [ "anvil", 1 ] ]
-        ],
-        "pre_note" : "Can be deconstructed without tools.",
-        "pre_special" : "check_empty",
-        "post_terrain" : "f_anvil"
-    },{
+    },
+	{
         "type" : "construction",
         "description" : "Place Forge",
         "category" : "FURN",
