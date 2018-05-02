@@ -1958,7 +1958,7 @@
     "type": "uncraft",
     "time": 60000,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 100 ] ] ]
+    "components": [ [ [ "thread", 80 ] ] ]
   },
   {
     "result": "ref_lighter",

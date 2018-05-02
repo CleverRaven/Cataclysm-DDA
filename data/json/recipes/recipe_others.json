@@ -850,7 +850,7 @@
     "difficulty": 2,
     "time": 6000,
     "autolearn": true,
-    "using": [ [ "filament", 100 ] ],
+    "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "KNIT", "level": 1 } ]
   },
   {
