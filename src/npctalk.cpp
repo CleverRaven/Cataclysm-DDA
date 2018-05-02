@@ -457,9 +457,9 @@ const std::string &talk_trial::name() const
 }
 
 /** Time (in turns) and cost (in cent) for training: */
-static int calc_skill_training_time( const npc &p, const skill_id &skill )
+static time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return MINUTES( 10 + 5 * g->u.get_skill_level( skill ) - p.get_skill_level( skill ) );
+    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) - 1_turns * p.get_skill_level( skill );
 }
 
 static int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -474,9 +474,9 @@ static int calc_skill_training_cost( const npc &p, const skill_id &skill )
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-static int calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+static time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
 {
-    return MINUTES( 30 );
+    return 30_minutes;
 }
 
 static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
@@ -3278,7 +3278,7 @@ bool pay_npc( npc &np, int cost )
 void talk_function::start_training( npc &p )
 {
     int cost;
-    int time;
+    time_duration time = 0_turns;
     std::string name;
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
@@ -3301,7 +3301,7 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
