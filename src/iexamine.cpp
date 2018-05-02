@@ -1063,10 +1063,9 @@ void iexamine::safe(player &p, const tripoint &examp)
         ///\EFFECT_PER speeds up safe cracking
 
         ///\EFFECT_MECHANICS speeds up safe cracking
-        int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
-                             (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
+        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
 
-         p.assign_activity( activity_id( "ACT_CRACKING" ), moves );
+         p.assign_activity( activity_id( "ACT_CRACKING" ), to_moves<int>( time ) );
          p.activity.placement = examp;
     }
 }
