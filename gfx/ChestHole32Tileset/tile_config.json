@@ -41635,7 +41635,7 @@
           "rotates": false
         },
         {
-          "id": "vortex_stone",
+          "id": ["vortex_stone", "vp_vgen", "vp_vgen2"],
           "fg": 1775,
           "bg": 642,
           "rotates": false
@@ -41743,7 +41743,7 @@
           "rotates": false
         },
        {
-          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_boltrack", "vp_diskrack", "vp_flintrack", "vp_harpoonrack", "vp_nailrack", "vp_pebblerack", "vp_sballistarack", "vp_sboltrack", "vp_shardrack", "vp_stonerack"],
+          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_boltrack", "vp_diskrack", "vp_flintrack", "vp_harpoonrack", "vp_nailrack", "vp_pebblerack", "vp_sballistarack", "vp_sboltrack", "vp_shardrack", "vp_stonerack", "vp_wballistarack"],
           "fg": 4329,
           "rotates": false
         },
@@ -41945,6 +41945,12 @@
               "fg": 4317
             }
           ]
+        },
+       {
+          "id": "vp_wiring",
+          "fg": 4348,
+          "bg": 632,
+          "rotates": false
         },
        {
           "id": "vp_lasgun",
@@ -52586,7 +52592,7 @@
       ]
         },
         {
-          "id": ["vp_roof", "vp_gray_roof"],
+          "id": ["vp_roof", "vp_gray_roof", "vp_turretchassis"],
           "fg": 2722,
           "rotates": true,
     "multitile": true,
