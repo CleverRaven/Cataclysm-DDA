@@ -10,17 +10,6 @@ class JsonOut;
 class JsonIn;
 
 /**
- * Convert seconds to six-second turns
- *
- * @param n Time in seconds
- * @returns Time in six-second turns
- */
-constexpr int SECONDS( int n )
-{
-    return n / 6;
-}
-
-/**
  * Convert minutes to six-second turns
  *
  * @param n Time in minutes
