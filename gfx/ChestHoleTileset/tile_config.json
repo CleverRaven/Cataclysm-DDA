@@ -41939,7 +41939,7 @@
           ]
         },
        {
-          "id": ["vp_gloopletread", "vp_graytread"],
+          "id": ["vp_gloopletread", "vp_graytread", "vp_oozletread"],
           "fg": 4333,
           "bg": 632,
           "rotates": false,
@@ -52944,7 +52944,7 @@
       ]
         },
         {
-          "id": ["vp_seatbelt", "vp_gloople_belt", "vp_gray_belt"],
+          "id": ["vp_seatbelt", "vp_gloople_belt", "vp_gray_belt", "vp_oozle_belt"],
           "fg": 2744,
           "rotates": true,
     "multitile": true,
@@ -55139,7 +55139,7 @@
           "rotates": true
         },
         {
-          "id": ["vp_gloopleboard_horizontal", "vp_gloople_roof"],
+          "id": ["vp_gloopleboard_horizontal", "vp_gloople_roof", "vp_oozle_roof"],
           "fg": 4543,
           "rotates": true,
           "multitile": true,
@@ -55922,7 +55922,7 @@
           "rotates": true
         },
         {
-          "id": ["vp_gloople_diesel_tank", "vp_gloople_tank", "vp_gray_tank"],
+          "id": ["vp_gloople_diesel_tank", "vp_gloople_tank", "vp_gray_tank", "vp_oozle_tank"],
           "fg": 4553,
           "rotates": true
         },
