@@ -2404,7 +2404,7 @@ void addiction::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
     type = static_cast<add_type>( jo.get_int( "type_enum" ) );
     intensity = jo.get_int( "intensity" );
-    sated = jo.get_int( "sated" );
+    jo.read( "sated", sated );
 }
 
 void stats::serialize( JsonOut &json ) const

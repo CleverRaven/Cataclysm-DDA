@@ -4383,13 +4383,13 @@ void player::add_addiction(add_type type, int strength)
     if( type == ADD_NULL ) {
         return;
     }
-    int timer = HOURS( 2 );
+    time_duration timer = 2_hours;
     if( has_trait( trait_ADDICTIVE ) ) {
         strength *= 2;
-        timer = HOURS( 1 );
+        timer = 1_hours;
     } else if( has_trait( trait_NONADDICTIVE ) ) {
         strength /= 2;
-        timer = HOURS( 6 );
+        timer = 6_hours;
     }
     //Update existing addiction
     for( auto &i : addictions ) {
@@ -4397,9 +4397,9 @@ void player::add_addiction(add_type type, int strength)
             continue;
         }
 
-        if( i.sated < 0 ) {
+        if( i.sated < 0_turns ) {
             i.sated = timer;
-        } else if( i.sated < MINUTES(10) ) {
+        } else if( i.sated < 10_minutes ) {
             i.sated += timer; // TODO: Make this variable?
         } else {
             i.sated += timer / 2;
@@ -4409,7 +4409,7 @@ void player::add_addiction(add_type type, int strength)
         }
 
         add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
-                 i.intensity, i.sated );
+                 i.intensity, to_turns<int>( i.sated ) );
 
         return;
     }
@@ -4979,26 +4979,26 @@ void player::suffer()
                 add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
             }
         }
-        int timer = -HOURS( 6 );
+        time_duration timer = -6_hours;
         if( has_trait( trait_ADDICTIVE ) ) {
-            timer = -HOURS( 10 );
+            timer = -10_hours;
         } else if( has_trait( trait_NONADDICTIVE ) ) {
-            timer = -HOURS( 3 );
+            timer = -3_hours;
         }
         for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0 &&
+            if( cur_addiction.sated <= 0_turns &&
                 cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
                 addict_effect( *this, cur_addiction );
             }
-            cur_addiction.sated--;
+            cur_addiction.sated -= 1_turns;
             // Higher intensity addictions heal faster
-            if( cur_addiction.sated - 100 * cur_addiction.intensity < timer ) {
+            if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
                 if( cur_addiction.intensity <= 2 ) {
                     rem_addiction( cur_addiction.type );
                     break;
                 } else {
                     cur_addiction.intensity--;
-                    cur_addiction.sated = 0;
+                    cur_addiction.sated = 0_turns;
                 }
             }
         }
