@@ -1059,17 +1059,17 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
     const int moves_base = moves_cost_by_fuel( pos );
-    const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / MOVES( 1 ) ) * MOVES( 1 ) );
+    const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / to_moves<int>( 1_turns ) ) * to_moves<int>( 1_turns ) );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
-    if( moves > MOVES( MINUTES( 1 ) ) ) {
+    if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
         static const std::string sun_msg =
             _("If the current weather holds, it will take around %d minutes to light a fire.");
         static const std::string normal_msg =
             _("At your skill level, it will take around %d minutes to light a fire.");
         p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
-            moves / MOVES( MINUTES( 1 ) ) );
-    } else if( moves < MOVES( 2 ) ) {
+            moves / to_moves<int>( 1_minutes ) );
+    } else if( moves < to_moves<int>( 2_turns ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
