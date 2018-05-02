@@ -41780,6 +41780,19 @@
           ]
         },
        {
+          "id": ["vp_turretframe", "vp_turretchassis"],
+          "fg": 4582,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4678
+            }
+          ]
+        },
+       {
           "id": "vp_auto_m1918",
           "fg": 4584,
           "bg": 632,
@@ -49582,7 +49595,7 @@
           "rotates": false
         },
         {
-          "id": "tr_funnel",
+          "id": ["tr_funnel", "tr_raincatcher"],
           "fg": 2377,
           "rotates": false
         },
@@ -52576,7 +52589,7 @@
       ]
         },
         {
-          "id": ["vp_roof", "vp_gray_roof", "vp_turretchassis"],
+          "id": ["vp_roof", "vp_gray_roof"],
           "fg": 2722,
           "rotates": true,
     "multitile": true,
