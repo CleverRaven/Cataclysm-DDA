@@ -52996,7 +52996,7 @@
       ]
         },
         {
-          "id": "vp_solar_panel_v3",
+          "id": ["vp_solar_panel_v3", "vp_xsolar_panel_v3"],
           "fg": 2746,
           "rotates": true,
     "multitile": true,
