@@ -44753,7 +44753,7 @@
       ]
         },
         {
-          "id": "vp_floodlight",
+          "id": ["vp_floodlight", "vp_xfloodlight"],
           "fg": 2680,
           "bg": 677,
           "rotates": true,
@@ -52892,7 +52892,7 @@
       ]
         },
         {
-          "id": "vp_reinforced_solar_panel",
+          "id": ["vp_reinforced_solar_panel", "vp_xreinforced_solar_panel"],
           "fg": 2737,
           "rotates": true,
     "multitile": true,
@@ -52904,7 +52904,7 @@
       ]
         },
         {
-          "id": "vp_reinforced_solar_panel_v2",
+          "id": ["vp_reinforced_solar_panel_v2", "vp_xreinforced_solar_panel_v2"],
           "fg": 2738,
           "rotates": true,
     "multitile": true,
@@ -52988,7 +52988,7 @@
       ]
         },
         {
-          "id": "vp_solar_panel",
+          "id": ["vp_solar_panel", "vp_xsolar_panel"],
           "fg": 2745,
           "rotates": true,
     "multitile": true,
@@ -53000,7 +53000,7 @@
       ]
         },
         {
-          "id": "vp_solar_panel_v2",
+          "id": ["vp_solar_panel_v2", "vp_xsolar_panel_v2"],
           "fg": 2746,
           "rotates": true,
     "multitile": true,
