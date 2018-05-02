@@ -41900,7 +41900,7 @@
           ]
         },
        {
-          "id": "vp_fuzzle",
+          "id": ["vp_fuzzle", "vp_meltie"],
           "fg": 4502,
           "bg": 632,
           "rotates": false,
@@ -41948,6 +41948,32 @@
             {
               "id": "broken",
               "fg": 4317
+            }
+          ]
+        },
+       {
+          "id": "vp_lasgun",
+          "fg": 2726,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3110
+            }
+          ]
+        },
+       {
+          "id": ["vp_mcutter", "vp_cutter", "vp_cutternc"],
+          "fg": 4583,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 4679
             }
           ]
         },
@@ -44830,7 +44856,7 @@
       ]
         },
         {
-          "id": "vp_omnicam",
+          "id": ["vp_omnicam", "vp_omnomnicam"],
           "fg": 2735,
           "bg": 678,
     "multitile": true,
@@ -51543,7 +51569,7 @@
       ]
         },
         {
-          "id": ["vp_flamethrower", "vp_flamethrower1", "vp_flamethrower2", "vp_flamethrower3"],
+          "id": ["vp_flamethrower", "vp_flamethrower1", "vp_flamethrower2", "vp_flamethrower3", "vp_mflamethrower3"],
           "fg": 2679,
           "rotates": true,
           "multitile": true,
@@ -54635,7 +54661,7 @@
       "bg": 632,
       "rotates": false
     },
-    { "id": ["blazemod_turret", "vp_TDI", "vp_TDInc", "vp_abolter", "vp_abolternc", "vp_acangun", "vp_acangunnc", "vp_acr", "vp_acrnc", "vp_agattler1", "vp_agattler1nc", "vp_ak47", "vp_ak74", "vp_alasgun", "vp_alasgunp", "vp_alasgunx", "vp_american_180", "vp_american_180nc", "vp_an94", "vp_anailer", "vp_anailernc", "vp_aneedler", "vp_aneedlernc", "vp_ar15", "vp_ar15nc", "vp_arailturret", "vp_aripper", "vp_arippernc", "vp_ascorpion", "vp_ascorpionnc", "vp_ashardgun", "vp_ashardgunnc", "vp_ateslagun", "vp_atiharturret", "vp_atiharturretnc", "vp_bigun", "vp_bigun", "vp_blunderbuss", "vp_blunderbussnc", "vp_browning_blr", "vp_calico", "vp_caliconc", "vp_carbine_flintlock", "vp_carbine_flintlocknc", "vp_coilgun", "vp_coilgunnc", "vp_cutter", "vp_cutternc", "vp_cx4", "vp_cx4nc", "vp_flamethrower1", "vp_flamethrower2", "vp_flamethrower3", "vp_fn_fal", "vp_fn_falnc", "vp_fn_p90", "vp_h&k416a5", "vp_h&k416a5nc", "vp_heavy_rail_rifle", "vp_hk_g3", "vp_hk_g36", "vp_hk_g36nc", "vp_hk_g3nc", "vp_hk_g80", "vp_hk_mp5", "vp_hk_mp5nc", "vp_hk_mp7", "vp_hk_ump45", "vp_hk_ump45nc", "vp_ksg", "vp_ksgnc", "vp_l_base_223", "vp_l_base_223nc", "vp_l_car_223", "vp_l_car_223nc", "vp_l_def_12", "vp_l_def_12nc", "vp_l_dsr_223", "vp_l_dsr_223nc", "vp_l_lmg_223", "vp_l_lmg_223nc", "vp_l_long_45", "vp_l_long_45nc", "vp_l_mbr_223", "vp_l_mbr_223nc", "vp_launcher_simple", "vp_m1014", "vp_m1014nc", "vp_m107a1", "vp_m107a1", "vp_m14ebr", "vp_m14ebrnc", "vp_m1a", "vp_m1anc", "vp_m2010", "vp_m27iar", "vp_m27iarnc", "vp_m2browning_sawn", "vp_m2browning_sawn", "vp_m320", "vp_m4a1", "vp_m4a1nc", "vp_m60", "vp_m60nc", "vp_m79", "vp_mac_10", "vp_mac_10nc", "vp_marlin_9a", "vp_marlin_9anc", "vp_mgl", "vp_mossberg_500", "vp_mossberg_500nc", "vp_nailrifle", "vp_nailriflenc", "vp_needlegun", "vp_pipe_double_shotgun", "vp_pipe_double_shotgunnc", "vp_pipe_shotgun", "vp_pipe_shotgunnc", "vp_rebar_rifle", "vp_remington_700", "vp_remington_870", "vp_remington_870nc", "vp_repeatingcrossbow", "vp_repeatingcrossbownc", "vp_revolver_shotgun", "vp_revolver_shotgunnc", "vp_rifle_22", "vp_rifle_22nc", "vp_rifle_308", "vp_rifle_308nc", "vp_rifle_9mm", "vp_rifle_9mmnc", "vp_rifle_flintlock", "vp_rifle_flintlocknc", "vp_rm11b_sniper_rifle", "vp_rm2000_smg", "vp_rm360_carbine", "vp_rm360_carbinenc", "vp_rm51_assault_rifle", "vp_rm614_lmg", "vp_rm802", "vp_rm88_battle_rifle", "vp_rslauncher", "vp_rslauncher", "vp_ruger_1022", "vp_ruger_1022nc", "vp_ruger_mini", "vp_ruger_mininc", "vp_saiga_12", "vp_saiga_12nc", "vp_savage_111f", "vp_savage_111fnc", "vp_scar_h", "vp_scar_hnc", "vp_scar_l", "vp_scar_lnc", "vp_shotgun_d", "vp_shotgun_dnc", "vp_shotgun_s", "vp_shotgun_snc", "vp_sks", "vp_slauncher", "vp_slauncher", "vp_steyr_aug", "vp_steyr_augnc", "vp_surv_carbine_223", "vp_surv_carbine_223nc", "vp_survivor_special_700", "vp_tec9", "vp_tec9nc", "vp_uzi", "vp_uzinc", "vp_v29", "vp_v29_cheap"], "fg": 2648, "rotates": true },
+    { "id": ["blazemod_turret", "vp_TDI", "vp_TDInc", "vp_abolter", "vp_abolternc", "vp_acangun", "vp_acangunnc", "vp_acr", "vp_acrnc", "vp_agattler1", "vp_agattler1nc", "vp_ak47", "vp_ak74", "vp_alasgun", "vp_alasgunp", "vp_alasgunx", "vp_american_180", "vp_american_180nc", "vp_an94", "vp_anailer", "vp_anailernc", "vp_aneedler", "vp_aneedlernc", "vp_ar15", "vp_ar15nc", "vp_arailturret", "vp_aripper", "vp_arippernc", "vp_ascorpion", "vp_ascorpionnc", "vp_ashardgun", "vp_ashardgunnc", "vp_ateslagun", "vp_atiharturret", "vp_atiharturretnc", "vp_bigun", "vp_bigun", "vp_blunderbuss", "vp_blunderbussnc", "vp_browning_blr", "vp_calico", "vp_caliconc", "vp_carbine_flintlock", "vp_carbine_flintlocknc", "vp_coilgun", "vp_coilgunnc", "vp_cx4", "vp_cx4nc", "vp_fn_fal", "vp_fn_falnc", "vp_fn_p90", "vp_h&k416a5", "vp_h&k416a5nc", "vp_heavy_rail_rifle", "vp_hk_g3", "vp_hk_g36", "vp_hk_g36nc", "vp_hk_g3nc", "vp_hk_g80", "vp_hk_mp5", "vp_hk_mp5nc", "vp_hk_mp7", "vp_hk_ump45", "vp_hk_ump45nc", "vp_ksg", "vp_ksgnc", "vp_l_base_223", "vp_l_base_223nc", "vp_l_car_223", "vp_l_car_223nc", "vp_l_def_12", "vp_l_def_12nc", "vp_l_dsr_223", "vp_l_dsr_223nc", "vp_l_lmg_223", "vp_l_lmg_223nc", "vp_l_long_45", "vp_l_long_45nc", "vp_l_mbr_223", "vp_l_mbr_223nc", "vp_launcher_simple", "vp_m1014", "vp_m1014nc", "vp_m107a1", "vp_m107a1", "vp_m14ebr", "vp_m14ebrnc", "vp_m1a", "vp_m1anc", "vp_m2010", "vp_m27iar", "vp_m27iarnc", "vp_m2browning_sawn", "vp_m2browning_sawn", "vp_m320", "vp_m4a1", "vp_m4a1nc", "vp_m60", "vp_m60nc", "vp_m79", "vp_mac_10", "vp_mac_10nc", "vp_marlin_9a", "vp_marlin_9anc", "vp_mgl", "vp_mossberg_500", "vp_mossberg_500nc", "vp_nailrifle", "vp_nailriflenc", "vp_needlegun", "vp_pipe_double_shotgun", "vp_pipe_double_shotgunnc", "vp_pipe_shotgun", "vp_pipe_shotgunnc", "vp_rebar_rifle", "vp_remington_700", "vp_remington_870", "vp_remington_870nc", "vp_repeatingcrossbow", "vp_repeatingcrossbownc", "vp_revolver_shotgun", "vp_revolver_shotgunnc", "vp_rifle_22", "vp_rifle_22nc", "vp_rifle_308", "vp_rifle_308nc", "vp_rifle_9mm", "vp_rifle_9mmnc", "vp_rifle_flintlock", "vp_rifle_flintlocknc", "vp_rm11b_sniper_rifle", "vp_rm2000_smg", "vp_rm360_carbine", "vp_rm360_carbinenc", "vp_rm51_assault_rifle", "vp_rm614_lmg", "vp_rm802", "vp_rm88_battle_rifle", "vp_rslauncher", "vp_rslauncher", "vp_ruger_1022", "vp_ruger_1022nc", "vp_ruger_mini", "vp_ruger_mininc", "vp_saiga_12", "vp_saiga_12nc", "vp_savage_111f", "vp_savage_111fnc", "vp_scar_h", "vp_scar_hnc", "vp_scar_l", "vp_scar_lnc", "vp_shotgun_d", "vp_shotgun_dnc", "vp_shotgun_s", "vp_shotgun_snc", "vp_sks", "vp_slauncher", "vp_slauncher", "vp_steyr_aug", "vp_steyr_augnc", "vp_surv_carbine_223", "vp_surv_carbine_223nc", "vp_survivor_special_700", "vp_tec9", "vp_tec9nc", "vp_uzi", "vp_uzinc", "vp_v29", "vp_v29_cheap"], "fg": 4584, "rotates": true },
     
     {
       "id": [ "manual_shinigami", "relicscythes_book", "basicscythes_book" ],
