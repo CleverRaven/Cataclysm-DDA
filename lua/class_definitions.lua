@@ -523,7 +523,7 @@ classes = {
             { name = "eat", rval = "bool", args = { "item" } },
             { name = "eat", rval = "bool", args = { "item", "bool" } },
             { name = "environmental_revert_effect", rval = nil, args = { } },
-            { name = "fall_asleep", rval = nil, args = { "int" } },
+            { name = "fall_asleep", rval = nil, args = { "time_duration" } },
             { name = "fall_damage_mod", rval = "float", args = { } },
             { name = "fine_detail_vision_mod", rval = "float", args = { } },
             { name = "fire_gun", rval = "int", args = { "tripoint" } },

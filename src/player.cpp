@@ -4155,7 +4155,7 @@ void player::check_needs_extremes()
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
-                fall_asleep(5);
+                fall_asleep( 5_turns );
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
@@ -4164,7 +4164,7 @@ void player::check_needs_extremes()
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
             if (one_in(100 + int_cur)) {
-                fall_asleep(5);
+                fall_asleep( 5_turns );
             }
         } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _("*yawn* You should really get some sleep.") );
@@ -4739,7 +4739,7 @@ void player::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) ) {
             add_msg_if_player(_("You pass out!"));
-            fall_asleep(val);
+            fall_asleep( time_duration::from_turns( val ) );
         }
     }
 
@@ -5654,7 +5654,7 @@ void player::suffer()
             const time_duration dur = rng( 30_minutes, 60_minutes );
             add_effect( effect_downed, dur );
             add_effect( effect_blind, dur );
-            fall_asleep( to_turns<int>( dur ) );
+            fall_asleep( dur );
         }
     }
     if ( stim < -120 || pkill > 160 ) {
@@ -9421,12 +9421,12 @@ bool player::can_sleep()
     return false;
 }
 
-void player::fall_asleep(int duration)
+void player::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
         cancel_activity();
     }
-    add_effect( effect_sleep, time_duration::from_turns( duration ) );
+    add_effect( effect_sleep, duration );
 }
 
 void player::wake_up()

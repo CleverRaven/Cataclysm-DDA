@@ -1449,7 +1449,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
         add_msg(m_bad, _("You fall asleep..."));
-        p.fall_asleep(1200);
+        p.fall_asleep( 2_hours );
         add_msg(m_bad, _("Your legs are covered in the poppy's roots!"));
         p.apply_damage(nullptr, bp_leg_l, 4);
         p.apply_damage(nullptr, bp_leg_r, 4);
