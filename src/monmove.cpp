@@ -1063,7 +1063,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
-        add_effect( effect_bouldering, 1, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -1152,7 +1152,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     const tripoint dir = p - pos();
 
     // Mark self as pushed to simplify recursive pushing
-    add_effect( effect_pushed, 1 );
+    add_effect( effect_pushed, 1_turns );
 
     for( size_t i = 0; i < 6; i++ ) {
         const int dx = rng( -1, 1 );
@@ -1197,7 +1197,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
                 moves -= movecost_attacker;
                 if( movecost_from > 100 ) {
-                    critter->add_effect( effect_downed, movecost_from / 100 + 1 );
+                    critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
                 } else {
                     critter->moves -= movecost_from;
                 }
@@ -1221,7 +1221,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         move_to( p );
         moves -= movecost_attacker;
         if( movecost_from > 100 ) {
-            critter->add_effect( effect_downed, movecost_from / 100 + 1 );
+            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         } else {
             critter->moves -= movecost_from;
         }
@@ -1236,7 +1236,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     g->swap_critters( *critter, *this );
-    critter->add_effect( effect_stunned, rng( 0, 2 ) );
+    critter->add_effect( effect_stunned, rng( 0_turns, 2_turns ) );
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _( "The %1$s tramples %2$s" ),
@@ -1245,7 +1245,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     moves -= movecost_attacker;
     if( movecost_from > 100 ) {
-        critter->add_effect( effect_downed, movecost_from / 100 + 1 );
+        critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
     } else {
         critter->moves -= movecost_from;
     }
@@ -1328,14 +1328,14 @@ void monster::knock_back_from( const tripoint &p )
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
         apply_damage( z, bp_torso, z->type->size );
-        add_effect( effect_stunned, 1 );
+        add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
             z->apply_damage( this, bp_torso, type->size );
-            z->add_effect( effect_stunned, 1 );
+            z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {
             z->apply_damage( this, bp_torso, type->size );
-            z->add_effect( effect_stunned, 1 );
+            z->add_effect( effect_stunned, 1_turns );
         }
         z->check_dead_state();
 
@@ -1348,7 +1348,7 @@ void monster::knock_back_from( const tripoint &p )
 
     if( npc *const p = g->critter_at<npc>( to ) ) {
         apply_damage( p, bp_torso, 3 );
-        add_effect( effect_stunned, 1 );
+        add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name().c_str(), p->name.c_str() );
@@ -1378,7 +1378,7 @@ void monster::knock_back_from( const tripoint &p )
 
         // It's some kind of wall.
         apply_damage( nullptr, bp_torso, type->size );
-        add_effect( effect_stunned, 2 );
+        add_effect( effect_stunned, 2_turns );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
                      g->m.obstacle_name( to ).c_str() );

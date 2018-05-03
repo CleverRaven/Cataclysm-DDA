@@ -291,7 +291,7 @@ std::shared_ptr<mapgen_function>
                     debugmsg( "oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
                 }
             } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
+                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
             }
         } else if( mgtype == "lua" ) { // lua script
             if( jio.has_string("script") ) { // minified into one\nline

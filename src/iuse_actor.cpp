@@ -464,7 +464,7 @@ iuse_actor *consume_drug_iuse::clone() const
 
 static effect_data load_effect_data( JsonObject &e )
 {
-    return effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+    return effect_data( efftype_id( e.get_string( "id" ) ), time_duration::from_turns( e.get_int( "duration", 0 ) ),
         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
@@ -544,7 +544,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     }
     // Apply the various effects.
     for( auto eff : effects ) {
-        int dur = eff.duration;
+        time_duration dur = eff.duration;
         if (p.has_trait( trait_TOLERANCE )) {
             dur *= .8;
         } else if (p.has_trait( trait_LIGHTWEIGHT )) {
@@ -1462,7 +1462,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         }
         const body_part bp = player::hp_to_bp( hpart );
         if (p.has_effect( effect_bite, bp)) {
-            p.add_effect( effect_bite, 2600, bp, true);
+            p.add_effect( effect_bite, 260_minutes, bp, true);
         }
 
         p.moves = 0;
@@ -1902,7 +1902,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2, num_bp, false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
     }
 
     std::string desc = "";
@@ -1926,7 +1926,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     sounds::ambient_sound( p.pos(), volume, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
-        p.add_effect( effect_music, 1 );
+        p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
         p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
     }
@@ -2879,7 +2879,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
     if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
-            int infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
+            const time_duration infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
             patient.remove_effect( effect_infected, bp_healed );
             patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
@@ -2986,9 +2986,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             // Consider states too
             // Weights are arbitrary, may need balancing
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
             if (damage > highest_damage) {
                 highest_damage = damage;
                 healed = hp_part(i);

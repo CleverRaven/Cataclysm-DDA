@@ -28,11 +28,10 @@
     "id": "chainmail_standard",
     "type": "requirement",
     "//": "Construction of chainmail items",
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [
       [ [ "pliers", -1 ], [ "multitool", -1 ] ],
       [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "cordless_drill", 10 ] ]
     ]
   },

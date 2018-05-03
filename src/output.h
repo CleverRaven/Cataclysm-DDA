@@ -453,12 +453,6 @@ std::string trim_punctuation_marks( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 
-/**
- * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
- * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
- */
-std::string vstring_format( const char *pattern, va_list argptr );
-
 // TODO: move these elsewhere
 // string manipulations.
 void replace_name_tags( std::string &input );

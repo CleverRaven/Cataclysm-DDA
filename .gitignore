@@ -5,6 +5,7 @@ chkjson*
 data/*.template
 templates/
 save/
+mods/
 graveyard/
 memorial/
 obj/
