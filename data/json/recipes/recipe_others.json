@@ -66,7 +66,7 @@
     "autolearn": true,
     "using": [ [ "filament", 12 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "cotton_ball", 8 ] ] ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -838,7 +838,7 @@
     "time": 9000,
     "autolearn": true,
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 2 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -850,7 +850,7 @@
     "difficulty": 2,
     "time": 6000,
     "autolearn": true,
-    "using": [ [ "filament", 100 ] ],
+    "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "KNIT", "level": 1 } ]
   },
   {
