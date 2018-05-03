@@ -474,7 +474,7 @@ bool Character::move_effects(bool attacking)
     return true;
 }
 
-void Character::add_effect( const efftype_id &eff_id, int dur, body_part bp,
+void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );

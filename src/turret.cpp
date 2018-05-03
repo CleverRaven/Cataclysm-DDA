@@ -238,7 +238,7 @@ turret_data::status turret_data::query() const
 void turret_data::prepare_fire( player &p )
 {
     // prevent turrets from shooting their own vehicles
-    p.add_effect( effect_on_roof, 1 );
+    p.add_effect( effect_on_roof, 1_turns );
 
     // turrets are subject only to recoil_vehicle()
     cached_recoil = p.recoil;

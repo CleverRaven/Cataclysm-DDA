@@ -512,7 +512,7 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
-            add_effect( effect_foodpoison, rng( 60, ( nutr + 1 ) * 60 ) );
+            add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
         consume_effects( food );
     } else if( spoiled && saprophage ) {
@@ -555,10 +555,10 @@ bool player::eat( item &food, bool force )
     if( food.poison > 0 && !has_trait( trait_id( "EATPOISON" ) ) &&
         !has_trait( trait_id( "EATDEAD" ) ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
-            add_effect( effect_poison, food.poison * 100 );
+            add_effect( effect_poison, food.poison * 10_minutes );
         }
 
-        add_effect( effect_foodpoison, food.poison * 300 );
+        add_effect( effect_foodpoison, food.poison * 30_minutes );
     }
 
     if( amorphous ) {
@@ -667,19 +667,19 @@ bool player::eat( item &food, bool force )
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !has_trait( trait_id( "EATHEALTH" ) ) ) {
-                        add_effect( effect_tapeworm, 1, num_bp, true );
+                        add_effect( effect_tapeworm, 1_turns, num_bp, true );
                     }
                     break;
                 case 1:
                     if( !has_trait( trait_id( "ACIDBLOOD" ) ) ) {
-                        add_effect( effect_bloodworms, 1, num_bp, true );
+                        add_effect( effect_bloodworms, 1_turns, num_bp, true );
                     }
                     break;
                 case 2:
-                    add_effect( effect_brainworms, 1, num_bp, true );
+                    add_effect( effect_brainworms, 1_turns, num_bp, true );
                     break;
                 case 3:
-                    add_effect( effect_paincysts, 1, num_bp, true );
+                    add_effect( effect_paincysts, 1_turns, num_bp, true );
             }
         }
     }

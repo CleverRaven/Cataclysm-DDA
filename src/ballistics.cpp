@@ -391,7 +391,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     if( proj.proj_effects.count( "BOUNCE" ) ) {
         // Add effect so the shooter is not targeted itself.
         if( origin && !origin->has_effect( effect_bounced ) ) {
-            origin->add_effect( effect_bounced, 1 );
+            origin->add_effect( effect_bounced, 1_turns );
         }
         Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
             // search for creatures in radius 4 around impact site
@@ -407,7 +407,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
             add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
-            z.add_effect( effect_bounced, 1 );
+            z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
                                      sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );

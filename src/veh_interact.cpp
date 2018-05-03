@@ -79,13 +79,14 @@ player_activity veh_interact::serialize_activity()
     int time = 1000;
     switch( sel_cmd ) {
         case 'i':
-            time = vp->install_time( g->u );
+               time = vp->install_time( g->u );
             break;
         case 'r':
             if( pt->is_broken() ) {
                 time = vp->install_time( g->u );
             } else {
-                assert( pt->base.max_damage() > 0 ); // why repairing part that cannot be damaged?
+                // why repairing part that cannot be damaged?
+                assert( pt->base.max_damage() > 0 );
                 time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
             }
             break;
@@ -95,6 +96,9 @@ player_activity veh_interact::serialize_activity()
         case 'c':
             time = vp->removal_time( g->u ) + vp->install_time( g->u );
             break;
+    }
+    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        time = 1;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
 
@@ -1494,10 +1498,8 @@ bool veh_interact::do_rename( std::string & )
             overmap_buffer.add_vehicle( veh );
         }
     }
-    // refresh w_disp & w_part windows:
-    move_cursor( 0, 0 );
 
-    return false;
+    return true;
 }
 
 bool veh_interact::do_relabel( std::string &msg )
@@ -2325,7 +2327,7 @@ void veh_interact::complete_vehicle()
 
         int partnum = !base.is_null() ? veh->install_part( dx, dy, part_id, std::move( base ) ) : -1;
         if(partnum < 0) {
-            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+            debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             break;
         }
 
@@ -2507,7 +2509,7 @@ void veh_interact::complete_vehicle()
             veh->part_removal_cleanup();
             int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
-                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+                debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             }
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {

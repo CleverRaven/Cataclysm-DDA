@@ -428,7 +428,7 @@
         "name_plural" : "cotton balls",
         "description" : "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
         "category" : "spare_parts",
-        "weight" : 180,
+        "weight" : 22,
         "volume" : 1,
         "price" : 500,
         "charges" : 2,

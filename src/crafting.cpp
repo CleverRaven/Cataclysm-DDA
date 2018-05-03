@@ -739,7 +739,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     } else { // Let the player pick which component they want to use
         uimenu cmenu;
         // Populate options with the names of the items
-        for( auto &map_ha : map_has ) {
+        for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
@@ -747,7 +747,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                     map_ha.type ) );
             cmenu.addentry( tmpStr );
         }
-        for( auto &player_ha : player_has ) {
+        for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
@@ -755,7 +755,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                     player_ha.type ) );
             cmenu.addentry( tmpStr );
         }
-        for( auto &elem : mixed ) {
+        for( auto &elem :
+             mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( elem.type ),
                                                 ( elem.count * batch ),
@@ -784,6 +785,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         cmenu.title = _( "Use which component?" );
         cmenu.query();
 
+        // The choices only go up to index map_has.size()+player_has.size()+mixed.size()-1. Thus the next index is cancel.
         if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
             selected.use_from = cancel;
             return selected;
