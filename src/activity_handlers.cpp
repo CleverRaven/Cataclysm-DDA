@@ -1980,7 +1980,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         } else {
             p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         }
-        act->set_to_null();
+        p->cancel_activity();
         return;
     }
     act->moves_left -= crafting_speed * p->get_moves();
