@@ -200,7 +200,7 @@ void body_part_struct::check() const
 {
     const auto &under_token = get_bp( token );
     if( this != &under_token ) {
-        debugmsg( "Body part %s has duplicate token %d, mapped to %d", id.c_str(), token,
+        debugmsg( "Body part %s has duplicate token %d, mapped to %s", id.c_str(), token,
                   under_token.id.c_str() );
     }
 

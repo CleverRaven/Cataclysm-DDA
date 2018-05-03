@@ -67,7 +67,6 @@ ignorable = {
     "city_building",
     "colordef",
     "emit",
-    "epilogue", # FIXME right now this object can't be translated correctly
     "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
@@ -119,6 +118,7 @@ automatically_convertible = {
     "dream",
     "ENGINE",
     "EXTERNAL_OPTION",
+    "epilogue",
     "faction",
     "fault",
     "furniture",
@@ -293,7 +293,7 @@ def extract_effect_type(item):
         else:
             writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
-    # aplly and remove memorial messages.
+    # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:
         writestr(outfile, msg, context="memorial_male")

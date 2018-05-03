@@ -376,7 +376,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
             std::string itemdata;
             getline(fin, itemdata);
             if (npcs.empty()) {
-                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
+                debugmsg("Overmap %d:%d tried to load object data, without an NPC!\n%s",
                          loc.x, loc.y, itemdata.c_str());
             } else {
                 item tmp;
