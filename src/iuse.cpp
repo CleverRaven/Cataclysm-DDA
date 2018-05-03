@@ -1,4 +1,3 @@
-// *INDENT-OFF*
 #include "iuse.h"
 
 #include "coordinate_conversions.h"
