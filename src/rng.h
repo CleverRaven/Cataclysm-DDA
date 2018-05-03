@@ -9,7 +9,7 @@
 #include <array>
 
 template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-const T rng( const T& val1, const T& val2 )
+const T rng( const T &val1, const T &val2 )
 {
     T minVal = ( val1 < val2 ) ? val1 : val2;
     T maxVal = ( val1 < val2 ) ? val2 : val1;

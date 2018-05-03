@@ -105,7 +105,7 @@ std::string get( nameFlags searchFlags )
         }
 
         // make random selection and return result.
-        size_t choice = rng( size_t(0), nChoices - 1 );
+        size_t choice = rng( size_t( 0 ), nChoices - 1 );
         for( auto const &i : matching_groups ) {
             auto const &group = i->second;
             if( choice < group.size() ) {
