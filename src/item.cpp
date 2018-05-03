@@ -358,6 +358,15 @@ item& item::ammo_unset()
     return *this;
 }
 
+int item::damage() const
+{
+    int ret = fast_floor( damage_ );
+    if (ret == 0 && damage_ > 0) {
+        ++ret;
+    }
+    return ret;
+}
+
 item& item::set_damage( double qty )
 {
     damage_ = std::max( std::min( qty, double( max_damage() ) ), double( min_damage() ) );
