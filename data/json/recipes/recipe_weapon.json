@@ -1,202 +1,131 @@
 [
-{
-  "type" : "recipe",
-  "result": "makeshift_machete",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "duct_tape", 50 ]
-    ],
-    [
-      [ "blade", 1 ]
+  {
+    "type": "recipe",
+    "result": "makeshift_machete",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "blade", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_halberd",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "scythe_war",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 20000,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "scythe", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "copper_knife",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ],
+      [ [ "scrap_copper", 2 ], [ "copper", 200 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_halberd",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "duct_tape", 100 ]
-    ],
-    [
-      [ "blade", 1 ]
-    ],
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ],
-      [ "broom", 1 ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_knife",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "rag", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
+      [ [ "spike", 1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "scythe_war",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 20000,
-  "reversible": true,
-  "decomp_learn": 1,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "duct_tape", 50 ]
-    ],
-    [
-      [ "scythe", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "copper_knife",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [
-      [ "surface_heat", 10, "LIST" ]
-    ]
-  ],
-  "components": [
-    [
-      [ "rag", 1 ],
-      [ "felt_patch", 1 ],
-      [ "duct_tape", 50 ],
-      [ "cordage_short", 2, "LIST" ],
-      [ "filament", 50, "LIST" ]
-    ],
-    [
-      [ "scrap_copper", 2 ],
-      [ "copper", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_knife",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "rag", 1 ],
-      [ "duct_tape", 50 ],
-      [ "cordage_short", 2, "LIST" ],
-      [ "filament", 100, "LIST" ]
-    ],
-    [
-      [ "spike", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pointy_stick",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "time": 800,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "cudgel",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "time": 1000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ]
-    ]
-  ]
-},{
-       "type" : "recipe",
-  "result": "spear_rebar",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "time": 100000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "rebar", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "sling",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "time": 1000,
-  "reversible": true,
-  "autolearn": true,
-  "using": [ [ "filament", 20 ] ],
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "sling",
-  "id_suffix": "cord",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 3000,
-  "reversible": true,
-  "autolearn": true,
-  "using": [ [ "cordage", 3 ] ]
-},{
+  },
+  {
+    "type": "recipe",
+    "result": "pointy_stick",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": 800,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "spear_rebar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": 100000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rebar", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sling",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sling",
+    "id_suffix": "cord",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 3000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "cordage", 3 ] ]
+  },{
   "type" : "recipe",
   "result": "slingshot",
   "category": "CC_WEAPON",
