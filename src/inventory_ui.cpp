@@ -1,4 +1,3 @@
-// *INDENT-OFF*
 #include "inventory_ui.h"
 
 #include "game.h"
