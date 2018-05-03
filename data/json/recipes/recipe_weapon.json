@@ -284,262 +284,168 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shortbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ "archery", 1 ],
+    "difficulty": 2,
+    "time": 15000,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "reflexrecurvebow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 7 ] ],
+    "difficulty": 5,
+    "time": 25000,
+    "book_learn": [ [ "recipe_bows", 6 ], [ "manual_archery", 7 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "nailboard",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "nail", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "homewrecker",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "cordage", 8 ] ],
+    "components": [ [ [ "steel_chunk", 4 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "nailbat",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bat", 1 ] ], [ [ "nail", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bwirebat",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "bat", 1 ] ], [ [ "wire_barbed", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bowling_axe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "bowling_pin", 1 ] ], [ [ "spike", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "revolver_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 3 ] ],
+    "difficulty": 3,
+    "time": 6000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_pistol", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
+    "tools": [
+      [
+        [ "oxy_torch", 6 ],
+        [ "welder", 30 ],
+        [ "welder_crude", 45 ],
+        [ "toolset", 45 ],
+        [ "small_repairkit", 150 ],
+        [ "large_repairkit", 30 ]
+      ]
+    ],
+    "components": [ [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ], [ [ "pipe", 3 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "surv_six_shooter",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 3 ] ],
+    "difficulty": 4,
+    "time": 400000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_pistol", 3 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
+    "tools": [
+      [
+        [ "oxy_torch", 6 ],
+        [ "welder", 30 ],
+        [ "welder_crude", 45 ],
+        [ "toolset", 45 ],
+        [ "small_repairkit", 150 ],
+        [ "large_repairkit", 30 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "surv_hand_cannon",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 4 ] ],
+    "difficulty": 5,
+    "time": 600000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_pistol", 5 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
+    "tools": [
+      [
+        [ "oxy_torch", 6 ],
+        [ "welder", 30 ],
+        [ "welder_crude", 45 ],
+        [ "toolset", 45 ],
+        [ "small_repairkit", 150 ],
+        [ "large_repairkit", 30 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ] ]
   },{
-  "type" : "recipe",
-  "result": "shortbow",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "skills_required": [ "archery", 1 ],
-  "difficulty": 2,
-  "time": 15000,
-  "reversible": true,
-  "decomp_learn": 1,
-  "autolearn": true,
-  "book_learn": [[ "recipe_bows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2 ]],
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "cordage", 2, "LIST" ],
-      [ "filament", 200, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reflexrecurvebow",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "skills_required": [[ "archery", 7 ]],
-  "difficulty": 5,
-  "time": 25000,
-  "book_learn" : [[ "recipe_bows", 6 ] , [ "manual_archery", 7]],
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 3 ],
-      [ "2x4", 2 ]
-    ],
-    [
-      [ "bone", 3 ],
-      [ "bone_human", 3 ]
-    ],
-    [
-      [ "cordage", 2, "LIST" ],
-      [ "filament", 200, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "nailboard",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "time": 1000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "2x4", 1 ],
-      [ "stick", 1 ]
-    ],
-    [
-      [ "nail", 6 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "homewrecker",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "using": [ [ "cordage", 8 ] ],
-  "components": [
-    [
-      [ "steel_chunk", 4 ]
-    ],
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ],
-      [ "broom", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "nailbat",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "time": 1000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "bat", 1 ]
-    ],
-    [
-      [ "nail", 6 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bwirebat",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "bat", 1 ]
-    ],
-    [
-      [ "wire_barbed", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bowling_axe",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "time": 1000,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "bowling_pin", 1 ]
-    ],
-    [
-      [ "spike", 2 ]
-    ],
-    [
-      [ "duct_tape", 100]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "revolver_shotgun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [[ "gun", 3 ]],
-  "difficulty": 3,
-  "time": 6000,
-  "autolearn": true,
-  "book_learn": [[ "manual_shotgun", 2 ] , [ "manual_pistol", 2 ]],
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      [ "oxy_torch", 6 ],
-      [ "welder", 30 ],
-      [ "welder_crude", 45 ],
-      [ "toolset", 45 ],
-      [ "small_repairkit", 150 ],
-      [ "large_repairkit", 30 ]
-    ]
-  ],
-  "components": [
-    [
-     [ "shotgun_s", 1 ],
-     [ "pipe_shotgun", 1 ]
-    ],
-    [
-      ["pipe", 3]
-    ],
-    [
-      ["steel_chunk", 3],
-      ["scrap", 9]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "surv_six_shooter",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [[ "gun", 3 ]],
-  "difficulty": 4,
-  "time": 400000,
-  "autolearn": true,
-  "book_learn": [ [ "manual_pistol", 3 ]],
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      [ "oxy_torch", 6 ],
-      [ "welder", 30 ],
-      [ "welder_crude", 45 ],
-      [ "toolset", 45 ],
-      [ "small_repairkit", 150 ],
-      [ "large_repairkit", 30 ]
-    ]
-  ],
-  "components": [
-      [
-        [ "pipe", 1 ]
-      ],
-      [
-        [ "spring", 1 ]
-      ],
-      [
-        [ "steel_chunk", 2 ]
-      ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "surv_hand_cannon",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [[ "gun", 4 ]],
-  "difficulty": 5,
-  "time": 600000,
-  "autolearn": true,
-  "book_learn": [ [ "manual_pistol", 5 ]],
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      [ "oxy_torch", 6 ],
-      [ "welder", 30 ],
-      [ "welder_crude", 45 ],
-      [ "toolset", 45 ],
-      [ "small_repairkit", 150 ],
-      [ "large_repairkit", 30 ]
-    ]
-  ],
-  "components":
-    [
-      [
-        [ "pipe", 1]
-      ],
-      [
-        [ "spring", 1]
-      ],
-      [
-        [ "steel_chunk", 2]
-      ]
-    ]
-},{
   "type" : "recipe",
   "result": "mosin91_30",
   "byproducts": [ [ "mn_ebr_kit" ] ],
