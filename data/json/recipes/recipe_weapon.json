@@ -610,282 +610,164 @@
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "string_36", 3 ] ] ]
-  },{
-  "type" : "recipe",
-  "result": "bullet_crossbow",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 3,
-  "time": 15000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 3] , [ "book_archery", 2]],
-  "qualities" : [
-    {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1}
-  ], "components": [
-    [
-      [ "2x4", 2 ],
-      [ "stick", 4 ]
+  },
+  {
+    "type": "recipe",
+    "result": "bullet_crossbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 15000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 3 ], [ "book_archery", 2 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "string_36", 3 ] ], [ [ "leather", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "2_shot_special",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": 12000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_22",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": 12000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blunderbuss",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 2,
+    "time": 12000,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 2,
+    "time": 12000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_double_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": 18000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_combination_gun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 5 ],
+    "difficulty": 7,
+    "time": 270000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "GLARE", "level": 1 }
     ],
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "string_36", 3 ]
-    ],
-    [
-      [ "leather", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "2_shot_special",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "difficulty": 1,
-  "time": 12000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "duct_tape", 50 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "rifle_22",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "blunderbuss",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 2,
-  "time": 12000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pipe_shotgun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 2,
-  "time": 12000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "scrap", 2 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pipe_double_shotgun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 18000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ], "components": [
-    [
-      [ "pipe", 2 ]
-    ],
-    [
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pipe_combination_gun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 7,
-  "time": 270000,
-  "autolearn": true,
-  "qualities": [
-    { "id": "HAMMER_FINE", "level": 1 },
-    { "id": "SAW_M_FINE", "level": 1 },
-    { "id": "SCREW_FINE", "level": 1 },
-    { "id": "GLARE", "level": 1 }
-  ],
-  "tools": [
+    "tools": [
       [
-          [ "oxy_torch", 7 ],
-          [ "welder", 36 ],
-          [ "welder_crude", 54 ],
-          [ "toolset", 54 ],
-          [ "small_repairkit", 180 ],
-          [ "large_repairkit", 75 ]
-          ]
-      ],
-      "components": [
-    [
-      [ "pipe", 2 ]
+        [ "oxy_torch", 7 ],
+        [ "welder", 36 ],
+        [ "welder_crude", 54 ],
+        [ "toolset", 54 ],
+        [ "small_repairkit", 180 ],
+        [ "large_repairkit", 75 ]
+      ]
     ],
-    [
-      [ "nail", 2 ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 2 ] ], [ [ "spring", 1 ] ], [ [ "scrap", 3 ] ], [ [ "shotgun_d", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_9mm",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": 14000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_308",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 5,
+    "time": 14000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "surv_carbine_223",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 5 ],
+    "difficulty": 7,
+    "time": 14000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    [
-      [ "spring", 1 ]
-    ],
-    [
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "shotgun_d", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "rifle_9mm",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 14000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "scrap", 2 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "rifle_308",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 3 ],
-  "difficulty": 5,
-  "time": 14000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "scrap", 3 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "surv_carbine_223",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 7,
-  "time": 14000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"WRENCH_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
-    ]
-  ], "components": [
-    [
-      [ "pipe", 2 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ],
-    [
-      [ "steel_chunk", 3 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ] ]
+  },{
   "type" : "recipe",
   "result": "rifle_3006",
   "category": "CC_WEAPON",
