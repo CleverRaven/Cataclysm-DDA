@@ -98,8 +98,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
         }
     }
     auto bp_array = jsobj.get_array( "burn_products" );
-    while( bp_array.has_more( ) )
-    {
+    while( bp_array.has_more( ) ) {
         auto pair = bp_array.next_array();
         _burn_products.emplace_back( pair.get_string( 0 ), pair.get_float( 1 ) );
     }
