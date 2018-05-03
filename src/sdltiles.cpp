@@ -1985,7 +1985,7 @@ TTF_Font *CachedTTFFont::get_font(cata_cursesport::font_style FS)
         throw std::runtime_error("No font size that satisfies the requirements found");
     }
     TTF_SetFontStyle( _font, style );
-    font_map.emplace( FS, _font );
+    font_map.emplace( FS, TTF_Font_Ptr( _font ) );
 
     return _font;
 }
