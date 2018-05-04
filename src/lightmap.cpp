@@ -1,4 +1,6 @@
 #include "lightmap.h"
+
+#include "fragment_cloud.h"
 #include "mapdata.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -729,6 +731,12 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &floor_caches,
     const tripoint &origin, const int offset_distance, const float numerator );
+
+template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
+    const std::array<fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
+    const std::array<const fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
+    const std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &floor_caches,
+    const tripoint &origin, const int offset_distance, const fragment_cloud numerator );
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y
