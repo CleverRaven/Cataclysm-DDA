@@ -185,7 +185,7 @@
         "symbol": "#",
         "color": "dark_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE"],
         "connects_to": "WALL",
         "bash": {
             "str_min": 20, "str_max": 100,
@@ -1305,7 +1305,7 @@
         "symbol": "\"",
         "color": "light_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 60, "str_max": 250,
             "sound": "metal screeching!",
@@ -1960,7 +1960,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "DOOR", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE"],
         "connects_to": "CHAINFENCE",
         "open": "t_chaingate_o",
         "bash": {
@@ -2266,7 +2266,7 @@
         "color": "cyan",
         "move_cost": 0,
         "roof": "t_flat_roof",
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE"],
         "open": "t_door_bar_o",
         "close": "t_door_bar_locked",
         "bash": {
@@ -2549,7 +2549,7 @@
         "symbol": "'",
         "color": "white",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
         "close": "t_window_no_curtains",
         "bash": {
             "str_min": 3, "str_max": 6,
@@ -2619,7 +2619,7 @@
         "symbol": "'",
         "color": "light_gray",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
         "close": "t_window_domestic",
         "bash": {
             "str_min": 3, "str_max": 6,
@@ -2724,7 +2724,7 @@
         "move_cost": 4,
         "roof": "t_flat_roof",
         "flags": [
-            "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL"
+            "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE"
         ],
         "bash": {
             "str_min": 10, "str_max": 70,
@@ -2882,7 +2882,7 @@
         "symbol": "#",
         "color": "light_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 60, "str_max": 250,
             "sound": "metal screeching!",
@@ -4774,7 +4774,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4793,7 +4793,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4812,7 +4812,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4831,7 +4831,7 @@
         "symbol": "6",
         "color": "white",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4850,7 +4850,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -4877,7 +4877,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -4904,7 +4904,7 @@
         "symbol": "1",
         "color": "light_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 30, "str_max": 210,
             "sound": "metal screeching!",
@@ -5708,7 +5708,7 @@
         "symbol": "&",
         "color": "light_gray",
         "move_cost": 6,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
         "deconstruct": {
             "ter_set": "t_covered_well",
             "items": [
