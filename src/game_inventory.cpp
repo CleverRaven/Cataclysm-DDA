@@ -34,18 +34,14 @@ std::string good_bad_none( int value )
 
 }
 
-class inventory_filter_preset : public inventory_selector_preset
+inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
+    : filter( filter )
+{}
+
+bool inventory_filter_preset::is_shown( const item_location &location ) const
 {
-    public:
-        inventory_filter_preset( const item_location_filter &filter ) : filter( filter ) {}
-
-        bool is_shown( const item_location &location ) const override {
-            return filter( location );
-        }
-
-    private:
-        item_location_filter filter;
-};
+    return filter( location );
+}
 
 item_location_filter convert_filter( const item_filter &filter )
 {

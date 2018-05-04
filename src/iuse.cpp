@@ -7492,48 +7492,80 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::washclothes( player *p, item *it, bool, const tripoint& )
+int iuse::washclothes( player *p, item *it, bool, const tripoint & )
 {
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return 0;
+    }
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 
-    const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
-    item &mod = p->i_at( pos );
-    if( pos == INT_MIN ) {
-        p->add_msg_if_player( m_info, _( "Never mind." ) );
+    player player = *p;
+
+    player.inv.restack( player );
+
+    const inventory_filter_preset preset( []( const item_location & location ) {
+        return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
+    } );
+    // TODO: this should also search surrounding area, not just player inventory.
+    inventory_iuse_selector inv_s( player, _( "ITEMS TO CLEAN" ), preset );
+    inv_s.add_character_items( player );
+    inv_s.set_title( _( "Multiclean" ) );
+    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+    std::list<std::pair<int, int>> to_clean;
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+        to_clean = std::list<std::pair<int, int> >();
         return 0;
     }
 
-    const int required_water = 2 * mod.volume() / 250_ml;
-    const int time = 1000 * mod.volume() / 250_ml;
-    int required_cleanser = mod.volume() / 1000_ml;
+    to_clean = inv_s.execute();
+    if( to_clean.size() == 0 ) {
+        return 0;
+    }
+    int required_water = 0;
+    int time = 0;
+    int required_cleanser = 0;
 
+    // Determine if we have enough water and cleanser for all the items.
+    for( std::pair<int, int> pair : to_clean ) {
+        item mod = p->i_at( pair.first );
+        if( pair.first == INT_MIN ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ) );
+            return 0;
+        }
+        required_water += ( mod.volume() / 125_ml ) * pair.second;
+        time += ( 1000 * mod.volume() / 250_ml ) * pair.second;
+        required_cleanser += ( mod.volume() / 1000_ml ) * pair.second;
+    }
     if( required_cleanser < 1 ) {
         required_cleanser = 1;
     }
 
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash your %2$s." ), required_water, mod.tname().c_str() );
+    if( !crafting_inv.has_charges( "water", required_water ) &&
+        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                              required_water );
         return 0;
-    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) && !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
+    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                              required_cleanser );
         return 0;
     }
+    // Assign the activity values.
+    p->assign_activity( activity_id( "ACT_WASH" ), time );
 
-    std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", required_water ) );
-    comps.push_back( item_comp( "water_clean", required_water ) );
-    p->consume_items( comps );
-
-    std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( "soap", required_cleanser ) );
-    comps1.push_back( item_comp( "detergent", required_cleanser ) );
-    p->consume_items( comps1 );
-
-    p->assign_activity( activity_id( "ACT_WASH" ), time, 0, p->get_item_position( &mod ) );
+    for( std::pair<int, int> pair : to_clean ) {
+        p->activity.values.push_back( pair.first );
+        p->activity.values.push_back( pair.second );
+    }
 
     return 0;
 }
