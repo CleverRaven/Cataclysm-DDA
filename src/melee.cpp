@@ -643,7 +643,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 {
     float bash_dam = 0.0f;
 
-    const bool unarmed = weap.has_flag("UNARMED_WEAPON");
+    const bool unarmed = unarmed_attack();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     if( has_active_bionic(bio_cqb) ) {
         skill = BIO_CQB_LEVEL;
