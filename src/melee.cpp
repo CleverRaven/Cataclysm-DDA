@@ -286,7 +286,7 @@ void player::melee_attack( Creature &t, bool allow_special )
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique )
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, bool allow_unarmed )
 {
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
@@ -294,7 +294,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
 
-    item &cur_weapon = used_weapon();
+    item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
@@ -486,7 +486,7 @@ void player::reach_attack( const tripoint &p )
         return;
     }
 
-    melee_attack( *critter, false, force_technique );
+    melee_attack( *critter, false, force_technique, false );
 }
 
 int stumble( player &u, const item &weap )
