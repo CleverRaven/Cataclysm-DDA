@@ -1894,7 +1894,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "PERMEABLE", "LOCKED"],
+        "flags": ["TRANSPARENT", "PERMEABLE", "LOCKED", "THIN_OBSTACLE"],
         "connects_to": "CHAINFENCE",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 175,
@@ -2310,7 +2310,7 @@
         "color": "cyan",
         "move_cost": 0,
         "roof": "t_flat_roof",
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
