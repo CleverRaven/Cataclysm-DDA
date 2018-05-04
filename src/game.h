@@ -427,7 +427,7 @@ class game
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is outdoors and it is fair to medium weather. Does not include heavy snow, thunder/lightning, or acid rain. */
-        bool is_in_growablelight( const tripoint &p );
+        bool is_in_fairweather( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
         /**

@@ -1002,7 +1002,7 @@ void player::hardcoded_effects( effect &it )
 
         // TODO: Move this to update_needs when NPCs can mutate
         if( calendar::once_every( 10_minutes ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
-            g->is_in_growablelight( pos() ) ) {
+            g->is_in_fairweather( pos() ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( get_hunger() >= -30 ) {
                 mod_hunger( -5 );
