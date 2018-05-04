@@ -476,8 +476,9 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
 // Add defaults for when method is invoked for the first time.
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
-         float(*calc)(const float &, const float &, const int &),
-         bool(*check)(const float &, const float &)>
+         T(*calc)( const T &, const T &, const int & ),
+         bool(*check)( const T &, const T & ),
+         T(*accumulate)( const T &, const T &, const int & )>
 void cast_zlight_segment(
     const std::array<T (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
     const std::array<const T (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
@@ -489,8 +490,9 @@ void cast_zlight_segment(
     T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
-         float(*calc)(const float &, const float &, const int &),
-         bool(*check)(const float &, const float &)>
+         T(*calc)( const T &, const T &, const int & ),
+         bool(*check)( const T &, const T & ),
+         T(*accumulate)( const T &, const T &, const int & )>
 void cast_zlight_segment(
     const std::array<T (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
     const std::array<const T (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
@@ -601,22 +603,21 @@ void cast_zlight_segment(
                 // One we processed fully in 2D and only need to extend in last D
                 // Only cast recursively horizontally if previous span was not opaque.
                 if( check( current_transparency, last_intensity ) ) {
-                    T next_cumulative_transparency =
-                        ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+                    T next_cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
                     // Blocks can be merged if they are actually a single rectangle
                     // rather than rectangle + line shorter than rectangle's width
                     const bool merge_blocks = end_minor <= trailing_edge_minor;
                     // trailing_edge_major can be less than start_major
                     const float trailing_clipped = std::max( trailing_edge_major, start_major );
                     const float major_mid = merge_blocks ? leading_edge_major : trailing_clipped;
-                    cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check>(
+                    cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
                         output_caches, input_arrays, floor_caches,
                         offset, offset_distance, numerator, distance + 1,
                         start_major, major_mid, start_minor, end_minor,
                         next_cumulative_transparency );
                     if( !merge_blocks ) {
                         // One line that is too short to be part of the rectangle above
-                        cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check>(
+                        cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
                             output_caches, input_arrays, floor_caches,
                             offset, offset_distance, numerator, distance + 1,
                             major_mid, leading_edge_major, start_minor, trailing_edge_minor,
@@ -628,7 +629,7 @@ void cast_zlight_segment(
                 const float old_start_minor = start_minor;
                 // The new span starts at the leading edge of the previous square if it is opaque,
                 // and at the trailing edge of the current square if it is transparent.
-                if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                if( !check( current_transparency, last_intensity ) ) {
                     start_minor = new_start_minor;
                 } else {
                     // Note this is the same slope as one of the recursive calls we just made.
@@ -638,7 +639,7 @@ void cast_zlight_segment(
 
                 // leading_edge_major plus some epsilon
                 float after_leading_edge_major = (delta.z + 0.50001f) / (delta.y - 0.5f);
-                cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check>(
+                cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
                     output_caches, input_arrays, floor_caches,
                     offset, offset_distance, numerator, distance,
                     after_leading_edge_major, end_major, old_start_minor, start_minor,
@@ -651,7 +652,7 @@ void cast_zlight_segment(
                 new_start_minor = leading_edge_minor;
             }
 
-            if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+            if( !check( current_transparency, last_intensity ) ) {
                 start_major = leading_edge_major;
             }
         }
@@ -662,64 +663,72 @@ void cast_zlight_segment(
             break;
         }
 
-        if( !check(current_transparency, last_intensity) ) {
+        if( !check( current_transparency, last_intensity ) ) {
             // If we reach the end of the span with terrain being opaque, we don't iterate further.
             break;
         }
-        // Cumulative average of the transparency values encountered.
-        cumulative_transparency =
-            ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+        // Cumulative average of the values encountered.
+        cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
     }
 }
 
-template<typename T, float(*calc)(const float &, const float &, const int &),
-         bool(*check)(const float &, const float &)>
+template<typename T, T(*calc)( const T &, const T &, const int & ),
+         bool(*check)( const T &, const T & ),
+         T(*accumulate)( const T &, const T &, const int & )>
 void cast_zlight(
     const std::array<T (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
     const std::array<const T (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, const int offset_distance )
+    const tripoint &origin, const int offset_distance, const T numerator )
 {
     // Down
-    cast_zlight_segment<0, 1, 0, 1, 0, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<1, 0, 0, 0, 1, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
+    cast_zlight_segment<0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    cast_zlight_segment<0, -1, 0, 1, 0, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<-1, 0, 0, 0, 1, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
+    cast_zlight_segment<0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<-1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    cast_zlight_segment<0, 1, 0, -1, 0, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<1, 0, 0, 0, -1, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
+    cast_zlight_segment<0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    cast_zlight_segment<0, -1, 0, -1, 0, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<-1, 0, 0, 0, -1, 0, -1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
+    cast_zlight_segment<0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<-1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     // Up
-    cast_zlight_segment<0, -1, 0, 1, 0, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<-1, 0, 0, 0, 1, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
+    cast_zlight_segment<0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<-1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    cast_zlight_segment<0, 1, 0, -1, 0, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<1, 0, 0, 0, -1, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
+    cast_zlight_segment<0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-    cast_zlight_segment<0, -1, 0, -1, 0, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
-    cast_zlight_segment<-1, 0, 0, 0, -1, 0, 1, T, sight_calc, sight_check>(
-        output_caches, input_arrays, floor_caches, origin, offset_distance );
+    cast_zlight_segment<0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<-1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 }
+
+// I can't figure out how to make implicit instantiation work when the parameters of
+// the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
+template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+    const std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
+    const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
+    const std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &floor_caches,
+    const tripoint &origin, const int offset_distance, const float numerator );
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y
@@ -780,7 +789,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
         }
-        cast_zlight<float, sight_calc, sight_check>( seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+              seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
 
     const optional_vpart_position vp = veh_at( origin );

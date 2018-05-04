@@ -20,26 +20,31 @@ inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID;
 }
+inline float accumulate_transparency( const float &cumulative_transparency,
+                                      const float &current_transparency, const int &distance )
+{
+    return ( ( distance - 1 ) * cumulative_transparency + current_transparency ) / distance;
+}
 
-
-template<int xx, int xy, int yx, int yy, typename T,
-         float( *calc )( const float &, const float &, const int & ),
-         bool( *check )( const float &, const float & )>
+template< int xx, int xy, int yx, int yy, typename T,
+          float( *calc )( const float &, const float &, const int & ),
+          bool( *check )( const float &, const float & ) >
 void castLight(
-    T ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-    const T ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    T( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    const T( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
     const int offsetX, const int offsetY, const int offsetDistance,
     const T numerator = 1.0, const int row = 1,
     float start = 1.0f, const float end = 0.0f,
     T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 // TODO: Generalize the floor check, allow semi-transparent floors
-template<typename T, float( *calc )( const float &, const float &, const int & ),
-         bool( *check )( const float &, const float & )>
+template< typename T, T( *calc )( const T &, const T &, const int & ),
+          bool( *check )( const T &, const T & ),
+          T( *accumulate )( const T &, const T &, const int & ) >
 void cast_zlight(
-    const std::array<T ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &input_arrays,
+    const std::array<T( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &output_caches,
+    const std::array<const T( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &offset, const int offset_distance );
+    const tripoint &offset, const int offset_distance, const T numerator );
 
 #endif
