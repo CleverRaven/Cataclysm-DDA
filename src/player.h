@@ -13,7 +13,6 @@
 #include "calendar.h"
 
 #include <unordered_set>
-#include <bitset>
 #include <memory>
 #include <array>
 
@@ -142,7 +141,7 @@ class player : public Character
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
-        void randomize( bool random_scenario, points_left &points );
+        void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature
@@ -191,8 +190,6 @@ class player : public Character
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Print the player's stamina bar. **/
-        void print_stamina_bar( const catacurses::window &w ) const;
         /** Generates the sidebar and it's data in-game */
         void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 
@@ -461,7 +458,6 @@ class player : public Character
         // melee.cpp
         /** Returns the best item for blocking with */
         item &best_shield();
-        using Creature::melee_attack;
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -469,16 +465,12 @@ class player : public Character
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
          */
-        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique );
         /**
-         * Sets up a melee attack and handles melee attack function calls
-         * @param t Creature to attack
-         * @param allow_special whether non-forced martial art technique or mutation attack should be
-         *   possible with this attack.
-         * @param force_technique special technique to use in attack.
-         * @param hitspread Used to calculate odds of successful damage
+         * Calls the to other melee_attack function with an empty technique id (meaning no specific
+         * technique should be used).
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
+        void melee_attack( Creature &t, bool allow_special );
 
         /**
          * Returns a weapon's modified dispersion value.
@@ -724,7 +716,7 @@ class player : public Character
         void vomit();
 
         /** Drenches the player with water, saturation is the percent gotten wet */
-        void drench( int saturation, int flags, bool ignore_waterproof );
+        void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
@@ -1028,7 +1020,7 @@ class player : public Character
         /** Handles reading effects and returns true if activity started */
         bool read( int inventory_position, const bool continuous = false );
         /** Completes book reading action. **/
-        void do_read( item *book );
+        void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
@@ -1087,6 +1079,10 @@ class player : public Character
         bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes(std::string side = "both") const;
+        /** Returns true if the player is wearing something occupying the helmet slot */
+        bool is_wearing_helmet() const;
+        /** Returns the total emcumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
+        int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
@@ -1114,8 +1110,8 @@ class player : public Character
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
-                        int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+        void add_morale( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
+                        time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;
@@ -1166,8 +1162,8 @@ class player : public Character
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
 
-        bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
-        bool is_waterproof( const std::bitset<num_bp> &parts ) const;
+        bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
+        bool is_waterproof( const body_part_set &parts ) const;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
@@ -1228,8 +1224,17 @@ class player : public Character
                                                        const recipe *r ) const;
 
         // crafting.cpp
+        float morale_crafting_speed_multiplier( const recipe & rec ) const;
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
-        int time_to_craft( const recipe &rec, int batch_size = 1 );
+        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
+        /**
+         * Time to craft not including speed multiplier
+         */
+        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        /**
+         * Expected time to craft a recipe, with assumption that multipliers stay constant.
+         */
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;

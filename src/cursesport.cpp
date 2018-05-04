@@ -343,6 +343,7 @@ inline void printstring(cata_cursesport::WINDOW *win, const std::string &text)
         if( dlen >= 1 ) {
             curcell->FG = win->FG;
             curcell->BG = win->BG;
+            curcell->FS = win->FS;
             addedchar( win );
         }
         if( dlen == 1 ) {
@@ -364,6 +365,7 @@ inline void printstring(cata_cursesport::WINDOW *win, const std::string &text)
             }
             seccell->FG = win->FG;
             seccell->BG = win->BG;
+            seccell->FS = win->FS;
             seccell->ch.erase();
             addedchar( win );
             // Have just written a wide-character into the last cell, it would not
@@ -528,16 +530,20 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
         return;
     }
 
-    bool isBold = attrs.is_bold();
-    bool isBlink = attrs.is_blink();
     int pairNumber = attrs.to_color_pair_index();
     win->FG = cata_cursesport::colorpairs[pairNumber].FG;
     win->BG = cata_cursesport::colorpairs[pairNumber].BG;
-    if (isBold) {
+    if (attrs.is_bold()) {
         win->FG = static_cast<base_color>( win->FG + 8 );
     }
-    if (isBlink) {
+    if (attrs.is_blink()) {
         win->BG = static_cast<base_color>( win->BG + 8 );
+    }
+    if (attrs.is_italic()) {
+        win->FS.set( cata_cursesport::FS_ITALIC );
+    }
+    if (attrs.is_underline()) {
+        win->FS.set( cata_cursesport::FS_UNDERLINE );
     }
 }
 
@@ -551,6 +557,9 @@ void catacurses::wattroff(const window &win_, int)
 
     win->FG = static_cast<base_color>( 8 );                                //reset to white
     win->BG = black;                                //reset to black
+    win->FS.reset( cata_cursesport::FS_BOLD );
+    win->FS.reset( cata_cursesport::FS_ITALIC );
+    win->FS.reset( cata_cursesport::FS_UNDERLINE );
 }
 
 void catacurses::waddch(const window &win, const chtype ch)
@@ -602,7 +611,9 @@ void catacurses::waddch(const window &win, const chtype ch)
 
 static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */
 static constexpr int A_BOLD = 0x00002000; /* Added characters are bold. */
-static constexpr int A_COLOR = 0x03fe0000; /* Color bits */
+static constexpr int A_ITALIC = 0x00800000; /* Added characters are italic. */
+static constexpr int A_UNDERLINE = 0x00000200; /* Added characters are underline. */
+static constexpr int A_COLOR = 0x037e0000; /* Color bits */
 
 nc_color nc_color::from_color_pair_index( const int index )
 {
@@ -632,6 +643,26 @@ nc_color nc_color::blink() const
 bool nc_color::is_blink() const
 {
     return attribute_value & A_BLINK;
+}
+
+nc_color nc_color::italic() const
+{
+    return nc_color( attribute_value | A_ITALIC );
+}
+
+bool nc_color::is_italic() const
+{
+    return attribute_value & A_ITALIC;
+}
+
+nc_color nc_color::underline() const
+{
+    return nc_color( attribute_value | A_UNDERLINE );
+}
+
+bool nc_color::is_underline() const
+{
+    return attribute_value & A_UNDERLINE;
 }
 
 #endif

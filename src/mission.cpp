@@ -39,22 +39,21 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
-std::unordered_map<int, std::unique_ptr<mission>> world_missions;
+static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id type, const int npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
     // @todo: Warn about overwrite?
-    auto &iter = world_missions[ tmp.uid ];
-    iter = std::unique_ptr<mission>( new mission( tmp ) );
-    return iter.get();
+    mission &miss = world_missions[tmp.uid] = tmp;
+    return &miss;
 }
 
 mission *mission::find( int id )
 {
     const auto iter = world_missions.find( id );
     if( iter != world_missions.end() ) {
-        return iter->second.get();
+        return &iter->second;
     }
     dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
     debugmsg( "requested mission with uid %d does not exist", id );
@@ -65,7 +64,7 @@ std::vector<mission *> mission::get_all_active()
 {
     std::vector<mission *> ret;
     for( auto &pr : world_missions ) {
-        ret.push_back( pr.second.get() );
+        ret.push_back( &pr.second );
     }
 
     return ret;
@@ -73,13 +72,13 @@ std::vector<mission *> mission::get_all_active()
 
 void mission::add_existing( const mission &m )
 {
-    world_missions[ m.uid ] = std::unique_ptr<mission>( new mission( m ) );
+    world_missions[ m.uid ] = m;
 }
 
 void mission::process_all()
 {
     for( auto &e : world_missions ) {
-        e.second->process();
+        e.second.process();
     }
 }
 
@@ -143,7 +142,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     const auto dead_guys_id = p->getID();
     for( auto &e : world_missions ) {
-        auto &i = *e.second;
+        mission &i = e.second;
         if( !i.in_progress() ) {
             continue;
         }
@@ -303,13 +302,13 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_RECRUIT_NPC: {
             npc *p = g->find_npc( target_npc_id );
-            return p != nullptr && p->attitude == NPCATT_FOLLOW;
+            return p != nullptr && p->get_attitude() == NPCATT_FOLLOW;
         }
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
             for( auto &npc : npcs ) {
-                if( npc->myclass == recruit_class && npc->attitude == NPCATT_FOLLOW ) {
+                if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
                     return true;
                 }
             }
@@ -327,6 +326,9 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_KILL_MONSTER_TYPE:
             return g->kill_count( mtype_id( monster_type ) ) >= monster_kill_goal;
+
+        case MGOAL_KILL_MONSTER_SPEC:
+            return g->kill_count( monster_species ) >= monster_kill_goal;
 
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;

@@ -513,7 +513,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             tries++;
         }
     }
-    
+
     invalidate_mass();
 }
 /**
@@ -716,7 +716,7 @@ bool vehicle::is_alternator_on(int const a) const
 
     return std::any_of( engines.begin(), engines.end(), [this,&alt]( int idx ) {
         auto& eng = parts [ idx ];
-        return eng.enabled && eng.mount == alt.mount && !eng.faults().count( fault_belt );
+        return eng.enabled && !eng.is_broken() && eng.mount == alt.mount && !eng.faults().count( fault_belt );
     } );
 }
 
@@ -1001,15 +1001,15 @@ void vehicle::use_controls( const tripoint &pos )
 
         options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
         actions.push_back( [&]{ turrets_set_mode(); refresh(); } );
-        
+
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
         actions.push_back( [&]{ turrets_aim_and_fire( true, false ); refresh(); } );
-        
+
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
         actions.push_back( [&]{ turrets_aim( false, true ); refresh(); } );
-        
+
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
         actions.push_back( [&]{ turrets_aim_single(); refresh(); } );
     }
@@ -1313,7 +1313,7 @@ void vehicle::beeper_sound()
         return;
     }
 
-    const bool odd_turn = (calendar::turn % 2 == 0);
+    const bool odd_turn = calendar::once_every( 2_turns );
     for( size_t p = 0; p < parts.size(); ++p ) {
         if( !part_flag( p, "BEEPER" ) ) {
             continue;
@@ -1332,7 +1332,7 @@ void vehicle::beeper_sound()
 void vehicle::play_music()
 {
     for( auto e : get_parts( "STEREO", true ) ) {
-        iuse::play_music( &g->u, global_part_pos3( *e ), 15, 30 );
+        iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
 
@@ -1655,6 +1655,20 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         }
     }
 
+    //Turrets must be installed on a turret mount
+    if( part.has_flag( "TURRET" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -1692,6 +1706,11 @@ bool vehicle::can_unmount(int const p) const
 
     //Can't remove a battery mount if there's still a battery there
     if(part_flag(p, "BATTERY_MOUNT") && part_with_feature(p, "NEEDS_BATTERY_MOUNT") >= 0) {
+        return false;
+    }
+
+    //Can't remove a turret mount if there's still a turret there
+    if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET" ) >= 0 ) {
         return false;
     }
 
@@ -2615,7 +2634,7 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _(" (vol: %s/%s %s)"),
-                                       format_volume( stored_volume( pl[i] ) ).c_str(), 
+                                       format_volume( stored_volume( pl[i] ) ).c_str(),
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
@@ -3136,7 +3155,7 @@ void vehicle::noise_and_smoke( double load, double time )
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
         "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
-        _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!")
+        _("BRRROARRR!"), _("BRUMBRUMBRUMBRUM!")
     }};
     double noise = 0.0;
     double mufflesmoke = 0.0;
@@ -3395,7 +3414,7 @@ float vehicle::handling_difficulty() const
     const float steer = std::max( 0.0f, steering_effectiveness() );
     const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     const float kmass = k_mass();
-    const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).norm() );
+    const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).magnitude() );
 
     constexpr float tile_per_turn = 10 * 100;
 
@@ -3949,7 +3968,7 @@ void vehicle::operate_scoop()
             _("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")
         }};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
-                       sound_msgs[rng( 0, 3 )] );
+                       random_entry_ref( sound_msgs ) );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
                  g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
@@ -4004,7 +4023,7 @@ void vehicle::alarm() {
             const std::array<std::string, 4> sound_msgs = {{
                 _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")
             }};
-            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
+            sounds::sound( global_pos3(), (int) rng(45,80), random_entry_ref( sound_msgs ) );
             if( one_in(1000) ) {
                 is_alarm_on = false;
             }
@@ -4498,7 +4517,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
-    int turns_stunned = 0;
+    time_duration time_stunned = 0_turns;
 
     const int prev_velocity = coll_velocity;
     const int vel_sign = sgn( coll_velocity );
@@ -4584,9 +4603,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 check_environmental_effects = true;
             }
 
-            turns_stunned = ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 );
-            if( turns_stunned > 0 ) {
-                critter->add_effect( effect_stunned, turns_stunned );
+            time_stunned = time_duration::from_turns( ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 ) );
+            if( time_stunned > 0_turns ) {
+                critter->add_effect( effect_stunned, time_stunned );
             }
 
             if( ph != nullptr ) {
@@ -4639,7 +4658,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( critter != nullptr ) {
         if( !critter->is_hallucination() ) {
             if( pl_ctrl ) {
-                if( turns_stunned > 0 ) {
+                if( time_stunned > 0_turns ) {
                     //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                     add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
                              name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
@@ -4864,7 +4883,7 @@ bool vehicle::add_item( int part, const item &itm )
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
-    const long to_move = istack.amount_can_fit( itm );    
+    const long to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return false; // @add_charges should be used in the latter case
     }
@@ -6082,7 +6101,7 @@ vehicle_part::operator bool() const {
     return id != vpart_id::NULL_ID();
 }
 
-const item& vehicle_part::get_base() const 
+const item& vehicle_part::get_base() const
 {
     return base;
 }

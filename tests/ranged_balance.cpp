@@ -92,7 +92,7 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
         // either above or below the threshold.
         projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
         threshold_within_confidence_interval = false;
-        for( int i = 0; i < accuracy_levels.size(); ++i ) {
+        for( int i = 0; i < ( int )accuracy_levels.size(); ++i ) {
             firing_stats[i].add( aim.missed_by < accuracy_levels[i] );
             if( thresholds[i] == -1 ) {
                 continue;
@@ -119,8 +119,7 @@ static dispersion_sources get_dispersion( npc &shooter, int aim_time )
     item &gun = shooter.weapon;
     dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
 
-    // The 10 is an arbitrary amount under which NPCs refuse to spend moves on aiming.
-    shooter.moves = 10 + aim_time;
+    shooter.moves = aim_time;
     shooter.recoil = MAX_RECOIL;
     // Aim as well as possible within the provided time.
     shooter.aim();
@@ -198,7 +197,7 @@ static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
 
 void assert_encumbrance( npc &shooter, int encumbrance )
 {
-    for( body_part bp : bp_aBodyPart ) {
+    for( const body_part bp : all_body_parts ) {
         INFO( "Body Part: " << body_part_name( bp ) );
         REQUIRE( shooter.encumb( bp ) == encumbrance );
     }
@@ -279,7 +278,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 static void range_test( std::array<double, 5> test_thresholds )
 {
     int index = 0;
-    for( index = 0; index < accuracy_levels.size(); ++index ) {
+    for( index = 0; index < ( int )accuracy_levels.size(); ++index ) {
         if( test_thresholds[index] >= 0 ) {
             break;
         }

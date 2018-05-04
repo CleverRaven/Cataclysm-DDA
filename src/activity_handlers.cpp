@@ -50,6 +50,8 @@ using namespace activity_handlers;
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
 {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
+    { activity_id( "ACT_CRAFT" ), craft_do_turn },
+    { activity_id( "ACT_LONGCRAFT" ), craft_do_turn },
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
@@ -263,7 +265,7 @@ void set_up_butchery( player_activity &act, player &u )
     act.moves_left = time_to_cut;
 }
 
-void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point &age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point &age, const std::function<int()> &roll_butchery )
 {
     itype_id meat = corpse->get_meat_itype();
     if( corpse->made_of( material_id( "bone" ) ) ) {
@@ -536,7 +538,7 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
     }
 }
 
-void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int()> &roll_butchery )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
 
@@ -890,11 +892,11 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
    if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-        if( fishables.size() < 1 ) {
+        if( fishables.empty() ) {
             if( one_in(20) ) {
                 item fish;
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                const mtype_id &fish_mon = random_entry_ref( fish_group );
                 g->m.add_item_or_charges(p->pos(), item::make_corpse( fish_mon ) );
                 p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
@@ -1157,7 +1159,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     const tripoint pos( act->placement );
-    item *it = &p->i_at( act->position );
+    item &it = p->i_at( act->position );
 
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
 
@@ -1182,9 +1184,9 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
-    it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
-    if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
-        p->i_rem( it );
+    it.charges = std::max(long(0), it.charges - it.type->charges_to_use());
+    if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
+        p->i_rem( &it );
     }
 }
 
@@ -1276,36 +1278,37 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         return;
     }
 
-    item *reloadable = &*act->targets[ 0 ];
+    item &reloadable = *act->targets[ 0 ];
     int qty = act->index;
+    bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
-    if( !reloadable->reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
-        add_msg( m_info, _( "Can't reload the %s." ), reloadable->tname().c_str() );
+    if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname().c_str() );
         return;
     }
 
     std::string msg = _( "You reload the %s." );
 
-    if( reloadable->is_gun() ) {
+    if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable->has_flag( "RELOAD_ONE" ) ) {
+        if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( reloadable->ammo_type() == ammotype( "bolt" ) ) {
+                if( reloadable.ammo_type() == ammotype( "bolt" ) ) {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );
                 }
             }
         }
-        if( reloadable->type->gun->reload_noise_volume > 0 ) {
-            sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume( p->pos() ) );
-            sounds::ambient_sound( p->pos(), reloadable->type->gun->reload_noise_volume, reloadable->type->gun->reload_noise );
+        if( reloadable.type->gun->reload_noise_volume > 0 ) {
+            sfx::play_variant_sound( "reload", reloadable.typeId(), sfx::get_heard_volume( p->pos() ) );
+            sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume, reloadable.type->gun->reload_noise );
         }
-    } else if( reloadable->is_watertight_container() ) {
+    } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
     }
-    add_msg( msg.c_str(), reloadable->tname().c_str() );
+    add_msg( msg.c_str(), reloadable.tname().c_str() );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
@@ -1943,7 +1946,7 @@ void activity_handlers::butcher_do_turn( player_activity *, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    p->do_read( act->targets[0].get_item() );
+    p->do_read( *act->targets.front().get_item() );
     if( !act ) {
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }
@@ -1965,6 +1968,27 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
     act->set_to_null();
+}
+
+void activity_handlers::craft_do_turn( player_activity *act, player *p )
+{
+    const recipe &rec = recipe_id( act->name ).obj();
+    float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    if( crafting_speed <= 0.0f ) {
+        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        }
+        p->cancel_activity();
+        return;
+    }
+    act->moves_left -= crafting_speed * p->get_moves();
+    p->set_moves( 0 );
+    if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
+        // @todo Describe the causes of slowdown
+        p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+    }
 }
 
 void activity_handlers::craft_finish( player_activity *act, player *p )
@@ -2014,21 +2038,6 @@ void activity_handlers::aim_finish( player_activity *, player * )
     // Aim bails itself by resetting itself every turn,
     // you only re-enter if it gets set again.
     return;
-}
-
-void activity_handlers::washing_finish( player_activity *act, player *p )
-{
-    item &filthy_item = p->i_at( act->position );
-
-    if( p->is_worn( filthy_item ) ) {
-        filthy_item.on_takeoff( *p );
-        filthy_item.item_tags.erase( "FILTHY" );
-        filthy_item.on_wear( *p );
-    }
-    filthy_item.item_tags.erase( "FILTHY" );
-
-    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
-    act->set_to_null();
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {

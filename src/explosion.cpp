@@ -201,7 +201,7 @@ void game::do_blast( const tripoint &p, const float power,
                 density++;
             }
 
-            m.add_field( pt, fd_fire, density, 0 );
+            m.add_field( pt, fd_fire, density );
         }
 
         int vpart;
@@ -440,4 +440,10 @@ float explosion_data::power_at_range( float dist ) const
 
     // The 1.1 is because actual power drops at roughly that rate
     return power * std::pow( distance_factor / 1.1f, dist );
+}
+
+int explosion_data::safe_range() const
+{
+    const float ratio = 1 / power / 2;
+    return expected_range( ratio ) + 1;
 }

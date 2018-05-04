@@ -25,6 +25,10 @@
         "name" : "Pick a lock"
     },{
         "type" : "item_action",
+        "id" : "deploy_furn",
+        "name" : "Deploy item"
+    },{
+        "type" : "item_action",
         "id" : "CROWBAR",
         "name" : "Pry crate, window or door"
     },{

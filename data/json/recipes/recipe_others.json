@@ -66,7 +66,7 @@
     "autolearn": true,
     "using": [ [ "filament", 12 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "cotton_ball", 8 ] ] ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -106,7 +106,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -838,7 +838,7 @@
     "time": 9000,
     "autolearn": true,
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 2 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -850,7 +850,7 @@
     "difficulty": 2,
     "time": 6000,
     "autolearn": true,
-    "using": [ [ "filament", 100 ] ],
+    "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "KNIT", "level": 1 } ]
   },
   {
@@ -1625,7 +1625,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1635,8 +1635,10 @@
       [ [ "spike", 2 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1647,7 +1649,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1657,8 +1659,10 @@
       [ [ "grenade", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1669,7 +1673,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 7,
-    "time": 16000,
+    "time": 35000,
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 8 ] ],
@@ -1679,8 +1683,10 @@
       [ [ "mininuke", 1 ] ],
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
-      [ [ "power_supply", 2 ], [ "plut_cell", 2 ] ],
-      [ [ "scrap", 4 ] ]
+      [ [ "power_supply", 2 ] ],
+      [ [ "small_storage_battery", 2 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "motor_small", 2 ] ]
     ]
   },
   {
@@ -1691,7 +1697,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1701,8 +1707,10 @@
       [ [ "gasbomb", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1713,7 +1721,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1723,8 +1731,10 @@
       [ [ "EMPbomb", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1735,7 +1745,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1745,8 +1755,10 @@
       [ [ "flashbang", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1757,7 +1769,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1767,8 +1779,10 @@
       [ [ "c4", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -3273,6 +3287,18 @@
   },
   {
     "type": "recipe",
+    "result": "acidchitin_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 55000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bone_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -3824,6 +3850,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3837,6 +3864,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3850,6 +3878,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3863,6 +3892,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],

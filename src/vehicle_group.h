@@ -7,6 +7,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "optional.h"
 #include "string_id.h"
 #include "weighted_list.h"
 
@@ -50,7 +51,7 @@ struct VehicleFacings {
     VehicleFacings( JsonObject &jo, const std::string &key );
 
     int pick() const {
-        return values[rng( 0, values.size() - 1 )];
+        return random_entry( values );
     }
 
     std::vector<int> values;
@@ -142,7 +143,7 @@ class VehicleFunction_json : public VehicleFunction
         int status;
 
         std::string placement;
-        std::unique_ptr<VehicleLocation> location;
+        cata::optional<VehicleLocation> location;
 };
 
 /**

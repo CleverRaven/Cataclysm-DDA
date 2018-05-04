@@ -3,8 +3,8 @@
 #define MESSAGES_H
 
 #include "string_formatter.h"
+#include "pimpl.h"
 
-#include <memory>
 #include <string>
 #include <vector>
 #include <utility>
@@ -37,7 +37,7 @@ class Messages
         static void deserialize( JsonObject &json );
     private:
         class impl_t;
-        std::unique_ptr<impl_t> impl_;
+        pimpl<impl_t> impl_;
 };
 
 void add_msg( std::string msg );

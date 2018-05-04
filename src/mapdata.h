@@ -180,6 +180,7 @@ enum ter_connects : int {
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
     TERCONN_WATER,
+    TERCONN_PAVEMENT,
 };
 
 struct map_data_common_t {
@@ -301,6 +302,7 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
 

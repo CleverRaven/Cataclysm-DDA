@@ -75,9 +75,10 @@
         "symbol": "#",
         "bgcolor": "yellow",
         "description": "A road barricade.  For barricading roads.",
-        "move_cost_mod": 3,
+        "move_cost_mod": -1,
         "required_str": 5,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 6 },
@@ -101,9 +102,10 @@
         "symbol": "#",
         "bgcolor": "brown",
         "description": "A sandbag, typically used for blocking bullets.",
-        "move_cost_mod": 3,
+        "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 2 },
@@ -183,7 +185,31 @@
         "description": "A variety of plant, used for decoration.",
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "SHORT"],
+        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT"],
+        "bash": {
+            "str_min": 2, "str_max": 18,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "withered", "prob": 50 },
+                { "item": "wrapper", "prob": 50 },
+                { "item": "can_drink_unsealed", "prob": 50 },
+                { "item": "bag_plastic", "prob": 50 },
+                { "item": "ceramic_shard", "count": [1, 3] },
+                { "item": "cig_butt", "prob": 50 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_indoor_plant_y",
+        "name": "yellow indoor plant",
+        "description": "A variety of plant for decoration.  It's yellow.",
+        "symbol": "^",
+        "color": "yellow",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "max_volume": 2000,
+        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT"],
         "bash": {
             "str_min": 2, "str_max": 18,
             "sound": "smash!",
@@ -938,7 +964,8 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
-                { "item": "pipe", "count": [6, 12] }
+                { "item": "pipe", "count": [6, 12] },
+                { "item": "sheet_metal", "count": [1, 2] }
             ]
         },
         "max_volume": 7000,
@@ -1860,29 +1887,6 @@
         }
     },{
         "type" : "furniture",
-        "id" : "f_indoor_plant_y",
-        "name": "yellow indoor plant",
-        "description": "A variety of plant for decoration.  It's yellow.",
-        "symbol": "^",
-        "color": "yellow",
-        "move_cost_mod": 2,
-        "required_str": 5,
-        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY"],
-        "bash": {
-            "str_min": 2, "str_max": 18,
-            "sound": "smash!",
-            "sound_fail": "whump.",
-            "items": [
-                { "item": "withered", "prob": 50 },
-                { "item": "wrapper", "prob": 50 },
-                { "item": "can_drink_unsealed", "prob": 50 },
-                { "item": "bag_plastic", "prob": 50 },
-                { "item": "ceramic_shard", "count": [1, 3] },
-                { "item": "cig_butt", "prob": 50 }
-            ]
-        }
-    },{
-        "type" : "furniture",
         "id" : "f_statue",
         "name": "statue",
         "description": "A carved statue made of stone..",
@@ -2713,11 +2717,12 @@
         "type" : "furniture",
         "id" : "f_boulder_small",
         "name": "small boulder",
-        "description": "Blocking your path.  Should be easy to move.",
+        "description": "Blocking your path.  Should be easy to move.  It can be used as a primitive anvil.",
         "symbol": "o",
         "color": "dark_gray",
         "move_cost_mod": 3,
         "required_str": 10,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY"],
         "bash": {
             "str_min": 16, "str_max": 40,
@@ -2731,11 +2736,12 @@
         "type" : "furniture",
         "id" : "f_boulder_medium",
         "name": "medium boulder",
-        "description": "Blocking your path.  It'll be a struggle to move.",
+        "description": "Blocking your path.  It'll be a struggle to move.  It can be used as a primitive anvil.",
         "symbol": "0",
         "color": "dark_gray",
         "move_cost_mod": 6,
         "required_str": 16,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE"],
         "bash": {
             "str_min": 32, "str_max": 80,
@@ -2773,6 +2779,7 @@
         "color": "dark_gray",
         "move_cost_mod": 2,
         "required_str": 12,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 20, "str_max": 40,
@@ -2808,6 +2815,7 @@
         "color": "light_gray",
         "move_cost_mod": 0,
         "required_str": -1,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["MINEABLE", "TRANSPARENT", "SHORT", "NOCOLLIDE", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "PLACE_ITEM"],
         "bash": {
             "str_min": 50, "str_max": 150,
@@ -2826,6 +2834,7 @@
         "color": "light_gray",
         "move_cost_mod": 2,
         "required_str": -1,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM"],
         "bash": {
             "str_min": 60, "str_max": 160,
@@ -2879,11 +2888,8 @@
         "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT"],
-        "deconstruct": {
-            "items": [
-                { "item": "brazier", "count": 1 }
-            ]
-        },
+        "deployed_item": "brazier",
+        "examine_action": "deployed_furniture",
         "max_volume": 4000,
         "bash": {
             "str_min": 8, "str_max": 30,

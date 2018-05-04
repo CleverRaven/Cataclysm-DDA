@@ -230,7 +230,8 @@
         "vehicles": [
             [ "engine_crane", 50 ],
             [ "handjack", 150 ],
-            [ "wheelbarrow", 100 ]
+            [ "wheelbarrow", 100 ],
+            [ "forklift", 100 ]
         ]
     },
     {

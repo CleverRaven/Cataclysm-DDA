@@ -144,7 +144,7 @@ void map::apply_character_light( player &p )
     }
 
     if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
-        p.add_effect( effect_haslight, 1 );
+        p.add_effect( effect_haslight, 1_turns );
     }
 }
 
@@ -339,8 +339,9 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
-                if( (    calendar::turn % 2   && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
-                    ( !( calendar::turn % 2 ) && vp.has_flag( VPFLAG_EVENTURN ) ) ||
+                const bool odd_turn = calendar::once_every( 2_turns );
+                if( (  odd_turn && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
+                    ( !odd_turn && vp.has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
 
                     add_light_source( src, vp.bonus );

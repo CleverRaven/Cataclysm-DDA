@@ -29,6 +29,7 @@ enum character_type : int {
     PLTYPE_RANDOM,
     PLTYPE_TEMPLATE,
     PLTYPE_NOW,
+    PLTYPE_FULL_RANDOM,
 };
 
 enum add_type : int {

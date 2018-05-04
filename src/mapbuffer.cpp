@@ -8,7 +8,6 @@
 #include "overmapbuffer.h"
 #include "cata_utility.h"
 #include "mapdata.h"
-#include "worldfactory.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
@@ -104,7 +103,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 void mapbuffer::save( bool delete_after_save )
 {
     std::stringstream map_directory;
-    map_directory << world_generator->active_world->world_path << "/maps";
+    map_directory << g->get_world_base_save_path() << "/maps";
     assure_dir_exist( map_directory.str() );
 
     int num_saved_submaps = 0;
@@ -224,7 +223,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.write( submap_addr.z );
         jsout.end_array();
 
-        jsout.member( "turn_last_touched", sm->turn_last_touched );
+        jsout.member( "turn_last_touched", sm->last_touched );
         jsout.member( "temperature", sm->temperature );
 
         jsout.member( "terrain" );
@@ -400,7 +399,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     const tripoint om_addr = sm_to_omt_copy( p );
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
     std::stringstream quad_path;
-    quad_path << world_generator->active_world->world_path << "/maps/" <<
+    quad_path << g->get_world_base_save_path() << "/maps/" <<
               segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
               om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
@@ -440,7 +439,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 jsin.end_array();
                 submap_coordinates = tripoint( locx, locy, locz );
             } else if( submap_member_name == "turn_last_touched" ) {
-                sm->turn_last_touched = jsin.get_int();
+                sm->last_touched = jsin.get_int();
             } else if( submap_member_name == "temperature" ) {
                 sm->temperature = jsin.get_int();
             } else if( submap_member_name == "terrain" ) {
@@ -566,7 +565,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                         if( sm->fld[i][j].findField( field_id( type ) ) == NULL ) {
                             sm->field_count++;
                         }
-                        sm->fld[i][j].addField( field_id( type ), density, age );
+                        sm->fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
                     }
                 }
             } else if( submap_member_name == "graffiti" ) {

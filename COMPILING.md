@@ -488,13 +488,13 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 ## Visual Studio Guide
 
-Visual Studio 2015 is required to build Cataclysm. We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound, localization and lua.
+Visual Studio 2015 (or later) is required to build Cataclysm.  If you use a later version of Visual Studio, you will need to [enable the Visual Studio 2015 (v140) platform toolset](https://developercommunity.visualstudio.com/content/problem/48806/cant-find-v140-in-visual-studio-2017.html). We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound, localization and lua.
 
 ### Dependencies
 
 We've prepared an archive containing all the headers and libraries required to build Cataclysm: [http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip](http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip) or [http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z](http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z). The latter is smaller, but if you don't have a 7-zip archive extracter, the former one is easier to deal with.
 
-Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project.
+Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project. Run the "copy_dll_to_bin" batch file and then move the dll files from the bin folder into the root folder the Cataclysm project.
 
 ### Lua
 

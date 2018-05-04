@@ -224,7 +224,7 @@ void item::load_info( const std::string &data )
         }
         corpse_name = corpse_name.substr( 2, corpse_name.size() - 3 ); // s/^ '(.*)'$/\1/
     }
-    gun_set_mode( mode );
+    gun_set_mode( gun_mode_id( mode ) );
 
     if( idtmp == "UPS_on" ) {
         idtmp = "UPS_off";
@@ -376,7 +376,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
             std::string itemdata;
             getline(fin, itemdata);
             if (npcs.empty()) {
-                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
+                debugmsg("Overmap %d:%d tried to load object data, without an NPC!\n%s",
                          loc.x, loc.y, itemdata.c_str());
             } else {
                 item tmp;

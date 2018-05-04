@@ -18,6 +18,7 @@
 #include "string_formatter.h"
 #include "debug.h"
 #include "pickup.h"
+#include "requirements.h"
 
 #include <list>
 #include <vector>
@@ -119,7 +120,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 
     for( auto &it : items ) {
-        pet.add_effect( effect_controlled, 5 );
+        pet.add_effect( effect_controlled, 5_turns );
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
@@ -392,6 +393,58 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
     put_into_vehicle_or_drop( *p, obtain_activity_items( *act, *p ), pos );
+}
+
+void activity_handlers::washing_finish( player_activity *act, player *p )
+{
+    auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
+
+    // Check again that we have enough water and soap incase the amount in our inventory changed somehow
+    // Consume the water and soap
+    int required_water = 0;
+    int required_cleanser = 0;
+
+    for( const act_item &filthy_item : items ) {
+        required_water += filthy_item.it->volume() / 125_ml;
+        required_cleanser += filthy_item.it->volume() / 1000_ml;
+    }
+    if( required_cleanser < 1 ) {
+        required_cleanser = 1;
+    }
+
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", required_water ) &&
+        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                              required_water );
+        act->set_to_null();
+        return;
+    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                              required_cleanser );
+        act->set_to_null();
+        return;
+    }
+
+    for( const auto ait : items ) {
+        item *filthy_item = const_cast<item *>( ait.it );
+        filthy_item->item_tags.erase( "FILTHY" );
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "water", required_water ) );
+    comps.push_back( item_comp( "water_clean", required_water ) );
+    p->consume_items( comps );
+
+    std::vector<item_comp> comps1;
+    comps1.push_back( item_comp( "soap", required_cleanser ) );
+    comps1.push_back( item_comp( "detergent", required_cleanser ) );
+    p->consume_items( comps1 );
+
+    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+
+    act->set_to_null();
 }
 
 void activity_handlers::stash_do_turn( player_activity *act, player *p )

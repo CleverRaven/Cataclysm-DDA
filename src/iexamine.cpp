@@ -790,18 +790,27 @@ void iexamine::crate(player &p, const tripoint &examp)
  */
 void iexamine::chainfence( player &p, const tripoint &examp )
 {
-    if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
-        none( p, examp );
-        return;
+    // Skip prompt if easy to climb.
+    if( !g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
+        if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
+            none( p, examp );
+            return;
+        }
     }
-    if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
-        add_msg( _( "Climbing the fence is trivial for one such as you." ) );
+    if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.has_trait( trait_PARKOUR ) ) {
+        add_msg( _( "You vault over the obstacle with ease." ) );
+        p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+    } else if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
+        add_msg( _( "You vault over the obstacle." ) );
+        p.moves -= 300; // Most common move cost for barricades pre-change.
+    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+        add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         p.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( p.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
     } else if( p.has_trait( trait_PARKOUR ) ) {
-        add_msg( _( "The fence is no match for your freerunning abilities." ) );
+        add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         p.moves -= 100;
     } else {
         p.moves -= 400;
@@ -813,7 +822,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         if( one_in( climb ) ) {
             add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
             if( climb <= 1 ) {
-                add_msg( m_bad, _( "Climbing this is impossible in your current state." ) );
+                add_msg( m_bad, _( "Climbing this obstacle is impossible in your current state." ) );
             }
             return;
         }
@@ -857,6 +866,18 @@ void iexamine::bars(player &p, const tripoint &examp)
     p.setpos( examp );
 }
 
+void iexamine::deployed_furniture( player &p, const tripoint &pos )
+{
+    if ( !query_yn( _( "Take down the %s?" ), g->m.furn( pos ).obj().name().c_str() ) ) {
+        return;
+    }
+    p.add_msg_if_player( m_info, _( "You take down the %s." ),
+                         g->m.furn( pos ).obj().name().c_str() );
+    const auto furn_item = g->m.furn( pos ).obj().deployed_item;
+    g->m.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
+    g->m.furn_set( pos, f_null );
+}
+
 /**
  * Determine structure's type and prompts its removal.
  */
@@ -895,18 +916,16 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         furn_id center_floor =
             dropped == "large_tent_kit" ? f_center_groundsheet : floor;
         // Traversing all the tiles this tent occupies
-        for( int i = -radius; i <= radius; i++ ) {
-            for( int j = -radius; j <= radius; j++ ) {
-                const furn_id &furn_here = g->m.furn( examp.x + i, examp.y + j );
-                if( i != -radius && i != radius && j != -radius && j != radius ) {
-                    // So we are inside the tent
-                    if( furn_here != floor && furn_here != center_floor ) {
-                        return false;
-                    }
-                } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
-                    // We are on the border of the tent
+        for( const tripoint &dest : g->m.points_in_radius( examp, radius ) ) {
+            const furn_id &furn_here = g->m.furn( dest );
+            if( square_dist( dest, examp ) < radius ) {
+                // So we are inside the tent
+                if( furn_here != floor && furn_here != center_floor ) {
                     return false;
                 }
+            } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
+                // We are on the border of the tent
+                return false;
             }
         }
         return true;
@@ -1404,7 +1423,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         add_msg(_("You slowly suck up the nectar."));
         p.mod_hunger(-25);
         p.mod_fatigue(20);
-        p.add_effect( effect_pkill2, 70);
+        p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if (one_in(20)) {
             p.add_addiction(ADD_PKILLER, 1);
@@ -1422,7 +1441,10 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         add_msg(m_warning, _("This flower has a heady aroma."));
     }
 
-    if (one_in(3) && resist < 5)  {
+    auto recentWeather = sum_conditions( calendar::turn-10_minutes, calendar::turn, p.pos() );
+
+    // If it has been raining recently, then this event is twice less likely. 
+    if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
         add_msg(m_bad, _("You fall asleep..."));
@@ -1575,7 +1597,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
         p.moves -= 50; // Takes 30 seconds
         add_msg(m_bad, _("This flower tastes very wrong..."));
         // If you can drink flowers, you're post-thresh and the Mycus does not want you.
-        p.add_effect( effect_teleglow, 100 );
+        p.add_effect( effect_teleglow, 10_minutes );
     }
     if(!query_yn(_("Pick %s?"), g->m.furnname(examp).c_str())) {
         none( p, examp );
@@ -1668,7 +1690,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
         add_msg(m_info, _("You have no seeds to plant."));
         return;
     }
-    if (g->m.i_at(examp).size() != 0) {
+    if( !g->m.i_at(examp).empty() ) {
         add_msg(_("Something's lying there..."));
         return;
     }
@@ -1887,7 +1909,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             // must be on the square of the plant, therefore this hack:
             const auto old_furn = g->m.furn( examp );
             g->m.furn_set( examp, f_null );
-            g->m.spawn_item( examp, "fertilizer", 1, 1, (int)calendar::turn );
+            g->m.spawn_item( examp, "fertilizer", 1, 1, calendar::turn );
             g->m.furn_set( examp, old_furn );
         }
     }
@@ -2975,19 +2997,11 @@ void iexamine::sign(player &p, const tripoint &examp)
 
 static int getNearPumpCount(const tripoint &p)
 {
-    const int radius = 12;
-
     int result = 0;
-
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for (i = p.x - radius; i <= p.x + radius; i++) {
-        for (j = p.y - radius; j <= p.y + radius; j++) {
-            const auto t = g->m.ter( tmp );
-            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
-                result++;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
+        const auto t = g->m.ter( tmp );
+        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+            result++;
         }
     }
     return result;
@@ -2995,37 +3009,30 @@ static int getNearPumpCount(const tripoint &p)
 
 static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
 {
-    const int radius = 24;
-
     tripoint tank_loc = tripoint_min;
-    int distance = radius + 1;
+    int distance = INT_MAX;
     gas_units = 0;
 
-    tripoint tmp = center;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for (i = center.x - radius; i <= center.x + radius; i++) {
-        for (j = center.y - radius; j <= center.y + radius; j++) {
-            if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
-                continue;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( center, 24 ) ) {
+        if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
+            continue;
+        }
 
-            int new_distance = rl_dist( center, tmp );
+        const int new_distance = rl_dist( center, tmp );
 
-            if( new_distance >= distance ) {
-                continue;
-            }
-            if( tank_loc == tripoint_min ) {
-                // Return a potentially empty tank, but only if we don't find a closer full one.
+        if( new_distance >= distance ) {
+            continue;
+        }
+        if( tank_loc == tripoint_min ) {
+            // Return a potentially empty tank, but only if we don't find a closer full one.
+            tank_loc = tmp;
+        }
+        for( auto &k : g->m.i_at(tmp)) {
+            if(k.made_of(LIQUID)) {
+                distance = new_distance;
                 tank_loc = tmp;
-            }
-            for( auto &k : g->m.i_at(tmp)) {
-                if(k.made_of(LIQUID)) {
-                    distance = new_distance;
-                    tank_loc = tmp;
-                    gas_units = k.charges;
-                    break;
-                }
+                gas_units = k.charges;
+                break;
             }
         }
     }
@@ -3110,22 +3117,13 @@ static long getGasPricePerLiter( int discount )
 
 static tripoint getGasPumpByNumber( const tripoint &p, int number )
 {
-    const int radius = 12;
-
     int k = 0;
-
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p.x - radius; i <= p.x + radius; i++ ) {
-        for( j = p.y - radius; j <= p.y + radius; j++ ) {
-            const auto t = g->m.ter( tmp );
-            if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
-                return tmp;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
+        const auto t = g->m.ter( tmp );
+        if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
+            return tmp;
         }
     }
-
     return tripoint_min;
 }
 
@@ -3191,21 +3189,14 @@ static long fromPumpFuel( const tripoint &dst, const tripoint &src )
 
 static void turnOnSelectedPump( const tripoint &p, int number )
 {
-    const int radius = 12;
-
     int k = 0;
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p.x - radius; i <= p.x + radius; i++ ) {
-        for( j = p.y - radius; j <= p.y + radius; j++ ) {
-            const auto t = g->m.ter( tmp );
-            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
-                if( number == k++ ) {
-                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
-                } else {
-                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
-                }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
+        const auto t = g->m.ter( tmp );
+        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+            if( number == k++ ) {
+                g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
+            } else {
+                g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
             }
         }
     }
@@ -3487,6 +3478,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
 {
     static const std::map<std::string, iexamine_function> function_map = {{
         { "none", &iexamine::none },
+        { "deployed_furniture", &iexamine::deployed_furniture },
         { "cvdmachine", &iexamine::cvdmachine },
         { "gaspump", &iexamine::gaspump },
         { "atm", &iexamine::atm },

@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -1203,15 +1204,24 @@ void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, boo
 }
 
 void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
-                  bool bDecorate )
+                  bool bDecorate, bool bDisabled )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
-    mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
+    if( ! bDisabled ) {
+        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
+    } else {
+        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray.italic() : c_dark_gray.italic(), sText );
+    }
 
     if( bSelected ) {
-        mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
-        mvwputch( w, 0, iOffsetXRight + bDecorate, h_light_gray, '>' );
+        if( ! bDisabled ) {
+            mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
+            mvwputch( w, 0, iOffsetXRight + bDecorate, h_light_gray, '>' );
+        } else {
+            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray.italic(), '<' );
+            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray.italic(), '>' );
+        }
 
         for( int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++ ) {
             mvwputch( w, 1, i, c_black, ' ' );
@@ -1317,15 +1327,22 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
 }
 
 #if defined(_MSC_VER)
-std::string vstring_format( char const *const format, va_list args )
+std::string cata::string_formatter::raw_string_format( char const *const format, ... )
 {
-    int const result = _vscprintf_p( format, args );
+    va_list args;
+    va_start( args, format );
+
+    va_list args_copy;
+    va_copy( args_copy, args );
+    int const result = _vscprintf_p( format, args_copy );
+    va_end( args_copy );
     if( result == -1 ) {
-        return std::string( "Bad format string for printf." );
+        throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
     }
 
     std::string buffer( result, '\0' );
     _vsprintf_p( &buffer[0], result + 1, format, args ); //+1 for string's null
+    va_end( args );
 
     return buffer;
 }
@@ -1435,8 +1452,11 @@ std::string rewrite_vsnprintf( const char *msg )
     return rewritten_msg.str();
 }
 
-std::string vstring_format( char const *format, va_list args )
+std::string cata::string_formatter::raw_string_format( char const *const format, ... )
 {
+    va_list args;
+    va_start( args, format );
+
     errno = 0; // Clear errno before trying
     std::vector<char> buffer( 1024, '\0' );
 
@@ -1462,13 +1482,14 @@ std::string vstring_format( char const *format, va_list args )
         // Some non-standard versions return -1 to indicate a bigger buffer is needed.
         // Some of the latter set errno to ERANGE at the same time.
         if( result < 0 && errno && errno != ERANGE ) {
-            return std::string( "Bad format string for printf." );
+            throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
         }
 
         // Looks like we need to grow... bigger, definitely bigger.
         buffer.resize( buffer_size * 2 );
     }
 
+    va_end( args );
     return std::string( &buffer[0] );
 }
 #endif
@@ -1650,11 +1671,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
-    const int title_length = utf8_width( title );
     for( ;; ) {
         werase( w );
-        draw_border( w );
-        mvwprintz( w, 1, ( width - title_length ) / 2, c_white, title );
+        draw_border( w, BORDER_COLOR, title, c_white );
         for( int i = 0; i < rows * columns; i++ ) {
             if( i + offset * columns >= ( int )data.size() ) {
                 break;

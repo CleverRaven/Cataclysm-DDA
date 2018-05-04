@@ -25,11 +25,8 @@ bool invlet_wrapper::valid( const long invlet ) const
 }
 
 inventory::inventory()
-: nullitem()
-, nullstack()
-, invlet_cache()
+: invlet_cache()
 , items()
-, sorted(false)
 {
 }
 
@@ -55,6 +52,7 @@ const std::list<item> &inventory::const_stack(int i) const
 {
     if (i < 0 || i >= (int)items.size()) {
         debugmsg("Attempted to access stack %d in an inventory (size %d)", i, items.size());
+        static const std::list<item> nullstack{};
         return nullstack;
     }
 
@@ -68,11 +66,6 @@ const std::list<item> &inventory::const_stack(int i) const
 size_t inventory::size() const
 {
     return items.size();
-}
-
-bool inventory::is_sorted() const
-{
-    return sorted;
 }
 
 inventory &inventory::operator+= (const inventory &rhs)
@@ -122,19 +115,12 @@ inventory inventory::operator+ (const item &rhs)
 
 void inventory::unsort()
 {
-    sorted = false;
     binned = false;
 }
 
 bool stack_compare(const std::list<item> &lhs, const std::list<item> &rhs)
 {
     return lhs.front() < rhs.front();
-}
-
-void inventory::sort()
-{
-    items.sort(stack_compare);
-    sorted = true;
 }
 
 void inventory::clear()
@@ -232,7 +218,7 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
             return elem.back();
         } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
             // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-            assign_empty_invlet(*it_ref, &(g->u));
+            assign_empty_invlet( *it_ref, g->u );
         }
     }
 
@@ -259,16 +245,12 @@ void inventory::push_back(item newit)
 }
 
 
-void inventory::restack(player *p)
+void inventory::restack( player &p )
 {
     // tasks that the old restack seemed to do:
     // 1. reassign inventory letters
     // 2. remove items from non-matching stacks
     // 3. combine matching stacks
-
-    if (!p) {
-        return;
-    }
 
     binned = false;
     std::list<item> to_restack;
@@ -277,9 +259,9 @@ void inventory::restack(player *p)
         std::list<item> &stack = *iter;
         item &topmost = stack.front();
 
-        const int ipos = p->invlet_to_position(topmost.invlet);
+        const int ipos = p.invlet_to_position( topmost.invlet );
         if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
-            assign_empty_invlet(topmost, p);
+            assign_empty_invlet( topmost, p );
             for( std::list<item>::iterator stack_iter = stack.begin();
                  stack_iter != stack.end(); ++stack_iter ) {
                 stack_iter->invlet = topmost.invlet;
@@ -319,6 +301,7 @@ void inventory::restack(player *p)
             inner.invlet = outer.front().invlet;
         }
     }
+    items.sort( stack_compare );
 }
 
 static long count_charges_in_list(const itype *type, const map_stack &items)
@@ -523,7 +506,7 @@ item inventory::remove_item(const item *it)
         return tmp.front();
     }
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
-    return nullitem;
+    return item();
 }
 
 item inventory::remove_item( const int position )
@@ -548,7 +531,7 @@ item inventory::remove_item( const int position )
         ++pos;
     }
 
-    return nullitem;
+    return item();
 }
 
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
@@ -595,7 +578,7 @@ void inventory::dump(std::vector<item *> &dest)
 const item &inventory::find_item(int position) const
 {
     if (position < 0 || position >= (int)items.size()) {
-        return nullitem;
+        return null_item_reference();
     }
     invstack::const_iterator iter = items.begin();
     for (int j = 0; j < position; ++j) {
@@ -650,7 +633,7 @@ int inventory::position_by_type(itype_id type)
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't want to change the function signature right now
-    sort();
+    items.sort( stack_compare );
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
         for (std::list<item>::iterator stack_iter = iter->begin();
@@ -734,7 +717,7 @@ bool inventory::has_enough_painkiller(int pain) const
 item *inventory::most_appropriate_painkiller(int pain)
 {
     int difference = 9999;
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
@@ -760,7 +743,7 @@ item *inventory::most_appropriate_painkiller(int pain)
 
 item *inventory::best_for_melee( player &p, double &best )
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         auto score = p.melee_value( elem.front() );
         if( score > best ) {
@@ -774,7 +757,7 @@ item *inventory::best_for_melee( player &p, double &best )
 
 item *inventory::most_loaded_gun()
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     int max = 0;
     for( auto &elem : items ) {
         item &gun = elem.front();
@@ -851,13 +834,13 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-void inventory::assign_empty_invlet(item &it, Character *p, bool force)
+void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
         return;
     }
 
-    std::set<char> cur_inv = p->allocated_invlets();
+    std::set<char> cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
     for (auto iter : assigned_invlet) {
         if (iter.second == target_type && !cur_inv.count(iter.first)) {
@@ -948,7 +931,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet ) {
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
-            assign_empty_invlet( newit, &(g->u) );
+            assign_empty_invlet( newit, g->u );
         }
     }
 }

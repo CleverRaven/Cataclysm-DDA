@@ -166,7 +166,15 @@ inventory_selector_preset::inventory_selector_preset()
 
 bool inventory_selector_preset::sort_compare( const item_location &lhs, const item_location &rhs ) const
 {
-    return lhs->tname( 1 ).compare( rhs->tname( 1 ) ) < 0; // Simple alphabetic order
+    // Place items with an assigned inventory letter first, since the player cared enough to assign them
+    const bool left_fav  = g->u.inv.assigned_invlet.count(lhs->invlet);
+    const bool right_fav = g->u.inv.assigned_invlet.count(rhs->invlet);
+    if ((left_fav && right_fav) || (!left_fav && !right_fav)) {
+        return lhs->tname(1).compare(rhs->tname(1)) < 0; // Simple alphabetic order
+    } else if (left_fav) {
+        return true;
+    }
+    return false;
 }
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
@@ -795,14 +803,14 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( new item_category( id, name, 0 ) ) {}
+    selected_cat( id, name, 0 ) {}
 
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
 
     if( entries.empty() ) { // Category must always persist
-        entries.emplace_back( selected_cat.get() );
+        entries.emplace_back( &*selected_cat );
         expand_to_fit( entries.back() );
     }
 
@@ -817,7 +825,7 @@ void selection_column::prepare_paging( const std::string &filter )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, selected_cat.get() );
+    inventory_entry my_entry( entry, &*selected_cat );
 
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 
@@ -1656,6 +1664,118 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     }
 
     on_change( *entry );
+}
+
+inventory_iuse_selector::inventory_iuse_selector( const player &p,
+        const std::string &selector_title,
+        const inventory_selector_preset &preset
+                                                ) :
+    inventory_multiselector( p, preset, selector_title ),
+    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {}
+
+std::list<std::pair<int, int>> inventory_iuse_selector::execute()
+{
+    int count = 0;
+    while( true ) {
+        update();
+
+        const inventory_input input = get_input();
+
+        if( input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
+        } else if( input.entry != nullptr ) {
+            select( input.entry->location );
+            if( count == 0 && input.entry->chosen_count == 0 ) {
+                count = max_chosen_count;
+            }
+            set_chosen_count( *input.entry, count );
+            count = 0;
+        } else if( input.action == "RIGHT" ) {
+            const auto selected( get_active_column().get_all_selected() );
+
+            if( count == 0 ) {
+                const bool clear = std::none_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return elem->chosen_count > 0;
+                } );
+
+                if( clear ) {
+                    count = max_chosen_count;
+                }
+            }
+
+            for( const auto &elem : selected ) {
+                set_chosen_count( *elem, count );
+            }
+            count = 0;
+        } else if( input.action == "CONFIRM" ) {
+            if( to_use.empty() ) {
+                popup_getkey( _( "No items were selected.  Use %s to select them." ),
+                              ctxt.get_desc( "RIGHT" ).c_str() );
+                continue;
+            }
+            break;
+        } else if( input.action == "QUIT" ) {
+            return std::list<std::pair<int, int> >();
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            set_filter();
+        } else {
+            on_input( input );
+            count = 0;
+        }
+    }
+
+    std::list<std::pair<int, int>> dropped_pos_and_qty;
+
+    for( auto use_pair : to_use ) {
+        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( use_pair.first ),
+                                       use_pair.second ) );
+    }
+
+    return dropped_pos_and_qty;
+}
+
+void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t count )
+{
+    const item *it = &*entry.location;
+
+    if( count == 0 ) {
+        entry.chosen_count = 0;
+        const auto iter = to_use.find( it );
+        if( iter != to_use.end() ) {
+            to_use.erase( iter );
+        }
+    } else {
+        entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
+        to_use[it] = entry.chosen_count;
+    }
+
+    on_change( entry );
+}
+
+const player &inventory_iuse_selector::get_player_for_stats() const
+{
+    std::map<item *, int> dummy_using;
+
+    dummy.reset( new player( u ) );
+
+    for( const auto &elem : to_use ) {
+        dummy_using[&dummy->i_at( u.get_item_position( elem.first ) )] = elem.second;
+    }
+    for( auto &elem : dummy_using ) {
+        if( elem.first->count_by_charges() ) {
+            elem.first->mod_charges( -elem.second );
+        } else {
+            const int pos = dummy->get_item_position( elem.first );
+            for( int i = 0; i < elem.second; ++i ) {
+                dummy->i_rem( pos );
+            }
+        }
+    }
+
+    return *dummy;
 }
 
 inventory_drop_selector::inventory_drop_selector( const player &p,

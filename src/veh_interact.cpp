@@ -79,13 +79,14 @@ player_activity veh_interact::serialize_activity()
     int time = 1000;
     switch( sel_cmd ) {
         case 'i':
-            time = vp->install_time( g->u );
+               time = vp->install_time( g->u );
             break;
         case 'r':
             if( pt->is_broken() ) {
                 time = vp->install_time( g->u );
             } else {
-                assert( pt->base.max_damage() > 0 ); // why repairing part that cannot be damaged?
+                // why repairing part that cannot be damaged?
+                assert( pt->base.max_damage() > 0 );
                 time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
             }
             break;
@@ -95,6 +96,9 @@ player_activity veh_interact::serialize_activity()
         case 'c':
             time = vp->removal_time( g->u ) + vp->install_time( g->u );
             break;
+    }
+    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        time = 1;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
 
@@ -1494,10 +1498,8 @@ bool veh_interact::do_rename( std::string & )
             overmap_buffer.add_vehicle( veh );
         }
     }
-    // refresh w_disp & w_part windows:
-    move_cursor( 0, 0 );
 
-    return false;
+    return true;
 }
 
 bool veh_interact::do_relabel( std::string &msg )
@@ -2052,32 +2054,47 @@ void veh_interact::display_details( const vpart_info *part )
                        volume_units_abbr() );
     }
 
-    // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
-    if ( part->size > 0 ) {
-        std::string label;
-        if ( part->has_flag(VPFLAG_CARGO) ) {
-            label = small_mode ? _("Cap") : _("Capacity");
-        } else if ( part->has_flag(VPFLAG_WHEEL) ){
-            label = small_mode ? _("Size") : _("Wheel Size");
-        } else if ( part->has_flag(VPFLAG_SEATBELT) || part->has_flag("MUFFLER") ) {
-            label = small_mode ? _("Str") : _("Strength");
-        } else if ( part->has_flag("HORN") ) {
-            label = _("Noise");
-        } else if ( part->has_flag(VPFLAG_EXTENDS_VISION) ) {
-            label = _("Range");
-        } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
-                    part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
-                    part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
-                    part->has_flag(VPFLAG_ODDTURN) || part->has_flag(VPFLAG_ATOMIC_LIGHT)) {
-            label = _("Light");
-        } else {
-            label = small_mode ? _("Cap") : _("Capacity");
-        }
-
-        fold_and_print(w_details, line+3, col_1, column_width, c_white,
-                       "%s: <color_light_gray>%d</color>", label.c_str(),
+    // line 3: (column 1) size, bonus, wheel diameter (if applicable)    (column 2) epower, wheel width (if applicable)
+    if( part->size > 0 && part->has_flag( VPFLAG_CARGO ) ) {
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                       "%s: <color_light_gray>%d</color>", small_mode ? _( "Cap" ) : _( "Capacity" ),
                        to_milliliter( part->size ) );
     }
+
+    if( part->bonus > 0 ) {
+        std::string label;
+        if( part->has_flag( VPFLAG_SEATBELT ) ) {
+            label = small_mode ? _( "Str" ) : _( "Strength" );
+        } else if( part->has_flag( "HORN" ) ) {
+            label = _( "Noise" );
+        } else if( part->has_flag( "MUFFLER" ) ) {
+            label = small_mode ? _( "NoisRed" ) : _( "Noise Reduction" );
+        } else if( part->has_flag( VPFLAG_EXTENDS_VISION ) ) {
+            label = _( "Range" );
+        } else if( part->has_flag( VPFLAG_LIGHT ) || part->has_flag( VPFLAG_CONE_LIGHT ) ||
+                   part->has_flag( VPFLAG_CIRCLE_LIGHT ) || part->has_flag( VPFLAG_DOME_LIGHT ) ||
+                   part->has_flag( VPFLAG_AISLE_LIGHT ) || part->has_flag( VPFLAG_EVENTURN ) ||
+                   part->has_flag( VPFLAG_ODDTURN ) || part->has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
+            label = _( "Light" );
+        }
+
+        if( !label.empty() ) {
+            fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d</color>", label.c_str(),
+                            part->bonus );
+        }
+    }
+
+    if( part->has_flag( VPFLAG_WHEEL ) ) {
+        cata::optional<islot_wheel> whl = item::find_type( part->item )->wheel;
+        fold_and_print( w_details, line+3, col_1, column_width, c_white,
+                            "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
+                            whl->diameter );
+        fold_and_print( w_details, line+3, col_2, column_width, c_white,
+                            "%s: <color_light_gray>%d\"</color>", small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
+                            whl->width );
+    }
+
     if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,
                        "%s: %c<color_light_gray>%d</color>",
@@ -2310,7 +2327,7 @@ void veh_interact::complete_vehicle()
 
         int partnum = !base.is_null() ? veh->install_part( dx, dy, part_id, std::move( base ) ) : -1;
         if(partnum < 0) {
-            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+            debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             break;
         }
 
@@ -2492,7 +2509,7 @@ void veh_interact::complete_vehicle()
             veh->part_removal_cleanup();
             int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
-                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+                debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             }
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {

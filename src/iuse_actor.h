@@ -7,8 +7,11 @@
 #include "color.h"
 #include "ret_val.h"
 #include "string_id.h"
+#include "int_id.h"
 #include "explosion.h"
 #include "units.h"
+#include "calendar.h"
+
 #include <limits.h>
 #include <set>
 #include <map>
@@ -38,6 +41,7 @@ class emit;
 using emit_id = string_id<emit>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+struct furn_t;
 
 /**
  * Transform an item into a specific type.
@@ -194,11 +198,11 @@ class unfold_vehicle_iuse : public iuse_actor
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data {
     efftype_id id;
-    int duration;
+    time_duration duration;
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, int dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
 };
 
@@ -333,6 +337,25 @@ class pick_lock_actor : public iuse_actor
         pick_lock_actor() : iuse_actor( "picklock" ) {}
 
         ~pick_lock_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+};
+
+/**
+ * Implements deployable furniture from items
+ */
+class deploy_furn_actor : public iuse_actor
+{
+    public:
+        /**
+         * furniture type id the item should create
+         */
+        string_id<furn_t> furn_type;
+
+        deploy_furn_actor() : iuse_actor( "deploy_furn" ) {}
+
+        ~deploy_furn_actor() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
@@ -613,9 +636,9 @@ class musical_instrument_actor : public iuse_actor
         */
         std::vector< std::string > npc_descriptions;
         /**
-         * Display description once per this many turns
+         * Display description once per this duration (@ref calendar::once_every).
          */
-        int description_frequency;
+        time_duration description_frequency = 0;
 
         musical_instrument_actor( const std::string &type = "musical_instrument" ) : iuse_actor( type ) {}
 

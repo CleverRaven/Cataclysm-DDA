@@ -386,7 +386,7 @@ Example for mods:
 }
 ```
 
-This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the the special snippet id.
+This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
 
 #### `flags`
 
@@ -1557,7 +1557,7 @@ ASCII symbol of the object as it appears in the game. The symbol string must be 
 
 #### `color` or `bgcolor`
 
-Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
+Color of the object as it appears in the game. "color" defines the foreground color (no background color), "bgcolor" defines a solid background color. As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
 
 > **NOTE**: You must use ONLY ONE of "color" or "bgcolor"
 

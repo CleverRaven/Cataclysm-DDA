@@ -86,6 +86,7 @@
     "dispersion": 320,
     "durability": 10,
     "clip_size": 7,
+    "magazines": [ [ "38", [ "38_speedloader" ] ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {

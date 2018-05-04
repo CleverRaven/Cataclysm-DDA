@@ -453,12 +453,6 @@ std::string trim_punctuation_marks( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 
-/**
- * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
- * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
- */
-std::string vstring_format( const char *pattern, va_list argptr );
-
 // TODO: move these elsewhere
 // string manipulations.
 void replace_name_tags( std::string &input );
@@ -585,7 +579,7 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
 
 void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected );
 void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
-                  bool bDecorate = true );
+                  bool bDecorate = true, bool bDisabled = false );
 void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
                      const int iContentHeight, const int iNumLines, const int iOffsetY = 0, const int iOffsetX = 0,
                      nc_color bar_color = c_white, const bool bDoNotScrollToEnd = false );

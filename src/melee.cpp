@@ -1,3 +1,4 @@
+#include "melee.h"
 #include "player.h"
 #include "debug.h"
 #include "game.h"
@@ -10,6 +11,7 @@
 #include "mutation.h"
 #include "sounds.h"
 #include "translations.h"
+#include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
@@ -93,7 +95,7 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
 
 const item &Character::used_weapon() const
 {
-    return dynamic_cast<const player &>( *this ).get_combat_style().force_unarmed ? ret_null : weapon;
+    return dynamic_cast<const player &>( *this ).get_combat_style().force_unarmed ? null_item_reference() : weapon;
 }
 
 item &Character::used_weapon()
@@ -198,7 +200,7 @@ float player::hit_roll() const
     float hit = get_hit();
     // Drunken master makes us hit better
     if( has_trait( trait_DRUNKEN ) ) {
-        hit += get_effect_dur( effect_drunk ) / ( used_weapon().is_null() ? 300.0f : 400.0f );
+        hit += to_turns<float>( get_effect_dur( effect_drunk ) ) / ( used_weapon().is_null() ? 300.0f : 400.0f );
     }
 
     // Farsightedness makes us hit worse
@@ -214,7 +216,7 @@ float player::hit_roll() const
 
     hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
 
-    return normal_roll( hit * 5, 25.0f );
+    return melee::melee_hit_range( hit );
 }
 
 void player::add_miss_reason( const std::string reason, const unsigned int weight )
@@ -272,23 +274,24 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
     p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
     // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( weap.has_flag( "UNARMED_WEAPON" ) ? skill_unarmed : skill_bashing,
+    p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
-void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique )
+void player::melee_attack( Creature &t, bool allow_special )
 {
-    int hitspread = t.deal_melee_attack( this, hit_roll() );
-    melee_attack( t, allow_special, force_technique, hitspread );
+    static const matec_id no_technique_id( "" );
+    melee_attack( t, allow_special, no_technique_id );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, int hit_spread)
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique )
 {
+    int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
         // @todo: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
-        t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
+        t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
 
     item &cur_weapon = used_weapon();
@@ -518,7 +521,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( weap.has_flag("UNARMED_WEAPON") ) {
+    if( unarmed_attack() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
@@ -661,13 +664,13 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk = 0;
         int maxdrunk = 0;
-        const int drunk_dur = get_effect_dur( effect_drunk );
+        const time_duration drunk_dur = get_effect_dur( effect_drunk );
         if( unarmed ) {
-            mindrunk = drunk_dur / 600;
-            maxdrunk = drunk_dur / 250;
+            mindrunk = drunk_dur / 600_turns;
+            maxdrunk = drunk_dur / 250_turns;
         } else {
-            mindrunk = drunk_dur / 900;
-            maxdrunk = drunk_dur / 400;
+            mindrunk = drunk_dur / 900_turns;
+            maxdrunk = drunk_dur / 400_turns;
         }
 
         bash_dam += average ? (mindrunk + maxdrunk) * 0.5f : rng(mindrunk, maxdrunk);
@@ -730,7 +733,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         cutting_skill = BIO_CQB_LEVEL;
     }
 
-    if( weap.has_flag("UNARMED_WEAPON") ) {
+    if( unarmed_attack() ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
@@ -803,7 +806,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
         stabbing_skill = BIO_CQB_LEVEL;
     }
 
-    if( weap.has_flag("UNARMED_WEAPON") ) {
+    if( unarmed_attack() ) {
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
             weap.is_null();
@@ -978,10 +981,10 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
 
         npc * const npc_l = g->critter_at<npc>( left );
         npc * const npc_r = g->critter_at<npc>( right );
-        if( npc_l && npc_l->attitude == NPCATT_KILL ) {
+        if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
-        if( npc_r && npc_r->attitude == NPCATT_KILL ) {
+        if( npc_r && npc_r->is_enemy() ) {
             targets.push_back( npc_r );
         }
         if(!targets.empty()) {
@@ -1019,13 +1022,13 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         npc * const npc_l = g->critter_at<npc>( left );
         npc * const npc_t = g->critter_at<npc>( target_pos );
         npc * const npc_r = g->critter_at<npc>( right );
-        if( npc_l && npc_l->attitude == NPCATT_KILL) {
+        if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
-        if( npc_t && npc_t->attitude == NPCATT_KILL) {
+        if( npc_t && npc_t->is_enemy() ) {
             targets.push_back( npc_t );
         }
-        if( npc_r && npc_r->attitude == NPCATT_KILL) {
+        if( npc_r && npc_r->is_enemy() ) {
             targets.push_back( npc_r );
         }
         if( !targets.empty() ) {
@@ -1034,21 +1037,17 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        tripoint tmp;
-        tmp.z = posz();
-        for ( tmp.x = posx() - 1; tmp.x <= posx() + 1; tmp.x++) {
-            for ( tmp.y = posy() - 1; tmp.y <= posy() + 1; tmp.y++) {
-                if( tmp == t.pos() ) {
-                    continue;
-                }
-                monster *const mon = g->critter_at<monster>( tmp );
-                if( mon && mon->friendly == 0 ) {
-                    targets.push_back( mon );
-                }
-                npc * const np = g->critter_at<npc>( tmp );
-                if( np && np->attitude == NPCATT_KILL) {
-                    targets.push_back( np );
-                }
+        for( const tripoint &tmp : g->m.points_in_radius( pos(), 1 ) ) {
+            if( tmp == t.pos() ) {
+                continue;
+            }
+            monster *const mon = g->critter_at<monster>( tmp );
+            if( mon && mon->friendly == 0 ) {
+                targets.push_back( mon );
+            }
+            npc * const np = g->critter_at<npc>( tmp );
+            if( np && np->is_enemy() ) {
+                targets.push_back( np );
             }
         }
         //don't trigger circle for fewer than 2 targets
@@ -1120,7 +1119,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {
-            t.add_effect( effect_downed, rng(1, technique.down_dur));
+            t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
             auto &bash = get_damage_unit( di.damage_units, DT_BASH );
             if( bash.amount > 0 ) {
                 bash.amount += 3;
@@ -1129,7 +1128,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 
     if (technique.stun_dur > 0) {
-        t.add_effect( effect_stunned, rng(1, technique.stun_dur));
+        t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
     if( technique.knockback_dist > 0 ) {
@@ -1168,21 +1167,16 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
         //hit only one valid target (pierce through doesn't spread out)
         if (technique.aoe == "impale") {
-            size_t victim = rng(0, targets.size() - 1);
-            const auto v = targets[victim];
+            //@todo what if targets is empty
+            Creature *const v = random_entry( targets );
             targets.clear();
             targets.push_back( v );
         }
 
         //hit the targets in the lists (all candidates if wide or burst, or just the unlucky sod if deep)
         int count_hit = 0;
-        for( Creature *const c : targets) {
-            if (hit_roll() >= rng(0, 5) + c->dodge_roll()) {
-                count_hit++;
-                melee_attack( *c, false );
-
-                add_msg_player_or_npc( m_good, _("You hit %s!"), _("<npcname> hits %s!"), c->disp_name().c_str() );
-            }
+        for( Creature *const c : targets ) {
+            melee_attack( *c, false );
         }
 
         t.add_msg_if_player(m_good, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
@@ -1219,7 +1213,7 @@ item &player::best_shield()
 {
     // Note: wielded weapon, not one used for attacks
     int best_value = blocking_ability( weapon );
-    item *best = best_value > 0 ? &weapon : &ret_null;
+    item *best = best_value > 0 ? &weapon : &null_item_reference();
     for( item &shield : worn ) {
         if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= best_value ) {
             best = &shield;
@@ -1443,10 +1437,10 @@ void player::perform_special_attacks(Creature &t)
     if( can_poison && (has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 )) ) {
         if( has_trait( trait_POISONOUS ) ) {
             add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-            t.add_effect( effect_poison, 6);
+            t.add_effect( effect_poison, 6_turns );
         } else if( has_trait( trait_POISONOUS2 ) ) {
             add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-            t.add_effect( effect_badpoison, 6);
+            t.add_effect( effect_badpoison, 6_turns );
         }
     }
 }
@@ -1604,7 +1598,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         const auto &branch = pr.first.obj();
         for( const auto &mut_atk : branch.attacks_granted ) {
             // Covered body part
-            if( mut_atk.bp != num_bp && !usable_body_parts[ mut_atk.bp ] ) {
+            if( mut_atk.bp != num_bp && !usable_body_parts.test( mut_atk.bp ) ) {
                 continue;
             }
 
@@ -1924,7 +1918,7 @@ double player::melee_value( const item &weap ) const
 double player::unarmed_value() const
 {
     // TODO: Martial arts
-    return melee_value( ret_null );
+    return melee_value( item() );
 }
 
 void player::disarm( npc &target )
@@ -1932,8 +1926,6 @@ void player::disarm( npc &target )
     if( !target.is_armed() ) {
         return;
     }
-
-    static const matec_id no_technique_id( "" );
 
     /** @EFFECT_STR increases chance to disarm, primary stat */
     /** @EFFECT_DEX increases chance to disarm, secondary stat */
@@ -1946,16 +1938,17 @@ void player::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
+    item &it = target.weapon;
+
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
-        // this will not do damage, but trigger all miss effects and on_dodge on target
-        melee_attack( target, false, no_technique_id, hitspread );
+        add_msg( _( "You lunge for the %s, but miss!" ), it.tname().c_str() );
+        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
         target.on_attacked( *this );
         return;
     }
 
-    item &it = target.weapon;
     // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
     if( !is_armed() ) {
         /** @EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded */
@@ -1976,19 +1969,21 @@ void player::disarm( npc &target )
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname().c_str() );
             mod_moves( -100 );
         }
+
+        target.on_attacked( *this );
+        return;
+    }
+
+    // Make their weapon fall on floor if we've rolled enough.
+    mod_moves( -100 - attack_speed( weapon ) );
+    if( my_roll >= their_roll ) {
+        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
+                target.name.c_str(), it.tname().c_str() );
+        const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        g->m.add_item_or_charges( tp, target.i_rem( &it ) );
     } else {
-        // deal damage with weapon wielded, and make their weapon fall on floor if we've rolled enough.
-        melee_attack( target, false, no_technique_id, hitspread );
-        mod_moves( -100 );
-        if( my_roll >= their_roll ) {
-            add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
-                    target.name.c_str(), it.tname().c_str() );
-            const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-            g->m.add_item_or_charges( tp, target.i_rem( &it ) );
-        } else {
-            add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
-                    target.name.c_str(), it.tname().c_str() );
-        }
+        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
+                target.name.c_str(), it.tname().c_str() );
     }
 
     target.on_attacked( *this );
@@ -2038,4 +2033,18 @@ void player::steal( npc &target )
 
     // consider to deduce less/more moves for balance
     mod_moves( -200 );
+}
+
+namespace melee
+{
+
+/**
+ * Once the accuracy (sum of modifiers) of an attack has been determined,
+ * this is used to actually roll the "hit value" of the attack to be compared to dodge.
+ */
+float melee_hit_range( float accuracy )
+{
+    return normal_roll( accuracy * 5, 25.0f );
+}
+
 }

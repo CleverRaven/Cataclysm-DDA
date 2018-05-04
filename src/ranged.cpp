@@ -2,6 +2,7 @@
 
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "gun_mode.h"
 #include "dispersion.h"
 #include "game.h"
 #include "map.h"
@@ -648,6 +649,9 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
     // is not doing Gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
+	if( range == 0 ) {
+		return 2 * target_size;
+	}
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
     return 1 / ( max_lateral_offset / target_size );
 }
@@ -1052,10 +1056,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             if( relevant != m.target ) {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
-                           m->tname().c_str(), m.mode.c_str(), m.qty );
+                           m->tname().c_str(), m.name(), m.qty );
             } else {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
-                           m.mode.c_str(), m.qty );
+                           m.name(), m.qty );
             }
 
             const itype *cur = ammo ? ammo : m->ammo_data();
@@ -1298,7 +1302,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     } else if( monster * const mon = dynamic_cast<monster*>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 100 );
+        mon->add_effect( effect_hit_by_player, 10_minutes );
     }
 
     return ret;
@@ -1307,7 +1311,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
-    proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
+    proj.impact = gun.gun_damage();
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -1471,7 +1475,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 60 ) {
             return { noise, _( "Tsewww!" ) };
         } else {
-            return { noise, _( "Kra-kow!!" ) };
+            return { noise, _( "Kra-kow!" ) };
         }
 
     } else if( fx.count( "LIGHTNING" ) ) {
@@ -1482,7 +1486,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 60 ) {
             return { noise, _( "Bzaapp!" ) };
         } else {
-            return { noise, _( "Kra-koom!!" ) };
+            return { noise, _( "Kra-koom!" ) };
         }
 
     } else if( fx.count( "WHIP" ) ) {
@@ -1496,7 +1500,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 175 ) {
             return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
-            return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
+            return { noise, burst ? _( "Kaboom!" ) : _( "kerblam!" ) };
         }
     }
 
@@ -1562,9 +1566,7 @@ double player::gun_value( const item &weap, long ammo ) const
                               item::find_type( ammo_type ) :
                               nullptr;
 
-    float damage_factor = weap.gun_damage( false );
-    damage_factor += weap.gun_pierce( false ) / 2.0;
-
+    damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
     tmp.ammo_set( weap.ammo_default() );
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
@@ -1572,9 +1574,14 @@ double player::gun_value( const item &weap, long ammo ) const
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
-        damage_factor += def_ammo.damage;
-        damage_factor += def_ammo.pierce / 2;
+        gun_damage.add( def_ammo.damage );
         total_dispersion += def_ammo.dispersion;
+    }
+
+    float damage_factor = gun_damage.total_damage();
+    if( damage_factor > 0 ) {
+        // @todo Multiple damage types
+        damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
     int move_cost = time_to_fire( *this, *weap.type );

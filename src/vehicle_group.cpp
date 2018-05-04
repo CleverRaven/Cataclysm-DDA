@@ -95,12 +95,11 @@ void VehiclePlacement::load( JsonObject &jo )
 
 const VehicleLocation *VehiclePlacement::pick() const
 {
-    if( locations.size() == 0 ) {
-        debugmsg( "vehicleplacement has no locations" );
-        return NULL;
+    if( const auto chosen = random_entry_opt( locations ) ) {
+        return &chosen->get();
     }
-
-    return &( locations[rng( 0, locations.size() - 1 )] );
+    debugmsg( "vehicleplacement has no locations" );
+    return nullptr;
 }
 
 VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
@@ -112,10 +111,8 @@ VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
     if( jo.has_string( "placement" ) ) {
         placement = jo.get_string( "placement" );
     } else {
-        //location = std::make_unique<Vehicle_Location>(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings);
-        // that would be better, but it won't exist until c++14, so for now we do this:
         VehicleFacings facings( jo, "facing" );
-        location.reset( new VehicleLocation( jmapgen_int( jo, "x" ), jmapgen_int( jo, "y" ), facings ) );
+        location.emplace( jmapgen_int( jo, "x" ), jmapgen_int( jo, "y" ), facings );
     }
 }
 

@@ -81,7 +81,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
     SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
         npc test_npc = model_npc;
-        test_npc.add_effect( efftype_id( "sleep" ), HOURS( 6 ) );
+        test_npc.add_effect( efftype_id( "sleep" ), 6_hours );
         test_npc.set_fatigue( 1000 );
         const int five_min_ticks = HOURS( 6 ) / MINUTES( 5 );
         /*
