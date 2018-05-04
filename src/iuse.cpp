@@ -7489,7 +7489,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     g->m.furn_set( dirp, furn_str_id( "f_ladder" ) );
     return 1;
 }
-// *INDENT-ON*
+
 int iuse::washclothes( player *p, item *it, bool, const tripoint & )
 {
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
