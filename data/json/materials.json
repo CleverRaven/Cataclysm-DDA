@@ -696,7 +696,7 @@
       { "fuel": 1, "smoke": 2, "burn": 1, "chance": 3 },
       { "fuel": 1, "smoke": 3, "burn": 2 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
-    ],
+    ]
   },
   {
     "type": "material",
