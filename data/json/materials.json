@@ -472,7 +472,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "scrap", 1 ] ]
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -526,7 +526,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-	"burn_products": [ [ "lead", 1 ] ]
+    "burn_products": [ [ "lead", 1 ] ]
   },
   {
     "type": "material",
@@ -697,7 +697,6 @@
       { "fuel": 1, "smoke": 3, "burn": 2 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
     ],
-    "burn_products": [ [ "plastic_chunk", 1 ] ]
   },
   {
     "type": "material",
