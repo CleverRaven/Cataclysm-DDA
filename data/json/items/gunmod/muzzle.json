@@ -123,7 +123,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_targets": [ "pistol" ],
+    "mod_targets": [ "pistol", "smg" ],
     "install_time": 200,
     "damage_modifier": -2,
     "handling_modifier": 1,
