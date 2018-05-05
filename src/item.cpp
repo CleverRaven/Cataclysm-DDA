@@ -391,6 +391,11 @@ bool item::is_null() const
     return (type == nullptr || type == nullitem() || typeId() == s_null);
 }
 
+bool item::unarmed_weapon() const
+{
+    return ( has_flag( "UNARMED_WEAPON" ) || is_null() );
+}
+
 bool item::covers( const body_part bp ) const
 {
     return get_covered_body_parts().test( bp );
