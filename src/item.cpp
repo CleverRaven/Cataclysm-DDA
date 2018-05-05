@@ -391,7 +391,7 @@ bool item::is_null() const
     return (type == nullptr || type == nullitem() || typeId() == s_null);
 }
 
-bool item::unarmed_weapon() const
+bool item::is_unarmed_weapon() const
 {
     return ( has_flag( "UNARMED_WEAPON" ) || is_null() );
 }
