@@ -1057,7 +1057,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
         // Miss
-        if( u_see_me ) {
+        if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
                     add_msg( _("You dodge %s."), disp_name().c_str() );
             } else if( target.is_npc() ) {
