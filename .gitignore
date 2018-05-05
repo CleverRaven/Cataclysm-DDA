@@ -140,3 +140,7 @@ msvc-full-features/distribution
 
 # Transifex Client
 .tx/
+
+# Eclipse IDE
+.cproject
+.settings/
