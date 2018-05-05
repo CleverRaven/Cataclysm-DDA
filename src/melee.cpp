@@ -274,7 +274,7 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
     p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
     // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( weap.unarmed_weapon() ? skill_unarmed : skill_bashing,
+    p.practice( weap.is_unarmed_weapon() ? skill_unarmed : skill_bashing,
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
@@ -521,7 +521,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( weap.unarmed_weapon() ) {
+    if( weap.is_unarmed_weapon() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
@@ -643,7 +643,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 {
     float bash_dam = 0.0f;
 
-    const bool unarmed = weap.unarmed_weapon();
+    const bool unarmed = weap.is_unarmed_weapon();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     if( has_active_bionic(bio_cqb) ) {
         skill = BIO_CQB_LEVEL;
@@ -733,7 +733,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         cutting_skill = BIO_CQB_LEVEL;
     }
 
-    if( weap.unarmed_weapon() ) {
+    if( weap.is_unarmed_weapon() ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
@@ -806,7 +806,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
         stabbing_skill = BIO_CQB_LEVEL;
     }
 
-    if( weap.unarmed_weapon() ) {
+    if( weap.is_unarmed_weapon() ) {
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
             weap.is_null();
