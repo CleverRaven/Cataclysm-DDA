@@ -393,7 +393,7 @@ bool item::is_null() const
 
 bool item::is_unarmed_weapon() const
 {
-    return ( has_flag( "UNARMED_WEAPON" ) || is_null() );
+    return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
 bool item::covers( const body_part bp ) const
