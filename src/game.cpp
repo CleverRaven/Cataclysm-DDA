@@ -6355,6 +6355,12 @@ bool game::is_in_sunlight( const tripoint &p )
             (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
 }
 
+bool game::is_in_fairweather( const tripoint &p ) // Acceptable light and weather for the mutation chloromorphosis
+{
+    return (m.is_outside( p ) && light_level( p.z ) >= 40 &&
+            (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY || weather == WEATHER_CLOUDY || weather == WEATHER_DRIZZLE || weather == WEATHER_RAINY || weather == WEATHER_FLURRIES || weather == WEATHER_SNOW));
+} // I chose these to be a good balance, this mutation should work in more weather, but it doesn't have to work in all weather.
+
 bool game::is_sheltered( const tripoint &p )
 {
     int vpart = -1;
