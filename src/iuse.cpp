@@ -3809,6 +3809,60 @@ int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
+int iuse::gasmask(player *p, item *it, bool, const tripoint& )
+{
+    std::string oname = it->typeId() + "_on";
+    p->add_msg_if_player(_("Your %1$s is ready to use."), it->tname().c_str());
+    it->convert( oname ).active = true;
+    return it->type->charges_to_use();
+}
+
+int iuse::gasmask_on(player *p, item *it, bool t, const tripoint &pos)
+{
+    static int gas_absorbed; // amount of absorbed gas for current filter charge
+    std::string oname = it->typeId();
+    oname.erase(oname.length() - 3, 3);
+    if (t) { // Normal use
+        if( p->is_worn( *it ) ) {
+            const field &gasfield = g->m.field_at( pos );
+            for( auto &dfield : gasfield ) {
+                const field_entry &entry = dfield.second;
+                const field_id fid = entry.getFieldType();
+                switch( fid ) {
+                    case fd_smoke:
+                        gas_absorbed += 12;
+                        break;
+                    case fd_tear_gas:
+                    case fd_toxic_gas:
+                    case fd_gas_vent:
+                    case fd_relax_gas:
+                    case fd_fungal_haze:
+                        gas_absorbed += 15;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if ( gas_absorbed >= 100 ) {
+                it->ammo_consume( 1, p->pos() );
+                gas_absorbed -= 100;
+            }
+            if ( it->charges == 0 ) {
+                if( p->is_npc() ) {
+                    add_msg(m_bad, _("%s is out of gas mask filter!"), p->name.c_str());
+                }
+                p->add_msg_if_player(m_bad, _("Your %1$s is out of filter!"), it->tname().c_str());
+                it->active = false;
+                it->convert( oname ).active = false;
+            }
+        }
+    } else { // Turning it off
+        p->add_msg_if_player(_("Your prepared your %1$s for storage."), it->tname().c_str());
+        it->convert( oname ).active = false;
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::portable_game(player *p, item *it, bool, const tripoint& )
 {
     if( p->is_npc() ) {

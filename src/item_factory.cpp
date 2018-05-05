@@ -600,6 +600,8 @@ void Item_factory::init()
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
+    add_iuse( "GASMASK", &iuse::gasmask );
+    add_iuse( "GASMASK_ON", &iuse::gasmask_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MUTAGEN", &iuse::mutagen );
     add_iuse( "MUT_IV", &iuse::mut_iv );
