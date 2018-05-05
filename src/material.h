@@ -82,7 +82,7 @@ class material_type
         }
 
         const mat_burn_data &burn_data( size_t intensity ) const;
-        const mat_burn_products burn_products() const;
+        const mat_burn_products &burn_products() const;
 };
 
 namespace materials

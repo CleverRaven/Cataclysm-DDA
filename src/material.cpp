@@ -235,7 +235,7 @@ const mat_burn_data &material_type::burn_data( size_t intensity ) const
     return _burn_data[ std::min<size_t>( intensity, MAX_FIELD_DENSITY ) - 1 ];
 }
 
-const mat_burn_products material_type::burn_products() const
+const mat_burn_products &material_type::burn_products() const
 {
     return _burn_products;
 }
