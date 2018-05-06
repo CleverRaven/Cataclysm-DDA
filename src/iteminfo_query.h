@@ -209,13 +209,13 @@ class iteminfo_query : public iteminfo_query_base
 
             ( const std::string &bits )
 
-                ("1001010111110000111....1101")      
-				
-				used to allow simple 'all'/'none' presets or potentially _very_ specific 
-				combinations *but* you have to include _every_ bit here so, it'll mostly 
-				just be all/none
+                ("1001010111110000111....1101")
 
-			( const iteminfo_query_base &values )
+                used to allow simple 'all'/'none' presets or potentially _very_ specific
+                combinations *but* you have to include _every_ bit here so, it'll mostly
+                just be all/none
+
+            ( const iteminfo_query_base &values )
 
                 ( A & (~ B | C) ^ D )
 
@@ -233,9 +233,9 @@ class iteminfo_query : public iteminfo_query_base
 
             Since those typically _always_ should all be 'static const' performance should
             not be any issue.
-		 */
+         */
         iteminfo_query();
-		iteminfo_query( const iteminfo_query_base &values);
+        iteminfo_query( const iteminfo_query_base &values );
         iteminfo_query( const std::string &bits );
         iteminfo_query( const std::vector<iteminfo_parts> &setBits );
 
