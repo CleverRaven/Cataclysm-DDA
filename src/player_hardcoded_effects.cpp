@@ -1002,7 +1002,9 @@ void player::hardcoded_effects( effect &it )
 
         // TODO: Move this to update_needs when NPCs can mutate
         if( calendar::once_every( 10_minutes ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
-            g->is_in_sunlight( pos() ) ) {
+            g->m.is_outside( pos() ) && ( weather_type(WEATHER_CLEAR) || weather_type(WEATHER_SUNNY)
+            || weather_type(WEATHER_DRIZZLE) || weather_type(WEATHER_RAINY) || weather_type(WEATHER_FLURRIES)
+            || weather_type(WEATHER_CLOUDY) || weather_type(WEATHER_SNOW) ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( get_hunger() >= -30 ) {
                 mod_hunger( -5 );
