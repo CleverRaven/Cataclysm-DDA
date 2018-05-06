@@ -198,11 +198,11 @@ class unfold_vehicle_iuse : public iuse_actor
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data {
     efftype_id id;
-    int duration;
+    time_duration duration;
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, int dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
 };
 

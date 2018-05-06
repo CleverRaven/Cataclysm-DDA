@@ -55,6 +55,20 @@ bool item_is_blacklisted(const std::string &id)
     return item_blacklist.count( id );
 }
 
+static void assign( JsonObject &jo, const std::string &name,
+                    std::map<gun_mode_id, gun_modifier_data> &mods )
+{
+    if( !jo.has_array( name ) ) {
+        return;
+    }
+    mods.clear();
+    JsonArray jarr = jo.get_array( name );
+    while( jarr.has_more() ) {
+        JsonArray curr = jarr.next_array();
+        mods.emplace( gun_mode_id( curr.get_string( 0 ) ), gun_modifier_data( curr.get_string( 1 ),
+                      curr.get_int( 2 ), curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>() ) );
+    }
+}
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
                                        body_part_set &parts, bool &sided )
@@ -219,21 +233,22 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.gun ) {
         handle_legacy_ranged( *obj.gun );
         // @todo: add explicit action field to gun definitions
-        std::string defmode = _( "semi-auto" );
-        if( obj.gun->clip == 1 ) {
-            defmode = _( "manual" ); // break-type actions
-        } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
-            defmode = _( "revolver" );
-        }
+        const auto defmode_name = [&]() {
+            if( obj.gun->clip == 1 ) {
+                return translate_marker( "manual" ); // break-type actions
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+                return translate_marker( "revolver" );
+            } else {
+                return translate_marker( "semi-auto" );
+            }
+        };
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
-                                std::set<std::string>() ) );
+        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ), gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
-            obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
-                                    std::set<std::string>() ) );
+            obj.gun->modes.emplace( gun_mode_id( "AUTO" ), gun_modifier_data( translate_marker( "auto" ), obj.gun->burst, std::set<std::string>() ) );
         }
 
         if( obj.gun->handling < 0 ) {
@@ -1259,20 +1274,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         }
     }
 
-    if( jo.has_array( "modes" ) ) {
-        slot.modes.clear();
-        JsonArray jarr = jo.get_array( "modes" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
-
-            std::tuple<std::string, int, std::set<std::string>> mode(
-                curr.get_string( 1 ),
-                curr.get_int( 2 ),
-                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
-            );
-            slot.modes.emplace( curr.get_string( 0 ), mode );
-        }
-    }
+    assign( jo, "modes", slot.modes );
 }
 
 void Item_factory::load_gun( JsonObject &jo, const std::string &src )
@@ -1561,20 +1563,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
         }
     }
 
-    if( jo.has_array( "mode_modifier" ) ) {
-        slot.mode_modifier.clear();
-        JsonArray jarr = jo.get_array( "mode_modifier" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
-
-            std::tuple<std::string, int, std::set<std::string>> mode(
-                curr.get_string( 1 ),
-                curr.get_int( 2 ),
-                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
-            );
-            slot.mode_modifier.emplace( curr.get_string( 0 ), mode );
-        }
-    }
+    assign( jo, "mode_modifier", slot.mode_modifier );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )

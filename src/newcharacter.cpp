@@ -612,6 +612,8 @@ bool player::create(character_type type, std::string tempname)
             }
         }
         if( !styles.empty() ) {
+            werase( w );
+            wrefresh( w );
             const auto ma_type = choose_ma_style( type, styles );
             ma_styles.push_back( ma_type );
             style_selected = ma_type;
@@ -2298,7 +2300,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
                 redraw = true;
                 continue;
             } else if( u.name.empty() ) {
-                mvwprintz(w_name, 0, namebar_pos, h_light_gray, _("______NO NAME ENTERED!!!______"));
+                mvwprintz(w_name, 0, namebar_pos, h_light_gray, _("_______NO NAME ENTERED!_______"));
                 wrefresh(w_name);
                 if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {
                     redraw = true;

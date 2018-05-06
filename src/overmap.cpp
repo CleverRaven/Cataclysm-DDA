@@ -23,6 +23,7 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #include "cata_utility.h"
+#include "sounds.h"
 #include "uistate.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -992,7 +993,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
         }
     }
 
-    if(region.field_coverage.boost_chance > 0.0f && region.field_coverage.boosted_percent_str.size() == 0) {
+    if( region.field_coverage.boost_chance > 0.0f && region.field_coverage.boosted_percent_str.empty() ) {
         fieldjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
     }
 
@@ -2744,10 +2745,12 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             }
 
             if( locations.empty() ) {
+                sfx::play_variant_sound( "menu_error", "default", 100 );
+                popup( _( "No results found." ) );
                 continue;
             }
 
-            std::sort( locations.begin(), locations.end(), [&](const point &lhs, const point &rhs) {
+            std::sort( locations.begin(), locations.end(), [&]( const point &lhs, const point &rhs ) {
                 return trig_dist( curs, tripoint( lhs, curs.z ) ) < trig_dist( curs, tripoint( rhs, curs.z ) );
             } );
 
@@ -2807,12 +2810,12 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             const bool terrain = action == "PLACE_TERRAIN";
 
             if( terrain ) {
-                pmenu.title = "Select terrain to place:";
+                pmenu.title = _( "Select terrain to place:" );
                 for( const auto &oter : terrains.get_all() ) {
                     pmenu.addentry( oter.id.id(), true, 0, oter.id.str() );
                 }
             } else {
-                pmenu.title = "Select special to place:";
+                pmenu.title = _( "Select special to place:" );
                 for( const auto &elem : specials.get_all() ) {
                     oslist.push_back( &elem );
                     pmenu.addentry( oslist.size()-1, true, 0, elem.id.str() );
@@ -4093,7 +4096,7 @@ point om_direction::rotate( const point &p, type dir )
 {
     switch( dir ) {
         case type::invalid:
-            debugmsg( "Invalid overmap rotation (%d).", dir );
+            debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
             // Intentional fallthrough.
         case type::north:
             break;  // No need to do anything.

@@ -682,7 +682,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // TODO: make it a member of the mission class, maybe at mission instance specific data
         const std::string &ret = miss->dialogue_for_topic( topic );
         if( ret.empty() ) {
-            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
+            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%s) or topic(%s)",
                       type.id.c_str(), topic.c_str() );
             return "";
         }
@@ -783,11 +783,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( g->u.is_wearing( "badge_marshal" ) )
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    return _( "Hello marshal." );
+                    return _( "Hello, marshal." );
                 case 2:
                     return _( "Marshal, I'm afraid I can't talk now." );
                 case 3:
-                    return _( "I'm not in charge here marshal." );
+                    return _( "I'm not in charge here, marshal." );
                 case 4:
                     return _( "I'm supposed to direct all questions to my leadership, marshal." );
             }
@@ -888,7 +888,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         if( g->u.has_trait( trait_PROF_FED ) ) {
-            return _( "Can I help you marshal?" );
+            return _( "Can I help you, marshal?" );
         }
         if( g->u.male ) {
             return _( "Morning sir, how can I help you?" );
@@ -1446,7 +1446,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
         p->set_attitude( NPCATT_FOLLOW );
-        return _( "YES MASTER" );
+        return _( "YES, MASTER!" );
     }
 
     return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
@@ -1795,7 +1795,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "necropolis_freq",
                 0 ).tname().c_str() );
         g->u.i_add( item( "necropolis_freq", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose sane duration
         add_response( _( "Thanks." ), "TALK_OLD_GUARD_NEC_COMMO" );
 
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
@@ -1870,7 +1870,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "commune_prospectus",
                 0 ).tname().c_str() );
         g->u.i_add( item( "commune_prospectus", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose a sane duration
         add_response( _( "Thanks." ), "TALK_RANCH_FOREMAN" );
     } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
         add_response( _( "How many refugees are you expecting?" ), "TALK_RANCH_FOREMAN_REFUGEES" );
@@ -3031,13 +3031,13 @@ void talk_function::give_equipment( npc &p )
 
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
-    p.add_effect( effect_asked_for_item, 1800 );
+    p.add_effect( effect_asked_for_item, 3_hours );
 }
 
 void talk_function::give_aid( npc &p )
 {
     g->u.cash -= 20000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
         bp_healed = player::hp_to_bp( hp_part( i ) );
@@ -3059,7 +3059,7 @@ void talk_function::give_aid( npc &p )
 void talk_function::give_all_aid( npc &p )
 {
     g->u.cash -= 30000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
@@ -3083,7 +3083,7 @@ void talk_function::give_all_aid( npc &p )
 
 void talk_function::buy_haircut( npc &p )
 {
-    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 7200, 30 );
+    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     g->u.cash -= 1000;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
     g->u.activity.str_values.push_back( p.name );
@@ -3092,7 +3092,7 @@ void talk_function::buy_haircut( npc &p )
 
 void talk_function::buy_shave( npc &p )
 {
-    g->u.add_morale( MORALE_SHAVE, 10, 10, 3600, 30 );
+    g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     g->u.cash -= 500;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
@@ -3103,7 +3103,7 @@ void talk_function::buy_10_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
@@ -3121,7 +3121,7 @@ void talk_function::buy_10_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 10 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 14400 );
+    p.add_effect( effect_currently_busy, 1_days );
     g->u.cash -= 200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3130,7 +3130,7 @@ void talk_function::buy_100_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
@@ -3148,7 +3148,7 @@ void talk_function::buy_100_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 100 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 100800 );
+    p.add_effect( effect_currently_busy, 7_days );
     g->u.cash -= 1200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3163,27 +3163,27 @@ void talk_function::follow( npc &p )
 
 void talk_function::deny_follow( npc &p )
 {
-    p.add_effect( effect_asked_to_follow, 3600 );
+    p.add_effect( effect_asked_to_follow, 6_hours );
 }
 
 void talk_function::deny_lead( npc &p )
 {
-    p.add_effect( effect_asked_to_lead, 3600 );
+    p.add_effect( effect_asked_to_lead, 6_hours );
 }
 
 void talk_function::deny_equipment( npc &p )
 {
-    p.add_effect( effect_asked_for_item, 600 );
+    p.add_effect( effect_asked_for_item, 1_hours );
 }
 
 void talk_function::deny_train( npc &p )
 {
-    p.add_effect( effect_asked_to_train, 3600 );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void talk_function::deny_personal_info( npc &p )
 {
-    p.add_effect( effect_asked_personal_info, 1800 );
+    p.add_effect( effect_asked_personal_info, 3_hours );
 }
 
 void talk_function::hostile( npc &p )
@@ -3302,7 +3302,7 @@ void talk_function::start_training( npc &p )
         return;
     }
     g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
-    p.add_effect( effect_asked_to_train, 3600 );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void parse_tags( std::string &phrase, const player &u, const npc &me )

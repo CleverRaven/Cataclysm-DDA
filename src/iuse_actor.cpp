@@ -341,21 +341,17 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
         std::vector<tripoint> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
             const int dens = rng(fields_min_density, fields_max_density);
-            g->m.add_field( gas_source, fields_type, dens, 1 );
+            g->m.add_field( gas_source, fields_type, dens, 1_turns );
         }
     }
     if (scrambler_blast_radius >= 0) {
-        for (int x = pos.x - scrambler_blast_radius; x <= pos.x + scrambler_blast_radius; x++) {
-            for (int y = pos.y - scrambler_blast_radius; y <= pos.y + scrambler_blast_radius; y++) {
-                g->scrambler_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
+            g->scrambler_blast( dest );
         }
     }
     if (emp_blast_radius >= 0) {
-        for (int x = pos.x - emp_blast_radius; x <= pos.x + emp_blast_radius; x++) {
-            for (int y = pos.y - emp_blast_radius; y <= pos.y + emp_blast_radius; y++) {
-                g->emp_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
+            g->emp_blast( dest );
         }
     }
     return 1;
@@ -468,7 +464,7 @@ iuse_actor *consume_drug_iuse::clone() const
 
 static effect_data load_effect_data( JsonObject &e )
 {
-    return effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+    return effect_data( efftype_id( e.get_string( "id" ) ), time_duration::from_turns( e.get_int( "duration", 0 ) ),
         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
@@ -548,7 +544,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     }
     // Apply the various effects.
     for( auto eff : effects ) {
-        int dur = eff.duration;
+        time_duration dur = eff.duration;
         if (p.has_trait( trait_TOLERANCE )) {
             dur *= .8;
         } else if (p.has_trait( trait_LIGHTWEIGHT )) {
@@ -562,7 +558,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field({p.posx() + int(rng(-2, 2)), p.posy() + int(rng(-2, 2)), p.posz()}, fid, field->second, 0);
+            g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid, field->second );
         }
     }
 
@@ -629,18 +625,15 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-long place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
+long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
 {
     monster newmon( mtypeid );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
-        for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-            for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                tripoint dest( x, y, pos.z );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         if( valid.empty() ) { // No valid points!
@@ -1000,7 +993,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
 {
-    if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
+    if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
         p.add_msg_if_player(_("You successfully light a fire."));
     }
 }
@@ -1469,7 +1462,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         }
         const body_part bp = player::hp_to_bp( hpart );
         if (p.has_effect( effect_bite, bp)) {
-            p.add_effect( effect_bite, 2600, bp, true);
+            p.add_effect( effect_bite, 260_minutes, bp, true);
         }
 
         p.moves = 0;
@@ -1616,8 +1609,8 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
         /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
         int moraleMalus = -50 * (5.0 / p.get_skill_level( skill_survival ));
         int maxMalus = -250 * (5.0 / p.get_skill_level( skill_survival ));
-        int duration = 300 * (5.0 / p.get_skill_level( skill_survival ));
-        int decayDelay = 30 * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration duration = 30_minutes * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration decayDelay = 3_minutes * (5.0 / p.get_skill_level( skill_survival ));
 
         if (p.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
@@ -1909,7 +1902,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2, num_bp, false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
     }
 
     std::string desc = "";
@@ -1933,9 +1926,9 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     sounds::ambient_sound( p.pos(), volume, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
-        p.add_effect( effect_music, 1 );
+        p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
     }
 
     return 0;
@@ -2886,7 +2879,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
     if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
-            int infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
+            const time_duration infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
             patient.remove_effect( effect_infected, bp_healed );
             patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
@@ -2993,9 +2986,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             // Consider states too
             // Weights are arbitrary, may need balancing
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
             if (damage > highest_damage) {
                 highest_damage = damage;
                 healed = hp_part(i);

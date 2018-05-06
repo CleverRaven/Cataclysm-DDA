@@ -32,7 +32,7 @@
         "|......_._.............."
       ],
       "terrain": {
-        "#": "t_underbrush_harvested_winter",
+        "#": "t_underbrush",
         "&": "t_grass",
         ".": "t_grass",
         "1": "t_tree_young",

@@ -121,7 +121,7 @@ bionic_data::bionic_data()
 
 void force_comedown( effect &eff )
 {
-    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1 ) {
+    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1_turns ) {
         return;
     }
 
@@ -218,13 +218,10 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
         sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
-        for( int i = posx() - 1; i <= posx() + 1; i++ ) {
-            for( int j = posy() - 1; j <= posy() + 1; j++ ) {
-                tripoint bashpoint( i, j, posz() );
-                g->m.bash( bashpoint, 110 );
-                g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( bashpoint, 110 );
-            }
+        for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
+            g->m.bash( bashpoint, 110 );
+            g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
+            g->m.bash( bashpoint, 110 );
         }
 
         mod_moves( -100 );
@@ -241,11 +238,11 @@ bool player::activate_bionic( int b, bool eff_only )
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if( one_in( 5 ) ) {
-            add_effect( effect_teleglow, rng( 50, 400 ) );
+            add_effect( effect_teleglow, rng( 5_minutes, 40_minutes ) );
         }
     } else if( bio.id == "bio_teleport" ) {
         g->teleport();
-        add_effect( effect_teleglow, 300 );
+        add_effect( effect_teleglow, 30_minutes );
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
@@ -371,7 +368,7 @@ bool player::activate_bionic( int b, bool eff_only )
         g->refresh_all();
         tripoint dirp;
         if( choose_adjacent( _( "Start a fire where?" ), dirp ) &&
-            g->m.add_field( dirp, fd_fire, 1, 0 ) ) {
+            g->m.add_field( dirp, fd_fire, 1 ) ) {
             mod_moves( -100 );
         } else {
             add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -391,7 +388,7 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_bad, _( "The bionic refuses to activate!" ) );
             charge_power( bionics[bio.id].power_activate );
         } else {
-            add_effect( effect_adrenaline, 200 );
+            add_effect( effect_adrenaline, 20_minutes );
         }
 
     } else if( bio.id == "bio_emp" ) {
@@ -930,8 +927,8 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         remove_bionic( b_id );
         g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
     } else {
-        add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
-                          pgettext( "memorial_female", "Removed bionic: %s." ),
+        add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
+                          pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                           bionics[b_id].name.c_str() );
         bionics_uninstall_failure( this );
     }
@@ -979,8 +976,9 @@ bool player::install_bionics( const itype &type, int skill_level )
     }
 
     const int pk = get_painkiller();
-    const int overall_pk_dur = ( get_effect_dur( effect_pkill1 ) + get_effect_dur( effect_pkill2 ) +
-                                 get_effect_dur( effect_pkill3 ) + get_effect_dur( effect_pkill_l ) ) / MINUTES( 1 );
+    const int overall_pk_dur = to_minutes<int>( get_effect_dur( effect_pkill1 ) + get_effect_dur(
+                                   effect_pkill2 ) +
+                               get_effect_dur( effect_pkill3 ) + get_effect_dur( effect_pkill_l ) );
     int pain_cap = 100;
     if( has_trait( trait_PAINRESIST_TROGLO ) ) {
         pain_cap = pain_cap / 2;
@@ -1382,8 +1380,6 @@ bionic &player::bionic_at_index( int i )
     return ( *my_bionics )[i];
 }
 
-
-
 // Returns true if a bionic was removed.
 bool player::remove_random_bionic()
 {
@@ -1391,6 +1387,8 @@ bool player::remove_random_bionic()
     if( numb ) {
         int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = ( *my_bionics )[rem];
+        //Todo: Currently, contained/containing bionics don't get explicitly deactivated when the removal of a linked bionic removes them too
+        deactivate_bionic( rem, true );
         remove_bionic( bionic.id );
         add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );
         recalc_sight_limits();

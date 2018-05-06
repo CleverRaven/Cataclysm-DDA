@@ -34,18 +34,14 @@ std::string good_bad_none( int value )
 
 }
 
-class inventory_filter_preset : public inventory_selector_preset
+inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
+    : filter( filter )
+{}
+
+bool inventory_filter_preset::is_shown( const item_location &location ) const
 {
-    public:
-        inventory_filter_preset( const item_location_filter &filter ) : filter( filter ) {}
-
-        bool is_shown( const item_location &location ) const override {
-            return filter( location );
-        }
-
-    private:
-        item_location_filter filter;
-};
+    return filter( location );
+}
 
 item_location_filter convert_filter( const item_filter &filter )
 {
@@ -510,8 +506,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( !p.has_enough_charges( *loc, false ) ) {
                 return string_format(
-                           ngettext( _( "Needs at least %d charge" ),
-                                     _( "Needs at least %d charges" ), loc->ammo_required() ),
+                           ngettext( "Needs at least %d charge",
+                                     "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 

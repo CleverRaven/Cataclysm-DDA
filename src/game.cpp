@@ -19,6 +19,7 @@
 #include "map_item_stack.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "gun_mode.h"
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
@@ -882,12 +883,12 @@ bool game::start_game()
         start_loc.burn( omtstart, 3, 3 );
     }
     if (scen->has_flag("INFECTED")){
-        u.add_effect( effect_infected, 1, random_body_part(), true);
+        u.add_effect( effect_infected, 1_turns, random_body_part(), true );
     }
     if (scen->has_flag("BAD_DAY")){
-        u.add_effect( effect_flu, 10000 );
-        u.add_effect( effect_drunk, 2700 );
-        u.add_morale( MORALE_FEELING_BAD, -100, -100, MINUTES( 5 ), MINUTES( 5 ) );
+        u.add_effect( effect_flu, 1000_minutes );
+        u.add_effect( effect_drunk, 270_minutes );
+        u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
     }
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
@@ -1144,27 +1145,22 @@ bool game::cleanup_at_end()
         std::string sTemp;
         std::stringstream ssTemp;
 
-        int days_survived = calendar::turn.get_turn() / DAYS(1);
-        int days_adventured = (calendar::turn.get_turn() - calendar::start.get_turn()) / DAYS(1);
+        center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        for (int lifespan = 0; lifespan < 2; ++lifespan) {
-            // Show the second, "Adventured", lifespan
-            // only if it's different from the first.
-            if (lifespan && days_adventured == days_survived) {
-                continue;
-            }
+        int turns = calendar::turn.get_turn() - calendar::start.get_turn();
+        int minutes = ( turns / MINUTES( 1 ) ) % 60;
+        int hours = ( turns / HOURS( 1 ) ) % 24;
+        int days = turns / DAYS( 1 );
 
-            sTemp = lifespan ? _("Adventured:") : _("Survived:");
-            mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_light_gray, (sTemp + " ").c_str());
-
-            int iDays = lifespan ? days_adventured : days_survived;
-            ssTemp << iDays;
-            wprintz(w_rip, c_magenta, ssTemp.str().c_str());
-            ssTemp.str("");
-
-            sTemp = (iDays == 1) ? _("day") : _("days");
-            wprintz(w_rip, c_white, (" " + sTemp).c_str());
+        if( days > 0 ) {
+            sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
+        } else if( hours > 0 ) {
+            sTemp = string_format( "%dh %dm", hours, minutes );
+        } else {
+            sTemp = string_format( "%dm", minutes );
         }
+
+        center_print( w_rip, iInfoLine++, c_white, sTemp );
 
         int iTotalKills = 0;
 
@@ -1593,14 +1589,13 @@ void game::process_activity()
 
 void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &pos, player *p, int catch_duration) // catching function
 {
-    int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
+    monster *const fish = random_entry_removed( catchables );
     //spawn the corpse, rotten by a part of the duration
-    m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
-    u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
+    m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
+    u.add_msg_if_player(m_good, _("You caught a %s."), fish->type->nname().c_str());
     //quietly kill the caught
-    catchables[index]->no_corpse_quiet = true;
-    catchables[index]->die( p );
-    catchables.erase (catchables.begin()+index);
+    fish->no_corpse_quiet = true;
+    fish->die( p );
 }
 
 
@@ -1734,6 +1729,17 @@ int game::kill_count( const mtype_id& mon )
         return kills[mon];
     }
     return 0;
+}
+
+int game::kill_count( const species_id &spec )
+{
+    int result = 0;
+    for( const auto &pair : kills ) {
+        if( pair.first->in_species( spec ) ) {
+            result += pair.second;
+        }
+    }
+    return result;
 }
 
 void game::increase_kill_count( const mtype_id& id )
@@ -2972,8 +2978,8 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE_BURST: {
-            auto mode = u.weapon.gun_get_mode_id();
-            if( u.weapon.gun_set_mode( "AUTO" ) ) {
+            gun_mode_id mode = u.weapon.gun_get_mode_id();
+            if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                 plfire( u.weapon );
                 u.weapon.gun_set_mode( mode );
             }
@@ -3150,7 +3156,7 @@ bool game::handle_action()
                     quicksave();
                     bSleep = true;
                 } else if (as_m.ret >= 3 && as_m.ret <= 9) {
-                    u.add_effect( effect_alarm_clock, 600 * as_m.ret);
+                    u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
                     bSleep = true;
                 }
 
@@ -3341,7 +3347,7 @@ bool game::handle_action()
             get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
             get_options().save();
             //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
-            add_msg( string_format( _( "Auto %s is now %s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? "ON" : "OFF" ).c_str() );
+            add_msg( string_format( _( "Auto %1$s is now %2$s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) ).c_str() );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -4345,22 +4351,16 @@ void game::disp_NPC_epilogues()
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
                        std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
-    std::vector<std::string> data;
     epilogue epi;
-    //This search needs to be expanded to all NPCs
+    // @todo: This search needs to be expanded to all NPCs
     for( const npc &guy : all_npcs() ) {
         if( guy.is_friend() ) {
-            if( guy.male ) {
-                epi.random_by_group( "male", guy.name );
-            } else {
-                epi.random_by_group( "female", guy.name );
-            }
-            for( auto &ln : epi.lines ) {
-                data.push_back( ln );
-            }
-            display_table(w, "", 1, data);
+            epi.random_by_group( guy.male ? "male" : "female" );
+            std::vector<std::string> txt;
+            txt.emplace_back( epi.text );
+            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
+            multipage( w, txt, "", 2 );
         }
-        data.clear();
     }
 
     refresh_all();
@@ -4381,13 +4381,13 @@ void game::disp_faction_ends()
             } else if (elem.name == "The Old Guard" && elem.power != 100){
                 if (elem.power < 150){
                     data.emplace_back( _( "    Locked in an endless battle, the Old Guard was forced to consolidate their \
-resources in a handful of fortified bases along the coast.  Without the men\
+resources in a handful of fortified bases along the coast.  Without the men \
 or material to rebuild, the soldiers that remained lost all hope..." ) );
                 } else {
                     data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed \
 the tattered remains of the once glorious union.  Spurred on by small \
 successes, a number of operations to re-secure facilities met with limited \
-success.  Forced to eventually consolidate to large bases, the Old Guard left\
+success.  Forced to eventually consolidate to large bases, the Old Guard left \
 these facilities in the hands of the few survivors that remained.  As the \
 years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
@@ -4396,59 +4396,59 @@ years past, little materialized from the hopes of rebuilding civilization..." ) 
                 if (elem.power < 150){
                     data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease \
 destroyed any hope of maintaining a civilized enclave.  The merchants and \
-craftsmen dispersed to found new colonies but most became victims of\
+craftsmen dispersed to found new colonies but most became victims of \
 marauding bandits.  Those who survived never found a place to call home..." ) );
                 } else {
-                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their\
-once profitable trade routes were plundered by bandits and thugs.  In squalor\
-and filth the first generations born after the cataclysm are told stories of\
-the old days when food was abundant and the children were allowed to play in\
+                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their \
+once profitable trade routes were plundered by bandits and thugs.  In squalor \
+and filth the first generations born after the cataclysm are told stories of \
+the old days when food was abundant and the children were allowed to play in \
 the sun..." ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
             } else if (elem.name == "The Tacoma Commune" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external\
-threats combined with low crop yields caused the Free Merchants to withdraw\
-their support.  When the exhausted migrants returned to the refugee center\
+                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external \
+threats combined with low crop yields caused the Free Merchants to withdraw \
+their support.  When the exhausted migrants returned to the refugee center \
 they were turned away to face the world on their own." ) );
                 } else {
-                    data.emplace_back( _( "    The commune continued to grow rapidly through the years despite constant\
-external threat.  While maintaining a reputation as a haven for all law\
-abiding citizens, the commune's leadership remained loyal to the interests of\
-the Free Merchants.  Hard labor for little reward remained the price to be\
+                    data.emplace_back( _( "    The commune continued to grow rapidly through the years despite constant \
+external threat.  While maintaining a reputation as a haven for all law-\
+abiding citizens, the commune's leadership remained loyal to the interests of \
+the Free Merchants.  Hard labor for little reward remained the price to be \
 paid for those who sought the safety of the community." ) );
                 }
                 display_table( w, _( "The Tacoma Commune" ), 1, data );
             } else if (elem.name == "The Wasteland Scavengers" && elem.power != 100){
                 if (elem.power < 150){
-                    data.emplace_back( _( "    The lone bands of survivors who wandered the now alien world dwindled in\
+                    data.emplace_back( _( "    The lone bands of survivors who wandered the now alien world dwindled in \
 number through the years.  Unable to compete with the growing number of \
-monstrosities that had adapted to live in their world, those who did survive\
+monstrosities that had adapted to live in their world, those who did survive \
 lived in dejected poverty and hopelessness..." ) );
                 } else {
-                    data.emplace_back( _( "    The scavengers who flourished in the opening days of the cataclysm found\
+                    data.emplace_back( _( "    The scavengers who flourished in the opening days of the cataclysm found \
 an ever increasing challenge in finding and maintaining equipment from the \
 old world.  Enormous hordes made cities impossible to enter while new \
 eldritch horrors appeared mysteriously near old research labs.  But on the \
-fringes of where civilization once ended, bands of hunter-gatherers began to\
+fringes of where civilization once ended, bands of hunter-gatherers began to \
 adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
             } else if (elem.name == "Hell's Raiders" && elem.power != 100){
                 if (elem.power < 150){
                     data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition \
-destroyed the Old Guard.  The ruthless men and women who banded together to\
+destroyed the Old Guard.  The ruthless men and women who banded together to \
 rob refugees and pillage settlements soon found themselves without enough \
 victims to survive.  The Hell's Raiders were eventually destroyed when \
 infighting erupted into civil war but there were few survivors left to \
 celebrate their destruction." ) );
                 } else {
-                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to\
+                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to \
 overthrow the last strongholds of the Old Guard.  The costly victories \
-brought the warlords abundant territory and slaves but little in the way of\
+brought the warlords abundant territory and slaves but little in the way of \
 stability.  Within weeks, infighting led to civil war as tribes vied for \
-leadership of the faction.  When only one warlord finally secured control,\
+leadership of the faction.  When only one warlord finally secured control, \
 there was nothing left to fight for... just endless cities full of the dead." ) );
                 }
                 display_table( w, _( "Hell's Raiders" ), 1, data );
@@ -4623,7 +4623,7 @@ void game::draw_sidebar()
         mvwprintz( w_location, 0, 18, weather_data( weather ).color, weather_data( weather ).name );
     }
 
-    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
@@ -5279,10 +5279,10 @@ int game::mon_info( const catacurses::window &w )
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
-                        u.add_effect( effect_adrenaline_mycus, 300 );
+                        u.add_effect( effect_adrenaline_mycus, 30_minutes );
                     } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {
                         // Triffids present.  We ain't got TIME to adrenaline comedown!
-                        u.add_effect( effect_adrenaline_mycus, 150);
+                        u.add_effect( effect_adrenaline_mycus, 15_minutes );
                         u.mod_pain(3); // Does take it out of you, though
                         add_msg(m_info, _("Our fibers strain with renewed wrath!"));
                     }
@@ -5608,7 +5608,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
     int dist = rl_dist( u.pos(), p );
     if (dist <= 8 && !player_immune) {
         if (!u.has_bionic( bionic_id( "bio_ears" ) ) && !u.is_wearing("rm13_armor_on")) {
-            u.add_effect( effect_deaf, 40 - dist * 4);
+            u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
         if( m.sees( u.pos(), p, 8 ) ) {
             int flash_mod = 0;
@@ -5623,7 +5623,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
             } else if( u.worn_with_flag( "BLIND" ) || u.worn_with_flag( "FLASH_PROTECTION" ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist );
+            u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, time_duration::from_turns( 10 - dist ) );
         }
     }
     for( monster &critter : all_monsters() ) {
@@ -5631,13 +5631,13 @@ void game::flashbang( const tripoint &p, bool player_immune)
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
-                critter.add_effect( effect_stunned, 10 - dist);
+                critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
             if( critter.has_flag(MF_SEES) && m.sees( critter.pos(), p, 8 ) ) {
-                critter.add_effect( effect_blind, 18 - dist);
+                critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
             if( critter.has_flag(MF_HEARS) ) {
-                critter.add_effect( effect_deaf, 60 - dist * 4);
+                critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
             }
         }
     }
@@ -5701,13 +5701,13 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     // perhaps that is what it should do?
     tripoint tp = traj.front();
     if( !critter_at( tp ) ) {
-        debugmsg(_("Nothing at (%d,%d) to knockback!"), tp.x, tp.y, tp.z );
+        debugmsg( _( "Nothing at (%d,%d,%d) to knockback!" ), tp.x, tp.y, tp.z );
         return;
     }
     int force_remaining = 0;
     if( monster *const targ = critter_at<monster>( tp, true ) ) {
         if (stun > 0) {
-            targ->add_effect( effect_stunned, stun);
+            targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg(_("%s was stunned!"), targ->name().c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
@@ -5715,7 +5715,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    targ->add_effect( effect_stunned, force_remaining);
+                    targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     add_msg(_("%s was stunned!"), targ->name().c_str());
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
                     targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
@@ -5727,7 +5727,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                     targ->add_effect( effect_stunned, force_remaining);
+                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                      add_msg(_("%s was stunned!"), targ->name().c_str());
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
@@ -5765,7 +5765,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         }
     } else if( npc * const targ = critter_at<npc>( tp ) ) {
         if (stun > 0) {
-            targ->add_effect( effect_stunned, stun);
+            targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg(_("%s was stunned!"), targ->name.c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
@@ -5773,7 +5773,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    targ->add_effect( effect_stunned, force_remaining);
+                    targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     if (targ->has_effect( effect_stunned))
                         add_msg(_("%s was stunned!"), targ->name.c_str());
 
@@ -5798,7 +5798,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
                     add_msg(_("%s was stunned!"), targ->name.c_str());
-                    targ->add_effect( effect_stunned, force_remaining);
+                    targ->add_effect( effect_stunned, 1_turns * force_remaining );
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
                 if( critter_at<monster>( traj.front() ) ) {
@@ -5827,7 +5827,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         }
     } else if( u.pos() == tp ) {
         if (stun > 0) {
-            u.add_effect( effect_stunned, stun);
+            u.add_effect( effect_stunned, 1_turns * stun );
             add_msg(m_bad, ngettext("You were stunned for %d turn!",
                                     "You were stunned for %d turns!",
                                     stun),
@@ -5849,7 +5849,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                                 force_remaining),
                                 force_remaining);
                     }
-                    u.add_effect( effect_stunned, force_remaining);
+                    u.add_effect( effect_stunned, 1_turns * force_remaining );
                     std::array<body_part, 8> bps = {{
                         bp_head,
                         bp_arm_l, bp_arm_r,
@@ -5881,7 +5881,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                                 force_remaining),
                                 force_remaining);
                     }
-                    u.add_effect( effect_stunned, force_remaining);
+                    u.add_effect( effect_stunned, 1_turns * force_remaining );
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
                 if( critter_at<monster>( traj.front() ) ) {
@@ -5938,15 +5938,12 @@ void game::use_computer( const tripoint &p )
 
 void game::resonance_cascade( const tripoint &p )
 {
-    int maxglow = 100 - 5 * trig_dist( p, u.pos() );
-    int minglow = 60 - 5 * trig_dist( p, u.pos() );
+    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, u.pos() ) );
+    const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p, u.pos() ) ) );
     MonsterGroupResult spawn_details;
     monster invader;
-    if (minglow < 0) {
-        minglow = 0;
-    }
-    if (maxglow > 0) {
-        u.add_effect( effect_teleglow, rng(minglow, maxglow) * 100);
+    if( maxglow > 0_turns ) {
+        u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
     int startx = (p.x < 8 ? 0 : p.x - 8), endx = (p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8);
     int starty = (p.y < 8 ? 0 : p.y - 8), endy = (p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8);
@@ -5984,7 +5981,7 @@ void game::resonance_cascade( const tripoint &p )
                             break;
                         }
                         if (!one_in(3)) {
-                            m.add_field( {k, l, p.z}, type, 3, 0 );
+                            m.add_field( {k, l, p.z}, type, 3 );
                         }
                     }
                 }
@@ -6387,11 +6384,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5, num_bp, true );
+    critter.add_effect( effect_downed, 5_turns, num_bp, true );
 
     if (it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1, num_bp, true );
-        critter.add_effect( effect_pet, 1, num_bp, true );
+        critter.add_effect( effect_pacified, 1_turns, num_bp, true );
+        critter.add_effect( effect_pet, 1_turns, num_bp, true );
     }
 
     if (it.get_var("no_ammo") == "no_ammo") {
@@ -6889,7 +6886,7 @@ bool pet_menu(monster *z)
             g->u.setpos( zp );
 
             if (t) {
-                z->add_effect( effect_tied, 1, num_bp, true);
+                z->add_effect( effect_tied, 1_turns, num_bp, true);
             }
 
             add_msg(_("You swap positions with your %s."), pet_name.c_str());
@@ -6951,7 +6948,7 @@ bool pet_menu(monster *z)
 
         g->u.i_rem(pos);
 
-        z->add_effect( effect_has_bag, 1, num_bp, true);
+        z->add_effect( effect_has_bag, 1_turns, num_bp, true);
 
         g->u.moves -= 200;
 
@@ -7011,7 +7008,7 @@ bool pet_menu(monster *z)
         const auto items_to_stash = game_menus::inv::multidrop( g->u );
         if( !items_to_stash.empty() ) {
             g->u.drop( items_to_stash, z->pos(), true );
-            z->add_effect( effect_controlled, 5);
+            z->add_effect( effect_controlled, 5_turns );
             return true;
         }
 
@@ -7041,7 +7038,7 @@ bool pet_menu(monster *z)
             item rope_6("rope_6", 0);
             g->u.i_add(rope_6);
         } else {
-            z->add_effect( effect_tied, 1, num_bp, true);
+            z->add_effect( effect_tied, 1_turns, num_bp, true);
             g->u.use_amount( "rope_6", 1 );
         }
 
@@ -7554,11 +7551,13 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
 void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, const int column, int &line,
                              const int last_line )
 {
-    if (line > last_line) {
+    if( line > last_line ) {
         return;
     }
+
+    const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
-        mvwprintw(w_look, ++line, column, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
+        fold_and_print( w_look, ++line, column, max_width, c_light_gray, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
     }
 }
 
@@ -9713,7 +9712,7 @@ bool game::plfire()
     }
 
     int reload_time = 0;
-    item::gun_mode gun = args.relevant->gun_current_mode();
+    gun_mode gun = args.relevant->gun_current_mode();
 
     // @todo: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -9790,7 +9789,7 @@ bool game::plfire()
 bool game::plfire( item &weapon, int bp_cost )
 {
     // @todo: bionic power cost of firing should be derived from a value of the relevant weapon.
-    item::gun_mode gun = weapon.gun_current_mode();
+    gun_mode gun = weapon.gun_current_mode();
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname().c_str() );
@@ -10064,7 +10063,7 @@ void game::eat(int pos)
     if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
         m.ter( u.pos() ) == t_underbrush ) {
         if( u.get_hunger() < 20 ) {
-            add_msg( _( "You're too full to eat the undershrub." ) );
+            add_msg( _( "You're too full to eat the underbrush." ) );
         } else {
             u.moves -= 400;
             u.mod_hunger( -20 );
@@ -10814,7 +10813,7 @@ bool game::disable_robot( const tripoint &p )
                                  critter.name().c_str() );
                     }
                 } else {
-                    critter.add_effect( effect_docile, 1, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name().c_str() );
@@ -11326,13 +11325,20 @@ void game::place_player( const tripoint &dest_loc )
             add_msg(m_info, _("Label here: %s"), label.c_str());
         }
     }
-
     std::string signage = m.get_signage( dest_loc );
-    if (!signage.empty()) {
-        add_msg(m_info, _("The sign says: %s"), signage.c_str());
+    if( !signage.empty() ) {
+        if( !u.has_trait( trait_ILLITERATE ) ) {
+            add_msg( m_info, _( "The sign says: %s" ), signage.c_str() );
+        } else {
+            add_msg( m_info, _( "There is a sign here, but you are unable to read it." ) );
+        }
     }
     if( m.has_graffiti_at( dest_loc ) ) {
-        add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( dest_loc ), 40).c_str());
+        if( !u.has_trait( trait_ILLITERATE ) ) {
+            add_msg( m_info, _( "Written here: %s" ), m.graffiti_at( dest_loc ).c_str() );
+        } else {
+            add_msg( m_info, _( "Something is written here, but you are unable to read it." ) );
+        }
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
     if (m.has_flag("ROUGH", dest_loc) && (!u.in_vehicle)) {
@@ -11357,14 +11363,14 @@ void game::place_player( const tripoint &dest_loc )
                     body_part_name_accusative(bp).c_str(),
                     m.has_flag_ter( "SHARP", dest_loc ) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
             if ((u.has_trait( trait_INFRESIST )) && (one_in(1024))) {
-            u.add_effect( effect_tetanus, 1, num_bp, true);
+            u.add_effect( effect_tetanus, 1_turns, num_bp, true );
             } else if ((!u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST )) && (one_in(256))) {
-              u.add_effect( effect_tetanus, 1, num_bp, true);
+              u.add_effect( effect_tetanus, 1_turns, num_bp, true );
              }
         }
     }
     if (m.has_flag("UNSTABLE", dest_loc)) {
-        u.add_effect( effect_bouldering, 1, num_bp, true);
+        u.add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if (u.has_effect( effect_bouldering)) {
         u.remove_effect( effect_bouldering);
     }
@@ -11823,7 +11829,7 @@ void game::on_move_effects()
             u.toggle_move_mode();
         }
         if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
-            u.add_effect( effect_winded, 3 );
+            u.add_effect( effect_winded, 3_turns );
         }
     }
 
@@ -12709,19 +12715,15 @@ void game::update_stair_monsters()
     }
 
     // Find up to 4 stairs for distance stairdist[si] +1
-    int nearest[4] = { 0 };
-    int found = 0;
-    nearest[found++] = si;
-    for (size_t i = 0; i < stairdist.size(); i++) {
+    std::vector<int> nearest;
+    nearest.push_back( si );
+    for (size_t i = 0; i < stairdist.size() && nearest.size() < 4; i++) {
         if ((i != si) && (stairdist[i] <= stairdist[si] + 1)) {
-            nearest[found++] = i;
-            if (found == 4) {
-                break;
-            }
+            nearest.push_back( i );
         }
     }
     // Randomize the stair choice
-    si = nearest[rng( 0, found - 1 )];
+    si = random_entry_ref( nearest );
 
     // Attempt to spawn zombies.
     for (size_t i = 0; i < coming_to_stairs.size(); i++) {
@@ -12824,7 +12826,7 @@ void game::update_stair_monsters()
                     if (!(resiststhrow) && (u.get_dodge() + rng(0, 3) < 12)) {
                         // dodge 12 - never get downed
                         // 11.. avoid 75%; 10.. avoid 50%; 9.. avoid 25%
-                        u.add_effect( effect_downed, 2);
+                        u.add_effect( effect_downed, 2_turns );
                         msg = _("The %s pushed you back hard!");
                     } else {
                         msg = _("The %s pushed you back!");
@@ -12869,7 +12871,7 @@ void game::update_stair_monsters()
                     other.moves -= 50;
                     std::string msg;
                     if (one_in(creature_throw_resist)) {
-                        other.add_effect( effect_downed, 2);
+                        other.add_effect( effect_downed, 2_turns );
                         msg = _("The %1$s pushed the %2$s hard.");
                     } else {
                         msg = _("The %1$s pushed the %2$s.");
@@ -13053,7 +13055,7 @@ void game::teleport(player *p, bool add_teleglow)
     bool is_u = (p == &u);
 
     if (add_teleglow) {
-        p->add_effect( effect_teleglow, 300);
+        p->add_effect( effect_teleglow, 30_minutes );
     }
     do {
         new_pos.x = p->posx() + rng(0, SEEX * 2) - SEEX;
@@ -13119,7 +13121,7 @@ void game::nuke( const tripoint &p )
                 tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                tmpmap.add_field( dest, fd_nuke_gas, 3, 0 );
+                tmpmap.add_field( dest, fd_nuke_gas, 3 );
             }
             tmpmap.adjust_radiation( dest, rng(20, 80));
         }
@@ -13340,7 +13342,7 @@ void game::process_artifact( item &it, player &p )
                 tripoint pt( p.posx() + rng( -1, 1 ),
                              p.posy() + rng( -1, 1 ),
                              p.posz() );
-                m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
+                m.add_field( pt, fd_smoke, rng( 1, 3 ) );
             }
             break;
 
@@ -13348,10 +13350,8 @@ void game::process_artifact( item &it, player &p )
             break; // Handled in player::hit()
 
         case AEP_EXTINGUISH:
-            for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-                for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                    m.adjust_field_age( tripoint( x, y, p.posz() ), fd_fire, -1 );
-                }
+            for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                m.adjust_field_age( dest, fd_fire, -1_turns );
             }
             break;
 
@@ -13369,7 +13369,7 @@ void game::process_artifact( item &it, player &p )
 
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
-                p.add_effect( effect_evil, 300 );
+                p.add_effect( effect_evil, 30_minutes );
                 if( it.is_armor() ) {
                     if( !worn ) {
                     add_msg(_("You have an urge to wear the %s."),

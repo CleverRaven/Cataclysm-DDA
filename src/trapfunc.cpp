@@ -99,7 +99,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
                                   _( "A bear trap closes on <npcname>'s foot!" ) );
 
         // Actual effects
-        c->add_effect( effect_beartrap, 1, hit, true );
+        c->add_effect( effect_beartrap, 1_turns, hit, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( z != nullptr ) {
@@ -111,10 +111,10 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
             n->deal_damage( nullptr, hit, d );
 
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
-                n->add_effect( effect_tetanus, 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 128 ) ) ) {
-                n->add_effect( effect_tetanus, 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
         }
         c->check_dead_state();
@@ -144,10 +144,10 @@ void trapfunc::board( Creature *c, const tripoint & )
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 35 ) ) ) {
-                n->add_effect( effect_tetanus, 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
         }
         c->check_dead_state();
@@ -198,13 +198,9 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
             }
         } else if( n != nullptr ) {
             std::vector<tripoint> valid;
-            tripoint jk = p;
-            for( jk.x = p.x - 1; jk.x <= p.x + 1; jk.x++ ) {
-                for( jk.y = p.y - 1; jk.y <= p.y + 1; jk.y++ ) {
-                    if( g->is_empty( jk ) ) {
-                        // No monster, NPC, or player, plus valid for movement
-                        valid.push_back( jk );
-                    }
+            for( const tripoint &jk : g->m.points_in_radius( p, 1 ) ) {
+                if( g->is_empty( jk ) ) {
+                    valid.push_back( jk );
                 }
             }
             if( !valid.empty() ) {
@@ -446,7 +442,7 @@ void trapfunc::snare_light( Creature *c, const tripoint &p )
                              pgettext( "memorial_female", "Triggered a light snare." ) );
 
         // Actual effects
-        c->add_effect( effect_lightsnare, 1, hit, true );
+        c->add_effect( effect_lightsnare, 1_turns, hit, true );
         monster *z = dynamic_cast<monster *>( c );
         if( z != nullptr && z->type->size == MS_TINY ) {
             z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10 );
@@ -469,7 +465,7 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
                              pgettext( "memorial_female", "Triggered a heavy snare." ) );
 
         // Actual effects
-        c->add_effect( effect_heavysnare, 1, hit, true );
+        c->add_effect( effect_heavysnare, 1_turns, hit, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -575,8 +571,8 @@ void trapfunc::goo( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            n->add_env_effect( effect_slimed, bp_foot_l, 6, 20 );
-            n->add_env_effect( effect_slimed, bp_foot_r, 6, 20 );
+            n->add_env_effect( effect_slimed, bp_foot_l, 6, 2_minutes );
+            n->add_env_effect( effect_slimed, bp_foot_r, 6, 2_minutes );
             if( one_in( 3 ) ) {
                 n->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
                 n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );
@@ -647,7 +643,7 @@ void trapfunc::pit( Creature *c, const tripoint &p )
         c->add_msg_player_or_npc( m_bad, _( "You fall in a pit!" ), _( "<npcname> falls in a pit!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Fell in a pit." ),
                              pgettext( "memorial_female", "Fell in a pit." ) );
-        c->add_effect( effect_in_pit, 1, num_bp, true );
+        c->add_effect( effect_in_pit, 1_turns, num_bp, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -685,7 +681,7 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                                   _( "<npcname> falls in a spiked pit!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Fell into a spiked pit." ),
                              pgettext( "memorial_female", "Fell into a spiked pit." ) );
-        c->add_effect( effect_in_pit, 1, num_bp, true );
+        c->add_effect( effect_in_pit, 1_turns, num_bp, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -725,10 +721,10 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                                       body_part_name_accusative( hit ).c_str() );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                    n->add_effect( effect_tetanus, 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1_turns, num_bp, true );
                 } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                            ( one_in( 35 ) ) ) {
-                    n->add_effect( effect_tetanus, 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1_turns, num_bp, true );
                 }
             }
         } else if( z != nullptr ) {
@@ -760,7 +756,7 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                                   _( "<npcname> falls in pit filled with glass shards!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Fell into a pit filled with glass shards." ),
                              pgettext( "memorial_female", "Fell into a pit filled with glass shards." ) );
-        c->add_effect( effect_in_pit, 1, num_bp, true );
+        c->add_effect( effect_in_pit, 1_turns, num_bp, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -804,10 +800,10 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                                       body_part_name_accusative( hit ).c_str() );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                    n->add_effect( effect_tetanus, 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1_turns, num_bp, true );
                 } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                            ( one_in( 35 ) ) ) {
-                    n->add_effect( effect_tetanus, 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1_turns, num_bp, true );
                 }
             }
         } else if( z != nullptr ) {
@@ -905,14 +901,9 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
     }
 
     std::vector<tripoint> safe;
-    tripoint tmp = p->pos();
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p->posx() - 1; i <= p->posx() + 1; i++ ) {
-        for( j = p->posy() - 1; j <= p->posy() + 1; j++ ) {
-            if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
-                safe.push_back( tmp );
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 1 ) ) {
+        if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
+            safe.push_back( tmp );
         }
     }
     if( safe.empty() ) {

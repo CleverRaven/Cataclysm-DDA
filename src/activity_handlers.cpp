@@ -892,11 +892,11 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
    if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-        if( fishables.size() < 1 ) {
+        if( fishables.empty() ) {
             if( one_in(20) ) {
                 item fish;
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                const mtype_id &fish_mon = random_entry_ref( fish_group );
                 g->m.add_item_or_charges(p->pos(), item::make_corpse( fish_mon ) );
                 p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
@@ -1980,7 +1980,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         } else {
             p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         }
-        act->set_to_null();
+        p->cancel_activity();
         return;
     }
     act->moves_left -= crafting_speed * p->get_moves();
@@ -2038,21 +2038,6 @@ void activity_handlers::aim_finish( player_activity *, player * )
     // Aim bails itself by resetting itself every turn,
     // you only re-enter if it gets set again.
     return;
-}
-
-void activity_handlers::washing_finish( player_activity *act, player *p )
-{
-    item &filthy_item = p->i_at( act->position );
-
-    if( p->is_worn( filthy_item ) ) {
-        filthy_item.on_takeoff( *p );
-        filthy_item.item_tags.erase( "FILTHY" );
-        filthy_item.on_wear( *p );
-    }
-    filthy_item.item_tags.erase( "FILTHY" );
-
-    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
-    act->set_to_null();
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {

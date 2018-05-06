@@ -3155,7 +3155,7 @@ void vehicle::noise_and_smoke( double load, double time )
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
         "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
-        _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!")
+        _("BRRROARRR!"), _("BRUMBRUMBRUMBRUM!")
     }};
     double noise = 0.0;
     double mufflesmoke = 0.0;
@@ -3968,7 +3968,7 @@ void vehicle::operate_scoop()
             _("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")
         }};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
-                       sound_msgs[rng( 0, 3 )] );
+                       random_entry_ref( sound_msgs ) );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
                  g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
@@ -4023,7 +4023,7 @@ void vehicle::alarm() {
             const std::array<std::string, 4> sound_msgs = {{
                 _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")
             }};
-            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
+            sounds::sound( global_pos3(), (int) rng(45,80), random_entry_ref( sound_msgs ) );
             if( one_in(1000) ) {
                 is_alarm_on = false;
             }
@@ -4517,7 +4517,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
-    int turns_stunned = 0;
+    time_duration time_stunned = 0_turns;
 
     const int prev_velocity = coll_velocity;
     const int vel_sign = sgn( coll_velocity );
@@ -4603,9 +4603,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 check_environmental_effects = true;
             }
 
-            turns_stunned = ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 );
-            if( turns_stunned > 0 ) {
-                critter->add_effect( effect_stunned, turns_stunned );
+            time_stunned = time_duration::from_turns( ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 ) );
+            if( time_stunned > 0_turns ) {
+                critter->add_effect( effect_stunned, time_stunned );
             }
 
             if( ph != nullptr ) {
@@ -4658,7 +4658,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( critter != nullptr ) {
         if( !critter->is_hallucination() ) {
             if( pl_ctrl ) {
-                if( turns_stunned > 0 ) {
+                if( time_stunned > 0_turns ) {
                     //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                     add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
                              name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());

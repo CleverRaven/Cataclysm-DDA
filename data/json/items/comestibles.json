@@ -4237,7 +4237,7 @@
         "name" : "cotton boll",
         "name_plural" : "cotton bolls",
         "category" : "other",
-        "weight" : 540,
+        "weight" : 26,
         "color" : "light_green",
         "comestible_type" : "FOOD",
         "symbol" : "%",

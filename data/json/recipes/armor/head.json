@@ -879,7 +879,7 @@
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
-      [ [ "mask_filter", 3 ], [ "muffler", 1 ] ],
+      [ [ "mask_filter", 3 ] ],
       [ [ "hose", 1 ] ],
       [ [ "charcoal", 20 ] ]
     ]
@@ -898,7 +898,7 @@
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
-      [ [ "mask_filter", 3 ], [ "muffler", 1 ] ],
+      [ [ "mask_filter", 3 ] ],
       [ [ "hose", 1 ] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "charcoal", 20 ] ]

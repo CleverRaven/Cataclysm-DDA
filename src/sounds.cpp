@@ -23,6 +23,8 @@
 #include "time.h"
 #include "mapdata.h"
 #include "itype.h"
+#include "map_iterator.h"
+
 #include <chrono>
 #include <algorithm>
 #include <cmath>
@@ -254,7 +256,7 @@ void sounds::process_sound_markers( player *p )
         // Deaf players hear no sound, but still are at risk of additional hearing loss.
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-                p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
+                p->add_effect( effect_deaf, std::min( 4_minutes, time_duration::from_turns( felt_volume - 130 ) / 8 ) );
                 if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
@@ -266,11 +268,11 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-            const int deafness_duration = ( felt_volume - 130 ) / 4;
+            const time_duration deafness_duration = time_duration::from_turns( felt_volume - 130 ) / 4;
             p->add_effect( effect_deaf, deafness_duration );
             if( p->is_deaf() ) {
                 is_deaf = true;
-                sfx::do_hearing_loss( deafness_duration );
+                sfx::do_hearing_loss( to_turns<int>( deafness_duration ) );
                 continue;
             }
         }
@@ -334,7 +336,7 @@ void sounds::process_sound_markers( player *p )
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
             !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
-            if( p->get_effect( effect_alarm_clock ).get_duration() < 2 ) {
+            if( p->get_effect( effect_alarm_clock ).get_duration() < 2_turns ) {
                 if( slept_through ) {
                     p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
                 } else {
@@ -342,7 +344,7 @@ void sounds::process_sound_markers( player *p )
                 }
                 p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }
-            p->get_effect( effect_alarm_clock ).set_duration( 0 );
+            p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
 
         const std::string &sfx_id = sound.id;
@@ -372,14 +374,9 @@ void sounds::process_sound_markers( player *p )
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
-        tripoint newp = pos;
-        int &newx = newp.x;
-        int &newy = newp.y;
-        for( newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++ ) {
-            for( newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++ ) {
-                if( diff_z || !p->sees( newp ) ) {
-                    unseen_points.emplace_back( newp );
-                }
+        for( const tripoint &newp : g->m.points_in_radius( pos, err_offset ) ) {
+            if( diff_z || !p->sees( newp ) ) {
+                unseen_points.emplace_back( newp );
             }
         }
 

@@ -72,5 +72,12 @@
             "damage_type": "acid",
             "amount": 4
         }
+    },
+    {
+        "id": "boulder_anvil",
+        "type": "TOOL",
+        "copy-from": "fake_item",
+        "name": "boulder anvil",
+        "qualities": [ [ "ANVIL", 1 ] ]
     }
 ]

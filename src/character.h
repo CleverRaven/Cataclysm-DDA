@@ -231,7 +231,8 @@ class Character : public Creature, public visitable<Character>
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+                         bool permanent = false,
                          int intensity = 0, bool force = false ) override;
         /**
          * Handles end-of-turn processing.

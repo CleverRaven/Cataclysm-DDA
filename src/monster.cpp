@@ -1031,11 +1031,11 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
         // Make us a valid target for a few turns
-        add_effect( effect_hit_by_player, 3 );
+        add_effect( effect_hit_by_player, 3_turns );
     }
 
     if( has_flag( MF_HIT_AND_RUN ) ) {
-        add_effect( effect_run, 4 );
+        add_effect( effect_run, 4_turns );
     }
 
     const bool u_see_me = g->u.sees( *this );
@@ -1057,7 +1057,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
         // Miss
-        if( u_see_me ) {
+        if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
                     add_msg( _("You dodge %s."), disp_name().c_str() );
             } else if( target.is_npc() ) {
@@ -1144,7 +1144,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
-            target.add_effect( eff.id, eff.duration, affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
 
@@ -1152,22 +1152,22 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
         target.add_msg_if_player( m_bad, _("You're poisoned!") );
-        target.add_effect( effect_poison, 30 );
+        target.add_effect( effect_poison, 3_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
-        target.add_effect( effect_badpoison, 40 );
+        target.add_effect( effect_badpoison, 4_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
         target.add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-        target.add_effect( effect_paralyzepoison, 100 );
+        target.add_effect( effect_paralyzepoison, 10_minutes );
     }
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 60, bp_hit );
+        target.add_effect( effect_bleed, 6_minutes, bp_hit );
     }
 }
 
@@ -1178,7 +1178,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
-        add_effect( effect_run, rng(3, 5));
+        add_effect( effect_run, rng( 3_turns, 5_turns ) );
     }
 
     if( missed_by > 1.0 ) {
@@ -1386,7 +1386,7 @@ bool monster::move_effects(bool)
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
+void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
                           bool permanent, int intensity, bool force )
 {
     bp = num_bp;
@@ -1571,7 +1571,7 @@ int monster::impact( const int force, const tripoint &p )
     apply_damage( nullptr, bp_torso, bash_damage );
     total_dealt += force * mod;
 
-    add_effect( effect_downed, rng( 0, mod * 3 + 1 ) );
+    add_effect( effect_downed, time_duration::from_turns( rng( 0, mod * 3 + 1 ) ) );
 
     return total_dealt;
 }

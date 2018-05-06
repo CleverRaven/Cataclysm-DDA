@@ -36,6 +36,8 @@ using volume = quantity<int, volume_in_milliliter_tag>;
 class gun_type_type;
 class gunmod_location;
 class game;
+class gun_mode;
+using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class npc;
@@ -826,7 +828,7 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /** How much damage has the item sustained? */
-    int damage() const { return fast_floor( damage_ ); }
+    int damage() const;
 
     /** Precise damage */
     double precise_damage() const { return damage_; }
@@ -1513,52 +1515,20 @@ public:
          */
         ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
-        struct gun_mode {
-            /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
-             * `gunmod_data:mode_modifier` for GENERIC or TOOL types */
-            /** name of this mode, e.g. `bayonet` for bayonets, `auto` for automatic fire, etc. */
-            std::string mode;
-            /** pointer to item providing this mode - base gun or attached gunmod */
-            item *target = nullptr;
-            /** burst size for is_gun() firearms, or melee range for is_melee() weapons */
-            int qty = 0;
-            /** flags change behavior of gun mode, e.g. MELEE for bayonets that make a reach attack instead of firing - these are **not** equivalent to item flags! */
-            std::set<std::string> flags;
-
-            gun_mode() = default;
-            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
-                mode( mode ),
-                target( target ),
-                qty( qty ),
-                flags( flags ) {}
-
-            /** if true perform a melee attach as opposed to shooting */
-            bool melee() const { return flags.count( "MELEE" ); }
-
-            operator bool() const { return target != nullptr; }
-
-            item &operator*() { return *target; }
-            const item &operator*() const { return *target; }
-
-            item *operator->() { return target; }
-            const item *operator->() const { return target; }
-        };
-
         /** Get all possible modes for this gun inclusive of any attached gunmods */
-        std::map<std::string, const item::gun_mode> gun_all_modes() const;
+        std::map<gun_mode_id, gun_mode> gun_all_modes() const;
 
         /** Check if gun supports a specific mode returning an invalid/empty mode if not */
-        const gun_mode gun_get_mode( const std::string& mode ) const;
+        gun_mode gun_get_mode( const gun_mode_id &mode ) const;
 
         /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
-        gun_mode gun_current_mode();
-        const gun_mode gun_current_mode() const;
+        gun_mode gun_current_mode() const;
 
         /** Get id of mode a gun is currently set to, e.g. DEFAULT, AUTO, BURST */
-        std::string gun_get_mode_id() const;
+        gun_mode_id gun_get_mode_id() const;
 
         /** Try to set the mode for a gun, returning false if no such mode is possible */
-        bool gun_set_mode( const std::string& mode );
+        bool gun_set_mode( const gun_mode_id &mode );
 
         /** Switch to the next available firing mode */
         void gun_cycle_mode();

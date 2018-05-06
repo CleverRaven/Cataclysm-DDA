@@ -163,7 +163,7 @@ void mdeath::acid( monster &z )
             add_msg( m_warning, _( "The %s's body leaks acid." ), z.name().c_str() );
         }
     }
-    g->m.add_field( z.pos(), fd_acid, 3, 0 );
+    g->m.add_field( z.pos(), fd_acid, 3 );
 }
 
 void mdeath::boomer( monster &z )
@@ -179,7 +179,7 @@ void mdeath::boomer( monster &z )
     }
 
     if( rl_dist( z.pos(), g->u.pos() ) == 1 ) {
-        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24 );
+        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
     }
 
     g->m.propagate_field( z.pos(), fd_bile, 15, 1 );
@@ -197,10 +197,10 @@ void mdeath::boomer_glow( monster &z )
             z->moves -= 250;
         }
         if( Creature * const critter = g->critter_at( dest ) ) {
-            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25 );
+            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, bp, 4, 40 );
+                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if (critter != nullptr && critter->has_effect( effect_glowing)){
                     break;
                 }
@@ -239,25 +239,22 @@ void mdeath::kill_vines( monster &z )
 void mdeath::vine_cut( monster &z )
 {
     std::vector<monster*> vines;
-    tripoint tmp = z.pos();
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for( x = z.posx() - 1; x <= z.posx() + 1; x++ ) {
-        for( y = z.posy() - 1; y <= z.posy() + 1; y++ ) {
-            if( tmp == z.pos() ) {
-                y++; // Skip ourselves
-            }
-            if( monster * const z = g->critter_at<monster>( tmp ) ) {
-                if( z->type->id == mon_creeper_vine ) {
-                    vines.push_back( z );
-                }
+    for( const tripoint &tmp : g->m.points_in_radius( z.pos(), 1 ) ) {
+        if( tmp == z.pos() ) {
+            continue; // Skip ourselves
+        }
+        if( monster * const z = g->critter_at<monster>( tmp ) ) {
+            if( z->type->id == mon_creeper_vine ) {
+                vines.push_back( z );
             }
         }
     }
 
     for (auto &vine : vines) {
         bool found_neighbor = false;
-        tmp = vine->pos();
+        tripoint tmp = vine->pos();
+        int &x = tmp.x;
+        int &y = tmp.y;
         for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
             for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
                 if( x != z.posx() || y != z.posy() ) {
@@ -395,8 +392,8 @@ void mdeath::guilt( monster &z )
 
     int moraleMalus = -50 * (1.0 - ((float) kill_count / maxKills));
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
-    int duration = 300 * (1.0 - ((float) kill_count / maxKills));
-    int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
+    time_duration duration = 30_minutes * (1.0 - ((float) kill_count / maxKills));
+    time_duration decayDelay = 3_minutes * (1.0 - ((float) kill_count / maxKills));
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
         if (g->u.has_trait( trait_PACIFIST )) {
@@ -426,7 +423,7 @@ void mdeath::blobsplit( monster &z )
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name().c_str() );
         } else {
-            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ), z.name().c_str() );
+            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
         }
     }
     std::vector <tripoint> valid;
@@ -550,7 +547,7 @@ void mdeath::focused_beam( monster &z )
             if( !g->m.trans( elem ) ) {
                 break;
             }
-            g->m.add_field( elem, fd_dazzling, 2, 0 );
+            g->m.add_field( elem, fd_dazzling, 2 );
         }
     }
 
@@ -714,7 +711,7 @@ void mdeath::detonate( monster &z )
         }
     }
     // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1, num_bp, true );
+    z.add_effect( effect_no_ammo, 1_turns, num_bp, true );
 
     // First die normally
     mdeath::normal( z );

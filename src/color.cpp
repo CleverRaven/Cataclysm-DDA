@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "json.h"
 
+#include <algorithm> // for std::count
 #include <iostream>
 
 void nc_color::serialize( JsonOut &jsout ) const
@@ -69,8 +70,15 @@ void color_manager::finalize()
     for( size_t i = 0; i < color_array.size(); i++ ) {
         color_struct &entry = color_array[i];
         const std::string my_name = get_name( entry.color );
-        for( size_t j = 0; j < NUM_HL; j++ ) {
-            entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
+        const std::string root = my_name.substr( 2, my_name.length() - 2 );
+        const size_t underscore_num = std::count( root.begin(), root.end(), '_' ) -
+                                      ( root.find( "light_" ) != std::string::npos ) -
+                                      ( root.find( "dark_" ) != std::string::npos );
+        // do not try to highlight color pairs, highlighted, background, and invalid colors
+        if( my_name.substr( 0, 2 ) == "c_" && root != "unset" && underscore_num < 1 ) {
+            for( size_t j = 0; j < NUM_HL; j++ ) {
+                entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
+            }
         }
     }
 }

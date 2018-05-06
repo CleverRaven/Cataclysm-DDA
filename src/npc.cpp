@@ -1979,16 +1979,14 @@ void npc::die( Creature *nkiller )
             g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),
                                    pgettext( "memorial_female", "Killed an innocent, %s." ),
                                    name.c_str() );
-            g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, DAYS( 2 ) / MINUTES( 1 ),
-                             HOURS( 3 ) / MINUTES( 1 ) );
+            g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
             g->u.add_memorial_log( pgettext( "memorial_male",
                                              "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
                                    pgettext( "memorial_female",
                                              "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
                                    name.c_str() );
-            g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, DAYS( 2 ) / MINUTES( 1 ),
-                             HOURS( 3 ) / MINUTES( 1 ) );
+            g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }
 
@@ -2123,27 +2121,7 @@ epilogue::epilogue()
 {
     id = "NONE";
     group = "NONE";
-    is_unique = false;
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "           ###### #### ####   ######    ####    ###   #### ######           " );
-    lines.push_back( "            ##  #  ##   ##     ##  #     ##    ## ## ##  # # ## #           " );
-    lines.push_back( "            ####   ##   ##     ####      ##    ## ## ####    ##             " );
-    lines.push_back( "            ##     ##   ##     ##        ##    ## ##   ###   ##             " );
-    lines.push_back( "            ##     ##   ## ##  ## ##     ## ## ## ## #  ##   ##             " );
-    lines.push_back( "           ####   #### ###### ######    ######  ###  ####   ####            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
-    lines.push_back( "                                                                            " );
+    text = "Error: file lost!";
 }
 
 epilogue_map epilogue::_all_epilogue;
@@ -2153,28 +2131,8 @@ void epilogue::load_epilogue( JsonObject &jsobj )
     epilogue base;
     base.id = jsobj.get_string( "id" );
     base.group = jsobj.get_string( "group" );
-    base.is_unique = jsobj.get_bool( "unique", false );
-    base.lines.clear();
-    base.lines.push_back( jsobj.get_string( "line_01" ) );
-    base.lines.push_back( jsobj.get_string( "line_02" ) );
-    base.lines.push_back( jsobj.get_string( "line_03" ) );
-    base.lines.push_back( jsobj.get_string( "line_04" ) );
-    base.lines.push_back( jsobj.get_string( "line_05" ) );
-    base.lines.push_back( jsobj.get_string( "line_06" ) );
-    base.lines.push_back( jsobj.get_string( "line_07" ) );
-    base.lines.push_back( jsobj.get_string( "line_08" ) );
-    base.lines.push_back( jsobj.get_string( "line_09" ) );
-    base.lines.push_back( jsobj.get_string( "line_10" ) );
-    base.lines.push_back( jsobj.get_string( "line_11" ) );
-    base.lines.push_back( jsobj.get_string( "line_12" ) );
-    base.lines.push_back( jsobj.get_string( "line_13" ) );
-    base.lines.push_back( jsobj.get_string( "line_14" ) );
-    base.lines.push_back( jsobj.get_string( "line_15" ) );
-    base.lines.push_back( jsobj.get_string( "line_16" ) );
-    base.lines.push_back( jsobj.get_string( "line_17" ) );
-    base.lines.push_back( jsobj.get_string( "line_18" ) );
-    base.lines.push_back( jsobj.get_string( "line_19" ) );
-    base.lines.push_back( jsobj.get_string( "line_20" ) );
+    base.text = jsobj.get_string( "text" );
+
     _all_epilogue[base.id] = base;
 }
 
@@ -2190,7 +2148,7 @@ epilogue *epilogue::find_epilogue( std::string ident )
     }
 }
 
-void epilogue::random_by_group( std::string group, std::string name )
+void epilogue::random_by_group( std::string group )
 {
     std::vector<epilogue> v;
     for( auto epi : _all_epilogue ) {
@@ -2198,21 +2156,13 @@ void epilogue::random_by_group( std::string group, std::string name )
             v.push_back( epi.second );
         }
     }
-    if( v.size() == 0 ) {
+    if( v.empty() ) {
         return;
     }
     epilogue epi = random_entry( v );
     id = epi.id;
     group = epi.group;
-    is_unique = epi.is_unique;
-    lines.clear();
-    lines = epi.lines;
-    for( auto &ln : lines ) {
-        if( !ln.empty() && ln[0] == '*' ) {
-            ln.replace( 0, name.size(), name );
-        }
-    }
-
+    text = epi.text;
 }
 
 const tripoint npc::no_goal_point( INT_MIN, INT_MIN, INT_MIN );
