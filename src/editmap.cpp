@@ -234,7 +234,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
     if( cur_blink >= ( int )blink_interval.size() ) {
         cur_blink = 0;
     }
-    if( blink_interval[ cur_blink ] == true || update == true ) {
+    if( blink_interval[ cur_blink ] || update ) {
         for( auto &elem : points ) {
             const tripoint &p = elem.first;
             int vpart = 0;
@@ -258,7 +258,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
                         t_sym = t_fld->symbol();
                     }
                 }
-                if( blink_interval[ cur_blink ] == true ) {
+                if( blink_interval[ cur_blink ] ) {
                     t_col = getbg( t_col );
                 }
                 tripoint scrpos = hm.pos2screen( p );
@@ -463,7 +463,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     bool draw_itm = true;
     bool game_map = ( ( m == &g->m || w == g->w_terrain ) ? true : false );
     const int msize = SEEX * MAPSIZE;
-    if( refresh_mplans == true ) {
+    if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
@@ -479,7 +479,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     } else {
                         m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                     }
-                    if( refresh_mplans == true ) {
+                    if( refresh_mplans ) {
                         monster *mon = dynamic_cast<monster *>( critter );
                         if( mon != nullptr && mon->pos() != mon->move_target() ) {
                             for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
@@ -495,7 +495,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
             }
         }
     }
-    if( refresh_mplans == true ) {
+    if( refresh_mplans ) {
         refresh_mplans = false;
     }
 }

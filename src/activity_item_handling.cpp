@@ -522,13 +522,13 @@ static void move_items( const tripoint &src, bool from_vehicle,
     s_veh = d_veh = nullptr;
 
     // load vehicle information if requested
-    if( from_vehicle == true ) {
+    if( from_vehicle ) {
         s_veh = g->m.veh_at( source, s_cargo );
         assert( s_veh != nullptr );
         s_cargo = s_veh->part_with_feature( s_cargo, "CARGO", false );
         assert( s_cargo >= 0 );
     }
-    if( to_vehicle == true ) {
+    if( to_vehicle ) {
         d_veh = g->m.veh_at( destination, d_cargo );
         assert( d_veh != nullptr );
         d_cargo = d_veh->part_with_feature( d_cargo, "CARGO", false );
@@ -569,7 +569,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
                 drop_on_map( g->u, { *temp_item }, destination );
             }
             // Remove from map or vehicle.
-            if( from_vehicle == true ) {
+            if( from_vehicle ) {
                 s_veh->remove_item( s_cargo, index );
             } else {
                 g->m.i_rem( source, index );

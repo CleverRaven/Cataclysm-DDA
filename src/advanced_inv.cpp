@@ -113,7 +113,7 @@ advanced_inventory::~advanced_inventory()
 
 void advanced_inventory::save_settings( bool only_panes )
 {
-    if( only_panes == false ) {
+    if( !only_panes ) {
         uistate.adv_inv_last_coords = g->u.pos();
         uistate.adv_inv_src = src;
         uistate.adv_inv_dest = dest;
@@ -653,7 +653,7 @@ void advanced_inv_area::init()
                 desc[1] = veh->get_label(part.mount.x, part.mount.y);
             }
             // get graffiti or terrain name
-            desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ?
+            desc[0] = g->m.has_graffiti_at( pos ) ?
                 g->m.graffiti_at( pos ) : g->m.name( pos );
         default:
             break;
@@ -1683,7 +1683,7 @@ void advanced_inventory::display()
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
             }
-            if( sitem->autopickup == true ) {
+            if( sitem->autopickup ) {
                 get_auto_pickup().remove_rule( sitem->items.front()->tname() );
                 sitem->autopickup = false;
             } else {
@@ -1955,7 +1955,7 @@ int advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
         } else {
             g->m.i_rem( s.pos, sitem.items.front() );
         }
-        if(rc == false) {
+        if( !rc ) {
             break;
         }
         sitem.items.erase(sitem.items.begin());

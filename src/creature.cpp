@@ -798,7 +798,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
     }
 
-    if( found == false ) {
+    if( !found ) {
         // If we don't already have it then add a new one
 
         // Then check if the effect is blocked by another

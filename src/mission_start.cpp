@@ -1312,7 +1312,7 @@ void mission_start::ranch_construct_16(mission *miss)
         already_has = true;
     }
  }
- if (already_has == false){
+    if( !already_has ) {
     bay.place_npc( 12, 22, string_id<npc_template>( "ranch_bartender" ) );
     bay.place_npc( 7, 20, string_id<npc_template>( "scavenger_merc" ) );
  }
