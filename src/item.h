@@ -155,7 +155,7 @@ struct iteminfo {
  *  and by @ref profession to place the characters' clothing in a sane order
  *  when starting the game.
  */
-enum layer_level {
+enum class layer_level : int {
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
     UNDERWEAR = 0,
     /* "Normal" layer, default if no flags set */
@@ -1314,6 +1314,9 @@ public:
          * Returns clothing layer for item which will always be 0 for non-wearable items.
          */
         int get_layer() const;
+
+		layer_level layer() const;
+
         /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
