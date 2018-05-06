@@ -64,6 +64,7 @@
 #include "recipe_dictionary.h"
 #include "ranged.h"
 #include "ammo.h"
+#include "json.h"
 
 #include <map>
 #include <iterator>
@@ -440,6 +441,16 @@ stat_mod player::get_pain_penalty() const
 
     ret.speed = std::min( ret.speed, 50 );
     return ret;
+}
+
+void player_uistatedata::serialize(JsonOut &json) const
+{
+    ( void ) json; // unused
+}
+
+void player_uistatedata::deserialize(JsonIn &jsin)
+{
+    auto jo = jsin.get_object();
 }
 
 player::player() : Character()
@@ -6874,7 +6885,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
         return row;
     };
 
-    itype_id last = uistate.lastreload[ base.ammo_type() ];
+    itype_id last = uistate.player->lastreload[ base.ammo_type() ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
     int last_key = inp_mngr.get_previously_pressed_key();
@@ -6976,7 +6987,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     }
 
     const item_location& sel = opts[ menu.ret ].ammo;
-    uistate.lastreload[ base.ammo_type() ] = sel->is_ammo_container() ? sel->contents.front().typeId() : sel->typeId();
+    uistate.player->lastreload[ base.ammo_type() ] = sel->is_ammo_container() ? sel->contents.front().typeId() : sel->typeId();
     return std::move( opts[ menu.ret ] );
 }
 

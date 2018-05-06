@@ -30,9 +30,21 @@ enum hack_result {
     HACK_SUCCESS
 };
 
+class JsonIn;
+class JsonOut;
+
+class iexamine_uistatedata
+{
+    public:
+        int ags_pay_gas_selected_pump = 0;
+        int iexamine_atm_selected = 0;
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 namespace iexamine
 {
-
 void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype );
 
 void none( player &p, const tripoint &examp );

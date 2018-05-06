@@ -1,3 +1,4 @@
+#include "wish.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -17,6 +18,7 @@
 #include "player.h"
 #include "debug_menu.h"
 #include "string_input_popup.h"
+#include "json.h"
 
 #include <sstream>
 
@@ -202,7 +204,7 @@ void debug_menu::wishmutate( player *p )
     // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 40 );
     wmenu.return_invalid = true;
-    wmenu.selected = uistate.wishmutate_selected;
+    wmenu.selected = uistate.wish->wishmutate_selected;
     wish_mutate_callback cb;
     cb.p = p;
     wmenu.callback = &cb;
@@ -239,7 +241,7 @@ void debug_menu::wishmutate( player *p )
                 } while( !p->has_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
-            uistate.wishmutate_selected = wmenu.ret;
+            uistate.wish->wishmutate_selected = wmenu.ret;
             if( rc != 0 ) {
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
                     wmenu.entries[ i ].extratxt.txt.clear();
@@ -360,7 +362,7 @@ void debug_menu::wishmonster( const tripoint &p )
     // disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.return_invalid = true;
-    wmenu.selected = uistate.wishmonster_selected;
+    wmenu.selected = uistate.wish->wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
 
@@ -398,7 +400,7 @@ void debug_menu::wishmonster( const tripoint &p )
                 input_context ctxt( "UIMENU" );
                 cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
                                         num_spawned, int( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
-                uistate.wishmonster_selected = wmenu.ret;
+                uistate.wish->wishmonster_selected = wmenu.ret;
                 wmenu.redraw();
             }
         }
@@ -463,7 +465,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     wmenu.w_width = TERMX;
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
     wmenu.return_invalid = true;
-    wmenu.selected = uistate.wishitem_selected;
+    wmenu.selected = uistate.wish->wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
 
@@ -510,7 +512,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                                             ctxt.get_desc( "QUIT" ).c_str() );
                 }
             }
-            uistate.wishitem_selected = wmenu.ret;
+            uistate.wish->wishitem_selected = wmenu.ret;
             if( canceled || amount <= 0 ) {
                 amount = prev_amount;
             }
@@ -609,4 +611,14 @@ void debug_menu::wishskill( player *p )
             }
         }
     } while( skmenu.ret >= 0 );
+}
+
+void wish_uistatedata::serialize( JsonOut &json ) const
+{
+    ( void ) json; // unused
+}
+
+void wish_uistatedata::deserialize( JsonIn &jsin )
+{
+    auto jo = jsin.get_object();
 }

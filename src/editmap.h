@@ -7,6 +7,7 @@
 #include "omdata.h"
 #include "ui.h"
 #include "trap.h"
+
 #include <vector>
 #include <map>
 #include <list>
@@ -36,6 +37,15 @@ struct editmap_hilight {
                 );
     };
     void draw( editmap &em, bool update = false );
+};
+
+class editmap_uistatedata
+{
+    public:
+        bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 class editmap

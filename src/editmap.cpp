@@ -32,6 +32,7 @@
 #include "scent_map.h"
 #include "debug_menu.h"
 #include "string_input_popup.h"
+#include "json.h"
 
 #include <fstream>
 #include <sstream>
@@ -169,6 +170,16 @@ void edit_json( SAVEOBJ &it )
 
     } while( tmret != 3 );
 
+}
+
+void editmap_uistatedata::serialize( JsonOut &json ) const
+{
+    json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+}
+
+void editmap_uistatedata::deserialize( JsonIn &jsin )
+{
+    auto jo = jsin.get_object();
 }
 
 editmap::editmap()
@@ -374,7 +385,7 @@ tripoint editmap::edit()
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
 
-    uberdraw = uistate.editmap_nsa_viewmode;
+    uberdraw = uistate.editmap->editmap_nsa_viewmode;
     infoHeight = 14;
 
     w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
@@ -428,7 +439,7 @@ tripoint editmap::edit()
         }
     } while( action != "QUIT" );
 
-    uistate.editmap_nsa_viewmode = uberdraw;
+    uistate.editmap->editmap_nsa_viewmode = uberdraw;
 
     if( action == "CONFIRM" ) {
         return target;

@@ -322,6 +322,37 @@ class advanced_inventory_pane
         mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
 };
 
+class advanced_inv_uistatedata
+{
+    private:
+        // not needed for compilation, but keeps syntax plugins happy
+        typedef std::string itype_id;
+        enum side { left  = 0, right = 1, NUM_PANES = 2 };
+    public:
+        std::array<int, 2> adv_inv_sort = {{1, 1}};
+        std::array<int, 2> adv_inv_area = {{5, 0}};
+        std::array<int, 2> adv_inv_index = {{0, 0}};
+        std::array<bool, 2> adv_inv_in_vehicle = {{false, false}};
+        std::array<std::string, 2> adv_inv_filter = {{"", ""}};
+        std::array<int, 2> adv_inv_default_areas = {{11, 0}}; //left: All, right: Inventory
+        int adv_inv_src = left;
+        int adv_inv_dest = right;
+        int adv_inv_last_popup_dest = 0;
+        int adv_inv_container_location = -1;
+        int adv_inv_container_index = 0;
+        bool adv_inv_container_in_vehicle = 0;
+        int adv_inv_exit_code = 0;
+        itype_id adv_inv_container_type = "null";
+        itype_id adv_inv_container_content_type = "null";
+        int adv_inv_re_enter_move_all = 0;
+        int adv_inv_aim_all_location = 1;
+        std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
+        tripoint adv_inv_last_coords = {-999, -999, -999};
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 class advanced_inventory
 {
     public:

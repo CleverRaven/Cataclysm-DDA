@@ -118,6 +118,34 @@ class loading_ui;
 
 typedef std::function<bool( const item & )> item_filter;
 
+class game_uistatedata
+{
+    public:
+        // V Menu Stuff
+        bool vmenu_show_items = true; // false implies show monsters
+        int list_item_sort = 0;
+        std::string list_item_filter;
+        std::string list_item_downvote;
+        std::string list_item_priority;
+        bool list_item_filter_active = false;
+        bool list_item_downvote_active = false;
+        bool list_item_priority_active = false;
+        bool list_item_init = false;
+
+        /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
+           output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
+        */
+
+        std::map<std::string, std::vector<std::string>> input_history;
+
+        std::vector<std::string> &gethistory( std::string id ) {
+            return input_history[id];
+        }
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 class game
 {
         friend class editmap;

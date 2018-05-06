@@ -1161,6 +1161,22 @@ void overmap_special::check() const
     }
 }
 
+void overmap_uistatedata::serialize(JsonOut &json) const
+{
+    json.member("overmap_blinking", overmap_blinking);
+    json.member("overmap_show_overlays", overmap_show_overlays);
+    json.member("overmap_show_city_labels", overmap_show_city_labels);
+}
+
+void overmap_uistatedata::deserialize(JsonIn &jsin)
+{
+    auto jo = jsin.get_object();
+
+    jo.read("overmap_blinking", overmap_blinking);
+    jo.read("overmap_show_overlays", overmap_show_overlays);
+    jo.read("overmap_show_city_labels", overmap_show_city_labels);
+}
+
 // *** BEGIN overmap FUNCTIONS ***
 overmap::overmap( int const x, int const y ) : loc( x, y )
 {
@@ -2103,11 +2119,11 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
     std::unordered_map<point, std::pair<long, nc_color>> special_cache;
 
     point s_begin, s_end = point( 0, 0 );
-    if( blink && uistate.place_special ) {
-        for( const auto &s_ter : uistate.place_special->terrains ) {
+    if( blink && uistate.overmap->place_special ) {
+        for( const auto &s_ter : uistate.overmap->place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
-                const point rp = om_direction::rotate( point( s_ter.p.x, s_ter.p.y ), uistate.omedit_rotation );
-                const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                const point rp = om_direction::rotate( point( s_ter.p.x, s_ter.p.y ), uistate.overmap->omedit_rotation );
+                const oter_id oter =  s_ter.terrain->get_rotated( uistate.overmap->omedit_rotation );
 
                 special_cache.insert( std::make_pair(
                     rp, std::make_pair( oter->get_sym(), oter->get_color() ) ) );
@@ -2274,11 +2290,11 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
             }
 
             // Preview for place_terrain or place_special
-            if( uistate.place_terrain || uistate.place_special ) {
-                if( blink && uistate.place_terrain && omx == cursx && omy == cursy ) {
-                    ter_color = uistate.place_terrain->get_color();
-                    ter_sym = uistate.place_terrain->get_sym();
-                } else if( blink && uistate.place_special ) {
+            if( uistate.overmap->place_terrain || uistate.overmap->place_special ) {
+                if( blink && uistate.overmap->place_terrain && omx == cursx && omy == cursy ) {
+                    ter_color = uistate.overmap->place_terrain->get_color();
+                    ter_sym = uistate.overmap->place_terrain->get_sym();
+                } else if( blink && uistate.overmap->place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
                         const point cache_point( omx - cursx, omy - cursy );
@@ -2297,7 +2313,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                 }
             }
 
-            if( omx == cursx && omy == cursy && !uistate.place_special ) {
+            if( omx == cursx && omy == cursy && !uistate.overmap->place_special ) {
                 csee = see;
                 ccur_ter = cur_ter;
                 mvwputch_hi(w, j, i, ter_color, ter_sym);
@@ -2307,7 +2323,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
         }
     }
 
-    if( z == 0 && uistate.overmap_show_city_labels ) {
+    if( z == 0 && uistate.overmap->overmap_show_city_labels ) {
         draw_city_labels( w, tripoint( cursx, cursy, z ) );
     }
 
@@ -2492,7 +2508,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
 
     // draw nice crosshair around the cursor
-    if( blink && !uistate.place_terrain && !uistate.place_special ) {
+    if( blink && !uistate.overmap->place_terrain && !uistate.overmap->place_special ) {
         mvwputch(w, om_half_height-1, om_half_width-1, c_light_gray, LINE_OXXO);
         mvwputch(w, om_half_height-1, om_half_width+1, c_light_gray, LINE_OOXX);
         mvwputch(w, om_half_height+1, om_half_width-1, c_light_gray, LINE_XXOO);
@@ -2638,7 +2654,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     std::string action;
     bool show_explored = true;
     do {
-        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
+        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap->overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input( BLINK_SPEED );
 
         int dirx, diry;
@@ -2685,25 +2701,25 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 curs.y = p.y;
             }
         } else if (action == "TOGGLE_BLINKING") {
-            uistate.overmap_blinking = !uistate.overmap_blinking;
+            uistate.overmap->overmap_blinking = !uistate.overmap->overmap_blinking;
             // if we turn off overmap blinking, show overlays and explored status
-            if (!uistate.overmap_blinking) {
-                uistate.overmap_show_overlays = true;
+            if (!uistate.overmap->overmap_blinking) {
+                uistate.overmap->overmap_show_overlays = true;
             } else {
                 show_explored = true;
             }
         } else if (action == "TOGGLE_OVERLAYS") {
             // if we are currently blinking, turn blinking off.
-            if (uistate.overmap_blinking) {
-                uistate.overmap_blinking = false;
-                uistate.overmap_show_overlays = false;
+            if (uistate.overmap->overmap_blinking) {
+                uistate.overmap->overmap_blinking = false;
+                uistate.overmap->overmap_show_overlays = false;
                 show_explored = false;
             } else {
-                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                uistate.overmap->overmap_show_overlays = !uistate.overmap->overmap_show_overlays;
                 show_explored = !show_explored;
             }
         } else if( action == "TOGGLE_CITY_LABELS" ) {
-            uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
+            uistate.overmap->overmap_show_city_labels = !uistate.overmap->overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs.x, curs.y, curs.z );
         } else if( action == "SEARCH" ) {
@@ -2771,7 +2787,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
-                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
+                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap->overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
                 mvwprintz(w_search, 1, 1, c_light_blue, _("Search:"));
                 mvwprintz(w_search, 1, 10, c_light_red, "%*s", 12, term.c_str());
@@ -2791,8 +2807,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 draw_border(w_search);
                 wrefresh(w_search);
                 action = ctxt.handle_input( BLINK_SPEED );
-                if (uistate.overmap_blinking) {
-                    uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                if (uistate.overmap->overmap_blinking) {
+                    uistate.overmap->overmap_show_overlays = !uistate.overmap->overmap_show_overlays;
                 }
                 if (action == "NEXT_TAB" || action == "RIGHT") {
                     i = (i + 1) % locations.size();
@@ -2834,19 +2850,19 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 ctxt.register_action( "ANY_INPUT" );
 
                 if( terrain ) {
-                    uistate.place_terrain = &oter_id( pmenu.ret ).obj();
+                    uistate.overmap->place_terrain = &oter_id( pmenu.ret ).obj();
                 } else {
-                    uistate.place_special = oslist[pmenu.ret];
+                    uistate.overmap->place_special = oslist[pmenu.ret];
                 }
                 // @todo: Unify these things.
-                const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() : uistate.place_special->rotatable;
+                const bool can_rotate = terrain ? uistate.overmap->place_terrain->is_rotatable() : uistate.overmap->place_special->rotatable;
 
-                uistate.omedit_rotation = om_direction::type::none;
+                uistate.overmap->omedit_rotation = om_direction::type::none;
                 // If user chose an already rotated submap, figure out its direction
                 if( terrain && can_rotate ) {
                     for( auto r : om_direction::all ) {
-                        if( uistate.place_terrain->id.id() == uistate.place_terrain->get_rotated( r ) ) {
-                            uistate.omedit_rotation = r;
+                        if( uistate.overmap->place_terrain->id.id() == uistate.overmap->place_terrain->get_rotated( r ) ) {
+                            uistate.overmap->omedit_rotation = r;
                             break;
                         }
                     }
@@ -2854,20 +2870,20 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
                 do {
                     // overmap::draw will handle actually showing the preview
-                    draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+                    draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap->overmap_show_overlays,
                           show_explored, NULL, draw_data_t() );
 
                     draw_border( w_editor );
                     if( terrain ) {
                         mvwprintz( w_editor, 1, 1, c_white, _("Place overmap terrain:") );
                         mvwprintz( w_editor, 2, 1, c_light_blue, "                         " );
-                        mvwprintz( w_editor, 2, 1, c_light_blue, uistate.place_terrain->id.c_str() );
+                        mvwprintz( w_editor, 2, 1, c_light_blue, uistate.overmap->place_terrain->id.c_str() );
                     } else {
                         mvwprintz( w_editor, 1, 1, c_white, _("Place overmap special:") );
                         mvwprintz( w_editor, 2, 1, c_light_blue, "                         " );
-                        mvwprintz( w_editor, 2, 1, c_light_blue, uistate.place_special->id.c_str() );
+                        mvwprintz( w_editor, 2, 1, c_light_blue, uistate.overmap->place_special->id.c_str() );
                     }
-                    const std::string rotation = om_direction::name( uistate.omedit_rotation );
+                    const std::string rotation = om_direction::name( uistate.overmap->omedit_rotation );
 
                     mvwprintz( w_editor, 3, 1, c_light_gray, "                         " );
                     mvwprintz( w_editor, 3, 1, c_light_gray, _("Rotation: %s %s"), rotation.c_str(), can_rotate ? "" : _( "(fixed)" ) );
@@ -2876,8 +2892,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     mvwprintz( w_editor, 7, 1, c_red, _("generated. Their overmap") );
                     mvwprintz( w_editor, 8, 1, c_red, _("id will change, but not") );
                     mvwprintz( w_editor, 9, 1, c_red, _("their contents.") );
-                    if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
-                        ( !terrain && uistate.place_special->rotatable ) ) {
+                    if( ( terrain && uistate.overmap->place_terrain->is_rotatable() ) ||
+                        ( !terrain && uistate.overmap->place_special->rotatable ) ) {
                         mvwprintz( w_editor, 11, 1, c_white, _("[%s] Rotate"),
                                    ctxt.get_desc( "ROTATE" ).c_str() );
                     }
@@ -2893,39 +2909,39 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                         curs.y += diry;
                     } else if( action == "CONFIRM" ) { // Actually modify the overmap
                         if( terrain ) {
-                            overmap_buffer.ter( curs ) = uistate.place_terrain->id.id();
+                            overmap_buffer.ter( curs ) = uistate.overmap->place_terrain->id.id();
                             overmap_buffer.set_seen( curs.x, curs.y, curs.z, true );
                         } else {
-                            for( const auto &s_ter : uistate.place_special->terrains ) {
-                                const tripoint pos = curs + om_direction::rotate( s_ter.p, uistate.omedit_rotation );
+                            for( const auto &s_ter : uistate.overmap->place_special->terrains ) {
+                                const tripoint pos = curs + om_direction::rotate( s_ter.p, uistate.overmap->omedit_rotation );
 
-                                overmap_buffer.ter( pos ) = s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                                overmap_buffer.ter( pos ) = s_ter.terrain->get_rotated( uistate.overmap->omedit_rotation );
                                 overmap_buffer.set_seen( pos.x, pos.y, pos.z, true );
                             }
                         }
                         break;
                     } else if( action == "ROTATE" && can_rotate ) {
-                        uistate.omedit_rotation = om_direction::turn_right( uistate.omedit_rotation );
+                        uistate.overmap->omedit_rotation = om_direction::turn_right( uistate.overmap->omedit_rotation );
                         if( terrain ) {
-                            uistate.place_terrain = &uistate.place_terrain->get_rotated( uistate.omedit_rotation ).obj();
+                            uistate.overmap->place_terrain = &uistate.overmap->place_terrain->get_rotated( uistate.overmap->omedit_rotation ).obj();
                         }
                     }
-                    if( uistate.overmap_blinking ) {
-                        uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                    if( uistate.overmap->overmap_blinking ) {
+                        uistate.overmap->overmap_show_overlays = !uistate.overmap->overmap_show_overlays;
                     }
                 } while( action != "QUIT" );
 
-                uistate.place_terrain = nullptr;
-                uistate.place_special = nullptr;
+                uistate.overmap->place_terrain = nullptr;
+                uistate.overmap->place_special = nullptr;
                 action.clear();
             }
         } else if (action == "TIMEOUT") {
-            if (uistate.overmap_blinking) {
-                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+            if (uistate.overmap->overmap_blinking) {
+                uistate.overmap->overmap_show_overlays = !uistate.overmap->overmap_show_overlays;
             }
         } else if (action == "ANY_INPUT") {
-            if (uistate.overmap_blinking) {
-                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+            if (uistate.overmap->overmap_blinking) {
+                uistate.overmap->overmap_show_overlays = !uistate.overmap->overmap_show_overlays;
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
