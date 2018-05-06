@@ -32,11 +32,17 @@ bool should_combine_bps( const player &p, size_t l, size_t r )
            temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] );
 }
 
+std::array<nc_color, 4> defaultPlayerHighlightingScheme = { h_green, h_light_gray, c_green, c_light_gray };
+
 void player::print_encumbrance( const catacurses::window &win, int line,
-                                item *selected_clothing ) const
+                                item *selected_clothing, std::array<nc_color, 4> *pHighlightingScheme) const
 {
     const int height = getmaxy( win );
     int orig_line = line;
+
+    const std::array<nc_color, 4> highlightingScheme = pHighlightingScheme != nullptr
+        ? *pHighlightingScheme
+        : std::array<nc_color, 4>({ h_green, h_light_gray, c_green, c_light_gray });
 
     // fill a set with the indices of the body parts to display
     line = std::max( 0, line );
@@ -92,8 +98,8 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
         nc_color limb_color = ( orig_line == bp ) ?
-                              ( highlighted ? h_green : h_light_gray ) :
-                              ( highlighted ? c_green : c_light_gray );
+                              ( highlighted ? highlightingScheme[0] : highlightingScheme[1] ) :
+                              ( highlighted ? highlightingScheme[2] : highlightingScheme[3] );
         mvwprintz( win, row, 1, limb_color, out.c_str() );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ).c_str() );

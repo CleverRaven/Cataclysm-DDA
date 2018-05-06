@@ -1520,7 +1520,8 @@ class player : public Character
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
 
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( const catacurses::window &win, int line = -1, item *selected_limb = nullptr ) const;
+        void print_encumbrance( const catacurses::window &win, int line = -1, item *selected_limb = nullptr, 
+			                    std::array<nc_color, 4> *highlightingScheme = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
