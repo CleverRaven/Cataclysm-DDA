@@ -17,31 +17,73 @@ iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &setBits )
     }
 }
 
+iteminfo_query::iteminfo_query( const iteminfo_query_base &values )
+	: iteminfo_query_base( values )
+{
+}
+
 bool iteminfo_query::test( const iteminfo_parts &value ) const
 {
     return iteminfo_query_base::test( static_cast<size_t>( value ) );
 }
 
 const iteminfo_query iteminfo_query::all = iteminfo_query(
-            std::string( static_cast<size_t>( iteminfo_parts::MAX_VALUE ) + 1, '1' ) );
+            std::string( static_cast<size_t>( iteminfo_parts::NUM_VALUES ) , '1' ) );
+
+
 
 const iteminfo_query iteminfo_query::notext = iteminfo_query(
-            std::string( static_cast<size_t>( iteminfo_parts::MAX_VALUE ) -
-                         static_cast<size_t>( iteminfo_parts::RANGE_TEXT_END ),
-                         '1' ) +
-            std::string( static_cast<size_t>( iteminfo_parts::RANGE_TEXT_END ) -
-                         static_cast<size_t>( iteminfo_parts::RANGE_TEXT_START ) + 1,
-                         '0' ) +
-            std::string( static_cast<size_t>( iteminfo_parts::RANGE_TEXT_START ), '1' ) );
+	iteminfo_query::all & ~iteminfo_query(
+		std::vector<iteminfo_parts> {
+	        iteminfo_parts::DESCRIPTION,
+		    iteminfo_parts::DESCRIPTION_TECHNIQUES,
+		    iteminfo_parts::DESCRIPTION_GUNMOD_ADDREACHATTACK,
+		    iteminfo_parts::DESCRIPTION_MELEEDMG,
+		    iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT,
+		    iteminfo_parts::DESCRIPTION_MELEEDMG_BASH,
+		    iteminfo_parts::DESCRIPTION_MELEEDMG_CUT,
+		    iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE,
+		    iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES,
+		    iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS,
+		    iteminfo_parts::DESCRIPTION_REPAIREDWITH,
+		    iteminfo_parts::DESCRIPTION_CONDUCTIVITY,
+		    iteminfo_parts::DESCRIPTION_FLAGS,
+		    iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT,
+		    iteminfo_parts::DESCRIPTION_FLAGS_FITS,
+		    iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE,
+		    iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
+		    iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
+		    iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
+		    iteminfo_parts::DESCRIPTION_IRRIDATION,
+		    iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED,
+		    iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD,
+		    iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE,
+		    iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION,
+		    iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_CHANNEL,
+		    iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_PROC,
+		    iteminfo_parts::DESCRIPTION_CBM_SLOTS,
+		    iteminfo_parts::DESCRIPTION_TWOHANDED,
+		    iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS,
+		    iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED,
+		    iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS,
+		    iteminfo_parts::DESCRIPTION_BREWABLE_DURATION,
+		    iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS,
+		    iteminfo_parts::DESCRIPTION_FAULTS,
+		    iteminfo_parts::DESCRIPTION_HOLSTERS,
+		    iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
+		    iteminfo_parts::DESCRIPTION_NOTES,
+		    iteminfo_parts::DESCRIPTION_CONTENTS,
+		    iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES
+    } ) );
 
 const iteminfo_query iteminfo_query::anyflags = iteminfo_query(
-std::vector<iteminfo_parts> {
-    iteminfo_parts::DESCRIPTION_FLAGS,
-    iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT,
-    iteminfo_parts::DESCRIPTION_FLAGS_FITS,
-    iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE,
-    iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
-    iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
-    iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    iteminfo_parts::DESCRIPTION_IRRIDATION
-} );
+            std::vector<iteminfo_parts> {
+                iteminfo_parts::DESCRIPTION_FLAGS,
+                iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT,
+                iteminfo_parts::DESCRIPTION_FLAGS_FITS,
+                iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE,
+                iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
+                iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
+                iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
+                iteminfo_parts::DESCRIPTION_IRRIDATION
+            } );

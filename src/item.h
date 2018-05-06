@@ -16,12 +16,12 @@
 #include "debug.h"
 #include "cata_utility.h"
 #include "calendar.h"
-#include "iteminfo_query.h"
 
 class nc_color;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class iteminfo_query;
 template<typename T>
 class ret_val;
 namespace units
@@ -394,7 +394,7 @@ class item : public visitable<item>
     * the vector can be used to compare them to properties of another item.
     * @param batch The batch crafting number to multiply data by
     */
-    std::string info(std::vector<iteminfo> &dump, const iteminfo_query &parts = iteminfo_query::all, int batch = 1) const;
+    std::string info(std::vector<iteminfo> &dump, const iteminfo_query *parts = nullptr, int batch = 1) const;
 
 
     /** Burns the item. Returns true if the item was destroyed. */
