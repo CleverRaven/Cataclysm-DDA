@@ -16,7 +16,6 @@ apps:
 parts:
   cataclysm:
     plugin: make
-    stage-packages: [libc6]
     build-packages: [astyle, ccache, build-essential, libncurses5-dev, libncursesw5-dev]
     override-build: make NATIVE=linux64 RELEASE=1 LTO=1 CCACHE=1 USE_HOME_DIR=1 && mv * $SNAPCRAFT_PART_INSTALL
     stage: [data, cataclysm, cataclysm-launcher]
