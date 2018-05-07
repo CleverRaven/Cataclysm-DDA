@@ -94,7 +94,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         valid_entry = valid_entry && ( it->lasts_forever() ||
                                        calendar::time_of_cataclysm + it->ends > calendar::turn );
 
-        std::vector<std::pair<int, int> > valid_times_of_day;
+        std::vector<std::pair<time_point, time_point> > valid_times_of_day;
         bool season_limited = false;
         bool season_matched = false;
         //Collect the various spawn conditions, and then insure they are met appropriately
@@ -102,16 +102,16 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             //Collect valid time of day ranges
             if( ( elem ) == "DAY" || ( elem ) == "NIGHT" || ( elem ) == "DUSK" ||
                 ( elem ) == "DAWN" ) {
-                int sunset = calendar::turn.sunset().get_turn();
-                int sunrise = calendar::turn.sunrise().get_turn();
+                const time_point sunset = calendar::turn.sunset();
+                const time_point sunrise = calendar::turn.sunrise();
                 if( ( elem ) == "DAY" ) {
                     valid_times_of_day.push_back( std::make_pair( sunrise, sunset ) );
                 } else if( ( elem ) == "NIGHT" ) {
                     valid_times_of_day.push_back( std::make_pair( sunset, sunrise ) );
                 } else if( ( elem ) == "DUSK" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset - HOURS( 1 ), sunset + HOURS( 1 ) ) );
+                    valid_times_of_day.push_back( std::make_pair( sunset - 1_hours, sunset + 1_hours ) );
                 } else if( ( elem ) == "DAWN" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise - HOURS( 1 ), sunrise + HOURS( 1 ) ) );
+                    valid_times_of_day.push_back( std::make_pair( sunrise - 1_hours, sunrise + 1_hours ) );
                 }
             }
 
@@ -136,8 +136,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         } else {
             //Otherwise, it's valid if it matches any of the times of day
             for( auto &elem : valid_times_of_day ) {
-                int time_now = calendar::turn.get_turn();
-                if( time_now > elem.first && time_now < elem.second ) {
+                if( calendar::turn > elem.first && calendar::turn < elem.second ) {
                     is_valid_time_of_day = true;
                 }
             }
