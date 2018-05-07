@@ -1491,7 +1491,7 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
 
     const int armorenc = !power_armor || !it.is_power_armor() ?
         encumber_val : std::max( 0, encumber_val - 40 );
-    
+
     for( const body_part bp : all_body_parts ) {
         if( !it.covers( bp ) ) {
             continue;
@@ -1519,7 +1519,6 @@ void layer_details::reset() {
     total = 0;
 }
 
-
 // The stacking penalty applies by doubling the encumbrance of
 // each item except the highest encumbrance one.
 // So we add them together and then subtract out the highest.
@@ -1527,11 +1526,10 @@ int layer_details::layer( const int encumbrance ) {
     pieces.push_back( encumbrance );
 
     int current = total;
-    if (encumbrance > max) {
+    if ( encumbrance > max ) {
         total += max;   // *now* the old max is counted, just ignore the new max
         max = encumbrance;
-    }
-    else {
+    } else {
         total += encumbrance;
     }
     return total - current;
@@ -1559,7 +1557,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 {
 
     // reset all layer data
-    for (auto &v : vals)
+    for ( auto &v : vals )
         v.reset();
 
     const bool power_armored = is_wearing_active_power_armor();
@@ -1575,7 +1573,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     for( const body_part bp : all_body_parts ) {
         encumbrance_data &elem = vals[bp];
 
-		elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
+        elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
 
         // Add armor and layering penalties for the final values
         elem.encumbrance += elem.armor_encumbrance + elem.layer_penalty;
