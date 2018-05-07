@@ -173,9 +173,6 @@ class calendar
          */
         calendar( int turn );
 
-        /** @returns the current turn_number. */
-        int get_turn() const;
-
         /**
          * Alternative accessor for current turn_number.
          *
@@ -531,7 +528,7 @@ class time_point
 
     public:
         //@todo: replace usage of `calendar` with `time_point`, remove this constructor
-        time_point( const calendar &c ) : turn_( c.get_turn() ) { }
+        time_point( const calendar &c ) : turn_( c ) { }
         /// Allows writing `time_point p = 0;`
         constexpr time_point( const std::nullptr_t ) : turn_( 0 ) { }
         //@todo: remove this, nobody should need it, one should use a constant `time_point`

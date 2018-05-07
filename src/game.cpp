@@ -1150,7 +1150,7 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        int turns = calendar::turn.get_turn() - calendar::start.get_turn();
+        int turns = calendar::turn - calendar::start;
         int minutes = ( turns / MINUTES( 1 ) ) % 60;
         int hours = ( turns / HOURS( 1 ) ) % 24;
         int days = turns / DAYS( 1 );
@@ -4199,8 +4199,8 @@ void game::debug()
                     return;
                 }
                 const int new_value = ( std::atoi( text.c_str() ) - initial ) * factor;
-                calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn.get_turn(), new_value ),
-                                            -calendar::turn.get_turn() );
+                calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn, new_value ),
+                                            -calendar::turn );
             };
 
             uimenu smenu;
@@ -4215,7 +4215,7 @@ void game::debug()
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), calendar::turn.get_turn() );
+                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), static_cast<int>( calendar::turn ) );
                 smenu.addentry( 6, true, 'q', "%s", _( "quit" ) );
                 smenu.selected = iSel;
                 smenu.query();
@@ -4238,7 +4238,7 @@ void game::debug()
                         set_turn( minute_of_hour<int>( calendar::turn ), MINUTES( 1 ), _( "Set minute to?" ) );
                         break;
                     case 5:
-                        set_turn( calendar::turn.get_turn(), 1,
+                        set_turn( calendar::turn, 1,
                                   string_format( _( "Set turn to? (One day is %i turns)" ), int( DAYS( 1 ) ) ).c_str() );
                         break;
                     default:
@@ -13032,7 +13032,7 @@ void game::wait()
 
     if( get_levz() >= 0 || has_watch ) {
         const auto diurnal_time_before = []( const int turn ) {
-            const int remainder = turn % DAYS( 1 ) - calendar::turn.get_turn() % DAYS( 1 );
+            const int remainder = turn % DAYS( 1 ) - calendar::turn % DAYS( 1 );
             return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
         };
 

@@ -66,11 +66,6 @@ calendar::calendar(int turn)
     sync();
 }
 
-int calendar::get_turn() const
-{
-    return turn_number;
-}
-
 calendar::operator int() const
 {
     return turn_number;
@@ -501,7 +496,7 @@ void calendar::sync()
 
 bool calendar::once_every( const time_duration &event_frequency )
 {
-    return ( calendar::turn.get_turn() % to_turns<int>( event_frequency ) ) == 0;
+    return ( calendar::turn % to_turns<int>( event_frequency ) ) == 0;
 }
 
 const std::string calendar::name_season( season_type s )

@@ -1977,7 +1977,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     p.use_charges( "fire", 1 );
     g->m.i_clear( examp );
     g->m.furn_set( examp, next_kiln_type );
-    item result( "unfinished_charcoal", calendar::turn.get_turn() );
+    item result( "unfinished_charcoal", calendar::turn );
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
@@ -2022,7 +2022,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         }
     }
 
-    item result( "charcoal", calendar::turn.get_turn() );
+    item result( "charcoal", calendar::turn );
     result.charges = total_volume / char_type->volume;
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);

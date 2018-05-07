@@ -493,7 +493,7 @@ void talk_function::individual_mission( npc &p, std::string desc, std::string id
     if (group){
         comp->companion_mission_time = calendar::before_time_starts;
     } else {
-        comp->companion_mission_time = calendar::turn.get_turn();
+        comp->companion_mission_time = calendar::turn;
     }
     g->reload_npcs();
     assert( !comp->is_active() );
@@ -525,7 +525,7 @@ int talk_function::caravan_dist(std::string dest)
 
 void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 {
-    npc *comp = companion_choose_return( p.name + id, calendar::turn.get_turn() );
+    npc *comp = companion_choose_return( p.name + id, calendar::turn );
     if (comp == NULL){
         return;
     }
