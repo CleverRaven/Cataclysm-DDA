@@ -161,7 +161,16 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
                             _("<npcname>'s %s is destroyed by the blow!"),
                             str.c_str());
+
     // Dump its contents on the ground
+    // Destroy irremovable mods, if any
+
+    for( auto mod : shield.gunmods() ) {
+        if( mod->is_irremovable() ) {
+            remove_item( *mod );
+        }
+    }
+
     for( auto &elem : shield.contents ) {
         g->m.add_item_or_charges( pos(), elem );
     }
