@@ -72,8 +72,8 @@ struct layer_details {
 
     bool operator ==( const layer_details &rhs ) const {
         return max == rhs.max &&
-            total == rhs.total &&
-            pieces == rhs.pieces;
+               total == rhs.total &&
+               pieces == rhs.pieces;
     }
 };
 
@@ -82,7 +82,8 @@ struct encumbrance_data {
     int armor_encumbrance = 0;
     int layer_penalty = 0;
 
-    std::array<layer_details, static_cast<int>( layer_level::MAX_CLOTHING_LAYER )> layer_penalty_details;
+    std::array<layer_details, static_cast<int>( layer_level::MAX_CLOTHING_LAYER )>
+    layer_penalty_details;
 
     void layer( const layer_level level, const int emcumbrance ) {
         layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
@@ -93,7 +94,7 @@ struct encumbrance_data {
         armor_encumbrance = 0;
         layer_penalty = 0;
 
-        for (auto & v : layer_penalty_details) {
+        for( auto &v : layer_penalty_details ) {
             v.reset();
         }
     }
@@ -251,8 +252,8 @@ class Character : public Creature, public visitable<Character>
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
         std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
-		/** Get encumbrance penalty per layer & body part */
-		int extraEncumbrance(const layer_level level, const int bp) const;
+        /** Get encumbrance penalty per layer & body part */
+        int extraEncumbrance( const layer_level level, const int bp ) const;
 
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;

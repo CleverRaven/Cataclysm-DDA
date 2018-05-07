@@ -100,7 +100,7 @@ struct body_part_struct {
 class body_part_set
 {
     private:
-		std::bitset<num_bp> parts;
+        std::bitset<num_bp> parts;
 
         explicit body_part_set( const std::bitset<num_bp> &other ) : parts( other ) { }
 
