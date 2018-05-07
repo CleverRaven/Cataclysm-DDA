@@ -1,37 +1,37 @@
 [
-    {
-        "id": "UNDERWEAR",
-        "layer": "UNDERWEAR",
-        "type": "clothing_layer",
-        "symbol": "U",
-        "color": "light_red"
-    },
-    {
-        "id": "REGULAR_LAYER",
-        "layer": "REGULAR_LAYER",
-        "type": "clothing_layer",
-        "symbol": "R",
-        "color": "light_gray"
-    },
-    {
-        "id": "WAIST_LAYER",
-        "layer": "WAIST_LAYER",
-        "type": "clothing_layer",
-        "symbol": "W",
-        "color": "light_green"
-    },
-    {
-        "id": "OUTER_LAYER",
-        "layer": "OUTER_LAYER",
-        "type": "clothing_layer",
-        "symbol": "O",
-        "color": "light_blue"
-    },
-    {
-        "id": "BELTED_LAYER",
-        "layer": "BELTED_LAYER",
-        "type": "clothing_layer",
-        "symbol": "B",
-        "color": "light_cyan"
-    }
+  {
+    "id": "UNDERWEAR",
+    "layer": "UNDERWEAR",
+    "type": "clothing_layer",
+    "symbol": "U",
+    "color": "light_red"
+  },
+  {
+    "id": "REGULAR_LAYER",
+    "layer": "REGULAR_LAYER",
+    "type": "clothing_layer",
+    "symbol": "R",
+    "color": "light_gray"
+  },
+  {
+    "id": "WAIST_LAYER",
+    "layer": "WAIST_LAYER",
+    "type": "clothing_layer",
+    "symbol": "W",
+    "color": "light_green"
+  },
+  {
+    "id": "OUTER_LAYER",
+    "layer": "OUTER_LAYER",
+    "type": "clothing_layer",
+    "symbol": "O",
+    "color": "light_blue"
+  },
+  {
+    "id": "BELTED_LAYER",
+    "layer": "BELTED_LAYER",
+    "type": "clothing_layer",
+    "symbol": "B",
+    "color": "light_cyan"
+  }
 ]
