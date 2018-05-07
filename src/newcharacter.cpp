@@ -52,11 +52,11 @@
 #define COL_TR_BAD_ON_ACT   c_light_red   // A toggled-on bad trait
 #define COL_TR_BAD_OFF_PAS  c_dark_gray  // A toggled-off bad trait
 #define COL_TR_BAD_ON_PAS   c_red     // A toggled-on bad trait
-#define COL_TR_NEUT         c_cyan     // Neutral trait descriptive text
+#define COL_TR_NEUT         c_brown     // Neutral trait descriptive text
 #define COL_TR_NEUT_OFF_ACT c_dark_gray  // A toggled-off neutral trait
-#define COL_TR_NEUT_ON_ACT  c_light_cyan   // A toggled-on neutral trait
+#define COL_TR_NEUT_ON_ACT  c_yellow   // A toggled-on neutral trait
 #define COL_TR_NEUT_OFF_PAS c_dark_gray  // A toggled-off neutral trait
-#define COL_TR_NEUT_ON_PAS  c_cyan     // A toggled-on neutral trait
+#define COL_TR_NEUT_ON_PAS  c_brown     // A toggled-on neutral trait
 #define COL_SKILL_USED      c_green   // A skill with at least one point
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MAJOR      c_green   // Important note
