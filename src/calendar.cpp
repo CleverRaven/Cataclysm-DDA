@@ -417,7 +417,7 @@ std::string to_string_time_of_day( const time_point &p )
     }
 }
 
-std::string calendar::day_of_week() const
+weekdays day_of_week( const time_point &p )
 {
     /* Design rationale:
      * <kevingranade> here's a question
@@ -440,17 +440,10 @@ std::string calendar::day_of_week() const
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    static const std::array<std::string, 7> weekday_names = {{
-        translate_marker( "Sunday" ), translate_marker( "Monday" )
-        translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
-        translate_marker( "Thursday" ), translate_marker( "Friday" )
-        translate_marker( "Saturday" )
-    }};
-
-    // calendar::day gets mangled by season transitions, so recalculate days since start.
-    static const int start_day = 4; // Thursday is the start day
-    const int current_day = ( turn_number / DAYS(1) + start_day ) % 7;
-    return _( weekday_names[ current_day ].c_str() );
+    const int day_since_cataclysm = to_days<int>( p - calendar::time_of_cataclysm );
+    static const weekdays start_day = weekdays::THURSDAY;
+    const int result = day_since_cataclysm + static_cast<int>( start_day );
+    return static_cast<weekdays>( result % 7 );
 }
 
 bool calendar::eternal_season()

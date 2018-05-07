@@ -256,12 +256,6 @@ class calendar
          * option) to actual in-game length.
          */
         static float season_from_default_ratio();
-        /**
-         * Returns the name of the current day of the week
-         *
-         * @note: Day 0 is a Thursday for highly technical reasons which are hard to explain
-         */
-        std::string day_of_week() const;
 
         /** Returns the translated name of the season (with first letter being uppercase). */
         static const std::string name_season( season_type s );
@@ -642,5 +636,17 @@ std::string to_string( const time_point &p );
 std::string to_string_time_of_day( const time_point &p );
 /** Returns the current light level of the moon. */
 moon_phase get_moon_phase( const time_point &p );
+
+enum class weekdays : int {
+    SUNDAY = 0,
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+};
+
+weekdays day_of_week( const time_point &p );
 
 #endif
