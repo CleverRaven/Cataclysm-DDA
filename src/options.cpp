@@ -1614,7 +1614,7 @@ void options_manager::init()
         for (unsigned j = mPageItems[i].size() - 1; j > 0; --j) {
             bool bThisLineEmpty = mPageItems[i][j].empty();
 
-            if (bLastLineEmpty == true && bThisLineEmpty == true) {
+            if( bLastLineEmpty && bThisLineEmpty ) {
                 //delete empty lines in between
                 mPageItems[i].erase(mPageItems[i].begin() + j);
             }

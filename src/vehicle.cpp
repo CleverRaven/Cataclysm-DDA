@@ -2097,7 +2097,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
 
 std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool const use_cache) const
 {
-    if ( use_cache == false ) {
+    if( !use_cache ) {
         std::vector<int> res;
         for (size_t i = 0; i < parts.size(); i++) {
             if (parts[i].mount.x == dx && parts[i].mount.y == dy && !parts[i].removed) {

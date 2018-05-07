@@ -910,7 +910,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if( vItemDisplay[i].is_int == true ) {
+                if( vItemDisplay[i].is_int ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
                     buffer << string_format( "%.2f", vItemDisplay[i].dValue );
