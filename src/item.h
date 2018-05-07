@@ -1300,7 +1300,7 @@ public:
          */
         int get_layer() const;
 
-		layer_level layer() const;
+        layer_level layer() const;
 
         /**
          * Returns the relative coverage that this item has when worn.
