@@ -1033,8 +1033,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
 
-    const int trait_pages = 3; // Number of trait categories: Good, Bad, Neutral, etc.
-    std::vector<trait_id> vStartingTraits[trait_pages];
+    std::vector<trait_id> vStartingTraits[3];
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
@@ -1043,7 +1042,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
         }
 
         // Always show profession locked traits, regardless of if they are forbidden
-        const std::vector<trait_id> proftraits = g->u.prof->get_locked_traits();
+        const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(), traits_iter.first ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
         if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) || is_proftrait ) {
@@ -1064,7 +1063,8 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             }
         }
     }
-    const int used_pages = vStartingTraits[2].empty() ? trait_pages - 1 : trait_pages;
+    //If the third page is empty, only use the first two.
+    const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
 
     for( auto &vStartingTrait : vStartingTraits ) {
         std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
@@ -1075,13 +1075,10 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     const size_t iContentHeight = TERMY - 9;
     int iCurWorkingPage = 0;
 
-    int iStartPos[trait_pages];
-    int iCurrentLine[trait_pages];
-    size_t traits_size[trait_pages];
-
-    for( int i = 0; i < trait_pages; i++ ) {
-        iStartPos[i] = 0;
-        iCurrentLine[i] = 0;
+    int iStartPos[3] = { 0, 0, 0 };
+    int iCurrentLine[3] = { 0, 0, 0 };
+    size_t traits_size[3];
+    for( int i = 0; i < 3; i++ ) {
         traits_size[i] = vStartingTraits[i].size();
     }
 
@@ -1194,10 +1191,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 int cur_line_y = 5 + i - start_y;
                 int cur_line_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, cur_line_y, cur_line_x, c_light_gray, std::string( page_width, ' ' ).c_str() );
-                std::string fitted_name = mdata.name.size() > page_width - 2
-                                        ? mdata.name.substr( 0, page_width - 2 )
-                                        : mdata.name;
-                mvwprintz( w, cur_line_y, cur_line_x, cLine, fitted_name.c_str() );
+                mvwprintz( w, cur_line_y, cur_line_x, cLine, utf8_truncate( mdata.name, page_width - 2 ).c_str() );
             }
 
             for( int i = 0; i < used_pages; i++ ) {
