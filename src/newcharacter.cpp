@@ -1082,7 +1082,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
         traits_size[i] = vStartingTraits[i].size();
     }
 
-    const size_t page_width = 38;
+    const size_t page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
 
     input_context ctxt("NEW_CHAR_TRAITS");
     ctxt.register_cardinal();
