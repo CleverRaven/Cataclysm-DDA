@@ -11,7 +11,7 @@
     "symbol": "=",
     "color": "green",
     "count": 100,
-    "stack_size": 200,
+    "stack_size": 50,
     "ammo_type": "5x50",
     "casing": "5x50_hull",
     "range": 60,
