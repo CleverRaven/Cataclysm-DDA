@@ -954,6 +954,8 @@ public:
     bool is_faulty() const;
     bool is_irremovable() const;
 
+    bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
+
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
 

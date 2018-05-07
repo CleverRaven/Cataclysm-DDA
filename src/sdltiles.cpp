@@ -1115,7 +1115,7 @@ int HandleDPad()
                 lastdpad = lc;
                 queued_dpad = ERR;
 
-                if(dpad_continuous == false) {
+                if( !dpad_continuous ) {
                     delaydpad = SDL_GetTicks() + 200;
                     dpad_continuous = true;
                 } else {

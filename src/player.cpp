@@ -4922,7 +4922,7 @@ void player::suffer()
                 }
             }
 
-            if (tdata.powered == false) {
+            if( !tdata.powered ) {
                 apply_mods(mut.first, false);
             }
         }
