@@ -3809,20 +3809,20 @@ int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::gasmask(player *p, item *it, bool, const tripoint& )
+int iuse::gasmask( player *p, item *it, bool, const tripoint & )
 {
     std::string oname = it->typeId() + "_on";
-    p->add_msg_if_player(_("Your %1$s is ready to use."), it->tname().c_str());
+    p->add_msg_if_player( _( "Your %s is ready to use." ), it->tname().c_str() );
     it->convert( oname ).active = true;
     return it->type->charges_to_use();
 }
 
-int iuse::gasmask_on(player *p, item *it, bool t, const tripoint &pos)
+int iuse::gasmask_on( player *p, item *it, bool t, const tripoint &pos )
 {
     static int gas_absorbed; // amount of absorbed gas for current filter charge
     std::string oname = it->typeId();
-    oname.erase(oname.length() - 3, 3);
-    if (t) { // Normal use
+    oname.erase( oname.length() - 3, 3 );
+    if( t ) { // Normal use
         if( p->is_worn( *it ) ) {
             const field &gasfield = g->m.field_at( pos );
             for( auto &dfield : gasfield ) {
@@ -3843,21 +3843,22 @@ int iuse::gasmask_on(player *p, item *it, bool t, const tripoint &pos)
                         break;
                 }
             }
-            if ( gas_absorbed >= 100 ) {
+            if( gas_absorbed >= 100 ) {
                 it->ammo_consume( 1, p->pos() );
                 gas_absorbed -= 100;
             }
-            if ( it->charges == 0 ) {
-                if( p->is_npc() ) {
-                    add_msg(m_bad, _("%s is out of gas mask filter!"), p->name.c_str());
-                }
-                p->add_msg_if_player(m_bad, _("Your %1$s is out of filter!"), it->tname().c_str());
+            if( it->charges == 0 ) {
+                p->add_msg_player_or_npc(
+                    m_bad,
+                    _( "Your %s requires new filter!" ),
+                    _( "<npcname> needs new gas mask filter!" )
+                    , it->tname().c_str() );
                 it->active = false;
                 it->convert( oname ).active = false;
             }
         }
     } else { // Turning it off
-        p->add_msg_if_player(_("Your prepared your %1$s for storage."), it->tname().c_str());
+        p->add_msg_if_player( _( "You prepared your %s for storage." ), it->tname().c_str() );
         it->convert( oname ).active = false;
     }
     return it->type->charges_to_use();
