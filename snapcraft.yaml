@@ -1,7 +1,7 @@
 name: cataclysm
 version: git
 summary: Cataclysm - Dark Days Ahead
-icon: data/cataicon.svg
+icon: data/xdg/cataclysm-dda.svg
 architectures:
   - build-on: [amd64]
     run-on: [amd64]
