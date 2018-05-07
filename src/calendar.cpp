@@ -154,16 +154,16 @@ void calendar::increment()
     sync();
 }
 
-moon_phase calendar::moon() const
+moon_phase get_moon_phase( const time_point &p )
 {
     //One full phase every 2 rl months = 2/3 season length
-    float phase_change_per_day = 1.0 / ((to_days<float>( season_length() ) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
-
+    const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
     //Switch moon phase at noon so it stays the same all night
-    const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );
-    const int current_phase = int(round(float(current_day) * phase_change_per_day)) % int(MOON_PHASE_MAX);
-
-    return moon_phase(current_phase);
+    const time_duration current_day = ( p - calendar::time_of_cataclysm ) + 1_days / 2;
+    const double phase_change = current_day / moon_phase_duration;
+    const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
+                              static_cast<int>( MOON_PHASE_MAX );
+    return static_cast<moon_phase>( current_phase );
 }
 
 calendar calendar::sunrise() const
@@ -270,7 +270,7 @@ float calendar::sunlight() const
 
     double daylight_level = current_daylight_level();
 
-    int current_phase = int(moon());
+    int current_phase = static_cast<int>( get_moon_phase( *this ) );
     if ( current_phase > int(MOON_PHASE_MAX)/2 ) {
         current_phase = int(MOON_PHASE_MAX) - current_phase;
     }

@@ -203,8 +203,6 @@ class calendar
         void increment();
 
         // Sunlight and day/night calculations
-        /** Returns the current light level of the moon. */
-        moon_phase moon() const;
         /** Returns the current sunrise time based on the time of year. */
         calendar sunrise() const;
         /** Returns the current sunset time based on the time of year. */
@@ -642,5 +640,7 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
+/** Returns the current light level of the moon. */
+moon_phase get_moon_phase( const time_point &p );
 
 #endif

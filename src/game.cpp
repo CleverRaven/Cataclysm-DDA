@@ -4654,7 +4654,7 @@ void game::draw_sidebar()
     //moon phase display
     static std::vector<std::string> vMoonPhase = {"(   )", "(  ))", "( | )", "((  )"};
 
-    const int iPhase = int(calendar::turn.moon());
+    const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
     std::string sPhase = vMoonPhase[iPhase%4];
 
     if (iPhase > 0) {
