@@ -1043,8 +1043,8 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
         }
 
         // Always show profession locked traits, regardless of if they are forbidden
-        std::vector<trait_id> proftraits = g->u.prof->get_locked_traits();
-        bool is_proftrait = std::find( proftraits.begin(), proftraits.end(), traits_iter.first ) != proftraits.end();
+        const std::vector<trait_id> proftraits = g->u.prof->get_locked_traits();
+        const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(), traits_iter.first ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
         if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) || is_proftrait ) {
             if( traits_iter.second.points > 0 ) {
