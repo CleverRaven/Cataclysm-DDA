@@ -1061,6 +1061,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             }
         }
     }
+    const int used_pages = vStartingTraits[2].empty() ? trait_pages - 1 : trait_pages;
 
     for( auto &vStartingTrait : vStartingTraits ) {
         std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
@@ -1193,7 +1194,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 mvwprintz( w, cur_line_y, cur_line_x, cLine, mdata.name.c_str() );
             }
 
-            for( int i = 0; i < trait_pages; i++ ) {
+            for( int i = 0; i < used_pages; i++ ) {
                 draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], 5 , page_width * i );
             }
         }
@@ -1204,11 +1205,11 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
         if (action == "LEFT") {
             iCurWorkingPage--;
             if (iCurWorkingPage < 0) {
-                iCurWorkingPage = trait_pages - 1;
+                iCurWorkingPage = used_pages - 1;
             }
         } else if (action == "RIGHT") {
             iCurWorkingPage++;
-            if (iCurWorkingPage > trait_pages - 1) {
+            if (iCurWorkingPage > used_pages - 1 ) {
                 iCurWorkingPage = 0;
             }
         } else if (action == "UP") {
