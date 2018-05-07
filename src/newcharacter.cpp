@@ -1193,8 +1193,8 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 mvwprintz( w, cur_line_y, cur_line_x, cLine, mdata.name.c_str() );
             }
 
-            for( int i = 0; i < 2; i++ ) {
-                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], 5 , page_width * ( i + 1 ) );
+            for( int i = 0; i < trait_pages; i++ ) {
+                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], 5 , page_width * i );
             }
         }
 
