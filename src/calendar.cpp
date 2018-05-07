@@ -328,28 +328,27 @@ std::string to_string_clipped( const time_duration &d )
 
 std::string to_string( const time_duration &d )
 {
-    const int turns = to_turns<int>( d );
-    int divider = 0;
-
-    if( turns > MINUTES( 1 ) && turns < calendar::INDEFINITELY_LONG ) {
-        if( turns < HOURS( 1 ) ) {
-            divider = MINUTES( 1 );
-        } else if( turns < DAYS( 1 ) ) {
-            divider = HOURS( 1 );
-        } else {
-            divider = DAYS( 1 );
-        }
+    if( d < time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+        return _( "for ever" );
     }
 
-    const int remainder = divider ? turns % divider : 0;
-    if( remainder != 0 ) {
-        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
-        return string_format( _( "%1$s and %2$s" ),
-                              to_string_clipped( time_duration::from_turns( turns ) ),
-                              to_string_clipped( time_duration::from_turns( remainder ) ) );
+    if( d <= 1_minutes ) {
+        return to_string_clipped( d );
     }
 
-    return to_string_clipped( d );
+    time_duration divider = 0_turns;
+    if( d < 1_hours ) {
+        divider = 1_minutes;
+    } else if( d < 1_days ) {
+        divider = 1_hours;
+    } else {
+        divider = 24_hours;
+    }
+
+    //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+    return string_format( _( "%1$s and %2$s" ),
+                          to_string_clipped( d ),
+                          to_string_clipped( d % divider ) );
 }
 
 std::string to_string_approx( const time_duration &d, const bool verbose )
