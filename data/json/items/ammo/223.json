@@ -11,7 +11,7 @@
     "symbol": "=",
     "color": "yellow",
     "count": 30,
-    "stack_size": 20,
+    "stack_size": 47,
     "ammo_type": "223",
     "casing": "223_casing",
     "range": 36,
