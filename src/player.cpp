@@ -7724,7 +7724,7 @@ int player::item_wear_cost( const item& it ) const
     double mv = item_handling_cost( it );
 
     switch( it.layer() ) {
-	    case layer_level::UNDERWEAR:
+        case layer_level::UNDERWEAR:
             mv *= 1.5;
             break;
 

@@ -198,7 +198,7 @@ void DynamicDataLoader::initialize()
     add( "requirement", []( JsonObject &jo ) { requirement_data::load_requirement( jo ); } );
     add( "trap", &trap::load_trap );
 
-	add( "clothing_layer", &clothing_layer::load );
+    add( "clothing_layer", &clothing_layer::load );
 
     add( "AMMO", []( JsonObject &jo, const std::string &src ) { item_controller->load_ammo( jo, src ); } );
     add( "GUN", []( JsonObject &jo, const std::string &src ) { item_controller->load_gun( jo, src ); } );
@@ -378,7 +378,7 @@ void DynamicDataLoader::unload_data()
     recipe_dictionary::reset();
     faction_template::reset();
     quality::reset();
-	clothing_layer::reset();
+    clothing_layer::reset();
     trap::reset();
     reset_constructions();
     overmap_terrains::reset();
@@ -492,7 +492,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         { _( "Overmap locations" ), &overmap_locations::check_consistency },
         { _( "Overmap specials" ), &overmap_specials::check_consistency },
         { _( "Ammunition types" ), &ammunition_type::check_consistency },
-	    { _( "Clothing layers" ), &clothing_layer::check_consistency },
+        { _( "Clothing layers" ), &clothing_layer::check_consistency },
         { _( "Traps" ), &trap::check_consistency },
         { _( "Bionics" ), &check_bionics },
         { _( "Gates" ), &gates::check },
