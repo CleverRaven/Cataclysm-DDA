@@ -1033,7 +1033,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
 
-    const int trait_pages = 3;
+    const int trait_pages = 3; // Number of trait categories: Good, Bad, Neutral, etc.
     std::vector<trait_id> vStartingTraits[trait_pages];
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
@@ -1072,19 +1072,8 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     int iCurWorkingPage = 0;
 
     int iStartPos[trait_pages];
-    //iStartPos[0] = 0;
-    //iStartPos[1] = 0;
-    //iStartPos[2] = 0;
-
     int iCurrentLine[trait_pages];
-    //iCurrentLine[0] = 0;
-    //iCurrentLine[1] = 0;
-    //iCurrentLine[2] = 0;
-
     size_t traits_size[trait_pages];
-    //traits_size[0] = vStartingTraits[0].size();
-    //traits_size[1] = vStartingTraits[1].size();
-    //traits_size[2] = vStartingTraits[2].size();
 
     for( int i = 0; i < trait_pages; i++ ) {
         iStartPos[i] = 0;
@@ -1142,25 +1131,6 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 hi_off = hilite( col_off_act );
                 break;
             }
-            /*
-            if (iCurrentPage == 0) {
-                col_on_act  = COL_TR_GOOD_ON_ACT;
-                col_off_act = COL_TR_GOOD_OFF_ACT;
-                col_on_pas  = COL_TR_GOOD_ON_PAS;
-                col_off_pas = COL_TR_GOOD_OFF_PAS;
-                col_tr = COL_TR_GOOD;
-                hi_on  = hilite(col_on_act);
-                hi_off = hilite(col_off_act);
-            } else {
-                col_on_act  = COL_TR_BAD_ON_ACT;
-                col_off_act = COL_TR_BAD_OFF_ACT;
-                col_on_pas  = COL_TR_BAD_ON_PAS;
-                col_off_pas = COL_TR_BAD_OFF_PAS;
-                col_tr = COL_TR_BAD;
-                hi_on  = hilite(col_on_act);
-                hi_off = hilite(col_off_act);
-            }
-            */
             int start_y = iStartPos[iCurrentPage];
             int cur_line_y = iCurrentLine[iCurrentPage];
             calcStartPos( start_y, cur_line_y, iContentHeight,
@@ -1223,9 +1193,6 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 mvwprintz( w, cur_line_y, cur_line_x, cLine, mdata.name.c_str() );
             }
 
-            //Draw Scrollbar, one for good and one for bad traits
-            //draw_scrollbar(w, iCurrentLine[0], iContentHeight, traits_size[0], 5);
-            //draw_scrollbar(w, iCurrentLine[1], iContentHeight, traits_size[1], 5);
             for( int i = 0; i < 2; i++ ) {
                 draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], 5 , page_width * ( i + 1 ) );
             }
@@ -1237,11 +1204,11 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
         if (action == "LEFT") {
             iCurWorkingPage--;
             if (iCurWorkingPage < 0) {
-                iCurWorkingPage = 1;
+                iCurWorkingPage = trait_pages - 1;
             }
         } else if (action == "RIGHT") {
             iCurWorkingPage++;
-            if (iCurWorkingPage > 2) {
+            if (iCurWorkingPage > trait_pages - 1) {
                 iCurWorkingPage = 0;
             }
         } else if (action == "UP") {
