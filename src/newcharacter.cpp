@@ -1191,7 +1191,10 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 int cur_line_y = 5 + i - start_y;
                 int cur_line_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, cur_line_y, cur_line_x, c_light_gray, std::string( page_width, ' ' ).c_str() );
-                mvwprintz( w, cur_line_y, cur_line_x, cLine, mdata.name.c_str() );
+                std::string fitted_name = mdata.name.size() > page_width - 2
+                                        ? mdata.name.substr( 0, page_width - 2 )
+                                        : mdata.name;
+                mvwprintz( w, cur_line_y, cur_line_x, cLine, fitted_name.c_str() );
             }
 
             for( int i = 0; i < used_pages; i++ ) {
