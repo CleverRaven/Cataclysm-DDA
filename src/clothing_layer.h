@@ -16,13 +16,13 @@ class clothing_layer
         friend class DynamicDataLoader;
     public:
 
-		static const clothing_layer& get( const std::string &id );
-		static const clothing_layer& get( const layer_level &leval );
+        static const clothing_layer &get( const std::string &id );
+        static const clothing_layer &get( const layer_level &leval );
 
-		const nc_color& color() const;
-		const char& symbol() const;
+        const nc_color &color() const;
+        const char &symbol() const;
 
-		bool operator ==( const clothing_layer &o ) const;
+        bool operator ==( const clothing_layer &o ) const;
     private:
         const std::string _id;
         char _symbol;
@@ -32,7 +32,7 @@ class clothing_layer
         clothing_layer( const std::string &id = std::string() ) : _id( id ) {}
 
         static void load( JsonObject &jo );
-		static void check_consistency();
+        static void check_consistency();
         static void reset();
 
 };
