@@ -14,7 +14,7 @@
     "ammo_type": "762",
     "capacity": 10,
     "flags": [ "SPEEDLOADER" ]
-  }
+  },
   {
     "id": "akmbigmag",
     "type": "MAGAZINE",
