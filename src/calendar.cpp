@@ -351,41 +351,41 @@ std::string to_string( const time_duration &d )
                           to_string_clipped( d % divider ) );
 }
 
-std::string to_string_approx( const time_duration &d, const bool verbose )
+std::string to_string_approx( const time_duration &d_, const bool verbose )
 {
-    int turns = to_turns<int>( d );
-    const auto make_result = [verbose]( int turns, const char *verbose_str, const char *short_str ) {
-        return string_format( verbose ? verbose_str : short_str, to_string_clipped( time_duration::from_turns( turns ) ) );
+    time_duration d = d_;
+    const auto make_result = [verbose]( const time_duration d, const char *verbose_str, const char *short_str ) {
+        return string_format( verbose ? verbose_str : short_str, to_string_clipped( d ) );
     };
 
-    int divider = 0;
-    int vicinity = 0;
+    time_duration divider = 0_turns;
+    time_duration vicinity = 0_turns;
 
-    if( turns > DAYS( 1 ) ) {
-        divider = DAYS( 1 );
-        vicinity = HOURS( 2 );
-    } else if( turns > HOURS( 1 ) ) {
-        divider = HOURS( 1 );
-        vicinity = MINUTES( 5 );
+    if( d > 1_days ) {
+        divider = 1_days;
+        vicinity = 2_hours;
+    } else if( d > 1_hours ) {
+        divider = 1_hours;
+        vicinity = 5_minutes;
     } // Minutes and seconds can be estimated precisely.
 
     if( divider != 0 ) {
-        const int remainder = turns % divider;
+        const time_duration remainder = d % divider;
 
         if( remainder >= divider - vicinity ) {
-            turns += divider;
+            d += divider;
         } else if( remainder > vicinity ) {
             if( remainder < divider / 2 ) {
                 //~ %s - time (e.g. 2 hours).
-                return make_result( turns, _( "more than %s" ), ">%s" );
+                return make_result( d, _( "more than %s" ), ">%s" );
             } else {
                 //~ %s - time (e.g. 2 hours).
-                return make_result( turns + divider, _( "less than %s" ), "<%s" );
+                return make_result( d + divider, _( "less than %s" ), "<%s" );
             }
         }
     }
     //~ %s - time (e.g. 2 hours).
-    return make_result( turns, _( "about %s" ), "%s" );
+    return make_result( d, _( "about %s" ), "%s" );
 }
 
 std::string to_string_time_of_day( const time_point &p )
