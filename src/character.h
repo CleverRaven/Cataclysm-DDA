@@ -82,21 +82,15 @@ struct encumbrance_data {
     int armor_encumbrance = 0;
     int layer_penalty = 0;
 
-    std::array<layer_details, static_cast<int>( layer_level::MAX_CLOTHING_LAYER )>
-    layer_penalty_details;
+    std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
+        layer_penalty_details;
 
     void layer( const layer_level level, const int emcumbrance ) {
         layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
     }
 
     void reset() {
-        encumbrance = 0;
-        armor_encumbrance = 0;
-        layer_penalty = 0;
-
-        for( auto &v : layer_penalty_details ) {
-            v.reset();
-        }
+        *this = encumbrance_data();
     }
 
     bool operator ==( const encumbrance_data &rhs ) const {

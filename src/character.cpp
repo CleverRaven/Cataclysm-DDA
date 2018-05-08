@@ -1514,9 +1514,7 @@ bool Character::is_wearing_active_power_armor() const
 }
 
 void layer_details::reset() {
-    pieces.clear();
-    max = 0;
-    total = 0;
+    *this = layer_details();
 }
 
 // The stacking penalty applies by doubling the encumbrance of
@@ -1526,7 +1524,7 @@ int layer_details::layer( const int encumbrance ) {
     pieces.push_back( encumbrance );
 
     int current = total;
-    if ( encumbrance > max ) {
+    if( encumbrance > max ) {
         total += max;   // *now* the old max is counted, just ignore the new max
         max = encumbrance;
     } else {
@@ -1557,8 +1555,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 {
 
     // reset all layer data
-    for ( auto &v : vals )
-        v.reset();
+    vals = std::array<encumbrance_data, num_bp>();
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto& w : worn ) {

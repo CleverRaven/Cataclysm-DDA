@@ -105,7 +105,6 @@ class body_part_set
         explicit body_part_set( const std::bitset<num_bp> &other ) : parts( other ) { }
 
     public:
-
         body_part_set() = default;
         body_part_set( std::initializer_list<body_part> bps ) {
             for( const auto &bp : bps ) {
