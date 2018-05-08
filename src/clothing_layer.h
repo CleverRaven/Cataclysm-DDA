@@ -20,12 +20,12 @@ class clothing_layer
         static const clothing_layer &get( const layer_level &leval );
 
         const nc_color &color() const;
-        const char &symbol() const;
+        const std::string &symbol() const;
 
         bool operator ==( const clothing_layer &o ) const;
     private:
         const std::string _id;
-        char _symbol;
+        std::string _symbol;
         nc_color _color;
         layer_level _level;
 

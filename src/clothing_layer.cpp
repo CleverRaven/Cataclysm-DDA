@@ -28,7 +28,7 @@ void clothing_layer::load( JsonObject &jo )
 
     l._level = jo.get_enum_value<layer_level>( "layer" );
     l._color = color_from_string( jo.get_string( "color" ) );
-    l._symbol = jo.get_string( "symbol" )[0];
+    l._symbol = jo.get_string( "symbol" );
     clothing_layers_levels.emplace( l._level, &l );
 }
 
@@ -58,7 +58,7 @@ const nc_color &clothing_layer::color() const
     return _color;
 }
 
-const char &clothing_layer::symbol() const
+const std::string &clothing_layer::symbol() const
 {
     return _symbol;
 }

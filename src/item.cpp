@@ -1309,6 +1309,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
         temp1.str( "" );
         temp1 << _( "Layer: " );
+        auto &cl = clothing_layer::get(layer());
+        temp1 << get_tag_from_color(cl.color()) << cl.symbol()  << "</color> ";
         if( has_flag( "SKINTIGHT" ) ) {
             temp1 << _( "<stat>Close to skin</stat>. " );
         } else if( has_flag( "BELTED" ) ) {
@@ -1320,6 +1322,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         } else {
             temp1 << _( "<stat>Normal</stat>. " );
         }
+
 
         info.push_back( iteminfo( "ARMOR", temp1.str() ) );
 
