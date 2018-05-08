@@ -1368,16 +1368,28 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
 
     const vehicle_part& vp = parts[ index ];
 
-    int pwr = vp.base.engine_displacement();
+    const itype *fueltype = item::find_type( vp.ammo_current() );
+    float density = 0, ratio = 1;
+    if( fueltype->fuel )
+    {
+        assert( fueltype->fuel->energy > 0 );
+        // kW per cc
+        density = fueltype->fuel->energy / 1000;
+        ratio = fueltype->fuel->ratio;
+    }
+
+    // cc * % efficiency * kW / cc / 0.1s = kW.
+    // Change duration to easily tune results.
+    float fuel = vp.base.engine_displacement() / ( ratio + 1 );
+    int pwr = 10 * fuel * vp.info().efficiency / 100.0 * density;
+
     if( pwr == 0 ) {
         pwr = vp.info().power;
     }
 
     if (part_info(index).fuel_type == fuel_type_muscle) {
-        int pwr_factor = (part_flag(index, "MUSCLE_LEGS") ? 5 : 0) +
-                         (part_flag(index, "MUSCLE_ARMS") ? 2 : 0);
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += int(((g->u).str_cur - 8) * pwr_factor);
+        pwr += int((g->u.str_cur - 8) * vp.info().efficiency / 100.0);
     }
 
     if( pwr < 0 ) {
@@ -2881,6 +2893,11 @@ units::mass vehicle::total_mass() const
     return mass_cache;
 }
 
+float vehicle::nowheel_mass() const
+{
+    return total_mass().value() - wheel_mass( false );
+}
+
 units::volume vehicle::total_folded_volume() const
 {
     units::volume m = 0;
@@ -3044,30 +3061,49 @@ int vehicle::total_power(bool const fueled) const
     return pwr;
 }
 
-int vehicle::acceleration(bool const fueled) const
+float vehicle::get_load(bool fueled, float delta_v) const
 {
-    if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
-        return safe_velocity( fueled ) * k_mass() / ( 1 + strain () ) / 10;
-
-    } else if ((has_engine_type(fuel_type_muscle, true))){
-        //limit vehicle weight for muscle engines
-        const units::mass mass = total_mass() / 1000;
-        ///\EFFECT_STR caps vehicle weight for muscle engines
-        const units::mass move_mass = std::max( g->u.str_cur * 25_gram, 150_gram ) * 1000;
-        if (mass <= move_mass) {
-            return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
-        } else {
-            return 0;
-        }
-    }
-    else {
-        return 0;
-    }
+    const float wheelradius = wheel_radius( false ),
+    mass = total_mass().value() / 1000.0,
+    power = total_power( fueled ) * 1000.0,
+    traction = k_traction() * 9.8 * mass,
+    friction = exp( (2 * k_friction() - 1) / 2 ) / 200 * 9.8 * pow( log10( mass ), 3 ),
+    torque = total_power( fueled ) * 1000.0 / ( 100 * M_PI ),
+    angular = torque / ( wheel_mass( false ) * wheelradius * wheelradius ),
+    ang_to_lin = wheelradius / ( M_PI );
+//    printf( "Max: %.2f, dV: %.2f, kF: %.3f, Load: %.2f, Drag: %.2f, cV: %.2f, cV: %.2f\n", std::min(angular * ang_to_lin, traction / mass), delta_v, k_friction() * 9.8, delta_v / (angular * ang_to_lin), drag( cruise_velocity ), cruise_velocity, velocity);
+    // The proportion of engine output being used.
+    const float load = std::min( 1.0f, abs( delta_v ) / (angular * ang_to_lin) );
+    // Approximate efficiency increase from gearing. TODO: Improve this approximation.
+    return load * std::sqrt(std::sqrt(load)) * std::min(std::max(( friction - 0.2f ), 0.5f), 2.0f);
 }
 
-int vehicle::max_velocity(bool const fueled) const
+float vehicle::acceleration(bool const fueled) const
 {
-    return total_power (fueled) * 80;
+    const float wheelmass = wheel_mass( false ),
+    wheelradius = wheel_radius( false ),
+    mass = total_mass().value() / 1000.0,
+    power = total_power( fueled ) * 1000.0,
+    // Use 3000rpm as baseline.
+    torque = power / ( 100 * M_PI ),
+    angular = torque / ( wheelmass * wheelradius * wheelradius ),
+    traction = k_traction() * 9.8 * mass,
+    ang_to_lin = wheelradius / ( M_PI );
+    if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
+        return std::min(angular * ang_to_lin, traction / mass);
+    }
+    if (has_engine_type(fuel_type_muscle, true)){
+        ///\EFFECT_STR caps vehicle weight for muscle engines
+        return mass <= std::max( g->u.str_cur * 25, 150 ) * 1000 ? std::min(angular * ang_to_lin, traction / mass) : 0;
+    }
+    return 0;
+}
+
+float vehicle::max_velocity(bool const fueled) const
+{
+    // Max velocity occurs when acceleration equals drag.
+    float ratio = acceleration( fueled ) / drag( 1 );// = v^2
+    return std::sqrt(ratio);
 }
 
 bool vehicle::do_environmental_effects()
@@ -3090,43 +3126,9 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-int vehicle::safe_velocity(bool const fueled) const
+float vehicle::safe_velocity(bool const fueled) const
 {
-    int pwrs = 0;
-    int cnt = 0;
-    for (size_t e = 0; e < engines.size(); e++){
-        if (is_engine_on(e) &&
-            (!fueled || is_engine_type(e, fuel_type_muscle) ||
-            fuel_left (part_info(engines[e]).fuel_type))) {
-            int m2c = 100;
-
-            if (is_engine_type(e, fuel_type_gasoline)) {
-                m2c = 60;
-            } else if(is_engine_type(e, fuel_type_diesel)) {
-                m2c = 65;
-            } else if(is_engine_type(e, fuel_type_battery)) {
-                m2c = 90;
-            } else if(is_engine_type(e, fuel_type_muscle)) {
-                m2c = 45;
-            }
-
-            if( parts[ engines[ e ] ].faults().count( fault_filter_fuel ) ) {
-                m2c *= 0.6;
-            }
-
-            pwrs += part_power(engines[e]) * m2c / 100;
-            cnt++;
-        }
-    }
-    for (int a = 0; a < (int)alternators.size(); a++){
-         if (is_alternator_on(a)){
-            pwrs += part_power(alternators[a]); // alternator parts have negative power
-         }
-    }
-    if (cnt > 0) {
-        pwrs = pwrs * 4 / (4 + cnt -1);
-    }
-    return (int) (pwrs * k_dynamics() * k_mass()) * 80;
+    return max_velocity( fueled ) / 2;
 }
 
 void vehicle::spew_smoke( double joules, int part, int density )
@@ -3235,55 +3237,85 @@ float vehicle::wheel_area( bool boat ) const
     float total_area = 0.0f;
     const auto &wheel_indices = boat ? floating : wheelcache;
     for( auto &wheel_index : wheel_indices ) {
-        total_area += parts[ wheel_index ].base.wheel_area();
+        total_area += parts[ wheel_index ].wheel_area();
     }
-
     return total_area;
+}
+
+float vehicle::wheel_radius( bool boat ) const
+{
+    float average_radius = 0.0f;
+    const auto &wheel_indices = boat ? floating : wheelcache;
+    int num_wheels = wheel_indices.size();
+    for( auto &wheel_index : wheel_indices ) {
+        average_radius += parts[ wheel_index ].wheel_radius();
+    }
+    return num_wheels == 0 ? 0 : average_radius / num_wheels;
+}
+
+float vehicle::wheel_mass( bool boat ) const
+{
+    float total_mass = 0;
+    const auto &wheel_indices = boat ? floating : wheelcache;
+    for( auto &wheel_index : wheel_indices ) {
+        // Convert grams to kilograms.
+        total_mass += parts[ wheel_index ].wheel_mass() / 1000;
+    }
+    return total_mass;
 }
 
 float vehicle::k_friction() const
 {
-    // calculate safe speed reduction due to wheel friction
-    constexpr float fr0 = 9000.0;
-    return fr0 / ( fr0 + wheel_area( false ) ) ;
+    if (dynamics_dirty) {
+        g->m.vehicle_wheel_traction( *this, dynamics_cache );
+        dynamics_dirty = false;
+    }
+    return dynamics_cache[0];
+}
+
+// TODO: Rewrite this entire function.
+float vehicle::reference_area() const
+{
+    std::map<int, float> x;
+    std::map<int, float> obst;
+    std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
+    for( auto &structure_indice : structure_indices ) {
+        int p = structure_indice;
+        float frame_size = 1 + (part_with_feature(p, VPFLAG_OBSTACLE) > 0 ? 1 : 0) + (part_with_feature(p, VPFLAG_ARMOR) > 0 ? 1 : 0)  + parts[p].info().durability / 1000.0f;
+        
+        if (parts[p].mount.x < x[parts[p].mount.y]) {
+            continue;
+        } else if (parts[p].mount.x > x[parts[p].mount.y]) {
+            x[parts[p].mount.y] = parts[p].mount.x;
+        }
+        obst[parts[p].mount.y] = frame_size;
+    }
+    float frame_obst = 0;
+    for( auto const &elem : obst ) {
+        frame_obst += elem.second;
+    }
+    // TODO: Cache this value.
+    return frame_obst;
 }
 
 float vehicle::k_aerodynamics() const
 {
-    const int max_obst = 13;
-    int obst[max_obst];
-    for( auto &elem : obst ) {
-        elem = 0;
-    }
-    std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
-    for( auto &structure_indice : structure_indices ) {
-        int p = structure_indice;
-        int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 30 : 10;
-        int pos = parts[p].mount.y + max_obst / 2;
-        if (pos < 0) {
-            pos = 0;
-        }
-        if (pos >= max_obst) {
-            pos = max_obst -1;
-        }
-        if (obst[pos] < frame_size) {
-            obst[pos] = frame_size;
-        }
-    }
-    int frame_obst = 0;
-    for( auto &elem : obst ) {
-        frame_obst += elem;
-    }
-    float ae0 = 200.0;
+    // Hardcode bicycle fix.
+    float ae0 = all_parts_at_location(part_location_structure).size() > 6 ? 200.0 : 50.0;
 
     // calculate aerodynamic coefficient
-    float ka = ( ae0 / (ae0 + frame_obst) );
+    float ka = 1.0f - ( ae0 ) / (ae0 + reference_area() * 10.0);
     return ka;
 }
 
 float vehicle::k_dynamics() const
 {
-    return ( k_aerodynamics() * k_friction() );
+    if (dynamics_dirty) {
+        g->m.vehicle_wheel_traction( *this, dynamics_cache );
+        dynamics_dirty = false;
+    }
+
+    return dynamics_cache[2];
 }
 
 float vehicle::k_mass() const
@@ -3301,29 +3333,27 @@ float vehicle::k_mass() const
     return km;
 }
 
-float vehicle::k_traction( float wheel_traction_area ) const
+float vehicle::k_traction() const
 {
-    if( wheel_traction_area <= 0.01f ) {
-        return 0.0f;
+    if (dynamics_dirty) {
+        g->m.vehicle_wheel_traction( *this, dynamics_cache );
+        dynamics_dirty = false;
     }
-
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * to_kilogram( total_mass() );
-
-    float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
-    add_msg( m_debug, "%s has traction %.2f", name.c_str(), traction );
-    // For now make it easy until it gets properly balanced: add a low cap of 0.1
-    return std::max( 0.1f, traction );
+    return dynamics_cache[1];
 }
 
-float vehicle::drag() const
+float vehicle::drag( float velocity_override ) const
 {
-    return -extra_drag;
+    if (velocity_override == 0)
+        velocity_override = velocity;
+    // 1.225 = density of air.
+    return  (1.225 / 2.0 * velocity_override * velocity_override * k_aerodynamics() * reference_area() + extra_drag) / (total_mass().value() / 1000);
 }
 
 float vehicle::strain() const
 {
-    int mv = max_velocity();
-    int sv = safe_velocity();
+    float mv = max_velocity();
+    float sv = safe_velocity();
     if( mv <= sv ) {
         mv = sv + 1;
     }
@@ -3412,8 +3442,7 @@ float vehicle::steering_effectiveness() const
 float vehicle::handling_difficulty() const
 {
     const float steer = std::max( 0.0f, steering_effectiveness() );
-    const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
-    const float kmass = k_mass();
+    const float ktraction = k_traction();
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).magnitude() );
 
     constexpr float tile_per_turn = 10 * 100;
@@ -3424,8 +3453,8 @@ float vehicle::handling_difficulty() const
     // TestVehicle but with bad steering (0.5 steer) and overloaded (0.5 kmass) = 10
     // TestVehicle but on fungal bed (0.5 friction), bad steering and overloaded = 15
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
-    return velocity * diff_mod / tile_per_turn;
+    const float diff_mod = ( ( 1.0f - steer ) + 2 * ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
+    return ms_to_internal(velocity) * diff_mod / tile_per_turn;
 }
 
 std::map<itype_id, int> vehicle::fuel_usage() const
@@ -3444,18 +3473,27 @@ std::map<itype_id, int> vehicle::fuel_usage() const
         if( info.fuel_type == null_fuel_type ) {
             continue;
         }
+        
+        const itype *fueltype = item::find_type( parts[ e ].ammo_current() );
+        double density = 0;
+        if( fueltype->fuel ) {
+            assert( fueltype->fuel->energy > 0 );
+            // kW per cc
+            density = fueltype->fuel->energy / 1000.0;
+        }
 
         // @todo: Get rid of this special case
         if( info.fuel_type == fuel_type_battery ) {
             // Motor epower is in negatives
             ret[ fuel_type_battery ] -= epower_to_power( part_epower( e ) );
         } else if( !is_engine_type( i, fuel_type_muscle ) ) {
-            int usage = part_power( e );
+            // kW of energy content consumed converted to mL of fuel.
+            float usage = part_power( e ) / (info.efficiency / 100.0) / density;
             if( parts[ e ].faults().count( fault_filter_air ) ) {
                 usage *= 2;
             }
 
-            ret[ info.fuel_type ] += usage;
+            ret[ info.fuel_type ] += (int)usage;
         }
     }
 
@@ -3877,7 +3915,7 @@ void vehicle::operate_plow(){
         if( g->m.has_flag("DIGGABLE", start_plow) ){
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
-            const int speed = velocity;
+            const int speed = ms_to_internal(velocity);
             const int v_damage = rng( 3, speed );
             damage( plow_id, v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, _("Clanggggg!") );
@@ -4107,9 +4145,7 @@ void vehicle::thrust( int thd ) {
        thrusting = (sgn == thd);
     }
 
-    // @todo: Pass this as an argument to avoid recalculating
-    float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
-    int accel = acceleration() * traction;
+    float accel = acceleration( true );
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
             add_msg( _("The %s is too heavy for its engine(s)!"), name.c_str() );
@@ -4118,42 +4154,37 @@ void vehicle::thrust( int thd ) {
         return;
     }
 
-    int max_vel = max_velocity() * traction;
-    // Get braking power
-    int brake = 30 * k_mass();
-    int brk = abs(velocity) * brake / 100;
+    float max_vel = max_velocity();
+    // Get braking power -- Tractive force + Drag.
+    float brk = k_traction() * 9.8;
     if (brk < accel) {
         brk = accel;
     }
-    if (brk < 10 * 100) {
-        brk = 10 * 100;
+    if (brk < 1) {
+        brk = 1;
     }
     //pos or neg if accelerator or brake
-    int vel_inc = ((thrusting) ? accel : brk) * thd;
+    float vel_inc = ((thrusting) ? accel : brk) * thd;
     if( thd == -1 && thrusting ) {
         //accelerate 60% if going backward
         vel_inc = .6 * vel_inc;
     }
 
+    float friction = k_friction() * 9.8f;
     // Keep exact cruise control speed
     if( cruise_on ) {
-        if( thd > 0 ) {
-            vel_inc = std::min( vel_inc, cruise_velocity - velocity );
+        if (cruise_velocity > 0) {
+            vel_inc = std::min(vel_inc, cruise_velocity - velocity + drag( old_velocity ) + friction);
         } else {
-            vel_inc = std::max( vel_inc, cruise_velocity - velocity );
+            vel_inc = std::max(vel_inc, cruise_velocity - velocity - drag( old_velocity ) - friction);
         }
     }
-
-    //find power ratio used of engines max
-    double load;
-    if( cruise_on ) {
-        load = ((float)abs(vel_inc)) / std::max((thrusting ? accel : brk),1);
-    } else {
-        load = (thrusting ? 1.0 : 0.0);
-    }
+    
+    // Find power ratio used of engines' max
+    double load = thrusting ? get_load(true, vel_inc) : 0;
 
     // only consume resources if engine accelerating
-    if (load >= 0.01 && thrusting) {
+    if (load > 0 && thrusting) {
         //abort if engines not operational
         if( total_power () <= 0 || !engine_on || accel == 0 ) {
             if (pl_ctrl) {
@@ -4163,7 +4194,7 @@ void vehicle::thrust( int thd ) {
                     add_msg( m_info, _("The %s's mechanism is out of reach!"), name.c_str() );
                 } else if( !engine_on ) {
                     add_msg( _("The %s's engine isn't on!"), name.c_str() );
-                } else if( traction < 0.01f ) {
+                } else if( k_traction() < 0.01f ) {
                     add_msg( _("The %s is stuck."), name.c_str() );
                 } else {
                     add_msg( _("The %s's engine emits a sneezing sound."), name.c_str() );
@@ -4197,24 +4228,20 @@ void vehicle::thrust( int thd ) {
         stop ();
     } else {
         // Increase velocity up to max_vel or min_vel, but not above.
-        const int min_vel = -max_vel / 4;
-        if( vel_inc > 0 ) {
-            // Don't allow braking by accelerating (could happen with damaged engines)
-            velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
-        } else {
-            velocity = std::min( velocity, std::max( velocity + vel_inc, min_vel ) );
-        }
+        velocity = std::min( std::max( velocity + vel_inc, -max_vel / 4.0f ), max_vel );
     }
+//    printf( "cV: %.2f, Va: %.2f\n", cruise_velocity, velocity);
+    slowdown = true;
 }
 
-void vehicle::cruise_thrust (int amount)
+void vehicle::cruise_thrust (float amount)
 {
     if( amount == 0 ) {
         return;
     }
-    int safe_vel = safe_velocity();
-    int max_vel = max_velocity();
-    int max_rev_vel = -max_vel / 4;
+    float safe_vel = safe_velocity();
+    float max_vel = max_velocity();
+    float max_rev_vel = -max_vel / 4;
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
     if( (cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) ||
@@ -4235,7 +4262,7 @@ void vehicle::cruise_thrust (int amount)
         // Integer round to lowest multiple of amount.
         // The result is always equal to the original or closer to zero,
         // even if negative
-        cruise_velocity = (cruise_velocity / abs(amount)) * abs(amount);
+        cruise_velocity = cruise_velocity - fmod( cruise_velocity, amount );
     }
     // Can't have a cruise speed faster than max speed
     // or reverse speed faster than max reverse speed.
@@ -4271,6 +4298,7 @@ void vehicle::stop ()
     move = face;
     last_turn = 0;
     of_turn_carry = 0;
+//    printf("Stopped.\n");
 }
 
 bool vehicle::collision( std::vector<veh_collision> &colls,
@@ -4307,13 +4335,13 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     }
 
     const bool vertical = bash_floor || dp.z != 0;
-    const int &coll_velocity = vertical ? vertical_velocity : velocity;
+    const float &coll_velocity = vertical ? vertical_velocity : velocity;
     if( !just_detect && coll_velocity == 0 ) {
         debugmsg( "Collision check on stationary vehicle %s", name.c_str() );
         just_detect = true;
     }
 
-    const int velocity_before = coll_velocity;
+    const float velocity_before = coll_velocity;
     const int sign_before = sgn( velocity_before );
     std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
     for( size_t i = 0; i < structural_indices.size(); i++ ) {
@@ -4333,7 +4361,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
             return true;
         }
 
-        const int velocity_after = coll_velocity;
+        const float velocity_after = coll_velocity;
         // A hack for falling vehicles: restore the velocity so that it hits at full force everywhere
         // TODO: Make this more elegant
         if( vertical ) {
@@ -4411,7 +4439,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     }
 
     // Non-vehicle collisions can't happen when the vehicle is not moving
-    int &coll_velocity = vert_coll ? vertical_velocity : velocity;
+    float &coll_velocity = vert_coll ? vertical_velocity : velocity;
     if( !just_detect && coll_velocity == 0 ) {
         return ret;
     }
@@ -4528,7 +4556,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     do {
         smashed = false;
         // Impulse of vehicle
-        const float vel1 = coll_velocity / 100.0f;
+        const float vel1 = coll_velocity;
         // Velocity of car after collision
         const float vel1_a = (mass*vel1 + mass2*vel2 + e*mass2*(vel2 - vel1)) / (mass + mass2);
         // Velocity of object after collision
@@ -4543,7 +4571,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             // But it still does happen sometimes...
             if( fabs(vel1_a) < fabs(vel1) ) {
                 // Lower vehicle's speed to prevent infinite loops
-                coll_velocity = vel1_a * 90;
+                coll_velocity = vel1_a * 0.9;
             }
             if( fabs(vel2_a) > fabs(vel2) ) {
                 vel2 = vel2_a;
@@ -4555,7 +4583,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         add_msg( m_debug, "Deformation energy: %.2f", d_E );
         // Damage calculation
         // Damage dealt overall
-        dmg += d_E / 400;
+        dmg += d_E / 100;
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
@@ -4649,7 +4677,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
 
         if( critter == nullptr || !critter->is_hallucination() ) {
-            coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+            coll_velocity = vel1_a * ( smashed ? 1 : 0.9 );
+        }
+        // Emulate integer rounding assumed by equation.
+        if( abs(coll_velocity) < 0.1f ) {
+            coll_velocity = 0;
         }
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
@@ -4703,7 +4735,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
         int turn_roll = rng( 0, 100 );
         // Probability of skidding increases with higher delta_v
-        if( turn_roll < std::abs((prev_velocity - coll_velocity) / 100.0f * 2.0f) ) {
+        if( turn_roll < std::abs(ms_to_internal(prev_velocity - coll_velocity) / 100.0f * 2.0f) ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
@@ -5040,6 +5072,7 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
+    old_velocity = velocity;
     if( velocity != 0 || falling ) {
         if( loose_parts.size() > 0 ) {
             shed_loose_parts();
@@ -5051,8 +5084,13 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if( player_in_control(g->u) && cruise_on && cruise_velocity != velocity ) {
-        thrust( (cruise_velocity) > velocity ? 1 : -1 );
+    if( player_in_control(g->u) && cruise_on ) {
+//        printf( "Gain -- cV: %.2f, Va: %.2f\n", cruise_velocity, velocity);
+        if ( cruise_velocity > 0 ) {
+            thrust( (cruise_velocity - velocity + k_friction() * 9.8 + drag( cruise_velocity )) > 0 ? 1 : -1 );
+        } else {
+            thrust( (cruise_velocity - velocity - k_friction() * 9.8 - drag( cruise_velocity )) < 0 ? -1 : 1 );
+        }
     }
 
     // Force off-map vehicles to load by visiting them every time we gain moves.
@@ -5076,6 +5114,9 @@ void vehicle::gain_moves()
     if( velocity < 0 ) {
         beeper_sound();
     }
+    
+    // We have to refresh dynamics as terrian changes.
+    dynamics_dirty = true;
 }
 
 /**
@@ -5084,6 +5125,7 @@ void vehicle::gain_moves()
  */
 void vehicle::refresh()
 {
+    dynamics_dirty = true;
     alternators.clear();
     engines.clear();
     reactors.clear();
@@ -5270,8 +5312,8 @@ void vehicle::refresh_pivot() const {
         yc_denominator += weight_i;
     }
 
-    if (xc_denominator < 0.1 || yc_denominator < 0.1) {
-        debugmsg("vehicle::refresh_pivot had a bad weight: xc=%.3f/%.3f yc=%.3f/%.3f",
+    if (xc_denominator <= 0 || yc_denominator <= 0) {
+        debugmsg("vehicle::refresh_pivot had a bad weight: xc=%.4f/%.4f yc=%.4f/%.4f",
                  xc_numerator, xc_denominator, yc_numerator, yc_denominator);
         pivot_cache = local_center_of_mass();
     } else {
@@ -5869,7 +5911,7 @@ rl_vec2d vehicle::velo_vec() const
     else
        ret = face_vec();
     ret = ret.normalized();
-    ret = ret * velocity;
+    ret = ret * ms_to_internal(velocity);
     return ret;
 }
 
@@ -6133,10 +6175,10 @@ std::string vehicle_part::name() const {
     auto res = info().name();
 
     if( base.engine_displacement() > 0 ) {
-        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
+        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 1000.0 ) );
 
     } else if( wheel_diameter() > 0 ) {
-        res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
+        res.insert( 0, string_format( _( "%d\" " ), (int)m_to_in(wheel_diameter()) ) );
     }
 
     if( base.is_faulty() ) {
@@ -6236,7 +6278,6 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 void vehicle_part::ammo_unset() {
     if( is_battery() || is_reactor() || is_turret() ) {
         base.ammo_unset();
-
     } else if( is_tank() ) {
         base.contents.clear();
     }
@@ -6351,21 +6392,37 @@ bool vehicle_part::fault_set( const fault_id &f )
     return true;
 }
 
-int vehicle_part::wheel_area() const
+float vehicle_part::wheel_area() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
+    return base.is_wheel() ? wheel_diameter() * wheel_width() : 0;
 }
 
-/** Get wheel diameter (inches) or return 0 if part is not wheel */
-int vehicle_part::wheel_diameter() const
+float vehicle_part::wheel_radius() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter : 0;
+    return base.is_wheel() ? in_to_m( base.type->wheel->diameter / 2 ) : 0;
 }
 
-/** Get wheel width (inches) or return 0 if part is not wheel */
-int vehicle_part::wheel_width() const
+float vehicle_part::wheel_mass() const
 {
-    return base.is_wheel() ? base.type->wheel->width : 0;
+    return base.is_wheel() ? base.weight().value() : 0;
+}
+
+/** Get wheel friction or return 0 if part is not wheel */
+float vehicle_part::wheel_friction() const
+{
+    return base.is_wheel() ? ( float )base.type->wheel->friction / 100.0 : 0;
+}
+
+/** Get wheel diameter (meters) or return 0 if part is not wheel */
+float vehicle_part::wheel_diameter() const
+{
+    return base.is_wheel() ? in_to_m( base.type->wheel->diameter ) : 0;
+}
+
+/** Get wheel width (meters) or return 0 if part is not wheel */
+float vehicle_part::wheel_width() const
+{
+    return base.is_wheel() ? in_to_m( base.type->wheel->width ) : 0;
 }
 
 npc * vehicle_part::crew() const

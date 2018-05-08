@@ -209,6 +209,7 @@ public:
     std::array<long, SEASONS_PER_YEAR> symbol_;
 
     int movecost;   // The amount of movement points required to pass this terrain by default.
+    int sinkage;
     units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
     std::string description;

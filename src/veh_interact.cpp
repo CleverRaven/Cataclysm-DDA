@@ -460,7 +460,7 @@ task_reason veh_interact::cant_do (char mode)
         return UNKNOWN_TASK;
     }
 
-    if( abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
+    if( abs( veh->velocity ) > 0.5 || g->u.controlling_vehicle ) {
         return MOVING_VEHICLE;
     }
     if( !enough_morale ) {
@@ -1815,8 +1815,8 @@ void veh_interact::display_stats()
     fold_and_print( w_stats, y[1], x[1], w[1], c_light_gray,
                     //~ /t means per turn
                     _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
-                    int( convert_velocity( veh->acceleration( false ), VU_VEHICLE ) ),
-                    velocity_units( VU_VEHICLE ) );
+                    int( convert_velocity( veh->acceleration( false ), VU_WIND ) ),
+                    velocity_units( VU_WIND ) );
     fold_and_print( w_stats, y[2], x[2], w[2], c_light_gray,
                     _( "Mass: <color_light_blue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() ), weight_units() );
@@ -1867,20 +1867,18 @@ void veh_interact::display_stats()
         print_part( needsRepair, 7, most_repairable );
     }
 
-    bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-
     fold_and_print(w_stats, y[8], x[8], w[8], c_light_gray,
                    _("K aerodynamics: <color_light_blue>%3d</color>%%"),
                    int(veh->k_aerodynamics() * 100));
     fold_and_print(w_stats, y[9], x[9], w[9], c_light_gray,
-                   _("K friction:     <color_light_blue>%3d</color>%%"),
-                   int(veh->k_friction() * 100));
+                   _("K friction:     <color_light_blue>%2.2f</color>%%"),
+                   veh->k_friction() * 100);
     fold_and_print(w_stats, y[10], x[10], w[10], c_light_gray,
                    _("K mass:         <color_light_blue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
     fold_and_print( w_stats, y[11], x[11], w[11], c_light_gray,
                     _("Offroad:        <color_light_blue>%3d</color>%%"),
-                    int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
+                    int( veh->k_traction() * 100 ) );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
     veh->print_fuel_indicators (w_stats, y[13], x[13], fuel_index, true,

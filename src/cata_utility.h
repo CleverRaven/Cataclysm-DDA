@@ -37,6 +37,44 @@ enum units_type {
     VU_WIND
 };
 
+constexpr double in_to_m( double val )
+{
+    return val * 0.0254;
+}
+
+constexpr double m_to_in( double val )
+{
+    return val / 0.0254;
+}
+
+constexpr double ms_to_mph( double val )
+{
+    return val * 2.237;
+}
+
+// Convert to internal velocity unit.
+constexpr double mph_to_internal( double val )
+{
+    return val * 100;
+}
+
+constexpr double mph_to_ms( double val )
+{
+    return val / 2.237;
+}
+
+// Convert to internal velocity unit.
+constexpr double ms_to_internal( double val )
+{
+    return ms_to_mph( val ) * 100;
+}
+
+// Convert to internal velocity unit.
+constexpr double internal_to_ms( double val )
+{
+    return mph_to_ms( val / 100 );
+}
+
 /**
  * Round a floating point value down to the nearest integer
  *

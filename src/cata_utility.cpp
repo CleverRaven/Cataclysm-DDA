@@ -147,22 +147,18 @@ const char *volume_units_long()
 
 double convert_velocity( int velocity, const units_type vel_units )
 {
-    // internal units to mph conversion
-    double ret = double( velocity ) / 100;
-
     if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
         switch( vel_units ) {
             case VU_VEHICLE:
-                // mph to km/h conversion
-                ret *= 1.609f;
-                break;
+                // kph
+                return velocity * 3.6;
             case VU_WIND:
-                // mph to m/s conversion
-                ret *= 0.447f;
-                break;
+                // m/s
+                return double( velocity );
         }
     }
-    return ret;
+    // mph
+    return ms_to_mph( double( velocity ) );
 }
 
 double convert_weight( const units::mass &weight )

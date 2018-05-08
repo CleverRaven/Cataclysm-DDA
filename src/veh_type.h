@@ -117,6 +117,9 @@ class vpart_info
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 
+        /** Power modifier (percentage) used when consuming fuel. */
+        int efficiency = 0;
+
         // Electrical power (watts). Is positive for generation, negative for consumption
         int epower = 0;
 

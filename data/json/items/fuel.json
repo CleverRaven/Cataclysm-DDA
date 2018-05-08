@@ -52,7 +52,8 @@
     "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
-      "energy": 35.8
+      "energy": 143.66,
+      "ratio": 14.7
     }
   },
   {
@@ -79,7 +80,8 @@
     "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
-      "energy": 34.2
+      "energy": 126.47,
+      "ratio": 14.6
     }
   },
   {

@@ -317,6 +317,7 @@
         "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
         "symbol": ".",
         "color": "brown",
+        "sinkage": 10,
         "move_cost": 2,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
         "bash": {
@@ -335,6 +336,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
+        "sinkage": 500,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
         "bash": {
                 "sound": "thump",
@@ -352,6 +354,7 @@
         "symbol": ".",
         "color": "light_red",
         "move_cost": 2,
+        "sinkage": 100,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
         "bash": {
                 "sound": "thump",
@@ -369,6 +372,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 3,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "MOUNTABLE"],
         "bash": {
                 "sound": "thump",
@@ -387,6 +391,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 3,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS"],
         "bash": {
                 "sound": "thump",
@@ -409,6 +414,7 @@
         "symbol": "0",
         "color": "yellow",
         "move_cost": 8,
+        "sinkage": 5000,
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "bash": {
                 "sound": "thump",
@@ -426,6 +432,7 @@
         "symbol": "0",
         "color": "brown",
         "move_cost": 10,
+        "sinkage": 10000,
         "trap": "tr_pit",
         "flags": ["TRANSPARENT"],
         "bash": {
@@ -445,6 +452,7 @@
         "symbol": "#",
         "color": "green",
         "move_cost": 5,
+        "sinkage": 2500,
         "flags": ["TRANSPARENT", "DIGGABLE"],
         "bash": {
                 "sound": "thump",
@@ -463,6 +471,7 @@
         "symbol": "#",
         "color": "light_red",
         "move_cost": 2,
+        "sinkage": 7500,
         "flags": ["TRANSPARENT", "ROAD"],
         "bash": {
                 "sound": "thump",
@@ -481,6 +490,7 @@
         "symbol": "0",
         "color": "light_red",
         "move_cost": 10,
+        "sinkage": 1,
         "trap": "tr_spike_pit",
         "flags": ["TRANSPARENT"],
         "bash": {
@@ -500,6 +510,7 @@
         "symbol": "#",
         "color": "light_red",
         "move_cost": 2,
+        "sinkage": 7500,
         "flags": ["TRANSPARENT", "ROAD"],
         "bash": {
                 "sound": "thump",
@@ -518,6 +529,7 @@
         "symbol": "0",
         "color": "light_cyan",
         "move_cost": 10,
+        "sinkage": 1,
         "trap": "tr_glass_pit",
         "flags": ["TRANSPARENT"],
         "bash": {
@@ -537,6 +549,7 @@
         "symbol": "#",
         "color": "light_cyan",
         "move_cost": 2,
+        "sinkage": 7500,
         "flags": ["TRANSPARENT", "ROAD"],
         "bash": {
                 "sound": "thump",
@@ -555,6 +568,7 @@
         "symbol": ".",
         "color": "light_gray",
         "move_cost": 2,
+        "sinkage": 1,
         "roof": "t_flat_roof",
         "flags": ["TRANSPARENT", "INDOORS", "FLAT", "ROAD"],
         "bash": {
@@ -572,6 +586,7 @@
         "symbol": ".",
         "color": "green",
         "move_cost": 2,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
         "bash": {
                 "sound": "thump",
@@ -589,6 +604,7 @@
         "symbol": ".",
         "color": "white",
         "move_cost": 2,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
         "bash": {
                 "sound": "thump",
@@ -619,7 +635,7 @@
         "id" : "t_pavement",
         "name": "pavement",
         "connects_to": "PAVEMENT",
-        "description": "A segment of asphalt, slowly degrading from cracks, frost heaves and lack of maintenance.",
+        "description": "A segment of asphalt, slowly degrading from cracks, frost heaves, and lack of maintenance.",
         "symbol": ".",
         "color": "dark_gray",
         "move_cost": 2,
@@ -771,6 +787,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
+        "sinkage": 5,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
@@ -3603,6 +3620,7 @@
         "symbol": "#",
         "color": "light_green",
         "move_cost": 6,
+        "sinkage": 10,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM",
             "SHRUB", "SHORT"
@@ -3624,6 +3642,7 @@
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "SPRING",
         "transforms_into": "t_underbrush",
@@ -3643,6 +3662,7 @@
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "SUMMER",
         "transforms_into": "t_underbrush",
@@ -3662,6 +3682,7 @@
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "AUTUMN",
         "transforms_into": "t_underbrush",
@@ -3681,6 +3702,7 @@
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "WINTER",
         "transforms_into": "t_underbrush",
@@ -3802,6 +3824,7 @@
         "symbol": "1",
         "color": "brown",
         "move_cost": 4,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3863,6 +3886,7 @@
         "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 3,
+        "sinkage": 10,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
             "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
@@ -3885,6 +3909,7 @@
         "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 3,
+        "sinkage": 10,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
             "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
@@ -4112,6 +4137,7 @@
         "symbol": ".",
         "color": "light_gray",
         "move_cost": 3,
+        "sinkage": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS", "NOCOLLIDE"],
         "bash": {
             "sound": "smash", "//": "muffled because fungus",
