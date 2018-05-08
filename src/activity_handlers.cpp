@@ -1831,9 +1831,15 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
-            p->i_rem( &gun );
+            // Remove irremovable mods prior to destroying the gun
+            for( auto mod : gun.gunmods() ) {
+                if( mod->is_irremovable() ) {
+                    p->remove_item( *mod );
+                }
+            }
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );
+            p->i_rem( &gun );
         } else {
             add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );
