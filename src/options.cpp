@@ -56,6 +56,8 @@ options_manager &get_options()
 
 options_manager::options_manager()
 {
+    mMigrateOption = {{"DELETE_WORLD", "RESET_WORLD"}};
+    
     enable_json("DEFAULT_REGION");
     // to allow class based init_data functions to add values to a 'string' type option, add:
     //   enable_json("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON");
@@ -1409,8 +1411,8 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add( "DELETE_WORLD", "world_default", translate_marker( "Delete world" ),
-        translate_marker( "Delete the world when the last active character dies." ),
+    add( "RESET_WORLD", "world_default", translate_marker( "Reset world" ),
+        translate_marker( "Reset the world when the last active character dies." ),
         { { "no", translate_marker( "No" ) }, { "yes", translate_marker( "Yes" ) }, { "query", translate_marker( "Query" ) } }, "no"
         );
 
@@ -2086,12 +2088,17 @@ void options_manager::deserialize(JsonIn &jsin)
     while (!jsin.end_array()) {
         JsonObject joOptions = jsin.get_object();
 
-        const std::string name = joOptions.get_string("name");
+        const std::string name = migrateOption( joOptions.get_string("name") );
         const std::string value = joOptions.get_string("value");
-
+        
         add_retry(name, value);
         options[ name ].setValue( value );
     }
+}
+
+std::string options_manager::migrateOption( const std::string &name )
+{
+    return !mMigrateOption[name].empty() ? mMigrateOption[name] : name;
 }
 
 bool options_manager::save()
@@ -2144,9 +2151,10 @@ bool options_manager::load_legacy()
 
             if( !sLine.empty() && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
                 int iPos = sLine.find(' ');
-                const std::string loadedvar = sLine.substr(0, iPos);
+                const std::string loadedvar = migrateOption( sLine.substr(0, iPos) );
                 const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
                 // option with values from post init() might get clobbered
+                
                 add_retry(loadedvar, loadedval); // stash it until update();
 
                 options[ loadedvar ].setValue( loadedval );

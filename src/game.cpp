@@ -1221,12 +1221,12 @@ bool game::cleanup_at_end()
             characters.erase(curchar);
         }
         if (characters.empty()) {
-            if (get_option<std::string>( "DELETE_WORLD" ) == "yes" ||
-                (get_option<std::string>( "DELETE_WORLD" ) == "query" &&
-                 query_yn(_("Delete saved world?")))) {
-                world_generator->delete_world( world_generator->active_world->world_name, true );
+            if (get_option<std::string>( "RESET_WORLD" ) == "yes" ||
+                (get_option<std::string>( "RESET_WORLD" ) == "query" &&
+                 query_yn(_("Reset world?")))) {
+                world_generator->delete_world( world_generator->active_world->world_name, false );
             }
-        } else if (get_option<std::string>( "DELETE_WORLD" ) != "no") {
+        } else if (get_option<std::string>( "RESET_WORLD" ) != "no") {
             std::stringstream message;
             std::string tmpmessage;
             for( auto &character : characters ) {

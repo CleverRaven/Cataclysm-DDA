@@ -24,6 +24,8 @@ class options_manager
 
         std::map<std::string, std::string> post_json_verify;
 
+        std::map<std::string, std::string> mMigrateOption;
+
         friend options_manager &get_options();
         options_manager();
 
@@ -154,6 +156,8 @@ class options_manager
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        std::string migrateOption( const std::string &name );
 
         /**
          * Returns a copy of the options in the "world default" page. The options have their
