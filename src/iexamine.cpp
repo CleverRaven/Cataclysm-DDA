@@ -2503,7 +2503,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
     bool has_container = false;
     long charges = 0;
 
-    const std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+    const std::string maple_sap_name = item::nname( "maple_sap" );
 
     auto items = g->m.i_at( examp );
     for( auto &it : items ) {
