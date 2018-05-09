@@ -527,7 +527,7 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     if( from_vehicle ) {
         const optional_vpart_position vp = g->m.veh_at( pickup_target );
         veh = &vp->vehicle();
-        cargo_part = veh->part_with_feature( vp->part_index(), "CARGO", false );
+        cargo_part = vp->part_with_feature( "CARGO", false );
     }
 
     bool problem = false;
@@ -587,7 +587,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             case DONE:
                 return;
             case ITEMS_FROM_CARGO:
-                cargo_part = veh->part_with_feature( vp->part_index(), "CARGO", false );
+                cargo_part = vp->part_with_feature( "CARGO", false );
                 from_vehicle = cargo_part >= 0;
                 break;
             case ITEMS_FROM_GROUND:

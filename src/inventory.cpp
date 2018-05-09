@@ -385,17 +385,16 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             continue;
         }
         vehicle *const veh = &vp->vehicle();
-        const int vpart = vp->part_index();
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-        const int faupart = veh->part_with_feature(vpart, "FAUCET");
-        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        const int kpart = vp->part_with_feature( "KITCHEN" );
+        const int faupart = vp->part_with_feature( "FAUCET" );
+        const int weldpart = vp->part_with_feature( "WELDRIG" );
+        const int craftpart = vp->part_with_feature( "CRAFTRIG" );
+        const int forgepart = vp->part_with_feature( "FORGE" );
+        const int chempart = vp->part_with_feature( "CHEMLAB" );
+        const int cargo = vp->part_with_feature( "CARGO" );
 
         if (cargo >= 0) {
             *this += std::list<item>( veh->get_items(cargo).begin(),

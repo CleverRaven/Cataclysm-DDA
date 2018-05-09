@@ -406,7 +406,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         const optional_vpart_position vp = g->m.veh_at( veh );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
-        int part = v->part_with_feature( vp->part_index(), "CARGO" );
+        int part = vp->part_with_feature( "CARGO" );
         REQUIRE( part >= 0 );
         // Empty the vehicle of any cargo.
         while( !v->get_items( part ).empty() ) {

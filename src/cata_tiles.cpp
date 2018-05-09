@@ -2213,7 +2213,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
                 break;
         }
     }
-    int cargopart = veh->part_with_feature(veh_part, "CARGO");
+    int cargopart = vp->part_with_feature( "CARGO" );
     bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
                                    ll, nv_goggles_activated, height_3d );

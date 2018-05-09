@@ -1474,8 +1474,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    bool veh_bed = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "BED" ) >= 0 );
-    bool veh_seat = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "SEAT" ) >= 0 );
+    bool veh_bed = ( vp && vp->part_with_feature( "BED" ) >= 0 );
+    bool veh_seat = ( vp && vp->part_with_feature( "SEAT" ) >= 0 );
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -3788,14 +3788,14 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
-        if( vp->vehicle().part_with_feature( vp->part_index(), "SHARP" ) != -1 ) {
+        if( vp->part_with_feature( "SHARP" ) != -1 ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
         armor_eff = 0.25f; // Not much
-        if( !slam && vp->vehicle().part_with_feature( vp->part_index(), "ROOF" ) ) {
+        if( !slam && vp->part_with_feature( "ROOF" ) ) {
             // Roof offers better landing than frame or pavement
             effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
         }
@@ -9274,8 +9274,8 @@ void player::try_to_sleep()
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         ( vp && vp->vehicle().part_with_feature( vp->part_index(), "SEAT" ) >= 0 ) ||
-         ( vp && vp->vehicle().part_with_feature( vp->part_index(), "BED" ) >= 0 ) ) ) {
+         ( vp && vp->part_with_feature( "SEAT" ) >= 0 ) ||
+         ( vp && vp->part_with_feature( "BED" ) >= 0 ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
@@ -9333,9 +9333,9 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy += 4;
         // Else use the vehicle tile if we are in one
         } else if (vp) {
-            if (vp->vehicle().part_with_feature( vp->part_index(), "BED") >= 0) {
+            if (vp->part_with_feature( "BED" ) >= 0) {
                 sleepy += 4;
-            } else if (vp->vehicle().part_with_feature (vp->part_index(), "SEAT") >= 0) {
+            } else if (vp->part_with_feature( "SEAT" ) >= 0) {
                 sleepy += 3;
             } else {
                 // Sleeping elsewhere is uncomfortable
@@ -9456,7 +9456,7 @@ std::string player::is_snuggling() const
     if( in_vehicle ) {
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             vehicle *const veh = &vp->vehicle();
-            const int cargo = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false );
+            const int cargo = vp->part_with_feature( VPFLAG_CARGO, false );
             if( cargo >= 0 ) {
                 if( !veh->get_items(cargo).empty() ) {
                     begin = veh->get_items(cargo).begin();

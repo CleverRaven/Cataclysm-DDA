@@ -1566,7 +1566,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         const optional_vpart_position ovp = g->m.veh_at( p );
         if( abs( vp->vehicle().velocity ) > 0 &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
-              vp->vehicle().part_with_feature( ovp->part_index(), VPFLAG_BOARDABLE ) < 0 ) ) {
+              ovp->part_with_feature( VPFLAG_BOARDABLE ) < 0 ) ) {
             move_pause();
             return;
         }
@@ -1624,7 +1624,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
 
         const optional_vpart_position vp = g->m.veh_at( p );
-        if( vp && vp->vehicle().part_with_feature( vp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
+        if( vp && vp->part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1930,7 +1930,7 @@ void npc::find_item()
             continue;
         }
         vehicle *const veh = &vp->vehicle();
-        int veh_part = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, true );
+        int veh_part = vp->part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
         if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) ) {
@@ -1984,7 +1984,7 @@ void npc::pick_up_item()
 
     const optional_vpart_position vp = g->m.veh_at( wanted_item_pos );
     vehicle *const veh = veh_pointer_or_null( vp );
-    int veh_part = vp ? veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false ) : -1;
+    int veh_part = vp ? vp->part_with_feature( VPFLAG_CARGO, false ) : -1;
 
     const bool has_cargo = veh != nullptr &&
                            veh_part >= 0 &&

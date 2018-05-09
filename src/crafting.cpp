@@ -297,7 +297,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
         }
 
         if( optional_vpart_position vp = g->m.veh_at( loc ) ) {
-            const int part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
+            const int part = vp->part_with_feature( "CARGO" );
             if( part != -1 ) {
                 for( const auto &it : vp->vehicle().get_items( part ) ) {
                     if( is_container_eligible_for_crafting( it, false ) ) {
@@ -1383,7 +1383,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
 
         const optional_vpart_position vp = g->m.veh_at( pos() );
-        const int veh_part = vp ? vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) : -1;
+        const int veh_part = vp ? vp->part_with_feature( "CARGO" ) : -1;
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );

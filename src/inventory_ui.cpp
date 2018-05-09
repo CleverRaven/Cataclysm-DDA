@@ -989,7 +989,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
         return;
     }
     vehicle *const veh = &vp->vehicle();
-    const int part = veh->part_with_feature( vp->part_index(), "CARGO" );
+    const int part = vp->part_with_feature( "CARGO" );
     if( part < 0 ) {
         return;
     }

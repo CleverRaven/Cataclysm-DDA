@@ -2116,6 +2116,16 @@ std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool co
     }
 }
 
+int vpart_position::part_with_feature( const std::string &f, const bool unbroken ) const
+{
+    return vehicle().part_with_feature( part_index(), f, unbroken );
+}
+
+int vpart_position::part_with_feature( const vpart_bitflags f, const bool unbroken ) const
+{
+    return vehicle().part_with_feature( part_index(), f, unbroken );
+}
+
 int vehicle::part_with_feature (int part, vpart_bitflags const flag, bool unbroken) const
 {
     if (part_flag(part, flag)) {

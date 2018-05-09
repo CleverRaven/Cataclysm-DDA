@@ -8,6 +8,7 @@
 #include <string>
 
 class vehicle;
+enum vpart_bitflags : int;
 
 /**
  * Reference to a position (a point) of the @ref vehicle.
@@ -51,6 +52,10 @@ class vpart_position
          * @returns The label at this part of the vehicle, if there is any.
          */
         cata::optional<std::string> get_label() const;
+        /// @see vehicle::part_with_feature
+        int part_with_feature( const std::string &f, bool unbroken = true ) const;
+        /// @see vehicle::part_with_feature
+        int part_with_feature( vpart_bitflags f, bool unbroken = true ) const;
 };
 
 /**

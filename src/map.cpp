@@ -1174,12 +1174,11 @@ void map::board_vehicle( const tripoint &pos, player *p )
         return;
     }
     vehicle *const veh = &vp->vehicle();
-    const int part = vp->part_index();
 
-    const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE );
+    const int seat_part = vp->part_with_feature( VPFLAG_BOARDABLE );
     if( seat_part < 0 ) {
         debugmsg( "map::board_vehicle: boarding %s (not boardable)",
-                  veh->parts[ part ].name().c_str() );
+                  veh->parts[vp->part_index()].name().c_str() );
         return;
     }
     if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
@@ -1214,11 +1213,10 @@ void map::unboard_vehicle( const tripoint &p )
         return;
     }
     vehicle *const veh = &vp->vehicle();
-    const int part = vp->part_index();
-    const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE, false );
+    const int seat_part = vp->part_with_feature( VPFLAG_BOARDABLE, false );
     if( seat_part < 0 ) {
         debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-                  veh->parts[ part ].name().c_str() );
+                  veh->parts[vp->part_index()].name().c_str() );
         return;
     }
     passenger = veh->get_passenger(seat_part);
@@ -2433,7 +2431,7 @@ bool map::can_put_items( const tripoint &p ) const
         return true;
     }
     const optional_vpart_position vp = veh_at( p );
-    return vp && vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) >= 0;
+    return vp && vp->part_with_feature( "CARGO" ) >= 0;
 }
 
 bool map::can_put_items_ter_furn( const tripoint &p ) const
@@ -4854,7 +4852,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
     }
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        const int cargo = vp->vehicle().part_with_feature(vp->part_index(), "CARGO");
+        const int cargo = vp->part_with_feature( "CARGO" );
         if( cargo >= 0 ) {
             std::list<item> tmp = use_amount_stack( vp->vehicle().get_items(cargo), type,
                                                     quantity );
@@ -5011,14 +5009,13 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
         vehicle *const veh = &vp->vehicle();
-        const int vpart = vp->part_index();
 
-        const int kpart = veh->part_with_feature(vpart, "FAUCET");
-        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        const int kpart = vp->part_with_feature( "FAUCET" );
+        const int weldpart = vp->part_with_feature( "WELDRIG" );
+        const int craftpart = vp->part_with_feature( "CRAFTRIG" );
+        const int forgepart = vp->part_with_feature( "FORGE" );
+        const int chempart = vp->part_with_feature( "CHEMLAB" );
+        const int cargo = vp->part_with_feature( "CARGO" );
 
         if (kpart >= 0) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";

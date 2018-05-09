@@ -192,7 +192,7 @@ void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
                                const tripoint &where )
 {
     if( const optional_vpart_position vp = g->m.veh_at( where ) ) {
-        const int veh_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
+        const int veh_part = vp->part_with_feature( "CARGO" );
         if( veh_part >= 0 ) {
             put_into_vehicle( p, items, vp->vehicle(), veh_part );
             return;
@@ -525,14 +525,14 @@ static void move_items( const tripoint &src, bool from_vehicle,
         const optional_vpart_position vp = g->m.veh_at( source );
         assert( vp );
         s_veh = &vp->vehicle();
-        s_cargo = s_veh->part_with_feature( vp->part_index(), "CARGO", false );
+        s_cargo = vp->part_with_feature( "CARGO", false );
         assert( s_cargo >= 0 );
     }
     if( to_vehicle ) {
         const optional_vpart_position vp = g->m.veh_at( destination );
         assert( vp );
         d_veh = &vp->vehicle();
-        d_cargo = d_veh->part_with_feature( vp->part_index(), "CARGO", false );
+        d_cargo = vp->part_with_feature( "CARGO", false );
         assert( d_cargo >= 0 );
     }
 
