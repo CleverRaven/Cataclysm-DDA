@@ -1649,6 +1649,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             info.push_back( iteminfo( "BASE", string_format( _( "* This item <bad>conducts</bad> electricity." ) ) ) );
         }
 
+        if( is_tinder() ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "* This item will make <good>good</good> tinder." ) ) ) );
+        }
+
         // concatenate base and acquired flags...
         std::vector<std::string> flags;
         std::set_union( type->item_tags.begin(), type->item_tags.end(),
@@ -4901,6 +4905,24 @@ bool item::reload( player &u, item_location loc, long qty )
         }
     }
     return true;
+}
+
+bool item::is_tinder() const {
+    const auto &mats = made_of();
+    float fuel = 0.0f;
+    for( const auto &m : mats ) {
+        const auto &bd = m->burn_data( 1 );
+        if( bd.immune ) {
+            break;
+        }
+        fuel += bd.fuel;
+    }
+
+    float vol = base_volume().value() / 1000.0f;
+    if( fuel >= vol * 2 ) {
+        return true;
+    }
+    return false;
 }
 
 bool item::burn( fire_data &frd, bool contained)

@@ -384,6 +384,9 @@ class item : public visitable<item>
     */
     std::string info( bool showtext, std::vector<iteminfo> &dump, int batch ) const;
 
+    /** Returns true if the item can be lit with a lighter */
+    bool is_tinder() const;
+
     /** Burns the item. Returns true if the item was destroyed. */
     bool burn( fire_data &bd, bool contained );
 
