@@ -927,53 +927,28 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water
                                 cur.setFieldAge( cur.getFieldAge() + 4_minutes );
-                            }
+                            } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) || 
+                                ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) ||
+                                ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+                                // Consume the terrain we're on
+                                if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) ?
+                                    one_in( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 ) : 
+                                    one_in( MAX_FIRE_SIZE - cur.getFieldDensity() - 2 ) ) {
 
-                            // Consume the terrain we're on
-                            if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
-                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() ) ) {
-                                    // The fire feeds on the ground itself until max density.
-                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() );
+                                    int added = rng( -1, cur.getFieldDensity() + 1 );
+                                    time_added += 1_turns * added;
                                 }
-
                                 smoke += 2;
                                 if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
+                                    one_in( 200 - ( cur.getFieldDensity() + 1 ) * 50 ) ) {
                                     destroy( p, false );
+                                    if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+                                        ter_set( p, t_dirt );
+                                    } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+                                        furn_set( p, f_ash );
+                                        add_item_or_charges( p, item( "ash" ) );
+                                    }
                                 }
-
-                            } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
-                                       one_in( 3 ) ) {
-                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 ) ) {
-                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 );
-                                }
-                                smoke += 2;
-                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
-                                    destroy( p, false );
-                                }
-
-                            } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() ) ) {
-                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 );
-                                }
-                                smoke += 2;
-                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
-                                    ter_set( p, t_dirt );
-                                }
-
-                            } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() ) ) {
-                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() - 1);
-                                }
-                                smoke += 2;
-                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
-                                    furn_set( p, f_ash );
-                                    add_item_or_charges( p, item( "ash" ) );
-                                }
-
                             } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                                 // We're hanging in the air - let's fall down
                                 tripoint dst{p.x, p.y, p.z - 1};
