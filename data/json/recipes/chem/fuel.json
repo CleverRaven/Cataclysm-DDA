@@ -8,23 +8,21 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": 30000,
-    "book_learn": [ [ "textbook_chemistry", 5 ], [ "brewing_cookbook", 4 ] ],
+    "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook", 4 ] ],
     "qualities": [
         { "id": "BOIL", "level": 2 },
         { "id": "DISTILL", "level": 2 }
      ],
      "tools": [
-       [ [ "fire", -1 ], [ "hotplate", 30 ], [ "toolset", 30 ] ],
+       [ [ "surface_heat", 30, "LIST" ] ],
        [ [ "thermometer", -1 ] ]
      ],
      "components": [ [
         [ "hard_liquor", 14, "LIST" ],
+        [ "weak_liquor", 10, "LIST" ],
+        [ "wash_liquor", 42, "LIST" ],
         [ "bum_wine", 56 ],
-        [ "fruit_wine", 56 ],
-        [ "wash_moonshine", 42 ],
-        [ "wash_vodka", 42 ],
-        [ "wash_whiskey", 42 ],
-        [ "wash_rum", 42 ]
+        [ "fruit_wine", 56 ]
     ] ]
   },
   {
@@ -36,16 +34,18 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 30000,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook" ] ],
     "qualities": [
         { "id": "BOIL", "level": 2 },
         { "id": "DISTILL", "level": 1 }
      ],
      "tools": [
-       [ [ "fire", -1 ], [ "hotplate", 60 ], [ "toolset", 60 ] ]
+       [ [ "surface_heat", 60, "LIST" ] ]
      ],
      "components": [ [
        [ "hard_liquor", 14, "LIST" ],
+       [ "weak_liquor", 10, "LIST" ],
+       [ "wash_liquor", 42, "LIST" ],
        [ "bum_wine", 56 ],
        [ "fruit_wine", 56 ]
     ] ]
@@ -88,7 +88,7 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [
-      [ [ "fire", -1 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
+      [ [ "surface_heat", 10, "LIST" ] ]
     ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],

@@ -31,6 +31,7 @@
       [ "brick_kiln", 80 ],
       [ "con_mix", 120 ],
       [ "elec_jackhammer", 40 ],
+      [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ]
     ]
   },
@@ -119,7 +120,7 @@
   {
     "id": "tools_medical",
     "type": "item_group",
-    "comment": "Portable medical equipment for doctors and paramedics (excludes consumables)",
+    "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
     "items": [
       [ "scalpel", 50 ],
       [ "scissors", 100 ],
@@ -136,6 +137,7 @@
     "items": [
       { "group": "tools_common", "prob": 50 },
       { "group": "tools_blacksmith", "prob": 50 },
+      [ "large_repairkit", 50 ],
       [ "puller", 100 ],
       [ "press", 100 ]
     ]

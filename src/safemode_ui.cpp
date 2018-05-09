@@ -4,15 +4,15 @@
 #include "player.h"
 #include "output.h"
 #include "debug.h"
-#include "catacharset.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "cata_utility.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "input.h"
 #include "mtype.h"
-#include "generic_factory.h"
-#include "worldfactory.h"
+#include "json.h"
+#include "options.h"
 #include "monstergenerator.h"
 #include "string_input_popup.h"
 
@@ -65,26 +65,22 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     const int num_columns = column_pos.size();
 
-    WINDOW *w_help = newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                             7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
-    WINDOW_PTR w_helpptr( w_help );
-
-    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset_y, offset_x );
-    WINDOW_PTR w_borderptr( w_border );
-    WINDOW *w_header = newwin( header_height, FULL_SCREEN_WIDTH - 2, 1 + offset_y,
-                               1 + offset_x );
-    WINDOW_PTR w_headerptr( w_header );
-    WINDOW *w = newwin( content_height, FULL_SCREEN_WIDTH - 2, header_height + 1 + offset_y,
-                        1 + offset_x );
-    WINDOW_PTR wptr( w );
+    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
+                                FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                  offset_y, offset_x );
+    catacurses::window w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
+                                  1 + offset_y, 1 + offset_x );
+    catacurses::window w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
+                           header_height + 1 + offset_y, 1 + offset_x );
 
     draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-    mvwputch( w_border, 3,  0, c_ltgray, LINE_XXXO ); // |-
-    mvwputch( w_border, 3, 79, c_ltgray, LINE_XOXX ); // -|
+    mvwputch( w_border, 3,  0, c_light_gray, LINE_XXXO ); // |-
+    mvwputch( w_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
 
     for( auto &column : column_pos ) {
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_ltgray,
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_light_gray,
                   LINE_XXOX ); // _|_
     }
 
@@ -98,21 +94,21 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     int tmpx = 0;
     for( auto &hotkey : hotkeys ) {
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, hotkey ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, hotkey ) + 2;
     }
 
     tmpx = 0;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<+-> Move up/down" ) ) + 2;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Tab>-Switch Page" ) );
+    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
+    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
     for( int i = 0; i < 78; i++ ) {
-        mvwputch( w_header, 2, i, c_ltgray, LINE_OXOX ); // Draw line under header
+        mvwputch( w_header, 2, i, c_light_gray, LINE_OXOX ); // Draw line under header
     }
 
     for( auto &pos : column_pos ) {
-        mvwputch( w_header, 2, pos.second, c_ltgray, LINE_OXXX );
-        mvwputch( w_header, 3, pos.second, c_ltgray, LINE_XOXO );
+        mvwputch( w_header, 2, pos.second, c_light_gray, LINE_OXXX );
+        mvwputch( w_header, 3, pos.second, c_light_gray, LINE_XOXO );
     }
 
     mvwprintz( w_header, 3, 1, c_white, "#" );
@@ -160,11 +156,11 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         locx = 55;
         mvwprintz( w_header, 0, locx, c_white, _( "Safe Mode enabled:" ) );
         locx += shortcut_print( w_header, 1, locx,
-                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_ltgreen : c_ltred ), c_white,
+                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_light_green : c_light_red ), c_white,
                                 ( ( get_option<bool>( "SAFEMODE" ) ) ? _( "True" ) : _( "False" ) ) );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, _( "<S>witch" ) );
-        shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
+        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
+        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, _( "<S>witch" ) );
+        shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
 
         wrefresh( w_header );
 
@@ -175,7 +171,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
 
             for( auto &pos : column_pos ) {
-                mvwputch( w, i, pos.second, c_ltgray, LINE_XOXO );
+                mvwputch( w, i, pos.second, c_light_gray, LINE_XOXO );
             }
         }
 
@@ -202,7 +198,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 auto rule = current_tab[i];
 
-                nc_color line_color = ( rule.active ) ? c_white : c_ltgray;
+                nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
                 mvwprintz( w, i - start_pos, 1, line_color, "%d", i + 1 );
                 mvwprintz( w, i - start_pos, 5, c_yellow, ( line == i ) ? ">> " : "   " );
@@ -210,7 +206,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 auto draw_column = [&]( Columns column_in, std::string text_in ) {
                     mvwprintz( w, i - start_pos, column_pos[column_in] + 2,
                                ( line == i && column == column_in ) ? hilite( line_color ) : line_color,
-                               "%s", text_in.c_str()
+                               text_in
                              );
                 };
 
@@ -328,7 +324,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 }
             } else if( column == COLUMN_PROXIMITY && !current_tab[line].whitelist ) {
                 const auto text = string_input_popup()
-                                  .title( _( "Proximity Distance (0=max viewdistance)" ) )
+                                  .title( _( "Proximity Distance (0=max view distance)" ) )
                                   .width( 4 )
                                   .text( to_string( current_tab[line].proximity ) )
                                   .description( _( "Option: " ) + to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
@@ -434,23 +430,18 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     const int content_height = FULL_SCREEN_HEIGHT - 8;
     const int content_width = FULL_SCREEN_WIDTH - 30;
 
-    WINDOW *w_test_rule_border = newwin( content_height + 2, content_width, offset_y, offset_x );
-    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
-    WINDOW *w_test_rule_content = newwin( content_height, content_width - 2, 1 + offset_y,
-                                          1 + offset_x );
-    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
-
-    draw_border( w_test_rule_border );
+    catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
+                                            offset_y, offset_x );
+    catacurses::window w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
+            1 + offset_y, 1 + offset_x );
 
     int nmatch = creature_list.size();
     std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
                                      "%1$d monsters match: %2$s",
                                      nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
-    mvwprintz( w_test_rule_border, 0, content_width / 2 - utf8_width( buf ) / 2, hilite( c_white ),
-               "%s", buf.c_str() );
-
-    mvwprintz( w_test_rule_border, content_height + 1, 1, red_background( c_white ),
-               _( "Lists monsters regardless of their attitude." ) );
+    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+    center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
+                  _( "Lists monsters regardless of their attitude." ) );
 
     wrefresh( w_test_rule_border );
 
@@ -481,8 +472,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
                 wprintz( w_test_rule_content, c_yellow, ( line == i ) ? ">> " : "   " );
 
-                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color, "%s",
-                         creature_list[i].c_str() );
+                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color,
+                         creature_list[i] );
             }
         }
 
@@ -635,10 +626,8 @@ bool safemode::save( const bool is_character_in )
     auto file = FILENAMES["safemode"];
 
     if( is_character ) {
-        file = world_generator->active_world->world_path + "/" + base64_encode(
-                   g->u.name ) + ".sfm.json";
-        if( !file_exist( world_generator->active_world->world_path + "/" +
-                         base64_encode( g->u.name ) + ".sav" ) ) {
+        file = g->get_player_base_save_path() + ".sfm.json";
+        if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -670,7 +659,7 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     std::string file = FILENAMES["safemode"];
     if( is_character ) {
-        file = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sfm.json";
+        file = g->get_player_base_save_path() + ".sfm.json";
     }
 
     fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );

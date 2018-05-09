@@ -11,11 +11,10 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
-      [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 50 ], [ "toolset", 50 ], [ "fire", -1 ] ]
+      [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 20 ] ],
@@ -36,11 +35,10 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
-      [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+      [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],

@@ -4,13 +4,14 @@
 
 #include <limits>
 #include <memory>
+#include <functional>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
-#include "output.h"
 #include "item_location.h"
+#include "pimpl.h"
 
 class Character;
 
@@ -144,10 +145,9 @@ class inventory_selector_preset
         /** Color that will be used to display the entry string. */
         virtual nc_color get_color( const inventory_entry &entry ) const;
 
+        std::string get_denial( const inventory_entry &entry ) const;
         /** Text in the cell */
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
-        /** Width of the cell */
-        size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
         /** @return Whether the cell is a stub */
         bool is_stub_cell( const inventory_entry &entry, size_t cell_index ) const;
         /** Number of cells in the preset. */
@@ -172,16 +172,23 @@ class inventory_selector_preset
                           const std::string &stub = std::string() );
 
     private:
-        struct cell_t {
-            std::function<std::string( const inventory_entry & )> func;
-            std::string title;
-            std::string stub;
+        class cell_t
+        {
+            public:
+                cell_t( const std::function<std::string( const inventory_entry & )> &func,
+                        const std::string &title, const std::string &stub ) :
+                    title( title ),
+                    stub( stub ),
+                    func( func ) {}
 
-            cell_t( const std::function<std::string( const inventory_entry & )> &func,
-                    const std::string &title, const std::string &stub ) :
-                func( func ),
-                title( title ),
-                stub( stub ) {}
+
+                std::string get_text( const inventory_entry &entry ) const;
+
+                std::string title;
+                std::string stub;
+
+            private:
+                std::function<std::string( const inventory_entry & )> func;
         };
 
         std::vector<cell_t> cells;
@@ -196,7 +203,7 @@ class inventory_column
             cells.resize( preset.get_cells_count() );
         }
 
-        virtual ~inventory_column() {}
+        virtual ~inventory_column() = default;
 
         bool empty() const {
             return entries.empty();
@@ -226,6 +233,7 @@ class inventory_column
             return page_of( entries.size() + entries_per_page - 1 );
         }
 
+        bool has_available_choices() const;
         bool is_selected( const inventory_entry &entry ) const;
 
         /**
@@ -239,7 +247,7 @@ class inventory_column
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
-        void draw( WINDOW *win, size_t x, size_t y ) const;
+        void draw( const catacurses::window &win, size_t x, size_t y ) const;
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -267,7 +275,7 @@ class inventory_column
         /** Returns next custom inventory letter. */
         long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
-        virtual void prepare_paging();
+        virtual void prepare_paging( const std::string &filter = "" );
         /**
          * Event handlers
          */
@@ -287,7 +295,16 @@ class inventory_column
             this->mode = mode;
         }
 
+        void set_filter( const std::string &filter );
+
     protected:
+        struct entry_cell_cache_t {
+            bool assigned = false;
+            nc_color color = c_unset;
+            std::string denial;
+            std::vector<std::string> text;
+        };
+
         /**
          * Change the selection.
          * @param new_index Index of the entry to select.
@@ -315,16 +332,18 @@ class inventory_column
          *  If corresponding cell is not empty (its width is greater than zero),
          *  then a value returned by  inventory_column::get_entry_indent() is added to the result.
          */
+        size_t get_entry_cell_width( size_t index, size_t cell_index ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
         /** Sum of the cell widths */
         size_t get_cells_width() const;
 
-        std::string get_denial( const item_location &loc ) const;
-        std::string get_denial( const inventory_entry &entry ) const;
+        const entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
+        const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
 
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
+        std::vector<inventory_entry> entries_unfiltered;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
         bool multiselect = false;
@@ -345,13 +364,14 @@ class inventory_column
             bool visible() const {
                 return current_width > 0;
             }
-            /** @return Gap before the cell. Negative value means the cell is shrinked */
+            /** @return Gap before the cell. Negative value means the cell is shrunk */
             int gap() const {
                 return current_width - real_width;
             }
         };
 
         std::vector<cell_t> cells;
+        mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
         /** @return Number of visible cells */
         size_t visible_cells() const;
@@ -370,7 +390,7 @@ class selection_column : public inventory_column
             return false;
         }
 
-        virtual void prepare_paging() override;
+        virtual void prepare_paging( const std::string &filter = "" ) override;
 
         virtual void on_change( const inventory_entry &entry ) override;
         virtual void on_mode_change( navigation_mode ) override {
@@ -378,7 +398,7 @@ class selection_column : public inventory_column
         }
 
     private:
-        const std::unique_ptr<item_category> selected_cat;
+        const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
 };
 
@@ -386,7 +406,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector() {}
+        ~inventory_selector() = default;
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -452,6 +472,7 @@ class inventory_selector
 
         void resize_window( int width, int height );
         void refresh_window() const;
+        void set_filter();
         void update();
 
         /** Tackles screen overflow */
@@ -468,10 +489,10 @@ class inventory_selector
         size_t get_header_min_width() const;
         size_t get_footer_min_width() const;
 
-        void draw_header( WINDOW *w ) const;
-        void draw_footer( WINDOW *w ) const;
-        void draw_columns( WINDOW *w ) const;
-        void draw_frame( WINDOW *w ) const;
+        void draw_header( const catacurses::window &w ) const;
+        void draw_footer( const catacurses::window &w ) const;
+        void draw_columns( const catacurses::window &w ) const;
+        void draw_frame( const catacurses::window &w ) const;
 
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
@@ -521,7 +542,7 @@ class inventory_selector
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
-        WINDOW_PTR w_inv;
+        catacurses::window w_inv;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;
@@ -537,6 +558,7 @@ class inventory_selector
         inventory_column map_column;         // Column for map and vehicle items
 
         const int border = 1;                // Width of the window border
+        std::string filter;
 
         bool display_stats = true;
         bool layout_is_valid = false;
@@ -575,6 +597,26 @@ class inventory_compare_selector : public inventory_multiselector
         std::vector<inventory_entry *> compared;
 
         void toggle_entry( inventory_entry *entry );
+};
+
+// This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
+// Should accept a function to calculate dummy values.
+class inventory_iuse_selector : public inventory_multiselector
+{
+    public:
+        inventory_iuse_selector( const player &p,
+                                 const std::string &selector_title,
+                                 const inventory_selector_preset &preset = default_preset );
+        std::list<std::pair<int, int>> execute();
+
+    protected:
+        const player &get_player_for_stats() const;
+        void set_chosen_count( inventory_entry &entry, size_t count );
+
+    private:
+        std::map<const item *, int> to_use;
+        size_t max_chosen_count;
+        mutable std::unique_ptr<player> dummy;
 };
 
 class inventory_drop_selector : public inventory_multiselector

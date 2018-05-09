@@ -1,13 +1,18 @@
-#include "debug.h"
 #include "itype.h"
-#include "ammo.h"
-#include "game.h"
-#include "item_factory.h"
+#include "debug.h"
+#include "player.h"
+#include "output.h"
 #include "translations.h"
 
 #include <stdexcept>
 #include <algorithm>
 #include <cmath>
+
+std::string gunmod_location::name() const
+{
+    // Yes, currently the name is just the translated id.
+    return _( _id.c_str() );
+}
 
 std::string itype::nname( unsigned int const quantity ) const
 {
@@ -31,7 +36,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-long itype::tick( player *p, item *it, const tripoint &pos ) const
+long itype::tick( player &p, item &it, const tripoint &pos ) const
 {
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
@@ -48,16 +53,15 @@ long itype::tick( player *p, item *it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-long itype::invoke( player *p, item *it, const tripoint &pos ) const
+long itype::invoke( player &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
     }
-
-    return use_methods.begin()->second.call( p, it, false, pos );
+    return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-long itype::invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const
+long itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -66,15 +70,17 @@ long itype::invoke( player *p, item *it, const tripoint &pos, const std::string 
         return 0;
     }
 
+    const auto ret = use->can_call( p, it, false, pos );
+
+    if( !ret.success() ) {
+        p.add_msg_if_player( m_info, ret.str() );
+        return 0;
+    }
+
     return use->call( p, it, false, pos );
 }
 
-std::string ammo_name( const ammotype &t )
+std::string gun_type_type::name() const
 {
-    return t.obj().name();
-}
-
-const itype_id &default_ammo( const ammotype &t )
-{
-    return t.obj().default_ammotype();
+    return pgettext( "gun_type_type", name_.c_str() );
 }

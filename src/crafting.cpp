@@ -6,12 +6,15 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "bionics.h"
 #include "inventory.h"
 #include "itype.h"
-#include "json.h"
+#include "ammo.h"
 #include "map.h"
 #include "messages.h"
+#include "item.h"
 #include "npc.h"
+#include "calendar.h"
 #include "options.h"
 #include "output.h"
 #include "recipe_dictionary.h"
@@ -35,9 +38,13 @@ const efftype_id effect_contacts( "contacts" );
 void remove_from_component_lookup( recipe *r );
 void drop_or_handle( const item &newit, player &p );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
+static const trait_id trait_PAWS( "PAWS" );
+
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
-    if( !p.has_morale_to_craft() ) {
+    if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }
@@ -78,6 +85,43 @@ float player::lighting_craft_speed_multiplier( const recipe &rec ) const
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
 
+float player::morale_crafting_speed_multiplier( const recipe &rec ) const
+{
+    int morale = get_morale_level();
+    if( morale >= 0 ) {
+        // No bonus for being happy yet
+        return 1.0f;
+    }
+
+    // Harder jobs are more frustrating, even when skilled
+    // For each skill where skill=difficulty, multiply effective morale by 200%
+    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
+                                  get_skill_level( rec.skill_used ) ) );
+    for( const auto &pr : rec.required_skills ) {
+        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, get_skill_level( pr.first ) ) );
+    }
+
+    // Halve speed at -50 effective morale, quarter at -150
+    float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
+
+    return 1.0f / morale_effect;
+}
+
+float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+{
+    float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier( rec );
+    // Can't start if we'd need 300% time, but we can still finish the job
+    if( !in_progress && result < 0.33f ) {
+        return 0.0f;
+    }
+    // If we're working below 20% speed, just give up
+    if( result < 0.2f ) {
+        return 0.0f;
+    }
+
+    return result;
+}
+
 bool player::has_morale_to_craft() const
 {
     return get_morale_level() >= -50;
@@ -96,7 +140,7 @@ void player::craft()
 
 void player::recraft()
 {
-    if( lastrecipe.empty() ) {
+    if( lastrecipe.str().empty() ) {
         popup( _( "Craft something first" ) );
     } else if( making_would_work( lastrecipe, last_batch ) ) {
         last_craft->execute();
@@ -114,9 +158,9 @@ void player::long_craft()
     }
 }
 
-bool player::making_would_work( const std::string &id_to_make, int batch_size )
+bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
-    const auto &making = recipe_dict[ id_to_make ];
+    const auto &making = *id_to_make;
     if( !( making && crafting_allowed( *this, making ) ) ) {
         return false;
     }
@@ -132,17 +176,28 @@ bool player::making_would_work( const std::string &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::time_to_craft( const recipe &rec, int batch_size )
+size_t available_assistant_count( const player &u, const recipe &rec )
 {
     // NPCs around you should assist in batch production if they have the skills
-    const auto helpers = get_crafting_helpers();
-    const size_t assistants = std::count_if( helpers.begin(), helpers.end(),
+    // @todo Cache them in activity, include them in modifier calculations
+    const auto helpers = u.get_crafting_helpers();
+    return std::count_if( helpers.begin(), helpers.end(),
     [&]( const npc * np ) {
         return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
     } );
-    const float lighting_speed = lighting_craft_speed_multiplier( rec );
+}
 
-    return rec.batch_time( batch_size, lighting_speed, assistants );
+int player::base_time_to_craft( const recipe &rec, int batch_size ) const
+{
+    const size_t assistants = available_assistant_count( *this, rec );
+    return rec.batch_time( batch_size, 1.0f, assistants );
+}
+
+int player::expected_time_to_craft( const recipe &rec, int batch_size ) const
+{
+    const size_t assistants = available_assistant_count( *this, rec );
+    float modifier = crafting_speed_multiplier( rec );
+    return rec.batch_time( batch_size, modifier, assistants );
 }
 
 bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
@@ -272,7 +327,7 @@ bool player::can_make( const recipe *r, int batch_size )
 const inventory &player::crafting_inventory()
 {
     if( cached_moves == moves
-        && cached_turn == calendar::turn.get_turn()
+        && cached_time == calendar::turn
         && cached_position == pos() ) {
         return cached_crafting_inventory;
     }
@@ -280,7 +335,7 @@ const inventory &player::crafting_inventory()
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
-    for( const auto &bio : my_bionics ) {
+    for( const auto &bio : *my_bionics ) {
         const auto &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
@@ -290,29 +345,29 @@ const inventory &player::crafting_inventory()
     }
 
     cached_moves = moves;
-    cached_turn = calendar::turn.get_turn();
+    cached_time = calendar::turn;
     cached_position = pos();
     return cached_crafting_inventory;
 }
 
 void player::invalidate_crafting_inventory()
 {
-    cached_turn = -1;
+    cached_time = calendar::before_time_starts;
 }
 
-void player::make_craft( const std::string &id_to_make, int batch_size )
+void player::make_craft( const recipe_id &id_to_make, int batch_size )
 {
     make_craft_with_command( id_to_make, batch_size );
 }
 
-void player::make_all_craft( const std::string &id_to_make, int batch_size )
+void player::make_all_craft( const recipe_id &id_to_make, int batch_size )
 {
     make_craft_with_command( id_to_make, batch_size, true );
 }
 
-void player::make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long )
+void player::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long )
 {
-    const auto &recipe_to_make = recipe_dict[ id_to_make ];
+    const auto &recipe_to_make = *id_to_make;
 
     if( !recipe_to_make ) {
         return;
@@ -348,9 +403,35 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
     }
 }
 
+std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size )
+{
+    std::list<item> used;
+    if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        return used;
+    }
+    if( last_craft->has_cached_selections() ) {
+        used = last_craft->consume_components();
+    } else {
+        // This should fail and return, but currently crafting_command isn't saved
+        // Meaning there are still cases where has_cached_selections will be false
+        // @todo: Allow saving last_craft and debugmsg+fail craft if selection isn't cached
+        const auto &req = making->requirements();
+        for( const auto &it : req.get_components() ) {
+            std::list<item> tmp = consume_items( it, batch_size );
+            used.splice( used.end(), tmp );
+        }
+        for( const auto &it : req.get_tools() ) {
+            consume_tools( it, batch_size );
+        }
+    }
+    return used;
+}
+
+
 void player::complete_craft()
 {
-    const recipe *making = &recipe_dict[ activity.name ]; // Which recipe is it?
+    //@todo: change making to be a reference, it can never be null anyway
+    const recipe *making = &recipe_id( activity.name ).obj(); // Which recipe is it?
     int batch_size = activity.values.front();
     if( making == nullptr ) {
         debugmsg( "no recipe with id %s found", activity.name.c_str() );
@@ -386,7 +467,7 @@ void player::complete_craft()
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" ) &&
+    if( has_trait( trait_id( "HYPEROPIC" ) ) && !is_wearing( "glasses_reading" ) &&
         !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making->skill_used == skill_id( "electronics" ) ) {
@@ -399,9 +480,9 @@ void player::complete_craft()
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if( has_trait( "PAWS" ) || has_trait( "PAWS_LARGE" ) ) {
+    if( has_trait( trait_PAWS ) || has_trait( trait_PAWS_LARGE ) ) {
         int paws_rank_penalty = 0;
-        if( has_trait( "PAWS_LARGE" ) ) {
+        if( has_trait( trait_PAWS_LARGE ) ) {
             paws_rank_penalty += 1;
         }
         if( making->skill_used == skill_id( "electronics" )
@@ -430,8 +511,8 @@ void player::complete_craft()
     int diff_roll  = dice( diff_dice,  diff_sides );
 
     if( making->skill_used ) {
-        const double batch_mult = 1 + time_to_craft( *making, batch_size ) / 30000.0;
-        //normalize experience gain to crafting time, giving a bonus for longer crafting
+        // normalize experience gain to crafting time, giving a bonus for longer crafting
+        const double batch_mult = batch_size + base_time_to_craft( *making, batch_size ) / 30000.0;
         practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
                   ( int )making->difficulty * 1.25 );
 
@@ -461,26 +542,14 @@ void player::complete_craft()
 
     // Messed up badly; waste some components.
     if( making->difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
-        add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ),
-                 item::nname( making->result ).c_str() );
-        if( last_craft->has_cached_selections() ) {
-            last_craft->consume_components();
-        } else {
-            // @todo Guarantee that selections are cached
-            const auto &req = making->requirements();
-            for( const auto &it : req.get_components() ) {
-                consume_items( it, batch_size );
-            }
-            for( const auto &it : req.get_tools() ) {
-                consume_tools( it, batch_size );
-            }
-        }
+        add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ), making->result_name() );
+        consume_components_for_craft( making, batch_size );
         activity.set_to_null();
         return;
         // Messed up slightly; no components wasted.
     } else if( diff_roll > skill_roll ) {
         add_msg( m_neutral, _( "You fail to make the %s, but don't waste any materials." ),
-                 item::nname( making->result ).c_str() );
+                 making->result_name() );
         //this method would only have been called from a place that nulls activity.type,
         //so it appears that it's safe to NOT null that variable here.
         //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
@@ -489,26 +558,13 @@ void player::complete_craft()
 
     // If we're here, the craft was a success!
     // Use up the components and tools
-    std::list<item> used;
-    if( !last_craft->has_cached_selections() ) {
-        // This should fail and return, but currently crafting_command isn't saved
-        // Meaning there are still cases where has_cached_selections will be false
-        // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
-        if( !has_trait( "DEBUG_HS" ) ) {
-            const auto &req = making->requirements();
-            for( const auto &it : req.get_components() ) {
-                std::list<item> tmp = consume_items( it, batch_size );
-                used.splice( used.end(), tmp );
-            }
-            for( const auto &it : req.get_tools() ) {
-                consume_tools( it, batch_size );
-            }
-        }
-    } else if( !has_trait( "DEBUG_HS" ) ) {
-        used = last_craft->consume_components();
-        if( used.empty() ) {
-            return;
-        }
+    std::list<item> used = consume_components_for_craft( making, batch_size );
+    if( last_craft->has_cached_selections() && used.empty() ) {
+        // This signals failure, even though there seem to be several paths where it shouldn't...
+        return;
+    }
+    if( !used.empty() ) {
+        reset_encumbrance();  // in case we were wearing something just consumed up.
     }
 
     // Set up the new item, and assign an inventory letter if available
@@ -518,7 +574,7 @@ void player::complete_craft()
     int used_age_count = 0;
     size_t newit_counter = 0;
     for( item &newit : newits ) {
-        // messages, learning of recipe, food spoilage calc only once
+        // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
             first = false;
             if( knows_recipe( making ) ) {
@@ -536,7 +592,7 @@ void player::complete_craft()
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 if( x_in_y( making->time, ( 1000 * 8 *
                                             ( difficulty * difficulty * difficulty * difficulty ) ) /
-                            ( std::max( get_skill_level( making->skill_used ).level(), 1 ) * std::max( get_int(), 1 ) ) ) ) {
+                            ( std::max( get_skill_level( making->skill_used ), 1 ) * std::max( get_int(), 1 ) ) ) ) {
                     learn_recipe( ( recipe * )making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              newit.type_name( 1 ).c_str() );
@@ -553,7 +609,7 @@ void player::complete_craft()
 
         // Don't store components for things made by charges,
         // don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making->result ) && !newit.count_by_charges() ) {
+        if( recipe_dictionary::get_uncraft( making->result() ) && !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.
@@ -572,7 +628,7 @@ void player::complete_craft()
         }
     }
 
-    inv.restack( this );
+    inv.restack( *this );
 }
 
 void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
@@ -582,8 +638,9 @@ void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
 
 void set_item_food( item &newit )
 {
-    int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
-    newit.bday = int( newit.bday ) + 3600 - bday_tmp;
+    //@todo: encapsulate this into some function
+    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
+    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
@@ -606,7 +663,7 @@ void set_item_inventory( item &newit )
     if( newit.made_of( LIQUID ) ) {
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
-        g->u.inv.assign_empty_invlet( newit );
+        g->u.inv.assign_empty_invlet( newit, g->u );
         // We might not have space for the item
         if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
@@ -682,21 +739,35 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     } else { // Let the player pick which component they want to use
         uimenu cmenu;
         // Populate options with the names of the items
-        for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
+        for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+                                                item::nname( map_ha.type ),
+                                                ( map_ha.count * batch ),
+                                                item::count_by_charges( map_ha.type ) ? map_inv.charges_of( map_ha.type ) : map_inv.amount_of(
+                                                    map_ha.type ) );
             cmenu.addentry( tmpStr );
         }
-        for( auto &player_ha : player_has ) {
-            cmenu.addentry( item::nname( player_ha.type ) );
+        for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
+            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
+                                                item::nname( player_ha.type ),
+                                                ( player_ha.count * batch ),
+                                                item::count_by_charges( player_ha.type ) ? charges_of( player_ha.type ) : amount_of(
+                                                    player_ha.type ) );
+            cmenu.addentry( tmpStr );
         }
-        for( auto &elem : mixed ) {
-            std::string tmpStr = item::nname( elem.type ) + _( " (on person & nearby)" );
+        for( auto &elem :
+             mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+                                                item::nname( elem.type ),
+                                                ( elem.count * batch ),
+                                                item::count_by_charges( elem.type ) ? map_inv.charges_of( elem.type ) + charges_of( elem.type ) :
+                                                map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
             cmenu.addentry( tmpStr );
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
-            if( has_trait( "DEBUG_HS" ) ) {
+            if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
                 selected.use_from = use_from_player;
                 return selected;
             }
@@ -714,6 +785,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         cmenu.title = _( "Use which component?" );
         cmenu.query();
 
+        // The choices only go up to index map_has.size()+player_has.size()+mixed.size()-1. Thus the next index is cancel.
         if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
             selected.use_from = cancel;
             return selected;
@@ -759,7 +831,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 {
     std::list<item> ret;
 
-    if( has_trait( "DEBUG_HS" ) ) {
+    if( has_trait( trait_DEBUG_HS ) ) {
         return ret;
     }
 
@@ -859,11 +931,27 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uimenu tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-            tmenu.addentry( tmpStr );
+            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
+                std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
+                                                    item::nname( map_ha.type ),
+                                                    ( map_ha.count * batch ),
+                                                    map_inv.charges_of( map_ha.type ) );
+                tmenu.addentry( tmpStr );
+            } else {
+                std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
+                tmenu.addentry( tmpStr );
+            }
         }
         for( auto &player_ha : player_has ) {
-            tmenu.addentry( item::nname( player_ha.type ) );
+            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
+                std::string tmpStr = string_format( "%s (%d/%d charges on person)",
+                                                    item::nname( player_ha.type ),
+                                                    ( player_ha.count * batch ),
+                                                    charges_of( player_ha.type ) );
+                tmenu.addentry( tmpStr );
+            } else {
+                tmenu.addentry( item::nname( player_ha.type ) );
+            }
         }
 
         if( tmenu.entries.empty() ) {  // This SHOULD only happen if cooking with a fire,
@@ -901,7 +989,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
 /* we use this if we selected the tool earlier */
 void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 {
-    if( has_trait( "DEBUG_HS" ) ) {
+    if( has_trait( trait_DEBUG_HS ) ) {
         return;
     }
 
@@ -927,29 +1015,22 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
     consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
-bool player::can_disassemble( const item &obj, const inventory &inv, std::string *err ) const
+ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) const
 {
-    const auto error = [&err]( const std::string & message ) {
-        if( err != nullptr ) {
-            *err = message;
-        }
-        return false;
-    };
-
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
     if( !r ) {
-        return error( string_format( _( "You cannot disassemble this." ) ) );
+        return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
-        return error( _( "You can't see to craft!" ) );
+        return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
     // refuse to disassemble rotten items
     if( obj.goes_bad() || ( obj.is_food_container() && obj.contents.front().goes_bad() ) ) {
         if( obj.rotten() || ( obj.is_food_container() && obj.contents.front().rotten() ) ) {
-            return error( _( "It's rotten, I'm not taking that apart." ) );
+            return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
         }
     }
 
@@ -959,7 +1040,7 @@ bool player::can_disassemble( const item &obj, const inventory &inv, std::string
         if( obj.charges < qty ) {
             auto msg = ngettext( "You need at least %d charge of %s.",
                                  "You need at least %d charges of %s.", qty );
-            return error( string_format( msg, qty, obj.tname().c_str() ) );
+            return ret_val<bool>::make_failure( msg, qty, obj.tname().c_str() );
         }
     }
 
@@ -969,7 +1050,7 @@ bool player::can_disassemble( const item &obj, const inventory &inv, std::string
         for( const auto &qual : opts ) {
             if( !qual.has( inv ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return error( string_format( _( "You need %s" ), qual.to_string().c_str() ) );
+                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string().c_str() );
             }
         }
     }
@@ -983,18 +1064,18 @@ bool player::can_disassemble( const item &obj, const inventory &inv, std::string
 
         if( !found ) {
             if( opts.front().count <= 0 ) {
-                return error( string_format( _( "You need %s." ),
-                                             item::nname( opts.front().type ).c_str() ) );
+                return ret_val<bool>::make_failure( _( "You need %s." ),
+                                                    item::nname( opts.front().type ).c_str() );
             } else {
-                return error( string_format( ngettext( "You need a %s with %d charge.",
-                                                       "You need a %s with %d charges.",
-                                                       opts.front().count ),
-                                             item::nname( opts.front().type ).c_str(), opts.front().count ) );
+                return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
+                                                    "You need a %s with %d charges.", opts.front().count ),
+                                                    item::nname( opts.front().type ).c_str(),
+                                                    opts.front().count );
             }
         }
     }
 
-    return true;
+    return ret_val<bool>::make_success();
 }
 
 bool player::disassemble()
@@ -1016,11 +1097,11 @@ bool player::disassemble( int dis_pos )
 
 bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 {
-    // check sufficient tools for disassembly
-    std::string err;
-    if( !can_disassemble( obj, crafting_inventory(), &err ) ) {
+    const auto ret = can_disassemble( obj, crafting_inventory() );
+
+    if( !ret.success() ) {
         if( interactive ) {
-            add_msg_if_player( m_info, "%s", err.c_str() );
+            add_msg_if_player( m_info, "%s", ret.c_str() );
         }
         return false;
     }
@@ -1048,7 +1129,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     activity.values.push_back( pos );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
-    activity.str_values.push_back( r.result );
+    activity.str_values.push_back( r.result() );
 
     return true;
 }
@@ -1081,20 +1162,6 @@ void player::disassemble_all( bool one_pass )
     }
 }
 
-// Find out which of the alternative components had been used to craft the item.
-item_comp find_component( const std::vector<item_comp> &altercomps, const item &dis_item )
-{
-    for( auto &comp : altercomps ) {
-        for( auto &elem : dis_item.components ) {
-            if( elem.typeId() == comp.type ) {
-                return comp;
-            }
-        }
-    }
-    // Default is the one listed first in json.
-    return altercomps.front();
-}
-
 item &get_item_for_uncraft( player &p, int item_pos,
                             const tripoint &loc, bool from_ground )
 {
@@ -1102,7 +1169,7 @@ item &get_item_for_uncraft( player &p, int item_pos,
     if( from_ground ) {
         auto items_on_ground = g->m.i_at( loc );
         if( static_cast<size_t>( item_pos ) >= items_on_ground.size() ) {
-            return p.ret_null;
+            return null_item_reference();
         }
         org_item = &items_on_ground[item_pos];
     } else {
@@ -1189,7 +1256,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         return;
     }
 
-    if( org_item.typeId() != dis.result ) {
+    if( org_item.typeId() != dis.result() ) {
         add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
         activity.set_to_null();
         return;
@@ -1202,7 +1269,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first
-    remove_ammo( &dis_item, *this );
+    remove_ammo( dis_item, *this );
     remove_radio_mod( dis_item, *this );
 
     if( dis_item.count_by_charges() ) {
@@ -1241,73 +1308,83 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         practice( dis.skill_used, ( dis.difficulty ) * 2, dis.difficulty );
     }
 
-    for( const auto &altercomps : dis_requirements.get_components() ) {
-        const item_comp comp = find_component( altercomps, dis_item );
-        int compcount = comp.count;
-        item newit( comp.type, calendar::turn );
-        // Counted-by-charge items that can be disassembled individually
-        // have their component count multiplied by the number of charges.
-        if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
-            compcount *= std::min( dis_item.charges, dis.create_result().charges );
+    // If the components aren't empty, we want items exactly identical to them
+    // Even if the best-fit recipe does not involve those items
+    std::vector<item> components = dis_item.components;
+    // If the components are empty, item is the default kind and made of default components
+    if( components.empty() ) {
+        for( const auto &altercomps : dis_requirements.get_components() ) {
+            const item_comp &comp = altercomps.front();
+            int compcount = comp.count;
+            item newit( comp.type, calendar::turn );
+            // Counted-by-charge items that can be disassembled individually
+            // have their component count multiplied by the number of charges.
+            if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
+                compcount *= std::min( dis_item.charges, dis.create_result().charges );
+            }
+            // Compress liquids and counted-by-charges items into one item,
+            // they are added together on the map anyway and handle_liquid
+            // should only be called once to put it all into a container at once.
+            if( newit.count_by_charges() || newit.made_of( LIQUID ) ) {
+                newit.charges = compcount;
+                compcount = 1;
+            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                // tools that can be unloaded should be created unloaded,
+                // tools that can't be unloaded will keep their default charges.
+                newit.charges = 0;
+            }
+
+            for( ; compcount > 0; compcount-- ) {
+                components.emplace_back( newit );
+            }
         }
-        // Compress liquids and counted-by-charges items into one item,
-        // they are added together on the map anyway and handle_liquid
-        // should only be called once to put it all into a container at once.
-        if( newit.count_by_charges() || newit.made_of( LIQUID ) ) {
-            newit.charges = compcount;
-            compcount = 1;
-        } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-            // tools that can be unloaded should be created unloaded,
-            // tools that can't be unloaded will keep their default charges.
-            newit.charges = 0;
+    }
+
+    for( const item &newit : components ) {
+        const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
+        if( dis.difficulty != 0 && !comp_success ) {
+            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname().c_str() );
+            continue;
+        }
+        const bool dmg_success = component_success_chance > rng_float( 0, 1 );
+        if( !dmg_success ) {
+            // Show reason for failure (damaged item, tname contains the damage adjective)
+            //~ %1s - material, %2$s - disassembled item
+            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname().c_str(),
+                     dis_item.tname().c_str() );
+            continue;
+        }
+        // Use item from components list, or (if not contained)
+        // use newit, the default constructed.
+        item act_item = newit;
+
+        if( filthy ) {
+            act_item.item_tags.insert( "FILTHY" );
         }
 
-        for( ; compcount > 0; compcount-- ) {
-            const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
-            if( dis.difficulty != 0 && !comp_success ) {
-                add_msg( m_bad, _( "You fail to recover %s." ), newit.tname().c_str() );
-                continue;
+        for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
+             ++a ) {
+            if( a->type == newit.type ) {
+                act_item = *a;
+                dis_item.components.erase( a );
+                break;
             }
-            const bool dmg_success = component_success_chance > rng_float( 0, 1 );
-            if( !dmg_success ) {
-                // Show reason for failure (damaged item, tname contains the damage adjective)
-                //~ %1s - material, %2$s - disassembled item
-                add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname().c_str(),
-                         dis_item.tname().c_str() );
-                continue;
-            }
-            // Use item from components list, or (if not contained)
-            // use newit, the default constructed.
-            item act_item = newit;
+        }
 
-            if( filthy ) {
-                act_item.item_tags.insert( "FILTHY" );
-            }
+        int veh_part = -1;
+        vehicle *veh = g->m.veh_at( pos(), veh_part );
+        if( veh != nullptr ) {
+            veh_part = veh->part_with_feature( veh_part, "CARGO" );
+        }
 
-            for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
-                 ++a ) {
-                if( a->type == newit.type ) {
-                    act_item = *a;
-                    dis_item.components.erase( a );
-                    break;
-                }
-            }
-
-            int veh_part = -1;
-            vehicle *veh = g->m.veh_at( pos(), veh_part );
-            if( veh != nullptr ) {
-                veh_part = veh->part_with_feature( veh_part, "CARGO" );
-            }
-
-            if( act_item.made_of( LIQUID ) ) {
-                g->handle_all_liquid( act_item, PICKUP_RANGE );
-            } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
-                // add_item did put the items in the vehicle, nothing further to be done
-            } else {
-                // TODO: For items counted by charges, add as much as we can to the vehicle, and
-                // the rest on the ground (see dropping code and @vehicle::add_charges)
-                g->m.add_item_or_charges( pos(), act_item );
-            }
+        if( act_item.made_of( LIQUID ) ) {
+            g->handle_all_liquid( act_item, PICKUP_RANGE );
+        } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
+            // add_item did put the items in the vehicle, nothing further to be done
+        } else {
+            // TODO: For items counted by charges, add as much as we can to the vehicle, and
+            // the rest on the ground (see dropping code and @vehicle::add_charges)
+            g->m.add_item_or_charges( pos(), act_item );
         }
     }
 
@@ -1315,10 +1392,12 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         if( can_decomp_learn( dis ) ) {
             // @todo: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &recipe_dict[ dis.ident() ] );
-                add_msg( m_good, _( "You learned a recipe from disassembling it!" ) );
+                learn_recipe( &dis.ident().obj() );//@todo: change to forward an id or a reference
+                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
+                         dis_item.tname().c_str() );
             } else {
-                add_msg( m_info, _( "You might be able to learn a recipe if you disassemble another." ) );
+                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
+                         dis_item.tname().c_str() );
             }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
@@ -1329,7 +1408,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 void remove_ammo( std::list<item> &dis_items, player &p )
 {
     for( auto &dis_item : dis_items ) {
-        remove_ammo( &dis_item, p );
+        remove_ammo( dis_item, p );
     }
 }
 
@@ -1343,46 +1422,41 @@ void drop_or_handle( const item &newit, player &p )
     }
 }
 
-void remove_ammo( item *dis_item, player &p )
+void remove_ammo( item &dis_item, player &p )
 {
-    for( auto iter = dis_item->contents.begin(); iter != dis_item->contents.end(); ) {
-        if( iter->has_flag( "IRREMOVABLE" ) ) {
+    for( auto iter = dis_item.contents.begin(); iter != dis_item.contents.end(); ) {
+        if( iter->is_irremovable() ) {
             iter++;
             continue;
         }
         drop_or_handle( *iter, p );
-        iter = dis_item->contents.erase( iter );
+        iter = dis_item.contents.erase( iter );
     }
 
-    if( dis_item->has_flag( "NO_UNLOAD" ) ) {
+    if( dis_item.has_flag( "NO_UNLOAD" ) ) {
         return;
     }
-    if( dis_item->is_gun() && dis_item->ammo_current() != "null" ) {
-        item ammodrop( dis_item->ammo_current(), calendar::turn );
-        ammodrop.charges = dis_item->charges;
+    if( dis_item.is_gun() && dis_item.ammo_current() != "null" ) {
+        item ammodrop( dis_item.ammo_current(), calendar::turn );
+        ammodrop.charges = dis_item.charges;
         drop_or_handle( ammodrop, p );
-        dis_item->charges = 0;
+        dis_item.charges = 0;
     }
-    if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() ) {
-        item ammodrop( default_ammo( dis_item->ammo_type() ), calendar::turn );
-        ammodrop.charges = dis_item->charges;
-        if( dis_item->ammo_type() == ammotype( "plutonium" ) ) {
+    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_type() ) {
+        item ammodrop( dis_item.ammo_type()->default_ammotype(), calendar::turn );
+        ammodrop.charges = dis_item.charges;
+        if( dis_item.ammo_type() == ammotype( "plutonium" ) ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );
-        dis_item->charges = 0;
+        dis_item.charges = 0;
     }
 }
 
 std::vector<npc *> player::get_crafting_helpers() const
 {
-    std::vector<npc *> ret;
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), pos() ) < PICKUP_RANGE && elem->is_friend() &&
-            !elem->in_sleep_state() && g->m.clear_path( pos(), elem->pos(), PICKUP_RANGE, 1, 100 ) ) {
-            ret.push_back( elem );
-        }
-    }
-
-    return ret;
+    return g->get_npcs_if( [this]( const npc & guy ) {
+        return rl_dist( guy.pos(), pos() ) < PICKUP_RANGE && guy.is_friend() &&
+               !guy.in_sleep_state() && g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+    } );
 }

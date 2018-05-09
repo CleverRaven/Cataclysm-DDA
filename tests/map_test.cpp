@@ -4,7 +4,11 @@
 #include "map.h"
 #include "player.h"
 
-TEST_CASE( "destroy_grabbed_furniture" ) {
+#include "map_helpers.h"
+
+TEST_CASE( "destroy_grabbed_furniture" )
+{
+    clear_map();
     GIVEN( "Furniture grabbed by the player" ) {
         tripoint test_origin( 60, 60, 0 );
         g->u.setpos( test_origin );

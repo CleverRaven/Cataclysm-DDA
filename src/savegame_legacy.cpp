@@ -5,7 +5,9 @@
 #include "npc.h"
 #include "options.h"
 #include "overmap.h"
+#include "json.h"
 #include "player_activity.h"
+#include "calendar.h"
 
 #include <unordered_map>
 #include <string>
@@ -196,23 +198,24 @@ void item::load_info( const std::string &data )
     unset_flags();
     clear_vars();
     std::string idtmp, ammotmp, item_tag, mode;
-    int lettmp, damtmp, acttmp, corp, tag_count;
+    int lettmp, damtmp, acttmp, corp, tag_count, bday_;
     int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {
         dump >> item_tag;
-        if( itag2ivar(item_tag, item_vars ) == false ) {
+        if( !itag2ivar( item_tag, item_vars ) ) {
             item_tags.insert( item_tag );
         }
     }
 
-    dump >> burnt >> poison >> ammotmp >> owned >> bday >>
+    dump >> burnt >> poison >> ammotmp >> owned >> bday_ >>
          mode >> acttmp >> corp >> mission_id >> player_id;
+    bday = time_point::from_turn( bday_ );
     corpse = NULL;
     getline(dump, corpse_name);
     if( corpse_name == " ''" ) {
-        corpse_name = "";
+        corpse_name.clear();
     } else {
         size_t pos = corpse_name.find_first_of( "@@" );
         while (pos != std::string::npos)  {
@@ -221,7 +224,7 @@ void item::load_info( const std::string &data )
         }
         corpse_name = corpse_name.substr( 2, corpse_name.size() - 3 ); // s/^ '(.*)'$/\1/
     }
-    gun_set_mode( mode );
+    gun_set_mode( gun_mode_id( mode ) );
 
     if( idtmp == "UPS_on" ) {
         idtmp = "UPS_off";
@@ -297,7 +300,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
         } else if (datatype == 'Z') { // Monster group
-            // save compatiblity hack: read the line, initialze new members to 0,
+            // save compatibility hack: read the line, initialize new members to 0,
             // "parse" line,
             std::string tmp;
             getline(fin, tmp);
@@ -327,7 +330,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
             fin >> mon_loc.x >> mon_loc.y >> mon_loc.z;
             std::string data;
             getline( fin, data );
-            new_monster.deserialize( data );
+            deserialize( new_monster, data );
             monster_map.insert( std::make_pair( std::move(mon_loc),
                                                 std::move(new_monster) ) );
         } else if (datatype == 't') { // City
@@ -356,12 +359,12 @@ void overmap::unserialize_legacy(std::istream & fin) {
 //   assignment to an NPC.
 
             if (!npc_inventory.empty() && !npcs.empty()) {
-                npcs.back()->inv.add_stack(npc_inventory);
+                npcs.back()->inv.push_back(npc_inventory);
                 npc_inventory.clear();
             }
             std::string npcdata;
             getline(fin, npcdata);
-            npc * tmp = new npc();
+            std::shared_ptr<npc> tmp = std::make_shared<npc>();
             tmp->load_info(npcdata);
             npcs.push_back(tmp);
         } else if (datatype == 'P') {
@@ -373,12 +376,12 @@ void overmap::unserialize_legacy(std::istream & fin) {
             std::string itemdata;
             getline(fin, itemdata);
             if (npcs.empty()) {
-                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
+                debugmsg("Overmap %d:%d tried to load object data, without an NPC!\n%s",
                          loc.x, loc.y, itemdata.c_str());
             } else {
                 item tmp;
                 tmp.load_info(itemdata);
-                npc* last = npcs.back();
+                npc* last = npcs.back().get();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
                 case 'C': npc_inventory.back().contents.push_back(tmp); break;
@@ -402,11 +405,11 @@ void overmap::unserialize_legacy(std::istream & fin) {
                             t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
                             if ( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
-                                settings = rit->second; // todo optimize
+                                settings = rit->second; // @todo: optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
-                                std::string tmpopt = get_world_option<std::string>( "DEFAULT_REGION" );
+                                std::string tmpopt = get_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
-                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
+                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crash time anyway.
                                     debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
                 ERROR, 'default_region' option uses missing region settings '%s'. Falling back to 'default'               \n\
                 ....... good luck.                 \n",
@@ -430,7 +433,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
 
 // If we accrued an npc_inventory, assign it now
     if (!npc_inventory.empty() && !npcs.empty()) {
-        npcs.back()->inv.add_stack(npc_inventory);
+        npcs.back()->inv.push_back(npc_inventory);
     }
 }
 
@@ -494,7 +497,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
 void player_activity::deserialize_legacy_type( int legacy_type, activity_id &dest )
 {
     static const std::vector< activity_id > legacy_map = {
-        activity_id( NULL_ID ),
+        activity_id::NULL_ID(),
         activity_id( "ACT_RELOAD" ),
         activity_id( "ACT_READ" ),
         activity_id( "ACT_GAME" ),
@@ -507,7 +510,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_FORAGE" ),
         activity_id( "ACT_BUILD" ),
         activity_id( "ACT_VEHICLE" ),
-        activity_id( NULL_ID ), // ACT_REFILL_VEHICLE is deprecated
+        activity_id::NULL_ID(), // ACT_REFILL_VEHICLE is deprecated
         activity_id( "ACT_TRAIN" ),
         activity_id( "ACT_WAIT_WEATHER" ),
         activity_id( "ACT_FIRSTAID" ),
@@ -538,12 +541,12 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_WAIT_NPC" ),
         activity_id( "ACT_CLEAR_RUBBLE" ),
         activity_id( "ACT_MEDITATE" ),
-        activity_id( NULL_ID ) // NUM_ACTIVITIES
+        activity_id::NULL_ID() // NUM_ACTIVITIES
     };
 
     if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
-        debugmsg( "Bad legacy activity data. Got %d, exected something from 0 to %d", legacy_type, legacy_map.size() );
-        dest = activity_id( NULL_ID );
+        debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type, legacy_map.size() );
+        dest = activity_id::NULL_ID();
         return;
     }
     dest = legacy_map[ legacy_type ];

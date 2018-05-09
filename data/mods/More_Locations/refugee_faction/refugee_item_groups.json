@@ -1,0 +1,221 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "refugee_clothing",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "collection": [
+          { "group": "refugee_pants" },
+          { "group": "refugee_shirt" }
+        ], "chance": 100 },
+        { "group": "refugee_suit", "chance": 20 }
+      ] },
+      { "group": "refugee_gloves", "prob": 70 },
+      { "group": "refugee_coat", "prob": 70 },
+      { "group": "refugee_shoes" },
+      { "group": "refugee_masks", "prob": 30 },
+      { "group": "refugee_eyes", "prob": 20 },
+      { "group": "refugee_hat", "prob": 60 },
+      { "group": "refugee_extra" }
+      ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_pants",
+    "//" : "overriding common NPC item groups kills male/female clothing, so socks but no underwear.",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "item": "jeans", "chance": 100 },
+        { "item": "pants_cargo", "chance": 50 },
+        { "item": "pants", "chance": 100 },
+        { "item": "pants_ski", "chance": 5 }
+        ] 
+      }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_shirt",
+    "items":[
+        { "item": "tshirt", "chance": 100 },
+        { "item": "longshirt", "chance": 10 },
+        { "item": "polo_shirt", "chance": 100 },
+        { "item": "undershirt", "chance": 100 },
+        { "item": "sweatshirt", "chance": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_suit",
+    "items":[
+        { "item": "suit", "chance": 500 },
+        { "item": "jumpsuit", "chance": 100 },
+        { "item": "clown_suit", "chance": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_gloves",
+    "items":[
+        { "item": "gloves_work", "chance": 50 },
+        { "item": "gloves_winter", "chance": 50 },
+        { "item": "gloves_leather", "chance": 100 },
+        { "item": "gloves_light", "chance": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_coat",
+    "items":[
+        { "item": "jacket_evac", "chance": 500 },
+        { "item": "jacket_jean", "chance": 100 },
+        { "item": "coat_rain", "chance": 100 },
+        { "item": "coat_winter", "chance": 100 },
+        { "item": "jacket_light", "chance": 50 },
+        { "item": "jacket_leather", "chance": 10 },
+        { "item": "jacket_flannel", "chance": 100 },
+        { "item": "jacket_windbreaker", "chance": 50 },
+        { "item": "greatcoat", "chance": 5 },
+        { "item": "peacoat", "chance": 10 },
+        { "item": "coat_lab", "chance": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_shoes",
+    "subtype": "collection",
+    "items":[
+      { "item": "socks" },
+      { "distribution": [
+        { "item": "boots", "chance": 200 },
+        { "item": "boots_winter", "chance": 50 },
+        { "item": "boots_western", "chance": 5 },
+        { "item": "boots_hiking", "chance": 100 },
+        { "item": "boots_western", "chance": 5 },
+        { "item": "dress_shoes", "chance": 100 },
+        { "item": "dance_shoes", "chance": 2 },
+        { "item": "sneakers", "chance": 200 }
+      ] }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_masks",
+    "items":[
+        { "item": "scarf_loose", "chance": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_eyes",
+    "items":[
+        { "item": "glasses_eye", "chance": 50 },
+        { "item": "sunglasses", "chance": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_hat",
+    "items":[
+        { "item": "hat_cotton", "chance": 100 },
+        { "item": "hat_ball", "chance": 200 },
+        { "item": "hat_knit", "chance": 100 },
+        { "item": "hat_hunting", "chance": 10 },
+        { "item": "hat_newsboy", "chance": 5 },
+        { "item": "hat_boonie", "chance": 10 },
+        { "item": "cowboy_hat", "chance": 10 },
+        { "item": "porkpie", "chance": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_extra",
+    "subtype": "collection",
+    "items":[
+      { "distribution": [
+        { "item": "backpack", "chance": 100 },
+        { "item": "backpack_leather", "chance": 50 },
+        { "item": "mbag", "chance": 100 },
+        { "item": "runner_bag", "chance": 5 }
+        ] , "prob": 100 },
+      { "distribution": [
+        { "item": "wristwatch", "chance": 100 },
+        { "item": "gold_watch", "chance": 50 },
+        { "item": "diving_watch", "chance": 5 },
+        { "item": "game_watch", "chance": 10 }
+        ], "prob": 30 },
+      { "collection": [
+        { "item": "ring", "prob": 15 },
+        { "item": "diamond_ring", "prob": 15 },
+        { "item": "gold_ear", "prob": 15 },
+        { "item": "silver_ear", "prob": 15 },
+        { "item": "necklace", "prob": 15 }
+        ], "prob": 10 }          
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_gear",
+    "subtype": "collection",
+    "items":[
+        { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+        { "item": "flashlight_on", "prob": 10 },
+      { "distribution": [
+        { "item": "pockknife", "chance": 200 },
+        { "item": "multitool", "chance": 10 },
+        { "item": "knife_swissarmy", "chance": 20 }
+      ] , "prob": 30 },
+      { "group": "mil_food", "prob": 20 },
+      { "group": "snacks", "prob": 80 },
+      { "group": "livingroom", "prob": 100 },
+      { "group": "everyday_gear", "prob": 100 },
+      { "item": "money_bundle", "prob": 5, "amount": [2, 10] },
+      { "item": "emer_blanket", "prob": 35 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_pistol",
+    "items":[
+      [ "glock_19", 100 ],
+      [ "ruger_lcr_38",100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_rifle",
+    "items":[
+      [ "marlin_9a", 100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_shotgun",
+    "items":[
+      [ "shotgun_s", 200 ],
+      [ "shotgun_d",100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_smg",
+    "items":[
+      [ "glock_19", 200 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_archery",
+    "items":[
+      [ "crossbow", 200 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_bashing",
+    "items":[
+      [ "bat", 100 ],
+      [ "2x4", 200 ],
+      [ "bat_metal",50 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_cutting",
+    "items":[
+      [ "machete",200 ],
+      [ "hatchet", 500 ],
+      [ "fire_ax", 10 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "refugee_stabbing",
+    "items":[
+      [ "switchblade", 100 ]
+    ]
+  }  
+]

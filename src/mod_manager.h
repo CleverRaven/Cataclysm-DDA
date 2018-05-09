@@ -2,77 +2,90 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
-#include "dependency_tree.h"
-#include "json.h"
-#include "translations.h"
+#include "string_id.h"
+#include "pimpl.h"
 
-#include "cursesdef.h"
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include <memory>
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 
 struct WORLD;
 typedef WORLD *WORLDPTR;
-
+class dependency_tree;
 class mod_ui;
 class game;
 class worldfactory;
+class JsonObject;
+class mod_manager;
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
+struct MOD_INFORMATION;
+using mod_id = string_id<MOD_INFORMATION>;
+
 struct MOD_INFORMATION {
-    std::string name;
-    std::string ident;
+    private:
+        friend mod_manager;
+        std::string name_;
 
-    /** Directory to load JSON and Lua from relative to directory containing modinfo.json */
-    std::string path;
+    public:
+        std::string name() const;
 
-    /** If set load legacy migrations from this location dependent upon save version */
-    std::string legacy;
+        mod_id ident;
 
-    /** All authors who have added content to the mod (excluding maintenance changes) */
-    std::set<std::string> authors;
+        /** Directory to load JSON and Lua from relative to directory containing modinfo.json */
+        std::string path;
 
-    /**
-     *  Assigned maintainers responsible for maintaining compatibility with core
-     *  @note these should be verbatim GH account names
-     */
-    std::set<std::string> maintainers;
+        /** If set load legacy migrations from this location dependent upon save version */
+        std::string legacy;
 
-    std::string description;
+        /** All authors who have added content to the mod (excluding maintenance changes) */
+        std::set<std::string> authors;
 
-    /** What other mods must be loaded prior to this one? */
-    std::set<std::string> dependencies;
+        /**
+         *  Assigned maintainers responsible for maintaining compatibility with core
+         *  @note these should be verbatim GH account names
+         */
+        std::set<std::string> maintainers;
 
-    /** Core mods are loaded before any other mods */
-    bool core = false;
+        std::string description;
+        std::string version;
 
-    /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
-    bool obsolete = false;
+        /** What other mods must be loaded prior to this one? */
+        std::set<mod_id> dependencies;
 
-    /** Does this mod require Lua support? **/
-    bool need_lua() const;
+        /** Core mods are loaded before any other mods */
+        bool core = false;
 
-    std::pair<int, std::string> category = { -1, "" };
+        /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
+        bool obsolete = false;
+
+        /** Does this mod require Lua support? **/
+        bool need_lua() const;
+
+        std::pair<int, std::string> category = { -1, "" };
 };
 
 class mod_manager
 {
     public:
-        typedef std::vector<std::string> t_mod_list;
+        typedef std::vector<mod_id> t_mod_list;
 
         mod_manager();
-        virtual ~mod_manager();
+        ~mod_manager();
         /**
          * Reload the map of available mods (@ref mod_map).
          * This also reloads the dependency tree.
          */
         void refresh_mod_list();
+
+        std::vector<mod_id> all_mods() const;
 
         /**
          * Returns the dependency tree for the loaded mods.
@@ -83,10 +96,6 @@ class mod_manager
          * Clear @ref mod_map and delete @ref dependency_tree.
          */
         void clear();
-        /**
-         * @returns true if the mod manager knows a mod with this ident.
-         */
-        bool has_mod( const std::string &ident ) const;
         /**
          * Copy the json files of the listed mods into the
          * given folder (output_base_path)
@@ -111,12 +120,16 @@ class mod_manager
         void load_mods_list( WORLDPTR world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );
+        const std::vector<mod_id> &get_usable_mods() const {
+            return usable_mods;
+        }
+
     protected:
     private:
         // Make this accessible for now
         friend class mod_ui;
         friend class worldfactory;
-        friend class game;
+        friend mod_id;
         /**
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
@@ -142,42 +155,42 @@ class mod_manager
          */
         void load_modfile( JsonObject &jo, const std::string &path );
 
-        bool set_default_mods( const std::string &ident );
-        void remove_mod( const std::string &ident );
-        void remove_invalid_mods( std::vector<std::string> &mods ) const;
+        bool set_default_mods( const mod_id &ident );
+        void remove_mod( const mod_id &ident );
+        void remove_invalid_mods( std::vector<mod_id> &mods ) const;
+        void load_replacement_mods( const std::string path );
 
-        dependency_tree tree;
+        pimpl<dependency_tree> tree;
 
-        typedef std::map<std::string, std::unique_ptr<MOD_INFORMATION>> t_mod_map;
         /**
-         * The map of known mod, key is the mod ident. Values are
-         * never NULL.
+         * The map of known mods, key is the mod ident.
          */
-        t_mod_map mod_map;
+        std::map<mod_id, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
+        /** Second field is optional replacement mod */
+        std::map<mod_id, mod_id> mod_replacements;
+
+        std::vector<mod_id> usable_mods;
+
+        void set_usable_mods();
 };
 
 class mod_ui
 {
     public:
-        mod_ui( mod_manager *modman );
-        virtual ~mod_ui();
+        mod_ui( mod_manager &modman );
 
-        std::vector<std::string> usable_mods;
-        std::string get_information( MOD_INFORMATION *mod );
-        mod_manager *active_manager;
-        dependency_tree *mm_tree;
+        std::string get_information( const MOD_INFORMATION *mod );
+        mod_manager &active_manager;
+        dependency_tree &mm_tree;
 
-        void try_add( const std::string &mod_to_add,
-                      std::vector<std::string> &active_list );
-        void try_rem( int selection, std::vector<std::string> &active_list );
-        void try_shift( char direction, int &selection, std::vector<std::string> &active_list );
+        void try_add( const mod_id &mod_to_add,
+                      std::vector<mod_id> &active_list );
+        void try_rem( size_t selection, std::vector<mod_id> &active_list );
+        void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( int selection, std::vector<std::string> active_list );
-        bool can_shift_down( int selection, std::vector<std::string> active_list );
-
-    private:
-        void set_usable_mods();
+        bool can_shift_up( long selection, std::vector<mod_id> active_list );
+        bool can_shift_down( long selection, std::vector<mod_id> active_list );
 };
 
 #endif

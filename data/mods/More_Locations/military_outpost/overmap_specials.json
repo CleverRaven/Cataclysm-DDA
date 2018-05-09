@@ -51,7 +51,7 @@
             { "point":[3,3,2], "overmap": "mil_outpost_3c_north"},
 
             { "point":[1,1,-1], "overmap": "mil_outpost_utlc_north"},
-            { "point":[2,1,-1], "overmap": "mil_outpost_ute_north"},
+            { "point":[2,1,-1], "overmap": "mil_outpost_utea_north"},
             { "point":[3,1,-1], "overmap": "mil_outpost_utrc_north"},
 
             { "point":[1,2,-1], "overmap": "mil_outpost_ule_north"},
@@ -59,11 +59,11 @@
             { "point":[3,2,-1], "overmap": "mil_outpost_ure_north"},
 
             { "point":[1,3,-1], "overmap": "mil_outpost_ublc_north"},
-            { "point":[2,3,-1], "overmap": "mil_outpost_ube_north"},
+            { "point":[2,3,-1], "overmap": "mil_outpost_ubea_north"},
             { "point":[3,3,-1], "overmap": "mil_outpost_ubrc_north"},
 
             { "point":[1,1,-2], "overmap": "mil_outpost_utlc_north"},
-            { "point":[2,1,-2], "overmap": "mil_outpost_ute_north"},
+            { "point":[2,1,-2], "overmap": "mil_outpost_uteb_north"},
             { "point":[3,1,-2], "overmap": "mil_outpost_utrc_north"},
 
             { "point":[1,2,-2], "overmap": "mil_outpost_ule_north"},
@@ -71,11 +71,11 @@
             { "point":[3,2,-2], "overmap": "mil_outpost_ure_north"},
 
             { "point":[1,3,-2], "overmap": "mil_outpost_ublc_north"},
-            { "point":[2,3,-2], "overmap": "mil_outpost_ube_north"},
+            { "point":[2,3,-2], "overmap": "mil_outpost_ubeb_north"},
             { "point":[3,3,-2], "overmap": "mil_outpost_ubrc_north"},
 
             { "point":[1,1,-3], "overmap": "mil_outpost_utlc_north"},
-            { "point":[2,1,-3], "overmap": "mil_outpost_ute_north"},
+            { "point":[2,1,-3], "overmap": "mil_outpost_utea_north"},
             { "point":[3,1,-3], "overmap": "mil_outpost_utrc_north"},
 
             { "point":[1,2,-3], "overmap": "mil_outpost_ule_north"},
@@ -83,11 +83,11 @@
             { "point":[3,2,-3], "overmap": "mil_outpost_ure_north"},
 
             { "point":[1,3,-3], "overmap": "mil_outpost_ublc_north"},
-            { "point":[2,3,-3], "overmap": "mil_outpost_ube_north"},
+            { "point":[2,3,-3], "overmap": "mil_outpost_ubea_north"},
             { "point":[3,3,-3], "overmap": "mil_outpost_ubrc_north"},
 
             { "point":[1,1,-4], "overmap": "mil_outpost_utlc_north"},
-            { "point":[2,1,-4], "overmap": "mil_outpost_ute_north"},
+            { "point":[2,1,-4], "overmap": "mil_outpost_uteb_north"},
             { "point":[3,1,-4], "overmap": "mil_outpost_utrc_north"},
 
             { "point":[1,2,-4], "overmap": "mil_outpost_ule_north"},
@@ -95,15 +95,15 @@
             { "point":[3,2,-4], "overmap": "mil_outpost_ure_north"},
 
             { "point":[1,3,-4], "overmap": "mil_outpost_ublc_north"},
-            { "point":[2,3,-4], "overmap": "mil_outpost_ube_north"},
+            { "point":[2,3,-4], "overmap": "mil_outpost_ubeb_north"},
             { "point":[3,3,-4], "overmap": "mil_outpost_ubrc_north"}
-        ],
+      ],
         "connections" : [
             { "point" : [2,5,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [20, -1],
         "city_sizes" : [1, 12],
-        "occurrences" : [1, 1]
+        "occurrences" : [0, 1]
    }
 ]

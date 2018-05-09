@@ -1,6 +1,6 @@
+#include "item_search.h"
 #include "item.h"
 #include "material.h"
-#include "item_search.h"
 #include "cata_utility.h"
 #include "output.h"
 
@@ -24,12 +24,12 @@ item_filter_from_string( std::string filter )
     if( filter.find( '}' ) != std::string::npos ) {
         filter.erase( std::remove( filter.begin(), filter.end(), '}' ) );
     }
-    if( filter.find( "," ) != std::string::npos ) {
+    if( filter.find( ',' ) != std::string::npos ) {
         // functions which only one of which must return true
         std::vector<std::function<bool( const item & )> > functions;
         // Functions that must all return true
         std::vector<std::function<bool( const item & )> > inv_functions;
-        size_t comma = filter.find( "," );
+        size_t comma = filter.find( ',' );
         while( !filter.empty() ) {
             const auto &current_filter = trim( filter.substr( 0, comma ) );
             if( !current_filter.empty() ) {
@@ -42,7 +42,7 @@ item_filter_from_string( std::string filter )
             }
             if( comma != std::string::npos ) {
                 filter = trim( filter.substr( comma + 1 ) );
-                comma = filter.find( "," );
+                comma = filter.find( ',' );
             } else {
                 break;
             }
@@ -69,13 +69,13 @@ item_filter_from_string( std::string filter )
     }
     bool exclude = filter[0] == '-';
     if( exclude ) {
-        return [filter]( const item &i ) {
+        return [filter]( const item & i ) {
             return !item_filter_from_string( filter.substr( 1 ) )( i );
         };
     }
     size_t colon;
     char flag = '\0';
-    if( ( colon = filter.find( ":" ) ) != std::string::npos ) {
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
         if( colon >= 1 ) {
             flag = filter[colon - 1];
             filter = filter.substr( colon + 1 );
@@ -90,7 +90,7 @@ item_filter_from_string( std::string filter )
         case 'm'://material
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
-                                    [&filter]( const material_id &mat ) {
+                [&filter]( const material_id & mat ) {
                     return lcmatch( mat->name(), filter );
                 } );
             };

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "effect_type",
+    "id": "mending",
+    "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
+    "desc": [ "This damaged limb is slowly regaining its functions." ],
+    "//": "Duration is 3 days, but the actual time taken is probabilistic.",
+    "max_duration": 43200,
+    "int_dur_factor": 14400,
+    "max_intensity": 3,
+    "rating": "good"
+  }
+]

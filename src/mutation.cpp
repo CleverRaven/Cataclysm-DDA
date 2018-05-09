@@ -7,15 +7,35 @@
 #include "messages.h"
 #include "monster.h"
 #include "overmapbuffer.h"
+#include "map_iterator.h"
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
+#include "output.h"
+
 #include <algorithm>
 
-bool Character::has_trait(const std::string &b) const
+static const trait_id trait_ROBUST( "ROBUST" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_NAUSEA( "NAUSEA" );
+static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_BLOOM( "M_BLOOM" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
+static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
+static const trait_id trait_INT_SLIME( "INT_SLIME" );
+static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
+
+bool Character::has_trait( const trait_id &b ) const
 {
     return my_mutations.count( b ) > 0;
 }
@@ -24,7 +44,7 @@ bool Character::has_trait_flag( const std::string &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const auto &mut : my_mutations ) {
-        auto &mut_data = mutation_branch::get( mut.first );
+        auto &mut_data = mut.first.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
         }
@@ -33,13 +53,13 @@ bool Character::has_trait_flag( const std::string &b ) const
     return false;
 }
 
-bool Character::has_base_trait(const std::string &b) const
+bool Character::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
     return my_traits.find( b ) != my_traits.end();
 }
 
-void Character::toggle_trait(const std::string &flag)
+void Character::toggle_trait( const trait_id &flag )
 {
     const auto titer = my_traits.find( flag );
     if( titer == my_traits.end() ) {
@@ -57,12 +77,12 @@ void Character::toggle_trait(const std::string &flag)
     }
 }
 
-void Character::set_mutation( const std::string &flag )
+void Character::set_mutation( const trait_id &flag )
 {
     const auto iter = my_mutations.find( flag );
     if( iter == my_mutations.end() ) {
         my_mutations[flag]; // Creates a new entry with default values
-        cached_mutations.push_back( &mutation_branch::get( flag ) );
+        cached_mutations.push_back( &flag.obj() );
     } else {
         return;
     }
@@ -70,13 +90,13 @@ void Character::set_mutation( const std::string &flag )
     reset_encumbrance();
 }
 
-void Character::unset_mutation( const std::string &flag )
+void Character::unset_mutation( const trait_id &flag )
 {
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
         my_mutations.erase( iter );
-        const mutation_branch *mut = &mutation_branch::get( flag );
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
+        const mutation_branch &mut = *flag;
+        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                                 cached_mutations.end() );
     } else {
         return;
@@ -85,9 +105,9 @@ void Character::unset_mutation( const std::string &flag )
     reset_encumbrance();
 }
 
-int Character::get_mod(std::string mut, std::string arg) const
+int Character::get_mod( const trait_id &mut, std::string arg ) const
 {
-    auto &mod_data = mutation_branch::get( mut ).mods;
+    auto &mod_data = mut->mods;
     int ret = 0;
     auto found = mod_data.find(std::make_pair(false, arg));
     if (found != mod_data.end()) {
@@ -103,7 +123,7 @@ int Character::get_mod(std::string mut, std::string arg) const
     return ret;
 }
 
-void Character::apply_mods(const std::string &mut, bool add_remove)
+void Character::apply_mods( const trait_id &mut, bool add_remove )
 {
     int sign = add_remove ? 1 : -1;
     int str_change = get_mod(mut, "STR");
@@ -143,12 +163,12 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-void Character::mutation_effect(std::string mut)
+void Character::mutation_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {
         recalc_hp();
 
-    } else if (mut == "STR_ALPHA") {
+    } else if (mut == trait_STR_ALPHA) {
         ///\EFFECT_STR_MAX determines bonus from STR mutation
         if (str_max <= 6) {
             str_max = 8;
@@ -160,7 +180,7 @@ void Character::mutation_effect(std::string mut)
             str_max = 18;
         }
         recalc_hp();
-    } else if (mut == "DEX_ALPHA") {
+    } else if (mut == trait_DEX_ALPHA) {
         ///\EFFECT_DEX_MAX determines bonus from DEX mutation
         if (dex_max <= 6) {
             dex_max = 8;
@@ -171,7 +191,7 @@ void Character::mutation_effect(std::string mut)
         } else {
             dex_max = 18;
         }
-    } else if (mut == "INT_ALPHA") {
+    } else if (mut == trait_INT_ALPHA) {
         ///\EFFECT_INT_MAX determines bonus from INT mutation
         if (int_max <= 6) {
             int_max = 8;
@@ -182,10 +202,10 @@ void Character::mutation_effect(std::string mut)
         } else {
             int_max = 18;
         }
-    } else if (mut == "INT_SLIME") {
+    } else if (mut == trait_INT_SLIME) {
         int_max *= 2; // Now, can you keep it? :-)
 
-    } else if (mut == "PER_ALPHA") {
+    } else if (mut == trait_PER_ALPHA) {
         ///\EFFECT_PER_MAX determines bonus from PER mutation
         if (per_max <= 6) {
             per_max = 8;
@@ -200,7 +220,7 @@ void Character::mutation_effect(std::string mut)
         apply_mods(mut, true);
     }
 
-    const auto &branch = mutation_branch::get( mut );
+    const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
         branch.hp_adjustment != 0.0f ) {
         recalc_hp();
@@ -239,12 +259,12 @@ void Character::mutation_effect(std::string mut)
     on_mutation_gain( mut );
 }
 
-void Character::mutation_loss_effect(std::string mut)
+void Character::mutation_loss_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {
         recalc_hp();
 
-    } else if (mut == "STR_ALPHA") {
+    } else if (mut == trait_STR_ALPHA) {
         ///\EFFECT_STR_MAX determines penalty from STR mutation loss
         if (str_max == 18) {
             str_max = 15;
@@ -256,7 +276,7 @@ void Character::mutation_loss_effect(std::string mut)
             str_max = 4;
         }
         recalc_hp();
-    } else if (mut == "DEX_ALPHA") {
+    } else if (mut == trait_DEX_ALPHA) {
         ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
         if (dex_max == 18) {
             dex_max = 15;
@@ -267,7 +287,7 @@ void Character::mutation_loss_effect(std::string mut)
         } else {
             dex_max = 4;
         }
-    } else if (mut == "INT_ALPHA") {
+    } else if (mut == trait_INT_ALPHA) {
         ///\EFFECT_INT_MAX determines penalty from INT mutation loss
         if (int_max == 18) {
             int_max = 15;
@@ -278,10 +298,10 @@ void Character::mutation_loss_effect(std::string mut)
         } else {
             int_max = 4;
         }
-    } else if (mut == "INT_SLIME") {
+    } else if (mut == trait_INT_SLIME) {
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
-    } else if (mut == "PER_ALPHA") {
+    } else if (mut == trait_PER_ALPHA) {
         ///\EFFECT_PER_MAX determines penalty from PER mutation loss
         if (per_max == 18) {
             per_max = 15;
@@ -296,7 +316,7 @@ void Character::mutation_loss_effect(std::string mut)
         apply_mods(mut, false);
     }
 
-    const auto &branch = mutation_branch::get( mut );
+    const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
         branch.hp_adjustment != 0.0f ) {
         recalc_hp();
@@ -305,15 +325,15 @@ void Character::mutation_loss_effect(std::string mut)
     on_mutation_loss( mut );
 }
 
-bool Character::has_active_mutation(const std::string & b) const
+bool Character::has_active_mutation( const trait_id &b ) const
 {
     const auto iter = my_mutations.find( b );
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-void player::activate_mutation( const std::string &mut )
+void player::activate_mutation( const trait_id &mut )
 {
-    const auto &mdata = mutation_branch::get( mut );
+    const mutation_branch &mdata = mut.obj();
     auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
@@ -348,14 +368,9 @@ void player::activate_mutation( const std::string &mut )
         recalc_sight_limits();
     }
 
-    if( mut == "WEB_WEAVER" ) {
-        g->m.add_field(pos(), fd_web, 1, 0);
+    if( mut == trait_WEB_WEAVER ) {
+        g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
-    } else if( mut == "WEB_ROPE" ) {
-        add_msg_if_player(_("You spin a rope from your silk."));
-        item rope( "rope_30" );
-        i_add_or_drop( rope );
-        tdata.powered = false;
     } else if (mut == "BURROW"){
         if( is_underwater() ) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));
@@ -388,24 +403,21 @@ void player::activate_mutation( const std::string &mut )
             tdata.powered = false;
             return;
         }
-        assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+        assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
         activity.placement = dirp;
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirp).c_str());
         tdata.powered = false;
         return; // handled when the activity finishes
-    } else if (mut == "SLIMESPAWNER") {
+    } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty(dest)) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if (g->is_empty(dest)) {
+                valid.push_back( dest );
             }
         }
         // Oops, no room to divide!
-        if (valid.size() == 0) {
+        if( valid.empty() ) {
             add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
             tdata.powered = false;
             return;
@@ -414,8 +426,7 @@ void player::activate_mutation( const std::string &mut )
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon(mtype_id( "mon_player_blob" ), target)) {
-                monster *slime = g->monster_at( target );
+            if( monster * const slime = g->summon_mon( mtype_id( "mon_player_blob" ), target ) ) {
                 slime->friendly = -1;
             }
         }
@@ -431,41 +442,32 @@ void player::activate_mutation( const std::string &mut )
         }
         tdata.powered = false;
         return;
-    } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){
+    } else if( mut == trait_NAUSEA || mut == trait_VOMITOUS ) {
         vomit();
         tdata.powered = false;
         return;
-    } else if (mut == "M_FERTILE"){
+    } else if( mut == trait_M_FERTILE ) {
         spores();
         tdata.powered = false;
         return;
-    } else if (mut == "M_BLOOM"){
+    } else if( mut == trait_M_BLOOM ) {
         blossoms();
         tdata.powered = false;
         return;
-    } else if (mut == "VINES3"){
-        item newit( "vine_30", calendar::turn );
-        if ( !can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg_if_player(_("You detach a vine but don't have room to carry it, so you drop it."));
-            g->m.add_item_or_charges(pos(), newit);
-        } else if ( !can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg_if_player(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
-            g->m.add_item_or_charges(pos(), newit);
-        } else {
-            inv.assign_empty_invlet(newit);
-            newit = i_add(newit);
-            add_msg_if_player(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
-        }
+    } else if( mut == trait_SELFAWARE ) {
+        print_health();
         tdata.powered = false;
         return;
-    } else if( mut == "SELFAWARE" ) {
-        print_health();
+    } else if( !mdata.spawn_item.empty() ) {
+        item tmpitem( mdata.spawn_item );
+        i_add_or_drop( tmpitem );
+        add_msg_if_player( _( mdata.spawn_item_message.c_str() ) );
         tdata.powered = false;
         return;
     }
 }
 
-void player::deactivate_mutation( const std::string &mut )
+void player::deactivate_mutation( const trait_id &mut )
 {
     my_mutations[mut].powered = false;
 
@@ -474,23 +476,26 @@ void player::deactivate_mutation( const std::string &mut )
     recalc_sight_limits();
 }
 
-std::string Character::trait_by_invlet( const long ch ) const
+trait_id Character::trait_by_invlet( const long ch ) const
 {
     for( auto &mut : my_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }
     }
-    return std::string();
+    return trait_id::NULL_ID();
 }
 
-bool player::mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const
+bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if (mutation_branch::trait_is_blacklisted(mutation)) {
+        return false;
+    }
     if (has_trait(mutation) || has_child_flag(mutation)) {
         // We already have this mutation or something that replaces it.
         return false;
     }
-    const auto &mdata = mutation_branch::get( mutation );
+    const mutation_branch &mdata = mutation.obj();
     if (force_bad && mdata.points > 0) {
         // This is a good mutation, and we're due for a bad one.
         return false;
@@ -508,7 +513,7 @@ void player::mutate()
 {
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait("ROBUST") && force_bad) {
+    if (has_trait( trait_ROBUST ) && force_bad) {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
         force_bad = false;
@@ -519,10 +524,10 @@ void player::mutate()
     std::string cat = get_highest_category();
 
     // See if we should upgrade/extend an existing mutation...
-    std::vector<std::string> upgrades;
+    std::vector<trait_id> upgrades;
 
     // ... or remove one that is not in our highest category
-    std::vector<std::string> downgrades;
+    std::vector<trait_id> downgrades;
 
     // For each mutation...
     for( auto &traits_iter : mutation_branch::get_all() ) {
@@ -536,7 +541,7 @@ void player::mutate()
         if (has_trait(base_mutation)) {
             // ...consider the mutations that replace it.
             for( auto &mutation : base_mdata.replacements ) {
-                bool valid_ok = mutation_branch::get( mutation ).valid;
+                bool valid_ok = mutation->valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -546,7 +551,7 @@ void player::mutate()
 
             // ...consider the mutations that add to it.
             for( auto &mutation : base_mdata.additions ) {
-                bool valid_ok = mutation_branch::get( mutation ).valid;
+                bool valid_ok = mutation->valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -557,7 +562,7 @@ void player::mutate()
             // ...consider whether its in our highest category
             if( has_trait(base_mutation) && !has_base_trait(base_mutation) ) {
                 // Starting traits don't count toward categories
-                std::vector<std::string> group = mutations_category[cat];
+                std::vector<trait_id> group = mutations_category[cat];
                 bool in_cat = false;
                 for( auto &elem : group ) {
                     if( elem == base_mutation ) {
@@ -593,7 +598,7 @@ void player::mutate()
         }
     } else {
         // Remove existing mutations that don't fit into our category
-        if (!downgrades.empty() && cat != "") {
+        if( !downgrades.empty() && !cat.empty() ) {
             size_t roll = rng(0, downgrades.size() + 4);
             if (roll < downgrades.size()) {
                 remove_mutation(downgrades[roll]);
@@ -602,17 +607,17 @@ void player::mutate()
         }
     }
 
-    std::vector<std::string> valid; // Valid mutations
+    std::vector<trait_id> valid; // Valid mutations
     bool first_pass = true;
 
     do {
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with MUTCAT_NULL
         if (!first_pass) {
-            cat = "";
+            cat.clear();
         }
 
-        if (cat == "") {
+        if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.second.valid ) {
@@ -628,7 +633,7 @@ void player::mutate()
         // goes against our intention of a good/bad mutation
         for (size_t i = 0; i < valid.size(); i++) {
             if ( (!mutation_ok(valid[i], force_good, force_bad)) ||
-                 (!(mutation_branch::get( valid[i] ).valid)) ) {
+                 (!valid[i]->valid) ) {
                 valid.erase(valid.begin() + i);
                 i--;
             }
@@ -638,7 +643,7 @@ void player::mutate()
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while (valid.empty() && cat != "");
+    } while ( valid.empty() && !cat.empty() );
 
     if (valid.empty()) {
         // Couldn't find anything at all!
@@ -655,9 +660,16 @@ void player::mutate()
 
 void player::mutate_category( const std::string &cat )
 {
+    // Hacky ID comparison is better than separate hardcoded branch used before
+    // @todo: Turn it into the null id
+    if( cat == "MUTCAT_ANY" ) {
+        mutate();
+        return;
+    }
+
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait("ROBUST") && force_bad) {
+    if (has_trait( trait_ROBUST ) && force_bad) {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
         force_bad = false;
@@ -665,7 +677,7 @@ void player::mutate_category( const std::string &cat )
     }
 
     // Pull the category's list for valid mutations
-    std::vector<std::string> valid;
+    std::vector<trait_id> valid;
     valid = mutations_category[cat];
 
     // Remove anything we already have, that we have a child of, or that
@@ -690,21 +702,21 @@ void player::mutate_category( const std::string &cat )
     }
 }
 
-bool player::mutate_towards( const std::string &mut )
+bool player::mutate_towards( const trait_id &mut )
 {
     if (has_child_flag(mut)) {
         remove_child_flag(mut);
         return true;
     }
-    const auto &mdata = mutation_branch::get( mut );
+    const mutation_branch &mdata = mut.obj();
 
     bool has_prereqs = false;
     bool prereq1 = false;
     bool prereq2 = false;
-    std::vector<std::string> canceltrait;
-    std::vector<std::string> prereq = mdata.prereqs;
-    std::vector<std::string> prereqs2 = mdata.prereqs2;
-    std::vector<std::string> cancel = mdata.cancels;
+    std::vector<trait_id> canceltrait;
+    std::vector<trait_id> prereq = mdata.prereqs;
+    std::vector<trait_id> prereqs2 = mdata.prereqs2;
+    std::vector<trait_id> cancel = mdata.cancels;
 
     for (size_t i = 0; i < cancel.size(); i++) {
         if (!has_trait( cancel[i] )) {
@@ -720,7 +732,7 @@ bool player::mutate_towards( const std::string &mut )
 
     for (size_t i = 0; i < cancel.size(); i++) {
         if (!cancel.empty()) {
-            std::string removed = cancel[i];
+            trait_id removed = cancel[i];
             remove_mutation(removed);
             cancel.erase(cancel.begin() + i);
             i--;
@@ -754,14 +766,14 @@ bool player::mutate_towards( const std::string &mut )
         }
     }
 
-    // Check for threshhold mutation, if needed
+    // Check for threshold mutation, if needed
     bool threshold = mdata.threshold;
     bool profession = mdata.profession;
     bool has_threshreq = false;
-    std::vector<std::string> threshreq = mdata.threshreq;
+    std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
+    // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if (threshold) {
         add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;
@@ -783,14 +795,14 @@ bool player::mutate_towards( const std::string &mut )
         return false;
     }
 
-    // Check if one of the prereqs that we have TURNS INTO this one
-    std::string replacing = "";
+    // Check if one of the prerequisites that we have TURNS INTO this one
+    trait_id replacing = trait_id::NULL_ID();
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            std::string pre = elem;
-            const auto &p = mutation_branch::get( pre );
-            for (size_t j = 0; replacing == "" && j < p.replacements.size(); j++) {
+            trait_id pre = elem;
+            const auto &p = pre.obj();
+            for (size_t j = 0; !replacing && j < p.replacements.size(); j++) {
                 if (p.replacements[j] == mut) {
                     replacing = pre;
                 }
@@ -799,13 +811,13 @@ bool player::mutate_towards( const std::string &mut )
     }
 
     // Loop through again for prereqs2
-    std::string replacing2 = "";
+    trait_id replacing2 = trait_id::NULL_ID();
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            std::string pre2 = elem;
-            const auto &p = mutation_branch::get( pre2 );
-            for (size_t j = 0; replacing2 == "" && j < p.replacements.size(); j++) {
+            trait_id pre2 = elem;
+            const auto &p = pre2.obj();
+            for (size_t j = 0; !replacing2 && j < p.replacements.size(); j++) {
                 if (p.replacements[j] == mut) {
                     replacing2 = pre2;
                 }
@@ -819,8 +831,8 @@ bool player::mutate_towards( const std::string &mut )
 
     game_message_type rating;
 
-    if (replacing != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing );
+    if( replacing ) {
+        const auto &replace_mdata = replacing.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points < 0) {
@@ -845,8 +857,8 @@ bool player::mutate_towards( const std::string &mut )
         mutation_effect(mut);
         mutation_replaced = true;
     }
-    if (replacing2 != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing2 );
+    if( replacing2 ) {
+        const auto &replace_mdata = replacing2.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points < 0) {
@@ -869,7 +881,7 @@ bool player::mutate_towards( const std::string &mut )
         mutation_replaced = true;
     }
     for (size_t i = 0; i < canceltrait.size(); i++) {
-        const auto &cancel_mdata = mutation_branch::get( canceltrait[i] );
+        const auto &cancel_mdata = canceltrait[i].obj();
         if(mdata.mixed_effect || cancel_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(mdata.points < cancel_mdata.points) {
@@ -920,74 +932,74 @@ bool player::mutate_towards( const std::string &mut )
     return true;
 }
 
-void player::remove_mutation( const std::string &mut )
+void player::remove_mutation( const trait_id &mut )
 {
-    const auto &mdata = mutation_branch::get( mut );
-    // Check if there's a prereq we should shrink back into
-    std::string replacing = "";
-    std::vector<std::string> originals = mdata.prereqs;
-    for (size_t i = 0; replacing == "" && i < originals.size(); i++) {
-        std::string pre = originals[i];
-        const auto &p = mutation_branch::get( pre );
-        for (size_t j = 0; replacing == "" && j < p.replacements.size(); j++) {
+    const auto &mdata = mut.obj();
+    // Check if there's a prerequisite we should shrink back into
+    trait_id replacing = trait_id::NULL_ID();
+    std::vector<trait_id> originals = mdata.prereqs;
+    for (size_t i = 0; !replacing && i < originals.size(); i++) {
+        trait_id pre = originals[i];
+        const auto &p = pre.obj();
+        for (size_t j = 0; !replacing && j < p.replacements.size(); j++) {
             if (p.replacements[j] == mut) {
                 replacing = pre;
             }
         }
     }
 
-    std::string replacing2 = "";
-    std::vector<std::string> originals2 = mdata.prereqs2;
-    for (size_t i = 0; replacing2 == "" && i < originals2.size(); i++) {
-        std::string pre2 = originals2[i];
-        const auto &p = mutation_branch::get( pre2 );
-        for (size_t j = 0; replacing2 == "" && j < p.replacements.size(); j++) {
+    trait_id replacing2 = trait_id::NULL_ID();
+    std::vector<trait_id> originals2 = mdata.prereqs2;
+    for (size_t i = 0; !replacing2 && i < originals2.size(); i++) {
+        trait_id pre2 = originals2[i];
+        const auto &p = pre2.obj();
+        for (size_t j = 0; !replacing2 && j < p.replacements.size(); j++) {
             if (p.replacements[j] == mut) {
                 replacing2 = pre2;
             }
         }
     }
 
-    // See if this mutation is cancelled by a base trait
-    //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
-    if (replacing == "") {
+    // See if this mutation is canceled by a base trait
+    //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
+    if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if (has_base_trait(iter.first) && !has_trait(iter.first)) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
-                    for (size_t j = 0; replacing == "" && j < traitcheck.size(); j++) {
+                    for (size_t j = 0; !replacing && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut) {
                             replacing = (iter.first);
                         }
                     }
                 }
             }
-            if( !replacing.empty() ) {
+            if( replacing ) {
                 break;
             }
         }
     }
 
     // Duplicated for prereq2
-    if (replacing2 == "") {
+    if( !replacing2 ) {
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if (has_base_trait(iter.first) && !has_trait(iter.first)) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<std::string> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
-                    for (size_t j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
+                    for (size_t j = 0; !replacing2 && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut && (iter.first) != replacing) {
                             replacing2 = (iter.first);
                         }
                     }
                 }
             }
-            if( !replacing2.empty() ) {
+            if( replacing2 ) {
                 break;
             }
         }
@@ -995,7 +1007,7 @@ void player::remove_mutation( const std::string &mut )
 
     // make sure we don't toggle a mutation or trait twice, or it will cancel itself out.
     if(replacing == replacing2) {
-        replacing2 = "";
+        replacing2 = trait_id::NULL_ID();
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation
@@ -1005,8 +1017,8 @@ void player::remove_mutation( const std::string &mut )
 
     game_message_type rating;
 
-    if (replacing != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing );
+    if( replacing ) {
+        const auto &replace_mdata = replacing.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points > 0) {
@@ -1025,8 +1037,8 @@ void player::remove_mutation( const std::string &mut )
         mutation_effect(replacing);
         mutation_replaced = true;
     }
-    if (replacing2 != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing2 );
+    if( replacing2 ) {
+        const auto &replace_mdata = replacing2.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points > 0) {
@@ -1066,10 +1078,10 @@ void player::remove_mutation( const std::string &mut )
     drench_mut_calc();
 }
 
-bool player::has_child_flag( const std::string &flag ) const
+bool player::has_child_flag( const trait_id &flag ) const
 {
-    for( auto &elem : mutation_branch::get( flag ).replacements ) {
-        std::string tmp = elem;
+    for( auto &elem : flag->replacements ) {
+        trait_id tmp = elem;
         if (has_trait(tmp) || has_child_flag(tmp)) {
             return true;
         }
@@ -1077,10 +1089,10 @@ bool player::has_child_flag( const std::string &flag ) const
     return false;
 }
 
-void player::remove_child_flag( const std::string &flag )
+void player::remove_child_flag( const trait_id &flag )
 {
-    for( auto &elem : mutation_branch::get( flag ).replacements ) {
-        std::string tmp = elem;
+    for( auto &elem : flag->replacements ) {
+        trait_id tmp = elem;
         if (has_trait(tmp)) {
             remove_mutation(tmp);
             return;

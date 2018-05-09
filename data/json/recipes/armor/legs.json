@@ -59,6 +59,19 @@
     "components": [ [ [ "rag", 5 ] ] ]
   },
   {
+    "result": "breeches",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 40000,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 7 ] ] ]
+  },
+  {
     "result": "briefs",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -164,7 +177,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 15 ], [ "toolset", 15 ], [ "fire", -1 ] ]
+      [ [ "surface_heat", 15, "LIST" ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 8 ] ],
@@ -550,5 +563,22 @@
     "using": [ [ "filament", 24 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "chainmail_legs",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 40000,
+    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [
+      [ [ "link_sheet", 4 ] ],
+      [ [ "chain_link", 100 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
   }
 ]

@@ -3,9 +3,11 @@
 #define ACTIVE_ITEM_CACHE_H
 
 #include "enums.h"
-#include "item.h"
+
 #include <list>
 #include <unordered_map>
+
+class item;
 
 // A struct used to uniquely identify an item within a submap or vehicle.
 struct item_reference {

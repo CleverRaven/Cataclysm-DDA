@@ -12,7 +12,7 @@ void teleport_short();
 void teleport_long();
 void teleport_overmap();
 
-void npc_edit_menu();
+void character_edit_menu();
 void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
 void wishmonster( const tripoint &p = tripoint_min );
 void wishmutate( player *p );

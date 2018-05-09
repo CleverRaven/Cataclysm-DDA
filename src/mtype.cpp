@@ -11,10 +11,9 @@ const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
-    id = NULL_ID;
+    id = mtype_id::NULL_ID();
     name = "human";
     name_plural = "humans";
-    description = "";
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
@@ -23,12 +22,12 @@ mtype::mtype()
     def_chance = 0;
     upgrades = false;
     half_life = -1;
-    upgrade_into = NULL_ID;
-    upgrade_group = NULL_ID;
-    burn_into = NULL_ID;
+    upgrade_into = mtype_id::NULL_ID();
+    upgrade_group = mongroup_id::NULL_ID();
+    burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
-    harvest = NULL_ID;
+    harvest = harvest_id::NULL_ID();
     luminance = 0;
     bash_skill = 0;
     flags.insert( MF_HUMAN );
@@ -204,6 +203,7 @@ int mtype::get_meat_chunks_count() const
     return 0;
 }
 
-mtype_special_attack::~mtype_special_attack()
+std::string mtype::get_description() const
 {
+    return _( description.c_str() );
 }

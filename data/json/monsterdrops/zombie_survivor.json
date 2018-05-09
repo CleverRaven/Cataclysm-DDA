@@ -18,7 +18,7 @@
         { "group": "survivor_grenades", "prob": 15, "damage": [ 1, 4 ] },
         { "group": "stash_food", "prob": 40 }
       ] },
-      { "item": "cash_card" }
+      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 }
     ]
   },
   {

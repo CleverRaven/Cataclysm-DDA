@@ -13,6 +13,6 @@
     "name": "custom_empty",
     "//": "Don't remove this vehicle definition!",
     "blueprint": [ "H" ],
-    "parts": []
+    "parts": [  ]
   }
 ]

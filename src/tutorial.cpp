@@ -8,11 +8,14 @@
 #include "action.h"
 #include "overmapbuffer.h"
 #include "translations.h"
+#include "map_iterator.h"
 #include "profession.h"
+#include "mapdata.h"
 #include "overmap.h"
 #include "trap.h"
 #include "player.h"
 #include "scent_map.h"
+#include "json.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -57,7 +60,7 @@ bool tutorial_game::init()
     starting_om.ter( lx, ly, -1 ) = oter_id( "tutorial" );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( "QUICK" );
+    g->u.toggle_trait( trait_id( "QUICK" ) );
     item lighter( "lighter", 0 );
     lighter.invlet = 'e';
     g->u.inv.add_item( lighter, true, false );
@@ -93,7 +96,7 @@ void tutorial_game::per_turn()
         add_message( LESSON_PAIN );
     }
 
-    if( g->u.recoil >= MIN_RECOIL ) {
+    if( g->u.recoil >= MAX_RECOIL ) {
         add_message( LESSON_RECOIL );
     }
 
@@ -174,10 +177,9 @@ void tutorial_game::post_action( action_id act )
             if( g->u.has_amount( "grenade_act", 1 ) ) {
                 add_message( LESSON_ACT_GRENADE );
             }
-            for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
-                for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
-                    if( g->m.tr_at( {x, y, g->u.posz()} ).id == trap_str_id( "tr_bubblewrap" ) )
-                        add_message( LESSON_ACT_BUBBLEWRAP );
+            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+                if( g->m.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
+                    add_message( LESSON_ACT_BUBBLEWRAP );
                 }
             }
             break;
@@ -216,7 +218,7 @@ void tutorial_game::post_action( action_id act )
 
         case ACTION_EXAMINE:
             add_message( LESSON_INTERACT );
-        // Fall through to...
+        /* fallthrough */
         case ACTION_PICKUP: {
             item it( g->u.last_item, 0 );
             if( it.is_armor() ) {

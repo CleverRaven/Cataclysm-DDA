@@ -38,7 +38,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "makeshift_machete", 1 ] ] ]
+    "components": [ [ [ "makeshift_machete", 1 ], [ "blade", 1 ], [ "machete", 1 ], [ "survivor_machete", 1 ] ] ]
   },
   {
     "result": "pistol_bayonet",

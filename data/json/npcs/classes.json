@@ -407,7 +407,7 @@
         "worn_override": "EMPTY_GROUP",
         "carry_override": "EMPTY_GROUP",
         "weapon_override": "EMPTY_GROUP",
-        "comment": "NPCs can't run yet and we want this one to be fast, so road runner.",
+        "//": "NPCs can't run yet and we want this one to be fast, so road runner.",
         "traits": [
             [ "THRESH_INSECT", 100 ],
             [ "BEE", 100 ],

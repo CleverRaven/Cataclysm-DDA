@@ -20,7 +20,15 @@
     "durability": 9,
     "clip_size": 5,
     "barrel_length": 3,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
@@ -41,7 +49,15 @@
     "dispersion": 90,
     "durability": 9,
     "burst": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazine_well": 2,
     "magazines": [ [ "20x66mm", [ "20x66_20_mag", "20x66_40_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
@@ -63,6 +79,7 @@
     "skill": "pistol",
     "dispersion": 250,
     "durability": 9,
+    "default_mods": [ "pistol_stock" ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]

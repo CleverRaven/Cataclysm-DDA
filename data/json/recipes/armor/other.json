@@ -13,6 +13,45 @@
     "components": [ [ [ "rag", 35 ] ] ]
   },
   {
+    "result": "ring",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 120000,
+    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+    ],
+    "components": [ [ [ "gold_small", 3 ] ] ]
+  },
+  {
+    "result": "gold_bracelet",
+    "copy-from": "ring",
+    "type": "recipe",
+    "components": [ [ [ "gold_small", 12 ] ] ]
+  },
+  {
+    "result": "copper_bracelet",
+    "copy-from": "ring",
+    "type": "recipe",
+    "components": [ [ [ "copper", 60 ] ] ]
+  },
+  {
+    "result": "silver_bracelet",
+    "copy-from": "ring",
+    "type": "recipe",
+    "components": [ [ [ "silver_small", 15 ] ] ]
+  },
+  {
     "result": "down_blanket",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -62,7 +101,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -83,7 +122,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
       [ [ "scrap", 1 ] ]
@@ -103,7 +142,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -124,7 +163,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "scrap", 1 ] ]
@@ -142,8 +181,8 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_fireman", 4 ], [ "atomic_survival", 4 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 4 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "oxy_powder", 50 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],

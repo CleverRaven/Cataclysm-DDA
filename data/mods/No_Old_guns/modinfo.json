@@ -12,6 +12,7 @@
   {
     "type": "ITEM_BLACKLIST",
     "items": [
+      "lemat_revolver",
       "garand",
       "garandclip",
       "m1903",
@@ -24,7 +25,6 @@
       "thompson_drum",
       "sten",
       "sks",
-      "win70",
       "mosin91_30",
       "mosin91_30_ebr",
       "mosin44",
@@ -55,7 +55,9 @@
       "762R_casing",
       "762_25",
       "762_25hot",
-      "762_25typeP"
+      "762_25typeP",
+      "reloaded_762_25",
+      "762_25_casing"
     ]
   }
 ]

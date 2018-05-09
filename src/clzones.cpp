@@ -1,13 +1,10 @@
 #include "clzones.h"
-#include "map.h"
 #include "game.h"
-#include "player.h"
+#include "json.h"
 #include "debug.h"
 #include "output.h"
 #include "cata_utility.h"
 #include "translations.h"
-#include "worldfactory.h"
-#include "catacharset.h"
 #include "ui.h"
 #include "string_input_popup.h"
 
@@ -15,8 +12,14 @@
 
 zone_manager::zone_manager()
 {
-    types["NO_AUTO_PICKUP"] = _( "No Auto Pickup" );
-    types["NO_NPC_PICKUP"] = _( "No NPC Pickup" );
+    types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
+                   zone_type( translate_marker( "No Auto Pickup" ) ) );
+    types.emplace( zone_type_id( "NO_NPC_PICKUP" ), zone_type( translate_marker( "No NPC Pickup" ) ) );
+}
+
+std::string zone_type::name() const
+{
+    return _( name_.c_str() );
 }
 
 void zone_manager::zone_data::set_name()
@@ -39,14 +42,13 @@ void zone_manager::zone_data::set_type()
 
     size_t i = 0;
     for( const auto &type : types ) {
-        const auto &name = type.second;
-        as_m.addentry( i++, true, MENU_AUTOASSIGN, name );
+        as_m.addentry( i++, true, MENU_AUTOASSIGN, type.second.name() );
     }
 
     as_m.query();
     size_t index = as_m.ret;
 
-    std::map<std::string, std::string>::const_iterator iter = types.begin();
+    auto iter = types.begin();
     std::advance( iter, index );
     type = iter->first;
 }
@@ -61,17 +63,17 @@ tripoint zone_manager::zone_data::get_center_point() const
     return tripoint( ( start.x + end.x ) / 2, ( start.y + end.y ) / 2, ( start.z + end.z ) / 2 );
 }
 
-std::string zone_manager::get_name_from_type( const std::string &type ) const
+std::string zone_manager::get_name_from_type( const zone_type_id &type ) const
 {
     const auto &iter = types.find( type );
     if( iter != types.end() ) {
-        return iter->second;
+        return iter->second.name();
     }
 
     return "Unknown Type";
 }
 
-bool zone_manager::has_type( const std::string &type ) const
+bool zone_manager::has_type( const zone_type_id &type ) const
 {
     return types.count( type ) > 0;
 }
@@ -85,7 +87,7 @@ void zone_manager::cache_data()
             continue;
         }
 
-        const std::string &type = elem.get_type();
+        const zone_type_id &type = elem.get_type();
         auto &cache = area_cache[type];
 
         tripoint start = elem.get_start_point();
@@ -102,7 +104,7 @@ void zone_manager::cache_data()
     }
 }
 
-bool zone_manager::has( const std::string &type, const tripoint &where ) const
+bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const
 {
     const auto &type_iter = area_cache.find( type );
     if( type_iter == area_cache.end() ) {
@@ -113,7 +115,7 @@ bool zone_manager::has( const std::string &type, const tripoint &where ) const
     return point_set.find( where ) != point_set.end();
 }
 
-void zone_manager::add( const std::string &name, const std::string &type,
+void zone_manager::add( const std::string &name, const zone_type_id &type,
                         const bool invert, const bool enabled,
                         const tripoint &start, const tripoint &end )
 {
@@ -157,12 +159,12 @@ void zone_manager::deserialize( JsonIn &jsin )
         JsonObject jo_zone = jsin.get_object();
 
         const std::string name = jo_zone.get_string( "name" );
-        const std::string type = jo_zone.get_string( "type" );
+        const zone_type_id type( jo_zone.get_string( "type" ) );
 
         const bool invert = jo_zone.get_bool( "invert" );
         const bool enabled = jo_zone.get_bool( "enabled" );
 
-        // Z coords need to have a default value - old saves won't have those
+        // Z-coordinates need to have a default value - old saves won't have those
         const int start_x = jo_zone.get_int( "start_x" );
         const int start_y = jo_zone.get_int( "start_y" );
         const int start_z = jo_zone.get_int( "start_z", 0 );
@@ -183,18 +185,17 @@ void zone_manager::deserialize( JsonIn &jsin )
 
 bool zone_manager::save_zones()
 {
-    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
-                               g->u.name ) + ".zones.json";
+    std::string savefile = g->get_player_base_save_path() + ".zones.json";
 
     return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
-        fout << serialize();
+        JsonOut jsout( fout );
+        serialize( jsout );
     }, _( "zones date" ) );
 }
 
 void zone_manager::load_zones()
 {
-    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
-                               g->u.name ) + ".zones.json";
+    std::string savefile = g->get_player_base_save_path() + ".zones.json";
 
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );

@@ -21,7 +21,7 @@ class morale_type_data
         bool needs_item;
     public:
         morale_type id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         /** Describes this morale type, with item type to replace wildcard with. */
         std::string describe( const itype *it = nullptr ) const;
@@ -97,6 +97,7 @@ extern const morale_type MORALE_HAIRCUT;
 extern const morale_type MORALE_SHAVE;
 extern const morale_type MORALE_VOMITED;
 extern const morale_type MORALE_PERM_FILTHY;
+extern const morale_type MORALE_PERM_DEBUG;
 
 #endif
 

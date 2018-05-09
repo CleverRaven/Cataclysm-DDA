@@ -3,7 +3,6 @@
 #define SOUNDS_H
 
 #include "enums.h" // For point
-#include "cursesdef.h" // For WINDOW
 
 #include <vector>
 #include <string>
@@ -12,6 +11,7 @@ class monster;
 class player;
 class Creature;
 class item;
+class JsonObject;
 
 namespace sounds
 {

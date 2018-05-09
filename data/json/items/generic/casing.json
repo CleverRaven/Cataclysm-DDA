@@ -131,6 +131,17 @@
     "volume": "3ml"
   },
   {
+    "id": "5x50_hull",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "5x50mm hull",
+    "description": "An empty plastic hull from a 5x50mm flechette round.",
+    "weight": 1,
+    "volume": "9ml",
+    "material": "plastic",
+    "color": "light_green"
+  },
+  {
     "id": "500_casing",
     "copy-from": "casing",
     "type": "GENERIC",
@@ -197,8 +208,8 @@
     "id": "762_25_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": "7.62x25 casing",
-    "description": "An empty casing from a 7.62x25 round.",
+    "name": "7.62x25mm casing",
+    "description": "An empty casing from a 7.62x25mm round.",
     "weight": 4,
     "volume": "7ml"
   },
@@ -206,8 +217,17 @@
     "id": "9mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": "9mm casing",
+    "name": "9x19mm casing",
     "description": "An empty casing from a 9x19mm round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
+    "id": "357sig_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 SIG casing",
+    "description": "An empty casing from a .357 SIG round.",
     "weight": 3,
     "volume": "5ml"
   },

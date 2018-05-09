@@ -1,0 +1,175 @@
+[
+  {
+    "id": "fence_caught",
+    "type": "item_group",
+    "items": [
+      [ "flyer", 40 ],
+      [ "weeks_old_newspaper", 25 ],
+      [ "newest_newspaper", 25 ],
+      [ "survnote", 5 ],
+      [ "rag_bloody", 20 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 30 ],
+      [ "necropolis_leaflet", 1 ]
+    ]
+  },
+  {
+    "id": "dirt_rubble",
+    "type": "item_group",
+    "items": [ [ "rock", 60 ], [ "sharp_rock", 30 ], [ "material_shrd_limestone", 2 ], [ "splinter", 10 ] ]
+  },
+  {
+    "id": "reactor_equipment",
+    "type": "item_group",
+    "items": [
+      [ "gloves_rubber", 20 ],
+      [ "boots_rubber", 20 ],
+      [ "sm_extinguisher", 10 ],
+      [ "flashlight", 20 ],
+      [ "hat_hard", 50 ],
+      [ "toolbox", 5 ],
+      [ "textbook_chemistry", 20 ],
+      [ "iodine", 20 ],
+      [ "prussian_blue", 20 ],
+      [ "radio", 20 ],
+      [ "geiger_off", 20 ],
+      [ "rad_monitor", 20 ],
+      [ "mask_gas", 30 ],
+      [ "wrapped_rad_badge", 20 ],
+      [ "hazmat_suit", 40 ],
+      [ "adv_chemistry", 20 ]
+    ]
+  },
+  {
+    "id": "reactor_core",
+    "type": "item_group",
+    "items": [
+      [ "55gal_drum", 20 ],
+      { "item": "material_sand", "prob": 20, "container-item": "55gal_drum", "charges-min": 450, "charges-max": 8000 },
+      { "item": "water", "prob": 20, "container-item": "55gal_drum", "charges-min": 350, "charges-max": 800 },
+      { "item": "plut_cell", "prob": 30, "container-item": "30gal_drum", "charges-min": 5, "charges-max": 25 },
+      { "item": "plut_cell", "prob": 10, "charges-min": 1, "charges-max": 5 },
+      [ "toolbox", 5 ]
+    ]
+  },
+  {
+    "id": "weapon_testing_lab",
+    "type": "item_group",
+    "items": [
+      { "group": "tools_gunsmith", "prob": 60 },
+      { "group": "gunmod_common", "prob": 10 },
+      { "group": "gunmod_milspec", "prob": 10 },
+      { "group": "gunmod_rare", "prob": 10 },
+      { "group": "guns_milspec", "prob": 10 },
+      { "group": "mags_milspec", "prob": 10 },
+      { "group": "mil_armor", "prob": 20 }
+    ]
+  },
+  {
+    "id": "virology_lab",
+    "type": "item_group",
+    "items": [
+      [ "iodine", 5 ],
+      [ "adv_chemistry", 4 ],
+      [ "decoy_elfa", 6 ],
+      [ "file", 10 ],
+      [ "recipe_raptor", 1 ],
+      [ "recipe_alpha", 1 ],
+      [ "recipe_chimera", 2 ],
+      [ "recipe_medicalmut", 2 ],
+      [ "recipe_serum", 4 ],
+      [ "recipe_labchem", 6 ],
+      [ "water_clean", 30 ],
+      [ "salt_water", 20 ],
+      [ "bleach", 20 ],
+      [ "ammonia", 20 ],
+      [ "royal_jelly", 1 ],
+      [ "superglue", 20 ],
+      [ "bottle_glass", 20 ],
+      [ "syringe", 100 ],
+      [ "blood", 100 ],
+      [ "vacutainer", 100 ],
+      [ "adrenaline_injector", 4 ],
+      [ "extinguisher", 20 ],
+      [ "hotplate", 10 ],
+      [ "software_medical", 10 ],
+      [ "funnel", 10 ],
+      [ "jar_glass", 30 ],
+      [ "jar_3l_glass", 15 ],
+      [ "pur_tablets", 20 ],
+      [ "lye_powder", 20 ],
+      [ "oxy_powder", 10 ],
+      [ "magnesium", 10 ],
+      [ "chemistry_set", 20 ],
+      [ "sm_extinguisher", 10 ],
+      [ "charcoal", 10 ],
+      [ "briefcase", 5 ],
+      [ "hygrometer", 3 ],
+      [ "chem_sulphur", 10 ],
+      [ "chem_nitric_acid", 15 ],
+      [ "chem_chromium_oxide", 10 ],
+      [ "denat_alcohol", 100 ],
+      [ "scalpel", 50 ],
+      [ "scissors", 100 ],
+      [ "stethoscope", 50 ],
+      [ "thermometer", 50 ],
+      [ "vaccine_shot", 50 ],
+      [ "flu_shot", 50 ],
+      [ "disinfectant", 35 ]
+    ]
+  },
+  {
+    "id": "virology_lab_fridge",
+    "type": "item_group",
+    "items": [
+      [ "blood", 300 ],
+      [ "vacutainer", 100 ],
+      [ "jar_glass", 30 ],
+      [ "jar_3l_glass", 15 ],
+      [ "hygrometer", 3 ],
+      [ "chem_nitric_acid", 15 ],
+      [ "denat_alcohol", 100 ],
+      [ "thermometer", 50 ],
+      [ "vaccine_shot", 50 ],
+      [ "flu_shot", 50 ],
+      [ "disinfectant", 35 ]
+    ]
+  },
+  {
+    "id": "rocketry_lab",
+    "type": "item_group",
+    "items": [
+      [ "funnel", 10 ],
+      [ "jar_glass", 30 ],
+      [ "adv_chemistry", 25 ],
+      [ "radio", 10 ],
+      [ "toolbox", 10 ],
+      [ "textbook_chemistry", 20 ],
+      [ "gunpowder", 40 ],
+      [ "incendiary", 10 ],
+      [ "chem_hydrogen_peroxide", 10 ],
+      [ "chem_sulphuric_acid", 20 ],
+      [ "chem_sulphur", 40 ],
+      [ "chem_aluminium_powder", 25 ],
+      [ "chem_zinc_powder", 10 ],
+      [ "chem_saltpetre", 30 ],
+      [ "chem_carbide", 10 ],
+      [ "denat_alcohol", 20 ],
+      [ "chem_nitric_acid", 40 ],
+      [ "thermometer", 20 ],
+      [ "oxy_powder", 40 ],
+      [ "magnesium", 40 ],
+      [ "chemistry_set", 40 ]
+    ]
+  },
+  {
+    "id": "wraitheon_infantry",
+    "type": "item_group",
+    "items": [
+      { "group": "robots", "prob": 100 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
+      { "item": "223", "prob": 20, "charges-min": 10, "charges-max": 30 },
+      { "item": "scar_l", "prob": 20, "damage": [ 1, 2 ] }
+    ]
+  }
+]

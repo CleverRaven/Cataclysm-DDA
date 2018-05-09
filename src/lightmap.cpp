@@ -1,9 +1,8 @@
+#include "lightmap.h"
 #include "mapdata.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "game.h"
-#include "lightmap.h"
-#include "options.h"
 #include "npc.h"
 #include "monster.h"
 #include "veh_type.h"
@@ -12,7 +11,6 @@
 #include "mtype.h"
 #include "weather.h"
 #include "shadowcasting.h"
-#include "messages.h"
 
 #include <cmath>
 #include <cstring>
@@ -61,6 +59,8 @@ void map::build_transparency_cache( const int zlev )
     std::uninitialized_fill_n(
         &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
+    float sight_penalty = weather_data(g->weather).sight_penalty;
+
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -80,7 +80,7 @@ void map::build_transparency_cache( const int zlev )
                     }
 
                     if( outside_cache[x][y] ) {
-                        value *= weather_data(g->weather).sight_penalty;
+                        value *= sight_penalty;
                     }
 
                     for( auto const &fld : cur_submap->fld[sx][sy] ) {
@@ -144,7 +144,7 @@ void map::apply_character_light( player &p )
     }
 
     if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
-        p.add_effect( effect_haslight, 1 );
+        p.add_effect( effect_haslight, 1_turns );
     }
 }
 
@@ -189,8 +189,8 @@ void map::generate_lightmap( const int zlev )
     }
 
     apply_character_light( g->u );
-    for( auto &n : g->active_npc ) {
-        apply_character_light( *n );
+    for( npc &guy : g->all_npcs() ) {
+        apply_character_light( guy );
     }
 
     // Traverse the submaps in order
@@ -288,8 +288,7 @@ void map::generate_lightmap( const int zlev )
         }
     }
 
-    for (size_t i = 0; i < g->num_zombies(); ++i) {
-        auto &critter = g->zombie(i);
+    for( monster &critter : g->all_monsters() ) {
         if(critter.is_hallucination()) {
             continue;
         }
@@ -340,8 +339,9 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
-                if( (    calendar::turn % 2   && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
-                    ( !( calendar::turn % 2 ) && vp.has_flag( VPFLAG_EVENTURN ) ) ||
+                const bool odd_turn = calendar::once_every( 2_turns );
+                if( (  odd_turn && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
+                    ( !odd_turn && vp.has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
 
                     add_light_source( src, vp.bonus );
@@ -378,7 +378,7 @@ void map::generate_lightmap( const int zlev )
     }
 
 
-    if (g->u.has_active_bionic("bio_night") ) {
+    if (g->u.has_active_bionic( bionic_id( "bio_night" ) ) ) {
         for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
             if( rl_dist( p, g->u.pos() ) < 15 ) {
                 lm[p.x][p.y] = LIGHT_AMBIENT_MINIMAL;
@@ -764,11 +764,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         return;
     }
 
-    // We're inside a vehicle. Do mirror calcs.
+    // We're inside a vehicle. Do mirror calculations.
     std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
     // Do all the sight checks first to prevent fake multiple reflection
     // from happening due to mirrors becoming visible due to processing order.
-    // Cameras are also handled here, so that we only need to get through all veh parts once
+    // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
     for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
         const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
@@ -1024,7 +1024,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
-    // Normalise (should work with negative values too)
+    // Normalize (should work with negative values too)
     const double wangle = wideangle / 2.0;
 
     int nangle = angle % 360;
@@ -1062,31 +1062,6 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
             apply_light_ray( lit, p, end, luminance );
             calc_ray_end( nangle - ao, range, p, end );
             apply_light_ray( lit, p, end, luminance );
-        }
-    }
-}
-
-void map::calc_ray_end(int angle, int range, const tripoint &p, tripoint &out ) const
-{
-    double rad = (PI * angle) / 180;
-    out.z = p.z;
-    if (trigdist) {
-        out.x = p.x + range * cos(rad);
-        out.y = p.y + range * sin(rad);
-    } else {
-        int mult = 0;
-        if (angle >= 135 && angle <= 315) {
-            mult = -1;
-        } else {
-            mult = 1;
-        }
-
-        if (angle <= 45 || (135 <= angle && angle <= 215) || 315 < angle) {
-            out.x = p.x + range * mult;
-            out.y = p.y + range * tan(rad) * mult;
-        } else {
-            out.x = p.x + range * 1 / tan(rad) * mult;
-            out.y = p.y + range * mult;
         }
     }
 }

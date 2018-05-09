@@ -12,7 +12,9 @@
 #include <memory>
 
 class Creature;
+class dispersion_sources;
 class vehicle;
+struct explosion_data;
 struct itype;
 
 struct projectile {

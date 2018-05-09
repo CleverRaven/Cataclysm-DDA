@@ -4,14 +4,17 @@
 #include "map.h"
 #include "dialogue.h"
 #include "rng.h"
+#include "itype.h"
 #include "line.h"
+#include "bionics.h"
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
 #include "mission.h"
 #include "ammo.h"
+#include "output.h"
 #include "overmapbuffer.h"
-#include "json.h"
+#include "skill.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -23,6 +26,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <cassert>
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -41,6 +45,10 @@ const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 
+static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+
 void talk_function::bionic_install(npc &p)
 {
     std::vector<item *> bionic_inv = g->u.items_with( []( const item &itm ) {
@@ -55,7 +63,7 @@ void talk_function::bionic_install(npc &p)
     std::vector<std::string> bionic_names;
     for( auto &bio : bionic_inv ) {
         if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if (!g->u.has_bionic(bio->typeId()) || bio->typeId() ==  "bio_power_storage" ||
+            if (!g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
                 bio->typeId() ==  "bio_power_storage_mkII"){
 
                 bionic_types.push_back( bio->typeId() );
@@ -96,8 +104,8 @@ void talk_function::bionic_install(npc &p)
 
 void talk_function::bionic_remove(npc &p)
 {
-    std::vector <bionic> all_bio = g->u.my_bionics;
-    if (all_bio.size() == 0){
+    bionic_collection all_bio = *g->u.my_bionics;
+    if( all_bio.empty() ) {
         popup(_("You don't have any bionics installed..."));
         return;
     }
@@ -106,14 +114,14 @@ void talk_function::bionic_remove(npc &p)
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( auto &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id ) == bionic_types.end() ) {
-            if (bio.id !=  "bio_power_storage" || bio.id !=  "bio_power_storage_mkII"){
-                bionic_types.push_back( bio.id );
-                if( item::type_is_defined( bio.id ) ) {
-                    tmp = item(bio.id, 0);
+        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+            if (bio.id != bionic_id( "bio_power_storage" ) || bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                bionic_types.push_back( bio.id.str() );
+                if( item::type_is_defined( bio.id.str() ) ) {
+                    tmp = item(bio.id.str(), 0);
                     bionic_names.push_back( tmp.tname() +" - $"+to_string(500+(tmp.price( true )/400)));
                 } else {
-                    bionic_names.push_back( bio.id +" - $"+to_string(500));
+                    bionic_names.push_back( bio.id.str() +" - $"+to_string(500));
                 }
             }
         }
@@ -144,10 +152,10 @@ void talk_function::bionic_remove(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.uninstall_bionic(bionic_types[bionic_index], 20)){
+    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20)){
         g->u.cash -= price;
         p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
+        g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
     }
 
 }
@@ -160,7 +168,7 @@ void talk_function::companion_mission(npc &p)
  // Name checks determining role? Horrible!
  if (p.name.find("Scavenger Boss") != a){
     id = "SCAVENGER";
-    title = _("Junkshop Missions");
+    title = _("Junk Shop Missions");
  }
  if (p.name.find("Crop Overseer") != a){
     id = "COMMUNE CROPS";
@@ -174,14 +182,14 @@ void talk_function::companion_mission(npc &p)
     id = "REFUGEE MERCHANT";
     title = _("Free Merchant Missions");
  }
- talk_function::outpost_missions(&p, id, title);
+ talk_function::outpost_missions( p, id, title );
 }
 
-bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
+bool talk_function::outpost_missions( npc &p, std::string id, std::string title )
 {
     std::vector<std::string> keys;
     std::map<std::string, std::string> col_missions;
-    std::vector<npc *> npc_list;
+    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry, entry_aux;
 
     if (id == "SCAVENGER"){
@@ -190,11 +198,11 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "the opportunity to build survival skills while engaging in relatively safe combat against isolated "
             "creatures.");
         keys.push_back("Assign Scavenging Patrol");
-        npc_list = companion_list(p->name+"_scavenging_patrol");
+        npc_list = companion_list( p, "_scavenging_patrol" );
         if (npc_list.size()>0){
             entry = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Patrol"] = entry;
@@ -202,17 +210,17 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "SCAVENGER" && p->has_trait("NPC_MISSION_LEV_1")){
+    if ( id == "SCAVENGER" && p.has_trait( trait_NPC_MISSION_LEV_1 ) ){
         col_missions["Assign Scavenging Raid"] = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
             "Scavenging raids target formerly populated areas to loot as many valuable items as possible before "
             "being surrounded by the undead.  Combat is to be expected and assistance from the rest of the party "
             "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items.");
         keys.push_back("Assign Scavenging Raid");
-        npc_list = companion_list(p->name+"_scavenging_raid");
+        npc_list = companion_list( p, "_scavenging_raid" );
         if (npc_list.size()>0){
             entry = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Raid"] = entry;
@@ -225,11 +233,11 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "Assigning one of your allies to menial labor is a safe way to teach them basic skills and build "
             "reputation with the outpost.  Don't expect much of a reward though.");
         keys.push_back("Assign Ally to Menial Labor");
-        npc_list = companion_list(p->name+"_labor");
+        npc_list = companion_list( p, "_labor" );
         if (npc_list.size()>0){
             entry = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Menial Labor"] = entry;
@@ -237,16 +245,16 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "FOREMAN" && p->has_trait("NPC_MISSION_LEV_1")){
+    if ( id == "FOREMAN" && p.has_trait( trait_NPC_MISSION_LEV_1 ) ){
         col_missions["Assign Ally to Carpentry Work"] = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
             "Carpentry work requires more skill than menial labor while offering modestly improved pay.  It is "
             "unlikely that your companions will face combat but there are hazards working on makeshift buildings.");
         keys.push_back("Assign Ally to Carpentry Work");
-        npc_list = companion_list(p->name+"_carpenter");
+        npc_list = companion_list( p, "_carpenter" );
         if (npc_list.size()>0){
             entry = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Carpentry Work"] = entry;
@@ -254,7 +262,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "COMMUNE CROPS" && !p->has_trait("NPC_CONSTRUCTION_LEV_1")){
+    if ( id == "COMMUNE CROPS" && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ){
         col_missions["Purchase East Field"] = _("Cost: $1000\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
@@ -266,7 +274,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         keys.push_back("Purchase East Field");
     }
 
-    if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1") && !p->has_trait("NPC_CONSTRUCTION_LEV_2")){
+    if ( id == "COMMUNE CROPS" && p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ){
         col_missions["Upgrade East Field I"] = _("Cost: $5500\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
@@ -276,7 +284,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         keys.push_back("Upgrade East Field I");
     }
 
-    if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1")){
+    if ( id == "COMMUNE CROPS" && p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ){
         col_missions["Plant East Field"] = _("Cost: $3.00/plot\n \n"
         "\n              .........\n              .........\n              .........\n              .........\n"
         "              .........\n              .........\n              ..#....**\n              ..#Ov..**\n  "
@@ -298,11 +306,11 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "edibles.  Combat will be avoided but encounters with wild animals are to be expected.  The low pay is "
             "supplemented with the odd item as a reward for particularly large hauls.");
         keys.push_back("Assign Ally to Forage for Food");
-        npc_list = companion_list(p->name+"_forage");
+        npc_list = companion_list( p, "_forage" );
         if (npc_list.size()>0){
             entry = _("Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Foraging"] = entry;
@@ -318,26 +326,26 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "The commune is sending food to the Free Merchants in the Refugee Center as part of a tax and in exchange "
             "for skilled labor.");
         keys.push_back("Caravan Commune-Refugee Center");
-        npc_list = companion_list(p->name+"_commune_refugee_caravan");
-        std::vector<npc *> npc_list_aux;
+        npc_list = companion_list( p, "_commune_refugee_caravan" );
+        std::vector<std::shared_ptr<npc>> npc_list_aux;
         if (npc_list.size()>0){
             entry = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
             " \nRoster:\n");
             for( auto &elem : npc_list ) {
-                if (elem->companion_mission_time == -1){
+                if( elem->companion_mission_time == calendar::before_time_starts ) {
                     entry = entry + "  " + elem->name + _(" [READY] \n");
                     npc_list_aux.push_back(elem);
-                } else if (calendar::turn.get_turn() >= elem->companion_mission_time) {
+                } else if( calendar::turn >= elem->companion_mission_time ) {
                     entry = entry + "  " + elem->name + _(" [COMPLETE] \n");
                 } else {
-                    entry = entry + "  " + elem->name + " ["+ to_string(abs(calendar::turn.get_turn()-elem->companion_mission_time)/600) +" Hours] \n";
+                    entry = entry + "  " + elem->name + " ["+ to_string( abs( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) ) +" Hours] \n";
                 }
             }
             if (npc_list_aux.size()>0){
                 entry_aux = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                 " \nRoster:\n");
                 for( auto &elem : npc_list_aux ) {
-                    if (elem->companion_mission_time == -1){
+                    if( elem->companion_mission_time == calendar::before_time_starts ) {
                         entry_aux = entry_aux + "  " + elem->name + " [READY] \n";
                     }
                 }
@@ -357,10 +365,10 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         return false;
     }
 
-    WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                             ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
                             1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
@@ -381,7 +389,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         if (redraw) {
             werase(w_list);
             draw_border(w_list);
-            mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
+            mvwprintz( w_list, 1, 1, c_white, title );
             for (size_t i = 0; i < keys.size(); i++) {
                 nc_color col = (i == sel ? h_white : c_white);
                 mvwprintz(w_list, i + 2, 1, col, "  %s", keys[i].c_str());
@@ -416,10 +424,6 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             break;
         }
     }
-    werase(w_list);
-    werase(w_info);
-    delwin(w_list);
-    delwin(w_info);
     g->refresh_all();
 
     if (cur_key == "Caravan Commune-Refugee Center"){
@@ -478,34 +482,34 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
     return true;
 }
 
-void talk_function::individual_mission(npc *p, std::string desc, std::string id, bool group)
+void talk_function::individual_mission( npc &p, std::string desc, std::string id, bool group )
 {
     npc *comp = companion_choose();
     if (comp == NULL){
         return;
     }
     popup("%s %s", comp->name.c_str(), desc.c_str());
-    comp->companion_mission = p->name + id;
+    comp->set_companion_mission( p, id );
     if (group){
-        comp->companion_mission_time = -1;
+        comp->companion_mission_time = calendar::before_time_starts;
     } else {
         comp->companion_mission_time = calendar::turn.get_turn();
     }
-    companion_leave(comp);
+    g->reload_npcs();
+    assert( !comp->is_active() );
 }
 
-void talk_function::caravan_depart(npc *p, std::string dest, std::string id)
+void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
 {
-    std::vector<npc *> npc_list = companion_list(p->name+id);
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     int distance = caravan_dist(dest);
     int time = 200 + distance * 100;
     popup(_("The caravan departs with an estimated total travel time of %d hours..."), int(time/600));
 
     for( auto &elem : npc_list ) {
-        if (elem->companion_mission_time == -1){
+        if( elem->companion_mission_time == calendar::before_time_starts ) {
             //Adds a 10% error in estimated travel time
-            elem->companion_mission_time = time + int(time * rng_float(-.1,.1)) +
-              calendar::turn.get_turn();
+            elem->companion_mission_time = calendar::turn + time_duration::from_turns( time + time * rng_float( -.1, .1 ) );
         }
     }
 
@@ -519,24 +523,24 @@ int talk_function::caravan_dist(std::string dest)
     return distance;
 }
 
-void talk_function::caravan_return(npc *p, std::string dest, std::string id)
+void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 {
-    npc *comp = companion_choose_return(p->name + id, calendar::turn.get_turn());
+    npc *comp = companion_choose_return( p.name + id, calendar::turn.get_turn() );
     if (comp == NULL){
         return;
     }
-    if (comp->companion_mission_time == -1){
+    if( comp->companion_mission_time == calendar::before_time_starts ) {
         popup(_("%s returns to your party."), comp->name.c_str());
-        companion_return(comp);
+        companion_return( *comp );
         return;
     }
     //So we have chosen to return an individual or party who went on the mission
     //Everyone who was on the mission will have the same companion_mission_time
     //and will simulate the mission and return together
-    std::vector<npc *> caravan_party, bandit_party;
-    std::vector<npc *> npc_list = companion_list(p->name+id);
+    std::vector<std::shared_ptr<npc>> caravan_party, bandit_party;
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     for (int i = 0; i < rng(1,3); i++){
-        caravan_party.push_back(temp_npc("commune_guard"));
+        caravan_party.push_back(temp_npc(string_id<npc_template>( "commune_guard" )));
     }
     for( auto &elem : npc_list ) {
         if (elem->companion_mission_time == comp->companion_mission_time){
@@ -549,8 +553,8 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     int experience = rng( 10, time / 300 );
 
     for (int i = 0; i < rng( 1, 3 ); i++){
-        bandit_party.push_back(temp_npc("bandit"));
-        bandit_party.push_back(temp_npc("thug"));
+        bandit_party.push_back(temp_npc(string_id<npc_template>( "bandit" )));
+        bandit_party.push_back(temp_npc(string_id<npc_template>( "thug" )));
     }
 
 
@@ -569,12 +573,12 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
 
     int y,i;
     int money = 0;
-    for( auto *elem : caravan_party ) {
+    for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
-        if (elem->hp_cur[hp_torso] == 0 && elem->companion_mission != ""){
-            companion_lost(comp);
+        if (elem->hp_cur[hp_torso] == 0 && elem->has_companion_mission() ) {
+            overmap_buffer.remove_npc( comp->getID() );
             money += (time/600) * 9;
-        } else if (elem->companion_mission != ""){
+        } else if( elem->has_companion_mission() ){
             money += (time/600) * 18;
             i = 0;
             while (i < experience){
@@ -582,7 +586,6 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
                 if (y < 60){
                     const skill_id best = elem->best_skill();
                     if( best ) {
-                        popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
                     } else {
                         elem->practice( skill_melee, 10);
@@ -608,7 +611,7 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
                 }
                 i++;
             };
-            companion_return(elem);
+            companion_return( *elem );
         }
     }
 
@@ -621,13 +624,13 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
 }
 
 //A random NPC on one team attacks a random NPC on the opposite
-void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *> defender)
+void talk_function::attack_random( const std::vector<std::shared_ptr<npc>> &attacker, const std::vector<std::shared_ptr<npc>> &defender )
 {
-    if (attacker.size() == 0 || defender.size() ==0){
-            return;
+    if( attacker.empty() || defender.empty() ) {
+        return;
     }
-    npc* att = random_entry( attacker );
-    npc* def = random_entry( defender );
+    const auto att = random_entry( attacker );
+    const auto def = random_entry( defender );
     const skill_id best = att->best_skill();
     int best_score = 1;
     if( best ) {
@@ -644,10 +647,10 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
 
 //Used to determine when to retreat, might want to add in a random factor so that engagements aren't
 //drawn out wars of attrition
-int talk_function::combat_score(std::vector<npc *> group)
+int talk_function::combat_score( const std::vector<std::shared_ptr<npc>> &group )
 {
     int score = 0;
-    for( auto *elem : group ) {
+    for( const auto &elem : group ) {
         if (elem->hp_cur[hp_torso] != 0){
             const skill_id best = elem->best_skill();
             if( best ) {
@@ -660,22 +663,22 @@ int talk_function::combat_score(std::vector<npc *> group)
     return score;
 }
 
-npc *talk_function::temp_npc(std::string type)
+std::shared_ptr<npc> talk_function::temp_npc( const string_id<npc_template> &type )
 {
-    npc *temp = new npc();
+    std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->load_npc_template(type);
     return temp;
 }
 
 //The field is designed as more of a convenience than a profit opportunity.
-void talk_function::field_build_1(npc *p)
+void talk_function::field_build_1( npc &p )
 {
     if (g->u.cash < 100000){
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->set_mutation( "NPC_CONSTRUCTION_LEV_1" );
+    p.set_mutation( trait_NPC_CONSTRUCTION_LEV_1 );
     g->u.cash += -100000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -687,17 +690,17 @@ void talk_function::field_build_1(npc *p)
     bay.draw_square_ter(t_dirtmound, 12, 5, 12, 13);
     bay.draw_square_ter(t_dirtmound, 14, 5, 14, 13);
     bay.save();
-    popup(_("%s jots your name down on a ledger and yells out to nearby laborers to begin plowing your new field."), p->name.c_str());
+    popup( _( "%s jots your name down on a ledger and yells out to nearby laborers to begin plowing your new field." ), p.name.c_str() );
 }
 
 //Really expensive, but that is so you can't tear down the fence and sell the wood for a profit!
-void talk_function::field_build_2(npc *p)
+void talk_function::field_build_2( npc &p )
 {
     if (g->u.cash < 550000){
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->set_mutation( "NPC_CONSTRUCTION_LEV_2" );
+    p.set_mutation( trait_NPC_CONSTRUCTION_LEV_2 );
     g->u.cash += -550000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -710,10 +713,10 @@ void talk_function::field_build_2(npc *p)
     bay.draw_square_ter(t_fencegate_c, 10, 15, 10, 15);
     bay.draw_square_ter(t_fencegate_c, 4, 9, 4, 9);
     bay.save();
-    popup(_("After counting your money %s directs a nearby laborer to begin constructing a fence around your plot..."), p->name.c_str());
+    popup( _( "After counting your money %s directs a nearby laborer to begin constructing a fence around your plot..." ), p.name.c_str() );
 }
 
-void talk_function::field_plant(npc *p, std::string place)
+void talk_function::field_plant( npc &p, std::string place )
 {
     if (g->get_temperature() < 50) {
         popup(_("It is too cold to plant anything now."));
@@ -801,7 +804,7 @@ void talk_function::field_plant(npc *p, std::string place)
                 } else {
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
-                used_seed.front().bday = calendar::turn;
+                used_seed.front().set_age( 0 );
                 bay.add_item_or_charges( x, y, used_seed.front() );
                 bay.set( x, y, t_dirt, f_plant_seed);
                 limiting_number--;
@@ -810,10 +813,10 @@ void talk_function::field_plant(npc *p, std::string place)
     }
     bay.draw_square_ter(t_fence_h, 4, 3, 16, 3);
     bay.save();
-    popup(_("After counting your money and collecting your seeds, %s calls forth a labor party to plant your field."), p->name.c_str());
+    popup( _( "After counting your money and collecting your seeds, %s calls forth a labor party to plant your field." ), p.name.c_str() );
 }
 
-void talk_function::field_harvest(npc *p, std::string place)
+void talk_function::field_harvest( npc &p, std::string place )
 {
     //First we need a list of plants that can be harvested...
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20, false );
@@ -845,7 +848,7 @@ void talk_function::field_harvest(npc *p, std::string place)
             }
         }
     }
-    if (plant_names.size() ==0){
+    if( plant_names.empty() ) {
         popup(_("There aren't any plants that are ready to harvest..."));
         return;
     }
@@ -867,7 +870,7 @@ void talk_function::field_harvest(npc *p, std::string place)
     int number_plants = 0;
     int number_seeds = 0;
     int skillLevel = 2;
-    if (p->has_trait("NPC_CONSTRUCTION_LEV_2"))
+    if ( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) )
         skillLevel += 2;
 
     for (int x = 0; x < 23; x++){
@@ -936,9 +939,9 @@ void talk_function::field_harvest(npc *p, std::string place)
 
 }
 
-bool talk_function::scavenging_patrol_return(npc *p)
+bool talk_function::scavenging_patrol_return( npc &p )
 {
-    npc *comp = companion_choose_return(p->name + "_scavenging_patrol", calendar::turn.get_turn()-6000);
+    npc *comp = companion_choose_return( p.name + "_scavenging_patrol", calendar::turn.get_turn()-6000 );
     if (comp == NULL){
         return false;
     }
@@ -976,7 +979,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
                 experience += rng ( 2, 10 );
             } else {
                 popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1016,20 +1019,20 @@ bool talk_function::scavenging_patrol_return(npc *p)
 
     popup(_("%s returns from patrol having earned $%d and a fair bit of experience..."), comp->name.c_str(),money);
     if (one_in(10)){
-        popup(_("%s was impressed with %s's performance and gave you a small bonus ($100)"), p->name.c_str(), comp->name.c_str());
+        popup( _( "%s was impressed with %s's performance and gave you a small bonus ( $100 )" ), p.name.c_str(), comp->name.c_str() );
         g->u.cash += 10000;
     }
-    if (one_in(10) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->set_mutation( "NPC_MISSION_LEV_1" );
-        popup(_("%s feels more confident in your abilities and is willing to let you participate in daring raids."), p->name.c_str());
+    if ( one_in( 10 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ){
+        p.set_mutation( trait_NPC_MISSION_LEV_1 );
+        popup( _( "%s feels more confident in your abilities and is willing to let you participate in daring raids." ), p.name.c_str() );
     }
-    companion_return(comp);
+    companion_return( *comp );
     return true;
 }
 
-bool talk_function::scavenging_raid_return(npc *p)
+bool talk_function::scavenging_raid_return( npc &p )
 {
-    npc *comp = companion_choose_return(p->name + "_scavenging_raid", calendar::turn.get_turn()-6000);
+    npc *comp = companion_choose_return( p.name + "_scavenging_raid", calendar::turn.get_turn()-6000 );
     if (comp == NULL){
         return false;
     }
@@ -1065,8 +1068,8 @@ bool talk_function::scavenging_raid_return(npc *p)
                 popup(_("Through brute force the party smashed through the group of %d undead!"), monsters);
                 experience += rng( 2, 10 );
             } else {
-                popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
-                companion_lost(comp);
+                popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1112,7 +1115,7 @@ bool talk_function::scavenging_raid_return(npc *p)
 
     popup(_("%s returns from the raid having earned $%d and a fair bit of experience..."), comp->name.c_str(),money);
     if (one_in(20)){
-        popup(_("%s was impressed with %s's performance and gave you a small bonus ($100)"), p->name.c_str(), comp->name.c_str());
+        popup( _( "%s was impressed with %s's performance and gave you a small bonus ( $100 )" ), p.name.c_str(), comp->name.c_str() );
         g->u.cash += 10000;
     }
     if (one_in(2)){
@@ -1125,19 +1128,20 @@ bool talk_function::scavenging_raid_return(npc *p)
                 g->u.i_add( result );
         }
     }
-    companion_return(comp);
+    companion_return( *comp );
     return true;
 }
 
-bool talk_function::labor_return(npc *p)
+bool talk_function::labor_return( npc &p )
 {
     //minimum working time is 1 hour
-    npc *comp = companion_choose_return(p->name + "_labor", calendar::turn.get_turn()-600);
+    npc *comp = companion_choose_return( p.name + "_labor", calendar::turn.get_turn()-600 );
     if (comp == NULL){
         return false;
     }
 
-    float turns = (calendar::turn.get_turn()-comp->companion_mission_time)/600;
+    //@todo actually it's hours, not turns
+    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 8*turns;
     g->u.cash += money*100;
 
@@ -1160,18 +1164,18 @@ bool talk_function::labor_return(npc *p)
     }
 
     popup(_("%s returns from working as a laborer having earned $%d and a bit of experience..."), comp->name.c_str(),money);
-    companion_return(comp);
-    if (turns >= 8 && one_in(8) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->set_mutation( "NPC_MISSION_LEV_1" );
-        popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
+    companion_return( *comp );
+    if ( turns >= 8 && one_in( 8 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ){
+        p.set_mutation( trait_NPC_MISSION_LEV_1 );
+        popup( _( "%s feels more confident in your companions and is willing to let them participate in advanced tasks." ), p.name.c_str() );
     }
 
     return true;
 }
 
-bool talk_function::carpenter_return(npc *p)
+bool talk_function::carpenter_return( npc &p )
 {
-    npc *comp = companion_choose_return(p->name + "_carpenter", calendar::turn.get_turn()-600);
+    npc *comp = companion_choose_return( p.name + "_carpenter", calendar::turn.get_turn()-600 );
     if (comp == NULL){
         return false;
     }
@@ -1199,12 +1203,13 @@ bool talk_function::carpenter_return(npc *p)
             popup(_("%s didn't make it out in time..."), comp->name.c_str());
             popup(_("Everyone who was trapped under the collapsing roof died..."));
             popup(_("I'm sorry, there is nothing we could do."));
-            companion_lost(comp);
+            overmap_buffer.remove_npc( comp->getID() );
             return false;
         }
     }
 
-    float turns = (calendar::turn.get_turn()-comp->companion_mission_time)/600;
+    //@todo actually it's hours, not turns
+    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 12*turns;
     g->u.cash += money*100;
 
@@ -1225,14 +1230,14 @@ bool talk_function::carpenter_return(npc *p)
     }
 
     popup(_("%s returns from working as a carpenter having earned $%d and a bit of experience..."), comp->name.c_str(),money);
-    companion_return(comp);
+    companion_return( *comp );
     return true;
 }
 
-bool talk_function::forage_return(npc *p)
+bool talk_function::forage_return( npc &p )
 {
     //minimum working time is 1 hour
-    npc *comp = companion_choose_return(p->name + "_forage", calendar::turn.get_turn()-2400);
+    npc *comp = companion_choose_return( p.name + "_forage", calendar::turn.get_turn()-2400 );
     if (comp == NULL){
         return false;
     }
@@ -1285,13 +1290,14 @@ bool talk_function::forage_return(npc *p)
                     popup(_("We... we don't know what exactly happened but we found %s's gear ripped and bloody..."), comp->name.c_str());
                     popup(_("I fear your companion won't be returning."));
                 }
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
     }
 
-    float turns = (calendar::turn.get_turn()-comp->companion_mission_time)/600;
+    //@todo actually it's hours, not turns
+    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 10*turns;
     g->u.cash += money*100;
 
@@ -1321,7 +1327,7 @@ bool talk_function::forage_return(npc *p)
     if( skill > rng_float( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){
-            switch (calendar::turn.get_season() ) {
+            switch( season_of_year( calendar::turn ) ) {
                 case SPRING:
                     itemlist = "forage_spring";
                     break;
@@ -1341,18 +1347,18 @@ bool talk_function::forage_return(npc *p)
                 popup(_("%s returned with a %s for you!"),comp->name.c_str(),result.tname().c_str());
                 g->u.i_add( result );
         }
-        if (one_in(6) && !p->has_trait("NPC_MISSION_LEV_1")){
-            p->set_mutation( "NPC_MISSION_LEV_1" );
-            popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
+        if ( one_in( 6 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ){
+            p.set_mutation( trait_NPC_MISSION_LEV_1 );
+            popup( _( "%s feels more confident in your companions and is willing to let them participate in advanced tasks." ), p.name.c_str() );
         }
 
     }
-    companion_return(comp);
+    companion_return( *comp );
     return true;
 }
 
-void talk_function::force_on_force(std::vector<npc *> defender, std::string def_desc,
-    std::vector<npc *> attacker, std::string att_desc, int advantage)
+void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
+    std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage )
 {
     std::string adv = "";
     if (advantage < 0){
@@ -1367,14 +1373,14 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
     int defense, attack;
     int att_init, def_init;
     while (true){
-        std::vector<npc *> remaining_att;
-        for( auto *elem : attacker ) {
+        std::vector<std::shared_ptr<npc>> remaining_att;
+        for( const auto &elem : attacker ) {
             if (elem->hp_cur[hp_torso] != 0){
                 remaining_att.push_back(elem);
             }
         }
-        std::vector<npc *> remaining_def;
-        for( auto *elem : defender ) {
+        std::vector<std::shared_ptr<npc>> remaining_def;
+        for( const auto &elem : defender ) {
             if (elem->hp_cur[hp_torso] != 0){
                 remaining_def.push_back(elem);
             }
@@ -1411,51 +1417,19 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
     }
 }
 
-void talk_function::companion_leave(npc *comp){
-    g->mission_npc.push_back(comp);
-    overmap_buffer.hide_npc( comp->getID() );
-    g->unload_npcs();
-    g->load_npcs();
+void talk_function::companion_return( npc &comp ){
+    assert( !comp.is_active() );
+    comp.reset_companion_mission();
+    comp.companion_mission_time = calendar::before_time_starts;
+    // npc *may* be active, or not if outside the reality bubble
+    g->reload_npcs();
 }
 
-
-void talk_function::companion_lost(npc *comp){
-    std::vector<npc *> new_mission_npc;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->getID() == comp->getID() ) {
-            delete elem;
-        } else {
-            new_mission_npc.push_back(elem);
-        }
-    }
-    g->mission_npc = new_mission_npc;
-    g->unload_npcs();
-    g->load_npcs();
-}
-
-
-void talk_function::companion_return(npc *comp){
-    std::vector<npc *> new_mission_npc;
-    for( auto *elem : g->mission_npc ) {
-        if( elem == comp) {
-            elem->companion_mission = "";
-            elem->companion_mission_time = 0;
-            elem->spawn_at_precise( { g->get_levx(), g->get_levy() },
-                                    g->u.pos() + point( rng( -2, 2 ), rng( -2, 2 ) ) );
-        } else {
-            new_mission_npc.push_back(elem);
-        }
-    }
-    g->mission_npc = new_mission_npc;
-    g->unload_npcs();
-    g->load_npcs();
-}
-
-std::vector<npc *> talk_function::companion_list(std::string id)
+std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p, const std::string &id )
 {
-    std::vector<npc *> available;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->companion_mission == id ) {
+    std::vector<std::shared_ptr<npc>> available;
+    for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
+        if( elem->get_companion_mission() == p.name + id ) {
             available.push_back( elem );
         }
     }
@@ -1463,13 +1437,10 @@ std::vector<npc *> talk_function::companion_list(std::string id)
 }
 
 npc *talk_function::companion_choose(){
-    std::vector<npc *> available;
-    for( auto &elem : g->active_npc ) {
-        if( g->u.sees( elem->pos() ) && elem->is_friend() &&
-            rl_dist( g->u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem );
-        }
-    }
+    const std::vector<npc *> available = g->get_npcs_if( [&]( const npc &guy ) {
+        return g->u.sees( guy.pos() ) && guy.is_friend() &&
+            rl_dist( g->u.pos(), guy.pos() ) <= 24;
+    } );
 
     if (available.empty()) {
         popup(_("You don't have any companions to send out..."));
@@ -1491,9 +1462,9 @@ npc *talk_function::companion_choose(){
 
 npc *talk_function::companion_choose_return(std::string id, int deadline){
     std::vector<npc *> available;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->companion_mission == id && elem->companion_mission_time <= deadline) {
-            available.push_back( elem );
+    for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {
+        if( guy->get_companion_mission() == id && guy->companion_mission_time <= time_point::from_turn( deadline ) ) {
+            available.push_back( guy.get() );
         }
     }
 
@@ -1551,8 +1522,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((t == t_window || t == t_window_taped ||
-                    t == t_window_domestic || t == t_window_domestic_taped ||
+            else if ((t == t_window || t == t_window_taped || t == t_window_domestic || 
                     t == t_window_boarded_noglass || t == t_window_domestic_taped ||
                     t == t_window_alarm_taped || t == t_window_boarded ||
                     t == t_curtains || t == t_window_alarm ||
@@ -1571,7 +1541,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             }
-            //Kill zombies!  Only works agains pre-spawned enemies at the moment...
+            //Kill zombies!  Only works against pre-spawned enemies at the moment...
             Creature *critter = g->critter_at( p);
             if ( critter != nullptr ) {
                 critter->die(nullptr);

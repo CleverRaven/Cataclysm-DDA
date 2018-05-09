@@ -1,9 +1,9 @@
 [
   {
-    "id" : "water",
-    "type" : "ammunition_type",
-    "name" : "water",
-    "default" : "water"
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
   },
   {
     "id": "water",

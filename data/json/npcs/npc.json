@@ -2,19 +2,19 @@
   {
     "type" : "npc",
     "id" : "old_guard_rep",
-    "comment" : "Appears in the refugee center as a source of missions and info.  Faction critical.",
-    "comment" : "name_suffix is appended to the end of the npc's name.",
-    "comment" : "using 'name_unique' instead will set the guy's name as is.",
+    "//" : "Appears in the refugee center as a source of missions and info.  Faction critical.",
+    "//" : "name_suffix is appended to the end of the npc's name.",
+    "//" : "using 'name_unique' instead will set the guy's name as is.",
     "name_suffix" : "Representative",
-    "comment" : "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
-    "comment" : "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
-    "comment" : "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
+    "//" : "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
+    "//" : "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
+    "//" : "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
     "class" : "NC_COWBOY",
-    "comment" : "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
-    "comment" : "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
+    "//" : "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
+    "//" : "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
     "attitude" : 0,
-    "comment" : "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
-    "comment" : "and 7=NPC_MISSION_GUARD",
+    "//" : "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
+    "//" : "and 7=NPC_MISSION_GUARD",
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_REP",
     "faction" : "old_guard",
@@ -22,7 +22,7 @@
   },{
     "type" : "npc",
     "id" : "old_guard_soldier",
-    "comment" : "Generic guard for the old guard.",
+    "//" : "Generic guard for the old guard.",
     "name_suffix" : "Soldier",
     "class" : "NC_SOLDIER",
     "attitude" : 0,
@@ -32,7 +32,7 @@
   },{
     "type" : "npc",
     "id" : "old_guard_necropolis_cpt",
-    "comment" : "Commander in Necropolis",
+    "//" : "Commander in Necropolis",
     "name_suffix" : "CPT",
     "class" : "NC_SOLDIER",
     "attitude" : 0,
@@ -43,18 +43,18 @@
   },{
       "type" : "npc",
     "id" : "old_guard_necropolis_commo",
-    "comment" : "In charge of outside communications in Necropolis",
+    "//" : "In charge of outside communications in Necropolis",
     "name_suffix" : "SFC",
     "class" : "NC_SOLDIER",
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_COMMO",
     "faction" : "old_guard",
-    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_3"
+    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_1"
   },{
     "type" : "npc",
     "id" : "evac_merchant",
-    "comment" : "Appears in the refugee center as shopkeeper with missions.  Faction critical.",
+    "//" : "Appears in the refugee center as shopkeeper with missions.  Faction critical.",
     "name_suffix" : "Merchant",
     "class" : "NC_EVAC_SHOPKEEP",
     "attitude" : 0,
@@ -65,7 +65,7 @@
   },{
     "type" : "npc",
     "id" : "evac_broker",
-    "comment" : "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
+    "//" : "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
     "name_suffix" : "Broker",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -75,7 +75,7 @@
   },{
     "type" : "npc",
     "id" : "evac_guard1",
-    "comment" : "Appears in the refugee center as a guard with custom dialogue.",
+    "//" : "Appears in the refugee center as a guard with custom dialogue.",
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -85,7 +85,7 @@
   },{
     "type" : "npc",
     "id" : "evac_guard2",
-    "comment" : "Appears in the refugee center as a guard with custom dialogue.",
+    "//" : "Appears in the refugee center as a guard with custom dialogue.",
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -95,7 +95,7 @@
   },{
     "type" : "npc",
     "id" : "evac_guard3",
-    "comment" : "Appears in the refugee center as a guard with custom dialogue.",
+    "//" : "Appears in the refugee center as a guard with custom dialogue.",
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -105,7 +105,7 @@
   },{
     "type" : "npc",
     "id" : "guard",
-    "comment" : "A generic guard for the Free Merchants faction.",
+    "//" : "A generic guard for the Free Merchants faction.",
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -115,7 +115,7 @@
   },{
     "type" : "npc",
     "id" : "hostile_guard",
-    "comment" : "A generic hostile guard for the Free Merchants faction.  For where the player shouldn't venture.'",
+    "//" : "A generic hostile guard for the Free Merchants faction.  For where the player shouldn't venture.'",
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 10,
@@ -125,7 +125,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_foreman",
-    "comment" : "Appears at the ranch after you progress in the refugee center quests.  Faction critical.",
+    "//" : "Appears at the ranch after you progress in the refugee center quests.  Faction critical.",
     "name_suffix" : "Foreman",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -136,7 +136,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_construction_1",
-    "comment" : "Flavor",
+    "//" : "Flavor",
     "name_suffix" : "Carpenter",
     "class" : "NC_HUNTER",
     "attitude" : 0,
@@ -146,7 +146,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_construction_2",
-    "comment" : "Construction skill trainer",
+    "//" : "Construction skill trainer",
     "name_suffix" : "Carpenter",
     "class" : "NC_THUG",
     "attitude" : 0,
@@ -156,7 +156,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_woodcutter_1",
-    "comment" : "Can purchase wood",
+    "//" : "Can purchase wood",
     "name_suffix" : "Lumberjack",
     "class" : "NC_COWBOY",
     "attitude" : 0,
@@ -166,7 +166,7 @@
   },{
     "type" : "npc",
     "id" : "ranch__woodcutter_2",
-    "comment" : "Flavor",
+    "//" : "Flavor",
     "name_suffix" : "Woodworker",
     "class" : "NC_COWBOY",
     "attitude" : 0,
@@ -176,7 +176,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_crop_overseer",
-    "comment" : "Flavor",
+    "//" : "Flavor",
     "name_suffix" : "Crop Overseer",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -186,7 +186,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_farmer_1",
-    "comment" : "Flavor",
+    "//" : "Flavor",
     "name_suffix" : "Farmer",
     "class" : "NC_THUG",
     "attitude" : 0,
@@ -196,7 +196,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_farmer_2",
-    "comment" : "Flavor",
+    "//" : "Flavor",
     "name_suffix" : "Farmer",
     "class" : "NC_HUNTER",
     "attitude" : 0,
@@ -206,7 +206,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_ill_1",
-    "comment" : "Flavor",
+    "//" : "Flavor",
     "name_suffix" : "Laborer",
     "class" : "NC_HUNTER",
     "attitude" : 0,
@@ -216,7 +216,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_nurse_1",
-    "comment" : "Mission source for clinic.  Provides medical attention.",
+    "//" : "Mission source for clinic.  Provides medical attention.",
     "name_suffix" : "Nurse",
     "gender" : "female",
     "class" : "NC_HUNTER",
@@ -228,7 +228,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_doctor",
-    "comment" : "Provides advanced medical attention.",
+    "//" : "Provides advanced medical attention.",
     "name_suffix" : "Doctor",
     "class" : "NC_DOCTOR",
     "attitude" : 0,
@@ -238,7 +238,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_scrapper_1",
-    "comment" : "Flavor",
+    "//" : "Flavor",
     "name_suffix" : "Scrapper",
     "class" : "NC_HUNTER",
     "attitude" : 0,
@@ -248,7 +248,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_scavenger_1",
-    "comment" : "Mission source, shopkeep",
+    "//" : "Mission source, shopkeep",
     "name_suffix" : "Scavenger Boss",
     "class" : "NC_JUNK_SHOPKEEP",
     "attitude" : 0,
@@ -259,7 +259,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_bartender",
-    "comment" : "Mission source, shopkeep",
+    "//" : "Mission source, shopkeep",
     "name_suffix" : "Bartender",
     "class" : "NC_BARTENDER",
     "attitude" : 0,
@@ -270,7 +270,7 @@
   },{
     "type" : "npc",
     "id" : "ranch_barber",
-    "comment" : "Provides hair cuts",
+    "//" : "Provides hair cuts",
     "name_suffix" : "Barber",
     "class" : "NC_HUNTER",
     "attitude" : 0,
@@ -280,7 +280,7 @@
   },{
     "type" : "npc",
     "id" : "commune_guard",
-    "comment" : "A generic guard for the Tacoma Commune faction.",
+    "//" : "A generic guard for the Tacoma Commune faction.",
     "name_suffix" : "Guard",
     "class" : "NC_BOUNTY_HUNTER",
     "attitude" : 0,
@@ -290,7 +290,7 @@
   },{
     "type" : "npc",
     "id" : "scavenger_hunter",
-    "comment" : "Appears in the refugee center as a trader.",
+    "//" : "Appears in the refugee center as a trader.",
     "name_suffix" : "Hunter",
     "class" : "NC_HUNTER",
     "attitude" : 0,
@@ -300,7 +300,7 @@
   },{
     "type" : "npc",
     "id" : "scavenger_merc",
-    "comment" : "Appears in the refugee center as a partner for hire.",
+    "//" : "Appears in the refugee center as a partner for hire.",
     "name_suffix" : "Merc",
     "class" : "NC_COWBOY",
     "attitude" : 0,
@@ -310,10 +310,10 @@
   },{
     "type" : "npc",
     "id" : "arsonist",
-    "comment" : "Appears in the refugee center as a unique trader and potential mission provider.",
+    "//" : "Appears in the refugee center as a unique trader and potential mission provider.",
     "name_unique" : "Makayla Sanchez",
     "name_suffix" : "Arsonist",
-    "comment" : "Gender is only referenced when the npc has a complete unique name",
+    "//" : "Gender is only referenced when the npc has a complete unique name",
     "gender" : "female",
     "class" : "NC_ARSONIST",
     "attitude" : 0,
@@ -323,7 +323,7 @@
   },{
     "type" : "npc",
     "id" : "thug",
-    "comment" : "Generic melee focused guard for the Hell's Raiders faction.",
+    "//" : "Generic melee focused guard for the Hell's Raiders faction.",
     "name_suffix" : "Thug",
     "class" : "NC_THUG",
     "attitude" : 0,
@@ -333,7 +333,7 @@
   },{
     "type" : "npc",
     "id" : "bandit",
-    "comment" : "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
+    "//" : "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
     "name_suffix" : "Bandit",
     "class" : "NC_SCAVENGER",
     "attitude" : 0,
@@ -343,7 +343,7 @@
   },{
     "type" : "npc",
     "id" : "apis",
-    "comment" : "Bee mutant or mutant bee (supposed to be ambiguous). Should be 'it', but we'll go with 'she' because it's a bee.",
+    "//" : "Bee mutant or mutant bee (supposed to be ambiguous). Should be 'it', but we'll go with 'she' because it's a bee.",
     "name_unique" : "Apis",
     "class" : "NC_APIS",
     "gender" : "female",

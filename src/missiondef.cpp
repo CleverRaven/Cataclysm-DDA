@@ -65,14 +65,14 @@ enum legacy_mission_type_id {
     MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
     MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
     MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
-    MISSION_RANCH_NURSE_1,                 //Need asprin
+    MISSION_RANCH_NURSE_1,                 //Need aspirin
     MISSION_RANCH_NURSE_2,                 //Need hotplates
     MISSION_RANCH_NURSE_3,                 //Need multivitamins
     MISSION_RANCH_NURSE_4,                 //Need charcoal water filters
     MISSION_RANCH_NURSE_5,                 //Need chemistry set
     MISSION_RANCH_NURSE_6,                 //Need filter masks
     MISSION_RANCH_NURSE_7,                 //Need rubber gloves
-    MISSION_RANCH_NURSE_8,                 //Need X-acto
+    MISSION_RANCH_NURSE_8,                 //Need X-Acto
     MISSION_RANCH_NURSE_9,                 //Need Guide to Advanced Emergency Care
     MISSION_RANCH_NURSE_10,                //Need flu shot
     MISSION_RANCH_NURSE_11,                //Need empty syringes
@@ -198,6 +198,7 @@ static const std::map<std::string, mission_goal> goal_map = {{
     { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
     { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
     { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
+    { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
     { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
     { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
     { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE }
@@ -211,10 +212,6 @@ mission_goal string_to_enum<mission_goal>( const std::string &data )
 
 
 generic_factory<mission_type> mission_type_factory( "mission_type" );
-
-/** @relates string_id */
-template<>
-const mission_type_id string_id<mission_type>::NULL_ID( "MISSION_NULL" );
 
 /** @relates string_id */
 template<>
@@ -257,7 +254,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
@@ -273,7 +270,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
     } ) ) {
         auto djo = jo.get_object( "dialogue" );
-        // @todo There should be a cleaner way to do it
+        // @todo: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
         mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
@@ -438,5 +435,5 @@ mission_type_id mission_type::get_random_id( const mission_origin origin, const 
             valid.push_back( t.id );
         }
     }
-    return random_entry( valid, NULL_ID );
+    return random_entry( valid, mission_type_id::NULL_ID() );
 }

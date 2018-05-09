@@ -6,7 +6,8 @@
 #include "veh_type.h"
 #include "player.h"
 
-TEST_CASE( "destroy_grabbed_vehicle_section" ) {
+TEST_CASE( "destroy_grabbed_vehicle_section" )
+{
     GIVEN( "A vehicle grabbed by the player" ) {
         tripoint test_origin( 60, 60, 0 );
         g->u.setpos( test_origin );

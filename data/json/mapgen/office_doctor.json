@@ -1,0 +1,149 @@
+[
+  {
+    "id": "record_patient",
+    "type": "item_group",
+    "items": [ [ "record_patient", 100 ] ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_doctor" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        "   ###################  ",
+        "   #..C#.&.s#..eccScc#  ",
+        "   #...+....+........;~ ",
+        "   ##########.......5#r ",
+        "   #o.......#..###X###r ",
+        "   #d.hd.h..+..#H...6#  ",
+        "   #o.......#..#H...O#  ",
+        "   ##########..#H...O#  ",
+        "   #I....ccS#..#HHllO#  ",
+        "   #I..t....+..#######  ",
+        "   #I.......#..#....I#  ",
+        "   ##########..#.t..I#  ",
+        "   #&.#d.......!....I#  ",
+        "   #s.#d.h..#..#Scc..#  ",
+        "   ##+##ccc##++#######  ",
+        "   #.................#  ",
+        "   w....bbbb....bbbb.w  ",
+        "   w.................w  ",
+        "   #....bbbb....bbbb.#  ",
+        "   #.................#  ",
+        "   ##++##wwww#wwww####  ",
+        "     ~~                 ",
+        "     ~~                 "
+      ],
+      "palettes": [
+        "office_doctor"
+      ],
+      "items": {
+        "C": { "item": "cleaning", "chance": 50 },
+        "H": { "item": "harddrugs", "chance": 60 },
+        "I": { "item": "dissection", "chance": 60 },
+        "O": { "item": "softdrugs", "chance": 60 },
+        "S": { "item": "gear_medical", "chance": 30 },
+        "c": { "item": "gear_medical", "chance": 30 },
+        "e": { "item": "fridge", "chance": 50 },
+        "t": { "item": "gear_medical", "chance": 30 }
+      },
+      "place_items": [
+        { "item": "record_patient", "x": 7, "y": 6, "chance": 50 }
+      ],
+      "computers": {
+        "5": {
+          "name": "Medical Supply Access", "options": [ { "name": "Unlock Door", "action": "unlock" } ], "failures": [
+            { "action": "shutdown" },
+            { "action": "alarm" }
+          ]
+        },
+        "6": {
+          "name": "Medical Supply Access", "options": [
+            { "name": "Lock Door", "action": "lock" },
+            { "name": "Unlock Door", "action": "unlock" }
+          ], "failures": [
+            { "action": "shutdown" },
+            { "action": "alarm" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "doctors_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_firstaid", 50 ],
+      [ "textbook_firstaid", 200 ],
+      [ "manual_swimming", 50 ],
+      [ "manual_first_aid", 200 ],
+      [ "pocket_firstaid", 100 ],
+      [ "textbook_chemistry", 200 ],
+      [ "adv_chemistry", 200 ],
+      [ "emergency_book", 200 ],
+      [ "record_patient", 100 ],
+      [ "recipe_medicalmut", 50 ],
+      [ "recipe_serum", 10 ],
+      [ "recipe_labchem", 100 ],
+      [ "recipe_augs", 100 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_doctor" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "           ~~           ",
+        "           ~~           ",
+        "   ###0####::###ww###   ",
+        "   #dh...o#..#thh.ht#   ",
+        "   #d%...y#::#h....h#   ",
+        "   ####+###........h#   ",
+        "   #..#..+........ht#   ",
+        "   #B.#..#9999#..####   ",
+        "   #s.#..#%c%c#..#B.#   ",
+        "   #..+..#....#..#.c#   ",
+        "   #cc#..#h...#..+.c#   ",
+        "   ####..###+##..####   ",
+        "   #$$#..co..h%..#B.#   ",
+        "   #..!......hc..#.c#   ",
+        "   #$$#..%h...c..+.c#   ",
+        "   ####..ccc.cc..####   ",
+        "   #..!.............;   ",
+        "   #oo#.............#   ",
+        "   ####+#+###+#####+#   ",
+        "   #d...#.s#s.#.....#   ",
+        "   #%h.o#.&#&.#ooooo#   ",
+        "   ##0###############   ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "office_doctor"
+      ],
+      "place_loot": [
+        { "group": "waitingroom", "x": 14, "y": 3, "chance": 60 },
+        { "group": "waitingroom", "x": 19, "y": 3, "chance": 60 },
+        { "group": "waitingroom", "x": 19, "y": 6, "chance": 60 },
+        { "group": "gear_medical", "x": 19, "y": [ 9, 10 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "gear_medical", "x": 19, "y": [ 13, 14 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "cleaning", "x": [ 15, 19 ], "y": 20, "chance": 50, "repeat": [ 1, 5 ] },
+        { "group": "gear_medical", "x": 10, "y": 12, "chance": 50, "repeat": [ 2, 5 ] },
+        { "group": "softdrugs", "x": [ 4, 5 ], "y": 17, "chance": 40, "repeat": [ 1, 4 ] },
+        { "group": "office", "x": 4, "y": 19, "chance": 50 },
+        { "group": "office", "x": 4, "y": [ 3, 4 ], "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "doctors_books", "x": 9, "y": 3, "chance": 40 },
+        { "group": "doctors_books", "x": 7, "y": 20, "chance": 40 },
+        { "group": "gear_medical", "x": [ 4, 5 ], "y": 10, "chance": 60, "repeat": [ 2, 5 ] },
+        { "group": "drugs_analgesic", "x": [ 4, 5 ], "y": 12, "chance": 75 },
+        { "group": "drugs_rare", "x": [ 4, 5 ], "y": 14, "chance": 75 }
+      ]
+    }
+  }
+]

@@ -5,7 +5,8 @@
 #include "item.h"
 
 
-TEST_CASE( "visitable_summation" ) {
+TEST_CASE( "visitable_summation" )
+{
     inventory test_inv;
 
     item bottle_of_water( "bottle_plastic", calendar::turn );

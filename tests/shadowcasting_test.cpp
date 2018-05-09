@@ -479,8 +479,10 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     float seen_squares[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
     float transparency_cache[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
 
-    for( int y = 0; y < sizeof( transparency_cache ) / sizeof( transparency_cache[0] ); ++y ) {
-        for( int x = 0; x < sizeof( transparency_cache[0] ) / sizeof( transparency_cache[0][0] ); ++x ) {
+    for( int y = 0; y < static_cast<int>( sizeof( transparency_cache ) /
+                                          sizeof( transparency_cache[0] ) ); ++y ) {
+        for( int x = 0; x < static_cast<int>( sizeof( transparency_cache[0] ) /
+                                              sizeof( transparency_cache[0][0] ) ); ++x ) {
             transparency_cache[ y ][ x ] = test_case.get_global( x, y );
         }
     }

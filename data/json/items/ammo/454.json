@@ -10,12 +10,12 @@
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "light_gray",
-    "count": 10,
-    "stack_size": 10,
+    "count": 20,
+    "stack_size": 15,
     "ammo_type": "454",
     "casing": "454_casing",
     "range": 16,
-    "damage": 56,
+    "damage": 48,
     "pierce": 8,
     "dispersion": 30,
     "recoil": 2500,
@@ -26,11 +26,7 @@
     "copy-from": "454_Casull",
     "type": "AMMO",
     "name": "reloaded .454 Casull",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }

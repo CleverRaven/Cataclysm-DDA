@@ -31,7 +31,7 @@
     "name_plural": ".357 Magnum +P",
     "//": "+2 hollowpoint bonus to damage.",
     "description": "A .357 Magnum +P cartridge loaded with 125gr JHP bullets.  A high-power version of the already-powerful .357 Magnum.",
-    "count": 35,
+    "count": 20,
     "relative": {
       "price": 300,
       "range": 1,
@@ -88,7 +88,8 @@
     "type": "AMMO",
     "name": ".38 Super",
     "name_plural": ".38 Super",
-    "extend": { "ammo_type": [ "357_mag", "38_super" ] }
+    "extend": { "ammo_type": [ "357_mag", "38_super" ] },
+    "delete": { "ammo_type": [ "38" ] }
   },
   {
     "id": "reloaded_38_fmj",
@@ -112,7 +113,8 @@
     "type": "AMMO",
     "name": "reloaded .38 Super",
     "name_plural": "reloaded .38 Super",
-    "extend": { "ammo_type": [ "357_mag", "38_super" ] }
+    "extend": { "ammo_type": [ "357_mag", "38_super" ] },
+    "delete": { "ammo_type": [ "38" ] }
   },
   {
     "id": "40sw",
@@ -171,6 +173,8 @@
     "name": "reloaded 10mm Auto",
     "name_plural": "reloaded 10mm Auto",
     "description": "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
+    "range": 16,
+    "recoil": 915,
     "delete": { "ammo_type": [ "40" ] }
   },
   {
@@ -181,6 +185,55 @@
     "description": "An empty casing from a .357 Magnum round.",
     "weight": 3,
     "volume": "4ml"
+  },
+  {
+    "id": "50bmg",
+    "copy-from": "50bmg",
+    "type": "AMMO",
+    "name": ".50 BMG Ball",
+    "damage": 134,
+    "recoil": 18013
+  },
+  {
+    "id": "50_incendiary",
+    "copy-from": "50_incendiary",
+    "type": "AMMO",
+    "name": ".50 BMG tracer",
+    "damage": 134,
+    "recoil": 18013
+  },
+  {
+    "id": "50ss",
+    "copy-from": "50ss",
+    "type": "AMMO",
+    "name": ".50 BMG AP",
+    "name_plural": ".50 BMG AP",
+    "damage": 131,
+    "recoil": 17097
+  },
+  {
+    "id": "reloaded_50bmg",
+    "copy-from": "reloaded_50bmg",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG Ball",
+    "damage": 121,
+    "recoil": 18013
+  },
+  {
+    "id": "reloaded_50_incendiary",
+    "copy-from": "reloaded_50_incendiary",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG tracer",
+    "damage": 121,
+    "recoil": 18013
+  },
+  {
+    "id": "reloaded_50ss",
+    "copy-from": "reloaded_50ss",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG AP",
+    "damage": 118,
+    "recoil": 17097
   },
   {
     "id": "45lc_casing",

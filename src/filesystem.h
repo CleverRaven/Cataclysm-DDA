@@ -10,6 +10,7 @@ bool file_exist( const std::string &path );
 // Remove a file, does not remove folders,
 // returns true on success
 bool remove_file( const std::string &path );
+bool remove_directory( const std::string &path );
 // Rename a file, overriding the target!
 bool rename_file( const std::string &old_path, const std::string &new_path );
 
@@ -47,4 +48,7 @@ std::vector<std::string> get_directories_with( std::vector<std::string> const &p
 
 std::vector<std::string> get_directories_with( std::string const &pattern,
         std::string const &root_path = "", bool const recurse = false );
+
+bool copy_file( const std::string &source_path, const std::string &dest_path );
+
 #endif //CATA_FILE_SYSTEM_H

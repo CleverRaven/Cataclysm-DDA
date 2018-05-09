@@ -268,6 +268,22 @@
     ]
   },
   {
+    "result": "flotation_vest_ms",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 150000,
+    "autolearn": true,
+    "using": [ [ "filament", 360 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
+      [ [ "rope_6", 2 ] ]
+    ]
+  },
+  {
     "result": "greatcoat",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -1013,5 +1029,22 @@
     "using": [ [ "filament", 100 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "felt_patch", 13 ] ] ]
+  },
+  {
+    "result": "chainmail_vest",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 70000,
+    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ] ],
+    "components": [
+      [ [ "link_sheet", 7 ] ],
+      [ [ "chain_link", 175 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
   }
 ]

@@ -5,12 +5,14 @@
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "iexamine.h"
 #include "player.h"
 #include "options.h"
 #include "messages.h"
 #include "translations.h"
 #include "input.h"
 #include "crafting.h"
+#include "map_iterator.h"
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
@@ -23,7 +25,6 @@
 #include <iterator>
 #include <algorithm>
 
-extern input_context get_default_mode_input_context();
 extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
@@ -49,7 +50,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
-        if( id == "" ) {
+        if( id.empty() ) {
             getline( keymap_txt, id );  // Empty line, chomp it
         } else if( id == "unbind" ) {
             keymap_txt >> id;
@@ -285,6 +286,8 @@ std::string action_ident( action_id act )
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+            return "toggle_auto_pulp_butcher";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -307,6 +310,8 @@ std::string action_ident( action_id act )
             return "open_safemode";
         case ACTION_COLOR:
             return "open_color";
+        case ACTION_WORLD_MODS:
+            return "open_world_mods";
         case ACTION_NULL:
             return "null";
         default:
@@ -351,6 +356,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_AUTOPICKUP:
         case ACTION_SAFEMODE:
         case ACTION_COLOR:
+        case ACTION_WORLD_MODS:
         // Debug Functions
         case ACTION_TOGGLE_SIDEBAR_STYLE:
         case ACTION_TOGGLE_FULLSCREEN:
@@ -360,6 +366,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
         case ACTION_TIMEOUT:
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return false;
         default:
             return true;
@@ -466,7 +473,7 @@ bool can_butcher_at( const tripoint &p )
             if( factor != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ) ) {
+        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -494,9 +501,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 bool can_examine_at( const tripoint &p )
 {
     int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = g->m.veh_at( p, veh_part );
+    vehicle *veh = g->m.veh_at( p, veh_part );
     if( veh ) {
         return true;
     }
@@ -536,7 +541,7 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_BUTCHER:
             return can_butcher_at( p );
         case ACTION_MOVE_UP:
-            return can_move_vertical_at( p , 1 );
+            return can_move_vertical_at( p, 1 );
         case ACTION_MOVE_DOWN:
             return can_move_vertical_at( p, -1 );
             break;
@@ -554,12 +559,12 @@ action_id handle_action_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
 
-#define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
+#define REGISTER_ACTION(name) entries.emplace_back(uimenu_entry(name, true, hotkey_for_action(name), \
         ctxt.get_action_name(action_ident(name))));
 #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
     catgname = name; \
     catgname += "..."; \
-    entries.push_back(uimenu_entry(last_category, true, -1, catgname)); \
+    entries.emplace_back(uimenu_entry(last_category, true, -1, catgname)); \
     last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
@@ -586,9 +591,7 @@ action_id handle_action_menu()
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
         int veh_part = 0;
-        vehicle *veh = NULL;
-
-        veh = g->m.veh_at( g->u.pos(), veh_part );
+        vehicle *veh = g->m.veh_at( g->u.pos(), veh_part );
         if( veh ) {
             // Make it 300 to prioritize it before examining the vehicle.
             action_weightings[ACTION_CONTROL_VEHICLE] = 300;
@@ -597,34 +600,28 @@ action_id handle_action_menu()
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz();
-            const tripoint pos( x, y, z );
-            if( dx != 0 || dy != 0 ) {
-                // Check for actions that work on nearby tiles
-                if( can_interact_at( ACTION_OPEN, pos ) ) {
-                    action_weightings[ACTION_OPEN] = 200;
-                }
-                if( can_interact_at( ACTION_CLOSE, pos ) ) {
-                    action_weightings[ACTION_CLOSE] = 200;
-                }
-                if( can_interact_at( ACTION_EXAMINE, pos ) ) {
-                    action_weightings[ACTION_EXAMINE] = 200;
-                }
-            } else {
-                // Check for actions that work on own tile only
-                if( can_interact_at( ACTION_BUTCHER, pos ) ) {
-                    action_weightings[ACTION_BUTCHER] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
-                    action_weightings[ACTION_MOVE_UP] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
-                    action_weightings[ACTION_MOVE_DOWN] = 200;
-                }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( pos != g->u.pos() ) {
+            // Check for actions that work on nearby tiles
+            if( can_interact_at( ACTION_OPEN, pos ) ) {
+                action_weightings[ACTION_OPEN] = 200;
+            }
+            if( can_interact_at( ACTION_CLOSE, pos ) ) {
+                action_weightings[ACTION_CLOSE] = 200;
+            }
+            if( can_interact_at( ACTION_EXAMINE, pos ) ) {
+                action_weightings[ACTION_EXAMINE] = 200;
+            }
+        } else {
+            // Check for actions that work on own tile only
+            if( can_interact_at( ACTION_BUTCHER, pos ) ) {
+                action_weightings[ACTION_BUTCHER] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
+                action_weightings[ACTION_MOVE_UP] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
+                action_weightings[ACTION_MOVE_DOWN] = 200;
             }
         }
     }
@@ -639,7 +636,7 @@ action_id handle_action_menu()
     // Default category is called "back"
     std::string category = "back";
 
-    while( 1 ) {
+    while( true ) {
         std::vector<uimenu_entry> entries;
         uimenu_entry *entry;
         std::map<int, std::string> categories_by_int;
@@ -675,7 +672,7 @@ action_id handle_action_menu()
                 entry->txt += "...";        // help _is_a menu.
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with globalkey
+                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
@@ -741,6 +738,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_PULP_BUTCHER );
         } else if( category == _( "Craft" ) ) {
             REGISTER_ACTION( ACTION_CRAFT );
             REGISTER_ACTION( ACTION_RECRAFT );
@@ -774,8 +772,8 @@ action_id handle_action_menu()
         if( category == "back" ) {
             title = _( "Cancel" );
         }
-        entries.push_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                         hotkey_for_action( ACTION_ACTIONMENU ), title ) );
+        entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
+                                            hotkey_for_action( ACTION_ACTIONMENU ), title ) );
 
         title = _( "Actions" );
         if( category != "back" ) {
@@ -785,9 +783,9 @@ action_id handle_action_menu()
         }
 
         int width = 0;
-        for( auto &entrie : entries ) {
-            if( width < ( int )entrie.txt.length() ) {
-                width = entrie.txt.length();
+        for( auto &cur_entry : entries ) {
+            if( width < ( int )cur_entry.txt.length() ) {
+                width = cur_entry.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
@@ -824,10 +822,10 @@ action_id handle_main_menu()
     std::vector<uimenu_entry> entries;
 
     auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.push_back( uimenu_entry( name, true, hotkey_for_action( name ),
-                                         ctxt.get_action_name( action_ident( name ) )
-                                       )
-                         );
+        entries.emplace_back( uimenu_entry( name, true, hotkey_for_action( name ),
+                                            ctxt.get_action_name( action_ident( name ) )
+                                          )
+                            );
     };
 
     REGISTER_ACTION( ACTION_HELP );
@@ -836,14 +834,15 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_SAFEMODE );
     REGISTER_ACTION( ACTION_COLOR );
+    REGISTER_ACTION( ACTION_WORLD_MODS );
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
 
     int width = 0;
-    for( auto &entrie : entries ) {
-        if( width < ( int )entrie.txt.length() ) {
-            width = entrie.txt.length();
+    for( auto &entry : entries ) {
+        if( width < ( int )entry.txt.length() ) {
+            width = entry.txt.length();
         }
     }
     //border=2, selectors=3, after=3 for balance.
@@ -940,18 +939,11 @@ bool choose_adjacent_highlight( std::string message, tripoint &p,
 {
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz(); // TODO: Z
-            tripoint pos( x, y, z );
-
-            if( can_interact_at( action_to_highlight, pos ) ) {
-                highlighted = true;
-                g->m.drawsq( g->w_terrain, g->u, pos,
-                             true, true, g->u.pos() + g->u.view_offset );
-            }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( can_interact_at( action_to_highlight, pos ) ) {
+            highlighted = true;
+            g->m.drawsq( g->w_terrain, g->u, pos,
+                         true, true, g->u.pos() + g->u.view_offset );
         }
     }
     if( highlighted ) {

@@ -4,6 +4,10 @@
 #include "cursesdef.h"
 #include "wcwidth.h"
 #include "options.h"
+#if (defined _WIN32 || defined WINDOWS)
+#include "platform_win.h"
+#include "mmsystem.h"
+#endif
 
 //copied from SDL2_ttf code
 //except type changed from unsigned to uint32_t
@@ -112,12 +116,15 @@ std::string utf32_to_utf8(uint32_t ch)
     case 4:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
+        /* fallthrough */
     case 3:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
+        /* fallthrough */
     case 2:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
+        /* fallthrough */
     case 1:
         *--buf = ch | utf8FirstByte[utf8Bytes];
     }
@@ -125,7 +132,7 @@ std::string utf32_to_utf8(uint32_t ch)
     return out;
 }
 
-//Calculate width of a unicode string
+//Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
 int utf8_width(const char *s, const bool ignore_tags)
@@ -200,80 +207,6 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
         }
     }
     return i;
-}
-
-//Erase character by unicode char width.
-//Fill the characters with spaces.
-//returns length modified
-int erease_utf8_by_cw( char *t, int cw, int clen, int maxlen)
-{
-    static char buf[8000]; //LOL
-    int c = 0, i = 0;
-    while(c < cw) {
-        const char *utf8str = t + i;
-        int len = ANY_LENGTH;
-        uint32_t ch = UTF8_getch(&utf8str, &len);
-        int cw = mk_wcwidth(ch);
-        len = ANY_LENGTH - len;
-
-        if( len <= 0 ) {
-            len = 1;
-        }
-        if( maxlen < (i + len) ) {
-            break;
-        }
-        i += len;
-        if(cw <= 0) {
-            cw = 1;
-        }
-        c += cw;
-    }
-    if(cw == c && clen == i) {
-        memset(t, ' ', clen);
-        return 0;
-    } else {
-        int filled = clen + c - cw;
-        memcpy(buf, t + i, maxlen - i);
-        memset(t, ' ', filled);
-        memcpy(t + filled, buf, maxlen - filled);
-        return filled - i;
-    }
-
-}
-
-//cut ut8 string by character size
-//utf8_substr("正正正正", 1, 4) returns
-// " 正 "
-// Broken characters will be filled with space
-std::string utf8_substr(std::string s, int start, int size)
-{
-    static char buf[8000];
-    int len = strlen(s.c_str());
-    int pos;
-    strcpy(buf, s.c_str());
-    int begin = cursorx_to_position( buf, start, &pos, len );
-    if(begin != pos) {
-        const char *ts = buf + pos;
-        int l = ANY_LENGTH;
-        uint32_t tc = UTF8_getch(&ts, &l);
-        int tw = mk_wcwidth(tc);
-        erease_utf8_by_cw(buf + pos, tw, tw, len - pos - 1);
-    }
-
-    if(size > 0) {
-        int end = cursorx_to_position( buf, start + size - 1, &pos, len );
-        if(end != pos) {
-            const char *ts = buf + pos;
-            int l = ANY_LENGTH;
-            uint32_t tc = UTF8_getch(&ts, &l);
-            int tw = mk_wcwidth(tc);
-            erease_utf8_by_cw(buf + pos, tw, tw, len - pos - 1);
-            end = pos + tw - 1;
-        }
-        buf[end + 1] = '\0';
-    }
-
-    return std::string(buf + start);
 }
 
 std::string utf8_truncate(std::string s, size_t length)
@@ -404,14 +337,14 @@ std::string base64_decode(std::string str)
     return decoded_data;
 }
 
-inline void strip_trailing_nulls( std::wstring &str )
+static void strip_trailing_nulls( std::wstring &str )
 {
     while( !str.empty() && str.back() == '\0' ) {
         str.pop_back();
     }
 }
 
-inline void strip_trailing_nulls( std::string &str )
+static void strip_trailing_nulls( std::string &str )
 {
     while( !str.empty() && str.back() == '\0' ) {
         str.pop_back();
@@ -427,7 +360,7 @@ std::wstring utf8_to_wstr( const std::string &str )
     strip_trailing_nulls( wstr );
     return wstr;
 #else
-    std::size_t sz = std::mbstowcs( NULL, str.c_str(), str.size() );
+    std::size_t sz = std::mbstowcs( NULL, str.c_str(), 0 ) + 1;
     std::wstring wstr( sz, '\0' );
     std::mbstowcs( &wstr[0], str.c_str(), sz );
     strip_trailing_nulls( wstr );
@@ -444,7 +377,7 @@ std::string wstr_to_utf8( const std::wstring &wstr )
     strip_trailing_nulls( str );
     return str;
 #else
-    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), wstr.size() );
+    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), 0 ) + 1;
     std::string str( sz, '\0' );
     std::wcstombs( &str[0], wstr.c_str(), sz );
     strip_trailing_nulls( str );

@@ -15,10 +15,7 @@
     "ammo_type": "weldgas",
     "effects": [ "COOKOFF" ],
     "explode_in_fire": true,
-    "explosion": {
-      "power": 20,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
   }
 ]

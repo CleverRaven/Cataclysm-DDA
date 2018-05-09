@@ -13,6 +13,9 @@
 #include <bitset>
 #include <string>
 #include <memory>
+#include <map>
+#include <utility>
+#include <array>
 
 using itype_id = std::string;
 
@@ -25,7 +28,6 @@ class JsonObject;
 struct vehicle_item_spawn;
 struct quality;
 using quality_id = string_id<quality>;
-typedef int nc_color;
 class Character;
 
 struct requirement_data;
@@ -34,7 +36,7 @@ using requirement_id = string_id<requirement_data>;
 class Skill;
 using skill_id = string_id<Skill>;
 
-// bitmask backing store of -certian- vpart_info.flags, ones that
+// bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
@@ -67,6 +69,7 @@ enum vpart_bitflags : int {
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
+    VPFLAG_WASHING_MACHINE,
 
     NUM_VPFLAGS
 };
@@ -97,8 +100,8 @@ class vpart_info
         std::string location;
 
         /** Color of part for different states */
-        nc_color color = c_ltgray;
-        nc_color color_broken = c_ltgray;
+        nc_color color = c_light_gray;
+        nc_color color_broken = c_light_gray;
 
         /**
          * Symbol of part which will be translated as follows:
@@ -229,7 +232,7 @@ class vpart_info
 struct vehicle_item_spawn {
     point pos;
     int chance;
-    /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+    /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;

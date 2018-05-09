@@ -7,12 +7,12 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "weight": 11974,
+    "weight": 7000,
     "volume": 6,
     "price": 18000,
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ ["JACK", 16 ] ]
+    "qualities": [ [ "JACK", 16 ] ]
   },
   {
     "id": "jack_makeshift",
@@ -27,7 +27,7 @@
     "price": 800,
     "bashing": 4,
     "to_hit": -2,
-    "qualities": [ ["JACK", 3 ] ]
+    "qualities": [ [ "JACK", 3 ] ]
   },
   {
     "id": "jack_small",
@@ -37,12 +37,12 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "weight": 1200,
+    "weight": 3000,
     "volume": 3,
     "price": 5000,
     "bashing": 4,
     "to_hit": -2,
-    "qualities": [ ["JACK", 4 ] ]
+    "qualities": [ [ "JACK", 4 ] ]
   },
   {
     "id": "oxy_torch",
@@ -60,8 +60,6 @@
     "charges_per_use": 4,
     "use_action": "OXYTORCH",
     "qualities": [ [ "WELD", 2 ] ],
-    "magazines": [
-        [ "weldgas", [ "weldtank", "tinyweldtank" ] ]
-    ]
+    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ]
   }
 ]

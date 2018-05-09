@@ -21,6 +21,11 @@
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 2000,
+        "using": [ [ "adhesive", 1 ] ]
       }
     },
     "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
@@ -46,6 +51,11 @@
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 2000,
+        "using": [ [ "adhesive", 1 ] ]
       }
     },
     "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ]
@@ -69,11 +79,12 @@
     "color": "white",
     "broken_color": "blue",
     "durability": 20,
-    "epower": -2000,
+    "epower": -1500,
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": 8,
     "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
@@ -86,6 +97,11 @@
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 2000,
+        "using": [ [ "adhesive", 1 ] ]
       }
     },
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
@@ -104,7 +120,10 @@
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": 1,
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "scrap", "count": [ 0, 2 ] }
+    ],
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -114,6 +133,11 @@
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 2000,
+        "using": [ [ "adhesive", 1 ] ]
       }
     },
     "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
@@ -154,6 +178,11 @@
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 2000,
+        "using": [ [ "adhesive", 1 ] ]
       }
     },
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]

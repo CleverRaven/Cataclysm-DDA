@@ -59,6 +59,7 @@
       { "x": 0, "y": 0, "chance": 20, "items": [ "mustard" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "mayonnaise" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "onion" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "chili_pepper" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "lettuce" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "tomato" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "cheese" ] }
@@ -237,6 +238,22 @@
       { "x": 0, "y": 0, "part": "wheel_wheelchair" },
       { "x": 0, "y": 0, "part": "hand_rims" },
       { "x": 0, "y": 0, "part": "basketsm" }
+    ]
+  },
+  {
+    "id": "laundry_cart",
+    "type": "vehicle",
+    "name": "Laundry Cart",
+    "blueprint": [ "o" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "basketlg" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 40, "item_groups": [ "shirts" ] },
+      { "x": 0, "y": 0, "chance": 40, "item_groups": [ "pants" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "underwear" ] }
     ]
   }
 ]

@@ -18,7 +18,7 @@
     "ranged_damage": 4,
     "dispersion": 280,
     "durability": 6,
-    "burst": 30,
+    "burst": 20,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
@@ -55,7 +55,7 @@
     "type": "GUN",
     "name": "Mossberg Brownie",
     "name_plural": "Mossberg Brownie",
-    "description": "The first gun produced by O.F. Mossberg & Sons. A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
+    "description": "The first gun produced by O.F. Mossberg & Sons.  A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
     "weight": 364,
     "volume": 2,
     "price": 110000,

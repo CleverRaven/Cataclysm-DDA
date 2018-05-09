@@ -2,12 +2,17 @@
 #include "game.h" // TODO: This is a circular dependency
 #include "map.h"
 #include "mapdata.h"
+#include "iexamine.h"
 #include "generic_factory.h"
+#include "player.h"
+#include "output.h"
 #include "messages.h"
 #include "json.h"
 #include "vehicle.h"
 
 #include <string>
+#include <algorithm>
+#include <vector>
 
 // Gates namespace
 
@@ -234,7 +239,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         if( mon->is_player() ) {
             who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
         } else if( mon->is_monster() ) {
-            // TODO: Houseflies, mosquitos, etc shouldn't count
+            // TODO: Houseflies, mosquitoes, etc shouldn't count
             who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name().c_str() );
         } else {
             who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name().c_str() );

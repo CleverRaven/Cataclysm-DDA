@@ -1,8 +1,13 @@
 #include "path_info.h"
 #include "options.h"
 #include "filesystem.h"
+#include "translations.h"
 #include <cstdlib>
 #include <locale.h>
+
+#if (defined _WIN32 || defined WINDOW)
+#include "windows.h"
+#endif
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -105,11 +110,12 @@ void PATH_INFO::update_config_dir()
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
+    update_pathname("base_colors", FILENAMES["config_dir"] + "base_colors.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
     update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
 }
 
-void PATH_INFO::set_standard_filenames(void)
+void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
@@ -135,7 +141,6 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
     update_pathname("jsondir", FILENAMES["datadir"] + "core/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
-    update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
@@ -184,8 +189,10 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
+    update_pathname("base_colors", FILENAMES["config_dir"] + "base_colors.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
     update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
+    update_pathname("user_moddir", FILENAMES["user_dir"] + "mods/");
     update_pathname("worldoptions", "worldoptions.json");
 
     // Needed to move files from these legacy locations to the new config directory.
@@ -212,10 +219,18 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     const std::string base_path = FILENAMES[pathid];
 
 #if defined LOCALIZE && ! defined __CYGWIN__
-    std::string local_path_1; // complete locale: en_NZ
-    std::string local_path_2; // only the first part: en
     std::string loc_name;
     if( get_option<std::string>( "USE_LANG" ).empty() ) {
+#if (defined _WIN32 || defined WINDOWS)
+        loc_name = getLangFromLCID( GetUserDefaultLCID() );
+        if( !loc_name.empty() ) {
+            const std::string local_path = base_path + loc_name + extension;
+            if( file_exist( local_path ) ) {
+                return local_path;
+            }
+        }
+#endif
+
         const char *v = setlocale( LC_ALL, NULL );
         if( v != NULL ) {
             loc_name = v;
@@ -231,15 +246,17 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
         if( dotpos != std::string::npos ) {
             loc_name.erase( dotpos );
         }
-        const std::string local_path_1 = base_path + loc_name + extension;
-        if( file_exist( local_path_1 ) ) {
-            return local_path_1;
+        // complete locale: en_NZ
+        const std::string local_path = base_path + loc_name + extension;
+        if( file_exist( local_path ) ) {
+            return local_path;
         }
         const size_t p = loc_name.find( '_' );
         if( p != std::string::npos ) {
-            const std::string local_path_2 = base_path + loc_name.substr( 0, p ) + extension;
-            if( file_exist( local_path_2 ) ) {
-                return local_path_2;
+            // only the first part: en
+            const std::string local_path = base_path + loc_name.substr( 0, p ) + extension;
+            if( file_exist( local_path ) ) {
+                return local_path;
             }
         }
     }

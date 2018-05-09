@@ -1,25 +1,27 @@
 [
   {
     "type": "construction",
-    "//": "Smash afterwards to harvest.",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Corpse Pit: Smash to Harvest",
     "difficulty": 0,
     "time": 60,
     "pre_terrain": "t_pit_corpsed",
     "post_terrain": "blob_pit",
-    "tools": [ [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ] ]
+    "tools": [
+      [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ]
+    ]
   },
   {
     "type": "construction",
-    "//": "Smash afterwards to harvest.",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Slime: Smash to Harvest",
     "difficulty": 0,
     "time": 5,
     "pre_terrain": "t_slime",
     "post_terrain": "blob_pit_slime",
-    "tools": [ [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ] ]
+    "tools": [
+      [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ]
+    ]
   },
   {
     "id": "blob_pit",
@@ -36,7 +38,7 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 250, 500 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   },
   {
     "id": "blob_pit_slime",
@@ -53,6 +55,6 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 50, 250 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   }
 ]

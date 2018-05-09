@@ -237,6 +237,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "vehicle_dashboard",
+        "name" : "dashboard",
+        "description" : "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
+        "weight" : 6000,
+        "to_hit" : -2,
+        "color" : "cyan",
+        "symbol" : "$",
+        "material" : ["plastic", "steel"],
+        "volume" : 40,
+        "bashing" : 1,
+        "category" : "veh_parts",
+        "price" : 8000
+    },
+    {
+        "type":"GENERIC",
         "id" : "motor",
         "name" : "electric motor",
         "description" : "A powerful electric motor.  Useful for crafting.",
@@ -328,7 +343,7 @@
         "type":"GENERIC",
         "id" : "headlight_reinforced",
         "name" : "reinforced headlight",
-        "description" : "A vehicle headlight with a cage built around it to protect it from damage without reducing it's effectiveness.",
+        "description" : "A vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
         "weight" : 1200,
         "to_hit" : -2,
         "color" : "light_cyan",
@@ -452,6 +467,21 @@
         "id": "minifridge",
         "name": "minifridge",
         "description": "A very small fridge for keeping food cool.",
+        "weight": 31752,
+        "to_hit": -8,
+        "color": "light_blue",
+        "symbol": "]",
+        "material": "steel",
+        "volume": 20,
+        "bashing": 8,
+        "category" : "veh_parts",
+        "price": 60000
+    },
+    {
+        "type": "GENERIC",
+        "id": "washing_machine",
+        "name": "washing machine",
+        "description": "A very small washing machine designed for use in vehicles.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",
@@ -752,6 +782,7 @@
         "type":"GENERIC",
         "id" : "chimes",
         "name" : "chime loudspeakers",
+        "name_plural" : "chime loudspeakers",
         "description" : "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
         "weight" : 2600,
         "to_hit" : -2,
@@ -836,6 +867,15 @@
     },
     {
         "type":"GENERIC",
+        "id": "acidchitin_plate",
+        "copy-from": "chitin_plate",
+        "name": "biosilicified chitin armor kit",
+        "description": "Durable silica-coated chitin plating made for a vehicle.",
+        "material": ["acidchitin"],
+        "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
+    },
+    {
+        "type":"GENERIC",
         "id": "bone_plate",
         "symbol": "]",
         "color": "white",
@@ -908,22 +948,6 @@
         "bashing": 1,
         "category" : "veh_parts",
         "price": 20000
-    },
-    {
-        "type":"GENERIC",
-        "id": "v_curtain_item",
-        "name": "vehicle curtain",
-        "name_plural" : "vehicle curtains",
-        "description": "A rod, a few metal rings, and a large piece of cloth with some strings attached for securely fastening the edges.",
-        "weight": 2200,
-        "to_hit": -4,
-        "color": "white",
-        "symbol": "\"",
-        "material": ["cotton", "steel"],
-        "volume": 20,
-        "bashing": 1,
-        "category" : "veh_parts",
-        "price": 3500
     },
     {
         "type":"GENERIC",
@@ -1022,5 +1046,29 @@
         "weight": 1000,
         "volume": 4,
         "price": 3000
+    },{
+        "id": "cargo_lock",
+        "type":"GENERIC",
+        "name": "cargo lock set",
+        "description": "A set of locks designed to be installed on a vehicle.",
+        "symbol": "+",
+        "color": "dark_gray",
+        "material": "steel",
+        "category": "veh_parts",
+        "weight": 500,
+        "volume": 1,
+        "price": 800
+    },{
+        "id": "turret_mount",
+        "type":"GENERIC",
+        "name": "turret mount",
+        "description": "A universal mount for weapons intended to be installed as turrets.",
+        "color": "cyan",
+        "symbol": "X",
+        "material": "steel",
+        "category": "veh_parts",
+        "weight": 10000,
+        "volume": 10,
+        "price": 5500
     }
 ]

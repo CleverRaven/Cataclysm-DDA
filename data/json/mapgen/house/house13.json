@@ -93,9 +93,7 @@
         "k": "f_desk",
         "n": "f_table"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_loot": [
         { "group": "bedroom", "x": [ 2, 5 ], "y": [ 16, 19 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "group": "trash", "x": [ 4, 4 ], "y": [ 16, 16 ], "chance": 70, "repeat": [ 1, 2 ] },

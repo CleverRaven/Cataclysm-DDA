@@ -25,6 +25,10 @@
         "name" : "Pick a lock"
     },{
         "type" : "item_action",
+        "id" : "deploy_furn",
+        "name" : "Deploy item"
+    },{
+        "type" : "item_action",
         "id" : "CROWBAR",
         "name" : "Pry crate, window or door"
     },{
@@ -149,7 +153,7 @@
         "name" : "Use holster"
     },{
         "type" : "item_action",
-        "id" : "SAW_BARREL",
+        "id" : "saw_barrel",
         "name" : "Saw down barrel"
     },{
         "type" : "item_action",
@@ -377,7 +381,7 @@
         "name" : "Activate"
     },{
         "type" : "item_action",
-        "id" : "GUN_DETACH_GUNMODS",
+        "id" : "detach_gunmods",
         "name" : "Detach gunmods"
     },{
         "type" : "item_action",
@@ -649,7 +653,7 @@
         "name" : "Inject"
     },{
         "type" : "item_action",
-        "id" : "VACUTAINER",
+        "id" : "BLOOD_DRAW",
         "name" : "Draw some blood"
     },{
         "type" : "item_action",
@@ -731,5 +735,25 @@
         "type" : "item_action",
         "id" : "ups_based_armor",
         "name" : "Activate/deactivate"
+    },
+    {
+        "type" : "item_action",
+        "id" : "FEEDCATTLE",
+        "name" : "Place"
+    },
+    {
+        "type" : "item_action",
+        "id" : "install_bionic",
+        "name" : "Install bionic"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_TREE",
+        "name" : "Chop down a tree"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_LOGS",
+        "name" : "Chop a Tree Trunk into logs"
     }
 ]

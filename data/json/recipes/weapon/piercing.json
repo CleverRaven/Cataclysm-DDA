@@ -1,0 +1,43 @@
+[
+  {
+    "result": "spear_steel",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ], [ "filament", 100 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
+    "components": [
+      [ [ "2x4", 3 ], [ "stick", 6 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
+  },
+  {
+    "result": "spear_pipe",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "melee", 1 ],
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [ [ [ "pipe", 1 ] ] ]
+  }
+]

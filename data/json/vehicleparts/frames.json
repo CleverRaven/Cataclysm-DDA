@@ -93,7 +93,7 @@
     "requirements": {
       "install": {
         "time": 60000,
-        "components": [ [ [ "rope_6", 1 ] ] ]
+        "using": [ [ "rope_natural_short", 1 ] ]
       },
       "repair": {
         "time": 30000,

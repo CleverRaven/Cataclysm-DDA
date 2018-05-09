@@ -204,10 +204,16 @@
                 "weight" : 50,
                 "vehicle_function" : "no_vehicles"
             },{
-                "description" : "Vehicle on the bridge",
-                "weight" : 50,
+                "description" : "Unfueled Vehicle on the bridge",
+                "weight" : 30,
                 "vehicle_json" : {
                     "vehicle": "highway", "placement" : "highway", "number": 1, "fuel" : 0, "status" : -1
+                }
+            },{
+                "description" : "Vehicle on the bridge",
+                "weight" : 20,
+                "vehicle_json" : {
+                    "vehicle": "highway", "placement" : "highway", "number": 1, "fuel" : -1, "status" : -1
                 }
             }
         ]
