@@ -3978,5 +3978,34 @@
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
     "components": [ [ [ "chain_link", 1000 ] ], [ [ "wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tinder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [
+        [ "stick", 1 ],
+        [ "2x4", 1 ],
+        [ "splinter", 2 ],
+        [ "pine_bough", 1 ],
+        [ "rag", 1 ],
+        [ "paper", 5 ],
+        [ "rolling_paper", 30 ],
+        [ "wrapper", 5 ],
+        [ "withered", 2 ],
+        [ "cattail_stalk", 1 ],
+        [ "birchbark", 1 ],
+        [ "willowbark", 1 ]
+      ]
+    ]
   }
 ]
