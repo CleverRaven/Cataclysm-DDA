@@ -22,6 +22,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "ui.h"
+#include "vpart_position.h"
 #include "vehicle.h"
 #include "crafting_gui.h"
 
@@ -235,11 +236,10 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         // also check if we're currently in a vehicle that has the necessary storage
         if( charges_to_store > 0 ) {
-            vehicle *veh = g->m.veh_at( pos() );
-            if( veh != NULL ) {
+            if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
                 const itype_id &ftype = prod.typeId();
-                int fuel_cap = veh->fuel_capacity( ftype );
-                int fuel_amnt = veh->fuel_left( ftype );
+                int fuel_cap = vp->vehicle().fuel_capacity( ftype );
+                int fuel_amnt = vp->vehicle().fuel_left( ftype );
 
                 if( fuel_cap >= 0 ) {
                     int fuel_space_left = fuel_cap - fuel_amnt;
@@ -296,12 +296,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        int part = -1;
-        vehicle *veh = g->m.veh_at( loc, part );
-        if( veh && part >= 0 ) {
-            part = veh->part_with_feature( part, "CARGO" );
+        if( optional_vpart_position vp = g->m.veh_at( loc ) ) {
+            const int part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
             if( part != -1 ) {
-                for( const auto &it : veh->get_items( part ) ) {
+                for( const auto &it : vp->vehicle().get_items( part ) ) {
                     if( is_container_eligible_for_crafting( it, false ) ) {
                         conts.emplace_back( &it );
                     }
@@ -1371,15 +1369,12 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        int veh_part = -1;
-        vehicle *veh = g->m.veh_at( pos(), veh_part );
-        if( veh != nullptr ) {
-            veh_part = veh->part_with_feature( veh_part, "CARGO" );
-        }
+        const optional_vpart_position vp = g->m.veh_at( pos() );
+        const int veh_part = vp ? vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) : -1;
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
+        } else if( veh_part != -1 && vp->vehicle().add_item( veh_part, act_item ) ) {
             // add_item did put the items in the vehicle, nothing further to be done
         } else {
             // TODO: For items counted by charges, add as much as we can to the vehicle, and

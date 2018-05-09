@@ -14,6 +14,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
+#include "vpart_position.h"
 #include "item.h"
 #include "itype.h"
 #include "item_search.h"
@@ -980,18 +981,22 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    int part = -1;
-    vehicle *veh = g->m.veh_at( target, part );
-
-    if( veh != nullptr && ( part = veh->part_with_feature( part, "CARGO" ) ) >= 0 ) {
-        const auto items = veh->get_items( part );
-        const std::string name = to_upper_case( veh->parts[part].name() );
-        const item_category vehicle_cat( name, name, 200 );
-
-        add_items( map_column, [ veh, part ]( item *it ) {
-            return item_location( vehicle_cursor( *veh, part ), it );
-        }, restack_items( items.begin(), items.end() ), &vehicle_cat );
+    optional_vpart_position vp = g->m.veh_at( target );
+    if( !vp ) {
+        return;
     }
+    vehicle *const veh = &vp->vehicle();
+    const int part = veh->part_with_feature( vp->part_index(), "CARGO" );
+    if( part < 0 ) {
+        return;
+    }
+    const auto items = veh->get_items( part );
+    const std::string name = to_upper_case( veh->parts[part].name() );
+    const item_category vehicle_cat( name, name, 200 );
+
+    add_items( map_column, [ veh, part ]( item *it ) {
+        return item_location( vehicle_cursor( *veh, part ), it );
+    }, restack_items( items.begin(), items.end() ), &vehicle_cat );
 }
 
 void inventory_selector::add_nearby_items( int radius )

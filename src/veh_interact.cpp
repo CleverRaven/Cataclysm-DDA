@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "translations.h"
 #include "veh_type.h"
+#include "vpart_position.h"
 #include "ui.h"
 #include "itype.h"
 #include "cata_utility.h"
@@ -1509,12 +1510,13 @@ bool veh_interact::do_relabel( std::string &msg )
         return false;
     }
 
+    const vpart_position vp( *veh, cpart );
     std::string text = string_input_popup()
                        .title( _( "New label:" ) )
                        .width( 20 )
-                       .text( veh->get_label( -ddx, -ddy ) )
+                       .text( vp.get_label().value_or( "" ) )
                        .query_string();
-    veh->set_label(-ddx, -ddy, text); // empty input removes the label
+    vp.set_label( text ); // empty input removes the label
     // refresh w_disp & w_part windows:
     move_cursor( 0, 0 );
 
@@ -1566,8 +1568,8 @@ void veh_interact::move_cursor (int dx, int dy)
     tripoint vehp = veh->global_pos3() + q;
     const bool has_critter = g->critter_at( vehp );
     bool obstruct = g->m.impassable_ter_furn( vehp );
-    vehicle *oveh = g->m.veh_at( vehp );
-    if( oveh != nullptr && oveh != veh ) {
+    const optional_vpart_position ovp = g->m.veh_at( vehp );
+    if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
@@ -2276,11 +2278,12 @@ void veh_interact::complete_vehicle()
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }
-    vehicle *veh = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );
-    if (!veh) {
+    const optional_vpart_position vp = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );
+    if( !vp ) {
         debugmsg ("Activity ACT_VEHICLE: vehicle not found");
         return;
     }
+    vehicle *const veh = &vp->vehicle();
 
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];

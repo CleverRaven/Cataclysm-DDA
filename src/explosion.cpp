@@ -8,6 +8,7 @@
 #include "character.h"
 #include "player.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "output.h"
 #include "debug.h"
 #include "messages.h"
@@ -204,11 +205,9 @@ void game::do_blast( const tripoint &p, const float power,
             m.add_field( pt, fd_fire, density );
         }
 
-        int vpart;
-        vehicle *veh = m.veh_at( pt, vpart );
-        if( veh != nullptr ) {
+        if( const optional_vpart_position vp = m.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            veh->damage( vpart, force, fire ? DT_HEAT : DT_BASH, false );
+            vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
         }
 
         Creature *critter = critter_at( pt, true );
@@ -382,10 +381,8 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
             int force = std::min( kinetic, mass );
             int resistance;
 
-            int vpart;
-            vehicle *veh = m.veh_at( e, vpart );
-            if( veh != nullptr && vpart >= 0 ) {
-                resistance = force - veh->damage( vpart, force );
+            if( optional_vpart_position vp = m.veh_at( e ) ) {
+                resistance = force - vp->vehicle().damage( vp->part_index(), force );
 
             } else {
                 resistance = std::max( m.bash_resistance( e ), 0 );
