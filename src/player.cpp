@@ -7723,20 +7723,20 @@ int player::item_wear_cost( const item& it ) const
 {
     double mv = item_handling_cost( it );
 
-    switch( it.get_layer() ) {
-        case UNDERWEAR:
+    switch( it.layer() ) {
+        case layer_level::UNDERWEAR:
             mv *= 1.5;
             break;
 
-        case REGULAR_LAYER:
+        case layer_level::REGULAR_LAYER:
             break;
 
-        case WAIST_LAYER:
-        case OUTER_LAYER:
+        case layer_level::WAIST_LAYER:
+        case layer_level::OUTER_LAYER:
             mv /= 1.5;
             break;
 
-        case BELTED_LAYER:
+        case layer_level::BELTED_LAYER:
             mv /= 2.0;
             break;
         default:

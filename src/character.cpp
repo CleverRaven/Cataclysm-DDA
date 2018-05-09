@@ -1479,7 +1479,7 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
     return calc_encumbrance( new_item );
 }
 
-using layer_data = std::array<int, MAX_CLOTHING_LAYER>;
+using layer_data = std::array<int, static_cast<size_t>(layer_level::MAX_CLOTHING_LAYER)>;
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
                  std::array<layer_data, num_bp> &layers,
@@ -1553,7 +1553,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const i
     // each item except the highest encumbrance one.
     // So we add them together and then subtract out the highest.
     for( const body_part bp : all_body_parts ) {
-        for( size_t j = 0; j < MAX_CLOTHING_LAYER; j++ ) {
+        for( size_t j = 0; j < static_cast<size_t>(layer_level::MAX_CLOTHING_LAYER); j++ ) {
             vals[bp].layer_penalty -= std::max( 0, layers[bp][j] );
         }
     }

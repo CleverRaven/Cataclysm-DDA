@@ -50,6 +50,8 @@
 #include "vehicle_selector.h"
 #include "units.h"
 #include "ret_val.h"
+#include "json.h"
+#include "clothing_layer.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1312,6 +1314,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
         temp1.str( "" );
         temp1 << _( "Layer: " );
+        auto &cl = clothing_layer::get(layer());
+        temp1 << get_tag_from_color(cl.color()) << cl.symbol()  << "</color> ";
         if( has_flag( "SKINTIGHT" ) ) {
             temp1 << _( "<stat>Close to skin</stat>. " );
         } else if( has_flag( "BELTED" ) ) {
@@ -1323,6 +1327,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         } else {
             temp1 << _( "<stat>Normal</stat>. " );
         }
+
 
         info.push_back( iteminfo( "ARMOR", temp1.str() ) );
 
@@ -3029,18 +3034,22 @@ int item::get_encumber() const
     return encumber;
 }
 
-int item::get_layer() const
+int item::get_layer() const {
+	return static_cast<int>( layer() );
+}
+
+layer_level item::layer() const
 {
     if( has_flag("SKINTIGHT") ) {
-        return UNDERWEAR;
+        return layer_level::UNDERWEAR;
     } else if( has_flag("WAIST") ) {
-        return WAIST_LAYER;
+        return  layer_level::WAIST_LAYER;
     } else if( has_flag("OUTER") ) {
-        return OUTER_LAYER;
+        return layer_level::OUTER_LAYER;
     } else if( has_flag("BELTED") ) {
-        return BELTED_LAYER;
+        return layer_level::BELTED_LAYER;
     }
-    return REGULAR_LAYER;
+    return layer_level::REGULAR_LAYER;
 }
 
 int item::get_coverage() const
@@ -6101,4 +6110,22 @@ time_point item::birthday() const
 void item::set_birthday( const time_point bday )
 {
     this->bday = bday;
+}
+
+namespace io {
+
+	static const std::unordered_map<std::string, layer_level> layer_level_values = { {
+		{ "UNDERWEAR", layer_level::UNDERWEAR },
+		{ "REGULAR_LAYER", layer_level::REGULAR_LAYER },
+		{ "WAIST_LAYER", layer_level::WAIST_LAYER },
+		{ "OUTER_LAYER", layer_level::OUTER_LAYER },
+		{ "BELTED_LAYER", layer_level::BELTED_LAYER },
+    } };
+
+	template<>
+	layer_level string_to_enum<layer_level>( const std::string &data )
+	{
+		return string_to_enum_look_up( layer_level_values, data );
+	}
+
 }
