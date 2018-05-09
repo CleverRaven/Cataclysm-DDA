@@ -1,0 +1,120 @@
+[
+    {
+        "id": "corrective_glasses",
+        "type": "item_group",
+        "items": [
+            ["glasses_eye", 30],
+            ["glasses_bifocal", 10],
+            ["glasses_reading", 30]
+        
+        ]
+    },
+    {
+        "id": "sun_glasses",
+        "type": "item_group",
+        "items": [
+        ["sunglasses", 30],
+        ["fancy_sunglasses", 10]
+    
+    ]
+  
+    },
+    {
+        "id": "opto_medicine",
+        "type": "item_group",
+        "items": [
+            ["eyedrops", 40],
+            ["saline", 10],
+            ["contacts", 20]
+        ]
+  
+    },
+    {
+        "id": "opto_tools",
+        "type": "item_group",
+        "items": [
+            ["screwdriver_set", 20],
+            ["pliers", 20]
+        ]    
+    },
+    {
+        "id": "opto_bionics",
+        "type": "item_group",
+        "items": [
+            ["bio_armor_eyes", 10],
+            ["bio_eye_enhancer", 10],
+            ["bio_eye_optic", 10],
+            ["bio_sunglasses", 10],
+            ["bio_targeting", 5],
+            ["bio_infrared", 5],
+            ["bio_night_vision", 5]
+        ]    
+    },
+    {
+        "method": "json",
+        "om_terrain": "glasses_shop",
+        "type": "mapgen",
+        "weight": 2,
+        "object": 
+        {  
+            "fill_ter": "t_floor",
+            "furniture":
+            {
+                "#": "f_counter",
+                "{": "f_rack"
+            },
+            "terrain":
+            {
+                "#": "t_floor",
+                "=": "t_sidewalk",
+                "+": "t_door_locked_interior",
+                "-": "t_wall_glass",
+                ".": "t_grass",
+                "D": "t_door_glass_c",
+                "d": "t_door_c",
+                "{": "t_floor",
+                "t": "t_linoleum_gray",
+                "l": "t_linoleum_gray",
+                "|": "t_wall"
+            },
+            "toilets": { "t": {  } },
+            "rows": 
+            [
+                "...........===..........",
+                "...........===..........",
+                "...........===..........",
+                "...........===..........",
+                "..|||||-----D--------|..",
+                "..|tll|              |..",
+                "..|llld              |..",
+                "..|||||              |..",
+                "..|                  |..",
+                "..|                  |..",
+                "..|  {  #####  {  {  |..",
+                "..|  {  #   #  {  {  |..",
+                "..|  {  #   #  {  {  |..",
+                "..|  {         {  {  |..",
+                "..|            {  {  |..",
+                "..||||||             |..",
+                "..|{{{{|             |..",
+                "..|    +             |..",
+                "..||||||||||||||||||||..",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................"
+            ],
+            "place_loot": 
+            [
+                { "group": "opto_bionics", "x": [ 3, 6 ], "y": 16, "chance": 30, "repeat": [2, 3] },
+                { "group": "sun_glasses", "x": 5, "y": [10, 13], "chance": 90, "repeat": [2, 4] },
+                { "group": "corrective_glasses", "x": 15, "y": [10, 14], "chance": 80, "repeat": [2, 4] },
+                { "group": "corrective_glasses", "x": 18, "y": [10, 14], "chance": 80, "repeat": [2, 4] },
+                { "group": "opto_medicine", "x": [9, 11], "y": 10, "chance": 40, "repeat": [2, 3] },
+                { "group": "opto_tools", "x": 8, "y": 11, "chance": 60, "repeat": [1, 2] }
+            ]
+        
+        }
+    }
+]
