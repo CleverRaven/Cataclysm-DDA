@@ -72,6 +72,8 @@ class optional_vpart_position : public cata::optional<vpart_position>
         cata::optional<std::string> get_label() const {
             return has_value() ? value().get_label() : cata::nullopt;
         }
+        int part_with_feature( const std::string &f, bool unbroken = true );
+        int part_with_feature( vpart_bitflags f, bool unbroken = true );
 };
 
 // For legacy code, phase out, don't use in new code.

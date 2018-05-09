@@ -1474,8 +1474,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    bool veh_bed = ( vp && vp->part_with_feature( "BED" ) >= 0 );
-    bool veh_seat = ( vp && vp->part_with_feature( "SEAT" ) >= 0 );
+    bool veh_bed = vp.part_with_feature( "BED" ) >= 0;
+    bool veh_seat = vp.part_with_feature( "SEAT" ) >= 0;
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -9274,8 +9274,8 @@ void player::try_to_sleep()
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         ( vp && vp->part_with_feature( "SEAT" ) >= 0 ) ||
-         ( vp && vp->part_with_feature( "BED" ) >= 0 ) ) ) {
+         ( vp.part_with_feature( "SEAT" ) >= 0 ) ||
+         ( vp.part_with_feature( "BED" ) >= 0 ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?

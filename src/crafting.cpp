@@ -1383,7 +1383,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
 
         const optional_vpart_position vp = g->m.veh_at( pos() );
-        const int veh_part = vp ? vp->part_with_feature( "CARGO" ) : -1;
+        const int veh_part = vp.part_with_feature( "CARGO" );
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );

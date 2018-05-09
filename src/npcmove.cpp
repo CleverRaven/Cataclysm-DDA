@@ -1624,7 +1624,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
 
         const optional_vpart_position vp = g->m.veh_at( p );
-        if( vp && vp->part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
+        if( vp.part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1984,7 +1984,7 @@ void npc::pick_up_item()
 
     const optional_vpart_position vp = g->m.veh_at( wanted_item_pos );
     vehicle *const veh = veh_pointer_or_null( vp );
-    int veh_part = vp ? vp->part_with_feature( VPFLAG_CARGO, false ) : -1;
+    int veh_part = vp.part_with_feature( VPFLAG_CARGO, false );
 
     const bool has_cargo = veh != nullptr &&
                            veh_part >= 0 &&

@@ -2431,7 +2431,7 @@ bool map::can_put_items( const tripoint &p ) const
         return true;
     }
     const optional_vpart_position vp = veh_at( p );
-    return vp && vp->part_with_feature( "CARGO" ) >= 0;
+    return vp.part_with_feature( "CARGO" ) >= 0;
 }
 
 bool map::can_put_items_ter_furn( const tripoint &p ) const

@@ -6350,12 +6350,12 @@ bool game::swap_critters( Creature &a, Creature &b )
     first.setpos( temp );
 
     const optional_vpart_position vp = g->m.veh_at( u_or_npc->pos() );
-    if( vp && vp->part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
+    if( vp.part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
         g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
     }
 
     const optional_vpart_position ovp = g->m.veh_at( other_npc->pos() );
-    if( ovp && ovp->part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
+    if( ovp.part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
         g->m.board_vehicle( other_npc->pos(), other_npc );
     }
 
@@ -9701,7 +9701,7 @@ bool game::plfire_check( const targeting_data &args ) {
 
         if( gun->has_flag( "MOUNTED_GUN" ) ) {
             const optional_vpart_position vp = m.veh_at( u.pos() );
-            bool v_mountable = ( vp && vp->part_with_feature( "MOUNTABLE" ) >= 0 );
+            bool v_mountable = vp.part_with_feature( "MOUNTABLE" ) >= 0;
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
             if( !t_mountable && !v_mountable ) {
                 add_msg(m_info,
@@ -10863,7 +10863,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     if( !u.is_blind() ) {
         const trap &tr = m.tr_at(dest_loc);
         const optional_vpart_position vp = m.veh_at( dest_loc );
-        const bool boardable = vp && vp->part_with_feature( "BOARDABLE" ) >= 0;
+        const bool boardable = vp.part_with_feature( "BOARDABLE" ) >= 0;
         // Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
@@ -11470,7 +11470,7 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1 && vp1->part_with_feature( "BOARDABLE" ) >= 0 ) {
+    if( vp1.part_with_feature( "BOARDABLE" ) >= 0 ) {
         m.board_vehicle( u.pos(), &u );
     }
 
@@ -11563,7 +11563,7 @@ void game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( vp1 && vp1->part_with_feature( "CONTROLS" ) >= 0 && u.in_vehicle ) {
+    if( vp1.part_with_feature( "CONTROLS" ) >= 0 && u.in_vehicle ) {
         add_msg(_("There are vehicle controls here."));
         add_msg(m_info, _("%s to drive."),
                 press_x(ACTION_CONTROL_VEHICLE).c_str());
@@ -11648,7 +11648,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         u.setpos( dest );
 
         const optional_vpart_position vp = m.veh_at( u.pos() );
-        if( vp && vp->part_with_feature( "BOARDABLE" ) >= 0 ) {
+        if( vp.part_with_feature( "BOARDABLE" ) >= 0 ) {
             m.board_vehicle( u.pos(), &u );
         }
 
