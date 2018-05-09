@@ -995,7 +995,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos, in
             *density = 2;
             return true;
         } else if( inv.has_tools( "tinder", 1 ) ) {
-            if( tinder.count_by_charges() ||
+            if( tinder.count_by_charges() &&
                 tinder.charges >= tinder.type->stack_size ) {
                 tinder.charges -= tinder.type->stack_size;
                 if( tinder.charges <= 0 ) {
