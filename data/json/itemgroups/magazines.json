@@ -246,6 +246,7 @@
     "id" : "mags_obscure",
     "//" : "Magazines for imported firearms.",
     "items": [
+      ["762x39_clip", 10],
       ["762R_clip", 10],
       ["ak74mag", 10],
       ["makarovmag", 10],
