@@ -17,6 +17,7 @@
 #include "translations.h"
 
 #include <climits>
+#include <list>
 #include <algorithm>
 
 template <typename T>

@@ -3,6 +3,7 @@
 #define ITEM_LOCATION_H
 
 #include <memory>
+#include <list>
 
 struct tripoint;
 class item;
