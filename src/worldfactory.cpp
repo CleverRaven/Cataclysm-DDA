@@ -1343,8 +1343,8 @@ void WORLD::load_options( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
-        const std::string name = opts.migrateOption( jo.get_string( "name" ) );
-        const std::string value = jo.get_string( "value" );
+        const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
+        const std::string value = opts.migrateOptionValue( jo.get_string( "name" ), jo.get_string( "value" ) );
         
         if( name == "CORE_VERSION" ) {
             version = std::max( std::atoi( value.c_str() ), 0 );
@@ -1375,10 +1375,11 @@ void WORLD::load_legacy_options( std::istream &fin )
             size_t ipos = sLine.find( ' ' );
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
-            const std::string name = opts.migrateOption( sLine.substr( 0, ipos ) );
+            const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
+            const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1, sLine.length() ) );
             
             if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
-                WORLD_OPTIONS[name].setValue( sLine.substr( ipos + 1, sLine.length() ) );
+                WORLD_OPTIONS[name].setValue( value );
             }
         }
     }
