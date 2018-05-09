@@ -995,16 +995,21 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos, in
             *density = 2;
             return true;
         } else if( inv.has_tools( "tinder", 1 ) ) {
-            if( tinder.count_by_charges() &&
-                tinder.charges >= tinder.type->stack_size ) {
-                tinder.charges -= tinder.type->stack_size;
+            int used_charges = tinder.type->stack_size / 2;
+            if( tinder.count_by_charges() && tinder.charges >= used_charges ) {
+                tinder.charges -= used_charges;
                 if( tinder.charges <= 0 ) {
                     inv.remove_item( &tinder );
                 }
 
                 p.add_msg_if_player( m_info, string_format( ( "You use %d charges of tinder to light the fire." ), 
-                                                              tinder.type->stack_size ) );
+                                                              used_charges ) );
                 return true;
+            } else if( query_yn( string_format( ( "You only have %d of %d charges of tinder needed to start a fire. Continue without tinder?" ),
+                                 tinder.charges, used_charges ) ) ) {
+                return true;
+            } else {
+                return false;
             }
         }
         if( query_yn( _( "There is not enough tinder here to start a fire. Continue?" ) ) ) {

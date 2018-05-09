@@ -4920,7 +4920,11 @@ bool item::is_tinder() const {
 
     float vol = base_volume().value() / 1000.0f;
     if( fuel >= vol * 2 ) {
-        return true;
+        if( count_by_charges() && charges >= type->stack_size / 2) {
+            return true;
+        } else if( vol >= fuel / 4 ) {
+            return true;
+        }
     }
     return false;
 }
