@@ -1033,8 +1033,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                        if( cur.getFieldAge() < 0_turns && cur.getFieldDensity() < 3 ) {
-                            // See if we can grow into a stage 2/3 fire, for this
+                        if( cur.getFieldAge() < 0_turns && cur.getFieldDensity() < MAX_FIRE_SIZE ) {
+                            // See if we can grow into a stage 2/3/4 fire, for this
                             // burning neighbors are necessary in addition to
                             // field age < 0, or alternatively, a LOT of fuel.
 
