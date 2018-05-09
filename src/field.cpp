@@ -931,45 +931,45 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             // Consume the terrain we're on
                             if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
-                                if( one_in( 5 - cur.getFieldDensity() ) ) {
+                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() ) ) {
                                     // The fire feeds on the ground itself until max density.
-                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() );
                                 }
 
                                 smoke += 2;
-                                if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
+                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
+                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     destroy( p, false );
                                 }
 
                             } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
                                        one_in( 3 ) ) {
-                                if( one_in( 6 - cur.getFieldDensity() ) ) {
-                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 ) ) {
+                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 );
                                 }
                                 smoke += 2;
-                                if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
+                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
+                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     destroy( p, false );
                                 }
 
                             } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                if( one_in( 5 - cur.getFieldDensity() ) ) {
-                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() ) ) {
+                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 );
                                 }
                                 smoke += 2;
-                                if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
+                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
+                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     ter_set( p, t_dirt );
                                 }
 
                             } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                if( one_in( 5 - cur.getFieldDensity() ) ) {
-                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                if( one_in( MAX_FIRE_SIZE - cur.getFieldDensity() ) ) {
+                                    time_added += 1_turns * ( MAX_FIRE_SIZE - cur.getFieldDensity() - 1);
                                 }
                                 smoke += 2;
-                                if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
+                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
+                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
                                     furn_set( p, f_ash );
                                     add_item_or_charges( p, item( "ash" ) );
                                 }
@@ -989,14 +989,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         int new_density = std::max( cur.getFieldDensity(),
                                                                     fire_there->getFieldDensity() );
                                         // Allow smaller fires to combine
-                                        if( new_density < 3 &&
+                                        if( new_density < MAX_FIRE_SIZE &&
                                             cur.getFieldDensity() == fire_there->getFieldDensity() ) {
                                             new_density++;
                                         }
                                         fire_there->setFieldDensity( new_density );
                                         // A raging fire below us can support us for a while
                                         // Otherwise decay and decay fast
-                                        if( new_density < 3 || one_in( 10 ) ) {
+                                        if( new_density < MAX_FIRE_SIZE || one_in( 10 ) ) {
                                             cur.setFieldDensity( cur.getFieldDensity() - 1 );
                                         }
                                     }
@@ -1035,17 +1035,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // making other fires bigger. Flashpoint.
                                 const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
                                 for( size_t i = ( end_it + 1 ) % neighs.size();
-                                     i != end_it && cur.getFieldAge() < 0_turns;
-                                     i = ( i + 1 ) % neighs.size() ) {
+                                    i != end_it && cur.getFieldAge() < 0_turns;
+                                    i = ( i + 1 ) % neighs.size() ) {
                                     maptile &dst = neighs[i];
                                     auto dstfld = dst.find_field( fd_fire );
                                     // If the fire exists and is weaker than ours, boost it
                                     if( dstfld != nullptr &&
                                         ( dstfld->getFieldDensity() <= cur.getFieldDensity() ||
-                                          dstfld->getFieldAge() > cur.getFieldAge() ) &&
-                                        ( in_pit == ( dst.get_ter() == t_pit) ) ) {
-                                        if( dstfld->getFieldDensity() < 2 ) {
-                                            dstfld->setFieldDensity(dstfld->getFieldDensity() + 1);
+                                            dstfld->getFieldAge() > cur.getFieldAge() ) &&
+                                            ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
+                                        if( dstfld->getFieldDensity() < FIRE_SIZE_THRESHOLD ) {
+                                            dstfld->setFieldDensity( dstfld->getFieldDensity() + 1 );
                                         }
 
                                         dstfld->setFieldAge( dstfld->getFieldAge() - 5_minutes );
@@ -1056,48 +1056,55 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         adjacent_fires++;
                                     }
                                 }
-                            } else if( cur.getFieldAge() < 0_turns && cur.getFieldDensity() < 3 ) {
-                                // See if we can grow into a stage 2/3 fire, for this
-                                // burning neighbors are necessary in addition to
-                                // field age < 0, or alternatively, a LOT of fuel.
+                            }
+                        }
+                        if( cur.getFieldAge() < 0_turns && cur.getFieldDensity() < 3 ) {
+                            // See if we can grow into a stage 2/3 fire, for this
+                            // burning neighbors are necessary in addition to
+                            // field age < 0, or alternatively, a LOT of fuel.
 
-                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbor,
-                                // 3 for at least 2 neighbors.
-                                int maximum_density =  1;
+                            // The maximum fire density is 2 for a lone fire, 3 for at least 1 neighbor,
+                            // 4 for at least 2 neighbors.
+                            int maximum_density =  2;
 
-                                // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
-                                // 1. Calculate maximum field density based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
-                                // 2. Calculate maximum field density based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
-                                // 3. Pick the higher maximum between 1. and 2.
-                                if( cur.getFieldAge() < -500_minutes ) {
-                                    maximum_density = 3;
+                            // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
+                            // 1. Calculate maximum field density based on fuel, -50 minutes is 3(medium), -500 minutes is 4(raging)
+                            // 2. Calculate maximum field density based on neighbors, 3 neighbors is 3(medium), 7 or more neighbors is 4(raging)
+                            // 3. Pick the higher maximum between 1. and 2.
+                            if( cur.getFieldAge() < -500_minutes ) {
+                                if( can_spread ) {
+                                    maximum_density = MAX_FIRE_SIZE;
                                 } else {
+                                    maximum_density = FIRE_SIZE_THRESHOLD;
+                                }
+                            } else {
+                                if( can_spread ) {
                                     for( size_t i = 0; i < neighs.size(); i++ ) {
                                         if( neighs[i].get_field().findField( fd_fire ) != nullptr ) {
                                             adjacent_fires++;
                                         }
                                     }
-                                    maximum_density = 1 + (adjacent_fires >= 3) + (adjacent_fires >= 7);
-
-                                    if( maximum_density < 2 && cur.getFieldAge() < -50_minutes ) {
-                                        maximum_density = 2;
-                                    }
+                                    maximum_density = FIRE_SIZE_THRESHOLD + (adjacent_fires >= 3) + (adjacent_fires >= 7);
                                 }
 
-                                // If we consumed a lot, the flames grow higher
-                                if( cur.getFieldDensity() < maximum_density && cur.getFieldAge() < 0_turns ) {
-                                    // Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
-                                    // Weaken the newly-grown fire
-                                    cur.setFieldDensity( cur.getFieldDensity() + 1 );
-                                    cur.setFieldAge( cur.getFieldAge() + 10_minutes * cur.getFieldDensity() );
+                                if( maximum_density < FIRE_SIZE_THRESHOLD && cur.getFieldAge() < -50_minutes ) {
+                                    maximum_density = FIRE_SIZE_THRESHOLD;
                                 }
+                            }
+
+                            // If we consumed a lot, the flames grow higher
+                            if( cur.getFieldDensity() < maximum_density && cur.getFieldAge() < 0_turns ) {
+                                // Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
+                                // Weaken the newly-grown fire
+                                cur.setFieldDensity( cur.getFieldDensity() + 1 );
+                                cur.setFieldAge( cur.getFieldAge() + 10_minutes * cur.getFieldDensity() );
                             }
                         }
 
                         // Consume adjacent fuel / terrain / webs to spread.
                         // Allow raging fires (and only raging fires) to spread up
                         // Spreading down is achieved by wrecking the walls/floor and then falling
-                        if( zlevels && cur.getFieldDensity() == 3 && p.z < OVERMAP_HEIGHT ) {
+                        if( zlevels && cur.getFieldDensity() == MAX_FIRE_SIZE && p.z < OVERMAP_HEIGHT ) {
                             // Let it burn through the floor
                             maptile dst = maptile_at_internal( {p.x, p.y, p.z + 1} );
                             const auto &dst_ter = dst.get_ter_t();
@@ -1150,10 +1157,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( can_spread && rng(1, 100) < spread_chance &&
                                   (in_pit == (dster.id.id() == t_pit)) &&
                                   (
-                                    (power >= 3 && cur.getFieldAge() < 0_turns && one_in( 20 ) ) ||
-                                    (power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in(2) ) ) ||
-                                    (power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in(2) ) ) ||
-                                    (power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in(5) ) ) ||
+                                    ( power >= MAX_FIRE_SIZE && cur.getFieldAge() < 0_turns && one_in( 20 ) ) ||
+                                    ( power >= MAX_FIRE_SIZE && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
+                                    ( power >= MAX_FIRE_SIZE - 1 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in(2) ) ) ||
+                                    ( power >= MAX_FIRE_SIZE - 1 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in(2) ) ) ||
                                     nearwebfld || ( dst.get_item_count() > 0 && flammable_items_at( offset_by_index( i, p ) ) && one_in(5) )
                                   ) ) {
                                 dst.add_field( fd_fire, 1, 0_turns ); // Nearby open flammable ground? Set it on fire.
