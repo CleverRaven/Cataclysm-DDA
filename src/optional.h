@@ -133,7 +133,7 @@ class optional
         }
 
         template<typename O>
-        T value_or( O && other ) const {
+        T value_or( O &&other ) const {
             return full ? get() : static_cast<T>( other );
         }
 
