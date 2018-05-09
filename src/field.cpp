@@ -931,39 +931,45 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             // Consume the terrain we're on
                             if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
-                                // The fire feeds on the ground itself until max density.
-                                time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                if( one_in( 5 - cur.getFieldDensity() ) ) {
+                                    // The fire feeds on the ground itself until max density.
+                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                }
+
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
+                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
                                     destroy( p, false );
                                 }
 
                             } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
                                        one_in( 3 ) ) {
-                                // The fire feeds on the ground itself until max density.
-                                time_added += 1_turns * ( 4 - cur.getFieldDensity() );
+                                if( one_in( 6 - cur.getFieldDensity() ) ) {
+                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                }
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
+                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
                                     destroy( p, false );
                                 }
 
                             } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                // The fire feeds on the ground itself until max density.
-                                time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                if( one_in( 5 - cur.getFieldDensity() ) ) {
+                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                }
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
+                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
                                     ter_set( p, t_dirt );
                                 }
 
                             } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                                // The fire feeds on the ground itself until max density.
-                                time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                if( one_in( 5 - cur.getFieldDensity() ) ) {
+                                    time_added += 1_turns * ( 5 - cur.getFieldDensity() );
+                                }
                                 smoke += 2;
                                 if( cur.getFieldDensity() > 1 &&
-                                    one_in( 200 - cur.getFieldDensity() * 50 ) ) {
+                                    one_in( 200 - cur.getFieldDensity() * 25 ) ) {
                                     furn_set( p, f_ash );
                                     add_item_or_charges( p, item( "ash" ) );
                                 }
