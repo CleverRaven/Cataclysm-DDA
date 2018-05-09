@@ -518,6 +518,18 @@ bool veh_interact::can_install_part() {
         }
     }
 
+    if( sel_vpart_info->has_flag( "TURRET" ) ) {
+        if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
+            return veh->parts[e].is_turret();
+        } ) ) {
+            werase (w_msg );
+            fold_and_print( w_msg, 0, 1, getmaxx( w_msg) - 2, c_light_red,
+                            _( "Can't install turret on another turret." ) );
+            wrefresh( w_msg );
+            return false;
+        }
+    }
+
     bool is_engine = sel_vpart_info->has_flag("ENGINE");
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     //count current engines, muscle engines don't require higher skill
