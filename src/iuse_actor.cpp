@@ -944,8 +944,7 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint& ) const
 
 void firestarter_actor::load( JsonObject &obj )
 {
-    moves_cost_fast = obj.get_int( "moves", moves_cost_fast );
-    moves_cost_slow = obj.get_int( "moves_slow", moves_cost_fast * 10 );
+    moves_cost = obj.get_int( "moves", moves_cost );
     need_sunlight = obj.get_bool( "need_sunlight", false );
 }
 
@@ -1064,15 +1063,17 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
 
 int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
 {
-    if( g->m.flammable_items_at( pos, 100 ) ) {
-        return moves_cost_fast;
+    if( g->m.flammable_items_at( pos ) ) {
+        float fuel_eff = 0;
+        for( auto &i : g->m.i_at( pos ) ) {
+            for( auto &m : i.made_of() ) {
+                fuel_eff = std::max( fuel_eff, m->burn_data( 1 ).fuel );
+            }
+        }
+        return moves_cost / fuel_eff;
+    } else {
+        return moves_cost / 0.25;
     }
-
-    if( g->m.flammable_items_at( pos, 10 ) ) {
-        return ( moves_cost_slow + moves_cost_fast ) / 2;
-    }
-
-    return moves_cost_slow;
 }
 
 long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) const
@@ -1111,7 +1112,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.values.push_back( density );
     p.activity.placement = pos;
-    p.practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
+    p.practice( skill_survival, moves_modifier + moves_cost / 100 + 2, 5 );
     return it.type->charges_to_use();
 }
 

@@ -401,12 +401,7 @@ class firestarter_actor : public iuse_actor
         /**
          * Moves used at start of the action when starting fires with good fuel.
          */
-        int moves_cost_fast = 100;
-
-        /**
-         * Total moves when starting fires with mediocre fuel.
-         */
-        int moves_cost_slow = 1000;
+        int moves_cost = 1000;
 
         /**
          * Does it need sunlight to be used.
