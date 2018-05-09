@@ -16,6 +16,7 @@
 #include "input.h"
 #include "options.h"
 #include "ui.h"
+#include "vpart_position.h"
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -604,9 +605,12 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            veh = g->m.veh_at( pos, vstor );
-            if( veh != nullptr ) {
-                vstor = veh->part_with_feature( vstor, "CARGO", false );
+            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+                veh = &vp->vehicle();
+                vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
+            } else {
+                veh = nullptr;
+                vstor = -1;
             }
             if( vstor >= 0 ) {
                 desc[0] = veh->name;
@@ -641,16 +645,17 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
-            veh = g->m.veh_at( pos, vstor );
-            if( veh != nullptr ) {
-                vstor = veh->part_with_feature( vstor, "CARGO", false );
+            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+                veh = &vp->vehicle();
+                vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
+            } else {
+                veh = nullptr;
+                vstor = -1;
             }
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             if( can_store_in_vehicle() ) {
-                // get storage label
-                const auto part = veh->parts[veh->global_part_at(pos.x, pos.y)];
-                desc[1] = veh->get_label(part.mount.x, part.mount.y);
+                desc[1] = vpart_position( *veh, vstor ).get_label().value_or( "" );
             }
             // get graffiti or terrain name
             desc[0] = g->m.has_graffiti_at( pos ) ?
@@ -2396,13 +2401,12 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    vstor = -1;
-    veh = g->m.veh_at( pos, vstor );
-    if( veh != nullptr ) {
-        vstor = veh->part_with_feature( vstor, "CARGO", false );
-    }
-    if( vstor < 0 ) {
+    if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+        veh = &vp->vehicle();
+        vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
+    } else {
         veh = nullptr;
+        vstor = -1;
     }
 }
 

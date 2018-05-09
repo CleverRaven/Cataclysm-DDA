@@ -12,6 +12,7 @@
 #include "scenario.h"
 #include "item.h"
 #include "translations.h"
+#include "vpart_position.h"
 #include "trap.h"
 #include <array>
 #include "vehicle_group.h"

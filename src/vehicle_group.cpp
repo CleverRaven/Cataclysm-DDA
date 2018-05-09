@@ -1,6 +1,7 @@
 #include "vehicle_group.h"
 #include "debug.h"
 #include "translations.h"
+#include "vpart_position.h"
 #include "vehicle.h"
 #include "map.h"
 #include "enums.h"

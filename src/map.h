@@ -27,8 +27,15 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class emit;
 using emit_id = string_id<emit>;
+class vpart_position;
+class optional_vpart_position;
 class player;
 class monster;
 class item;
@@ -492,18 +499,10 @@ class map
         * Checks if tile is occupied by vehicle and by which part.
         *
         * @param p Tile to check for vehicle
-        * @param part_num The part number of the part at this tile will be returned in this parameter.
-        * @return A pointer to the vehicle in this tile.
         */
-        vehicle *veh_at( const tripoint &p, int &part_num );
-        const vehicle *veh_at( const tripoint &p, int &part_num ) const;
+        optional_vpart_position veh_at( const tripoint &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
-        /**
-        * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
-        */
-        vehicle *veh_at( const tripoint &p );// checks if tile is occupied by vehicle
-        const vehicle *veh_at( const tripoint &p ) const;
         // put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
         void unboard_vehicle( const tripoint &p );//remove player from vehicle at p

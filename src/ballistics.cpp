@@ -13,6 +13,7 @@
 #include "projectile.h"
 #include "sounds.h"
 #include "output.h"
+#include "vpart_position.h"
 #include "trap.h"
 #include "vehicle.h"
 
@@ -293,9 +294,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         if( in_veh != nullptr ) {
-            int part;
-            vehicle *other = g->m.veh_at( tp, part );
-            if( in_veh == other && other->is_inside( part ) ) {
+            const optional_vpart_position other = g->m.veh_at( tp );
+            if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
                 continue; // Turret is on the roof and can't hit anything inside
             }
         }
@@ -333,7 +333,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
-            if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh && critter->is_player() ) {
+            if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh && critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
@@ -353,7 +353,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             } else {
                 attack.missed_by = aim.missed_by;
             }
-        } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
+        } else if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot( tp, proj, !no_item_damage && tp == target );

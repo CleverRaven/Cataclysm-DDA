@@ -20,6 +20,7 @@
 #include "weather.h"
 #include "item.h"
 #include "material.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "cursesdef.h"
 #include "catacharset.h"
@@ -980,11 +981,9 @@ void player::update_bodytemp()
     // Converts temperature to Celsius/10
     int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature() ) );
     w_point const weather = *g->weather_precise;
-    int vpart = -1;
-    vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
-    if( veh != nullptr ) {
-        vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph
+    if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
@@ -1474,11 +1473,9 @@ int player::floor_bedding_warmth( const tripoint &pos )
     const furn_id furn_at_pos = g->m.furn( pos );
     int floor_bedding_warmth = 0;
 
-
-    int vpart = -1;
-    vehicle *veh = g->m.veh_at( pos, vpart );
-    bool veh_bed = ( veh != nullptr && veh->part_with_feature( vpart, "BED" ) >= 0 );
-    bool veh_seat = ( veh != nullptr && veh->part_with_feature( vpart, "SEAT" ) >= 0 );
+    const optional_vpart_position vp = g->m.veh_at( pos );
+    bool veh_bed = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "BED" ) >= 0 );
+    bool veh_seat = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "SEAT" ) >= 0 );
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -2076,9 +2073,8 @@ double player::recoil_vehicle() const
     // @todo: vary penalty dependent upon vehicle part on which player is boarded
 
     if( in_vehicle ) {
-        vehicle *veh = g->m.veh_at( pos() );
-        if( veh ) {
-            return double( abs( veh->velocity ) ) * 3 / 100;
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            return double( abs( vp->vehicle().velocity ) ) * 3 / 100;
         }
     }
     return 0;
@@ -2589,12 +2585,10 @@ bool player::in_climate_control()
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at( pos(), vpart );
-        if( veh ) {
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             regulated_area = (
-                                 veh->is_inside( vpart ) &&  // Already checks for opened doors
-                                 veh->total_power( true ) > 0 // Out of gas? No AC for you!
+                                 vp->is_inside() &&  // Already checks for opened doors
+                                 vp->vehicle().total_power( true ) > 0 // Out of gas? No AC for you!
                              );  // TODO: (?) Force player to scrounge together an AC unit
         }
         // TODO: AC check for when building power is implemented
@@ -2838,8 +2832,8 @@ bool player::has_alarm_clock() const
 {
     return ( has_item_with_flag( "ALARMCLOCK" ) ||
              (
-                 ( g->m.veh_at( pos() ) != nullptr ) &&
-                 !g->m.veh_at( pos() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
+                 ( g->m.veh_at( pos() ) ) &&
+                 !g->m.veh_at( pos() )->vehicle().all_parts_with_feature( "ALARMCLOCK", true ).empty()
              ) ||
              has_bionic( bio_watch )
            );
@@ -2849,8 +2843,8 @@ bool player::has_watch() const
 {
     return ( has_item_with_flag( "WATCH" ) ||
              (
-                 ( g->m.veh_at( pos() ) != nullptr ) &&
-                 !g->m.veh_at( pos() )->all_parts_with_feature( "WATCH", true ).empty()
+                 ( g->m.veh_at( pos() ) ) &&
+                 !g->m.veh_at( pos() )->vehicle().all_parts_with_feature( "WATCH", true ).empty()
              ) ||
              has_bionic( bio_watch )
            );
@@ -3783,8 +3777,6 @@ int player::impact( const int force, const tripoint &p )
     const bool slam = p != pos();
     std::string target_name = "a swarm of bugs";
     Creature *critter = g->critter_at( p );
-    int part_num = -1;
-    vehicle *veh = g->m.veh_at( p, part_num );
     if( critter != this && critter != nullptr ) {
         target_name = critter->disp_name();
         // Slamming into creatures and NPCs
@@ -3793,18 +3785,18 @@ int player::impact( const int force, const tripoint &p )
         // TODO: Modify based on something?
         mod = 1.0f;
         effective_force = force;
-    } else if( veh != nullptr ) {
+    } else if( const optional_vpart_position vp = g->m.veh_at( p ) ) {
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
-        target_name = veh->disp_name();
-        if( veh->part_with_feature( part_num, "SHARP" ) != -1 ) {
+        target_name = vp->vehicle().disp_name();
+        if( vp->vehicle().part_with_feature( vp->part_index(), "SHARP" ) != -1 ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
         armor_eff = 0.25f; // Not much
-        if( !slam && veh->part_with_feature( part_num, "ROOF" ) ) {
+        if( !slam && vp->vehicle().part_with_feature( vp->part_index(), "ROOF" ) ) {
             // Roof offers better landing than frame or pavement
             effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
         }
@@ -8528,8 +8520,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that immediately disqualify the player from reading:
-    const vehicle *veh = g->m.veh_at( pos() );
-    if( veh != nullptr && veh->player_in_control( *this ) ) {
+    const optional_vpart_position vp = g->m.veh_at( pos() );
+    if( vp && vp->vehicle().player_in_control( *this ) ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
@@ -9221,8 +9213,7 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
 
 void player::try_to_sleep()
 {
-    int vpart = -1;
-    vehicle *veh = g->m.veh_at( pos(), vpart );
+    const optional_vpart_position vp = g->m.veh_at( pos() );
     const trap &trap_at_pos = g->m.tr_at(pos());
     const ter_id ter_at_pos = g->m.ter(pos());
     const furn_id furn_at_pos = g->m.furn(pos());
@@ -9235,10 +9226,10 @@ void player::try_to_sleep()
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
               ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
-              ter_at_pos == t_grass) && !veh &&
+              ter_at_pos == t_grass) && !vp &&
               furn_at_pos == f_null ) {
             add_msg_if_player(m_good, _("You relax as your roots embrace the soil."));
-        } else if (veh) {
+        } else if (vp) {
             add_msg_if_player(m_bad, _("It's impossible to sleep in this wheeled pot!"));
         } else if (furn_at_pos != f_null) {
             add_msg_if_player(m_bad, _("The humans' furniture blocks your roots. You can't get comfortable."));
@@ -9284,8 +9275,8 @@ void player::try_to_sleep()
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
-         (veh && veh->part_with_feature (vpart, "BED") >= 0)) ) {
+         ( vp && vp->vehicle().part_with_feature( vp->part_index(), "SEAT" ) >= 0 ) ||
+         ( vp && vp->vehicle().part_with_feature( vp->part_index(), "BED" ) >= 0 ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
@@ -9329,8 +9320,7 @@ int player::sleep_spot( const tripoint &p ) const
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    int vpart = -1;
-    vehicle *veh = g->m.veh_at(p, vpart);
+    const optional_vpart_position vp = g->m.veh_at( p );
     const maptile tile = g->m.maptile_at( p );
     const trap &trap_at_pos = tile.get_trap_t();
     const ter_id ter_at_pos = tile.get_ter();
@@ -9343,10 +9333,10 @@ int player::sleep_spot( const tripoint &p ) const
         if (in_shell) {
             sleepy += 4;
         // Else use the vehicle tile if we are in one
-        } else if (veh) {
-            if (veh->part_with_feature (vpart, "BED") >= 0) {
+        } else if (vp) {
+            if (vp->vehicle().part_with_feature( vp->part_index(), "BED") >= 0) {
                 sleepy += 4;
-            } else if (veh->part_with_feature (vpart, "SEAT") >= 0) {
+            } else if (vp->vehicle().part_with_feature (vp->part_index(), "SEAT") >= 0) {
                 sleepy += 3;
             } else {
                 // Sleeping elsewhere is uncomfortable
@@ -9375,7 +9365,7 @@ int player::sleep_spot( const tripoint &p ) const
         }
     // Has plantsleep
     } else if (plantsleep) {
-        if (veh || furn_at_pos != f_null) {
+        if (vp || furn_at_pos != f_null) {
             // Sleep ain't happening in a vehicle or on furniture
             sleepy -= 999;
         } else {
@@ -9465,10 +9455,9 @@ std::string player::is_snuggling() const
     auto end = g->m.i_at( pos() ).end();
 
     if( in_vehicle ) {
-        int vpart;
-        vehicle *veh = g->m.veh_at( pos(), vpart );
-        if( veh != nullptr ) {
-            int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            vehicle *const veh = &vp->vehicle();
+            const int cargo = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false );
             if( cargo >= 0 ) {
                 if( !veh->get_items(cargo).empty() ) {
                     begin = veh->get_items(cargo).begin();

@@ -21,6 +21,7 @@
 #include "translations.h"
 #include "string_formatter.h"
 #include "coordinates.h"
+#include "vpart_position.h"
 #include "npc.h"
 #include "vehicle.h"
 #include "submap.h"
@@ -237,9 +238,8 @@ void editmap_hilight::draw( editmap &hm, bool update )
     if( blink_interval[ cur_blink ] || update ) {
         for( auto &elem : points ) {
             const tripoint &p = elem.first;
-            int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
+            if( !g->m.veh_at( p ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -406,11 +406,9 @@ tripoint editmap::edit()
         } else if( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
         } else if( action == "EDIT_MONSTER" ) {
-            int veh_part = -1;
-            vehicle *veh = g->m.veh_at( target, veh_part );
             if( Creature *const critter = g->critter_at( target ) ) {
                 edit_critter( *critter );
-            } else if( veh ) {
+            } else if( g->m.veh_at( target ) ) {
                 edit_veh();
             }
         } else if( action == "EDIT_OVERMAP" ) {
@@ -505,11 +503,10 @@ void editmap::update_view( bool update_info )
 {
     // Debug helper 2, child of debug helper
     // Gather useful data
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( target, veh_part );
     int veh_in = -1;
-    if( veh ) {
-        veh_in = veh->is_inside( veh_part );
+    const optional_vpart_position vp = g->m.veh_at( target );
+    if( vp ) {
+        veh_in = vp->is_inside();
     }
 
     target_ter = g->m.ter( target );
@@ -541,9 +538,8 @@ void editmap::update_view( bool update_info )
     if( blink && target_list.size() > 1 ) {
         for( auto &elem : target_list ) {
             const tripoint &p = elem;
-            int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
+            if( !g->m.veh_at( p ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -660,10 +656,10 @@ void editmap::update_view( bool update_info )
 
         if( critter != nullptr ) {
             off = critter->print_info( w_info, off, 5, 1 );
-        } else if( veh ) {
-            mvwprintw( w_info, off, 1, _( "There is a %s there. Parts:" ), veh->name.c_str() );
+        } else if( vp ) {
+            mvwprintw( w_info, off, 1, _( "There is a %s there. Parts:" ), vp->vehicle().name );
             off++;
-            veh->print_part_desc( w_info, off, getmaxy( w_info ) - 1, width, veh_part );
+            vp->vehicle().print_part_desc( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
             off += 6;
         }
 
@@ -1418,9 +1414,7 @@ int editmap::edit_critter( Creature &critter )
 int editmap::edit_veh()
 {
     int ret = 0;
-    int veh_part = -1;
-    vehicle *it = g->m.veh_at( target, veh_part );
-    edit_json( *it );
+    edit_json( g->m.veh_at( target )->vehicle() );
     return ret;
 }
 
