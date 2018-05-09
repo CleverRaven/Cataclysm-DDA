@@ -3988,11 +3988,8 @@
     "difficulty": 1,
     "time": 1000,
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1 }
-    ],
-    "components": [
-      [
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [
         [ "stick", 1 ],
         [ "2x4", 1 ],
         [ "splinter", 2 ],
