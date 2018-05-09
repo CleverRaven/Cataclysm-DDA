@@ -158,7 +158,7 @@ class options_manager
         void deserialize( JsonIn &jsin );
 
         std::string migrateOptionName( const std::string &name ) const;
-        std::string migrateOptionValue( const std::string &name, const std::string &val = "" ) const;
+        std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
 
         /**
          * Returns a copy of the options in the "world default" page. The options have their
