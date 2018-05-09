@@ -56,6 +56,7 @@ class item_location::impl
         class item_on_vehicle;
 
         impl() = default;
+		impl(std::list<item> *what) : whatstart( what ), what( &what->front() ) {}
         impl( item *what ) : what( what ) {}
         impl( int idx ) : idx( idx ) {}
 
@@ -94,6 +95,9 @@ class item_location::impl
         }
 
         item *target() const {
+			if (whatstart != nullptr) {
+				what = &whatstart->front();
+			}
             if( idx >= 0 ) {
                 what = unpack( idx );
                 idx = -1;
@@ -101,7 +105,20 @@ class item_location::impl
             return what;
         }
 
+		long charges_in_stack(unsigned int countOnly) const {
+			long sum = 0L;
+			unsigned int c = countOnly;
+			if (whatstart == nullptr) {
+				return target()->charges;
+			}
+			for (std::list<item>::iterator it = whatstart->begin(); it != whatstart->end() && c; ++it, --c) {
+				sum += it->charges;
+			}
+			return sum;
+		}
+
     private:
+		mutable std::list<item> *whatstart = nullptr;
         mutable item *what = nullptr;
         mutable int idx = -1;
 };
@@ -200,6 +217,7 @@ class item_location::impl::item_on_person : public item_location::impl
         Character &who;
 
     public:
+		item_on_person(Character &who, std::list<item> *which) : impl(which), who(who) {}
         item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
 
@@ -426,6 +444,9 @@ item_location::item_location()
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new impl::item_on_map( mc, which ) ) {}
 
+item_location::item_location(Character &ch, std::list<item> *which)
+	: ptr(new impl::item_on_person(ch, which)) {}
+
 item_location::item_location( Character &ch, item *which )
     : ptr( new impl::item_on_person( ch, which ) ) {}
 
@@ -496,6 +517,11 @@ void item_location::deserialize( JsonIn &js )
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     }
+}
+
+long item_location::charges_in_stack(unsigned int countOnly) const
+{
+	return ptr->charges_in_stack(countOnly);
 }
 
 item_location::type item_location::where() const

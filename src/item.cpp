@@ -2381,6 +2381,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 }
 
+std::string item::display_money(unsigned int quantity, unsigned long charge) const {
+    std::string name = tname(quantity);
+    std::string amt = string_format(" ($%.2f)", (double)charge / 100);
+    return string_format("%s%s", name.c_str(), amt.c_str());
+}
+
 std::string item::display_name( unsigned int quantity ) const
 {
     std::string name = tname( quantity );
@@ -2402,18 +2408,8 @@ std::string item::display_name( unsigned int quantity ) const
     bool has_ammo = is_ammo_container() && !contents.empty();
     bool contains = has_item || has_ammo;
     bool show_amt = false;
-    // This handles money stacks, which is an item, with contents, where each contained item is a cash_card
-    // A single cash_card is handled by the "else if( ammo_capacity() > 0 ) branch"
-    bool is_moneyStack = ( ammo_type() == "money" || contents.size() > 0 && contents.front().ammo_type() == "money" );
-
     // We should handle infinite charges properly in all cases.
-    if ( is_moneyStack ) {
-        for (auto &elem : contents) {
-            amount += elem.charges;
-        }
-        amount = contents.size();
-        show_amt = true;
-    } else if( contains ) {
+    if( contains ) {
         amount = contents.front().charges;
     } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
@@ -2428,11 +2424,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( is_moneyStack || ammo_type() == "money" ) {
-            amt = string_format( " ($%.2f)", ( double ) amount / 100 );
-        } else {
-            amt = string_format( " (%i)", amount );
-        }
+        amt = string_format( " (%i)", amount );
     }
 
     return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
