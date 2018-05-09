@@ -5009,7 +5009,7 @@ bool item::flammable( int threshold ) const
         return false;
     }
 
-    int flammability = 0;
+    float flammability = 0.0f;
     int chance = 0;
     for( const auto &m : mats ) {
         const auto &bd = m->burn_data( 1 );
@@ -5022,8 +5022,8 @@ bool item::flammable( int threshold ) const
         chance += bd.chance_in_volume;
     }
 
-    if( threshold == 0 || flammability <= 0 ) {
-        return flammability > 0;
+    if( threshold == 0 || flammability <= 0.0f ) {
+        return flammability > 0.0f;
     }
 
     chance /= mats.size();
