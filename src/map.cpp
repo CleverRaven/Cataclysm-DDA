@@ -3147,9 +3147,11 @@ void map::smash_items(const tripoint &p, const int power)
         }
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
-            // But save the contents
+            // But save the contents, except for irremovable gunmods
             for( auto &elem : i->contents ) {
-                contents.push_back( elem );
+                if( !elem.is_irremovable() ) {
+                    contents.push_back( elem );
+                }
             }
 
             i = i_rem( p, i );
