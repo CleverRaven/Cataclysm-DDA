@@ -8,7 +8,7 @@
 
 #if __has_cpp_attribute(fallthrough)
 #define FALLTHROUGH [[fallthrough]];
-#elseif __has_cpp_attribute(clang::fallthrough)
+#elif __has_cpp_attribute(clang::fallthrough)
 #define FALLTHROUGH [[clang::fallthrough]];
 #else
 #ifdef _MSC_VER
