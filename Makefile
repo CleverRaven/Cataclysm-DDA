@@ -79,7 +79,7 @@
 # enforces build failure when warnings are encountered.
 # We want to error on everything to make sure we don't check in code with new warnings.
 RELEASE_FLAGS = -Werror
-WARNINGS = -Wall -Wextra -Wimplicit-fallthrough=3
+WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
