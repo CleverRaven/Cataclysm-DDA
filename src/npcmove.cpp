@@ -556,7 +556,7 @@ void npc::execute_action( npc_action action )
                 reach_attack( tar );
                 break;
             }
-        /* fallthrough */
+        /* -fallthrough */
         case npc_melee:
             update_path( tar );
             if( path.size() > 1 ) {
