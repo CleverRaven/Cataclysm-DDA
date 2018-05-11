@@ -601,7 +601,6 @@ void Item_factory::init()
     add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "GASMASK", &iuse::gasmask );
-    add_iuse( "GASMASK_ON", &iuse::gasmask_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MUTAGEN", &iuse::mutagen );
     add_iuse( "MUT_IV", &iuse::mut_iv );
@@ -1305,6 +1304,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "coverage", slot.coverage, strict, 0, 100 );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0 );
     assign( jo, "power_armor", slot.power_armor, strict );

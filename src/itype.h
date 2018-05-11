@@ -228,6 +228,10 @@ struct islot_armor {
      */
     int env_resist = 0;
     /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+    /**
      * How much warmth this item provides.
      */
     int warmth = 0;
