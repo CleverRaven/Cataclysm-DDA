@@ -127,6 +127,7 @@ std::string utf32_to_utf8(uint32_t ch)
         [[fallthrough]];
     case 1:
         *--buf = ch | utf8FirstByte[utf8Bytes];
+        break;
     }
     out[utf8Bytes] = '\0';
     return out;
