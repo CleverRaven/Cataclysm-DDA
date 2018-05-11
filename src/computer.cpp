@@ -831,10 +831,8 @@ of pureed bone & LSD."));
                     print_error(_("ERROR: Please place sample in centrifuge."));
                 } else if (g->m.i_at(dest).size() > 1) {
                     print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                } else if (g->m.i_at(dest)[0].typeId() != "vacutainer") {
-                    print_error(_("ERROR: Please use blood-contained samples."));
                 } else if (g->m.i_at(dest)[0].contents.empty()) {
-                    print_error(_("ERROR: Blood draw kit is empty."));
+                    print_error(_("ERROR: Please only use container with blood sample."));
                 } else if (g->m.i_at(dest)[0].contents.front().typeId() != "blood") {
                     print_error(_("ERROR: Please only use blood samples."));
                 } else { // Success!

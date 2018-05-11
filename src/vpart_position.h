@@ -61,7 +61,8 @@ class vpart_position
 class optional_vpart_position : public cata::optional<vpart_position>
 {
     public:
-        optional_vpart_position( cata::optional<vpart_position> p ) : cata::optional<vpart_position>( std::move( p ) ) { }
+        optional_vpart_position( cata::optional<vpart_position> p ) : cata::optional<vpart_position>
+            ( std::move( p ) ) { }
 
         cata::optional<std::string> get_label() const {
             return has_value() ? value().get_label() : cata::nullopt;

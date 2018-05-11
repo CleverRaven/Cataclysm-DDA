@@ -533,7 +533,9 @@ bool can_interact_at( action_id action, const tripoint &p )
             break;
         case ACTION_CLOSE: {
             const optional_vpart_position vp = g->m.veh_at( p );
-            return ( vp && vp->vehicle().next_part_to_close( vp->part_index(), veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
+            return ( vp &&
+                     vp->vehicle().next_part_to_close( vp->part_index(),
+                             veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
                    g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         }
