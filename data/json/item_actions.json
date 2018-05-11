@@ -461,10 +461,6 @@
         "name" : "Prepare to use"
     },{
         "type" : "item_action",
-        "id" : "GASMASK_ON",
-        "name" : "Prepare for storage"
-    },{
-        "type" : "item_action",
         "id" : "MULTICOOKER",
         "name" : "Cook"
     },{
