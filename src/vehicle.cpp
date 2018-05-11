@@ -6545,10 +6545,9 @@ void vehicle::use_washing_machine( int p ) {
             n.set_age( 0 );
         }
 
-        if ( fuel_left( "water" ) >= 24 ) {
+        if( fuel_left( "water" ) >= 24 ) {
             drain( "water", 24 );
-        }
-        else {
+        } else {
             drain( "water_clean", 24 );
         }
 
