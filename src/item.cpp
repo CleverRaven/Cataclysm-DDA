@@ -2970,8 +2970,24 @@ int item::get_env_resist() const
     if( t == nullptr ) {
         return 0;
     }
+    // modify if item is a gas mask and has filter
+    int resist_base = static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
+    int resist_filter = get_var( "overwrite_env_resist", 0 );
+    int resist = std::max( resist_base, resist_filter );
+    // modify based on item health
+    float eff_resist = max_damage() + 1 - damage();
+    eff_resist /= max_damage() + 1;
+    return lround( resist * eff_resist );
+}
+
+int item::get_env_resist_w_filter() const
+{
+    const auto t = find_armor_data();
+    if( t == nullptr ) {
+        return 0;
+    }
     // it_armor::env_resist is unsigned char
-    return static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
+    return static_cast<int>( static_cast<unsigned int>( t->env_resist_w_filter ) );
 }
 
 bool item::is_power_armor() const
