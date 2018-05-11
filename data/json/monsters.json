@@ -2756,6 +2756,27 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
   },
   {
+    "id": "mon_hologram",
+    "type": "MONSTER",
+    "name": "hologram",
+    "description": "An image made from light, nearly identical to the real deal.",
+    "default_faction": "factionless",
+    "species": [ "UNKNOWN" ],
+    "size": "MEDIUM",
+    "hp": 1,
+    "speed": 150,
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": -99,
+    "morale": 2,
+    "luminance": 16,
+    "dodge": 6,
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
+    "death_function": [ "DISAPPEAR" ],
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+  },
+  {
     "id": "mon_homunculus",
     "type": "MONSTER",
     "name": "homunculus",

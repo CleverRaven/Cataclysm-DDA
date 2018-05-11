@@ -64,6 +64,7 @@
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_cat( "mon_cat" );
+const mtype_id mon_hologram ( "mon_hologram" );
 const mtype_id mon_dog( "mon_dog" );
 const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_fly( "mon_fly" );
@@ -7346,6 +7347,30 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     }
 
     return 0;
+}
+
+int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
+{
+    if ( it->is_armor() && ( p->get_item_position( it ) >= -1 ) ) {
+        p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before activating it" ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    tripoint posp = pos;
+    if ( !choose_adjacent( _( "Choose hologram direction?" ), posp ) ) {
+        return 0;
+    }
+    if ( !g->is_empty( posp ) ) {
+        p->add_msg_if_player( m_info, _( "Cant create a hologram there." ) );
+        return 0;
+    }
+    monster *const hologram = g->summon_mon( mon_hologram, posp );
+    tripoint target = pos;
+    target.x = p->posx() + 2 * SEEX * ( posp.x - p->posx() );
+    target.y = p->posy() + 2 * SEEY * ( posp.y - p->posy() );
+    hologram->set_dest( target );
+    p->moves -= 100;
+    return it->type->charges_to_use();
 }
 
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )

@@ -73,6 +73,10 @@
         "name" : "Repair a gun"
     },{
         "type" : "item_action",
+        "id" : "DIRECTIONAL_HOLOGRAM",
+        "name" : "Create a moving hologam"
+    },{
+        "type" : "item_action",
         "id" : "ROBOTCONTROL",
         "name" : "Hack a robot"
     },{
