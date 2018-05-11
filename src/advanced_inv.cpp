@@ -1162,7 +1162,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         // if we are just starting out, set entry to initial value
         switch(static_cast<aim_entry>(entry++)) {
             case ENTRY_START:
-                ++entry;
+                entry = entry + 1;
                 [[fallthrough]];
             case ENTRY_VEHICLE:
                 if(squares[loc].can_store_in_vehicle()) {
