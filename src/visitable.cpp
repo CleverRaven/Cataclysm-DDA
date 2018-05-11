@@ -358,7 +358,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
                     return VisitResponse::ABORT;
                 }
             }
-            [[fallthrough]];
+            [[clang::fallthrough]];
 
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;

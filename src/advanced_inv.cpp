@@ -1163,11 +1163,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         switch(static_cast<aim_entry>(entry++)) {
             case ENTRY_START:
                 ++entry;
-#if defined(__clang__)
                 [[clang::fallthrough]];
-#else
-                [[fallthrough]];
-#endif
             case ENTRY_VEHICLE:
                 if(squares[loc].can_store_in_vehicle()) {
                     // either do the inverse of the pane (if it is the one we are transferring to),

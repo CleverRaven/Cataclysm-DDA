@@ -1823,10 +1823,10 @@ void map::player_in_field( player &u )
                             parts_burned.push_back( bp_hand_r );
                             parts_burned.push_back( bp_arm_l );
                             parts_burned.push_back( bp_arm_r );
-                            [[fallthrough]];
+                            [[clang::fallthrough]];
                         case 2:
                             parts_burned.push_back( bp_torso );
-                            [[fallthrough]];
+                            [[clang::fallthrough]];
                         case 1:
                             parts_burned.push_back( bp_foot_l );
                             parts_burned.push_back( bp_foot_r );

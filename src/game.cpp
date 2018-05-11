@@ -10202,7 +10202,7 @@ void game::reload( item_location &loc, bool prompt )
                 return;
             }
 
-            [[fallthrough]];
+            [[clang::fallthrough]];
 
         case HINT_CANT:
             add_msg( m_info, _( "You can't reload a %s!" ), it->tname().c_str() );
