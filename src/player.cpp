@@ -3632,8 +3632,10 @@ void player::heal(body_part healed, int dam)
 {
     hp_part healpart;
     switch (healed) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
+        case bp_eyes:
+            [[fallthrough]];
+        case bp_mouth:
+            [[fallthrough]];
         case bp_head:
             healpart = hp_head;
             break;
@@ -3643,28 +3645,28 @@ void player::heal(body_part healed, int dam)
         case bp_hand_l:
             // Shouldn't happen, but fall through to arms
             debugmsg("Heal against hands!");
-            /* -fallthrough */
+            [[fallthrough]];
         case bp_arm_l:
             healpart = hp_arm_l;
             break;
         case bp_hand_r:
             // Shouldn't happen, but fall through to arms
             debugmsg("Heal against hands!");
-            /* -fallthrough */
+            [[fallthrough]];
         case bp_arm_r:
             healpart = hp_arm_r;
             break;
         case bp_foot_l:
             // Shouldn't happen, but fall through to legs
             debugmsg("Heal against feet!");
-            /* -fallthrough */
+            [[fallthrough]];
         case bp_leg_l:
             healpart = hp_leg_l;
             break;
         case bp_foot_r:
             // Shouldn't happen, but fall through to legs
             debugmsg("Heal against feet!");
-            /* -fallthrough */
+            [[fallthrough]];
         case bp_leg_r:
             healpart = hp_leg_r;
             break;
