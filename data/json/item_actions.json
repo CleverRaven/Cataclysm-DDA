@@ -74,7 +74,7 @@
     },{
         "type" : "item_action",
         "id" : "DIRECTIONAL_HOLOGRAM",
-        "name" : "Create a moving hologam"
+        "name" : "Create a moving hologram"
     },{
         "type" : "item_action",
         "id" : "ROBOTCONTROL",
