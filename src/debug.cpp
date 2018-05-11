@@ -98,7 +98,11 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );
+#if defined(__clang__)
+                [[clang::fallthrough]];
+#else
                 [[fallthrough]];
+#endif
             case ' ':
                 stop = true;
                 break;
