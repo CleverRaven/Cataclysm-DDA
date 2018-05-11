@@ -7,7 +7,7 @@
 
 class uimenu;
 
-class loading_ui final
+class loading_ui
 {
     private:
         std::unique_ptr<uimenu> menu;
