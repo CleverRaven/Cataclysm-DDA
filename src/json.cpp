@@ -1,4 +1,5 @@
 #include "json.h"
+#include "compiler_defines.h"
 
 #include <cmath> // pow
 #include <cstdlib> // strtoul
@@ -48,15 +49,15 @@ std::string utf16_to_utf8(uint32_t ch)
     case 4:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case 3:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case 2:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case 1:
         *--buf = ch | utf8FirstByte[utf8Bytes];
     }

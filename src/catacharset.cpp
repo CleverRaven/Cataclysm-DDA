@@ -1,4 +1,5 @@
 #include "catacharset.h"
+#include "compiler_defines.h"
 #include <string.h>
 #include "debug.h"
 #include "cursesdef.h"
@@ -116,15 +117,15 @@ std::string utf32_to_utf8(uint32_t ch)
     case 4:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case 3:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case 2:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case 1:
         *--buf = ch | utf8FirstByte[utf8Bytes];
     }

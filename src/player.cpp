@@ -3412,26 +3412,26 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         case bp_torso:
             break;
         case bp_hand_l:
-             [[clang::fallthrough]];
+             FALLTHROUGH
         case bp_arm_l:
             // Hit to arms/hands are really bad to our aim
             recoil_mul = 200;
             break;
         case bp_hand_r:
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_arm_r:
             recoil_mul = 200;
             break;
         case bp_foot_l:
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_leg_l:
             break;
         case bp_foot_r:
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_leg_r:
             break;
         case bp_mouth:
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_head:
             // @todo: Some daze maybe? Move drain?
             break;
@@ -3638,9 +3638,9 @@ void player::heal(body_part healed, int dam)
     hp_part healpart;
     switch (healed) {
         case bp_eyes:
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_mouth:
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_head:
             healpart = hp_head;
             break;
@@ -3650,28 +3650,28 @@ void player::heal(body_part healed, int dam)
         case bp_hand_l:
             // Shouldn't happen
             debugmsg("Heal against hands!");
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_arm_l:
             healpart = hp_arm_l;
             break;
         case bp_hand_r:
             // Shouldn't happen
             debugmsg("Heal against hands!");
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_arm_r:
             healpart = hp_arm_r;
             break;
         case bp_foot_l:
             // Shouldn't happen
             debugmsg("Heal against feet!");
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_leg_l:
             healpart = hp_leg_l;
             break;
         case bp_foot_r:
             // Shouldn't happen
             debugmsg("Heal against feet!");
-            [[clang::fallthrough]];
+            FALLTHROUGH
         case bp_leg_r:
             healpart = hp_leg_r;
             break;

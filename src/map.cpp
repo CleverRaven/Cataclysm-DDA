@@ -7954,7 +7954,7 @@ template<typename Functor>
                             case ITER_SKIP_ZLEVEL:
                                 smx = my_MAPSIZE + 1;
                                 smy = my_MAPSIZE + 1;
-                                [[clang::fallthrough]];
+                                FALLTHROUGH
                             case ITER_SKIP_SUBMAP:
                                 sx = SEEX;
                                 sy = SEEY;

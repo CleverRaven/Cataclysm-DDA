@@ -609,25 +609,25 @@ void game::draw_weather(weather_printable const &w)
     switch (w.wtype) {
     // Acid weathers; uses acid droplet tile
     case WEATHER_ACID_DRIZZLE:
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case WEATHER_ACID_RAIN:
         weather_name = weather_acid_drop;
         break;
     // Normal rainy weathers; uses normal raindrop tile
     case WEATHER_DRIZZLE:
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case WEATHER_RAINY:
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case WEATHER_THUNDER:
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case WEATHER_LIGHTNING:
         weather_name = weather_rain_drop;
         break;
     // Snowy weathers; uses snowflake tile
     case WEATHER_FLURRIES:
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case WEATHER_SNOW:
-        [[clang::fallthrough]];
+        FALLTHROUGH
     case WEATHER_SNOWSTORM:
         weather_name = weather_snowflake;
         break;

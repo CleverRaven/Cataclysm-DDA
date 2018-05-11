@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "compiler_defines.h"
 #include "path_info.h"
 #include "output.h"
 #include "filesystem.h"
@@ -98,7 +99,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );
-                [[clang::fallthrough]];
+                FALLTHROUGH
             case ' ':
                 stop = true;
                 break;
