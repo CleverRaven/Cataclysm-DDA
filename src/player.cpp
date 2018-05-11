@@ -3411,22 +3411,27 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
             break;
         case bp_torso:
             break;
-        case bp_hand_l: // Fall through to arms
+        case bp_hand_l:
+             [[fallthrough]];
         case bp_arm_l:
             // Hit to arms/hands are really bad to our aim
             recoil_mul = 200;
             break;
-        case bp_hand_r: // Fall through to arms
+        case bp_hand_r:
+            [[fallthrough]];
         case bp_arm_r:
             recoil_mul = 200;
             break;
-        case bp_foot_l: // Fall through to legs
+        case bp_foot_l:
+            [[fallthrough]];
         case bp_leg_l:
             break;
-        case bp_foot_r: // Fall through to legs
+        case bp_foot_r:
+            [[fallthrough]];
         case bp_leg_r:
             break;
-        case bp_mouth: // Fall through to head damage
+        case bp_mouth:
+            [[fallthrough]];
         case bp_head:
             // @todo: Some daze maybe? Move drain?
             break;
@@ -3643,28 +3648,28 @@ void player::heal(body_part healed, int dam)
             healpart = hp_torso;
             break;
         case bp_hand_l:
-            // Shouldn't happen, but fall through to arms
+            // Shouldn't happen
             debugmsg("Heal against hands!");
             [[fallthrough]];
         case bp_arm_l:
             healpart = hp_arm_l;
             break;
         case bp_hand_r:
-            // Shouldn't happen, but fall through to arms
+            // Shouldn't happen
             debugmsg("Heal against hands!");
             [[fallthrough]];
         case bp_arm_r:
             healpart = hp_arm_r;
             break;
         case bp_foot_l:
-            // Shouldn't happen, but fall through to legs
+            // Shouldn't happen
             debugmsg("Heal against feet!");
             [[fallthrough]];
         case bp_leg_l:
             healpart = hp_leg_l;
             break;
         case bp_foot_r:
-            // Shouldn't happen, but fall through to legs
+            // Shouldn't happen
             debugmsg("Heal against feet!");
             [[fallthrough]];
         case bp_leg_r:

@@ -349,7 +349,8 @@ void defense_game::init_to_style( defense_style new_style )
         case NUM_DEFENSE_STYLES:
             DebugLog( D_ERROR, D_GAME ) << "invalid defense style: " << new_style;
             break;
-        case DEFENSE_EASY: // fall through to custom
+        case DEFENSE_EASY:
+            [[fallthrough]];
         case DEFENSE_CUSTOM:
             location = DEFLOC_HOSPITAL;
             initial_difficulty = 15;
