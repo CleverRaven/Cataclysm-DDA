@@ -136,7 +136,6 @@ public:
     int mp3                 ( player*, item*, bool, const tripoint& );
     int mp3_on              ( player*, item*, bool, const tripoint& );
     int gasmask             ( player*, item*, bool, const tripoint& );
-    int gasmask_on          ( player*, item*, bool, const tripoint& );
     int portable_game       ( player*, item*, bool, const tripoint& );
     int vibe                ( player*, item*, bool, const tripoint& );
     int vortex              ( player*, item*, bool, const tripoint& );
