@@ -32,7 +32,7 @@ class mattack_actor;
 template<typename T>
 class generic_factory;
 
-struct species_type {
+struct species_type final {
     species_id id;
     bool was_loaded = false;
     std::set<m_flag> flags;
