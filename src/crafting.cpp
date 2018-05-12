@@ -1344,7 +1344,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             add_msg( m_bad, _( "You fail to recover %s." ), newit.tname().c_str() );
             continue;
         }
-        const bool dmg_success = component_success_chance > rng_float( 0, 1 );
+        const bool dmg_success = component_success_chance > rng( 0, 1 );
         if( !dmg_success ) {
             // Show reason for failure (damaged item, tname contains the damage adjective)
             //~ %1s - material, %2$s - disassembled item

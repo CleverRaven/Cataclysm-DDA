@@ -143,7 +143,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         charges = qty;
     } else {
         if( type->tool && type->tool->rand_charges.size() > 1 ) {
-            const auto charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
+            const auto charge_roll = rng( size_t(1), type->tool->rand_charges.size() - 1 );
             charges = rng( type->tool->rand_charges[charge_roll - 1], type->tool->rand_charges[charge_roll] );
         } else {
             charges = type->charges_default();
@@ -5355,7 +5355,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         long charges_remaining = charges;
-        const long rounds_exploded = rng( 1, charges_remaining );
+        const long rounds_exploded = rng( 1L, charges_remaining );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
         item temp_item = *this;

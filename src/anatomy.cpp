@@ -119,7 +119,7 @@ bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
 
 bodypart_id anatomy::random_body_part() const
 {
-    return get_part_with_cumulative_hit_size( rng_float( 0.0f, size_sum ) ).id();
+    return get_part_with_cumulative_hit_size( rng( 0.0f, size_sum ) ).id();
 }
 
 bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const

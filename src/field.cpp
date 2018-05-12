@@ -664,7 +664,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         }
 
         auto neighs = get_neighbors( p );
-        const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
+        const size_t end_it = rng( size_t(0), neighs.size() - 1 );
         std::vector<size_t> spread;
         spread.reserve( 8 );
         // Start at end_it + 1, then wrap around until i == end_it
@@ -1028,7 +1028,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // if there is more fire there, make it bigger and give it some fuel.
                                 // This is how big fires spend their excess age:
                                 // making other fires bigger. Flashpoint.
-                                const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
+                                const size_t end_it = rng( size_t(0), neighs.size() - 1 );
                                 for( size_t i = ( end_it + 1 ) % neighs.size();
                                      i != end_it && cur.getFieldAge() < 0_turns;
                                      i = ( i + 1 ) % neighs.size() ) {
@@ -1112,7 +1112,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // Our iterator will start at end_i + 1 and increment from there and then wrap around.
                         // This guarantees it will check all neighbors, starting from a random one
-                        const size_t end_i = (size_t)rng( 0, neighs.size() - 1 );
+                        const size_t end_i = rng( size_t(0), neighs.size() - 1 );
                         for( size_t i = ( end_i + 1 ) % neighs.size();
                              i != end_i; i = ( i + 1 ) % neighs.size() ) {
                             if( one_in( cur.getFieldDensity() * 2 ) ) {
@@ -1284,7 +1284,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_nuke_gas:
                     {
                         dirty_transparency_cache = true;
-                        int extra_radiation = rng(0, cur.getFieldDensity());
+                        int extra_radiation = rng( 0, cur.getFieldDensity());
                         adjust_radiation( p, extra_radiation );
                         spread_gas( cur, p, curtype, 50, 1_minutes );
                         break;
@@ -1362,7 +1362,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                                 if( valid.empty() ) {    // Spread to adjacent space, then
-                                    tripoint dst( p.x + rng(-1, 1), p.y + rng(-1, 1), p.z );
+                                    tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
                                     field_entry *elec = get_field( dst ).findField( fd_electricity );
                                     if( passable( dst ) && elec != nullptr &&
                                         elec->getFieldDensity() < 3) {
@@ -1452,14 +1452,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         } else {
                             cur.setFieldDensity(3);
-                            int num_bolts = rng(3, 6);
+                            int num_bolts = rng( 3, 6 );
                             for (int i = 0; i < num_bolts; i++) {
                                 int xdir = 0, ydir = 0;
                                 while (xdir == 0 && ydir == 0) {
-                                    xdir = rng(-1, 1);
-                                    ydir = rng(-1, 1);
+                                    xdir = rng( -1, 1 );
+                                    ydir = rng( -1, 1 );
                                 }
-                                int dist = rng(4, 12);
+                                int dist = rng( 4, 12 );
                                 int boltx = p.x, bolty = p.y;
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
@@ -1467,14 +1467,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng(2, 3) );
                                     if (one_in(4)) {
                                         if (xdir == 0) {
-                                            xdir = rng(0, 1) * 2 - 1;
+                                            xdir = rng( 0, 1 ) * 2 - 1;
                                         } else {
                                             xdir = 0;
                                         }
                                     }
                                     if (one_in(4)) {
                                         if (ydir == 0) {
-                                            ydir = rng(0, 1) * 2 - 1;
+                                            ydir = rng( 0, 1 ) * 2 - 1;
                                         } else {
                                             ydir = 0;
                                         }
@@ -1965,7 +1965,7 @@ void map::player_in_field( player &u )
             int total_damage = 0;
             for( size_t i = 0; i < num_hp_parts; i++ ) {
                 const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );
-                const int dmg = rng( 1, cur.getFieldDensity() );
+                const int dmg = rng( 1, cur.getFieldDensity());
                 total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
             }
 
@@ -2307,8 +2307,8 @@ void map::monster_in_field( monster &z )
                 int tries = 0;
                 tripoint newpos = z.pos();
                 do {
-                    newpos.x = rng(z.posx() - SEEX, z.posx() + SEEX);
-                    newpos.y = rng(z.posy() - SEEY, z.posy() + SEEY);
+                    newpos.x = rng( z.posx() - SEEX, z.posx() + SEEX );
+                    newpos.y = rng( z.posy() - SEEY, z.posy() + SEEY );
                     tries++;
                 } while (impassable(newpos) && tries != 10);
 

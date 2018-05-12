@@ -3012,7 +3012,7 @@ void talk_function::give_equipment( npc &p )
     std::vector<item_pricing> giving = init_selling( p );
     int chosen = -1;
     while( chosen == -1 && giving.size() > 1 ) {
-        int index = rng( 0, giving.size() - 1 );
+        int index = rng( size_t(0), giving.size() - 1 );
         if( giving[index].price < p.op_of_u.owed ) {
             chosen = index;
         }

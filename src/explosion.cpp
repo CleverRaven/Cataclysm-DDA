@@ -89,7 +89,7 @@ void game::do_blast( const tripoint &p, const float power,
     // Find all points to blast
     while( !open.empty() ) {
         // Add some random factor to effective distance to make it look cooler
-        const float distance = open.top().first * rng_float( 1.0f, 1.2f );
+        const float distance = open.top().first * rng( 1.0f, 1.2f );
         const tripoint pt = open.top().second;
         open.pop();
 
@@ -367,7 +367,7 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
         if( critter && !critter->is_dead_state() ) {
             dealt_projectile_attack frag;
             frag.proj = proj;
-            frag.missed_by = rng_float( 0.2, 0.6 );
+            frag.missed_by = rng( 0.2, 0.6 );
             frag.proj.impact = damage_instance::physical( 0, kinetic * 3, 0, std::min( kinetic, mass ) );
 
             distrib[ e ] += kinetic; // increase received damage for tile in distribution

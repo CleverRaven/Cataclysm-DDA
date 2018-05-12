@@ -206,7 +206,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
-                        rng( range - offset, proj_arg.range );
+                        rng( range - offset, double( proj_arg.range ) );
         new_range = std::max( new_range, 1 );
 
         target.x = source.x + roll_remainder( new_range * cos( rad ) );
@@ -328,7 +328,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // at the start, misses should stay as misses
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(),
+            cur_missed_by = std::max( rng( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(),
                                       0.4 );
         }
 

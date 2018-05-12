@@ -548,7 +548,7 @@ void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, 
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+        int roll = std::min<int>( entry.max, round( rng( min_num, max_num ) ) );
 
         const itype *drop = item::find_type( entry.drop );
 
@@ -605,12 +605,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     auto roll_butchery = [&]() {
         double skill_shift = 0.0;
         ///\EFFECT_SURVIVAL randomly increases butcher rolls
-        skill_shift += rng_float( 0, skill_level - 3 );
+        skill_shift += rng( 0, skill_level - 3 );
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
-        skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
+        skill_shift += rng( 0, p->dex_cur - 8 ) / 4.0;
 
         if( factor < 0 ) {
-            skill_shift -= rng_float( 0, -factor / 5.0 );
+            skill_shift -= rng( double(0), -factor / 5.0 );
         }
 
         return static_cast<int>( round( skill_shift ) );
@@ -927,13 +927,13 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     }
     ///\EFFECT_SURVIVAL increases chance of fishing success
     rod_fish( p, sSkillLevel, fishChance );
-    p->practice( skill_survival, rng(5, 15) );
+    p->practice( skill_survival, rng( 5, 15 ) );
     act->set_to_null();
 }
 
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
-    int veggy_chance = rng(1, 100);
+    int veggy_chance = rng( 1, 100 );
     bool found_something = false;
 
     items_location loc;
@@ -990,7 +990,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
-    p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
+    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 
     act->set_to_null();
 }
@@ -1021,11 +1021,11 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
-        if( mech_skill > (int)rng(1, 6) ) {
+        if( mech_skill > rng( 1, 6 ) ) {
             //success
             veh->is_locked = false;
             add_msg(_("This wire will start the engine."));
-        } else if( mech_skill > (int)rng(0, 4) ) {
+        } else if( mech_skill > rng( 0, 4 ) ) {
             //soft fail
             veh->is_locked = false;
             veh->is_alarm_on = veh->has_security_working();
@@ -1100,8 +1100,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
     if( success > 0 ) {
 
-        p->practice( skill_firstaid, rng(2, 5) );
-        p->practice( skill_survival, rng(2, 5) );
+        p->practice( skill_firstaid, rng( 2, 5 ) );
+        p->practice( skill_survival, rng( 2, 5 ) );
 
         p->add_msg_if_player(m_good,
                              _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reanimates."));
@@ -1116,8 +1116,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
         if( success > -20 ) {
 
-            p->practice( skill_firstaid, rng(3, 6) );
-            p->practice( skill_survival, rng(3, 6) );
+            p->practice( skill_firstaid, rng( 3, 6 ) );
+            p->practice( skill_survival, rng( 3, 6 ) );
 
             p->add_msg_if_player(m_warning,
                                  _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
@@ -1132,8 +1132,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
         } else {
 
-            p->practice( skill_firstaid, rng(1, 8) );
-            p->practice( skill_survival, rng(1, 8) );
+            p->practice( skill_firstaid, rng( 1, 8 ) );
+            p->practice( skill_survival, rng( 1, 8 ) );
 
             body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
             if( body->damage() == body->max_damage() ) {

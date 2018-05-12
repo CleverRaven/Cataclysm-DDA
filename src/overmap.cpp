@@ -4166,7 +4166,7 @@ om_direction::type om_direction::opposite( type dir )
 
 om_direction::type om_direction::random()
 {
-    return static_cast<type>( rng( 0, size - 1 ) );
+    return static_cast<type>( rng( size_t(0), size - 1 ) );
 }
 
 bool om_direction::are_parallel( type dir1, type dir2 )

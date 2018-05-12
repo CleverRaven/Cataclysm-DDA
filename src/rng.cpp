@@ -8,19 +8,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-long rng( long val1, long val2 )
-{
-    long minVal = ( val1 < val2 ) ? val1 : val2;
-    long maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + long( ( maxVal - minVal + 1 ) * double( rand() / double( RAND_MAX + 1.0 ) ) );
-}
-
-double rng_float( double val1, double val2 )
-{
-    double minVal = ( val1 < val2 ) ? val1 : val2;
-    double maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + ( maxVal - minVal ) * double( rand() ) / double( RAND_MAX + 1.0 );
-}
 
 bool one_in( int chance )
 {
@@ -30,7 +17,7 @@ bool one_in( int chance )
 //this works just like one_in, but it accepts doubles as input to calculate chances like "1 in 350,52"
 bool one_in_improved( double chance )
 {
-    return ( chance <= 1 || rng_float( 0, chance ) < 1 );
+    return ( chance <= 1 || rng( double( 0 ), chance ) < 1 );
 }
 
 bool x_in_y( double x, double y )

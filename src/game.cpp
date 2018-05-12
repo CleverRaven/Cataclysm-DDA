@@ -6041,7 +6041,7 @@ void game::emp_blast( const tripoint &p )
     }
     // TODO: More terrain effects.
     if (m.ter(x, y) == t_card_science || m.ter(x, y) == t_card_military) {
-        rn = rng(1, 100);
+        rn = rng( 1, 100 );
         if (rn > 92 || rn < 40) {
             add_msg(_("The card reader is rendered non-functional."));
             m.ter_set(x, y, t_card_reader_broken);
@@ -6103,7 +6103,7 @@ void game::emp_blast( const tripoint &p )
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
             int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
-            u.charge_power(-rng(1 + max_drain / 3, max_drain));
+            u.charge_power(-rng( 1 + max_drain / 3, max_drain ));
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -6261,7 +6261,7 @@ bool game::spawn_hallucination()
 {
     monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
     phantasm.hallucination = true;
-    phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
+    phantasm.spawn({u.posx() + rng( -10, 10 ), u.posy() + rng( -10, 10 ), u.posz()});
 
     //Don't attempt to place phantasms inside of other creatures
     if( !critter_at( phantasm.pos(), true ) ) {
@@ -6523,7 +6523,7 @@ void game::smash()
         u.mod_stat("stamina", mod_sta);
 
         if (u.get_skill_level( skill_melee ) == 0) {
-            u.practice( skill_melee, rng(0, 1) * rng(0, 1));
+            u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ));
         }
         const int vol = u.weapon.volume() / units::legacy_volume_factor;
         if (u.weapon.made_of( material_id( "glass" ) ) &&
@@ -6536,7 +6536,7 @@ void game::smash()
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if (vol > 20) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( double(0), vol * .5 ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -6623,8 +6623,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
     for (int i = 0; i < 20; i++) {
-        const int x_ = x + rng(-1, +1);
-        const int y_ = y + rng(-1, +1);
+        const int x_ = x + rng( -1, +1 );
+        const int y_ = y + rng( -1, +1 );
         if (is_empty({x_, y_, get_levz()})) {
             // invert direction, as game::knockback needs
             // the source of the force that knocks back
@@ -10650,7 +10650,7 @@ void game::pldrive(int x, int y)
 
         ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
         float skill = std::min( 10.0f, u.get_skill_level( skill_driving ) + ( u.get_dex() + u.get_per() ) / 10.0f );
-        float penalty = rng_float( 0.0f, handling_diff ) - skill;
+        float penalty = rng( 0.0f, handling_diff ) - skill;
         int cost;
         if( penalty > 0.0f ) {
             // At 10 penalty (rather hard to get), we're taking 4 turns per turn
@@ -10886,8 +10886,8 @@ bool game::plmove(int dx, int dy, int dz)
 
     tripoint dest_loc;
     if( dz == 0 && u.has_effect( effect_stunned ) ) {
-        dest_loc.x = rng(u.posx() - 1, u.posx() + 1);
-        dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
+        dest_loc.x = rng( u.posx() - 1, u.posx() + 1 );
+        dest_loc.y = rng( u.posy() - 1, u.posy() + 1 );
         dest_loc.z = u.posz();
     } else {
         if( tile_iso && use_tiles && !u.has_destination() ) {
@@ -12345,7 +12345,7 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( m.ter( stairs ) == t_manhole_cover ) {
-        m.spawn_item( stairs + point( rng(-1, 1), rng(-1, 1) ), "manhole_cover" );
+        m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), "manhole_cover" );
         m.ter_set( stairs, t_manhole );
     }
 
@@ -12784,7 +12784,7 @@ void game::update_stair_monsters()
             critter.spawn( dest );
             while (tries < creature_push_attempts) {
                 tries++;
-                pushx = rng(-1, 1), pushy = rng(-1, 1);
+                pushx = rng( -1, 1 ), pushy = rng( -1, 1 );
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
                 tripoint pos( iposx, iposy, get_levz() );
@@ -12843,8 +12843,8 @@ void game::update_stair_monsters()
             int pushy = 0;
             while( tries < creature_push_attempts ) {
                 tries++;
-                pushx = rng(-1, 1);
-                pushy = rng(-1, 1);
+                pushx = rng( -1, 1 );
+                pushy = rng( -1, 1 );
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
                 tripoint pos( iposx, iposy, get_levz() );
@@ -13043,8 +13043,8 @@ void game::teleport(player *p, bool add_teleglow)
         p->add_effect( effect_teleglow, 30_minutes );
     }
     do {
-        new_pos.x = p->posx() + rng(0, SEEX * 2) - SEEX;
-        new_pos.y = p->posy() + rng(0, SEEY * 2) - SEEY;
+        new_pos.x = p->posx() + rng( 0, SEEX * 2 ) - SEEX;
+        new_pos.y = p->posy() + rng( 0, SEEY * 2 ) - SEEY;
         tries++;
     } while ( tries < 15 && m.impassable( new_pos ) );
     bool can_see = ( is_u || u.sees( new_pos ) );
@@ -13108,7 +13108,7 @@ void game::nuke( const tripoint &p )
             if (one_in(3)) {
                 tmpmap.add_field( dest, fd_nuke_gas, 3 );
             }
-            tmpmap.adjust_radiation( dest, rng(20, 80));
+            tmpmap.adjust_radiation( dest, rng( 20, 80 ));
         }
     }
     tmpmap.save();

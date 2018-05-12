@@ -220,7 +220,7 @@ void item::add_rain_to_container(bool acid, int charges)
                 long total_poison = liq.poison * (orig) + (5 * added);
                 liq.poison = total_poison / liq.charges;
                 long leftover_poison = total_poison - liq.poison * liq.charges;
-                if (leftover_poison > rng(0, liq.charges)) {
+                if (leftover_poison > rng( 0l, liq.charges )) {
                     liq.poison++;
                 }
             }

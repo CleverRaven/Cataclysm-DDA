@@ -140,7 +140,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 static const auto max_spill_volume = units::from_liter( 1 );
                 const long max_spill_charges = std::max( 1l, item_it->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const int qty = rng( 1l, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
+                const int qty = rng( double(1), max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
                 item spill = item_it->split( qty );
                 if( spill.is_null() ) {
@@ -1534,7 +1534,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     for( const auto &entry : harvest ) {
         float min_num = entry.base_num.first + lev * entry.scale_num.first;
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+        int roll = std::min<int>( entry.max, round( rng( min_num, max_num ) ) );
         for( int i = 0; i < roll; i++ ) {
             const item &it = g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
             p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
@@ -1851,7 +1851,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             } else if( plantCount <= 0 ) {
                 plantCount = 1;
             }
-            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+            const int seedCount = std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
             for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
                 g->m.add_item_or_charges( examp, i );
             }
@@ -3460,7 +3460,7 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 
     p.moves -= 100 + 100 * fall_mod;
     p.setpos( examp );
-    if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
+    if( climb_cost > 0 || rng( 0.8, 1.0 ) > fall_mod ) {
         // One tile of falling less (possibly zero)
         g->vertical_move( -1, true );
     }

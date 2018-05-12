@@ -1297,7 +1297,7 @@ static void do_purify( player &p )
         p.add_msg_if_player(_("You feel cleansed."));
         return;
     }
-    int num_cured = rng( 1, valid.size() );
+    int num_cured = rng( size_t(1), valid.size() );
     num_cured = std::min( 4, num_cured );
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
@@ -1341,7 +1341,7 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
         return it->type->charges_to_use();
     }
     int num_cured = rng(4,
-                        valid.size()); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
+                        int(valid.size())); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
     if (num_cured > 8) {
         num_cured = 8;
     }
@@ -2134,7 +2134,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                 success += rng(surv, surv * surv);
             }
 
-            it->charges = rng(-1, it->charges);
+            it->charges = rng(-1L, it->charges);
             if (it->charges < 0) {
                 it->charges = 0;
             }
@@ -2231,7 +2231,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
         dest.x += (dest.x - p->posx());
         dest.y += (dest.y - p->posy());
 
-        g->m.adjust_field_strength(dest, fd_fire, std::min(0 - rng(0, 1) + rng(0, 1), 0L));
+        g->m.adjust_field_strength(dest, fd_fire, std::min(0 - rng(0, 1) + rng(0, 1), 0));
     }
 
     return it->type->charges_to_use();
@@ -3241,35 +3241,38 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
             case 2:
                 sounds::sound(pos, 100, _("BUFFS!"));
                 g->draw_explosion( pos, explosion_radius, c_green );
-                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
-                    if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                        monster &critter = *mon_ptr;
-                        critter.set_speed_base(
-                            critter.get_speed_base() * rng_float(1.1, 2.0) );
-                        critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
-                    } else if( npc * const person = g->critter_at<npc>( dest ) ) {
-                        /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
-                        buff_stat(person->str_max, rng(0, person->str_max / 2));
-                        /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
-                        buff_stat(person->dex_max, rng(0, person->dex_max / 2));
-                        /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
-                        buff_stat(person->int_max, rng(0, person->int_max / 2));
-                        /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
-                        buff_stat(person->per_max, rng(0, person->per_max / 2));
-                    } else if( g->u.pos() == dest ) {
-                        /** @EFFECT_STR_MAX increases possible granade str buff */
-                        buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
-                        /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                        buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
-                        /** @EFFECT_INT_MAX increases possible granade int buff */
-                        buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
-                        /** @EFFECT_PER_MAX increases possible granade per buff */
-                        buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
-                        g->u.recalc_hp();
-                        for (int part = 0; part < num_hp_parts; part++) {
-                            g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
-                            if (g->u.hp_cur[part] > g->u.hp_max[part]) {
-                                g->u.hp_cur[part] = g->u.hp_max[part];
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
+                        tripoint dest( pos.x + i, pos.y + j, pos.z );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
+                            critter.set_speed_base(
+                                critter.get_speed_base() * rng( 1.1, 2.0 ) );
+                            critter.set_hp( critter.get_hp() * rng( 1.1, 2.0 ) );
+                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                            /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
+                            buff_stat(person->str_max, rng(0, person->str_max / 2));
+                            /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
+                            buff_stat(person->dex_max, rng(0, person->dex_max / 2));
+                            /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
+                            buff_stat(person->int_max, rng(0, person->int_max / 2));
+                            /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
+                            buff_stat(person->per_max, rng(0, person->per_max / 2));
+                        } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
+                            /** @EFFECT_STR_MAX increases possible granade str buff */
+                            buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
+                            /** @EFFECT_DEX_MAX increases possible granade dex buff */
+                            buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
+                            /** @EFFECT_INT_MAX increases possible granade int buff */
+                            buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
+                            /** @EFFECT_PER_MAX increases possible granade per buff */
+                            buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
+                            g->u.recalc_hp();
+                            for (int part = 0; part < num_hp_parts; part++) {
+                                g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
+                                if (g->u.hp_cur[part] > g->u.hp_max[part]) {
+                                    g->u.hp_cur[part] = g->u.hp_max[part];
+                                }
                             }
                         }
                     }
@@ -3757,7 +3760,7 @@ const std::string &get_music_description()
         return rare;
     }
 
-    size_t i = (size_t)rng( 0, descriptions.size() * 2 );
+    size_t i = rng( size_t(0), descriptions.size() * 2 );
     if( i < descriptions.size() ) {
         return descriptions[i];
     }
@@ -4481,9 +4484,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
     }
 
     const auto &art = it->type->artifact;
-    size_t num_used = rng(1, art->effects_activated.size());
+    size_t num_used = rng(size_t(1), art->effects_activated.size());
     if (num_used < art->effects_activated.size()) {
-        num_used += rng(1, art->effects_activated.size() - num_used);
+        num_used += rng(size_t(1), art->effects_activated.size() - num_used);
     }
 
     std::vector<art_effect_active> effects = art->effects_activated;

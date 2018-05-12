@@ -799,7 +799,7 @@ int effect::get_mod(std::string arg, bool reduced) const
     }
     if (int(max) != 0) {
         // Return a random value between [min, max]
-        return int(rng(min, max));
+        return rng( int( min ), int( max ));
     } else {
         // Else return the minimum value
         return min;

@@ -36,7 +36,7 @@ bool is_adjacent( const monster &z, const Creature &target )
 bool dodge_check( float max_accuracy, Creature &target )
 {
     ///\EFFECT_DODGE increases chance of dodging special attacks of monsters
-    float dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0.0f );
+    float dodge = std::max( target.get_dodge() - rng( float( 0 ), max_accuracy ), 0.0f );
     if( rng( 0, 10000 ) < 10000 / ( 1 + ( 99 * exp( -0.6f * dodge ) ) ) ) {
         return true;
     }
@@ -231,7 +231,7 @@ bool melee_actor::call( monster &z ) const
 
     damage_instance damage = damage_max_instance;
 
-    double multiplier = rng_float( min_mul, max_mul );
+    double multiplier = rng( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
     body_part bp_hit = body_parts.empty() ?
