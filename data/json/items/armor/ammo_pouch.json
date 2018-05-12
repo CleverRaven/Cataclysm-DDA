@@ -128,7 +128,7 @@
       "holster_msg": "You stash your %s.",
       "max_volume": 1,
       "draw_cost": 40,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -188,7 +188,7 @@
       "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 60,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
   },
@@ -221,7 +221,7 @@
       "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 60,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
   },
@@ -254,7 +254,7 @@
       "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 60,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
   },
@@ -287,7 +287,7 @@
       "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 60,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
   },
@@ -320,7 +320,7 @@
       "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 60,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
   },
@@ -353,7 +353,7 @@
       "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 60,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
   }
