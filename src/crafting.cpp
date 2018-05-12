@@ -1099,7 +1099,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     if( !ret.success() ) {
         if( interactive ) {
-            add_msg_if_player ( m_info, "%s", ret.c_str() );
+            add_msg_if_player( m_info, "%s", ret.c_str() );
         }
         return false;
     }
@@ -1126,9 +1126,9 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         }
     }
 
-    if ( activity.id() != activity_id("ACT_DISASSEMBLE") ) {
-        assign_activity( activity_id("ACT_DISASSEMBLE"), r.time );
-    } else if ( activity.moves_left <= 0 ) {
+    if( activity.id() != activity_id( "ACT_DISASSEMBLE" ) ) {
+        assign_activity( activity_id( "ACT_DISASSEMBLE" ), r.time );
+    } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
 
