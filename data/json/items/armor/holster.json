@@ -17,7 +17,6 @@
     "use_action" : {
       "type": "holster",
       "max_volume": 15,
-      "min_volume": 6,
       "draw_cost": 150,
       "skills": ["smg", "shotgun", "rifle", "launcher"]
     },
