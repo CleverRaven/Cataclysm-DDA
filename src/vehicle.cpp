@@ -6521,7 +6521,7 @@ void vehicle::use_washing_machine( int p ) {
         parts[p].enabled = false;
         add_msg( m_bad,
                  _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
-    } else if( fuel_left( "water" ) < 24 ) {
+    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name.c_str() );
     } else if( !detergent_is_enough ) {
@@ -6535,7 +6535,11 @@ void vehicle::use_washing_machine( int p ) {
             n.set_age( 0 );
         }
 
-        drain( "water", 24 );
+        if( fuel_left( "water" ) >= 24 ) {
+            drain( "water", 24 );
+        } else {
+            drain( "water_clean", 24 );
+        }
 
         std::vector<item_comp> detergent;
         detergent.push_back( item_comp( "detergent", 5 ) );
