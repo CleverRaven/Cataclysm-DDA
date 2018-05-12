@@ -2280,15 +2280,24 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
         if( contents.front().made_of( LIQUID ) ) {
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( quantity, with_prefix ).c_str() );
+            maintext = string_format(
+                pgettext( "item name", "%s in %s" ),
+                contents.front().tname( quantity, with_prefix ).c_str(),
+            	label( quantity ).c_str()
+            );
         } else if( contents.front().is_food() ) {
             const unsigned contents_count = contents.front().charges > 1 ? contents.front().charges : quantity;
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( contents_count, with_prefix ).c_str() );
+            maintext = string_format(
+                pgettext( "item name", "%s in %s" ),
+                contents.front().tname( contents_count, with_prefix ).c_str(),
+                label( quantity ).c_str()
+            );
         } else {
-            maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( quantity, with_prefix ).c_str() );
+            maintext = string_format(
+                pgettext( "item name", "%s in %s" ),
+                contents.front().tname( quantity, with_prefix ).c_str(),
+                label( quantity ).c_str()
+            );
         }
     } else if( !contents.empty() ) {
         maintext = string_format( pgettext( "item name", "%s, full" ), label( quantity ).c_str() );
