@@ -49509,7 +49509,7 @@
         {
           "id": ["t_window_bars_alarm", "t_window_bars"],
           "fg": [2947, 2946, 2947, 2946],
-          "bg": 640,
+          "bg": 661,
           "rotates": true
         },
         {
@@ -51226,7 +51226,7 @@
         },
         {
           "id": "vp_board_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [
@@ -51238,7 +51238,7 @@
         },
         {
           "id": "vp_hdboard_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [

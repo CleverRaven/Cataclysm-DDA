@@ -51222,7 +51222,7 @@
         },
         {
           "id": "vp_board_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [
@@ -51234,7 +51234,7 @@
         },
         {
           "id": "vp_hdboard_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [

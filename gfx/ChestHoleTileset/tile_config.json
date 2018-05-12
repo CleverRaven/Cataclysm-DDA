@@ -51225,7 +51225,7 @@
         },
         {
           "id": "vp_board_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [
@@ -51237,7 +51237,7 @@
         },
         {
           "id": "vp_hdboard_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [
@@ -52222,33 +52222,8 @@
          "multitile": true,
          "additional_tiles": [
             {
-              "id": "center",
-              "fg": 2705,
-              "bg": 633
-            },
-            {
-              "id": "corner",
-              "fg": 2703,
-              "bg": 633
-            },
-            {
-              "id": "edge",
-              "fg": 2703,
-              "bg": 633
-            },
-            {
-              "id": "end_piece",
-              "fg": 2703,
-              "bg": 633
-            },
-            {
               "id": "broken",
               "fg": 3089
-            },
-            {
-              "id": "unconnected",
-              "fg": 2703,
-              "bg": 633
             }
           ]
         },
