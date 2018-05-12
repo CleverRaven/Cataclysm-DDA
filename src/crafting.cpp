@@ -1097,8 +1097,8 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 {
     const auto ret = can_disassemble( obj, crafting_inventory() );
 
-    if ( !ret.success() ) {
-        if ( interactive ) {
+    if( !ret.success() ) {
+        if( interactive ) {
             add_msg_if_player ( m_info, "%s", ret.c_str() );
         }
         return false;
@@ -1106,10 +1106,10 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
     // last chance to back out
-    if ( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
+    if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         const auto components( r.disassembly_requirements().get_components() );
         std::ostringstream list;
-        for ( const auto &elem : components ) {
+        for( const auto &elem : components ) {
             list << "- " << elem.front().to_string() << std::endl;
         }
 
@@ -1128,12 +1128,11 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     if ( activity.id() != activity_id("ACT_DISASSEMBLE") ) {
         assign_activity( activity_id("ACT_DISASSEMBLE"), r.time );
-    }
-    else if ( activity.moves_left <= 0 ) {
+    } else if ( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
 
-    activity.values.push_back( pos ) ;
+    activity.values.push_back( pos );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
     activity.str_values.push_back( r.result() );
 
