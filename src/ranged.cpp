@@ -1536,16 +1536,16 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
-    //_FS
+    // Apply skill multilipier for non fakes
     if( !is_fake() )
     {
-        double perSkillMult = 0.1;
-        double perSkillMult2 = 0.04;
-        double skillThreshold = 6;
-        double maxBonusWithoutBioTargeting = 0.75;
-        double maxBonusWithBioTargeting = 0.8;
-        double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0;
-        double cbmSkillMultBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 0.05 : 0;
+        double perSkillMult = 0.1; //Multiplier per average skill levels
+        double perSkillMult2 = 0.04; //Multiplier per average skill levels post  avg. threshold
+        double skillThreshold = 6; // Avg. skill threshold
+        double maxBonusWithoutBioTargeting = 0.75; // Max multiplier without bio_targeting
+        double maxBonusWithBioTargeting = 0.8; // // Max multiplier with bio_targeting
+        double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0; //CBM bonus to avg. skill
+        double cbmSkillMultBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 0.05 : 0; // Flat CBM bonus to multiplier
 
         double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
         avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
@@ -1560,7 +1560,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_multiplier( skillMult );
     }
     //
-    //_FS Original CBM effect disabled
+    // CBM effect implemented in skill multiplier
    /* if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
     }
