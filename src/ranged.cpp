@@ -1559,12 +1559,11 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         double skillMult = 1 - skillEffect;
         dispersion.add_multiplier( skillMult );
     }
-    //
-    // CBM effect implemented in skill multiplier
-   /* if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
+    else if( has_bionic( bionic_id( "bio_targeting" ) ) )
+    {
         dispersion.add_multiplier( 0.75 );
     }
-    */
+   
 
     if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
         // Range is effectively four times longer when shooting unflagged guns underwater.
