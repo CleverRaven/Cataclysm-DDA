@@ -1520,9 +1520,6 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
-    /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    //dispersion.add_range( 3 * ( MAX_SKILL - std::min( get_skill_level( skill_gun ), MAX_SKILL ) ) );
-
     dispersion.add_range( ranged_dex_mod() );
 
     dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5 );
@@ -1536,7 +1533,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
-
+    /** @EFFECT_GUN improves usage of accurate weapons and sights */
     double perSkillMult = 0.6; //Multiplier per average skill levels
     double perSkillMult2 = 0.4; //Multiplier per average skill levels post  avg. threshold
     double skillThreshold = 5; // Avg. skill threshold
