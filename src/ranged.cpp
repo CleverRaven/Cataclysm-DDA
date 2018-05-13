@@ -1521,11 +1521,11 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    dispersion.add_range( 3 * ( MAX_SKILL - std::min( get_skill_level( skill_gun ), MAX_SKILL ) ) );
+    //dispersion.add_range( 3 * ( MAX_SKILL - std::min( get_skill_level( skill_gun ), MAX_SKILL ) ) );
 
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( encumb( bp_arm_l ) + encumb( bp_arm_r ) );
+    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) /4 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1536,33 +1536,30 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
-    // Apply skill multilipier for non fakes
+    // Apply skill multilipier
     if( !is_fake() )
     {
-        double perSkillMult = 0.1; //Multiplier per average skill levels
-        double perSkillMult2 = 0.04; //Multiplier per average skill levels post  avg. threshold
+        double perSkillMult = 0.6; //Multiplier per average skill levels
+        double perSkillMult2 = 0.3; //Multiplier per average skill levels post  avg. threshold
         double skillThreshold = 6; // Avg. skill threshold
-        double maxBonusWithoutBioTargeting = 0.75; // Max multiplier without bio_targeting
-        double maxBonusWithBioTargeting = 0.8; // // Max multiplier with bio_targeting
+
         double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0; //CBM bonus to avg. skill
-        double cbmSkillMultBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 0.05 : 0; // Flat CBM bonus to multiplier
 
         double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
         avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
+        double avgLackOfSkill = double(MAX_SKILL) - avgSkill;
 
-        double skillEffect = ( avgSkill > skillThreshold ) ? skillThreshold * perSkillMult +
-                             ( avgSkill - skillThreshold ) * perSkillMult2
-                             : avgSkill * perSkillMult;
-        skillEffect = std::min( skillEffect, maxBonusWithoutBioTargeting );
-        skillEffect = std::min( skillEffect + cbmSkillMultBonus, maxBonusWithBioTargeting );
-        skillEffect = std::min( skillEffect, 0.999 );
-        double skillMult = 1 - skillEffect;
-        dispersion.add_multiplier( skillMult );
+        double lackOfSkillEffect = ( avgLackOfSkill > skillThreshold ) ? skillThreshold * perSkillMult +
+                             ( avgLackOfSkill - skillThreshold ) * perSkillMult2
+                             : avgLackOfSkill * perSkillMult;
+
+        dispersion.add_range( weapon_dispersion * lackOfSkillEffect );
     }
-    else if( has_bionic( bionic_id( "bio_targeting" ) ) )
+
+   /* if( has_bionic( bionic_id( "bio_targeting" ) ) )
     {
         dispersion.add_multiplier( 0.75 );
-    }
+    }*/
    
 
     if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
