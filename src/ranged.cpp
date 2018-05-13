@@ -1537,8 +1537,8 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
 
-    double perSkillMult = 0.6; //Multiplier per average skill levels
-    double perSkillMult2 = 0.3; //Multiplier per average skill levels post  avg. threshold
+    double perSkillMult = 0.5; //Multiplier per average skill levels
+    double perSkillMult2 = 0.5; //Multiplier per average skill levels post  avg. threshold
     double skillThreshold = 6; // Avg. skill threshold
 
     double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 :
