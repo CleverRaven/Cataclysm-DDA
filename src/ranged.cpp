@@ -1525,7 +1525,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 4 );
+    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1537,9 +1537,9 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
 
-    double perSkillMult = 0.5; //Multiplier per average skill levels
-    double perSkillMult2 = 0.5; //Multiplier per average skill levels post  avg. threshold
-    double skillThreshold = 6; // Avg. skill threshold
+    double perSkillMult = 0.6; //Multiplier per average skill levels
+    double perSkillMult2 = 0.4; //Multiplier per average skill levels post  avg. threshold
+    double skillThreshold = 5; // Avg. skill threshold
 
     double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 :
                            0; //CBM bonus to avg. skill
@@ -1548,9 +1548,9 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
     double avgLackOfSkill = double( MAX_SKILL ) - avgSkill;
 
-    double lackOfSkillEffect = ( avgLackOfSkill > skillThreshold ) ? skillThreshold * perSkillMult +
-                               ( avgLackOfSkill - skillThreshold ) * perSkillMult2
-                               : avgLackOfSkill * perSkillMult;
+    double lackOfSkillEffect = ( avgLackOfSkill > skillThreshold ) ? skillThreshold * perSkillMult2 +
+                               ( avgLackOfSkill - skillThreshold ) * perSkillMult
+                               : avgLackOfSkill * perSkillMult2;
 
     dispersion.add_range( weapon_dispersion * lackOfSkillEffect );
 
