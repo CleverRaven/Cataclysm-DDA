@@ -325,8 +325,8 @@ bool player::can_make( const recipe *r, int batch_size )
 const inventory &player::crafting_inventory()
 {
     if( cached_moves == moves
-        && cached_time == calendar::turn
-        && cached_position == pos() ) {
+            && cached_time == calendar::turn
+            && cached_position == pos() ) {
         return cached_crafting_inventory;
     }
     cached_crafting_inventory.form_from_map( pos(), PICKUP_RANGE, false );
@@ -336,7 +336,7 @@ const inventory &player::crafting_inventory()
     for( const auto &bio : *my_bionics ) {
         const auto &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.empty() ) {
+                !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
                                                calendar::turn, power_level );
         }
@@ -455,7 +455,7 @@ void player::complete_craft()
     auto helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         if( np->get_skill_level( making->skill_used ) >=
-            get_skill_level( making->skill_used ) ) {
+                get_skill_level( making->skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
             add_msg( m_info, _( "%s helps with crafting..." ), np->name.c_str() );
@@ -466,7 +466,7 @@ void player::complete_craft()
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
     if( has_trait( trait_id( "HYPEROPIC" ) ) && !is_wearing( "glasses_reading" ) &&
-        !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+            !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making->skill_used == skill_id( "electronics" ) ) {
             main_rank_penalty = 2;
@@ -484,8 +484,8 @@ void player::complete_craft()
             paws_rank_penalty += 1;
         }
         if( making->skill_used == skill_id( "electronics" )
-            || making->skill_used == skill_id( "tailor" )
-            || making->skill_used == skill_id( "mechanics" ) ) {
+                || making->skill_used == skill_id( "tailor" )
+                || making->skill_used == skill_id( "mechanics" ) ) {
             paws_rank_penalty += 1;
         }
         skill_dice -= paws_rank_penalty * 4;
@@ -754,7 +754,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             cmenu.addentry( tmpStr );
         }
         for( auto &elem :
-             mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
+                mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( elem.type ),
                                                 ( elem.count * batch ),
@@ -1116,12 +1116,12 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         if ( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) )
         {
             if ( !query_yn(_("Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n"), obj.tname().c_str(),
-                list.str().c_str() ) ) {
+                           list.str().c_str() ) ) {
                 return false;
             }
         }
         else if ( !query_yn(_("Disassembling the %s may yield:\n%s\nReally disassemble?"), obj.tname().c_str(),
-            list.str().c_str() ) ) {
+                            list.str().c_str() ) ) {
             return false;
         }
     }
@@ -1190,8 +1190,8 @@ void player::complete_disassemble()
     // Warning: Breaks old saves with disassembly in progress!
     // But so would adding a new recipe...
     if( activity.values.empty() ||
-        activity.values.size() != activity.str_values.size() ||
-        activity.values.size() != activity.coords.size() ) {
+            activity.values.size() != activity.str_values.size() ||
+            activity.values.size() != activity.coords.size() ) {
         debugmsg( "bad disassembly activity values" );
         activity.set_to_null();
         return;
@@ -1368,7 +1368,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
 
         for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
-             ++a ) {
+                ++a ) {
             if( a->type == newit.type ) {
                 act_item = *a;
                 dis_item.components.erase( a );
