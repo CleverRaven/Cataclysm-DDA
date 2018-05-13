@@ -236,7 +236,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
         arm_shooter( shooter, "sw_619", { "holo_sight", "pistol_grip", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 10, 12, 25 );
+        test_shooting_scenario( shooter, 10, 14, 27 );
         test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
