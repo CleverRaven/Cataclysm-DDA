@@ -4066,7 +4066,7 @@ int item::gun_dispersion( bool with_ammo ) const
     // Dividing dispersion by 3 temporarily as a gross adjustment,
     // will bake that adjustment into individual gun definitions in the future.
     // Absolute minimum gun dispersion is 5.
-    dispersion_sum = std::max( dispersion_sum / 12, 1 );
+    dispersion_sum = std::max( dispersion_sum / 13, 1 );
     return dispersion_sum;
 }
 

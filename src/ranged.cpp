@@ -1555,10 +1555,10 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     dispersion.add_range( weapon_dispersion * lackOfSkillEffect );
 
 
-    /* if( has_bionic( bionic_id( "bio_targeting" ) ) )
+     if( has_bionic( bionic_id( "bio_targeting" ) ) )
      {
-         dispersion.add_multiplier( 0.75 );
-     }*/
+         dispersion.add_multiplier( 0.90 );
+     }
 
 
     if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
