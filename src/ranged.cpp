@@ -1525,7 +1525,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) /4 );
+    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 4 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1536,31 +1536,30 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
-    // Apply skill multilipier
-    if( !is_fake() )
-    {
-        double perSkillMult = 0.6; //Multiplier per average skill levels
-        double perSkillMult2 = 0.3; //Multiplier per average skill levels post  avg. threshold
-        double skillThreshold = 6; // Avg. skill threshold
 
-        double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0; //CBM bonus to avg. skill
+    double perSkillMult = 0.6; //Multiplier per average skill levels
+    double perSkillMult2 = 0.3; //Multiplier per average skill levels post  avg. threshold
+    double skillThreshold = 6; // Avg. skill threshold
 
-        double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
-        avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
-        double avgLackOfSkill = double(MAX_SKILL) - avgSkill;
+    double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 :
+                           0; //CBM bonus to avg. skill
 
-        double lackOfSkillEffect = ( avgLackOfSkill > skillThreshold ) ? skillThreshold * perSkillMult +
-                             ( avgLackOfSkill - skillThreshold ) * perSkillMult2
-                             : avgLackOfSkill * perSkillMult;
+    double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
+    avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
+    double avgLackOfSkill = double( MAX_SKILL ) - avgSkill;
 
-        dispersion.add_range( weapon_dispersion * lackOfSkillEffect );
-    }
+    double lackOfSkillEffect = ( avgLackOfSkill > skillThreshold ) ? skillThreshold * perSkillMult +
+                               ( avgLackOfSkill - skillThreshold ) * perSkillMult2
+                               : avgLackOfSkill * perSkillMult;
 
-   /* if( has_bionic( bionic_id( "bio_targeting" ) ) )
-    {
-        dispersion.add_multiplier( 0.75 );
-    }*/
-   
+    dispersion.add_range( weapon_dispersion * lackOfSkillEffect );
+
+
+    /* if( has_bionic( bionic_id( "bio_targeting" ) ) )
+     {
+         dispersion.add_multiplier( 0.75 );
+     }*/
+
 
     if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
         // Range is effectively four times longer when shooting unflagged guns underwater.
