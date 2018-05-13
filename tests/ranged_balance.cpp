@@ -223,7 +223,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
         arm_shooter( shooter, "m1918", { "red_dot_sight", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 5, 8, 25 );
-        test_fast_shooting( shooter, 90, 0.2 );
+        test_fast_shooting( shooter, 80, 0.2 );
     }
 }
 
