@@ -50,6 +50,7 @@
     "dispersion": 360,
     "durability": 6,
     "burst": 14,
+    "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
