@@ -319,6 +319,8 @@ class game
         void clear_zombies();
         /** Spawns a hallucination close to the player. */
         bool spawn_hallucination();
+        /** Spawns a hallucination at a determined position. */
+        bool spawn_hallucination( const tripoint &p );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 

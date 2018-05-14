@@ -5123,58 +5123,11 @@ void player::suffer()
             }
         }
         */
-        if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) && one_in( 10 ) ) ) {//2400
+        if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) && one_in( 2400 ) ) ) {
             if( is_player() ) {
                 switch( rng( 0, 16 ) ) {
                 case 0: // Sound
-                    { 
-                        // Random 'dangerous' sound from a random direction
-                        // 1/5 chance to be a loud sound
-                        std::vector<std::string> dir{ "north",
-                                                      "northeast",
-                                                      "northwest",
-                                                      "south",
-                                                      "southeast",
-                                                      "southwest",
-                                                      "east",
-                                                      "west" };
-
-                        std::vector<std::string> dirz{ "and above you ", "and below you " };
-
-                        std::vector<std::tuple<std::string, std::string, std::string>> desc{ 
-                                    std::make_tuple( "whump!", "smash_fail", "t_door_c" ),
-                                    std::make_tuple( "crash!", "smash_success", "t_door_c" ),
-                                    std::make_tuple( "glass breaking!", "smash_success", "t_window_domestic" ) };
-
-                        std::vector<std::tuple<std::string, std::string, std::string>> desc_big{ 
-                                    std::make_tuple( "huge explosion!", "explosion", "default" ),
-                                    std::make_tuple( "bang!", "fire_gun", "glock_19" ),
-                                    std::make_tuple( "blam!", "fire_gun", "mossberg_500" ),
-                                    std::make_tuple( "crash!", "smash_success", "t_wall" ),
-                                    std::make_tuple( "SMASH!", "smash_success", "t_wall" ) };
-
-                        std::string i_dir = dir[rng( 0, dir.size() - 1 )];
-
-                        std::string i_dirz = "";
-                        if( one_in( 10 ) ) {
-                            i_dirz = dirz[rng( 0, dirz.size() - 1 )];
-                        }
-
-                        std::string i_desc;
-                        std::pair<std::string, std::string> i_sound;
-                        if( one_in( 5 ) ) {
-                            int r_int = rng( 0, desc_big.size() - 1 );
-                            i_desc = std::get<0>( desc_big[r_int] );
-                            i_sound = std::make_pair(std::get<1>( desc_big[r_int] ), std::get<2>( desc_big[r_int] ) );
-                        } else {
-                            int r_int = rng( 0, desc.size() - 1 );
-                            i_desc = std::get<0>( desc[r_int] );
-                            i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
-                        }
-
-                        add_msg( m_warning, _( "From the %1$s %2$syou hear %3$s" ), i_dir.c_str(), i_dirz.c_str(), i_desc.c_str() );
-                        sfx::play_variant_sound( i_sound.first, i_sound.second, rng( 20, 80 ) );
-                    }
+                    sound_hallu();
                     break;
                 case 1: // Follower turns hostile
                     {
@@ -6144,6 +6097,55 @@ void player::vomit()
     if( stomach_contents != 0 ) {
         wake_up();
     }
+}
+
+void player::sound_hallu() {
+    // Random 'dangerous' sound from a random direction
+    // 1/5 chance to be a loud sound
+    std::vector<std::string> dir{ "north",
+                                  "northeast",
+                                  "northwest",
+                                  "south",
+                                  "southeast",
+                                  "southwest",
+                                  "east",
+                                  "west" };
+
+    std::vector<std::string> dirz{ "and above you ", "and below you " };
+
+    std::vector<std::tuple<std::string, std::string, std::string>> desc{
+                std::make_tuple( "whump!", "smash_fail", "t_door_c" ),
+                std::make_tuple( "crash!", "smash_success", "t_door_c" ),
+                std::make_tuple( "glass breaking!", "smash_success", "t_window_domestic" ) };
+
+    std::vector<std::tuple<std::string, std::string, std::string>> desc_big{
+                std::make_tuple( "huge explosion!", "explosion", "default" ),
+                std::make_tuple( "bang!", "fire_gun", "glock_19" ),
+                std::make_tuple( "blam!", "fire_gun", "mossberg_500" ),
+                std::make_tuple( "crash!", "smash_success", "t_wall" ),
+                std::make_tuple( "SMASH!", "smash_success", "t_wall" ) };
+
+    std::string i_dir = dir[rng( 0, dir.size() - 1 )];
+
+    std::string i_dirz = "";
+    if( one_in( 10 ) ) {
+        i_dirz = dirz[rng( 0, dirz.size() - 1 )];
+    }
+
+    std::string i_desc;
+    std::pair<std::string, std::string> i_sound;
+    if( one_in( 5 ) ) {
+        int r_int = rng( 0, desc_big.size() - 1 );
+        i_desc = std::get<0>( desc_big[r_int] );
+        i_sound = std::make_pair( std::get<1>( desc_big[r_int] ), std::get<2>( desc_big[r_int] ) );
+    } else {
+        int r_int = rng( 0, desc.size() - 1 );
+        i_desc = std::get<0>( desc[r_int] );
+        i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
+    }
+
+    add_msg( m_warning, _( "From the %1$s %2$syou hear %3$s" ), i_dir.c_str(), i_dirz.c_str(), i_desc.c_str() );
+    sfx::play_variant_sound( i_sound.first, i_sound.second, rng( 20, 80 ) );
 }
 
 void player::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
@@ -9351,7 +9353,9 @@ void player::do_read( item &book )
                 }
             }
 
-            if( skill_level == reading->level || !skill_level.can_train() ) {
+            if( ( skill_level == reading->level || !skill_level.can_train() ) || 
+              ( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) ) &&
+                  learner->is_player() && one_in( 10 ) ) ) {
                 if( learner->is_player() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name().c_str() );
                 } else {

@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "vitamin.h"
 #include "mongroup.h"
+#include "submap.h"
 
 #ifdef TILES
 #include "SDL.h"
@@ -1109,6 +1110,45 @@ void player::hardcoded_effects( effect &it )
                         break;
                     }
                 }
+            }
+            if( ( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) && one_in( 7200 ) && is_player() ) ) {
+                if( one_in( 2 ) ) {
+                    sound_hallu();
+                } else {
+                    int x = posx();
+                    int y = posy();
+                    int z = posz();
+
+                    tripoint mp = tripoint( x, y, z );
+                    
+                    int max_count = rng( 1, 3 );
+                    int count = 0;
+                    bool found_valid = false;
+                    for( int i = -1; i <= 1; i += 2 ) {
+                        for( int j = -1; j <= 1; j += 2 ) {
+                            const maptile t = g->m.maptile_at( tripoint( x + i, y + j, z ) );
+
+                            if( t.get_ter().obj().has_flag( "FLAT" ) && 
+                                g->m.pl_sees( tripoint( x + i, y + j, z ), 2 ) ) {
+
+                                mp = tripoint( x + i, y + j, z );
+                                if( ++count > max_count ) {
+                                    found_valid = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if( found_valid ) {
+                            break;
+                        }
+                    }
+
+                    if( found_valid ) {
+                        g->spawn_hallucination( mp );
+                    }
+                }
+                it.set_duration( 0 );
+                woke_up = true;
             }
         }
 
