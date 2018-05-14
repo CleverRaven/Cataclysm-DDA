@@ -255,6 +255,7 @@ void MonsterGenerator::init_death()
     death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
     death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
+    death_map["FIREBALL"] = &mdeath::fireball;// Explode in a fireball
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
