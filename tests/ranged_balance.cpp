@@ -236,12 +236,12 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
         arm_shooter( shooter, "sw_619", { "holo_sight", "pistol_grip", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 10, 13, 27 );
+        test_shooting_scenario( shooter, 10, 13, 30 );
         test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "pistol_scope", "barrel_big", "match_trigger", "adjustable_stock" } );
-        test_shooting_scenario( shooter, 12, 20, 45 );
+        test_shooting_scenario( shooter, 12, 20, 55 );
         test_fast_shooting( shooter, 70, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
@@ -260,12 +260,12 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 
     SECTION( "an expert shooter with an excellent pistol" ) {
         arm_shooter( shooter, "sw629", { "holo_sight", "match_trigger" } );
-        test_shooting_scenario( shooter, 18, 20, 110 );
+        test_shooting_scenario( shooter, 18, 20, 120 );
         test_fast_shooting( shooter, 20, 0.6 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );
-        test_shooting_scenario( shooter, 20, 30, 180 );
+        test_shooting_scenario( shooter, 20, 30, 190 );
         test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
