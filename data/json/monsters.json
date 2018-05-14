@@ -1865,6 +1865,43 @@
     "flags": [ "SEES", "FLIES", "ELECTRONIC", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
   },
   {
+    "id": "mon_zombie_flamer",
+    "type": "MONSTER",
+    "name": "zombie flamer",
+    "description": "When government realized that bullets weren't able to stop zombies once and for all, they dispatched flamethrower units to burn the walking dead.  Too bad that zombies were too many and flamers were too scarce, so now you can see some unlucky undead soldier still trying to burn everything it encounters.",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 20,
+    "size": "MEDIUM",
+    "hp": 100,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "dark_gray_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "dodge": 1,
+    "armor_bash": 12,
+    "armor_cut": 25,
+    "vision_day": 30,
+    "vision_night": 3,
+    "special_attacks": [ [ "FLAMETHROWER", 15 ] ],
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [
+        [ "mon_zombie_soldier_death_drops", 100 ],
+        [ "mon_zombie_flamer", 100 ]
+      ]
+    },
+    "death_function": [ "FIREBALL" ],
+    "burn_into": "mon_zombie_scorched",
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "BLEED", "PUSH_MON" ]
+  },
+  {
     "id": "mon_flaming_eye",
     "type": "MONSTER",
     "name": "flaming eye",
