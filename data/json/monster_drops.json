@@ -293,5 +293,18 @@
             {"item": "marloss_gel"},
             {"item": "fungal_seeds"}
         ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_flamer",
+        "ammo": 50,
+        "magazine": 100,
+        "entries":
+        [
+            { "distribution": [
+                { "group": "guns_launcher_flame", "prob": 100 }
+            ] }
+        ]
     }
 ]
