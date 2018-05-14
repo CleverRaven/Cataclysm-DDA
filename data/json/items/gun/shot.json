@@ -207,7 +207,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
-    "dispersion": 45,
+    "dispersion": 95,
     "durability": 7,
     "barrel_length": 3,
     "magazine_well": 1,
