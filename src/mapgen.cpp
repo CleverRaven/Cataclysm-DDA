@@ -92,6 +92,7 @@ const mtype_id mon_zombie_child( "mon_zombie_child" );
 const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+const mtype_id mon_zombie_flamer( "mon_zombie_flamer" );
 const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
 const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
 const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
@@ -6016,6 +6017,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         place_items("office", 80, 3, 16, 3, 18, false, 0);
         place_items("office", 80, 6, 16, 6, 18, false, 0);
         add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
+        add_spawn( mon_zombie_flamer, rng( 1, 2 ), 4, 17 );
 
         // Rotate to face the road
         if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
@@ -6123,6 +6125,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             }
             place_items("office", 80, 10, 11, 13, 12, false, 0);
             add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
+            add_spawn( mon_zombie_flamer, rng( 1, 2 ), 12, 14 );
         } else {
             switch (rng(1, 5)) {
             case 1:
