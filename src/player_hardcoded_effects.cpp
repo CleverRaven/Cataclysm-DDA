@@ -1131,7 +1131,7 @@ void player::hardcoded_effects( effect &it )
                             }
                             const maptile t = g->m.maptile_at( tripoint( x + i, y + j, z ) );
 
-                            if( t.get_ter().obj().has_flag( "FLAT" ) && 
+                            if( t.get_ter().obj().has_flag( "FLAT" ) &&
                                 g->m.pl_sees( tripoint( x + i, y + j, z ), 2 ) ) {
                                 mp = tripoint( x + i, y + j, z );
 

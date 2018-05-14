@@ -565,7 +565,7 @@ bool player::eat( item &food, bool force )
         add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                food.tname().c_str() );
     } else if( drinkable ) {
-        if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) ) && 
+        if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) ) &&
               one_in( 50 ) && !spoiled && food.goes_bad() && is_player()) { 
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
@@ -575,7 +575,7 @@ bool player::eat( item &food, bool force )
                                    food.tname().c_str() );
         }
     } else if( chew ) {
-        if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) ) && 
+        if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) ) &&
               one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
