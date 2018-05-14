@@ -5071,8 +5071,7 @@ void player::suffer()
                 case 0: // Sound
                     sound_hallu();
                     break;
-                case 1: // Follower turns hostile
-                    {
+                case 1: { // Follower turns hostile
                         std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
                         if( !followers.empty() ) {
@@ -5083,8 +5082,7 @@ void player::suffer()
                         }
                     }
                     break;
-                case 2: // Monster dies
-                    {
+                case 2: {  // Monster dies
                         std::vector<std::string> mon{ "zombie", "fat zombie", "firefighter zombie", "zombie cop", "zombie solider" };
                         std::string i_mon = mon[rng( 0, mon.size() - 1 )];
 
@@ -5094,8 +5092,7 @@ void player::suffer()
                 case 3: // Limb Breaks
                     add_msg( m_bad, _( "Your limb breaks!" ) );
                     break;
-                case 4: // NPC chat
-                    {
+                case 4: {  // NPC chat
                         std::string i_name = Name::generate( one_in( 2 ) );
 
                         std::vector<std::string> talk{ "Look, man! let's talk!",
@@ -5116,8 +5113,7 @@ void player::suffer()
                         add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
                     }
                     break;
-                case 5: // Skill raise
-                    {
+                case 5: {  // Skill raise
                         std::vector<std::pair<skill_id, int>> skills;
                         for( auto &pair : *_skills ) {
                             skills.emplace_back( std::make_pair( pair.first, pair.second.level() ) );
@@ -5127,8 +5123,7 @@ void player::suffer()
                         add_msg( m_good, _( "You increase %1$s to level %2$d" ), i_skill.first.c_str(), i_skill.second + 1 );
                     }
                     break;
-                case 6: // Talk to self
-                    {
+                case 6: {  // Talk to self
                         std::vector<std::string> talk_s{ "Hey, can you hear me?",
                                                          "Don't touch me.",
                                                          "What's your name?",
@@ -5156,8 +5151,7 @@ void player::suffer()
                         add_msg( _( "%1$s says: \"%2$s\"" ), name, i_talk_s );
                     }
                     break;
-                case 7: // Talking weapon
-                    {
+                case 7: {  // Talking weapon
                         // If player has a weapon, picks a message from said weapon
                         // Weapon tells player to kill a monster if any are nearby
                         // Weapon is concerned for player if bleeding
@@ -5232,48 +5226,40 @@ void player::suffer()
                         add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
                     }
                     break;
-                case 8: // Sleep
-                    {
+                case 8: {  // Sleep
                         add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
                         add_effect( effect_lying_down, 20_minutes );
                     }
                     break;
-                case 9: // Bad feeling
-                    {
+                case 9: {  // Bad feeling
                         add_msg( m_warning, _( "You get a bad feeling." ) );
                         add_morale( MORALE_FEELING_BAD, -50, -150 );
                     }
                     break;
-                case 10: // Formication
-                    {
+                case 10: {  // Formication
                         body_part bp = random_body_part( true );
                         add_effect( effect_formication, 1_hours, bp );
                     }
                     break;
-                case 11: // Numbness
-                    {
+                case 11: {  // Numbness
                         add_msg( m_bad, _( "You suddenly feel so numb..." ) );
                         mod_painkiller( 25 );
                     }
                     break;
-                case 12: // Hallucination
-                    {
+                case 12: {  // Hallucination
                         add_effect( effect_hallu, 6_hours );
                     }
                     break;
-                case 13: // Visuals
-                    {
+                case 13: {  // Visuals
                         add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
                     }
                     break;
-                case 14: // Shaking
-                    {
+                case 14: {  // Shaking
                         add_msg( m_bad, _( "You start to shake uncontrollably." ) );
                         add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
                     }
                     break;
-                case 15: // Shout
-                    {
+                case 15: {  // Shout
                         std::vector<std::string> shouts{ "\"Get away from there!\"",
                                                          "\"What do you think you're doing?\"",
                                                          "\"Stop laughing at me!\"",
@@ -5294,8 +5280,7 @@ void player::suffer()
                         shout( "yourself shout, " + i_shout );
                     }
                     break;
-                case 16: // Drop weapon
-                    {
+                case 16: {  // Drop weapon
                         if( !weapon.is_null() ) {
                             add_msg( _( "You drop your %1$s" ), weapon.display_name() );
                         }
