@@ -5067,253 +5067,257 @@ void player::suffer()
         }
         if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
             if( is_player() ) {
-                //switch( rng( 0, 16 ) ) {
-                switch( 16 ) {
-                case 0: // Sound
-                    if( one_in( 2400 ) ) {
-                        sound_hallu();
-                    }
-                    break;
-                case 1: // Follower turns hostile
-                    if( !one_in( 2400 ) ) {
-                        std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+                bool done_effect = false;
+                // Sound
+                if( one_in( 2400 ) ) {
+                    sound_hallu();
+                }
 
-                        if( !followers.empty() ) {
-                            std::string i_name = followers[rng( 0, followers.size() - 1 )]->name;
-                            add_msg( m_bad, _( "%1$s gets angry!" ), i_name );
-                        } else {
-                            add_msg( m_bad, _( "%1$s gets angry!" ), name );
-                        }
+                // Follower turns hostile
+                if( !done_effect && one_in( 2400 ) ) {
+                    std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+
+                    if( !followers.empty() ) {
+                        std::string i_name = followers[rng( 0, followers.size() - 1 )]->name;
+                        add_msg( m_bad, _( "%1$s gets angry!" ), i_name );
+                    } else {
+                        add_msg( m_bad, _( "%1$s gets angry!" ), name );
                     }
-                    break;
-                case 2: // Monster dies
-                    if( one_in( 1200 ) ) {
-                        std::vector<std::string> mon{ "zombie", "fat zombie", "firefighter zombie", "zombie cop", "zombie solider" };
-                        std::string i_mon = mon[rng( 0, mon.size() - 1 )];
+                    done_effect = true;
+                }
+
+                // Monster dies
+                if( !done_effect && one_in( 1200 ) ) {
+                    std::vector<std::string> mon{ "zombie", "fat zombie", "firefighter zombie", "zombie cop", "zombie solider" };
+                    std::string i_mon = mon[rng( 0, mon.size() - 1 )];
                         
-                        add_msg( _( "%s dies!" ), i_mon.c_str() );
-                    }
-                    break;
-                case 3: // Limb Breaks
+                    add_msg( _( "%s dies!" ), i_mon.c_str() );
+                    done_effect = true;
+                }
+
+                // Limb Breaks
+                if( !done_effect && one_in( 2400 ) ) {
                     add_msg( m_bad, _( "Your limb breaks!" ) );
-                    break;
-                case 4: // NPC chat
-                    if( one_in( 2400 ) ) {  
-                        std::string i_name = Name::generate( one_in( 2 ) );
+                    done_effect = true;
+                }
 
-                        std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
-                        parse_tags( i_talk, *this, *(npc *)this );
-                        i_talk[0] = toupper( i_talk[0] );
+                // NPC chat
+                if( !done_effect && one_in( 2400 ) ) {
+                    std::string i_name = Name::generate( one_in( 2 ) );
 
-                        add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
+                    std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
+                    parse_tags( i_talk, *this, *(npc *)this );
+                    i_talk[0] = toupper( i_talk[0] );
+
+                    add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
+                    done_effect = true;
+                }
+
+                // Skill raise
+                if( !done_effect && one_in( 4800 ) ) {
+                    std::vector<std::pair<skill_id, int>> skills;
+                    for( auto &pair : *_skills ) {
+                        skills.emplace_back( std::make_pair( pair.first, pair.second.level() ) );
                     }
-                    break;
-                case 5: // Skill raise
-                    if( one_in( 4800 ) ) {
-                        std::vector<std::pair<skill_id, int>> skills;
-                        for( auto &pair : *_skills ) {
-                            skills.emplace_back( std::make_pair( pair.first, pair.second.level() ) );
+                    std::pair<skill_id, int> i_skill = skills[rng( 0, skills.size() - 1 )];
+
+                    add_msg( m_good, _( "You increase %1$s to level %2$d" ), i_skill.first.c_str(), i_skill.second + 1 );
+                    done_effect = true;
+                }
+
+                // Talk to self
+                if( !done_effect && one_in( 2400 ) ) {
+                    std::vector<std::string> talk_s{ "Hey, can you hear me?",
+                                                        "Don't touch me.",
+                                                        "What's your name?",
+                                                        "I thought you were my friend.",
+                                                        "How are you today?",
+                                                        "Shut up! Don't lie to me.",
+                                                        "Why would you do that?",
+                                                        "Please, don't go.",
+                                                        "Don't leave me alone!",
+                                                        "Yeah, sure.",
+                                                        "No way, man.",
+                                                        "Do you really think so?",
+                                                        "Is it really time for that?",
+                                                        "Sorry, I can't hear you.",
+                                                        "You've told me already.",
+                                                        "I know!",
+                                                        "Why are you following me?",
+                                                        "This place is dangerous, you shouldn't be here.",
+                                                        "What are you doing out here?",
+                                                        "That's not true, is it?",
+                                                        "Are you hurt?" };
+
+                    std::string i_talk_s = talk_s[rng( 0, talk_s.size() - 1 )];
+
+                    add_msg( _( "%1$s says: \"%2$s\"" ), name, i_talk_s );
+                    done_effect = true;
+                }
+
+                // Talking weapon
+                if( !done_effect && !weapon.is_null() ) {
+                    // If player has a weapon, picks a message from said weapon
+                    // Weapon tells player to kill a monster if any are nearby
+                    // Weapon is concerned for player if bleeding
+                    // Weapon is concerned for itself if damaged
+                    // Otherwise random chit-chat
+
+                    std::string i_name_w = weapon.has_var( "item_label" ) ?
+                        weapon.get_var( "item_label" ) :
+                        "Your " + weapon.type_name();
+
+                    std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+
+                    std::string i_talk_w;
+                    bool does_talk = false;
+                    if( !mons.empty() && one_in( 150 ) ) {
+                        std::vector<std::string> mon_near{ "Hey, let's go kill that %1$s!",
+                                                            "Did you see that %1$s!",
+                                                            "I want to kill that %1$s!",
+                                                            "Let me kill that %1$s!",
+                                                            "Hey, I need to kill that %1$s!",
+                                                            "I want to watch that %1$s bleed!",
+                                                            "Wait, that %1$s needs to die!",
+                                                            "Go kill that %1$s!",
+                                                            "Look at that %1$s!",
+                                                            "That %1$s doesn't deserve to live!" };
+                        std::string talk_w = mon_near[rng( 0, mon_near.size() - 1 )];
+                        std::vector<std::string> seen_mons;
+                        for( auto n : mons ) {
+                            if( sees( *n.lock() ) ) {
+                                seen_mons.emplace_back( n.lock()->get_name() );
+                            }
                         }
-                        std::pair<skill_id, int> i_skill = skills[rng( 0, skills.size() - 1 )];
-
-                        add_msg( m_good, _( "You increase %1$s to level %2$d" ), i_skill.first.c_str(), i_skill.second + 1 );
-                    }
-                    break;
-                case 6: // Talk to self
-                    if( one_in( 2400 ) ) {
-                        std::vector<std::string> talk_s{ "Hey, can you hear me?",
-                                                         "Don't touch me.",
-                                                         "What's your name?",
-                                                         "I thought you were my friend.",
-                                                         "How are you today?",
-                                                         "Shut up! Don't lie to me.",
-                                                         "Why would you do that?",
-                                                         "Please, don't go.",
-                                                         "Don't leave me alone!",
-                                                         "Yeah, sure.",
-                                                         "No way, man.",
-                                                         "Do you really think so?",
-                                                         "Is it really time for that?",
-                                                         "Sorry, I can't hear you.",
-                                                         "You've told me already.",
-                                                         "I know!",
-                                                         "Why are you following me?",
-                                                         "This place is dangerous, you shouldn't be here.",
-                                                         "What are you doing out here?",
-                                                         "That's not true, is it?",
-                                                         "Are you hurt?" };
-
-                        std::string i_talk_s = talk_s[rng( 0, talk_s.size() - 1 )];
-
-                        add_msg( _( "%1$s says: \"%2$s\"" ), name, i_talk_s );
-                    }
-                    break;
-                case 7: { // Talking weapon
-                        // If player has a weapon, picks a message from said weapon
-                        // Weapon tells player to kill a monster if any are nearby
-                        // Weapon is concerned for player if bleeding
-                        // Weapon is concerned for itself if damaged
-                        // Otherwise random chit-chat
-                        if( weapon.is_null() ) {
-                            break;
+                        if( !seen_mons.empty() ) {
+                            i_talk_w = string_format( talk_w, seen_mons[rng( 0, seen_mons.size() - 1 )] );
+                            does_talk = true;
                         }
+                    } else if( has_effect( effect_bleed ) && one_in( 50 ) ) {
+                        std::vector<std::string> bleeding{ "Hey, you're bleeding.",
+                                                            "Your wound looks pretty bad.",
+                                                            "Shouldn't you put a bandage on that?",
+                                                            "Please don't die! No one else lets me kill things!",
+                                                            "You look hurt, did I do that?",
+                                                            "Are you supposed to be bleeding?",
+                                                            "You're not going to die, are you?",
+                                                            "Kill a few more before you bleed out!" };
+                        i_talk_w = bleeding[rng( 0, bleeding.size() - 1 )];
+                        does_talk = true;
+                    } else if( weapon.damage() >= weapon.max_damage() / 3 && one_in( 300 ) ) {
+                        std::vector<std::string> damaged{ "Hey fix me up.",
+                                                            "I need healing!",
+                                                            "I hurt all over...",
+                                                            "You can put me back together, right?",
+                                                            "I... I can't move my legs!",
+                                                            "Medic!",
+                                                            "I can still fight, don't replace me!",
+                                                            "They got me!",
+                                                            "Go on without me...",
+                                                            "Am I gonna die?" };
+                        i_talk_w = damaged[rng( 0, damaged.size() - 1 )];
+                        does_talk = true;
+                    } else if( one_in( 1800 ) ) {
+                        std::vector<std::string> misc{ "Let me kill something already!",
+                                                        "I'm your best friend, right?",
+                                                        "I love you!",
+                                                        "How are you today?",
+                                                        "Do you think it will rain today?",
+                                                        "Did you hear that?",
+                                                        "Try not to drop me.",
+                                                        "How many do you think we've killed?",
+                                                        "I'll keep you safe!" };
+                        i_talk_w = misc[rng( 0, misc.size() - 1 )];
+                        does_talk = true;
+                    }
+                    if( does_talk ) {
+                        add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
+                    }
+                    done_effect = true;
+                }
+                // Sleep
+                if( !done_effect && one_in( 4800 ) ) {
+                    add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
+                    add_effect( effect_lying_down, 20_minutes );
+                    done_effect = true;
+                }
+                // Bad feeling
+                if( !done_effect && one_in( 2400 ) ) {
+                    add_msg( m_warning, _( "You get a bad feeling." ) );
+                    add_morale( MORALE_FEELING_BAD, -50, -150 );
+                    done_effect = true;
+                }
+                // Formication
+                if( !done_effect && one_in( 4800 ) ) {
+                    body_part bp = random_body_part( true );
+                    add_effect( effect_formication, 1_hours, bp );
+                    done_effect = true;
+                }
+                // Numbness
+                if( !done_effect && one_in( 2400 ) ) {
+                    add_msg( m_bad, _( "You suddenly feel so numb..." ) );
+                    mod_painkiller( 25 );
+                    done_effect = true;
+                }
+                // Hallucination
+                if( !done_effect && one_in( 4800 ) ) {
+                    add_effect( effect_hallu, 6_hours );
+                    done_effect = true;
+                }
+                // Visuals
+                if( !done_effect && one_in( 2400 ) ) {
+                    add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
+                    done_effect = true;
+                }
+                // Shaking
+                if( !done_effect && one_in( 2400 ) ) {
+                    add_msg( m_bad, _( "You start to shake uncontrollably." ) );
+                    add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
+                    done_effect = true;
+                }
+                // Shout
+                if( !done_effect && one_in( 2400 ) ) {
+                    std::vector<std::string> shouts{ "\"Get away from there!\"",
+                                                        "\"What do you think you're doing?\"",
+                                                        "\"Stop laughing at me!\"",
+                                                        "\"Don't point that thing at me!\"",
+                                                        "\"Stay away from me!\"",
+                                                        "\"No! Stop!\"",
+                                                        "\"Get the fuck away from me!\"",
+                                                        "\"That's not true!\"",
+                                                        "\"What do you want from me?\"",
+                                                        "\"I didn't mean to do it!\"",
+                                                        "\"It wasn't my fault!\"",
+                                                        "\"I had to do it!\"",
+                                                        "\"They made me do it!\"",
+                                                        "\"What are you!\"",
+                                                        "\"I should never have trusted you!\"" };
 
+                    std::string i_shout = shouts[rng( 0, shouts.size() )];
+                    shout( "yourself shout, " + i_shout );
+                    done_effect = true;
+                }
+                // Drop weapon
+                if( !done_effect && one_in( 28800 ) ) {
+                    if( !weapon.is_null() ) {
                         std::string i_name_w = weapon.has_var( "item_label" ) ?
                             weapon.get_var( "item_label" ) :
-                            "Your " + weapon.type_name();
+                            "your " + weapon.type_name();
 
-                        std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+                        std::vector<std::string> drops{ "%1$s starts burning your hands!",
+                                                        "%1$s feels freezing cold!",
+                                                        "An electric shock shoots into your hand from %1$s!",
+                                                        "%1$s lied to you.",
+                                                        "%1$s said something stupid.",
+                                                        "%1$s is running away!" };
 
-                        std::string i_talk_w;
-                        bool does_talk = false;
-                        if( !mons.empty() && one_in( 150 ) ) {
-                            std::vector<std::string> mon_near{ "Hey, let's go kill that %1$s!",
-                                                                "Did you see that %1$s!",
-                                                                "I want to kill that %1$s!",
-                                                                "Let me kill that %1$s!",
-                                                                "Hey, I need to kill that %1$s!",
-                                                                "I want to watch that %1$s bleed!",
-                                                                "Wait, that %1$s needs to die!",
-                                                                "Go kill that %1$s!",
-                                                                "Look at that %1$s!",
-                                                                "That %1$s doesn't deserve to live!" };
-                            std::string talk_w = mon_near[rng( 0, mon_near.size() - 1 )];
-                            std::vector<std::string> seen_mons;
-                            for( auto n : mons ) {
-                                if( sees( *n.lock() ) ) {
-                                    seen_mons.emplace_back( n.lock()->get_name() );
-                                }
-                            }
-                            if( !seen_mons.empty() ) {
-                                i_talk_w = string_format( talk_w, seen_mons[rng( 0, seen_mons.size() - 1 )] );
-                                does_talk = true;
-                            }
-                        } else if( has_effect( effect_bleed ) && one_in( 50 ) ) {
-                            std::vector<std::string> bleeding{ "Hey, you're bleeding.",
-                                                                "Your wound looks pretty bad.",
-                                                                "Shouldn't you put a bandage on that?",
-                                                                "Please don't die! No one else lets me kill things!",
-                                                                "You look hurt, did I do that?",
-                                                                "Are you supposed to be bleeding?",
-                                                                "You're not going to die, are you?",
-                                                                "Kill a few more before you bleed out!" };
-                            i_talk_w = bleeding[rng( 0, bleeding.size() - 1 )];
-                            does_talk = true;
-                        } else if( weapon.damage() >= weapon.max_damage() / 3 && one_in( 300 ) ) {
-                            std::vector<std::string> damaged{ "Hey fix me up.",
-                                                                "I need healing!",
-                                                                "I hurt all over...",
-                                                                "You can put me back together, right?",
-                                                                "I... I can't move my legs!",
-                                                                "Medic!",
-                                                                "I can still fight, don't replace me!",
-                                                                "They got me!",
-                                                                "Go on without me...",
-                                                                "Am I gonna die?" };
-                            i_talk_w = damaged[rng( 0, damaged.size() - 1 )];
-                            does_talk = true;
-                        } else if( one_in( 1800 ) ) {
-                            std::vector<std::string> misc{ "Let me kill something already!",
-                                                            "I'm your best friend, right?",
-                                                            "I love you!",
-                                                            "How are you today?",
-                                                            "Do you think it will rain today?",
-                                                            "Did you hear that?",
-                                                            "Try not to drop me.",
-                                                            "How many do you think we've killed?",
-                                                            "I'll keep you safe!" };
-                            i_talk_w = misc[rng( 0, misc.size() - 1 )];
-                            does_talk = true;
-                        }
-                        if( does_talk ) {
-                            add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
-                        }
-                    }
-                    break;
-                case 8: // Sleep
-                    if( one_in( 4800 ) ) {
-                        add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
-                        add_effect( effect_lying_down, 20_minutes );
-                    }
-                    break;
-                case 9: // Bad feeling
-                    if( one_in( 2400 ) ) {
-                        add_msg( m_warning, _( "You get a bad feeling." ) );
-                        add_morale( MORALE_FEELING_BAD, -50, -150 );
-                    }
-                    break;
-                case 10: // Formication
-                    if( one_in( 4800 ) ) {
-                        body_part bp = random_body_part( true );
-                        add_effect( effect_formication, 1_hours, bp );
-                    }
-                    break;
-                case 11: // Numbness
-                    if( one_in( 2400 ) ) {
-                        add_msg( m_bad, _( "You suddenly feel so numb..." ) );
-                        mod_painkiller( 25 );
-                    }
-                    break;
-                case 12: // Hallucination
-                    if( one_in( 4800 ) ) {
-                        add_effect( effect_hallu, 6_hours );
-                    }
-                    break;
-                case 13: // Visuals
-                    if( one_in( 2400 ) ) {
-                        add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
-                    }
-                    break;
-                case 14: // Shaking
-                    if( one_in( 2400 ) ) {
-                        add_msg( m_bad, _( "You start to shake uncontrollably." ) );
-                        add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
-                    }
-                    break;
-                case 15: // Shout
-                    if( one_in( 2400 ) ) {
-                        std::vector<std::string> shouts{ "\"Get away from there!\"",
-                                                         "\"What do you think you're doing?\"",
-                                                         "\"Stop laughing at me!\"",
-                                                         "\"Don't point that thing at me!\"",
-                                                         "\"Stay away from me!\"",
-                                                         "\"No! Stop!\"",
-                                                         "\"Get the fuck away from me!\"",
-                                                         "\"That's not true!\"",
-                                                         "\"What do you want from me?\"",
-                                                         "\"I didn't mean to do it!\"",
-                                                         "\"It wasn't my fault!\"",
-                                                         "\"I had to do it!\"",
-                                                         "\"They made me do it!\"",
-                                                         "\"What are you!\"",
-                                                         "\"I should never have trusted you!\"" };
-
-                        std::string i_shout = shouts[rng( 0, shouts.size() )];
-                        shout( "yourself shout, " + i_shout );
-                    }
-                    break;
-                case 16: // Drop weapon
-                    if( one_in( 28800 ) ) {
-                        if( !weapon.is_null() ) {
-                            std::string i_name_w = weapon.has_var( "item_label" ) ?
-                                weapon.get_var( "item_label" ) :
-                                "your " + weapon.type_name();
-
-                            std::vector<std::string> drops{ "%1$s starts burning your hands!",
-                                                            "%1$s feels freezing cold!",
-                                                            "An electric shock shoots into your hand from %1$s!",
-                                                            "%1$s lied to you.",
-                                                            "%1$s said something stupid.",
-                                                            "%1$s is running away!" };
-
-                            std::string str = string_format( drops[rng( 0, drops.size() - 1 )], i_name_w );
-                            str[0] = toupper( str[0] );
+                        std::string str = string_format( drops[rng( 0, drops.size() - 1 )], i_name_w );
+                        str[0] = toupper( str[0] );
                             
-                            add_msg( m_bad, str.c_str() );
-                            drop( get_item_position( &weapon ) );
-                        }
+                        add_msg( m_bad, str.c_str() );
+                        drop( get_item_position( &weapon ) );
                     }
-                    break;
+                    done_effect = true;
                 }
             }
         }
