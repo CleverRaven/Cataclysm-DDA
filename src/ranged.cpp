@@ -1554,7 +1554,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
      if( has_bionic( bionic_id( "bio_targeting" ) ) )
      {
-         dispersion.add_multiplier( 0.90 );
+         dispersion.add_multiplier( 0.75 );
      }
 
 
