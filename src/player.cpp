@@ -5069,12 +5069,12 @@ void player::suffer()
             if( is_player() ) {
                 bool done_effect = false;
                 // Sound
-                if( one_in( to_turns<int>( 4_hours ) ) ) {
+                if( one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     sound_hallu();
                 }
 
                 // Follower turns hostile
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
                     if( !followers.empty() ) {
@@ -5087,7 +5087,7 @@ void player::suffer()
                 }
 
                 // Monster dies
-                if( !done_effect && one_in( to_turns<int>( 6_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 6_hours ) ) ) ) {
                     std::vector<std::string> mon{ "zombie", "fat zombie", "firefighter zombie", "zombie cop", "zombie solider" };
                     std::string i_mon = mon[rng( 0, mon.size() - 1 )];
                         
@@ -5096,13 +5096,13 @@ void player::suffer()
                 }
 
                 // Limb Breaks
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     add_msg( m_bad, _( "Your limb breaks!" ) );
                     done_effect = true;
                 }
 
                 // NPC chat
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     std::string i_name = Name::generate( one_in( 2 ) );
 
                     std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
@@ -5114,7 +5114,7 @@ void player::suffer()
                 }
 
                 // Skill raise
-                if( !done_effect && one_in( to_turns<int>( 12_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 12_hours ) ) ) ) {
                     std::vector<std::pair<skill_id, int>> skills;
                     for( auto &pair : *_skills ) {
                         skills.emplace_back( std::make_pair( pair.first, pair.second.level() ) );
@@ -5126,7 +5126,7 @@ void player::suffer()
                 }
 
                 // Talk to self
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     std::vector<std::string> talk_s{ "Hey, can you hear me?",
                                                         "Don't touch me.",
                                                         "What's your name?",
@@ -5171,7 +5171,8 @@ void player::suffer()
 
                     std::string i_talk_w;
                     bool does_talk = false;
-                    if( !mons.empty() && one_in( to_turns<int>( 15_minutes ) ) ) {
+                    if( !mons.empty() &&
+                         one_in( to_turns<int>( time_duration::from_minutes( 12_minutes ) ) ) ) {
                         std::vector<std::string> mon_near{ "Hey, let's go kill that %1$s!",
                                                             "Did you see that %1$s!",
                                                             "I want to kill that %1$s!",
@@ -5193,7 +5194,8 @@ void player::suffer()
                             i_talk_w = string_format( talk_w, seen_mons[rng( 0, seen_mons.size() - 1 )] );
                             does_talk = true;
                         }
-                    } else if( has_effect( effect_bleed ) && one_in( to_turns<int>( 5_minutes ) ) ) {
+                    } else if( has_effect( effect_bleed ) &&
+                               one_in( to_turns<int>( time_duration::from_minutes( 5_minutes ) ) ) ) {
                         std::vector<std::string> bleeding{ "Hey, you're bleeding.",
                                                             "Your wound looks pretty bad.",
                                                             "Shouldn't you put a bandage on that?",
@@ -5204,7 +5206,8 @@ void player::suffer()
                                                             "Kill a few more before you bleed out!" };
                         i_talk_w = bleeding[rng( 0, bleeding.size() - 1 )];
                         does_talk = true;
-                    } else if( weapon.damage() >= weapon.max_damage() / 3 && one_in( to_turns<int>( 1_hours ) ) ) {
+                    } else if( weapon.damage() >= weapon.max_damage() / 3 &&
+                               one_in( to_turns<int>( time_duration::from_hours( 1_hours ) ) ) ) {
                         std::vector<std::string> damaged{ "Hey fix me up.",
                                                             "I need healing!",
                                                             "I hurt all over...",
@@ -5217,7 +5220,7 @@ void player::suffer()
                                                             "Am I gonna die?" };
                         i_talk_w = damaged[rng( 0, damaged.size() - 1 )];
                         does_talk = true;
-                    } else if( one_in( to_turns<int>( 4_hours ) ) ) {
+                    } else if( one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                         std::vector<std::string> misc{ "Let me kill something already!",
                                                         "I'm your best friend, right?",
                                                         "I love you!",
@@ -5236,47 +5239,47 @@ void player::suffer()
                     done_effect = true;
                 }
                 // Sleep
-                if( !done_effect && one_in( to_turns<int>( 8_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 8_hours ) ) ) ) {
                     add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
                     add_effect( effect_lying_down, 20_minutes );
                     done_effect = true;
                 }
                 // Bad feeling
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     add_msg( m_warning, _( "You get a bad feeling." ) );
                     add_morale( MORALE_FEELING_BAD, -50, -150 );
                     done_effect = true;
                 }
                 // Formication
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     body_part bp = random_body_part( true );
                     add_effect( effect_formication, 1_hours, bp );
                     done_effect = true;
                 }
                 // Numbness
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     add_msg( m_bad, _( "You suddenly feel so numb..." ) );
                     mod_painkiller( 25 );
                     done_effect = true;
                 }
                 // Hallucination
-                if( !done_effect && one_in( to_turns<int>( 6_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 6_hours ) ) ) ) {
                     add_effect( effect_hallu, 6_hours );
                     done_effect = true;
                 }
                 // Visuals
-                if( !done_effect && one_in( to_turns<int>( 2_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 2_hours ) ) ) ) {
                     add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
                     done_effect = true;
                 }
                 // Shaking
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     add_msg( m_bad, _( "You start to shake uncontrollably." ) );
                     add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
                     done_effect = true;
                 }
                 // Shout
-                if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_hours( 4_hours ) ) ) ) {
                     std::vector<std::string> shouts{ "\"Get away from there!\"",
                                                         "\"What do you think you're doing?\"",
                                                         "\"Stop laughing at me!\"",
@@ -5298,7 +5301,7 @@ void player::suffer()
                     done_effect = true;
                 }
                 // Drop weapon
-                if( !done_effect && one_in( to_turns<int>( 2_days ) ) ) {
+                if( !done_effect && one_in( to_turns<int>( time_duration::from_days( 2_days ) ) ) ) {
                     if( !weapon.is_null() ) {
                         std::string i_name_w = weapon.has_var( "item_label" ) ?
                             weapon.get_var( "item_label" ) :
