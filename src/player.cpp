@@ -5069,7 +5069,7 @@ void player::suffer()
             if( is_player() ) {
                 bool done_effect = false;
                 // Sound
-                if( to_turns<int>( 4_hours ) ) {
+                if( one_in( to_turns<int>( 4_hours ) ) ) {
                     sound_hallu();
                 }
 
