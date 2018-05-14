@@ -5065,64 +5065,6 @@ void player::suffer()
                 }
             }
         }
-        /*
-        if ( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-            one_in( 2400 ) ) && is_player() ) { // Every 4 hours or so
-            monster phantasm;
-            
-            int i;
-            switch(rng(0, 11)) {
-                case 0:
-                    add_effect( effect_hallu, 6_hours );
-                    break;
-                case 1:
-                    add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
-                    break;
-                case 2:
-                    add_msg_if_player(m_warning, _("From the south you hear glass breaking."));
-                    break;
-                case 3:
-                    add_msg_if_player(m_warning, _("YOU SHOULD QUIT THE GAME IMMEDIATELY."));
-                    add_morale(MORALE_FEELING_BAD, -50, -150);
-                    break;
-                case 4:
-                    for (i = 0; i < 10; i++) {
-                        add_msg("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
-                    }
-                    break;
-                case 5:
-                    add_msg_if_player(m_bad, _("You suddenly feel so numb..."));
-                    mod_painkiller(25);
-                    break;
-                case 6:
-                    add_msg_if_player(m_bad, _("You start to shake uncontrollably."));
-                    add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
-                    break;
-                case 7:
-                    for (i = 0; i < 10; i++) {
-                        g->spawn_hallucination();
-                    }
-                    break;
-                case 8:
-                    add_msg_if_player(m_bad, _("It's a good time to lie down and sleep."));
-                    add_effect( effect_lying_down, 20_minutes );
-                    break;
-                case 9:
-                    add_msg_if_player(m_bad, _("You have the sudden urge to SCREAM!"));
-                    shout(_("AHHHHHHH!"));
-                    break;
-                case 10:
-                    add_msg(std::string(name + name + name + name + name + name + name +
-                        name + name + name + name + name + name + name +
-                        name + name + name + name + name + name).c_str());
-                    break;
-                case 11:
-                    body_part bp = random_body_part(true);
-                    add_effect( effect_formication, 1_hours, bp );
-                    break;
-            }
-        }
-        */
         if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) && one_in( 2400 ) ) ) {
             if( is_player() ) {
                 switch( rng( 0, 16 ) ) {
