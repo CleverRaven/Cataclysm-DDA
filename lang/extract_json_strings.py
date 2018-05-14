@@ -43,7 +43,6 @@ warning_suppressed_list = {
     "data/mods/alt_map_key/overmap_terrain.json",
     "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
-    "data/mods/PKs_Rebalance/monsters/",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
     "data/mods/Tanks/monsters.json"
@@ -68,7 +67,7 @@ ignorable = {
     "city_building",
     "colordef",
     "emit",
-    "epilogue", # FIXME right now this object can't be translated correctly
+    "EXTERNAL_OPTION",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
@@ -119,7 +118,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
-    "EXTERNAL_OPTION",
+    "epilogue",
     "faction",
     "fault",
     "furniture",
@@ -294,7 +293,7 @@ def extract_effect_type(item):
         else:
             writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
-    # aplly and remove memorial messages.
+    # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:
         writestr(outfile, msg, context="memorial_male")
@@ -369,6 +368,10 @@ def extract_gunmod(item):
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
+    if "mode_modifier" in item:
+        modes = item.get("mode_modifier")
+        for fire_mode in modes:
+            writestr(outfile, fire_mode[1])
     if "location" in item:
         location = item.get("location")
         writestr(outfile, location)

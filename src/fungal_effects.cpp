@@ -6,6 +6,7 @@
 #include "monster.h"
 #include "field.h"
 #include "mtype.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "player.h"
 #include "messages.h"
@@ -35,7 +36,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
-            critter.add_effect( effect_stunned, rng( 1, 3 ) );
+            critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
             critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
         }
     } else if( gm.u.pos() == sporep ) {
@@ -51,12 +52,12 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         }
         // Spores hit the player--is there any hope?
         bool hit = false;
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_head, 3, 90, bp_head );
-        hit |= one_in( 2 ) && pl.add_env_effect( effect_spores, bp_torso, 3, 90, bp_torso );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_l, 3, 90, bp_arm_l );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_r, 3, 90, bp_arm_r );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_l, 3, 90, bp_leg_l );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_r, 3, 90, bp_leg_r );
+        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_head, 3, 9_minutes, bp_head );
+        hit |= one_in( 2 ) && pl.add_env_effect( effect_spores, bp_torso, 3, 9_minutes, bp_torso );
+        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_l, 3, 9_minutes, bp_arm_l );
+        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_r, 3, 9_minutes, bp_arm_r );
+        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_l, 3, 9_minutes, bp_leg_l );
+        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_r, 3, 9_minutes, bp_leg_r );
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
@@ -77,13 +78,8 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
 
 void fungal_effects::create_spores( const tripoint &p, Creature *source )
 {
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p.x - 1; i <= p.x + 1; i++ ) {
-        for( j = p.y - 1; j <= p.y + 1; j++ ) {
-            fungalize( tmp, source, 0.25 );
-        }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
+        fungalize( tmp, source, 0.25 );
     }
 }
 
@@ -106,14 +102,12 @@ bool fungal_effects::marlossify( const tripoint &p )
 bool fungal_effects::spread_fungus( const tripoint &p )
 {
     int growth = 1;
-    for( int i = p.x - 1; i <= p.x + 1; i++ ) {
-        for( int j = p.y - 1; j <= p.y + 1; j++ ) {
-            if( i == p.x && j == p.y ) {
-                continue;
-            }
-            if( m.has_flag( "FUNGUS", tripoint( i, j, p.z ) ) ) {
-                growth += 1;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
+        if( tmp == p ) {
+            continue;
+        }
+        if( m.has_flag( "FUNGUS", tmp ) ) {
+            growth += 1;
         }
     }
 
@@ -187,99 +181,96 @@ bool fungal_effects::spread_fungus( const tripoint &p )
         if( growth == 9 ) {
             return false;
         }
-        for( int i = p.x - 1; i <= p.x + 1; i++ ) {
-            for( int j = p.y - 1; j <= p.y + 1; j++ ) {
-                tripoint dest( i, j, p.z );
-                // One spread on average
-                if( !m.has_flag( "FUNGUS", dest ) && one_in( 9 - growth ) ) {
-                    //growth chance is 100 in X simplified
-                    if( m.has_flag( "DIGGABLE", dest ) ) {
-                        m.ter_set( dest, t_fungus );
-                        converted = true;
-                    } else if( m.has_flag( "FLAT", dest ) ) {
-                        if( m.has_flag( TFLAG_INDOORS, dest ) ) {
-                            if( one_in( 5 ) ) {
-                                m.ter_set( dest, t_fungus_floor_in );
-                                converted = true;
-                            }
-                        } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, dest ) ) {
-                            if( one_in( 10 ) ) {
-                                m.ter_set( dest, t_fungus_floor_sup );
-                                converted = true;
-                            }
-                        } else {
-                            if( one_in( 25 ) ) {
-                                m.ter_set( dest, t_fungus_floor_out );
-                                converted = true;
-                            }
-                        }
-                    } else if( m.has_flag( "SHRUB", dest ) ) {
-                        if( one_in( 2 ) ) {
-                            m.ter_set( dest, t_shrub_fungal );
-                            converted = true;
-                        } else if( one_in( 25 ) ) {
-                            m.ter_set( dest, t_marloss );
-                            converted = true;
-                        }
-                    } else if( m.has_flag( "THIN_OBSTACLE", dest ) ) {
-                        if( x_in_y( 10, 15 ) ) {
-                            m.ter_set( dest, t_fungus_mound );
-                            converted = true;
-                        }
-                    } else if( m.has_flag( "YOUNG", dest ) ) {
+        for( const tripoint &dest : g->m.points_in_radius( p, 1 ) ) {
+            // One spread on average
+            if( !m.has_flag( "FUNGUS", dest ) && one_in( 9 - growth ) ) {
+                //growth chance is 100 in X simplified
+                if( m.has_flag( "DIGGABLE", dest ) ) {
+                    m.ter_set( dest, t_fungus );
+                    converted = true;
+                } else if( m.has_flag( "FLAT", dest ) ) {
+                    if( m.has_flag( TFLAG_INDOORS, dest ) ) {
                         if( one_in( 5 ) ) {
-                            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
-                                if( one_in( 8 ) ) { // young trees are vulnerable
-                                    m.ter_set( dest, t_fungus );
-                                    gm.summon_mon( mon_fungal_blossom, p );
-                                    if( gm.u.sees( p ) ) {
-                                        add_msg( m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
-                                    }
-                                } else if( one_in( 4 ) ) {
-                                    m.ter_set( dest, t_marloss_tree );
-                                }
-                            } else {
-                                m.ter_set( dest, t_tree_fungal_young );
-                            }
+                            m.ter_set( dest, t_fungus_floor_in );
                             converted = true;
                         }
-                    } else if( m.has_flag( "TREE", dest ) ) {
+                    } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, dest ) ) {
                         if( one_in( 10 ) ) {
-                            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
-                                if( one_in( 10 ) ) {
-                                    m.ter_set( dest, t_fungus );
-                                    gm.summon_mon( mon_fungal_blossom, p );
-                                    if( gm.u.sees( p ) ) {
-                                        add_msg( m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
-                                    }
-                                } else if( one_in( 6 ) ) {
-                                    m.ter_set( dest, t_marloss_tree );
-                                }
-                            } else {
-                                m.ter_set( dest, t_tree_fungal );
-                            }
+                            m.ter_set( dest, t_fungus_floor_sup );
                             converted = true;
                         }
-                    } else if( m.has_flag( "WALL", dest ) ) {
-                        if( one_in( 50 ) ) {
+                    } else {
+                        if( one_in( 25 ) ) {
+                            m.ter_set( dest, t_fungus_floor_out );
                             converted = true;
-                            m.ter_set( dest, t_fungus_wall );
                         }
                     }
-
-                    if( converted ) {
-                        if( m.has_flag( "FLOWER", dest ) ) {
-                            m.furn_set( dest, f_flower_fungal );
-                        } else if( m.has_flag( "ORGANIC", dest ) ) {
-                            if( m.furn( dest ).obj().movecost == -10 ) {
-                                m.furn_set( dest, f_fungal_mass );
-                            } else {
-                                m.furn_set( dest, f_fungal_clump );
+                } else if( m.has_flag( "SHRUB", dest ) ) {
+                    if( one_in( 2 ) ) {
+                        m.ter_set( dest, t_shrub_fungal );
+                        converted = true;
+                    } else if( one_in( 25 ) ) {
+                        m.ter_set( dest, t_marloss );
+                        converted = true;
+                    }
+                } else if( m.has_flag( "THIN_OBSTACLE", dest ) ) {
+                    if( x_in_y( 10, 15 ) ) {
+                        m.ter_set( dest, t_fungus_mound );
+                        converted = true;
+                    }
+                } else if( m.has_flag( "YOUNG", dest ) ) {
+                    if( one_in( 5 ) ) {
+                        if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+                            if( one_in( 8 ) ) { // young trees are vulnerable
+                                m.ter_set( dest, t_fungus );
+                                gm.summon_mon( mon_fungal_blossom, p );
+                                if( gm.u.sees( p ) ) {
+                                    add_msg( m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
+                                }
+                            } else if( one_in( 4 ) ) {
+                                m.ter_set( dest, t_marloss_tree );
                             }
-                        } else if( m.has_flag( "PLANT", dest ) ) {
-                            // Replace the (already existing) seed
-                            m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
+                        } else {
+                            m.ter_set( dest, t_tree_fungal_young );
                         }
+                        converted = true;
+                    }
+                } else if( m.has_flag( "TREE", dest ) ) {
+                    if( one_in( 10 ) ) {
+                        if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+                            if( one_in( 10 ) ) {
+                                m.ter_set( dest, t_fungus );
+                                gm.summon_mon( mon_fungal_blossom, p );
+                                if( gm.u.sees( p ) ) {
+                                    add_msg( m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
+                                }
+                            } else if( one_in( 6 ) ) {
+                                m.ter_set( dest, t_marloss_tree );
+                            }
+                        } else {
+                            m.ter_set( dest, t_tree_fungal );
+                        }
+                        converted = true;
+                    }
+                } else if( m.has_flag( "WALL", dest ) ) {
+                    if( one_in( 50 ) ) {
+                        converted = true;
+                        m.ter_set( dest, t_fungus_wall );
+                    }
+                }
+
+                if( converted ) {
+                    if( m.has_flag( "FLOWER", dest ) ) {
+                        m.furn_set( dest, f_flower_fungal );
+                    } else if( m.has_flag( "ORGANIC", dest ) ) {
+                        if( m.furn( dest ).obj().movecost == -10 ) {
+                            m.furn_set( dest, f_fungal_mass );
+                        } else {
+                            m.furn_set( dest, f_fungal_clump );
+                        }
+                    } else if( m.has_flag( "PLANT", dest ) ) {
+                        // Replace the (already existing) seed
+                        m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
                     }
                 }
             }

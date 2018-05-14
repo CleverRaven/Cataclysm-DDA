@@ -32,7 +32,7 @@ class wish_mutate_callback: public uimenu_callback
         std::string padding;
 
         nc_color mcolor( const trait_id &m ) {
-            if( pTraits[ m ] == true ) {
+            if( pTraits[ m ] ) {
                 return c_green;
             }
             return c_light_gray;

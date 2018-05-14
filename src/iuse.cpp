@@ -20,6 +20,7 @@
 #include "player.h"
 #include "vehicle.h"
 #include "uistate.h"
+#include "vpart_position.h"
 #include "action.h"
 #include "monstergenerator.h"
 #include "speech.h"
@@ -330,14 +331,14 @@ int iuse::honeycomb(player *p, item *it, bool, const tripoint& )
 
 int iuse::royal_jelly(player *p, item *it, bool, const tripoint& )
 {
-    p->add_effect( effect_cureall, 1);
+    p->add_effect( effect_cureall, 1_turns );
     return it->type->charges_to_use();
 }
 
 int iuse::xanax(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-    p->add_effect( effect_took_xanax, 900);
+    p->add_effect( effect_took_xanax, 90_minutes );
     return it->type->charges_to_use();
 }
 
@@ -355,7 +356,8 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-constexpr static int alc_strength( const int strength, const int weak, const int medium, const int strong )
+constexpr static time_duration alc_strength( const int strength, const time_duration weak,
+        const time_duration medium, const time_duration strong )
 {
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }
@@ -364,23 +366,23 @@ int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    int duration = alc_strength( strength, 340, 680, 900) - (alc_strength( strength, 6, 10, 12) * p.str_max);
+    time_duration duration = alc_strength( strength, 34_minutes, 68_minutes, 90_minutes) - (alc_strength( strength, 6_turns, 10_turns, 12_turns ) * p.str_max);
     if (p.has_trait(trait_ALCMET)) {
-        duration = alc_strength( strength, 90, 180, 250) - (alc_strength( strength, 6, 10, 10) * p.str_max);
+        duration = alc_strength( strength, 9_minutes, 18_minutes, 25_minutes) - (alc_strength( strength, 6_turns, 10_turns, 10_turns ) * p.str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p.mod_hunger( -( abs( it.type->comestible ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
         p.stim += abs( it.type->comestible ? it.type->comestible->stim : 0 );
     } else if (p.has_trait(trait_TOLERANCE)) {
-        duration -= alc_strength( strength, 120, 300, 450);
+        duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes);
     } else if (p.has_trait( trait_LIGHTWEIGHT )) {
-        duration += alc_strength( strength, 120, 300, 450);
+        duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes);
     }
     if (!(p.has_trait(trait_ALCMET))) {
-        p.mod_painkiller( alc_strength( strength, 4, 8, 12) );
+        p.mod_painkiller( to_turns<int>( alc_strength( strength, 4_turns, 8_turns, 12_turns ) ) );
     }
-    p.add_effect( effect_drunk, duration);
+    p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
 }
 
@@ -466,7 +468,7 @@ int iuse::smoking(player *p, item *it, bool, const tripoint&)
             weed_msg( *p );
         }
     }
-    if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    if( p->get_effect_dur( effect_cig ) > 100_turns * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
         p->add_msg_if_player(m_bad, _("Ugh, too much smoke... you feel nasty."));
     }
 
@@ -490,8 +492,8 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
 
     p->mod_thirst(1);
     p->mod_hunger(-1);
-    p->add_effect( effect_cig, 100);
-    if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    p->add_effect( effect_cig, 10_minutes );
+    if( p->get_effect_dur( effect_cig ) > 100_turns * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
         p->add_msg_if_player(m_bad, _("Ugh, too much nicotine... you feel nasty."));
     }
     return it->type->charges_to_use();
@@ -506,10 +508,10 @@ int iuse::antibiotic(player *p, item *it, bool, const tripoint& )
         // cheap model of antibiotic resistance, but it's something.
         if (x_in_y(95, 100)) {
             // Add recovery effect for each infected wound
-            int infected_tot = 0;
+            time_duration infected_tot = 0_turns;
             for( const body_part bp : all_body_parts ) {
-                int infected_dur = p->get_effect_dur( effect_infected, bp );
-                if (infected_dur > 0) {
+                const time_duration infected_dur = p->get_effect_dur( effect_infected, bp );
+                if( infected_dur > 0_turns ) {
                     infected_tot += infected_dur;
                 }
             }
@@ -574,36 +576,28 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
         }
         p->remove_effect( effect_spores);
         int spore_count = rng(1, 6);
-        if (spore_count > 0) {
-            for (int i = p->posx() - 1; i <= p->posx() + 1; i++) {
-                for (int j = p->posy() - 1; j <= p->posy() + 1; j++) {
-                    tripoint dest( i, j, p->posz() );
-                    if (spore_count == 0) {
-                        break;
+        for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+            if (spore_count == 0) {
+                break;
+            }
+            if( dest == p->pos()) {
+                continue;
+            }
+            if (g->m.passable( dest ) && x_in_y(spore_count, 8)) {
+                if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    if( g->u.sees( dest ) &&
+                        !critter.type->in_species( FUNGUS ) ) {
+                        add_msg(m_warning, _("The %s is covered in tiny spores!"),
+                                critter.name().c_str() );
                     }
-                    if( dest == p->pos()) {
-                        continue;
+                    if( !critter.make_fungus() ) {
+                        critter.die( p ); // counts as kill by player
                     }
-                    if (g->m.passable( dest ) && x_in_y(spore_count, 8)) {
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            if( g->u.sees( dest ) &&
-                                !critter.type->in_species( FUNGUS ) ) {
-                                add_msg(m_warning, _("The %s is covered in tiny spores!"),
-                                        critter.name().c_str() );
-                            }
-                            if( !critter.make_fungus() ) {
-                                critter.die( p ); // counts as kill by player
-                            }
-                        } else {
-                            g->summon_mon(mon_spore, dest);
-                        }
-                        spore_count--;
-                    }
+                } else {
+                    g->summon_mon(mon_spore, dest);
                 }
-                if (spore_count == 0) {
-                    break;
-                }
+                spore_count--;
             }
         }
     }
@@ -680,15 +674,15 @@ int iuse::anticonvulsant(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You take some anticonvulsant medication."));
     /** @EFFECT_STR reduces duration of anticonvulsant medication */
-    int duration = 4800 - p->str_cur * rng(0, 100);
+    time_duration duration = 8_hours - p->str_cur * rng( 0_turns, 100_turns );
     if (p->has_trait( trait_TOLERANCE )) {
-        duration -= 600;
+        duration -= 1_hours;
     }
     if (p->has_trait( trait_LIGHTWEIGHT )) {
-        duration += 1200;
+        duration += 2_hours;
     }
-    p->add_effect( effect_valium, duration);
-    p->add_effect( effect_high, duration);
+    p->add_effect( effect_valium, duration );
+    p->add_effect( effect_high, duration );
     if (p->has_effect( effect_shakes)) {
         p->remove_effect( effect_shakes);
         p->add_msg_if_player(m_good, _("You stop shaking."));
@@ -699,19 +693,19 @@ int iuse::anticonvulsant(player *p, item *it, bool, const tripoint& )
 int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You start scarfing down the delicious brownie.  It tastes a little funny though..."));
-    int duration = 120;
+    time_duration duration = 12_minutes;
     if (p->has_trait( trait_TOLERANCE )) {
-        duration = 90;
+        duration = 9_minutes;
     }
     if (p->has_trait( trait_LIGHTWEIGHT )) {
-        duration = 150;
+        duration = 15_minutes;
     }
     p->mod_hunger(2);
     p->mod_thirst(6);
     if( p->get_painkiller() < 5 ) {
         p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
     }
-    p->add_effect( effect_weed_high, duration);
+    p->add_effect( effect_weed_high, duration );
     p->moves -= 100;
     if (one_in(5)) {
         weed_msg( *p );
@@ -723,22 +717,22 @@ int iuse::coke(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You snort a bump of coke."));
     /** @EFFECT_STR reduces duration of coke */
-    int duration = 21 - p->str_cur + rng(0, 10);
+    time_duration duration = 21_turns - 1_turns * p->str_cur + rng( 0_turns , 10_turns );
     if (p->has_trait( trait_TOLERANCE )) {
-        duration -= 10; // Symmetry would cause problems :-/
+        duration -= 1_minutes; // Symmetry would cause problems :-/
     }
     if (p->has_trait( trait_LIGHTWEIGHT )) {
-        duration += 20;
+        duration += 2_minutes;
     }
     p->mod_hunger(-8);
-    p->add_effect( effect_high, duration);
+    p->add_effect( effect_high, duration );
     return it->type->charges_to_use();
 }
 
 int iuse::meth(player *p, item *it, bool, const tripoint& )
 {
     /** @EFFECT_STR reduces duration of meth */
-    int duration = 10 * (60 - p->str_cur);
+    time_duration duration = 1_minutes * ( 60 - p->str_cur );
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
         p->add_msg_if_player(m_good, _("The world seems to sharpen."));
@@ -750,23 +744,23 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         }
         // breathe out some smoke
         for (int i = 0; i < 3; i++) {
-            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)),p->posz()}, fd_methsmoke, 2,0);
+            g->m.add_field( {p->posx() + int( rng( -2, 2 ) ), p->posy() + int( rng( -2, 2 ) ), p->posz()}, fd_methsmoke, 2 );
         }
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
         p->mod_fatigue(-300);
     }
     if (!p->has_effect( effect_meth)) {
-        duration += 600;
+        duration += 1_hours;
     }
-    if (duration > 0) {
+    if( duration > 0_turns ) {
         // meth actually inhibits hunger, weaker characters benefit more
         /** @EFFECT_STR_MAX >4 experiences less hunger benefit from meth */
         int hungerpen = (p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max ));
         if (hungerpen>0) {
             p->mod_hunger(-hungerpen);
         }
-        p->add_effect( effect_meth, duration);
+        p->add_effect( effect_meth, duration );
     }
     return it->type->charges_to_use();
 }
@@ -786,7 +780,7 @@ int iuse::flu_vaccine(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You inject the vaccine."));
     p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
-    p->add_effect( effect_flushot, 1, num_bp, true);
+    p->add_effect( effect_flushot, 1_turns, num_bp, true);
     p->mod_pain(3);
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
@@ -810,8 +804,8 @@ int iuse::poison(player *p, item *it, bool, const tripoint& )
     if ((p->has_trait(trait_EATPOISON)) && (!(one_in(p->str_cur / 2)))) {
         return it->type->charges_to_use();
     }
-    p->add_effect( effect_poison, 600);
-    p->add_effect( effect_foodpoison, 1800);
+    p->add_effect( effect_poison, 1_hours );
+    p->add_effect( effect_foodpoison, 3_hours );
     return it->type->charges_to_use();
 }
 
@@ -829,12 +823,12 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
 
    //Fake a normal food morale effect
     if (p->has_trait(trait_SPIRITUAL)) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
     } else {
-         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 60, 30, false, it->type );
+         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false, it->type );
     }
     if (!p->has_effect( effect_hallu)) {
-        p->add_effect( effect_hallu, 3600);
+        p->add_effect( effect_hallu, 6_hours );
     }
     return it->type->charges_to_use();
 }
@@ -874,7 +868,7 @@ int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
     if( !p->has_effect( effect_took_prozac ) ) {
-        p->add_effect( effect_took_prozac, 7200);
+        p->add_effect( effect_took_prozac, 12_hours );
     } else {
         p->stim += 3;
     }
@@ -898,24 +892,24 @@ int iuse::datura(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    p->add_effect( effect_datura, rng(2000, 8000));
+    p->add_effect( effect_datura, rng( 200_minutes, 800_minutes ) );
     p->add_msg_if_player(_("You eat the datura seed."));
     if (p->has_trait(trait_SPIRITUAL)) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
     }
     return it->type->charges_to_use();
 }
 
 int iuse::flumed(player *p, item *it, bool, const tripoint& )
 {
-    p->add_effect( effect_took_flumed, 6000);
+    p->add_effect( effect_took_flumed, 10_hours );
     p->add_msg_if_player(_("You take some %s"), it->tname().c_str());
     return it->type->charges_to_use();
 }
 
 int iuse::flusleep(player *p, item *it, bool, const tripoint& )
 {
-    p->add_effect( effect_took_flumed, 7200);
+    p->add_effect( effect_took_flumed, 12_hours );
     p->mod_fatigue(30);
     p->add_msg_if_player(_("You take some %s"), it->tname().c_str());
     p->add_msg_if_player(m_warning, _("You feel very sleepy..."));
@@ -928,7 +922,7 @@ int iuse::inhaler( player *p, item *it, bool, const tripoint& )
     if( !p->remove_effect( effect_asthma ) ) {
         p->mod_fatigue( -3 ); // if we don't have asthma can be used as stimulant
         if( one_in( 20 ) ) {   // with a small but significant risk of adverse reaction
-            p->add_effect( effect_shakes, 10 * rng( 2, 5 ) );
+            p->add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
         }
     }
     p->remove_effect( effect_smoke );
@@ -974,11 +968,11 @@ int iuse::blech(player *p, item *it, bool, const tripoint& )
         p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
         p->mod_stomach_water( 20 );
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 60, 30, false, it->type );
+        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
     } else {
         p->add_msg_if_player(m_bad, _("Blech, that burns your throat!"));
         p->mod_pain( rng( 32, 64));
-        p->add_effect( effect_poison, 600);
+        p->add_effect( effect_poison, 1_hours );
         p->apply_damage( nullptr, bp_torso, rng( 4, 12));
         p->vomit();
     }
@@ -1000,7 +994,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         p->mod_hunger( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier);
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
+        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 6_minutes, 3_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
         return blech( p, it, true, pos );
@@ -1129,7 +1123,7 @@ int iuse::mutagen( player *p, item *it, bool, const tripoint& )
         p->add_msg_player_or_npc( m_bad,
             _("You suddenly feel dizzy, and collapse to the ground."),
             _("<npcname> suddenly collapses to the ground!") );
-        p->add_effect( effect_downed, 1, num_bp, false, 0, true );
+        p->add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
     }
 
     // Categorized/targeted mutagens go here.
@@ -1211,14 +1205,14 @@ static void test_crossing_threshold( player &p, const mutation_category_trait &m
     } else if (breach_power > 100) {
         p.add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
         p.mod_pain_noresist( 8 );
-        p.add_effect( effect_stunned, rng(3, 5));
+        p.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
     } else if (breach_power > 80) {
         p.add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
         p.mod_pain_noresist( 6 );
-        p.add_effect( effect_stunned, rng(2, 4));
+        p.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
     } else if (breach_power > 60) {
         p.add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-        p.add_effect( effect_stunned, rng(2, 3));
+        p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
 }
 
@@ -1591,10 +1585,8 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_msg_if_player(m_good, _("Even now, our fruits adapt to better serve local physiology."));
         p->add_msg_if_player(m_good, _("As, in time, shall we adapt to better welcome those who have not received us."));
         fungal_effects fe( *g, g->m );
-        for (int x = p->posx() - 3; x <= p->posx() + 3; x++) {
-            for (int y = p->posy() - 3; y <= p->posy() + 3; y++) {
-                fe.marlossify( tripoint( x, y, p->posz() ) );
-            }
+        for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
+            fe.marlossify( pos );
         }
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
@@ -1677,7 +1669,7 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
             } else if( mon.type->id == mon_dog ) {
                 p.add_msg_if_player( m_good, _( "The dog seems to like you!" ) );
                 mon.friendly = -1;
-                mon.add_effect( effect_pet, 1, num_bp, true );
+                mon.add_effect( effect_pet, 1_turns, num_bp, true );
                 return 1;
             } else {
                 p.add_msg_if_player( _( "There is nothing to be fed here." ) );
@@ -1700,7 +1692,7 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
             if( mon.has_flag( MF_MILKABLE ) ) {
                 p.add_msg_if_player( m_good, _( "The %s seems to like you!  It lets you pat its head and seems friendly." ), mon.get_name().c_str() );
                 mon.friendly = -1;
-                mon.add_effect( effect_pet, 1, num_bp, true );
+                mon.add_effect( effect_pet, 1_turns, num_bp, true );
                 return 1;
             } else {
                 p.add_msg_if_player( _( "There is nothing to be fed here." ) );
@@ -2055,7 +2047,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     std::vector<monster*> fishables = g->get_fishable(60);
-    if ( fishables.size() < 1){
+    if( fishables.empty() ) {
         p->add_msg_if_player(m_info, _("There are no fish around.  Try another spot.")); // maybe let the player find that out by himself?
         return 0;
     }
@@ -2106,7 +2098,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         std::vector<monster*> fishables = g->get_fishable(60);
-        if ( fishables.size() < 1){
+        if( fishables.empty() ) {
             p->add_msg_if_player(m_info, _("There is no fish around.  Try another spot.")); // maybe let the player find that out by himself?
             return 0;
         }
@@ -2176,7 +2168,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                     //lets say it is a 5% chance per fish to catch
                     if (one_in(20)) {
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                        const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                        const mtype_id& fish_mon = random_entry_ref( fish_group );
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
@@ -2217,7 +2209,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
         bool blind = false;
         if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
             blind = true;
-            critter.add_effect( effect_blind, rng( 10, 20 ) );
+            critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
         if( g->u.sees( critter ) ) {
             p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name().c_str() );
@@ -2248,8 +2240,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
 int iuse::rm13armor_off(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The RM13 combat armor's fuel cells are dead."),
-                             it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return 0;
     } else {
         std::string oname = it->typeId() + "_on";
@@ -2782,12 +2773,12 @@ int iuse::siphon(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    vehicle *veh = g->m.veh_at(posp);
-    if (veh == NULL) {
+    const optional_vpart_position vp = g->m.veh_at( posp );
+    if( !vp ) {
         p->add_msg_if_player(m_info, _("There's no vehicle there."));
         return 0;
     }
-    act_vehicle_siphon( veh );
+    act_vehicle_siphon( &vp->vehicle() );
     return it->type->charges_to_use();
 }
 
@@ -3173,12 +3164,9 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
         // Reduce the strength of fire (if any) in the target tile.
         g->m.adjust_field_strength(pos, fd_fire, 0 - 1);
         // Slightly reduce the strength of fire around and in the target tile.
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                tripoint dest( pos.x + x, pos.y + y, pos.z );
-                if (g->m.passable(dest) && (x == 0 || y == 0)) {
-                    g->m.adjust_field_strength(dest, fd_fire, 0 - rng(0, 1));
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
+            if (g->m.passable(dest) && dest != pos ) {
+                g->m.adjust_field_strength(dest, fd_fire, 0 - rng(0, 1));
             }
         }
         return 1;
@@ -3240,54 +3228,48 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
         };
         switch (effect_roll) {
             case 1:
-                sounds::sound(pos, 100, _("BUGFIXES!!"));
+                sounds::sound(pos, 100, _("BUGFIXES!"));
                 g->draw_explosion( pos, explosion_radius, c_light_cyan );
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        monster *const mon = g->critter_at<monster>( dest, true );
-                        if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
-                            mon->die_in_explosion( nullptr );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    monster *const mon = g->critter_at<monster>( dest, true );
+                    if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
+                        mon->die_in_explosion( nullptr );
                     }
                 }
                 break;
 
             case 2:
-                sounds::sound(pos, 100, _("BUFFS!!"));
+                sounds::sound(pos, 100, _("BUFFS!"));
                 g->draw_explosion( pos, explosion_radius, c_green );
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            critter.set_speed_base(
-                                critter.get_speed_base() * rng_float(1.1, 2.0) );
-                            critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
-                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
-                            /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
-                            buff_stat(person->str_max, rng(0, person->str_max / 2));
-                            /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
-                            buff_stat(person->dex_max, rng(0, person->dex_max / 2));
-                            /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
-                            buff_stat(person->int_max, rng(0, person->int_max / 2));
-                            /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
-                            buff_stat(person->per_max, rng(0, person->per_max / 2));
-                        } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
-                            /** @EFFECT_STR_MAX increases possible granade str buff */
-                            buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
-                            /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                            buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
-                            /** @EFFECT_INT_MAX increases possible granade int buff */
-                            buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
-                            /** @EFFECT_PER_MAX increases possible granade per buff */
-                            buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
-                            g->u.recalc_hp();
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
-                                if (g->u.hp_cur[part] > g->u.hp_max[part]) {
-                                    g->u.hp_cur[part] = g->u.hp_max[part];
-                                }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                        monster &critter = *mon_ptr;
+                        critter.set_speed_base(
+                            critter.get_speed_base() * rng_float(1.1, 2.0) );
+                        critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
+                    } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                        /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
+                        buff_stat(person->str_max, rng(0, person->str_max / 2));
+                        /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
+                        buff_stat(person->dex_max, rng(0, person->dex_max / 2));
+                        /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
+                        buff_stat(person->int_max, rng(0, person->int_max / 2));
+                        /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
+                        buff_stat(person->per_max, rng(0, person->per_max / 2));
+                    } else if( g->u.pos() == dest ) {
+                        /** @EFFECT_STR_MAX increases possible granade str buff */
+                        buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
+                        /** @EFFECT_DEX_MAX increases possible granade dex buff */
+                        buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
+                        /** @EFFECT_INT_MAX increases possible granade int buff */
+                        buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
+                        /** @EFFECT_PER_MAX increases possible granade per buff */
+                        buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
+                        g->u.recalc_hp();
+                        for (int part = 0; part < num_hp_parts; part++) {
+                            g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
+                            if (g->u.hp_cur[part] > g->u.hp_max[part]) {
+                                g->u.hp_cur[part] = g->u.hp_max[part];
                             }
                         }
                     }
@@ -3295,39 +3277,36 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 break;
 
             case 3:
-                sounds::sound(pos, 100, _("NERFS!!"));
+                sounds::sound(pos, 100, _("NERFS!"));
                 g->draw_explosion( pos, explosion_radius, c_red);
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            critter.set_speed_base(
-                                rng( 0, critter.get_speed_base() ) );
-                            critter.set_hp( rng( 1, critter.get_hp() ) );
-                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
-                            /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
-                            person->str_max -= rng(0, person->str_max / 2);
-                            /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
-                            person->dex_max -= rng(0, person->dex_max / 2);
-                            /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
-                            person->int_max -= rng(0, person->int_max / 2);
-                            /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
-                            person->per_max -= rng(0, person->per_max / 2);
-                        } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
-                            /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                            g->u.str_max -= rng(0, g->u.str_max / 2);
-                            /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                            g->u.dex_max -= rng(0, g->u.dex_max / 2);
-                            /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                            g->u.int_max -= rng(0, g->u.int_max / 2);
-                            /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                            g->u.per_max -= rng(0, g->u.per_max / 2);
-                            g->u.recalc_hp();
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                if (g->u.hp_cur[part] > 0) {
-                                    g->u.hp_cur[part] = rng(1, g->u.hp_cur[part]);
-                                }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                        monster &critter = *mon_ptr;
+                        critter.set_speed_base(
+                            rng( 0, critter.get_speed_base() ) );
+                        critter.set_hp( rng( 1, critter.get_hp() ) );
+                    } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                        /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
+                        person->str_max -= rng(0, person->str_max / 2);
+                        /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
+                        person->dex_max -= rng(0, person->dex_max / 2);
+                        /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
+                        person->int_max -= rng(0, person->int_max / 2);
+                        /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
+                        person->per_max -= rng(0, person->per_max / 2);
+                    } else if (g->u.pos() == dest ) {
+                        /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
+                        g->u.str_max -= rng(0, g->u.str_max / 2);
+                        /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
+                        g->u.dex_max -= rng(0, g->u.dex_max / 2);
+                        /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
+                        g->u.int_max -= rng(0, g->u.int_max / 2);
+                        /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
+                        g->u.per_max -= rng(0, g->u.per_max / 2);
+                        g->u.recalc_hp();
+                        for (int part = 0; part < num_hp_parts; part++) {
+                            if (g->u.hp_cur[part] > 0) {
+                                g->u.hp_cur[part] = rng(1, g->u.hp_cur[part]);
                             }
                         }
                     }
@@ -3335,34 +3314,28 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 break;
 
             case 4:
-                sounds::sound(pos, 100, _("REVERTS!!"));
+                sounds::sound(pos, 100, _("REVERTS!"));
                 g->draw_explosion( pos, explosion_radius, c_pink);
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            critter.set_speed_base( critter.type->speed );
-                            critter.set_hp( critter.get_hp_max() );
-                            critter.clear_effects();
-                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
-                            person->environmental_revert_effect();
-                        } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
-                            g->u.environmental_revert_effect();
-                            do_purify( g->u );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                        monster &critter = *mon_ptr;
+                        critter.set_speed_base( critter.type->speed );
+                        critter.set_hp( critter.get_hp_max() );
+                        critter.clear_effects();
+                    } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                        person->environmental_revert_effect();
+                    } else if (g->u.pos() == dest) {
+                        g->u.environmental_revert_effect();
+                        do_purify( g->u );
                     }
                 }
                 break;
             case 5:
-                sounds::sound(pos, 100, _("BEES!!"));
+                sounds::sound(pos, 100, _("BEES!"));
                 g->draw_explosion( pos, explosion_radius, c_yellow);
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if (one_in(5) && !g->critter_at( dest ) ) {
-                            g->m.add_field(dest, fd_bees, rng(1, 3), 0 );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if (one_in(5) && !g->critter_at( dest ) ) {
+                        g->m.add_field( dest, fd_bees, rng( 1, 3 ) );
                     }
                 }
                 break;
@@ -3389,19 +3362,10 @@ int iuse::c4( player *p, item *it, bool, const tripoint & )
 int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
 {
     if( !p->has_item( *it ) ) {
-        tripoint tmp = pos;
-        int &x = tmp.x;
-        int &y = tmp.y;
-        if (tmp.x == -999) {
-            tmp = p->pos();
-        }
         it->charges = -1;
-        for ( x = pos.x - 1; x <= pos.x + 1; x++) {
-            for ( y = pos.y - 1; y <= pos.y + 1; y++) {
-                g->m.add_field( tmp, fd_acid, 3, 0 );
-            }
+        for( const tripoint &tmp : g->m.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
+            g->m.add_field( tmp, fd_acid, 3 );
         }
-
         return 1;
     }
     return 0;
@@ -3424,14 +3388,12 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
             tripoint dest( pos.x + rng( -5, 5 ), pos.y + rng( -5, 5 ), pos.z );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                g->m.add_field( flame, fd_fire, rng( 0, 2 ), 0 );
+                g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
         g->explosion( pos, 8, 0.8, true );
-        for (int i = -2; i <= 2; i++) {
-            for (int j = -2; j <= 2; j++) {
-                g->m.add_field( { pos.x + i, pos.y + j, pos.z }, fd_incendiary, 3, 0 );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
+            g->m.add_field( dest, fd_incendiary, 3 );
         }
 
     }
@@ -3477,7 +3439,7 @@ int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
         if( !t ) {
             for( auto &&pt : g->m.points_in_radius( pos, 1, 0 ) ) {
                 const int density = 1 + one_in( 3 ) + one_in( 5 );
-                g->m.add_field( pt, fd_fire, density, 0 );
+                g->m.add_field( pt, fd_fire, density );
             }
         }
     }
@@ -3598,18 +3560,15 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     p->moves -= 15;
 
     int converts = 0;
-    for (int x = pos.x - 4; x <= pos.x + 4; x++) {
-        for (int y = pos.y - 4; y <= pos.y + 4; y++) {
-            tripoint dest( x, y, pos.z );
-            monster *const mon_ptr = g->critter_at<monster>( dest, true );
-            if( !mon_ptr ) {
-                continue;
-            }
-            monster &critter = *mon_ptr;
-            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
-                converts++;
-                critter.make_friendly();
-            }
+    for( const tripoint &dest : g->m.points_in_radius( pos, 4 ) ) {
+        monster *const mon_ptr = g->critter_at<monster>( dest, true );
+        if( !mon_ptr ) {
+            continue;
+        }
+        monster &critter = *mon_ptr;
+        if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
+            converts++;
+            critter.make_friendly();
         }
     }
 
@@ -3828,11 +3787,11 @@ void iuse::play_music( player &p, const tripoint &source, int const volume, int 
         sounds::ambient_sound( source, volume, sound );
     }
     if( do_effects ) {
-        p.add_effect( effect_music, 1 );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
+        p.add_effect( effect_music, 1_turns );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_turns, 2_turns );
         // mp3 player reduces hearing
         if( volume == 0 ) {
-             p.add_effect( effect_earphones, 1 );
+             p.add_effect( effect_earphones, 1_turns );
         }
     }
 }
@@ -4009,7 +3968,7 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
                 if (u_see) {
                     p->add_msg_if_player( _( "Your %s goes docile." ), critter.name().c_str() );
                 }
-                critter.add_effect( effect_docile, 1, num_bp, true );
+                critter.add_effect( effect_docile, 1_turns, num_bp, true );
             }
         }
     }
@@ -4325,38 +4284,29 @@ int iuse::portable_structure(player *p, item *it, bool, const tripoint& )
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    int posx = radius * (dirx - p->posx()) + dirx;
-        //(radius + 1)*posx + p->posx();
-    int posy = radius * (diry - p->posy()) + diry;
-    for (int i = -radius; i <= radius; i++) {
-        for (int j = -radius; j <= radius; j++) {
-            tripoint dest( posx + i, posy + j, p->posz() );
-            if (!g->m.has_flag("FLAT", dest) ||
-                 g->m.veh_at( dest ) != nullptr ||
-                !g->is_empty( dest ) ||
-                 g->critter_at( dest ) != nullptr ||
-                    g->m.has_furn(dest)) {
-                add_msg(m_info, _("There isn't enough space in that direction."));
-                return 0;
-            }
+    const tripoint center( radius * ( dirx - p->posx() ) + dirx, radius * (diry - p->posy()) + diry, p->posz() );
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        if (!g->m.has_flag("FLAT", dest) ||
+             g->m.veh_at( dest ) ||
+            !g->is_empty( dest ) ||
+             g->critter_at( dest ) != nullptr ||
+                g->m.has_furn(dest)) {
+            add_msg(m_info, _("There isn't enough space in that direction."));
+            return 0;
         }
     }
     // Make a square of floor surrounded by wall.
-    for (int i = -radius; i <= radius; i++) {
-        for (int j = -radius; j <= radius; j++) {
-            g->m.furn_set(posx + i, posy + j, wall);
-        }
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        g->m.furn_set(dest, wall);
     }
-    for (int i = -(radius - 1); i <= (radius - 1); i++) {
-        for (int j = -(radius - 1); j <= (radius - 1); j++) {
-            g->m.furn_set(posx + i, posy + j, floor);
-        }
+    for( const tripoint &dest : g->m.points_in_radius( center, radius - 1 ) ) {
+        g->m.furn_set( dest, floor);
     }
     // Place the center floor and the door.
-    g->m.furn_set(posx, posy, center_floor);
-    g->m.furn_set(posx - radius*(dirx - p->posx()), posy - radius*(diry - p->posy()), door);
+    g->m.furn_set(center, center_floor);
+    g->m.furn_set(center.x - radius*(dirx - p->posx()), center.y - radius*(diry - p->posy()), door);
     add_msg(m_info, _("You set up the %s on the ground."), it->tname().c_str());
-    add_msg(m_info, _("Examine the center square to pack it up again."), it->tname().c_str());
+    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
     return 1;
 }
 
@@ -4555,7 +4505,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     for (int n = 0; n < dist; n++) {
                         boltx += xdir;
                         bolty += ydir;
-                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng(2, 3), 0 );
+                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng( 2, 3 ) );
                         if (one_in(4)) {
                             if (xdir == 0) {
                                 xdir = rng(0, 1) * 2 - 1;
@@ -4585,7 +4535,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_ADRENALINE:
                 p->add_msg_if_player(m_good, _("You're filled with a roaring energy!"));
-                p->add_effect( effect_adrenaline, rng(200, 250));
+                p->add_effect( effect_adrenaline, rng( 20_minutes , 25_minutes ) );
                 break;
 
             case AEA_MAP: {
@@ -4601,12 +4551,10 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_BLOOD: {
                 bool blood = false;
-                for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
-                    for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
-                        if (!one_in(4) && g->m.add_field({x, y, p->posz()}, fd_blood, 3, 0 ) &&
-                            (blood || g->u.sees(tripoint(x, y, p->posz())))) {
-                            blood = true;
-                        }
+                for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
+                    if (!one_in(4) && g->m.add_field(tmp, fd_blood, 3 ) &&
+                        (blood || g->u.sees(tmp))) {
+                        blood = true;
                     }
                 }
                 if (blood) {
@@ -4618,17 +4566,15 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_FATIGUE: {
                 p->add_msg_if_player(m_warning, _("The fabric of space seems to decay."));
                 int x = rng(p->posx() - 3, p->posx() + 3), y = rng(p->posy() - 3, p->posy() + 3);
-                g->m.add_field({x, y, p->posz()}, fd_fatigue, rng(1, 2), 0);
+                g->m.add_field( {x, y, p->posz()}, fd_fatigue, rng( 1, 2 ) );
             }
             break;
 
             case AEA_ACIDBALL: {
                 tripoint acidball = g->look_around();
                 if( acidball != tripoint_min ) {
-                    for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
-                        for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
-                            g->m.add_field( tripoint( x, y, acidball.z ), fd_acid, rng(2, 3), 0 );
-                        }
+                    for( const tripoint &tmp : g->m.points_in_radius( acidball, 1 ) ) {
+                        g->m.add_field( tmp, fd_acid, rng( 2, 3 ) );
                     }
                 }
             }
@@ -4636,15 +4582,12 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_PULSE:
                 sounds::sound(p->pos(), 30, _("The earth shakes!"));
-                for (int x = p->posx() - 2; x <= p->posx() + 2; x++) {
-                    for (int y = p->posy() - 2; y <= p->posy() + 2; y++) {
-                        tripoint pt( x, y, p->posz() );
-                        g->m.bash( pt, 40 );
-                        g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
-                        g->m.bash( pt, 40 );
-                        if (g->m.is_bashable( pt ) && rng(1, 10) >= 3) {
-                            g->m.bash( pt, 999, false, true );
-                        }
+                for( const tripoint &pt : g->m.points_in_radius( p->pos(), 2 ) ) {
+                    g->m.bash( pt, 40 );
+                    g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
+                    g->m.bash( pt, 40 );
+                    if (g->m.is_bashable( pt ) && rng(1, 10) >= 3) {
+                        g->m.bash( pt, 999, false, true );
                     }
                 }
                 break;
@@ -4655,24 +4598,18 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_CONFUSED:
-                for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
-                    for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
-                        tripoint dest( x, y, p->posz() );
-                        if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
-                            mon->add_effect( effect_stunned, rng( 5, 15 ) );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
+                    if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
+                        mon->add_effect( effect_stunned, rng( 5_turns, 15_turns ) );
                     }
                 }
                 break;
 
             case AEA_ENTRANCE:
-                for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
-                    for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
-                        tripoint dest( x, y, p->posz() );
-                        monster *const mon = g->critter_at<monster>( dest, true );
-                        if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
-                            mon->make_friendly();
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
+                    monster *const mon = g->critter_at<monster>( dest, true );
+                    if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
+                        mon->make_friendly();
                     }
                 }
                 break;
@@ -4682,12 +4619,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 mtype_id bug = mtype_id::NULL_ID();
                 int num = 0;
                 std::vector<tripoint> empty;
-                for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
-                    for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                        tripoint dest(x, y, p->posz());
-                        if (g->is_empty(dest)) {
-                            empty.push_back(dest);
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+                    if (g->is_empty(dest)) {
+                        empty.push_back(dest);
                     }
                 }
                 if (empty.empty() || roll <= 4) {
@@ -4739,10 +4673,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_RADIATION:
                 add_msg(m_warning, _("Horrible gases are emitted!"));
-                for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
-                    for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                        g->m.add_field({x, y, p->posz()}, fd_nuke_gas, rng(2, 3), 0 );
-                    }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+                    g->m.add_field( dest, fd_nuke_gas, rng( 2, 3 ) );
                 }
                 break;
 
@@ -4770,7 +4702,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 std::vector<tripoint> ps = closest_tripoints_first( 3, p->pos() );
                 for (auto p_it : ps) {
                     if (!one_in(3)) {
-                        g->m.add_field(p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
+                        g->m.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
                     }
                 }
                 break;
@@ -4778,12 +4710,12 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_ATTENTION:
                 p->add_msg_if_player(m_warning, _("You feel like your action has attracted attention."));
-                p->add_effect( effect_attention, 600 * rng(1, 3));
+                p->add_effect( effect_attention, rng( 1_hours, 3_hours ) );
                 break;
 
             case AEA_TELEGLOW:
                 p->add_msg_if_player(m_warning, _("You feel unhinged."));
-                p->add_effect( effect_teleglow, 100 * rng(3, 12));
+                p->add_effect( effect_teleglow, rng( 30_minutes, 120_minutes ) );
                 break;
 
             case AEA_NOISE:
@@ -4795,7 +4727,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 sounds::sound(p->pos(), 40, "");
                 if (!p->is_deaf()) {
                     p->add_msg_if_player(m_warning, _("Your %s screams disturbingly."), it->tname().c_str());
-                    p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
+                    p->add_morale(MORALE_SCREAM, -10, 0, 30_minutes, 5_turns);
                 }
                 break;
 
@@ -5062,7 +4994,7 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
     g->m.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
-    if (unfold_msg.size() == 0) {
+    if( unfold_msg.empty() ) {
         unfold_msg = _("You painstakingly unfold the %s and make it ready to ride.");
     } else {
         unfold_msg = _(unfold_msg.c_str());
@@ -5075,7 +5007,7 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
 
 int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 {
-    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 300 ) {
+    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 30_minutes ) {
         return 0;
     }
 
@@ -5091,7 +5023,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
         p->mod_healthy( -20 );
     }
 
-    p->add_effect( effect_adrenaline, 200 );
+    p->add_effect( effect_adrenaline, 20_minutes );
 
     return it->type->charges_to_use();
 }
@@ -5099,19 +5031,19 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The jet injector is empty."), it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The jet injector is empty." ) );
         return 0;
     } else {
         p->add_msg_if_player(_("You inject yourself with the jet injector."));
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_jetinjector, 200, num_bp, false, 2);
+        p->add_effect( effect_jetinjector, 20_minutes, num_bp, false, 2);
         p->mod_painkiller(20);
         p->stim += 10;
         p->healall(20);
     }
 
     if (p->has_effect( effect_jetinjector)) {
-        if (p->get_effect_dur( effect_jetinjector ) > 200) {
+        if( p->get_effect_dur( effect_jetinjector ) > 20_minutes ) {
             p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
         }
     }
@@ -5127,12 +5059,12 @@ int iuse::stimpack(player *p, item *it, bool, const tripoint& )
     }
 
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The stimulant delivery system is empty."), it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The stimulant delivery system is empty." ) );
         return 0;
     } else {
         p->add_msg_if_player(_("You inject yourself with the stimulants."));
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_stimpack, 250, num_bp, false, 2);
+        p->add_effect( effect_stimpack, 25_minutes, num_bp, false, 2);
         p->mod_painkiller(2);
         p->stim += 20;
         p->mod_fatigue(-100);
@@ -5176,13 +5108,13 @@ int iuse::contacts(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-    int duration = rng(80640, 120960); // Around 7 days.
+    const time_duration duration = rng( 6_days, 8_days );
     if (p->has_effect( effect_contacts)) {
         if (query_yn(_("Replace your current lenses?"))) {
             p->moves -= 200;
             p->add_msg_if_player(_("You replace your current %s."), it->tname().c_str());
             p->remove_effect( effect_contacts);
-            p->add_effect( effect_contacts, duration);
+            p->add_effect( effect_contacts, duration );
             return it->type->charges_to_use();
         } else {
             p->add_msg_if_player(_("You don't do anything with your %s."), it->tname().c_str());
@@ -5191,7 +5123,7 @@ int iuse::contacts(player *p, item *it, bool, const tripoint& )
     } else if (p->has_trait( trait_HYPEROPIC ) || p->has_trait( trait_MYOPIC ) || p->has_trait( trait_URSINE_EYE )) {
         p->moves -= 200;
         p->add_msg_if_player(_("You put the %s in your eyes."), it->tname().c_str());
-        p->add_effect( effect_contacts, duration);
+        p->add_effect( effect_contacts, duration );
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player(m_info, _("Your vision is fine already."));
@@ -5525,7 +5457,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                 if( critter.friendly != 0 && critter.type->in_species( ROBOT ) ) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
                                          critter.name().c_str() );
-                    critter.add_effect( effect_docile, 1, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
                     f = 1;
                 }
             }
@@ -5731,7 +5663,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
             std::string s;
             while (getline(f, s, ',')) {
 
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
 
@@ -5779,6 +5711,7 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 static const std::string &photo_quality_name( const int index )
 {
     static std::array<std::string, 6> const names { {
+          //~ photo quality adjective
         { _("awful") }, { _("bad") }, { _("not bad") }, { _("good") }, { _("fine") }, { _("exceptional") } } };
     return names[index];
 }
@@ -5965,7 +5898,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             int k = 1;
             while (getline(f, s, ',')) {
 
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
 
@@ -6012,7 +5945,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             std::string s;
             int k = 1;
             while (getline(f, s, ',')) {
-                if (s.size() == 0) {
+                if( s.empty() ) {
                     continue;
                 }
                 monster_photos.push_back( mtype_id( s ) );
@@ -6201,7 +6134,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                     if (dist < 4 && one_in(dist + 2) && z.has_flag(MF_SEES)) {
                         p->add_msg_if_player(_("%s looks blinded."), z.name().c_str());
-                        z.add_effect( effect_blind, rng(5, 10));
+                        z.add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
 
                     // shoot past small monsters and hallucinations
@@ -6269,7 +6202,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                 } else if( guy ) {
                     if (dist < 4 && one_in(dist + 2)) {
                         p->add_msg_if_player(_("%s looks blinded."), guy->name.c_str());
-                        guy->add_effect( effect_blind, rng(5, 10));
+                        guy->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
 
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
@@ -6277,8 +6210,9 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         if (p->is_blind()) {
                             p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
                         } else {
-                            p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
-                                             guy->name.c_str());
+                            //~ 1s - thing being photographed, 2s - photo quality (adjective).
+                            p->add_msg_if_player(_("You took a photo of %1$s. It is %2$s."), guy->name.c_str(),
+                                             quality_name.c_str());
                         }
                     } else {
                         p->add_msg_if_player(m_warning, _("%s got in the way of your photo."), guy->name.c_str());
@@ -6316,7 +6250,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         int k = 1;
         while (getline(f, s, ',')) {
 
-            if (s.size() == 0) {
+            if( s.empty() ) {
                 continue;
             }
 
@@ -6789,7 +6723,7 @@ vehicle *pickveh( const tripoint& center, bool advanced )
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
     }
 
-    if( vehs.size() == 0 ) {
+    if( vehs.empty() ) {
         add_msg( m_bad, _("No vehicle available.") );
         return nullptr;
     }
@@ -6904,21 +6838,18 @@ bool multicooker_hallu( player &p )
             return true;
 
         case 6:
-
-            for (int x = p.posx() - 1; x <= p.posx() + 1; x++)
-                for (int y = p.posy() - 1; y <= p.posy() + 1; y++) {
-                    tripoint pt(x, y, p.posz());
-                    if (g->is_empty( pt )) {
-                        points.push_back( pt );
-                    }
+            for( const tripoint &pt : g->m.points_in_radius( p.pos(), 1 ) ) {
+                if (g->is_empty( pt )) {
+                    points.push_back( pt );
                 }
+            }
 
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
                 const tripoint random_point = random_entry( points );
                 if( monster * const m = g->summon_mon( mon_hallu_multicooker, random_point ) ) {
                     m->hallucination = true;
-                    m->add_effect( effect_run, 1, num_bp, true);
+                    m->add_effect( effect_run, 1_turns, num_bp, true);
                 }
             } else {
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
@@ -7233,9 +7164,9 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"),posp)) {
             return 0;
         }
-        auto veh = g->m.veh_at( posp );
+        const optional_vpart_position vp = g->m.veh_at( posp );
         auto ter = g->m.ter( posp );
-        if( veh == nullptr && ter != t_chainfence_h && ter != t_chainfence_v ) {
+        if( !vp && ter != t_chainfence_h && ter != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
@@ -7271,18 +7202,18 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        int target_part_num;
-        auto target_veh = g->m.veh_at( vpos, target_part_num );
-        if (target_veh == nullptr) {
+        const optional_vpart_position target_vp = g->m.veh_at( vpos );
+        if( !target_vp ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
+            vehicle *const target_veh = &target_vp->vehicle();
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = g->m.getlocal(source_global);
-            int source_part_num;
-            auto source_veh = g->m.veh_at( source_local, source_part_num );
+            const optional_vpart_position source_vp = g->m.veh_at( source_local );
+            vehicle *const source_veh = veh_pointer_or_null( source_vp );
 
             if(source_veh == target_veh) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -7310,13 +7241,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             // a iuse_actor class, or add a check in item_factory.
             const vpart_id vpid( it->typeId() );
 
-            point vcoords = veh_part_coordinates( *source_veh, source_part_num );
+            point vcoords = veh_part_coordinates( *source_veh, source_vp->part_index() );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
-            vcoords = veh_part_coordinates( *target_veh, target_part_num );
+            vcoords = veh_part_coordinates( *target_veh, target_vp->part_index() );
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
@@ -7341,7 +7272,7 @@ int iuse::shavekit(player *p, item *it, bool, const tripoint&)
     } else {
         p->add_msg_if_player(_("You open up your kit and shave."));
         p->moves -= 3000;
-        p->add_morale(MORALE_SHAVE, 8, 8, 2400, 30);
+        p->add_morale(MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes);
     }
     return it->type->charges_to_use();
 }
@@ -7350,7 +7281,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 {
         p->add_msg_if_player(_("You give your hair a trim."));
         p->moves -= 3000;
-        p->add_morale(MORALE_HAIRCUT, 3, 3, 4800, 30);
+        p->add_morale(MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes);
     return it->type->charges_to_use();
 }
 
@@ -7396,11 +7327,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     }
 
     if( it->typeId() == "weather_reader" ) {
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at( p->pos(), vpart );
         int vehwindspeed = 0;
-        if( veh ) {
-            vehwindspeed = abs( veh->velocity / 100 ); // For mph
+        if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
+            vehwindspeed = abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
@@ -7562,48 +7491,80 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::washclothes( player *p, item *it, bool, const tripoint& )
+int iuse::washclothes( player *p, item *it, bool, const tripoint & )
 {
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return 0;
+    }
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 
-    const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
-    item &mod = p->i_at( pos );
-    if( pos == INT_MIN ) {
-        p->add_msg_if_player( m_info, _( "Never mind." ) );
+    player player = *p;
+
+    player.inv.restack( player );
+
+    const inventory_filter_preset preset( []( const item_location & location ) {
+        return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
+    } );
+    // TODO: this should also search surrounding area, not just player inventory.
+    inventory_iuse_selector inv_s( player, _( "ITEMS TO CLEAN" ), preset );
+    inv_s.add_character_items( player );
+    inv_s.set_title( _( "Multiclean" ) );
+    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+    std::list<std::pair<int, int>> to_clean;
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+        to_clean = std::list<std::pair<int, int> >();
         return 0;
     }
 
-    const int required_water = 2 * mod.volume() / 250_ml;
-    const int time = 1000 * mod.volume() / 250_ml;
-    int required_cleanser = mod.volume() / 1000_ml;
+    to_clean = inv_s.execute();
+    if( to_clean.size() == 0 ) {
+        return 0;
+    }
+    int required_water = 0;
+    int time = 0;
+    int required_cleanser = 0;
 
+    // Determine if we have enough water and cleanser for all the items.
+    for( std::pair<int, int> pair : to_clean ) {
+        item mod = p->i_at( pair.first );
+        if( pair.first == INT_MIN ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ) );
+            return 0;
+        }
+        required_water += ( mod.volume() / 125_ml ) * pair.second;
+        time += ( 1000 * mod.volume() / 250_ml ) * pair.second;
+        required_cleanser += ( mod.volume() / 1000_ml ) * pair.second;
+    }
     if( required_cleanser < 1 ) {
         required_cleanser = 1;
     }
 
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash your %2$s." ), required_water, mod.tname().c_str() );
+    if( !crafting_inv.has_charges( "water", required_water ) &&
+        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                              required_water );
         return 0;
-    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) && !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
+    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                              required_cleanser );
         return 0;
     }
+    // Assign the activity values.
+    p->assign_activity( activity_id( "ACT_WASH" ), time );
 
-    std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", required_water ) );
-    comps.push_back( item_comp( "water_clean", required_water ) );
-    p->consume_items( comps );
-
-    std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( "soap", required_cleanser ) );
-    comps1.push_back( item_comp( "detergent", required_cleanser ) );
-    p->consume_items( comps1 );
-
-    p->assign_activity( activity_id( "ACT_WASH" ), time, 0, p->get_item_position( &mod ) );
+    for( std::pair<int, int> pair : to_clean ) {
+        p->activity.values.push_back( pair.first );
+        p->activity.values.push_back( pair.second );
+    }
 
     return 0;
 }

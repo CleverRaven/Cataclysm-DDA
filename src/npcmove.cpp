@@ -16,6 +16,7 @@
 #include "translations.h"
 #include "veh_type.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "effect.h"
@@ -25,6 +26,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overmap_location.h"
+#include "gun_mode.h"
 #include "visitable.h"
 #include "cata_algo.h"
 
@@ -336,8 +338,11 @@ void npc::move()
         }
     }
 
-    // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
-    if( sees_dangerous_field( pos() ) ) {
+    /* This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
+     * NPC won't avoid dangerous terrain while accompanying the player inside a vehicle
+     * to keep them from inadvertantly getting themselves run over and/or cause vehicle related errors.
+     */
+    if( sees_dangerous_field( pos() ) && ( !g->u.in_vehicle && is_following() ) ) {
         const tripoint escape_dir = good_escape_direction( *this );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
@@ -472,7 +477,7 @@ void npc::execute_action( npc_action action )
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
-                    add_effect( effect_lying_down, 300, num_bp, false, 1 );
+                    add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
                     if( g->u.sees( *this ) ) {
                         add_msg( _( "%s lies down to sleep." ), name.c_str() );
                     }
@@ -614,21 +619,21 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_follow_embarked: {
-            int p1;
-            vehicle *veh = g->m.veh_at( g->u.pos(), p1 );
+            const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
 
-            if( veh == nullptr ) {
+            if( !vp ) {
                 debugmsg( "Following an embarked player with no vehicle at their location?" );
                 // TODO: change to wait? - for now pause
                 move_pause();
                 break;
             }
+            vehicle *const veh = &vp->vehicle();
 
             // Try to find the last destination
             // This is mount point, not actual position
             point last_dest( INT_MIN, INT_MIN );
-            if( !path.empty() && g->m.veh_at( path[path.size() - 1], p1 ) == veh && p1 >= 0 ) {
-                last_dest = veh->parts[p1].mount;
+            if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
+                last_dest = veh->parts[vp->part_index()].mount;
             }
 
             // Prioritize last found path, then seats
@@ -669,7 +674,7 @@ void npc::execute_action( npc_action action )
                     const npc *who = pt.crew();
                     priority = who && who->getID() == getID() ? 3 : 2;
 
-                } else if( veh->is_inside( p2 ) ) {
+                } else if( vpart_position( *veh, p2 ).is_inside() ) {
                     priority = 1;
                 }
 
@@ -942,14 +947,14 @@ npc_action npc::method_of_attack()
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
-    std::vector<std::pair<std::string, item::gun_mode>> modes;
+    std::vector<std::pair<gun_mode_id, gun_mode>> modes;
     if( rules.use_guns || !is_following() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
             modes.push_back( e );
         }
 
         modes.erase( std::remove_if( modes.begin(), modes.end(),
-        [&]( const std::pair<std::string, item::gun_mode> &e ) {
+        [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
 
             const auto &m = e.second;
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
@@ -963,8 +968,8 @@ npc_action npc::method_of_attack()
 
     // prefer modes that result in more total damage
     std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
-    const std::pair<std::string, item::gun_mode> &rhs ) {
+                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return ( lhs.second->gun_damage().total_damage() * lhs.second.qty ) >
                ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
     } );
@@ -972,8 +977,8 @@ npc_action npc::method_of_attack()
     const int cur_recoil = recoil_total();
     // modes outside confident range should always be the last option(s)
     std::stable_sort( modes.begin(),
-                      modes.end(), [&]( const std::pair<std::string, item::gun_mode> &lhs,
-    const std::pair<std::string, item::gun_mode> &rhs ) {
+                      modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return ( confident_gun_mode_range( lhs.second, cur_recoil ) >= dist ) >
                ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
     } );
@@ -1237,7 +1242,7 @@ npc_action npc::address_player()
             int intense = get_effect_int( effect_catch_up );
             if( intense < 10 ) {
                 say( "<keep_up>" );
-                add_effect( effect_catch_up, 5 );
+                add_effect( effect_catch_up, 5_turns );
                 return npc_pause;
             } else {
                 say( "<im_leaving_you>" );
@@ -1311,7 +1316,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     return res;
 }
 
-int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
+int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
 {
     if( !gun || gun.melee() ) {
         return 0;
@@ -1323,7 +1328,7 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.mode.c_str(), confident_range,
+    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
              max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
@@ -1479,7 +1484,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 void npc::move_to( const tripoint &pt, bool no_bashing )
 {
     if( g->m.has_flag( "UNSTABLE", pt ) ) {
-        add_effect( effect_bouldering, 1, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -1557,14 +1562,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    int vpart;
-    vehicle *veh = g->m.veh_at( pos(), vpart );
-    if( veh != nullptr ) {
-        int other_part = -1;
-        const vehicle *oveh = g->m.veh_at( p, other_part );
-        if( abs( veh->velocity ) > 0 &&
-            ( oveh != veh ||
-              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) < 0 ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        const optional_vpart_position ovp = g->m.veh_at( p );
+        if( abs( vp->vehicle().velocity ) > 0 &&
+            ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
+              vp->vehicle().part_with_feature( ovp->part_index(), VPFLAG_BOARDABLE ) < 0 ) ) {
             move_pause();
             return;
         }
@@ -1621,9 +1623,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
             doors::close_door( g->m, *this, old_pos );
         }
 
-        int part;
-        vehicle *veh = g->m.veh_at( p, part );
-        if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( vp && vp->vehicle().part_with_feature( vp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1924,13 +1925,12 @@ void npc::find_item()
         // Allow terrain check without sight, because it would cost more CPU than it is worth
         consider_terrain( p );
 
-        int veh_part = -1;
-        const vehicle *veh = g->m.veh_at( p, veh_part );
-        if( veh == nullptr || veh->velocity != 0 || !sees( p ) ) {
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
             continue;
         }
-
-        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, true );
+        vehicle *const veh = &vp->vehicle();
+        int veh_part = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
         if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) ) {
@@ -1982,11 +1982,9 @@ void npc::pick_up_item()
         return;
     }
 
-    int veh_part = -1;
-    vehicle *veh = g->m.veh_at( wanted_item_pos, veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, false );
-    }
+    const optional_vpart_position vp = g->m.veh_at( wanted_item_pos );
+    vehicle *const veh = veh_pointer_or_null( vp );
+    int veh_part = vp ? veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false ) : -1;
 
     const bool has_cargo = veh != nullptr &&
                            veh_part >= 0 &&

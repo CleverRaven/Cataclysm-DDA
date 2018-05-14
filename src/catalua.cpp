@@ -29,6 +29,7 @@
 #include "morale_types.h"
 #include "trap.h"
 #include "overmap.h"
+#include "gun_mode.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
@@ -60,6 +61,20 @@ std::string lua_file_path = "";
 
 std::stringstream lua_output_stream;
 std::stringstream lua_error_stream;
+
+// Not used in the C++ code, but implicitly required by the Lua bindings.
+// Gun modes need to be created via an actual item.
+template<>
+const gun_mode &string_id<gun_mode>::obj() const
+{
+    static const gun_mode dummy{};
+    return dummy;
+}
+template<>
+bool string_id<gun_mode>::is_valid() const
+{
+    return false;
+}
 
 #if LUA_VERSION_NUM < 502
 // Compatibility, for before Lua 5.2, which does not have luaL_setfuncs

@@ -30,8 +30,11 @@ void mdefense::zapback( monster &m, Creature *const source,
     player const *const foe = dynamic_cast<player *>( source );
 
     // Players/NPCs can avoid the shock by using non-conductive weapons
-    if( foe != nullptr && !foe->weapon.conductive() && !foe->unarmed_attack() ) {
-        return;
+    if( foe != nullptr ) {
+        const bool unarmed_weapon = foe->unarmed_attack() && foe->is_armed();
+        if( !foe->weapon.conductive() && ( !foe->unarmed_attack() || unarmed_weapon ) ) {
+            return;
+        }
     }
 
     // Reach melee attack or attacker lucked out

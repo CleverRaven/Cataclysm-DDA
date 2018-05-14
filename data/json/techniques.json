@@ -201,7 +201,6 @@
         "block_counter": true,
         "dodge_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You counter-attack %s",
             "<npcname> counter-attacks %s"
@@ -292,7 +291,6 @@
             "<npcname> throws a perfect counter at %s"
         ],
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -346,7 +344,6 @@
         "knockback_dist" : 1,
         "knockback_spread" : 1,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You smoothly throw %s",
             "<npcname> smoothly throws %s"
@@ -598,7 +595,6 @@
         "unarmed_allowed" : true,
         "block_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You block and counter-attack %s",
             "<npcname> blocks and counter-attacks %s"
@@ -692,7 +688,6 @@
             ["movecost", 0.0],
             ["damage", "bash", 1.25]
         ],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You lurch, and your wild swing hits %s",
             "<npcname> lurches, and hits %s"
@@ -732,7 +727,6 @@
             ["movecost", 0.0],
             ["damage", "stab", 1.5]
         ],
-        "flat_bonuses" : [["movecost", 20]],
         "stun_dur" : 1,
         "messages" : [
             "You deliver a perfect stop thrust to %s",
@@ -1100,7 +1094,6 @@
             ["movecost", 0.0],
             ["damage", "bash", 1.5]
         ],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You dodge the attack and swipe at %s's exposed flank!",
             "<npcname> dodges and catches %s exposed!"
@@ -1126,7 +1119,6 @@
         "block_counter" : true,
         "dodge_counter" : true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "stun_dur" : 2,
         "messages" : [
             "You catch the attack and send %s spinning!",
@@ -1227,7 +1219,6 @@
         "unarmed_allowed" : true,
         "block_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You catch %s's attack, and hit back!",
             "<npcname> catches %s, and counters!"

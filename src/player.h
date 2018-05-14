@@ -141,7 +141,7 @@ class player : public Character
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
-        void randomize( bool random_scenario, points_left &points );
+        void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature
@@ -458,24 +458,20 @@ class player : public Character
         // melee.cpp
         /** Returns the best item for blocking with */
         item &best_shield();
-        using Creature::melee_attack;
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
+         * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, bool allow_unarmed = true );
         /**
-         * Sets up a melee attack and handles melee attack function calls
-         * @param t Creature to attack
-         * @param allow_special whether non-forced martial art technique or mutation attack should be
-         *   possible with this attack.
-         * @param force_technique special technique to use in attack.
-         * @param hitspread Used to calculate odds of successful damage
+         * Calls the to other melee_attack function with an empty technique id (meaning no specific
+         * technique should be used).
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
+        void melee_attack( Creature &t, bool allow_special );
 
         /**
          * Returns a weapon's modified dispersion value.
@@ -1115,8 +1111,8 @@ class player : public Character
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
-                        int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+        void add_morale( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
+                        time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;

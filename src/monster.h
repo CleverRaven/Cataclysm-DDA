@@ -253,10 +253,9 @@ class monster : public Creature
 
         void absorb_hit( body_part bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
-        using Creature::melee_attack;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique ) override;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique,
-                           int hitspread ) override;
+        void melee_attack( Creature &p );
+        void melee_attack( Creature &p, float accuracy );
+        void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
@@ -282,7 +281,7 @@ class monster : public Creature
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false ) override;
         /** Returns a std::string containing effects for descriptions */

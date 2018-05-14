@@ -8,15 +8,6 @@
 #include <vector>
 #include <cstdarg>
 
-static std::string raw_string_format( const char *const pattern, ... )
-{
-    va_list ap;
-    va_start( ap, pattern );
-    std::string result = vstring_format( pattern, ap );
-    va_end( ap );
-    return result;
-}
-
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>
 std::string throwing_string_format( const char *const format, Args &&...args )
@@ -33,7 +24,8 @@ void importet_test( const int serial, const char *const expected, const char *co
     CAPTURE( serial );
     CAPTURE( format );
 
-    const std::string original_result = raw_string_format( format, std::forward<Args>( args )... );
+    const std::string original_result = cata::string_formatter::raw_string_format( format,
+                                        std::forward<Args>( args )... );
     const std::string new_result = throwing_string_format( format, std::forward<Args>( args )... );
 
     // The expected string *is* what the raw printf would return.
@@ -68,7 +60,8 @@ void test_new_old_pattern( const char *const old_pattern, const char *const new_
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
 
-    std::string original_result = raw_string_format( old_pattern, std::forward<Args>( args )... );
+    std::string original_result = cata::string_formatter::raw_string_format( old_pattern,
+                                  std::forward<Args>( args )... );
     std::string old_result = throwing_string_format( old_pattern, std::forward<Args>( args )... );
     CHECK( original_result == old_result );
 
@@ -103,7 +96,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
-    std::string original_result = raw_string_format( old_pattern, value );
+    std::string original_result = cata::string_formatter::raw_string_format( old_pattern, value );
     std::string new_result = throwing_string_format( new_pattern, value );
     CHECK( original_result == new_result );
 }
@@ -144,7 +137,7 @@ TEST_CASE( "string_formatter" )
 
     // sprintf of some systems doesn't support the 'N$' syntax, if it's
     // not supported, the result is either empty, or the input string
-    if( raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
+    if( cata::string_formatter::raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
         test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
     }
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3 ) );
@@ -307,7 +300,9 @@ TEST_CASE( "string_formatter" )
     importet_test( 142, "f", "%.1s", "foo" );
     importet_test( 143, "f", "%.*s", 1, "foo" );
     importet_test( 144, "foo  ", "%*s", -5, "foo" );
-    importet_test( 145, "hello", "hello" );
+    // We are warning/erroring when not passing a format argument, i.e.
+    // error: format not a string literal and no format arguments [-Werror=format-security]
+    // importet_test( 145, "hello", "hello" );
     // importet_test( 147, "%b", "%b" ); // 'b' is not valid format specifier
     importet_test( 148, "  a", "%3c", 'a' );
     importet_test( 149, "1234", "%3d", 1234 );
@@ -330,10 +325,14 @@ TEST_CASE( "string_formatter" )
     /* 173: excluded for C */
     /* 174: excluded for C */
     // importet_test( 176, "%H", "%H", -1 ); // 'H' is not a valid format specifier
-    importet_test( 177, "%0", "%%0" );
+    // We are warning/erroring when not passing a format argument, i.e.
+    // error: format not a string literal and no format arguments [-Werror=format-security]
+    // importet_test( 177, "%0", "%%0" );
     // importet_test( 178, "2345", "%hx", 74565 ); // 74565 is not a valid short int, as required by %hx
     importet_test( 179, "61", "%hhx", 'a' );
-    importet_test( 181, "Hallo heimur", "Hallo heimur" );
+    // We are warning/erroring when not passing a format argument, i.e.
+    // error: format not a string literal and no format arguments [-Werror=format-security]
+    // importet_test( 181, "Hallo heimur", "Hallo heimur" );
     importet_test( 182, "Hallo heimur", "%s", "Hallo heimur" );
     importet_test( 183, "1024", "%d", 1024 );
     importet_test( 184, "-1024", "%d", -1024 );
@@ -348,7 +347,9 @@ TEST_CASE( "string_formatter" )
     importet_test( 193, "1234ABCD", "%X", 305441741 );
     importet_test( 194, "EDCB5433", "%X", 3989525555U );
     importet_test( 195, "x", "%c", 'x' );
-    importet_test( 196, "%", "%%" );
+    // We are warning/erroring when not passing a format argument, i.e.
+    // error: format not a string literal and no format arguments [-Werror=format-security]
+    // importet_test( 196, "%", "%%" );
     importet_test( 197, "Hallo heimur", "%+s", "Hallo heimur" );
     importet_test( 198, "+1024", "%+d", 1024 );
     importet_test( 199, "-1024", "%+d", -1024 );

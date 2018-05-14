@@ -74,7 +74,10 @@
     "durability": 9,
     "ups_charges": 1,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 100 ] ],
+    "modes": [
+      [ "DEFAULT", "low auto", 50 ],
+      [ "AUTO", "high auto", 100 ]
+    ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },

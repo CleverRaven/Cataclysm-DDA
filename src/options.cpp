@@ -849,7 +849,7 @@ void options_manager::init()
     mOptionsSort["general"]++;
 
     add( "AUTO_PICKUP", "general", translate_marker( "Auto pickup enabled" ),
-        translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager in the Help Menu ?3" ),
+        translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
         false
         );
 
@@ -1614,7 +1614,7 @@ void options_manager::init()
         for (unsigned j = mPageItems[i].size() - 1; j > 0; --j) {
             bool bThisLineEmpty = mPageItems[i][j].empty();
 
-            if (bLastLineEmpty == true && bThisLineEmpty == true) {
+            if( bLastLineEmpty && bThisLineEmpty ) {
                 //delete empty lines in between
                 mPageItems[i].erase(mPageItems[i].begin() + j);
             }

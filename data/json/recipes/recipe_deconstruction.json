@@ -1809,8 +1809,8 @@
     "time": 1000,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "cotton_ball", 4 ] ]
+      [ [ "rag", 4 ] ],
+      [ [ "cotton_ball", 8 ] ]
     ]
   },
   {
@@ -1958,7 +1958,7 @@
     "type": "uncraft",
     "time": 60000,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 100 ] ] ]
+    "components": [ [ [ "thread", 80 ] ] ]
   },
   {
     "result": "ref_lighter",

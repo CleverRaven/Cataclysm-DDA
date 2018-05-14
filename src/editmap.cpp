@@ -21,6 +21,7 @@
 #include "translations.h"
 #include "string_formatter.h"
 #include "coordinates.h"
+#include "vpart_position.h"
 #include "npc.h"
 #include "vehicle.h"
 #include "submap.h"
@@ -234,12 +235,11 @@ void editmap_hilight::draw( editmap &hm, bool update )
     if( cur_blink >= ( int )blink_interval.size() ) {
         cur_blink = 0;
     }
-    if( blink_interval[ cur_blink ] == true || update == true ) {
+    if( blink_interval[ cur_blink ] || update ) {
         for( auto &elem : points ) {
             const tripoint &p = elem.first;
-            int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
+            if( !g->m.veh_at( p ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -258,7 +258,7 @@ void editmap_hilight::draw( editmap &hm, bool update )
                         t_sym = t_fld->symbol();
                     }
                 }
-                if( blink_interval[ cur_blink ] == true ) {
+                if( blink_interval[ cur_blink ] ) {
                     t_col = getbg( t_col );
                 }
                 tripoint scrpos = hm.pos2screen( p );
@@ -406,11 +406,9 @@ tripoint editmap::edit()
         } else if( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
         } else if( action == "EDIT_MONSTER" ) {
-            int veh_part = -1;
-            vehicle *veh = g->m.veh_at( target, veh_part );
             if( Creature *const critter = g->critter_at( target ) ) {
                 edit_critter( *critter );
-            } else if( veh ) {
+            } else if( g->m.veh_at( target ) ) {
                 edit_veh();
             }
         } else if( action == "EDIT_OVERMAP" ) {
@@ -463,7 +461,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     bool draw_itm = true;
     bool game_map = ( ( m == &g->m || w == g->w_terrain ) ? true : false );
     const int msize = SEEX * MAPSIZE;
-    if( refresh_mplans == true ) {
+    if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
@@ -479,7 +477,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     } else {
                         m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                     }
-                    if( refresh_mplans == true ) {
+                    if( refresh_mplans ) {
                         monster *mon = dynamic_cast<monster *>( critter );
                         if( mon != nullptr && mon->pos() != mon->move_target() ) {
                             for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
@@ -495,7 +493,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
             }
         }
     }
-    if( refresh_mplans == true ) {
+    if( refresh_mplans ) {
         refresh_mplans = false;
     }
 }
@@ -505,11 +503,10 @@ void editmap::update_view( bool update_info )
 {
     // Debug helper 2, child of debug helper
     // Gather useful data
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( target, veh_part );
     int veh_in = -1;
-    if( veh ) {
-        veh_in = veh->is_inside( veh_part );
+    const optional_vpart_position vp = g->m.veh_at( target );
+    if( vp ) {
+        veh_in = vp->is_inside();
     }
 
     target_ter = g->m.ter( target );
@@ -541,9 +538,8 @@ void editmap::update_view( bool update_info )
     if( blink && target_list.size() > 1 ) {
         for( auto &elem : target_list ) {
             const tripoint &p = elem;
-            int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
+            if( !g->m.veh_at( p ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -646,7 +642,7 @@ void editmap::update_view( bool update_info )
             mvwprintz( w_info, off, 1, cur.color(),
                        _( "field: %s (%d) density %d age %d" ),
                        cur.name().c_str(), cur.getFieldType(),
-                       cur.getFieldDensity(), cur.getFieldAge()
+                       cur.getFieldDensity(), to_turns<int>( cur.getFieldAge() )
                      );
             off++; // 5ish
         }
@@ -660,10 +656,10 @@ void editmap::update_view( bool update_info )
 
         if( critter != nullptr ) {
             off = critter->print_info( w_info, off, 5, 1 );
-        } else if( veh ) {
-            mvwprintw( w_info, off, 1, _( "There is a %s there. Parts:" ), veh->name.c_str() );
+        } else if( vp ) {
+            mvwprintw( w_info, off, 1, _( "There is a %s there. Parts:" ), vp->vehicle().name );
             off++;
-            veh->print_part_desc( w_info, off, getmaxy( w_info ) - 1, width, veh_part );
+            vp->vehicle().print_part_desc( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
             off += 6;
         }
 
@@ -1159,7 +1155,7 @@ int editmap::edit_fld()
                         if( t_dens != 0 ) {
                             g->m.set_field_strength( elem, fid, fsel_dens );
                         } else {
-                            g->m.add_field( elem, fid, fsel_dens, 0 );
+                            g->m.add_field( elem, fid, fsel_dens );
                         }
                     } else {
                         if( t_dens != 0 ) {
@@ -1418,9 +1414,7 @@ int editmap::edit_critter( Creature &critter )
 int editmap::edit_veh()
 {
     int ret = 0;
-    int veh_part = -1;
-    vehicle *it = g->m.veh_at( target, veh_part );
-    edit_json( *it );
+    edit_json( g->m.veh_at( target )->vehicle() );
     return ret;
 }
 

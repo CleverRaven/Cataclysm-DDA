@@ -7,6 +7,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "options.h"
+#include "vpart_position.h"
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -379,12 +380,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         // When a vehicle has multiple faucets in range, available water is
         //  multiplied by the number of faucets.
         // Same thing happens for all other tools and resources, but not cargo
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at( p, vpart );
-
-        if( veh == nullptr ) {
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( !vp ) {
             continue;
         }
+        vehicle *const veh = &vp->vehicle();
+        const int vpart = vp->part_index();
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable

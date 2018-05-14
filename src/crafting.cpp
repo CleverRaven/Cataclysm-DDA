@@ -22,6 +22,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "ui.h"
+#include "vpart_position.h"
 #include "vehicle.h"
 #include "crafting_gui.h"
 
@@ -235,11 +236,10 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         // also check if we're currently in a vehicle that has the necessary storage
         if( charges_to_store > 0 ) {
-            vehicle *veh = g->m.veh_at( pos() );
-            if( veh != NULL ) {
+            if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
                 const itype_id &ftype = prod.typeId();
-                int fuel_cap = veh->fuel_capacity( ftype );
-                int fuel_amnt = veh->fuel_left( ftype );
+                int fuel_cap = vp->vehicle().fuel_capacity( ftype );
+                int fuel_amnt = vp->vehicle().fuel_left( ftype );
 
                 if( fuel_cap >= 0 ) {
                     int fuel_space_left = fuel_cap - fuel_amnt;
@@ -296,12 +296,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        int part = -1;
-        vehicle *veh = g->m.veh_at( loc, part );
-        if( veh && part >= 0 ) {
-            part = veh->part_with_feature( part, "CARGO" );
+        if( optional_vpart_position vp = g->m.veh_at( loc ) ) {
+            const int part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
             if( part != -1 ) {
-                for( const auto &it : veh->get_items( part ) ) {
+                for( const auto &it : vp->vehicle().get_items( part ) ) {
                     if( is_container_eligible_for_crafting( it, false ) ) {
                         conts.emplace_back( &it );
                     }
@@ -739,7 +737,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     } else { // Let the player pick which component they want to use
         uimenu cmenu;
         // Populate options with the names of the items
-        for( auto &map_ha : map_has ) {
+        for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
@@ -747,7 +745,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                     map_ha.type ) );
             cmenu.addentry( tmpStr );
         }
-        for( auto &player_ha : player_has ) {
+        for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
@@ -755,7 +753,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                     player_ha.type ) );
             cmenu.addentry( tmpStr );
         }
-        for( auto &elem : mixed ) {
+        for( auto &elem :
+             mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( elem.type ),
                                                 ( elem.count * batch ),
@@ -784,6 +783,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         cmenu.title = _( "Use which component?" );
         cmenu.query();
 
+        // The choices only go up to index map_has.size()+player_has.size()+mixed.size()-1. Thus the next index is cancel.
         if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
             selected.use_from = cancel;
             return selected;
@@ -1369,15 +1369,12 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        int veh_part = -1;
-        vehicle *veh = g->m.veh_at( pos(), veh_part );
-        if( veh != nullptr ) {
-            veh_part = veh->part_with_feature( veh_part, "CARGO" );
-        }
+        const optional_vpart_position vp = g->m.veh_at( pos() );
+        const int veh_part = vp ? vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) : -1;
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
+        } else if( veh_part != -1 && vp->vehicle().add_item( veh_part, act_item ) ) {
             // add_item did put the items in the vehicle, nothing further to be done
         } else {
             // TODO: For items counted by charges, add as much as we can to the vehicle, and

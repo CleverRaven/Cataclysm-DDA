@@ -2,6 +2,7 @@
 
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "gun_mode.h"
 #include "dispersion.h"
 #include "game.h"
 #include "map.h"
@@ -14,6 +15,7 @@
 #include "options.h"
 #include "action.h"
 #include "input.h"
+#include "vpart_position.h"
 #include "messages.h"
 #include "projectile.h"
 #include "sounds.h"
@@ -202,8 +204,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     // usage of any attached bipod is dependent upon terrain
     bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
     if( !bipod ) {
-        auto veh = g->m.veh_at( pos() );
-        bipod = veh && veh->has_part( pos(), "MOUNTABLE" );
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
+        }
     }
 
     // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
@@ -226,7 +229,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         dispersion.add_range( recoil_total() );
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
-        const vehicle *in_veh = has_effect( effect_on_roof ) ? g->m.veh_at( pos() ) : nullptr;
+        const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
 
         auto shot = projectile_attack( make_gun_projectile( gun ), pos(), aim, dispersion, this, in_veh );
         curshot++;
@@ -763,14 +766,14 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
 static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number, const tripoint &targ )
 {
-    vehicle *veh = g->m.veh_at( p.pos() );
-    if( veh == nullptr ) {
+    const optional_vpart_position vp = g->m.veh_at( p.pos() );
+    if( !vp ) {
         debugmsg( "Tried to aim turret while outside vehicle" );
         return line_number;
     }
 
     // fetch and display list of turrets that are ready to fire at the target
-    auto turrets = veh->turrets( targ );
+    auto turrets = vp->vehicle().turrets( targ );
 
     mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), turrets.size() );
     for( const auto e : turrets ) {
@@ -1055,10 +1058,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             if( relevant != m.target ) {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
-                           m->tname().c_str(), m.mode.c_str(), m.qty );
+                           m->tname().c_str(), m.name(), m.qty );
             } else {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
-                           m.mode.c_str(), m.qty );
+                           m.name(), m.qty );
             }
 
             const itype *cur = ammo ? ammo : m->ammo_data();
@@ -1301,7 +1304,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     } else if( monster * const mon = dynamic_cast<monster*>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 100 );
+        mon->add_effect( effect_hit_by_player, 10_minutes );
     }
 
     return ret;
@@ -1389,10 +1392,10 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    auto veh = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( pos );
     std::vector<vehicle_part *> cargo;
-    if( veh && weap.has_flag( "VEHICLE" ) ) {
-        cargo = veh->get_parts( pos, "CARGO" );
+    if( vp && weap.has_flag( "VEHICLE" ) ) {
+        cargo = vp->vehicle().get_parts( pos, "CARGO" );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
@@ -1402,7 +1405,7 @@ static void cycle_action( item& weap, const tripoint &pos ) {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing ) );
             } else {
-                veh->add_item( *cargo.front(), item( weap.ammo_data()->ammo->casing ) );
+                vp->vehicle().add_item( *cargo.front(), item( weap.ammo_data()->ammo->casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -1421,7 +1424,7 @@ static void cycle_action( item& weap, const tripoint &pos ) {
         else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );
         } else {
-            veh->add_item( *cargo.front(), linkage );
+            vp->vehicle().add_item( *cargo.front(), linkage );
         }
     }
 }
@@ -1474,7 +1477,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 60 ) {
             return { noise, _( "Tsewww!" ) };
         } else {
-            return { noise, _( "Kra-kow!!" ) };
+            return { noise, _( "Kra-kow!" ) };
         }
 
     } else if( fx.count( "LIGHTNING" ) ) {
@@ -1485,7 +1488,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 60 ) {
             return { noise, _( "Bzaapp!" ) };
         } else {
-            return { noise, _( "Kra-koom!!" ) };
+            return { noise, _( "Kra-koom!" ) };
         }
 
     } else if( fx.count( "WHIP" ) ) {
@@ -1499,7 +1502,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 175 ) {
             return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
-            return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
+            return { noise, burst ? _( "Kaboom!" ) : _( "kerblam!" ) };
         }
     }
 
@@ -1508,8 +1511,8 @@ item::sound_data item::gun_noise( bool const burst ) const
 
 static bool is_driving( const player &p )
 {
-    const auto veh = g->m.veh_at( p.pos() );
-    return veh && veh->velocity != 0 && veh->player_in_control( p );
+    const optional_vpart_position vp = g->m.veh_at( p.pos() );
+    return vp && vp->vehicle().velocity != 0 && vp->vehicle().player_in_control( p );
 }
 
 // utility functions for projectile_attack

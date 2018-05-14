@@ -17,7 +17,7 @@
     "name": ".223 casing",
     "description": "An empty casing from a .223 round.",
     "weight": 5,
-    "volume": "8ml"
+    "volume": "5ml"
   },
   {
     "id": "22_casing",
@@ -137,7 +137,7 @@
     "name": "5x50mm hull",
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": 1,
-    "volume": "9ml",
+    "volume": "5ml",
     "material": "plastic",
     "color": "light_green"
   },

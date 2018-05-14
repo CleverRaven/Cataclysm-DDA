@@ -102,7 +102,7 @@
         "b": { "item": "magazines", "chance": 50 },
         "B": { "item": "hospital_bed", "chance": 80 },
         "f": { "item": "fridge", "chance": 90 },
-        "D": { "item": "office", "chance": 80 },
+        "d": { "item": "office", "chance": 80 },
         "C": { "item": "office", "chance": 20 },
         "S": { "item": "bed", "chance": 60 },
         "r": { "item": "hospital_medical_items", "chance": 30 },

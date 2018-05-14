@@ -26,7 +26,7 @@ struct mission_type;
 struct overmap_location;
 
 enum game_message_type : int;
-
+class gun_mode;
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
@@ -631,7 +631,7 @@ class npc : public player
         // Multiplier for acceptable angle of inaccuracy
         double confidence_mult() const;
         int confident_shoot_range( const item &it, int at_recoil ) const;
-        int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const;
+        int confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
         bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
@@ -891,15 +891,13 @@ struct epilogue {
 
     std::string id; //Unique name for declaring an ending for a given individual
     std::string group; //Male/female (dog/cyborg/mutant... whatever you want)
-    bool is_unique; //If true, will not occur in random endings
-    //The lines you with to draw
-    std::vector<std::string> lines;
+    std::string text;
 
     static epilogue_map _all_epilogue;
 
     static void load_epilogue( JsonObject &jsobj );
     epilogue *find_epilogue( std::string ident );
-    void random_by_group( std::string group, std::string name );
+    void random_by_group( std::string group );
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

@@ -6,9 +6,11 @@
 #include "game.h"
 #include "map.h"
 #include "options.h"
+#include "gun_mode.h"
 #include "weather.h"
 #include "item.h"
 #include "translations.h"
+#include "vpart_position.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "martialarts.h"
@@ -157,8 +159,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             if( p.worn_with_flag( "SPLINT", bp ) ) {
                 static const efftype_id effect_mending( "mending" );
                 const auto &eff = p.get_effect( effect_mending, bp );
-                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
-                                                  ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
+                const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 if( is_self_aware ) {
                     limb = string_format( "=%2d%%=", mend_perc );
@@ -238,8 +239,8 @@ static std::string print_gun_mode( const player &p )
     auto m = p.weapon.gun_current_mode();
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
-            return string_format( m.mode.empty() ? "%s" : "%s (%s)",
-                                  p.weapname().c_str(), _( m.mode.c_str() ) );
+            return string_format( m.name().empty() ? "%s" : "%s (%s)",
+                                  p.weapname().c_str(), m.name() );
         } else {
             return string_format( "%s (%i/%i)", m->tname().c_str(),
                                   m->ammo_remaining(), m->ammo_capacity() );
@@ -464,7 +465,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
-        veh = g->m.veh_at( pos() );
+        veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );

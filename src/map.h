@@ -27,8 +27,15 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 class emit;
 using emit_id = string_id<emit>;
+class vpart_position;
+class optional_vpart_position;
 class player;
 class monster;
 class item;
@@ -492,18 +499,10 @@ class map
         * Checks if tile is occupied by vehicle and by which part.
         *
         * @param p Tile to check for vehicle
-        * @param part_num The part number of the part at this tile will be returned in this parameter.
-        * @return A pointer to the vehicle in this tile.
         */
-        vehicle *veh_at( const tripoint &p, int &part_num );
-        const vehicle *veh_at( const tripoint &p, int &part_num ) const;
+        optional_vpart_position veh_at( const tripoint &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
-        /**
-        * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
-        */
-        vehicle *veh_at( const tripoint &p );// checks if tile is occupied by vehicle
-        const vehicle *veh_at( const tripoint &p ) const;
         // put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
         void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
@@ -797,7 +796,7 @@ class map
         * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
         * Washable fields are decayed only by 1/3 of the amount fire is.
         */
-        void decay_fields_and_scent( const int amount );
+        void decay_fields_and_scent( const time_duration amount );
 
         // Signs
         const std::string get_signage( const tripoint &p ) const;
@@ -972,6 +971,8 @@ class map
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &trap_locations( trap_id t ) const;
 
+        //Spawns byproducts from items destroyed in fire.
+        void create_burnproducts( const tripoint p, const item &fuel );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp
@@ -1002,9 +1003,9 @@ class map
         field &field_at( const tripoint &p );
         /**
          * Get the age of a field entry (@ref field_entry::age), if there is no
-         * field of that type, returns -1.
+         * field of that type, returns `-1_turns`.
          */
-        int get_field_age( const tripoint &p, const field_id t ) const;
+        time_duration get_field_age( const tripoint &p, const field_id t ) const;
         /**
          * Get the density of a field entry (@ref field_entry::density),
          * if there is no field of that type, returns 0.
@@ -1012,9 +1013,9 @@ class map
         int get_field_strength( const tripoint &p, const field_id t ) const;
         /**
          * Increment/decrement age of field entry at point.
-         * @return resulting age or -1 if not present (does *not* create a new field).
+         * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        int adjust_field_age( const tripoint &p, const field_id t, const int offset );
+        time_duration adjust_field_age( const tripoint &p, field_id t, time_duration offset );
         /**
          * Increment/decrement density of field entry at point, creating if not present,
          * removing if density becomes 0.
@@ -1028,9 +1029,10 @@ class map
          * @param age New age of specified field
          * @param isoffset If true, the given age value is added to the existing value,
          * if false, the existing age is ignored and overridden.
-         * @return resulting age or -1 if not present (does *not* create a new field).
+         * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        int set_field_age( const tripoint &p, const field_id t, const int age, bool isoffset = false );
+        time_duration set_field_age( const tripoint &p, field_id t, time_duration age,
+                                     bool isoffset = false );
         /**
          * Set density of field entry at point, creating if not present,
          * removing if density becomes 0.
@@ -1051,7 +1053,7 @@ class map
          * Add field entry at point, or set density if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id t, const int density, const int age = 0 );
+        bool add_field( const tripoint &p, field_id t, int density, time_duration age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */

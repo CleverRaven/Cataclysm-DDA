@@ -22,6 +22,7 @@
 #include "player.h"
 #include "text_snippets.h"
 #include "input.h"
+#include "map_iterator.h"
 
 #include <string>
 #include <sstream>
@@ -465,12 +466,9 @@ void computer::activate_function( computer_action action )
         g->u.add_memorial_log(pgettext("memorial_male", "Caused a resonance cascade."),
                               pgettext("memorial_female", "Caused a resonance cascade."));
         std::vector<tripoint> cascade_points;
-        for (int i = g->u.posx() - 10; i <= g->u.posx() + 10; i++) {
-            for (int j = g->u.posy() - 10; j <= g->u.posy() + 10; j++) {
-                if (g->m.ter(i, j) == t_radio_tower) {
-                    // TODO: Z
-                    cascade_points.push_back( tripoint(i, j, g->get_levz() ) );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+            if (g->m.ter(dest) == t_radio_tower) {
+                cascade_points.push_back( dest );
             }
         }
         g->resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
@@ -549,7 +547,7 @@ void computer::activate_function( computer_action action )
             for(int j = g->u.posy() + 3; j < g->u.posy() + 12; j++)
                 if(!one_in(4)) {
                     tripoint dest( i + rng(-2, 2), j + rng(-2, 2), g->u.posz() );
-                    g->m.add_field( dest, fd_smoke, rng(1, 9), 0 );
+                    g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
                 }
         }
 
@@ -751,7 +749,7 @@ INITIATING STANDARD TREMOR TEST..."));
     case COMPACT_AMIGARA_START:
         g->events.add( EVENT_AMIGARA, calendar::turn + 10_turns );
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
-            g->u.add_effect( effect_amigara, 20);
+            g->u.add_effect( effect_amigara, 2_minutes );
         }
         // Disable this action to prevent further amigara events, which would lead to
         // further amigara monster, which would lead to further artifacts.
@@ -760,7 +758,7 @@ INITIATING STANDARD TREMOR TEST..."));
 
     case COMPACT_STEMCELL_TREATMENT:
         g->u.moves -= 70;
-        g->u.add_effect( effect_stemcell_treatment, 120);
+        g->u.add_effect( effect_stemcell_treatment, 12_minutes );
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
@@ -827,44 +825,40 @@ of pureed bone & LSD."));
 
     case COMPACT_BLOOD_ANAL:
         g->u.moves -= 70;
-        for (int x = g->u.posx() - 2; x <= g->u.posx() + 2; x++) {
-            for (int y = g->u.posy() - 2; y <= g->u.posy() + 2; y++) {
-                if (g->m.ter(x, y) == t_centrifuge) {
-                    if (g->m.i_at(x, y).empty()) {
-                        print_error(_("ERROR: Please place sample in centrifuge."));
-                    } else if (g->m.i_at(x, y).size() > 1) {
-                        print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
-                        print_error(_("ERROR: Please use blood-contained samples."));
-                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                        print_error(_("ERROR: Blood draw kit is empty."));
-                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
-                        print_error(_("ERROR: Please only use blood samples."));
-                    } else { // Success!
-                        const item &blood = g->m.i_at(x, y).front().contents.front();
-                        const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
-                            print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( mt->in_species( ZOMBIE ) ) {
-                            if( mt->in_species( HUMAN ) ) {
-                                print_line(_("Result:  Human blood.  Unknown pathogen found."));
-                            } else {
-                                print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));
-                            }
-                            print_line(_("Pathogen bonded to erythrocytes and leukocytes."));
-                            if (query_bool(_("Download data?"))) {
-                                if( item *const usb = pick_usb() ) {
-                                    item software("software_blood_data", 0);
-                                    usb->contents.clear();
-                                    usb->put_in(software);
-                                    print_line(_("Software downloaded."));
-                                } else {
-                                    print_error(_("USB drive required!"));
-                                }
-                            }
+        for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
+            if (g->m.ter(dest) == t_centrifuge) {
+                if (g->m.i_at(dest).empty()) {
+                    print_error(_("ERROR: Please place sample in centrifuge."));
+                } else if (g->m.i_at(dest).size() > 1) {
+                    print_error(_("ERROR: Please remove all but one sample from centrifuge."));
+                } else if (g->m.i_at(dest)[0].contents.empty()) {
+                    print_error(_("ERROR: Please only use container with blood sample."));
+                } else if (g->m.i_at(dest)[0].contents.front().typeId() != "blood") {
+                    print_error(_("ERROR: Please only use blood samples."));
+                } else { // Success!
+                    const item &blood = g->m.i_at(dest).front().contents.front();
+                    const mtype *mt = blood.get_mtype();
+                    if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
+                        print_line(_("Result:  Human blood, no pathogens found."));
+                    } else if( mt->in_species( ZOMBIE ) ) {
+                        if( mt->in_species( HUMAN ) ) {
+                            print_line(_("Result:  Human blood.  Unknown pathogen found."));
                         } else {
-                            print_line(_("Result: Unknown blood type.  Test non-conclusive."));
+                            print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));
                         }
+                        print_line(_("Pathogen bonded to erythrocytes and leukocytes."));
+                        if (query_bool(_("Download data?"))) {
+                            if( item *const usb = pick_usb() ) {
+                                item software("software_blood_data", 0);
+                                usb->contents.clear();
+                                usb->put_in(software);
+                                print_line(_("Software downloaded."));
+                            } else {
+                                print_error(_("USB drive required!"));
+                            }
+                        }
+                    } else {
+                        print_line(_("Result: Unknown blood type.  Test non-conclusive."));
                     }
                 }
             }
@@ -874,28 +868,25 @@ of pureed bone & LSD."));
 
     case COMPACT_DATA_ANAL:
         g->u.moves -= 30;
-        for (int x = g->u.posx() - 2; x <= g->u.posx() + 2; x++) {
-            for (int y = g->u.posy() - 2; y <= g->u.posy() + 2; y++) {
-                if (g->m.ter(x, y) == t_floor_blue) {
-                    print_error(_("PROCESSING DATA"));
-                    if (g->m.i_at(x, y).empty()) {
-                        print_error(_("ERROR: Please place memory bank in scan area."));
-                    } else if (g->m.i_at(x, y).size() > 1) {
-                        print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].typeId() != "usb_drive" &&
-                               g->m.i_at(x, y)[0].typeId() != "black_box") {
-                        print_error(_("ERROR: Memory bank destroyed or not present."));
-                    } else if (g->m.i_at(x, y)[0].typeId() == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
-                        print_error(_("ERROR: Memory bank is empty."));
-                    } else { // Success!
-                        if (g->m.i_at(x, y)[0].typeId() == "black_box") {
-                            print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
-                            item transcript("black_box_transcript", calendar::turn);
-                            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), transcript);
-                        } else {
-                            print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));
-                        }
-
+        for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
+            if (g->m.ter(dest) == t_floor_blue) {
+                print_error(_("PROCESSING DATA"));
+                if (g->m.i_at(dest).empty()) {
+                    print_error(_("ERROR: Please place memory bank in scan area."));
+                } else if (g->m.i_at(dest).size() > 1) {
+                    print_error(_("ERROR: Please only scan one item at a time."));
+                } else if (g->m.i_at(dest)[0].typeId() != "usb_drive" &&
+                           g->m.i_at(dest)[0].typeId() != "black_box") {
+                    print_error(_("ERROR: Memory bank destroyed or not present."));
+                } else if (g->m.i_at(dest)[0].typeId() == "usb_drive" && g->m.i_at(dest)[0].contents.empty()) {
+                    print_error(_("ERROR: Memory bank is empty."));
+                } else { // Success!
+                    if (g->m.i_at(dest)[0].typeId() == "black_box") {
+                        print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
+                        item transcript("black_box_transcript", calendar::turn);
+                        g->m.add_item_or_charges(g->u.posx(), g->u.posy(), transcript);
+                    } else {
+                        print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));
                     }
                 }
             }
@@ -1207,13 +1198,11 @@ void computer::activate_failure(computer_failure_type fail)
         break;
 
     case COMPFAIL_SHUTDOWN:
-        for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
-            for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
-                if( g->m.has_flag("CONSOLE", x, y) ) {
-                    g->m.ter_set(x, y, t_console_broken);
-                    add_msg(m_bad, _("The console shuts down."));
-                    found_tile = true;
-                }
+        for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( g->m.has_flag( "CONSOLE", p ) ) {
+                g->m.ter_set( p, t_console_broken );
+                add_msg( m_bad, _( "The console shuts down." ) );
+                found_tile = true;
             }
         }
         if( found_tile ) {
@@ -1333,7 +1322,7 @@ void computer::activate_failure(computer_failure_type fail)
 
     case COMPFAIL_AMIGARA:
         g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
-        g->u.add_effect( effect_amigara, 20);
+        g->u.add_effect( effect_amigara, 2_minutes );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         remove_option( COMPACT_AMIGARA_START );
@@ -1341,23 +1330,21 @@ void computer::activate_failure(computer_failure_type fail)
 
     case COMPFAIL_DESTROY_BLOOD:
         print_error(_("ERROR: Disruptive Spin"));
-        for (int x = g->u.posx() - 2; x <= g->u.posx() + 2; x++) {
-            for (int y = g->u.posy() - 2; y <= g->u.posy() + 2; y++) {
-                if (g->m.ter(x, y) == t_centrifuge) {
-                    if (g->m.i_at(x, y).empty()) {
-                        print_error(_("ERROR: Please place sample in centrifuge."));
-                    } else if (g->m.i_at(x, y).size() > 1) {
-                        print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
-                        print_error(_("ERROR: Please use blood-contained samples."));
-                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                        print_error(_("ERROR: Blood draw kit, empty."));
-                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
-                        print_error(_("ERROR: Please only use blood samples."));
-                    } else {
-                        print_error(_("ERROR: Blood sample destroyed."));
-                        g->m.i_clear( x, y );
-                    }
+        for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
+            if (g->m.ter(dest) == t_centrifuge) {
+                if (g->m.i_at(dest).empty()) {
+                    print_error(_("ERROR: Please place sample in centrifuge."));
+                } else if (g->m.i_at(dest).size() > 1) {
+                    print_error(_("ERROR: Please remove all but one sample from centrifuge."));
+                } else if (g->m.i_at(dest)[0].typeId() != "vacutainer") {
+                    print_error(_("ERROR: Please use blood-contained samples."));
+                } else if (g->m.i_at(dest)[0].contents.empty()) {
+                    print_error(_("ERROR: Blood draw kit, empty."));
+                } else if (g->m.i_at(dest)[0].contents.front().typeId() != "blood") {
+                    print_error(_("ERROR: Please only use blood samples."));
+                } else {
+                    print_error(_("ERROR: Blood sample destroyed."));
+                    g->m.i_clear( dest );
                 }
             }
         }

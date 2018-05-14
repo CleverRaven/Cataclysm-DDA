@@ -2472,7 +2472,8 @@
             "bio_climate",
             "bio_evap",
             "bio_lighter",
-            "bio_power_storage_mkII"
+            "bio_power_storage_mkII",
+            "bio_torsionratchet"
         ],
         "skills": [
             {
