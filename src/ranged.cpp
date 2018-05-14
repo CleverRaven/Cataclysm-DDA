@@ -1534,8 +1534,8 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    double perSkillMult = 0.7; //Multiplier per average skill levels
-    double perSkillMult2 = 0.5; //Multiplier per average skill levels post  avg. threshold
+    double perSkillMult = 0.9; //Multiplier per average skill levels
+    double perSkillMult2 = 0.3; //Multiplier per average skill levels post  avg. threshold
     double skillThreshold = 5; // Avg. skill threshold
 
     double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 :
