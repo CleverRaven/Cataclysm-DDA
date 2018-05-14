@@ -450,6 +450,7 @@
       { "monster" : "mon_dog_zombie_cop", "freq" : 5, "cost_multiplier" : 4 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 5, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_soldier", "freq" : 10, "cost_multiplier" : 2 },
+      { "monster" : "mon_zombie_flamer", "freq" : 5, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_cop", "freq" : 20, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
@@ -1121,7 +1122,8 @@
     "monsters" : [
       { "monster" : "mon_zombie_soldier", "freq" : 35, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_grenadier", "freq" : 10, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_grenadier_elite", "freq" : 5, "cost_multiplier" : 80 }
+      { "monster" : "mon_zombie_grenadier_elite", "freq" : 5, "cost_multiplier" : 80 },
+      { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 50 }
     ]
   },{
     "type":"monstergroup",
@@ -1352,6 +1354,7 @@
       { "monster" : "mon_dog_zombie_cop", "freq" : 30, "cost_multiplier" : 4 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 30, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_soldier", "freq" : 30, "cost_multiplier" : 2 },
+      { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_cop", "freq" : 40, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_hazmat", "freq" : 40, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_fireman", "freq" : 40, "cost_multiplier" : 2 },
@@ -1534,6 +1537,7 @@
       { "monster" : "mon_zombie_rot", "freq" : 50, "cost_multiplier": 3},
       { "monster" : "mon_zombie_crawler", "freq" : 25, "cost_multiplier": 3},
       { "monster" : "mon_zombie_soldier", "freq" : 10, "cost_multiplier" : 2 },
+      { "monster" : "mon_zombie_flamer", "freq" : 5, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_cop", "freq" : 20, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
