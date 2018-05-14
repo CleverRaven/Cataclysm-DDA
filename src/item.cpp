@@ -4063,9 +4063,9 @@ int item::gun_dispersion( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
     }
-
-    // Dispersion adjustment for shotguns because of their close range behavior
+    
     if( type->gun->skill_used == "shotgun" ) {
+        // Dispersion adjustment for shotguns because of their close range behavior
         dispersion_sum = std::max( dispersion_sum , 25 );
         dispersion_sum = std::min( dispersion_sum , 85 );
     } else {
