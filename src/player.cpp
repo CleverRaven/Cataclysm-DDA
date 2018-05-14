@@ -65,6 +65,7 @@
 #include "recipe_dictionary.h"
 #include "ranged.h"
 #include "ammo.h"
+#include "name.h"
 
 #include <map>
 #include <iterator>
@@ -164,6 +165,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_bleed( "bleed" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -5063,9 +5065,11 @@ void player::suffer()
                 }
             }
         }
+        /*
         if ( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
             one_in( 2400 ) ) && is_player() ) { // Every 4 hours or so
             monster phantasm;
+            
             int i;
             switch(rng(0, 11)) {
                 case 0:
@@ -5118,6 +5122,294 @@ void player::suffer()
                     break;
             }
         }
+        */
+        if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) && one_in( 10 ) ) ) {//2400
+            if( is_player() ) {
+                switch( rng( 0, 16 ) ) {
+                case 0: // Sound
+                    { 
+                        // Random 'dangerous' sound from a random direction
+                        // 1/5 chance to be a loud sound
+                        std::vector<std::string> dir{ "north",
+                                                      "northeast",
+                                                      "northwest",
+                                                      "south",
+                                                      "southeast",
+                                                      "southwest",
+                                                      "east",
+                                                      "west" };
+
+                        std::vector<std::string> dirz{ "and above you ", "and below you " };
+
+                        std::vector<std::tuple<std::string, std::string, std::string>> desc{ 
+                                    std::make_tuple( "whump!", "smash_fail", "t_door_c" ),
+                                    std::make_tuple( "crash!", "smash_success", "t_door_c" ),
+                                    std::make_tuple( "glass breaking!", "smash_success", "t_window_domestic" ) };
+
+                        std::vector<std::tuple<std::string, std::string, std::string>> desc_big{ 
+                                    std::make_tuple( "huge explosion!", "explosion", "default" ),
+                                    std::make_tuple( "bang!", "fire_gun", "glock_19" ),
+                                    std::make_tuple( "blam!", "fire_gun", "mossberg_500" ),
+                                    std::make_tuple( "crash!", "smash_success", "t_wall" ),
+                                    std::make_tuple( "SMASH!", "smash_success", "t_wall" ) };
+
+                        std::string i_dir = dir[rng( 0, dir.size() - 1 )];
+
+                        std::string i_dirz = "";
+                        if( one_in( 10 ) ) {
+                            i_dirz = dirz[rng( 0, dirz.size() - 1 )];
+                        }
+
+                        std::string i_desc;
+                        std::pair<std::string, std::string> i_sound;
+                        if( one_in( 5 ) ) {
+                            int r_int = rng( 0, desc_big.size() - 1 );
+                            i_desc = std::get<0>( desc_big[r_int] );
+                            i_sound = std::make_pair(std::get<1>( desc_big[r_int] ), std::get<2>( desc_big[r_int] ) );
+                        } else {
+                            int r_int = rng( 0, desc.size() - 1 );
+                            i_desc = std::get<0>( desc[r_int] );
+                            i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
+                        }
+
+                        add_msg( m_warning, _( "From the %1$s %2$syou hear %3$s" ), i_dir.c_str(), i_dirz.c_str(), i_desc.c_str() );
+                        sfx::play_variant_sound( i_sound.first, i_sound.second, rng( 20, 80 ) );
+                    }
+                    break;
+                case 1: // Follower turns hostile
+                    {
+                        std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+
+                        if( !followers.empty() ) {
+                            std::string i_name = followers[rng( 0, followers.size() - 1 )]->name;
+                            add_msg( m_bad, _( "%1$s gets angry!" ), i_name );
+                        } else {
+                            add_msg( m_bad, _( "%1$s gets angry!" ), name );
+                        }
+                    }
+                    break;
+                case 2: // Monster dies
+                    {
+                        std::vector<std::string> mon{ "zombie", "fat zombie", "firefighter zombie", "zombie cop", "zombie solider" };
+                        std::string i_mon = mon[rng( 0, mon.size() - 1 )];
+
+                        add_msg( _( "%s dies!" ), i_mon.c_str() );
+                    }
+                    break;
+                case 3: // Limb Breaks
+                    add_msg( m_bad, _( "Your limb breaks!" ) );
+                    break;
+                case 4: // NPC chat
+                    {
+                        std::string i_name = Name::generate( one_in( 2 ) );
+
+                        std::vector<std::string> talk{ "Look, man! let's talk!",
+                                                       "Wait up, let's talk!",
+                                                       "Hey, I really want to talk to you!",
+                                                       "Come on, talk to me!",
+                                                       "We really need to talk!",
+                                                       "Hey, we should talk, okay?",
+                                                       "Wait up!",
+                                                       "Wait up, okay?",
+                                                       "Hey, where are you?",
+                                                       "Wait for me!",
+                                                       "Where are you?",
+                                                       "Hey, I'm over here!" };
+
+                        std::string i_talk = talk[rng( 0, talk.size() - 1 )];
+
+                        add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
+                    }
+                    break;
+                case 5: // Skill raise
+                    {
+                        std::vector<std::pair<skill_id, int>> skills;
+                        for( auto &pair : *_skills ) {
+                            skills.emplace_back( std::make_pair( pair.first, pair.second.level() ) );
+                        }
+                        std::pair<skill_id, int> i_skill = skills[rng( 0, skills.size() - 1 )];
+
+                        add_msg( m_good, _( "You increase %1$s to level %2$d" ), i_skill.first.c_str(), i_skill.second + 1 );
+                    }
+                    break;
+                case 6: // Talk to self
+                    {
+                        std::vector<std::string> talk_s{ "Hey, can you hear me?",
+                                                         "Don't touch me.",
+                                                         "What's your name?",
+                                                         "I thought you were my friend.",
+                                                         "How are you today?",
+                                                         "Shut up! Don't lie to me.",
+                                                         "Why would you do that?",
+                                                         "Please, don't go.",
+                                                         "Don't leave me alone!",
+                                                         "Yeah, sure.",
+                                                         "No way, man.",
+                                                         "Do you really think so?",
+                                                         "Is it really time for that?",
+                                                         "Sorry, I can't hear you.",
+                                                         "You've told me already.",
+                                                         "I know!",
+                                                         "Why are you following me?",
+                                                         "This place is dangerous, you shouldn't be here.",
+                                                         "What are you doing out here?",
+                                                         "That's not true, is it?",
+                                                         "Are you hurt?" };
+
+                        std::string i_talk_s = talk_s[rng( 0, talk_s.size() - 1 )];
+
+                        add_msg( _( "%1$s says: \"%2$s\"" ), name, i_talk_s );
+                    }
+                    break;
+                case 7: // Talking weapon
+                    {
+                        // If player has a weapon, picks a message from said weapon
+                        // Weapon tells player to kill a monster if any are nearby
+                        // Weapon is concerned for player if bleeding
+                        // Weapon is concerned for itself if damaged
+                        // Otherwise random chit-chat
+                        if( weapon.is_null() ) {
+                            break;
+                        }
+
+                        std::string i_name_w = weapon.has_var( "item_label" ) ?
+                            weapon.get_var( "item_label" ) :
+                            "Your " + weapon.type_name();
+
+                        std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+
+                        std::string i_talk_w;
+                        if( !mons.empty() && one_in( 10 ) ) {
+                            std::vector<std::string> mon_near{ "Hey, let's go kill that %1$s!",
+                                                               "Did you see that %1$s!",
+                                                               "I want to kill that %1$s!",
+                                                               "Let me kill that %1$s!",
+                                                               "Hey, I need to kill that %1$s!",
+                                                               "I want to watch that %1$s bleed!",
+                                                               "Wait, that %1$s needs to die!"
+                                                               "Go kill that %1$s!",
+                                                               "Look at that %1$s!",
+                                                               "That %1$s doesn't deserve to live!" };
+                            std::string talk_w = mon_near[rng( 0, mon_near.size() - 1 )];
+                            std::vector<std::string> seen_mons;
+                            for( auto n : mons ) {
+                                if( sees( *n.lock() ) ) {
+                                    seen_mons.emplace_back( n.lock()->get_name() );
+                                }
+                            }
+                            if( !seen_mons.empty() ) {
+                                i_talk_w = string_format( talk_w, seen_mons[rng( 0, seen_mons.size() - 1 )] );
+                            }
+                        } else if( has_effect( effect_bleed ) ) {
+                            std::vector<std::string> bleeding{ "Hey, you're bleeding.",
+                                                               "Your wound looks pretty bad.",
+                                                               "Shouldn't you put a bandage on that?",
+                                                               "Please don't die! No one else lets me kill things!",
+                                                               "You look hurt, did I do that?",
+                                                               "Are you supposed to be bleeding?",
+                                                               "You're not going to die, are you?",
+                                                               "Kill a few more before you bleed out!" };
+                            i_talk_w = bleeding[rng( 0, bleeding.size() - 1 )];
+                        } else if( weapon.damage() >= weapon.max_damage() / 3 ) {
+                            std::vector<std::string> damaged{ "Hey fix me up.",
+                                                              "I need healing!",
+                                                              "I hurt all over...",
+                                                              "You can put me back together, right?",
+                                                              "I... I can't move my legs!",
+                                                              "Medic!",
+                                                              "I can still fight, don't replace me!",
+                                                              "They got me!",
+                                                              "Go on without me...",
+                                                              "Am I gonna die?" };
+                            i_talk_w = damaged[rng( 0, damaged.size() - 1 )];
+                        } else {
+                            std::vector<std::string> misc{ "Let me kill something already!",
+                                                           "I'm your best friend, right?",
+                                                           "I love you!",
+                                                           "How are you today?",
+                                                           "Do you think it will rain today?",
+                                                           "Did you hear that?",
+                                                           "Try not to drop me.",
+                                                           "How many do you think we've killed?",
+                                                           "I'll keep you safe!" };
+                            i_talk_w = misc[rng( 0, misc.size() - 1 )];
+                        }
+                        add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
+                    }
+                    break;
+                case 8: // Sleep
+                    {
+                        add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
+                        add_effect( effect_lying_down, 20_minutes );
+                    }
+                    break;
+                case 9: // Bad feeling
+                    {
+                        add_msg( m_warning, _( "You get a bad feeling." ) );
+                        add_morale( MORALE_FEELING_BAD, -50, -150 );
+                    }
+                    break;
+                case 10: // Formication
+                    {
+                        body_part bp = random_body_part( true );
+                        add_effect( effect_formication, 1_hours, bp );
+                    }
+                    break;
+                case 11: // Numbness
+                    {
+                        add_msg( m_bad, _( "You suddenly feel so numb..." ) );
+                        mod_painkiller( 25 );
+                    }
+                    break;
+                case 12: // Hallucination
+                    {
+                        add_effect( effect_hallu, 6_hours );
+                    }
+                    break;
+                case 13: // Visuals
+                    {
+                        add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
+                    }
+                    break;
+                case 14: // Shaking
+                    {
+                        add_msg( m_bad, _( "You start to shake uncontrollably." ) );
+                        add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
+                    }
+                    break;
+                case 15: // Shout
+                    {
+                        std::vector<std::string> shouts{ "Get away from there!",
+                                                         "What do you think you're doing?",
+                                                         "Stop laughing at me!",
+                                                         "Don't point that thing at me!",
+                                                         "Stay away from me!",
+                                                         "No! Stop!",
+                                                         "Get the fuck away from me!",
+                                                         "That's not true!",
+                                                         "What do you want from me?",
+                                                         "I didn't mean to do it!",
+                                                         "It wasn't my fault!",
+                                                         "I had to do it!",
+                                                         "They made me do it!",
+                                                         "What are you!",
+                                                         "I should never have trusted you!" };
+
+                        std::string i_shout = shouts[rng( 0, shouts.size() )];
+                        shout( i_shout );
+                    }
+                    break;
+                case 16: // Drop weapon
+                    {
+                        if( !weapon.is_null() ) {
+                            add_msg( _( "You drop your %1$s" ), weapon.display_name() );
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
         if (has_trait( trait_JITTERY ) && !has_effect( effect_shakes )) {
             if (stim > 50 && one_in(300 - stim)) {
                 add_effect( effect_shakes, 30_minutes + 1_turns * stim );
