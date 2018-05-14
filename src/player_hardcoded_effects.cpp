@@ -1124,14 +1124,18 @@ void player::hardcoded_effects( effect &it )
                     int max_count = rng( 1, 3 );
                     int count = 0;
                     bool found_valid = false;
-                    for( int i = -1; i <= 1; i += 2 ) {
-                        for( int j = -1; j <= 1; j += 2 ) {
+                    for( int i = -1; i <= 1; i++ ) {
+                        for( int j = -1; j <= 1; j++ ) {
+                            if( i == 0 && j == 0 ) {
+                                continue;
+                            }
                             const maptile t = g->m.maptile_at( tripoint( x + i, y + j, z ) );
 
                             if( t.get_ter().obj().has_flag( "FLAT" ) && 
                                 g->m.pl_sees( tripoint( x + i, y + j, z ), 2 ) ) {
-
                                 mp = tripoint( x + i, y + j, z );
+
+                                g->spawn_hallucination( mp );
                                 if( ++count > max_count ) {
                                     found_valid = true;
                                     break;
@@ -1141,10 +1145,6 @@ void player::hardcoded_effects( effect &it )
                         if( found_valid ) {
                             break;
                         }
-                    }
-
-                    if( found_valid ) {
-                        g->spawn_hallucination( mp );
                     }
                 }
                 it.set_duration( 0 );
