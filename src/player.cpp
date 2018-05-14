@@ -5067,7 +5067,7 @@ void player::suffer()
         }
         if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) && one_in( 2400 ) ) ) {
             if( is_player() ) {
-                switch( rng( 0, 16 ) ) {
+                switch( 15 ) {
                 case 0: // Sound
                     sound_hallu();
                     break;
@@ -5274,24 +5274,24 @@ void player::suffer()
                     break;
                 case 15: // Shout
                     {
-                        std::vector<std::string> shouts{ "Get away from there!",
-                                                         "What do you think you're doing?",
-                                                         "Stop laughing at me!",
-                                                         "Don't point that thing at me!",
-                                                         "Stay away from me!",
-                                                         "No! Stop!",
-                                                         "Get the fuck away from me!",
-                                                         "That's not true!",
-                                                         "What do you want from me?",
-                                                         "I didn't mean to do it!",
-                                                         "It wasn't my fault!",
-                                                         "I had to do it!",
-                                                         "They made me do it!",
-                                                         "What are you!",
-                                                         "I should never have trusted you!" };
+                        std::vector<std::string> shouts{ "\"Get away from there!\"",
+                                                         "\"What do you think you're doing?\"",
+                                                         "\"Stop laughing at me!\"",
+                                                         "\"Don't point that thing at me!\"",
+                                                         "\"Stay away from me!\"",
+                                                         "\"No! Stop!\"",
+                                                         "\"Get the fuck away from me!\"",
+                                                         "\"That's not true!\"",
+                                                         "\"What do you want from me?\"",
+                                                         "\"I didn't mean to do it!\"",
+                                                         "\"It wasn't my fault!\"",
+                                                         "\"I had to do it!\"",
+                                                         "\"They made me do it!\"",
+                                                         "\"What are you!\"",
+                                                         "\"I should never have trusted you!\"" };
 
                         std::string i_shout = shouts[rng( 0, shouts.size() )];
-                        shout( i_shout );
+                        shout( "yourself shout, " + i_shout );
                     }
                     break;
                 case 16: // Drop weapon
