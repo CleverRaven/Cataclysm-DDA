@@ -5067,7 +5067,7 @@ void player::suffer()
         }
         if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) && one_in( 2400 ) ) ) {
             if( is_player() ) {
-                switch( 15 ) {
+                switch( rng( 0, 16 ) ) {
                 case 0: // Sound
                     sound_hallu();
                     break;
@@ -5181,7 +5181,7 @@ void player::suffer()
                                                                "Let me kill that %1$s!",
                                                                "Hey, I need to kill that %1$s!",
                                                                "I want to watch that %1$s bleed!",
-                                                               "Wait, that %1$s needs to die!"
+                                                               "Wait, that %1$s needs to die!",
                                                                "Go kill that %1$s!",
                                                                "Look at that %1$s!",
                                                                "That %1$s doesn't deserve to live!" };
