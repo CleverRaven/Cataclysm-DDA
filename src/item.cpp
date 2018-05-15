@@ -4511,7 +4511,7 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
     } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( pistol_gun_type ) ) {
         return ret_val<bool>::make_failure( _("isn't big enough to use that mod") );
 
-    } else if( typeId() == "ksg" && mod.type->gunmod->location.str() == "underbarrel" && mod.typeId() != "grip" ) {
+    } else if( has_flag( "PUMP_ACTION" ) && mod.type->gunmod->location.str() == "underbarrel" && mod.typeId() != "grip" ) {
         return ret_val<bool>::make_failure( _("can only accept forward grip on that slot") );
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
