@@ -1535,8 +1535,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
     double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
-    double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 :
-                           0; //CBM bonus to avg. skill
+    double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0; //CBM bonus to avg. skill
     avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
     double avgLackOfSkill = double( MAX_SKILL ) - avgSkill;
 
