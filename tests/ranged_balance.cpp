@@ -212,17 +212,17 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
         arm_shooter( shooter, "glock_19" );
-        test_shooting_scenario( shooter, 4, 3, 15 );
+        test_shooting_scenario( shooter, 4, 5, 15 );
         test_fast_shooting( shooter, 40, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
         arm_shooter( shooter, "tommygun", { "holo_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 4, 5, 20 );
+        test_shooting_scenario( shooter, 4, 7, 20 );
         test_fast_shooting( shooter, 70, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
         arm_shooter( shooter, "m1918", { "red_dot_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 5, 8, 25 );
+        test_shooting_scenario( shooter, 5, 9, 25 );
         test_fast_shooting( shooter, 80, 0.2 );
     }
 }
