@@ -2205,6 +2205,15 @@ std::string item::tname_generate_tagtext() const
     std::stringstream ret;
 
     ret.str( "" );
+
+    // Generate side text, ex: (left) or (right)
+    if ( this->get_side() == side::LEFT ) {
+        ret << _( " (left)" );
+    } else if ( this->get_side() == side::RIGHT ) {
+        ret << _( " (right)" );
+    }
+
+
     if( is_food() ) {
         if( rotten() ) {
             ret << _( " (rotten)" );
@@ -2417,13 +2426,6 @@ std::string item::display_name( unsigned int quantity ) const
     std::string charges_text = "";
     std::string content_text = "";
     std::string ammo_type_text = "";
-
-    // Generate side text, ex: (left) or (right)
-    if ( this->get_side() == side::LEFT ) {
-        side_text = string_format( " (%s)", _( "left" ) );
-    } else if ( this->get_side() == side::LEFT ) {
-        side_text = string_format( " (%s)", _( "right" ) );
-    }
 
     // Various checks to determine naming_style and which strings to display
     unsigned int charges = 0;
