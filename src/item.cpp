@@ -2382,9 +2382,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 }
 
 std::string item::display_money(unsigned int quantity, unsigned long charge) const {
-    std::string name = tname(quantity);
-    std::string amt = string_format(" ($%.2f)", (double)charge / 100);
-    return string_format("%s%s", name.c_str(), amt.c_str());
+    return string_format( _("%s ($%.2f)"), tname(quantity), (double)charge / 100);
 }
 
 std::string item::display_name( unsigned int quantity ) const
