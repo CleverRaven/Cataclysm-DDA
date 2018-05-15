@@ -2422,7 +2422,6 @@ std::string item::display_name( unsigned int quantity ) const
     
     // Allocate all the strings we might need
     std::string item_text = this->tname( quantity );
-    std::string side_text = "";
     std::string charges_text = "";
     std::string content_text = "";
     std::string ammo_type_text = "";
@@ -2513,13 +2512,13 @@ std::string item::display_name( unsigned int quantity ) const
     
       
     if ( naming_style == NAMING_STANDARD ) {
-        return string_format( "%1$s%2$s%3$s", item_text.c_str(), side_text.c_str(), charges_text.c_str() );
+        return string_format( "%1$s%2$s", item_text.c_str(), charges_text.c_str() );
     } else if (naming_style == NAMING_WITH_AMMO_TYPE ) {
-        return string_format( "%1$s%2$s%3$s%4$s", item_text.c_str(), side_text.c_str(), charges_text.c_str(), ammo_type_text.c_str() );
+        return string_format( "%1$s%2$s%3$s", item_text.c_str(), charges_text.c_str(), ammo_type_text.c_str() );
     } else if ( naming_style == NAMING_CONTAINER_LEADING ) {
-        return string_format( "%1$s%2$s%3$s with %4$s", item_text.c_str(), side_text.c_str(), charges_text.c_str(), content_text );
+        return string_format( "%1$s%2$s with %3$s", item_text.c_str(), charges_text.c_str(), content_text );
     } else if ( naming_style == NAMING_CONTAINER_TRAILING ) {
-        return string_format( "%1$s in %2$s%3$s%4$s", content_text, item_text.c_str(), side_text.c_str(), charges_text.c_str() );
+        return string_format( "%1$s in %2$s%3$s", content_text, item_text.c_str(), charges_text.c_str() );
     }
     
     debugmsg("naming_style still set to NAMING_ERROR at end of function");
