@@ -1518,7 +1518,7 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
-    int weapon_dispersion = obj.gun_dispersion();
+    int weapon_dispersion = std::max( obj.gun_dispersion(), 1); // We can't multiply dispersion on skill modifier if it will be zero
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
