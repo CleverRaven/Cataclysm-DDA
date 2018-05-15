@@ -502,7 +502,7 @@ void iexamine::vending( player &p, const tripoint &examp )
     for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
         // |# {name}|
         // 123      4
-        item_map[utf8_truncate( it->tname(), static_cast<size_t>( w_items_w - 4 ) )].push_back( it );
+        item_map[utf8_truncate( it->display_name(), static_cast<size_t>( w_items_w - 4 ) )].push_back( it );
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.
