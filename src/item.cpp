@@ -2404,16 +2404,15 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     return ret.str();
 }
 
-
 std::string item::display_name( unsigned int quantity ) const
 {
     // Anonymous enum used for readability
     enum {
         NAMING_ERROR,
-        NAMING_STANDARD,
-        NAMING_WITH_AMMO_TYPE,
-        NAMING_CONTAINER_LEADING,
-        NAMING_CONTAINER_TRAILING
+        NAMING_STANDARD,            // Wrench, 00 Shot (10), Flashlight (100)
+        NAMING_WITH_AMMO_TYPE,      // Glock 18 (15) (9x19mm)
+        NAMING_CONTAINER_LEADING,   // plastic bottle with clean water (2)
+        NAMING_CONTAINER_TRAILING   // clean water (2) in plastic bottle
     } naming_style ;
     
     // Using NAMING_ERROR by default; If this value reaches the end of the
@@ -2441,7 +2440,14 @@ std::string item::display_name( unsigned int quantity ) const
     }
     
     else if ( this->is_bandolier() ) {
-        show_contents = true;
+        // We want to display bandoliers the same way as guns and magazines
+        // but they don't use ammo_remaining in the same way so we have to
+        // look up ammo charges directly.
+        show_charges = true;
+        if ( !this->contents.empty() ){
+            charges = this->contents.front().charges;
+            show_ammo_type = true;
+        }
         naming_style = NAMING_WITH_AMMO_TYPE;
     } 
     
@@ -2453,16 +2459,16 @@ std::string item::display_name( unsigned int quantity ) const
     
     else if ( this->ammo_capacity() > 0 ) {
         // Items with ammo that are not guns or magazines
+        // this includes things like flashlights and sewing kits
         charges = this->ammo_remaining();
         show_charges = true;
-        show_ammo_type = true;
-        naming_style = NAMING_WITH_AMMO_TYPE;
+        naming_style = NAMING_STANDARD;
     } 
 
     else if ( !this->contents.empty() ) {
         // Any other items with contents
         show_contents = true;
-        naming_style = NAMING_CONTAINER_LEADING;
+        naming_style = NAMING_CONTAINER_TRAILING;
     }
     
     else if ( this->is_book() && this->get_chapters() > 0 ) {
@@ -2480,11 +2486,14 @@ std::string item::display_name( unsigned int quantity ) const
     } 
     
     else {
-        // Items that don't need their contents, charges, or ammo type displayed
+        // Items that don't need their contents, charges, or ammo type
+        // displayed (everything else in the game)
         naming_style = NAMING_STANDARD;
     }
 
     if ( show_contents ) {
+        // This is recursive so keep an eye on it, could be a source of
+        // trouble if container type items continue to become more complex
         content_text = this->contents.front().display_name( quantity );
     }
     
@@ -2502,10 +2511,15 @@ std::string item::display_name( unsigned int quantity ) const
     // Generate ammo type text, ex: (9x19mm FMJ) (00 Shot)
     if( show_ammo_type ) {
         if ( this->ammo_data() ) {
+            // Most guns use ammo_data()
             ammo_type_text = string_format( " (%s)", this->ammo_data()->nname( 1 ).c_str() );
         } else if ( this->curammo ) {
+            // Some weapons use curammo instead, especially those that
+            // don't use magazines
             ammo_type_text = string_format( " (%s)", this->curammo->nname( 1 ).c_str() );
         } else if ( !this->contents.empty() && this->contents.front().is_ammo() ) {
+            // Any other item containing ammo that doesn't actually use
+            // the ammo and we still want the ammo type (bandoliers)
             ammo_type_text = string_format( " (%s)", this->contents.front().label( 1 ) );
         }
     }
@@ -2522,7 +2536,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
     
     debugmsg("naming_style still set to NAMING_ERROR at end of function");
-    return "ERROR";
+    return "NAMING_ERROR";
 }
 
 nc_color item::color() const
