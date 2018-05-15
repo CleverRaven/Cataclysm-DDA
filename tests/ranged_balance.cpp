@@ -270,7 +270,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_shooter( shooter, "browning_blr", { "rifle_scope" } );
-        test_shooting_scenario( shooter, 25, 60, 900 );
+        test_shooting_scenario( shooter, 25, 60, 800 );
         test_fast_shooting( shooter, 100, 0.4 );
     }
 }

@@ -1518,7 +1518,7 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
-    int weapon_dispersion = std::max( obj.gun_dispersion(), 1); // We can't multiply dispersion on skill modifier if it will be zero
+    int weapon_dispersion = obj.gun_dispersion(); 
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
@@ -1549,7 +1549,8 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
                                ( avgLackOfSkill - skillThreshold ) * perSkillMult
                                : avgLackOfSkill * perSkillMult2;
 
-    dispersion.add_range( weapon_dispersion * lackOfSkillEffect + 2.0 * avgLackOfSkill );
+    double laskOfSkillDispersion = std::max( weapon_dispersion * lackOfSkillEffect + 2.0 * avgLackOfSkill, 1.0 ); // We always add dispersion 1 to prevent absolute zero dispersion case
+    dispersion.add_range( laskOfSkillDispersion );
 
 
      if( has_bionic( bionic_id( "bio_targeting" ) ) )
