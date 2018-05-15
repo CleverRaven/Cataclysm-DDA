@@ -2418,7 +2418,7 @@ std::string item::display_name( unsigned int quantity ) const
     std::string content_text = "";
     std::string ammo_type_text = "";
 
-    // Generate side text, ex: (LEFT) or (RIGHT)
+    // Generate side text, ex: (left) or (right)
     if ( this->get_side() == side::LEFT ) {
         side_text = string_format( " (%s)", _( "left" ) );
     } else if ( this->get_side() == side::LEFT ) {
@@ -2439,29 +2439,30 @@ std::string item::display_name( unsigned int quantity ) const
         naming_style = NAMING_WITH_AMMO_TYPE;
     }
     
-//    else if ( this->is_bandolier() ) {
-//        show_contents = true;
-//        naming_style = NAMING_CONTAINER_LEADING;
-//    } 
+    else if ( this->is_bandolier() ) {
+        show_contents = true;
+        naming_style = NAMING_WITH_AMMO_TYPE;
+    } 
     
     else if ( this->is_food_container() ) {
-        // Food & drink are the main reason for contents first
+        // Container with food or drink inside it
         show_contents = true;
         naming_style = NAMING_CONTAINER_TRAILING;
     }
     
-    else if ( !this->contents.empty() ) {
-        show_contents = true;
-        naming_style = NAMING_CONTAINER_LEADING;
-    }
-
     else if ( this->ammo_capacity() > 0 ) {
-        // Everything else with ammo displays remaining ammo
+        // Items with ammo that are not guns or magazines
         charges = this->ammo_remaining();
         show_charges = true;
         show_ammo_type = true;
-        naming_style = NAMING_STANDARD;
+        naming_style = NAMING_WITH_AMMO_TYPE;
     } 
+
+    else if ( !this->contents.empty() ) {
+        // Any other items with contents
+        show_contents = true;
+        naming_style = NAMING_CONTAINER_LEADING;
+    }
     
     else if ( this->is_book() && this->get_chapters() > 0 ) {
         // Book with remaining chapters; charges = chapters
@@ -2471,13 +2472,14 @@ std::string item::display_name( unsigned int quantity ) const
     } 
 
     else if ( this->count_by_charges() && !this->has_infinite_charges() ) {
-        // Items with raw charges (not ammo or similar)
+        // Items with non-ammo charges (like lighters)
         charges = this->charges;
         show_charges = true;
         naming_style = NAMING_STANDARD;
     } 
     
     else {
+        // Items that don't need their contents, charges, or ammo type displayed
         naming_style = NAMING_STANDARD;
     }
 
