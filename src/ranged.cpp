@@ -1549,7 +1549,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
                                ( avgLackOfSkill - skillThreshold ) * perSkillMult
                                : avgLackOfSkill * perSkillMult2;
     // Minimum skill dispersion is weapon_dispersion to make sure that weapon dispersion always will be in dispersion sum.
-    double laskOfSkillDispersion = std::max( weapon_dispersion * lackOfSkillEffect + 2.0 * avgLackOfSkill, (double) weapon_dispersion);
+    double laskOfSkillDispersion = std::max( weapon_dispersion * lackOfSkillEffect + 2.0 * avgLackOfSkill, (double) weapon_dispersion );
     dispersion.add_range( laskOfSkillDispersion );
 
 
