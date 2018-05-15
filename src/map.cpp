@@ -14,6 +14,7 @@
 #include "translations.h"
 #include "vpart_position.h"
 #include "iexamine.h"
+#include "vpart_reference.h"
 #include "string_formatter.h"
 #include "sounds.h"
 #include "debug.h"
@@ -1166,7 +1167,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
         return;
     }
 
-    const optional_vpart_position vp = veh_at( pos );
+    const cata::optional<vpart_reference> vp = veh_at( pos ).part_with_feature( VPFLAG_BOARDABLE );
     if( !vp ) {
         if( p->grab_point.x == 0 && p->grab_point.y == 0 ) {
             debugmsg ("map::board_vehicle: vehicle not found");
@@ -1174,13 +1175,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
         return;
     }
     vehicle *const veh = &vp->vehicle();
-
-    const int seat_part = vp->part_with_feature( VPFLAG_BOARDABLE );
-    if( seat_part < 0 ) {
-        debugmsg( "map::board_vehicle: boarding %s (not boardable)",
-                  veh->parts[vp->part_index()].name().c_str() );
-        return;
-    }
+    const int seat_part = vp->part_index();
     if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
         player *psg = veh->get_passenger( seat_part );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
@@ -1200,7 +1195,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
 
 void map::unboard_vehicle( const tripoint &p )
 {
-    const optional_vpart_position vp = veh_at( p );
+    const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
     player *passenger = nullptr;
     if( !vp ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
@@ -1213,12 +1208,7 @@ void map::unboard_vehicle( const tripoint &p )
         return;
     }
     vehicle *const veh = &vp->vehicle();
-    const int seat_part = vp->part_with_feature( VPFLAG_BOARDABLE, false );
-    if( seat_part < 0 ) {
-        debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-                  veh->parts[vp->part_index()].name().c_str() );
-        return;
-    }
+    const int seat_part = vp->part_index();
     passenger = veh->get_passenger(seat_part);
     if( !passenger ) {
         debugmsg ("map::unboard_vehicle: passenger not found");
@@ -2431,7 +2421,7 @@ bool map::can_put_items( const tripoint &p ) const
         return true;
     }
     const optional_vpart_position vp = veh_at( p );
-    return vp.part_with_feature( "CARGO" ) >= 0;
+    return static_cast<bool>( vp.part_with_feature( "CARGO" ) );
 }
 
 bool map::can_put_items_ter_furn( const tripoint &p ) const
@@ -4851,13 +4841,9 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
         return ret;
     }
 
-    if( const optional_vpart_position vp = veh_at( p ) ) {
-        const int cargo = vp->part_with_feature( "CARGO" );
-        if( cargo >= 0 ) {
-            std::list<item> tmp = use_amount_stack( vp->vehicle().get_items(cargo), type,
-                                                    quantity );
-            ret.splice( ret.end(), tmp );
-        }
+    if( const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO" ) ) {
+        std::list<item> tmp = use_amount_stack( vp->vehicle().get_items( vp->part_index() ), type, quantity );
+        ret.splice( ret.end(), tmp );
     }
     std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity );
     ret.splice( ret.end(), tmp );
@@ -5008,16 +4994,15 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         if( !vp ) {
             continue;
         }
-        vehicle *const veh = &vp->vehicle();
 
-        const int kpart = vp->part_with_feature( "FAUCET" );
-        const int weldpart = vp->part_with_feature( "WELDRIG" );
-        const int craftpart = vp->part_with_feature( "CRAFTRIG" );
-        const int forgepart = vp->part_with_feature( "FORGE" );
-        const int chempart = vp->part_with_feature( "CHEMLAB" );
-        const int cargo = vp->part_with_feature( "CARGO" );
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET" );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
-        if (kpart >= 0) { // we have a faucet, now to see what to drain
+        if( kpart ) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
 
             // Special case hotplates which draw battery power
@@ -5028,7 +5013,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
+            tmp.charges = kpart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
             ret.push_back(tmp);
@@ -5038,7 +5023,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+        if( weldpart ) { // we have a weldrig, now to see what to drain
             itype_id ftype = "null";
 
             if (type == "welder") {
@@ -5048,7 +5033,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
+            tmp.charges = weldpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -5057,7 +5042,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+        if( craftpart ) { // we have a craftrig, now to see what to drain
             itype_id ftype = "null";
 
             if (type == "press") {
@@ -5071,7 +5056,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
+            tmp.charges = craftpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -5080,7 +5065,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+        if( forgepart ) { // we have a veh_forge, now to see what to drain
             itype_id ftype = "null";
 
             if (type == "forge") {
@@ -5088,7 +5073,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
+            tmp.charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -5097,7 +5082,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
+        if( chempart ) { // we have a chem_lab, now to see what to drain
             itype_id ftype = "null";
 
             if (type == "chemistry_set") {
@@ -5107,7 +5092,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
+            tmp.charges = chempart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -5116,9 +5101,9 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        if (cargo >= 0) {
+        if( cargo ) {
             std::list<item> tmp =
-                use_charges_from_stack( veh->get_items(cargo), type, quantity, p );
+                use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p );
             ret.splice(ret.end(), tmp);
             if (quantity <= 0) {
                 return ret;

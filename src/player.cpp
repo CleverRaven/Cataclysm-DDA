@@ -22,6 +22,7 @@
 #include "material.h"
 #include "vpart_position.h"
 #include "translations.h"
+#include "vpart_reference.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "get_version.h"
@@ -1474,8 +1475,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    bool veh_bed = vp.part_with_feature( "BED" ) >= 0;
-    bool veh_seat = vp.part_with_feature( "SEAT" ) >= 0;
+    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED" ) );
+    const bool veh_seat =static_cast<bool>( vp.part_with_feature( "SEAT" ) );
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -3788,7 +3789,7 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
-        if( vp->part_with_feature( "SHARP" ) != -1 ) {
+        if( vp.part_with_feature( "SHARP" ) ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
@@ -9274,8 +9275,8 @@ void player::try_to_sleep()
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         ( vp.part_with_feature( "SEAT" ) >= 0 ) ||
-         ( vp.part_with_feature( "BED" ) >= 0 ) ) ) {
+         vp.part_with_feature( "SEAT" ) ||
+         vp.part_with_feature( "BED" ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
@@ -9333,9 +9334,9 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy += 4;
         // Else use the vehicle tile if we are in one
         } else if (vp) {
-            if (vp->part_with_feature( "BED" ) >= 0) {
+            if( vp.part_with_feature( "BED" ) ) {
                 sleepy += 4;
-            } else if (vp->part_with_feature( "SEAT" ) >= 0) {
+            } else if( vp.part_with_feature( "SEAT" ) ) {
                 sleepy += 3;
             } else {
                 // Sleeping elsewhere is uncomfortable
@@ -9454,14 +9455,12 @@ std::string player::is_snuggling() const
     auto end = g->m.i_at( pos() ).end();
 
     if( in_vehicle ) {
-        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( VPFLAG_CARGO, false ) ) {
             vehicle *const veh = &vp->vehicle();
-            const int cargo = vp->part_with_feature( VPFLAG_CARGO, false );
-            if( cargo >= 0 ) {
-                if( !veh->get_items(cargo).empty() ) {
-                    begin = veh->get_items(cargo).begin();
-                    end = veh->get_items(cargo).end();
-                }
+            const int cargo = vp->part_index();
+            if( !veh->get_items(cargo).empty() ) {
+                begin = veh->get_items(cargo).begin();
+                end = veh->get_items(cargo).end();
             }
         }
     }

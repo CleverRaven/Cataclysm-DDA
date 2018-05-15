@@ -12,6 +12,7 @@
 #include "options.h"
 #include "messages.h"
 #include "catacharset.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
@@ -984,15 +985,12 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    optional_vpart_position vp = g->m.veh_at( target );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO" );
     if( !vp ) {
         return;
     }
     vehicle *const veh = &vp->vehicle();
-    const int part = vp->part_with_feature( "CARGO" );
-    if( part < 0 ) {
-        return;
-    }
+    const int part = vp->part_index();
     const auto items = veh->get_items( part );
     const std::string name = to_upper_case( veh->parts[part].name() );
     const item_category vehicle_cat( name, name, 200 );

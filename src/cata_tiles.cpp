@@ -21,6 +21,7 @@
 #include "npc.h"
 #include "catacharset.h"
 #include "itype.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "game.h"
 #include "mapdata.h"
@@ -2213,8 +2214,8 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
                 break;
         }
     }
-    int cargopart = vp->part_with_feature( "CARGO" );
-    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
+    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
+    bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
                                    ll, nv_goggles_activated, height_3d );
     if ( ret && draw_highlight ) {

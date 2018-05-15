@@ -15,6 +15,7 @@
 #include "messages.h"
 #include "iexamine.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "string_formatter.h"
 #include "ui.h"
 #include "debug.h"
@@ -2116,24 +2117,34 @@ std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool co
     }
 }
 
-int vpart_position::part_with_feature( const std::string &f, const bool unbroken ) const
+cata::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f, const bool unbroken ) const
 {
-    return vehicle().part_with_feature( part_index(), f, unbroken );
+    const int i = vehicle().part_with_feature( part_index(), f, unbroken );
+    if( i < 0 ) {
+        return cata::nullopt;
+    }
+    return vpart_reference( vehicle(), i );
 }
 
-int vpart_position::part_with_feature( const vpart_bitflags f, const bool unbroken ) const
+cata::optional<vpart_reference> vpart_position::part_with_feature( const vpart_bitflags f, const bool unbroken ) const
 {
-    return vehicle().part_with_feature( part_index(), f, unbroken );
+    const int i = vehicle().part_with_feature( part_index(), f, unbroken );
+    if( i < 0 ) {
+        return cata::nullopt;
+    }
+    return vpart_reference( vehicle(), i );
 }
 
-int optional_vpart_position::part_with_feature( const std::string &f, const bool unbroken ) const
+cata::optional<vpart_reference> optional_vpart_position::part_with_feature( const std::string &f,
+        const bool unbroken ) const
 {
-    return has_value() ? value().part_with_feature( f, unbroken ) : -1;
+    return has_value() ? value().part_with_feature( f, unbroken ) : cata::nullopt;
 }
 
-int optional_vpart_position::part_with_feature( const vpart_bitflags f, const bool unbroken ) const
+cata::optional<vpart_reference> optional_vpart_position::part_with_feature( const vpart_bitflags f,
+        const bool unbroken ) const
 {
-    return has_value() ? value().part_with_feature( f, unbroken ) : -1;
+    return has_value() ? value().part_with_feature( f, unbroken ) : cata::nullopt;
 }
 
 int vehicle::part_with_feature (int part, vpart_bitflags const flag, bool unbroken) const

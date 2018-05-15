@@ -16,6 +16,7 @@
 #include "effect.h"
 #include "bionics.h"
 #include "gamemode.h"
+#include "vpart_reference.h"
 #include "mapbuffer.h"
 #include "map_item_stack.h"
 #include "debug.h"
@@ -2952,9 +2953,8 @@ bool game::handle_action()
                     break;
                 }
 
-                if( vp ) {
-                    int vpcontrols = vp->part_with_feature( "CONTROLS", true );
-                    if( vpcontrols >= 0 && vp->vehicle().turrets_aim_and_fire() ) {
+                if( vp.part_with_feature( "CONTROLS", true ) ) {
+                    if( vp->vehicle().turrets_aim_and_fire() ) {
                         break;
                     }
                 }
@@ -3663,11 +3663,8 @@ void game::load( const save_t &name )
         u.setID( assign_npc_id() );
         // The vehicle stores the IDs of the boarded players, so update it, too.
         if( u.in_vehicle ) {
-            if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
-                const int vpart = vp->part_with_feature( "BOARDABLE" );
-                if( vpart >= 0 ) {
-                    vp->vehicle().parts[vpart].passenger_id = u.getID();
-                }
+            if( const cata::optional<vpart_reference> vp = m.veh_at( u.pos() ).part_with_feature( "BOARDABLE" ) ) {
+                vp->vehicle().parts[vp->part_index()].passenger_id = u.getID();
             }
         }
     }
@@ -6349,13 +6346,11 @@ bool game::swap_critters( Creature &a, Creature &b )
     second.setpos( first.pos() );
     first.setpos( temp );
 
-    const optional_vpart_position vp = g->m.veh_at( u_or_npc->pos() );
-    if( vp.part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
+    if( g->m.veh_at( u_or_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
         g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
     }
 
-    const optional_vpart_position ovp = g->m.veh_at( other_npc->pos() );
-    if( ovp.part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
+    if( g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
         g->m.board_vehicle( other_npc->pos(), other_npc );
     }
 
@@ -6462,9 +6457,8 @@ void game::open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            int already_open = vp->part_with_feature( "OPENABLE" );
-            if (already_open >= 0) {
-                const std::string name = veh->part_info( already_open ).name();
+            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE" ) ) {
+                const std::string name = veh->part_info( already_open->part_index() ).name();
                 add_msg(m_info, _("That %s is already open."), name.c_str());
             }
             u.moves += 100;
@@ -9700,8 +9694,7 @@ bool game::plfire_check( const targeting_data &args ) {
         }
 
         if( gun->has_flag( "MOUNTED_GUN" ) ) {
-            const optional_vpart_position vp = m.veh_at( u.pos() );
-            bool v_mountable = vp.part_with_feature( "MOUNTABLE" ) >= 0;
+            const bool v_mountable = static_cast<bool>( m.veh_at( u.pos() ).part_with_feature( "MOUNTABLE" ) );
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
             if( !t_mountable && !v_mountable ) {
                 add_msg(m_info,
@@ -10862,8 +10855,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
     if( !u.is_blind() ) {
         const trap &tr = m.tr_at(dest_loc);
-        const optional_vpart_position vp = m.veh_at( dest_loc );
-        const bool boardable = vp.part_with_feature( "BOARDABLE" ) >= 0;
+        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE" ) );
         // Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
@@ -11053,7 +11045,7 @@ bool game::plmove(int dx, int dy, int dz)
         } else if( veh1 != veh0 ) {
             add_msg(m_info, _("There is another vehicle in the way."));
             return false;
-        } else if( vp1->part_with_feature( "BOARDABLE" ) < 0 ) {
+        } else if( !vp1.part_with_feature( "BOARDABLE" ) ) {
             add_msg(m_info, _("That part of the vehicle is currently unsafe."));
             return false;
         }
@@ -11470,7 +11462,7 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1.part_with_feature( "BOARDABLE" ) >= 0 ) {
+    if( vp1.part_with_feature( "BOARDABLE" ) ) {
         m.board_vehicle( u.pos(), &u );
     }
 
@@ -11563,7 +11555,7 @@ void game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( vp1.part_with_feature( "CONTROLS" ) >= 0 && u.in_vehicle ) {
+    if( vp1.part_with_feature( "CONTROLS" ) && u.in_vehicle ) {
         add_msg(_("There are vehicle controls here."));
         add_msg(m_info, _("%s to drive."),
                 press_x(ACTION_CONTROL_VEHICLE).c_str());
@@ -11647,8 +11639,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
-        const optional_vpart_position vp = m.veh_at( u.pos() );
-        if( vp.part_with_feature( "BOARDABLE" ) >= 0 ) {
+        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE" ) ) {
             m.board_vehicle( u.pos(), &u );
         }
 
@@ -11895,10 +11886,8 @@ void game::plswim( const tripoint &p )
     }
     u.setpos( p );
     update_map( u );
-    if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
-        if( vp->part_with_feature( VPFLAG_BOARDABLE ) >= 0 ) {
-            m.board_vehicle( u.pos(), &u );
-        }
+    if( m.veh_at( u.pos() ).part_with_feature( VPFLAG_BOARDABLE ) ) {
+        m.board_vehicle( u.pos(), &u );
     }
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
     u.inv.rust_iron_items();

@@ -13,6 +13,7 @@
 #include "itype.h"
 #include "vpart_position.h"
 #include "vehicle.h"
+#include "vpart_reference.h"
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "string_formatter.h"
@@ -525,9 +526,10 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     PickupMap mapPickup;
 
     if( from_vehicle ) {
-        const optional_vpart_position vp = g->m.veh_at( pickup_target );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pickup_target ).part_with_feature( "CARGO",
+                false );
         veh = &vp->vehicle();
-        cargo_part = vp->part_with_feature( "CARGO", false );
+        cargo_part = vp->part_index();
     }
 
     bool problem = false;
@@ -586,10 +588,12 @@ void Pickup::pick_up( const tripoint &pos, int min )
         switch( interact_with_vehicle( veh, pos, vp ? vp->part_index() : -1 ) ) {
             case DONE:
                 return;
-            case ITEMS_FROM_CARGO:
-                cargo_part = vp->part_with_feature( "CARGO", false );
-                from_vehicle = cargo_part >= 0;
-                break;
+            case ITEMS_FROM_CARGO: {
+                const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+                cargo_part = carg ? carg->part_index() : -1;
+            }
+            from_vehicle = cargo_part >= 0;
+            break;
             case ITEMS_FROM_GROUND:
                 // Nothing to change, default is to pick from ground anyway.
                 if( g->m.has_flag( "SEALED", pos ) ) {

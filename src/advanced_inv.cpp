@@ -18,6 +18,7 @@
 #include "options.h"
 #include "ui.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -606,9 +607,9 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
                 veh = &vp->vehicle();
-                vstor = vp->part_with_feature( "CARGO", false );
+                vstor = vp->part_index();
             } else {
                 veh = nullptr;
                 vstor = -1;
@@ -646,9 +647,9 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
-            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
                 veh = &vp->vehicle();
-                vstor = vp->part_with_feature( "CARGO", false );
+                vstor = vp->part_index();
             } else {
                 veh = nullptr;
                 vstor = -1;
@@ -2402,9 +2403,9 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
         veh = &vp->vehicle();
-        vstor = vp->part_with_feature( "CARGO", false );
+        vstor = vp->part_index();
     } else {
         veh = nullptr;
         vstor = -1;
