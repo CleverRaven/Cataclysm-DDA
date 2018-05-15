@@ -1534,24 +1534,28 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    double perSkillMult = 0.9; //Multiplier per average skill levels
-    double perSkillMult2 = 0.3; //Multiplier per average skill levels post  avg. threshold
-    double skillThreshold = 5; // Avg. skill threshold
-
+    double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
     double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 :
                            0; //CBM bonus to avg. skill
-
-    double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
     avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
     double avgLackOfSkill = double( MAX_SKILL ) - avgSkill;
 
-    double lackOfSkillEffect = ( avgLackOfSkill > skillThreshold ) ? skillThreshold * perSkillMult2 +
-                               ( avgLackOfSkill - skillThreshold ) * perSkillMult
-                               : avgLackOfSkill * perSkillMult2;
-    // Minimum skill dispersion is weapon_dispersion to make sure that weapon dispersion always will be in dispersion sum.
-    double laskOfSkillDispersion = std::max( weapon_dispersion * lackOfSkillEffect + 2.0 *
-                                   avgLackOfSkill, ( double ) weapon_dispersion );
-    dispersion.add_range( laskOfSkillDispersion );
+    double maxMult = 6;
+    double maxDispForLackOfSkill = ( weapon_dispersion * maxMult - weapon_dispersion );
+    double skillThreshold = 5;
+    double dispPartThreshold = 0.75;
+    double perSkillDips = maxDispForLackOfSkill * dispPartThreshold / skillThreshold;
+    double perSkillDipsPostThreshold = maxDispForLackOfSkill * ( 1 - dispPartThreshold ) / ( double(
+                                           MAX_SKILL ) - skillThreshold );
+
+    double lackOfSkillDispersion = ( avgLackOfSkill > skillThreshold ) ? skillThreshold *
+                                   perSkillDipsPostThreshold +
+                                   ( avgLackOfSkill - skillThreshold ) * perSkillDips
+                                   : avgLackOfSkill * perSkillDipsPostThreshold;
+
+    double laskOfSkillFlatDispersion = 2.0 * avgLackOfSkill;
+    double laskOfSkillFullDispersion = lackOfSkillDispersion + laskOfSkillFlatDispersion;
+    dispersion.add_range( laskOfSkillFullDispersion );
 
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
