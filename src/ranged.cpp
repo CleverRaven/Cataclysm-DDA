@@ -1553,11 +1553,9 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
                                    avgLackOfSkill, ( double ) weapon_dispersion );
     dispersion.add_range( laskOfSkillDispersion );
 
-
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
     }
-
 
     if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
         // Range is effectively four times longer when shooting unflagged guns underwater.
