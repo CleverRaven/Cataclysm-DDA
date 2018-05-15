@@ -1518,7 +1518,7 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
-    int weapon_dispersion = obj.gun_dispersion(); 
+    int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
@@ -1549,14 +1549,14 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
                                ( avgLackOfSkill - skillThreshold ) * perSkillMult
                                : avgLackOfSkill * perSkillMult2;
     // Minimum skill dispersion is weapon_dispersion to make sure that weapon dispersion always will be in dispersion sum.
-    double laskOfSkillDispersion = std::max( weapon_dispersion * lackOfSkillEffect + 2.0 * avgLackOfSkill, (double) weapon_dispersion );
+    double laskOfSkillDispersion = std::max( weapon_dispersion * lackOfSkillEffect + 2.0 *
+                                   avgLackOfSkill, ( double ) weapon_dispersion );
     dispersion.add_range( laskOfSkillDispersion );
 
 
-     if( has_bionic( bionic_id( "bio_targeting" ) ) )
-     {
-         dispersion.add_multiplier( 0.75 );
-     }
+    if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
+        dispersion.add_multiplier( 0.75 );
+    }
 
 
     if( ( is_underwater() && !obj.has_flag( "UNDERWATER_GUN" ) ) ||
