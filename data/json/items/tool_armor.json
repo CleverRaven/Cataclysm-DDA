@@ -90,7 +90,7 @@
         "id": "holo_cloak",
         "type": "TOOL_ARMOR",
         "name": "hologram cloak",
-        "description": "A cloak woven with metallic fibers and covered with hexagonal sheets of reflective plastic.  When activated, it will create an holographic decoy of its wearer.",
+        "description": "A cloak woven with metallic fibers and covered with hexagonal sheets of reflective carbide.  When activated, it will create an holographic decoy of its wearer.",
         "weight": 1552,
         "volume": 14,
         "price": 5500000,
