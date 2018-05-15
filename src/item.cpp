@@ -2304,7 +2304,7 @@ std::string item::tname_generate_maintext( unsigned int quantity ) const
 
 std::string item::sname( unsigned int quantity ) const
 {
-    if ( !contents.empty() && this->is_food_container() ) {
+    if ( !contents.empty() && !contents.front().is_gunmod() ) {
         return contents.front().label( quantity );
     } else {
         return label( quantity );
@@ -2313,10 +2313,6 @@ std::string item::sname( unsigned int quantity ) const
 
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
-    if ( !with_prefix ) {
-        return this->sname( quantity );
-    }
-
     // MATERIALS-TODO: put this in json
     std::string damtext;
     std::string burntext;
