@@ -15,7 +15,7 @@
     "ammo": "shot",
     "skill": "pistol",
     "ranged_damage": 6,
-    "dispersion": 1100,
+    "dispersion": 300,
     "durability": 6,
     "clip_size": 1,
     "reload": 80,

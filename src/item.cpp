@@ -4054,12 +4054,6 @@ int item::gun_dispersion( bool with_ammo ) const
         return 0;
     }
     int dispersion_sum = type->gun->dispersion;
-    if (type->gun->skill_used == "shotgun") {
-        // Special dispersion adjustment for shotguns because of their close range behavior
-        dispersion_sum = std::max(dispersion_sum, 45);
-        dispersion_sum = std::min(dispersion_sum, 65);
-    }
-
     for( const auto mod : gunmods() ) {
         dispersion_sum += mod->type->gunmod->dispersion;
     }
@@ -4069,17 +4063,12 @@ int item::gun_dispersion( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
     }
-    
-    if( type->gun->skill_used == "shotgun" ) {
-        // Special dispersion adjustment for shotguns because of their close range behavior
-        dispersion_sum = std::max( dispersion_sum , 25 );
-        dispersion_sum = std::min( dispersion_sum , 75 );
-    } else {
-        // Dividing dispersion by 15 temporarily as a gross adjustment,
-        // will bake that adjustment into individual gun definitions in the future.
-        // Absolute minimum gun dispersion is 1.
-        dispersion_sum = std::max( dispersion_sum / 15, 1 );
-    }
+
+    // Dividing dispersion by 15 temporarily as a gross adjustment,
+    // will bake that adjustment into individual gun definitions in the future.
+    // Absolute minimum gun dispersion is 1.
+    dispersion_sum = std::max( static_cast<int>( std::round( dispersion_sum / 15.0 ) ), 1 );
+
     return dispersion_sum;
 }
 
