@@ -49,7 +49,7 @@
         "damage" : 53,
         "pierce" : 12,
         "range" : 5,
-		"dispersion" : 800,
+        "dispersion" : 800,
         "recoil" : 840,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
