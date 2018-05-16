@@ -931,16 +931,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) ||
                                 ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
                                 // Consume the terrain we're on
-                                if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) ?
-                                    one_in( MAX_FIRE_SIZE - cur.getFieldDensity() - 1 ) : 
-                                    one_in( MAX_FIRE_SIZE - cur.getFieldDensity() - 2 ) ) {
-
-                                    int added = rng( -1, cur.getFieldDensity() + 1 );
+                                int added = 0;
+                                if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) ? one_in( 2 ) : true ) {
+                                    added += rng( -1, cur.getFieldDensity() + 1 );
                                     time_added += 1_turns * added;
                                 }
                                 smoke += 2;
-                                if( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD &&
-                                    one_in( 200 - ( cur.getFieldDensity() + 1 ) * 50 ) ) {
+                                if( cur.getFieldDensity() >= FIRE_SIZE_THRESHOLD &&
+                                    one_in( 250 - ( cur.getFieldDensity() ) * 50 ) ) {
                                     destroy( p, false );
                                     if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
                                         ter_set( p, t_dirt );
