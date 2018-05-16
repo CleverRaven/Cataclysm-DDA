@@ -2,6 +2,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "compiler_defines.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "calendar.h"

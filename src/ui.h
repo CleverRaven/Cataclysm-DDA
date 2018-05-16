@@ -142,7 +142,7 @@ class uimenu_callback
  */
 class ui_element;
 class ui_element_input;
-class uimenu: public ui_container
+class uimenu final: public ui_container
 {
     public:
         int ret;

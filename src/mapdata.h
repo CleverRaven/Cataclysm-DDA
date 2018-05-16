@@ -268,7 +268,7 @@ public:
 * Struct ter_t:
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
-struct ter_t : map_data_common_t {
+struct ter_t final : map_data_common_t {
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
@@ -297,7 +297,7 @@ void reset_furn_ter();
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
 
-struct furn_t : map_data_common_t {
+struct furn_t final : map_data_common_t {
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id

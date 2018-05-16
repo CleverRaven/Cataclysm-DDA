@@ -178,7 +178,7 @@ struct mon_effect_data {
         chance( nchance ) {};
 };
 
-struct mtype {
+struct mtype final {
     private:
         friend class MonsterGenerator;
         std::string name;
