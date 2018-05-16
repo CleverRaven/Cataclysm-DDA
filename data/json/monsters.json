@@ -1874,7 +1874,7 @@
     "diff": 20,
     "size": "MEDIUM",
     "hp": 100,
-    "speed": 80,
+    "speed": 70,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "dark_gray_red",
@@ -1889,6 +1889,7 @@
     "armor_cut": 25,
     "vision_day": 30,
     "vision_night": 3,
+    "luminance": 8,
     "special_attacks": [ [ "FLAMETHROWER", 15 ] ],
     "death_drops": {
       "subtype": "collection",
