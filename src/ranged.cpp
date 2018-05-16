@@ -1539,10 +1539,10 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
     double avgLackOfSkill = double( MAX_SKILL ) - avgSkill;
 
-    double maxMult = 5;
+    double maxMult = 5; // Max multipiler for lack of skill
     double maxDispForLackOfSkill = ( weapon_dispersion * maxMult - weapon_dispersion );
-    double skillThreshold = 5;
-    double dispPartThreshold = 0.75;
+    double skillThreshold = 5; // Multiplier changes after that skill threshold
+    double dispPartThreshold = 0.75; // Part of dispersion befofre threshold
     double perSkillDips = maxDispForLackOfSkill * dispPartThreshold / skillThreshold;
     double perSkillDipsPostThreshold = maxDispForLackOfSkill * ( 1 - dispPartThreshold ) / ( double(
                                            MAX_SKILL ) - skillThreshold );
@@ -1552,7 +1552,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
                                    ( avgLackOfSkill - skillThreshold ) * perSkillDips
                                    : avgLackOfSkill * perSkillDipsPostThreshold;
 
-    double laskOfSkillFlatDispersion = 3.0 * avgLackOfSkill;
+    double laskOfSkillFlatDispersion = 3.0 * avgLackOfSkill; // Flat "bonus" to dispersion to debuff zero dispersion guns too
     double laskOfSkillFullDispersion = lackOfSkillDispersion + laskOfSkillFlatDispersion;
     dispersion.add_range( laskOfSkillFullDispersion );
 
