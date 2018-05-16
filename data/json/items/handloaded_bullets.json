@@ -31,7 +31,7 @@
         "ammo_type" : "blunderbuss",
         "damage" : 60,
         "range" : 3,
-		"dispersion" : 800,
+        "dispersion" : 800,
         "recoil" : 780,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },{   "type" : "AMMO",
