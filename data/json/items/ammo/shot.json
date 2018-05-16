@@ -54,7 +54,7 @@
     "damage": 50,
     "recoil": 2500,
     "loudness": 160,
-	"dispersion": 800,
+    "dispersion": 800,
     "effects": [ "COOKOFF", "SHOT" ]
   },
   {
