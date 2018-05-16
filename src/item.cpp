@@ -2431,6 +2431,10 @@ std::string item::display_name( unsigned int quantity ) const
         naming_style = NAMING_CONTAINER_TRAILING;
     } else if ( this->is_gun() || this->is_magazine() ) {
         naming_style = NAMING_WITH_AMMO_TYPE;
+    } else if ( this->is_bandolier() && !this->contents.empty() ) {
+        naming_style = NAMING_CONTAINER_TRAILING;
+    } else if ( !this->contents.empty() && this->contents.front().is_magazine() ) {
+        naming_style = NAMING_CONTAINER_TRAILING;
     } else if ( this->ammo_capacity() > 0 ) {
         naming_style = NAMING_WITH_CHARGES;
     } else if ( !this->contents.empty() ) {
@@ -2495,19 +2499,19 @@ std::string item::display_name( unsigned int quantity ) const
     
       
     if ( naming_style == NAMING_STANDARD ) {
-        return string_format( _( "[STD]%1$s" ), item_text.c_str() );
+        return string_format( _( "[STD] %1$s" ), item_text.c_str() );
     } else if ( naming_style == NAMING_WITH_CHARGES ) {
         //~ This string combines the full item name with the number of charges. %1$s is the item name with all modifiers (damaged, burned, (wet), etc) and %2$s is the the number of charges in parentheses like (10)
-        return string_format( _( "[WCH]%1$s%2$s" ), item_text.c_str(), charges_text.c_str() );
+        return string_format( _( "[WCH] %1$s%2$s" ), item_text.c_str(), charges_text.c_str() );
     } else if (naming_style == NAMING_WITH_AMMO_TYPE ) {
         //~ This string combines the full item name with the number of charges and the type of ammo loaded. %1$s is the item name with all modifiers (damaged, burned, (wet), etc), %2$s is the the number of charges in parentheses like (10), and %3$s is the ammo type in parentheses like (9x19mm)
-        return string_format( _( "[WAT]%1$s%2$s%3$s" ), item_text.c_str(), charges_text.c_str(), ammo_type_text.c_str() );
+        return string_format( _( "[WAT] %1$s%2$s%3$s" ), item_text.c_str(), charges_text.c_str(), ammo_type_text.c_str() );
     } else if ( naming_style == NAMING_CONTAINER_LEADING ) {
         //~ This string combines the name of a container with the name of its contents. %1$s is the name of the container, %2$s is how many charges the container has (NOT the charges of the contents), and %3$s is the full name of the item inside the container.
-        return string_format( _( "[NCL]%1$s%2$s with %3$s" ), item_text.c_str(), charges_text.c_str(), content_text );
+        return string_format( _( "[NCL] %1$s%2$s with %3$s" ), item_text.c_str(), charges_text.c_str(), content_text );
     } else if ( naming_style == NAMING_CONTAINER_TRAILING ) {
         //~ This string combines the name of a container with the name of its contents. %1$s is the name of the item inside the container, %2$s is the name of the container, %3$s is how many charges the container has (NOT the charges of the contents)
-        return string_format( _( "[NCT]%1$s in %2$s%3$s" ), content_text, item_text.c_str(), charges_text.c_str() );
+        return string_format( _( "[NCT] %1$s in %2$s%3$s" ), content_text, item_text.c_str(), charges_text.c_str() );
     }
     
     debugmsg("naming_style still set to NAMING_ERROR at end of function");
