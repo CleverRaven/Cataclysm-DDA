@@ -4063,10 +4063,12 @@ int item::gun_dispersion( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
     }
-    // Dividing dispersion by 3 temporarily as a gross adjustment,
+
+    // Dividing dispersion by 15 temporarily as a gross adjustment,
     // will bake that adjustment into individual gun definitions in the future.
-    // Absolute minimum gun dispersion is 45.
-    dispersion_sum = std::max( dispersion_sum / 3, 45 );
+    // Absolute minimum gun dispersion is 1.
+    dispersion_sum = std::max( static_cast<int>( std::round( dispersion_sum / 15.0 ) ), 1 );
+
     return dispersion_sum;
 }
 
@@ -4076,7 +4078,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = has_flag( "DISABLE_SIGHTS" ) ? 500 : type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? 90 : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto &mod = *e->type->gunmod;

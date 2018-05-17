@@ -1520,12 +1520,9 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
-    /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    dispersion.add_range( 3 * ( MAX_SKILL - std::min( get_skill_level( skill_gun ), MAX_SKILL ) ) );
-
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( encumb( bp_arm_l ) + encumb( bp_arm_r ) );
+    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1536,6 +1533,29 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
+    /** @EFFECT_GUN improves usage of accurate weapons and sights */
+    double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
+    double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0; //CBM bonus to avg. skill
+    avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
+    double avgLackOfSkill = double( MAX_SKILL ) - avgSkill;
+
+    double maxMult = 5; // Max multipiler for lack of skill
+    double maxDispForLackOfSkill = ( weapon_dispersion * maxMult - weapon_dispersion );
+    double skillThreshold = 5; // Multiplier changes after that skill threshold
+    double dispPartThreshold = 0.75; // Part of dispersion befofre threshold
+    double perSkillDips = maxDispForLackOfSkill * dispPartThreshold / skillThreshold;
+    double perSkillDipsPostThreshold = maxDispForLackOfSkill * ( 1 - dispPartThreshold ) / ( double(
+                                           MAX_SKILL ) - skillThreshold );
+
+    double lackOfSkillDispersion = ( avgLackOfSkill > skillThreshold ) ? skillThreshold *
+                                   perSkillDipsPostThreshold +
+                                   ( avgLackOfSkill - skillThreshold ) * perSkillDips
+                                   : avgLackOfSkill * perSkillDipsPostThreshold;
+
+    double laskOfSkillFlatDispersion = 3.0 * avgLackOfSkill; // Flat "bonus" to dispersion to debuff zero dispersion guns too
+    double laskOfSkillFullDispersion = lackOfSkillDispersion + laskOfSkillFlatDispersion;
+    dispersion.add_range( laskOfSkillFullDispersion );
+
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
     }
@@ -1544,6 +1564,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         // Range is effectively four times longer when shooting unflagged guns underwater.
         ( !is_underwater() && obj.has_flag( "UNDERWATER_GUN" ) ) ) {
         // Range is effectively four times longer when shooting flagged guns out of water.
+        dispersion.add_range( 150 ); //Adding dispersion for additonal debuff
         dispersion.add_multiplier( 4 );
     }
 
