@@ -13,7 +13,8 @@
     "symbol": ":",
     "color": "light_cyan",
     "ammo_type": "battery",
-    "capacity": 2500, "//": "58Ah @ 12VDC. Could supply ~700 watts for an hour",
+    "capacity": 2500,
+    "//": "58Ah @ 12VDC. Could supply ~700 watts for an hour",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -26,7 +27,8 @@
     "weight": 4000,
     "volume": 5,
     "price": 2000,
-    "capacity": 500, "//": "12Ah @ 12VDC. Could supply ~140 watts for an hour"
+    "capacity": 500,
+    "//": "12Ah @ 12VDC. Could supply ~140 watts for an hour"
   },
   {
     "id": "medium_storage_battery",

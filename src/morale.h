@@ -2,20 +2,27 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "json.h"
+#include "string_id.h"
 #include "calendar.h"
-#include "effect.h"
 #include "bodypart.h"
 #include "morale_types.h"
 
 #include <stdlib.h>
 #include <string>
+#include <vector>
+#include <map>
 #include <functional>
 
 class item;
-
+class JsonIn;
+class JsonOut;
+class JsonObject;
 struct itype;
 struct morale_mult;
+class effect_type;
+using efftype_id = string_id<effect_type>;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 class player_morale
 {
@@ -28,8 +35,8 @@ class player_morale
         player_morale &operator =( const player_morale & ) = default;
 
         /** Adds morale to existing or creates one */
-        void add( morale_type type, int bonus, int max_bonus = 0, int duration = MINUTES( 6 ),
-                  int decay_start = MINUTES( 3 ), bool capped = false, const itype *item_type = nullptr );
+        void add( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
+                  time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
         /** Sets the new level for the permanent morale, or creates one */
         void set_permanent( morale_type type, int bonus, const itype *item_type = nullptr );
         /** Returns bonus from specified morale */
@@ -41,7 +48,7 @@ class player_morale
         /** Returns overall morale level */
         int get_level() const;
         /** Ticks down morale counters and removes them */
-        void decay( int ticks = 1 );
+        void decay( time_duration ticks = 1_turns );
         /** Displays morale screen */
         void display( double focus_gain );
         /** Returns false whether morale is inconsistent with the argument.
@@ -59,7 +66,7 @@ class player_morale
         void load( JsonObject &jsin );
 
     private:
-        class morale_point : public JsonSerializer, public JsonDeserializer
+        class morale_point
         {
             public:
                 morale_point(
@@ -67,21 +74,19 @@ class player_morale
                     const itype *item_type = nullptr,
                     int bonus = 0,
                     int max_bonus = 0,
-                    int duration = MINUTES( 6 ),
-                    int decay_start = MINUTES( 3 ),
+                    time_duration duration = 6_minutes,
+                    time_duration decay_start = 3_minutes,
                     bool capped = false ) :
 
                     type( type ),
                     item_type( item_type ),
                     bonus( normalize_bonus( bonus, max_bonus, capped ) ),
-                    duration( std::max( duration, 0 ) ),
-                    decay_start( std::max( decay_start, 0 ) ),
-                    age( 0 ) {};
+                    duration( std::max( duration, 0_turns ) ),
+                    decay_start( std::max( decay_start, 0_turns ) ),
+                    age( 0_turns ) {}
 
-                using JsonDeserializer::deserialize;
-                void deserialize( JsonIn &jsin ) override;
-                using JsonSerializer::serialize;
-                void serialize( JsonOut &json ) const override;
+                void deserialize( JsonIn &jsin );
+                void serialize( JsonOut &json ) const;
 
                 std::string get_name() const;
                 int get_net_bonus() const;
@@ -91,24 +96,24 @@ class player_morale
                 bool matches( morale_type _type, const itype *_item_type = nullptr ) const;
                 bool matches( const morale_point &mp ) const;
 
-                void add( int new_bonus, int new_max_bonus, int new_duration,
-                          int new_decay_start, bool new_cap );
-                void decay( int ticks = 1 );
+                void add( int new_bonus, int new_max_bonus, time_duration new_duration,
+                          time_duration new_decay_start, bool new_cap );
+                void decay( time_duration ticks = 1_turns );
 
             private:
                 morale_type type;
                 const itype *item_type;
 
                 int bonus;
-                int duration;   // Zero duration == infinity
-                int decay_start;
-                int age;
+                time_duration duration;   // Zero duration == infinity
+                time_duration decay_start;
+                time_duration age;
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).
                  * Only returns new time if same_sign is true
                  */
-                int pick_time( int cur_time, int new_time, bool same_sign ) const;
+                time_duration pick_time( time_duration cur_time, time_duration new_time, bool same_sign ) const;
                 /**
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */
@@ -118,6 +123,7 @@ class player_morale
         morale_mult get_temper_mult() const;
 
         void set_prozac( bool new_took_prozac );
+        void set_prozac_bad( bool new_took_prozac_bad );
         void set_stylish( bool new_stylish );
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
@@ -130,7 +136,7 @@ class player_morale
         void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
-        void update_bodytemp_penalty( int ticks );
+        void update_bodytemp_penalty( time_duration ticks );
         void update_constrained_penalty();
 
     private:
@@ -182,6 +188,7 @@ class player_morale
         mutable bool level_is_valid;
 
         bool took_prozac;
+        bool took_prozac_bad;
         bool stylish;
         int perceived_pain;
 };

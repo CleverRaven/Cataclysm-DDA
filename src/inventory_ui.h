@@ -10,8 +10,8 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
-#include "output.h"
 #include "item_location.h"
+#include "pimpl.h"
 
 class Character;
 
@@ -182,9 +182,7 @@ class inventory_selector_preset
                     func( func ) {}
 
 
-                std::string get_text( const inventory_entry &entry ) const {
-                    return replace_colors( func( entry ) );
-                }
+                std::string get_text( const inventory_entry &entry ) const;
 
                 std::string title;
                 std::string stub;
@@ -205,7 +203,7 @@ class inventory_column
             cells.resize( preset.get_cells_count() );
         }
 
-        virtual ~inventory_column() {}
+        virtual ~inventory_column() = default;
 
         bool empty() const {
             return entries.empty();
@@ -249,7 +247,7 @@ class inventory_column
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
-        void draw( WINDOW *win, size_t x, size_t y ) const;
+        void draw( const catacurses::window &win, size_t x, size_t y ) const;
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -277,7 +275,7 @@ class inventory_column
         /** Returns next custom inventory letter. */
         long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
-        virtual void prepare_paging();
+        virtual void prepare_paging( const std::string &filter = "" );
         /**
          * Event handlers
          */
@@ -296,6 +294,8 @@ class inventory_column
         virtual void on_mode_change( navigation_mode mode ) {
             this->mode = mode;
         }
+
+        void set_filter( const std::string &filter );
 
     protected:
         struct entry_cell_cache_t {
@@ -343,6 +343,7 @@ class inventory_column
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
+        std::vector<inventory_entry> entries_unfiltered;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
         bool multiselect = false;
@@ -363,7 +364,7 @@ class inventory_column
             bool visible() const {
                 return current_width > 0;
             }
-            /** @return Gap before the cell. Negative value means the cell is shrinked */
+            /** @return Gap before the cell. Negative value means the cell is shrunk */
             int gap() const {
                 return current_width - real_width;
             }
@@ -389,7 +390,7 @@ class selection_column : public inventory_column
             return false;
         }
 
-        virtual void prepare_paging() override;
+        virtual void prepare_paging( const std::string &filter = "" ) override;
 
         virtual void on_change( const inventory_entry &entry ) override;
         virtual void on_mode_change( navigation_mode ) override {
@@ -397,7 +398,7 @@ class selection_column : public inventory_column
         }
 
     private:
-        const std::unique_ptr<item_category> selected_cat;
+        const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
 };
 
@@ -405,7 +406,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector() {}
+        ~inventory_selector() = default;
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -471,6 +472,7 @@ class inventory_selector
 
         void resize_window( int width, int height );
         void refresh_window() const;
+        void set_filter();
         void update();
 
         /** Tackles screen overflow */
@@ -487,10 +489,10 @@ class inventory_selector
         size_t get_header_min_width() const;
         size_t get_footer_min_width() const;
 
-        void draw_header( WINDOW *w ) const;
-        void draw_footer( WINDOW *w ) const;
-        void draw_columns( WINDOW *w ) const;
-        void draw_frame( WINDOW *w ) const;
+        void draw_header( const catacurses::window &w ) const;
+        void draw_footer( const catacurses::window &w ) const;
+        void draw_columns( const catacurses::window &w ) const;
+        void draw_frame( const catacurses::window &w ) const;
 
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
@@ -540,7 +542,7 @@ class inventory_selector
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
-        WINDOW_PTR w_inv;
+        catacurses::window w_inv;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;
@@ -556,6 +558,7 @@ class inventory_selector
         inventory_column map_column;         // Column for map and vehicle items
 
         const int border = 1;                // Width of the window border
+        std::string filter;
 
         bool display_stats = true;
         bool layout_is_valid = false;
@@ -594,6 +597,26 @@ class inventory_compare_selector : public inventory_multiselector
         std::vector<inventory_entry *> compared;
 
         void toggle_entry( inventory_entry *entry );
+};
+
+// This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
+// Should accept a function to calculate dummy values.
+class inventory_iuse_selector : public inventory_multiselector
+{
+    public:
+        inventory_iuse_selector( const player &p,
+                                 const std::string &selector_title,
+                                 const inventory_selector_preset &preset = default_preset );
+        std::list<std::pair<int, int>> execute();
+
+    protected:
+        const player &get_player_for_stats() const;
+        void set_chosen_count( inventory_entry &entry, size_t count );
+
+    private:
+        std::map<const item *, int> to_use;
+        size_t max_chosen_count;
+        mutable std::unique_ptr<player> dummy;
 };
 
 class inventory_drop_selector : public inventory_multiselector

@@ -43,7 +43,7 @@
     "use_action": {
       "type": "explosion",
       "draw_explosion_radius": 4,
-      "draw_explosion_color": "ltblue",
+      "draw_explosion_color": "light_blue",
       "emp_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",
@@ -110,24 +110,6 @@
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
   },
   {
-    "id": "acidbomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "acid bomb",
-    "name_plural": "acid bombs",
-    "description": "This is a glass vial, with two chemicals mixing inside.  The vial feels colder and the contents are frothing.  If this mixture is exposed to air (as could happen if you throw the vial), it will spill out as a pool of potent acid.",
-    "weight": 1268,
-    "volume": 2,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": "glass",
-    "symbol": "*",
-    "color": "yellow",
-    "use_action": "ACIDBOMB_ACT",
-    "flags": [ "TRADER_AVOID", "NPC_THROWN" ]
-  },
-  {
     "id": "adv_UPS_off",
     "type": "TOOL",
     "name": "advanced UPS",
@@ -149,6 +131,7 @@
     "type": "TOOL",
     "name": "advanced electronic cigarette",
     "description": "An advanced version of the electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.",
+    "category": "drugs",
     "weight": 200,
     "volume": 1,
     "price": 5000,
@@ -202,6 +185,7 @@
     "material": "iron",
     "symbol": ";",
     "color": "dark_gray",
+    "qualities": [ [ "ANVIL", 3 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -326,7 +310,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -460,7 +444,7 @@
       "fun_bonus": 2,
       "speed_penalty": 18,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your banjo.",
         "You play a bluegrass tune on your banjo.",
         "You play a quick, Southern ditty on your banjo."
@@ -660,7 +644,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "BOLTCUTTERS"
+    "use_action": "BOLTCUTTERS",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "bone_flute",
@@ -685,7 +670,7 @@
       "fun_bonus": 2,
       "speed_penalty": 10,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
@@ -717,9 +702,9 @@
     "id": "bot_EMP_hack",
     "type": "TOOL",
     "name": "inactive EMP hack",
-    "description": "This is an inactive EMP hack.  EMP hacks are fist-sized robots that fly through the air.  This one contains a EMP grenade and attacks by flying at its target and detonating.  Use this item to activate the EMP hack.",
-    "weight": 700,
-    "volume": 1,
+    "description": "This is an inactive EMP hack.  EMP hacks are fist-sized robots that fly through the air.  This one contains a EMP grenade and attacks by flying at its target and detonating.  Use this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 4700,
+    "volume": 3,
     "price": 64500,
     "to_hit": -3,
     "bashing": 6,
@@ -743,8 +728,8 @@
     "id": "bot_c4_hack",
     "type": "TOOL",
     "name": "inactive C-4 hack",
-    "description": "This is an inactive C-4 hack.  C-4 hacks are fist-sized robots that fly through the air.  This one contains some C-4 and attacks by flying at its target and detonating.  Use this item to activate the C-4 hack.",
-    "weight": 1870,
+    "description": "This is an inactive C-4 hack.  C-4 hacks are fist-sized robots that fly through the air.  This one contains some C-4 and attacks by flying at its target and detonating.  Use this item to reprogram and activate the C-4 hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 5870,
     "volume": 1,
     "price": 67500,
     "to_hit": -3,
@@ -769,9 +754,9 @@
     "id": "bot_flashbang_hack",
     "type": "TOOL",
     "name": "inactive flashbang hack",
-    "description": "This is an inactive flashbang hack.  Flashbang hacks are fist-sized robots that fly through the air.  This one contains a flashbang and attacks by flying at its target and detonating.  Use this item to activate the flashbang hack.",
-    "weight": 536,
-    "volume": 1,
+    "description": "This is an inactive flashbang hack.  Flashbang hacks are fist-sized robots that fly through the air.  This one contains a flashbang and attacks by flying at its target and detonating.  Use this item to reprogram and activate the flashbang hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 4536,
+    "volume": 3,
     "price": 59500,
     "to_hit": -3,
     "bashing": 6,
@@ -795,9 +780,9 @@
     "id": "bot_gasbomb_hack",
     "type": "TOOL",
     "name": "inactive tear gas hack",
-    "description": "This is an inactive tear gas hack.  Tear gas hacks are fist-sized robots that fly through the air.  This one contains a tear gas canister and attacks by flying at its target and releasing tear gas.  Use this item to activate the tear gas hack.",
-    "weight": 1564,
-    "volume": 1,
+    "description": "This is an inactive tear gas hack.  Tear gas hacks are fist-sized robots that fly through the air.  This one contains a tear gas canister and attacks by flying at its target and releasing tear gas.  Use this item to reprogram and activate the tear gas hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 5360,
+    "volume": 3,
     "price": 60500,
     "to_hit": -3,
     "bashing": 6,
@@ -821,8 +806,8 @@
     "id": "bot_grenade_hack",
     "type": "TOOL",
     "name": "inactive grenade hack",
-    "description": "This is an inactive grenade hack.  Grenade hacks are fist-sized robots that fly through the air.  This one contains a grenade and attacks by flying at its target and detonating.  Use this item to activate the grenade hack.",
-    "weight": 480,
+    "description": "This is an inactive grenade hack.  Grenade hacks are fist-sized robots that fly through the air.  This one contains a grenade and attacks by flying at its target and detonating.  Use this item to reprogram and activate the grenade hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 4480,
     "volume": 1,
     "price": 60000,
     "to_hit": -3,
@@ -847,7 +832,7 @@
     "id": "bot_laserturret",
     "type": "TOOL",
     "name": "inactive laser turret",
-    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
+    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
     "weight": 1450,
     "volume": 12,
     "price": 600000,
@@ -866,12 +851,34 @@
     }
   },
   {
+    "id": "bot_antimateriel",
+    "type": "TOOL",
+    "name": "inactive antimateriel turret",
+    "description": "This is an inactive antimateriel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "weight": 1550,
+    "volume": 14,
+    "price": 500500,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_bmg",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_manhack",
     "type": "TOOL",
     "name": "inactive manhack",
-    "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use this item to activate the manhack.",
-    "weight": 300,
-    "volume": 1,
+    "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 5400,
+    "volume": 3,
     "price": 60000,
     "to_hit": -3,
     "bashing": 6,
@@ -895,9 +902,9 @@
     "id": "bot_mininuke_hack",
     "type": "TOOL",
     "name": "inactive mininuke hack",
-    "description": "This is an inactive mininuke hack.  Twice as large as a normal manhack, mininuke hacks contain a mininuke and attack by flying at their target and detonating.  Use this item to activate the mininuke hack.",
-    "weight": 4671,
-    "volume": 1,
+    "description": "This is an inactive mininuke hack.  Twice as large as a normal manhack, mininuke hacks contain a mininuke and attack by flying at their target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 12670,
+    "volume": 4,
     "price": 2677500,
     "to_hit": -3,
     "bashing": 6,
@@ -921,7 +928,7 @@
     "id": "bot_rifleturret",
     "type": "TOOL",
     "name": "inactive rifle turret",
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56 NATO rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56 you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56 NATO rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56 you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with a built-in rifle.",
     "weight": 1507,
     "volume": 14,
     "price": 500000,
@@ -943,7 +950,7 @@
     "id": "bot_turret",
     "type": "TOOL",
     "name": "inactive turret",
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 9mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
     "weight": 1507,
     "volume": 12,
     "price": 400000,
@@ -960,29 +967,6 @@
       "skill1": "electronics",
       "skill2": "computer"
     }
-  },
-  {
-    "id": "brazier",
-    "type": "TOOL",
-    "name": "brazier",
-    "description": "This is a large metal stand with slots on the side.  Use it to place it somewhere then set fires in it with no risk of spreading.",
-    "weight": 2000,
-    "volume": 6,
-    "price": 9000,
-    "to_hit": 1,
-    "bashing": 7,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "use_action": {
-      "type": "place_trap",
-      "allow_under_player": true,
-      "trap": "tr_brazier",
-      "moves": 100,
-      "practice": 0,
-      "done_message": "You place the brazier securely."
-    },
-    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "brick_kiln",
@@ -1024,7 +1008,7 @@
       "target_id": "broadfire_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "Charge!!",
+      "success_message": "Charge!",
       "lacks_fuel_message": "No strength to fight!"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
@@ -1216,15 +1200,15 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "can sealer",
-    "description": "A hand crank powered cast aluminum machine designed to automatically seal tin cans.",
+    "description": "A hand crank powered cast steel machine designed to automatically seal tin cans.",
     "weight": 9800,
     "volume": 20,
     "price": 52500,
     "to_hit": -2,
     "bashing": 8,
-    "material": "aluminum",
+    "material": "steel",
     "symbol": ";",
-    "color": "ltgray"
+    "color": "light_gray"
   },
   {
     "id": "candle",
@@ -1391,7 +1375,7 @@
     "type": "TOOL",
     "name": "cell phone",
     "name_plural": "cell phones",
-    "description": "This is a typical smartphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
+    "description": "This is a typical cellphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries. Also it has a clock app that includes an alarm.",
     "weight": 226,
     "volume": 1,
     "price": 10000,
@@ -1469,7 +1453,7 @@
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -1604,7 +1588,8 @@
     "cutting": 2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "chisel",
@@ -1621,7 +1606,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 3 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "id": "circsaw_off",
@@ -1697,7 +1682,7 @@
       "fun_bonus": 2,
       "speed_penalty": 13,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your clarinet.",
         "You play a moving, orchestral piece on your clarinet.",
         "You play an uplifting marching tune on your clarinet."
@@ -1869,7 +1854,7 @@
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 1 ] ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -1940,7 +1925,7 @@
     "price": 700,
     "to_hit": 1,
     "bashing": 9,
-    "material": [ "iron", "wood" ],
+    "material": [ "brass", "wood" ],
     "symbol": ";",
     "color": "brown",
     "use_action": "BELL"
@@ -2066,7 +2051,7 @@
     "type": "TOOL",
     "name": "improvised lockpick",
     "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
-    "weight": 230,
+    "weight": 23,
     "volume": 0,
     "price": 0,
     "material": "steel",
@@ -2376,7 +2361,7 @@
     },
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
+      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away and use the remote control to detonate.",
       "explosion": { "power": 50 }
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
@@ -2399,7 +2384,7 @@
     "turns_per_charge": 1,
     "revert_to": "e_handcuffs",
     "use_action": "EHANDCUFFS",
-    "flags": [ "ALWAYS_TWOHAND" ]
+    "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
   },
   {
     "id": "e_tool",
@@ -2416,7 +2401,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD" ]
+    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
     "id": "eink_tablet_pc",
@@ -2478,7 +2463,7 @@
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 2 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -2666,8 +2651,7 @@
       "type": "firestarter",
       "moves": 500,
       "moves_slow": 25000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "fire_drill_large",
@@ -2684,8 +2668,7 @@
       "type": "firestarter",
       "moves": 200,
       "moves_slow": 10000
-    },
-    "flags": [ "FIRE_DRILL" ]
+    }
   },
   {
     "id": "firecracker",
@@ -3085,7 +3068,7 @@
       "fun_bonus": 2,
       "speed_penalty": 10,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
@@ -3553,7 +3536,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ]
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "halligan",
@@ -3638,27 +3622,6 @@
     "material": "plastic",
     "symbol": ";",
     "color": "light_gray"
-  },
-  {
-    "id": "heavy_snare_kit",
-    "type": "TOOL",
-    "name": "heavy snare kit",
-    "description": "This is a kit for a simple trap consisting of a rope noose and a snare trigger.  It requires a tree nearby.  It is effective at trapping monsters.",
-    "weight": 1066,
-    "volume": 1,
-    "price": 250,
-    "cutting": 10,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": {
-      "type": "place_trap",
-      "needs_neighbor_terrain": "t_tree",
-      "trap": "tr_heavy_snare",
-      "moves": 200,
-      "practice": 4,
-      "done_message": "You set the snare trap."
-    }
   },
   {
     "id": "hoe",
@@ -3835,6 +3798,29 @@
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB" ]
+  },
+  {
+    "id": "jar_pickles_pickled",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "sealed jar of pickles",
+    "name_plural": "sealed jars of pickles",
+    "description": "This is a sealed glass jar containing pickles.  Use to open and eat to enjoy.",
+    "weight": 1750,
+    "volume": 2,
+    "price": 650,
+    "bashing": 4,
+    "material": [ "glass", "veggy" ],
+    "symbol": "%",
+    "color": "green",
+    "use_action": {
+      "target": "pickle",
+      "msg": "You open the jar, exposing it to the atmosphere.",
+      "container": "jar_glass",
+      "target_charges": 6,
+      "menu_text": "Open jar",
+      "type": "transform"
+    }
   },
   {
     "id": "jar_sauerkraut_pickled",
@@ -4316,27 +4302,6 @@
     }
   },
   {
-    "id": "light_snare_kit",
-    "type": "TOOL",
-    "name": "light snare kit",
-    "description": "This is a kit for a simple trap consisting of a string noose and a snare trigger.  It requires a young tree nearby.  It is effective at trapping and killing some small animals.",
-    "weight": 886,
-    "volume": 1,
-    "price": 100,
-    "cutting": 6,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": {
-      "type": "place_trap",
-      "needs_neighbor_terrain": "t_tree_young",
-      "trap": "tr_light_snare",
-      "moves": 150,
-      "practice": 2,
-      "done_message": "You set the snare trap."
-    }
-  },
-  {
     "id": "lighter",
     "type": "TOOL",
     "name": "lighter",
@@ -4542,7 +4507,7 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": "HAMMER",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "makeshift_knife",
@@ -4568,7 +4533,7 @@
     "category": "weapons",
     "name": "makeshift machete",
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
-    "weight": 538,
+    "weight": 581,
     "volume": 8,
     "price": 1000,
     "to_hit": 1,
@@ -5232,7 +5197,8 @@
     "to_hit": 1,
     "material": [ "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "pan",
@@ -5318,7 +5284,7 @@
     "volume": 1,
     "price": 4000,
     "to_hit": -1,
-    "material": [ "flesh", "plastic" ],
+    "material": "flesh",
     "symbol": "*",
     "color": "red",
     "initial_charges": 3,
@@ -5357,6 +5323,29 @@
     "use_action": {
       "type": "picklock",
       "pick_quality": 5
+    }
+  },
+  {
+    "id": "pickles_ferment",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "fermenting pickle jar",
+    "description": "This jar contains a batch of pickles set to ferment.  You can seal up the jar once the process is completed.",
+    "weight": 52,
+    "volume": 1,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "glass", "veggy" ],
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "jar_pickles_pickled",
+      "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 33600,
+      "not_ready_msg": "The pickles are not done fermenting yet.",
+      "//": "2 1/3 days, from the suggested recipie of 1 rl week"
     }
   },
   {
@@ -5494,7 +5483,7 @@
     "max_charges": 1,
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away, and use the remote control to detonate.",
+      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away, and use the remote control to detonate.",
       "explosion": {
         "power": 12,
         "shrapnel": 4
@@ -5529,7 +5518,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ] ]
+    "qualities": [ [ "WRENCH", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "pockknife",
@@ -5689,7 +5679,8 @@
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 1 ] ]
+    "qualities": [ [ "SAW_W", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_axe",
@@ -5704,7 +5695,8 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ] ]
+    "qualities": [ [ "AXE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_hammer",
@@ -5719,7 +5711,8 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": "HAMMER"
+    "use_action": "HAMMER",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_knife",
@@ -5782,7 +5775,8 @@
     "bashing": 5,
     "material": "plastic",
     "symbol": ";",
-    "color": "green"
+    "color": "green",
+    "qualities": [ [ "PULL", 1 ] ]
   },
   {
     "id": "rag",
@@ -6070,13 +6064,13 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "SAW_W", 2 ] ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "scalpel",
     "type": "TOOL",
     "name": "scalpel",
-    "description": "This is a very sharp knife designed for surgical cutting.  It's small, sharp blade allows for precision strikes in the hands of the skilled.",
+    "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": 23,
     "volume": 1,
     "price": 1000,
@@ -6173,7 +6167,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
     "id": "screwdriver_set",
@@ -6189,7 +6183,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ]
+    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "scythe",
@@ -6427,7 +6422,7 @@
     "id": "shotgun_trap",
     "type": "TOOL",
     "name": "shotgun trap",
-    "description": "This is a simple tripwire is attached to the trigger of a loaded sawn-off shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
     "weight": 2922,
     "volume": 7,
     "price": 25000,
@@ -6482,7 +6477,7 @@
     "id": "sm_extinguisher",
     "type": "TOOL",
     "name": "small fire extinguisher",
-    "description": "This is a hand held fire extinguisher containing a liter of highly compressed C02 gas.  It would be useful for putting out adjacent fires.",
+    "description": "This is a hand held fire extinguisher containing a liter of highly compressed CO2 gas.  It would be useful for putting out adjacent fires.",
     "weight": 2267,
     "volume": 6,
     "price": 4000,
@@ -6590,19 +6585,6 @@
     "use_action": "OXYGEN_BOTTLE"
   },
   {
-    "id": "snare_trigger",
-    "type": "TOOL",
-    "name": "snare trigger",
-    "description": "This is a stick that has been cut into a trigger mechanism for a snare trap.",
-    "weight": 850,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown"
-  },
-  {
     "id": "soldering_iron",
     "type": "TOOL",
     "name": "soldering iron",
@@ -6633,7 +6615,7 @@
         "type": "cauterize"
       }
     ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
     "id": "spear_knife",
@@ -6743,11 +6725,11 @@
     "category": "weapons",
     "name": "survivor machete",
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
-    "weight": 425,
-    "volume": 3,
+    "weight": 565,
+    "volume": 4,
     "price": 2800,
     "to_hit": 2,
-    "bashing": 5,
+    "bashing": 6,
     "cutting": 20,
     "material": "steel",
     "symbol": "/",
@@ -7201,7 +7183,8 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "tool_anfo_charge",
@@ -7759,13 +7742,13 @@
     "category": "tools",
     "name": "trumpet",
     "name_plural": "trumpets",
-    "description": "A brass-plated trumpet with only a few dents here and there.",
+    "description": "A brass trumpet with only a few dents here and there.",
     "weight": 1500,
     "volume": 10,
     "price": 7500,
     "to_hit": 1,
     "bashing": 7,
-    "material": [ "iron" ],
+    "material": [ "brass" ],
     "symbol": "-",
     "color": "yellow",
     "initial_charges": 1,
@@ -7777,7 +7760,7 @@
       "fun_bonus": 4,
       "speed_penalty": 17,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your trumpet.",
         "You play a slow, mourning piece on your trumpet.",
         "You play a little ballad on your trumpet."
@@ -7808,7 +7791,7 @@
       "fun_bonus": 2,
       "speed_penalty": 20,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your ukulele.",
         "You play a cute little ditty on your ukulele.",
         "You play a small jam on your ukulele."
@@ -7911,7 +7894,7 @@
       "fun_bonus": 3,
       "speed_penalty": 25,
       "description_frequency": 20,
-      "descriptions": [
+      "player_descriptions": [
         "You play a little tune on your violin.",
         "You play a beautiful orchestral piece on your violin.",
         "You play a quick, southern ditty on your fiddle."
@@ -7942,7 +7925,7 @@
       "fun_bonus": 4,
       "speed_penalty": 25,
       "description_frequency": 10,
-      "descriptions": [
+      "player_descriptions": [
         "You play a quick, folksy tune on your fiddle.",
         "As you pull the bow across its strings, it makes an evil hiss.",
         "You play a tune so fierce, it feels like hell's broke loose."
@@ -8075,7 +8058,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
         "skill": "mechanics",
         "tool_quality": 10,
         "cost_scaling": 0.1,
@@ -8108,7 +8091,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
         "skill": "mechanics",
         "tool_quality": 5,
         "cost_scaling": 0.1,
@@ -8182,7 +8165,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "xacto",
@@ -8309,7 +8293,7 @@
     "type": "TOOL",
     "name": "cattle fodder",
     "name_plural": "cattle fodder",
-    "description": "What cattle eats.  Mainly made of grass, silages or legumes, is perfect for ruminants.",
+    "description": "What cattle eat.  Mainly made of grass, silages or legumes.  It's perfect for ruminants.",
     "weight": 300,
     "volume": 1,
     "price": 100,
@@ -8318,5 +8302,19 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "FEEDCATTLE"
+  },
+  {
+    "id": "link_sheet",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "chainmail sheet",
+    "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
+    "weight": 1000,
+    "volume": 2,
+    "price": 1000,
+    "material": "iron",
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

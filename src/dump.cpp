@@ -8,20 +8,26 @@
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
+#include "recipe_dictionary.h"
 #include "player.h"
 #include "vehicle.h"
+#include "string_formatter.h"
 #include "veh_type.h"
+#include "skill.h"
+#include "vitamin.h"
 #include "npc.h"
 #include "ammo.h"
 #include "crafting.h"
+#include "loading_ui.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
 {
     try {
-        load_core_data();
-        load_packs( _( "Loading content packs" ), { "dda" } );
-        DynamicDataLoader::get_instance().finalize_loaded_data();
+        loading_ui ui( false );
+        load_core_data( ui );
+        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
+        DynamicDataLoader::get_instance().finalize_loaded_data( ui );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
         return false;
@@ -68,8 +74,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 r.push_back( to_string( obj.type->ammo->range ) );
                 r.push_back( to_string( obj.type->ammo->dispersion ) );
                 r.push_back( to_string( obj.type->ammo->recoil ) );
-                r.push_back( to_string( obj.type->ammo->damage ) );
-                r.push_back( to_string( obj.type->ammo->pierce ) );
+                damage_instance damage = obj.type->ammo->damage;
+                r.push_back( to_string( damage.total_damage() ) );
+                r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
                 rows.push_back( r );
             }
         };
@@ -173,13 +180,16 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
             r.push_back( to_string( obj.gun_recoil( who ) ) );
-            r.push_back( to_string( obj.gun_damage() ) );
-            r.push_back( to_string( obj.gun_pierce() ) );
+            damage_instance damage = obj.gun_damage();
+            r.push_back( to_string( damage.total_damage() ) );
+            r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
 
             r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
 
             for( const auto &e : locations ) {
-                r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
+                const auto &vml = obj.type->gun->valid_mod_locations;
+                const auto iter = vml.find( e );
+                r.push_back( to_string( iter != vml.end() ? iter->second : 0 ) );
             }
             rows.push_back( r );
         };
@@ -232,7 +242,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         for( const recipe *e : dict ) {
             std::vector<std::string> r;
-            r.push_back( item::find_type( e->result )->nname( 1 ) );
+            r.push_back( e->result_name() );
             for( const auto &s : sk ) {
                 if( e->skill_used == s.ident() ) {
                     r.push_back( to_string( e->difficulty ) );
@@ -291,7 +301,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "EXPLOSIVE" ) {
         header = {
-            // @todo Should display more useful data: shrapnel damage, safe range
+            // @todo: Should display more useful data: shrapnel damage, safe range
             "Name", "Power", "Power at 5 tiles", "Power halves at", "Shrapnel count", "Shrapnel mass"
         };
 

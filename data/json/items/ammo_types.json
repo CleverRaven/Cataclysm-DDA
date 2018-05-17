@@ -68,8 +68,14 @@
     {
         "type" : "ammunition_type",
         "id" : "9mm",
-        "name" : "9mm",
+        "name" : "9x19mm",
         "default" : "9mm"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "357sig",
+        "name": ".357 SIG",
+        "default": "357sig_jhp"
     },
     {
         "type" : "ammunition_type",

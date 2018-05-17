@@ -42,18 +42,14 @@
         "d": "t_dirt",
         "|": "t_wall"
       },
-      "furniture": {
-        "c": "f_counter"
-      },
+      "furniture": { "c": "f_counter" },
       "place_loot": [
         { "item": "seed_weed", "x": [ 3, 20 ], "y": [ 2, 12 ], "chance": 96, "repeat": [ 1, 10 ] },
         { "item": "weed", "x": [ 3, 20 ], "y": [ 2, 12 ], "chance": 80, "repeat": [ 1, 10 ] },
         { "group": "stoner", "x": 1, "y": [ 1, 14 ], "chance": 10, "repeat": [ 1, 10 ] },
         { "group": "stoner", "x": 22, "y": [ 1, 14 ], "chance": 10, "repeat": [ 1, 10 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 1, 19 ], "chance": 2 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 1, 19 ], "chance": 2 } ]
     }
   }
 ]

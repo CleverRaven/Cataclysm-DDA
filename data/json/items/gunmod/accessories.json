@@ -61,6 +61,6 @@
     "color": "green",
     "location": "accessories",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
-    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE" ]
+    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   }
 ]

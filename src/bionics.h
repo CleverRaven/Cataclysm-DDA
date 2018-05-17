@@ -3,13 +3,17 @@
 #define BIONICS_H
 
 #include "bodypart.h"
-#include "json.h"
 #include "string_id.h"
 
+#include <set>
 #include <string>
+#include <vector>
+#include <map>
 
 class player;
-
+class JsonObject;
+class JsonIn;
+class JsonOut;
 struct quality;
 using quality_id = string_id<quality>;
 struct mutation_branch;
@@ -77,10 +81,20 @@ struct bionic_data {
      * activated independently.
      */
     std::vector<bionic_id> included_bionics;
+
+    /**
+     * Id of another bionic which this bionic can upgrade.
+     */
+    bionic_id upgraded_bionic;
+    /**
+     * Upgrades available for this bionic (opposite to @ref upgraded_bionic).
+     */
+    std::set<bionic_id> available_upgrades;
+
     bool is_included( const bionic_id &id ) const;
 };
 
-struct bionic : public JsonSerializer, public JsonDeserializer {
+struct bionic {
     bionic_id id;
     int         charge  = 0;
     char        invlet  = 'a';
@@ -97,13 +111,18 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
 
     int get_quality( const quality_id &quality ) const;
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &json ) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
+// A simpler wrapper to allow forward declarations of it. std::vector can not
+// be forward declared without a *definition* of bionic, but this wrapper can.
+class bionic_collection : public std::vector<bionic>
+{
 };
 
 void check_bionics();
+void finalize_bionics();
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 char get_free_invlet( player &p );

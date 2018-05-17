@@ -24,7 +24,7 @@
       [ "40", [ "glock40mag", "glock40bigmag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
-      [ "9mm", [ "glockmag", "glockbigmag" ] ]
+      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22" ] ]
     ]
   },
   {
@@ -51,7 +51,7 @@
       [ "40", [ "sig40mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
-      [ "9mm", [ "glockmag", "glockbigmag" ] ]
+      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22" ] ]
     ]
   },
   {

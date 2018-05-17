@@ -38,7 +38,7 @@
         "stack_size" : 2,
         "material" : "cotton",
         "symbol" : "!",
-        "color" : "dkgray",
+        "color" : "dark_gray",
         "use_action" : {
             "type" : "heal",
             "limb_power" : 8,
@@ -203,25 +203,6 @@
             "bite" : 0.95,
             "move_cost" : 100
         }
-    },
-    {
-        "id" : "brownie_weed",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "special brownie",
-        "description" : "This is definitely not how grandma used to bake them.",
-        "weight" : 56,
-        "volume" : 3,
-        "price" : 5000,
-        "charges" : 8,
-        "material" : "wheat",
-        "symbol" : "%",
-        "color" : "brown",
-        "nutrition" : 20,
-        "fun" : 15,
-        "spoils_in" : 420,
-        "use_action" : "WEED_BROWNIE",
-        "flags" : [ "EATEN_HOT" ]
     },
     {
         "id" : "caff_gum",
@@ -447,7 +428,7 @@
         "name_plural" : "cotton balls",
         "description" : "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
         "category" : "spare_parts",
-        "weight" : 180,
+        "weight" : 22,
         "volume" : 1,
         "price" : 500,
         "charges" : 2,
@@ -491,32 +472,6 @@
             "fields_produced" : {"fd_cracksmoke" : 2},
             "charges_needed" : { "fire" : 1 },
             "tools_needed" : { "apparatus" : -1 }
-        }
-    },
-    {
-        "id" : "datura_seed",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "datura seeds",
-        "name_plural" : "datura seeds",
-        "description" : "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.  You could probably plant these.",
-        "category" : "other",
-        "weight" : 2,
-        "volume" : 1,
-        "price" : 0,
-        "charges" : 4,
-        "stack_size" : 100,
-        "symbol" : ".",
-        "color" : "brown",
-        "stim" : 6,
-        "healthy" : -2,
-        "fun" : -1,
-        "use_action" : "DATURA",
-        "seed_data" : {
-            "plant_name" : "datura",
-            "fruit" : "datura_seed",
-            "byproducts" : [ "withered" ],
-            "grow" : 91
         }
     },
     {
@@ -1333,5 +1288,39 @@
         "addiction_potential" : 40,
         "addiction_type" : "sleeping pill",
         "use_action" : "XANAX"
+    },
+	{
+        "id" : "disinrag",
+        "copy-from" : "rag",
+        "type" : "COMESTIBLE",
+        "name" : "disinfectant soaked rag",
+        "name_plural" : "disinfectant soaked rags",
+        "description" : "A rag soaked on disinfectant, maybe not as effective as pouring it on the wound, but useful to optimize the bottle content.",
+        "price" : 1000,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bite" : 0.75,
+            "move_cost" : 100
+        }
+    },
+    {
+        "id" : "disincotton_ball",
+        "copy-from" : "cotton_ball",
+        "type" : "COMESTIBLE",
+        "name" : "disinfectant soaked cotton balls",
+        "name_plural" : "disinfectant soaked cotton balls",
+        "description" : "Fluffy balls of clean white cotton.  Now soaked with disinfectant, they are useful to disinfect a wound.",
+        "price" : 1000,
+        "use_action" : {
+            "type" : "heal",
+            "head_power" : 1,
+            "torso_power" : 1,
+            "limb_power" : 1,
+            "bite" : 0.8,
+            "move_cost" : 300
+        }
     }
 ]

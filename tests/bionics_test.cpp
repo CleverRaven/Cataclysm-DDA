@@ -5,11 +5,12 @@
 #include "ammo.h"
 #include "itype.h"
 #include "game.h"
+#include "bionics.h"
 #include "player.h"
 
 void clear_bionics( player &p )
 {
-    p.my_bionics.clear();
+    p.my_bionics->clear();
     p.power_level = 0;
     p.max_power_level = 0;
 
@@ -27,8 +28,8 @@ void give_and_activate( player &p, bionic_id const &bioid )
 
     // get bionic's index - might not be "last added" due to "integrated" ones
     int bioindex = -1;
-    for( size_t i = 0; i < p.my_bionics.size(); i++ ) {
-        const auto &bio = p.my_bionics[ i ];
+    for( size_t i = 0; i < p.my_bionics->size(); i++ ) {
+        const auto &bio = ( *p.my_bionics )[ i ];
         if( bio.id == bioid ) {
             bioindex = i;
         }

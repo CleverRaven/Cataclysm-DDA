@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"
+#include "mapdata.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -200,7 +201,7 @@ void start_location::prepare_map( tinymap &m ) const
 tripoint start_location::find_player_initial_location() const
 {
     popup_nowait( _( "Please wait as we build your world" ) );
-    // Spiral out from the world origin scaning for a compatible starting location,
+    // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 32;
     for( const point omp : closest_points_first( radius, point( 0, 0 ) ) ) {
@@ -379,7 +380,7 @@ void start_location::burn( const tripoint &omtstart,
     }
     random_shuffle( valid.begin(), valid.end() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], fd_fire, 3, 0 );
+        m.add_field( valid[i], fd_fire, 3 );
     }
     m.save();
 }
@@ -406,7 +407,7 @@ void start_location::handle_heli_crash( player &u ) const
         switch( roll ) {
             case 1:
             case 2:// Damage + Bleed
-                u.add_effect( effect_bleed, 60, bp_part );
+                u.add_effect( effect_bleed, 6_minutes, bp_part );
             /* fallthrough */
             case 3:
             case 4:

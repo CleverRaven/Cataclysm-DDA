@@ -1,0 +1,64 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "motel_entrance",
+        "comment" : "example for secret door terrains and gates.",
+        "weight": 0,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+             "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "########################",
+                "#########u.##.u#########",
+                "#####qqqqQQq-SS----#####",
+                "#####qB....11....c|#####",
+                "#####qdbbbbbbbbbbd|#####",
+                "#####qc..........B|#####",
+                "#####qc..........c|#####",
+                "#####qR..........W|#####",
+                "####uqqrrrrq-wwww--u####",
+                "#####qR....uu....W|#####",
+                "#####qt..........d|#####",
+                "#####qt..........c|#####",
+                "#####qqqqqqQS------#####",
+                "#####|cccccssccccc|#####",
+                "#####|c.u......u.c|#####",
+                "#####|cccc....cccc|#####",
+                "#####------xx------#####",
+                "########################",
+                "########################",
+                "#########.u..u.#########",
+                "#########..11..#########"
+            ],
+            "rotation": 3,
+            "terrain":{
+                "#": "t_open_air",
+                ".": "t_floor",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "x": "t_secretdoor_onetime",
+                "s": "t_secretdoor_bookcase_c",
+                "S": "t_secretdoor_wall_c",
+                "w": "t_sliding_wall_c",
+                "W": "t_sliding_wall_control",
+                "Q": "t_secretdoor_brick_wall_c",
+                "q": "t_brick_wall",
+                "r": "t_sliding_brick_wall_c",
+                "R": "t_sliding_brick_wall_control",
+                "d": "t_decoy_bookcase",
+                "b": "t_sliding_bookcase_c",
+                "B": "t_sliding_bookcase_control",
+                "u": "t_utility_light",
+                "1": "t_outs_bridge_control"
+            },
+            "furniture":{
+                "c": "f_bookcase",
+                "t": "f_statue"
+            }
+        }
+    }
+]

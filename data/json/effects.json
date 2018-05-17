@@ -413,24 +413,6 @@
     },
     {
         "type": "effect_type",
-        "id": "lightsnare",
-        "name": ["Stuck in a light snare"],
-        "desc": ["You can't move until you get free!"],
-        "apply_message": "You are snared!",
-        "rating": "bad",
-        "show_in_info": true
-    },
-    {
-        "type": "effect_type",
-        "id": "heavysnare",
-        "name": ["Stuck in a heavy snare"],
-        "desc": ["You can't move until you get free!"],
-        "apply_message": "You are snared!",
-        "rating": "bad",
-        "show_in_info": true
-    },
-    {
-        "type": "effect_type",
         "id": "beartrap",
         "name": ["Stuck in beartrap"],
         "desc": ["You can't move until you get free!"],
@@ -541,6 +523,10 @@
     {
         "type": "effect_type",
         "id": "took_prozac"
+    },
+    {
+        "type": "effect_type",
+        "id": "took_prozac_bad"
     },
     {
         "type": "effect_type",
@@ -1699,13 +1685,13 @@
         "name": [ "Happy", "Happy", "Happy", "Happy", "Happy",
                   "Joyful", "Joyful", "Joyful", "Joyful", "Joyful",
                   "Elated" ],
-        "max_duration": 250,
+        "max_intensity": 25,
         "int_dur_factor": 10,
         "scaling_mods": {
-            "speed_mod": [0.4],
-            "str_mod": [0.0555],
+            "speed_mod": [0.42],
+            "str_mod": [0.06],
             "dex_mod": [0.05],
-            "int_mod": [0.08],
+            "int_mod": [0.084],
             "per_mod": [0.1]
         }
     },
@@ -1718,10 +1704,10 @@
         "max_intensity": 1000,
         "int_dur_factor": 10,
         "scaling_mods": {
-            "speed_mod": [-0.4],
-            "str_mod": [-0.0555],
+            "speed_mod": [-0.42],
+            "str_mod": [-0.06],
             "dex_mod": [-0.05],
-            "int_mod": [-0.08],
+            "int_mod": [-0.084],
             "per_mod": [-0.1]
         },
         "miss_messages": [ [ "What's the point of fighting?", 1 ] ]

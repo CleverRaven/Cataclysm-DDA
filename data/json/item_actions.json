@@ -25,6 +25,10 @@
         "name" : "Pick a lock"
     },{
         "type" : "item_action",
+        "id" : "deploy_furn",
+        "name" : "Deploy item"
+    },{
+        "type" : "item_action",
         "id" : "CROWBAR",
         "name" : "Pry crate, window or door"
     },{
@@ -67,6 +71,10 @@
         "type" : "item_action",
         "id" : "GUN_REPAIR",
         "name" : "Repair a gun"
+    },{
+        "type" : "item_action",
+        "id" : "DIRECTIONAL_HOLOGRAM",
+        "name" : "Create a moving hologram"
     },{
         "type" : "item_action",
         "id" : "ROBOTCONTROL",
@@ -377,7 +385,7 @@
         "name" : "Activate"
     },{
         "type" : "item_action",
-        "id" : "GUN_DETACH_GUNMODS",
+        "id" : "detach_gunmods",
         "name" : "Detach gunmods"
     },{
         "type" : "item_action",
@@ -736,5 +744,20 @@
         "type" : "item_action",
         "id" : "FEEDCATTLE",
         "name" : "Place"
+    },
+    {
+        "type" : "item_action",
+        "id" : "install_bionic",
+        "name" : "Install bionic"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_TREE",
+        "name" : "Chop down a tree"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_LOGS",
+        "name" : "Chop a Tree Trunk into logs"
     }
 ]

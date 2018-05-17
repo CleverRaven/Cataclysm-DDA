@@ -13,8 +13,8 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size
 {
     return std::vector<std::pair<std::string, std::string>>();
 }
-void Messages::vadd_msg( const char *, va_list ) {}
-void Messages::vadd_msg( game_message_type, const char *, va_list ) {}
+void Messages::add_msg( std::string ) {}
+void Messages::add_msg( game_message_type, std::string ) {}
 void Messages::clear_messages() {}
 size_t Messages::size()
 {
@@ -25,10 +25,10 @@ bool Messages::has_undisplayed_messages()
     return false;
 }
 void Messages::display_messages() {}
-void Messages::display_messages( WINDOW *, int, int, int, int ) {}
+void Messages::display_messages( const catacurses::window &, int, int, int, int ) {}
 void Messages::serialize( JsonOut & ) {}
 void Messages::deserialize( JsonObject & ) {}
 
-void add_msg( const char *, ... ) {}
+void add_msg( std::string ) {}
 
-void add_msg( game_message_type, const char *, ... ) {}
+void add_msg( game_message_type, std::string ) {}

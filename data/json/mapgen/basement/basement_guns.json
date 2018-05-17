@@ -45,13 +45,7 @@
         "{": "t_rock_floor",
         "|": "t_wall"
       },
-      "furniture": {
-        "#": "f_counter",
-        "]": "f_bookcase",
-        "h": "f_chair",
-        "s": "f_gunsafe_ml",
-        "{": "f_rack"
-      },
+      "furniture": { "#": "f_counter", "]": "f_bookcase", "h": "f_chair", "s": "f_gunsafe_ml", "{": "f_rack" },
       "place_loot": [
         { "group": "guns_smg_rare", "x": 6, "y": 2, "chance": 20, "magazine": 100 },
         { "group": "guns_rifle_rare", "x": 7, "y": 2, "chance": 30, "magazine": 100 },

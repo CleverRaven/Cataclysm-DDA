@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include "json.h"
 #include "debug.h"
 #include "generic_factory.h"
 

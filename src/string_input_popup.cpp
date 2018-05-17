@@ -15,7 +15,7 @@ string_input_popup::~string_input_popup() = default;
 
 void string_input_popup::create_window()
 {
-    nc_color title_color = c_ltred;
+    nc_color title_color = c_light_red;
     nc_color desc_color = c_green;
 
     int titlesize = utf8_width( _title ); // Occupied horizontal space
@@ -68,18 +68,17 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w_ptr.reset( newwin( w_height, w_width, w_y, w_x ) );
-    w = w_ptr.get();
+    w = catacurses::newwin( w_height, w_width, w_y, w_x );
 
     draw_border( w );
 
     for( size_t i = 0; i < descformatted.size(); ++i ) {
-        trim_and_print( w, 1 + i, 1, w_width - 2, desc_color, "%s", descformatted[i].c_str() );
+        trim_and_print( w, 1 + i, 1, w_width - 2, desc_color, descformatted[i] );
     }
     for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
-        mvwprintz( w, _starty++, i + 1, title_color, "%s", title_split[i].c_str() );
+        mvwprintz( w, _starty++, i + 1, title_color, title_split[i] );
     }
-    right_print( w, _starty, w_width - titlesize - 1, title_color, "%s", title_split.back().c_str() );
+    right_print( w, _starty, w_width - titlesize - 1, title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
 }
 
@@ -135,22 +134,24 @@ void string_input_popup::add_to_history( const std::string &value ) const
 {
     if( !_identifier.empty() && !value.empty() ) {
         std::vector<std::string> &hist = uistate.gethistory( _identifier );
-        if( hist.size() == 0 || hist[hist.size() - 1] != value ) {
+        if( hist.empty() || hist[hist.size() - 1] != value ) {
             hist.push_back( value );
         }
     }
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
+void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
+                               const int shift ) const
 {
     // Not static because color values are not constants, but function calls!
     const nc_color string_color = c_magenta;
-    const nc_color cursor_color = h_ltgray;
-    const nc_color underscore_color = c_ltgray;
+    const nc_color cursor_color = h_light_gray;
+    const nc_color underscore_color = c_light_gray;
 
     const int scrmax = _endx - _startx;
     // remove the scrolled out of view part from the input string
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
+    int start_x_edit = _startx;
     // Clear the line
     mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ).c_str() );
     // Print the whole input string in default color
@@ -168,11 +169,14 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
         }
         size_t left_over = ret.substr( 0, a ).display_width() - shift;
         mvwprintz( w, _starty, _startx + left_over, cursor_color, "%s", cursor.c_str() );
+        start_x_edit = _startx + left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
         mvwprintz( w, _starty, _startx + sx, cursor_color, " " );
+        start_x_edit = _startx + sx;
         sx++; // don't override trailing ' '
     } else {
         mvwprintz( w, _starty, _startx + sx, cursor_color, "_" );
+        start_x_edit = _startx + sx;
         sx++; // don't override trailing '_'
     }
     if( ( int )sx < scrmax ) {
@@ -182,7 +186,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
             if( ( int )ret.length() >= _max_length ) {
                 l = 0; // no more input possible!
             } else if( _position == ( int )ret.length() ) {
-                // one '_' is already printed, formated as cursor
+                // one '_' is already printed, formatted as cursor
                 l = std::min<size_t>( l, _max_length - ret.length() - 1 );
             } else {
                 l = std::min<size_t>( l, _max_length - ret.length() );
@@ -191,6 +195,9 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
         if( l > 0 ) {
             mvwprintz( w, _starty, _startx + sx, underscore_color, std::string( l, '_' ).c_str() );
         }
+    }
+    if( !edit.empty() ) {
+        mvwprintz( w, _starty, start_x_edit, cursor_color, "%s", edit.c_str() );
     }
 }
 
@@ -218,6 +225,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
     utf8_wrapper ret( _text );
+    utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
         _position = ret.length();
     }
@@ -258,7 +266,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
         if( redraw ) {
             redraw = false;
-            draw( ret, shift );
+            draw( ret, edit, shift );
             wrefresh( w );
         }
 
@@ -273,7 +281,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
 
         if( callbacks[ch] ) {
-            callbacks[ch]();
+            if( callbacks[ch]() ) {
+                continue;
+            }
         }
 
         // This class only registers the ANY_INPUT action by default. If the
@@ -284,7 +294,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
-            _text = std::string();
+            _text.clear();
             _canceled = true;
             return _text;
         } else if( ch == '\n' ) {
@@ -314,7 +324,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= ( int )ret.size() ) {
-                //TODO: it is safe now since you only input ascii chars
+                //TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
                 redraw = true;
@@ -336,8 +346,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( tmplen > 0 && ( tmplen + utf8_width( ret.c_str() ) <= _max_length || _max_length == 0 ) ) {
                 ret.append( tmp );
             }
-        } else if( ch == ERR ) {
-            // Ignore the error
         } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
             // ignore non-digit (and '-' is a digit as well)
         } else if( _max_length > 0 && ( int )ret.length() >= _max_length ) {
@@ -346,16 +354,28 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             const utf8_wrapper t( ev.text );
             ret.insert( _position, t );
             _position += t.length();
+            edit.erase( 0 );
+            ctxt->set_edittext( edit.c_str() );
+            redraw = true;
+        } else if( ev.edit_refresh ) {
+            const utf8_wrapper t( ev.edit );
+            edit.erase( 0 );
+            edit.insert( 0, t );
+            ctxt->set_edittext( edit.c_str() );
+            redraw = true;
+        } else if( ev.edit.empty() ) {
+            edit.erase( 0 );
+            ctxt->set_edittext( edit.c_str() );
             redraw = true;
         }
-    } while( loop == true );
+    } while( loop );
     _text = ret.str();
     return _text;
 }
 
-string_input_popup &string_input_popup::window( WINDOW *w, int startx, int starty, int endx )
+string_input_popup &string_input_popup::window( const catacurses::window &w, int startx, int starty,
+        int endx )
 {
-    w_ptr.reset();
     this->w = w;
     _startx = startx;
     _starty = starty;

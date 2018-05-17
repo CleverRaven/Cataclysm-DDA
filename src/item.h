@@ -6,25 +6,37 @@
 #include <string>
 #include <vector>
 #include <list>
-#include <bitset>
 #include <unordered_set>
 #include <set>
-#include "visitable.h"
-#include "enums.h"
-#include "json.h"
-#include "color.h"
-#include "bodypart.h"
-#include "string_id.h"
-#include "line.h"
-#include "item_location.h"
-#include "ret_val.h"
-#include "damage.h"
-#include "debug.h"
-#include "units.h"
-#include "cata_utility.h"
+#include <map>
 
+#include "visitable.h"
+#include "string_id.h"
+#include "item_location.h"
+#include "debug.h"
+#include "cata_utility.h"
+#include "calendar.h"
+
+class nc_color;
+class JsonObject;
+class JsonIn;
+class JsonOut;
+template<typename T>
+class ret_val;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
+} // namespace units
+class gun_type_type;
 class gunmod_location;
 class game;
+class gun_mode;
+using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class npc;
@@ -36,11 +48,18 @@ struct use_function;
 class material_type;
 using material_id = string_id<material_type>;
 class item_category;
+enum art_effect_passive : int;
+enum phase_id : int;
+enum body_part : int;
+enum class side : int;
+class body_part_set;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+struct point;
+struct tripoint;
 class Skill;
 using skill_id = string_id<Skill>;
 class fault;
@@ -49,6 +68,7 @@ struct quality;
 using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
+struct damage_unit;
 
 enum damage_type : int;
 
@@ -152,7 +172,7 @@ enum layer_level {
 /**
  *  Contains metadata for one category of items
  *
- *  Every item belongs to a category (eg weapons, armor, food, etc).  This class
+ *  Every item belongs to a category (e.g. weapons, armor, food, etc).  This class
  *  contains the info about one such category.  Actual categories are normally added
  *  by class @ref Item_factory from definitions in the json data files.
  */
@@ -186,7 +206,7 @@ class item_category
         /*@}*/
 };
 
-class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
+class item : public visitable<item>
 {
     public:
         item();
@@ -195,22 +215,19 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        ~item() override = default;
 
-        explicit item( const itype_id& id, int turn = -1, long qty = -1 );
-        explicit item( const itype *type, int turn = -1, long qty = -1 );
+        explicit item( const itype_id& id, time_point turn = calendar::turn, long qty = -1 );
+        explicit item( const itype *type, time_point turn = calendar::turn, long qty = -1 );
 
-        /** Suppress randomisation and always start with default quantity of charges */
+        /** Suppress randomization and always start with default quantity of charges */
         struct default_charges_tag {};
-        item( const itype_id& id, int turn, default_charges_tag );
-        item( const itype *type, int turn, default_charges_tag );
+        item( const itype_id& id, time_point turn, default_charges_tag );
+        item( const itype *type, time_point turn, default_charges_tag );
 
-        /** Default (or randomised) charges except if counted by charges then only one charge */
+        /** Default (or randomized) charges except if counted by charges then only one charge */
         struct solitary_tag {};
-        item( const itype_id& id, int turn, solitary_tag );
-        item( const itype *type, int turn, solitary_tag );
-
-        item( JsonObject &jo );
+        item( const itype_id& id, time_point turn, solitary_tag );
+        item( const itype *type, time_point turn, solitary_tag );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -276,7 +293,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), int turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), time_point turn = calendar::turn, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -328,7 +345,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
     /**
      * Returns the item name and the charges or contained charges (if the item can have
-     * charges at at all). Calls @ref tname with given quantity and with_prefix being true.
+     * charges at all). Calls @ref tname with given quantity and with_prefix being true.
      */
     std::string display_name( unsigned int quantity = 1) const;
     /**
@@ -353,6 +370,19 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * the vector can be used to compare them to properties of another item.
      */
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
+
+    /**
+    * Return all the information about the item and its type, and dump to vector.
+    *
+    * This includes the different
+    * properties of the @ref itype (if they are visible to the player). The returned string
+    * is already translated and can be *very* long.
+    * @param showtext If true, shows the item description, otherwise only the properties item type.
+    * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+    * the vector can be used to compare them to properties of another item.
+    * @param batch The batch crafting number to multiply data by
+    */
+    std::string info( bool showtext, std::vector<iteminfo> &dump, int batch ) const;
 
     /** Burns the item. Returns true if the item was destroyed. */
     bool burn( fire_data &bd, bool contained );
@@ -389,7 +419,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     };
 
     /**
-     * Reload item using ammo from location returning true if sucessful
+     * Reload item using ammo from location returning true if successful
      * @param u Player doing the reloading
      * @param loc Location of ammo to be reloaded
      * @param qty caps reloading to this (or fewer) units
@@ -400,15 +430,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     void io( Archive& );
     using archive_type_tag = io::object_archive_tag;
 
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
-    using JsonDeserializer::deserialize;
-    // easy deserialization from JsonObject
-    virtual void deserialize(JsonObject &jo);
-    void deserialize(JsonIn &jsin) override {
-        JsonObject jo = jsin.get_object();
-        deserialize(jo);
-    }
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
     // Legacy function, don't use.
     void load_info( const std::string &data );
@@ -496,7 +519,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /**
      * Consumes specified charges (or fewer) from this and any contained items
-     * @param what specific type of charge required, eg. 'battery'
+     * @param what specific type of charge required, e.g. 'battery'
      * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
      * @param used filled with duplicates of each item that provided consumed charges
      * @param pos position at which the charges are being consumed
@@ -656,21 +679,26 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool has_rotten_away() const { return get_relative_rot() > 2.0; }
 
 private:
-    int rot = 0; /** Accumulated rot is compared to shelf life to decide if item is rotten. */
-    /** Turn when the rot calculation was last performed */
-    int last_rot_check = 0;
+    /**
+     * Accumulated rot, expressed as time the item has been in standard temperature.
+     * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
+     * the item is rotten.
+     */
+    time_duration rot = 0;
+    /** Time when the rot calculation was last performed. */
+    time_point last_rot_check = calendar::time_of_cataclysm;
 
 public:
     int get_rot() const
     {
-        return rot;
+        return to_turns<int>( rot );
     }
 
-    /** Turn item was put into a fridge or 0 if not in any fridge. */
-    int fridge = 0;
+    /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
+    time_point fridge = calendar::before_time_starts;
 
-    /** Turns for this item to be fully fermented. */
-    int brewing_time() const;
+        /** Time for this item to be fully fermented. */
+        time_duration brewing_time() const;
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 
@@ -785,7 +813,10 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /** How much damage has the item sustained? */
-    int damage() const { return fast_floor( damage_ ); }
+    int damage() const;
+
+    /** Precise damage */
+    double precise_damage() const { return damage_; }
 
     /** Minimum amount of damage to an item (state of maximum repair) */
     int min_damage() const;
@@ -799,16 +830,20 @@ public:
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool mod_damage( double qty, damage_type dt = DT_NULL );
+        bool mod_damage( double qty, damage_type dt );
+        /// same as other mod_damage, but uses @ref DT_NULL as damage type.
+        bool mod_damage( double qty );
 
     /**
      * Increment item damage constrained @ref max_damage
      * @param dt type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool inc_damage( damage_type dt = DT_NULL ) {
+    bool inc_damage( const damage_type dt ) {
         return mod_damage( 1, dt );
     }
+        /// same as other inc_damage, but uses @ref DT_NULL as damage type.
+        bool inc_damage();
 
     /** Provide color for UI display dependent upon current item damage level */
     nc_color damage_color() const;
@@ -917,6 +952,9 @@ public:
     bool is_toolmod() const;
 
     bool is_faulty() const;
+    bool is_irremovable() const;
+
+    bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
@@ -1139,7 +1177,7 @@ public:
          * @name Item properties
          *
          * Properties are specific to an item type so unlike flags the meaning of a property
-         * may not be the same for two different item types. Each item type can have mutliple
+         * may not be the same for two different item types. Each item type can have multiple
          * properties however duplicate property names are not permitted.
          *
          */
@@ -1186,10 +1224,10 @@ public:
          */
         bool is_seed() const;
         /**
-         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        int get_plant_epoch() const;
+        time_duration get_plant_epoch() const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
@@ -1218,7 +1256,7 @@ public:
          * For testing only a single body part, use @ref covers instead. This function allows you
          * to get the whole covering data in one call.
          */
-        std::bitset<num_bp> get_covered_body_parts() const;
+        body_part_set get_covered_body_parts() const;
          /**
          * Bitset of all covered body parts, from a specific side.
          *
@@ -1230,7 +1268,7 @@ public:
          *
          * @param s Specifies the side. Will be ignored for non-sided items.
          */
-        std::bitset<num_bp> get_covered_body_parts( side s ) const;
+        body_part_set get_covered_body_parts( side s ) const;
         /**
           * Returns true if item is armor and can be worn on different sides of the body
           */
@@ -1372,9 +1410,9 @@ public:
          */
         bool is_gun() const;
 
-        /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
+        /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         long ammo_remaining() const;
-        /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */
+        /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
         long ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
@@ -1389,7 +1427,7 @@ public:
          * happens.
          *
          * @param[in] qty Number of uses
-         * @returns true if ammo sufficent for number of uses is loaded, false otherwise
+         * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
         bool ammo_sufficient( int qty = 1 ) const;
 
@@ -1446,7 +1484,7 @@ public:
         item * magazine_current();
         const item * magazine_current() const;
 
-        /** Normalizes an item to use the new magazine system. Indempotent if item already converted.
+        /** Normalizes an item to use the new magazine system. Idempotent if item already converted.
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
 
@@ -1464,52 +1502,20 @@ public:
          */
         ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
-        struct gun_mode {
-            /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
-             * `gunmod_data:mode_modifier` for GENERIC or TOOL types */
-            /** name of this mode, e.g. `bayonet` for bayonets, `auto` for automatic fire, etc. */
-            std::string mode;
-            /** pointer to item providing this mode - base gun or attached gunmod */
-            item *target = nullptr;
-            /** burst size for is_gun() firearms, or melee range for is_melee() weapons */
-            int qty = 0;
-            /** flags change behavior of gun mode, e.g. MELEE for bayonets that make a reach attack instead of firing - these are **not** equivalent to item flags! */
-            std::set<std::string> flags;
-
-            gun_mode() = default;
-            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
-                mode( mode ),
-                target( target ),
-                qty( qty ),
-                flags( flags ) {}
-
-            /** if true perform a melee attach as opposed to shooting */
-            bool melee() const { return flags.count( "MELEE" ); }
-
-            operator bool() const { return target != nullptr; }
-
-            item &operator*() { return *target; }
-            const item &operator*() const { return *target; }
-
-            item *operator->() { return target; }
-            const item *operator->() const { return target; }
-        };
-
         /** Get all possible modes for this gun inclusive of any attached gunmods */
-        std::map<std::string, const item::gun_mode> gun_all_modes() const;
+        std::map<gun_mode_id, gun_mode> gun_all_modes() const;
 
         /** Check if gun supports a specific mode returning an invalid/empty mode if not */
-        const gun_mode gun_get_mode( const std::string& mode ) const;
+        gun_mode gun_get_mode( const gun_mode_id &mode ) const;
 
         /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
-        gun_mode gun_current_mode();
-        const gun_mode gun_current_mode() const;
+        gun_mode gun_current_mode() const;
 
-        /** Get id of mode a gun is currently set to, eg. DEFAULT, AUTO, BURST */
-        std::string gun_get_mode_id() const;
+        /** Get id of mode a gun is currently set to, e.g. DEFAULT, AUTO, BURST */
+        gun_mode_id gun_get_mode_id() const;
 
         /** Try to set the mode for a gun, returning false if no such mode is possible */
-        bool gun_set_mode( const std::string& mode );
+        bool gun_set_mode( const gun_mode_id &mode );
 
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
@@ -1554,13 +1560,10 @@ public:
         int gun_recoil( const player &p, bool bipod = false ) const;
 
         /**
-         * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
+         * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
+         * Returns empty instance on non-gun items.
          */
-        int gun_damage( bool with_ammo = true ) const;
-        /**
-         * Summed ranged armor-piercing of a gun, including values from mods. Returns 0 on non-gun items.
-         */
-        int gun_pierce( bool with_ammo = true ) const;
+        damage_instance gun_damage( bool with_ammo = true ) const;
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
@@ -1570,8 +1573,8 @@ public:
          */
         skill_id gun_skill() const;
 
-        /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
-        std::string gun_type() const;
+        /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
+        gun_type_type gun_type() const;
 
         /**
          * Number of mods that can still be installed into the given mod location,
@@ -1680,7 +1683,15 @@ public:
      bool active = false; // If true, it has active effects to be processed
 
     int burnt = 0;           // How badly we're burnt
-    int bday;                // The turn on which it was created
+    private:
+        /// The time the item was created.
+        time_point bday;
+    public:
+        time_duration age() const;
+        void set_age( time_duration age );
+        time_point birthday() const;
+        void set_birthday( time_point bday );
+
     int poison = 0;          // How badly poisoned is it?
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
@@ -1702,75 +1713,6 @@ public:
 bool item_compare_by_charges( const item& left, const item& right);
 bool item_ptr_compare_by_charges( const item *left, const item *right);
 
-std::ostream &operator<<(std::ostream &, const item &);
-std::ostream &operator<<(std::ostream &, const item *);
-
-class map_item_stack
-{
-    private:
-        class item_group {
-            public:
-                tripoint pos;
-                int count;
-
-                //only expected to be used for things like lists and vectors
-                item_group() {
-                    pos = tripoint( 0, 0, 0 );
-                    count = 0;
-                }
-
-                item_group( const tripoint &p, const int arg_count ) {
-                    pos = p;
-                    count = arg_count;
-                }
-
-                ~item_group() {};
-        };
-    public:
-        item const *example; //an example item for showing stats, etc.
-        std::vector<item_group> vIG;
-        int totalcount;
-
-        //only expected to be used for things like lists and vectors
-        map_item_stack() {
-            vIG.push_back( item_group() );
-            totalcount = 0;
-        }
-
-        map_item_stack( item const *it, const tripoint &pos ) {
-            example = it;
-            vIG.push_back( item_group( pos, ( it->count_by_charges() ) ? it->charges : 1 ) );
-            totalcount = ( it->count_by_charges() ) ? it->charges : 1;
-        }
-
-        ~map_item_stack() {};
-
-        // This adds to an existing item group if the last current
-        // item group is the same position and otherwise creates and
-        // adds to a new item group. Note that it does not search
-        // through all older item groups for a match.
-        void add_at_pos( item const *it, const tripoint &pos ) {
-            int amount = ( it->count_by_charges() ) ? it->charges : 1;
-
-            if( !vIG.size() || vIG[vIG.size() - 1].pos != pos ) {
-                vIG.push_back( item_group( pos, amount ) );
-            } else {
-                vIG[vIG.size() - 1].count += amount;
-            }
-
-            totalcount += amount;
-        }
-
-        static bool map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs ) {
-            if( lhs.example->get_category().sort_rank == rhs.example->get_category().sort_rank ) {
-                return square_dist( tripoint( 0, 0, 0 ), lhs.vIG[0].pos) <
-                    square_dist( tripoint( 0, 0, 0 ), rhs.vIG[0].pos );
-            }
-
-            return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
-        }
-};
-
 /**
  *  Hint value used in a hack to decide text color.
  *
@@ -1785,6 +1727,12 @@ enum hint_rating {
     /** Item should display as green */
     HINT_GOOD = -999
 };
+
+/**
+ * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
+ * and stays valid until the program ends.
+ */
+item &null_item_reference();
 
 #endif
 

@@ -2,7 +2,8 @@
 #define UNICODE 1
 #define _UNICODE 1
 
-#include "catacurse.h"
+#include "cursesport.h"
+#include "cursesdef.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
@@ -18,13 +19,17 @@
 #include "filesystem.h"
 #include "debug.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "color_loader.h"
 #include "font_loader.h"
+#include "platform_win.h"
+#include "mmsystem.h"
 
 //***********************************
 //Globals                           *
 //***********************************
 
+static constexpr int ERR = -1;
 const wchar_t *szWindowClass = L"CataCurseWindow";    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
@@ -33,8 +38,8 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
-HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
+HDC backbuffer;         //an off-screen DC to prevent flickering, lower CPU
+HBITMAP backbit;        //the bitmap that is used in conjunction with the above
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
@@ -48,7 +53,7 @@ bool CursorVisible = true; // Showcursor is a somewhat weird function
 //Non-curses, Window functions      *
 //***********************************
 
-// declare this locally, because it's not generally cross-compatible in catacurse.h
+// declare this locally, because it's not generally cross-compatible in cursesport.h
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd, std::uint32_t Msg, WPARAM wParam, LPARAM lParam);
 
 std::wstring widen( const std::string &s )
@@ -164,10 +169,10 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     case WM_CHAR:
         lastchar = (int)wParam;
         switch (lastchar){
-            case VK_RETURN: //Reroute ENTER key for compatilbity purposes
+            case VK_RETURN: //Reroute ENTER key for compatibility purposes
                 lastchar=10;
                 break;
-            case VK_BACK: //Reroute BACKSPACE key for compatilbity purposes
+            case VK_BACK: //Reroute BACKSPACE key for compatibility purposes
                 lastchar=127;
                 break;
         }
@@ -315,8 +320,9 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
         memset(&dcbits[x+j*WindowWidth],color,width);
 }
 
-void curses_drawwindow(WINDOW *win)
+void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    WINDOW *const win = w.get<WINDOW>();
     int i,j,drawx,drawy;
     wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,
@@ -453,19 +459,17 @@ int projected_window_height(int)
 }
 
 //***********************************
-//Psuedo-Curses Functions           *
+//Pseudo-Curses Functions           *
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
-WINDOW *curses_init(void)
+void catacurses::init_interface()
 {
     lastchar=-1;
     inputdelay=-1;
 
     font_loader fl;
-    if( !fl.load() ) {
-        return nullptr;
-    }
+    fl.load();
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
     halfwidth=fontwidth / 2;
@@ -517,10 +521,14 @@ WINDOW *curses_init(void)
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 
+    color_loader<RGBQUAD>().load( windowsPalette );
+    if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
+        throw std::runtime_error( "SetDIBColorTable failed" );
+    }
     init_colors();
 
-    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0 );
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
@@ -530,14 +538,14 @@ uint64_t GetPerfCount(){
     return Count;
 }
 
-input_event input_manager::get_input_event( WINDOW *win )
+input_event input_manager::get_input_event()
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
     QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
-    wrefresh(win);
+    wrefresh( catacurses::stdscr );
     InvalidateRect(WindowHandle,NULL,true);
     lastchar = ERR;
     if (inputdelay < 0)
@@ -593,19 +601,18 @@ bool gamepad_available()
     return false;
 }
 
-bool input_context::get_coordinates( WINDOW *, int &, int & )
+bool input_context::get_coordinates( const catacurses::window &, int &, int & )
 {
     // TODO: implement this properly
     return false;
 }
 
 //Ends the terminal, destroy everything
-int curses_destroy(void)
+void catacurses::endwin()
 {
     DeleteObject(font);
     WinDestroy();
     RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
-    return 1;
 }
 
 template<>
@@ -615,18 +622,8 @@ RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
     result.rgbBlue=b;    //Blue
     result.rgbGreen=g;    //Green
     result.rgbRed=r;    //Red
-    result.rgbReserved=0;//The Alpha, isnt used, so just set it to 0
+    result.rgbReserved=0;//The Alpha, is not used, so just set it to 0
     return result;
-}
-
-// This function mimics the ncurses interface. It must not throw.
-// Instead it should return ERR or OK, see man curs_color
-int start_color()
-{
-    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
-        return ERR;
-    }
-    return SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data());
 }
 
 void input_manager::set_timeout( const int t )
@@ -635,7 +632,7 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
-void handle_additional_window_clear(WINDOW*)
+void cata_cursesport::handle_additional_window_clear(WINDOW*)
 {
 }
 

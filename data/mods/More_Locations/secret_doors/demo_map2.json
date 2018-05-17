@@ -1,0 +1,71 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "motel_1",
+        "comment" : "example for secret door terrains.",
+        "weight": 0,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_floor",
+             "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "###########...##########",
+                "#########u.1u.##########",
+                "#####--------+-----#####",
+                "#####|............|#####",
+                "#####|............|#####",
+                "#####|jjj--jj--jjj|#####",
+                "#####|.......J....|#####",
+                "####u|............|u####",
+                "#####|cccccccccccc|#####",
+                "#####H.u........u.G#####",
+                "#####|-----cc-----|#####",
+                "#####|..tg...Cgz.t|#####",
+                "#####|.z.g....g...|#####",
+                "#####|gggggggggggg|#####",
+                "#####|............G#####",
+                "#####|.....uu....t|#####",
+                "#####------++------#####",
+                "###########..###########",
+                "############.###########",
+                "############.###########",
+                "############.###########"
+            ],
+            "rotation": 3,
+            "terrain":{
+                "#": "t_open_air",
+                ".": "t_floor",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "m": "t_metal_floor",
+                "j": "t_bars",
+                "J": "t_jaildoor_control",
+                "H": "t_containment_control",
+                "c": "t_sliding_concrete_wall_c",
+                "C": "t_sliding_concrete_wall_control",
+                "t": "t_console_broken",
+                "g": "t_reinforced_glass",
+                "G": "t_reinforced_glass_control",
+                "s": "t_secretdoor_bookcase_c",
+                "S": "t_secretdoor_wall_c",
+                "w": "t_sliding_wall_c",
+                "W": "t_sliding_wall_control",
+                "Q": "t_secretdoor_brick_wall_c",
+                "q": "t_brick_wall",
+                "r": "t_sliding_brick_wall_c",
+                "R": "t_sliding_brick_wall_control",
+                "d": "t_decoy_bookcase",
+                "b": "t_sliding_bookcase_c",
+                "B": "t_sliding_bookcase_control",
+                "u": "t_utility_light",
+                "1": "t_outs_bridge_control"
+            },
+            "monster": {
+                "z": { "monster": "mon_dog", "friendly":  true }
+            }
+        }
+    }
+]

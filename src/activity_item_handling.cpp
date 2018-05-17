@@ -11,11 +11,15 @@
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
+#include "output.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "veh_type.h"
 #include "player.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "pickup.h"
+#include "requirements.h"
 
 #include <list>
 #include <vector>
@@ -39,7 +43,7 @@ struct act_item {
           consumed_moves( consumed_moves ) {};
 };
 
-// @todo Deliberately unified with multidrop. Unify further.
+// @todo: Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
 bool same_type( const std::list<item> &items )
@@ -117,7 +121,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 
     for( auto &it : items ) {
-        pet.add_effect( effect_controlled, 5 );
+        pet.add_effect( effect_controlled, 5_turns );
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
@@ -187,12 +191,10 @@ void drop_on_map( const player &p, const std::list<item> &items, const tripoint 
 void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
                                const tripoint &where )
 {
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( where, veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, "CARGO" );
+    if( const optional_vpart_position vp = g->m.veh_at( where ) ) {
+        const int veh_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
         if( veh_part >= 0 ) {
-            put_into_vehicle( p, items, *veh, veh_part );
+            put_into_vehicle( p, items, vp->vehicle(), veh_part );
             return;
         }
     }
@@ -250,10 +252,10 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
                 }
                 const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
                 obtained += qty;
-                res.emplace_back( &it, qty, 100 ); // @todo Use a calculated cost
+                res.emplace_back( &it, qty, 100 ); // @todo: Use a calculated cost
             }
         } else {
-            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo Use a calculated cost
+            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo: Use a calculated cost
         }
     }
 
@@ -283,7 +285,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
 
             if( iter == worn.end() ) {
                 worn.emplace_front( dit, dit->count_by_charges() ? dit->charges : 1,
-                                    100 ); // @todo Use a calculated cost
+                                    100 ); // @todo: Use a calculated cost
             }
         }
     }
@@ -324,7 +326,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     return res;
 }
 
-//@todo Display costs in the multidrop menu
+//@todo: Display costs in the multidrop menu
 void debug_drop_list( const std::list<act_item> &list )
 {
     if( !debug_mode ) {
@@ -392,6 +394,58 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
     put_into_vehicle_or_drop( *p, obtain_activity_items( *act, *p ), pos );
 }
 
+void activity_handlers::washing_finish( player_activity *act, player *p )
+{
+    auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
+
+    // Check again that we have enough water and soap incase the amount in our inventory changed somehow
+    // Consume the water and soap
+    int required_water = 0;
+    int required_cleanser = 0;
+
+    for( const act_item &filthy_item : items ) {
+        required_water += filthy_item.it->volume() / 125_ml;
+        required_cleanser += filthy_item.it->volume() / 1000_ml;
+    }
+    if( required_cleanser < 1 ) {
+        required_cleanser = 1;
+    }
+
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", required_water ) &&
+        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                              required_water );
+        act->set_to_null();
+        return;
+    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                              required_cleanser );
+        act->set_to_null();
+        return;
+    }
+
+    for( const auto ait : items ) {
+        item *filthy_item = const_cast<item *>( ait.it );
+        filthy_item->item_tags.erase( "FILTHY" );
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "water", required_water ) );
+    comps.push_back( item_comp( "water_clean", required_water ) );
+    p->consume_items( comps );
+
+    std::vector<item_comp> comps1;
+    comps1.push_back( item_comp( "soap", required_cleanser ) );
+    comps1.push_back( item_comp( "detergent", required_cleanser ) );
+    p->consume_items( comps1 );
+
+    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+
+    act->set_to_null();
+}
+
 void activity_handlers::stash_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
@@ -446,7 +500,7 @@ void activity_on_turn_pickup()
         }
     }
 
-    // @todo Move this to advanced inventory instead of hacking it in here
+    // @todo: Move this to advanced inventory instead of hacking it in here
     if( !keep_going ) {
         cancel_aim_processing();
     }
@@ -467,16 +521,18 @@ static void move_items( const tripoint &src, bool from_vehicle,
     s_veh = d_veh = nullptr;
 
     // load vehicle information if requested
-    if( from_vehicle == true ) {
-        s_veh = g->m.veh_at( source, s_cargo );
-        assert( s_veh != nullptr );
-        s_cargo = s_veh->part_with_feature( s_cargo, "CARGO", false );
+    if( from_vehicle ) {
+        const optional_vpart_position vp = g->m.veh_at( source );
+        assert( vp );
+        s_veh = &vp->vehicle();
+        s_cargo = s_veh->part_with_feature( vp->part_index(), "CARGO", false );
         assert( s_cargo >= 0 );
     }
-    if( to_vehicle == true ) {
-        d_veh = g->m.veh_at( destination, d_cargo );
-        assert( d_veh != nullptr );
-        d_cargo = d_veh->part_with_feature( d_cargo, "CARGO", false );
+    if( to_vehicle ) {
+        const optional_vpart_position vp = g->m.veh_at( destination );
+        assert( vp );
+        d_veh = &vp->vehicle();
+        d_cargo = d_veh->part_with_feature( vp->part_index(), "CARGO", false );
         assert( d_cargo >= 0 );
     }
 
@@ -486,11 +542,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        item *temp_item = nullptr;
-
-        temp_item = ( from_vehicle == true ) ?
-                    g->m.item_from( s_veh, s_cargo, index ) :
-                    g->m.item_from( source, index );
+        item *temp_item = from_vehicle ? g->m.item_from( s_veh, s_cargo, index ) : g->m.item_from( source,
+                          index );
 
         if( temp_item == nullptr ) {
             continue; // No such item.
@@ -517,7 +570,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
                 drop_on_map( g->u, { *temp_item }, destination );
             }
             // Remove from map or vehicle.
-            if( from_vehicle == true ) {
+            if( from_vehicle ) {
                 s_veh->remove_item( s_cargo, index );
             } else {
                 g->m.i_rem( source, index );
@@ -546,7 +599,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
  */
 void activity_on_turn_move_items()
 {
-    // Drop activity if we don't know destination coords.
+    // Drop activity if we don't know destination coordinates.
     if( g->u.activity.coords.empty() ) {
         g->u.activity = player_activity();
         return;

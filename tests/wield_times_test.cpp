@@ -1,5 +1,8 @@
 #include "catch/catch.hpp"
 
+#include "map_helpers.h"
+#include "player_helpers.h"
+
 #include "player.h"
 #include "game.h"
 #include "map.h"
@@ -9,7 +12,7 @@
 void wield_check_internal( player &dummy, item &the_item, const char *section_text,
                            const std::string &var_name, int expected_cost )
 {
-    dummy.weapon = dummy.ret_null;
+    dummy.weapon = item();
     dummy.set_moves( 1000 );
     int old_moves = dummy.moves;
     dummy.wield( the_item );
@@ -31,33 +34,6 @@ void wield_check_internal( player &dummy, item &the_item, const char *section_te
         wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : expected_cost); \
     }
 
-void prepare_test()
-{
-    player &dummy = g->u;
-
-    // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
-    for( trait_id tr : dummy.get_mutations() ) {
-        dummy.unset_mutation( tr );
-    }
-    // Prevent spilling, but don't cause encumbrance
-    if( !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
-        dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
-    }
-
-    // Make stats nominal.
-    dummy.str_cur = 8;
-    dummy.dex_cur = 8;
-    dummy.int_cur = 8;
-    dummy.per_cur = 8;
-
-    const tripoint spot( 60, 60, 0 );
-    dummy.setpos( spot );
-    g->m.ter_set( spot, ter_id( "t_dirt" ) );
-    g->m.furn_set( spot, furn_id( "f_null" ) );
-    g->m.i_clear( spot );
-}
 
 void do_test( bool generating_cases )
 {
@@ -100,12 +76,14 @@ void do_test( bool generating_cases )
 
 TEST_CASE( "Wield time test", "[wield]" )
 {
-    prepare_test();
+    clear_player();
+    clear_map();
     do_test( false );
 }
 
 TEST_CASE( "Wield time make cases", "[.]" )
 {
-    prepare_test();
+    clear_player();
+    clear_map();
     do_test( true );
 }

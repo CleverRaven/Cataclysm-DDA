@@ -12,6 +12,8 @@
 #include "player.h"
 #include "projectile.h"
 #include "sounds.h"
+#include "output.h"
+#include "vpart_position.h"
 #include "trap.h"
 #include "vehicle.h"
 
@@ -200,7 +202,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // cap wild misses at +/- 30 degrees
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
-        // @todo This should also represent the miss on z axis
+        // @todo: This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
@@ -247,7 +249,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
-        // @todo Make it use a more distant point for more realistic extended lines
+        // @todo: Make it use a more distant point for more realistic extended lines
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                 extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
@@ -292,9 +294,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         if( in_veh != nullptr ) {
-            int part;
-            vehicle *other = g->m.veh_at( tp, part );
-            if( in_veh == other && other->is_inside( part ) ) {
+            const optional_vpart_position other = g->m.veh_at( tp );
+            if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
                 continue; // Turret is on the roof and can't hit anything inside
             }
         }
@@ -332,7 +333,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
-            if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh && critter->is_player() ) {
+            if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh &&
+                critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
@@ -352,7 +354,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             } else {
                 attack.missed_by = aim.missed_by;
             }
-        } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
+        } else if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot( tp, proj, !no_item_damage && tp == target );
@@ -388,24 +390,28 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        for( size_t i = 0; i < g->num_zombies(); i++ ) {
-            monster &z = g->zombie( i );
-            if( z.is_dead() ) {
-                continue;
-            }
-            // search for monsters in radius 4 around impact site
+        // Add effect so the shooter is not targeted itself.
+        if( origin && !origin->has_effect( effect_bounced ) ) {
+            origin->add_effect( effect_bounced, 1_turns );
+        }
+        Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
+            // search for creatures in radius 4 around impact site
             if( rl_dist( z.pos(), tp ) <= 4 &&
                 g->m.sees( z.pos(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
                 if( !z.has_effect( effect_bounced ) ) {
-                    add_msg( _( "The attack bounced to %s!" ), z.name().c_str() );
-                    z.add_effect( effect_bounced, 1 );
-                    projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
-                    sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
-                                             sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
-                    break;
+                    return true;
                 }
             }
+            return false;
+        } );
+        if( mon_ptr ) {
+            Creature &z = *mon_ptr;
+            add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
+            z.add_effect( effect_bounced, 1_turns );
+            projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
+            sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
+                                     sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
         }
     }
 

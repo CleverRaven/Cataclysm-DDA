@@ -92,6 +92,27 @@
     "components": [ [ [ "felt_patch", 8 ] ] ]
   },
   {
+    "result": "crown_golden_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 600000,
+    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+    ],
+    "components": [ [ [ "gold_small", 300 ] ] ]
+  },
+  {
     "result": "fur_cat_ears",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -192,7 +213,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ] ],
-      [ [ "eclipse_glasses", 1 ], [ "sunglasses", 3 ], [ "fancy_sunglasses", 3 ], [ "fitover_sunglasses", 3 ] ],
+      [ [ "eclipse_glasses", 1 ], [ "glass_tinted", 3 ] ],
       [ [ "duct_tape", 40 ], [ "medical_tape", 40 ] ]
     ]
   },
@@ -316,12 +337,12 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 15 ], [ "steel_standard", 10 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
@@ -351,6 +372,25 @@
     "components": [
       [ [ "string_36", 1 ], [ "string_6", 5 ] ],
       [ [ "chitin_piece", 5 ] ]
+    ]
+  },
+  {
+    "result": "helmet_acidchitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "string_36", 1 ], [ "string_6", 5 ] ],
+      [ [ "acidchitin_piece", 8 ] ]
     ]
   },
   {
@@ -389,12 +429,12 @@
     "book_learn": [ [ "textbook_armeast", 8 ] ],
     "using": [ [ "forging_standard", 23 ], [ "steel_standard", 12 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [
@@ -449,12 +489,12 @@
     "book_learn": [ [ "textbook_armwest", 6 ] ],
     "using": [ [ "forging_standard", 18 ], [ "steel_standard", 14 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
     ],
@@ -470,12 +510,11 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 40000,
     "autolearn": true,
-    "using": [ [ "filament", 65 ] ],
+    "using": [ [ "filament", 65 ], [ "soldering_standard", 8 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 8 ], [ "toolset", 8 ] ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [ [ "mask_filter", 1 ] ],
@@ -715,8 +754,8 @@
     "time": 40000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 600 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "thread", 600 ] ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -745,8 +784,8 @@
     "time": 60000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 900 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "thread", 900 ] ] ]
   },
   {
     "result": "long_patchwork_scarf",
@@ -840,7 +879,7 @@
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
-      [ [ "mask_filter", 3 ], [ "muffler", 1 ] ],
+      [ [ "mask_filter", 3 ] ],
       [ [ "hose", 1 ] ],
       [ [ "charcoal", 20 ] ]
     ]
@@ -859,7 +898,7 @@
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
-      [ [ "mask_filter", 3 ], [ "muffler", 1 ] ],
+      [ [ "mask_filter", 3 ] ],
       [ [ "hose", 1 ] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "charcoal", 20 ] ]
@@ -1336,12 +1375,11 @@
     "skills_required": [ "tailor", 2 ],
     "time": 80000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "filament", 8 ] ],
+    "using": [ [ "filament", 8 ], [ "soldering_standard", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "rag", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ],
       [ [ "element", 2 ] ],
@@ -1402,6 +1440,23 @@
     "components": [
       [ [ "neoprene", 2 ] ],
       [ [ "rag", 2 ] ]
+    ]
+  },
+  {
+    "result": "chainmail_hood",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 20000,
+    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [
+      [ [ "link_sheet", 2 ] ],
+      [ [ "chain_link", 50 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "fur", 4 ], [ "leather", 4 ] ]
     ]
   }
 ]

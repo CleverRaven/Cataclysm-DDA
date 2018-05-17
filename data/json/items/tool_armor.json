@@ -87,6 +87,31 @@
         "initial_charges": 60
     },
     {
+        "id": "holo_cloak",
+        "type": "TOOL_ARMOR",
+        "name": "hologram cloak",
+        "description": "A cloak woven with metallic fibers and covered with hexagonal sheets of reflective carbide.  When activated, it will create an holographic decoy of its wearer.",
+        "weight": 1552,
+        "volume": 14,
+        "price": 5500000,
+        "to_hit": -1,
+        "material": [ "superalloy" ],
+        "symbol": "[",
+        "color": "light_gray",
+        "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
+        "coverage": 65,
+        "encumbrance": 10,
+        "max_charges": 1000,
+        "initial_charges": 500,
+        "charges_per_use": 25,
+        "ammo": "plutonium",
+        "warmth": 10,
+        "material_thickness": 1,
+        "environmental_protection": 4,
+        "use_action": "DIRECTIONAL_HOLOGRAM",
+        "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
+    },
+    {
         "type" : "TOOL_ARMOR",
         "category" : "clothing",
         "id" : "fedora",
@@ -360,7 +385,7 @@
         "color": "dark_gray",
         "name" : "pair of binoculars",
         "name_plural": "pairs of binoculars",
-        "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Simply carrying or wearing this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight.",
+        "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Wearing this item or carrying it in your inventory will double the distance around you that is mapped during your travels.  You could also use them to focus the sunlight.",
         "price": 30000,
         "material": ["plastic", "glass"],
         "flags" : [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
@@ -386,6 +411,7 @@
         "symbol": "[",
         "color": "blue",
         "name": "head torch",
+        "name_plural": "head torches",
         "description": "This is an LED head torch with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
         "price": 4000,
         "material": ["plastic", "aluminum" ],
@@ -446,6 +472,7 @@
         "symbol": "[",
         "color": "blue",
         "name": "survivor head torch",
+        "name_plural": "survivor head torches",
         "description": "This is a custom made LED head torch reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
         "price": 4000,
         "material": ["plastic", "aluminum" ],
@@ -1164,6 +1191,7 @@
             "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
             "draw_cost": 3,
+            "min_volume": 1,
             "max_volume": 4,
             "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
         } ],
@@ -1891,9 +1919,13 @@
             "fun": -5,
             "fun_bonus": 2,
             "description_frequency": 20,
-            "descriptions": [
-                "You produce a happy tune on your harmonica.",
-                "You whistle on your harmonica."
+            "player_descriptions": [
+                "You produce a happy tune on the harmonica.",
+                "You whistle on the harmonica."
+            ],
+            "npc_descriptions": [
+                "produce a happy tune on the harmonica.",
+                "whistle on the harmonica."
             ]
         },
         "symbol" : "-",
@@ -1923,10 +1955,15 @@
             "fun": 2,
             "fun_bonus": 2,
             "description_frequency": 20,
-            "descriptions": [
-                "You strum a few chords on your guitar.",
-                "You pluck a few notes on your guitar.",
-                "You play a slow blues-y tune on your guitar."
+            "player_descriptions": [
+                "You strum a few chords on the guitar.",
+                "You pluck a few notes on the guitar.",
+                "You play a slow blues-y tune on the guitar."
+            ],
+            "npc_descriptions": [
+                "strum a few chords on the guitar.",
+                "pluck a few notes on the guitar.",
+                "play a slow blues-y tune on the guitar."
             ]
         },
         "symbol" : "-",
@@ -1960,10 +1997,15 @@
             "fun": 2,
             "fun_bonus": 2,
             "description_frequency": 20,
-            "descriptions": [
-                "Your pipes drone loudly as you strike a battle hymn from the chanter.",
+            "player_descriptions": [
+                "Your pipes drone loudly as you strikes a battle hymn from the chanter.",
                 "Your pipes drone a slow and piercing dirge.",
-                "You strike a lively quick step march on your pipes."
+                "You strike a lively quick step march on their pipes."
+            ],
+            "npc_descriptions": [
+                "pipes drone loudly as it strikes a battle hymn from the chanter.",
+                "pipes drone a slow and piercing dirge.",
+                "strike a lively quick step march on their pipes."
             ]
         },
         "symbol" : "-",
@@ -1996,10 +2038,15 @@
             "fun": -2,
             "fun_bonus": 4,
             "description_frequency": 20,
-            "descriptions": [
-                "You play a little tune on your tuba.",
-                "You play a ditty on your tuba.",
-                "You play a marching tune on your tuba."
+            "player_descriptions": [
+                "You play a little tune on the tuba.",
+                "You play a ditty on the tuba.",
+                "You play a marching tune on the tuba."
+            ],
+            "npc_descriptions": [
+                "play a little tune on the tuba.",
+                "play a ditty on the tuba.",
+                "play a marching tune on the tuba."
             ]
         },
         "symbol" : "&",
@@ -2032,16 +2079,21 @@
             "fun": -3,
             "fun_bonus": 4,
             "description_frequency": 20,
-            "descriptions": [
-                "You play a little tune on your saxophone.",
-                "You play a soulful jazz piece on your sax.",
-                "You play a quick, energetic ditty on your sax."
+            "player_descriptions": [
+                "You play a little tune on the saxophone.",
+                "You play a soulful jazz piece on the sax.",
+                "You play a quick, energetic ditty on the sax."
+            ],
+            "npc_descriptions": [
+                "play a little tune on the saxophone.",
+                "play a soulful jazz piece on the sax.",
+                "play a quick, energetic ditty on the sax."
             ]
         },
         "symbol" : "{",
-        "description" : "A brass-plated alto saxophone with a neck strap, so you can wear it while playing.",
+        "description" : "A brass alto saxophone with a neck strap, so you can wear it while playing.",
         "price" : 7500,
-        "material" : ["iron"],
+        "material" : ["brass"],
         "volume" : 18,
         "encumbrance" : 30,
         "bashing" : 12,

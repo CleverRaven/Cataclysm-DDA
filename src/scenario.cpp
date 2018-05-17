@@ -1,16 +1,12 @@
+#include "scenario.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <cmath>
 
-#include "scenario.h"
-
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "bionics.h"
-#include "game.h"
-#include "map.h"
 #include "translations.h"
 #include "pldata.h"
 #include "addiction.h"
@@ -105,9 +101,7 @@ const scenario *scenario::weighted_random()
 
     const auto &list = all_scenarios.get_all();
     while( true ) {
-        auto iter = list.begin();
-        std::advance( iter, rng( 0, list.size() - 1 ) );
-        const scenario &scen = *iter;
+        const scenario &scen = random_entry_ref( list );
 
         if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
             return &scen;
@@ -302,9 +296,9 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-bool scenario::can_pick( int points ) const
+bool scenario::can_pick( const scenario &current_scenario, const int points ) const
 {
-    if( point_cost() - g->scen->point_cost() > points ) {
+    if( point_cost() - current_scenario.point_cost() > points ) {
         return false;
     }
 

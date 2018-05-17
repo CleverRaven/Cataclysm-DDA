@@ -1,5 +1,5 @@
-#include "output.h"
 #include "rng.h"
+#include "output.h"
 #include "game_constants.h"
 #include <stdlib.h>
 #include <random>

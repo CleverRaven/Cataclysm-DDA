@@ -64,12 +64,8 @@
         "r": "f_rack",
         "u": "f_vending_reinforced"
       },
-      "vendingmachines": {
-        "u": { "item_group": "vending_ammo", "reinforced": true }
-      },
-      "toilets": {
-        ";": {}
-      },
+      "vendingmachines": { "u": { "item_group": "vending_ammo", "reinforced": true } },
+      "toilets": { ";": {  } },
       "place_loot": [
         { "group": "guns_pistol_rare", "x": [ 8, 10 ], "y": 19, "chance": 100, "repeat": [ 1, 2 ], "magazine": 100 },
         { "group": "guns_shotgun_rare", "x": [ 8, 10 ], "y": 19, "chance": 80, "magazine": 100 },

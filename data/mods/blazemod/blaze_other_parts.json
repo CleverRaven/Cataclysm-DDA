@@ -1,37 +1,23 @@
 [
   {
-    "id": "223rack",
+    "abstract": "rack_blaze",
     "type": "vehicle_part",
-    "name": ".223 rack",
     "item": "metal_tank_little",
     "location": "under",
-    "fuel_type": "223",
     "symbol": "O",
     "broken_symbol": "#",
     "color": "brown",
     "broken_color": "blue",
     "difficulty": 1,
     "durability": 150,
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
+    "damage_modifier": 80
   },
   {
     "id": "223rack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": ".223 rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "223",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -39,18 +25,10 @@
   },
   {
     "id": "22rack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": ".22 rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "22_lr",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -58,18 +36,10 @@
   },
   {
     "id": "308rack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": ".308 Winchester rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "308",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -77,18 +47,10 @@
   },
   {
     "id": "45rack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": ".45 rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "45_acp",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -96,18 +58,10 @@
   },
   {
     "id": "50bmgrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": ".50 BMG rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "50bmg",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -115,18 +69,10 @@
   },
   {
     "id": "556rack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "5.56mm rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "556",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -134,18 +80,10 @@
   },
   {
     "id": "9mmrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
-    "name": "9mm rack",
-    "item": "metal_tank_little",
-    "location": "under",
+    "name": "9x19mm rack",
     "fuel_type": "9mm",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -215,18 +153,10 @@
   },
   {
     "id": "boltrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "wooden bolt rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "bolt_wood",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -250,18 +180,10 @@
   },
   {
     "id": "diskrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "disk rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "ripdisk",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -289,18 +211,10 @@
   },
   {
     "id": "flintrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "paper cartridge rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "flintlock_ammo",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -328,18 +242,10 @@
   },
   {
     "id": "nailrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "nail rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "nail",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -348,7 +254,7 @@
   {
     "id": "omnomnicam",
     "type": "vehicle_part",
-    "name": "Security camera",
+    "name": "security camera",
     "item": "omnicamera",
     "location": "on_battery_mount",
     "symbol": "o",
@@ -369,92 +275,78 @@
   },
   {
     "id": "pebblerack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "pebble rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "pebble",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ]
   },
   {
-    "id": "ram_alloy",
+    "abstract": "ram_blaze",
     "type": "vehicle_part",
-    "name": "superalloy ram",
-    "item": "alloy_plate",
     "location": "structure",
     "symbol": "X",
     "broken_symbol": "*",
+    "difficulty": 2,
+    "flags": [ "PROTRUSION", "OBSTACLE" ]
+  },
+  {
+    "id": "ram_alloy",
+    "copy-from": "ram_blaze",
+    "type": "vehicle_part",
+    "name": "superalloy ram",
+    "item": "alloy_plate",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 2,
     "durability": 900,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
-    ],
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    ]
   },
   {
     "id": "ram_hardsteel",
+    "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": "heavy steel ram",
     "item": "hard_plate",
-    "location": "structure",
-    "symbol": "X",
-    "broken_symbol": "*",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 2,
     "durability": 2300,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
-    ],
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    ]
   },
   {
     "id": "ram_military_horizontal",
+    "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": "military composite ram",
     "item": "mil_plate",
-    "location": "structure",
-    "symbol": "X",
-    "broken_symbol": "*",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 2,
     "durability": 3250,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
-    ],
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    ]
   },
   {
     "id": "ram_spiked",
+    "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": "spiked ram",
     "item": "spiked_plate",
-    "location": "structure",
-    "symbol": "X",
-    "broken_symbol": "*",
     "color": "red",
     "broken_color": "red",
-    "difficulty": 3,
     "durability": 900,
     "damage_modifier": 150,
     "breaks_into": [
@@ -462,38 +354,29 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "spike", "count": [ 0, 2 ] }
-    ],
-    "flags": [ "PROTRUSION" ]
+    ]
   },
   {
     "id": "ram_steel",
+    "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": "steel ram",
     "item": "steel_plate",
-    "location": "structure",
-    "symbol": "X",
-    "broken_symbol": "*",
     "color": "light_cyan",
     "broken_color": "light_cyan",
-    "difficulty": 2,
     "durability": 1000,
-    "breaks_into": "ig_vp_steel_plate",
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    "breaks_into": "ig_vp_steel_plate"
   },
   {
     "id": "ram_wood",
+    "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": "wooden ram",
     "item": "wood_plate",
-    "location": "structure",
-    "symbol": "X",
-    "broken_symbol": "*",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 2,
     "durability": 300,
-    "breaks_into": "ig_vp_wood_plate",
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    "breaks_into": "ig_vp_wood_plate"
   },
   {
     "id": "rebar_plate",
@@ -504,7 +387,7 @@
     "symbol": "X",
     "broken_symbol": "*",
     "color": "dark_gray",
-    "broken_color": "ltgray",
+    "broken_color": "light_gray",
     "difficulty": 2,
     "durability": 150,
     "folded_volume": 4,
@@ -536,18 +419,10 @@
   },
   {
     "id": "sboltrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "steel bolt rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "bolt_steel",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -555,18 +430,10 @@
   },
   {
     "id": "shardrack",
+    "copy-from": "rack_blaze",
     "type": "vehicle_part",
     "name": "shard rack",
-    "item": "metal_tank_little",
-    "location": "under",
     "fuel_type": "shards",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 150,
-    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
@@ -616,6 +483,28 @@
     ],
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
   },
+  {
+    "id": "solar_array2r",
+    "type": "vehicle_part",
+    "name": "upgraded reinforced solar array",
+    "item": "solar_array2r",
+    "location": "center",
+    "symbol": "#",
+    "broken_symbol": "x",
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "difficulty": 8,
+    "durability": 500,
+    "epower": 1080,
+    "damage_modifier": 10,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 11 ] },
+      { "item": "steel_chunk", "count": [ 12, 23 ] },
+      { "item": "scrap", "count": [ 16, 31 ] },
+      { "item": "solar_cell", "count": [ 20, 60 ] }
+    ],
+    "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
+  },  
   {
     "id": "spring_plate",
     "type": "vehicle_part",
@@ -674,7 +563,7 @@
   {
     "id": "tread1",
     "type": "vehicle_part",
-    "name": "Rubber Treads",
+    "name": "rubber treads",
     "item": "tread1",
     "location": "under",
     "symbol": "|",
@@ -696,7 +585,7 @@
   {
     "id": "tread2",
     "type": "vehicle_part",
-    "name": "Steel Treads",
+    "name": "steel treads",
     "item": "tread2",
     "location": "under",
     "symbol": "|",
@@ -717,7 +606,7 @@
   {
     "id": "tread3",
     "type": "vehicle_part",
-    "name": "Tank Treads",
+    "name": "tank treads",
     "item": "tread3",
     "location": "under",
     "symbol": "|",
@@ -739,6 +628,7 @@
     "id": "turretframe",
     "type": "vehicle_part",
     "name": "turret chassis",
+    "name_plural": "turret chassis",
     "item": "turretframe",
     "symbol": "Y",
     "broken_symbol": "#",
@@ -789,7 +679,7 @@
     "durability": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "wire", "prob": 50 } ],
-    "flags": [ "FOLDABLE", "OBSTACLE", "AISLE", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "AISLE", "TOOL_NONE" ]
   },
   {
     "id": "xfloodlight",

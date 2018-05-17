@@ -3,20 +3,25 @@
 #include "calendar.h"
 #include "generic_factory.h"
 #include "itype.h"
+#include "item.h"
+#include "string_formatter.h"
 #include "output.h"
 #include "skill.h"
+#include "game_constants.h"
 
 #include <algorithm>
 #include <numeric>
+#include <math.h>
 
-recipe::recipe() : skill_used( "none" ) {}
+recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
-    if( multiplier == 0.0f ) {  // TODO: Don't compare floats this way!
-        return time * batch; // how did we even get here?
+    if( multiplier == 0.0f ) {
+        // If an item isn't craftable in the dark, show the time to complete as if you could craft it
+        multiplier = 1.0f;
     }
 
     const float local_time = float( time ) / multiplier;
@@ -66,9 +71,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
     abstract = jo.has_string( "abstract" );
 
     if( abstract ) {
-        ident_ = jo.get_string( "abstract" );
+        ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
-        ident_ = result = jo.get_string( "result" );
+        result_ = jo.get_string( "result" );
+        ident_ = recipe_id( result_ );
     }
 
     assign( jo, "time", time, strict, 0 );
@@ -172,7 +178,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
             if( abstract ) {
                 jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
             }
-            ident_ += "_" + jo.get_string( "id_suffix" );
+            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
         }
 
         assign( jo, "category", category, strict );
@@ -209,7 +215,7 @@ void recipe::finalize()
     reqs_internal.clear();
 
     if( contained && container == "null" ) {
-        container = item::find_type( result )->default_container;
+        container = item::find_type( result_ )->default_container;
     }
 
     if( autolearn && autolearn_requirements.empty() ) {
@@ -230,11 +236,11 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result ) ) {
+    if( !item::type_is_defined( result_ ) ) {
         return "defines invalid result";
     }
 
-    if( charges >= 0 && !item::count_by_charges( result ) ) {
+    if( charges >= 0 && !item::count_by_charges( result_ ) ) {
         return "specifies charges but result is not counted by charges";
     }
 
@@ -276,7 +282,7 @@ std::string recipe::get_consistency_error() const
 
 item recipe::create_result() const
 {
-    item newit( result, calendar::turn, item::default_charges_tag{} );
+    item newit( result_, calendar::turn, item::default_charges_tag{} );
     if( charges >= 0 ) {
         newit.charges = charges;
     }
@@ -284,7 +290,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // @todo Make it work for charge-less items
+        // @todo: Make it work for charge-less items
         newit.charges *= result_mult;
     }
 
@@ -292,7 +298,7 @@ item recipe::create_result() const
         newit.item_tags.insert( "FIT" );
     }
 
-    if( contained == true ) {
+    if( contained ) {
         newit = newit.in_container( container );
     }
 
@@ -303,7 +309,7 @@ std::vector<item> recipe::create_results( int batch ) const
 {
     std::vector<item> items;
 
-    const bool by_charges = item::count_by_charges( result );
+    const bool by_charges = item::count_by_charges( result_ );
     if( contained || !by_charges ) {
         // by_charges items get their charges multiplied in create_result
         const int num_results = by_charges ? batch : batch * result_mult;
@@ -347,7 +353,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
 
 bool recipe::has_byproducts() const
 {
-    return byproducts.size() != 0;
+    return !byproducts.empty();
 }
 
 std::string recipe::required_skills_string() const
@@ -359,4 +365,9 @@ std::string recipe::required_skills_string() const
     []( const std::pair<skill_id, int> &skill ) {
         return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
     } );
+}
+
+std::string recipe::result_name() const
+{
+    return item::nname( result_ );
 }

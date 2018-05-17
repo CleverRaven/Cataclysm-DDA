@@ -7,13 +7,15 @@
 #include <set>
 #include <string>
 #include "enums.h"
-#include "json.h"
 #include "string_id.h"
+#include "calendar.h"
 #include "monster.h"
 
 // from overmap.h
 class overmap;
-
+class JsonObject;
+class JsonIn;
+class JsonOut;
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 
@@ -36,15 +38,14 @@ struct MonsterGroupEntry {
     int pack_minimum;
     int pack_maximum;
     std::vector<std::string> conditions;
-    int starts;
-    int ends;
+    time_duration starts;
+    time_duration ends;
     bool lasts_forever() const {
         return ( ends <= 0 );
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
-                       int new_pack_min, int new_pack_max, int new_starts,
-                       int new_ends )
+                       int new_pack_min, int new_pack_max, const time_duration &new_starts, const time_duration &new_ends )
         : name( id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
@@ -80,7 +81,7 @@ struct MonsterGroup {
     bool is_safe; /// Used for @ref mongroup::is_safe()
 };
 
-struct mongroup : public JsonSerializer, public JsonDeserializer {
+struct mongroup {
     mongroup_id type;
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
@@ -156,12 +157,9 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
     void io( Archive & );
     using archive_type_tag = io::object_archive_tag;
 
-    using JsonDeserializer::deserialize;
-    void deserialize( JsonIn &jsin ) override;
+    void deserialize( JsonIn &jsin );
     void deserialize_legacy( JsonIn &jsin );
-
-    using JsonSerializer::serialize;
-    void serialize( JsonOut &jsout ) const override;
+    void serialize( JsonOut &jsout ) const;
 };
 
 class MonsterGroupManager
@@ -171,14 +169,18 @@ class MonsterGroupManager
         static void LoadMonsterBlacklist( JsonObject &jo );
         static void LoadMonsterWhitelist( JsonObject &jo );
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group,
-                int *quantity = 0, int turn = -1 );
+        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = 0 );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &id );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &id );
         static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group );
         static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
         static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
+        /**
+         * Gets a random monster, weighted by frequency.
+         * Ignores cost multiplier.
+         */
+        static const mtype_id &GetRandomMonsterFromGroup( const mongroup_id &group );
 
         static void check_group_definitions();
 

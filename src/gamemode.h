@@ -5,12 +5,16 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "cursesdef.h" // WINDOW
-#include "itype.h"
+#include "enums.h"
+#include "calendar.h"
 #include "string_id.h"
 
 enum action_id : int;
-
+using itype_id = std::string;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
@@ -19,9 +23,7 @@ std::string special_game_name( special_game_id id );
 std::unique_ptr<special_game> get_special_game( special_game_id id );
 
 struct special_game {
-    virtual ~special_game() {
-        return;
-    };
+    virtual ~special_game() = default;
     virtual special_game_id id() {
         return SGAME_NULL;
     };
@@ -139,7 +141,7 @@ struct defense_game : public special_game {
         void load_style( std::string style_name );
 
         void setup();
-        void refresh_setup( WINDOW *w, int selection );
+        void refresh_setup( const catacurses::window &w, int selection );
         void init_mtypes();
         void init_constructions();
         void init_map();
@@ -162,7 +164,7 @@ struct defense_game : public special_game {
         int initial_difficulty; // Total "level" of monsters in first wave
         int wave_difficulty;    // Increased "level" of monsters per wave
 
-        int time_between_waves;     // Cooldown / building / healing time
+        time_duration time_between_waves;     // Cooldown / building / healing time
         int waves_between_caravans; // How many waves until we get to trade?
 
         unsigned long initial_cash;  // How much cash do we start with?

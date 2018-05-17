@@ -5,11 +5,13 @@
 #include "map_iterator.h"
 #include "debug.h"
 #include "game.h"
+#include "output.h"
 #include "line.h"
 #include "rng.h"
 #include "pldata.h"
 #include "messages.h"
 #include "cursesdef.h"
+#include "trap.h"
 #include "sounds.h"
 #include "monattack.h"
 #include "monfaction.h"
@@ -220,8 +222,7 @@ void monster::plan( const mfactions &factions )
         }
     } else if( friendly != 0 && !docile ) {
         // Target unfriendly monsters, only if we aren't interacting with the player.
-        for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
-            monster &tmp = g->zombie( i );
+        for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
@@ -240,8 +241,7 @@ void monster::plan( const mfactions &factions )
         return;
     }
 
-    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        npc &who = *g->active_npc[i];
+    for( npc &who : g->all_npcs() ) {
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
             continue;
@@ -271,8 +271,8 @@ void monster::plan( const mfactions &factions )
                 continue;
             }
 
-            for( int i : fac.second ) { // mon indices
-                monster &mon = g->zombie( i );
+            for( monster *const mon_ptr : fac.second ) {
+                monster &mon = *mon_ptr;
                 float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
@@ -299,8 +299,8 @@ void monster::plan( const mfactions &factions )
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const int i : myfaction_iter->second ) {
-            monster &mon = g->zombie( i );
+        for( monster *const mon_ptr : myfaction_iter->second ) {
+            monster &mon = *mon_ptr;
             float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
@@ -353,7 +353,7 @@ void monster::plan( const mfactions &factions )
  * It works by scaling the cost to take a step by
  * how much that step reduces the distance to your goal.
  * Since it incorporates the current distance metric,
- * it also scales for diagonal vs orthoganal movement.
+ * it also scales for diagonal vs orthogonal movement.
  **/
 static float get_stagger_adjust( const tripoint &source, const tripoint &destination,
                                  const tripoint &next_step )
@@ -389,8 +389,8 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) &&
-        g->m.has_items( pos() ) ) {
+    if( !is_hallucination() && ( has_flag( MF_ABSORBS ) || has_flag( MF_ABSORBS_SPLITS ) ) &&
+        !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name().c_str() );
@@ -398,6 +398,21 @@ void monster::move()
         static const auto volume_per_hp = units::from_milliliter( 250 );
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
+            if( has_flag( MF_ABSORBS_SPLITS ) && hp * 2 > type->hp ) {
+                for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+                    if( g->is_empty( dest ) && hp * 2 > type->hp ) {
+                        if( monster *const  spawn = g->summon_mon( type->id, dest ) ) {
+                            hp -= type->hp;
+                            //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+                            spawn->make_ally( *this );
+                            if( g->u.sees( *this ) ) {
+                                add_msg( _( "The %s splits in two!" ),
+                                         name().c_str() );
+                            }
+                        }
+                    }
+                }
+            }
         }
         g->m.i_clear( pos() );
     }
@@ -406,7 +421,7 @@ void monster::move()
 
     // First, use the special attack, if we can!
     // The attack may change `monster::special_attacks` (e.g. by transforming
-    // this into another monster type). Therefor we can not iterate over it
+    // this into another monster type). Therefore we can not iterate over it
     // directly and instead iterate over the map from the monster type
     // (properties of monster types should never change).
     for( const auto &sp_type : type->special_attacks ) {
@@ -471,9 +486,9 @@ void monster::move()
         if( goal == g->u.pos() ) {
             current_attitude = attitude( &( g->u ) );
         } else {
-            for( auto &i : g->active_npc ) {
-                if( goal == i->pos() ) {
-                    current_attitude = attitude( i.get() );
+            for( const npc &guy : g->all_npcs() ) {
+                if( goal == guy.pos() ) {
+                    current_attitude = attitude( &guy );
                 }
             }
         }
@@ -561,7 +576,7 @@ void monster::move()
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
-                // @todo Remove z-level stair bullshit teleport after aligning all stairs
+                // @todo: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
@@ -619,7 +634,7 @@ void monster::move()
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( moved == false || x_in_y( progress, switch_chance ) ) {
+            if( !moved || x_in_y( progress, switch_chance ) ) {
                 moved = true;
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
@@ -690,7 +705,7 @@ void monster::footsteps( const tripoint &p )
 
 tripoint monster::scent_move()
 {
-    // @todo Remove when scentmap is 3D
+    // @todo: Remove when scentmap is 3D
     if( abs( posz() - g->get_levz() ) > 1 ) {
         return { -1, -1, INT_MIN };
     }
@@ -757,12 +772,12 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     } else if( can_submerge() ) {
         // No-breathe monsters have to walk underwater slowly
         if( g->m.has_flag( "SWIMMABLE", f ) ) {
-            movecost += 150;
+            movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
         if( g->m.has_flag( "SWIMMABLE", t ) ) {
-            movecost += 150;
+            movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( t );
         }
@@ -877,7 +892,7 @@ int monster::group_bash_skill( const tripoint &target )
     }
     int bashskill = 0;
 
-    // pileup = more bashskill, but only help bashing mob directly infront of target
+    // pileup = more bash skill, but only help bashing mob directly in front of target
     const int max_helper_depth = 5;
     const std::vector<tripoint> bzone = get_bashing_zone( target, pos(), max_helper_depth );
 
@@ -919,7 +934,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     if( p == g->u.pos() ) {
-        melee_attack( g->u, true );
+        melee_attack( g->u );
         return true;
     }
 
@@ -940,7 +955,7 @@ bool monster::attack_at( const tripoint &p )
         auto attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
-            melee_attack( mon, true );
+            melee_attack( mon );
             return true;
         }
 
@@ -952,7 +967,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack( *guy, true );
+        melee_attack( *guy );
         return true;
     }
 
@@ -1048,7 +1063,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
-        add_effect( effect_bouldering, 1, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -1082,14 +1097,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
-        g->m.add_field( pos(), fd_acid, 3, 0 );
+        g->m.add_field( pos(), fd_acid, 3 );
     }
 
     if( has_flag( MF_SLUDGETRAIL ) ) {
         for( const tripoint &sludge_p : g->m.points_in_radius( pos(), 1 ) ) {
             const int fstr = 3 - ( abs( sludge_p.x - posx() ) + abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
-                g->m.add_field( sludge_p, fd_sludge, fstr, 0 );
+                g->m.add_field( sludge_p, fd_sludge, fstr );
             }
         }
     }
@@ -1137,7 +1152,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     const tripoint dir = p - pos();
 
     // Mark self as pushed to simplify recursive pushing
-    add_effect( effect_pushed, 1 );
+    add_effect( effect_pushed, 1_turns );
 
     for( size_t i = 0; i < 6; i++ ) {
         const int dx = rng( -1, 1 );
@@ -1182,7 +1197,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
                 moves -= movecost_attacker;
                 if( movecost_from > 100 ) {
-                    critter->add_effect( effect_downed, movecost_from / 100 + 1 );
+                    critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
                 } else {
                     critter->moves -= movecost_from;
                 }
@@ -1206,7 +1221,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         move_to( p );
         moves -= movecost_attacker;
         if( movecost_from > 100 ) {
-            critter->add_effect( effect_downed, movecost_from / 100 + 1 );
+            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         } else {
             critter->moves -= movecost_from;
         }
@@ -1221,7 +1236,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     g->swap_critters( *critter, *this );
-    critter->add_effect( effect_stunned, rng( 0, 2 ) );
+    critter->add_effect( effect_stunned, rng( 0_turns, 2_turns ) );
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _( "The %1$s tramples %2$s" ),
@@ -1230,7 +1245,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     moves -= movecost_attacker;
     if( movecost_from > 100 ) {
-        critter->add_effect( effect_downed, movecost_from / 100 + 1 );
+        critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
     } else {
         critter->moves -= movecost_from;
     }
@@ -1313,14 +1328,14 @@ void monster::knock_back_from( const tripoint &p )
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
         apply_damage( z, bp_torso, z->type->size );
-        add_effect( effect_stunned, 1 );
+        add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
             z->apply_damage( this, bp_torso, type->size );
-            z->add_effect( effect_stunned, 1 );
+            z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {
             z->apply_damage( this, bp_torso, type->size );
-            z->add_effect( effect_stunned, 1 );
+            z->add_effect( effect_stunned, 1_turns );
         }
         z->check_dead_state();
 
@@ -1333,7 +1348,7 @@ void monster::knock_back_from( const tripoint &p )
 
     if( npc *const p = g->critter_at<npc>( to ) ) {
         apply_damage( p, bp_torso, 3 );
-        add_effect( effect_stunned, 1 );
+        add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name().c_str(), p->name.c_str() );
@@ -1363,7 +1378,7 @@ void monster::knock_back_from( const tripoint &p )
 
         // It's some kind of wall.
         apply_damage( nullptr, bp_torso, type->size );
-        add_effect( effect_stunned, 2 );
+        add_effect( effect_stunned, 2_turns );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
                      g->m.obstacle_name( to ).c_str() );
@@ -1380,7 +1395,7 @@ void monster::knock_back_from( const tripoint &p )
  * potentially other locations of interest).  It is generally permissive.
  * TODO: Pathfinding;
          Make sure that non-smashing monsters won't "teleport" through windows
-         Injure monsters if they're gonna be walking through pits or whatevs
+         Injure monsters if they're gonna be walking through pits or whatever
  */
 bool monster::will_reach( int x, int y )
 {

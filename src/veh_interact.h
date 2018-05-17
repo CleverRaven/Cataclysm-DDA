@@ -4,9 +4,9 @@
 
 #include "inventory.h"
 #include "input.h"
-#include "color.h"
-#include "cursesdef.h" // WINDOW
+#include "cursesdef.h"
 #include "string_id.h"
+#include "color.h"
 #include "int_id.h"
 #include "requirements.h"
 #include "player_activity.h"
@@ -63,15 +63,15 @@ class veh_interact
         int cpart = -1;
         int page_size;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
-        WINDOW *w_grid;
-        WINDOW *w_mode;
-        WINDOW *w_msg;
-        WINDOW *w_disp;
-        WINDOW *w_parts;
-        WINDOW *w_stats;
-        WINDOW *w_list;
-        WINDOW *w_details;
-        WINDOW *w_name;
+        catacurses::window w_grid;
+        catacurses::window w_mode;
+        catacurses::window w_msg;
+        catacurses::window w_disp;
+        catacurses::window w_parts;
+        catacurses::window w_stats;
+        catacurses::window w_list;
+        catacurses::window w_details;
+        catacurses::window w_name;
 
         vehicle *veh;
         bool has_wrench;
@@ -85,7 +85,7 @@ class veh_interact
 
         player_activity serialize_activity();
 
-        void set_title( std::string msg, ... ) const;
+        void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
@@ -135,7 +135,7 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( WINDOW *w );
+        size_t display_esc( const catacurses::window &w );
 
         /**
          * Display overview of parts, optionally with interactive selection of one part
@@ -202,7 +202,6 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
-        void deallocate_windows();
 };
 
 #endif

@@ -9,9 +9,11 @@
 class JsonOut;
 class JsonIn;
 
-#ifndef sgn
-#define sgn(x) (((x) < 0) ? -1 : (((x)>0) ? 1 : 0))
-#endif
+template<typename T>
+constexpr inline int sgn( const T x )
+{
+    return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
+}
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
 // This is taken almost directly from the boost library code.
@@ -95,7 +97,7 @@ enum visibility_type {
   VIS_BOOMER_DARK
 };
 
-enum special_game_id {
+enum special_game_id : int {
     SGAME_NULL = 0,
     SGAME_TUTORIAL,
     SGAME_DEFENSE,
@@ -352,5 +354,15 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static const tripoint tripoint_zero { 0, 0, 0 };
+
+struct sphere
+{
+    int radius;
+    tripoint center;
+
+    sphere() : radius( 0 ), center() {}
+    explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
+    explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
+};
 
 #endif

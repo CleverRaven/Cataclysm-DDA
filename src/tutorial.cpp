@@ -8,11 +8,14 @@
 #include "action.h"
 #include "overmapbuffer.h"
 #include "translations.h"
+#include "map_iterator.h"
 #include "profession.h"
+#include "mapdata.h"
 #include "overmap.h"
 #include "trap.h"
 #include "player.h"
 #include "scent_map.h"
+#include "json.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -174,10 +177,9 @@ void tutorial_game::post_action( action_id act )
             if( g->u.has_amount( "grenade_act", 1 ) ) {
                 add_message( LESSON_ACT_GRENADE );
             }
-            for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
-                for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
-                    if( g->m.tr_at( {x, y, g->u.posz()} ).id == trap_str_id( "tr_bubblewrap" ) )
-                        add_message( LESSON_ACT_BUBBLEWRAP );
+            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+                if( g->m.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
+                    add_message( LESSON_ACT_BUBBLEWRAP );
                 }
             }
             break;

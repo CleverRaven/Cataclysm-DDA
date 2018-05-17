@@ -92,12 +92,8 @@
         "G": "f_oven",
         "H": "f_armchair"
       },
-      "toilets": {
-        ";": {}
-      },
-      "gaspumps": {
-        "O": {}
-      },
+      "toilets": { ";": {  } },
+      "gaspumps": { "O": {  } },
       "place_items": [
         { "item": "bed", "x": [ 2, 3 ], "y": [ 19, 20 ], "chance": 80 },
         { "item": "dresser", "x": 2, "y": 21, "chance": 80 },

@@ -56,7 +56,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["BADCARDIO"],
-        "category" : ["MUTCAT_FISH"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "QUICK",
@@ -114,6 +114,7 @@
         "description" : "You have a high tolerance for pain.",
         "starting_trait" : true,
         "valid" : false,
+        "cancels" : ["MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3"],
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -532,8 +533,30 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER"],
+        "cancels" : ["FASTHEALER", "SLOWHEALER2", "SLOWHEALER3"],
         "healing_resting" : -0.0025
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER2",
+        "name" : "Very Slow Sleep Healing",
+        "points" : -4,
+        "description" : "You heal much slower than most; sleeping will heal only one third HP compared to the average person.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["SLOWHEALER", "SLOWHEALER3"],
+        "healing_resting" : -0.0066
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER3",
+        "name" : "Extremely Slow Sleep Healing",
+        "points" : -8,
+        "description" : "You almost cannot recover lost health by sleeping; sleeping will heal only one tenth HP compared to the average person.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["SLOWHEALER", "SLOWHEALER2"],
+        "healing_resting" : -0.009
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -691,10 +714,10 @@
     },{
         "type" : "mutation",
         "id" : "ANTIWHEAT",
-        "name" : "Wheat Allergy",
+        "name" : "Grain Intolerance",
         "points" : -2,
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
-        "description" : "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
         "type" : "mutation",
@@ -1702,7 +1725,7 @@
         "points" : 5,
         "visibility" : 10,
         "ugliness" : 3,
-        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to bashing and cutting damage and minor protection from fire.  Greatly reduces wet effects.",
+        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
         "prereqs" : ["PLANTSKIN"],
         "category" : ["MUTCAT_PLANT"],
         "wet_protection" : [
@@ -2716,9 +2739,37 @@
         "purifiable" : false,
         "prereqs" : ["MASOCHIST", "PAINRESIST"],
         "prereqs2" : ["PAINREC3"],
+        "cancels" : ["MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3"],
         "threshreq" : ["THRESH_MEDICAL"],
         "//" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "MORE_PAIN",
+        "name" : "Pain Sensitive",
+        "points" : -2,
+        "description" : "For some reason things always seem to hurt you more.  Pain dealt to you is increased by 25%.",
+        "starting_trait" : true,
+        "//" : "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
+        "cancels" : ["PAINRESIST", "NOPAIN"],
+        "changes_to" : ["MORE_PAIN2"]
+    },{
+        "type" : "mutation",
+        "id" : "MORE_PAIN2",
+        "name" : "Hyperalgesia",
+        "points" : -3,
+        "description" : "Your body experiences pain out of proportion to the physical causes.  Pain dealt to you is increased by 50%.",
+        "prereqs" : ["MORE_PAIN"],
+        "cancels" : ["PAINRESIST", "NOPAIN"],
+        "changes_to" : ["MORE_PAIN3"]
+    },{
+        "type" : "mutation",
+        "id" : "MORE_PAIN3",
+        "name" : "Extreme Hyperalgesia",
+        "points" : -5,
+        "description" : "Your body reacts cripplingly to any source of pain.  Pain dealt to you is doubled.",
+        "prereqs" : ["MORE_PAIN2"],
+        "cancels" : ["PAINRESIST", "NOPAIN"]
     },{
         "type" : "mutation",
         "id" : "PRED1",
@@ -2736,7 +2787,7 @@
         "id" : "PRED2",
         "name" : "Hunter",
         "points" : 3,
-        "description" : "Your brain has a lot more in common with predatory animal than a human, making it easer to control misplaced reactions to death of your prey.  Additionally, combat skills, which you use to hunt, are easer to learn and maintain.",
+        "description" : "Your brain has a lot more in common with predatory animal than a human, making it easier to control misplaced reactions to death of your prey.  Additionally, combat skills, which you use to hunt, are easier to learn and maintain.",
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED1"],
@@ -2879,7 +2930,7 @@
         "points" : 2,
         "visibility" : 6,
         "ugliness" : 6,
-        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Activate to extend or retract your fangs.",
+        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
         "prereqs" : ["MANDIBLES"],
         "prereqs2" : ["POISONOUS", "POISONOUS2"],
@@ -3922,6 +3973,7 @@
         "points" : -2,
         "visibility" : 3,
         "ugliness" : 2,
+        "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "description" : "Your hands and feet are heavily webbed, reducing your dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_SLIME"],
         "wet_protection" : [
@@ -4600,7 +4652,6 @@
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
         "wet_protection" : [
             { "part" : "ARM_L", "neutral" : 19 },
             { "part" : "ARM_R", "neutral" : 19 },
@@ -4637,7 +4688,6 @@
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "prereqs" : ["ARM_TENTACLES_4"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [

@@ -3,7 +3,7 @@
         "type":"GENERIC",
         "id" : "mjolnir",
         "name" : "Mjölnir",
-        "description" : "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n \nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to...\nCRUSH!!'",
+        "description" : "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n \nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to...\nCRUSH!'",
         "weight" : 5443,
         "color" : "light_gray",
         "symbol" : "/",
@@ -1110,7 +1110,7 @@
         "volume": 2,
         "weight": 970,
         "bashing": 12,
-        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
+        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE"]
     },
     {
         "type":"GENERIC",
@@ -1121,7 +1121,7 @@
         "name_plural": "pairs of brass knuckles",
         "category": "weapons",
         "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
-        "material": "steel",
+        "material": "brass",
         "weight": 320,
         "bashing": 6,
         "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]

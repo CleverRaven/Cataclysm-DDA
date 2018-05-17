@@ -21,6 +21,7 @@ LDFLAGS += -L.
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
+CXXFLAGS += -Wall -Wextra
 
 TEST_TARGET = $(BUILD_PREFIX)cata_test
 

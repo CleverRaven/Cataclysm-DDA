@@ -14,7 +14,7 @@
         "damage" : 60,
         "pierce" : 8,
         "range" : 6,
-        "dispersion" : 60,
+        "dispersion" : 860,
         "recoil" : 840,
         "effects" : ["COOKOFF", "RECYCLED"]
     },{   "type" : "AMMO",
@@ -31,6 +31,7 @@
         "ammo_type" : "blunderbuss",
         "damage" : 60,
         "range" : 3,
+        "dispersion" : 800,
         "recoil" : 780,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },{   "type" : "AMMO",
@@ -48,6 +49,7 @@
         "damage" : 53,
         "pierce" : 12,
         "range" : 5,
+        "dispersion" : 800,
         "recoil" : 840,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },

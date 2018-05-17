@@ -28,7 +28,7 @@ TEST_CASE( "use_eyedrops" )
 
     REQUIRE( test_item.charges == 5 );
 
-    dummy.add_env_effect( efftype_id( "boomered" ), bp_eyes, 3, 12 );
+    dummy.add_env_effect( efftype_id( "boomered" ), bp_eyes, 3, 12_turns );
 
     int test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
@@ -52,21 +52,17 @@ TEST_CASE( "use_eyedrops" )
 monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
-    monster *candidate = nullptr;
     for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {
         for( target.y = pos.y - 1; target.y <= pos.y + 1; target.y++ ) {
             if( target == pos ) {
                 continue;
             }
-            if( g->mon_at( target ) != -1 ) {
-                candidate = g->critter_at<monster>( target );
-                if( candidate != nullptr ) {
-                    return candidate;
-                }
+            if( monster *const candidate = g->critter_at<monster>( target ) ) {
+                return candidate;
             }
         }
     }
-    return candidate;
+    return nullptr;
 }
 
 TEST_CASE( "use_manhack" )

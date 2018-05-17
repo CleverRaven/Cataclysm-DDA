@@ -6,7 +6,8 @@
     "points" : 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
     "allowed_locs": ["shelter"],
-    "start_name": "Evac Shelter"
+    "start_name": "Evac Shelter",
+    "flags" : ["CITY_START"]
   },{
     "type": "scenario",
     "ident": "missed",
@@ -14,13 +15,14 @@
     "points" : 0,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore","boarded_house"],
+    "flags": [ "CITY_START" ],
     "start_name": "In Town"
   },
   {
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED" ],
+    "flags": [ "INFECTED", "CITY_START" ],
     "ident": "infected",
     "points" : -4,
     "start_name": "Anywhere",
@@ -32,7 +34,7 @@
     "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
-    "flags": [ "FIRE_START" ],
+    "flags": [ "FIRE_START", "CITY_START" ],
     "ident": "fire",
     "points" : -2,
     "start_name": "Anywhere",
@@ -47,7 +49,7 @@
     "start_name": "Anywhere",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore"],
     "professions" : ["svictim","tweaker"],
-    "flags" : ["FIRE_START","INFECTED","BAD_DAY","CHALLENGE"]
+    "flags" : [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
   },{
     "type": "scenario",
     "ident": "medieval",
@@ -70,7 +72,7 @@
     "professions" : ["unemployed","mutant_patient","mutant_volunteer","labtech","broken_cyborg"],
     "allowed_locs" : ["lab_stairs","lab_finale","ice_lab_stairs","ice_lab_finale"],
     "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","FELINE_EARS","TAIL_FLUFFY","TAIL_LONG","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES","CHAOTIC","ALCMET","LIGHT_BONES","CHITIN"],
-    "flags" : ["CHALLENGE"]
+    "flags" : ["CHALLENGE", "CITY_START"]
   },{
     "type": "scenario",
     "ident": "ambushed",
@@ -107,12 +109,12 @@
     "name": "Challenge-Abandoned",
     "points" : -8,
     "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital.  When yours was evacuated, you were left behind because you were a lost cause.  You awaken to the sound of movement around the hospital.",
-    "allowed_locs": ["hospital"],
+    "allowed_locs": ["hospital_1", "hospital_2", "hospital_3","hospital_4", "hospital_5", "hospital_6","hospital_7", "hospital_8", "hospital_9"],
     "start_name": "Hospital",
     "forced_traits" : ["FLIMSY2"],
     "forbidden_traits" : ["TOUGH","DISRESISTANT"],
     "professions" : ["unemployed","bionic_patient","patient","broken_cyborg"],
-    "flags" : ["CHALLENGE"]
+    "flags" : [ "CHALLENGE", "CITY_START" ]
   },{
     "type" : "scenario",
     "ident" : "prisonbreak",
@@ -122,7 +124,8 @@
     "allowed_locs" : [ "prison" ],
     "start_name" : "Prison",
     "professions" : ["convict"],
-    "forced_traits": [ "PSYCHOPATH" ]
+    "forced_traits": [ "PSYCHOPATH" ],
+    "flags" : ["CITY_START"]
   },{
     "type": "scenario",
     "ident" : "mutant",
@@ -141,7 +144,8 @@
     "description": "You've survived for as long as you could inside of the mall you worked at as a security guard.  Find a way out and try your best to survive.",
     "start_name": "Mall",
     "professions" : ["mall_cop"],
-    "allowed_locs" : ["mall_a_12", "mall_a_30"]
+    "allowed_locs" : ["mall_a_12", "mall_a_30"],
+    "flags" : ["CITY_START"]
   },{
     "type": "scenario",
     "ident": "last_firefighter",
@@ -151,7 +155,7 @@
     "allowed_locs" : ["fire_station"],
     "professions" : ["firefighter","bionic_firefighter"],
     "start_name": "Fire Station",
-    "flags" : ["SUR_START"]
+    "flags" : ["SUR_START", "CITY_START"]
   },{
     "type": "scenario",
     "ident": "precinct_zed",
@@ -161,7 +165,7 @@
     "allowed_locs" : ["police"],
     "professions" : ["cop","sniper_police","riot_police","bionic_cop","detective","swat","swat_heavy"],
     "start_name": "Police Station",
-    "flags" : ["SUR_START"]
+    "flags" : ["SUR_START", "CITY_START"]
   },{
     "type": "scenario",
     "ident": "schools_out",
@@ -170,7 +174,8 @@
     "description": "You were at school when the principal shambled in and ate one of the students, and before you knew it the entire campus was overrun by monsters.  Guess school's out forever.",
     "allowed_locs" : ["school"],
     "professions" : ["student", "skaterkid", "jdelinquent", "jr_survivalist", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "teacher", "gym_teacher"],
-    "start_name": "School"
+    "start_name": "School",
+    "flags" : ["CITY_START"]
   },{
     "type": "scenario",
     "ident": "wilderness",
@@ -178,7 +183,7 @@
     "points" : 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Forest",
-    "professions" : ["unemployed", "survivalist", "trapper", "bionic_prepper", "guru", "backpacker", "naturalist", "camper", "bow_hunter", "crossbow_hunter", "shotgun_hunter", "rifle_hunter", "lumberjack", "jr_survivalist", "fisher", "bio_sniper"],
+    "professions" : ["unemployed", "survivalist", "trapper", "bionic_prepper", "guru", "backpacker", "naturalist", "camper", "bow_hunter", "crossbow_hunter", "shotgun_hunter", "rifle_hunter", "lumberjack", "jr_survivalist", "fisher", "bio_sniper", "naked"],
     "allowed_locs" : ["forest"]
   },{
     "type": "scenario",
@@ -199,7 +204,8 @@
     "description": "You were mining along when you found...something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
     "professions" : ["miner"],
-    "allowed_locs" : ["mine_finale"]
+    "allowed_locs" : ["mine_finale"],
+    "flags": ["CITY_START"]
   },
   {
     "type": "scenario",
@@ -208,8 +214,8 @@
     "points": -3,
     "description": "You were assigned to the last of the real riots; one of the last to flee when the rioters stopped breathing but kept moving.",
     "start_name": "Public Holdout",
-    "allowed_locs": [ "s_bookstore", "s_grocery", "police", "s_garage", "s_library", "hospital", "mall_a_30", "religous_church", "religous_cemetery" ],
-    "flags": [ "SUR_START" ]
+    "allowed_locs": [ "s_bookstore", "s_grocery", "police", "s_garage", "s_library", "hospital_2", "mall_a_30", "religous_church", "religous_cemetery" ],
+    "flags": [ "SUR_START", "CITY_START" ]
   },
   {
     "type": "scenario",

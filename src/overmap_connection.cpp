@@ -2,6 +2,7 @@
 
 #include "generic_factory.h"
 #include "overmap_location.h"
+#include "json.h"
 
 #include <algorithm>
 #include <cassert>

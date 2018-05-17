@@ -7,12 +7,10 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
-#include <bitset>
 #include <memory>
 #include <list>
 #include <functional>
 
-#include "json.h"
 #include "itype.h"
 
 bool item_is_blacklisted( const std::string &id );
@@ -26,6 +24,8 @@ class Item_group;
 class item;
 class item_category;
 class Item_factory;
+class JsonObject;
+class JsonArray;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
@@ -115,7 +115,7 @@ class Item_factory
          *      "entries": [ x, y, z ]
          * }
          * \endcode
-         * Note that each entrie in the array has to be a JSON object. The other function above
+         * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         void load_item_group( JsonArray &entries, const Group_tag &ident, bool is_collection,
@@ -212,9 +212,7 @@ class Item_factory
          * If the item type overrides an existing type, the existing type is deleted first.
          * @param def The new item type, must not be null.
          */
-        void add_item_type( const itype &def ) {
-            m_runtimes[ def.id ].reset( new itype( def ) );
-        }
+        void add_item_type( const itype &def );
 
         /**
          * Check if an iuse is known to the Item_factory.
@@ -228,6 +226,9 @@ class Item_factory
 
         /** Get all item templates (both static and runtime) */
         std::vector<const itype *> all() const;
+
+        /** Get item types created at runtime. */
+        std::vector<const itype *> get_runtime_types() const;
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
@@ -249,7 +250,7 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
-        typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
+        typedef std::map<Group_tag, std::unique_ptr<Item_spawn_data>> GroupMap;
         GroupMap m_template_groups;
 
         /** Checks that ammo is listed in ammunition_type::name().
@@ -277,7 +278,7 @@ class Item_factory
          * and calls @ref load to do the actual (type specific) loading.
          */
         template<typename SlotType>
-        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &src );
+        void load_slot( cata::optional<SlotType> &slotptr, JsonObject &jo, const std::string &src );
 
         /**
          * Load item the item slot if present in json.
@@ -285,7 +286,7 @@ class Item_factory
          * slot from that object. If the member does not exists, nothing is done.
          */
         template<typename SlotType>
-        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+        void load_slot_optional( cata::optional<SlotType> &slotptr, JsonObject &jo,
                                  const std::string &member, const std::string &src );
 
         void load( islot_tool &slot, JsonObject &jo, const std::string &src );
@@ -330,7 +331,7 @@ class Item_factory
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
                            const std::string &name, const Item_group &parent );
         bool load_string( std::vector<std::string> &vec, JsonObject &obj, const std::string &name );
-        void add_entry( Item_group *sg, JsonObject &obj );
+        void add_entry( Item_group &sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
         void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
@@ -342,6 +343,13 @@ class Item_factory
 
         void finalize_item_blacklist();
 
+        /** Applies part of finalization that don't depend on other items. */
+        void finalize_pre( itype &obj );
+        /** Registers the item as having repair actions (if it has any). */
+        void register_cached_uses( const itype &obj );
+        /** Applies part of finalization that depends on other items. */
+        void finalize_post( itype &obj );
+
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
 
@@ -351,10 +359,19 @@ class Item_factory
         std::map<itype_id, migration> migrations;
 
         /**
-         * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
+         * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).
          * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
          */
         std::map<itype_id, std::set<itype_id>> tool_subtypes;
+
+        // tools that have at least one repair action
+        std::set<itype_id> repair_tools;
+
+        // tools that can be used to repair complex firearms
+        std::set<itype_id> gun_tools;
+
+        // tools that can be used to repair wood/paper/bone/chitin items
+        std::set<itype_id> misc_tools;
 };
 
 #endif

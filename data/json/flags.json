@@ -139,7 +139,7 @@
     "id": "NO_QUICKDRAW",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
+    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
   },
   {
     "id": "NO_REPAIR",
@@ -270,7 +270,7 @@
     "id": "WAIST",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Layer for belts other things worn on the waist.",
+    "description": "Layer for belts and other things worn on the waist.",
     "info": "This gear is worn on or around your <info>waist</info>.",
     "conflicts": [ "BELTED", "OUTER", "SKINTIGHT" ]
   },
@@ -320,7 +320,7 @@
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": " This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
+    "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
     "pseudo": true
   },
   {
@@ -329,5 +329,41 @@
     "context": [ "GENERIC", "TOOL" ],
     "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
+  },
+  {
+    "id": "BIONIC_FAULTY",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a <bad>faulty</bad> bionic."
+  },
+  {
+    "id": "BIONIC_POWER_SOURCE",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a power source bionic."
+  },
+  {
+    "id": "BIONIC_TOGGLED",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic only has a function when activated, else it causes it's effect every turn."
+  },
+  {
+    "id": "BIONIC_GUN",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects."
+  },
+  {
+    "id": "BIONIC_WEAPON",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects."
+  },
+  {
+    "id": "BIONIC_ARMOR_INTERFACE",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic can provide power to powered armor."
   }
 ]

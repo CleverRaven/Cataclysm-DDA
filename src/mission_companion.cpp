@@ -4,14 +4,17 @@
 #include "map.h"
 #include "dialogue.h"
 #include "rng.h"
+#include "itype.h"
 #include "line.h"
+#include "bionics.h"
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
 #include "mission.h"
 #include "ammo.h"
+#include "output.h"
 #include "overmapbuffer.h"
-#include "json.h"
+#include "skill.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -101,8 +104,8 @@ void talk_function::bionic_install(npc &p)
 
 void talk_function::bionic_remove(npc &p)
 {
-    std::vector <bionic> all_bio = g->u.my_bionics;
-    if (all_bio.size() == 0){
+    bionic_collection all_bio = *g->u.my_bionics;
+    if( all_bio.empty() ) {
         popup(_("You don't have any bionics installed..."));
         return;
     }
@@ -165,7 +168,7 @@ void talk_function::companion_mission(npc &p)
  // Name checks determining role? Horrible!
  if (p.name.find("Scavenger Boss") != a){
     id = "SCAVENGER";
-    title = _("Junkshop Missions");
+    title = _("Junk Shop Missions");
  }
  if (p.name.find("Crop Overseer") != a){
     id = "COMMUNE CROPS";
@@ -199,7 +202,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         if (npc_list.size()>0){
             entry = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Patrol"] = entry;
@@ -217,7 +220,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         if (npc_list.size()>0){
             entry = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Raid"] = entry;
@@ -234,7 +237,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         if (npc_list.size()>0){
             entry = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Menial Labor"] = entry;
@@ -251,7 +254,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         if (npc_list.size()>0){
             entry = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Carpentry Work"] = entry;
@@ -307,7 +310,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         if (npc_list.size()>0){
             entry = _("Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Foraging"] = entry;
@@ -329,20 +332,20 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             entry = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
             " \nRoster:\n");
             for( auto &elem : npc_list ) {
-                if (elem->companion_mission_time == -1){
+                if( elem->companion_mission_time == calendar::before_time_starts ) {
                     entry = entry + "  " + elem->name + _(" [READY] \n");
                     npc_list_aux.push_back(elem);
-                } else if (calendar::turn.get_turn() >= elem->companion_mission_time) {
+                } else if( calendar::turn >= elem->companion_mission_time ) {
                     entry = entry + "  " + elem->name + _(" [COMPLETE] \n");
                 } else {
-                    entry = entry + "  " + elem->name + " ["+ to_string(abs(calendar::turn.get_turn()-elem->companion_mission_time)/600) +" Hours] \n";
+                    entry = entry + "  " + elem->name + " ["+ to_string( abs( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) ) +" Hours] \n";
                 }
             }
             if (npc_list_aux.size()>0){
                 entry_aux = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
                 " \nRoster:\n");
                 for( auto &elem : npc_list_aux ) {
-                    if (elem->companion_mission_time == -1){
+                    if( elem->companion_mission_time == calendar::before_time_starts ) {
                         entry_aux = entry_aux + "  " + elem->name + " [READY] \n";
                     }
                 }
@@ -362,10 +365,10 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         return false;
     }
 
-    WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                             ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
                             1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
@@ -386,7 +389,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         if (redraw) {
             werase(w_list);
             draw_border(w_list);
-            mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
+            mvwprintz( w_list, 1, 1, c_white, title );
             for (size_t i = 0; i < keys.size(); i++) {
                 nc_color col = (i == sel ? h_white : c_white);
                 mvwprintz(w_list, i + 2, 1, col, "  %s", keys[i].c_str());
@@ -421,10 +424,6 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             break;
         }
     }
-    werase(w_list);
-    werase(w_info);
-    delwin(w_list);
-    delwin(w_info);
     g->refresh_all();
 
     if (cur_key == "Caravan Commune-Refugee Center"){
@@ -492,7 +491,7 @@ void talk_function::individual_mission( npc &p, std::string desc, std::string id
     popup("%s %s", comp->name.c_str(), desc.c_str());
     comp->set_companion_mission( p, id );
     if (group){
-        comp->companion_mission_time = -1;
+        comp->companion_mission_time = calendar::before_time_starts;
     } else {
         comp->companion_mission_time = calendar::turn.get_turn();
     }
@@ -508,10 +507,9 @@ void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
     popup(_("The caravan departs with an estimated total travel time of %d hours..."), int(time/600));
 
     for( auto &elem : npc_list ) {
-        if (elem->companion_mission_time == -1){
+        if( elem->companion_mission_time == calendar::before_time_starts ) {
             //Adds a 10% error in estimated travel time
-            elem->companion_mission_time = time + int(time * rng_float(-.1,.1)) +
-              calendar::turn.get_turn();
+            elem->companion_mission_time = calendar::turn + time_duration::from_turns( time + time * rng_float( -.1, .1 ) );
         }
     }
 
@@ -531,7 +529,7 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
     if (comp == NULL){
         return;
     }
-    if (comp->companion_mission_time == -1){
+    if( comp->companion_mission_time == calendar::before_time_starts ) {
         popup(_("%s returns to your party."), comp->name.c_str());
         companion_return( *comp );
         return;
@@ -588,7 +586,6 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
                 if (y < 60){
                     const skill_id best = elem->best_skill();
                     if( best ) {
-                        popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
                     } else {
                         elem->practice( skill_melee, 10);
@@ -629,8 +626,8 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 //A random NPC on one team attacks a random NPC on the opposite
 void talk_function::attack_random( const std::vector<std::shared_ptr<npc>> &attacker, const std::vector<std::shared_ptr<npc>> &defender )
 {
-    if (attacker.size() == 0 || defender.size() ==0){
-            return;
+    if( attacker.empty() || defender.empty() ) {
+        return;
     }
     const auto att = random_entry( attacker );
     const auto def = random_entry( defender );
@@ -807,7 +804,7 @@ void talk_function::field_plant( npc &p, std::string place )
                 } else {
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
-                used_seed.front().bday = calendar::turn;
+                used_seed.front().set_age( 0 );
                 bay.add_item_or_charges( x, y, used_seed.front() );
                 bay.set( x, y, t_dirt, f_plant_seed);
                 limiting_number--;
@@ -851,7 +848,7 @@ void talk_function::field_harvest( npc &p, std::string place )
             }
         }
     }
-    if (plant_names.size() ==0){
+    if( plant_names.empty() ) {
         popup(_("There aren't any plants that are ready to harvest..."));
         return;
     }
@@ -1071,7 +1068,7 @@ bool talk_function::scavenging_raid_return( npc &p )
                 popup(_("Through brute force the party smashed through the group of %d undead!"), monsters);
                 experience += rng( 2, 10 );
             } else {
-                popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
+                popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
@@ -1143,7 +1140,8 @@ bool talk_function::labor_return( npc &p )
         return false;
     }
 
-    float turns = (calendar::turn.get_turn()-comp->companion_mission_time)/600;
+    //@todo actually it's hours, not turns
+    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 8*turns;
     g->u.cash += money*100;
 
@@ -1210,7 +1208,8 @@ bool talk_function::carpenter_return( npc &p )
         }
     }
 
-    float turns = (calendar::turn.get_turn()-comp->companion_mission_time)/600;
+    //@todo actually it's hours, not turns
+    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 12*turns;
     g->u.cash += money*100;
 
@@ -1297,7 +1296,8 @@ bool talk_function::forage_return( npc &p )
         }
     }
 
-    float turns = (calendar::turn.get_turn()-comp->companion_mission_time)/600;
+    //@todo actually it's hours, not turns
+    float turns = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 10*turns;
     g->u.cash += money*100;
 
@@ -1327,7 +1327,7 @@ bool talk_function::forage_return( npc &p )
     if( skill > rng_float( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){
-            switch (calendar::turn.get_season() ) {
+            switch( season_of_year( calendar::turn ) ) {
                 case SPRING:
                     itemlist = "forage_spring";
                     break;
@@ -1420,7 +1420,7 @@ void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, 
 void talk_function::companion_return( npc &comp ){
     assert( !comp.is_active() );
     comp.reset_companion_mission();
-    comp.companion_mission_time = 0;
+    comp.companion_mission_time = calendar::before_time_starts;
     // npc *may* be active, or not if outside the reality bubble
     g->reload_npcs();
 }
@@ -1437,13 +1437,10 @@ std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p, c
 }
 
 npc *talk_function::companion_choose(){
-    std::vector<npc *> available;
-    for( auto &elem : g->active_npc ) {
-        if( g->u.sees( elem->pos() ) && elem->is_friend() &&
-            rl_dist( g->u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem.get() );
-        }
-    }
+    const std::vector<npc *> available = g->get_npcs_if( [&]( const npc &guy ) {
+        return g->u.sees( guy.pos() ) && guy.is_friend() &&
+            rl_dist( g->u.pos(), guy.pos() ) <= 24;
+    } );
 
     if (available.empty()) {
         popup(_("You don't have any companions to send out..."));
@@ -1466,7 +1463,7 @@ npc *talk_function::companion_choose(){
 npc *talk_function::companion_choose_return(std::string id, int deadline){
     std::vector<npc *> available;
     for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {
-        if( guy->get_companion_mission() == id && guy->companion_mission_time <= deadline) {
+        if( guy->get_companion_mission() == id && guy->companion_mission_time <= time_point::from_turn( deadline ) ) {
             available.push_back( guy.get() );
         }
     }
@@ -1525,8 +1522,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((t == t_window || t == t_window_taped ||
-                    t == t_window_domestic || t == t_window_domestic_taped ||
+            else if ((t == t_window || t == t_window_taped || t == t_window_domestic || 
                     t == t_window_boarded_noglass || t == t_window_domestic_taped ||
                     t == t_window_alarm_taped || t == t_window_boarded ||
                     t == t_curtains || t == t_window_alarm ||
@@ -1545,7 +1541,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             }
-            //Kill zombies!  Only works agains pre-spawned enemies at the moment...
+            //Kill zombies!  Only works against pre-spawned enemies at the moment...
             Creature *critter = g->critter_at( p);
             if ( critter != nullptr ) {
                 critter->die(nullptr);

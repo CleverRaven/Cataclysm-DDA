@@ -4,11 +4,14 @@
 
 #include <string>
 #include <map>
+#include <utility>
 #include <unordered_map>
 #include <vector>
-#include "json.h"
 
-class options_manager : public JsonSerializer, public JsonDeserializer
+class JsonIn;
+class JsonOut;
+
+class options_manager
 {
     private:
         static std::vector<std::pair<std::string, std::string>> build_tilesets_list();
@@ -20,6 +23,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         void add_retry( const std::string &var, const std::string &val );
 
         std::map<std::string, std::string> post_json_verify;
+
+        std::map<std::string, std::pair<std::string, std::map<std::string, std::string> > > mMigrateOption;
 
         friend options_manager &get_options();
         options_manager();
@@ -44,11 +49,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         {
                 friend class options_manager;
             public:
-                //Default constructor
                 cOpt();
-
-                //Default deconstructor
-                ~cOpt() {};
 
                 void setSortPos( const std::string sPageIn );
 
@@ -75,12 +76,13 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 std::string getDefaultText( const bool bTranslated = true ) const;
 
                 int getItemPos( const std::string sSearch ) const;
+                std::vector<std::pair<std::string, std::string>> getItems() const;
 
                 int getMaxLength() const;
 
                 //set to next item
                 void setNext();
-                //set to prev item
+                //set to previous item
                 void setPrev();
                 //set value
                 void setValue( std::string sSetIn );
@@ -95,6 +97,10 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                     return !operator==( rhs );
                 }
 
+                void setPrerequisite( const std::string &sOption );
+                std::string getPrerequisite() const;
+                bool hasPrerequisite() const;
+
             private:
                 std::string sName;
                 std::string sPage;
@@ -105,6 +111,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 std::string sType;
 
                 std::string format;
+
+                std::string sPrerequisite;
 
                 copt_hide_t hide;
                 int iSortPos;
@@ -146,9 +154,11 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         void add_value( const std::string &myoption, const std::string &myval,
                         const std::string &myvaltxt = "" );
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+
+        std::string migrateOptionName( const std::string &name ) const;
+        std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
 
         /**
          * Returns a copy of the options in the "world default" page. The options have their
@@ -163,6 +173,10 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         bool has_option( const std::string &name ) const;
 
         cOpt &get_option( const std::string &name );
+
+        //add hidden external option with value
+        void add_external( const std::string sNameIn, const std::string sPageIn, const std::string sType,
+                           const std::string sMenuTextIn, const std::string sTooltipIn );
 
         //add string select option
         void add( const std::string sNameIn, const std::string sPageIn,

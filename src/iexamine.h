@@ -32,14 +32,7 @@ enum hack_result {
 
 namespace iexamine
 {
-/**
-    * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
-    * Transforms the egg sack furntiture into a ruptured egg sack (f_egg_sacke).
-    * Also spawns eggs.
-    * @param p The player
-    * @param examp Location of egg sack
-    * @param montype The monster type of the created spiders.
-    */
+
 void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype );
 
 void none( player &p, const tripoint &examp );
@@ -56,13 +49,10 @@ void rubble( player &p, const tripoint &examp );
 void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
 void bars( player &p, const tripoint &examp );
+void deployed_furniture( player &p, const tripoint &pos );
 void portable_structure( player &p, const tripoint &examp );
 void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
-void fence_post( player &p, const tripoint &examp );
-void remove_fence_rope( player &p, const tripoint &examp );
-void remove_fence_wire( player &p, const tripoint &examp );
-void remove_fence_barbed( player &p, const tripoint &examp );
 void slot_machine( player &p, const tripoint &examp );
 void safe( player &p, const tripoint &examp );
 void gunsafe_ml( player &p, const tripoint &examp );
@@ -110,27 +100,11 @@ void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
-/**
- * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)
- * will be removed from the liquid item.
- * @return Whether any charges have been transferred at all.
- */
 bool pour_into_keg( const tripoint &pos, item &liquid );
 
-/**
- * Check whether there is a keg on the map that can be filled via @ref pour_into_keg.
- */
 bool has_keg( const tripoint &pos );
 
-/**
- * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
- * @param type The seed type, must have a @ref itype::seed slot.
- * @param plant_count Number of fruits to generate. For charge-based items, this
- *     specifies multiples of the default charge.
- * @param seed_count Number of seeds to generate.
- * @param byproducts If true, byproducts (like straw, withered plants, see
- * @ref islot_seed::byproducts) are included.
- */
+
 std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
 } //namespace iexamine

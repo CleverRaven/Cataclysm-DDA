@@ -76,13 +76,12 @@ void game::serialize(std::ostream & fout) {
                 json.member( "last_target_type", +1 );
             } else if( const monster * const mon = dynamic_cast<const monster*>( lt_ptr.get() ) ) {
                 // monsters don't have IDs, so get its index in the Creature_tracker instead
-                json.member( "last_target", mon_at( mon->pos() ) );
+                json.member( "last_target", critter_tracker->temporary_id( *mon ) );
                 json.member( "last_target_type", -1 );
             }
         }
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
-        json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
         tripoint pos_sm = m.get_abs_sub();
         const point pos_om = sm_to_om_remain( pos_sm.x, pos_sm.y );
@@ -96,7 +95,7 @@ void game::serialize(std::ostream & fout) {
         json.member( "grscent", scent.serialize() );
 
         // Then each monster
-        json.member( "active_monsters", critter_tracker->list() );
+        json.member( "active_monsters", *critter_tracker );
         json.member( "stair_monsters", coming_to_stairs );
 
         // save killcounts.
@@ -143,23 +142,6 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-
-/*
- * Properly reuse a stringstream object for line by line parsing
- */
-inline std::stringstream & stream_line(std::istream & f, std::stringstream & s, std::string & buf) {
-    s.clear();
-    s.str("");
-    getline(f, buf);
-    s.str(buf);
-    return s;
-}
-
-/*
- * Convenience macro for the above
- */
-#define parseline() stream_line(fin,linein,linebuf)
-
 void chkversion(std::istream & fin) {
    if ( fin.peek() == '#' ) {
        std::string vline;
@@ -191,9 +173,8 @@ void game::unserialize(std::istream & fin)
         }
     }
     std::string linebuf;
-    std::stringstream linein;
 
-    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -205,7 +186,6 @@ void game::unserialize(std::istream & fin)
         data.read( "last_target_type", tmptartyp );
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
-        data.read("nextspawn",tmpspawn);
         data.read("levx",levx);
         data.read("levy",levy);
         data.read("levz",levz);
@@ -214,7 +194,6 @@ void game::unserialize(std::istream & fin)
 
         calendar::turn = tmpturn;
         calendar::start = tmpcalstart;
-        nextspawn = tmpspawn;
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
@@ -223,30 +202,24 @@ void game::unserialize(std::istream & fin)
             safe_mode = SAFE_MODE_ON;
         }
 
-        linebuf="";
+        linebuf.clear();
         if ( data.read("grscent",linebuf) ) {
             scent.deserialize( linebuf );
         } else {
             scent.reset();
         }
 
-        JsonArray vdata = data.get_array("active_monsters");
-        clear_zombies();
-        while (vdata.has_more()) {
-            monster montmp;
-            vdata.read_next(montmp);
-            add_zombie(montmp);
-        }
+        data.read( "active_monsters", *critter_tracker );
 
         if( tmptartyp == +1 ) {
             // Use overmap_buffer because game::active_npc is not filled yet.
             last_target = overmap_buffer.find_npc( tmptar );
         } else if( tmptartyp == -1 ) {
             // Need to do this *after* the monsters have been loaded!
-            last_target = critter_tracker->find( tmptar );
+            last_target = critter_tracker->from_temporary_id( tmptar );
         }
 
-        vdata = data.get_array("stair_monsters");
+        JsonArray vdata = data.get_array("stair_monsters");
         coming_to_stairs.clear();
         while (vdata.has_more()) {
             monster stairtmp;
@@ -341,14 +314,14 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "prison_4", "prison_5", "prison_6",
         "prison_7", "prison_8", "prison_9",
         "prison_b_entrance", "prison_b",
+        "hospital_entrance", "hospital",
         "cathedral_1_entrance", "cathedral_1",
         "cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
-        "bunker",
-        "farm",
-        "farm_field"
+        "bunker", "farm", "farm_field", "subway_station",
+        "mansion", "mansion_entrance"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -385,7 +358,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
 
         } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
-            const std::string base = old.substr( 0, old.rfind( "1" ) );
+            const std::string base = old.substr( 0, old.rfind( '1' ) );
             const std::string entr = base + "1_entrance";
             nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
             nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
@@ -400,12 +373,12 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
 
+        } else if( old == "subway_station" ) {
+            new_id = oter_id( "underground_sub_station" );
         } else if( old == "bridge_ew" ) {
             new_id = oter_id( "bridge_east" );
-
         } else if( old == "bridge_ns" ) {
             new_id = oter_id( "bridge_north" );
-
         } else if( old == "public_works_entrance" ) {
             const std::string base = "public_works_";
             const std::string other = "public_works";
@@ -543,6 +516,21 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( { -1, prison + "6", -1, prison + "8", prison_1 + "9_west" } );
             }
 
+        } else if( old.compare( 0, 8, "hospital" ) == 0 ) {
+            const std::string hospital = "hospital";
+            const std::string hospital_entrance = "hospital_entrance";
+            if( old == hospital_entrance ) {
+                new_id = oter_id( hospital + "_2_north" );
+            } else if( old == hospital ) {
+                nearby.push_back( { -1, hospital_entrance,  1, hospital,          hospital + "_1_north" } );
+                nearby.push_back( {  1, hospital_entrance,  1, hospital,          hospital + "_3_north" } );
+                nearby.push_back( { -2, hospital,           1, hospital,          hospital + "_4_north" } );
+                nearby.push_back( {  0, hospital,          -1, hospital_entrance, hospital + "_5_north" } );
+                nearby.push_back( {  2, hospital,           1, hospital,          hospital + "_6_north" } );
+                nearby.push_back( { -2, hospital,          -2, hospital,          hospital + "_7_north" } );
+                nearby.push_back( {  0, hospital,          -2, hospital_entrance, hospital + "_8_north" } );
+                nearby.push_back( {  2, hospital,          -2, hospital,          hospital + "_9_north" } );
+            }
         } else if( old == "cathedral_1_entrance" ) {
             const std::string base = "cathedral_1_";
             const std::string other = "cathedral_1";
@@ -682,6 +670,19 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { -2, "farm_field", -2, "farm_field", "farm_7_north" } );
             nearby.push_back( {  0, "farm_field", -2, "farm",       "farm_8_north" } );
             nearby.push_back( {  2, "farm_field", -2, "farm_field", "farm_9_north" } );
+        } else if( old.compare( 0, 7, "mansion" ) == 0 ) {
+            if( old == "mansion_entrance" ) {
+                new_id = oter_id( "mansion_e1_north" );
+            } else if( old == "mansion" ) {
+                nearby.push_back( { -1, "mansion_entrance",  1, "mansion",          "mansion_c1_east" } );
+                nearby.push_back( {  1, "mansion_entrance",  1, "mansion",          "mansion_c3_north" } );
+                nearby.push_back( { -2, "mansion",           1, "mansion",          "mansion_t2_west" } );
+                nearby.push_back( {  0, "mansion",          -1, "mansion_entrance", "mansion_+4_north" } );
+                nearby.push_back( {  2, "mansion",           1, "mansion",          "mansion_t4_east" } );
+                nearby.push_back( { -2, "mansion",          -2, "mansion",          "mansion_c4_south" } );
+                nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
+                nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
+            }
         }
 
         for( const auto &conv : nearby ) {
@@ -791,7 +792,7 @@ void overmap::unserialize( std::istream &fin ) {
             if ( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if ( rit != region_settings_map.end() ) {
-                    settings = rit->second; // todo optimize
+                    settings = rit->second; // @todo: optimize
                 }
             }
         } else if( name == "mongroups" ) {
@@ -915,7 +916,7 @@ void overmap::unserialize( std::istream &fin ) {
             while( !jsin.end_array() ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
-                if( !new_npc->fac_id.empty() ) {
+                if( !new_npc->fac_id.str().empty() ) {
                     new_npc->set_fac( new_npc->fac_id );
                 }
                 npcs.push_back( new_npc );
@@ -1127,7 +1128,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
         jout.start_array();
         // Zero the bin position so that it isn't serialized
         // The position is stored separately, in the list
-        // @todo Do it without the copy
+        // @todo: Do it without the copy
         mongroup saved_group = group_bin.first;
         saved_group.pos = tripoint_zero;
         jout.write( saved_group );
@@ -1366,19 +1367,12 @@ void game::unserialize_master(std::istream &fin) {
             std::string name = jsin.get_member_name();
             if (name == "next_mission_id") {
                 next_mission_id = jsin.get_int();
-            } else if (name == "next_faction_id") {
-                next_faction_id = jsin.get_int();
             } else if (name == "next_npc_id") {
                 next_npc_id = jsin.get_int();
             } else if (name == "active_missions") {
                 mission::unserialize_all( jsin );
             } else if (name == "factions") {
-                jsin.start_array();
-                while (!jsin.end_array()) {
-                    faction fac;
-                    fac.deserialize(jsin);
-                    factions.push_back(fac);
-                }
+                jsin.read( *faction_manager_ptr );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1405,18 +1399,12 @@ void game::serialize_master(std::ostream &fout) {
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);
-        json.member("next_faction_id", next_faction_id);
         json.member("next_npc_id", next_npc_id);
 
         json.member("active_missions");
         mission::serialize_all( json );
 
-        json.member("factions");
-        json.start_array();
-        for (auto &i : factions) {
-            i.serialize(json);
-        }
-        json.end_array();
+        json.member( "factions", *faction_manager_ptr );
 
         json.end_object();
     } catch( const JsonError &e ) {
@@ -1424,3 +1412,33 @@ void game::serialize_master(std::ostream &fout) {
     }
 }
 
+void faction_manager::serialize( JsonOut &jsout ) const
+{
+    jsout.write( factions );
+}
+
+void faction_manager::deserialize( JsonIn &jsin )
+{
+    jsin.read( factions );
+}
+
+void Creature_tracker::deserialize( JsonIn &jsin )
+{
+    monsters_list.clear();
+    monsters_by_location.clear();
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        monster montmp;
+        jsin.read( montmp );
+        add( montmp );
+    }
+}
+
+void Creature_tracker::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    for( const auto &monster_ptr : monsters_list ) {
+        jsout.write( *monster_ptr );
+    }
+    jsout.end_array();
+}

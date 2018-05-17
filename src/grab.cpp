@@ -1,5 +1,7 @@
 #include "game.h"
 #include "map.h"
+#include "output.h"
+#include "vpart_position.h"
 #include "player.h"
 #include "vehicle.h"
 #include "messages.h"
@@ -7,16 +9,17 @@
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
-    int grabbed_part = 0;
-    vehicle *grabbed_vehicle = m.veh_at( u.pos() + u.grab_point, grabbed_part );
-    if( nullptr == grabbed_vehicle ) {
+    const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos() + u.grab_point );
+    if( !grabbed_vehicle_vp ) {
         add_msg( m_info, _( "No vehicle at grabbed point." ) );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return false;
     }
+    vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
+    const int grabbed_part = grabbed_vehicle_vp->part_index();
 
-    const vehicle *veh_under_player = m.veh_at( u.pos() );
+    const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos() ) );
     if( grabbed_vehicle == veh_under_player ) {
         u.grab_point = -dp;
         return false;
@@ -29,7 +32,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     bool zigzag = false;
 
     if( dp == prev_grab ) {
-        // We are pushing in the direction of veh
+        // We are pushing in the direction of vehicle
         dp_veh = dp;
     } else if( abs( dp.x + dp_veh.x ) != 2 && abs( dp.y + dp_veh.y ) != 2 ) {
         // Not actually moving the vehicle, don't do the checks
@@ -37,7 +40,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     } else if( ( dp.x == prev_grab.x || dp.y == prev_grab.y ) &&
                next_grab.x != 0 && next_grab.y != 0 ) {
-        // Zig-zag (or semi-zig-zag) pull: player is diagonal to veh
+        // Zig-zag (or semi-zig-zag) pull: player is diagonal to vehicle
         // and moves away from it, but not directly away
         dp_veh.x = ( dp.x == -dp_veh.x ) ? 0 : dp_veh.x;
         dp_veh.y = ( dp.y == -dp_veh.y ) ? 0 : dp_veh.y;
@@ -45,7 +48,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         next_grab = -dp_veh;
         zigzag = true;
     } else {
-        // We are pulling the veh
+        // We are pulling the vehicle
         next_grab = -dp;
     }
 
@@ -54,11 +57,11 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check
     int mc = 0;
-    int str_req = ( grabbed_vehicle->total_mass() / 25_kilogram ); //strengh reqired to move vehicle.
+    int str_req = ( grabbed_vehicle->total_mass() / 25_kilogram ); //strength required to move vehicle.
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
-    // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
+    // Vehicle just too big to grab & move; 41-45 lets folks have a bit of a window
     // (Roughly 1.1K kg = danger zone; cube vans are about the max)
     if( str_req > 45 ) {
         add_msg( m_info, _( "The %s is too bulky for you to move by hand." ),

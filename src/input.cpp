@@ -1,6 +1,6 @@
+#include "input.h"
 #include "action.h"
 #include "cursesdef.h"
-#include "input.h"
 #include "debug.h"
 #include "json.h"
 #include "output.h"
@@ -8,10 +8,12 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "options.h"
 #include "string_input_popup.h"
+#include "cursesdef.h"
 
 #include <fstream>
 #include <sstream>
@@ -30,7 +32,7 @@ struct ContainsPredicate {
 
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
-    // Operator overload required to leverage std functional iterface.
+    // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
@@ -64,7 +66,7 @@ bool is_mouse_enabled()
 #endif
 }
 
-//helper function for those have problem inputing certain characters.
+//helper function for those have problem inputting certain characters.
 std::string get_input_string_from_file( std::string fname )
 {
     std::string ret;
@@ -417,6 +419,13 @@ const std::vector<input_event> &input_manager::get_input_for_action( const std::
     return attributes.input_events;
 }
 
+long input_manager::get_first_char_for_action( const std::string action_descriptor,
+        const std::string context )
+{
+    std::vector<input_event> input_events = get_input_for_action( action_descriptor, context );
+    return input_events.empty() ? 0 : input_events[0].get_first_input();
+}
+
 const action_attributes &input_manager::get_action_attributes(
     const std::string &action_id,
     const std::string context,
@@ -609,7 +618,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
             category );
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
-        // TODO: fix for unicode.
+        // TODO: fix for Unicode.
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
             events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
             result.push_back( ( char )events_event.sequence.front() );
@@ -696,7 +705,7 @@ const std::string &input_context::handle_input()
 {
     next_action.type = CATA_INPUT_ERROR;
     while( 1 ) {
-        next_action = inp_mngr.get_input_event( NULL );
+        next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {
             return TIMEOUT;
         }
@@ -829,9 +838,9 @@ void input_context::display_help()
 {
     inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
-    WINDOW *w_help = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                             1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                             1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
 
     // has the user changed something?
     bool changed = false;
@@ -848,9 +857,9 @@ void input_context::display_help()
     } ), org_registered_actions.end() );
 
     // colors of the keybindings
-    static const nc_color global_key = c_ltgray;
-    static const nc_color local_key = c_ltgreen;
-    static const nc_color unbound_key = c_ltred;
+    static const nc_color global_key = c_light_gray;
+    static const nc_color local_key = c_light_green;
+    static const nc_color unbound_key = c_light_red;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
@@ -896,10 +905,9 @@ void input_context::display_help()
 
     while( true ) {
         werase( w_help );
-        draw_border( w_help );
+        draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), 10, 0, c_white, true );
-        center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
@@ -920,7 +928,7 @@ void input_context::display_help()
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, i + 10, 2, c_dkgray, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
                 mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
             } else if( status == s_remove ) {
@@ -941,7 +949,7 @@ void input_context::display_help()
         }
 
         // spopup.query_string() will call wrefresh( w_help )
-        refresh();
+        catacurses::refresh();
 
         spopup.text( filter_phrase );
         if( status == s_show ) {
@@ -958,7 +966,7 @@ void input_context::display_help()
             scroll_offset = 0;
         }
 
-        if( filtered_registered_actions.size() == 0 && action != "QUIT" ) {
+        if( filtered_registered_actions.empty() && action != "QUIT" ) {
             continue;
         }
 
@@ -1084,7 +1092,6 @@ void input_context::display_help()
     }
     werase( w_help );
     wrefresh( w_help );
-    delwin( w_help );
 }
 
 input_event input_context::get_raw_input()
@@ -1112,120 +1119,14 @@ void input_manager::wait_for_any_key()
     }
 }
 
-input_event input_manager::get_input_event()
-{
-    return get_input_event( nullptr );
-}
-
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
-// If we're using curses, we need to provide get_input_event() here.
-input_event input_manager::get_input_event( WINDOW * /*win*/ )
-{
-    previously_pressed_key = 0;
-    long key = getch();
-    // Our current tiles and Windows code doesn't have ungetch()
-    if( key != ERR ) {
-        long newch;
-        // Clear the buffer of characters that match the one we're going to act on.
-        set_timeout( 0 );
-        do {
-            newch = getch();
-        } while( newch != ERR && newch == key );
-        reset_timeout();
-        // If we read a different character than the one we're going to act on, re-queue it.
-        if( newch != ERR && newch != key ) {
-            ungetch( newch );
-        }
-    }
-    input_event rval;
-    if( key == ERR ) {
-        if( input_timeout > 0 ) {
-            rval.type = CATA_INPUT_TIMEOUT;
-        } else {
-            rval.type = CATA_INPUT_ERROR;
-        }
-        // ncurses mouse handling
-    } else if( key == KEY_MOUSE ) {
-        MEVENT event;
-        if( getmouse( &event ) == OK ) {
-            rval.type = CATA_INPUT_MOUSE;
-            rval.mouse_x = event.x - VIEW_OFFSET_X;
-            rval.mouse_y = event.y - VIEW_OFFSET_Y;
-            if( event.bstate & BUTTON1_CLICKED ) {
-                rval.add_input( MOUSE_BUTTON_LEFT );
-            } else if( event.bstate & BUTTON3_CLICKED ) {
-                rval.add_input( MOUSE_BUTTON_RIGHT );
-            } else if( event.bstate & REPORT_MOUSE_POSITION ) {
-                rval.add_input( MOUSE_MOVE );
-                if( input_timeout > 0 ) {
-                    // Mouse movement seems to clear ncurses timeout
-                    set_timeout( input_timeout );
-                }
-            } else {
-                rval.type = CATA_INPUT_ERROR;
-            }
-        } else {
-            rval.type = CATA_INPUT_ERROR;
-        }
-    } else {
-        if( key == 127 ) { // == Unicode DELETE
-            previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
-        }
-        rval.type = CATA_INPUT_KEYBOARD;
-        rval.text.append( 1, ( char ) key );
-        // Read the UTF-8 sequence (if any)
-        if( key < 127 ) {
-            // Single byte sequence
-        } else if( 194 <= key && key <= 223 ) {
-            rval.text.append( 1, ( char ) getch() );
-        } else if( 224 <= key && key <= 239 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
-        } else if( 240 <= key && key <= 244 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
-        } else {
-            // Other control character, etc. - no text at all, return an event
-            // without the text property
-            previously_pressed_key = key;
-            return input_event( key, CATA_INPUT_KEYBOARD );
-        }
-        // Now we have loaded an UTF-8 sequence (possibly several bytes)
-        // but we should only return *one* key, so return the code point of it.
-        const char *utf8str = rval.text.c_str();
-        int len = rval.text.length();
-        const uint32_t cp = UTF8_getch( &utf8str, &len );
-        if( cp == UNKNOWN_UNICODE ) {
-            // Invalid UTF-8 sequence, this should never happen, what now?
-            // Maybe return any error instead?
-            previously_pressed_key = key;
-            return input_event( key, CATA_INPUT_KEYBOARD );
-        }
-        previously_pressed_key = cp;
-        // for compatibility only add the first byte, not the code point
-        // as it would  conflict with the special keys defined by ncurses
-        rval.add_input( key );
-    }
-
-    return rval;
-}
-
-void input_manager::set_timeout( int delay )
-{
-    timeout( delay );
-    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    input_timeout = delay;
-}
-
 // Also specify that we don't have a gamepad plugged in.
 bool gamepad_available()
 {
     return false;
 }
 
-bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
+bool input_context::get_coordinates( const catacurses::window &capture_win, int &x, int &y )
 {
     if( !coordinate_input_received ) {
         return false;
@@ -1245,16 +1146,6 @@ bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
     y = g->ter_view_y - ( ( view_rows / 2 ) - coordinate_y );
 
     return true;
-}
-#endif
-
-#ifndef TILES
-void init_interface()
-{
-#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-    // ncurses mouse registration
-    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
-#endif
 }
 #endif
 
@@ -1344,5 +1235,15 @@ std::vector<std::string> input_context::filter_strings_by_phrase(
     }
 
     return filtered_strings;
+}
+
+void input_context::set_edittext( std::string s )
+{
+    edittext = s;
+}
+
+std::string input_context::get_edittext()
+{
+    return edittext;
 }
 

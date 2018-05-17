@@ -18,17 +18,17 @@ constexpr double tau = 2 * PI;
 
 weather_generator::weather_generator() = default;
 
-w_point weather_generator::get_weather( const tripoint &location, const calendar &t,
+w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
     const double x( location.x /
                     2000.0 ); // Integer x position / widening factor of the Perlin function.
     const double y( location.y /
                     2000.0 ); // Integer y position / widening factor of the Perlin function.
-    const double z( double( t.get_turn() + DAYS( t.season_length() ) ) /
+    const double z( to_turn<int>( t + calendar::season_length() ) /
                     2000.0 ); // Integer turn / widening factor of the Perlin function.
 
-    const double dayFraction( ( double )t.minutes_past_midnight() / 1440 );
+    const double dayFraction = time_past_midnight( t ) / 1_days;
 
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
@@ -42,8 +42,8 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W;
 
-    const double now( double( t.turn_of_year() + DAYS( t.season_length() ) / 2 ) / double(
-                          t.year_turns() ) ); // [0,1)
+    const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
+                      calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
 
     // Temperature variation
@@ -86,12 +86,12 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
-        const calendar &t, unsigned seed ) const
+        const time_point &t, unsigned seed ) const
 {
     w_point w( get_weather( location, t, seed ) );
     weather_type wt = get_weather_conditions( w );
     // Make sure we don't say it's sunny at night! =P
-    if( wt == WEATHER_SUNNY && t.is_night() ) {
+    if( wt == WEATHER_SUNNY && calendar( to_turn<int>( t ) ).is_night() ) {
         return WEATHER_CLEAR;
     }
     return wt;
@@ -146,9 +146,9 @@ int weather_generator::get_water_temperature() const
     source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
     **/
 
-    int season_length = calendar::turn.season_length();
+    int season_length = to_days<int>( calendar::season_length() );
     int day = calendar::turn.day_of_year();
-    int hour = calendar::turn.hours();
+    int hour = hour_of_day<int>( calendar::turn );
     int water_temperature = 0;
 
     if( season_length == 0 ) {
@@ -158,7 +158,7 @@ int weather_generator::get_water_temperature() const
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
     int annual_mean_water_temperature = 54.5 + 20.7 * sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
-    // Temperature vareis between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
+    // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
     int daily_water_temperature_varaition = 2.0 + 2.0 * sin( tau * ( hour - 6.0 ) / 24.0 );
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
@@ -168,18 +168,21 @@ int weather_generator::get_water_temperature() const
 
 void weather_generator::test_weather() const
 {
-    // Outputs a Cata year's worth of weather data to a csv file.
+    // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
+    //@todo: this is wrong. weather_generator does not have such a constructor
     // weather_generator WEATHERGEN(0); // Seeds the weather object.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
     testfile.open( "weather.output", std::ofstream::trunc );
     testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
-    for( calendar i( calendar::turn );
-         i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i += 200 ) {
-        w_point w = get_weather( tripoint( 0, 0, 0 ), i, rand() );
-        testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
+    const time_point begin = calendar::turn;
+    const time_point end = begin + 2 * calendar::year_length();
+    for( time_point i = begin; i < end; i += 200_turns ) {
+        //@todo: a new random value for each call to get_weather? Is this really intended?
+        w_point w = get_weather( tripoint( 0, 0, 0 ), to_turn<int>( i ), rand() );
+        testfile << to_turn<int>( i ) << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
                  std::endl;
     }
 }

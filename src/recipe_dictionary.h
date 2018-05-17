@@ -3,36 +3,36 @@
 #define RECIPE_DICTIONARY_H
 
 #include "recipe.h"
+#include "string_id.h"
 
 #include <string>
 #include <map>
 #include <functional>
 #include <set>
 #include <vector>
+#include <algorithm>
 
+class JsonIn;
+class JsonOut;
 class JsonObject;
 typedef std::string itype_id;
+class recipe;
+using recipe_id = string_id<recipe>;
 
 class recipe_dictionary
 {
         friend class Item_factory; // allow removal of blacklisted recipes
+        friend recipe_id;
 
     public:
-        /**
-         * Look up a recipe by qualified identifier
-         * @warning this is not always the same as the result
-         * @return matching recipe or null recipe if none found
-         */
-        const recipe &operator[]( const std::string &id ) const;
-
         /** Returns all recipes that can be automatically learned */
         const std::set<const recipe *> &all_autolearn() const {
             return autolearn;
         }
 
         size_t size() const;
-        std::map<std::string, recipe>::const_iterator begin() const;
-        std::map<std::string, recipe>::const_iterator end() const;
+        std::map<recipe_id, recipe>::const_iterator begin() const;
+        std::map<recipe_id, recipe>::const_iterator end() const;
 
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
@@ -51,14 +51,14 @@ class recipe_dictionary
         static void delete_if( const std::function<bool( const recipe & )> &pred );
 
         static recipe &load( JsonObject &jo, const std::string &src,
-                             std::map<std::string, recipe> &out );
+                             std::map<recipe_id, recipe> &out );
 
     private:
-        std::map<std::string, recipe> recipes;
-        std::map<std::string, recipe> uncraft;
+        std::map<recipe_id, recipe> recipes;
+        std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
 
-        static void finalize_internal( std::map<std::string, recipe> &obj );
+        static void finalize_internal( std::map<recipe_id, recipe> &obj );
 };
 
 extern recipe_dictionary recipe_dict;
@@ -89,7 +89,9 @@ class recipe_subset
 
         /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
-            return recipes.find( r ) != recipes.end();
+            return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {
+                return elem->ident() == r->ident();
+            } );
         }
 
         /**
@@ -97,6 +99,11 @@ class recipe_subset
          * @return Either custom difficulty if it was specified, or recipe default difficulty.
          */
         int get_custom_difficulty( const recipe *r ) const;
+
+        /** Check if there is any recipes in given category (optionally restricted to subcategory) */
+        bool empty_category(
+            const std::string &cat,
+            const std::string &subcat = std::string() ) const;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
@@ -143,5 +150,8 @@ class recipe_subset
         std::map<std::string, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
 };
+
+void serialize( const recipe_subset &value, JsonOut &jsout );
+void deserialize( recipe_subset &value, JsonIn &jsin );
 
 #endif

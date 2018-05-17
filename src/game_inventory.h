@@ -3,6 +3,7 @@
 #define GAME_INVENTORY_H
 
 #include "enums.h"
+#include "inventory_ui.h"
 
 #include <list>
 #include <string>
@@ -10,7 +11,18 @@
 class item;
 class item_location;
 class player;
+typedef std::function<bool( const item_location & )> item_location_filter;
 
+class inventory_filter_preset : public inventory_selector_preset
+{
+    public:
+        inventory_filter_preset( const item_location_filter &filter );
+
+        bool is_shown( const item_location &location ) const override;
+
+    private:
+        item_location_filter filter;
+};
 namespace game_menus
 {
 
@@ -22,7 +34,7 @@ namespace inv
 *
 * The functions here execute customized inventory menus for specific game situations.
 * Each menu displays only related inventory (or nearby) items along with context dependent information.
-* More functions will follow. @todo update all 'inv_for...()' functions to return @ref item_location instead of
+* More functions will follow. @todo: update all 'inv_for...()' functions to return @ref item_location instead of
 * plain int and move them here.
 * @return Either location of the selected item or null location if none was selected.
 */
@@ -32,10 +44,6 @@ void common( player &p );
 void compare( player &p, const tripoint &offset = tripoint_min );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
-
-/** Todo: let them return item_location */
-int take_off( player &p );
-int wear( player &p );
 
 /**
  * Select items to drop.
@@ -61,8 +69,12 @@ item_location use( player &p );
 item_location wield( player &p );
 /** Item wielding/unwielding menu. */
 item_location holster( player &p, item &holster );
-/** Choosing a gun to saw down it's barell. */
+/** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
+/** Choose item to wear. */
+item_location wear( player &p );
+/** Choose item to take off. */
+item_location take_off( player &p );
 /*@}*/
 
 }

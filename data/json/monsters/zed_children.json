@@ -55,7 +55,7 @@
     "speed": 65,
     "material": [ "flesh" ],
     "symbol": "z",
-    "color": "ltgreen",
+    "color": "light_green",
     "aggression": 60,
     "morale": 100,
     "melee_skill": 2,
@@ -129,7 +129,7 @@
     "speed": 55,
     "material": [ "flesh" ],
     "symbol": "z",
-    "color": "dkgray",
+    "color": "dark_gray",
     "aggression": 80,
     "morale": 100,
     "melee_skill": 2,
@@ -241,7 +241,7 @@
     "speed": 85,
     "material": [ "flesh" ],
     "symbol": "z",
-    "color": "ltgray",
+    "color": "light_gray",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
@@ -310,5 +310,45 @@
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES", "HARDTOSHOOT" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
+  },
+  {
+    "id": "mon_zombie_child_fungus",
+    "type": "MONSTER",
+    "name": "fungal child",
+    "name_plural": "fungal children",
+    "description": "It is hard to recognize a human child in this creature.  Disgusting-looking mold covers most of its skin.  Many cracks perforate its body, with small fungal stalks poking through.",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 4,
+    "size": "SMALL",
+    "hp": 35,
+    "speed": 50,
+    "material": [ "flesh" ],
+    "symbol": "z",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_cut": 2,
+    "dodge": 2,
+    "vision_day": 30,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "scratch", 15 ],
+      [ "FUNGUS", 200 ]
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [
+        [ "default_zombie_clothes", 100 ],
+        [ "child_items", 65 ]
+      ],
+      "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
+    },
+    "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_child_scorched",
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "BONES" ]
   }
 ]

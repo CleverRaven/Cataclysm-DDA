@@ -2467,13 +2467,13 @@
         "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
         "points": 8,
         "CBMs":[
-            "bio_solar",
             "bio_eye_enhancer",
             "bio_targeting",
             "bio_climate",
             "bio_evap",
             "bio_lighter",
-            "bio_power_storage_mkII"
+            "bio_power_storage_mkII",
+            "bio_torsionratchet"
         ],
         "skills": [
             {
@@ -3095,7 +3095,7 @@
         "type": "profession",
         "ident": "burglar",
         "name": "Burglar",
-        "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
+        "description": "You thought this would be your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
         "points": 3,
         "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
         "items": {
@@ -4611,7 +4611,7 @@
         "type": "profession",
         "ident": "drone_op",
         "name": "Drone Operator",
-        "description": "You had a job programming machines like automatic street cleaners, newsbots and pizza delivery drones.  Now the all the drones carry guns instead of pizza.",
+        "description": "You had a job programming machines such as automatic street cleaners, newsbots and pizza delivery drones.  Now all the drones carry guns instead of pizza.",
         "points": 1,
         "CBMs":[
             "bio_batteries",
@@ -5158,5 +5158,13 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "naked",
+        "name": "Naked and Afraid",
+        "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
+        "points": -1,
+        "flags": ["SCEN_ONLY"]
     }
 ]

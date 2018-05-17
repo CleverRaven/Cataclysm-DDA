@@ -61,14 +61,16 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
-# Enable printf format checks (disables localization, might break on Windows)
-#  make PRINTF_CHECKS=1
 # Astyle the source files that aren't blacklisted. (maintain current level of styling)
 #  make astyle
 # Check if source files are styled properly (regression test, astyle_blacklist tracks un-styled files)
 #  make astyle-check
 # Astyle all source files using the current rules (don't PR this, it's too many changes at once).
 #  make astyle-all
+# Style the whitelisted json files (maintain the current level of styling).
+#  make style-json
+# Style all json files using the current rules (don't PR this, it's too many changes at once).
+#  make style-all-json
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -131,7 +133,6 @@ LUASRC_DIR = $(SRC_DIR)/$(LUA_DIR)
 # if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
 LUA_BINARY = lua
 LOCALIZE = 1
-PRINTF_CHECKS = 0
 ASTYLE_BINARY = astyle
 
 # tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
@@ -249,7 +250,7 @@ ifdef RELEASE
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
-  CHECKS = astyle-check lint-check
+  CHECKS = astyle-check style-json
 endif
 
 ifndef RELEASE
@@ -295,6 +296,7 @@ ifeq ($(NATIVE), linux64)
   TARGETSYSTEM=LINUX
   ifdef GOLD
     CXXFLAGS += -fuse-ld=gold
+    LDFLAGS += -fuse-ld=gold
   endif
 else
   # Linux 32-bit
@@ -304,6 +306,7 @@ else
     TARGETSYSTEM=LINUX
     ifdef GOLD
       CXXFLAGS += -fuse-ld=gold
+      LDFLAGS += -fuse-ld=gold
     endif
   endif
 endif
@@ -317,7 +320,7 @@ ifeq ($(NATIVE), osx)
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -547,27 +550,47 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
+  # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
+  # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
-    ifneq ($(shell which ncursesw5-config 2>/dev/null),)
-      HAVE_NCURSESW5CONFIG = 1
+    ifneq ($(shell pkg-config --libs ncurses 2>/dev/null),)
+      HAVE_PKGCONFIG = 1
+    endif
+    ifneq ($(shell which ncurses5-config 2>/dev/null),)
+      HAVE_NCURSES5CONFIG = 1
     endif
   endif
 
   # Link to ncurses if we're using a non-tiles, Linux build
-  ifeq ($(HAVE_NCURSESW5CONFIG),1)
-    CXXFLAGS += $(shell ncursesw5-config --cflags)
-    LDFLAGS += $(shell ncursesw5-config --libs)
+  ifeq ($(HAVE_PKGCONFIG),1)
+    ifeq ($(LOCALIZE),1)
+      CXXFLAGS += $(shell pkg-config --cflags ncursesw)
+      LDFLAGS += $(shell pkg-config --libs ncursesw)
+    else
+      CXXFLAGS += $(shell pkg-config --cflags ncurses)
+      LDFLAGS += $(shell pkg-config --libs ncurses)
+    endif
   else
-    ifneq ($(TARGETSYSTEM),WINDOWS)
-      LDFLAGS += -lncurses
-    endif
+    ifeq ($(HAVE_NCURSES5CONFIG),1)
+      ifeq ($(LOCALIZE),1)
+        CXXFLAGS += $(shell ncursesw5-config --cflags)
+        LDFLAGS += $(shell ncursesw5-config --libs)
+      else
+        CXXFLAGS += $(shell ncurses5-config --cflags)
+        LDFLAGS += $(shell ncurses5-config --libs)
+      endif
+    else
+      ifneq ($(TARGETSYSTEM),WINDOWS)
+        LDFLAGS += -lncurses
+      endif
 
-    ifdef OSXCROSS
-      LDFLAGS += -L$(LIBSDIR)/ncurses/lib
-      CXXFLAGS += -I$(LIBSDIR)/ncurses/include
-    endif
-  endif
-endif
+      ifdef OSXCROSS
+        LDFLAGS += -L$(LIBSDIR)/ncurses/lib
+        CXXFLAGS += -I$(LIBSDIR)/ncurses/include
+      endif # OSXCROSS
+    endif # HAVE_NCURSES5CONFIG
+  endif # HAVE_PKGCONFIG
+endif # TILES
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
   BACKTRACE = 0
@@ -601,14 +624,7 @@ ifeq ($(BACKTRACE),1)
 endif
 
 ifeq ($(LOCALIZE),1)
-  ifeq ($(PRINTF_CHECKS),1)
-    $(error LOCALIZE does not work with PRINTF_CHECKS)
-  endif
   DEFINES += -DLOCALIZE
-endif
-
-ifeq ($(PRINTF_CHECKS),1)
-  DEFINES += -DPRINTF_CHECKS
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
@@ -624,10 +640,13 @@ ifdef MSYS2
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
+# Enumerations of all the source files and headers.
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
 TESTSRC = $(wildcard tests/*.cpp)
 TESTHDR = $(wildcard tests/*.h)
+TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
+
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -931,12 +950,12 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 # Generate a list of files to check based on the difference between the blacklist and the existing source files.
-ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
+ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC) )
 
 astyle: $(ASTYLED_WHITELIST)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
 
-astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
@@ -953,26 +972,23 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-lint-check: json_whitelist $(ODIR)/lint.cache
+JSON_FILES = $(shell find data -name *.json | sed "s|^\./||")
+JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
 
-$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@for file in $?; do \
-	    echo "Linting $$file"; \
-	    perl tools/format/format.pl -cqv $$file || exit 65; \
-	done;
-	@touch $@
+style-json: $(JSON_WHITELIST)
+
+$(JSON_WHITELIST): json_blacklist json_formatter
+ifndef CROSS
+	@tools/format/json_formatter.cgi $@
 else
-	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
+	@echo Cannot run json formatter in cross compiles.
 endif
 
-lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-	@for file in $?; do \
-		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
-			./tools/lint.sh $$file || exit $$?; \
-		fi; \
-	done;
-	@touch $(ODIR)/lint.cache
+style-all-json: json_formatter
+	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
+
+json_formatter: tools/format/format.cpp src/json.cpp
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

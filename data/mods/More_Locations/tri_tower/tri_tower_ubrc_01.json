@@ -1,0 +1,57 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "tri_tower_ubrc",
+        "comment" : "underground, bottom right corner",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_concrete_floor",
+            "rows": [
+                "===#######=  =#######===",
+                "=#########=  =##########",
+                "=#########=  =##########",
+                "##########=  =########==",
+                "##########=  =########==",
+                "#####===##=  =########==",
+                "#####===##=  =##########",
+                "#####======!!===========",
+                "#######=Y0       l|   CC",
+                "#######=Y    HH   3     ",
+                "========     HH   |q   T",
+                "       !          |q   T",
+                "       ! hh  HH   |q    ",
+                "======== hh  HH   |q    ",
+                "#######=          |q    ",
+                "#######= hh     BB|v    ",
+                "#######= hh   c ========",
+                "#######=    6DDD=====M==",
+                "#######=-3------=====M==",
+                "#######=  QQQQQQ=====M==",
+                "#######=        =====M==",
+                "=######=        =MMMMMMM",
+                "=######=C       =====M==",
+                "=##===#=C TT    =====M=="
+            ],
+            "rotation": 2,
+            "palettes": [
+                "tri_tower",
+                "lower_level",
+                "tri_tower_stuff"
+            ],
+            "terrain":{
+                "Y": "t_sewage_pump",
+                "3": "t_door_metal_pickable"
+            },
+            "furniture":{
+                "v": "f_vending_o",
+                "0": "f_standing_tank"
+            },
+            "items": {
+                "v": { "item": "trash_cart", "chance": 15 },
+                "x": [ { "item": "plumber_gear", "chance": 20 }, { "item": "hardware_bulk", "chance": 20 } ],
+                "X": { "item": "hardware_bulk", "chance": 35 }
+            }
+        }
+    }
+]

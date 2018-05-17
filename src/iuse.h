@@ -2,18 +2,23 @@
 #ifndef IUSE_H
 #define IUSE_H
 
+#include "enums.h"
+
 #include <map>
 #include <string>
 #include <vector>
 #include <memory>
-#include "enums.h"
 
 class item;
 class player;
 class JsonObject;
 class MonsterGenerator;
+
+template<typename T> class ret_val;
+
 struct iteminfo;
 typedef std::string itype_id;
+struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
@@ -99,12 +104,12 @@ public:
     int combatsaw_off       ( player*, item*, bool, const tripoint& );
     int combatsaw_on        ( player*, item*, bool, const tripoint& );
     int jackhammer          ( player*, item*, bool, const tripoint& );
-    int jacqueshammer       ( player*, item*, bool, const tripoint& );
     int pickaxe             ( player*, item*, bool, const tripoint& );
     int geiger              ( player*, item*, bool, const tripoint& );
     int teleport            ( player*, item*, bool, const tripoint& );
     int can_goo             ( player*, item*, bool, const tripoint& );
     int throwable_extinguisher_act( player*, item*, bool, const tripoint& );
+    int directional_hologram( player*, item*, bool, const tripoint& );
     int capture_monster_act ( player*, item*, bool, const tripoint& );
     int pipebomb_act        ( player*, item*, bool, const tripoint& );
     int granade             ( player*, item*, bool, const tripoint& );
@@ -136,8 +141,10 @@ public:
     int vortex              ( player*, item*, bool, const tripoint& );
     int dog_whistle         ( player*, item*, bool, const tripoint& );
     int blood_draw          ( player*, item*, bool, const tripoint& );
-    static void cut_log_into_planks(player *);
+    static void cut_log_into_planks( player & );
     int lumber              ( player*, item*, bool, const tripoint& );
+    int chop_tree           ( player*, item*, bool, const tripoint& );
+    int chop_logs           ( player*, item*, bool, const tripoint& );
     int oxytorch            ( player*, item*, bool, const tripoint& );
     int hacksaw             ( player*, item*, bool, const tripoint& );
     int portable_structure  ( player*, item*, bool, const tripoint& );
@@ -166,7 +173,6 @@ public:
     int remove_all_mods     ( player*, item*, bool, const tripoint& );
     int fishing_rod         ( player*, item*, bool, const tripoint& );
     int fish_trap           ( player*, item*, bool, const tripoint& );
-    int gun_detach_gunmods  ( player*, item*, bool, const tripoint& );
     int gun_repair          ( player*, item*, bool, const tripoint& );
     int gunmod_attach       ( player*, item*, bool, const tripoint& );
     int toolmod_attach      ( player*, item*, bool, const tripoint& );
@@ -204,10 +210,10 @@ public:
     int artifact            ( player*, item*, bool, const tripoint& );
 
     // Helper for listening to music, might deserve a better home, but not sure where.
-    static void play_music( player *p, const tripoint &source, int volume, int max_morale );
+    static void play_music( player &p, const tripoint &source, int volume, int max_morale );
 
     // Helper for handling pesky wannabe-artists
-    static int handle_ground_graffiti( player *p, item *it, const std::string prefix );
+    static int handle_ground_graffiti( player &p, item *it, const std::string prefix );
 
 };
 
@@ -229,10 +235,10 @@ public:
     /** Units of ammo required per invocation (or use value from base item if negative) */
     long cost;
 
-    virtual ~iuse_actor() { }
+    virtual ~iuse_actor() = default;
     virtual void load( JsonObject &jo ) = 0;
     virtual long use( player &, item &, bool, const tripoint& ) const = 0;
-    virtual bool can_use( const player &, const item &, bool, const tripoint& ) const { return true; }
+    virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint& ) const;
     virtual void info( const item &, std::vector<iteminfo> & ) const {};
     /**
      * Returns a deep copy of this object. Example implementation:
@@ -274,6 +280,7 @@ public:
     ~use_function() = default;
 
     long call( player &, item &, bool, const tripoint & ) const;
+    ret_val<bool> can_call(const player &p, const item &it, bool t, const tripoint &pos) const;
 
     iuse_actor *get_actor_ptr() const
     {
@@ -290,11 +297,6 @@ public:
     std::string get_name() const;
     /** @return Used by @ref item::info to get description of the actor */
     void dump_info( const item &, std::vector<iteminfo> & ) const;
-
-    bool can_call(const player &p, const item &it, bool t, const tripoint &pos) const
-    {
-        return !actor || actor->can_use( p, it, t, pos );
-    }
 
     use_function &operator=( iuse_actor *f );
     use_function &operator=( use_function && ) = default;

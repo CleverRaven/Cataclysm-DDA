@@ -2,7 +2,6 @@
    {
       "type": "region_settings",
       "id": "default",                      "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
-      "house_basement_chance": 3,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
       "default_groundcover": [ [ "t_grass", 4 ], [ "t_dirt",  1 ] ],
       "field_coverage": {                   "//": "biome settings for builtin field mapgen. The values below replicate results of hardcoded 'field' mapgen",
@@ -69,7 +68,7 @@
                   "mx_anomaly": 3
               }
           },
-          "building": {
+          "build": {
               "chance": 90,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",
                   "mx_military": 5,
@@ -105,10 +104,21 @@
       "city": {
           "type": "town",
           "shop_radius": 80,                "//": "determine radial frequency of shops / parks / houses for towns. tldr: less means more",
-          "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "park_radius": 90,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "houses": {
+              "house_two_story_basement": 1,
+              "house": 1000,
+              "house_prepper": 30,
+              "house_base": 333
+          },
           "parks": {                        "//": "weighted list for park overmap terrains",
               "park": 4,
-              "pool": 1
+              "pool": 1,
+              "skate_park": 1,
+              "small_wooded_trail": 3,
+              "pavilion": 2,
+              "cemetery_small": 2,
+              "Pond": 2
           },
           "shops": {                        "//": "weighted list of oterrains for commercial zoning",
               "s_gas": 5,
@@ -155,7 +165,19 @@
               "s_music": 2,
               "s_laundromat": 1,
               "veterinarian": 2,
-              "mortuary": 1
+              "mortuary": 1,
+              "orchard": 2,
+              "dispensary": 1,
+              "small_office": 2,
+              "art_gallery": 2,
+              "small_storage_units": 3,
+              "construction_site": 4,
+              "post_office": 2,
+              "candy_shop": 2,
+              "bakery": 2,
+              "icecream_shop": 2,
+              "s_butcher": 2,
+              "s_bike_shop": 1
           }
       },
       "weather": {

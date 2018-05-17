@@ -1,13 +1,15 @@
+#include "explosion.h"
 #include "cata_utility.h"
 #include "game.h"
 #include "map.h"
 #include "projectile.h"
-#include "explosion.h"
 #include "json.h"
 #include "creature.h"
 #include "character.h"
 #include "player.h"
 #include "monster.h"
+#include "vpart_position.h"
+#include "output.h"
 #include "debug.h"
 #include "messages.h"
 #include "translations.h"
@@ -19,6 +21,13 @@
 #include <cmath>
 
 static const itype_id null_itype( "null" );
+
+tripoint random_perimeter( const tripoint &src, const int radius )
+{
+    tripoint dst;
+    calc_ray_end( rng( 1, 360 ), radius, src, dst );
+    return dst;
+}
 
 explosion_data load_explosion_data( JsonObject &jo )
 {
@@ -193,14 +202,12 @@ void game::do_blast( const tripoint &p, const float power,
                 density++;
             }
 
-            m.add_field( pt, fd_fire, density, 0 );
+            m.add_field( pt, fd_fire, density );
         }
 
-        int vpart;
-        vehicle *veh = m.veh_at( pt, vpart );
-        if( veh != nullptr ) {
+        if( const optional_vpart_position vp = m.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            veh->damage( vpart, force, fire ? DT_HEAT : DT_BASH, false );
+            vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
         }
 
         Creature *critter = critter_at( pt, true );
@@ -294,7 +301,7 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
     if( ex.distance_factor >= 1.0f ) {
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
     } else if( ex.distance_factor > 0.0f && ex.power > 0.0f ) {
-        // @todo return map containing distribution of damage
+        // @todo: return map containing distribution of damage
         do_blast( p, ex.power, ex.distance_factor, ex.fire );
     }
 
@@ -374,10 +381,8 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
             int force = std::min( kinetic, mass );
             int resistance;
 
-            int vpart;
-            vehicle *veh = m.veh_at( e, vpart );
-            if( veh != nullptr && vpart >= 0 ) {
-                resistance = force - veh->damage( vpart, force );
+            if( optional_vpart_position vp = m.veh_at( e ) ) {
+                resistance = force - vp->vehicle().damage( vp->part_index(), force );
 
             } else {
                 resistance = std::max( m.bash_resistance( e ), 0 );
@@ -393,7 +398,7 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
             }
         }
 
-        // @todo apply effects of soft cover
+        // @todo: apply effects of soft cover
         return kinetic > 0;
     };
 
@@ -406,7 +411,7 @@ std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power
         }
 
         // shrapnel otherwise expands randomly in all directions
-        bresenham( src, m.random_perimeter( src, range ), 0, 0, [&func, &kinetic]( const tripoint & e ) {
+        bresenham( src, random_perimeter( src, range ), 0, 0, [&func, &kinetic]( const tripoint & e ) {
             return func( e, kinetic );
         } );
     }
@@ -432,4 +437,10 @@ float explosion_data::power_at_range( float dist ) const
 
     // The 1.1 is because actual power drops at roughly that rate
     return power * std::pow( distance_factor / 1.1f, dist );
+}
+
+int explosion_data::safe_range() const
+{
+    const float ratio = 1 / power / 2;
+    return expected_range( ratio ) + 1;
 }

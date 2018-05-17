@@ -4,12 +4,14 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+#include <iosfwd>
+#include <map>
 
-#include "omdata.h"
-#include "itype.h"
-#include "json.h"
+#include "enums.h"
 #include "npc_favor.h"
 
+class player;
 class mission;
 class game;
 class npc;
@@ -17,12 +19,17 @@ class Creature;
 class calendar;
 class npc_class;
 class JsonObject;
+class JsonIn;
+class JsonOut;
 struct mission_type;
+struct oter_type_t;
+struct species_type;
 
 enum npc_mission : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
+using species_id = string_id<species_type>;
 
 namespace debug_menu
 {
@@ -53,6 +60,7 @@ enum mission_goal {
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
+    MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
     NUM_MGOAL
 };
 
@@ -111,16 +119,16 @@ struct mission_start {
     static void ranch_construct_5  ( mission *); // Continues work on wood yard, crops, well (pit)
     static void ranch_construct_6  ( mission *); // Continues work on wood yard, well (covered), fireplaces
     static void ranch_construct_7  ( mission *); // Continues work on wood yard, well (finished), continues walling
-    static void ranch_construct_8  ( mission *); // Finishes wood yard, starts outhouse, starts toolshed
-    static void ranch_construct_9  ( mission *); // Finishes outhouse, finishes toolshed, starts clinic
+    static void ranch_construct_8  ( mission *); // Finishes wood yard, starts outhouse, starts tool shed
+    static void ranch_construct_9  ( mission *); // Finishes outhouse, finishes tool shed, starts clinic
     static void ranch_construct_10 ( mission *); // Continues clinic, starts chop-shop
     static void ranch_construct_11 ( mission *); // Continues clinic, continues chop-shop
     static void ranch_construct_12 ( mission *); // Finish chop-shop, starts junk shop
     static void ranch_construct_13 ( mission *); // Continues junk shop
     static void ranch_construct_14 ( mission *); // Finish junk shop, starts bar
     static void ranch_construct_15 ( mission *); // Continues bar
-    static void ranch_construct_16 ( mission *); // Finish bar, start green shouse
-    static void ranch_nurse_1      ( mission *); // Need asprin
+    static void ranch_construct_16 ( mission *); // Finish bar, start greenhouse
+    static void ranch_nurse_1      ( mission *); // Need aspirin
     static void ranch_nurse_2      ( mission *); // Need hotplates
     static void ranch_nurse_3      ( mission *); // Need vitamins
     static void ranch_nurse_4      ( mission *); // Need charcoal water filters
@@ -222,7 +230,7 @@ struct mission_type {
     void load( JsonObject &jo, const std::string &src );
 };
 
-class mission : public JsonSerializer, public JsonDeserializer
+class mission
 {
 public:
     enum class mission_status {
@@ -251,6 +259,7 @@ private:
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
         std::string monster_type;    // Monster ID that are to be killed
+        species_id monster_species;
         int monster_kill_goal;  // the kill count you wish to reach
         int deadline;           // Turn number
         int npc_id;             // ID of a related npc
@@ -262,10 +271,8 @@ public:
 
         std::string name();
         mission_type_id mission_id();
-        using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         mission();
     /** Getters, they mostly return the member directly, mostly. */
@@ -319,7 +326,7 @@ public:
     /** Processes this mission. */
     void process();
 
-    // @todo Give topics a string_id
+    // @todo: Give topics a string_id
     std::string dialogue_for_topic( const std::string &topic ) const;
 
     /**

@@ -32,14 +32,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": "t_pavement",
-        "+": "t_door_c",
-        "-": "t_wall",
-        "D": "t_door_locked",
-        "g": "t_wall_glass",
-        "|": "t_wall"
-      },
+      "terrain": { " ": "t_pavement", "+": "t_door_c", "-": "t_wall", "D": "t_door_locked", "g": "t_wall_glass", "|": "t_wall" },
       "furniture": {
         "#": "f_table",
         "&": "f_fridge",

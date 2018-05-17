@@ -36,13 +36,15 @@ git_files_list = {
 
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {
+    "data/json/overmap_terrain.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
+    "data/mods/alt_map_key/overmap_terrain.json",
     "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
-    "data/mods/PKs_Rebalance/monsters/",
     "data/mods/More_Survival_Tools/start_locations.json",
+    "data/mods/NPC_Traits/npc_classes.json",
     "data/mods/Tanks/monsters.json"
 }
 
@@ -62,11 +64,11 @@ ignore_files = {
 # these objects have no translatable strings
 ignorable = {
     "BULLET_PULLING",
+    "city_building",
     "colordef",
     "emit",
-    "epilogue", # FIXME right now this object can't be translated correctly
+    "EXTERNAL_OPTION",
     "GAME_OPTION",
-    "harvest",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
@@ -88,6 +90,7 @@ ignorable = {
     "requirement",
     "rotatable_symbol",
     "SPECIES",
+    "trait_group",
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
@@ -115,6 +118,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
+    "epilogue",
     "faction",
     "fault",
     "furniture",
@@ -175,6 +179,11 @@ use_format_strings = {
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
+
+def extract_harvest(item):
+    outfile = get_outfile("harvest")
+    if "message" in item:
+        writestr(outfile, item["message"])
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
@@ -284,7 +293,7 @@ def extract_effect_type(item):
         else:
             writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
-    # aplly and remove memorial messages.
+    # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:
         writestr(outfile, msg, context="memorial_male")
@@ -328,6 +337,16 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+    if "skill" in item:
+        # legacy code: the "gun type" is calculated in `item::gun_type` and
+        # it's basically the skill id, except for archery (which is either
+        # bow or crossbow). Once "gun type" is loaded from JSON, it should
+        # be extracted directly.
+        if not item.get("skill") == "archery":
+            writestr(outfile, item.get("skill"), context="gun_type_type")
+    if "reload_noise" in item:
+        item_reload_noise = item.get("reload_noise")
+        writestr(outfile, item_reload_noise)
 
 
 def extract_gunmod(item):
@@ -349,9 +368,16 @@ def extract_gunmod(item):
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
+    if "mode_modifier" in item:
+        modes = item.get("mode_modifier")
+        for fire_mode in modes:
+            writestr(outfile, fire_mode[1])
     if "location" in item:
         location = item.get("location")
         writestr(outfile, location)
+    if "mod_targets" in item:
+        for target in item["mod_targets"]:
+            writestr(outfile, target, context="gun_type_type")
 
 
 def extract_professions(item):
@@ -521,10 +547,17 @@ def extract_mutation(item):
 
     if "attacks" in item:
         attacks = item.get("attacks")
-        if "attack_text_u" in attacks:
-            writestr(outfile, attacks.get("attack_text_u"))
-        if "attack_text_npc" in attacks:
-            writestr(outfile, attacks.get("attack_text_npc"))
+        if type(attacks) is list:
+            for i in attacks:
+                if "attack_text_u" in i:
+                    writestr(outfile, i.get("attack_text_u"))
+                if "attack_text_npc" in i:
+                    writestr(outfile, i.get("attack_text_npc"))
+        else:
+            if "attack_text_u" in attacks:
+                writestr(outfile, attacks.get("attack_text_u"))
+            if "attack_text_npc" in attacks:
+                writestr(outfile, attacks.get("attack_text_npc"))
 
     if "spawn_item" in item:
         writestr(outfile, item.get("spawn_item").get("message"))
@@ -598,6 +631,7 @@ def extract_gate(item):
 
 # these objects need to have their strings specially extracted
 extract_specials = {
+    "harvest" : extract_harvest,
     "body_part": extract_bodypart,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
@@ -711,6 +745,7 @@ use_action_msgs = {
     "lacks_fuel_message",
     "failure_message",
     "descriptions",
+    "use_message",
     "noise_message",
     "bury_question",
     "done_message",
@@ -824,16 +859,9 @@ def extract(item, infilename):
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
-    if "reload_noise" in item:
-        writestr(outfile, item["reload_noise"], **kwargs)
-        wrote = True
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
-            wrote = True
-    if "mod_targets" in item:
-        for target in item["mod_targets"]:
-            writestr(outfile, target, **kwargs)
             wrote = True
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:

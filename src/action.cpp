@@ -5,18 +5,22 @@
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "iexamine.h"
 #include "player.h"
 #include "options.h"
 #include "messages.h"
 #include "translations.h"
 #include "input.h"
 #include "crafting.h"
+#include "map_iterator.h"
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "optional.h"
 
 #include <istream>
 #include <sstream>
@@ -48,7 +52,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
-        if( id == "" ) {
+        if( id.empty() ) {
             getline( keymap_txt, id );  // Empty line, chomp it
         } else if( id == "unbind" ) {
             keymap_txt >> id;
@@ -284,6 +288,8 @@ std::string action_ident( action_id act )
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+            return "toggle_auto_pulp_butcher";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -362,6 +368,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
         case ACTION_TIMEOUT:
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return false;
         default:
             return true;
@@ -495,11 +502,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 
 bool can_examine_at( const tripoint &p )
 {
-    int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = g->m.veh_at( p, veh_part );
-    if( veh ) {
+    if( g->m.veh_at( p ) ) {
         return true;
     }
     if( g->m.has_flag( "CONSOLE", p ) ) {
@@ -529,9 +532,10 @@ bool can_interact_at( action_id action, const tripoint &p )
             return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_CLOSE: {
-            int vpart;
-            const vehicle *const veh = g->m.veh_at( p, vpart );
-            return ( veh && veh->next_part_to_close( vpart, g->m.veh_at( g->u.pos() ) != veh ) >= 0 ) ||
+            const optional_vpart_position vp = g->m.veh_at( p );
+            return ( vp &&
+                     vp->vehicle().next_part_to_close( vp->part_index(),
+                             veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
                    g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         }
@@ -586,47 +590,35 @@ action_id handle_action_menu()
     }
 
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    {
-        int veh_part = 0;
-        vehicle *veh = nullptr;
-
-        veh = g->m.veh_at( g->u.pos(), veh_part );
-        if( veh ) {
-            // Make it 300 to prioritize it before examining the vehicle.
-            action_weightings[ACTION_CONTROL_VEHICLE] = 300;
-        }
+    if( g->m.veh_at( g->u.pos() ) ) {
+        // Make it 300 to prioritize it before examining the vehicle.
+        action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz();
-            const tripoint pos( x, y, z );
-            if( dx != 0 || dy != 0 ) {
-                // Check for actions that work on nearby tiles
-                if( can_interact_at( ACTION_OPEN, pos ) ) {
-                    action_weightings[ACTION_OPEN] = 200;
-                }
-                if( can_interact_at( ACTION_CLOSE, pos ) ) {
-                    action_weightings[ACTION_CLOSE] = 200;
-                }
-                if( can_interact_at( ACTION_EXAMINE, pos ) ) {
-                    action_weightings[ACTION_EXAMINE] = 200;
-                }
-            } else {
-                // Check for actions that work on own tile only
-                if( can_interact_at( ACTION_BUTCHER, pos ) ) {
-                    action_weightings[ACTION_BUTCHER] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
-                    action_weightings[ACTION_MOVE_UP] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
-                    action_weightings[ACTION_MOVE_DOWN] = 200;
-                }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( pos != g->u.pos() ) {
+            // Check for actions that work on nearby tiles
+            if( can_interact_at( ACTION_OPEN, pos ) ) {
+                action_weightings[ACTION_OPEN] = 200;
+            }
+            if( can_interact_at( ACTION_CLOSE, pos ) ) {
+                action_weightings[ACTION_CLOSE] = 200;
+            }
+            if( can_interact_at( ACTION_EXAMINE, pos ) ) {
+                action_weightings[ACTION_EXAMINE] = 200;
+            }
+        } else {
+            // Check for actions that work on own tile only
+            if( can_interact_at( ACTION_BUTCHER, pos ) ) {
+                action_weightings[ACTION_BUTCHER] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
+                action_weightings[ACTION_MOVE_UP] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
+                action_weightings[ACTION_MOVE_DOWN] = 200;
             }
         }
     }
@@ -677,7 +669,7 @@ action_id handle_action_menu()
                 entry->txt += "...";        // help _is_a menu.
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with globalkey
+                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
@@ -743,6 +735,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_PULP_BUTCHER );
         } else if( category == _( "Craft" ) ) {
             REGISTER_ACTION( ACTION_CRAFT );
             REGISTER_ACTION( ACTION_RECRAFT );
@@ -943,18 +936,11 @@ bool choose_adjacent_highlight( std::string message, tripoint &p,
 {
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz(); // TODO: Z
-            tripoint pos( x, y, z );
-
-            if( can_interact_at( action_to_highlight, pos ) ) {
-                highlighted = true;
-                g->m.drawsq( g->w_terrain, g->u, pos,
-                             true, true, g->u.pos() + g->u.view_offset );
-            }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( can_interact_at( action_to_highlight, pos ) ) {
+            highlighted = true;
+            g->m.drawsq( g->w_terrain, g->u, pos,
+                         true, true, g->u.pos() + g->u.view_offset );
         }
     }
     if( highlighted ) {

@@ -121,28 +121,6 @@
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
-        "description" : "Chop Down Tree",
-        "category" : "FARM_WOOD",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
-        "pre_flags" : "TREE",
-        "post_terrain" : "t_dirt",
-        "post_special" : "done_tree"
-    },{
-        "type" : "construction",
-        "description" : "Chop Tree Trunk Into Logs",
-        "category" : "FARM_WOOD",
-        "required_skills" : [ [ "survival", 1 ] ],
-        "time" : 60,
-        "qualities": [ [
-            { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
-        ] ],
-        "pre_terrain" : "t_trunk",
-        "post_terrain" : "t_dirt",
-        "post_special" : "done_trunk_log"
-    },{
-        "type" : "construction",
         "description" : "Chop Tree Trunk Into Planks",
         "category" : "FARM_WOOD",
         "required_skills" : [ [ "survival", 2 ] ],
@@ -1337,9 +1315,45 @@
         "time" : 1,
         "pre_terrain" : "t_fence_v",
         "post_terrain" : "t_fence_h"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Rope Fence",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 15,
+        "components" : [
+            [ [ "rope_6", 2 ] ]
+        ],
+        "pre_terrain" : "t_fence_post",
+        "post_terrain" : "t_fence_rope"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Wire Fence",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 15,
+        "components" : [
+            [ [ "wire", 2 ] ]
+        ],
+        "pre_terrain" : "t_fence_post",
+        "post_terrain" : "t_fence_wire"
+    },
+    {
+        "type" : "construction",
+        "description" : "Build Barbed Wire Fence",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 15,
+        "components" : [
+            [ [ "wire_barbed", 2 ] ]
+        ],
+        "pre_terrain" : "t_fence_post",
+        "post_terrain" : "t_fence_barbed"
     },{
         "type" : "construction",
-        "description" : "Build Wire Fence", "//": "Step 1: fence posts",
+        "description" : "Build Chainlink Fence", "//": "Step 1: fence posts",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 30,
@@ -1354,7 +1368,7 @@
         "post_terrain" : "t_chainfence_posts"
     },{
         "type" : "construction",
-        "description" : "Build Wire Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
+        "description" : "Build Chainlink Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
@@ -1365,7 +1379,7 @@
         "post_terrain" : "t_chainfence_v"
     },{
         "type" : "construction",
-        "description" : "Realign Fence",
+        "description" : "Realign Chainlink Fence",
         "category" : "OTHER",
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
@@ -1373,7 +1387,7 @@
         "post_terrain" : "t_chainfence_v"
     },{
         "type" : "construction",
-        "description" : "Realign Fence",
+        "description" : "Realign Chainlink Fence",
         "category" : "OTHER",
         "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
@@ -1381,7 +1395,7 @@
         "post_terrain" : "t_chainfence_h"
     },{
         "type" : "construction",
-        "description" : "Build Wire Gate",
+        "description" : "Build Chainlink Gate",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 150,
@@ -1548,7 +1562,8 @@
             ]
             ],
         "components" : [
-            [ [ "pipe", 12 ] ]
+            [ [ "pipe", 12 ] ],
+            [ [ "sheet_metal", 2 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_rack"
@@ -1831,19 +1846,8 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_standing_tank"
-    },{
-        "type" : "construction",
-        "description" : "Place Anvil",
-        "category" : "FURN",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "components" : [
-            [ [ "anvil", 1 ] ]
-        ],
-        "pre_note" : "Can be deconstructed without tools.",
-        "pre_special" : "check_empty",
-        "post_terrain" : "f_anvil"
-    },{
+    },
+	{
         "type" : "construction",
         "description" : "Place Forge",
         "category" : "FURN",

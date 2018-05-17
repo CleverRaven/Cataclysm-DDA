@@ -30,7 +30,7 @@ int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &md, int t
                 const std::string &scr );
 
 /**
- * Execute a callback that can be overriden by all mods.
+ * Execute a callback that can be overridden by all mods.
  */
 void lua_callback( const char *callback_name );
 

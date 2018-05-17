@@ -17,7 +17,8 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 18,
-        "ammo": [ "32", "762x25", "38", "40", "44", "45", "9x18", "9mm", "454", "500" ]
+        "ammo": [ "32", "762x25", "38", "40", "44", "45", "9x18", "9mm", "454", "500" ],
+        "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
   },
@@ -39,7 +40,8 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 16,
-        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm"  ]
+        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm" ],
+        "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
@@ -61,7 +63,8 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 12,
-        "ammo": [ "shot", "20x66mm" ]
+        "ammo": [ "shot", "20x66mm" ],
+        "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
@@ -84,7 +87,8 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 14,
-      "ammo": [ "flintlock", "36paper", "44paper", "blunderbuss" ]
+      "ammo": [ "flintlock", "36paper", "44paper", "blunderbuss" ],
+      "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
@@ -106,7 +110,8 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 4,
-        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm" ]
+        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm" ],
+        "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -129,7 +134,8 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 4,
-        "ammo": [ "40mm" ]
+        "ammo": [ "40mm" ],
+        "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   }

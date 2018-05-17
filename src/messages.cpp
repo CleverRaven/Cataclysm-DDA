@@ -8,6 +8,7 @@
 #include "output.h"
 #include "calendar.h"
 #include "translations.h"
+#include "string_formatter.h"
 
 #include <deque>
 #include <iterator>
@@ -25,7 +26,7 @@ Messages player_messages;
 
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
-    calendar          timestamp_in_turns  = 0;
+    time_point timestamp_in_turns  = 0;
     int               timestamp_in_user_actions = 0;
     int               count = 1;
     game_message_type type  = m_neutral;
@@ -38,27 +39,27 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         type( t ) {
     }
 
-    int turn() const {
-        return timestamp_in_turns.get_turn();
+    const time_point &turn() const {
+        return timestamp_in_turns;
     }
 
     std::string get_with_count() const {
         if( count <= 1 ) {
             return message;
         }
-        //~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
+        //~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
         return string_format( _( "%s x %d" ), message.c_str(), count );
     }
 
-    bool is_new( int const current ) const {
+    bool is_new( const time_point &current ) const {
         return turn() >= current;
     }
 
-    bool is_recent( int const current ) const {
-        return turn() + 5 >= current;
+    bool is_recent( const time_point &current ) const {
+        return turn() + 5_turns >= current;
     }
 
-    nc_color get_color( int const current ) const {
+    nc_color get_color( const time_point &current ) const {
         if( is_new( current ) ) {
             // color for new messages
             return msgtype_to_color( type, false );
@@ -69,12 +70,12 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         }
 
         // color for old messages
-        return c_dkgray;
+        return c_dark_gray;
     }
 
     void deserialize( JsonIn &jsin ) override {
         JsonObject obj = jsin.get_object();
-        timestamp_in_turns = obj.get_int( "turn" );
+        obj.read( "turn", timestamp_in_turns );
         message = obj.get_string( "message" );
         count = obj.get_int( "count" );
         type = static_cast<game_message_type>( obj.get_int( "type" ) );
@@ -82,7 +83,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
 
     void serialize( JsonOut &jsout ) const override {
         jsout.start_object();
-        jsout.member( "turn", static_cast<int>( timestamp_in_turns ) );
+        jsout.member( "turn", timestamp_in_turns );
         jsout.member( "message", message );
         jsout.member( "count", count );
         jsout.member( "type", static_cast<int>( type ) );
@@ -102,7 +103,7 @@ class Messages::impl_t
 {
     public:
         std::deque<game_message> messages;   // Messages to be printed
-        int                      curmes = 0; // The last-seen message.
+        time_point curmes = 0; // The last-seen message.
 
         bool has_undisplayed_messages() const {
             return !messages.empty() && messages.back().turn() > curmes;
@@ -119,7 +120,7 @@ class Messages::impl_t
             }
 
             auto &last_msg = messages.back();
-            if( last_msg.turn() + 3 < calendar::turn.get_turn() ) {
+            if( last_msg.turn() + 3_turns < calendar::turn ) {
                 return false;
             }
 
@@ -173,7 +174,7 @@ class Messages::impl_t
 
             std::transform( begin( messages ) + offset, end( messages ), back_inserter( result ),
             []( game_message const & msg ) {
-                return std::make_pair( msg.timestamp_in_turns.print_time(),
+                return std::make_pair( to_string_time_of_day( msg.timestamp_in_turns ),
                                        msg.count ? msg.message + to_string( msg.count ) : msg.message );
             }
                           );
@@ -182,7 +183,7 @@ class Messages::impl_t
         }
 };
 
-Messages::Messages() : impl_ {new impl_t()}
+Messages::Messages() : impl_()
 {
 }
 
@@ -213,14 +214,14 @@ void Messages::deserialize( JsonObject &json )
     obj.read( "curmes", player_messages.impl_->curmes );
 }
 
-void Messages::vadd_msg( const char *msg, va_list ap )
+void Messages::add_msg( std::string msg )
 {
-    player_messages.impl_->add_msg_string( vstring_format( msg, ap ) );
+    player_messages.impl_->add_msg_string( std::move( msg ) );
 }
 
-void Messages::vadd_msg( game_message_type type, const char *msg, va_list ap )
+void Messages::add_msg( const game_message_type type, std::string msg )
 {
-    player_messages.impl_->add_msg_string( vstring_format( msg, ap ), type );
+    player_messages.impl_->add_msg_string( std::move( msg ), type );
 }
 
 void Messages::clear_messages()
@@ -240,12 +241,10 @@ bool Messages::has_undisplayed_messages()
 
 void Messages::display_messages()
 {
-    WINDOW_PTR w_ptr {newwin(
-                          FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                          ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                          ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
-
-    WINDOW *const w = w_ptr.get();
+    catacurses::window w = catacurses::newwin(
+                               FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                               ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                               ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     input_context ctxt( "MESSAGE_LOG" );
     ctxt.register_action( "UP", _( "Scroll up" ) );
@@ -256,7 +255,7 @@ void Messages::display_messages()
     /* Right-Aligning Time Epochs For Readability
      * ==========================================
      * Given display_messages(); right-aligns epochs, we must declare one quick variable first:
-     * max_padlength refers to the length of the LONGEST possible unit of time returned by calendar::textify_period() any language has to offer.
+     * max_padlength refers to the length of the LONGEST possible unit of time returned by to_string_clipped() any language has to offer.
      * This variable is, for now, set to '10', which seems most reasonable.
      *
      * The reason right-aligned epochs don't use a "shortened version" (e.g. only showing the first letter) boils down to:
@@ -310,11 +309,12 @@ void Messages::display_messages()
     for( ;; ) {
         werase( w );
         draw_border( w );
-        mvwprintz( w, bottom + 1, 32, c_red, _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() );
+        center_print( w, bottom + 1, c_red,
+                      string_format( _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() ) );
         draw_scrollbar( w, offset, bottom, msg_count, 1, 0, c_white, true );
 
         int line = 1;
-        int lasttime = -1;
+        time_duration lasttime = -1_turns;
         for( int i = offset; i < msg_count; ++i ) {
             const int retrieve_history = abs( i - flip );
             if( line > bottom ) {
@@ -325,18 +325,19 @@ void Messages::display_messages()
             }
 
             const game_message &m     = player_messages.impl_->history( retrieve_history );
-            const calendar timepassed = calendar::turn - m.timestamp_in_turns;
-            std::string long_ago      = timepassed.textify_period();
+            const time_duration timepassed = calendar::turn - m.timestamp_in_turns;
+            std::string long_ago      = to_string_clipped( timepassed );
             nc_color col              = msgtype_to_color( m.type, false );
 
-            // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
+            // Here we separate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
             const auto amount_len = long_ago.find_first_not_of( "0123456789" );
             std::string amount = long_ago.substr( 0, amount_len );
             std::string unit = long_ago.substr( amount_len );
-            if( timepassed.get_turn() != lasttime ) {
-                right_print( w, line, 2, c_ltblue, _( "%-3s%-10s" ), amount.c_str(), unit.c_str() );
-                lasttime = timepassed.get_turn();
+            if( timepassed != lasttime ) {
+                right_print( w, line, 2, c_light_blue, string_format( _( "%-3s%-10s" ), amount.c_str(),
+                             unit.c_str() ) );
+                lasttime = timepassed;
             }
 
             nc_color col_out = col;
@@ -349,26 +350,19 @@ void Messages::display_messages()
 
                 // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
                 // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
-                // On lines divisible by 4, draw a dark grey '-' at both horizontal extremes of the window.
+                // On lines divisible by 4, draw a dark gray '-' at both horizontal extremes of the window.
                 if( ( line + offset % 4 ) % 4 == 0 ) {
-                    mvwprintz( w, line, 1, c_dkgray, "-" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "-" );
-                    // On lines divisible by 2 (but not 4), draw a light grey '=' at the horizontal extremes of the window.
+                    mvwprintz( w, line, 1, c_dark_gray, "-" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dark_gray, "-" );
+                    // On lines divisible by 2 (but not 4), draw a light gray '=' at the horizontal extremes of the window.
                 } else if( ( line + offset % 4 ) % 2 == 0 ) {
-                    mvwprintz( w, line, 1, c_dkgray, "=" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "=" );
+                    mvwprintz( w, line, 1, c_light_gray, "=" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_light_gray, "=" );
                 }
 
                 // Only now are we done with this line:
                 line++;
             }
-        }
-
-        if( offset < msg_count - bottom ) {
-            mvwprintz( w, bottom + 1, 5, c_magenta, "vvv" );
-        }
-        if( offset > 0 ) {
-            mvwprintz( w, bottom + 1, FULL_SCREEN_WIDTH - 8, c_magenta, "^^^" );
         }
         wrefresh( w );
 
@@ -382,11 +376,11 @@ void Messages::display_messages()
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn.get_turn();
+    player_messages.impl_->curmes = calendar::turn;
 }
 
-void Messages::display_messages( WINDOW *const ipk_target, int const left, int const top,
-                                 int const right, int const bottom )
+void Messages::display_messages( const catacurses::window &ipk_target, int const left,
+                                 int const top, int const right, int const bottom )
 {
     if( !size() ) {
         return;
@@ -453,21 +447,15 @@ void Messages::display_messages( WINDOW *const ipk_target, int const left, int c
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn.get_turn();
+    player_messages.impl_->curmes = calendar::turn;
 }
 
-void add_msg( const char *msg, ... )
+void add_msg( std::string msg )
 {
-    va_list ap;
-    va_start( ap, msg );
-    Messages::vadd_msg( msg, ap );
-    va_end( ap );
+    Messages::add_msg( std::move( msg ) );
 }
 
-void add_msg( game_message_type const type, const char *msg, ... )
+void add_msg( game_message_type const type, std::string msg )
 {
-    va_list ap;
-    va_start( ap, msg );
-    Messages::vadd_msg( type, msg, ap );
-    va_end( ap );
+    Messages::add_msg( type, std::move( msg ) );
 }

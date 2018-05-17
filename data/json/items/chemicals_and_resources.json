@@ -18,7 +18,7 @@
     "count" : 100
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "chunk_sulfur",
     "category" : "spare_parts",
     "price" : 50,
@@ -268,11 +268,12 @@
     "name_plural" : "acid water",
     "weight" : 260,
     "color" : "light_green",
+    "flags" : [ "ACID" ],
     "use_action" : "BLECH",
     "container" : "jug_plastic",
     "comestible_type" : "DRINK",
     "symbol" : "~",
-    "quench" : -96,
+    "quench" : -56,
     "healthy" : -2,
     "description" : "Water collected during an acid rainstorm.  Don't drink it.  Boiling it concentrates the acid.",
     "price" : 0,
@@ -288,6 +289,7 @@
     "name_plural" : "weak acid water",
     "weight" : 255,
     "color" : "light_green",
+    "flags" : [ "ACID" ],
     "use_action" : "BLECH",
     "container" : "jug_plastic",
     "comestible_type" : "DRINK",
@@ -308,18 +310,19 @@
     "name_plural" : "concentrated acid",
     "weight" : 250,
     "color" : "green",
+    "flags" : [ "ACID" ],
     "use_action" : "BLECH",
     "container" : "jug_plastic",
     "comestible_type" : "DRINK",
     "symbol" : "~",
     "quench" : -96,
-    "healthy" : -2,
+    "healthy" : -4,
     "description" : "Concentrated acid.  Don't drink it.",
     "price" : 2000,
     "volume" : 1,
     "phase" : "liquid",
     "category" : "chems",
-    "fun" : -30,
+    "fun" : -45,
     "drop_action": {
         "type": "emit_actor",
         "emits": [ "emit_acid_splash" ],
@@ -552,7 +555,7 @@
     "count" : 50
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "material_niter",
     "category" : "spare_parts",
     "price" : 75,
@@ -749,7 +752,6 @@
     "name_plural": "hickory nuts",
     "description": "A handful of hard nuts from a hickory tree, still in their shell.",
     "price": 0,
-    "material": "wood",
     "weight": 212,
     "volume": 1,
     "to_hit": -2
@@ -814,12 +816,12 @@
     "name" : "wood ash",
     "name_plural" : "wood ashes",
     "symbol" : "=",
-    "color" : "gray",
+    "color" : "light_gray",
     "description" : "This is almost weightless residue left after the burning of some substance.",
-    "material" : "powder",
-    "volume" : 1,
-    "weight" : 10,
+    "material" : "powder_nonflam",
+    "volume" : 0.1,
+    "weight" : 1,
     "ammo_type" : "components",
-    "count" : 10
+    "count" : 100
    }
 ]

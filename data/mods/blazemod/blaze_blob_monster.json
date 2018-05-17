@@ -59,7 +59,7 @@
     "speed": 60,
     "material": [ "flesh" ],
     "symbol": "O",
-    "color": "lt_gray",
+    "color": "light_gray",
     "phase": "LIQUID",
     "aggression": -99,
     "morale": -5,
