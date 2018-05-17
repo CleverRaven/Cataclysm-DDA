@@ -1577,7 +1577,7 @@
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 20,
-    "epower": -187,
+    "epower": -25,
     "bonus": 600,
     "item": "recharge_station",
     "difficulty": 3,
