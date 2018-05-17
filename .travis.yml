@@ -87,7 +87,7 @@ matrix:
           sources: *apt_sources
 
     # GCC 7
-    - env: COMPILER=g++-7 -Wimplicit-fallthrough=3
+    - env: COMPILER=g++-7 CXXFLAGS='-Wimplicit-fallthrough=3'
       compiler: gcc
       addons: &gcc7
         apt:
@@ -95,7 +95,7 @@ matrix:
           sources: *apt_sources
 
     # GCC 8
-    - env: COMPILER=g++-8 -Wimplicit-fallthrough=3
+    - env: COMPILER=g++-8 CXXFLAGS='-Wimplicit-fallthrough=3'
       compiler: gcc
       addons: &gcc8
         apt:
