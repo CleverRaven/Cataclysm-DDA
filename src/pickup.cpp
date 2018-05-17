@@ -484,7 +484,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             if( !picked_up ) {
                 break;
             }
-            /* fallthrough */
+            /* FALLTHROUGH */
         case STASH:
             auto &entry = mapPickup[newit.tname()];
             entry.second += newit.count_by_charges() ? newit.charges : 1;

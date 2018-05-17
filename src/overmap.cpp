@@ -4097,7 +4097,7 @@ point om_direction::rotate( const point &p, type dir )
     switch( dir ) {
         case type::invalid:
             debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
-            /* fallthrough */
+            /* FALLTHROUGH */
         case type::north:
             break;  // No need to do anything.
         case type::east:
