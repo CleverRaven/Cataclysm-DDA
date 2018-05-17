@@ -36,6 +36,7 @@ addons:
       - llvm-toolchain-trusty-3.9
       - llvm-toolchain-trusty-4.0
       - llvm-toolchain-trusty-5.0
+      - llvm-toolchain-trusty-6.0
 
 compiler: gcc
 os: linux
@@ -85,6 +86,22 @@ matrix:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
+    # GCC 7
+    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough'
+      compiler: gcc
+      addons: &gcc7
+        apt:
+          packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          sources: *apt_sources
+
+    # GCC 8
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough'
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          sources: *apt_sources
+
     # GCC MinGW
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
       compiler: gcc
@@ -95,6 +112,7 @@ matrix:
 
     # Clang 3.8
     - env: CLANG=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      compiler: clang
       addons: &clang38
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
@@ -102,6 +120,7 @@ matrix:
 
     # Clang 3.9
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      compiler: clang
       addons: &clang39
         apt:
           packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
@@ -110,6 +129,7 @@ matrix:
     # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       dist: trusty
+      compiler: clang
       addons: &clang40
         apt:
           packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
@@ -118,6 +138,7 @@ matrix:
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       dist: trusty
+      compiler: clang
       addons: &clang50
         apt:
           packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
@@ -129,7 +150,7 @@ before_script:
   - CXX="$COMPILER"
   - source build-scripts/requirements.sh
 
-script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test $MODS
+script: make -j3 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test $MODS
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
