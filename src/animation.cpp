@@ -607,21 +607,27 @@ void game::draw_weather(weather_printable const &w)
 
     std::string weather_name;
     switch (w.wtype) {
-    // Acid weathers; uses acid droplet tile, fallthrough intended
+    // Acid weathers; uses acid droplet tile
     case WEATHER_ACID_DRIZZLE:
+        /* fallthrough */
     case WEATHER_ACID_RAIN:
         weather_name = weather_acid_drop;
         break;
-    // Normal rainy weathers; uses normal raindrop tile, fallthrough intended
+    // Normal rainy weathers; uses normal raindrop tile
     case WEATHER_DRIZZLE:
+        /* fallthrough */
     case WEATHER_RAINY:
+        /* fallthrough */
     case WEATHER_THUNDER:
+        /* fallthrough */
     case WEATHER_LIGHTNING:
         weather_name = weather_rain_drop;
         break;
-    // Snowy weathers; uses snowflake tile, fallthrough intended
+    // Snowy weathers; uses snowflake tile
     case WEATHER_FLURRIES:
+        /* fallthrough */
     case WEATHER_SNOW:
+        /* fallthrough */
     case WEATHER_SNOWSTORM:
         weather_name = weather_snowflake;
         break;
