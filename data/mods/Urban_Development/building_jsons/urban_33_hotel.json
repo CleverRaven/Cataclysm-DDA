@@ -17,46 +17,45 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "%%%%%%%%%%%%%%%%%%%%%%%%",
-        "%%%%%%%%%%%%%%%%%%%%%%%%",
-        "%lllllllllllllllllllllll",
-        "ll''''''''''''''''''''''",
-        "l'zzzzzzzzzzzzzzzzzzzzzz",
-        "l'z'''''''''''''''''''''",
-        "l'z'llllllllllllllllllll",
-        "l'z'l%l    |            ",
-        "l'z'l%l    J  3333333333",
-        "l'z'l%l>   |  33       3",
-        "l'z'l%l----|  33 89998 3",
-        "l'z'l%lEEEE|  33 8PPP8 3",
-        "l'z'l%lEEEE|  33(8PPP8(3",
-        "l'}'l%lEEEE|  33(8PPP8(3",
-        "l'z'l%lEEEE|  33(8PPP8(3",
-        "l'z'l%l   6|  33 8PPP8 3",
-        "lllllll-|  |  33 89998 3",
-        "lCCooCCC|  |  33       3",
-        "lC222222J  |  3333333333",
-        "lC222222J  |  33        ",
-        "lS22C22g|  |  33  lvvvvl",
-        "lS22C22g|  |  33  vEEEEl",
-        "lC22222g|  |  33  vEEEEl",
-        "lC22222g|  |  33  vEEEEl"
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"%lllllllllllllllllllllll",
+				"ll''''''''''''''''''''''",
+				"l'zzzzzzzzzzzzzzzzzzzzzz",
+				"l'z'''''''''''''''''''''",
+				"l'z'llllllllllllllllllll",
+				"l'z'l%l    |            ",
+				"l'z'l%l    J  3333333333",
+				"l'z'l%l>   |  33       3",
+				"l'z'l%l----|  33 89998 3",
+				"l'z'l%lEEEE|  33 8PPP8 3",
+				"l'z'l%lEEEE|  33(8PPP8(3",
+				"l'}'l%lEEEE|  33(8PPP8(3",
+				"l'z'l%lEEE6|  33(8PPP8(3",
+				"l'z'l%l    |  33 8PPP8 3",
+				"lllllll-|  |  33 89998 3",
+				"lCCooCCC|  |  33       3",
+				"lC222222J  |  3333333333",
+				"lC222222J  |  33        ",
+				"lS22C22g|  |  33  lvvvvl",
+				"lS22C22g|  |  33  v7777l",
+				"lC22222g|  |  33  v7777l",
+				"lC22222g|  |  33  v7777l"
+
       ],
       "palettes": [
         "acidia_commercial_palette"
       ],
       "items": {
-        " ": { "item": "traveler", "chance": 1 },
         "'": { "item": "sewer", "chance": 1 },
         "(": { "item": "traveler", "chance": 5 },
         "2": { "item": "kitchen", "chance": 1 },
-        "3": { "item": "traveler", "chance": 1 },
         "C": { "item": "kitchen", "chance": 25 },
         "g": { "item": "fridge", "chance": 70 },
         "o": { "item": "oven", "chance": 30 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 7, 22 ], "density": 0.5 }
+        { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 7, 22 ], "density": 0.25 }
       ]
     }
   },
@@ -68,43 +67,46 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "%%%l''''''''''''''''l%%%",
-        "%%%l''''''''''''''''l%%%",
-        "llll''''''''''''''''llll",
-        "'''$''''''''''''''''v  l",
-        "zzz$''''''''''''''''vK l",
-        "'''5''''''''''''''''v  l",
-        "llll''''''''''''''''l  l",
-        "  kl''''''''''''''''l  l",
-        "3  v''''''''''''''''l  l",
-        "3  v''''''''''''''''l  l",
-        "3  v''''''''''''''''l  l",
-        "3  l''''''''''''''''v  l",
-        "3  v''''''''''''''''vK l",
-        "3  v''''''''''''''''v  l",
-        "3  v''''''''''''''''l  l",
-        "3  l''''''''''''''''l  l",
-        "3  v''''''''''''''''l  l",
-        "3  v''''''''''''''''l  l",
-        "3  v''''''''''''''''l  l",
-        "  kl''''''''''''''''v  l",
-        "l1ll''''''''''''''''vK l",
-        "S rl''''''''''''''''v  l",
-        "c rl''''''''''''''''l  l",
-        "r rl''''''''''''''''l  l"
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"llllllllllllllllllllllll",
+				"'''$00l   ZZ)    ZZ)   l",
+				"zzz$001   ZZ     ZZ   Ll",
+				"'''500l               Ll",
+				"lllllllllllllllllll   Ll",
+				"  kl hc ggScg  1  l    l",
+				"3     c        lu l    l",
+				"3    hcccccccc lu l1ll l",
+				"3      h h h   lu    l l",
+				"3  l   l   l   lllllll l",
+				"3              vCCCCCl l",
+				"33333333333333 J    Cl l",
+				"3            3 vC   Cl l",
+				"3  lvJvlvvvl 3 lC    l l",
+				"3  v       v 3 vC  c l l",
+				"3  v       v 3 vC  ch1 l",
+				"3  v     c6v 3 vC  6 l l",
+				"  klOOOO  hl 3 l-----l l",
+				"l1lllllll1ll 3 v h   l l",
+				"S rl<<<lO Ol 3 v6cc  1 l",
+				"c rl 3 lO Ol 3 v    Kl l",
+				"r rl 3 lO Ol 3 l K  Kl l"
+
       ],
       "palettes": [
         "acidia_commercial_palette"
       ],
       "items": {
-        " ": { "item": "traveler", "chance": 1 },
-        "'": { "item": "subway", "chance": 1 },
-        "3": { "item": "traveler", "chance": 1 },
+        "L": { "item": "construction_worker", "chance": 60 },
+        "O": { "item": "magazines", "chance": 70 },
+		"g": { "item": "alcohol", "chance": 30 },
+		"u": { "item": "alcohol", "chance": 60 },
+		"C": { "item": "candy_shop", "chance": 50 },
         "K": { "item": "allclothes", "chance": 70 },
         "r": { "item": "cleaning", "chance": 55 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 5, 22 ], "density": 0.5 }
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 5, 22 ], "density": 0.15}
       ]
     }
   },
@@ -116,40 +118,39 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "l---+---|  |  33  l===ll",
-        "lu     u|  |  33   333  ",
-        "lu     u|  |  33   333  ",
-        "lu uuu u|  |  3333333333",
-        "l-------|JJ|  3333333333",
-        "lW         |            ",
-        "lW   C     |            ",
-        "lW   W    D|---   ---|  ",
-        "lW   W    D| h       |  ",
-        "lW   C    D|hth     hv( ",
-        "lW        D| h      tv( ",
-        "l----|    D|        hv( ",
-        "lLLLL|    D|         v( ",
-        "l         D| C6C     |  ",
-        "lL   |DDDDD|   C     |  ",
-        "l--+-|-----|r  *    hv( ",
-        "l    |  rrr|r  *    tv( ",
-        "l    +     +   *    hv( ",
-        "l    |     |g  *     v( ",
-        "l>   | CSC |g  C hth |  ",
-        "llllllllllllllllllllllll",
-        "%%%%%%%%%%%%%%%%%%%%%%%%",
-        "%%%%%%%%%%%%%%%%%%%%%%%%",
-        "%%%%%%%%%%%%%%%%%%%%%%%%"
+				"l---+---|  |  33  l===ll",
+				"lr     r|  |  33   333  ",
+				"lr     r|  |  33   333  ",
+				"lr rrr r|  |  3333333333",
+				"l-------|JJ|  3333333333",
+				"lW         |            ",
+				"lW   C     |            ",
+				"lW   W    D|---   ---|  ",
+				"lW   W    D| h       |  ",
+				"lW   C    D|hth     hv( ",
+				"lW        D| h      tv( ",
+				"l----|    D|        hv( ",
+				"lrrrr|    D|         v( ",
+				"l         D| C6C     |  ",
+				"lr   |DDDDD|   C     |  ",
+				"l--+-|-----|r  *    hv( ",
+				"l    |  rrr|r  *    tv( ",
+				"l    +     +   *    hv( ",
+				"l    |     |g  *     v( ",
+				"l>   | CSC |g  C hth |  ",
+				"llllllllllllllllllllllll",
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"%%%%%%%%%%%%%%%%%%%%%%%%"
+
       ],
       "palettes": [
         "acidia_commercial_palette"
       ],
       "items": {
-        " ": { "item": "traveler", "chance": 1 },
         "'": { "item": "subway", "chance": 1 },
         "(": { "item": "traveler", "chance": 5 },
         "*": { "item": "coffee_display", "chance": 70 },
-        "3": { "item": "traveler", "chance": 1 },
         "D": { "item": "allclothes", "chance": 70 },
         "L": { "item": "cleaning", "chance": 55 },
         "W": { "item": "allclothes", "chance": 70 },
@@ -171,42 +172,45 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "llll''''''''''''''''l  l",
-        "    ''''''''''''''''l  l",
-        "    ''''''''''''''''l  l",
-        "333 ''''''''''''''''v  l",
-        "333 ''''''''''''''''vK l",
-        " 33 ''''''''''''''''v  l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''v  l",
-        " 33 ''''''''''''''''vK l",
-        " 33 ''''''''''''''''v  l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''l+-l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''l  l",
-        " 33 ''''''''''''''''l  l",
-        "    ''''''''''''''''l >l",
-        "llll''''''''''''''''llll",
-        "%%%l''''''''''''''''l%%%",
-        "%%%l''''''''''''''''l%%%",
-        "%%%l''''''''''''''''l%%%"
+				"llll 3 lllll 3 v    Kl l",
+				"     3       3 J    Kl l",
+				" 3333333333333 v K  Kl l",
+				"333            l    Kl l",
+				"333   lvvvlvvvllllllll l",
+				" 33   vK    K  l LLLL  l",
+				" 33   v llllllll       l",
+				" 33   v l              l",
+				" 33   l +    ZZ   ZZ   l",
+				" 33   v l    )Z   )Z   l",
+				" 33   v l    )Z   )Z   l",
+				" 33   vKl    ZZ   ZZ   l",
+				" 33   vKl             Ll",
+				" 33   v l             Ll",
+				" 33   v l    ZZ       Ll",
+				" 33   l +    )Z       Ll",
+				" 33   v l    )Z ll+ll+ll",
+				" 33   vKl    ZZ lS l   l",
+				" 33   v l       l  l   l",
+				"      | l       lT l  >l",
+				"llllllllllllllllllllllll",
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"%%%%%%%%%%%%%%%%%%%%%%%%",
+				"%%%%%%%%%%%%%%%%%%%%%%%%"
+
       ],
       "palettes": [
         "acidia_commercial_palette"
       ],
+	  "toilets": {
+        "T": {}
+      },
       "items": {
-        " ": { "item": "traveler", "chance": 1 },
+	    "L": { "item": "construction_worker", "chance": 60 },
         "'": { "item": "subway", "chance": 1 },
-        "3": { "item": "traveler", "chance": 1 },
         "K": { "item": "allclothes", "chance": 70 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 1, 17 ], "density": 0.55 }
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 1, 17 ], "density": 0.09 }
       ]
     }
   },
@@ -1784,6 +1788,272 @@
       ],
       "palettes": [
         "acidia_commercial_palette"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_33_37" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+				"%%%%%%%%%%%%%%%%%%%%%%%l",
+				"%%%%%%%%%%%%%%%%%%%%%%ll",
+				"%%%%%%%%%%%llllllllllll.",
+				"%%%%%%%%%%ll............",
+				"%%%%%%%%%ll.............",
+				"%%%%%%%%ll..444-44-44-44",
+				"%%%%%%%ll..4433x33x33x33",
+				"%%%%%%ll..44344-44-44-44",
+				"%%%%%ll..443444-44-44-44",
+				"%%%%ll..4434433x33x33x33",
+				"%%%%l..4-x--x-4-44-44-44",
+				"%%%%l..4344344..........",
+				"%%%%l..434434..lllllllll",
+				"%%%%l..-x--x-.ll%%%%%lll",
+				"%%%%l..434434.llllllllSC",
+				"%%%%l..434434.D      l  ",
+				"%%%%l..-x--x-.D   (  lq ",
+				"%%%%l..434434.D   (  lll",
+				"%%%%l..434434.D   (     ",
+				"%%%%l..-x--x-.D         ",
+				"%%%%l..434434.D   lvvvvl",
+				"%%%%l..434434.D   vEEEEl",
+				"%%%%l..-x--x-.D   vEEEEl",
+				"%%%%l..434434.D   vEEEEl"
+      ],
+      "palettes": [
+        "acidia_commercial_palette"
+      ],
+      "terrain": { 
+	  	"q": "t_linoleum_white",
+	    "4": "t_railroad_rubble",
+        "-": "t_railroad_tie",
+        "3": "t_railroad_track",
+        "x": "t_railroad_track_on_tie",
+		".": "t_pavement",
+		"D": "t_pavement_y" 
+	  },
+	   "furniture": {
+        "4": "f_null",
+        "-": "f_null",
+        "3": "f_null",
+        "x": "f_null",
+        ".": "f_null",
+        "D": "f_null"
+      },
+      "items": {
+	    "q": { "item": "trash", "chance": 60 },
+        "(": { "item": "jackets", "chance": 5 },
+        "_": { "item": "trash_cart", "chance": 2 },
+        " ": { "item": "trash_cart", "chance": 2 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 16, 22 ], "y": [ 16, 22 ], "density": 0.2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_33_38" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+				".434434.l%%%%%ll.434434.",
+				".-x--x-.l%%%%%l.-x--x-..",
+				".434434.l%%%%l.434434..l",
+				".434434.l%%%l.434434..ll",
+				".-x--x-.l%%%l.-x--x-..l%",
+				"-344344.l%%%l.434434.lll",
+				"x44344..l%%%l.434434.l%l",
+				"-4344..ll%%%l.-x--x-.l%l",
+				"-344..ll%%%%l.434434.l%l",
+				"x44..ll%%%%%l.434434.l%l",
+				"-4..ll%%%%%%l.-x--x-.l%l",
+				"...ll%%%%%%%l.434434.l%l",
+				"llll%%%%%%%%l.434434.l%l",
+				"llllll%%%%%%l.-x--x-.l%l",
+				"S|T|Tllllllll.434434.l%l",
+				" |+|+l      D.434434.l%l",
+				"     l  (   D.-x--x-.l%l",
+				"+lllll  (   D.434434.l%l",
+				"        (   D.434434.l%l",
+				"            D.-x--x-.l%l",
+				"l1llllll    D.434434.l%l",
+				"S rl>>>l    D.434434.l%l",
+				"c rl   l    D.-x--x-.l%l",
+				"r rl   l    D.434434.l%l"
+      ],
+      "palettes": [
+        "acidia_commercial_palette"
+      ],
+	  "toilets": {
+        "T": {}
+      },
+      "terrain": { 
+	  	"q": "t_linoleum_white",
+	    "4": "t_railroad_rubble",
+        "-": "t_railroad_tie",
+        "3": "t_railroad_track",
+        "x": "t_railroad_track_on_tie",
+		".": "t_pavement",
+		"D": "t_pavement_y" 
+	  },
+	   "furniture": {
+        "4": "f_null",
+        "-": "f_null",
+        "3": "f_null",
+        "x": "f_null",
+        ".": "f_null",
+        "D": "f_null"
+      },
+      "items": {
+	    "q": { "item": "trash", "chance": 60 },
+        "(": { "item": "jackets", "chance": 5 },
+        "_": { "item": "trash_cart", "chance": 2 },
+        " ": { "item": "trash_cart", "chance": 2 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 16, 22 ], "density": 0.2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_33_39" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+				"%%%%l..434434.D   l===ll",
+				"%%%%l..-x--x-.D        ?",
+				"%%%%l..434434.D         ",
+				"%%%%l..434434.D         ",
+				"%%%%l..-x--x-.D   q     ",
+				"%%%%l..434434.D   (  lll",
+				"%%%%l..434434.D   (  lq ",
+				"%%%%l..-x--x-.D   (  l  ",
+				"%%%%l..434434.D      lSC",
+				"%%%%l..434434.llllllllll",
+				"%%%%l..-x--x-.ll%%%%%%%%",
+				"%%%%l..434434..lllllllll",
+				"%%%%l..4344344..........",
+				"%%%%l..4-x--x-4-44-44-44",
+				"%%%%ll..4434433x33x33x33",
+				"%%%%%ll..443444-44-44-44",
+				"%%%%%%ll..44344-44-44-44",
+				"%%%%%%%ll..4433x33x33x33",
+				"%%%%%%%%ll..444-44-44-44",
+				"%%%%%%%%%ll.............",
+				"%%%%%%%%%%lllllllllllll.",
+				"%%%%%%%%%%%%%%%%%%%%%%ll",
+				"%%%%%%%%%%%%%%%%%%%%%%%l",
+				"%%%%%%%%%%%%%%%%%%%%%%%l"
+      ],
+      "palettes": [
+        "acidia_commercial_palette"
+      ],
+      "terrain": { 
+	  	"?": "t_linoleum_white",
+	  	"q": "t_linoleum_white",
+	    "4": "t_railroad_rubble",
+        "-": "t_railroad_tie",
+        "3": "t_railroad_track",
+        "x": "t_railroad_track_on_tie",
+		".": "t_pavement",
+		"D": "t_pavement_y" 
+	  },
+	   "furniture": {
+        "4": "f_null",
+        "-": "f_null",
+        "3": "f_null",
+        "x": "f_null",
+        ".": "f_null",
+        "D": "f_null"
+      },
+      "items": {
+	  	"?": { "item": "vending_drink", "chance": 70 },
+	    "q": { "item": "trash", "chance": 60 },
+        "(": { "item": "jackets", "chance": 5 },
+        "_": { "item": "trash_cart", "chance": 2 },
+        " ": { "item": "trash_cart", "chance": 2 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 12, 22 ], "y": [ 1, 15 ], "density": 0.2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_33_40" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+				"llll   l    D.434434.l%l",
+				"???         D.-x--x-.l%l",
+				"            D.434434.l%l",
+				"            D.434434.l%l",
+				"        q   D.-x--x-.l%l",
+				"+lllll  (   D.434434.l%l",
+				"     l  (   D.434434.l%l",
+				" |+|+l  (   D.-x--x-.l%l",
+				"S|T|Tl      D.434434.l%l",
+				"lllllllllllll.434434.l%l",
+				"%%%%%%%%%%%%l.-x--x-.l%l",
+				"llll%%%%%%%%l.434434.l%l",
+				"...ll%%%%%%%l.434434.l%l",
+				"-4..ll%%%%%%l.-x--x-.l%l",
+				"x44..ll%%%%%l.434434.l%l",
+				"-344..ll%%%%l.434434.l%l",
+				"-4344..ll%%%l.-x--x-.l%l",
+				"x44344..l%%%l.434434.lll",
+				"-344344.l%%%l.434434.lll",
+				".-x--x-.l%%%l.-x--x-..l%",
+				".434434.l%%%l.434434..ll",
+				".434434.l%%%%l.434434..l",
+				".-x--x-.l%%%%%l.-x--x-..",
+				".434434.l%%%%%ll.434434."
+      ],
+      "palettes": [
+        "acidia_commercial_palette"
+      ],
+	  "toilets": {
+        "T": {}
+      },
+      "terrain": { 
+	  	"?": "t_linoleum_white",
+	  	"q": "t_linoleum_white",
+	    "4": "t_railroad_rubble",
+        "-": "t_railroad_tie",
+        "3": "t_railroad_track",
+        "x": "t_railroad_track_on_tie",
+		".": "t_pavement",
+		"D": "t_pavement_y" 
+	  },
+	   "furniture": {
+        "4": "f_null",
+        "-": "f_null",
+        "3": "f_null",
+        "x": "f_null",
+        ".": "f_null",
+        "D": "f_null"
+      },
+      "items": {
+	    "?": { "item": "vending_drink", "chance": 70 },
+	    "q": { "item": "trash", "chance": 60 },
+        "(": { "item": "jackets", "chance": 5 },
+        "_": { "item": "trash_cart", "chance": 2 },
+        " ": { "item": "trash_cart", "chance": 2 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 1, 17 ], "density": 0.15 }
       ]
     }
   }
