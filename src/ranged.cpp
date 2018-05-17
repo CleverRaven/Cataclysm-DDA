@@ -1515,6 +1515,25 @@ static bool is_driving( const player &p )
     return vp && vp->vehicle().velocity != 0 && vp->vehicle().player_in_control( p );
 }
 
+static double dispersion_from_skill( double skill, double weapon_dispersion )
+{
+    if( skill >= MAX_SKILL ) {
+        return 0.0;
+    }
+    double skill_shortfall = double( MAX_SKILL ) - skill;
+    // Flat penalty of 3 dispersion per point of skill under max.
+    double dispersion_penalty = 3.0 * skill_shortfall;
+    if( skill >= 5 ) {
+        // Lack of mastery multiplies the dispersion of the weapon.
+        return dispersion_penalty + skill_shortfall * weapon_dispersion / 5.0;
+    }
+    // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
+    double lower_skill_shortfall = 5.0 - skill;
+    dispersion_penalty += weapon_dispersion + lower_skill_shortfall * weapon_dispersion * 3.0 / 5.0;
+
+    return dispersion_penalty;
+}
+
 // utility functions for projectile_attack
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
@@ -1534,27 +1553,11 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     }
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    double avgSkill = double( get_skill_level( skill_gun ) + get_skill_level( obj.gun_skill() ) ) / 2;
-    double cbmLevelBonus = has_bionic( bionic_id( "bio_targeting" ) ) ? 2.5 : 0; //CBM bonus to avg. skill
-    avgSkill = std::min( avgSkill + cbmLevelBonus, double( MAX_SKILL ) );
-    double avgLackOfSkill = double( MAX_SKILL ) - avgSkill;
+    double avgSkill = double( get_skill_level( skill_gun ) +
+                              get_skill_level( obj.gun_skill() ) ) / 2.0;
+    avgSkill = std::min( avgSkill, double( MAX_SKILL ) );
 
-    double maxMult = 5; // Max multipiler for lack of skill
-    double maxDispForLackOfSkill = ( weapon_dispersion * maxMult - weapon_dispersion );
-    double skillThreshold = 5; // Multiplier changes after that skill threshold
-    double dispPartThreshold = 0.75; // Part of dispersion befofre threshold
-    double perSkillDips = maxDispForLackOfSkill * dispPartThreshold / skillThreshold;
-    double perSkillDipsPostThreshold = maxDispForLackOfSkill * ( 1 - dispPartThreshold ) / ( double(
-                                           MAX_SKILL ) - skillThreshold );
-
-    double lackOfSkillDispersion = ( avgLackOfSkill > skillThreshold ) ? skillThreshold *
-                                   perSkillDipsPostThreshold +
-                                   ( avgLackOfSkill - skillThreshold ) * perSkillDips
-                                   : avgLackOfSkill * perSkillDipsPostThreshold;
-
-    double laskOfSkillFlatDispersion = 3.0 * avgLackOfSkill; // Flat "bonus" to dispersion to debuff zero dispersion guns too
-    double laskOfSkillFullDispersion = lackOfSkillDispersion + laskOfSkillFlatDispersion;
-    dispersion.add_range( laskOfSkillFullDispersion );
+    dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
