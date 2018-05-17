@@ -1,0 +1,29 @@
+[
+  {
+    "id": "forklift",
+    "type": "vehicle",
+    "name": "forklift",
+    "blueprint": [ [ "oo-" ], [ "oX-" ] ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_horizontal" },
+      { "x": -1, "y": 0, "part": "frame_horizontal" },
+      { "x": -1, "y": -1, "part": "frame_horizontal" },
+      { "x": 0, "y": -1, "part": "frame_horizontal" },
+      { "x": 0, "y": 0, "part": "wheel_small_steerable" },
+      { "x": -1, "y": 0, "part": "wheel_small" },
+      { "x": -1, "y": -1, "part": "wheel_small" },
+      { "x": 0, "y": -1, "part": "wheel_small_steerable" },
+      { "x": 0, "y": -1, "part": "engine_inline4" },
+      { "x": -1, "y": -1, "part": "tank", "fuel": "gasoline" },
+      { "x": 0, "y": 0, "part": "seat" },
+      { "x": 0, "y": 0, "part": "controls" },
+      { "x": -1, "y": 0, "part": "battery_car" },
+      { "x": 0, "y": -1, "part": "alternator_car" },
+      { "x": -1, "y": 0, "part": "halfboard_vertical" },
+      { "x": -1, "y": -1, "part": "halfboard_vertical" },
+      { "x": 0, "y": -1, "part": "halfboard_vertical" },
+      { "x": 1, "y": 0, "part": "blade_vertical" },
+      { "x": 1, "y": -1, "part": "blade_vertical" }
+    ]
+  }
+]
