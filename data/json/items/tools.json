@@ -8316,5 +8316,56 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "autobread",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "Libotech Autobread",
+    "description": "This is the Libotech Autobread battery powered bread machine.  Originally marketed as a camping appliance, this machine makes coming home to a fresh loaf of bread a snap!",
+    "weight": 6600,
+    "volume": 275,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "metal", "glass" ],
+    "symbol": "%",
+    "color": "white"
+  },
+  {
+    "id": "autobread_process",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "Libotech Autobread (churning)",
+    "description": "This is the Libotech Autobread battery powered bread machine.  It is presently in the process of making some nice, tasty bread.",
+    "weight": 7048,
+    "volume": 275,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "metal", "glass", "veggy" ],
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "autobread_done",
+      "msg": "You check on the machine, and it appears to have finished.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 600,
+      "not_ready_msg": "The machine is still quietly churning.",
+      "//": "1 Hour processing time"
+    }
+  },
+  {
+    "id": "autobread_done",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "Libotech Autobread (done)",
+    "description": "This is the Libotech Autobread battery powered bread machine.  It has stopped churning, and the smell of fresh baked bread wafts from the vents(disassemble to get bread).",
+    "weight": 7048,
+    "volume": 275,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "metal", "glass", "veggy" ],
+    "symbol": "%",
+    "color": "white",
   }
 ]

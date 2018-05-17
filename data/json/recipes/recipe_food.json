@@ -9781,6 +9781,23 @@
   },
   {
     "type" : "recipe",
+    "result": "autobread_process",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 100,
+    "autolearn": true,
+    "components": [
+      [ [ "flour", 3 ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "autobread", 1] ],
+      [ [ "battery", 25] ]
+    ]
+  },
+  {
+    "type" : "recipe",
     "result": "sausage_wasteland",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",

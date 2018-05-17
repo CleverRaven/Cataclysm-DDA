@@ -16,5 +16,16 @@
     "time": 15000,
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 20 ] ] ]
+  },
+  {
+    "result": "autobread_done",
+    "type": "uncraft",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 50,
+    "components": [
+      [ [ "autobread", 1 ] ],
+      [ [ "bread", 8 ] ]
+    ]
   }
 ]
