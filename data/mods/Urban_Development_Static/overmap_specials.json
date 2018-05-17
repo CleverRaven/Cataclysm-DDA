@@ -759,6 +759,7 @@
       { "point": [ 15, 7, 2 ], "overmap": "urban_29_8_south" },
       { "point": [ 16, 7, 3 ], "overmap": "urban_29_9_south" },
       { "point": [ 15, 7, 3 ], "overmap": "urban_29_10_south" },
+      { "point": [ 13, 14, -2 ], "overmap": "urban_30_11_west" },
       { "point": [ 13, 15, -1 ], "overmap": "urban_30_1_west" },
       { "point": [ 13, 14, -1 ], "overmap": "urban_30_2_west" },
       { "point": [ 13, 15, 0 ], "overmap": "urban_30_3_west" },
@@ -807,6 +808,10 @@
       { "point": [ 27, 11, 3 ], "overmap": "urban_32_19_north" },
       { "point": [ 28, 11, 3 ], "overmap": "urban_32_20_north" },
       { "point": [ 27, 10, 4 ], "overmap": "urban_32_21_north" },
+      { "point": [ 22, 7, -2 ], "overmap": "urban_33_37_north" },
+      { "point": [ 23, 7, -2 ], "overmap": "urban_33_38_north" },
+      { "point": [ 22, 8, -2 ], "overmap": "urban_33_39_north" },
+      { "point": [ 23, 8, -2 ], "overmap": "urban_33_40_north" },
       { "point": [ 22, 7, -1 ], "overmap": "urban_33_1_north" },
       { "point": [ 23, 7, -1 ], "overmap": "urban_33_2_north" },
       { "point": [ 22, 8, -1 ], "overmap": "urban_33_3_north" },
@@ -963,6 +968,8 @@
       { "point": [ 17, 7, 3 ], "overmap": "urban_38_10_south" },
       { "point": [ 18, 7, 4 ], "overmap": "urban_38_11_south" },
       { "point": [ 17, 7, 4 ], "overmap": "urban_38_12_south" },
+      { "point": [ 27, 7, -2 ], "overmap": "urban_39_11_south" },
+      { "point": [ 26, 7, -2 ], "overmap": "urban_39_12_south" },
       { "point": [ 27, 7, -1 ], "overmap": "urban_39_1_south" },
       { "point": [ 26, 7, -1 ], "overmap": "urban_39_2_south" },
       { "point": [ 27, 7, 0 ], "overmap": "urban_39_3_south" },
@@ -1451,6 +1458,16 @@
       { "point": [ 13, 10, 6 ], "overmap": "urban_75_32_north" }
     ],
     "connections": [
+      { "point": [ 27, 6, -2 ], "terrain": "subway" },
+      { "point": [ 27, 8, -2 ], "terrain": "subway" },
+      { "point": [ 23, 6, -2 ], "terrain": "subway" },
+      { "point": [ 23, 9, -2 ], "terrain": "subway" },
+      { "point": [ 19, 6, -2 ], "terrain": "subway" },
+      { "point": [ 20, 6, -2 ], "terrain": "subway" },
+      { "point": [ 19, 9, -2 ], "terrain": "subway" },
+      { "point": [ 20, 9, -2 ], "terrain": "subway" },
+      { "point": [ 12, 14, -2 ], "terrain": "subway" },
+      { "point": [ 14, 14, -2 ], "terrain": "subway" },
       { "point": [ 17, 0, 0 ], "terrain": "road" },
       { "point": [ 17, 1, 0 ], "terrain": "road" },
       { "point": [ 17, 2, 0 ], "terrain": "road" },
@@ -1665,3 +1682,4 @@
     "flags": [ "CLASSIC" ]
   }
 ]
+
