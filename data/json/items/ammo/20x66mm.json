@@ -116,6 +116,7 @@
     "ammo_type": "20x66mm",
     "range": 6,
     "damage": 60,
+    "dispersion": 800,
     "recoil": 2500,
     "effects": [ "COOKOFF", "SHOT", "NEVER_MISFIRES" ]
   },
@@ -127,7 +128,7 @@
     "description": "20x66mm caseless shotgun rounds, solid projectile type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 9000,
     "relative": { "range": 6, "pierce": 8 },
-    "proportional": { "damage": 0.65, "dispersion": 1.3 },
+    "proportional": { "damage": 0.65, "dispersion": 0.1 },
     "delete": { "effects": [ "SHOT" ] }
   }
 ]

@@ -85,6 +85,7 @@
     "description": "A 40mm grenade with a buckshot load.",
     "range": 12,
     "damage": 70,
+    "dispersion": 830,
     "recoil": 525,
     "extend": { "effects": [ "SHOT" ] }
   },
