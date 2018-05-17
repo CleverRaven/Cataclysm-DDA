@@ -2310,6 +2310,17 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "urban_30_11",
+    "type": "overmap_terrain",
+    "name": "subway station",
+    "sym": 83,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "subway": true,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
     "id": "urban_30_1",
     "type": "overmap_terrain",
     "name": "basement",
@@ -2327,7 +2338,6 @@
     "color": "yellow",
     "see_cost": 5,
     "mondensity": 2,
-    "subway": true,
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -2786,6 +2796,46 @@
     "name": "fire station",
     "sym": 70,
     "color": "red",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_33_37",
+    "type": "overmap_terrain",
+    "name": "subway station",
+    "sym": 83,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_33_38",
+    "type": "overmap_terrain",
+    "name": "subway station",
+    "sym": 83,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_33_39",
+    "type": "overmap_terrain",
+    "name": "subway station",
+    "sym": 83,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_33_40",
+    "type": "overmap_terrain",
+    "name": "subway station",
+    "sym": 83,
+    "color": "yellow",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4351,6 +4401,24 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "urban_39_11",
+    "type": "overmap_terrain",
+    "name": "subway station",
+    "sym": 83,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "urban_39_12",
+    "type": "overmap_terrain",
+    "name": "subway station",
+    "sym": 83,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
     "id": "urban_39_1",
     "type": "overmap_terrain",
     "name": "dense urban",
@@ -4515,7 +4583,7 @@
     "id": "urban_41_1",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4525,7 +4593,7 @@
     "id": "urban_41_2",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4535,7 +4603,7 @@
     "id": "urban_41_3",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4545,7 +4613,7 @@
     "id": "urban_41_4",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4555,7 +4623,7 @@
     "id": "urban_41_5",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4565,7 +4633,7 @@
     "id": "urban_41_6",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4575,7 +4643,7 @@
     "id": "urban_42_1",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4585,7 +4653,7 @@
     "id": "urban_42_2",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4595,7 +4663,7 @@
     "id": "urban_42_3",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4605,7 +4673,7 @@
     "id": "urban_42_4",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4615,7 +4683,7 @@
     "id": "urban_42_5",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4625,7 +4693,7 @@
     "id": "urban_42_6",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4635,7 +4703,7 @@
     "id": "urban_42_7",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4645,7 +4713,7 @@
     "id": "urban_42_8",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4675,7 +4743,7 @@
     "id": "urban_43_3",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4685,7 +4753,7 @@
     "id": "urban_43_4",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4695,7 +4763,7 @@
     "id": "urban_43_5",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4705,7 +4773,7 @@
     "id": "urban_43_6",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4715,7 +4783,7 @@
     "id": "urban_43_7",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -4725,7 +4793,7 @@
     "id": "urban_43_8",
     "name": "house",
     "sym": 118,
-    "color": "ltgreen",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -7367,7 +7435,7 @@
     "id": "urban_64_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7377,7 +7445,7 @@
     "id": "urban_64_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7387,7 +7455,7 @@
     "id": "urban_64_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7397,7 +7465,7 @@
     "id": "urban_64_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7407,7 +7475,7 @@
     "id": "urban_64_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7416,7 +7484,7 @@
     "id": "urban_64_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7425,7 +7493,7 @@
     "id": "urban_64_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7434,7 +7502,7 @@
     "id": "urban_64_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7443,7 +7511,7 @@
     "id": "urban_64_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7452,7 +7520,7 @@
     "id": "urban_64_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7461,7 +7529,7 @@
     "id": "urban_64_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7470,7 +7538,7 @@
     "id": "urban_64_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7479,7 +7547,7 @@
     "id": "urban_64_16",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7488,7 +7556,7 @@
     "id": "urban_65_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7498,7 +7566,7 @@
     "id": "urban_65_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7508,7 +7576,7 @@
     "id": "urban_65_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7518,7 +7586,7 @@
     "id": "urban_65_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7528,7 +7596,7 @@
     "id": "urban_65_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7537,7 +7605,7 @@
     "id": "urban_65_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7546,7 +7614,7 @@
     "id": "urban_65_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7555,7 +7623,7 @@
     "id": "urban_65_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7564,7 +7632,7 @@
     "id": "urban_65_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7573,7 +7641,7 @@
     "id": "urban_65_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7582,7 +7650,7 @@
     "id": "urban_65_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7591,7 +7659,7 @@
     "id": "urban_65_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7600,7 +7668,7 @@
     "id": "urban_66_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7609,7 +7677,7 @@
     "id": "urban_66_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7618,7 +7686,7 @@
     "id": "urban_66_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7627,7 +7695,7 @@
     "id": "urban_66_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7636,7 +7704,7 @@
     "id": "urban_66_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7646,7 +7714,7 @@
     "id": "urban_66_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7656,7 +7724,7 @@
     "id": "urban_66_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7666,7 +7734,7 @@
     "id": "urban_66_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7676,7 +7744,7 @@
     "id": "urban_66_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7685,7 +7753,7 @@
     "id": "urban_66_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7694,7 +7762,7 @@
     "id": "urban_66_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7703,7 +7771,7 @@
     "id": "urban_66_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7712,7 +7780,7 @@
     "id": "urban_66_13",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7721,7 +7789,7 @@
     "id": "urban_66_14",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7730,7 +7798,7 @@
     "id": "urban_66_15",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7739,7 +7807,7 @@
     "id": "urban_66_16",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7748,7 +7816,7 @@
     "id": "urban_66_17",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7757,7 +7825,7 @@
     "id": "urban_66_19",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7766,7 +7834,7 @@
     "id": "urban_67_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7776,7 +7844,7 @@
     "id": "urban_67_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7786,7 +7854,7 @@
     "id": "urban_67_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7796,7 +7864,7 @@
     "id": "urban_67_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -7806,7 +7874,7 @@
     "id": "urban_67_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7815,7 +7883,7 @@
     "id": "urban_67_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7824,7 +7892,7 @@
     "id": "urban_67_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7833,7 +7901,7 @@
     "id": "urban_67_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7842,7 +7910,7 @@
     "id": "urban_67_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7851,7 +7919,7 @@
     "id": "urban_67_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7860,7 +7928,7 @@
     "id": "urban_67_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7869,7 +7937,7 @@
     "id": "urban_67_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -7878,7 +7946,7 @@
     "id": "urban_67_15",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8065,7 +8133,7 @@
     "id": "urban_70_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8075,7 +8143,7 @@
     "id": "urban_70_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8085,7 +8153,7 @@
     "id": "urban_70_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8095,7 +8163,7 @@
     "id": "urban_70_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8105,7 +8173,7 @@
     "id": "urban_70_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8114,7 +8182,7 @@
     "id": "urban_70_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8123,7 +8191,7 @@
     "id": "urban_70_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8132,7 +8200,7 @@
     "id": "urban_70_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8141,7 +8209,7 @@
     "id": "urban_70_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8150,7 +8218,7 @@
     "id": "urban_70_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8159,7 +8227,7 @@
     "id": "urban_70_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8168,7 +8236,7 @@
     "id": "urban_70_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8177,7 +8245,7 @@
     "id": "urban_70_16",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8186,7 +8254,7 @@
     "id": "urban_71_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8196,7 +8264,7 @@
     "id": "urban_71_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8206,7 +8274,7 @@
     "id": "urban_71_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8216,7 +8284,7 @@
     "id": "urban_71_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8226,7 +8294,7 @@
     "id": "urban_71_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8235,7 +8303,7 @@
     "id": "urban_71_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8244,7 +8312,7 @@
     "id": "urban_71_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8253,7 +8321,7 @@
     "id": "urban_71_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8262,7 +8330,7 @@
     "id": "urban_71_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8271,7 +8339,7 @@
     "id": "urban_71_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8280,7 +8348,7 @@
     "id": "urban_71_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8289,7 +8357,7 @@
     "id": "urban_71_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8298,7 +8366,7 @@
     "id": "urban_72_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8308,7 +8376,7 @@
     "id": "urban_72_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8318,7 +8386,7 @@
     "id": "urban_72_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8328,7 +8396,7 @@
     "id": "urban_72_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8338,7 +8406,7 @@
     "id": "urban_72_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8347,7 +8415,7 @@
     "id": "urban_72_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8356,7 +8424,7 @@
     "id": "urban_72_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8365,7 +8433,7 @@
     "id": "urban_72_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8374,7 +8442,7 @@
     "id": "urban_72_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8383,7 +8451,7 @@
     "id": "urban_72_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8392,7 +8460,7 @@
     "id": "urban_72_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8401,7 +8469,7 @@
     "id": "urban_72_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8410,7 +8478,7 @@
     "id": "urban_72_13",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8419,7 +8487,7 @@
     "id": "urban_72_14",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8428,7 +8496,7 @@
     "id": "urban_72_16",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8437,7 +8505,7 @@
     "id": "urban_73_1",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8446,7 +8514,7 @@
     "id": "urban_73_2",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8455,7 +8523,7 @@
     "id": "urban_73_3",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8464,7 +8532,7 @@
     "id": "urban_73_4",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8473,7 +8541,7 @@
     "id": "urban_73_5",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8483,7 +8551,7 @@
     "id": "urban_73_6",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8493,7 +8561,7 @@
     "id": "urban_73_7",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8503,7 +8571,7 @@
     "id": "urban_73_8",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8513,7 +8581,7 @@
     "id": "urban_73_9",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8522,7 +8590,7 @@
     "id": "urban_73_10",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8531,7 +8599,7 @@
     "id": "urban_73_11",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8540,7 +8608,7 @@
     "id": "urban_73_12",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8549,7 +8617,7 @@
     "id": "urban_73_13",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8558,7 +8626,7 @@
     "id": "urban_73_14",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8567,7 +8635,7 @@
     "id": "urban_73_15",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8576,7 +8644,7 @@
     "id": "urban_73_16",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8585,7 +8653,7 @@
     "id": "urban_73_17",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8594,7 +8662,7 @@
     "id": "urban_73_19",
     "name": "factory",
     "sym": 70,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8603,7 +8671,7 @@
     "id": "urban_74_1",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8613,7 +8681,7 @@
     "id": "urban_74_2",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8623,7 +8691,7 @@
     "id": "urban_74_3",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8633,7 +8701,7 @@
     "id": "urban_74_4",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 10,
     "flags": [ "SIDEWALK" ]
@@ -8643,7 +8711,7 @@
     "id": "urban_74_5",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8652,7 +8720,7 @@
     "id": "urban_74_6",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8661,7 +8729,7 @@
     "id": "urban_74_7",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8670,7 +8738,7 @@
     "id": "urban_74_8",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8679,7 +8747,7 @@
     "id": "urban_74_9",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8688,7 +8756,7 @@
     "id": "urban_74_10",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8697,7 +8765,7 @@
     "id": "urban_74_11",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -8706,7 +8774,7 @@
     "id": "urban_74_12",
     "name": "distribution depot",
     "sym": 68,
-    "color": "i_ltgray",
+    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -9003,3 +9071,4 @@
     "mondensity": 2
   }
 ]
+
