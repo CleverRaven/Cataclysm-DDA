@@ -1932,11 +1932,12 @@
      [ "cooking_oil", 2 ]
     ],
     [
-     [ "lye", 2 ]
+     [ "lye", 2 ],
+	 [ "lye_powder", 75 ]
     ],
     [
-     [ "water", 1 ],
-     [ "water_clean", 1 ]
+     [ "water", 2 ],
+     [ "water_clean", 2 ]
     ]
    ]
 },{
@@ -2370,25 +2371,6 @@
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
     [ [ "ash", 500 ] ]
-  ]
-},{
-  "result": "lye",
-  "id_suffix": "from_lye_powder",
-  "type": "recipe",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 5000,
-  "batch_time_factors": [ 20, 2 ],
-  "autolearn": true,
-  "qualities":[
-    {"id":"CHEM","level":1},
-    {"id":"CONTAIN","level":1}
-  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-  "components": [
-    [ [ "water", 1 ], [ "water_clean", 1 ] ],
-    [ [ "lye_powder", 35 ] ]
   ]
 }
 ]
