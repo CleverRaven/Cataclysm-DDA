@@ -208,6 +208,7 @@ void intro();
 game *g;
 #ifdef TILES
 extern std::unique_ptr<cata_tiles> tilecontext;
+extern void toggle_fullscreen_window();
 #endif // TILES
 
 uistatedata uistate;
@@ -687,11 +688,11 @@ void game::toggle_sidebar_style()
 void game::toggle_fullscreen()
 {
 #ifndef TILES
-    if (TERMX > 121 || TERMY > 121) {
-        return;
-    }
     fullscreen = !fullscreen;
     init_ui();
+    refresh_all();
+#else
+    toggle_fullscreen_window();
     refresh_all();
 #endif
 }

@@ -235,6 +235,7 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
+bool fullscreen;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -328,9 +329,9 @@ bool WinCreate()
     int window_flags = 0;
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
+    window_flags |= SDL_WINDOW_RESIZABLE;
 
     if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        window_flags |= SDL_WINDOW_RESIZABLE;
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
@@ -338,6 +339,7 @@ bool WinCreate()
         window_flags |= SDL_WINDOW_FULLSCREEN;
     } else if (get_option<std::string>( "FULLSCREEN" ) == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        fullscreen = true;
         SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
     }
 
@@ -364,6 +366,8 @@ bool WinCreate()
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
     }
+
+    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
 
     // Initialize framebuffer caches
     terminal_framebuffer.resize(TERMINAL_HEIGHT);
@@ -665,6 +669,8 @@ static void try_sdl_update()
         needupdate = true;
     }
 }
+
+
 
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
@@ -1255,6 +1261,49 @@ long sdl_keysym_to_curses( SDL_Keysym keysym )
     }
 }
 
+bool handle_resize(int w, int h)
+{
+    if( ( w != WindowWidth ) || ( h != WindowHeight ) ) {
+        WindowWidth = w;
+        WindowHeight = h;
+        TERMINAL_WIDTH = WindowWidth / fontwidth;
+        TERMINAL_HEIGHT = WindowHeight / fontheight;
+        SetupRenderTarget();
+        g->init_ui();
+        tilecontext->reinit_minimap();
+        
+        return true;
+    }
+    return false;
+}
+
+void toggle_fullscreen_window()
+{
+    static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth;
+    static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
+
+    if ( fullscreen ) {
+        if( SDL_SetWindowFullscreen( window.get(), 0 ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+            return;
+        }
+        SDL_RestoreWindow( window.get() );
+        SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
+        SDL_SetWindowMinimumSize( window.get(), fontwidth * 80, fontheight * 24 );
+    } else {
+        restore_win_w = WindowWidth;
+        restore_win_h = WindowHeight;
+        if( SDL_SetWindowFullscreen( window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+            return;
+        }
+    }
+    int nw, nh;
+    SDL_GetWindowSize( window.get(), &nw, &nh );
+    handle_resize( nw, nh );
+    fullscreen = !fullscreen;
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -1274,6 +1323,9 @@ void CheckMessages()
                 case SDL_WINDOWEVENT_EXPOSED:
                 case SDL_WINDOWEVENT_RESTORED:
                     needupdate = true;
+                    break;
+                case SDL_WINDOWEVENT_RESIZED:
+                    needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                     break;
                 default:
                     break;
