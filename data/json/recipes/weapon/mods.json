@@ -80,8 +80,8 @@
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ 
-        [ 
+    "components": [
+        [
             [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ],
             [ "canister_empty", 1 ], [ "plastic_chunk", 1 ]
         ],
@@ -102,8 +102,8 @@
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ 
-        [ 
+    "components": [
+        [
             [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ],
             [ "canister_empty", 1 ], [ "plastic_chunk", 1 ]
         ],
@@ -129,7 +129,7 @@
       { "id": "SAW_M_FINE", "level": 1 }
     ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ 
+    "components": [
         [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ],
         [ [ "plastic_chunk", 1 ] ],
         [ [ "spring", 1 ] ]

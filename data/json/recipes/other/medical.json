@@ -125,7 +125,7 @@
       [ [ "rag", 1 ] ],
       [ [ "disinfectant", 1 ] ]
     ]
-  },  
+  },
   {
     "type": "recipe",
     "result": "disincotton_ball",
@@ -139,5 +139,5 @@
       [ [ "cotton_ball", 1 ] ],
       [ [ "disinfectant", 1 ] ]
     ]
-  }  
+  }
 ]
