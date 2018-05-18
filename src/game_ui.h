@@ -4,7 +4,7 @@
 
 namespace game_ui
 {
-    void init_ui();
+void init_ui();
 }
 
 #endif // GAME_UI_H
