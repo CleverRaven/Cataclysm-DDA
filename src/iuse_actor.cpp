@@ -2892,7 +2892,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
 
 long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
-    float practice_amount = std::max( 9.0f, limb_power * 3.0f );
+    float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
 
     if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
@@ -2994,13 +2994,15 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         patient.remove_effect( effect_bandaged, bp_healed );
         patient.add_effect( effect_bandaged, time_duration::from_hours( 6 * heal_stack ), bp_healed );
         patient.damage_bandaged[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        practice_amount += heal_stack;
     }
     if( it.has_flag( "DISINFECTANT" ) || it.has_flag( "DISINFECTANT_WEAK" ) ) {
         patient.remove_effect( effect_disinfected, bp_healed );
         patient.add_effect( effect_disinfected, time_duration::from_hours( 6 * heal_stack ), bp_healed );
         patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        practice_amount += heal_stack;
     }
-    practice_amount += std::max( 9.0f, heal_stack );
+    practice_amount = std::max( 9.0f, practice_amount );
 
     healer.practice( skill_firstaid, ( int )practice_amount );
     return it.type->charges_to_use();
