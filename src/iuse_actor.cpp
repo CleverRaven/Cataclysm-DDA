@@ -53,8 +53,10 @@ const skill_id skill_fabrication( "fabrication" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_playing_instrument( "playing_instrument" );
@@ -2979,6 +2981,27 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         }
     }
 
+    // apply healing over time effects
+    float heal_stack = 4 + 2 * healer.get_skill_level( skill_firstaid );
+    if( it.has_flag( "BANDAGES" ) && it.has_flag( "DISINFECTANT" ) ) {
+        heal_stack *= 2.0;
+    }
+    if( it.has_flag( "DISINFECTANT_WEAK" ) || it.has_flag( "BANDAGES_WEAK" ) ) {
+        heal_stack /= 2.0;
+    }
+    heal_stack = std::min( heal_stack, 16.0f );
+    if( it.has_flag( "BANDAGES" ) || it.has_flag( "BANDAGES_WEAK" ) ) {
+        patient.remove_effect( effect_bandaged, bp_healed );
+        patient.add_effect( effect_bandaged, time_duration::from_hours( 6 * heal_stack ), bp_healed );
+        patient.damage_bandaged[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+    }
+    if( it.has_flag( "DISINFECTANT" ) || it.has_flag( "DISINFECTANT_WEAK" ) ) {
+        patient.remove_effect( effect_disinfected, bp_healed );
+        patient.add_effect( effect_disinfected, time_duration::from_hours( 6 * heal_stack ), bp_healed );
+        patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+    }
+    practice_amount += std::max( 9.0f, heal_stack );
+
     healer.practice( skill_firstaid, ( int )practice_amount );
     return it.type->charges_to_use();
 }
@@ -2988,7 +3011,7 @@ hp_part pick_part_to_heal(
     const std::string &menu_header,
     int limb_power, int head_bonus, int torso_bonus,
     float bleed_chance, float bite_chance, float infect_chance,
-    bool force )
+    bool force, bool is_bandage, bool is_disinfectant )
 {
     const bool bleed = bleed_chance > 0.0f;
     const bool bite = bite_chance > 0.0f;
@@ -3002,7 +3025,7 @@ hp_part pick_part_to_heal(
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
                               limb_power, head_bonus, torso_bonus,
-                              bleed, bite, infect );
+                              bleed, bite, infect, is_bandage, is_disinfectant );
         if( healed_part == num_hp_parts ) {
             return num_hp_parts;
         }
@@ -3068,9 +3091,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing self - let player select
         if( healer.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             const std::string menu_header = it.tname();
+            bool is_bandages = it.has_flag( "BANDAGES" ) || it.has_flag( "BANDAGES_WEAK" );
+            bool is_disinfectant = it.has_flag( "DISINFECTANT" ) || it.has_flag( "DISINFECTANT_WEAK" );
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force );
+                                        bleed, bite, infect, force, is_bandages, is_disinfectant );
             if( healed == num_hp_parts ) {
                 return num_hp_parts; // canceled
             }
@@ -3087,9 +3112,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
         const std::string menu_header = it.tname();
+        bool is_bandages = it.has_flag( "BANDAGES" ) || it.has_flag( "BANDAGES_WEAK" );
+        bool is_disinfectant = it.has_flag( "DISINFECTANT" ) || it.has_flag( "DISINFECTANT_WEAK" );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force );
+                                    bleed, bite, infect, force, is_bandages, is_disinfectant );
     }
 
     if( healed != num_hp_parts ) {

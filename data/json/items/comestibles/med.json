@@ -15,16 +15,17 @@
         "color" : "red",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 14,
-            "head_power" : 10,
-            "torso_power" : 18,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bleed" : 0.95,
             "bite" : 0.99,
             "infect" : 0.95,
             "move_cost" : 6000,
             "long_action" : true,
             "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
-        }
+        },
+        "flags" : [ "BANDAGES", "DISINFECTANT" ]
     },
     {
         "id" : "1st_aid_survivor",
@@ -41,12 +42,13 @@
         "color" : "dark_gray",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 8,
-            "limb_scaling" : 1,
+            "limb_power" : 0,
+            "limb_scaling" : 0,
             "bleed" : 1.0,
             "move_cost" : 50000,
             "long_action" : true
-        }
+        },
+        "flags" : [ "BANDAGES", "DISINFECTANT" ]
     },
     {
         "id" : "adderall",
@@ -172,12 +174,13 @@
         "stack_size" : 9,
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bleed" : 0.9,
             "move_cost" : 300
-        }
+        },
+        "flags" : "BANDAGES"
     },
     {
         "id" : "bfipowder",
@@ -197,12 +200,13 @@
         "container" : "bottle_plastic_small",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
-        }
+        },
+        "flags" : "DISINFECTANT"
     },
     {
         "id" : "caff_gum",
@@ -280,12 +284,13 @@
         "container" : "bottle_glass",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
-        }
+        },
+        "flags" : "DISINFECTANT"
     },
     {
         "id" : "cig",
@@ -508,12 +513,13 @@
         "container" : "bottle_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
-        }
+        },
+        "flags" : "DISINFECTANT"
     },
     {
         "id" : "diazepam",
@@ -732,7 +738,8 @@
             "limb_power" : 0,
             "bleed" : 0.5,
             "move_cost" : 200
-        }
+        },
+        "flags" : "BANDAGES_WEAK"
     },
     {
         "id" : "meth",
@@ -1006,12 +1013,13 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bleed" : 90,
             "move_cost" : 100
-        }
+        },
+        "flags" : "DISINFECTANT"
     },
     {
         "id" : "saline",
@@ -1062,12 +1070,13 @@
         "spoils_in" : 672,
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
-        }
+        },
+        "flags" : "DISINFECTANT"
     },
     {
         "id" : "tobacco",
@@ -1306,13 +1315,14 @@
         "color": "white",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 1,
-            "head_power" : 1,
-            "torso_power" : 1,
+            "limb_power" : 0,
+            "head_power" : 0,
+            "torso_power" : 0,
             "bite" : 0.75,
             "move_cost" : 200,
             "used_up_item" : { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
-        }
+        },
+        "flags" : "DISINFECTANT_WEAK"
     },
     {
         "id" : "disincotton_ball",
@@ -1331,6 +1341,7 @@
             "bite" : 0.95,
             "move_cost" : 300,
             "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
-        }
+        },
+        "flags" : "DISINFECTANT_WEAK"
     }
 ]

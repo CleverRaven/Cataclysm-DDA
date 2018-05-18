@@ -678,6 +678,26 @@
     },
     {
         "type": "effect_type",
+        "id": "bandaged",
+        "name": ["Bandaged"],
+        "desc": ["Your wounds are bandaged."],
+        "main_parts_only": true,
+        "rating": "good",
+        "int_dur_factor": 3600,
+        "max_intensity": 16
+    },
+    {
+        "type": "effect_type",
+        "id": "disinfected",
+        "name": ["Disinfected"],
+        "desc": ["Your wounds are disinfected."],
+        "main_parts_only": true,
+        "rating": "good",
+        "int_dur_factor": 3600,
+        "max_intensity": 16
+    },
+    {
+        "type": "effect_type",
         "id": "spores",
         "name": [
             "Spore dusted",
