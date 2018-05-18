@@ -1,11 +1,11 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "animation.h"
+#include "catacharset.h"
+#include "color.h"
 #include "cursesport.h"
 #include "cursesdef.h"
+#include "game_ui.h"
 #include "output.h"
-#include "color.h"
-#include "catacharset.h"
-#include "animation.h"
-#include "game.h"
 
 #include <cstring> // strlen
 #include <stdexcept>
@@ -413,7 +413,7 @@ void catacurses::mvwprintw(const window &win, int y, int x, const std::string &p
 //Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
 void catacurses::resizeterm()
 {
-    g->init_ui();
+    game_ui::init_ui();
 }
 
 //erases a window of all text and attributes

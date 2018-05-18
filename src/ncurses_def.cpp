@@ -22,7 +22,7 @@
 #include "catacharset.h"
 #include "color.h"
 
-#include "game.h"
+#include "game_ui.h"
 #include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
@@ -207,7 +207,7 @@ void catacurses::resizeterm()
     const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
     const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
     if( ::is_term_resized( new_x, new_y ) ) {
-        g->init_ui();
+        game_ui::init_ui();
     }
 }
 

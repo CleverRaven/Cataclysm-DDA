@@ -1,5 +1,10 @@
 #if (defined TILES)
+#include "cata_utility.h"
+#include "color_loader.h"
 #include "cursesport.h"
+#include "font_loader.h"
+#include "game_ui.h"
+#include "loading_ui.h"
 #include "options.h"
 #include "output.h"
 #include "input.h"
@@ -9,6 +14,15 @@
 #include "debug.h"
 #include "player.h"
 #include "translations.h"
+#include "cata_tiles.h"
+#include "get_version.h"
+#include "init.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "filesystem.h"
+#include "lightmap.h"
+#include "rng.h"
+#include <algorithm>
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -17,20 +31,6 @@
 #include <memory>
 #include <stdexcept>
 #include <limits>
-#include "cata_tiles.h"
-#include "get_version.h"
-#include "init.h"
-#include "path_info.h"
-#include "string_formatter.h"
-#include "filesystem.h"
-#include "game.h"
-#include "lightmap.h"
-#include "rng.h"
-#include <algorithm>
-#include "cata_utility.h"
-#include "color_loader.h"
-#include "font_loader.h"
-#include "loading_ui.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
@@ -1269,9 +1269,9 @@ bool handle_resize(int w, int h)
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
         SetupRenderTarget();
-        g->init_ui();
+        game_ui::init_ui();
         tilecontext->reinit_minimap();
-        
+
         return true;
     }
     return false;
@@ -1793,7 +1793,7 @@ bool gamepad_available() {
 
 void rescale_tileset(int size) {
     tilecontext->set_draw_scale(size);
-    g->init_ui();
+    game_ui::init_ui();
     ClearScreen();
 }
 
