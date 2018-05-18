@@ -16,8 +16,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bleed" : 0.95,
             "bite" : 0.99,
             "infect" : 0.95,
@@ -43,7 +41,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "limb_scaling" : 0,
             "bleed" : 1.0,
             "move_cost" : 50000,
             "long_action" : true
@@ -175,8 +172,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bleed" : 0.9,
             "move_cost" : 300
         },
@@ -201,8 +196,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
         },
@@ -285,8 +278,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
         },
@@ -514,8 +505,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
         },
@@ -1014,8 +1003,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bleed" : 90,
             "move_cost" : 100
         },
@@ -1071,8 +1058,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bite" : 0.95,
             "move_cost" : 100
         },
@@ -1316,8 +1301,6 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "head_power" : 0,
-            "torso_power" : 0,
             "bite" : 0.75,
             "move_cost" : 200,
             "used_up_item" : { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
@@ -1335,9 +1318,7 @@
         "price" : 1000,
         "use_action" : {
             "type" : "heal",
-            "head_power" : 1,
-            "torso_power" : 1,
-            "limb_power" : 1,
+            "limb_power" : 0,
             "bite" : 0.95,
             "move_cost" : 300,
             "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
