@@ -249,10 +249,10 @@ class game
          * @param count arbitrary measure of quantity shrapnel emitted affecting number of hits
          * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
          * @param range maximum distance shrapnel may travel
-         * @return map containing all tiles considered with value being sum of damage received (if any)
+         * @return vector containing all tiles that took damage.
          */
-        std::unordered_map<tripoint, int> shrapnel( const tripoint &src, int power, int count, int mass,
-                int range = -1 );
+        std::vector<tripoint> shrapnel( const tripoint &src, int power, int count, int mass,
+                                        int range = -1 );
 
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );

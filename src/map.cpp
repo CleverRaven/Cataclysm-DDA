@@ -7548,17 +7548,18 @@ void map::build_outside_cache( const int zlev )
 }
 
 void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                std::array<fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &obstacle_caches )
+    std::array<fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &obstacle_caches )
 {
-    const point min_submap{ start.x / SEEX, start.y / SEEY };
-    const point max_submap{ ( end.x / SEEX ) + 1, ( end.y / SEEY ) + 1 };
+    const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
+    const point max_submap{ std::min( my_MAPSIZE - 1, end.x / SEEX ),
+                            std::min( my_MAPSIZE - 1, end.y / SEEY ) };
     // Find and cache all the map obstacles.
     // For now setting obstacles to be extremely dense and fill their squares.
     // In future, scale effective obstacle density by the thickness of the obstacle.
     // Also consider modelling partial obstacles.
     for( int sz = start.z; sz <= end.z; sz++ ) {
-        for( int smx = min_submap.x; smx < max_submap.x; ++smx ) {
-            for( int smy = min_submap.y; smy < max_submap.y; ++smy ) {
+        for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
+            for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
                 auto const cur_submap = get_submap_at_grid( smx, smy, sz );
                 const int z = sz + OVERMAP_DEPTH;
 
@@ -7592,8 +7593,8 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             int pz = v.z + OVERMAP_DEPTH;
-            // TODO: Replace this with a start/end bounds check.
-            if( !inbounds( px, py ) ) {
+            if( px < start.x || py < start.y || v.z < start.z ||
+                px > end.x || py > end.y || v.z > end.z ) {
                 continue;
             }
 
