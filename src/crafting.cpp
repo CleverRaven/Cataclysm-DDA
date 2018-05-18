@@ -1113,8 +1113,16 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
             list << "- " << elem.front().to_string() << std::endl;
         }
 
-        if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ), obj.tname().c_str(),
-                       list.str().c_str() ) ) {
+        if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
+            if( !query_yn(
+                    _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
+                    obj.tname().c_str(),
+                    list.str().c_str() ) ) {
+                return false;
+            }
+        } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
+                              obj.tname().c_str(),
+                              list.str().c_str() ) ) {
             return false;
         }
     }

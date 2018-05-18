@@ -140,3 +140,11 @@ msvc-full-features/distribution
 
 # Transifex Client
 .tx/
+
+# Snapcraft build directories
+prime
+snap
+stage
+
+# Snapcraft build file
+*.snap

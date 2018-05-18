@@ -26,13 +26,15 @@
       ["m107a1mag", 50],
       ["m2010mag", 10 ],
       ["scarhmag", 50],
-      ["scarhbigmag", 20]
+      ["scarhbigmag", 20],
+      ["stanag30", 20],
+      ["stanag50", 5]
     ]
   },
   {
     "type" : "item_group",
     "id" : "mags_military",
-    "//" : "Older military magazines still in service.",
+    "//" : "_DEPRECATED_ Older military magazines still in service.",
     "items": [
       ["m1911mag", 5],
       ["m9mag", 15],
@@ -52,9 +54,9 @@
       ["falmag", 20],
       ["g3mag", 15],
       ["m14mag", 25],
-      ["m1911mag", 10],
+      ["m1911mag", 15],
       ["m1918mag", 5],
-      ["m9mag", 10],
+      ["m9mag", 25],
       ["stenmag", 40],
       ["thompson_mag", 5]
     ]

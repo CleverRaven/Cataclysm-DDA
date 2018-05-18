@@ -208,6 +208,7 @@ void intro();
 game *g;
 #ifdef TILES
 extern std::unique_ptr<cata_tiles> tilecontext;
+extern void toggle_fullscreen_window();
 #endif // TILES
 
 uistatedata uistate;
@@ -687,11 +688,11 @@ void game::toggle_sidebar_style()
 void game::toggle_fullscreen()
 {
 #ifndef TILES
-    if (TERMX > 121 || TERMY > 121) {
-        return;
-    }
     fullscreen = !fullscreen;
     init_ui();
+    refresh_all();
+#else
+    toggle_fullscreen_window();
     refresh_all();
 #endif
 }
@@ -1220,13 +1221,38 @@ bool game::cleanup_at_end()
         if (curchar != characters.end()) {
             characters.erase(curchar);
         }
+
         if (characters.empty()) {
-            if (get_option<std::string>( "DELETE_WORLD" ) == "yes" ||
-                (get_option<std::string>( "DELETE_WORLD" ) == "query" &&
-                 query_yn(_("Delete saved world?")))) {
-                world_generator->delete_world( world_generator->active_world->world_name, true );
+            bool queryDelete = false;
+            bool queryReset = false;
+
+            if( get_option<std::string>( "WORLD_END" ) == "query" ) {
+                uimenu smenu;
+                smenu.return_invalid = false;
+                smenu.addentry( 0, true, 'k', "%s", _( "Keep world" ) );
+                smenu.addentry( 1, true, 'r', "%s", _( "Reset world" ) );
+                smenu.addentry( 2, true, 'd', "%s", _( "Delete world" ) );
+                smenu.query();
+
+                switch( smenu.ret ) {
+                    case 0:
+                        break;
+                    case 1:
+                        queryReset = true;
+                        break;
+                    case 2:
+                        queryDelete = true;
+                        break;
+                };
             }
-        } else if (get_option<std::string>( "DELETE_WORLD" ) != "no") {
+
+            if( queryDelete || get_option<std::string>( "WORLD_END" ) == "delete" ) {
+                world_generator->delete_world( world_generator->active_world->world_name, true );
+
+            } else if( queryReset || get_option<std::string>( "WORLD_END" ) == "reset" ) {
+                world_generator->delete_world( world_generator->active_world->world_name, false );
+            }
+        } else if (get_option<std::string>( "WORLD_END" ) != "keep") {
             std::stringstream message;
             std::string tmpmessage;
             for( auto &character : characters ) {
