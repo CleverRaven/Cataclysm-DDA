@@ -146,7 +146,7 @@
     "id": "tele_sight",
     "type": "GUNMOD",
     "name": "telescopic sight",
-    "description": "A simple telescopic sight, essentially a small telescope with crosshairs. Increases weight but improves accuracy.",
+    "description": "A simple telescopic sight, essentially a small telescope with crosshairs.  Increases weight but improves accuracy.",
     "weight": 300,
     "volume": 1,
     "price": 30000,
