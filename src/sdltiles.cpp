@@ -1,4 +1,5 @@
 #if (defined TILES)
+#include "game.h"
 #include "cata_utility.h"
 #include "color_loader.h"
 #include "cursesport.h"
