@@ -3644,11 +3644,11 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         if( remove_med >= bandaged_intensity ) {
             remove_effect( effect_bandaged, hurt );
             remove_med -= bandaged_intensity;
-            add_msg_if_player( m_bad, ( "Bandages on your %s was destroyed!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s was destroyed!" ), body_part_name( hurt ) );
             damage_bandaged[ hurt ] = 0;
         } else if( remove_med > 0 ) {
             e_bandaged.mod_duration( - time_duration::from_hours( 6 * remove_med ) );
-            add_msg_if_player( m_bad, ( "Bandages on your %s was damaged!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s was damaged!" ), body_part_name( hurt ) );
         }
     }
     remove_med -= bandaged_intensity;
@@ -3661,11 +3661,11 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         disinfected_intensity = e_disinfected.get_intensity();
         if( remove_med >= disinfected_intensity ) {
             remove_effect( effect_disinfected, hurt );
-            add_msg_if_player( m_bad, ( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
             damage_disinfected[ hurt ] = 0;
         } else {
             e_disinfected.mod_duration( - time_duration::from_hours( 6 * remove_med ) );
-            add_msg_if_player( m_bad, ( "You got some filth on you disinfected %s!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "You got some filth on you disinfected %s!" ), body_part_name( hurt ) );
         }
     }
 }
