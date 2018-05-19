@@ -647,6 +647,7 @@
     "difficulty": 5,
     "value": 250000,
     "start": "kill_20_nightmares",
+    "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help...",
