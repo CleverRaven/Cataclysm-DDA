@@ -1294,6 +1294,13 @@ class map
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
+         * Checks to see if the item that is rotting away generates a creature when it does.
+         * @param item item that is spawning creatures
+         * @param p The point on this map where the item is and creature will be
+         */
+        template <typename Item>
+        void rotten_item_spawn( Item &item, const tripoint &p );
+        /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
          */
