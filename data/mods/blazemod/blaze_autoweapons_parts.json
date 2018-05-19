@@ -8,6 +8,7 @@
     "broken_color": "dark_gray",
     "durability": 400,
     "damage_modifier": 80,
+    "location": "on_roof",
     "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
