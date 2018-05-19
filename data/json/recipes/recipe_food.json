@@ -9398,7 +9398,7 @@
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
     [ [ "stomach", 1 ] ],
     [ [ "offal", 4 ], [ "meat", 2 ] ],
-    [ [ "oatmeal", 1 ], [ "buckwheat", 1 ] ],
+    [ [ "oatmeal", 2 ], [ "buckwheat", 2 ] ],
     [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
   ]
 },{
