@@ -184,6 +184,7 @@ struct mission_type {
     std::string monster_type = "mon_null";
     species_id monster_species;
     int monster_kill_goal = -1;
+    int monster_killed = 0;
     string_id<oter_type_t> target_id;
     mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
@@ -260,8 +261,9 @@ private:
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
         std::string monster_type;    // Monster ID that are to be killed
-        species_id monster_species;
-        int monster_kill_goal;  // the kill count you wish to reach
+        species_id monster_species;  // Monster species that are to be killed
+        int monster_kill_goal;  // The kill count you wish to reach
+        int monster_killed;     // The kill count at the mission start plus monster_kill_goal;
         int deadline;           // Turn number
         int npc_id;             // ID of a related npc
         int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
