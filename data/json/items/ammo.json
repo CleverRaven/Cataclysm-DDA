@@ -591,7 +591,8 @@
         "volume" : 0,
         "weight" : 3,
         "ammo_type" : "components",
-        "count" : 200
+        "count" : 10,
+        "charges" : 200
     },
     {   "type" : "AMMO",
         "id" : "medical_tape",
