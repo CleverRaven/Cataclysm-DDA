@@ -5,6 +5,7 @@
     "symbol": "t",
     "durability": 400,
     "damage_modifier": 80,
+    "location": "on_roof",
     "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
@@ -17,7 +18,6 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 5,
-	"location": "on_roof",
     "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -39,7 +39,6 @@
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 6,
-	"location": "on_roof",
     "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -60,7 +59,6 @@
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 5,
-	"location": "on_roof",
     "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -81,7 +79,6 @@
     "color": "cyan",
     "broken_color": "cyan",
     "difficulty": 3,
-	"location": "on_roof",
     "breaks_into": [ { "item": "m249", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -102,7 +99,6 @@
     "color": "green",
     "broken_color": "green",
     "difficulty": 3,
-	"location": "on_roof",
     "breaks_into": [ { "item": "abzats", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -123,7 +119,6 @@
     "color": "green",
     "broken_color": "green",
     "difficulty": 4,
-	"location": "on_roof",
     "breaks_into": [ { "item": "m2browning", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -144,7 +139,6 @@
     "color": "green",
     "broken_color": "green",
     "difficulty": 6,
-	"location": "on_roof",
     "breaks_into": [ { "item": "m134", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -165,7 +159,6 @@
     "color": "cyan",
     "broken_color": "cyan",
     "difficulty": 4,
-	"location": "on_roof",
     "breaks_into": [ { "item": "m1918", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -186,7 +179,6 @@
     "color": "cyan",
     "broken_color": "cyan",
     "difficulty": 4,
-	"location": "on_roof",
     "breaks_into": [ { "item": "m240", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -207,7 +199,6 @@
     "color": "cyan",
     "broken_color": "cyan",
     "difficulty": 4,
-	"location": "on_roof",
     "breaks_into": [ { "item": "m60", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -228,7 +219,6 @@
     "color": "green",
     "broken_color": "green",
     "difficulty": 5,
-	"location": "on_roof",
     "breaks_into": [ { "item": "mark19", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -249,7 +239,6 @@
     "color": "white",
     "broken_color": "white",
     "difficulty": 6,
-	"location": "on_roof",
     "breaks_into": [ { "item": "rm298", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -270,7 +259,6 @@
     "color": "white",
     "broken_color": "white",
     "difficulty": 6,
-	"location": "on_roof",
     "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -291,7 +279,6 @@
     "color": "light_blue",
     "broken_color": "light_blue",
     "difficulty": 5,
-	"location": "on_roof",
     "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ],
     "requirements": {
       "install": {
@@ -313,7 +300,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 4,
-	"location": "on_roof",
     "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
     "requirements": {
       "install": {
