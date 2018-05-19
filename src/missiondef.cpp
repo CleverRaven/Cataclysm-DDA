@@ -309,6 +309,10 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         monster_species = species_id( jo.get_string( "monster_species" ) );
     }
 
+    if( jo.has_member( "monster_kill_goal" ) ) {
+        monster_kill_goal = jo.get_int( "monster_kill_goal" );
+    }
+
     assign( jo, "destination", target_id, strict );
 }
 
