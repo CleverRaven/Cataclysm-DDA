@@ -1298,8 +1298,7 @@ class map
          * @param item item that is spawning creatures
          * @param p The point on this map where the item is and creature will be
          */
-        template <typename Item>
-        void rotten_item_spawn( Item &item, const tripoint &p );
+        void rotten_item_spawn( const item &item, const tripoint &p );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
@@ -1575,4 +1574,3 @@ class tinymap : public map
 };
 
 #endif
-
