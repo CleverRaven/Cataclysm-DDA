@@ -14,6 +14,7 @@
 #include "damage.h"
 #include "translations.h"
 #include "calendar.h"
+#include "mongroup.h"
 
 #include <string>
 #include <vector>
@@ -167,7 +168,7 @@ struct islot_comestible
         return nutr * kcal_per_nutr;
     }
     /** The monster group that is drawn from when the item rots away */
-    std::string rot_spawn = "null";
+    mongroup_id rot_spawn = mongroup_id::NULL_ID();
 
     /** Chance the above monster group spawns*/
     int rot_spawn_chance = 10;
@@ -852,4 +853,3 @@ public:
 };
 
 #endif
-
