@@ -6,6 +6,7 @@
     "broken_symbol": "#",
     "durability": 400,
     "damage_modifier": 80,
+    "location": "on_roof",
     "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
