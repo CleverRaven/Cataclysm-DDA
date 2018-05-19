@@ -1996,7 +1996,7 @@
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
   "components": [
-    [ [ "cable", 50 ] ],
+    [ [ "cable", 50 ], [ "jumper_cable", 1 ] ],
     [ [ "scrap", 2 ] ]
   ]
 }
