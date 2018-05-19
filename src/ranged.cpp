@@ -711,12 +711,12 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                     // @todo: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                     int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                     full_chance += chance;
-                    if (config.label == _("Hit") )
-                        return std::string("");
+                    if ( config.label == _( "Hit" ) )
+                        return std::string( "" );
                     last_chance += chance;
                     return string_format( "%s: %3d%%", config.label.c_str(), chance );
                 }, false );
-            confidence_s = string_format("%s: %3d%%, %s", confidence_config[1].label.c_str(), full_chance, confidence_s);
+            confidence_s = string_format( "%s: %3d%%, %s", confidence_config[1].label.c_str(), full_chance, confidence_s );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                                 c_white, confidence_s );
         } else {
