@@ -1303,7 +1303,8 @@
             "head_power" : 1,
             "torso_power" : 4,
             "bite" : 0.75,
-            "move_cost" : 100
+            "move_cost" : 100,
+            "used_up_item" : "rag"
         }
     },
     {
@@ -1320,7 +1321,8 @@
             "torso_power" : 1,
             "limb_power" : 1,
             "bite" : 0.8,
-            "move_cost" : 300
+            "move_cost" : 300,
+            "used_up_item" : "cotton_ball"
         }
     }
 ]
