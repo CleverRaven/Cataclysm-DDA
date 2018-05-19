@@ -9,8 +9,7 @@
     "color": "red",
     "parasites": 32,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 20 ], [ "vitB", 10 ] ],
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 10
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "id": "fish",
