@@ -41,6 +41,7 @@
 #include "scent_map.h"
 #include "harvest.h"
 #include "input.h"
+#include "options.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -6726,11 +6727,36 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt )
     const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
         if( has_rotten_away( *it, abs_pnt ) ) {
+            //If the item that is rotting is a food item, see if we can spawn a monster
+            if (it->is_comestible()){
+                rotten_item_spawn(it, pnt);
+            }
+            //Remove the item regardless
             it = i_rem( pnt, it );
         } else {
             ++it;
         }
     }
+}
+
+template <typename Item>
+void map::rotten_item_spawn( Item &item, const tripoint &pnt )
+{
+        auto &comest = item->type->comestible;
+        std::string mgroup = comest->rot_spawn;
+        if ( mgroup != "null" ) {
+                int chance = comest->rot_spawn_chance;
+                chance *= get_option<int>( "CARRION_SPAWNRATE" )/100;
+                if (rng(0, 100) < chance){
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(mongroup_id(mgroup));
+                    if( g->critter_at( pnt ) == nullptr ) {
+                        add_spawn(spawn_details.name, 1, pnt.x, pnt.y, false);
+                        if (g->u.sees(pnt)) {
+                            add_msg(m_warning, _("Something has crawled out of the %s!"), item->tname().c_str());
+                        }
+                    }
+                }
+        }
 }
 
 void map::fill_funnels( const tripoint &p, const time_point &since )
