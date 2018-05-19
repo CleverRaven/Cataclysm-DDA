@@ -2180,7 +2180,9 @@
         "material" : "flesh",
         "flags" : "TRADER_AVOID",
         "volume" : 1,
-        "fun" : -10
+        "fun": -10,
+        "rot_spawn": "GROUP_CARRION_INFECTED",
+        "rot_spawn_chance": 10
     },
     {
         "type" : "COMESTIBLE",
@@ -2289,7 +2291,9 @@
         "price" : 0,
         "material" : "veggy",
         "flags": "TRADER_AVOID",
-        "volume" : 1
+        "volume": 1,
+        "rot_spawn": "GROUP_ROTTING_PLANT",
+        "rot_spawn_chance": 10
     },
     {
         "type" : "COMESTIBLE",
@@ -2635,7 +2639,9 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
+        "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+        "rot_spawn": "GROUP_ROTTING_PLANT",
+        "rot_spawn_chance": 10
     },
     {
         "type" : "COMESTIBLE",
@@ -2653,7 +2659,9 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags": [ "EATEN_HOT" ],
+        "rot_spawn": "GROUP_ROTTING_PLANT",
+        "rot_spawn_chance": 10
     },
     {
         "type" : "COMESTIBLE",
@@ -3753,7 +3761,9 @@
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "fun" : -3
+        "fun": -3,
+        "rot_spawn": "GROUP_ROTTING_PLANT",
+        "rot_spawn_chance": 10
     },
     {
         "type" : "COMESTIBLE",
@@ -3807,7 +3817,9 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "fun" : 1
+        "fun": 1,
+        "rot_spawn": "GROUP_ROTTING_PLANT",
+        "rot_spawn_chance": 10
     },
     {
         "type" : "COMESTIBLE",
@@ -6549,7 +6561,9 @@
         "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
-        "fun" : 3
+        "fun": 3,
+        "rot_spawn": "GROUP_ROTTING_TRIFFID_FAVOR",
+        "rot_spawn_chance": 20
     },
     {
         "type" : "COMESTIBLE",
@@ -9276,7 +9290,9 @@
         "material" : "egg",
         "volume" : 1,
         "stack_size" : 4,
-        "fun" : -8
+        "fun": -8,
+        "rot_spawn": "GROUP_EGG_CHICKEN",
+        "rot_spawn_chance": 60
     },{
         "type" : "COMESTIBLE",
         "id" : "egg_reptile",
@@ -9294,7 +9310,9 @@
         "material" : "egg",
         "volume" : 1,
         "stack_size" : 4,
-        "fun" : -12
+        "fun": -12,
+        "rot_spawn": "GROUP_EGG_SNAKE",
+        "rot_spawn_chance": 60
     },
     {
         "type" : "COMESTIBLE",
