@@ -1,7 +1,7 @@
 [
   {
     "id": "m107a1",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_base" ,
     "type": "GUN",
     "name": "Barrett M107A1",
     "name_plural": "Barrett M107A1",
