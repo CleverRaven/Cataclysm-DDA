@@ -355,6 +355,7 @@
     "casing": "410_hull",
     "range": 5,
     "damage": 32,
+    "dispersion": 800,
     "recoil": 1200,
     "loudness": 140,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -386,7 +387,7 @@
       "range": 6,
       "pierce": 3
     },
-    "proportional": { "recoil": 1.4 },
+    "proportional": { "dispersion": 0.5, "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   },
   {

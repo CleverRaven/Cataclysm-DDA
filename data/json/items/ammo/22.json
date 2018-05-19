@@ -48,7 +48,7 @@
     "name": ".22 rat-shot",
     "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and penetration ability, but it can hit targets with greater ease.",
     "count": 100,
-    "dispersion": 0,
+    "dispersion": 800,
     "proportional": { "range": 0.6, "damage": 0.5, "recoil": 0.5 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
