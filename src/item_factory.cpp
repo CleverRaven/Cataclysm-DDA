@@ -1491,6 +1491,13 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
             }
         }
     }
+
+    if( jo.has_string( "rot_spawn" ) ) {
+        slot.rot_spawn = jo.get_string( "rot_spawn" );
+    }
+    if( jo.has_string( "rot_spawn_chance" ) ) {
+        assign( jo, "rot_spawn_chance", slot.rot_spawn_chance, strict, 0 );
+    }
 }
 
 void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
