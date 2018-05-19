@@ -6742,7 +6742,6 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( g->critter_at( pnt ) != nullptr )
         return;
     auto &comest = item.type->comestible;
-    add_msg(m_warning, _("Exp %s!"), item.tname().c_str());
     mongroup_id mgroup = comest->rot_spawn;
     if ( mgroup == "GROUP_NULL" )
         return;
