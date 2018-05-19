@@ -82,6 +82,7 @@ class selection_column_preset: public inventory_selector_preset
             }
             if (entry.location->ammo_type() == "money") {
                 if (entry.chosen_count > 0 && entry.chosen_count < available_count) {
+					//~ In the following string, the %s is the ammount of money on the selected cards as passed by the display money function, out of the total ammount of money on the cards, specified as ($%.2f).(e.g. "cash cards ($15.35) of ($128.55)")
                     res << string_format( _("%s of ($%.2f)"), entry.location->display_money(entry.chosen_count, entry.location.charges_in_stack(entry.chosen_count)), (double)entry.location.charges_in_stack(available_count) / 100);
                 } else {
                     res << entry.location->display_money(available_count, entry.location.charges_in_stack(available_count));

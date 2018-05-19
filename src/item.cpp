@@ -2382,6 +2382,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 }
 
 std::string item::display_money(unsigned int quantity, unsigned long charge) const {
+	//~ This is a string to display the total ammount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the ammount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
     return string_format( _("%s ($%.2f)"), tname(quantity), (double)charge / 100);
 }
 
