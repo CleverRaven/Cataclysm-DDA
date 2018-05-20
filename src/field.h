@@ -24,8 +24,10 @@ struct field_t {
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
 
+    const int max_density;
+
      /** Display name for field at given density (e.g. light smoke, smoke, heavy smoke) */
-    std::string untranslated_name[ MAX_FIELD_DENSITY ];
+    std::vector<std::string> untranslated_name;
     /// Can be empty! \p density must be in the range [0, MAX_FIELD_DENSITY - 1].
     std::string name( int density ) const;
 
@@ -33,23 +35,23 @@ struct field_t {
  int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
 
      /** Color the field will be drawn as on the screen at a given density */
-     deferred_color color[ MAX_FIELD_DENSITY ];
+     std::vector<deferred_color> color;
 
      /**
       * If false this field may block line of sight.
       * @warning this does nothing by itself. You must go to the code block in lightmap.cpp and modify
       * transparancy code there with a case statement as well!
      **/
-     bool transparent[ MAX_FIELD_DENSITY ];
+     std::vector<bool> transparent;
 
      /** Where tile is dangerous (prompt before moving into) at given density */
-     bool dangerous[ MAX_FIELD_DENSITY ];
+     std::vector<bool> dangerous;
 
     //Controls, albeit randomly, how long a field of a given type will last before going down in density.
     time_duration halflife;
 
      /** cost of moving into and out of this field at given density */
-    int move_cost[ MAX_FIELD_DENSITY ];
+    std::vector<int> move_cost;
 
     /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
     phase_id phase;

@@ -4915,14 +4915,14 @@ bool item::is_tinder() const {
         if( bd.immune ) {
             break;
         }
-        fuel += bd.fuel;
+        fuel = std::max( fuel, bd.fuel );
     }
-
-    float vol = base_volume().value() / 1000.0f;
-    if( fuel >= vol * 2 ) {
+    
+    double vol_in_liter = units::to_liter( base_volume() );
+    if( vol_in_liter <= fuel / 2 ) {
         if( count_by_charges() && charges >= type->stack_size / 2) {
             return true;
-        } else if( vol >= fuel / 4 ) {
+        } else if( vol_in_liter >= fuel / 4 ) {
             return true;
         }
     }

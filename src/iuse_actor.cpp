@@ -953,7 +953,7 @@ iuse_actor *firestarter_actor::clone() const
     return new firestarter_actor( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos, int *density )
+int firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
     if( pos == p.pos() && !choose_adjacent( _("Light where?"), pos ) ) {
         g->refresh_all();
@@ -985,40 +985,40 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos, in
         }
         if( has_unactivated_brazier &&
             !query_yn(_("There's a brazier there but you haven't set it up to contain the fire. Continue?")) ) {
-            return false;
+            return 0;
         }
 
         inventory &inv = g->u.inv;
-        item &tinder = inv.find_item( inv.position_by_type( "tinder" ) );
         if( has_tinder_here ) {
-            *density = 2;
-            return true;
+            return 2;
         } else if( inv.has_tools( "tinder", 1 ) ) {
+            item &tinder = inv.find_item( inv.position_by_type( "tinder" ) );
             int used_charges = tinder.type->stack_size / 2;
+
             if( tinder.count_by_charges() && tinder.charges >= used_charges ) {
                 tinder.charges -= used_charges;
                 if( tinder.charges <= 0 ) {
                     inv.remove_item( &tinder );
                 }
 
-                p.add_msg_if_player( m_info, string_format( ( "You use %d charges of tinder to light the fire." ), 
-                                                              used_charges ) );
-                return true;
-            } else if( query_yn( string_format( ( "You only have %d of %d charges of tinder needed to start a fire. Continue without tinder?" ),
+                p.add_msg_if_player( m_info, "You use %d charges of tinder to light the fire.", 
+                                                              used_charges );
+                return 2;
+            } else if( query_yn( string_format( "You only have %d of %d charges of tinder needed to start a fire. Continue without tinder?",
                                  tinder.charges, used_charges ) ) ) {
-                return true;
+                return 1;
             } else {
-                return false;
+                return 0;
             }
         }
         if( query_yn( _( "There is not enough tinder here to start a fire. Continue?" ) ) ) {
-            return true;
+            return 1;
         }
-        return false;
+        return 0;
 
     } else {
         p.add_msg_if_player(m_info, _("There's nothing to light there."));
-        return false;
+        return 0;
     }
 }
 
@@ -1081,10 +1081,11 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     if( t ) {
         return 0;
     }
-    int density = 1;
+    
     tripoint pos = spos;
     float light = light_mod( pos );
-    if( !prep_firestarter_use( p, pos, &density ) ) {
+    int density = prep_firestarter_use( p, pos );
+    if( density <= 0 ) {
         return 0;
     }
 

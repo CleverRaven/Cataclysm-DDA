@@ -4342,8 +4342,8 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                int density = 1;
-                if( firestarter_actor::prep_firestarter_use( *p, temp, &density ) ) {
+                int density = firestarter_actor::prep_firestarter_use( *p, temp );
+                if( density > 0 ) {
                     p->moves -= 5;
                     firestarter_actor::resolve_firestarter_use( *p, temp, density );
                     return it->type->charges_to_use();
@@ -4386,8 +4386,8 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                int density = 1;
-                if( firestarter_actor::prep_firestarter_use( *p, temp, &density ) ) {
+                int density = firestarter_actor::prep_firestarter_use( *p, temp );
+                if( density > 0 ) {
                     p->moves -= 5;
                     firestarter_actor::resolve_firestarter_use( *p, temp, density );
                     return it->type->charges_to_use();

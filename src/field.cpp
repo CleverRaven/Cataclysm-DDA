@@ -51,7 +51,7 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 /** ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}, phase_id (of matter), accelerated_decay (decay outside of reality bubble) **/
 const std::array<field_t, num_fields> fieldlist = { {
     {
-        "fd_null",
+        "fd_null", MAX_FIELD_DENSITY,
         {"", "", ""}, '%', 0,
         {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
@@ -59,7 +59,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         false
     },
     {
-        "fd_blood",
+        "fd_blood", MAX_FIELD_DENSITY,
         {translate_marker( "blood splatter" ), translate_marker( "blood stain" ), translate_marker( "puddle of blood" )}, '%', 0,
         {def_c_red,def_c_red,def_c_red}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -67,7 +67,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_bile",
+        "fd_bile", MAX_FIELD_DENSITY,
         {translate_marker( "bile splatter" ), translate_marker( "bile stain" ), translate_marker( "puddle of bile" )}, '%', 0,
         {def_c_pink,def_c_pink,def_c_pink}, {true, true, true}, {false, false, false}, 1_days,
         {0,0,0},
@@ -76,7 +76,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_gibs_flesh",
+        "fd_gibs_flesh", MAX_FIELD_DENSITY,
         {translate_marker( "scraps of flesh" ), translate_marker( "bloody meat chunks" ), translate_marker( "heap of gore" )}, '~', 0,
         {def_c_brown,def_c_light_red,def_c_red}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -85,7 +85,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_gibs_veggy",
+        "fd_gibs_veggy", MAX_FIELD_DENSITY,
         {translate_marker( "shredded leaves and twigs" ), translate_marker( "shattered branches and leaves" ), translate_marker( "broken vegetation tangle" )}, '~', 0,
         {def_c_light_green,def_c_light_green,def_c_green}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -94,7 +94,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_web",
+        "fd_web", MAX_FIELD_DENSITY,
         {translate_marker( "cobwebs" ),translate_marker( "webs" ), translate_marker( "thick webs" )}, '}', 2,
         {def_c_white,def_c_white,def_c_white}, {true, true, false},{true, true, true}, 0_turns,
         {0,0,0},
@@ -103,7 +103,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_slime",
+        "fd_slime", MAX_FIELD_DENSITY,
         {translate_marker( "slime trail" ), translate_marker( "slime stain" ), translate_marker( "puddle of slime" )}, '%', 0,
         {def_c_light_green,def_c_light_green,def_c_green},{true, true, true},{false, false, false}, 1_days,
         {0,0,0},
@@ -112,7 +112,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_acid",
+        "fd_acid", MAX_FIELD_DENSITY,
         {translate_marker( "acid splatter" ), translate_marker( "acid streak" ), translate_marker( "pool of acid" )}, '5', 2,
         {def_c_light_green,def_c_green,def_c_green}, {true, true, true}, {true, true, true}, 2_minutes,
         {0,0,0},
@@ -121,7 +121,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_sap",
+        "fd_sap", MAX_FIELD_DENSITY,
         {translate_marker( "sap splatter" ), translate_marker( "glob of sap" ), translate_marker( "pool of sap" )}, '5', 2,
         {def_c_yellow,def_c_brown,def_c_brown}, {true, true, true}, {true, true, true}, 2_minutes,
         {0,0,0},
@@ -130,7 +130,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_sludge",
+        "fd_sludge", MAX_FIELD_DENSITY,
         {translate_marker( "thin sludge trail" ), translate_marker( "sludge trail" ), translate_marker( "thick sludge trail" )}, '5', 2,
         {def_c_light_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true}, {true, true, true}, 6_hours,
         {0,0,0},
@@ -139,16 +139,16 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_fire",
-        {translate_marker( "small fire" ), translate_marker( "fire" ), translate_marker( "raging fire" )}, '4', 4,
-        {def_c_yellow,def_c_light_red,def_c_red}, {true, true, true}, {true, true, true}, 30_minutes,
-        {0,0,0},
+        "fd_fire", MAX_FIRE_SIZE,
+        {translate_marker( "tiny fire" ), translate_marker( "small fire" ), translate_marker( "fire" ), translate_marker( "raging fire" )}, '4', 4,
+        {def_c_yellow,def_c_light_red,def_c_red,def_c_red}, {true, true, true, true}, {true, true, true, true}, 30_minutes,
+        {0,0,0,0},
         PLASMA,
         false
     },
 
    {
-       "fd_rubble",
+       "fd_rubble", MAX_FIELD_DENSITY,
        {translate_marker( "legacy rubble" ), translate_marker( "legacy rubble" ), translate_marker( "legacy rubble" )}, '#', 0,
        {def_c_dark_gray,def_c_dark_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 1_turns,
        {0,0,0},
@@ -157,7 +157,7 @@ const std::array<field_t, num_fields> fieldlist = { {
    },
 
     {
-        "fd_smoke",
+        "fd_smoke", MAX_FIELD_DENSITY,
         {translate_marker( "thin smoke" ), translate_marker( "smoke" ), translate_marker( "thick smoke" )}, '8', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, false, false},{true, true, true}, 2_minutes,
         {0,0,0},
@@ -165,7 +165,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_toxic_gas",
+        "fd_toxic_gas", MAX_FIELD_DENSITY,
         {translate_marker( "hazy cloud" ),translate_marker( "toxic gas" ),translate_marker( "thick toxic gas" )}, '8', 8,
         {def_c_white,def_c_light_green,def_c_green}, {true, false, false},{true, true, true}, 90_minutes,
         {0,0,0},
@@ -174,7 +174,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_tear_gas",
+        "fd_tear_gas", MAX_FIELD_DENSITY,
         {translate_marker( "hazy cloud" ),translate_marker( "tear gas" ),translate_marker( "thick tear gas" )}, '8', 8,
         {def_c_white,def_c_yellow,def_c_brown}, {true, false, false},{true, true, true}, 5_minutes,
         {0,0,0},
@@ -183,7 +183,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_nuke_gas",
+        "fd_nuke_gas", MAX_FIELD_DENSITY,
         {translate_marker( "hazy cloud" ),translate_marker( "radioactive gas" ), translate_marker( "thick radioactive gas" )}, '8', 8,
         {def_c_white,def_c_light_green,def_c_green}, {true, true, false}, {true, true, true}, 100_minutes,
         {0,0,0},
@@ -192,7 +192,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_gas_vent",
+        "fd_gas_vent", MAX_FIELD_DENSITY,
         {translate_marker( "gas vent" ), translate_marker( "gas vent" ), translate_marker( "gas vent" )}, '%', 0,
         {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
@@ -201,7 +201,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     { // Fire Vents
-        "fd_fire_vent",
+        "fd_fire_vent", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
@@ -210,7 +210,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_flame_burst",
+        "fd_flame_burst", MAX_FIELD_DENSITY,
         {translate_marker( "fire" ), translate_marker( "fire" ), translate_marker( "fire" )}, '5', 4,
         {def_c_red,def_c_red,def_c_red}, {true, true, true}, {true, true, true}, 0_turns,
         {0,0,0},
@@ -219,7 +219,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_electricity",
+        "fd_electricity", MAX_FIELD_DENSITY,
         {translate_marker( "sparks" ), translate_marker( "electric crackle" ), translate_marker( "electric cloud" )}, '9', 4,
         {def_c_white,def_c_cyan,def_c_blue}, {true, true, true}, {true, true, true}, 2_turns,
         {0,0,0},
@@ -228,7 +228,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_fatigue",
+        "fd_fatigue", MAX_FIELD_DENSITY,
         {translate_marker( "odd ripple" ), translate_marker( "swirling air" ), translate_marker( "tear in reality" )}, '*', 8,
         {def_c_light_gray,def_c_dark_gray,def_c_magenta},{true, true, false},{true, true, true}, 0_turns,
         {0,0,0},
@@ -237,7 +237,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     { //Push Items
-        "fd_push_items",
+        "fd_push_items", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
@@ -246,7 +246,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     { // shock vents
-        "fd_shock_vent",
+        "fd_shock_vent", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
@@ -255,7 +255,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     { // acid vents
-        "fd_acid_vent",
+        "fd_acid_vent", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
@@ -264,7 +264,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     { // plasma glow ( for plasma weapons )
-        "fd_plasma",
+        "fd_plasma", MAX_FIELD_DENSITY,
         {translate_marker( "faint plasma" ), translate_marker( "glowing plasma" ), translate_marker( "glaring plasma" )}, '9', 4,
         {def_c_magenta,def_c_pink,def_c_white}, {true, true, true}, {false, false, false}, 2_turns,
         {0,0,0},
@@ -273,7 +273,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     { // laser beam ( for laser weapons )
-        "fd_laser",
+        "fd_laser", MAX_FIELD_DENSITY,
         {translate_marker( "faint glimmer" ), translate_marker( "beam of light" ), translate_marker( "intense beam of light" )}, '#', 4,
         {def_c_blue,def_c_light_blue,def_c_white}, {true, true, true}, {false, false, false}, 1_turns,
         {0,0,0},
@@ -281,7 +281,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         false
     },
     {
-        "fd_spotlight",
+        "fd_spotlight", MAX_FIELD_DENSITY,
         { translate_marker( "spotlight" ), translate_marker( "spotlight" ), translate_marker( "spotlight" ) }, '&', 1,
         {def_c_white,def_c_white,def_c_white}, { true, true, true }, { false, false, false }, 1_turns,
         {0,0,0},
@@ -289,7 +289,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         false
     },
     {
-        "fd_dazzling",
+        "fd_dazzling", MAX_FIELD_DENSITY,
         { translate_marker( "dazzling" ), translate_marker( "dazzling" ), translate_marker( "dazzling" ) }, '#', 4,
         {def_c_light_red_yellow,def_c_light_red_yellow,def_c_light_red_yellow}, { true, true, true }, { false, false, false }, 1_turns,
         { 0, 0, 0 },
@@ -297,7 +297,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         false
     },
     {
-        "fd_blood_veggy",
+        "fd_blood_veggy", MAX_FIELD_DENSITY,
         {translate_marker( "plant sap splatter" ), translate_marker( "plant sap stain" ), translate_marker( "puddle of resin" )}, '%', 0,
         {def_c_light_green,def_c_light_green,def_c_light_green}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -305,7 +305,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_blood_insect",
+        "fd_blood_insect", MAX_FIELD_DENSITY,
         {translate_marker( "bug blood splatter" ), translate_marker( "bug blood stain" ), translate_marker( "puddle of bug blood" )}, '%', 0,
         {def_c_green,def_c_green,def_c_green}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -313,7 +313,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_blood_invertebrate",
+        "fd_blood_invertebrate", MAX_FIELD_DENSITY,
         {translate_marker( "hemolymph splatter" ), translate_marker( "hemolymph stain" ), translate_marker( "puddle of hemolymph" )}, '%', 0,
         {def_c_light_gray,def_c_light_gray,def_c_light_gray}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -321,7 +321,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_gibs_insect",
+        "fd_gibs_insect", MAX_FIELD_DENSITY,
         {translate_marker( "shards of chitin" ), translate_marker( "shattered bug leg" ), translate_marker( "torn insect organs" )}, '~', 0,
         {def_c_light_green,def_c_green,def_c_yellow}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -329,7 +329,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_gibs_invertebrate",
+        "fd_gibs_invertebrate", MAX_FIELD_DENSITY,
         {translate_marker( "gooey scraps" ), translate_marker( "icky mess" ), translate_marker( "heap of squishy gore" )}, '~', 0,
         {def_c_light_gray,def_c_light_gray,def_c_dark_gray}, {true, true, true}, {false, false, false}, 2_days,
         {0,0,0},
@@ -337,7 +337,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_cigsmoke",
+        "fd_cigsmoke", MAX_FIELD_DENSITY,
         {translate_marker( "swirl of tobacco smoke" ), translate_marker( "tobacco smoke" ), translate_marker( "thick tobacco smoke" )}, '%', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 35_minutes,
         {0,0,0},
@@ -345,7 +345,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_weedsmoke",
+        "fd_weedsmoke", MAX_FIELD_DENSITY,
         {translate_marker( "swirl of pot smoke" ), translate_marker( "pot smoke" ), translate_marker( "thick pot smoke" )}, '%', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 325_turns,
         {0,0,0},
@@ -354,7 +354,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_cracksmoke",
+        "fd_cracksmoke", MAX_FIELD_DENSITY,
         {translate_marker( "swirl of crack smoke" ), translate_marker( "crack smoke" ), translate_marker( "thick crack smoke" )}, '%', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 225_turns,
         {0,0,0},
@@ -362,7 +362,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_methsmoke",
+        "fd_methsmoke", MAX_FIELD_DENSITY,
         {translate_marker( "swirl of meth smoke" ), translate_marker( "meth smoke" ), translate_marker( "thick meth smoke" )}, '%', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{false, false, false}, 275_turns,
         {0,0,0},
@@ -370,7 +370,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         true
     },
     {
-        "fd_bees",
+        "fd_bees", MAX_FIELD_DENSITY,
         {translate_marker( "some bees" ), translate_marker( "swarm of bees" ), translate_marker( "angry swarm of bees" )}, '8', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, true},{true, true, true}, 100_minutes,
         {0,0,0},
@@ -379,7 +379,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_incendiary",
+        "fd_incendiary", MAX_FIELD_DENSITY,
         {translate_marker( "smoke" ),translate_marker( "airborne incendiary" ), translate_marker( "airborne incendiary" )}, '8', 8,
         {def_c_white,def_c_light_red,def_c_light_red_red}, {true, true, false}, {true, true, true}, 50_minutes,
         {0,0,0},
@@ -388,7 +388,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_relax_gas",
+        "fd_relax_gas", MAX_FIELD_DENSITY,
         {translate_marker( "hazy cloud" ),translate_marker( "sedative gas" ),translate_marker( "relaxation gas" )}, '.', 8,
         {def_c_white,def_c_pink,def_c_cyan }, { true, true, true }, { true, true, true }, 50_minutes,
         {0,0,0},
@@ -397,7 +397,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_fungal_haze",
+        "fd_fungal_haze", MAX_FIELD_DENSITY,
         {translate_marker( "hazy cloud" ),translate_marker( "fungal haze" ),translate_marker( "thick fungal haze" )}, '.', 8,
         {def_c_white,def_c_cyan,def_c_cyan }, { true, true, false }, { true, true, true }, 4_minutes,
         {0,0,0},
@@ -406,7 +406,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_hot_air1",
+        "fd_hot_air1", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
@@ -415,7 +415,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_hot_air2",
+        "fd_hot_air2", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
@@ -424,7 +424,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_hot_air3",
+        "fd_hot_air3", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
@@ -433,7 +433,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_hot_air4",
+        "fd_hot_air4", MAX_FIELD_DENSITY,
         {"", "", ""}, '&', -1,
         {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
         {0,0,0},
@@ -442,7 +442,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     },
 
     {
-        "fd_fungicidal_gas",
+        "fd_fungicidal_gas", MAX_FIELD_DENSITY,
         {translate_marker( "hazy cloud" ),translate_marker( "fungicidal gas" ),translate_marker( "thick fungicidal gas" )}, '8', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, false}, {true, true, true}, 90_minutes,
         {0,0,0},
@@ -764,7 +764,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                 curtype = cur.getFieldType();
                 // Again, legacy support in the event someone Mods setFieldDensity to allow more values.
-                if (cur.getFieldDensity() > 3 || cur.getFieldDensity() < 1) {
+                if (cur.getFieldDensity() > fieldlist[cur.getFieldType()].max_density || cur.getFieldDensity() < 1) {
                     debugmsg("Whoooooa density of %d", cur.getFieldDensity());
                 }
 
@@ -938,7 +938,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                                 smoke += 2;
                                 if( cur.getFieldDensity() >= FIRE_SIZE_THRESHOLD &&
-                                    one_in( 250 - ( cur.getFieldDensity() ) * 50 ) ) {
+                                    one_in( 250 - cur.getFieldDensity() * 50 ) ) {
                                     destroy( p, false );
                                     if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
                                         ter_set( p, t_dirt );
@@ -2166,9 +2166,11 @@ void map::monster_in_field( monster &z )
             }
             dam -= z.get_armor_type( DT_HEAT, bp_torso );
 
-            if (cur.getFieldDensity() == 1) {
+            if( cur.getFieldDensity() < FIRE_SIZE_THRESHOLD && cur.getFieldDensity() > 0 ) {
+                dam += rng( 0, 1 );
+            } else if ( cur.getFieldDensity() == FIRE_SIZE_THRESHOLD ) {
                 dam += rng(2, 6);
-            } else if (cur.getFieldDensity() == 2) {
+            } else if ( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD && cur.getFieldDensity < MAX_FIRE_SIZE ) {
                 dam += rng(6, 12);
                 if (!z.has_flag(MF_FLIES)) {
                     z.moves -= 20;
@@ -2176,7 +2178,7 @@ void map::monster_in_field( monster &z )
                         z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
                     }
                 }
-            } else if (cur.getFieldDensity() == 3) {
+            } else if ( cur.getFieldDensity() == MAX_FIRE_SIZE ) {
                 dam += rng(10, 20);
                 if (!z.has_flag(MF_FLIES) || one_in(3)) {
                     z.moves -= 40;
@@ -2421,7 +2423,7 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 int field_entry::setFieldDensity(const int new_density)
 {
     is_alive = new_density > 0;
-    return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
+    return density = std::max( std::min( new_density, fieldlist[type].max_density ), 1 );
 }
 
 time_duration field_entry::setFieldAge( const time_duration new_age )
@@ -2542,7 +2544,7 @@ std::map<field_id, field_entry>::const_iterator field::end() const
 
 std::string field_t::name( const int density ) const
 {
-    const std::string &n = untranslated_name[std::min( std::max( 0, density ), MAX_FIELD_DENSITY - 1 )];
+    const std::string &n = untranslated_name[std::min( std::max( 0, density ), max_density - 1 )];
     return n.empty() ? n : _( n.c_str() );
 }
 
