@@ -184,6 +184,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DISAPPEAR``` Hallucination disappears.
 - ```DISINTEGRATE``` Falls apart.
 - ```EXPLODE``` Damaging explosion.
+- ```FIREBALL``` 10 percent chance to explode in a fireball.
 - ```FUNGUS``` Explodes in spores.
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 - ```GUILT``` Moral penalty. There is also a flag with a similar effect.
