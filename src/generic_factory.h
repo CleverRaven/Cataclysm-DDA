@@ -117,6 +117,12 @@ class string_id_reader;
 template<typename T>
 class generic_factory
 {
+
+	public:
+        virtual ~generic_factory()
+        {
+        }
+
     private:
         DynamicDataLoader::deferred_json deferred;
 
