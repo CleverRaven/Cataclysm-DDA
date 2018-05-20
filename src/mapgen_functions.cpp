@@ -1239,17 +1239,34 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, int, float )
     bool subway_nesw[4] = {};
     int num_dirs = terrain_type_to_nesw_array( terrain_type, subway_nesw );
 
+    for( int dir = 0; dir < 4; dir++ ) { // N E S W
+        if (dat.t_nesw[dir]->has_flag( subway_connection ) && !subway_nesw[dir] ){
+            num_dirs++;
+            subway_nesw[dir] = true;
+        }
+    }
+
     // which way should our subway curve, based on neighbor subway?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( !subway_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "subway" ) {
+        if( !subway_nesw[dir] ) {
             continue;
         }
 
+        if( dat.t_nesw[dir]->get_type_id().str() != "subway" &&
+            !dat.t_nesw[dir]->has_flag( subway_connection )) {
+            continue;
+        }
         // n_* contain details about the neighbor being considered
         bool n_subway_nesw[4] = {};
         //TODO figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
+        for( int dir = 0; dir < 4; dir++ ) {
+            if (dat.t_nesw[dir]->has_flag( subway_connection ) && !n_subway_nesw[dir] ){
+                    n_num_dirs++;
+                    n_subway_nesw[dir] = true;
+            }
+        }
         // if 2-way neighbor has a subway facing us
         if( n_num_dirs == 2 && n_subway_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
@@ -1516,7 +1533,6 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 
     // finally, unrotate the map
     m->rotate( rot );
-
 }
 
 void mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
