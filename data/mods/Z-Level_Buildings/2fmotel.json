@@ -226,10 +226,10 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
             "place_items": [
-                { "item": "book_motel", "x": [ 10, 10 ], "y": [ 16, 16 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 10, 10 ], "y": [ 22, 22 ], "chance": 100 },
                 { "item": "cleaning", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
                 { "item": "home_hw", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
+                { "item": "book_motel", "x": 10, "y": 16, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 22, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 22,22 ] },
                 { "item": "dining", "chance": 30, "x": [ 21,22 ], "y": [ 4,5 ] },
@@ -347,10 +347,10 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
             "place_items": [
-                { "item": "book_motel", "x": [ 5, 5 ], "y": [ 8, 8 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 5, 5 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 12, 12 ], "y": [ 18, 18 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 18, 18 ], "y": [ 13, 13 ], "chance": 100 },
+                { "item": "book_motel", "x": 5, "y": 8, "chance": 100 },
+                { "item": "book_motel", "x": 5, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 12, "y": 18, "chance": 100 },
+                { "item": "book_motel", "x": 18, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -473,10 +473,10 @@
                 { "vehicle": "car", "x": 8, "y": 8, "rotation": 90, "chance": 35  }
             ],
             "place_items": [
-                { "item": "book_motel", "x": [ 4, 4 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 10, 10 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 16, 16 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 22, 22 ], "y": [ 13, 13 ], "chance": 100 },
+                { "item": "book_motel", "x": 4, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 16, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 22, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 4,4 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -690,8 +690,8 @@
                 { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
             "place_items": [
-                { "item": "book_motel", "x": [ 10, 10 ], "y": [ 16, 16 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 10, 10 ], "y": [ 22, 22 ], "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 16, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 22, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 22,22 ] },
                 { "item": "bed", "chance": 60, "x": [5,6], "y": [19,20] },
@@ -800,10 +800,10 @@
                 { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
             "place_items": [
-                { "item": "book_motel", "x": [ 5, 5 ], "y": [ 8, 8 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 5, 5 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 12, 12 ], "y": [ 18, 18 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 18, 18 ], "y": [ 13, 13 ], "chance": 100 },
+                { "item": "book_motel", "x": 5, "y": 8, "chance": 100 },
+                { "item": "book_motel", "x": 5, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 12, "y": 18, "chance": 100 },
+                { "item": "book_motel", "x": 18, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -917,10 +917,10 @@
                 { "point": "terrain", "id": "t_open_air", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
             "place_items": [
-                { "item": "book_motel", "x": [ 4, 4 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 10, 10 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 16, 16 ], "y": [ 13, 13 ], "chance": 100 },
-                { "item": "book_motel", "x": [ 22, 22 ], "y": [ 13, 13 ], "chance": 100 },
+                { "item": "book_motel", "x": 4, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 16, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 22, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 4,4 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
