@@ -278,18 +278,11 @@ struct mutation_branch {
 
 struct mutation_category_trait {
     std::string name;
-    std::string id;
     // Mutation category i.e "BIRD", "CHIMERA"
-    std::string category;
-    // For some reason most code uses "MUTCAT_category" instead of just "category"
-    // This exists only to prevent ugly string hacks
-    // @todo: Make this not exist
-    std::string category_full;
+    std::string id;
     // The trait that you gain when you break the threshold for this category
     trait_id threshold_mut;
 
-    // The flag a mutagen needs to target this category
-    std::string mutagen_flag;
     std::string mutagen_message; // message when you consume mutagen
     int mutagen_hunger  = 10;//these are defaults
     int mutagen_thirst  = 10;
@@ -316,6 +309,7 @@ struct mutation_category_trait {
     std::string memorial_message; //memorial message when you cross a threshold
 
     static const std::map<std::string, mutation_category_trait> &get_all();
+    static const mutation_category_trait &get_category( std::string category_id );
     static void reset();
     static void check_consistency();
 };
