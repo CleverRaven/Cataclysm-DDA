@@ -43,7 +43,12 @@
   {
     "type": "overmap_location",
     "id": "subterranean",
-    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "sewer", "subway" ]
+    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "sewer" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_subway",
+    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "subway" ]
   },
   {
     "type": "overmap_location",
@@ -81,3 +86,4 @@
     "terrains": [ "s_grocery" ]
   }
 ]
+
