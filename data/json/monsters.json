@@ -1867,8 +1867,8 @@
   {
     "id": "mon_zombie_flamer",
     "type": "MONSTER",
-    "name": "zombie flamer",
-    "description": "When government realized that bullets weren't able to stop zombies once and for all, they dispatched flamethrower units to burn the walking dead.  Too bad that zombies were too many and flamers were too scarce, so now you can see some unlucky undead soldier still trying to burn everything it encounters.",
+    "name": "zombie burner",
+    "description": "Realizing that bullets weren't enough, the army dispatched flamethrower units to burn the walking dead. Unfortunately, there were too many zombies and not enough flamers. The undead soldier you see before you is still trying to burn everything it encounters.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 20,
