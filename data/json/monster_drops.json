@@ -302,9 +302,7 @@
         "magazine": 100,
         "entries":
         [
-            { "distribution": [
-                { "group": "guns_launcher_flame", "prob": 100 }
-            ] }
+            { "item": "flamethrower", "charges-min": 100, "charges-max": 1500 }
         ]
     }
 ]
