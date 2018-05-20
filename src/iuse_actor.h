@@ -408,6 +408,10 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
+        // Returns resulting fire size
+        // 2 if successful
+        // 1 if successful without tinder
+        // 0 if fail
         static int prep_firestarter_use( const player &p, tripoint &pos );
         static void resolve_firestarter_use( const player &p, const tripoint &pos, const int &density );
         /** Modifier on speed - higher is better, 0 means it won't work. */
