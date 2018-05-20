@@ -2417,7 +2417,7 @@ std::string item::display_name( unsigned int quantity ) const
     naming_style = NAMING_ERROR;
     
     // Allocate all the strings we might need
-    std::string item_text = this->tname( quantity );
+    std::string item_text = "";
     std::string charges_text = "";
     std::string content_text = "";
     std::string ammo_type_text = "";
@@ -2428,19 +2428,28 @@ std::string item::display_name( unsigned int quantity ) const
     if ( false ) { 
         // Dumb hack so it's easier to rearrange code. Remove this when done.
     } else if ( this->is_container() && !this->contents.empty() ) {
+        // Non-empty container-type items
         naming_style = NAMING_CONTAINER_TRAILING;
     } else if ( this->is_gun() || this->is_magazine() ) {
+        // Guns and magazines
         naming_style = NAMING_WITH_AMMO_TYPE;
+    } else if ( this->is_armor() && !this->contents.empty() ){
+        // Armor and clothing with non-empty contents
+        naming_style = NAMING_CONTAINER_LEADING;
     } else if ( this->is_bandolier() && !this->contents.empty() ) {
+        // Non-empty bandoliers and quivers
         naming_style = NAMING_CONTAINER_TRAILING;
     } else if ( !this->contents.empty() && this->contents.front().is_magazine() ) {
+        // Other items containing magazines
         naming_style = NAMING_CONTAINER_TRAILING;
     } else if ( this->ammo_capacity() > 0 ) {
+        // Other items with ammo capacity (like flashlights)
         naming_style = NAMING_WITH_CHARGES;
     } else if ( !this->contents.empty() ) {
+        // Any other item with non-empty contents
         naming_style = NAMING_CONTAINER_TRAILING;
     } else if ( this->is_book() && this->get_chapters() > 0 ) {
-        // Book with remaining chapters; charges = chapters
+        // Books with remaining chapters
         naming_style = NAMING_WITH_CHARGES;
     } else if ( this->count_by_charges() && !this->has_infinite_charges() ) {
         // Items with non-ammo charges (like lighters)
@@ -2451,13 +2460,24 @@ std::string item::display_name( unsigned int quantity ) const
         naming_style = NAMING_STANDARD;
     }
 
+    if ( naming_style == NAMING_STANDARD ) {
+        item_text = this->tname( quantity );
+    } else {
+        item_text = this->tname( 1 );
+    }
+
+
     if ( naming_style == NAMING_CONTAINER_LEADING || naming_style == NAMING_CONTAINER_TRAILING ) {
         // This is recursive so keep an eye on it, could be a source of
         // trouble if container type items continue to become more complex
         if( !this->contents.empty() ) {
-            content_text = this->contents.front().display_name( quantity );
+            if ( this->contents.size() > 1 ) {
+                content_text = string_format( "%i items", this->contents.size() );
+            } else {
+                content_text = this->contents.front().display_name( quantity );
+            }
         } else {
-            debugmsg("Tried to generate container name with contents for empty container.");
+            debugmsg("Tried to generate name for contents of empty container.");
             content_text = "????";
         }
     }
