@@ -1012,7 +1012,7 @@ void player::hardcoded_effects( effect &it )
             if( get_thirst() >= -30 ) {
                 mod_thirst( -5 );
             }
-          }
+        }
 
         // Check mutation category strengths to see if we're mutated enough to get a dream
         std::string highcat = get_highest_category();
