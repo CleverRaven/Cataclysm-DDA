@@ -44,7 +44,6 @@
     "id": "guns_pistol_milspec",
     "//": "Military specification pistols only ever found at military sites.",
     "items": [
-      [ "hk_ucp", 100 ],
       [ "l_bak_223", 60 ],
       [ "l_mp_45", 70 ],
       [ "l_mp_9mm", 100 ],
