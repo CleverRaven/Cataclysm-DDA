@@ -2386,74 +2386,70 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     return final;
 }
 
+enum naming_style : int {
+    NAMING_STANDARD,            // Wrench
+    NAMING_WITH_CHARGES,        // 00 Shot (10), Flashlight (100)
+    NAMING_WITH_AMMO_TYPE,      // Glock 18 (15) (9x19mm)
+    NAMING_CONTAINER_LEADING,   // plastic bottle with clean water (2)
+    NAMING_CONTAINER_TRAILING   // clean water (2) in plastic bottle
+};
+
+naming_style item::get_naming_style() const
+{
+    if ( is_container() && !contents.empty() ) {
+        // Non-empty container-type items
+        return NAMING_CONTAINER_TRAILING;
+    } else if ( is_gun() || is_magazine() ) {
+        // Guns and magazines
+        return NAMING_WITH_AMMO_TYPE;
+    } else if ( is_armor() && !contents.empty() ){
+        // Armor and clothing with non-empty contents
+        return NAMING_CONTAINER_LEADING;
+    } else if ( is_bandolier() && !contents.empty() ) {
+        // Non-empty bandoliers and quivers
+        return NAMING_CONTAINER_TRAILING;
+    } else if ( !contents.empty() && contents.front().is_magazine() ) {
+        // Other items containing magazines
+        return NAMING_CONTAINER_TRAILING;
+    } else if ( ammo_capacity() > 0 ) {
+        // Other items with ammo capacity (like flashlights)
+        return NAMING_WITH_CHARGES;
+    } else if ( !contents.empty() ) {
+        // Any other item with non-empty contents
+        return NAMING_CONTAINER_TRAILING;
+    } else if ( is_book() && get_chapters() > 0 ) {
+        // Books with remaining chapters
+        return NAMING_WITH_CHARGES;
+    } else if ( count_by_charges() && !has_infinite_charges() ) {
+        // Items with non-ammo charges (like lighters)
+        return NAMING_WITH_CHARGES;
+    } else {
+        // Items that don't need their contents, charges, or ammo type
+        // displayed (everything else in the game)
+        return NAMING_STANDARD;
+    }
+}
+
 std::string item::display_name( unsigned int quantity ) const
 {
     // Anonymous enum used for readability
-    enum {
-        NAMING_ERROR,
-        NAMING_STANDARD,            // Wrench
-        NAMING_WITH_CHARGES,        // 00 Shot (10), Flashlight (100)
-        NAMING_WITH_AMMO_TYPE,      // Glock 18 (15) (9x19mm)
-        NAMING_CONTAINER_LEADING,   // plastic bottle with clean water (2)
-        NAMING_CONTAINER_TRAILING   // clean water (2) in plastic bottle
-    } naming_style ;
-    
-    // Using NAMING_ERROR by default; If this value reaches the end of the
-    // function something has gone wrong.
-    naming_style = NAMING_ERROR;
-    
+    const naming_style style = get_naming_style();
+
     // Allocate all the strings we might need
     std::string item_text;
     std::string charges_text;
     std::string content_text;
     std::string ammo_type_text;
 
-    // Various checks to determine naming_style and which strings to display
-    unsigned int charges = 0;
-    
-    if ( false ) { 
-        // Dumb hack so it's easier to rearrange code. Remove this when done.
-    } else if ( is_container() && !contents.empty() ) {
-        // Non-empty container-type items
-        naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( is_gun() || is_magazine() ) {
-        // Guns and magazines
-        naming_style = NAMING_WITH_AMMO_TYPE;
-    } else if ( is_armor() && !contents.empty() ){
-        // Armor and clothing with non-empty contents
-        naming_style = NAMING_CONTAINER_LEADING;
-    } else if ( is_bandolier() && !contents.empty() ) {
-        // Non-empty bandoliers and quivers
-        naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( !contents.empty() && contents.front().is_magazine() ) {
-        // Other items containing magazines
-        naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( ammo_capacity() > 0 ) {
-        // Other items with ammo capacity (like flashlights)
-        naming_style = NAMING_WITH_CHARGES;
-    } else if ( !contents.empty() ) {
-        // Any other item with non-empty contents
-        naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( is_book() && get_chapters() > 0 ) {
-        // Books with remaining chapters
-        naming_style = NAMING_WITH_CHARGES;
-    } else if ( count_by_charges() && !has_infinite_charges() ) {
-        // Items with non-ammo charges (like lighters)
-        naming_style = NAMING_WITH_CHARGES;
-    } else {
-        // Items that don't need their contents, charges, or ammo type
-        // displayed (everything else in the game)
-        naming_style = NAMING_STANDARD;
-    }
+    unsigned int _charges = 0;
 
-    if ( naming_style == NAMING_STANDARD ) {
+    if ( style == NAMING_STANDARD ) {
         item_text = tname( quantity );
     } else {
         item_text = tname( 1 );
     }
 
-
-    if ( naming_style == NAMING_CONTAINER_LEADING || naming_style == NAMING_CONTAINER_TRAILING ) {
+    if ( style == NAMING_CONTAINER_LEADING || style == NAMING_CONTAINER_TRAILING ) {
         // This is recursive so keep an eye on it, could be a source of
         // trouble if container type items continue to become more complex
         if( !contents.empty() ) {
@@ -2469,26 +2465,26 @@ std::string item::display_name( unsigned int quantity ) const
     }
     
     // Generate charges text, ex: (0) (13) ($25.50)
-    if( naming_style == NAMING_WITH_CHARGES || naming_style == NAMING_WITH_AMMO_TYPE ) {
+    if( style == NAMING_WITH_CHARGES || style == NAMING_WITH_AMMO_TYPE ) {
         if ( is_book() ){
-            charges = get_remaining_chapters( g->u );
+            _charges = get_remaining_chapters( g->u );
         } else if ( ammo_capacity() > 0 ) {
-            charges = ammo_remaining();
+            _charges = ammo_remaining();
         } else {
-            charges = charges;
+            _charges = charges;
         }
 
         if( ammo_type() == "money" ) {
             // Charges are money in cents; reformat to display as dollars
-            charges_text = string_format( " ($%.2f)", ( double ) charges / 100 );
+            charges_text = string_format( " ($%.2f)", ( double ) _charges / 100 );
         } else {
             // All other charges displayed as number with no units
-            charges_text = string_format( " (%i)", charges );
+            charges_text = string_format( " (%i)", _charges );
         }
     }
     
     // Generate ammo type text, ex: (9x19mm FMJ) (00 Shot)
-    if( naming_style == NAMING_WITH_AMMO_TYPE ) {
+    if( style == NAMING_WITH_AMMO_TYPE ) {
         if ( ammo_data() ) {
             // Most guns use ammo_data()
             ammo_type_text = string_format( " (%s)", ammo_data()->nname( 1 ).c_str() );
@@ -2503,25 +2499,24 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
     
-      
-    if ( naming_style == NAMING_STANDARD ) {
-        return string_format( _( "%1$s" ), item_text.c_str() );
-    } else if ( naming_style == NAMING_WITH_CHARGES ) {
+    if ( style == NAMING_STANDARD ) {
+        return string_format( _( "%1$s" ), item_text );
+    } else if ( style == NAMING_WITH_CHARGES ) {
         //~ This string combines the full item name with the number of charges. %1$s is the item name with all modifiers (damaged, burned, (wet), etc) and %2$s is the the number of charges in parentheses like (10)
-        return string_format( _( "%1$s%2$s" ), item_text.c_str(), charges_text.c_str() );
-    } else if (naming_style == NAMING_WITH_AMMO_TYPE ) {
+        return string_format( _( "%1$s%2$s" ), item_text, charges_text );
+    } else if ( style == NAMING_WITH_AMMO_TYPE ) {
         //~ This string combines the full item name with the number of charges and the type of ammo loaded. %1$s is the item name with all modifiers (damaged, burned, (wet), etc), %2$s is the the number of charges in parentheses like (10), and %3$s is the ammo type in parentheses like (9x19mm)
-        return string_format( _( "%1$s%2$s%3$s" ), item_text.c_str(), charges_text.c_str(), ammo_type_text.c_str() );
-    } else if ( naming_style == NAMING_CONTAINER_LEADING ) {
+        return string_format( _( "%1$s%2$s%3$s" ), item_text, charges_text, ammo_type_text );
+    } else if ( style == NAMING_CONTAINER_LEADING ) {
         //~ This string combines the name of a container with the name of its contents. %1$s is the name of the container, %2$s is how many charges the container has (NOT the charges of the contents), and %3$s is the full name of the item inside the container.
-        return string_format( _( "%1$s%2$s with %3$s" ), item_text.c_str(), charges_text.c_str(), content_text );
-    } else if ( naming_style == NAMING_CONTAINER_TRAILING ) {
+        return string_format( _( "%1$s%2$s with %3$s" ), item_text, charges_text, content_text );
+    } else if ( style == NAMING_CONTAINER_TRAILING ) {
         //~ This string combines the name of a container with the name of its contents. %1$s is the name of the item inside the container, %2$s is the name of the container, %3$s is how many charges the container has (NOT the charges of the contents)
-        return string_format( _( "%1$s in %2$s%3$s" ), content_text, item_text.c_str(), charges_text.c_str() );
+        return string_format( _( "%1$s in %2$s%3$s" ), content_text, item_text, charges_text );
+    } else {
+        debugmsg("unrecognized value for naming_style");
+        return "naming error";
     }
-    
-    debugmsg("naming_style still set to NAMING_ERROR at end of function");
-    return "NAMING_ERROR";
 }
 
 nc_color item::color() const

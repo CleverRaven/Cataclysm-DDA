@@ -81,6 +81,8 @@ struct light_emission {
 };
 extern light_emission nolight;
 
+enum naming_style : int;
+
 namespace io {
 struct object_archive_tag;
 }
@@ -338,8 +340,18 @@ class item : public visitable<item>
     nc_color color_in_inventory() const;
 
 private:
+    /**
+     * Support functions for @ref tname for organizational purposes
+     */
+    /*@{*/
     std::string tname_generate_tagtext() const;
-    std::string tname_generate_maintext( unsigned int quantity = 1 ) const;
+    std::string tname_generate_maintext( unsigned int ) const;
+    /*@}*/
+
+    /**
+     * Return the naming style to be used by @ref display_name
+     */
+    naming_style get_naming_style() const;
 
 public:
     /**
