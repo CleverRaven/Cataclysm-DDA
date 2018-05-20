@@ -228,6 +228,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CLIMBS``` Can climb.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
+- ```DRIPS_NAPALM``` Ocassionally drips napalm on move.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
