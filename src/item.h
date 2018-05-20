@@ -336,12 +336,12 @@ class item : public visitable<item>
      */
 
     nc_color color_in_inventory() const;
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    std::string sname( unsigned int quantity = 1 ) const;
 
+private:
     std::string tname_generate_tagtext() const;
     std::string tname_generate_maintext( unsigned int quantity = 1 ) const;
 
+public:
     /**
      * Return the (translated) item name.
      * @param quantity used for translation to the proper plural form of the name, e.g.
@@ -375,7 +375,7 @@ class item : public visitable<item>
      * @ref tname, however this function does not include strings like "(fresh)".
      */
     static std::string nname( const itype_id &id, unsigned int quantity = 1 );
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Return all the information about the item and its type.

@@ -2204,12 +2204,10 @@ std::string item::tname_generate_tagtext() const
 {
     std::stringstream ret;
 
-    ret.str( "" );
-
     // Generate side text, ex: (left) or (right)
-    if ( this->get_side() == side::LEFT ) {
+    if ( get_side() == side::LEFT ) {
         ret << _( " (left)" );
-    } else if ( this->get_side() == side::RIGHT ) {
+    } else if ( get_side() == side::RIGHT ) {
         ret << _( " (right)" );
     }
 
@@ -2302,15 +2300,6 @@ std::string item::tname_generate_maintext( unsigned int quantity ) const
     return ret.str();
 }
 
-std::string item::sname( unsigned int quantity ) const
-{
-    if ( !contents.empty() && !contents.front().is_gunmod() ) {
-        return contents.front().label( quantity );
-    } else {
-        return label( quantity );
-    }
-}
-
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     // MATERIALS-TODO: put this in json
@@ -2347,7 +2336,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
             } else {
-                damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
+                damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ) );
             }
         }
         
@@ -2385,19 +2374,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += std::string( _( "diamond" ) ) + " ";
     }
 
-    std::stringstream ret;
-
-    ret.str( "" );
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
-    ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
-                          modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );
+    std::string final = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext,
+                                    burntext, modtext, vehtext, maintext, tagtext );
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
-        return string_format( _( "*%s*" ), ret.str().c_str() );
+        return string_format( _( "*%s*" ), final );
     }
 
-    return ret.str();
+    return final;
 }
 
 std::string item::display_name( unsigned int quantity ) const
@@ -2417,41 +2403,41 @@ std::string item::display_name( unsigned int quantity ) const
     naming_style = NAMING_ERROR;
     
     // Allocate all the strings we might need
-    std::string item_text = "";
-    std::string charges_text = "";
-    std::string content_text = "";
-    std::string ammo_type_text = "";
+    std::string item_text;
+    std::string charges_text;
+    std::string content_text;
+    std::string ammo_type_text;
 
     // Various checks to determine naming_style and which strings to display
     unsigned int charges = 0;
     
     if ( false ) { 
         // Dumb hack so it's easier to rearrange code. Remove this when done.
-    } else if ( this->is_container() && !this->contents.empty() ) {
+    } else if ( is_container() && !contents.empty() ) {
         // Non-empty container-type items
         naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( this->is_gun() || this->is_magazine() ) {
+    } else if ( is_gun() || is_magazine() ) {
         // Guns and magazines
         naming_style = NAMING_WITH_AMMO_TYPE;
-    } else if ( this->is_armor() && !this->contents.empty() ){
+    } else if ( is_armor() && !contents.empty() ){
         // Armor and clothing with non-empty contents
         naming_style = NAMING_CONTAINER_LEADING;
-    } else if ( this->is_bandolier() && !this->contents.empty() ) {
+    } else if ( is_bandolier() && !contents.empty() ) {
         // Non-empty bandoliers and quivers
         naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( !this->contents.empty() && this->contents.front().is_magazine() ) {
+    } else if ( !contents.empty() && contents.front().is_magazine() ) {
         // Other items containing magazines
         naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( this->ammo_capacity() > 0 ) {
+    } else if ( ammo_capacity() > 0 ) {
         // Other items with ammo capacity (like flashlights)
         naming_style = NAMING_WITH_CHARGES;
-    } else if ( !this->contents.empty() ) {
+    } else if ( !contents.empty() ) {
         // Any other item with non-empty contents
         naming_style = NAMING_CONTAINER_TRAILING;
-    } else if ( this->is_book() && this->get_chapters() > 0 ) {
+    } else if ( is_book() && get_chapters() > 0 ) {
         // Books with remaining chapters
         naming_style = NAMING_WITH_CHARGES;
-    } else if ( this->count_by_charges() && !this->has_infinite_charges() ) {
+    } else if ( count_by_charges() && !has_infinite_charges() ) {
         // Items with non-ammo charges (like lighters)
         naming_style = NAMING_WITH_CHARGES;
     } else {
@@ -2461,20 +2447,20 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if ( naming_style == NAMING_STANDARD ) {
-        item_text = this->tname( quantity );
+        item_text = tname( quantity );
     } else {
-        item_text = this->tname( 1 );
+        item_text = tname( 1 );
     }
 
 
     if ( naming_style == NAMING_CONTAINER_LEADING || naming_style == NAMING_CONTAINER_TRAILING ) {
         // This is recursive so keep an eye on it, could be a source of
         // trouble if container type items continue to become more complex
-        if( !this->contents.empty() ) {
-            if ( this->contents.size() > 1 ) {
-                content_text = string_format( "%i items", this->contents.size() );
+        if( !contents.empty() ) {
+            if ( contents.size() > 1 ) {
+                content_text = string_format( "%i items", contents.size() );
             } else {
-                content_text = this->contents.front().display_name( quantity );
+                content_text = contents.front().display_name( quantity );
             }
         } else {
             debugmsg("Tried to generate name for contents of empty container.");
@@ -2484,15 +2470,15 @@ std::string item::display_name( unsigned int quantity ) const
     
     // Generate charges text, ex: (0) (13) ($25.50)
     if( naming_style == NAMING_WITH_CHARGES || naming_style == NAMING_WITH_AMMO_TYPE ) {
-        if ( this->is_book() ){
-            charges = this->get_remaining_chapters( g->u );
-        } else if ( this->ammo_capacity() > 0 ) {
-            charges = this->ammo_remaining();
+        if ( is_book() ){
+            charges = get_remaining_chapters( g->u );
+        } else if ( ammo_capacity() > 0 ) {
+            charges = ammo_remaining();
         } else {
-            charges = this->charges;
+            charges = charges;
         }
 
-        if( this->ammo_type() == "money" ) {
+        if( ammo_type() == "money" ) {
             // Charges are money in cents; reformat to display as dollars
             charges_text = string_format( " ($%.2f)", ( double ) charges / 100 );
         } else {
@@ -2503,17 +2489,17 @@ std::string item::display_name( unsigned int quantity ) const
     
     // Generate ammo type text, ex: (9x19mm FMJ) (00 Shot)
     if( naming_style == NAMING_WITH_AMMO_TYPE ) {
-        if ( this->ammo_data() ) {
+        if ( ammo_data() ) {
             // Most guns use ammo_data()
-            ammo_type_text = string_format( " (%s)", this->ammo_data()->nname( 1 ).c_str() );
-        } else if ( this->curammo ) {
+            ammo_type_text = string_format( " (%s)", ammo_data()->nname( 1 ).c_str() );
+        } else if ( curammo ) {
             // Some weapons use curammo instead, especially those that
             // don't use magazines
-            ammo_type_text = string_format( " (%s)", this->curammo->nname( 1 ).c_str() );
-        } else if ( !this->contents.empty() && this->contents.front().is_ammo() ) {
+            ammo_type_text = string_format( " (%s)", curammo->nname( 1 ).c_str() );
+        } else if ( !contents.empty() && contents.front().is_ammo() ) {
             // Any other item containing ammo that doesn't actually use
             // the ammo and we still want the ammo type (bandoliers)
-            ammo_type_text = string_format( " (%s)", this->contents.front().label( 1 ) );
+            ammo_type_text = string_format( " (%s)", contents.front().label( 1 ) );
         }
     }
     
