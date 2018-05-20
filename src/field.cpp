@@ -2170,7 +2170,7 @@ void map::monster_in_field( monster &z )
                 dam += rng( 0, 1 );
             } else if ( cur.getFieldDensity() == FIRE_SIZE_THRESHOLD ) {
                 dam += rng(2, 6);
-            } else if ( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD && cur.getFieldDensity < MAX_FIRE_SIZE ) {
+            } else if ( cur.getFieldDensity() > FIRE_SIZE_THRESHOLD && cur.getFieldDensity() < MAX_FIRE_SIZE ) {
                 dam += rng(6, 12);
                 if (!z.has_flag(MF_FLIES)) {
                     z.moves -= 20;
