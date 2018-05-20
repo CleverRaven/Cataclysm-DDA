@@ -1667,8 +1667,8 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                     p.add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                     return 1;
                 }
-            } else if( mon.type->id == mon_dog ) {
-                p.add_msg_if_player( m_good, _( "The dog seems to like you!" ) );
+            } else if( mon.has_flag( MF_DOGFOOD ) ) {
+                p.add_msg_if_player( m_good, _( "The %s seems to like you!  It lets you pat its head and seems friendly." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 mon.add_effect( effect_pet, 1_turns, num_bp, true );
                 return 1;
