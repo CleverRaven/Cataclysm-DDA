@@ -18875,7 +18875,7 @@
           "rotates": false
         },
         {
-          "id": "45_casing",
+          "id": ["45_casing", "357sig_casing"],
           "fg": 58,
           "bg": 632,
           "rotates": false
@@ -20153,7 +20153,7 @@
           "rotates": false
         },
         {
-          "id": "armguard_metal",
+          "id": ["armguard_metal", "armguard_lightplate"],
           "fg": 240,
           "bg": 632,
           "rotates": false
@@ -32697,7 +32697,7 @@
           "rotates": false
         },
         {
-          "id": ["rifle_scope", "survivor_scope"],
+          "id": ["rifle_scope", "acog_scope", "survivor_scope"],
           "fg": 1613,
           "bg": 632,
           "rotates": false
@@ -38467,13 +38467,13 @@
           "rotates": false
         },
         {
-          "id": [ "novel_coa", "novel_coa2" ],
+          "id": "novel_coa",
           "fg": 693,
           "bg": 635,
           "rotates": false
         },
         {
-          "id": [ "novel_crime", "novel_crime2" ],
+          "id": "novel_crime",
           "fg": 712,
           "bg": 635,
           "rotates": false
@@ -38581,7 +38581,7 @@
           "rotates": false
         },
         {
-          "id": [ "novel_war", "novel_war2" ],
+          "id": "novel_war",
           "fg": 713,
           "bg": 635,
           "rotates": false
@@ -41960,10 +41960,40 @@
           ]
         },
        {
+          "id": "t_milking_machine",
+          "fg": 4346,
+          "bg": 632,
+          "rotates": false
+        },
+       {
           "id": "vp_wiring",
           "fg": 4348,
           "bg": 632,
           "rotates": false
+        },
+       {
+          "id": "t_floor_waxed",
+          "fg": 4350,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "t_bulk_tank",
+          "fg": 4364,
+          "bg": 661,
+          "rotates": true
+        },
+       {
+          "id": "t_floor_waxed_y",
+          "fg": 4365,
+          "bg": 632,
+          "rotates": true
+        },
+       {
+          "id": "f_lane",
+          "fg": 4366,
+          "bg": 632,
+          "rotates": true
         },
        {
           "id": "vp_lasgun",
@@ -41977,6 +42007,23 @@
               "fg": 3110
             }
           ]
+        },
+        {
+          "id": ["reloaded_357sig_fmj", "357sig_fmj"],
+          "fg": 17,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": ["reloaded_357sig_jhp", "357sig_jhp"],
+          "fg": 18,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": ["tinyweldtank", "aux_pressurized_tank"],
+          "fg": 2484,
+          "rotates": false
         },
        {
           "id": ["vp_solar_array", "vp_solar_array2"],
@@ -45458,17 +45505,13 @@
           "rotates": false
         },
         {
-          "id": "f_ash",
+          "id": ["f_ash", "ash"],
           "fg": 1034,
           "rotates": false
         },
         {
           "id": "f_ball_mach",
           "fg": 3006
-        },
-        {
-          "id": "f_lane",
-          "fg": 3008
         },
         {
           "id": "f_barricade_road",
@@ -49022,11 +49065,6 @@
           "rotates": false
         },
         {
-          "id": "t_floor_waxed",
-          "fg": 3007,
-          "rotates": false
-        },
-        {
           "id": "t_gates_control_concrete",
           "fg": 2034,
           "bg": 661,
@@ -49471,6 +49509,7 @@
         {
           "id": ["t_window_bars_alarm", "t_window_bars"],
           "fg": [2947, 2946, 2947, 2946],
+          "bg": 661,
           "rotates": true
         },
         {
@@ -51187,7 +51226,7 @@
         },
         {
           "id": "vp_board_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [
@@ -51199,7 +51238,7 @@
         },
         {
           "id": "vp_hdboard_ne",
-          "fg": 2648,
+          "fg": 2610,
           "rotates": true,
        "multitile": true,
          "additional_tiles": [
