@@ -188,9 +188,7 @@ struct map_data_common_t {
     map_deconstruct_info deconstruct;
     
     public:
-        virtual ~map_data_common_t()
-        {
-        }
+        virtual ~map_data_common_t() = default;
 
     protected:
         friend furn_t null_furniture_t();

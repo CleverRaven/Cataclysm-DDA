@@ -119,9 +119,7 @@ class generic_factory
 {
 
 	public:
-        virtual ~generic_factory()
-        {
-        }
+        virtual ~generic_factory() = default;
 
     private:
         DynamicDataLoader::deferred_json deferred;

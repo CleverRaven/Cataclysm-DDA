@@ -82,9 +82,7 @@ struct uimenu_entry {
 class ui_container
 {
     public:
-        virtual ~ui_container()
-        {
-        }
+        virtual ~ui_container() = default;
         
     public:
         int w_x;

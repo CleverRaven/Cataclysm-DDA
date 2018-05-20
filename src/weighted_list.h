@@ -18,10 +18,7 @@ template <typename W, typename T> struct weighted_object {
 template <typename W, typename T> struct weighted_list {
         weighted_list() : total_weight( 0 ) { };
 
-
-        virtual ~weighted_list()
-        {
-        }
+        virtual ~weighted_list() = default;
 
         /**
          * This will add a new object to the weighted list. Returns a pointer to
