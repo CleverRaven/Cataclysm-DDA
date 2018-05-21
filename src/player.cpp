@@ -1907,8 +1907,7 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost += 8;
     }
 
-    if( !footwear_factor() && has_trait( trait_ROOTS3 ) &&
-        g->m.has_flag( "DIGGABLE", pos() ) ) {
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
         movecost += 10 * footwear_factor();
     }
 
