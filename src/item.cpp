@@ -4054,6 +4054,10 @@ int item::gun_dispersion( bool with_ammo ) const
         return 0;
     }
     int dispersion_sum = type->gun->dispersion;
+    if (type->gun->skill_used == "shotgun") {
+        dispersion_sum += 500;
+    }
+
     for( const auto mod : gunmods() ) {
         dispersion_sum += mod->type->gunmod->dispersion;
     }
