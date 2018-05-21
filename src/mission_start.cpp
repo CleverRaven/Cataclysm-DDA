@@ -37,8 +37,6 @@ const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 const efftype_id effect_infection( "infection" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -361,9 +359,8 @@ void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
-    miss->monster_species = ZOMBIE;
     int killed = 0;
-    killed += g->kill_count( ZOMBIE );
+    killed += g->kill_count( miss->monster_species );
     miss->monster_kill_goal = 100 + killed; //your kill score must increase by 100
 }
 

@@ -199,7 +199,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     WORLDPTR special_world = new WORLD();
     special_world->world_name = worldname;
 
-    special_world->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
+    special_world->WORLD_OPTIONS["WORLD_END"].setValue("delete");
 
     // add world to world list!
     all_worlds[worldname] = special_world;
@@ -339,7 +339,7 @@ void worldfactory::init()
         // load options into the world
         if ( !load_world_options(all_worlds[worldname]) ) {
             all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
-            all_worlds[worldname]->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
+            all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue("delete");
             save_world(all_worlds[worldname]);
         }
     }
@@ -1343,8 +1343,8 @@ void WORLD::load_options( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
-        const std::string name = jo.get_string( "name" );
-        const std::string value = jo.get_string( "value" );
+        const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
+        const std::string value = opts.migrateOptionValue( jo.get_string( "name" ), jo.get_string( "value" ) );
 
         if( name == "CORE_VERSION" ) {
             version = std::max( std::atoi( value.c_str() ), 0 );
@@ -1365,6 +1365,8 @@ void WORLD::load_options( JsonIn &jsin )
 
 void WORLD::load_legacy_options( std::istream &fin )
 {
+    auto &opts = get_options();
+
     //load legacy txt
     std::string sLine;
     while( !fin.eof() ) {
@@ -1373,8 +1375,11 @@ void WORLD::load_legacy_options( std::istream &fin )
             size_t ipos = sLine.find( ' ' );
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
-            if( ipos != 0 && get_options().get_option( sLine.substr( 0, ipos ) ).getPage() == "world_default" ) {
-                WORLD_OPTIONS[sLine.substr( 0, ipos )].setValue( sLine.substr( ipos + 1, sLine.length() ) );
+            const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
+            const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1, sLine.length() ) );
+
+            if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
+                WORLD_OPTIONS[name].setValue( value );
             }
         }
     }

@@ -1515,17 +1515,33 @@ static bool is_driving( const player &p )
     return vp && vp->vehicle().velocity != 0 && vp->vehicle().player_in_control( p );
 }
 
+static double dispersion_from_skill( double skill, double weapon_dispersion )
+{
+    if( skill >= MAX_SKILL ) {
+        return 0.0;
+    }
+    double skill_shortfall = double( MAX_SKILL ) - skill;
+    // Flat penalty of 3 dispersion per point of skill under max.
+    double dispersion_penalty = 3.0 * skill_shortfall;
+    if( skill >= 5 ) {
+        // Lack of mastery multiplies the dispersion of the weapon.
+        return dispersion_penalty + skill_shortfall * weapon_dispersion / 5.0;
+    }
+    // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
+    double lower_skill_shortfall = 5.0 - skill;
+    dispersion_penalty += weapon_dispersion + lower_skill_shortfall * weapon_dispersion * 3.0 / 5.0;
+
+    return dispersion_penalty;
+}
+
 // utility functions for projectile_attack
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
-    /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    dispersion.add_range( 3 * ( MAX_SKILL - std::min( get_skill_level( skill_gun ), MAX_SKILL ) ) );
-
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( encumb( bp_arm_l ) + encumb( bp_arm_r ) );
+    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1536,6 +1552,13 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
+    /** @EFFECT_GUN improves usage of accurate weapons and sights */
+    double avgSkill = double( get_skill_level( skill_gun ) +
+                              get_skill_level( obj.gun_skill() ) ) / 2.0;
+    avgSkill = std::min( avgSkill, double( MAX_SKILL ) );
+
+    dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
+
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
     }
@@ -1544,6 +1567,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         // Range is effectively four times longer when shooting unflagged guns underwater.
         ( !is_underwater() && obj.has_flag( "UNDERWATER_GUN" ) ) ) {
         // Range is effectively four times longer when shooting flagged guns out of water.
+        dispersion.add_range( 150 ); //Adding dispersion for additonal debuff
         dispersion.add_multiplier( 4 );
     }
 
