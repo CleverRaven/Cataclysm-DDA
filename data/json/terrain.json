@@ -8,8 +8,7 @@
             { "item": "nail", "charges": [2, 8] },
             { "item": "splinter", "count": [1, 5] }
         ]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_hole",
         "name": "empty space",
@@ -30,13 +29,138 @@
         "flags": ["TRANSPARENT", "NO_FLOOR"],
         "examine_action": "climb_down"
     },{
+		"type": "terrain",
+		"id": "t_wframe",
+		"name": "wooden building frame",
+		"description": "A standard 16\" stud wooden building frame, the mainstay of modern home construction.  While it will support a roof, unless construction is completed it will offer little protection against intruders.",
+		"symbol": "#",
+		"color": "brown",
+		"move_cost": 4,
+		"flags": ["SUPPORTS_ROOF", "THIN_OBSTACLE", "WALL", "TRANSPARENT", "PERMEABLE", "FLAMMABLE"],
+		"bash": {
+			"str_min": 10, "str_max": 20,
+            "sound": "crash!",
+            "sound_fail": "bash!",
+            "ter_set": "t_null"
+			}
+	},{
+		"type": "terrain",
+		"id": "t_sframe",
+		"name": "steel building frame",
+		"description": "A steel building frame, the mainstay of modern large scale construction.  Increadably stron structuraly but provides no protection from the oustide.",
+		"symbol": "#",
+		"color": "dark_gray",
+		"move_cost": 2,
+		"flags": ["SUPPORTS_ROOF", "THIN_OBSTACLE", "WALL", "TRANSPARENT", "PERMEABLE"],
+		"bash": {
+			"str_min": 100, "str_max": 500,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "steel_chunk", "count": [1, 5] },
+				{ "item": "steel_lump", "count": [3, 8] },
+				{ "item": "scrap", "count": [2, 20] }
+            ]
+	},{
+        "type" : "terrain",
+        "id" : "t_plywood_wfwall",
+        "name": "framed plywood wall",
+        "description": "A wall formed from plywood sheets nailed to a wooden frame possibly awaiting siding or paint.  Will support a roof but is unlikly to provide any real protection from unwanted guests.",
+        "symbol": "LINE_OXOX",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
+        "bash": {
+            "str_min": 10, "str_max": 80,
+            "sound": "crash!",
+            "sound_fail": "bash!",
+            "ter_set": "t_wframe",
+            "items": [
+                { "item": "rock", "count": [5, 10] },
+				{ "item": "splinter", "count": [2, 3] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_brick_wfwall",
+        "name": "framed brick wall",
+        "description": "A frame construction wall lined with bricks for apearence rather than structure.  Popular in modern construction it's not as tough as a true brick wall but is more than enough to keep out the casual intruder.",
+        "symbol": "LINE_OXOX",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
+        "bash": {
+            "str_min": 40, "str_max": 140,
+            "sound": "crash!",
+            "sound_fail": "bash!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "rock", "count": [5, 10] },
+				{ "item": "splinter", "count": [2, 3] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_conc_sfwall",
+        "name": "wall - concrete framed",
+        "description": "A steel frame with concrete commonly used in comercial construction.  While thinner and thus less fortied than a true concrete wall, the frames will continue to provied structural integraty should the wall get destroyed.",
+        "symbol": "LINE_OXOX",
+        "color": "light_gray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
+        "bash": {
+            "str_min": 100, "str_max": 300,
+            "sound": "crash!",
+            "sound_fail": "bash!",
+            "ter_set": "t_sframe",
+            "items": [
+                { "item": "rock", "count": [5, 11] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_conc_wfwall",
+        "name": "concrete siding wall"	,
+        "description": "A wood building frame with plywood sideing covered in concrete.  Often used in comercial constructions or to give a \"mud wall\" type feel.",
+        "symbol": "LINE_OXOX",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
+        "bash": {
+            "str_min": 35, "str_max": 120,
+            "sound": "crash!",
+            "sound_fail": "bash!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "rock", "count": [5, 11] },
+				{ "item": "splinter", "count": [2, 3] }
+            ]
+        }
+    },{
+		"abstract": "plastic_siding_wf",
+		"type": "terrain",
+		"symbol": "LINE_OXOX",
+		"move_cost": 0,
+		"flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "FLAMMABLE_HARD" ],
+		"connects_to": "WALL",
+		"bash": {
+			"str_min": 12, "str_max": 90,
+			"sound": "crash!",
+			"sound": "bash!",
+			"ter_set": "t_null"
+	},{
         "type" : "terrain",
         "id" : "t_brick_wall_halfway",
         "name": "half-built brick wall",
         "description": "Half of a brick wall, looks like it still requires some more resources and effort before being considered a real wall.",
         "symbol": "#",
         "color": "brown",
-        "move_cost": 5,
+		"move_cost": 5,
         "flags": ["TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT"],
         "bash": {
             "str_min": 30, "str_max": 100,
@@ -102,7 +226,7 @@
             ]
         }
     },{
-        "type" : "terrain",
+        "type" : "terrain", 
         "id" : "t_sconc_wall",
         "name": "simple concrete wall",
         "description": "A durable and uniform concrete wall, quite drab without decoration.  More than capable of supporting a roof, as well as keeping out most anything, save for vehicles.",
@@ -1018,7 +1142,7 @@
         "type" : "terrain",
         "id" : "t_wall_wood_chipped",
         "name": "chipped wood wall",
-        "description": "A wall of aligned two by fours that's starting to crack and break open.  Some cut wood and a number of nails could patch this up quick.",
+        "description": "A wall of aligned two by fours that's starting to crack and break open.  Some cut wood and a number of nails could patch this up quick.	",
         "symbol": "LINE_OXOX",
         "color": "light_red",
         "move_cost": 0,
