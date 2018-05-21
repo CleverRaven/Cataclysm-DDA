@@ -1679,9 +1679,9 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
 
             break;
         case CATFOOD:
-            if( mon.type->id == mon_cat ) {
+            if( mon.has_flag( MF_CATFOOD ) ) {
                 p.add_msg_if_player( m_good,
-                         _( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
+                         _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 return 1;
             } else {
