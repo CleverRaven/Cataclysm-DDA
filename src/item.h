@@ -424,7 +424,6 @@ public:
     * @param batch The batch crafting number to multiply data by
     */
     std::string info( bool showtext, std::vector<iteminfo> &dump, int batch ) const;
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /** Burns the item. Returns true if the item was destroyed. */
     bool burn( fire_data &bd, bool contained );
