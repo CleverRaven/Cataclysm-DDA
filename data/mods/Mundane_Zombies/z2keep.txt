@@ -10,6 +10,7 @@ hazmat zombie : mon_zombie_hazmat
 skeleton : mon_skeleton
 swimmer zombie : mon_zombie_swimmer
 tough zombie : mon_zombie_tough
+zombie child : mon_zombie_child
 zombie soldier : mon_zombie_soldier
 zombie cop : mon_zombie_cop
 zombie : mon_zombie
