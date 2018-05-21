@@ -5229,13 +5229,13 @@
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 1,
-  "time": 8000,
+  "time": 2000,
   "autolearn": true,
   "qualities" : [ { "id" : "COOK","level" : 1,"amount" : 1 } ],
-  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
-    [ [ "grahmcrackers", 8 ] ],
-    [ [ "marshmallow", 8 ] ],
+    [ [ "grahmcrackers", 1 ] ],
+    [ [ "marshmallow", 1 ] ],
     [ [ "chocolate", 1 ] ]
   ]
 },{
