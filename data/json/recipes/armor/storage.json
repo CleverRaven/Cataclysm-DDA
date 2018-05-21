@@ -353,7 +353,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "fabrication", 1 ],
     "time": 1500,
     "autolearn": true,
     "using": [ [ "adhesive", 3 ] ],
