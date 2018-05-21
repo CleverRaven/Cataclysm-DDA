@@ -4,7 +4,7 @@
     "ident": "Mundane_Zombies",
     "name": "Mundane Zombies",
     "authors": [ "Theundyingcode", "daftfad" ],
-	"maintainers": [ "Theundyingcode" ],
+    "maintainers": [ "Theundyingcode" ],
     "description": "Removes all special zombies from the game.",
     "category": "monster_exclude",
     "dependencies": [ "dda" ],
