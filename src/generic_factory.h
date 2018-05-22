@@ -118,7 +118,7 @@ template<typename T>
 class generic_factory
 {
 
-	public:
+    public:
         virtual ~generic_factory() = default;
 
     private:
