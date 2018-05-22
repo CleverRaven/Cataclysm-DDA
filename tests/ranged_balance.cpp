@@ -247,7 +247,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with a modded shotgun" ) {
         arm_shooter( shooter, "ksg", { "red_dot_sight", "light_grip", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 9, 13, 35 );
-        test_fast_shooting( shooter, 70, 0.5 );
+        test_fast_shooting( shooter, 50, 0.5 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "pistol_scope", "barrel_big", "match_trigger", "adjustable_stock" } );
