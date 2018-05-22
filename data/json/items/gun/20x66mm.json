@@ -46,7 +46,7 @@
     "color": "dark_gray",
     "ammo": "20x66mm",
     "skill": "shotgun",
-    "dispersion": 90,
+    "dispersion": 490,
     "durability": 9,
     "burst": 4,
     "valid_mod_locations": [
