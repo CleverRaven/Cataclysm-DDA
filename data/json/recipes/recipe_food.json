@@ -9363,88 +9363,89 @@
       ]
     ]
 },{
-  "type" : "recipe",
+  "type": "recipe",
   "result": "haggis",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
-  "skills_required": [ "tailor", 1 ],
+  "skills_required": [
+    "tailor",
+    1
+  ],
   "time": 30000,
-  "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
-  "batch_time_factors":[50, 4],
-  "using": [ [ "filament", 2 ] ],
-  "qualities":[
-    {"id":"BOIL","level":1},
-    {"id":"COOK","level":3},
-    {"id":"CUT","level":1},
-    {"id":"SEW","level":1}
-  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+  "book_learn": [
+    [ "survival_book", 6 ],
+    [ "scots_cookbook", 3 ]
+  ],
+  "batch_time_factors": [
+    50,
+    4
+  ],
+  "using": [
+    [ "filament", 2 ]
+  ],
+  "qualities": [
+    { "id": "BOIL", "level": 1 },
+    { "id": "COOK", "level": 3 },
+    { "id": "CUT", "level": 1 },
+    { "id": "SEW", "level": 1 }
+  ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ]
+  ],
   "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "stomach", 1 ]
-    ],
-    [
-      [ "offal", 1 ]
-    ],
-    [
-      [ "oatmeal", 1 ],
-      [ "buckwheat", 1 ]
-    ],
-    [
-      [ "fat", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
-    ]
+    [ [ "water", 1 ], [ "water_clean", 1 ] ],
+    [ [ "stomach", 1 ] ],
+    [ [ "offal", 4 ], [ "meat", 2 ] ],
+    [ [ "oatmeal", 1 ], [ "buckwheat", 1 ] ],
+    [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
   ]
 },{
-  "type" : "recipe",
+  "type": "recipe",
   "result": "human_haggis",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
-  "skills_required": [ "tailor", 1 ],
+  "skills_required": [
+    "tailor",
+    1
+  ],
   "time": 30000,
-  "book_learn": [[ "cookbook_human", 3 ]],
-  "batch_time_factors":[50, 4],
-  "using": [ [ "filament", 2 ] ],
-  "qualities":[
-    {"id":"BOIL","level":1},
-    {"id":"COOK","level":3},
-    {"id":"CUT","level":1},
-    {"id":"SEW","level":1}
-  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+  "book_learn": [
+    [ "cookbook_human", 3 ]
+  ],
+  "batch_time_factors": [
+    50,
+    4
+  ],
+  "using": [
+    [ "filament", 2 ]
+  ],
+  "qualities": [
+    { "id": "BOIL", "level": 1 },
+    { "id": "COOK", "level": 3 },
+    { "id": "CUT", "level": 1 },
+    { "id": "SEW", "level": 1 }
+  ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ]
+  ],
   "components": [
+    [ [ "water", 1 ], [ "water_clean", 1 ] ],
+    [ [ "hstomach", 1 ] ],
+    [ [ "oatmeal", 1 ], [ "buckwheat", 1 ] ],
     [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "human_flesh", 2 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "dry_hflesh", 2 ],
+      [ "human_canned", 2 ],
+      [ "jerky_human", 2 ],
+      [ "hflesh_vac", 2 ],
+      [ "human_smoked", 2 ]
     ],
-    [
-      [ "hstomach", 1 ]
-    ],
-    [
-      [ "oatmeal", 1 ],
-      [ "buckwheat", 1 ]
-    ],
-    [
-      [ "human_flesh", 1 ],
-      [ "rehydrated_hflesh", 1 ],
-      [ "dry_hflesh", 1 ],
-      [ "human_canned", 1 ],
-      [ "jerky_human", 1 ],
-      [ "hflesh_vac", 1 ],
-      [ "human_smoked", 1 ]
-    ],
-    [
-      [ "fat", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
-    ]
+    [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
   ]
 },{
   "type" : "recipe",
