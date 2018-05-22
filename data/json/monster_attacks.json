@@ -40,5 +40,77 @@
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
     "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
     "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "dogbite",
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [
+      {
+        "damage_type": "stab",
+        "amount": 10,
+        "armor_penetration": 2,
+        "armor_multiplier": 0.5
+      }
+    ],
+    "body_parts": [ [ "FOOT_L", 3 ],[ "FOOT_R", 3 ], [ "LEG_L", 6 ], [ "LEG_R", 6 ], [ "HAND_L", 2 ], [ "HAND_R", 2 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
+    "effects": [
+      { "id": "bleed", "duration": 100 },
+      { "id": "grabbed", "duration": 300 }
+    ],
+    "hit_dmg_u": "The %1$s bites your %2$s!",
+    "hit_dmg_npc": "The %1$s bites <npcname>'s %2$s!",
+    "no_dmg_msg_u": "The %1$s tries to bite your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s tries to bite <npcname>'s %2$s, but fails to penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "fdogbite",
+    "cooldown": 20,
+    "move_cost": 135,
+    "damage_max_instance": [
+      {
+        "damage_type": "stab",
+        "amount": 13,
+        "armor_penetration": 4,
+        "armor_multiplier": 0.6
+      }
+    ],
+    "body_parts": [ [ "FOOT_L", 3 ],[ "FOOT_R", 3 ], [ "LEG_L", 6 ], [ "LEG_R", 6 ], [ "HAND_L", 2 ], [ "HAND_R", 2 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
+    "effects": [
+      { "id": "bleed", "duration": 150 },
+      { "id": "grabbed", "duration": 450 }
+    ],
+    "hit_dmg_u": "The %1$s ferociously bites your %2$s!",
+    "hit_dmg_npc": "The %1$s ferociously bites <npcname>'s %2$s!",
+    "no_dmg_msg_u": "The %1$s tries to bite your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s tries to bite <npcname>'s %2$s, but fails to penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "minordogbite",
+    "cooldown": 15,
+    "move_cost": 135,
+    "damage_max_instance": [
+      {
+        "damage_type": "stab",
+        "amount": 8,
+        "armor_penetration": 2,
+        "armor_multiplier": 0.5
+      }
+    ],
+    "body_parts": [ [ "FOOT_L", 3 ],[ "FOOT_R", 3 ], [ "LEG_L", 6 ] ],
+    "effects": [
+      { "id": "bleed", "duration": 50 },
+      { "id": "grabbed", "duration": 150 }
+    ],
+    "hit_dmg_u": "The %1$s nips at your %2$s!",
+    "hit_dmg_npc": "The %1$s nips at <npcname>'s %2$s!",
+    "no_dmg_msg_u": "The %1$s tries to nips at your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s tries to nips at <npcname>'s %2$s, but fails to penetrate their armor!"
   }
 ]
