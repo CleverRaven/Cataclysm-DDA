@@ -245,7 +245,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "a skilled shooter with a modded shotgun" ) {
-        arm_shooter( shooter, "remington_870", { "red_dot_sight", "light_grip", "tuned_mechanism" } );
+        arm_shooter( shooter, "ksg", { "red_dot_sight", "light_grip", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 9, 13, 35 );
         test_fast_shooting( shooter, 70, 0.5 );
     }
