@@ -273,8 +273,8 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 18, 20, 120 );
         test_fast_shooting( shooter, 20, 0.6 );
     }
-    SECTION( "an expert shooter with a heavily modded semi-auto shotgun" ) {
-        arm_shooter( shooter, "m1014", { "holo_sight", "light_grip", "tuned_mechanism", "barrel_rifled" } );
+    SECTION( "an expert shooter with a heavily modded auto shotgun" ) {
+        arm_shooter( shooter, "abzats", { "holo_sight", "light_grip", "tuned_mechanism", "barrel_rifled" } );
         test_shooting_scenario( shooter, 18, 20, 120 );
         test_fast_shooting( shooter, 80, 0.6 );
     }
