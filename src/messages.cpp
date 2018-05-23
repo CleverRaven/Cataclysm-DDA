@@ -157,7 +157,7 @@ class Messages::impl_t
                 return;
             }
 
-            msg = parse_descriptors( msg );
+            msg = parse_replacements( msg );
 
             while( messages.size() > 255 ) {
                 messages.pop_front();
@@ -216,7 +216,7 @@ void Messages::deserialize( JsonObject &json )
     obj.read( "curmes", player_messages.impl_->curmes );
 }
 
-std::string Messages::replace_msg( std::string& str, const std::string& from, const std::string& to )
+std::string Messages::replace_text( std::string& str, const std::string& from, const std::string& to )
 {
     size_t start_pos = str.find(from);
     if(start_pos == std::string::npos)
@@ -225,15 +225,19 @@ std::string Messages::replace_msg( std::string& str, const std::string& from, co
     return str;
 }
 
-std::string Messages::parse_descriptors( std::string msg )
+std::string Messages::parse_replacements( std::string msg )
 {
-    if ( g->u.has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
-        msg = replace_msg(msg, "Your", "Our");
-        msg = replace_msg(msg, "You're", "We are");
-        msg = replace_msg(msg, "your", "our");
-        msg = replace_msg(msg, "you're", "we are");
-        msg = replace_msg(msg, "You", "We");
-        msg = replace_msg(msg, "you", "us"); //when "you" is used in lowercase, it's usually something like "the zombie grabs you!", so replace it with us
+    if ( g->u.has_trait( trait_id( "THRESH_MYCUS" ) ) ) { //post-thresh mycus perceive themselves as plural
+        msg = replace_text(msg, "Your", "Our");
+        msg = replace_text(msg, "You're", "We are"); //cut out apostrophes, as the mycus is more static/formal
+        msg = replace_text(msg, "You are", "We are");
+        msg = replace_text(msg, "your", "our");
+        msg = replace_text(msg, "you're", "we are");
+        msg = replace_text(msg, "you are", "we are");
+        msg = replace_text(msg, "You", "We");
+        msg = replace_text(msg, "you hear", "we hear"); //this is an exception to the rule below, so we account for it
+        msg = replace_text(msg, "you had", "we had"); //so is this
+        msg = replace_text(msg, "you", "us"); //when "you" is used in lowercase, it's usually something like "the zombie grabs you!", so replace it with us
     }
     return msg;
 }
