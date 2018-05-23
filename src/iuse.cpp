@@ -7567,6 +7567,9 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
         time += ( 1000 * mod.volume() / 250_ml ) * pair.second;
         required_cleanser += ( mod.volume() / 1000_ml ) * pair.second;
     }
+    if( required_water < 1 ) {
+        required_water = 1;
+    }
     if( required_cleanser < 1 ) {
         required_cleanser = 1;
     }
