@@ -4,6 +4,6 @@
     "name": "DISPERSION_PER_GUN_DAMAGE",
     "info": "Value that adds to weapon dispersion per weapon damage value.",
     "stype": "int",
-    "value": 20
+    "value": 30
   }
 ]
