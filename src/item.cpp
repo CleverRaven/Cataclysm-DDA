@@ -2974,10 +2974,8 @@ int item::get_env_resist() const
     int resist_base = static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( resist_base, resist_filter );
-    // modify based on item health
-    float eff_resist = max_damage() + 1 - damage();
-    eff_resist /= max_damage() + 1;
-    return lround( resist * eff_resist );
+
+    return lround( resist * get_relative_health() );
 }
 
 int item::get_env_resist_w_filter() const
@@ -3342,6 +3340,11 @@ int item::min_damage() const
 int item::max_damage() const
 {
     return type->damage_max;
+}
+
+float item::get_relative_health() const
+{
+    return ( max_damage() + 1.0f - damage() ) / ( max_damage() + 1.0f );
 }
 
 bool item::mod_damage( double qty, damage_type dt )

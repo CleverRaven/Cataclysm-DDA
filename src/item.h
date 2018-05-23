@@ -825,6 +825,13 @@ public:
     int max_damage() const;
 
     /**
+     * Relative item health.
+     * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
+     * and values above 1 for reinforced ++items.
+     */
+    float get_relative_health() const;
+
+    /**
      * Apply damage to item constrained by @ref min_damage and @ref max_damage
      * @param qty maximum amount by which to adjust damage (negative permissible)
      * @param dt type of damage which may be passed to @ref on_damage callback
