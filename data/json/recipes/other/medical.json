@@ -118,11 +118,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skills_required": [ "firstaid", 1 ],
-    "difficulty": 1,
     "time": 1000,
     "autolearn": true,
     "components": [
-      [ [ "rag", 1 ] ],
+      [ [ "rag", 4 ] ],
       [ [ "disinfectant", 1 ] ]
     ]
   },
@@ -132,11 +131,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skills_required": [ "firstaid", 1 ],
-    "difficulty": 1,
     "time": 1000,
     "autolearn": true,
     "components": [
-      [ [ "cotton_ball", 1 ] ],
+      [ [ "cotton_ball", 2 ] ],
       [ [ "disinfectant", 1 ] ]
     ]
   }
