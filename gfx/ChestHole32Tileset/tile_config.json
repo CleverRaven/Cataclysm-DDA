@@ -58238,6 +58238,11 @@
           "rotates": false
         },
         {
+          "id": "mon_shoggoth",
+          "fg": 6367,
+          "rotates": false
+        },
+        {
           "id": ["hulk_weapon", "mon_zombie_brute_shocker"],
           "fg": 6376,
           "rotates": false
@@ -58255,11 +58260,6 @@
         {
           "id": "mon_jabberwock_pk",
           "fg": 6379,
-          "rotates": false
-        },
-        {
-          "id": "mon_shoggoth",
-          "fg": 6380,
           "rotates": false
         },
         {
