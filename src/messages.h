@@ -35,6 +35,8 @@ class Messages
                                       int bottom );
         static void serialize( JsonOut &jsout );
         static void deserialize( JsonObject &json );
+        static std::string parse_descriptors( std::string msg );
+        static std::string replace_msg( std::string& str, const std::string& from, const std::string& to );
     private:
         class impl_t;
         pimpl<impl_t> impl_;

@@ -1,7 +1,7 @@
 #include "messages.h"
 #include "input.h"
 #include "game.h"
-#include "player.h" // Only u.is_dead
+#include "player.h" // u.is_dead, plus post-thresh mycus check
 #include "debug.h"
 #include "compatibility.h" //to_string
 #include "json.h"
@@ -157,6 +157,8 @@ class Messages::impl_t
                 return;
             }
 
+            msg = parse_descriptors( msg );
+
             while( messages.size() > 255 ) {
                 messages.pop_front();
             }
@@ -212,6 +214,28 @@ void Messages::deserialize( JsonObject &json )
     JsonObject obj = json.get_object( "player_messages" );
     obj.read( "messages", player_messages.impl_->messages );
     obj.read( "curmes", player_messages.impl_->curmes );
+}
+
+std::string Messages::replace_msg( std::string& str, const std::string& from, const std::string& to )
+{
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return str;
+    str.replace(start_pos, from.length(), to);
+    return str;
+}
+
+std::string Messages::parse_descriptors( std::string msg )
+{
+    if ( g->u.has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
+        msg = replace_msg(msg, "Your", "Our");
+        msg = replace_msg(msg, "You're", "We are");
+        msg = replace_msg(msg, "your", "our");
+        msg = replace_msg(msg, "you're", "we are");
+        msg = replace_msg(msg, "You", "We");
+        msg = replace_msg(msg, "you", "us"); //when "you" is used in lowercase, it's usually something like "the zombie grabs you!", so replace it with us
+    }
+    return msg;
 }
 
 void Messages::add_msg( std::string msg )
