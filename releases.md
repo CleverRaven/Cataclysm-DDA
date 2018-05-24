@@ -12,7 +12,8 @@ Cataclysm: DDA is under constant development, we recommend you start with the la
 * [OSX Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Curses/)
 * [OSX Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Tiles/)
 
-For historical interest, here are the previous "Stable" releases.
+#### For historical interest, here are the previous "Stable" releases.
+
 ------------------
 {% for release in site.github.releases %}
   {{ release.name }}
