@@ -14,7 +14,6 @@
 #include "damage.h"
 #include "translations.h"
 #include "calendar.h"
-#include "mongroup.h"
 
 #include <string>
 #include <vector>
@@ -54,6 +53,8 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
 
