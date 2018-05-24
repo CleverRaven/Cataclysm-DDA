@@ -27,7 +27,7 @@ bool play_videogame( std::string function_name, std::map<std::string, std::strin
         catacurses::window katwin = catacurses::newwin( 20, 60, ( TERMY - 20 ) / 2, ( TERMX - 60 ) / 2 );
         robot_finds_kitten findkitten( katwin );
         bool foundkitten = findkitten.ret;
-        if( foundkitten == true ) {
+        if( foundkitten ) {
             game_data["end_message"] = _( "You found kitten!" );
             game_data["moraletype"] = "MORALE_GAME_FOUND_KITTEN";
             score = 30;

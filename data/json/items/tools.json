@@ -644,7 +644,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "BOLTCUTTERS"
+    "use_action": "BOLTCUTTERS",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "bone_flute",
@@ -1374,7 +1375,7 @@
     "type": "TOOL",
     "name": "cell phone",
     "name_plural": "cell phones",
-    "description": "This is a typical cellphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries. Also it has a clock app that includes an alarm.",
+    "description": "This is a typical cellphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.  Also it has a clock app that includes an alarm.",
     "weight": 226,
     "volume": 1,
     "price": 10000,
@@ -1587,7 +1588,8 @@
     "cutting": 2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "chisel",
@@ -1604,7 +1606,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 3 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "id": "circsaw_off",
@@ -2399,7 +2401,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD" ]
+    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
     "id": "eink_tablet_pc",
@@ -3534,7 +3536,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ]
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "halligan",
@@ -4504,7 +4507,7 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": "HAMMER",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "makeshift_knife",
@@ -5194,7 +5197,8 @@
     "to_hit": 1,
     "material": [ "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "pan",
@@ -5514,7 +5518,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ] ]
+    "qualities": [ [ "WRENCH", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "pockknife",
@@ -5674,7 +5679,8 @@
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 1 ] ]
+    "qualities": [ [ "SAW_W", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_axe",
@@ -5689,7 +5695,8 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ] ]
+    "qualities": [ [ "AXE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_hammer",
@@ -5704,7 +5711,8 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": "HAMMER"
+    "use_action": "HAMMER",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_knife",
@@ -6056,7 +6064,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "SAW_W", 2 ] ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "scalpel",
@@ -6159,7 +6167,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
     "id": "screwdriver_set",
@@ -6175,7 +6183,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ]
+    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "scythe",
@@ -6413,7 +6422,7 @@
     "id": "shotgun_trap",
     "type": "TOOL",
     "name": "shotgun trap",
-    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
     "weight": 2922,
     "volume": 7,
     "price": 25000,
@@ -6606,7 +6615,7 @@
         "type": "cauterize"
       }
     ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
     "id": "spear_knife",
@@ -7174,7 +7183,8 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "tool_anfo_charge",
@@ -7385,7 +7395,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "RDX charge",
-    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+    "description": "This is an metal keg, filled with 50 liters worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
     "weight": 106600,
     "volume": 200,
     "price": 90000,
@@ -7420,7 +7430,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "active RDX charge",
-    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+    "description": "This is an metal keg, filled with 50 liters worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
     "weight": 106600,
     "volume": 200,
     "price": 0,
@@ -8155,7 +8165,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "xacto",

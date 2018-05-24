@@ -11,6 +11,7 @@
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
+#include "vpart_position.h"
 #include "vehicle.h"
 #include "mapdata.h"
 #include "cata_utility.h"
@@ -524,9 +525,9 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     PickupMap mapPickup;
 
     if( from_vehicle ) {
-        int veh_root_part = -1;
-        veh = g->m.veh_at( pickup_target, veh_root_part );
-        cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+        const optional_vpart_position vp = g->m.veh_at( pickup_target );
+        veh = &vp->vehicle();
+        cargo_part = veh->part_with_feature( vp->part_index(), "CARGO", false );
     }
 
     bool problem = false;
@@ -575,18 +576,18 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
 // Pick up items at (pos).
 void Pickup::pick_up( const tripoint &pos, int min )
 {
-    int veh_root_part = 0;
     int cargo_part = -1;
 
-    vehicle *veh = g->m.veh_at( pos, veh_root_part );
+    const optional_vpart_position vp = g->m.veh_at( pos );
+    vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        switch( interact_with_vehicle( veh, pos, veh_root_part ) ) {
+        switch( interact_with_vehicle( veh, pos, vp ? vp->part_index() : -1 ) ) {
             case DONE:
                 return;
             case ITEMS_FROM_CARGO:
-                cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+                cargo_part = veh->part_with_feature( vp->part_index(), "CARGO", false );
                 from_vehicle = cargo_part >= 0;
                 break;
             case ITEMS_FROM_GROUND:

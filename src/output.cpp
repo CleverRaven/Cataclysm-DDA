@@ -910,7 +910,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if( vItemDisplay[i].is_int == true ) {
+                if( vItemDisplay[i].is_int ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
                     buffer << string_format( "%.2f", vItemDisplay[i].dValue );
@@ -2107,6 +2107,8 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
+// We need to override these for Windows console resizing
+#if !(defined _WIN32 || defined __WIN32__)
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
@@ -2117,6 +2119,7 @@ int get_terminal_height()
 {
     return get_option<int>( "TERMINAL_Y" );
 }
+#endif
 
 bool is_draw_tiles_mode()
 {

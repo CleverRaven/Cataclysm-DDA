@@ -21,6 +21,7 @@
 #include "sounds.h"
 #include "input.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "event.h"
 #include "catacharset.h"
 #include "ui.h"
@@ -736,7 +737,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 
     // Ask if there's something possibly more interesting than this rubble here
     std::string xname = g->m.furnname(examp);
-    if( ( g->m.veh_at( examp ) != nullptr ||
+    if( ( g->m.veh_at( examp ) ||
           !g->m.tr_at( examp ).is_null() ||
           g->critter_at( examp ) != nullptr ) &&
           !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
@@ -767,7 +768,7 @@ void iexamine::crate(player &p, const tripoint &examp)
     // Ask if there's something possibly more interesting than this crate here
     // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
     std::string xname = g->m.furnname(examp);
-    if( ( g->m.veh_at( examp ) != nullptr ||
+    if( ( g->m.veh_at( examp ) ||
           !g->m.tr_at( examp ).is_null() ||
           g->critter_at( examp ) != nullptr ) &&
           !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
@@ -2635,7 +2636,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
 {
     // Ask if there's something possibly more interesting than this shrub here
     if( ( !g->m.i_at( examp ).empty() ||
-          g->m.veh_at( examp ) != nullptr ||
+          g->m.veh_at( examp ) ||
           !g->m.tr_at( examp ).is_null() ||
           g->critter_at( examp ) != nullptr ) &&
           !query_yn(_("Forage through %s?"), g->m.tername( examp ).c_str() ) ) {

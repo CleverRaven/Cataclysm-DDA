@@ -464,8 +464,9 @@ class player : public Character
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
+         * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique );
+        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, bool allow_unarmed = true );
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).

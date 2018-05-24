@@ -161,7 +161,16 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
                             _("<npcname>'s %s is destroyed by the blow!"),
                             str.c_str());
+
     // Dump its contents on the ground
+    // Destroy irremovable mods, if any
+
+    for( auto mod : shield.gunmods() ) {
+        if( mod->is_irremovable() ) {
+            remove_item( *mod );
+        }
+    }
+
     for( auto &elem : shield.contents ) {
         g->m.add_item_or_charges( pos(), elem );
     }
@@ -274,7 +283,7 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
     p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
     // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
+    p.practice( weap.is_unarmed_weapon() ? skill_unarmed : skill_bashing,
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
@@ -286,7 +295,7 @@ void player::melee_attack( Creature &t, bool allow_special )
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique )
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, bool allow_unarmed )
 {
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
@@ -294,7 +303,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
 
-    item &cur_weapon = used_weapon();
+    item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
@@ -486,7 +495,7 @@ void player::reach_attack( const tripoint &p )
         return;
     }
 
-    melee_attack( *critter, false, force_technique );
+    melee_attack( *critter, false, force_technique, false );
 }
 
 int stumble( player &u, const item &weap )
@@ -521,7 +530,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( unarmed_attack() ) {
+    if( weap.is_unarmed_weapon() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
@@ -643,7 +652,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 {
     float bash_dam = 0.0f;
 
-    const bool unarmed = weap.has_flag("UNARMED_WEAPON");
+    const bool unarmed = weap.is_unarmed_weapon();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     if( has_active_bionic(bio_cqb) ) {
         skill = BIO_CQB_LEVEL;
@@ -733,7 +742,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         cutting_skill = BIO_CQB_LEVEL;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.is_unarmed_weapon() ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
@@ -806,7 +815,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
         stabbing_skill = BIO_CQB_LEVEL;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.is_unarmed_weapon() ) {
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
             weap.is_null();

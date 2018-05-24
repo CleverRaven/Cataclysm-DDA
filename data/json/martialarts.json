@@ -145,7 +145,7 @@
         "type" : "martial_art",
         "id" : "style_tai_chi",
         "name" : "Tai Chi",
-        "description" : "Though tai chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+        "description" : "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
         "arm_block" : 1,
         "leg_block" : 99,
         "static_buffs" : [
@@ -594,7 +594,7 @@
         "type" : "martial_art",
         "id" : "style_eskrima",
         "name" : "Eskrima",
-        "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasises rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+        "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [

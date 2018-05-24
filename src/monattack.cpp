@@ -21,6 +21,7 @@
 #include "iuse_actor.h"
 #include "gun_mode.h"
 #include "weighted_list.h"
+#include "vpart_position.h"
 #include "mongroup.h"
 #include "translations.h"
 #include "morale_types.h"
@@ -2821,9 +2822,8 @@ void mattack::tankgun( monster *z, Creature *target )
         return;
     }
     // Target the vehicle itself instead if there is one.
-    vehicle *veh = g->m.veh_at( target->pos() );
-    if( veh != nullptr ) {
-        aim_point = veh->global_pos3() + veh->rotated_center_of_mass();
+    if( const optional_vpart_position vp = g->m.veh_at( target->pos() ) ) {
+        aim_point = vp->vehicle().global_pos3() + vp->vehicle().rotated_center_of_mass();
     }
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.

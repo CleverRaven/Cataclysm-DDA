@@ -1788,7 +1788,7 @@
   "batch_time_factors": [ 80, 4 ],
   "qualities": [ { "id": "BOIL", "level": 1 } ],
   "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
-  "components": [ [ [ "lye", 40 ] ] ]
+  "components": [ [ [ "lye", 6 ] ] ]
 },{
   "type" : "recipe",
   "result": "heatpack",
@@ -1932,11 +1932,12 @@
      [ "cooking_oil", 2 ]
     ],
     [
-     [ "lye_powder", 10 ], [ "lye", 2 ]
+     [ "lye", 2 ],
+	 [ "lye_powder", 75 ]
     ],
     [
-     [ "water", 1 ],
-     [ "water_clean", 1 ]
+     [ "water", 2 ],
+     [ "water_clean", 2 ]
     ]
    ]
 },{
@@ -2369,7 +2370,7 @@
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
-    [ [ "ash", 50 ] ]
+    [ [ "ash", 500 ] ]
   ]
 }
 ]

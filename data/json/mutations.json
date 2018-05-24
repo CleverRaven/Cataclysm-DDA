@@ -2800,7 +2800,7 @@
         "id" : "PRED3",
         "name" : "Predator",
         "points" : 3,
-        "description" : "You consider yourself something other than human and no longer empathise with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
+        "description" : "You consider yourself something other than human and no longer empathize with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],

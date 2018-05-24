@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "translations.h"
 #include "veh_type.h"
+#include "vpart_position.h"
 #include "ui.h"
 #include "itype.h"
 #include "cata_utility.h"
@@ -513,6 +514,18 @@ bool veh_interact::can_install_part() {
             werase( w_msg );
             fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_red,
                             _( "Funnels need to be installed over a tank." ) );
+            wrefresh( w_msg );
+            return false;
+        }
+    }
+
+    if( sel_vpart_info->has_flag( "TURRET" ) ) {
+        if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
+            return veh->parts[e].is_turret();
+        } ) ) {
+            werase (w_msg );
+            fold_and_print( w_msg, 0, 1, getmaxx( w_msg) - 2, c_light_red,
+                            _( "Can't install turret on another turret." ) );
             wrefresh( w_msg );
             return false;
         }
@@ -1509,12 +1522,13 @@ bool veh_interact::do_relabel( std::string &msg )
         return false;
     }
 
+    const vpart_position vp( *veh, cpart );
     std::string text = string_input_popup()
                        .title( _( "New label:" ) )
                        .width( 20 )
-                       .text( veh->get_label( -ddx, -ddy ) )
+                       .text( vp.get_label().value_or( "" ) )
                        .query_string();
-    veh->set_label(-ddx, -ddy, text); // empty input removes the label
+    vp.set_label( text ); // empty input removes the label
     // refresh w_disp & w_part windows:
     move_cursor( 0, 0 );
 
@@ -1566,8 +1580,8 @@ void veh_interact::move_cursor (int dx, int dy)
     tripoint vehp = veh->global_pos3() + q;
     const bool has_critter = g->critter_at( vehp );
     bool obstruct = g->m.impassable_ter_furn( vehp );
-    vehicle *oveh = g->m.veh_at( vehp );
-    if( oveh != nullptr && oveh != veh ) {
+    const optional_vpart_position ovp = g->m.veh_at( vehp );
+    if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
@@ -2115,7 +2129,7 @@ void veh_interact::display_details( const vpart_info *part )
         fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part->power );
     }
 
-    // line 5 [vertical/hybrid] 6 [horizontal]: flags
+    // line 5 [vertical/hybrid] flags
     std::vector<std::string> flags = { { "OPAQUE", "OPENABLE", "BOARDABLE" } };
     std::vector<std::string> flag_labels = { { _("opaque"), _("openable"), _("boardable") } };
     std::string label;
@@ -2124,7 +2138,15 @@ void veh_interact::display_details( const vpart_info *part )
             label += ( label.empty() ? "" : " " ) + flag_labels[i];
         }
     }
+    // 6 [horizontal]: (column 1) flags    (column 2) battery capacity (if applicable)
     fold_and_print(w_details, line + 5, col_1, details_w, c_yellow, label);
+
+    if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) && !part->has_flag( VPFLAG_ALTERNATOR ) ) {
+        cata::optional<islot_magazine> battery = item::find_type( part->item )->magazine;
+        fold_and_print( w_details, line + 5, col_2, column_width, c_white,
+                        "%s: <color_light_gray>%d</color>", small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
+                        battery->capacity );
+    }
 
     wrefresh(w_details);
 }
@@ -2276,11 +2298,12 @@ void veh_interact::complete_vehicle()
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }
-    vehicle *veh = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );
-    if (!veh) {
+    const optional_vpart_position vp = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );
+    if( !vp ) {
         debugmsg ("Activity ACT_VEHICLE: vehicle not found");
         return;
     }
+    vehicle *const veh = &vp->vehicle();
 
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];

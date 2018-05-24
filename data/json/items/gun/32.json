@@ -36,8 +36,9 @@
     "id": "skorpion_61",
     "type": "GUN",
     "name": "Skorpion Vz. 61",
+    "//": "Total unloaded weight of gun 1301.81 grams, rounded to 1302.  Current weight of folding stock 200 grams.",
     "description": "The Skorpion Vz. 61 is a Czechoslovak submachine gun from the 1950s, chambered in .32 ACP.",
-    "weight": 1060,
+    "weight": 1102,
     "volume": 3,
     "price": 150000,
     "to_hit": -2,
@@ -50,6 +51,7 @@
     "dispersion": 360,
     "durability": 6,
     "burst": 14,
+    "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],

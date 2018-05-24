@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "effect.h"
 #include "mtype.h"
 #include "npc.h"
@@ -229,14 +230,14 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
     int pldist = rl_dist( pos(), g->u.pos() );
-    int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( pos(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
-        if( in_veh && g->m.veh_at( u.pos(), part ) == in_veh && in_veh->is_inside( part ) ) {
+        const optional_vpart_position vp = g->m.veh_at( u.pos() );
+        if( in_veh && veh_pointer_or_null( vp ) == in_veh && vp->is_inside() ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
@@ -278,7 +279,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->pos(), part ) == in_veh ) {
+        if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( m->pos() ) ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
@@ -798,7 +799,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
     }
 
-    if( found == false ) {
+    if( !found ) {
         // If we don't already have it then add a new one
 
         // Then check if the effect is blocked by another

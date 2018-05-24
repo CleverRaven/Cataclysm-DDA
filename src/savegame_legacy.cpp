@@ -204,7 +204,7 @@ void item::load_info( const std::string &data )
     for( int i = 0; i < tag_count; ++i )
     {
         dump >> item_tag;
-        if( itag2ivar(item_tag, item_vars ) == false ) {
+        if( !itag2ivar( item_tag, item_vars ) ) {
             item_tags.insert( item_tag );
         }
     }

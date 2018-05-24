@@ -10,6 +10,7 @@
 #include "json.h"
 #include "map.h"
 #include "mapgen.h"
+#include "map_extras.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"

@@ -22,6 +22,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "map_extras.h"
 #include "cata_utility.h"
 #include "sounds.h"
 #include "uistate.h"

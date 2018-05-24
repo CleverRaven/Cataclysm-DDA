@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-29 09:29-0400\n"
+"POT-Creation-Date: 2018-05-05 07:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,7 +111,7 @@ msgstr ""
 msgid "Auto pickup enabled"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager "
 "in the Help Menu ?3"
@@ -26960,15 +26960,6 @@ msgid ""
 "A massive and extremely powerful V12 engine, usually built into heavy trucks."
 msgstr ""
 
-#: lang/json/EXTERNAL_OPTION_from_json.py
-msgid "DISPERSION_PER_GUN_DAMAGE"
-msgstr ""
-
-#. ~ Please leave anything in <angle brackets> unchanged.
-#: lang/json/EXTERNAL_OPTION_from_json.py
-msgid "Value that adds to weapon dispersion per weapon damage value."
-msgstr ""
-
 #: lang/json/GENERIC_from_json.py
 msgid "explosive arrowhead"
 msgid_plural "explosive arrowheads"
@@ -30615,8 +30606,8 @@ msgstr[1] ""
 #. ~ Description for can sealer
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A hand crank powered cast aluminum machine designed to automatically seal "
-"tin cans."
+"A hand crank powered cast steel machine designed to automatically seal tin "
+"cans."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -40820,6 +40811,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "boulder anvil"
+msgid_plural "boulder anvils"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "cash card"
 msgid_plural "cash cards"
 msgstr[0] ""
@@ -41184,6 +41181,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
+#: lang/json/tool_quality_from_json.py
 msgid "anvil"
 msgid_plural "anvils"
 msgstr[0] ""
@@ -47064,6 +47062,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "bronze anvil"
+msgid_plural "bronze anvils"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bronze anvil
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a block of oddly shaped bronze with a chisel-like projection set "
+"into the corner.  It's used in most metalworking fabrication recipes."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "hobo stove"
 msgid_plural "hobo stoves"
 msgstr[0] ""
@@ -49705,10 +49716,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Standing Tank"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Place Anvil"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -53891,7 +53898,9 @@ msgstr ""
 
 #. ~ Description for small boulder
 #: lang/json/furniture_from_json.py
-msgid "Blocking your path.  Should be easy to move."
+msgid ""
+"Blocking your path.  Should be easy to move.  It can be used as a primitive "
+"anvil."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -53900,7 +53909,9 @@ msgstr ""
 
 #. ~ Description for medium boulder
 #: lang/json/furniture_from_json.py
-msgid "Blocking your path.  It'll be a struggle to move."
+msgid ""
+"Blocking your path.  It'll be a struggle to move.  It can be used as a "
+"primitive anvil."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -92765,10 +92776,6 @@ msgstr ""
 msgid "You feel much better."
 msgstr ""
 
-#: src/activity_handlers.cpp
-msgid "You washed your clothing."
-msgstr ""
-
 #. ~ Sound of a metal sawing tool at work!
 #: src/activity_handlers.cpp
 msgid "grnd grnd grnd"
@@ -92899,6 +92906,20 @@ msgstr ""
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "<npcname> puts several items in the %s."
+msgstr ""
+
+#: src/activity_item_handling.cpp src/iuse.cpp
+#, c-format
+msgid "You need %1$i charges of water or clean water to wash these items."
+msgstr ""
+
+#: src/activity_item_handling.cpp src/iuse.cpp
+#, c-format
+msgid "You need %1$i charges of cleansing agent to wash these items."
+msgstr ""
+
+#: src/activity_item_handling.cpp
+msgid "You washed your clothing."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -93685,7 +93706,7 @@ msgid ""
 "The first number is the summed encumbrance from all clothing on that "
 "bodypart.\n"
 "The second number is an additional encumbrance penalty caused by wearing "
-"multiple items on one of the bodypart's four layers.\n"
+"multiple items on one of the bodypart's layers.\n"
 "The sum of these values is the effective encumbrance value your character "
 "has for that bodypart."
 msgstr ""
@@ -95279,6 +95300,7 @@ msgstr ""
 msgid "abcdefghijklmnopqrstuvwxyz"
 msgstr ""
 
+#. ~ translators: place some random 2-width characters here in your language if possible, or leave it as is
 #: src/cata_utility.cpp
 msgid "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌"
 msgstr ""
@@ -97227,12 +97249,15 @@ msgid ""
 "  [s] search skills\n"
 "Special prefixes for results:\n"
 "  [Q] search qualities\n"
+"Other:\n"
+"  [m] search for memorized or not\n"
 "Examples:\n"
 "  t:soldering iron\n"
 "  c:two by four\n"
 "  q:metal sawing\n"
 "  s:cooking\n"
-"  Q:fine bolt turning"
+"  Q:fine bolt turning\n"
+"  m:no"
 msgstr ""
 
 #: src/crafting_gui.cpp
@@ -101884,7 +101909,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Nothing at (%d,%d) to knockback!"
+msgid "Nothing at (%d,%d,%d) to knockback!"
 msgstr ""
 
 #: src/game.cpp
@@ -103140,8 +103165,16 @@ msgid "The sign says: %s"
 msgstr ""
 
 #: src/game.cpp
+msgid "There is a sign here, but you are unable to read it."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "Written here: %s"
+msgstr ""
+
+#: src/game.cpp
+msgid "Something is written here, but you are unable to read it."
 msgstr ""
 
 #: src/game.cpp
@@ -103935,12 +103968,9 @@ msgstr ""
 #: src/game_inventory.cpp
 #, c-format
 msgid "Needs at least %d charge"
-msgstr ""
-
-#: src/game_inventory.cpp
-#, c-format
-msgid "Needs at least %d charges"
-msgstr ""
+msgid_plural "Needs at least %d charges"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/game_inventory.cpp
 msgid "Use item"
@@ -106904,12 +106934,12 @@ msgid "You need two items for comparison.  Use %s to select them."
 msgstr ""
 
 #: src/inventory_ui.cpp
-msgid "ITEMS TO DROP"
+#, c-format
+msgid "No items were selected.  Use %s to select them."
 msgstr ""
 
 #: src/inventory_ui.cpp
-#, c-format
-msgid "No items were selected.  Use %s to select them."
+msgid "ITEMS TO DROP"
 msgstr ""
 
 #: src/item.cpp
@@ -110594,6 +110624,7 @@ msgstr ""
 msgid "This memory card does not contain any new data."
 msgstr ""
 
+#. ~ photo quality adjective
 #: src/iuse.cpp
 msgid "awful"
 msgstr ""
@@ -110820,6 +110851,12 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "This photo is better than the previous one."
+msgstr ""
+
+#. ~ 1s - thing being photographed, 2s - photo quality (adjective).
+#: src/iuse.cpp
+#, c-format
+msgid "You took a photo of %1$s. It is %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -111299,21 +111336,27 @@ msgid "You set down the ladder."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "You're carrying too much to clean anything."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You need a cleansing agent to use this."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Wash what?"
+msgid "ITEMS TO CLEAN"
 msgstr ""
 
 #: src/iuse.cpp
-#, c-format
-msgid "You need %1$i charges of water or clean water to wash your %2$s."
+msgid "Multiclean"
 msgstr ""
 
 #: src/iuse.cpp
-#, c-format
-msgid "You need %1$i charges of cleansing agent to wash your %2$s."
+msgid "To clean x items, type a number before selecting."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You have nothing to clean."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -119686,7 +119729,7 @@ msgid " %s will leave doors open."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "YES MASTER"
+msgid "YES, MASTER!"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -120923,6 +120966,11 @@ msgstr ""
 
 #: src/options.cpp
 msgid ""
+"Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
 "If true, will enable to pickup items one tile around to the player.  You can "
 "assign No Auto Pickup zones with the Zones Manager 'Y' key for e.g.  your "
 "homebase."
@@ -121399,6 +121447,14 @@ msgstr ""
 
 #: src/overmap.cpp
 msgid "q or ESC to return."
+msgstr ""
+
+#: src/overmap.cpp
+msgid "Select terrain to place:"
+msgstr ""
+
+#: src/overmap.cpp
+msgid "Select special to place:"
 msgstr ""
 
 #: src/overmap.cpp

@@ -1670,17 +1670,14 @@
         "fun" : -50
     },
     {
-        "type" : "COMESTIBLE",
+        "type" : "GENERIC",
         "id" : "bone",
         "category" : "spare_parts",
         "name" : "bone",
         "weight" : 225,
         "color" : "white",
-        "comestible_type" : "FOOD",
         "symbol" : "%",
-        "healthy" : -1,
-        "nutrition" : 4,
-        "description" : "A bone from some creature or other.  Could be eaten or used to make some stuff, like needles.",
+        "description" : "A bone from some creature or other.  Could be used to make some stuff, like needles.",
         "price" : 0,
         "material" : "bone",
         "volume" : 1

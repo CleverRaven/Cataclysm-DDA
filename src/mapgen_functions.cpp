@@ -12,6 +12,7 @@
 #include "scenario.h"
 #include "item.h"
 #include "translations.h"
+#include "vpart_position.h"
 #include "trap.h"
 #include <array>
 #include "vehicle_group.h"
@@ -982,7 +983,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( roads_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
+        if( !roads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
             continue;
         }
 
@@ -1241,7 +1242,7 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, int, float )
     // which way should our subway curve, based on neighbor subway?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( subway_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "subway" ) {
+        if( !subway_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "subway" ) {
             continue;
         }
 

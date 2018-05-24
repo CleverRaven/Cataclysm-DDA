@@ -328,7 +328,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 
     while (input != 'q' && input != 'Q' && input != 27 /*escape*/) {
         process_input(input, w);
-        if(ret == true) {
+        if( ret ) {
             break;
         }
         /* Redraw robot, where available */

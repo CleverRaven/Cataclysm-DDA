@@ -409,7 +409,7 @@ struct islot_gun : common_ranged_data {
     int reload_noise_volume = 0;
 
     /** Maximum aim achievable using base weapon sights */
-    int sight_dispersion = 120;
+    int sight_dispersion = 30;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;

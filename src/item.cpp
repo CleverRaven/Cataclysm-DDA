@@ -18,6 +18,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "text_snippets.h"
+#include "vpart_position.h"
 #include "material.h"
 #include "item_factory.h"
 #include "projectile.h"
@@ -389,6 +390,11 @@ bool item::is_null() const
     static const std::string s_null("null"); // used a lot, no need to repeat
     // Actually, type should never by null at all.
     return (type == nullptr || type == nullitem() || typeId() == s_null);
+}
+
+bool item::is_unarmed_weapon() const
+{
+    return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
 bool item::covers( const body_part bp ) const
@@ -822,7 +828,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         if( count_by_charges() && !is_food() ) {
             info.push_back( iteminfo( "BASE", _( "Amount: " ), "<num>", charges * batch, true, "", true, false, true ) );
         }
-        if( debug == true ) {
+        if( debug ) {
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
                                           to_hours<int>( age() ), true, "", true, true ) );
@@ -863,7 +869,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) * batch ) ) );
-        if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
+        if( food_item->corpse != NULL && ( debug || ( g != NULL &&
                                            ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
@@ -3102,7 +3108,7 @@ bool item::can_revive() const
 
 bool item::ready_to_revive( const tripoint &pos ) const
 {
-    if(can_revive() == false) {
+    if( !can_revive() ) {
         return false;
     }
     int age_in_hours = to_hours<int>( age() );
@@ -4057,10 +4063,12 @@ int item::gun_dispersion( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
     }
-    // Dividing dispersion by 3 temporarily as a gross adjustment,
+
+    // Dividing dispersion by 15 temporarily as a gross adjustment,
     // will bake that adjustment into individual gun definitions in the future.
-    // Absolute minimum gun dispersion is 45.
-    dispersion_sum = std::max( dispersion_sum / 3, 45 );
+    // Absolute minimum gun dispersion is 1.
+    dispersion_sum = std::max( static_cast<int>( std::round( dispersion_sum / 15.0 ) ), 1 );
+
     return dispersion_sum;
 }
 
@@ -4070,7 +4078,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = has_flag( "DISABLE_SIGHTS" ) ? 500 : type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? 90 : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto &mod = *e->type->gunmod;
@@ -5649,8 +5657,7 @@ bool item::process_cable( player *p, const tripoint &pos )
         return false;
     }
 
-    auto veh = g->m.veh_at( source );
-    if( veh == nullptr || ( source.z != g->get_levz() && !g->m.has_zlevels() ) ) {
+    if( !g->m.veh_at( source ) || ( source.z != g->get_levz() && !g->m.has_zlevels() ) ) {
         if( p != nullptr && p->has_item( *this ) ) {
             p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
         }

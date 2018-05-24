@@ -20,6 +20,7 @@
 #include "player.h"
 #include "vehicle.h"
 #include "uistate.h"
+#include "vpart_position.h"
 #include "action.h"
 #include "monstergenerator.h"
 #include "speech.h"
@@ -64,6 +65,7 @@
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_cat( "mon_cat" );
+const mtype_id mon_hologram ( "mon_hologram" );
 const mtype_id mon_dog( "mon_dog" );
 const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_fly( "mon_fly" );
@@ -1665,8 +1667,8 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                     p.add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                     return 1;
                 }
-            } else if( mon.type->id == mon_dog ) {
-                p.add_msg_if_player( m_good, _( "The dog seems to like you!" ) );
+            } else if( mon.has_flag( MF_DOGFOOD ) ) {
+                p.add_msg_if_player( m_good, _( "The %s seems to like you!  It lets you pat its head and seems friendly." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 mon.add_effect( effect_pet, 1_turns, num_bp, true );
                 return 1;
@@ -1677,9 +1679,9 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
 
             break;
         case CATFOOD:
-            if( mon.type->id == mon_cat ) {
+            if( mon.has_flag( MF_CATFOOD ) ) {
                 p.add_msg_if_player( m_good,
-                         _( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
+                         _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 return 1;
             } else {
@@ -2772,12 +2774,12 @@ int iuse::siphon(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    vehicle *veh = g->m.veh_at(posp);
-    if (veh == NULL) {
+    const optional_vpart_position vp = g->m.veh_at( posp );
+    if( !vp ) {
         p->add_msg_if_player(m_info, _("There's no vehicle there."));
         return 0;
     }
-    act_vehicle_siphon( veh );
+    act_vehicle_siphon( &vp->vehicle() );
     return it->type->charges_to_use();
 }
 
@@ -3956,7 +3958,7 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     }
     p->add_msg_if_player(_("You blow your dog whistle."));
     for( monster &critter : g->all_monsters() ) {
-        if( critter.friendly != 0 && critter.type->id == mon_dog ) {
+        if( critter.friendly != 0 && critter.has_flag( MF_DOGFOOD ) ) {
             bool u_see = g->u.sees( critter );
             if( critter.has_effect( effect_docile ) ) {
                 if (u_see) {
@@ -4286,7 +4288,7 @@ int iuse::portable_structure(player *p, item *it, bool, const tripoint& )
     const tripoint center( radius * ( dirx - p->posx() ) + dirx, radius * (diry - p->posy()) + diry, p->posz() );
     for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
         if (!g->m.has_flag("FLAT", dest) ||
-             g->m.veh_at( dest ) != nullptr ||
+             g->m.veh_at( dest ) ||
             !g->is_empty( dest ) ||
              g->critter_at( dest ) != nullptr ||
                 g->m.has_furn(dest)) {
@@ -7163,9 +7165,9 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"),posp)) {
             return 0;
         }
-        auto veh = g->m.veh_at( posp );
+        const optional_vpart_position vp = g->m.veh_at( posp );
         auto ter = g->m.ter( posp );
-        if( veh == nullptr && ter != t_chainfence_h && ter != t_chainfence_v ) {
+        if( !vp && ter != t_chainfence_h && ter != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
@@ -7201,18 +7203,18 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        int target_part_num;
-        auto target_veh = g->m.veh_at( vpos, target_part_num );
-        if (target_veh == nullptr) {
+        const optional_vpart_position target_vp = g->m.veh_at( vpos );
+        if( !target_vp ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
+            vehicle *const target_veh = &target_vp->vehicle();
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = g->m.getlocal(source_global);
-            int source_part_num;
-            auto source_veh = g->m.veh_at( source_local, source_part_num );
+            const optional_vpart_position source_vp = g->m.veh_at( source_local );
+            vehicle *const source_veh = veh_pointer_or_null( source_vp );
 
             if(source_veh == target_veh) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -7240,13 +7242,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             // a iuse_actor class, or add a check in item_factory.
             const vpart_id vpid( it->typeId() );
 
-            point vcoords = veh_part_coordinates( *source_veh, source_part_num );
+            point vcoords = veh_part_coordinates( *source_veh, source_vp->part_index() );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
-            vcoords = veh_part_coordinates( *target_veh, target_part_num );
+            vcoords = veh_part_coordinates( *target_veh, target_vp->part_index() );
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
@@ -7326,11 +7328,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     }
 
     if( it->typeId() == "weather_reader" ) {
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at( p->pos(), vpart );
         int vehwindspeed = 0;
-        if( veh ) {
-            vehwindspeed = abs( veh->velocity / 100 ); // For mph
+        if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
+            vehwindspeed = abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
@@ -7348,6 +7348,30 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     }
 
     return 0;
+}
+
+int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
+{
+    if ( it->is_armor() &&  !( p->is_worn( *it ) ) ) {
+        p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before activating it." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    tripoint posp = pos;
+    if ( !choose_adjacent( _( "Choose hologram direction." ), posp ) ) {
+        return 0;
+    }
+    if ( !g->is_empty( posp ) ) {
+        p->add_msg_if_player( m_info, _( "Can't create a hologram there." ) );
+        return 0;
+    }
+    monster *const hologram = g->summon_mon( mon_hologram, posp );
+    tripoint target = pos;
+    target.x = p->posx() + 2 * SEEX * ( posp.x - p->posx() );
+    target.y = p->posy() + 2 * SEEY * ( posp.y - p->posy() );
+    hologram->set_dest( target );
+    p->mod_moves( -100 );
+    return it->type->charges_to_use();
 }
 
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
@@ -7542,6 +7566,9 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
         required_water += ( mod.volume() / 125_ml ) * pair.second;
         time += ( 1000 * mod.volume() / 250_ml ) * pair.second;
         required_cleanser += ( mod.volume() / 1000_ml ) * pair.second;
+    }
+    if( required_water < 1 ) {
+        required_water = 1;
     }
     if( required_cleanser < 1 ) {
         required_cleanser = 1;

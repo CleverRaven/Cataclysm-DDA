@@ -8,6 +8,7 @@
 #include "game.h"
 #include "fungal_effects.h"
 #include "messages.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "material.h"
 #include "monster.h"
@@ -462,6 +463,28 @@ field_id field_from_ident(const std::string &field_ident)
     return fd_null;
 }
 
+void map::create_burnproducts( const tripoint p, const item &fuel ) {
+    std::vector<material_id> all_mats = fuel.made_of();
+    if( all_mats.empty() ) {
+        return; 
+    }
+    units::mass fuel_weight = fuel.weight( false );
+    //Items that are multiple materials are assumed to be equal parts each.
+    units::mass by_weight = fuel_weight / all_mats.size();
+    for( auto &mat : all_mats ) {
+        for( auto &bp : mat->burn_products() ) {
+            itype_id id = bp.first;
+            float eff = bp.second;
+            int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+
+            if( n <= 0 ) {
+                continue;
+            }
+            spawn_item( p, id, n, 1, calendar::turn );
+        }
+    }
+}
+
 bool map::process_fields()
 {
     bool dirty_transparency_cache = false;
@@ -878,6 +901,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 bool destroyed = fuel->burn( frd, can_spread);
 
                                 if( destroyed ) {
+                                    create_burnproducts( p, *fuel );
                                     // If we decided the item was destroyed by fire, remove it.
                                     // But remember its contents
                                     std::copy( fuel->contents.begin(), fuel->contents.end(),
@@ -1616,8 +1640,6 @@ void map::player_in_field( player &u )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
     field &curfield = get_field( u.pos() );
-    int veh_part; // vehicle part existing on this tile.
-    vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
     //to modify power of a field based on... whatever is relevant for the effect.
     int adjusted_intensity;
@@ -1625,8 +1647,9 @@ void map::player_in_field( player &u )
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if (u.in_vehicle) {
-        veh = veh_at( u.pos(), veh_part );
-        inside = (veh && veh->is_inside(veh_part));
+        if( const optional_vpart_position vp = veh_at( u.pos() ) ) {
+            inside = vp->is_inside();
+        }
     }
 
     // Iterate through all field effects on this tile.

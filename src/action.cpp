@@ -19,6 +19,8 @@
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "optional.h"
 
 #include <istream>
 #include <sstream>
@@ -500,9 +502,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 
 bool can_examine_at( const tripoint &p )
 {
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( p, veh_part );
-    if( veh ) {
+    if( g->m.veh_at( p ) ) {
         return true;
     }
     if( g->m.has_flag( "CONSOLE", p ) ) {
@@ -532,9 +532,10 @@ bool can_interact_at( action_id action, const tripoint &p )
             return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_CLOSE: {
-            int vpart;
-            const vehicle *const veh = g->m.veh_at( p, vpart );
-            return ( veh && veh->next_part_to_close( vpart, g->m.veh_at( g->u.pos() ) != veh ) >= 0 ) ||
+            const optional_vpart_position vp = g->m.veh_at( p );
+            return ( vp &&
+                     vp->vehicle().next_part_to_close( vp->part_index(),
+                             veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
                    g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         }
@@ -589,13 +590,9 @@ action_id handle_action_menu()
     }
 
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    {
-        int veh_part = 0;
-        vehicle *veh = g->m.veh_at( g->u.pos(), veh_part );
-        if( veh ) {
-            // Make it 300 to prioritize it before examining the vehicle.
-            action_weightings[ACTION_CONTROL_VEHICLE] = 300;
-        }
+    if( g->m.veh_at( g->u.pos() ) ) {
+        // Make it 300 to prioritize it before examining the vehicle.
+        action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,

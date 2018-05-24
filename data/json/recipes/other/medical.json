@@ -111,5 +111,31 @@
       [ [ "cooking_oil", 2 ] ],
       [ [ "thyme", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "disinrag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skills_required": [ "firstaid", 1 ],
+    "time": 1000,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "disinfectant", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "disincotton_ball",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skills_required": [ "firstaid", 1 ],
+    "time": 1000,
+    "autolearn": true,
+    "components": [
+      [ [ "cotton_ball", 2 ] ],
+      [ [ "disinfectant", 1 ] ]
+    ]
   }
 ]

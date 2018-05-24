@@ -10,6 +10,7 @@
 #include "weather.h"
 #include "item.h"
 #include "translations.h"
+#include "vpart_position.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "martialarts.h"
@@ -464,7 +465,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
-        veh = g->m.veh_at( pos() );
+        veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
