@@ -11,5 +11,9 @@
   {
     "type": "WORLD_OPTION",
     "options": [ "NO_VITAMINS" ]
+  },
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [ "calcium_tablet", "vitamins" ], "//": "Gummy vitamins not included here due to having an enjoyment level"
   }
 ]
