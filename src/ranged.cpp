@@ -1517,13 +1517,12 @@ static bool is_driving( const player &p )
 
 static double dispersion_from_skill( double skill, double weapon_dispersion )
 {
-    if( skill >= MAX_SKILL ) {
-        return 0.0;
-    }
     double skill_shortfall = double( MAX_SKILL ) - skill;
     // Flat penalty of 3 dispersion per point of skill under max.
     double dispersion_penalty = 3.0 * skill_shortfall;
     if( skill >= 5 ) {
+        // Limiting skill_shortfall to reduce accuracy of nearly max skill character.
+        skill_shortfall = std::max( skill_shortfall, 2.0 );
         // Lack of mastery multiplies the dispersion of the weapon.
         return dispersion_penalty + skill_shortfall * weapon_dispersion / 5.0;
     }
