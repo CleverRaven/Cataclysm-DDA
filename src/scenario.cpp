@@ -13,6 +13,7 @@
 #include "profession.h"
 #include "mutation.h"
 #include "mapgen.h"
+#include "map_extras.h"
 #include "generic_factory.h"
 
 namespace
