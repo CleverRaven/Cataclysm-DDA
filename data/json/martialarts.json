@@ -75,7 +75,7 @@
         "type" : "martial_art",
         "id" : "style_boxing",
         "name" : "Boxing",
-        "description" : "Sport of the true Gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
+        "description" : "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
         "arm_block" : 2,
         "leg_block" : 99,
            "static_buffs" : [

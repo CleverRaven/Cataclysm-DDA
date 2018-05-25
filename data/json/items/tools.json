@@ -853,8 +853,8 @@
   {
     "id": "bot_antimateriel",
     "type": "TOOL",
-    "name": "inactive antimateriel turret",
-    "description": "This is an inactive antimateriel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "name": "inactive anti-materiel turret",
+    "description": "This is an inactive anti-materiel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with a built-in rifle.",
     "weight": 1550,
     "volume": 14,
     "price": 500500,

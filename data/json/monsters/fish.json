@@ -318,7 +318,7 @@
     "id": "mon_fish_salmon",
     "type": "MONSTER",
     "name": "salmon",
-    "description": "A salmon.  A very fatty, nutricious fish.  Tastes great smoked.",
+    "description": "A salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "default_faction": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
