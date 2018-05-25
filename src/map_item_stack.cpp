@@ -1,6 +1,7 @@
 #include "map_item_stack.h"
 
 #include "item.h"
+#include "item_category.h"
 #include "item_search.h"
 #include "line.h"
 

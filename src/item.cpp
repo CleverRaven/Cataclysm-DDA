@@ -5,6 +5,7 @@
 #include "advanced_inv.h"
 #include "player.h"
 #include "enums.h"
+#include "item_category.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "output.h"
@@ -6042,37 +6043,6 @@ skill_id item::contextualize_skill( const skill_id &id ) const
     }
 
     return id;
-}
-
-item_category::item_category() : id(), name(), sort_rank( 0 )
-{
-}
-
-item_category::item_category( const std::string &id_, const std::string &name_,
-                              int sort_rank_ )
-    : id( id_ ), name( name_ ), sort_rank( sort_rank_ )
-{
-}
-
-bool item_category::operator<( const item_category &rhs ) const
-{
-    if( sort_rank != rhs.sort_rank ) {
-        return sort_rank < rhs.sort_rank;
-    }
-    if( name != rhs.name ) {
-        return name < rhs.name;
-    }
-    return id < rhs.id;
-}
-
-bool item_category::operator==( const item_category &rhs ) const
-{
-    return sort_rank == rhs.sort_rank && name == rhs.name && id == rhs.id;
-}
-
-bool item_category::operator!=( const item_category &rhs ) const
-{
-    return !( *this == rhs );
 }
 
 bool item::is_filthy() const

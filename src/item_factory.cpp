@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "assign.h"
 #include "string_formatter.h"
+#include "item_category.h"
 #include "init.h"
 #include "item.h"
 #include "ammo.h"

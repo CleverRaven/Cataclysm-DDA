@@ -7,6 +7,7 @@
 #include "map_selector.h"
 #include "output.h"
 #include "translations.h"
+#include "item_category.h"
 #include "string_formatter.h"
 #include "options.h"
 #include "messages.h"
