@@ -22,6 +22,7 @@ mtype::mtype()
     def_chance = 0;
     upgrades = false;
     half_life = -1;
+    age_grow = -1;
     upgrade_into = mtype_id::NULL_ID();
     upgrade_group = mongroup_id::NULL_ID();
     burn_into = mtype_id::NULL_ID();
