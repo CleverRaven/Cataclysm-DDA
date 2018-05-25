@@ -13,22 +13,27 @@
  */
 class item_category
 {
-    public:
+    private:
         /** Unique ID of this category, used when loading from JSON. */
-        std::string id;
+        std::string id_;
         /** Name of category for displaying to the user (localized) */
-        std::string name;
+        std::string name_;
         /** Used to sort categories when displaying.  Lower values are shown first. */
-        int sort_rank = 0;
+        int sort_rank_ = 0;
 
+    public:
         item_category() = default;
         /**
-         * @param id @ref id
-         * @param name @ref name
-         * @param sort_rank @ref sort_rank
+         * @param id @ref id_
+         * @param name @ref name_
+         * @param sort_rank @ref sort_rank_
          */
-        item_category( const std::string &id, const std::string &name, int sort_rank ) : id( id ),
-            name( name ), sort_rank( sort_rank ) { }
+        item_category( const std::string &id, const std::string &name, int sort_rank ) : id_( id ),
+            name_( name ), sort_rank_( sort_rank ) { }
+
+        std::string name() const;
+        std::string id() const;
+        int sort_rank() const;
 
         /**
          * Comparison operators

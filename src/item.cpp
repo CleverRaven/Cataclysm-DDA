@@ -738,7 +738,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
     };
 
     if( !is_null() ) {
-        info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name + "</header>",
+        info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name() + "</header>",
                                   -999, true, "", false ) );
         const int price_preapoc = price( false ) * batch;
         const int price_postapoc = price( true ) * batch;
@@ -2927,9 +2927,9 @@ int item::spoilage_sort_order()
     }
 
     if ( subject->type->comestible ) {
-        if ( subject->type->category->id == "food" ) {
+        if ( subject->type->category->id() == "food" ) {
             return bottom - 3;
-        } else if ( subject->type->category->id == "drugs" ) {
+        } else if ( subject->type->category->id() == "drugs" ) {
             return bottom - 2;
         } else {
             return bottom - 1;
