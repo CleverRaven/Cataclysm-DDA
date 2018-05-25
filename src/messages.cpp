@@ -1,7 +1,6 @@
 #include "messages.h"
 #include "input.h"
 #include "game.h"
-#include "player.h" // Only u.is_dead
 #include "debug.h"
 #include "compatibility.h" //to_string
 #include "json.h"
@@ -142,10 +141,6 @@ class Messages::impl_t
 
         void add_msg_string( std::string &&msg, game_message_type const type ) {
             if( msg.length() == 0 ) {
-                return;
-            }
-            // hide messages if dead
-            if( g->u.is_dead_state() ) {
                 return;
             }
 
