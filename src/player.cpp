@@ -1783,6 +1783,14 @@ void player::recalc_speed_bonus()
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
 
+    int isBonusDex = dex_cur - get_option<int>("SPEEDYDEX_BASE_DEX");
+
+    if (isBonusDex > 0)
+    {
+        mod_speed_bonus(dex_cur * get_option<int>("SPEEDYDEX_SPEED_PER_DEX"));
+    }
+
+
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = int( -0.75 * get_speed_base() );
     if( get_speed_bonus() < min_speed_bonus ) {

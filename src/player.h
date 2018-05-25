@@ -165,6 +165,8 @@ class player : public Character
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
+        int current_stat_bonus;
+
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }

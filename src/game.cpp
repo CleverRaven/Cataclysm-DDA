@@ -1772,6 +1772,7 @@ int game::kill_count( const species_id &spec )
 void game::increase_kill_count( const mtype_id& id )
 {
     kills[id]++;
+
 }
 
 void game::record_npc_kill( const npc &p )
@@ -13014,6 +13015,73 @@ void game::wait()
         as_m.addentry( retval, true, hotkey, text );
         durations[retval] = duration;
     };
+
+    int totalkills = 0;
+    for (const auto &type : MonsterGenerator::generator().get_all_mtypes()) {
+        if (kill_count(type.id) > 0) {
+            totalkills += kill_count(type.id);
+        }
+    }
+    if (totalkills >= (get_option<int>("STATS_PER_KILLS_BASE") * u.current_stat_bonus) + (get_option<int>("STATS_PER_KILLS_ADDL") * u.current_stat_bonus))
+    {
+        u.current_stat_bonus++;
+        if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "random")
+        {
+            int whichStat = dice(1, 4);
+            switch (whichStat) {
+            case 1: u.dex_max++;
+                break;
+            case 2: u.str_max++;
+                break;
+            case 3: u.per_max++;
+                break;
+            case 4: u.int_max++;
+                break;
+            }
+        }
+        else if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "even")
+        {
+            u.reset_stats();
+        }
+        else if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "chosen")
+        {
+            //antioops later
+            //sorry about your wasted points
+            uimenu statMenu;
+            statMenu.text = "janky implementation sorry";
+            statMenu.return_invalid = true;
+            statMenu.addentry("Strength");
+            statMenu.addentry("Perception");
+            statMenu.addentry("Intelligence");
+            statMenu.addentry("Dexterity");
+            statMenu.query();
+            std::string message = "";
+            game_message_type gmtSCTcolor = m_neutral;
+
+            if (statMenu.ret == 0)
+            {
+                u.str_max++;
+                message = "Strength increased! Rip and tear!";
+            }
+            else if (statMenu.ret == 1)
+            {
+                u.per_max++;
+                message = "Perception increased! See.. things.";
+            }
+            else if (statMenu.ret == 2)
+            {
+                u.int_max++;
+                message = "You only lack the ability to describe how smart you're getting.";
+            }
+            else if (statMenu.ret == 3)
+            {
+                u.dex_max++;
+                message = "You suddenly feel a lowered fear of the knife game.";
+            }
+            u.add_msg_if_player(message);
+        }
+        u.add_msg_if_player("%i current count, %i required, %i stats acquired", totalkills, (get_option<int>("STATS_PER_KILLS_BASE") * u.current_stat_bonus) + (get_option<int>("STATS_PER_KILLS_ADDL") * u.current_stat_bonus));
+    }
 
     add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
     add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
