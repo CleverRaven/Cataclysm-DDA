@@ -552,7 +552,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
         const item_category *new_cat = entry.get_category_ptr();
 
         return cur_cat == new_cat || ( cur_cat != nullptr && new_cat != nullptr
-                                    && cur_cat->sort_rank() <= new_cat->sort_rank() );
+                                    && ( *cur_cat == *new_cat || *cur_cat < *new_cat ) );
     } );
     entries.insert( iter.base(), entry );
     entries_cell_cache.clear();
