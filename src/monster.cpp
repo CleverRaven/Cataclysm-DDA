@@ -185,7 +185,7 @@ monster::monster( const mtype_id& id ) : monster()
     morale = type->morale;
     faction = type->default_faction;
     ammo = type->starting_ammo;
-    upgrades = type->upgrades && type->half_life;
+    upgrades = type->upgrades && (type->half_life || type->age_grow);
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -257,6 +257,9 @@ void monster::hasten_upgrade() {
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
+    if ( type->age_grow > 0){
+        return type->age_grow;
+    }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
     for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
@@ -277,15 +280,15 @@ void monster::try_upgrade(bool pin_time) {
         return;
     }
 
-    const int current_day = to_days<int>( calendar::time_of_cataclysm - calendar::turn );
-
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    //This should only occur when a monster is created or upgraded to a new form
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
         if (upgrade_time < 0) {
             return;
         }
-        if (pin_time) {
-            // offset by today
+        if (pin_time || type->age_grow > 0) {
+            // offset by today, always true for growing creatures
             upgrade_time += current_day;
         } else {
             // offset by starting season
