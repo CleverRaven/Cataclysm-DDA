@@ -807,6 +807,8 @@ selection_column::selection_column( const std::string &id, const std::string &na
     inventory_column( selection_preset ),
     selected_cat( id, name, 0 ) {}
 
+selection_column::~selection_column() = default;
+
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
@@ -1406,6 +1408,8 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     append_column( map_column );
     append_column( own_gear_column );
 }
+
+inventory_selector::~inventory_selector() = default;
 
 bool inventory_selector::empty() const
 {
