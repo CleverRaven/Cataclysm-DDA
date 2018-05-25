@@ -254,6 +254,8 @@ std::string action_ident( action_id act )
             return "quicksave";
         case ACTION_QUICKLOAD:
             return "quickload";
+		case ACTION_CHECKSTATS:
+			return "checkstats";
         case ACTION_QUIT:
             return "quit";
         case ACTION_PL_INFO:

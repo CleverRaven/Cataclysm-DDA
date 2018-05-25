@@ -746,6 +746,7 @@ void game::setup()
     next_npc_id = 1;
     next_mission_id = 1;
     new_game = true;
+	u.current_stat_bonus = 0;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -2120,6 +2121,7 @@ input_context get_default_mode_input_context()
 #ifndef RELEASE
     ctxt.register_action("quickload");
 #endif
+	ctxt.register_action("checkstats");
     ctxt.register_action("quit");
     ctxt.register_action("player_data");
     ctxt.register_action("map");
@@ -3280,6 +3282,10 @@ bool game::handle_action()
         case ACTION_QUICKLOAD:
             quickload();
             return false;
+
+		case ACTION_CHECKSTATS:
+			checkstats();
+			return false;
 
         case ACTION_PL_INFO:
             u.disp_info();
@@ -13016,73 +13022,6 @@ void game::wait()
         durations[retval] = duration;
     };
 
-    int totalkills = 0;
-    for (const auto &type : MonsterGenerator::generator().get_all_mtypes()) {
-        if (kill_count(type.id) > 0) {
-            totalkills += kill_count(type.id);
-        }
-    }
-    if (totalkills >= (get_option<int>("STATS_PER_KILLS_BASE") * u.current_stat_bonus) + (get_option<int>("STATS_PER_KILLS_ADDL") * u.current_stat_bonus))
-    {
-        u.current_stat_bonus++;
-        if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "random")
-        {
-            int whichStat = dice(1, 4);
-            switch (whichStat) {
-            case 1: u.dex_max++;
-                break;
-            case 2: u.str_max++;
-                break;
-            case 3: u.per_max++;
-                break;
-            case 4: u.int_max++;
-                break;
-            }
-        }
-        else if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "even")
-        {
-            u.reset_stats();
-        }
-        else if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "chosen")
-        {
-            //antioops later
-            //sorry about your wasted points
-            uimenu statMenu;
-            statMenu.text = "janky implementation sorry";
-            statMenu.return_invalid = true;
-            statMenu.addentry("Strength");
-            statMenu.addentry("Perception");
-            statMenu.addentry("Intelligence");
-            statMenu.addentry("Dexterity");
-            statMenu.query();
-            std::string message = "";
-            game_message_type gmtSCTcolor = m_neutral;
-
-            if (statMenu.ret == 0)
-            {
-                u.str_max++;
-                message = "Strength increased! Rip and tear!";
-            }
-            else if (statMenu.ret == 1)
-            {
-                u.per_max++;
-                message = "Perception increased! See.. things.";
-            }
-            else if (statMenu.ret == 2)
-            {
-                u.int_max++;
-                message = "You only lack the ability to describe how smart you're getting.";
-            }
-            else if (statMenu.ret == 3)
-            {
-                u.dex_max++;
-                message = "You suddenly feel a lowered fear of the knife game.";
-            }
-            u.add_msg_if_player(message);
-        }
-        u.add_msg_if_player("%i current count, %i required, %i stats acquired", totalkills, (get_option<int>("STATS_PER_KILLS_BASE") * u.current_stat_bonus) + (get_option<int>("STATS_PER_KILLS_ADDL") * u.current_stat_bonus));
-    }
-
     add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
     add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
 
@@ -13249,6 +13188,78 @@ void game::quicksave()
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     last_save_timestamp = now;
+}
+
+void game::checkstats()
+{
+		int totalkills = 0;
+	for (const auto &type : MonsterGenerator::generator().get_all_mtypes()) {
+		if (kill_count(type.id) > 0) {
+			totalkills += kill_count(type.id);
+		}
+	}
+	int killgoal = (get_option<int>("STATS_PER_KILLS_BASE") * u.current_stat_bonus) + (get_option<int>("STATS_PER_KILLS_ADDL") * u.current_stat_bonus);
+	u.add_msg_if_player("You have %i kills so far, and you need %i to get your next level. You have gotten %i stats. ", totalkills, killgoal, u.current_stat_bonus);
+	if (totalkills >= killgoal)
+	{
+		u.current_stat_bonus++;
+		if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "random")
+		{
+			int whichStat = dice(1, 4);
+			switch (whichStat) {
+			case 1: u.dex_max++;
+				break;
+			case 2: u.str_max++;
+				break;
+			case 3: u.per_max++;
+				break;
+			case 4: u.int_max++;
+				break;
+			}
+		}
+		else if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "even")
+		{
+			u.reset_stats();
+		}
+		else if (get_option<std::string>("STATS_PER_KILLS_METHOD") == "chosen")
+		{
+			//antioops later
+			//sorry about your wasted points
+			uimenu statMenu;
+			statMenu.text = "janky implementation sorry";
+			statMenu.return_invalid = true;
+			statMenu.addentry("Strength");
+			statMenu.addentry("Perception");
+			statMenu.addentry("Intelligence");
+			statMenu.addentry("Dexterity");
+			statMenu.query();
+			std::string message = "";
+			game_message_type gmtSCTcolor = m_neutral;
+
+			if (statMenu.ret == 0)
+			{
+				u.str_max++;
+				message = "Strength increased! Rip and tear!";
+			}
+			else if (statMenu.ret == 1)
+			{
+				u.per_max++;
+				message = "Perception increased! See.. things.";
+			}
+			else if (statMenu.ret == 2)
+			{
+				u.int_max++;
+				message = "You only lack the ability to describe how smart you're getting.";
+			}
+			else if (statMenu.ret == 3)
+			{
+				u.dex_max++;
+				message = "You suddenly feel a lowered fear of the knife game.";
+			}
+			u.add_msg_if_player(message);
+		}
+	}
+
 }
 
 void game::quickload()
