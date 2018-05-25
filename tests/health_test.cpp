@@ -9,7 +9,6 @@
 static void test_diet( size_t num_days, npc &dude, const std::array<int, 4> hmod_changes_per_day,
                        int min, int max )
 {
-    size_t num_iters = DAYS( num_days ) / HOURS( 6 );
     std::vector<int> health_samples;
     for( size_t i = 0; i < num_days; i++ ) {
         // 4 updates per day
