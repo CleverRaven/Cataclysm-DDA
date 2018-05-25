@@ -626,6 +626,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
+        optional( up, was_loaded, "age_grow", age_grow, -1 );
         optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {},
                   mongroup_id::NULL_ID() );
         optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {},
@@ -916,8 +917,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.upgrades ) {
-            if( mon.half_life < 0 ) {
-                debugmsg( "half_life %d (< 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
+            if( mon.half_life < 0 && mon.age_grow < 0) {
+                debugmsg( "half_life %d and age_grow %d (<0) of monster %s is invalid",
+                         mon.half_life, mon.age_grow, mon.id.c_str() );
             }
             if( !mon.upgrade_into && !mon.upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );
