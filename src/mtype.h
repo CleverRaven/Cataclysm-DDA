@@ -263,6 +263,7 @@ struct mtype {
         // Monster upgrade variables
         bool upgrades;
         int half_life;
+        int age_grow;
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
