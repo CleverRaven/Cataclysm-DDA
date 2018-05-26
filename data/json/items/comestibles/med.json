@@ -1151,6 +1151,7 @@
         "stack_size" : 20,
         "symbol" : "!",
         "color" : "magenta",
+        "healthy" : 1,
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You take the %s.",
