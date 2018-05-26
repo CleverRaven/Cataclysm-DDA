@@ -907,7 +907,7 @@ class jmapgen_loot : public jmapgen_piece {
             if( !group.empty() && !item_group::group_is_defined( group ) ) {
                 jsi.throw_error( "no such item group", "group" );
             }
-            if( !name.empty() && !item_controller->has_template( name ) ) {
+            if( !name.empty() && !item::type_is_defined( name ) ) {
                 jsi.throw_error( "no such item", "item" );
             }
 
