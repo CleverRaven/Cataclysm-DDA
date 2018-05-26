@@ -1311,7 +1311,7 @@
             "torso_power" : 1,
             "bite" : 0.75,
             "move_cost" : 200,
-            "used_up_item" : "rag"
+            "used_up_item" : { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
         }
     },
     {
@@ -1330,7 +1330,7 @@
             "limb_power" : 1,
             "bite" : 0.95,
             "move_cost" : 300,
-            "used_up_item" : "cotton_ball"
+            "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
         }
     }
 ]

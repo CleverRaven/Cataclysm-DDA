@@ -2738,7 +2738,15 @@ void heal_actor::load( JsonObject &obj )
         }
     }
 
-    used_up_item = obj.get_string( "used_up_item", used_up_item );
+    if( obj.has_string( "used_up_item" ) ) {
+        used_up_item_id = obj.get_string( "used_up_item", used_up_item_id );
+    } else if( obj.has_object( "used_up_item" ) ) {
+        JsonObject u = obj.get_object( "used_up_item" );
+        used_up_item_id = u.get_string( "id", used_up_item_id );
+        used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
+        used_up_item_charges = u.get_int( "charges", used_up_item_charges );
+        used_up_item_flags = u.get_tags( "flags" );
+    }
 }
 
 player &get_patient( player &healer, const tripoint &pos )
@@ -2898,14 +2906,21 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
-    if( !used_up_item.empty() ) {
+    if( !used_up_item_id.empty() ) {
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
-            it.convert( used_up_item );
+            it.convert( used_up_item_id );
+            for( const auto &flag : used_up_item_flags ) {
+                it.set_flag( flag );
+            }
         } else {
-            item used_up( used_up_item, it.birthday() );
-            healer.i_add_or_drop( used_up );
+            item used_up( used_up_item_id, it.birthday() );
+            used_up.charges = used_up_item_charges;
+            for( const auto &flag : used_up_item_flags ) {
+                used_up.set_flag( flag );
+            }
+            healer.i_add_or_drop( used_up, used_up_item_quantity );
         }
     }
 
