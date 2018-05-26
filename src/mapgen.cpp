@@ -30,7 +30,6 @@
 #include "mapgen_functions.h"
 #include "mtype.h"
 #include "itype.h"
-#include "item_factory.h"
 #include "computer.h"
 #include "optional.h"
 #include "map_iterator.h"
