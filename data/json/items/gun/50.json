@@ -14,7 +14,7 @@
     "bashing": 12,
     "material": "steel",
     "ammo": "50",
-    "range": 75,
+    "range": 80,
     "ranged_damage": -5,
     "dispersion": 90,
     "durability": 8,
