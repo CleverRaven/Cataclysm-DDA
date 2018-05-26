@@ -1364,6 +1364,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         // use newit, the default constructed.
         item act_item = newit;
 
+        // Refitted clothing disassembles into refitted components (when applicable)
+        if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
+            act_item.item_tags.insert( "FIT" );
+        }
+
         if( filthy ) {
             act_item.item_tags.insert( "FILTHY" );
         }
