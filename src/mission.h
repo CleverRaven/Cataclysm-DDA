@@ -260,8 +260,9 @@ private:
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
         std::string monster_type;    // Monster ID that are to be killed
-        species_id monster_species;
-        int monster_kill_goal;  // the kill count you wish to reach
+        species_id monster_species;  // Monster species that are to be killed
+        int monster_kill_goal;  // The number of monsters you need to kill
+        int kill_count_to_reach; // The kill count you need to reach to complete mission
         int deadline;           // Turn number
         int npc_id;             // ID of a related npc
         int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
