@@ -81,6 +81,7 @@ class monster : public Creature
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade( bool pin_time );
+        void try_reproduce();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         int get_hp( hp_part ) const override;
@@ -424,6 +425,7 @@ class monster : public Creature
         void init_from_item( const item &itm );
 
         int last_updated;
+        int last_baby;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -448,6 +450,8 @@ class monster : public Creature
         int next_upgrade_time();
         bool upgrades;
         int upgrade_time;
+        bool reproduces;
+        int baby_timer;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
