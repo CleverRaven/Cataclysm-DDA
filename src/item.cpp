@@ -2397,30 +2397,31 @@ enum naming_style : int {
 
 naming_style item::get_naming_style() const
 {
-    if( is_container() && !contents.empty() ) {
-        // Items like boxes and bottles which are explicitly containers
-        // as opposed to non-container items with contents or charges
-        return NAMING_CONTAINER_TRAILING;
-    } else if( is_gun() || is_magazine() || is_bandolier() ) {
-        // All ranged weapons, magazines, and bandoliers/quivers
+    if( is_gun() || is_magazine() || is_bandolier() ) {
+        // Guns, magazines, and bandoliers first because we want them to use
+        // the AMMO_TYPE style and we don't want them treated as armor.
         return NAMING_WITH_AMMO_TYPE;
     } else if( is_armor() && !contents.empty() ) {
-        // Armor and clothing with non-empty contents (sheaths, holsters, etc)
+        // All wearable items with contents (holsters, waterskins, etc)
+        // Wearable weapons (like rifles with slings) were caught earlier.
         return NAMING_CONTAINER_LEADING;
+    } else if( is_container() && !contents.empty() ) {
+        // Items with the container type; things like bottles and boxes.
+        // Non-container items with ammo/contents won't get caught here.
+        return NAMING_CONTAINER_TRAILING;
     } else if( ammo_capacity() > 0 ) {
         // Other items that use ammo (like flashlights and sewing kits)
         return NAMING_WITH_CHARGES;
     } else if( !contents.empty() ) {
         // Any other item with non-empty contents
-        // I'm not aware of any such items not accounted for in
-        // previous conditions so this generates a debug message.
-        debugmsg( string_format( "Unclassified non-empty item: %s", tname() ) );
+        // This includes: USB Drives and possibly other items
         return NAMING_CONTAINER_TRAILING;
-    } else if( is_book() && get_chapters() > 0 ) {
-        // Books with chapters remaining (for the current character)
+    } else if( get_chapters() > 0 ) {
+        // Books with chapters remaining
         return NAMING_WITH_CHARGES;
     } else if( count_by_charges() && !has_infinite_charges() ) {
-        // Items with finite non-ammo charges (like lighters and food)
+        // Items with finite non-ammo charges.
+        // Things like lighters, drugs, food, fuel, and more.
         return NAMING_WITH_CHARGES;
     } else {
         // Items that don't need their contents, charges, or ammo type
@@ -2433,12 +2434,10 @@ std::string item::display_name( unsigned int quantity ) const
 {
     const naming_style style = get_naming_style();
 
-    // Allocate all the strings we might need
     std::string item_text;
     std::string charges_text;
     std::string content_text;
     std::string ammo_type_text;
-
     unsigned int _charges = 0;
 
     if( style == NAMING_SIMPLE ) {
@@ -2450,7 +2449,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     if( style == NAMING_CONTAINER_LEADING || style == NAMING_CONTAINER_TRAILING ) {
         // This is recursive so keep an eye on it, could be a source of
-        // trouble if container type items continue to become more complex
+        // trouble if container-like items continue to become more complex
         if( !contents.empty() ) {
             if( contents.size() > 1 ) {
                 //~ This string replaces the name of the item in a container when there is more than one item. %1$i is the number of items without adornment (like 3 or 10).
@@ -2483,7 +2482,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    // Generate ammo type text, ex: (9x19mm FMJ) (00 Shot)
+    // Generate ammo type text, ex: (9x19mm FMJ) or (00 Shot)
     if( style == NAMING_WITH_AMMO_TYPE ) {
         if( ammo_data() ) {
             // Most guns use ammo_data()
@@ -2500,7 +2499,8 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( style == NAMING_SIMPLE ) {
-        return string_format( _( "%1$s" ), item_text );
+        //~ This string is used for an item name with no other components. %1$s is the name of the item.
+        return string_format( _( "%1$s" ), item_text);
     } else if( style == NAMING_WITH_CHARGES ) {
         //~ This string combines the full item name with the number of charges. %1$s is the item name with all modifiers (damaged, burned, (wet), etc) and %2$s is the the number of charges in parentheses like (10)
         return string_format( _( "%1$s%2$s" ), item_text, charges_text );
