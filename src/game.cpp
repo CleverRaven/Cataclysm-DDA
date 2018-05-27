@@ -8313,7 +8313,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
             m.sees_some_items( points_p_it, u ) ) {
 
             for( auto &elem : m.i_at( points_p_it ) ) {
-                const std::string name = elem.tname();
+                const std::string name = elem.display_name();
                 const tripoint relative_pos = points_p_it - u.pos();
 
                 if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
@@ -8864,7 +8864,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         if( iter->vIG.size() > 1 ) {
                             sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
                         }
-                        sText << iter->example->tname();
+                        sText << iter->example->display_name();
                         if( iter->vIG[iThisPage].count > 1 ) {
                             sText << " [" << iter->vIG[iThisPage].count << "]";
                         }
