@@ -97,7 +97,6 @@
 #include "projectile.h"
 #include "game_inventory.h"
 #include "gates.h"
-#include "item_factory.h"
 #include "scent_map.h"
 #include "safemode_ui.h"
 #include "game_constants.h"
