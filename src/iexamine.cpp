@@ -546,8 +546,7 @@ void iexamine::vending( player &p, const tripoint &examp )
             auto const color = (i == cur_pos) ? h_light_gray : c_light_gray;
             auto const &elem = item_list[i];
             const int count = elem->second.size();
-            const char c = (count < 10) ? ('0' + count) : '*';
-            trim_and_print(w, first_item_offset + line, 1, w_items_w-3, color, "%c %s", c, elem->first.c_str());
+            trim_and_print(w, first_item_offset + line, 2, w_items_w-5, color, "%2ix %s", count, elem->first.c_str());
         }
 
         draw_scrollbar(w, cur_pos, list_lines, num_items, first_item_offset);
