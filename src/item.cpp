@@ -2519,6 +2519,17 @@ std::string item::display_name( unsigned int quantity ) const
     }
 }
 
+std::string item::sorting_name( unsigned int quantity ) const
+{
+    const naming_style style = get_naming_style();
+
+    if( style == NAMING_CONTAINER_TRAILING && !contents.empty() ) {
+       return contents.front().tname(1, false);
+    } else {
+        return tname(quantity, false);
+    }
+}
+
 nc_color item::color() const
 {
     if( is_null() )

@@ -363,12 +363,20 @@ public:
      * in additional inventory)
      */
     std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+
     /**
      * Returns the item name and the charges or contained charges (if the item can have
      * charges at all). Calls @ref tname with given quantity and with_prefix being true.
      */
     std::string display_name( unsigned int quantity = 1) const;
 
+    /**
+     * Return the name of the item to be used for sorting. This excludes item
+     * prefixes and may return the name of an item's contents depending on
+     * naming style
+     */
+    std::string sorting_name( unsigned int quantity ) const;
+    
     /**
      * Name of the item type (not the item), with proper plural.
      * This is only special when the item itself has a special name ("name" entry in
