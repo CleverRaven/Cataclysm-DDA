@@ -6723,7 +6723,6 @@
     "vision_day": 10,
     "vision_night": 3,
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ [ "DERMATIK_GROWTH", 1000 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS", "POISON", "LARVA", "STUMBLES" ]
   },
   {
