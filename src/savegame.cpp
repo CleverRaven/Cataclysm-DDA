@@ -114,6 +114,7 @@ void game::serialize(std::ostream & fout) {
         json.end_array();
 
         json.member( "player", u );
+		json.member("stats", g->u.current_stat_bonus);
         Messages::serialize( json );
 
         json.end_object();
@@ -241,7 +242,8 @@ void game::unserialize(std::istream & fin)
         }
 
         data.read("player", u);
-        Messages::deserialize( data );
+		data.read("stats", u.current_stat_bonus);
+		Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );

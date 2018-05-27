@@ -746,7 +746,6 @@ void game::setup()
     next_npc_id = 1;
     next_mission_id = 1;
     new_game = true;
-	u.current_stat_bonus = 0;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -840,7 +839,7 @@ bool game::start_game()
     m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( point(u.global_omt_location().x, u.global_omt_location().y), get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0);
-
+	u.current_stat_bonus = 0;
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
