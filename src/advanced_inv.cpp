@@ -2,6 +2,7 @@
 #include "game.h"
 #include "player.h"
 #include "output.h"
+#include "item_category.h"
 #include "map.h"
 #include "debug.h"
 #include "catacharset.h"

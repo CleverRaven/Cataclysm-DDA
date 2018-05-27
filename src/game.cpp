@@ -9,6 +9,7 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
+#include "item_category.h"
 #include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
@@ -96,7 +97,6 @@
 #include "projectile.h"
 #include "game_inventory.h"
 #include "gates.h"
-#include "item_factory.h"
 #include "scent_map.h"
 #include "safemode_ui.h"
 #include "game_constants.h"
@@ -8761,7 +8761,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             }
             std::string last_cat_name;
             for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, ( int )filtered_items.size() ); i++ ) {
-                const std::string &cat_name = filtered_items[i].example->get_category().name;
+                const std::string &cat_name = filtered_items[i].example->get_category().name();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
@@ -11446,6 +11446,7 @@ void game::place_player( const tripoint &dest_loc )
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = pos;
                         u.activity.auto_resume = true;
+                        u.activity.str_values.push_back("auto_pulp_no_acid");
                         return;
                     }
                 }
@@ -11930,7 +11931,10 @@ void game::autoattack()
     int reach = u.weapon.reach_range( u );
     auto critters = u.get_hostile_creatures( reach );
     if( critters.empty() ) {
-        add_msg( m_info, _( "No hostile creature in reach." ) );
+        add_msg( m_info, _( "No hostile creature in reach. Waiting a turn." ) );
+        if( check_safe_mode_allowed() ) {
+            u.pause();
+        }
         return;
     }
 

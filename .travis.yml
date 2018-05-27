@@ -143,6 +143,15 @@ matrix:
         apt:
           packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
+          
+    # Clang 6.0
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      dist: trusty
+      compiler: clang
+      addons: &clang60
+        apt:
+          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          sources: *apt_sources
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi

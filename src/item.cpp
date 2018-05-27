@@ -5,6 +5,7 @@
 #include "advanced_inv.h"
 #include "player.h"
 #include "enums.h"
+#include "item_category.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "output.h"
@@ -737,7 +738,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
     };
 
     if( !is_null() ) {
-        info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name + "</header>",
+        info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name() + "</header>",
                                   -999, true, "", false ) );
         const int price_preapoc = price( false ) * batch;
         const int price_postapoc = price( true ) * batch;
@@ -3030,9 +3031,9 @@ int item::spoilage_sort_order()
     }
 
     if ( subject->type->comestible ) {
-        if ( subject->type->category->id == "food" ) {
+        if ( subject->type->category->id() == "food" ) {
             return bottom - 3;
-        } else if ( subject->type->category->id == "drugs" ) {
+        } else if ( subject->type->category->id() == "drugs" ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -6150,37 +6151,6 @@ skill_id item::contextualize_skill( const skill_id &id ) const
     }
 
     return id;
-}
-
-item_category::item_category() : id(), name(), sort_rank( 0 )
-{
-}
-
-item_category::item_category( const std::string &id_, const std::string &name_,
-                              int sort_rank_ )
-    : id( id_ ), name( name_ ), sort_rank( sort_rank_ )
-{
-}
-
-bool item_category::operator<( const item_category &rhs ) const
-{
-    if( sort_rank != rhs.sort_rank ) {
-        return sort_rank < rhs.sort_rank;
-    }
-    if( name != rhs.name ) {
-        return name < rhs.name;
-    }
-    return id < rhs.id;
-}
-
-bool item_category::operator==( const item_category &rhs ) const
-{
-    return sort_rank == rhs.sort_rank && name == rhs.name && id == rhs.id;
-}
-
-bool item_category::operator!=( const item_category &rhs ) const
-{
-    return !( *this == rhs );
 }
 
 bool item::is_filthy() const

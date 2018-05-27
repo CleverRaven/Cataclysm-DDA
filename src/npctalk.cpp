@@ -4427,7 +4427,7 @@ enum consumption_result {
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // @todo: Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_container();
+    bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;
     if( !comest ) {

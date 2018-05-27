@@ -1907,8 +1907,7 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost += 8;
     }
 
-    if( !footwear_factor() && has_trait( trait_ROOTS3 ) &&
-        g->m.has_flag( "DIGGABLE", pos() ) ) {
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
         movecost += 10 * footwear_factor();
     }
 
@@ -7134,7 +7133,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber() > 20 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name.c_str() ) ) );
     }
@@ -9923,7 +9922,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
-                iter = decltype(iter)( worn.erase( --iter.base() ) );
+                iter = decltype(iter)( worn.erase( --( iter.base() ) ) );
             } else {
                 ++iter;
                 outermost = false;
