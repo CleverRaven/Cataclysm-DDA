@@ -634,6 +634,18 @@ void mtype::load( JsonObject &jo, const std::string &src )
         upgrades = true;
     }
 
+    //Reproduction
+    if( jo.has_member( "reproduction" ) ) {
+        JsonObject repro = jo.get_object( "reproduction" );
+        optional( repro, was_loaded, "baby_count", baby_count, -1 );
+        optional( repro, was_loaded, "baby_timer", baby_timer, -1 );
+        optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
+                  mtype_id::NULL_ID() );
+        optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
+                  "null" );
+        reproduces = true;
+    }
+
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
 
@@ -934,6 +946,30 @@ void MonsterGenerator::check_monster_definitions() const
             if( !mon.upgrade_group.is_valid() ) {
                 debugmsg( "upgrade_group %s of monster %s is not a valid monster group id",
                           mon.upgrade_group.c_str(), mon.id.c_str() );
+            }
+        }
+        if( mon.reproduces ) {
+            if( mon.baby_timer < 1) {
+                debugmsg( "Time between reproductions (%d) is invalid for %s",
+                         mon.baby_timer, mon.id.c_str() );
+            }
+            if( mon.baby_count < 1) {
+                debugmsg( "Number of children (%d) is invalid for %s",
+                         mon.baby_count, mon.id.c_str() );
+            }
+            if( !mon.baby_monster && mon.baby_egg == "null" ) {
+                debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
+            }
+            if( mon.baby_monster && mon.baby_egg != "null") {
+                debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
+            }
+            if( !mon.baby_monster.is_valid() ) {
+                debugmsg( "baby_monster %s of monster %s is not a valid monster id",
+                          mon.baby_monster.c_str(), mon.id.c_str() );
+            }
+            if( !item::type_is_defined( mon.baby_egg )) {
+                debugmsg( "item_id %s of monster %s is not a valid monster group id",
+                          mon.baby_egg.c_str(), mon.id.c_str() );
             }
         }
     }
