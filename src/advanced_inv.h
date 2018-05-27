@@ -156,7 +156,7 @@ struct advanced_inv_listitem {
     /**
      * Name of the item (singular) without damage (or similar) prefix, used for sorting.
      */
-    std::string name_without_prefix;
+    std::string sorting_name;
     /**
      * Whether auto pickup is enabled for this item (based on the name).
      */
