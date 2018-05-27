@@ -169,6 +169,8 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
+    baby_timer = -1;
+    last_baby = 0;
 }
 
 monster::monster( const mtype_id& id ) : monster()
@@ -186,6 +188,7 @@ monster::monster( const mtype_id& id ) : monster()
     faction = type->default_faction;
     ammo = type->starting_ammo;
     upgrades = type->upgrades && (type->half_life || type->age_grow);
+    reproduces = type->reproduces && type->baby_timer;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -235,6 +238,7 @@ void monster::poly( const mtype_id& id )
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
+    reproduces = type->reproduces;
 }
 
 bool monster::can_upgrade() {
@@ -280,6 +284,7 @@ void monster::try_upgrade(bool pin_time) {
         return;
     }
 
+    //const int current_day = to_days<int>( calendar::time_of_cataclysm - calendar::turn );
     const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
     //This should only occur when a monster is created or upgraded to a new form
     if (upgrade_time < 0) {
@@ -325,6 +330,38 @@ void monster::try_upgrade(bool pin_time) {
             return;
         }
         upgrade_time += next_upgrade;
+    }
+}
+
+void monster::try_reproduce() {
+    if( !reproduces ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    if (baby_timer < 0) {
+        baby_timer = type->baby_timer;
+        if (baby_timer < 0) {
+            return;
+        }
+        baby_timer += current_day;
+    }
+
+    while (true) {
+        if (baby_timer > current_day) {
+            return;
+        }
+        if( type->baby_monster ) {
+            g->m.add_spawn(type->baby_monster, type->baby_count, pos().x, pos().y);
+        } else {
+            g->m.add_item_or_charges(pos(), item( type->baby_egg, DAYS(baby_timer), type->baby_count), true);
+        }
+
+        const int next_baby = type->baby_timer;
+        if (next_baby < 0) {
+            return;
+        }
+        baby_timer += next_baby;
     }
 }
 
