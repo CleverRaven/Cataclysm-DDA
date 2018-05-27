@@ -268,6 +268,13 @@ struct mtype {
         mongroup_id upgrade_group;
         mtype_id burn_into;
 
+        // Monster reproduction variables
+        bool reproduces;
+        int baby_timer;
+        int baby_count;
+        mtype_id baby_monster;
+        itype_id baby_egg;
+
         // Monster's ability to destroy terrain and vehicles
         int bash_skill;
 
