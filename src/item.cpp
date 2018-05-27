@@ -2354,7 +2354,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
-    std::string vehtext = "";
+    std::string vehtext;
     if( is_engine() && engine_displacement() > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ),
                                  engine_displacement() / 100.0f );
@@ -4437,9 +4437,9 @@ const itype * item::ammo_data() const
         return !contents.empty() ? contents.front().ammo_data() : nullptr;
     }
 
-//    if( is_bandolier() ) {
-//        return !contents.empty() ? contents.front().ammo_data() : nullptr;
-//    }
+    if( is_bandolier() ) {
+        return !contents.empty() ? contents.front().ammo_data() : nullptr;
+    }
 
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const auto e : mods ) {
