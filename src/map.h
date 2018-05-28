@@ -439,14 +439,10 @@ class map
         std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint &destination ) const;
 
         /**
-         * Check whether items in the target square are accessible from the source square
-         * `f` and `t`.
-         *
-         * Checks two things:
-         * 1. The `sees()` algorithm between `f` and `t` OR origin and target match.
-         * 2. That the target location isn't sealed.
+         * Check whether the player can access the items located @p. Certain furniture/terrain
+         * may prevent that (e.g. a locked safe).
          */
-        bool accessible_items( const tripoint &f, const tripoint &t, const int range ) const;
+        bool accessible_items( const tripoint &t ) const;
         /**
          * Like @ref accessible_items but checks for accessible furniture.
          * It ignores the furniture flags of the target square (ignores if target is SEALED).

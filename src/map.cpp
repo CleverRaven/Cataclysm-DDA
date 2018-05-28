@@ -4981,6 +4981,11 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 {
     std::list<item> ret;
     for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
+        // can not reach this -> can not access its contents
+        if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
+            continue;
+        }
+
         // Handle infinite map sources.
         item water = water_from( p );
         if( water.typeId() == type ) {
@@ -4996,7 +5001,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        if( accessible_items( origin, p, range ) ) {
+        if( accessible_items( p ) ) {
             std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
             ret.splice(ret.end(), tmp);
             if (quantity <= 0) {
@@ -6282,10 +6287,9 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     return is_clear;
 }
 
-bool map::accessible_items( const tripoint &f, const tripoint &t, const int range ) const
+bool map::accessible_items( const tripoint &t ) const
 {
-    return ( !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t ) ) &&
-           ( f == t || clear_path( f, t, range, 1, 100 ) );
+    return !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t );
 }
 
 bool map::accessible_furniture( const tripoint &f, const tripoint &t, const int range ) const
