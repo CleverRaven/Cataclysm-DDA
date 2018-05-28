@@ -1393,13 +1393,9 @@ void options_manager::init()
 		translate_marker("Your first stat point will come at this number."), 1, 999, 1);
 
     add("STATS_PER_KILLS_METHOD", "debug", translate_marker("Stats per Kills Assignment Method"),
-        translate_marker("asdf."),
-        //~ plain, default, normal
+        translate_marker("Assignment method for stats through kills."),
         { { "random", translate_marker("Random") },
-        //~ capped at a value
         { "chosen", translate_marker("Chosen") },
-        //~ based on intelligence
-        { "even", translate_marker("Even") } },
         "chosen" );
 
     mOptionsSort["debug"]++;
