@@ -838,9 +838,7 @@ void input_context::display_help()
 {
     inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
-    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    catacurses::window w_help = catacurses::newwin( std::max(FULL_SCREEN_HEIGHT, TERMY) - 2, std::max(FULL_SCREEN_WIDTH, TERMX) - 2, 1, 1);
 
     // has the user changed something?
     bool changed = false;
@@ -863,9 +861,9 @@ void input_context::display_help()
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
-    const size_t display_height = FULL_SCREEN_HEIGHT - 11 - 2; // -2 for the border
+    const size_t display_height = std::max(FULL_SCREEN_HEIGHT, TERMY) - 11 - 2; // -2 for the border
     // width of the legend
-    const size_t legwidth = FULL_SCREEN_WIDTH - 4 - 2;
+    const size_t legwidth = std::max(FULL_SCREEN_WIDTH, TERMX) - 4 - 2;
     // keybindings help
     std::ostringstream legend;
     legend << "<color_" << string_from_color( unbound_key ) << ">" << _( "Unbound keys" ) <<
