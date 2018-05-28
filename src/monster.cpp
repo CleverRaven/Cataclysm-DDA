@@ -33,6 +33,7 @@
 #include "field.h"
 #include "sounds.h"
 #include "npc.h"
+#include "ui.h"
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.

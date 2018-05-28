@@ -1378,6 +1378,28 @@ void options_manager::init()
 
     mOptionsSort["debug"]++;
 
+    add("SPEEDYDEX_SPEED_PER_DEX", "debug", translate_marker("Speedydex speed per dex"), translate_marker("Speedydex speed per excess dex"), 1, 999, 1);
+    add("SPEEDYDEX_BASE_DEX", "debug", translate_marker("Speedydex base dex"), translate_marker("Speedydex dexterity needed to begin getting speed increases."), 1, 999, 1);
+
+    mOptionsSort["debug"]++;
+
+    add("STATS_PER_KILLS_BASE", "debug", translate_marker("Stats per Kills Base Number"),
+        translate_marker("Your first stat point will come at this number."), 1, 999, 1);
+
+    add( "STATS_PER_KILLS_ADDL", "debug", translate_marker("Stats per Kills Added Number" ),
+		translate_marker("Your next stat points are (base + additional) * kills. Probably."), 1, 999, 1);
+    
+	add( "STATS_PER_KILLS_BASE", "debug", translate_marker("Stats per Kills Base Number" ),
+		translate_marker("Your first stat point will come at this number."), 1, 999, 1);
+
+    add("STATS_PER_KILLS_METHOD", "debug", translate_marker("Stats per Kills Assignment Method"),
+        translate_marker("Assignment method for stats through kills."),
+		{ { "random", translate_marker("Random") },
+		{ "chosen", translate_marker("Chosen") } },
+		"chosen" );
+
+    mOptionsSort["debug"]++;
+
     add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
         translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
         //~ plain, default, normal

@@ -193,7 +193,8 @@ enum action_id : int {
     /** Quit the game */
     ACTION_QUIT,
     /**@}*/
-
+	/*Check to see if the player can increase their stats from kills.*/
+	ACTION_CHECKSTATS,
     // Info Screens
     /**@{*/
     /** Display player status screen */
