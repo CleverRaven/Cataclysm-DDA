@@ -718,11 +718,6 @@ public:
     bool part_flag (int p, const std::string &f) const;
     bool part_flag (int p, vpart_bitflags f) const;
 
-    // Returns the obstacle that shares location with this part (useful in some map code)
-    // Open doors don't count as obstacles, but closed do
-    // Broken parts are also never obstacles
-    int obstacle_at_part( int p ) const;
-
     // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
     point coord_translate (const point &p) const;
 

@@ -1466,11 +1466,8 @@ std::string map::disp_name( const tripoint &p )
 
 std::string map::obstacle_name( const tripoint &p )
 {
-    if( const optional_vpart_position vp = veh_at( p ) ) {
-        const int part = vp->vehicle().obstacle_at_part( vp->part_index() );
-        if( part > 0 ) {
-            return vp->vehicle().parts[part].info().name();
-        }
+    if( const cata::optional<vpart_reference> vp = veh_at( p ).obstacle_at_part() ) {
+        return vp->vehicle().parts[vp->part_index()].info().name();
     }
     return name( p );
 }
@@ -1793,14 +1790,12 @@ int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const
     }
 
     if( veh != nullptr ) {
-        if( veh->obstacle_at_part( vpart ) >= 0 ) {
+        const vpart_position vp( const_cast<vehicle&>( *veh ), vpart );
+        if( vp.obstacle_at_part() ) {
             return 0;
+        } else if( vp.part_with_feature( VPFLAG_AISLE ) ) {
+            return 2;
         } else {
-            const int ipart = veh->part_with_feature( vpart, VPFLAG_AISLE );
-            if( ipart >= 0 ) {
-                return 2;
-            }
-
             return 8;
         }
     }
@@ -2498,7 +2493,7 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
         ter_smash = true;
     }
 
-    if( veh != nullptr && veh->obstacle_at_part( part ) >= 0 ) {
+    if( veh != nullptr && vpart_position( const_cast<vehicle&>( *veh ), part ).obstacle_at_part() ) {
         // Monsters only care about rating > 0, NPCs should want to path around cars instead
         return 2; // Should probably be a function of part hp (+armor on tile)
     }
@@ -2574,10 +2569,8 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
         return false;
     }
 
-    if( const optional_vpart_position vp = veh_at( p ) ) {
-        if( vp->vehicle().obstacle_at_part( vp->part_index() ) >= 0 ) {
-            return true;
-        }
+    if( veh_at( p ).obstacle_at_part() ) {
+        return true;
     }
 
     if( has_furn( p ) && furn( p ).obj().bash.str_max != -1 ) {
@@ -6040,7 +6033,7 @@ void map::draw_from_above( const catacurses::window &w, player &u, const tripoin
         const int roof = veh->roof_at_part( part_below );
         const int displayed_part = roof >= 0 ? roof : part_below;
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( displayed_part, true ) ) );
-        tercol = (roof >= 0 || veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_light_gray_cyan;
+        tercol = ( roof >= 0 || vpart_position( const_cast<vehicle&>( *veh ), part_below ).obstacle_at_part() ) ? c_light_gray : c_light_gray_cyan;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
         if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
             sym = AUTO_WALL_PLACEHOLDER;

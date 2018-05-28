@@ -2117,6 +2117,21 @@ std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool co
     }
 }
 
+cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
+{
+    const cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
+    if( !part ) {
+        return cata::nullopt; // No obstacle here
+    }
+
+    const ::vehicle &v = vehicle();
+    if( v.part_flag( part->part_index(), VPFLAG_OPENABLE ) && v.parts[part->part_index()].open ) {
+        return cata::nullopt; // Open door here
+    }
+
+    return part;
+}
+
 cata::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f, const bool unbroken ) const
 {
     const int i = vehicle().part_with_feature( part_index(), f, unbroken );
@@ -2145,6 +2160,11 @@ cata::optional<vpart_reference> optional_vpart_position::part_with_feature( cons
         const bool unbroken ) const
 {
     return has_value() ? value().part_with_feature( f, unbroken ) : cata::nullopt;
+}
+
+cata::optional<vpart_reference> optional_vpart_position::obstacle_at_part() const
+{
+    return has_value() ? value().obstacle_at_part() : cata::nullopt;
 }
 
 int vehicle::part_with_feature (int part, vpart_bitflags const flag, bool unbroken) const
@@ -5953,24 +5973,6 @@ bool vehicle::restore(const std::string &data)
     precalc_mounts(0, pivot_rotation[0], pivot_anchor[0]);
     precalc_mounts(1, pivot_rotation[1], pivot_anchor[1]);
     return true;
-}
-
-int vehicle::obstacle_at_part( int p ) const
-{
-    if( part_flag( p, VPFLAG_OBSTACLE ) && !parts[ p ].is_broken() ) {
-        return p;
-    }
-
-    int part = part_with_feature( p, VPFLAG_OBSTACLE, true );
-    if( part < 0 ) {
-        return -1; // No obstacle here
-    }
-
-    if( part_flag( part, VPFLAG_OPENABLE ) && parts[part].open ) {
-        return -1; // Open door here
-    }
-
-    return part;
 }
 
 std::set<tripoint> &vehicle::get_points( const bool force_refresh )

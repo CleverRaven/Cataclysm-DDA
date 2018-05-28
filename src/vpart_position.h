@@ -58,6 +58,12 @@ class vpart_position
                 bool unbroken = true ) const;
         /// @see vehicle::part_with_feature
         cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken = true ) const;
+        /**
+         * Returns the obstacle that exists at this point of the vehicle (if any).
+         * Open doors don't count as obstacles, but closed one do.
+         * Broken parts are also never obstacles.
+         */
+        cata::optional<vpart_reference> obstacle_at_part() const;
 };
 
 /**
@@ -78,6 +84,7 @@ class optional_vpart_position : public cata::optional<vpart_position>
                 bool unbroken = true ) const;
         cata::optional<vpart_reference> part_with_feature( vpart_bitflags f,
                 bool unbroken = true ) const;
+        cata::optional<vpart_reference> obstacle_at_part() const;
 };
 
 // For legacy code, phase out, don't use in new code.

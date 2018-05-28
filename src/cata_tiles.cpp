@@ -1964,9 +1964,10 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         tercol = cursesColorToSDL( curr_furn.color() );
     } else if( ( veh = g->m.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
         const int roof = veh->roof_at_part( part_below );
+        const auto vpobst = vpart_position( const_cast<vehicle&>( *veh ), part_below ).obstacle_at_part();
         tercol = cursesColorToSDL( ( roof >= 0 ||
-                                     veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_magenta );
-        sizefactor = ( roof >= 0 || veh->obstacle_at_part( part_below ) ) ? 4 : 2;
+                                     vpobst ) ? c_light_gray : c_magenta );
+        sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
         tercol = cursesColorToSDL( curr_ter.color() );
     } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {

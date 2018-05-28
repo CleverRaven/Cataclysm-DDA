@@ -11993,18 +11993,13 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 thru = false;
             }
         } else if( m.impassable( pt ) ) {
-            if( const optional_vpart_position vp = m.veh_at( pt ) ) {
-                const int part = vp->vehicle().obstacle_at_part( vp->part_index() );
-                if( part == -1 ) {
-                    force = std::min<float>( m.bash_strength( pt ), flvel );
-                } else {
-                    // No good way of limiting force here
-                    // Keep it 1 less than maximum to make the impact hurt
-                    // but to keep the target flying after it
-                    force = flvel - 1;
-                }
-            } else {
+            if( !m.veh_at( pt ).obstacle_at_part() ) {
                 force = std::min<float>( m.bash_strength( pt ), flvel );
+            } else {
+                // No good way of limiting force here
+                // Keep it 1 less than maximum to make the impact hurt
+                // but to keep the target flying after it
+                force = flvel - 1;
             }
             const int damage = rng( force, force * 2.0f ) / 9;
             c->impact( damage, pt );
