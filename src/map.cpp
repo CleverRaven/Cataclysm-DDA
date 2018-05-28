@@ -4994,7 +4994,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             return ret;
         }
 
-        if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
+        if( has_furn( p ) ) {
             use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret );
             if( quantity <= 0 ) {
                 return ret;
@@ -6290,11 +6290,6 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 bool map::accessible_items( const tripoint &t ) const
 {
     return !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t );
-}
-
-bool map::accessible_furniture( const tripoint &f, const tripoint &t, const int range ) const
-{
-    return ( f == t || clear_path( f, t, range, 1, 100 ) );
 }
 
 std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t ) const

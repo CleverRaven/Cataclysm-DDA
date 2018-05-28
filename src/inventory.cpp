@@ -324,7 +324,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             continue;
         }
 
-        if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
+        if( g->m.has_furn( p ) ) {
             const furn_t &f = g->m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {

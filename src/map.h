@@ -444,12 +444,6 @@ class map
          */
         bool accessible_items( const tripoint &t ) const;
         /**
-         * Like @ref accessible_items but checks for accessible furniture.
-         * It ignores the furniture flags of the target square (ignores if target is SEALED).
-         */
-        bool accessible_furniture( const tripoint &f, const tripoint &t, const int range ) const;
-
-        /**
          * Calculate next search points surrounding the current position.
          * Points closer to the target come first.
          * This method leads to straighter lines and prevents weird looking movements away from the target.
