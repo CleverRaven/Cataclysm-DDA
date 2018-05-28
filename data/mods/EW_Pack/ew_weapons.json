@@ -16,9 +16,9 @@
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 75,
-    "sight_dispersion": 60,
     "durability": 9,
     "burst": 12,
+    "default_mods": [ "red_dot_sight" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
         [ "654", [ "svs24_robomag", "svs24_robodrum" ] ],
@@ -55,8 +55,8 @@
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 75,
-    "sight_dispersion": 60,
     "durability": 9,
+    "default_mods": [ "red_dot_sight" ],
     "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
         [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
@@ -112,7 +112,6 @@
     "description": "Civilian version of the SVS-24.  It has a modified receiver and a new crudely crafted full-auto bolt carrier.  Don't expect the original reliability.",
     "price": 420000,
     "dispersion": 120,
-    "sight_dispersion": 60,
     "durability": 6,
     "burst": 8
   },
@@ -132,7 +131,6 @@
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 75,
-    "sight_dispersion": 60,
     "durability": 9,
     "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [

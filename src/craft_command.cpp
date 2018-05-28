@@ -81,8 +81,8 @@ void craft_command::execute()
     }
 
     auto type = activity_id( is_long ? "ACT_LONGCRAFT" : "ACT_CRAFT" );
-    auto activity = player_activity( type, crafter->time_to_craft( *rec, batch_size ), -1, INT_MIN,
-                                     rec->ident() );
+    auto activity = player_activity( type, crafter->base_time_to_craft( *rec, batch_size ), -1, INT_MIN,
+                                     rec->ident().str() );
     activity.values.push_back( batch_size );
 
     crafter->assign_activity( activity );

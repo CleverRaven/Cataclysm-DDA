@@ -1,11 +1,13 @@
-#include <sstream>
 #include "inventory.h"
+#include <sstream>
 #include "game.h"
 #include "map.h"
+#include "iexamine.h"
 #include "debug.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "options.h"
+#include "vpart_position.h"
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -13,7 +15,7 @@
 #include "map_iterator.h"
 #include <algorithm>
 
-const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}");
 
 bool invlet_wrapper::valid( const long invlet ) const
 {
@@ -24,11 +26,8 @@ bool invlet_wrapper::valid( const long invlet ) const
 }
 
 inventory::inventory()
-: nullitem()
-, nullstack()
-, invlet_cache()
+: invlet_cache()
 , items()
-, sorted(false)
 {
 }
 
@@ -54,6 +53,7 @@ const std::list<item> &inventory::const_stack(int i) const
 {
     if (i < 0 || i >= (int)items.size()) {
         debugmsg("Attempted to access stack %d in an inventory (size %d)", i, items.size());
+        static const std::list<item> nullstack{};
         return nullstack;
     }
 
@@ -69,24 +69,10 @@ size_t inventory::size() const
     return items.size();
 }
 
-int inventory::num_items() const
-{
-    int ret = 0;
-    for( const auto &elem : items ) {
-        ret += elem.size();
-    }
-    return ret;
-}
-
-bool inventory::is_sorted() const
-{
-    return sorted;
-}
-
 inventory &inventory::operator+= (const inventory &rhs)
 {
     for (size_t i = 0; i < rhs.size(); i++) {
-        add_stack(rhs.const_stack(i));
+        push_back( rhs.const_stack( i ) );
     }
     return *this;
 }
@@ -130,7 +116,6 @@ inventory inventory::operator+ (const item &rhs)
 
 void inventory::unsort()
 {
-    sorted = false;
     binned = false;
 }
 
@@ -139,41 +124,17 @@ bool stack_compare(const std::list<item> &lhs, const std::list<item> &rhs)
     return lhs.front() < rhs.front();
 }
 
-void inventory::sort()
-{
-    items.sort(stack_compare);
-    sorted = true;
-}
-
 void inventory::clear()
 {
     items.clear();
     binned = false;
 }
 
-void inventory::add_stack(const std::list<item> newits)
+void inventory::push_back( const std::list<item> newits )
 {
     for( const auto &newit : newits ) {
         add_item( newit, true );
     }
-}
-
-/*
- *  Bypass troublesome add_item for situations where we want an -exact- copy.
- */
-void inventory::clone_stack (const std::list<item> &rhs)
-{
-    std::list<item> newstack;
-    for( const auto &rh : rhs ) {
-        newstack.push_back( rh );
-    }
-    items.push_back(newstack);
-    binned = false;
-}
-
-void inventory::push_back(std::list<item> newits)
-{
-    add_stack(newits);
 }
 
 // This function keeps the invlet cache updated when a new item is added.
@@ -221,11 +182,11 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache[item_type] ) {
         // Don't overwrite user assignments.
-        if( g->u.assigned_invlet.count(invlet) ) {
+        if( assigned_invlet.count(invlet) ) {
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
+        if( invlet_to_position( invlet ) != INT_MIN ) {
             continue;
         }
         return invlet;
@@ -245,12 +206,20 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
             if( it_ref->merge_charges( newit ) ) {
                 return *it_ref;
             }
-            newit.invlet = it_ref->invlet;
+            if ( it_ref->invlet == '\0' ) {
+                if( !keep_invlet ) {
+                    update_invlet( newit, assign_invlet );
+                }
+                update_cache_with_item( newit );
+                it_ref->invlet = newit.invlet;
+            } else {
+                newit.invlet = it_ref->invlet;
+            }
             elem.push_back( newit );
             return elem.back();
         } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
             // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-            assign_empty_invlet(*it_ref);
+            assign_empty_invlet( *it_ref, g->u );
         }
     }
 
@@ -277,16 +246,12 @@ void inventory::push_back(item newit)
 }
 
 
-void inventory::restack(player *p)
+void inventory::restack( player &p )
 {
     // tasks that the old restack seemed to do:
     // 1. reassign inventory letters
     // 2. remove items from non-matching stacks
     // 3. combine matching stacks
-
-    if (!p) {
-        return;
-    }
 
     binned = false;
     std::list<item> to_restack;
@@ -295,9 +260,9 @@ void inventory::restack(player *p)
         std::list<item> &stack = *iter;
         item &topmost = stack.front();
 
-        const int ipos = p->invlet_to_position(topmost.invlet);
+        const int ipos = p.invlet_to_position( topmost.invlet );
         if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
-            assign_empty_invlet(topmost);
+            assign_empty_invlet( topmost, p );
             for( std::list<item>::iterator stack_iter = stack.begin();
                  stack_iter != stack.end(); ++stack_iter ) {
                 stack_iter->invlet = topmost.invlet;
@@ -337,6 +302,7 @@ void inventory::restack(player *p)
             inner.invlet = outer.front().invlet;
         }
     }
+    items.sort( stack_compare );
 }
 
 static long count_charges_in_list(const itype *type, const map_stack &items)
@@ -414,12 +380,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         // When a vehicle has multiple faucets in range, available water is
         //  multiplied by the number of faucets.
         // Same thing happens for all other tools and resources, but not cargo
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at( p, vpart );
-
-        if( veh == nullptr ) {
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( !vp ) {
             continue;
         }
+        vehicle *const veh = &vp->vehicle();
+        const int vpart = vp->part_index();
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
@@ -511,13 +477,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     }
 }
 
-template<typename Locator>
-std::list<item> inventory::reduce_stack_internal(const Locator &locator, int quantity)
+std::list<item> inventory::reduce_stack( const int position, const int quantity )
 {
     int pos = 0;
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), locator, pos)) {
+        if( position == pos ) {
             binned = false;
             if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
@@ -534,17 +499,6 @@ std::list<item> inventory::reduce_stack_internal(const Locator &locator, int qua
     return ret;
 }
 
-// Instantiate for each type of Locator.
-std::list<item> inventory::reduce_stack(int position, int quantity)
-{
-    return reduce_stack_internal(position, quantity);
-}
-
-std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
-{
-    return reduce_stack_internal(type, quantity);
-}
-
 item inventory::remove_item(const item *it)
 {
     auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
@@ -553,15 +507,14 @@ item inventory::remove_item(const item *it)
         return tmp.front();
     }
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
-    return nullitem;
+    return item();
 }
 
-template<typename Locator>
-item inventory::remove_item_internal(const Locator &locator)
+item inventory::remove_item( const int position )
 {
     int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), locator, pos)) {
+        if( position == pos ) {
             binned = false;
             if (iter->size() > 1) {
                 std::list<item>::iterator stack_member = iter->begin();
@@ -579,13 +532,7 @@ item inventory::remove_item_internal(const Locator &locator)
         ++pos;
     }
 
-    return nullitem;
-}
-
-// Instantiate for each type of Locator.
-item inventory::remove_item(int position)
-{
-    return remove_item_internal(position);
+    return item();
 }
 
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
@@ -632,7 +579,7 @@ void inventory::dump(std::vector<item *> &dest)
 const item &inventory::find_item(int position) const
 {
     if (position < 0 || position >= (int)items.size()) {
-        return nullitem;
+        return null_item_reference();
     }
     invstack::const_iterator iter = items.begin();
     for (int j = 0; j < position; ++j) {
@@ -672,16 +619,6 @@ int inventory::position_by_item( const item *it ) const
     return INT_MIN;
 }
 
-item &inventory::item_by_type(itype_id type)
-{
-    for( auto &elem : items ) {
-        if( elem.front().typeId() == type ) {
-            return elem.front();
-        }
-    }
-    return nullitem;
-}
-
 int inventory::position_by_type(itype_id type)
 {
     int i = 0;
@@ -693,42 +630,11 @@ int inventory::position_by_type(itype_id type)
     }
     return INT_MIN;
 }
-item &inventory::item_or_container(itype_id type)
-{
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.typeId() == type ) {
-                return elem_stack_iter;
-            } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
-                if( elem_stack_iter.contents.front().typeId() == type ) {
-                    return elem_stack_iter;
-                }
-            }
-        }
-    }
-
-    return nullitem;
-}
-
-std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
-{
-    std::vector<std::pair<item *, int> > ret;
-    int i = 0;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.typeId() == type ) {
-                ret.push_back( std::make_pair( &elem_stack_iter, i ) );
-            }
-        }
-        ++i;
-    }
-    return ret;
-}
 
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
-    long quantity = _quantity; // Don't wanny change the function signature right now
-    sort();
+    long quantity = _quantity; // Don't want to change the function signature right now
+    items.sort( stack_compare );
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
         for (std::list<item>::iterator stack_iter = iter->begin();
@@ -812,7 +718,7 @@ bool inventory::has_enough_painkiller(int pain) const
 item *inventory::most_appropriate_painkiller(int pain)
 {
     int difference = 9999;
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
@@ -838,7 +744,7 @@ item *inventory::most_appropriate_painkiller(int pain)
 
 item *inventory::best_for_melee( player &p, double &best )
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     for( auto &elem : items ) {
         auto score = p.melee_value( elem.front() );
         if( score > best ) {
@@ -852,7 +758,7 @@ item *inventory::best_for_melee( player &p, double &best )
 
 item *inventory::most_loaded_gun()
 {
-    item *ret = &nullitem;
+    item *ret = &null_item_reference();
     int max = 0;
     for( auto &elem : items ) {
         item &gun = elem.front();
@@ -929,16 +835,15 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-void inventory::assign_empty_invlet(item &it, bool force)
+void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
         return;
     }
 
-    player *p = &(g->u);
-    std::set<char> cur_inv = p->allocated_invlets();
+    std::set<char> cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
-    for (auto iter : p->assigned_invlet) {
+    for (auto iter : assigned_invlet) {
         if (iter.second == target_type && !cur_inv.count(iter.first)) {
             it.invlet = iter.first;
             return;
@@ -946,7 +851,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     }
     if (cur_inv.size() < inv_chars.size()) {
         for( const auto &inv_char : inv_chars ) {
-            if( p->assigned_invlet.count(inv_char) ) {
+            if( assigned_invlet.count(inv_char) ) {
                 // don't overwrite assigned keys
                 continue;
             }
@@ -992,12 +897,12 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
 
 void inventory::update_invlet( item &newit, bool assign_invlet ) {
     // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && g->u.assigned_invlet.find( newit.invlet ) != g->u.assigned_invlet.end() &&
-            g->u.assigned_invlet[newit.invlet] != newit.typeId() ) {
+    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
+            assigned_invlet[newit.invlet] != newit.typeId() ) {
         newit.invlet = '\0';
     }
 
-    // Remove letters that are not in the favourites cache
+    // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
         auto invlet_list_iter = invlet_cache.find( newit.typeId() );
         bool found = false;
@@ -1027,7 +932,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet ) {
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
-            assign_empty_invlet( newit );
+            assign_empty_invlet( newit, g->u );
         }
     }
 }

@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 
-// @todo Make a generic factory
+// @todo: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
 /** @relates string_id */
@@ -38,6 +38,11 @@ harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}
 const harvest_id &harvest_list::id() const
 {
     return id_;
+}
+
+std::string harvest_list::message() const
+{
+    return message_;
 }
 
 bool harvest_list::is_null() const
@@ -70,6 +75,10 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
         jo.throw_error( "id was not specified for harvest" );
     }
 
+    if( jo.has_string( "message" ) ) {
+        ret.message_ = jo.get_string( "message" );
+    }
+
     JsonArray jo_entries = jo.get_array( "entries" );
     while( jo_entries.has_more() ) {
         JsonObject current_entry = jo_entries.next_object();
@@ -84,7 +93,7 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
 void harvest_list::finalize()
 {
     std::transform( entries_.begin(), entries_.end(), std::inserter( names_, names_.begin() ),
-    []( const harvest_entry &entry ) {
+    []( const harvest_entry & entry ) {
         return item::type_is_defined( entry.drop ) ? item::nname( entry.drop ) : "";
     } );
 }
@@ -106,7 +115,7 @@ void harvest_list::check_consistency()
     for( const auto &pr : harvest_all ) {
         const auto &hl = pr.second;
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
-        []( const harvest_entry &entry ) {
+        []( const harvest_entry & entry ) {
             return item::type_is_defined( entry.drop ) ? "" : entry.drop;
         } );
         if( !errors.empty() ) {
@@ -142,7 +151,7 @@ std::string harvest_list::describe( int at_skill ) const
     }
 
     return enumerate_as_string( entries().begin(), entries().end(),
-    [at_skill]( const harvest_entry &en ) {
+    [at_skill]( const harvest_entry & en ) {
         float min_f = en.base_num.first;
         float max_f = en.base_num.second;
         if( at_skill >= 0 ) {
@@ -151,7 +160,7 @@ std::string harvest_list::describe( int at_skill ) const
         } else {
             max_f = en.max;
         }
-        // @todo Avoid repetition here by making a common harvest drop function
+        // @todo: Avoid repetition here by making a common harvest drop function
         int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
         int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
         if( max_drops <= 0 ) {

@@ -88,29 +88,17 @@
             "|": "t_brick_wall"
           },
           "furniture": {
-            " ": "f_null",
             "#": "f_counter",
-            "+": "f_null",
-            ",": "f_null",
-            "-": "f_null",
-            ".": "f_null",
             ":": "f_dresser",
             "@": "f_bed",
             "F": "f_fridge",
             "G": "f_oven",
-            "L": "f_null",
-            "M": "f_null",
-            "O": "f_null",
             "S": "f_sink",
             "^": "f_indoor_plant",
-            "_": "f_null",
             "c": "f_chair",
             "l": "f_locker",
             "r": "f_rack",
-            "t": "f_table",
-            "w": "f_null",
-            "x": "f_null",
-            "|": "f_null"
+            "t": "f_table"
           },
           "toilets": {
             "T": {}

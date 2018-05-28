@@ -2,17 +2,13 @@
 #ifndef FACTION_H
 #define FACTION_H
 
-#include "json.h"
+#include "string_id.h"
 
 #include <string>
 #include <vector>
-#include <map>
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );
@@ -20,7 +16,11 @@ std::string fac_wealth_text( int val, int size );
 std::string fac_food_supply_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class game;
+class player;
+class JsonObject;
+class JsonIn;
+class JsonOut;
+struct tripoint;
 
 enum faction_goal {
     FACGOAL_NULL = 0,
@@ -49,7 +49,7 @@ enum faction_job {
     FACJOB_ASSASSINS,   // Targeted discreet killing
     FACJOB_RAIDERS,     // Raiding settlements, trade routes, &c
     FACJOB_THIEVES,     // Less violent; theft of property without killing
-    FACJOB_GAMBLING,    // Maitenance of gambling parlors
+    FACJOB_GAMBLING,    // Maintenance of gambling parlors
     FACJOB_DOCTORS,     // Doctors for hire
     FACJOB_FARMERS,     // Farming & sale of food
     FACJOB_DRUGS,       // Drug dealing
@@ -84,57 +84,81 @@ struct faction_value_datum {
 };
 
 class faction;
+using faction_id = string_id<faction>;
 
-typedef std::map<std::string, faction> faction_map;
-
-class faction : public JsonSerializer, public JsonDeserializer
+class faction_template
 {
+    protected:
+        faction_template();
+
+    private:
+        explicit faction_template( JsonObject &jsobj );
+
     public:
-        faction();
-        faction( std::string uid );
-
-        static void load_faction( JsonObject &jsobj );
-        faction *find_faction( std::string ident );
-        void load_faction_template( std::string ident );
-        std::vector<std::string> all_json_factions();
-
-        ~faction() override;
-        void load_info( std::string data );
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &jsout ) const override;
-
-        static faction_map _all_faction;
-
-        void randomize();
-        void make_army();
-        bool has_job( faction_job j ) const;
-        bool has_value( faction_value v ) const;
-        bool matches_us( faction_value v ) const;
-        std::string describe() const;
-
-        int response_time() const; // Time it takes for them to get to u
+        explicit faction_template( const faction_template & ) = default;
+        static void load( JsonObject &jsobj );
+        static void reset();
 
         std::string name;
-    unsigned values :
-        NUM_FACVALS; // Bitfield of values
-        faction_goal goal;
-        faction_job job1, job2;
-        std::vector<int> opinion_of;
         int likes_u;
         int respects_u;
         bool known_by_u;
-        std::string id;
+        faction_id id;
         std::string desc;
         int strength, sneak, crime, cult, good; // Defining values
-        /** Global submap coordinates where the center of influence is */
-        int mapx, mapy;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
         int combat_ability;  //Combat multiplier for abstracted combat
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
+};
+
+class faction : public faction_template
+{
+    public:
+        faction() = default;
+        faction( const faction_template &templ );
+
+        void deserialize( JsonIn &jsin );
+        void serialize( JsonOut &jsout ) const;
+
+        void randomize();
+        bool has_job( faction_job j ) const;
+        bool has_value( faction_value v ) const;
+        bool matches_us( faction_value v ) const;
+        std::string describe() const;
+
+        int response_time( const tripoint &abs_sm_pos ) const; // Time it takes for them to get to u
+
+    unsigned values :
+        NUM_FACVALS; // Bitfield of values
+        faction_goal goal = FACGOAL_NULL;
+        faction_job job1 = FACJOB_NULL;
+        faction_job job2 = FACJOB_NULL;
+        std::vector<int> opinion_of;
+        /** Global submap coordinates where the center of influence is */
+        int mapx = 0, mapy = 0;
+};
+
+class faction_manager
+{
+    private:
+        std::vector<faction> factions;
+
+    public:
+        void deserialize( JsonIn &jsin );
+        void serialize( JsonOut &jsout ) const;
+
+        void clear();
+        void create_if_needed();
+
+        const std::vector<faction> &all() const {
+            return factions;
+        }
+
+        faction *get( const faction_id &id );
+
+        void display() const;
 };
 
 #endif

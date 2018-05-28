@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "alt_map_key",
+    "name": "Alternative Map Key",
+    "authors": [ "Sunshine" ],
+    "description": "Changes the overmap to be more readable. Buildings are color coded by type and use initial letter of their names instead of ^v<>.",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  }
+]

@@ -94,7 +94,7 @@
             "  qqqqqqqqqqqqqqqqqqqq  "
           ],
           "terrain": {
-            " ": "t_null",
+            " ": "t_grass",
             "#": "t_floor",
             "$": "t_fence_rope",
             "'": "t_door_c",
@@ -139,9 +139,7 @@
             "^": "f_indoor_plant",
             "f": "f_trashcan"
           },
-          "toilets": {
-            "T": {}
-          },
+          "toilets": { "T": {  } },
           "place_items": [
             { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 3, 5 ] },
             { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 40, "repeat": [ 1, 2 ] },

@@ -41,10 +41,7 @@
         "w": "t_window_domestic",
         "|": "t_wall"
       },
-      "furniture": {
-        "b": "f_bookcase",
-        "c": "f_counter"
-      },
+      "furniture": { "b": "f_bookcase", "c": "f_counter" },
       "place_items": [
         { "item": "magazines", "x": [ 3, 9 ], "y": 4, "chance": 70, "repeat": [ 1, 6 ] },
         { "item": "magazines", "x": 20, "y": [ 8, 16 ], "chance": 70, "repeat": [ 1, 6 ] },
@@ -53,9 +50,7 @@
         { "item": "manuals", "x": [ 3, 15 ], "y": [ 12, 13 ], "chance": 92, "repeat": [ 1, 6 ] },
         { "item": "textbooks", "x": [ 3, 15 ], "y": 16, "chance": 88, "repeat": [ 1, 6 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   }
 ]

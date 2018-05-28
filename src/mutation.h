@@ -2,17 +2,19 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
-#include "json.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
-#include "color.h"
 #include "damage.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
+#include <utility>
 #include <map>
+#include <set>
 #include <unordered_map>
 
+class nc_color;
+class JsonObject;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
 class martialart;
@@ -22,6 +24,17 @@ struct mutation_branch;
 class item;
 using trait_id = string_id<mutation_branch>;
 using itype_id = std::string;
+struct mutation_category_trait;
+
+class Trait_group;
+class Trait_creation_data;
+class JsonObject;
+class JsonArray;
+
+namespace trait_group
+{
+using Trait_group_tag = string_id<Trait_group>;
+}
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -32,7 +45,6 @@ struct dream {
     int strength; // The category strength required for the dream
 
     dream() {
-        category = "";
         strength = 0;
     }
 };
@@ -71,7 +83,7 @@ struct mutation_branch {
     bool threshold;
     // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
     bool profession;
-    // Wheather it has positive as well as negative effects.
+    // Whether it has positive as well as negative effects.
     bool mixed_effect  = false;
     bool startingtrait = false;
     bool activated     = false;
@@ -90,7 +102,7 @@ struct mutation_branch {
     int visibility = 0;
     int ugliness   = 0;
     int cost       = 0;
-    // costs are consumed consumed every cooldown turns,
+    // costs are consumed every cooldown turns,
     int cooldown   = 0;
     // bodytemp elements:
     int bodytemp_min = 0;
@@ -176,10 +188,141 @@ struct mutation_branch {
     static void load( JsonObject &jsobj );
     // For init.cpp: check internal consistency (valid ids etc.) of all mutations
     static void check_consistency();
+
+    /**
+     * Load a trait blacklist specified by the given JSON object.
+     */
+    static void load_trait_blacklist( JsonObject &jsobj );
+
+    /**
+     * Check if the trait with the given ID is blacklisted.
+     */
+    static bool trait_is_blacklisted( const trait_id &tid );
+
+    /** called after all JSON has been read and performs any necessary cleanup tasks */
+    static void finalize();
+    static void finalize_trait_blacklist();
+
+    /**
+     * @name Trait groups
+     *
+     * Trait groups are used to generate a randomized set of traits.
+     * You usually only need the @ref Trait_group::traits_from function to
+     * create traits from a group.
+     */
+    /*@{*/
+    /**
+     * Callback for the init system (@ref DynamicDataLoader), loads a trait
+     * group definitions.
+     * @param jsobj The json object to load from.
+     * @throw std::string if the json object contains invalid data.
+     */
+    static void load_trait_group( JsonObject &jsobj );
+
+    /**
+     * Load a trait group from json. It differs from the other load_trait_group function as it
+     * uses the group ID and subtype given as parameters, and does not look them up in
+     * the json data (i.e. the given json object does not need to have them).
+     *
+     * This is intended for inline definitions of trait groups, e.g. in NPC class definitions:
+     * the trait group there is embedded into the class type definition.
+     *
+     * @param jsobj The json object to load from.
+     * @param gid The ID of the group that is to be loaded.
+     * @param subtype The type of the trait group, either "collection", "distribution" or "old"
+     * (i.e. the old list-based format, `[ ["TRAIT", 100] ]`).
+     * @throw std::string if the json object contains invalid data.
+     */
+    static void load_trait_group( JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
+                                  const std::string &subtype );
+
+    /**
+     * Like the above function, except this function assumes that the given
+     * array is the "entries" member of the trait group.
+     *
+     * For each element in the array, @ref mutation_branch::add_entry is called.
+     *
+     * Assuming the input array looks like `[ x, y, z ]`, this function loads it like the
+     * above would load this object:
+     * \code
+     * {
+     *      "subtype": "depends on is_collection parameter",
+     *      "id": "ident",
+     *      "entries": [ x, y, z ]
+     * }
+     * \endcode
+     * Note that each entry in the array has to be a JSON object. The other function above
+     * can also load data from arrays of strings, where the strings are item or group ids.
+     */
+    static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
+                                  const bool is_collection );
+
+    /**
+     * Create a new trait group as specified by the given JSON object and register
+     * it as part of the given trait group.
+     */
+    static void add_entry( Trait_group &tg, JsonObject &obj );
+
+    /**
+     * Get the trait group object specified by the given ID, or null if no
+     * such group exists.
+     */
+    static std::shared_ptr<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
+
+    /**
+     * Return the idents of all trait groups that are known.
+     * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
+     */
+    static std::vector<trait_group::Trait_group_tag> get_all_group_names();
+};
+
+struct mutation_category_trait {
+    std::string name;
+    std::string id;
+    // Mutation category i.e "BIRD", "CHIMERA"
+    std::string category;
+    // For some reason most code uses "MUTCAT_category" instead of just "category"
+    // This exists only to prevent ugly string hacks
+    // @todo: Make this not exist
+    std::string category_full;
+    // The trait that you gain when you break the threshold for this category
+    trait_id threshold_mut;
+
+    // The flag a mutagen needs to target this category
+    std::string mutagen_flag;
+    std::string mutagen_message; // message when you consume mutagen
+    int mutagen_hunger  = 10;//these are defaults
+    int mutagen_thirst  = 10;
+    int mutagen_pain    = 2;
+    int mutagen_fatigue = 5;
+    int mutagen_morale  = 0;
+    std::string iv_message; //message when you inject an iv;
+    int iv_min_mutations    = 1; //the minimum mutations an injection provides
+    int iv_additional_mutations = 2;
+    int iv_additional_mutations_chance = 3; //chance of additional mutations
+    int iv_hunger   = 10;
+    int iv_thirst   = 10;
+    int iv_pain     = 2;
+    int iv_fatigue  = 5;
+    int iv_morale   = 0;
+    int iv_morale_max = 0;
+    bool iv_sound = false;  //determines if you make a sound when you inject mutagen
+    std::string iv_sound_message = "NULL";
+    int iv_noise = 0;    //the amount of noise produced by the sound
+    bool iv_sleep = false;  //whether the iv has a chance of knocking you out.
+    std::string iv_sleep_message = "NULL";
+    int iv_sleep_dur = 0;
+    std::string junkie_message;
+    std::string memorial_message; //memorial message when you cross a threshold
+
+    static const std::map<std::string, mutation_category_trait> &get_all();
+    static void reset();
+    static void check_consistency();
 };
 
 void load_mutation_category( JsonObject &jsobj );
 void load_dream( JsonObject &jsobj );
+bool mutation_category_is_valid( const std::string &cat );
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 

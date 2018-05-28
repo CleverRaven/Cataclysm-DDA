@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <bitset>
+#include <utility>
 #include <array>
 #include <map>
 #include <set>
@@ -276,6 +277,30 @@ class JsonIn
             return true;
         }
 
+        /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
+        template<typename T>
+        auto read( T &v ) -> decltype( deserialize( v, *this ), true )
+        {
+            try {
+                deserialize( v, *this );
+                return true;
+            } catch( const JsonError & ) {
+                return false;
+            }
+        }
+
+        /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
+        template<typename T>
+        auto read( T &v ) -> decltype( v.deserialize( *this ), true )
+        {
+            try {
+                v.deserialize( *this );
+                return true;
+            } catch( const JsonError & ) {
+                return false;
+            }
+        }
+
         // array ~> vector, deque, list
         template <typename T, typename std::enable_if<
             !std::is_same<void, typename T::value_type>::value>::type* = nullptr
@@ -422,19 +447,28 @@ class JsonOut
     private:
         std::ostream *stream;
         bool pretty_print;
-        bool need_separator = false;
+        std::vector<bool> need_wrap;
         int indent_level = 0;
+        bool need_separator = false;
 
     public:
-        JsonOut(std::ostream &stream, bool pretty_print = false);
+        JsonOut(std::ostream &stream, bool pretty_print = false, int depth = 0);
 
         // punctuation
         void write_indent();
         void write_separator();
         void write_member_separator();
-        void start_object();
+        bool get_need_separator() { return need_separator; }
+        void set_need_separator() { need_separator = true; }
+        std::ostream *get_stream() { return stream; }
+        int tell();
+        void seek( int pos );
+        void start_pretty();
+        void end_pretty();
+
+        void start_object( bool wrap = false );
         void end_object();
-        void start_array();
+        void start_array( bool wrap = false );
         void end_array();
 
         // write data to the output stream as JSON
@@ -447,6 +481,20 @@ class JsonOut
             }
             *stream << val;
             need_separator = true;
+        }
+
+        /// Overload that calls a global function `serialize(const T&,JsonOut&)`, if available.
+        template<typename T>
+        auto write( const T &v ) -> decltype( serialize( v, *this ), void() )
+        {
+            serialize( v, *this );
+        }
+
+        /// Overload that calls a member function `T::serialize(JsonOut&) const`, if available.
+        template<typename T>
+        auto write( const T &v ) -> decltype( v.serialize( *this ), void() )
+        {
+            v.serialize( *this );
         }
 
         template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
@@ -935,12 +983,8 @@ std::set<T> JsonObject::get_tags( const std::string &name )
  * is define a `void serialize(JsonOut&) const` method,
  * which should use the provided JsonOut to write its data as JSON.
  *
- * Methods to output to a std::ostream, or as a std::string,
- * are then automatically provided.
- *
  *     class point : public JsonSerializer {
  *         int x, y;
- *         using JsonSerializer::serialize;
  *         void serialize(JsonOut &jsout) const {
  *             jsout.start_array();
  *             jsout.write(x);
@@ -954,8 +998,6 @@ class JsonSerializer
     public:
         virtual ~JsonSerializer() {}
         virtual void serialize(JsonOut &jsout) const = 0;
-        std::string serialize() const;
-        void serialize(std::ostream &o) const;
         JsonSerializer() { }
         JsonSerializer(JsonSerializer &&) = default;
         JsonSerializer(const JsonSerializer &) = default;
@@ -975,12 +1017,8 @@ class JsonSerializer
  * which should read its data from the provided JsonIn,
  * assuming it to be in the correct form.
  *
- * Methods to read from a std::istream, or a std::string,
- * are then automatically provided.
- *
  *     class point : public JsonDeserializer {
  *         int x, y;
- *         using JsonDeserializer::deserialize;
  *         void deserialize(JsonIn &jsin) {
  *             JsonArray ja = jsin.get_array();
  *             x = ja.get_int(0);
@@ -993,8 +1031,6 @@ class JsonDeserializer
     public:
         virtual ~JsonDeserializer() {}
         virtual void deserialize(JsonIn &jsin) = 0;
-        void deserialize(const std::string &json_string);
-        void deserialize(std::istream &i);
         JsonDeserializer() { }
         JsonDeserializer(JsonDeserializer &&) = default;
         JsonDeserializer(const JsonDeserializer &) = default;

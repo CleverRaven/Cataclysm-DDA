@@ -20,10 +20,10 @@
 void temperature_check( player *p, int ambient_temp, int target_temp )
 {
     g->temperature = ambient_temp;
-    for (int i = 0 ; i < num_bp; i++) {
+    for( int i = 0 ; i < num_bp; i++ ) {
         p->temp_cur[i] = BODYTEMP_NORM;
     }
-    for (int i = 0 ; i < num_bp; i++) {
+    for( int i = 0 ; i < num_bp; i++ ) {
         p->temp_conv[i] = BODYTEMP_NORM;
     }
 
@@ -32,7 +32,7 @@ void temperature_check( player *p, int ambient_temp, int target_temp )
     for( int i = 0; i < 10000; i++ ) {
         if( prev_diff != prev_temp - p->temp_cur[0] ) {
             prev_diff = prev_temp - p->temp_cur[0];
-        } else if ( prev_temp == p->temp_cur[0] ) {
+        } else if( prev_temp == p->temp_cur[0] ) {
             break;
         }
         prev_temp = p->temp_cur[0];
@@ -46,7 +46,7 @@ void temperature_check( player *p, int ambient_temp, int target_temp )
 
 void equip_clothing( player *p, std::string clothing )
 {
-    item article(clothing, 0);
+    item article( clothing, 0 );
     p->wear_item( article );
 }
 
@@ -63,7 +63,8 @@ void test_temperature_spread( player *p, std::array<int, 7> ambient_temps )
     temperature_check( p, ambient_temps[6], BODYTEMP_SCORCHING );
 }
 
-TEST_CASE("Player body temperatures converge on expected values.", "[.bodytemp]") {
+TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]" )
+{
 
     player &dummy = g->u;
 
@@ -81,52 +82,52 @@ TEST_CASE("Player body temperatures converge on expected values.", "[.bodytemp]"
     // The commented out tests are the ideals calculated from the above site.
     // The enabled tests are the current status quo just to check for regressions.
 
-    SECTION("Nude target temperatures.") {
+    SECTION( "Nude target temperatures." ) {
         //test_temperature_spread( &dummy, { 19, 34, 49, 64, 79, 94, 109 } );
         test_temperature_spread( &dummy, {{ -12, 15, 40, 64, 78, 90, 101 }} );
     }
 
-    SECTION("Lightly clothed target temperatures") {
-        equip_clothing( &dummy, "hat_ball");
-        equip_clothing( &dummy, "bandana");
-        equip_clothing( &dummy, "tshirt");
-        equip_clothing( &dummy, "gloves_fingerless");
-        equip_clothing( &dummy, "jeans");
-        equip_clothing( &dummy, "socks");
-        equip_clothing( &dummy, "sneakers");
+    SECTION( "Lightly clothed target temperatures" ) {
+        equip_clothing( &dummy, "hat_ball" );
+        equip_clothing( &dummy, "bandana" );
+        equip_clothing( &dummy, "tshirt" );
+        equip_clothing( &dummy, "gloves_fingerless" );
+        equip_clothing( &dummy, "jeans" );
+        equip_clothing( &dummy, "socks" );
+        equip_clothing( &dummy, "sneakers" );
 
         //test_temperature_spread( &dummy, { -3, 12, 27, 42, 57, 72, 87 } );
         test_temperature_spread( &dummy, {{ -17, 10, 35, 62, 77, 90, 100 }} );
     }
 
-    SECTION("Heavily clothed target temperatures" ) {
-        equip_clothing( &dummy, "hat_knit");
-        equip_clothing( &dummy, "tshirt");
-        equip_clothing( &dummy, "vest");
-        equip_clothing( &dummy, "trenchcoat");
-        equip_clothing( &dummy, "gloves_wool");
-        equip_clothing( &dummy, "long_underpants");
-        equip_clothing( &dummy, "pants_army");
-        equip_clothing( &dummy, "socks_wool");
-        equip_clothing( &dummy, "boots");
+    SECTION( "Heavily clothed target temperatures" ) {
+        equip_clothing( &dummy, "hat_knit" );
+        equip_clothing( &dummy, "tshirt" );
+        equip_clothing( &dummy, "vest" );
+        equip_clothing( &dummy, "trenchcoat" );
+        equip_clothing( &dummy, "gloves_wool" );
+        equip_clothing( &dummy, "long_underpants" );
+        equip_clothing( &dummy, "pants_army" );
+        equip_clothing( &dummy, "socks_wool" );
+        equip_clothing( &dummy, "boots" );
 
         //test_temperature_spread( &dummy, { -25, -10, 5, 20, 35, 50, 65 } );
         test_temperature_spread( &dummy, {{ -39, -14, 17, 46, 70, 84, 96 }} );
     }
 
-    SECTION("Arctic gear target temperatures") {
-        equip_clothing( &dummy, "balclava");
-        equip_clothing( &dummy, "goggles_ski");
-        equip_clothing( &dummy, "hat_hunting");
-        equip_clothing( &dummy, "under_armor");
-        equip_clothing( &dummy, "vest");
-        equip_clothing( &dummy, "coat_winter");
-        equip_clothing( &dummy, "gloves_liner");
-        equip_clothing( &dummy, "gloves_winter");
-        equip_clothing( &dummy, "long_underpants");
-        equip_clothing( &dummy, "pants_fur");
-        equip_clothing( &dummy, "socks_wool");
-        equip_clothing( &dummy, "boots_winter");
+    SECTION( "Arctic gear target temperatures" ) {
+        equip_clothing( &dummy, "balclava" );
+        equip_clothing( &dummy, "goggles_ski" );
+        equip_clothing( &dummy, "hat_hunting" );
+        equip_clothing( &dummy, "under_armor" );
+        equip_clothing( &dummy, "vest" );
+        equip_clothing( &dummy, "coat_winter" );
+        equip_clothing( &dummy, "gloves_liner" );
+        equip_clothing( &dummy, "gloves_winter" );
+        equip_clothing( &dummy, "long_underpants" );
+        equip_clothing( &dummy, "pants_fur" );
+        equip_clothing( &dummy, "socks_wool" );
+        equip_clothing( &dummy, "boots_winter" );
 
         //test_temperature_spread( &dummy, { -47, -32, -17, -2, 13, 28, 43 } );
         test_temperature_spread( &dummy, {{ -115, -87, -54, -6, 36, 64, 80 }} );

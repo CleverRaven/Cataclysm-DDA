@@ -3,19 +3,20 @@
 #define TRAP_H
 
 #include "color.h"
-#include "json.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "units.h"
 #include <string>
 #include <functional>
+#include <vector>
 
 class Creature;
 class item;
 class player;
+class map;
 struct trap;
 struct tripoint;
-
+class JsonObject;
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
 
@@ -68,13 +69,13 @@ struct trap {
 
         long sym;
         nc_color color;
-        std::string name;
     private:
         int visibility; // 1 to ??, affects detection
         int avoidance;  // 0 to ??, affects avoidance
         int difficulty; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
         trap_function act;
+        std::string name_;
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
@@ -82,6 +83,7 @@ struct trap {
         int funnel_radius_mm;
         std::vector<itype_id> components; // For disassembly?
     public:
+        std::string name() const;
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */
@@ -133,11 +135,11 @@ struct trap {
          */
         bool triggered_by_item( const item &itm ) const;
         /**
-         * Called when a trap at the given point in the main map has been disarmed.
+         * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via
          * @ref map::remove_trap.
          */
-        void on_disarmed( const tripoint &pos ) const;
+        void on_disarmed( map &m, const tripoint &pos ) const;
         /**
          * Whether this kind of trap actually occupies a 3x3 area. Currently only blade traps
          * do so.
@@ -206,7 +208,6 @@ extern trap_id
 tr_null,
 tr_bubblewrap,
 tr_cot,
-tr_brazier,
 tr_funnel,
 tr_metal_funnel,
 tr_makeshift_funnel,
@@ -223,8 +224,6 @@ tr_shotgun_2,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
-tr_light_snare,
-tr_heavy_snare,
 tr_landmine,
 tr_landmine_buried,
 tr_telepad,

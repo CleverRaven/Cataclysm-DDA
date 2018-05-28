@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "itype.h"
+#include "ammo.h"
 #include "map.h"
 #include "vehicle.h"
 #include "veh_type.h"
@@ -68,10 +69,10 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 
                 auto tank_idx = veh->install_part( 0, 0, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
-                REQUIRE( veh->parts[ tank_idx ].ammo_set( default_ammo( ammo ) ) );
+                REQUIRE( veh->parts[ tank_idx ].ammo_set( ammo->default_ammotype() ) );
 
             } else if( ammo ) {
-                veh->parts[ idx].ammo_set( default_ammo( ammo ) );
+                veh->parts[ idx].ammo_set( ammo->default_ammotype() );
             }
 
             auto qry = veh->turret_query( veh->parts[ idx ] );

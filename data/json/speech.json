@@ -1102,6 +1102,11 @@
     },{
         "type" : "speech",
         "speaker" : "mon_mi_go",
+        "sound" : "\"Me go, you stay.\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_mi_go",
         "sound" : "\"Please, God.\"",
         "volume" : 5
     },{

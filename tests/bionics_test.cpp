@@ -2,13 +2,15 @@
 
 #include "bionics.h"
 #include "item.h"
+#include "ammo.h"
 #include "itype.h"
 #include "game.h"
+#include "bionics.h"
 #include "player.h"
 
 void clear_bionics( player &p )
 {
-    p.my_bionics.clear();
+    p.my_bionics->clear();
     p.power_level = 0;
     p.max_power_level = 0;
 
@@ -26,8 +28,8 @@ void give_and_activate( player &p, bionic_id const &bioid )
 
     // get bionic's index - might not be "last added" due to "integrated" ones
     int bioindex = -1;
-    for( size_t i = 0; i < p.my_bionics.size(); i++ ) {
-        const auto &bio = p.my_bionics[ i ];
+    for( size_t i = 0; i < p.my_bionics->size(); i++ ) {
+        const auto &bio = ( *p.my_bionics )[ i ];
         if( bio.id == bioid ) {
             bioindex = i;
         }
@@ -73,7 +75,7 @@ void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bo
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
 
-    it.ammo_set( default_ammo( it.ammo_type() ), -1 ); // -1 -> full
+    it.ammo_set( it.ammo_type()->default_ammotype(), -1 ); // -1 -> full
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_full );
 

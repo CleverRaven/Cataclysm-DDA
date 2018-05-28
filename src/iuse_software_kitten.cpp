@@ -3,6 +3,7 @@
 #include "output.h"
 #include "translations.h"
 #include "posix_time.h"
+#include "cursesdef.h"
 #include "input.h"
 
 #include <cstdlib>  // Needed for rand()
@@ -29,7 +30,7 @@ std::string robot_finds_kitten::getmessage(int idx)
         _("Not kitten, just a packet of Kool-Aid(tm)."),
         _("A freshly-baked pumpkin pie."),
         _("A lone, forgotten comma, sits here, sobbing."),
-        _("ONE HUNDRED THOUSAND CARPET FIBERS!!!!!"),
+        _("ONE HUNDRED THOUSAND CARPET FIBERS!"),
         _("It's Richard Nixon's nose!"),
         _("It's Lucy Ricardo. \"Aaaah, Ricky!\", she says."),
         _("You stumble upon Bill Gates' stand-up act."),
@@ -46,7 +47,7 @@ std::string robot_finds_kitten::getmessage(int idx)
         _("A signpost saying \"TO KITTEN\". It points in no particular direction."),
         _("A hammock stretched between a tree and a volleyball pole."),
         _("A Texas Instruments of Destruction calculator."),
-        _("It's a dark, amphorous blob of matter."),
+        _("It's a dark, amorphous blob of matter."),
         _("Just a pincushion."),
         _("It's a mighty zombie talking about some love and prosperity."),
         _("\"Dear robot, you may have already won our 10 MILLION DOLLAR prize...\""),
@@ -223,7 +224,7 @@ std::string robot_finds_kitten::getmessage(int idx)
     }
 }
 
-robot_finds_kitten::robot_finds_kitten(WINDOW *w)
+robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 {
     ret = false;
     char ktile[83] =
@@ -237,7 +238,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     nummessages = 201;
     empty.x = -1;
     empty.y = -1;
-    empty.color = (nc_color)0;
+    empty.color = nc_color();
     empty.character = ' ';
     for (int c = 0; c < rfkCOLS; c++) {
         for (int c2 = 0; c2 < rfkLINES; c2++) {
@@ -323,16 +324,14 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 
     wrefresh(w);
     /* Now the fun begins. */
-    int input = '.';
-    // TODO: use input context
-    input = inp_mngr.get_input_event().get_first_input();
+    int input = inp_mngr.get_input_event().get_first_input(); // @todo: use input context
 
     while (input != 'q' && input != 'Q' && input != 27 /*escape*/) {
         process_input(input, w);
-        if(ret == true) {
+        if( ret ) {
             break;
         }
-        /* Redraw robot, where avaliable */
+        /* Redraw robot, where available */
         if (!(old_x == robot.x && old_y == robot.y)) {
             wmove(w, old_y, old_x);
             wputch(w, c_white, ' ');
@@ -349,30 +348,30 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     }
 }
 
-void robot_finds_kitten::instructions(WINDOW *w)
+void robot_finds_kitten::instructions( const catacurses::window &w )
 {
     int pos = 1;
-    pos += fold_and_print(w, 0, 1, getmaxx(w) - 4, c_ltgray, _("robotfindskitten v22July2008"));
-    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("\
+    pos += fold_and_print(w, 0, 1, getmaxx(w) - 4, c_light_gray, _("robotfindskitten v22July2008"));
+    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("\
 Originally by the illustrious Leonard Richardson, \
 rewritten in PDCurses by Joseph Larson, \
 ported to CDDA gaming system by a nutcase."));
 
-    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray,
+    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray,
                               _("In this game, you are robot ("));
     draw_robot(w);
-    wprintz(w, c_ltgray, _(")."));
-    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("\
-Your job is to find kitten. This task is complicated by the existance of various things \
+    wprintz(w, c_light_gray, _(")."));
+    pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("\
+Your job is to find kitten. This task is complicated by the existence of various things \
 which are not kitten. Robot must touch items to determine if they are kitten or not. \
-The game ends when robotfindskitten. Alternatively, you may end the game by hitting \
-'q', 'Q' or the escape key."));
-    fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("Press any key to start."));
+The game ends when robot finds kitten. Alternatively, you may end the game by hitting \
+'q', 'Q' or the Escape key."));
+    fold_and_print(w, pos, 1, getmaxx(w) - 4, c_light_gray, _("Press any key to start."));
     wrefresh(w);
     inp_mngr.wait_for_any_key();
 }
 
-void robot_finds_kitten::process_input(int input, WINDOW *w)
+void robot_finds_kitten::process_input( int input, const catacurses::window &w )
 {
     timespec ts;
     ts.tv_sec = 1;
@@ -444,7 +443,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
             }
 
             /* They're in love! */
-            mvwprintz(w, 0, ((rfkCOLS - 6) / 2) - 1, c_ltred, "<3<3<3");
+            mvwprintz(w, 0, ((rfkCOLS - 6) / 2) - 1, c_light_red, "<3<3<3");
             wrefresh(w);
             nanosleep(&ts, NULL);
             for (int c = 0; c < rfkCOLS; c++) {
@@ -470,7 +469,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
             std::vector<std::string> bogusvstr = foldstring( getmessage(
                     bogus_messages[rfkscreen[check_x][check_y] - 2]), rfkCOLS);
             for (size_t c = 0; c < bogusvstr.size(); c++) {
-                mvwprintw (w, c, 0, "%s", bogusvstr[c].c_str());
+                mvwprintw( w, c, 0, bogusvstr[c] );
             }
             wrefresh(w);
         }
@@ -484,12 +483,12 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
     robot.y = check_y;
 }
 
-void robot_finds_kitten::draw_robot(WINDOW *w)  /* Draws robot at current position */
+void robot_finds_kitten::draw_robot( const catacurses::window &w )  /* Draws robot at current position */
 {
     wputch(w, robot.color, robot.character);
 }
 
-void robot_finds_kitten::draw_kitten(WINDOW *w)  /* Draws kitten at current position */
+void robot_finds_kitten::draw_kitten( const catacurses::window &w )  /* Draws kitten at current position */
 {
     wputch(w, kitten.color, kitten.character);
 }

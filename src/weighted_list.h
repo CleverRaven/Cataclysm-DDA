@@ -18,6 +18,8 @@ template <typename W, typename T> struct weighted_object {
 template <typename W, typename T> struct weighted_list {
         weighted_list() : total_weight( 0 ) { };
 
+        virtual ~weighted_list() = default;
+
         /**
          * This will add a new object to the weighted list. Returns a pointer to
            the added object, or NULL if weight was zero.
@@ -146,6 +148,12 @@ template <typename W, typename T> struct weighted_list {
             return objects.begin();
         }
         typename std::vector<weighted_object<W, T> >::iterator end() {
+            return objects.end();
+        }
+        typename std::vector<weighted_object<W, T> >::const_iterator begin() const {
+            return objects.begin();
+        }
+        typename std::vector<weighted_object<W, T> >::const_iterator end() const {
             return objects.end();
         }
         typename std::vector<weighted_object<W, T> >::iterator erase(

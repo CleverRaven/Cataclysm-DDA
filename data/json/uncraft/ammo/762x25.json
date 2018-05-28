@@ -3,14 +3,33 @@
     "result": "762_25",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "using": [ [ "ammo_762_25", 1 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "gunpowder", 4 ] ] ]
+    "using": [ [ "ammo_762_25", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
   },
   {
     "result": "762_25hot",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "using": [ [ "ammo_762_25", 1 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "using": [ [ "ammo_762_25", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ]
+  },
+  {
+    "result": "762_25typeP",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_762_25", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ]
   }
 ]

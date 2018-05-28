@@ -4,13 +4,13 @@
 
 #include <memory>
 
-#include "json.h"
-
 struct tripoint;
 class item;
 class Character;
 class map_cursor;
 class vehicle_cursor;
+class JsonIn;
+class JsonOut;
 
 /**
  * A lightweight handle to an item independent of it's location
@@ -18,7 +18,7 @@ class vehicle_cursor;
  * Provides a generic interface of querying, obtaining and removing an item
  * Is invalidated by many operations (including copying of the item)
  */
-class item_location : public JsonSerializer, public JsonDeserializer
+class item_location
 {
     public:
         enum class type : int {

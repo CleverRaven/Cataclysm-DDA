@@ -1,17 +1,17 @@
+#include "profession.h"
 #include <iostream>
 #include <sstream>
 #include <iterator>
-
-#include "profession.h"
+#include <map>
 
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "bionics.h"
 #include "text_snippets.h"
 #include "rng.h"
 #include "translations.h"
 #include "addiction.h"
+#include "item_group.h"
 #include "pldata.h"
 #include "itype.h"
 #include "generic_factory.h"
@@ -405,9 +405,9 @@ bool profession::has_flag( std::string flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( player *u, int points ) const
+bool profession::can_pick( const player &u, const int points ) const
 {
-    if( point_cost() - u->prof->point_cost() > points ) {
+    if( point_cost() - u.prof->point_cost() > points ) {
         return false;
     }
 

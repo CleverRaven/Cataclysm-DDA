@@ -42,6 +42,27 @@
     ]
   },
   {
+    "result": "pallet_lifter",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 2,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "jack", 1 ] ],
+      [ [ "pipe", 4 ] ]
+    ]
+  },
+  {
     "result": "drivebelt_makeshift",
     "type" : "recipe",
     "category": "CC_OTHER",
@@ -89,6 +110,26 @@
       [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
       [ [ "paper", 50 ] ],
       [ [ "duct_tape", 20 ] ]
+    ]
+  },
+  {
+    "result": "cargo_lock",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 1,
+    "time": 4000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ],
+      [ [ "clockworks", 2 ] ]
     ]
   }
 ]

@@ -2,13 +2,8 @@
    {
       "type": "region_settings",
       "id": "desert_test",                  "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
-      "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
-      "default_groundcover": {              "//": "biome settings for generic 'grass_or_dirt' (which is reproduced below",
-          "primary": "t_searth_test",       "//": "default ter_id on ground",
-          "ratio": 3,                       "//": "one_in(n) chance that it becomes...",
-          "secondary": "t_sand",            "//": "...this instead"
-      },
+      "default_groundcover": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ],
       "field_coverage": {                   "//": "biome settings for builtin field mapgen",
           "percent_coverage": 1.9333,       "//": "% of tiles that have a plant: one_in(120)",
           "default_ter": "t_sand",        "//": "default plant. Except this is a desert. Enjoy your rock.",
@@ -36,6 +31,10 @@
           "type": "town",
           "shop_radius": 80,                "//": "tldr: less means more",
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "houses": {
+              "house": 1,
+              "house_base": 1
+          },
           "parks": {
               "park": 2,
               "pool": 1
@@ -65,7 +64,7 @@
       "id" : "s_restaurant_deserted_test",
       "name" : "abandoned drive-through",
       "sym" : 94,
-      "color" : "dkgray_magenta",
+      "color" : "dark_gray_magenta",
       "see_cost" : 5,
       "extras" : "build",
       "mondensity" : 2,
@@ -100,7 +99,7 @@
                        "   dd                   "
                    ],
                    "terrain":{
-                       " ": "t_null",
+                       " ": "t_sand",
                        "d": "t_floor",
                        "5": "t_wall_glass",
                        "%": "t_wall_glass",
@@ -154,7 +153,7 @@
       "id" : "t_searth_test",
       "name": "scorched earth",
       "symbol": ".",
-      "color": "ltgray",
+      "color": "light_gray",
       "move_cost": 2,
       "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
    },

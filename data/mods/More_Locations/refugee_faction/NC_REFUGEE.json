@@ -1,0 +1,53 @@
+[
+ {
+    "type" : "item_group",
+    "id" : "NC_REFUGEE_bashing",
+    "items":[
+    { "group": "refugee_bashing", "chance": 100 }
+    ]
+  },{
+   "type" : "item_group",
+    "id" : "NC_REFUGEE_cutting",
+    "items":[
+    { "group": "refugee_cutting", "chance": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_REFUGEE_stabbing",
+    "items":[
+    { "group": "refugee_stabbing", "chance": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_REFUGEE_pistol",
+    "items":[
+      [ "glock_19", 200 ],
+      [ "ruger_lcr_38",100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_REFUGEE_rifle",
+    "items":[
+      [ "marlin_9a", 100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_REFUGEE_shotgun",
+    "items":[
+      [ "shotgun_s", 200 ],
+      [ "shotgun_d",100 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_REFUGEE_smg",
+    "items":[
+      [ "glock_19", 200 ]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_REFUGEE_archery",
+    "items":[
+      [ "crossbow", 200 ]
+    ]
+  }
+]

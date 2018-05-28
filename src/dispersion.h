@@ -2,6 +2,7 @@
 #ifndef DISPERSION_H
 #define DISPERSION_H
 
+#include<iosfwd>
 #include <vector>
 
 class dispersion_sources
@@ -25,6 +26,8 @@ class dispersion_sources
         double roll() const;
         double max() const;
         double avg() const;
+
+        friend std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources );
 };
 
 #endif

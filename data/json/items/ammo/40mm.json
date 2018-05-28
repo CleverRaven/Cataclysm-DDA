@@ -58,10 +58,7 @@
     "type": "AMMO",
     "name": "40mm flechette",
     "description": "A 40mm grenade with an armor-piercing flechette load.",
-    "relative": {
-      "damage": -10,
-      "pierce": 30
-    }
+    "relative": { "damage": -10, "pierce": 30 }
   },
   {
     "id": "40mm_frag",

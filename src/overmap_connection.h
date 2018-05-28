@@ -3,7 +3,6 @@
 #define OVERMAP_CONNECTIONS_H
 
 #include "enums.h"
-#include "json.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
@@ -11,10 +10,13 @@
 #include <list>
 #include <vector>
 
+class JsonObject;
+class JsonIn;
+
 class overmap_connection
 {
     public:
-        class subtype : public JsonDeserializer
+        class subtype
         {
                 friend overmap_connection;
 
@@ -36,7 +38,7 @@ class overmap_connection
                 }
 
                 void load( JsonObject &jo );
-                void deserialize( JsonIn &jsin ) override;
+                void deserialize( JsonIn &jsin );
 
             private:
                 std::set<string_id<overmap_location>> locations;

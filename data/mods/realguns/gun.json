@@ -17,7 +17,8 @@
     "name": "S&W 619",
     "name_plural": "S&W 619",
     "description": "A seven-round .357 Magnum revolver sold by Smith & Wesson.  It features a fixed rear sight and a reinforced frame.",
-    "ammo": "357_mag"
+    "ammo": "357_mag",
+    "magazines": [ [ "357_mag", [ "357_mag_speedloader" ] ] ]
   },
   {
     "id": "sw_610",
@@ -34,10 +35,7 @@
     "type": "GUN",
     "name": "Saiga-12",
     "name_plural": "Saiga-12",
-    "magazines": [
-      [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ],
-      [ "shot", [ "saiga10mag", "saiga30mag" ] ]
-    ]
+    "magazines": [ [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ], [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
   },
   {
     "id": "saiga_410",
@@ -105,7 +103,7 @@
     "name": "Colt Lightning .45",
     "name_plural": "Colt Lightning .45",
     "//": "Reproduction as Colt did not make these in .45 Colt, price based off of MSRP of Uberti Lightning.",
-    "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Long Colt, complimenting the Single Action Army as a Cowboy Action Shooting firearm.",
+    "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Long Colt, complementing the Single Action Army as a Cowboy Action Shooting firearm.",
     "weight": 2722,
     "volume": 10,
     "price": 132000,
@@ -149,7 +147,7 @@
     "copy-from": "shotgun_s",
     "type": "GUN",
     "name": ".410 youth shotgun",
-    "description": "An old break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 guage, it is light and simple in manufacture.",
+    "description": "An old break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge, it is light and simple in manufacture.",
     "weight": 2267,
     "volume": 8,
     "price": 20000,

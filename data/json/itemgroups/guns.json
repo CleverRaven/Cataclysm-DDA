@@ -4,7 +4,8 @@
     "id": "guns_pistol_common",
     "//": "Pistols commonly owned by citizens and found in many locations.",
     "items": [
-      [ "glock_19", 85 ],
+      [ "glock_17", 35 ],
+      [ "glock_19", 50 ],
       [ "glock_22", 35 ],
       [ "m1911", 50 ],
       [ "m9", 30 ],
@@ -12,7 +13,8 @@
       [ "sig_mosquito", 15 ],
       [ "sw_22", 15 ],
       [ "sw_610", 20 ],
-      [ "sw_619", 25 ]
+      [ "sw_619", 25 ],
+      [ "p226_357sig", 20 ]
     ]
   },
   {
@@ -62,6 +64,7 @@
       [ "pistol_flintlock", 150 ],
       [ "raging_bull", 100 ],
       [ "rm99_pistol", 150 ],
+      [ "tokarev", 100 ],
       [ "walther_ppk", 100 ]
     ]
   },
@@ -80,10 +83,10 @@
     "id": "guns_smg_common",
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
-      [ "american_180", 70 ],
+      [ "tommygun", 70 ],
       [ "briefcase_smg", 20 ],
       [ "sten", 100 ],
-      [ "tec9", 100 ]
+      [ "uzi", 100 ]
     ]
   },
   {
@@ -98,8 +101,8 @@
       [ "mac_10", 40 ],
       [ "rm360_carbine", 30 ],
       [ "TDI", 10 ],
-      [ "tommygun", 50 ],
-      [ "uzi", 50 ]
+      [ "american_180", 50 ],
+      [ "tec9", 50 ]
     ]
   },
   {
@@ -184,6 +187,7 @@
       [ "l_mbr_223", 100 ],
       [ "m107a1", 30 ],
       [ "m134", 10 ],
+      [ "m14ebr", 10 ],
       [ "m2010", 20 ],
       [ "m240", 15 ],
       [ "m249", 25 ],
@@ -291,6 +295,15 @@
   },
   {
     "type": "item_group",
+    "id": "guns_launcher_flame",
+    "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
+    "items": [
+      [ "flamethrower", 50 ],
+      [ "rm451_flamethrower", 40 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_launcher_grenade",
     "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
     "items": [
@@ -306,6 +319,13 @@
     "id": "guns_launcher_rocket",
     "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
     "items": [
+      [ "LAW_Packed", 200 ],
+      [ "m202_flash", 100 ],
+      [ "m235tpa", 150 ],
+      [ "m3_carlgustav", 50 ],
+      [ "84x246mm_he", 100 ],
+      [ "84x246mm_hedp", 80 ],
+      [ "84x246mm_smoke", 100 ]
     ]
   },
   {
@@ -313,6 +333,7 @@
     "id": "guns_launcher_milspec",
     "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
     "items": [
+      { "group": "guns_launcher_flame", "prob": 20 },
       { "group": "guns_launcher_grenade", "prob": 70 },
       { "group": "guns_launcher_rocket", "prob": 30 }
     ]

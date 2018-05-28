@@ -25,7 +25,7 @@
     "type": "terrain",
     "name": "tarp lean-to",
     "symbol": ";",
-    "color": [ "ltblue" ],
+    "color": [ "light_blue" ],
     "move_cost": 2,
     "bash": {
       "str_min": 6,
@@ -54,7 +54,7 @@
     "type": "terrain",
     "name": "half-built wattle-and-daub wall",
     "symbol": "#",
-    "color": [ "ltred" ],
+    "color": [ "light_red" ],
     "move_cost": 4,
     "bash": {
       "str_min": 8,
@@ -74,7 +74,7 @@
     "type": "terrain",
     "name": "wattle-and-daub wall",
     "symbol": "#",
-    "color": [ "ltred" ],
+    "color": [ "light_red" ],
     "move_cost": 0,
     "bash": {
       "str_min": 10,
@@ -94,7 +94,7 @@
     "type": "terrain",
     "name": "broken wattle-and-daub wall",
     "symbol": "&",
-    "color": [ "ltred" ],
+    "color": [ "light_red" ],
     "move_cost": 0,
     "bash": {
       "str_min": 4,

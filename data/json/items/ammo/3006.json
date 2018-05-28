@@ -29,12 +29,7 @@
     "description": ".30-06 Springfield rounds with 165gr soft point bullets.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
     "price": 1200,
     "count": 10,
-    "relative": {
-      "range": -4,
-      "damage": -2,
-      "pierce": 6,
-      "dispersion": 10
-    },
+    "relative": { "range": -4, "damage": -2, "pierce": 6, "dispersion": 10 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -50,22 +45,15 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": ".30-06 M2 AP",
-    "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for it's armor penetration abilities with lowered damage.",
-    "relative": {
-      "damage": -4,
-      "pierce": 8
-    }
+    "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for its armor penetration abilities with lowered damage.",
+    "relative": { "damage": -4, "pierce": 8 }
   },
   {
     "id": "reloaded_270",
     "copy-from": "270",
     "type": "AMMO",
     "name": "reloaded .270 Winchester",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -74,11 +62,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": "reloaded .30-06 Springfield",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -87,11 +71,7 @@
     "copy-from": "3006_incendiary",
     "type": "AMMO",
     "name": "reloaded .30-06 incendiary",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -100,11 +80,7 @@
     "copy-from": "3006fmj",
     "type": "AMMO",
     "name": "reloaded .30-06 M2 AP",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }

@@ -67,9 +67,7 @@
         "G": "f_oven",
         "H": "f_armchair"
       },
-      "toilets": {
-        ";": {}
-      },
+      "toilets": { ";": {  } },
       "place_items": [
         { "item": "bed", "x": [ 6, 6 ], "y": [ 13, 13 ], "chance": 60 },
         { "item": "bed", "x": [ 9, 9 ], "y": [ 13, 13 ], "chance": 60 },

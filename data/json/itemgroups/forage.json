@@ -61,7 +61,7 @@
     "id": "forage_winter",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": []
+    "entries": [  ]
   },
   {
     "id": "forage_mushroom",

@@ -73,9 +73,7 @@
         "u": "f_trashcan",
         "}": "f_locker"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "shoestore_shoes", "x": 4, "y": [ 7, 13 ], "chance": 60, "repeat": [ 1, 6 ] },
         { "item": "shoestore_shoes", "x": 7, "y": [ 7, 12 ], "chance": 60, "repeat": [ 1, 6 ] },

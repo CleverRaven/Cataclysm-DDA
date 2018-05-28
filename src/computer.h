@@ -2,8 +2,8 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "cursesdef.h" // WINDOW
-#include "printf_check.h"
+#include "calendar.h"
+#include "cursesdef.h"
 #include <vector>
 #include <string>
 
@@ -12,7 +12,7 @@ class player;
 class JsonObject;
 
 // Don't change those! They must stay in this specific order!
-// @todo Remove this enum
+// @todo: Remove this enum
 enum computer_action {
     COMPACT_NULL = 0,
     COMPACT_OPEN,
@@ -34,7 +34,7 @@ enum computer_action {
     COMPACT_ELEVATOR_ON,
     COMPACT_AMIGARA_LOG,
     COMPACT_AMIGARA_START,
-    COMPACT_COMPLETE_MISSION,   //Completes the mission that has the same name as the computer action
+    COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER, // Completes "Disable External Power" mission
     COMPACT_REPEATER_MOD,       //Converts a terminal in a radio station into a 'repeater', locks terminal and completes mission
     COMPACT_DOWNLOAD_SOFTWARE,
     COMPACT_BLOOD_ANAL,
@@ -58,7 +58,7 @@ enum computer_action {
 };
 
 // Don't change those! They must stay in this specific order!
-// @todo Remove this enum
+// @todo: Remove this enum
 enum computer_failure_type {
     COMPFAIL_NULL = 0,
     COMPFAIL_SHUTDOWN,
@@ -74,7 +74,7 @@ enum computer_failure_type {
     NUM_COMPUTER_FAILURES
 };
 
-// @todo Turn the enum into id, get rid of this
+// @todo: Turn the enum into id, get rid of this
 computer_action computer_action_from_string( const std::string &str );
 computer_failure_type computer_failure_type_from_string( const std::string &str );
 
@@ -83,11 +83,8 @@ struct computer_option {
     computer_action action;
     int security;
 
-    computer_option() {
-        name = "Unknown", action = COMPACT_NULL, security = 0;
-    };
-    computer_option( std::string N, computer_action A, int S ) :
-        name( N ), action( A ), security( S ) {};
+    computer_option();
+    computer_option( std::string N, computer_action A, int S );
 
     static computer_option from_json( JsonObject &jo );
 };
@@ -105,6 +102,7 @@ class computer
 {
     public:
         computer( const std::string &name, int Security );
+        computer( const computer &rhs );
         ~computer();
 
         computer &operator=( const computer &rhs );
@@ -121,10 +119,10 @@ class computer
         void use();
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( player *p, int Security = -1 );
+        bool hack_attempt( player &p, int Security = -1 );
         // Save/load
-        std::string save_data();
-        void load_data( std::string data );
+        std::string save_data() const;
+        void load_data( const std::string &data );
 
         std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         int mission_id; // Linked to a mission?
@@ -133,20 +131,20 @@ class computer
         // Difficulty of simply logging in
         int security;
         // Date of next attempt
-        int next_attempt = 0;
+        time_point next_attempt = calendar::before_time_starts;
         // Things we can do
         std::vector<computer_option> options;
         // Things that happen if we fail a hack
         std::vector<computer_failure> failures;
         // Output window
-        WINDOW *w_terminal;
+        catacurses::window w_terminal;
         // Pretty border
-        WINDOW *w_border;
+        catacurses::window w_border;
         // Misc research notes from json
         static std::vector<std::string> lab_notes;
 
         // Called by use()
-        void activate_function( computer_action action, char ch );
+        void activate_function( computer_action action );
         // Generally called when we fail a hack attempt
         void activate_random_failure();
         // ...but we can also choose a specific failure.
@@ -161,19 +159,25 @@ class computer
         // Reset to a blank terminal (e.g. at start of usage loop)
         void reset_terminal();
         // Prints a line to the terminal (with printf flags)
-        void print_line( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        void print_line( const char *text, Args &&... args );
         // For now, the same as print_line but in red (TODO: change this?)
-        void print_error( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        void print_error( const char *text, Args &&... args );
         // Wraps and prints a block of text with a 1-space indent
-        void print_text( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        void print_text( const char *text, Args &&... args );
         // Prints code-looking gibberish
         void print_gibberish_line();
         // Prints a line and waits for Y/N/Q
-        char query_ynq( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        char query_ynq( const char *text, Args &&... args );
         // Same as query_ynq, but returns true for y or Y
-        bool query_bool( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        bool query_bool( const char *text, Args &&... args );
         // Simply wait for any key, returns True
-        bool query_any( const char *text, ... ) PRINTF_LIKE( 2, 3 );
+        template<typename ...Args>
+        bool query_any( const char *text, Args &&... args );
         // Move the cursor to the beginning of the next line
         void print_newline();
 };

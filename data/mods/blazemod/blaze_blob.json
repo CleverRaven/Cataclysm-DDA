@@ -1,4 +1,55 @@
 [
+    {
+    "id": "gloopletread",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": "Gelatinous track",
+    "description": "A short, interlocking set of tracks created out of some of your monstrosity blob based parts.  Similar with what you might see used on light construction vehicles.  It's significantly stronger than regular tires due to not being at risk of bursting; but is quite heavy.",
+    "weight": 32368,
+    "volume": 200,
+    "price": 25500,
+    "to_hit": -3,
+    "bashing": 30,
+    "material": [ "plastic", "steel" ],
+    "symbol": "]",
+    "color": "white",
+    "diameter": 30,
+    "width": 15
+  },
+  {
+    "id": "oozletread",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": "Oozing track",
+    "description": "A short, interlocking set of tracks created out of some of your monstrosity blob based parts.  Similar with what you might see used on light construction vehicles.  It's significantly stronger than regular tires due to not being at risk of bursting; but is quite heavy.",
+    "weight": 32368,
+    "volume": 200,
+    "price": 25500,
+    "to_hit": -3,
+    "bashing": 30,
+    "material": [ "plastic", "steel" ],
+    "symbol": "]",
+    "color": "white",
+    "diameter": 50,
+    "width": 25
+  },
+  {
+    "id": "graytread",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": "Gray track",
+    "description": "A short, interlocking set of tracks created out of some of your monstrosity blob based parts.  Similar with what you might see used on light construction vehicles.  It's significantly stronger than regular tires due to not being at risk of bursting; but is quite heavy.",
+    "weight": 32368,
+    "volume": 200,
+    "price": 25500,
+    "to_hit": -3,
+    "bashing": 30,
+    "material": [ "plastic", "steel" ],
+    "symbol": "]",
+    "color": "white",
+    "diameter": 60,
+    "width": 30
+  },
   {
     "id": "bfeedfuel",
     "type": "AMMO",
@@ -72,7 +123,7 @@
     "id": "biter",
     "type": "GUN",
     "name": "biting blob",
-    "description": "A living blob turned into an autonomous weapon; meant to be stretched across a frame as a form of barrier.  It has evolved the ability to constantly generate calcified protrusions which are then controlled by sinous tensile strands.  These \"teeth\" can then be used to latch and wound anything unfortunate enough to be nearby.  The outer membrane has also become significantly thicker in order to support its more strenuous movement; though it seems pliable enough to pull apart...",
+    "description": "A living blob turned into an autonomous weapon; meant to be stretched across a frame as a form of barrier.  It has evolved the ability to constantly generate calcified protrusions which are then controlled by sinuous tensile strands.  These \"teeth\" can then be used to latch and wound anything unfortunate enough to be nearby.  The outer membrane has also become significantly thicker in order to support its more strenuous movement; though it seems pliable enough to pull apart...",
     "weight": 18331,
     "volume": 22,
     "to_hit": -5,
@@ -125,7 +176,7 @@
     "bashing": 10,
     "material": [ "flesh", "bone" ],
     "symbol": "&",
-    "color": "purple",
+    "color": "magenta",
     "skill": "pistol",
     "range": 12,
     "ranged_damage": 7,
@@ -147,7 +198,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "purple",
+    "color": "magenta",
     "use_action": {
       "target": "clutter",
       "msg": "The blob balloons to full size.",
@@ -157,44 +208,10 @@
     }
   },
   {
-    "id": "flamethrower",
-    "copy-from": "flamethrower",
-    "type": "GUN",
-    "name": "flamethrower",
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
-    "id": "flamethrower_crude",
-    "copy-from": "flamethrower_crude",
-    "type": "GUN",
-    "name": "spraycan flamethrower",
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
-    "id": "flamethrower_simple",
-    "copy-from": "flamethrower_simple",
-    "type": "GUN",
-    "name": "simple flamethrower",
-    "range": 2,
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
     "id": "freezie",
     "type": "GUN",
     "name": "frost lancer",
-    "description": "A living blob turned into an autonomous weapon.  A biological abberration that exists at sub-zero temperatures.  After filtering nutrients from the water, it freezes the remainder into an incredibly sharp spear of ice; which it then launches at nearby threats.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
+    "description": "A living blob turned into an autonomous weapon.  A biological aberration that exists at sub-zero temperatures.  After filtering nutrients from the water, it freezes the remainder into an incredibly sharp spear of ice; which it then launches at nearby threats.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
     "weight": 21331,
     "volume": 18,
     "to_hit": -5,
@@ -319,24 +336,6 @@
       "type": "delayed_transform",
       "transform_age": 4800,
       "not_ready_msg": "Whatever it's doing, it's not done yet."
-    }
-  },
-  {
-    "id": "gasoline",
-    "copy-from": "gasoline",
-    "type": "AMMO",
-    "category": "fuel",
-    "name": "gasoline",
-    "name_plural": "gasoline",
-    "explosion": {
-      "power": 10,
-      "distance_factor": 0.01,
-      "shrapnel": {
-        "count": 25,
-        "mass": 1,
-        "drop": "gasoline",
-        "recovery": 100
-      }
     }
   },
   {
@@ -504,7 +503,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "lt_gray",
+    "color": "light_gray",
     "ammo": "bfeed",
     "max_charges": 250,
     "charges_per_use": 250,
@@ -560,7 +559,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "gray",
+    "color": "light_gray",
     "contains": 100,
     "seals": true,
     "watertight": true
@@ -577,7 +576,7 @@
     "bashing": 9,
     "material": [ "flesh" ],
     "symbol": "]",
-    "color": "lt_gray",
+    "color": "light_gray",
     "diameter": 40,
     "width": 40
   },
@@ -594,7 +593,7 @@
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
-    "color": "lt_gray",
+    "color": "light_gray",
     "use_action": {
       "target": "gray",
       "msg": "The blob balloons to full size.",
@@ -616,7 +615,7 @@
     "bashing": 9,
     "material": [ "stone", "flesh" ],
     "symbol": "]",
-    "color": "lt_gray",
+    "color": "light_gray",
     "diameter": 60,
     "width": 60
   },
@@ -960,17 +959,6 @@
     }
   },
   {
-    "id": "rm451_flamethrower",
-    "copy-from": "rm451_flamethrower",
-    "type": "GUN",
-    "name": "RM451 flamethrower",
-    "extend": {
-      "ammo_effects": [ "STREAM" ],
-      "flags": [ "FIRE_20" ]
-    },
-    "delete": { "flags": [ "FIRE_100" ] }
-  },
-  {
     "id": "sharp",
     "type": "GUN",
     "name": "gel lancer",
@@ -1019,7 +1007,7 @@
     "id": "gelrazor",
     "type": "GUN",
     "name": "gel razor",
-    "description": "A living blob turned into an autonomous weapon.  An enhanced metabolism allows it to calcify large. toothy discs that is then launched towards any nearby threats.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
+    "description": "A living blob turned into an autonomous weapon.  An enhanced metabolism allows it to calcify large, toothy discs which are then launched towards any nearby threats.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
     "weight": 17121,
     "volume": 22,
     "to_hit": -5,
@@ -1199,7 +1187,7 @@
     "id": "voideater",
     "type": "GUN",
     "name": "spark blight",
-    "description": "A living blob turned into an autonomous weapon.  It is capable of storing energy from sunlight inside itself in the forme of electricity.  Then, in a truly baffling show of force, projects a highly concentrated stream of electricity towards any possible threats.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
+    "description": "A living blob turned into an autonomous weapon.  It is capable of storing energy from sunlight inside itself in the form of electricity.  Then, in a truly baffling show of force, projects a highly concentrated stream of electricity towards any possible threats.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
     "weight": 17331,
     "volume": 21,
     "to_hit": -5,
@@ -1237,26 +1225,5 @@
       "transform_age": 2400,
       "not_ready_msg": "Whatever it's doing, it's not done yet."
     }
-  },
-  {
-    "id": "water",
-    "copy-from": "water",
-    "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
-    "category": "food",
-    "name": "water",
-    "name_plural": "water",
-    "ammo_data": { "ammo_type": "water" },
-    "explosion": {
-      "power": 30,
-      "distance_factor": 0.5,
-      "shrapnel": {
-        "count": 100,
-        "mass": 3,
-        "drop": "water",
-        "recovery": 100
-      }
-    },
-    "flags": [ "EATEN_COLD" ]
   }
 ]

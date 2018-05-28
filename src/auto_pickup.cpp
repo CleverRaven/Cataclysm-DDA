@@ -1,16 +1,17 @@
+#include "auto_pickup.h"
 #include "game.h"
 #include "player.h"
-#include "auto_pickup.h"
 #include "output.h"
+#include "json.h"
 #include "debug.h"
 #include "item_factory.h"
-#include "catacharset.h"
 #include "translations.h"
 #include "cata_utility.h"
 #include "path_info.h"
+#include "string_formatter.h"
 #include "filesystem.h"
 #include "input.h"
-#include "worldfactory.h"
+#include "options.h"
 #include "itype.h"
 #include "string_input_popup.h"
 
@@ -42,18 +43,14 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
     const int iTotalCols = 2;
 
-    WINDOW *w_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
+    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
-    WINDOW_PTR w_helpptr( w_help );
 
-    WINDOW *w_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-    WINDOW_PTR w_borderptr( w_border );
-    WINDOW *w_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
+    catacurses::window w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                           1 + iOffsetX);
-    WINDOW_PTR w_headerptr( w_header );
-    WINDOW *w = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
+    catacurses::window w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
                                    1 + iOffsetX);
-    WINDOW_PTR wptr( w );
 
     /**
      * All of the stuff in this lambda needs to be drawn (1) initially, and
@@ -62,36 +59,36 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     const auto initial_draw = [&]() {
         // Redraw the border
         draw_border( w_border, BORDER_COLOR, custom_name );
-        mvwputch( w_border, 3,  0, c_ltgray, LINE_XXXO) ; // |-
-        mvwputch( w_border, 3, 79, c_ltgray, LINE_XOXX ); // -|
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 5, c_ltgray, LINE_XXOX ); // _|_
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 51, c_ltgray, LINE_XXOX );
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 61, c_ltgray, LINE_XXOX );
+        mvwputch( w_border, 3,  0, c_light_gray, LINE_XXXO) ; // |-
+        mvwputch( w_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 5, c_light_gray, LINE_XXOX ); // _|_
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 51, c_light_gray, LINE_XXOX );
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 61, c_light_gray, LINE_XXOX );
         wrefresh( w_border );
 
         // Redraw the header
         int tmpx = 0;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<A>dd" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<R>emove" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<C>opy" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<E>nable" ) ) + 2;
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<D>isable" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<A>dd" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<R>emove" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<C>opy" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _("<M>ove" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<E>nable" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<D>isable" ) ) + 2;
         if( !g->u.name.empty() ) {
-            shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<T>est" ) );
+            shortcut_print( w_header, 0, tmpx, c_white, c_light_green, _( "<T>est" ) );
         }
         tmpx = 0;
-        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen,
+        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green,
                                 _( "<+-> Move up/down" ) ) + 2;
-        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Enter>-Edit" ) ) + 2;
-        shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Tab>-Switch Page" ) );
+        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+        shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
         for( int i = 0; i < 78; i++ ) {
             if( i == 4 || i == 50 || i == 60 ) {
-                mvwputch( w_header, 2, i, c_ltgray, LINE_OXXX );
-                mvwputch( w_header, 3, i, c_ltgray, LINE_XOXO );
+                mvwputch( w_header, 2, i, c_light_gray, LINE_OXXX );
+                mvwputch( w_header, 3, i, c_light_gray, LINE_XOXO );
             } else {
-                mvwputch( w_header, 2, i, c_ltgray, LINE_OXOX ); // Draw line under header
+                mvwputch( w_header, 2, i, c_light_gray, LINE_OXOX ); // Draw line under header
             }
         }
         mvwprintz( w_header, 3, 1, c_white, "#" );
@@ -139,11 +136,11 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         locx = 55;
         mvwprintz(w_header, 0, locx, c_white, _("Auto pickup enabled:"));
         locx += shortcut_print(w_header, 1, locx,
-                               (get_option<bool>( "AUTO_PICKUP" ) ? c_ltgreen : c_ltred), c_white,
+                               (get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red), c_white,
                                (get_option<bool>( "AUTO_PICKUP" ) ? _("True") : _("False")));
-        locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
-        locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, _("<S>witch"));
-        shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
+        locx += shortcut_print(w_header, 1, locx, c_white, c_light_green, "  ");
+        locx += shortcut_print(w_header, 1, locx, c_white, c_light_green, _("<S>witch"));
+        shortcut_print(w_header, 1, locx, c_white, c_light_green, "  ");
 
         wrefresh(w_header);
 
@@ -151,7 +148,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if( j == 4 || j == 50 || j == 60 ) {
-                    mvwputch(w, i, j, c_ltgray, LINE_XOXO);
+                    mvwputch(w, i, j, c_light_gray, LINE_XOXO);
                 } else {
                     mvwputch(w, i, j, c_black, ' ');
                 }
@@ -160,7 +157,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
         const bool currentPageNonEmpty = !vRules[iTab].empty();
 
-        if (iTab == CHARACTER_TAB && g->u.name == "") {
+        if( iTab == CHARACTER_TAB && g->u.name.empty() ) {
             vRules[CHARACTER_TAB].clear();
             mvwprintz(w, 8, 15, c_white,
                       _("Please load a character first to use this page!"));
@@ -179,11 +176,11 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 i < iStartPos + ((iContentHeight > (int)vRules[iTab].size()) ?
                                  (int)vRules[iTab].size() : iContentHeight)) {
                 nc_color cLineColor = (vRules[iTab][i].bActive) ?
-                                      c_white : c_ltgray;
+                                      c_white : c_light_gray;
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w, i - iStartPos, 1, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w, i - iStartPos, 1, cLineColor, sTemp.str() );
                 mvwprintz(w, i - iStartPos, 5, cLineColor, "");
 
                 if (iLine == i) {
@@ -194,8 +191,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 wprintz(w, (iLine == i &&
                                         iColumn == 1) ? hilite(cLineColor) : cLineColor, "%s",
-                        ((vRules[iTab][i].sRule == "") ? _("<empty rule>") :
-                         vRules[iTab][i].sRule).c_str());
+                        ( ( vRules[iTab][i].sRule.empty() ) ? _( "<empty rule>" ) :
+                         vRules[iTab][i].sRule).c_str() );
 
                 mvwprintz(w, i - iStartPos, 52, (iLine == i &&
                           iColumn == 2) ? hilite(cLineColor) : cLineColor, "%s",
@@ -252,7 +249,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                         vRules[iTab][iLine].bExclude));
             iLine = vRules[iTab].size() - 1;
         } else if (action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty) {
-            if ((iTab == GLOBAL_TAB && g->u.name != "") || iTab == CHARACTER_TAB) {
+            if( ( iTab == GLOBAL_TAB && !g->u.name.empty() ) || iTab == CHARACTER_TAB ) {
                 bStuffChanged = true;
                 //copy over
                 vRules[(iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(
@@ -338,10 +335,10 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iLine--;
                 iColumn = 1;
             }
-        } else if (action == "TEST_RULE" && currentPageNonEmpty && g->u.name != "") {
+        } else if (action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
             test_pattern(iTab, iLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
-            // @todo Now that NPCs use this function, it could be used for them too
+            // @todo: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         } else if( action == "HELP_KEYBINDINGS" ) {
@@ -357,7 +354,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         // NPC pickup rules don't need to be saved explicitly
         if( is_autopickup ) {
             save_global();
-            if( g->u.name != "" ) {
+            if( !g->u.name.empty() ) {
                 save_character();
             }
         }
@@ -373,7 +370,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
 
-    if (vRules[iTab][iRow].sRule == "") {
+    if ( vRules[iTab][iRow].sRule.empty() ) {
         return;
     }
 
@@ -395,22 +392,15 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
     std::ostringstream sTemp;
 
-    WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
-    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
-    WINDOW *w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
-    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
-
-    draw_border(w_test_rule_border);
+    catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX );
+    catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX );
 
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
                                     nmatch), nmatch, vRules[iTab][iRow].sRule.c_str());
-    mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
-              "%s", buf.c_str());
-
-    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
-              _("Won't display bottled and suffixes=(fits)"));
-
+    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+    center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
+                  _( "Won't display bottled and suffixes=(fits)" ) );
     wrefresh(w_test_rule_border);
 
     int iLine = 0;
@@ -438,7 +428,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w_test_rule_content, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz( w_test_rule_content, i - iStartPos, 0, cLineColor, sTemp.str() );
                 mvwprintz(w_test_rule_content, i - iStartPos, 4, cLineColor, "");
 
                 if (iLine == i) {
@@ -543,7 +533,7 @@ void auto_pickup::refresh_map_items() const
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if ( elem.sRule != "" ) {
+            if ( !elem.sRule.empty() ) {
                 if( !elem.bExclude ) {
                     //Check include patterns against all itemfactory items
                     for( const itype *e : item_controller->all() ) {
@@ -604,9 +594,9 @@ bool auto_pickup::save(const bool bCharacter)
     auto savefile = FILENAMES["autopickup"];
 
         if (bCharacter) {
-            savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+            savefile = g->get_player_base_save_path() + ".apu.json";
 
-            const std::string player_save = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav";
+            const std::string player_save = g->get_player_base_save_path() + ".sav";
             if( !file_exist( player_save ) ) {
                 return true; //Character not saved yet.
             }
@@ -634,10 +624,10 @@ void auto_pickup::load(const bool bCharacter)
 
     std::string sFile = FILENAMES["autopickup"];
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+        sFile = g->get_player_base_save_path() + ".apu.json";
     }
 
-    if( !read_from_file_optional( sFile, *this ) ) {
+    if( !read_from_file_optional_json( sFile, [this]( JsonIn &jsin ) { deserialize( jsin ); } ) ) {
         if (load_legacy(bCharacter)) {
             if (save(bCharacter)) {
                 remove_file(sFile);
@@ -687,7 +677,7 @@ bool auto_pickup::load_legacy(const bool bCharacter)
     std::string sFile = FILENAMES["legacy_autopickup2"];
 
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
     auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
@@ -714,7 +704,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
     while(!fin.eof()) {
         getline(fin, sLine);
 
-        if(sLine != "" && sLine[0] != '#') {
+        if(!sLine.empty() && sLine[0] != '#') {
             int iNum = std::count(sLine.begin(), sLine.end(), ';');
 
             if(iNum != 2) {
@@ -727,7 +717,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
                 size_t iPos = 0;
                 int iCol = 1;
                 do {
-                    iPos = sLine.find(";");
+                    iPos = sLine.find( ';' );
 
                     std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
 

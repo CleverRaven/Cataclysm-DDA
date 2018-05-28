@@ -1,0 +1,249 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_bike_shop" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "________________________",
+        "________________________",
+        "   __________________   ",
+        "   __________________   ",
+        "   __________________   ",
+        "  ____________________  ",
+        "  _########----::---|_  ",
+        "  _#.....c#^.......^|_  ",
+        "  _#.....c#.........|_  ",
+        "  _#.....c#.........|_  ",
+        "  _#.....c#........F#_  ",
+        "  _#......##.......&#_  ",
+        "  _#......r#.......D#_  ",
+        "  _#......r#..cc...r#_  ",
+        "  _#..........%....r#_  ",
+        "  _#..........c....r#_  ",
+        "  _#..........c....r#_  ",
+        "  _#########..c.....#_  ",
+        "  _________;..c.rrr.#_  ",
+        "         _@##########_  ",
+        "   *     _____________  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "bike_shop" ],
+      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "items": {
+        "&": { "item": "trash", "chance": 70 },
+        "@": { "item": "trash", "chance": 90 },
+        "c": { "item": "bikeshop_for_sale", "chance": 60 },
+        "r": { "item": "bikeshop_tools", "chance": 80 }
+      },
+      "place_vehicles": [
+        { "vehicle": "bikeshop", "x": [ 4, 6 ], "y": [ 2, 3 ], "chance": 90, "rotation": 270 },
+        { "vehicle": "bikeshop", "x": [ 7, 10 ], "y": 3, "chance": 90, "rotation": 270 },
+        { "vehicle": "bikeshop", "x": [ 11, 14 ], "y": 3, "chance": 90, "rotation": 270 },
+        { "vehicle": "bikeshop", "x": 12, "y": 8, "chance": 60, "rotation": 270, "status": 0 },
+        { "vehicle": "bikeshop", "x": 19, "y": 8, "chance": 60, "rotation": 270, "status": 0 },
+        { "vehicle": "bikeshop", "x": 6, "y": [ 8, 9 ], "chance": 50 },
+        { "vehicle": "bikeshop", "x": 6, "y": [ 10, 11 ], "chance": 50 },
+        { "vehicle": "bikeshop", "x": [ 6, 7 ], "y": [ 12, 13 ], "chance": 50 },
+        { "vehicle": "bikeshop", "x": [ 6, 7 ], "y": [ 14, 15 ], "chance": 50 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_bike_shop" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "_________________________",
+        "_________________________",
+        "_#----------|::|-------#_",
+        "_#^........D|..|D.....^#_",
+        "_#.........F|..|F......#_",
+        "_#.........&|::|&......#_",
+        "_#.....................#_",
+        "_#.....................#_",
+        "_#.....................#_",
+        "_#.....................#_",
+        "_#.....................#_",
+        "_#.....................#_",
+        "_#.....................#_",
+        "_#..................cc.#_",
+        "_#..................%..#_",
+        "_#..................c..#_",
+        "_#..................c..#_",
+        "_#rrrrrrrrrr^..^rrrrrrr#_",
+        "_############..#########_",
+        "_#t.........;..;_________",
+        "_#th......l##+##_________",
+        "_#t...f...l#S.T#@________",
+        "_###############@________",
+        "_________________________"
+      ],
+      "palettes": [ "bike_shop" ],
+      "items": {
+        "&": { "item": "trash", "chance": 70 },
+        "@": { "item": "trash", "chance": 90 },
+        "c": { "item": "bikeshop_for_sale", "chance": 60 },
+        "f": { "item": "fridge", "chance": 40 },
+        "l": { "item": "jackets", "chance": 60 },
+        "r": { "item": "bikeshop_tools", "chance": 80 }
+      },
+      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "place_vehicles": [
+        { "vehicle": "bikeshop", "x": 6, "y": 7, "chance": 60, "status": 0, "rotation": 270 },
+        { "vehicle": "bikeshop", "x": 21, "y": 7, "chance": 90, "rotation": 270 },
+        { "vehicle": "bikeshop", "x": 6, "y": 14, "chance": 60, "status": 0 },
+        { "vehicle": "bikeshop", "x": 22, "y": 14, "chance": 60, "status": 0 }
+      ]
+    }
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bikeshop",
+    "vehicles": [
+      [ "bicycle", 1000 ],
+      [ "bicycle_electric", 600 ],
+      [ "unicycle", 50 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 50 ],
+      [ "tandem", 300 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikeshop_tools",
+    "items": [
+      [ "wheel_bicycle", 100 ],
+      [ "horn_bicycle", 80 ],
+      [ "foot_crank", 80 ],
+      [ "saddle", 80 ],
+      [ "chain", 30 ],
+      [ "wrench", 30 ],
+      [ "screwdriver", 40 ],
+      [ "screwdriver_set", 20 ],
+      [ "superglue", 30 ],
+      [ "hacksaw", 17 ],
+      [ "pliers", 40 ],
+      [ "gloves_leather", 45 ],
+      [ "gloves_work", 45 ],
+      [ "mask_dust", 15 ],
+      [ "manual_mechanics", 35 ],
+      [ "manual_fabrication", 20 ],
+      [ "duct_tape", 70 ],
+      [ "misc_repairkit", 15 ],
+      [ "toolbox", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikeshop_for_sale",
+    "items": [
+      {
+        "distribution": [
+          { "item": "wheel_bicycle", "prob": 100 },
+          { "item": "horn_bicycle", "prob": 80 },
+          { "item": "foot_crank", "prob": 80 },
+          { "item": "saddle", "prob": 80 },
+          { "item": "chain", "prob": 40 },
+          { "item": "small_storage_battery", "prob": 10 },
+          { "item": "folding_bicycle", "prob": 10 },
+          { "item": "roller_blades", "prob": 10 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "helmet_bike", "prob": 35 },
+          { "item": "knee_pads", "prob": 35 },
+          { "item": "elbow_pads", "prob": 35 },
+          { "item": "gloves_leather", "prob": 35 },
+          { "item": "gloves_light", "prob": 35 },
+          { "item": "gloves_fingerless", "prob": 35 },
+          { "item": "touring_suit", "prob": 25 },
+          { "item": "bandana", "prob": 25 },
+          { "item": "scarf", "prob": 15 },
+          { "item": "sunglasses", "prob": 25 },
+          { "item": "fitover_sunglasses", "prob": 20 },
+          { "item": "fancy_sunglasses", "prob": 20 },
+          { "item": "canteen", "prob": 20 },
+          { "item": "camelbak", "prob": 20 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "protein_powder", "prob": 15 },
+          { "item": "dry_veggy", "prob": 10 },
+          { "item": "dry_fruit", "prob": 10 },
+          { "item": "granola", "prob": 5 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "wrench", "prob": 20 },
+          { "item": "multitool", "prob": 30 },
+          { "item": "screwdriver_set", "prob": 20 },
+          { "item": "duct_tape", "prob": 50 },
+          { "item": "misc_repairkit", "prob": 25 },
+          { "item": "toolbox", "prob": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "palette",
+    "id": "bike_shop",
+    "terrain": {
+      " ": [ "t_dirt", "t_grass", "t_grass", "t_grass" ],
+      "*": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_tree" ],
+      "_": "t_sidewalk",
+      ".": "t_floor",
+      "#": "t_wall",
+      "-": "t_wall_glass",
+      "|": "t_wall_glass",
+      "+": "t_door_c",
+      ":": "t_door_glass_c",
+      ";": "t_door_locked",
+      "&": "t_floor",
+      "^": "t_floor",
+      "%": "t_console_broken",
+      "@": "t_sidewalk",
+      "C": "t_floor",
+      "D": "t_floor",
+      "F": "t_floor",
+      "S": "t_floor",
+      "T": "t_floor",
+      "c": "t_floor",
+      "d": "t_floor",
+      "f": "t_floor",
+      "h": "t_floor",
+      "i": "t_floor",
+      "l": "t_floor",
+      "r": "t_floor",
+      "s": "t_floor",
+      "t": "t_floor"
+    },
+    "furniture": {
+      "c": "f_counter",
+      "D": "f_vending_c",
+      "F": "f_vending_c",
+      "S": "f_sink",
+      "T": "f_toilet",
+      "h": "f_chair",
+      "d": "f_desk",
+      "f": "f_fridge",
+      "l": "f_locker",
+      "r": "f_rack",
+      "t": "f_table",
+      "&": "f_trashcan",
+      "@": "f_dumpster",
+      "^": "f_indoor_plant"
+    },
+    "toilets": { "T": {  } }
+  }
+]

@@ -75,9 +75,7 @@
         "d": "f_dumpster",
         "{": "f_rack"
       },
-      "toilets": {
-        "P": {}
-      },
+      "toilets": { "P": {  } },
       "place_items": [
         { "item": "restaur_table", "x": 17, "y": 10, "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "restaur_table", "x": 17, "y": 15, "chance": 30, "repeat": [ 1, 2 ] },

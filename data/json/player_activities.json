@@ -3,7 +3,6 @@
     "id": "ACT_RELOAD",
     "type": "activity_type",
     "stop_phrase": "Stop reloading?",
-    "abortable": false,
     "suspendable": false,
     "based_on": "speed"
   },
@@ -18,7 +17,6 @@
     "id": "ACT_GAME",
     "type": "activity_type",
     "stop_phrase": "Stop playing?",
-    "abortable": false,
     "rooted": true,
     "based_on": "time"
   },
@@ -34,13 +32,13 @@
     "id": "ACT_CRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "speed"
+    "based_on": "neither"
   },
   {
     "id": "ACT_LONGCRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "speed"
+    "based_on": "neither"
   },
   {
     "id": "ACT_DISASSEMBLE",
@@ -59,7 +57,6 @@
     "id": "ACT_LONGSALVAGE",
     "type": "activity_type",
     "stop_phrase": "Stop salvaging?",
-    "abortable": false,
     "based_on": "speed",
     "no_resume": true
   },
@@ -67,7 +64,6 @@
     "id": "ACT_FORAGE",
     "type": "activity_type",
     "stop_phrase": "Stop foraging?",
-    "abortable": false,
     "based_on": "speed"
   },
   {
@@ -80,14 +76,12 @@
     "id": "ACT_VEHICLE",
     "type": "activity_type",
     "stop_phrase": "Stop interacting with the vehicle?",
-    "abortable": false,
     "based_on": "speed"
   },
   {
     "id": "ACT_TRAIN",
     "type": "activity_type",
     "stop_phrase": "Stop training?",
-    "abortable": false,
     "based_on": "speed"
   },
   {
@@ -108,7 +102,6 @@
     "id": "ACT_FISH",
     "type": "activity_type",
     "stop_phrase": "Stop fishing?",
-    "abortable": false,
     "rooted": true,
     "based_on": "time"
   },
@@ -135,7 +128,6 @@
     "id": "ACT_VIBE",
     "type": "activity_type",
     "stop_phrase": "Stop de-stressing?",
-    "abortable": false,
     "based_on": "time"
   },
   {
@@ -226,7 +218,6 @@
     "id": "ACT_AIM",
     "type": "activity_type",
     "stop_phrase": "Stop aiming?",
-    "abortable": false,
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -235,7 +226,6 @@
     "id": "ACT_ATM",
     "type": "activity_type",
     "stop_phrase": "Stop using the ATM?",
-    "abortable": false,
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -290,7 +280,6 @@
     "id": "ACT_WAIT_NPC",
     "type": "activity_type",
     "stop_phrase": "Stop interacting with the NPC?",
-    "abortable": false,
     "rooted": true,
     "based_on": "time",
     "no_resume": true
@@ -312,6 +301,30 @@
     "id": "ACT_WASH",
     "type": "activity_type",
     "stop_phrase": "Stop washing?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_HACKSAW",
+    "type": "activity_type",
+    "stop_phrase": "Stop cutting the metal?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHOP_TREE",
+    "type": "activity_type",
+    "stop_phrase": "Stop chopping down?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHOP_LOGS",
+    "type": "activity_type",
+    "stop_phrase": "Stop chopping down?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_JACKHAMMER",
+    "type": "activity_type",
+    "stop_phrase": "Stop drilling?",
     "based_on": "speed"
   }
 ]

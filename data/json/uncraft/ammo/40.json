@@ -3,7 +3,7 @@
     "result": "10mm",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "40_casing", 1 ] ],
@@ -16,7 +16,7 @@
     "result": "40fmj",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "40_casing", 1 ] ],
@@ -29,7 +29,7 @@
     "result": "40sw",
     "type": "uncraft",
     "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "40_casing", 1 ] ],

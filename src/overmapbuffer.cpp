@@ -4,13 +4,13 @@
 #include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
 #include "mongroup.h"
 #include "simple_pathfinding.h"
-#include "worldfactory.h"
-#include "catacharset.h"
+#include "string_formatter.h"
 #include "npc.h"
 #include "vehicle.h"
 #include "filesystem.h"
@@ -28,11 +28,18 @@ overmapbuffer::overmapbuffer()
 {
 }
 
+const city_reference city_reference::invalid{ nullptr, tripoint(), -1 };
+
+int city_reference::get_distance_from_bounds() const {
+    assert( city != nullptr );
+    return distance - omt_to_sm_copy( city->s );
+}
+
 std::string overmapbuffer::terrain_filename(int const x, int const y)
 {
     std::ostringstream filename;
 
-    filename << world_generator->active_world->world_path << "/";
+    filename << g->get_world_base_save_path() << "/";
     filename << "o." << x << "." << y;
 
     return filename.str();
@@ -42,8 +49,7 @@ std::string overmapbuffer::player_filename(int const x, int const y)
 {
     std::ostringstream filename;
 
-    filename << world_generator->active_world->world_path << "/" << base64_encode(
-                 g->u.name) << ".seen." << x << "." << y;
+    filename << g->get_player_base_save_path() << ".seen." << x << "." << y;
 
     return filename.str();
 }
@@ -121,6 +127,10 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
 
 void overmapbuffer::fix_npcs( overmap &new_overmap )
 {
+    // First step: move all npcs that are located outside of the given overmap
+    // into a separate container. After that loop, new_overmap.npcs is no
+    // accessed anymore!
+    decltype(overmap::npcs) to_relocate;
     for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
         npc &np = **it;
         const tripoint npc_omt_pos = np.global_omt_location();
@@ -131,11 +141,24 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             ++it;
             continue;
         }
-
+        to_relocate.push_back( *it );
+        it = new_overmap.npcs.erase( it );
+    }
+    // Second step: put them back where they belong. This step involves loading
+    // new overmaps (via `get`), which does in turn call this function for the
+    // newly loaded overmaps. This in turn may move NPCs from the second overmap
+    // back into the first overmap. This messes up the iteration of it. The
+    // iteration is therefore done in a separate step above (which does *not*
+    // involve loading new overmaps).
+    for( auto &ptr : to_relocate ) {
+        npc &np = *ptr;
+        const tripoint npc_omt_pos = np.global_omt_location();
+        const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+        const point &loc = new_overmap.pos();
         if( !has( npc_om_pos.x, npc_om_pos.y ) ) {
             // This can't really happen without save editing
             // We have no sane option here, just place the NPC on the edge
-            debugmsg( "NPC %s is out of bounds, on ungenerated overmap %d,%d",
+            debugmsg( "NPC %s is out of bounds, on non-generated overmap %d,%d",
                       np.name.c_str(), loc.x, loc.y );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
@@ -143,13 +166,12 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
             np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
-            ++it;
+            new_overmap.npcs.push_back( ptr );
             continue;
         }
 
         // Simplest case: just move the pointer
-        get( npc_om_pos.x, npc_om_pos.y ).insert_npc( &np );
-        it = new_overmap.npcs.erase( it );
+        get( npc_om_pos.x, npc_om_pos.y ).insert_npc( ptr );
     }
 }
 
@@ -594,7 +616,7 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
     // XXXXXXXXX
     //
     // See overmap::place_specials for how we attempt to insure specials are placed within this range.
-    // The actual number is 5 becuase 1 covers the current overmap,
+    // The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
 
     int max = ( radius == 0 ? OMAPX * 5 : radius );
@@ -669,44 +691,35 @@ tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &
     return random_entry( find_all( origin, type, dist, must_be_seen ), overmap::invalid_tripoint );
 }
 
-npc* overmapbuffer::find_npc(int id) {
+std::shared_ptr<npc> overmapbuffer::find_npc( int id ) {
     for( auto &it : overmaps ) {
-        if( const auto p = it.second->find_npc( id ) ) {
+        if( auto p = it.second->find_npc( id ) ) {
             return p;
         }
     }
     return nullptr;
 }
 
-void overmapbuffer::remove_npc(int id)
+void overmapbuffer::insert_npc( const std::shared_ptr<npc> who )
+{
+    assert( who );
+    const tripoint npc_omt_pos = who->global_omt_location();
+    const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+    get( npc_om_pos.x, npc_om_pos.y ).insert_npc( who );
+}
+
+std::shared_ptr<npc> overmapbuffer::remove_npc( const int id )
 {
     for( auto &it : overmaps ) {
-        if( const auto p = it.second->find_npc( id ) ) {
-            if( !p->is_dead() ) {
-                debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
-            }
-            it.second->erase_npc( p );
-            return;
+        if( const auto p = it.second->erase_npc( id ) ) {
+            return p;
         }
     }
     debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
+    return nullptr;
 }
 
-void overmapbuffer::hide_npc(int id)
-{
-    for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            npc *p = it.second->npcs[i];
-            if (p->getID() == id) {
-                it.second->npcs.erase(it.second->npcs.begin() + i);
-                return;
-            }
-        }
-    }
-    debugmsg("overmapbuffer::hide_npc: NPC (%d) not found.", id);
-}
-
-std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
+std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
     tripoint plpos = g->u.global_omt_location();
     // get_npcs_near needs submap coordinates
@@ -743,11 +756,11 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius );
 }
 
-std::vector<npc *> overmapbuffer::get_companion_mission_npcs()
+std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
 {
-    std::vector<npc *> available;
-    //@todo this is an arbitrary radius, replace with something sane.
-    for( npc *const guy : get_npcs_near_player( 100 ) ) {
+    std::vector<std::shared_ptr<npc>> available;
+    //@todo: this is an arbitrary radius, replace with something sane.
+    for( const auto &guy : get_npcs_near_player( 100 ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );
         }
@@ -756,42 +769,38 @@ std::vector<npc *> overmapbuffer::get_companion_mission_npcs()
 }
 
 // If z == INT_MIN, allow all z-levels
-std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
+std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near( int x, int y, int z, int radius )
 {
-    std::vector<npc*> result;
+    std::vector<std::shared_ptr<npc>> result;
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
-        it->for_each_npc( [&]( npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+        auto temp = it->get_npcs( [&]( const npc &guy ) {
+            // Global position of NPC, in submap coordinates
             const tripoint pos = guy.global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
-                return;
+                return false;
             }
-            const int npc_offset = square_dist( x, y, pos.x, pos.y );
-            if (npc_offset <= radius) {
-                result.push_back( &guy );
-            }
+            return square_dist( x, y, pos.x, pos.y ) <= radius;
         } );
+        result.insert( result.end(), temp.begin(), temp.end() );
     }
     return result;
 }
 
 // If z == INT_MIN, allow all z-levels
-std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radius)
+std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y, int z, int radius )
 {
-    std::vector<npc*> result;
+    std::vector<std::shared_ptr<npc>> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
-        it->for_each_npc( [&]( npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+        auto temp = it->get_npcs( [&]( const npc &guy ) {
+            // Global position of NPC, in submap coordinates
             tripoint pos = guy.global_omt_location();
             if( z != INT_MIN && pos.z != z) {
-                return;
+                return false;
             }
-            const int npc_offset = square_dist( x, y, pos.x, pos.y );
-            if (npc_offset <= radius) {
-                result.push_back( &guy );
-            }
+            return square_dist( x, y, pos.x, pos.y ) <= radius;
         } );
+        result.insert( result.end(), temp.begin(), temp.end() );
     }
     return result;
 }
@@ -801,7 +810,7 @@ radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
     // global submap coordinates, same as center is
     const point pos = point( t.x, t.y ) + om_to_sm_copy( om.pos() );
     const int strength = t.strength - rl_dist( tripoint( pos, 0 ), center );
-    return radio_tower_reference{ &om, &t, pos, strength };
+    return radio_tower_reference{ &t, pos, strength };
 }
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
@@ -815,7 +824,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
             }
         }
     }
-    return radio_tower_reference{ nullptr, nullptr, point( 0, 0 ), 0 };
+    return radio_tower_reference{ nullptr, point( 0, 0 ), 0 };
 }
 
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
@@ -836,28 +845,105 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     return result;
 }
 
+std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &location, int radius )
+{
+    std::vector<city_reference> result;
+
+    for( const auto om : get_overmaps_near( location, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        result.reserve( result.size() + om->cities.size() );
+        std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
+        [&]( city& element ) {
+            const auto rel_pos_city = omt_to_sm_copy( element.x, element.y );
+            const auto abs_pos_city = tripoint( rel_pos_city + abs_pos_om, 0 );
+            const auto distance = rl_dist( abs_pos_city, location );
+
+            return city_reference{ &element, abs_pos_city, distance };
+        } );
+    }
+
+    std::sort( result.begin(), result.end(), []( const city_reference& lhs, const city_reference& rhs ) {
+        return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
+    } );
+
+    return result;
+}
+
 city_reference overmapbuffer::closest_city( const tripoint &center )
 {
-    // a whole overmap (because it's in submap coordinates, OMAPX is overmap terrain coordinates)
-    auto const radius = OMAPX * 2;
-    // Starting with distance = INT_MAX, so the first city is already closer
-    city_reference result{ nullptr, nullptr, tripoint( 0, 0, 0 ), INT_MAX };
-    for( auto &om : get_overmaps_near( center, radius ) ) {
-        const auto abs_pos_om = om_to_sm_copy( om->pos() );
-        for( auto &city : om->cities ) {
-            const auto rel_pos_city = omt_to_sm_copy( point( city.x, city.y ) );
-            // TODO: Z-level cities. This 0 has to be here until mapgen understands non-0 zlev cities
-            const auto abs_pos_city = tripoint( abs_pos_om + rel_pos_city, 0 );
-            const auto distance = rl_dist( abs_pos_city, center );
-            const city_reference cr{ om, &city, abs_pos_city, distance };
-            if( distance < result.distance ) {
-                result = cr;
-            } else if( distance == result.distance && result.city->s < city.s ) {
-                result = cr;
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
+
+    if( !cities.empty() ) {
+        return cities.front();
+    }
+
+    return city_reference::invalid;
+}
+
+city_reference overmapbuffer::closest_known_city( const tripoint &center )
+{
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
+    const auto it = std::find_if( cities.begin(), cities.end(),
+    [this]( const city_reference& elem ) {
+        const tripoint p = sm_to_omt_copy( elem.abs_sm_pos );
+        return seen( p.x, p.y, p.z );
+    } );
+
+    if( it != cities.end() ) {
+        return *it;
+    }
+
+    return city_reference::invalid;
+}
+
+std::string overmapbuffer::get_description_at( const tripoint &where )
+{
+    const std::string ter_name = ter( sm_to_omt_copy( where ) )->get_name();
+
+    if( where.z != 0 ) {
+        return ter_name;
+    }
+
+    const auto closest_cref = closest_known_city( where );
+
+    if( !closest_cref ) {
+        return ter_name;
+    }
+
+    const auto &closest_city = *closest_cref.city;
+    const direction dir = direction_from( closest_cref.abs_sm_pos, where );
+    const std::string dir_name = direction_name( dir );
+
+    const int sm_size = omt_to_sm_copy( closest_cref.city->s );
+    const int sm_dist = closest_cref.distance;
+
+    if( sm_dist <= 3 * sm_size / 4 ) {
+        if( sm_size >= 16 ) {
+            // The city is big enough to be split in districts.
+            if( sm_dist <= sm_size / 4 ) {
+                //~ First parameter is a terrain name, second parameter is a city name.
+                return string_format( _( "%1$s in central %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+            } else {
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                return string_format( _( "%1$s in %2$s %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
             }
+        } else {
+            //~ First parameter is a terrain name, second parameter is a city name.
+            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+        }
+    } else if( sm_dist <= sm_size ) {
+        if( sm_size >= 8 ) {
+            // The city is big enough to have outskirts.
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
+        } else {
+            //~ First parameter is a terrain name, second parameter is a city name.
+            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
         }
     }
-    return result;
+
+    //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+    return string_format( _( "%1$s %2$s from %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
 }
 
 static int modulo(int v, int m) {
@@ -883,7 +969,7 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
         // submap coordinate, so translate it and add the exact monster position on
         // the submap. modulo because the zombies position might be negative, as it
         // is stored *after* it has gone out of bounds during shifting. When reloading
-        // we only need the part that tells where on the sumap to put it.
+        // we only need the part that tells where on the submap to put it.
         point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
         assert( ms.x >= 0 && ms.x < SEEX );
         assert( ms.y >= 0 && ms.y < SEEX );

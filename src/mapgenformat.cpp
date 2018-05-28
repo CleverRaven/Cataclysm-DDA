@@ -1,3 +1,4 @@
+#include "mapgenformat.h"
 #include <iostream>
 
 #include <string>
@@ -9,7 +10,6 @@
 #include "output.h"
 #include "mapdata.h"
 #include "map.h"
-#include "mapgenformat.h"
 
 namespace mapf
 {

@@ -3,7 +3,6 @@
 #include "options.h"
 #include "material.h"
 #include "enums.h"
-#include "item.h"
 #include "creature.h"
 #include "translations.h"
 #include "debug.h"
@@ -11,7 +10,6 @@
 #include "output.h"
 #include "json.h"
 #include "filesystem.h"
-#include "item_search.h"
 #include "rng.h"
 #include "units.h"
 
@@ -42,71 +40,6 @@ bool lcmatch( const std::string &str, const std::string &qry )
     std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
 
     return haystack.find( needle ) != std::string::npos;
-}
-
-std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
-        std::string filter )
-{
-    std::vector<map_item_stack> ret;
-
-    std::string sFilterTemp = filter;
-    auto z = item_filter_from_string( filter );
-    std::copy_if( stack.begin(),
-                  stack.end(),
-                  std::back_inserter( ret ),
-    [z]( const map_item_stack & a ) {
-        if( a.example != nullptr ) {
-            return z( *a.example );
-        }
-        return false;
-    }
-                );
-
-    return ret;
-}
-
-//returns the first non priority items.
-int list_filter_high_priority( std::vector<map_item_stack> &stack, std::string priorities )
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    const auto filter_fn = item_filter_from_string( priorities );
-    for( auto it = stack.begin(); it != stack.end(); ) {
-        if( priorities.empty() || ( it->example != nullptr && !filter_fn( *it->example ) ) ) {
-            tempstack.push_back( *it );
-            it = stack.erase( it );
-        } else {
-            it++;
-        }
-    }
-
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
-}
-
-int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
-                              std::string priorities )
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    const auto filter_fn = item_filter_from_string( priorities );
-    for( auto it = stack.begin() + start; it != stack.end(); ) {
-        if( !priorities.empty() && it->example != nullptr && filter_fn( *it->example ) ) {
-            tempstack.push_back( *it );
-            it = stack.erase( it );
-        } else {
-            it++;
-        }
-    }
-
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
 }
 
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
@@ -286,7 +219,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
     }
     if( value >= std::pow( 10.0, width ) ) {
         // above the maximum number we can fit in the width without decimal
-        // show the bigest number we can without decimal
+        // show the biggest number we can without decimal
         // flag as truncated
         value = std::pow( 10.0, width ) - 1.0;
         scale = 0;
@@ -490,12 +423,12 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char( void )> f )
+std::string obscure_message( const std::string &str, std::function<char()> f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
-    //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
     std::string gibberish_wide =
+        //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
         _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
@@ -513,7 +446,7 @@ std::string obscure_message( const std::string &str, std::function<char( void )>
                 w_str[i] = random_entry( w_gibberish_wide );
             }
         } else {
-            // Only support the case eg. replace current character to symbols like # or ?
+            // Only support the case e.g. replace current character to symbols like # or ?
             if( utf8_width( transformation ) != 1 ) {
                 debugmsg( "target character isn't narrow" );
             }
@@ -526,4 +459,19 @@ std::string obscure_message( const std::string &str, std::function<char( void )>
         debugmsg( "utf8_width differ between original string and obscured string" );
     }
     return result;
+}
+
+std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback )
+{
+    std::ostringstream buffer;
+    JsonOut jsout( buffer );
+    callback( jsout );
+    return buffer.str();
+}
+
+void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const std::string &data )
+{
+    std::istringstream buffer( data );
+    JsonIn jsin( buffer );
+    callback( jsin );
 }

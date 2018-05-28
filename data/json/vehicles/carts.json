@@ -239,5 +239,21 @@
       { "x": 0, "y": 0, "part": "hand_rims" },
       { "x": 0, "y": 0, "part": "basketsm" }
     ]
+  },
+  {
+    "id": "laundry_cart",
+    "type": "vehicle",
+    "name": "Laundry Cart",
+    "blueprint": [ "o" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "basketlg" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 40, "item_groups": [ "shirts" ] },
+      { "x": 0, "y": 0, "chance": 40, "item_groups": [ "pants" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "underwear" ] }
+    ]
   }
 ]

@@ -15,11 +15,12 @@
     "use_action": {
       "type": "unfold_vehicle",
       "vehicle_name": "inflatable_boat",
-      "tools_needed" : { "hand_pump" : 1 },
+      "tools_needed": { "hand_pump": 1 },
       "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
       "moves": 15000
     }
-  },{
+  },
+  {
     "id": "hand_pump",
     "type": "TOOL",
     "symbol": "/",
@@ -28,7 +29,7 @@
     "name_plural": "hand pumps",
     "description": "This pump is suitable for pumping air into inflatable objects.",
     "price": 400,
-    "material": ["aluminum", "plastic"],
+    "material": [ "aluminum", "plastic" ],
     "weight": 113,
     "volume": 1,
     "cutting": 6,

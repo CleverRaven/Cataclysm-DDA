@@ -104,14 +104,9 @@
     ]
   },
   {
-    "id": "antique_guns",
+    "id": "museum_guns",
     "type": "item_group",
     "//": "Colt Lightning not added, as .45 version only existed as replicas",
-    "items": [ [ "colt_saa", 30 ] ]
-  },
-  {
-    "id": "antique_guns_with_ammo",
-    "type": "item_group",
     "items": [ [ "colt_saa", 30 ] ]
   },
   {
@@ -123,6 +118,7 @@
     "id": "ammo_casings",
     "type": "item_group",
     "items": [
+      { "item": "357_mag_casing", "prob": 80, "count": 20 },
       { "item": "410_hull", "prob": 75, "count": 20 },
       { "item": "45lc_casing", "prob": 40, "count": 20 }
     ]
@@ -136,6 +132,13 @@
     ]
   },
   {
+    "type" : "item_group",
+    "id" : "mags_pistol_common",
+    "items": [
+      ["357_mag_speedloader", 5]
+    ]
+  },
+  {
     "id": "mags_shotgun_rare",
     "type": "item_group",
     "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
@@ -143,10 +146,5 @@
       [ "saiga10mag_410", 50 ],
       [ "saiga30mag_410", 10 ]
     ]
-  },
-  {
-    "id": "gunmod_rare",
-    "type": "item_group",
-    "items": [ [ "retool_410", 20 ] ]
   }
 ]

@@ -4,17 +4,17 @@
         "id" : "3storyA_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "3storyA_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -23,7 +23,7 @@
         "id" : "3storyA_third",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -50,17 +50,17 @@
         "id" : "3storyB_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "3storyB_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -69,7 +69,7 @@
         "id" : "3storyB_third",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -96,17 +96,17 @@
         "id" : "3storyC_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "3storyC_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -115,7 +115,7 @@
         "id" : "3storyC_third",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -142,17 +142,17 @@
         "id" : "3storyD_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "3storyD_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -161,7 +161,7 @@
         "id" : "3storyD_third",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -188,17 +188,17 @@
         "id" : "3storyE_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "3storyE_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -207,7 +207,7 @@
         "id" : "3storyE_third",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -234,17 +234,17 @@
         "id" : "3storyF_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "3storyF_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -253,7 +253,7 @@
         "id" : "3storyF_third",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -280,17 +280,17 @@
         "id" : "2storyA_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "2storyA_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -317,17 +317,17 @@
         "id" : "2storyB_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "2storyB_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -354,17 +354,17 @@
         "id" : "2storyC_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "2storyC_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -391,17 +391,17 @@
         "id" : "2storyD_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "2storyD_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -428,17 +428,17 @@
         "id" : "2storyE_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "2storyE_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -465,17 +465,17 @@
         "id" : "2storyF_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "2storyF_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -502,17 +502,17 @@
         "id" : "combohouseA_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combohouseA_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -539,21 +539,21 @@
         "id" : "combogarageA_first",
         "name" : "attached garage",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageA_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageA_roof",
@@ -568,17 +568,17 @@
         "id" : "combohouseB_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combohouseB_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -605,21 +605,21 @@
         "id" : "combogarageB_first",
         "name" : "attached garage",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageB_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageB_roof",
@@ -634,17 +634,17 @@
         "id" : "combohouseC_first",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combohouseC_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2
@@ -671,21 +671,21 @@
         "id" : "combogarageC_first",
         "name" : "attached garage",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageC_second",
         "name" : "house",
         "sym" : 94,
-        "color" : "ltgreen",
+        "color" : "light_green",
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageC_roof",

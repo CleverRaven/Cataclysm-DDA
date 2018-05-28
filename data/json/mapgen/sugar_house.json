@@ -158,9 +158,7 @@
         "s": "f_standing_tank",
         "w": "f_woodstove"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_loot": [
         { "item": "bucket", "x": 23, "y": 17, "chance": 100 },
         { "item": "bucket", "x": 23, "y": 19, "chance": 100 },

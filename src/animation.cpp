@@ -2,6 +2,7 @@
 #include "game.h"
 #include "map.h"
 #include "options.h"
+#include "output.h"
 #include "monster.h"
 #include "mtype.h"
 #include "weather.h"
@@ -33,7 +34,7 @@ public:
         auto window = create_wait_popup_window( _( "Hang on a bit..." ) );
 
         wrefresh( g->w_terrain );
-        wrefresh( window.get() );
+        wrefresh( window );
 
         refresh_display();
     }
@@ -584,7 +585,7 @@ void game::draw_line( const tripoint &p, std::vector<tripoint> const &vPoint )
 #endif
 
 namespace {
-void draw_weather_curses(WINDOW *const win, weather_printable const &w)
+void draw_weather_curses( const catacurses::window &win, weather_printable const &w )
 {
     for (auto const &drop : w.vdrops) {
         mvwputch(win, drop.second, drop.first, w.colGlyph, w.cGlyph);
@@ -655,8 +656,8 @@ void draw_sct_curses(game &g)
         nc_color const col1 = msgtype_to_color(text.getMsgType("first"),  is_old);
         nc_color const col2 = msgtype_to_color(text.getMsgType("second"), is_old);
 
-        mvwprintz(g.w_terrain, dy, dx, col1, "%s", text.getText("first").c_str());
-        wprintz(g.w_terrain, col2, "%s", text.getText("second").c_str());
+        mvwprintz( g.w_terrain, dy, dx, col1, text.getText( "first" ) );
+        wprintz( g.w_terrain, col2, text.getText( "second" ) );
     }
 }
 } //namespace
@@ -678,13 +679,13 @@ void game::draw_sct()
 #endif
 
 namespace {
-void draw_zones_curses( WINDOW *const w, const tripoint &start, const tripoint &end, const tripoint &offset )
+void draw_zones_curses( const catacurses::window &w, const tripoint &start, const tripoint &end, const tripoint &offset )
 {
     if( end.x < start.x || end.y < start.y || end.z < start.z ) {
         return;
     }
 
-    nc_color    const col = invert_color( c_ltgreen );
+    nc_color    const col = invert_color( c_light_green );
     std::string const line( end.x - start.x + 1, '~' );
     int         const x = start.x - offset.x;
 

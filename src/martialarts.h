@@ -2,15 +2,17 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include "pldata.h"
-#include "json.h"
 #include "string_id.h"
 #include "bonuses.h"
+#include "calendar.h"
+
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
 
+enum damage_type : int;
+class JsonObject;
 class effect;
 class player;
 class item;
@@ -65,6 +67,8 @@ class ma_technique
         matec_id id;
         bool was_loaded = false;
         std::string name;
+
+        std::string description;
 
         std::string goal; // the melee goal this achieves
 
@@ -163,7 +167,7 @@ class ma_buff
 
         // mapped as buff_id -> min stacks of buff
 
-        int buff_duration; // total length this buff lasts
+        time_duration buff_duration; // total length this buff lasts
         int max_stacks; // total number of stacks this buff can have
 
         int dodges_bonus; // extra dodges, like karate
@@ -220,6 +224,7 @@ class martialart
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
         bool strictly_unarmed; // Punch daggers etc.
+        bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
         std::vector<mabuff_id> onhit_buffs;

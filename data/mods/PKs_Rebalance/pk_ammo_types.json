@@ -1,8 +1,0 @@
-[
-    {
-        "type": "ammunition_type",
-        "id": "bomblet",
-        "name": "bomblet",
-        "default": "bomblet_explosive"
-    }
-]

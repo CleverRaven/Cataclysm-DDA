@@ -16,7 +16,7 @@ struct tripoint;
 using target_callback = std::function<const itype *( item *obj )>;
 using firing_callback = std::function<void( const int )>;
 
-enum target_mode {
+enum target_mode : int {
     TARGET_MODE_FIRE,
     TARGET_MODE_THROW,
     TARGET_MODE_TURRET,
@@ -64,5 +64,7 @@ class target_handler
                                          const target_callback &on_mode_change = target_callback(),
                                          const target_callback &on_ammo_change = target_callback() );
 };
+
+int range_with_even_chance_of_good_hit( int dispersion );
 
 #endif // RANGED_H
