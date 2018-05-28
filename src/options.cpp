@@ -1394,9 +1394,9 @@ void options_manager::init()
 
     add("STATS_PER_KILLS_METHOD", "debug", translate_marker("Stats per Kills Assignment Method"),
         translate_marker("Assignment method for stats through kills."),
-        { { "random", translate_marker("Random") },
-        { "chosen", translate_marker("Chosen") },
-        "chosen" );
+		{ { "random", translate_marker("Random") },
+		{ "chosen", translate_marker("Chosen") } },
+		"chosen" );
 
     mOptionsSort["debug"]++;
 
