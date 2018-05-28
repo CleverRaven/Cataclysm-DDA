@@ -473,6 +473,11 @@ void map::create_burnproducts( const tripoint p, const item &fuel, const units::
     for( auto &mat : all_mats ) {
         for( auto &bp : mat->burn_products() ) {
             itype_id id = bp.first;
+            // Spawning the same item as the one that was just burned is pointless
+            // and leads to infinite recursion.
+            if( fuel.typeId() == id ) {
+                continue;
+            }
             float eff = bp.second;
             int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
 
