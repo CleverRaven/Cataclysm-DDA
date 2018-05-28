@@ -856,7 +856,7 @@ public:
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         if ( one_in(chance.get()) ){
-            item newliquid( liquid, calendar::turn );
+            item newliquid( liquid, calendar::time_of_cataclysm );
             if ( amount.valmax > 0 ){
                 newliquid.charges = amount.get();
             }
@@ -922,7 +922,7 @@ class jmapgen_loot : public jmapgen_piece {
         {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::turn );
+                const std::vector<item> spawn = isd->create( calendar::time_of_cataclysm );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), dat.m.get_abs_sub().z ), spawn );
             }
         }
