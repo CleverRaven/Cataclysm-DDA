@@ -13197,7 +13197,7 @@ void game::checkstats()
 			totalkills += kill_count(type.id);
 		}
 	}
-	int killgoal = (get_option<int>("STATS_PER_KILLS_BASE") * u.current_stat_bonus) + (get_option<int>("STATS_PER_KILLS_ADDL") * u.current_stat_bonus);
+	int killgoal = (get_option<int>("STATS_PER_KILLS_BASE") * (u.current_stat_bonus)) + (get_option<int>("STATS_PER_KILLS_ADDL") * (u.current_stat_bonus + 1));
 	u.add_msg_if_player("You have %i kills so far, and you need %i to get your next level. You have gotten %i stats. ", totalkills, killgoal, u.current_stat_bonus);
 	if (totalkills >= killgoal)
 	{
