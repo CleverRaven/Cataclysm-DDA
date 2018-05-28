@@ -448,7 +448,6 @@ class map
          * Points closer to the target come first.
          * This method leads to straighter lines and prevents weird looking movements away from the target.
          */
-        std::vector<point> getDirCircle( const int Fx, const int Fy, const int Tx, const int Ty ) const;
         std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
         /**
