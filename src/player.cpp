@@ -7790,8 +7790,10 @@ bool player::wear( item& to_wear, bool interactive )
 bool player::wear_item( const item &to_wear, bool interactive )
 {
     const auto ret = can_wear( to_wear );
-    if( !ret.success() && interactive ) {
-        add_msg_if_player( m_info, "%s", ret.c_str() );
+    if( !ret.success() ) {
+        if( interactive ) {
+            add_msg_if_player( m_info, "%s", ret.c_str() );
+        }
         return false;
     }
 
