@@ -330,12 +330,11 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
                 add_item(furn_item);
             }
         }
-        if( !g->m.accessible_items( origin, p, range ) ) {
-            continue;
-        }
-        for (auto &i : g->m.i_at( p )) {
-            if (!i.made_of(LIQUID)) {
-                add_item(i, false, assign_invlet);
+        if( g->m.accessible_items( origin, p, range ) ) {
+            for( auto &i : g->m.i_at( p ) ) {
+                if( !i.made_of( LIQUID ) ) {
+                    add_item( i, false, assign_invlet );
+                }
             }
         }
         // Kludges for now!

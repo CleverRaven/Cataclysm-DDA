@@ -4996,14 +4996,12 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        if( !accessible_items( origin, p, range ) ) {
-            continue;
-        }
-
-        std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
-        ret.splice(ret.end(), tmp);
-        if (quantity <= 0) {
-            return ret;
+        if( accessible_items( origin, p, range ) ) {
+            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
+            ret.splice(ret.end(), tmp);
+            if (quantity <= 0) {
+                return ret;
+            }
         }
 
         const optional_vpart_position vp = veh_at( p );
