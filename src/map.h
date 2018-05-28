@@ -32,6 +32,13 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+} // namespace units
 class emit;
 using emit_id = string_id<emit>;
 class vpart_position;
@@ -972,7 +979,7 @@ class map
         const std::vector<tripoint> &trap_locations( trap_id t ) const;
 
         //Spawns byproducts from items destroyed in fire.
-        void create_burnproducts( const tripoint p, const item &fuel );
+        void create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp

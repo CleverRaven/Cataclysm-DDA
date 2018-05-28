@@ -463,14 +463,13 @@ field_id field_from_ident(const std::string &field_ident)
     return fd_null;
 }
 
-void map::create_burnproducts( const tripoint p, const item &fuel ) {
+void map::create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass ) {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
         return; 
     }
-    units::mass fuel_weight = fuel.weight( false );
     //Items that are multiple materials are assumed to be equal parts each.
-    units::mass by_weight = fuel_weight / all_mats.size();
+    units::mass by_weight = burned_mass / all_mats.size();
     for( auto &mat : all_mats ) {
         for( auto &bp : mat->burn_products() ) {
             itype_id id = bp.first;
@@ -897,11 +896,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             int max_consume = cur.getFieldDensity() * 2;
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
-
+                                // `item::burn` modifies the charges in order to simulate some of them getting
+                                // destroyed by the fire, this changes the item weight, but may not actually
+                                // destroy it. We need to spawn products anyway.
+                                const units::mass old_weight = fuel->weight( false );
                                 bool destroyed = fuel->burn( frd, can_spread);
+                                // If the item is considered destroyed, it may have negative charge count,
+                                // see `item::burn?. This in turn means `item::weight` returns a negative value,
+                                // which we can not use, so only call `weight` when it's still an existing item.
+                                const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
+                                if( old_weight != new_weight ) {
+                                    create_burnproducts( p, *fuel, old_weight - new_weight );
+                                }
 
                                 if( destroyed ) {
-                                    create_burnproducts( p, *fuel );
                                     // If we decided the item was destroyed by fire, remove it.
                                     // But remember its contents
                                     std::copy( fuel->contents.begin(), fuel->contents.end(),
