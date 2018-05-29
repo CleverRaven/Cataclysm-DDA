@@ -288,7 +288,11 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
     for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
-        if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
+        // can not reach this -> can not access its contents
+        if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
+            continue;
+        }
+        if( g->m.accessible_items( loc ) ) {
             for( const auto &it : g->m.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( &it );

@@ -319,7 +319,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 {
     items.clear();
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
-        if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
+        // can not reach this -> can not access its contents
+        if( origin != p && !g->m.clear_path( origin, p, range, 1, 100 ) ) {
+            continue;
+        }
+
+        if( g->m.has_furn( p ) ) {
             const furn_t &f = g->m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
@@ -330,12 +335,11 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
                 add_item(furn_item);
             }
         }
-        if( !g->m.accessible_items( origin, p, range ) ) {
-            continue;
-        }
-        for (auto &i : g->m.i_at( p )) {
-            if (!i.made_of(LIQUID)) {
-                add_item(i, false, assign_invlet);
+        if( g->m.accessible_items( p ) ) {
+            for( auto &i : g->m.i_at( p ) ) {
+                if( !i.made_of( LIQUID ) ) {
+                    add_item( i, false, assign_invlet );
+                }
             }
         }
         // Kludges for now!

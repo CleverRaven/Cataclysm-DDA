@@ -7791,8 +7791,10 @@ bool player::wear( item& to_wear, bool interactive )
 bool player::wear_item( const item &to_wear, bool interactive )
 {
     const auto ret = can_wear( to_wear );
-    if( !ret.success() && interactive ) {
-        add_msg_if_player( m_info, "%s", ret.c_str() );
+    if( !ret.success() ) {
+        if( interactive ) {
+            add_msg_if_player( m_info, "%s", ret.c_str() );
+        }
         return false;
     }
 
@@ -7947,6 +7949,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
                 drop( get_item_position( &it ) );
+                return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
             }

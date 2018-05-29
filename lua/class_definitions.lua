@@ -1134,8 +1134,7 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "accessible_furniture", rval = "bool", args = { "tripoint", "tripoint", "int" } },
-            { name = "accessible_items", rval = "bool", args = { "tripoint", "tripoint", "int" } },
+            { name = "accessible_items", rval = "bool", args = { "tripoint" } },
             { name = "add_camp", rval = nil, args = { "tripoint", "string" } },
             { name = "add_corpse", rval = nil, args = { "tripoint" } },
             { name = "add_field", rval = "bool", args = { "tripoint", "field_id", "int", "time_duration" } },
