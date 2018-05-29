@@ -1442,11 +1442,7 @@
   ],
   "tools": [
     [ [ "surface_heat", 8, "LIST" ] ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ]
   ],
   "components": [
     [
