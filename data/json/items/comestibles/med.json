@@ -1329,8 +1329,7 @@
             "torso_power" : 1,
             "limb_power" : 1,
             "bite" : 0.95,
-            "move_cost" : 300,
-            "used_up_item" : "cotton_ball"
+            "move_cost" : 300
         }
     }
 ]
