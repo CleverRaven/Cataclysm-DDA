@@ -217,7 +217,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "an unskilled shooter with basic shotgun" ) {
         arm_shooter( shooter, "shotgun_d" );
-        test_shooting_scenario( shooter, 4, 5, 15 );
+        test_shooting_scenario( shooter, 4, 6, 15 );
         test_fast_shooting( shooter, 40, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
@@ -246,7 +246,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "a skilled shooter with a modded shotgun" ) {
         arm_shooter( shooter, "ksg", { "red_dot_sight", "light_grip", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 9, 13, 35 );
+        test_shooting_scenario( shooter, 9, 15, 35 );
         test_fast_shooting( shooter, 50, 0.5 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
@@ -275,7 +275,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "an expert shooter with a heavily modded auto shotgun" ) {
         arm_shooter( shooter, "abzats", { "holo_sight", "light_grip", "tuned_mechanism", "barrel_rifled" } );
-        test_shooting_scenario( shooter, 18, 20, 120 );
+        test_shooting_scenario( shooter, 18, 24, 120 );
         test_fast_shooting( shooter, 80, 0.6 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
