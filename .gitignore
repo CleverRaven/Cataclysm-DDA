@@ -148,3 +148,7 @@ stage
 
 # Snapcraft build file
 *.snap
+
+# Eclipse IDE
+.cproject
+.settings/

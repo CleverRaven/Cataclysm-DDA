@@ -199,9 +199,9 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
     return res;
 }
 
-int player::vitamin_rate( const vitamin_id &vit ) const
+time_duration player::vitamin_rate( const vitamin_id &vit ) const
 {
-    int res = vit.obj().rate();
+    time_duration res = vit.obj().rate();
 
     for( const auto &m : get_mutations() ) {
         const auto &mut = m.obj();
@@ -344,7 +344,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
     }
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
-    if( has_trait( trait_id( "M_DEPENDENT" ) ) && food.typeId() != "mycus_fruit" ) {
+    if( has_trait( trait_id( "M_DEPENDENT" ) ) && !food.has_flag( "MYCUS_OK" ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "We can't eat that.  It's not right for us." ) );
     }

@@ -166,7 +166,8 @@
     "dispersion": 300,
     "durability": 9,
     "clip_size": 1,
-    "reload": 150
+    "reload": 150,
+    "valid_mod_locations": [ [ "accessories", 1 ] ]
   },
   {
     "id": "TANK",

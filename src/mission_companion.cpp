@@ -493,7 +493,7 @@ void talk_function::individual_mission( npc &p, std::string desc, std::string id
     if (group){
         comp->companion_mission_time = calendar::before_time_starts;
     } else {
-        comp->companion_mission_time = calendar::turn.get_turn();
+        comp->companion_mission_time = calendar::turn;
     }
     g->reload_npcs();
     assert( !comp->is_active() );
@@ -525,7 +525,7 @@ int talk_function::caravan_dist(std::string dest)
 
 void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 {
-    npc *comp = companion_choose_return( p.name + id, calendar::turn.get_turn() );
+    npc *comp = companion_choose_return( p.name + id, calendar::turn );
     if (comp == NULL){
         return;
     }
@@ -941,7 +941,7 @@ void talk_function::field_harvest( npc &p, std::string place )
 
 bool talk_function::scavenging_patrol_return( npc &p )
 {
-    npc *comp = companion_choose_return( p.name + "_scavenging_patrol", calendar::turn.get_turn()-6000 );
+    npc *comp = companion_choose_return( p.name + "_scavenging_patrol", calendar::turn - 10_hours );
     if (comp == NULL){
         return false;
     }
@@ -1032,7 +1032,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
 
 bool talk_function::scavenging_raid_return( npc &p )
 {
-    npc *comp = companion_choose_return( p.name + "_scavenging_raid", calendar::turn.get_turn()-6000 );
+    npc *comp = companion_choose_return( p.name + "_scavenging_raid", calendar::turn - 10_hours );
     if (comp == NULL){
         return false;
     }
@@ -1135,7 +1135,7 @@ bool talk_function::scavenging_raid_return( npc &p )
 bool talk_function::labor_return( npc &p )
 {
     //minimum working time is 1 hour
-    npc *comp = companion_choose_return( p.name + "_labor", calendar::turn.get_turn()-600 );
+    npc *comp = companion_choose_return( p.name + "_labor", calendar::turn - 1_hours );
     if (comp == NULL){
         return false;
     }
@@ -1175,7 +1175,7 @@ bool talk_function::labor_return( npc &p )
 
 bool talk_function::carpenter_return( npc &p )
 {
-    npc *comp = companion_choose_return( p.name + "_carpenter", calendar::turn.get_turn()-600 );
+    npc *comp = companion_choose_return( p.name + "_carpenter", calendar::turn - 1_hours );
     if (comp == NULL){
         return false;
     }
@@ -1236,8 +1236,7 @@ bool talk_function::carpenter_return( npc &p )
 
 bool talk_function::forage_return( npc &p )
 {
-    //minimum working time is 1 hour
-    npc *comp = companion_choose_return( p.name + "_forage", calendar::turn.get_turn()-2400 );
+    npc *comp = companion_choose_return( p.name + "_forage", calendar::turn - 4_hours );
     if (comp == NULL){
         return false;
     }
@@ -1460,10 +1459,11 @@ npc *talk_function::companion_choose(){
     return NULL;
 }
 
-npc *talk_function::companion_choose_return(std::string id, int deadline){
+npc *talk_function::companion_choose_return( std::string id, const time_point &deadline )
+{
     std::vector<npc *> available;
     for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {
-        if( guy->get_companion_mission() == id && guy->companion_mission_time <= time_point::from_turn( deadline ) ) {
+        if( guy->get_companion_mission() == id && guy->companion_mission_time <= deadline ) {
             available.push_back( guy.get() );
         }
     }

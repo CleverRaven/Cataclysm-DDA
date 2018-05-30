@@ -13,7 +13,7 @@ const efftype_id effect_milked( "milked" );
 void monexamine::milk_source( monster &source_mon )
 {
     const auto milked_item = source_mon.type->starting_ammo;
-    item milk( milked_item.begin()->first, calendar::turn.get_turn(), 1 );
+    item milk( milked_item.begin()->first, calendar::turn, 1 );
 
     // Milked items must be liquids.
     if( !milk.made_of( LIQUID ) ) {

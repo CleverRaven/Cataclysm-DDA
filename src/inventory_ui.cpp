@@ -971,7 +971,7 @@ void inventory_selector::add_character_items( Character &character )
 
 void inventory_selector::add_map_items( const tripoint &target )
 {
-    if( g->m.accessible_items( u.pos(), target, rl_dist( u.pos(), target ) ) ) {
+    if( g->m.accessible_items( target ) ) {
         const auto items = g->m.i_at( target );
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, name, 100 );
@@ -1006,6 +1006,10 @@ void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
         for( const auto &pos : closest_tripoints_first( radius, u.pos() ) ) {
+            // can not reach this -> can not access its contents
+            if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+                continue;
+            }
             add_map_items( pos );
             add_vehicle_items( pos );
         }

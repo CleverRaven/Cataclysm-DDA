@@ -2090,13 +2090,13 @@ void npc::on_load()
     add_msg( m_debug, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
-        update_body( to_turn<int>( cur ), to_turn<int>( cur + 30_minutes ) );
+        update_body( cur, cur + 30_minutes );
     }
     for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
-        update_body( to_turn<int>( cur ), to_turn<int>( cur + 5_minutes ) );
+        update_body( cur, cur + 5_minutes );
     }
     for( ; cur < calendar::turn; cur += 1_turns ) {
-        update_body( to_turn<int>( cur ), to_turn<int>( cur + 1_turns ) );
+        update_body( cur, cur + 1_turns );
     }
 
     if( dt > 0 ) {

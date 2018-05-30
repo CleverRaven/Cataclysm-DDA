@@ -701,10 +701,9 @@ private:
     time_point last_rot_check = calendar::time_of_cataclysm;
 
 public:
-    int get_rot() const
-    {
-        return to_turns<int>( rot );
-    }
+        time_duration get_rot() const {
+            return rot;
+        }
 
     /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
     time_point fridge = calendar::before_time_starts;

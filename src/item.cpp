@@ -878,8 +878,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
 
         const auto vits = g->u.vitamins_from( *food_item );
         const std::string required_vits = enumerate_as_string( vits.begin(), vits.end(), []( const std::pair<vitamin_id, int> &v ) {
-            return ( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) // only display vitamins that we actually require
-                ? string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) )
+            return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 ) // only display vitamins that we actually require
+                ? string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second * g->u.vitamin_rate( v.first ) / 1_days * 100 ) )
                 : std::string();
         } );
         if( !required_vits.empty() ) {
@@ -4003,8 +4003,7 @@ bool item::can_contain( const itype &tp ) const
 const item &item::get_contained() const
 {
     if( contents.empty() ) {
-        static const item null_item;
-        return null_item;
+        return null_item_reference();
     }
     return contents.front();
 }

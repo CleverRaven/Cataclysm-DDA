@@ -222,7 +222,7 @@ class player : public Character
         /** Updates all "biology" by one turn. Should be called once every turn. */
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
-        void update_body( int from, int to );
+        void update_body( const time_point &from, const time_point &to );
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
 
@@ -766,7 +766,7 @@ class player : public Character
         std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        int vitamin_rate( const vitamin_id& vit ) const;
+        time_duration vitamin_rate( const vitamin_id& vit ) const;
 
         /**
          * Add or subtract vitamins from player storage pools
@@ -1031,7 +1031,7 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Adds "sleep" to the player */
-        void fall_asleep(int duration);
+        void fall_asleep( const time_duration &duration );
         /** Removes "sleep" and "lying_down" from the player */
         void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */

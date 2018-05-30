@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
+#include "calendar.h"
 
 #include <vector>
 #include <map>
@@ -423,7 +424,7 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        int last_updated;
+        time_point last_updated = calendar::time_of_cataclysm;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */

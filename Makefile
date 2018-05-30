@@ -876,6 +876,7 @@ endif
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
 ifdef LANGUAGES
+	lang/compile_mo.sh $(LANGUAGES)
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif

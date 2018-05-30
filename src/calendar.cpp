@@ -66,11 +66,6 @@ calendar::calendar(int turn)
     sync();
 }
 
-int calendar::get_turn() const
-{
-    return turn_number;
-}
-
 calendar::operator int() const
 {
     return turn_number;
@@ -154,16 +149,16 @@ void calendar::increment()
     sync();
 }
 
-moon_phase calendar::moon() const
+moon_phase get_moon_phase( const time_point &p )
 {
     //One full phase every 2 rl months = 2/3 season length
-    float phase_change_per_day = 1.0 / ((to_days<float>( season_length() ) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
-
+    const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
     //Switch moon phase at noon so it stays the same all night
-    const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );
-    const int current_phase = int(round(float(current_day) * phase_change_per_day)) % int(MOON_PHASE_MAX);
-
-    return moon_phase(current_phase);
+    const time_duration current_day = ( p - calendar::time_of_cataclysm ) + 1_days / 2;
+    const double phase_change = current_day / moon_phase_duration;
+    const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
+                              static_cast<int>( MOON_PHASE_MAX );
+    return static_cast<moon_phase>( current_phase );
 }
 
 calendar calendar::sunrise() const
@@ -270,7 +265,7 @@ float calendar::sunlight() const
 
     double daylight_level = current_daylight_level();
 
-    int current_phase = int(moon());
+    int current_phase = static_cast<int>( get_moon_phase( *this ) );
     if ( current_phase > int(MOON_PHASE_MAX)/2 ) {
         current_phase = int(MOON_PHASE_MAX) - current_phase;
     }
@@ -328,65 +323,64 @@ std::string to_string_clipped( const time_duration &d )
 
 std::string to_string( const time_duration &d )
 {
-    const int turns = to_turns<int>( d );
-    int divider = 0;
-
-    if( turns > MINUTES( 1 ) && turns < calendar::INDEFINITELY_LONG ) {
-        if( turns < HOURS( 1 ) ) {
-            divider = MINUTES( 1 );
-        } else if( turns < DAYS( 1 ) ) {
-            divider = HOURS( 1 );
-        } else {
-            divider = DAYS( 1 );
-        }
+    if( d < time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+        return _( "for ever" );
     }
 
-    const int remainder = divider ? turns % divider : 0;
-    if( remainder != 0 ) {
-        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
-        return string_format( _( "%1$s and %2$s" ),
-                              to_string_clipped( time_duration::from_turns( turns ) ),
-                              to_string_clipped( time_duration::from_turns( remainder ) ) );
+    if( d <= 1_minutes ) {
+        return to_string_clipped( d );
     }
 
-    return to_string_clipped( d );
+    time_duration divider = 0_turns;
+    if( d < 1_hours ) {
+        divider = 1_minutes;
+    } else if( d < 1_days ) {
+        divider = 1_hours;
+    } else {
+        divider = 24_hours;
+    }
+
+    //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+    return string_format( _( "%1$s and %2$s" ),
+                          to_string_clipped( d ),
+                          to_string_clipped( d % divider ) );
 }
 
-std::string to_string_approx( const time_duration &d, const bool verbose )
+std::string to_string_approx( const time_duration &d_, const bool verbose )
 {
-    int turns = to_turns<int>( d );
-    const auto make_result = [verbose]( int turns, const char *verbose_str, const char *short_str ) {
-        return string_format( verbose ? verbose_str : short_str, to_string_clipped( time_duration::from_turns( turns ) ) );
+    time_duration d = d_;
+    const auto make_result = [verbose]( const time_duration d, const char *verbose_str, const char *short_str ) {
+        return string_format( verbose ? verbose_str : short_str, to_string_clipped( d ) );
     };
 
-    int divider = 0;
-    int vicinity = 0;
+    time_duration divider = 0_turns;
+    time_duration vicinity = 0_turns;
 
-    if( turns > DAYS( 1 ) ) {
-        divider = DAYS( 1 );
-        vicinity = HOURS( 2 );
-    } else if( turns > HOURS( 1 ) ) {
-        divider = HOURS( 1 );
-        vicinity = MINUTES( 5 );
+    if( d > 1_days ) {
+        divider = 1_days;
+        vicinity = 2_hours;
+    } else if( d > 1_hours ) {
+        divider = 1_hours;
+        vicinity = 5_minutes;
     } // Minutes and seconds can be estimated precisely.
 
     if( divider != 0 ) {
-        const int remainder = turns % divider;
+        const time_duration remainder = d % divider;
 
         if( remainder >= divider - vicinity ) {
-            turns += divider;
+            d += divider;
         } else if( remainder > vicinity ) {
             if( remainder < divider / 2 ) {
                 //~ %s - time (e.g. 2 hours).
-                return make_result( turns, _( "more than %s" ), ">%s" );
+                return make_result( d, _( "more than %s" ), ">%s" );
             } else {
                 //~ %s - time (e.g. 2 hours).
-                return make_result( turns + divider, _( "less than %s" ), "<%s" );
+                return make_result( d + divider, _( "less than %s" ), "<%s" );
             }
         }
     }
     //~ %s - time (e.g. 2 hours).
-    return make_result( turns, _( "about %s" ), "%s" );
+    return make_result( d, _( "about %s" ), "%s" );
 }
 
 std::string to_string_time_of_day( const time_point &p )
@@ -417,7 +411,7 @@ std::string to_string_time_of_day( const time_point &p )
     }
 }
 
-std::string calendar::day_of_week() const
+weekdays day_of_week( const time_point &p )
 {
     /* Design rationale:
      * <kevingranade> here's a question
@@ -440,17 +434,10 @@ std::string calendar::day_of_week() const
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    static const std::array<std::string, 7> weekday_names = {{
-        translate_marker( "Sunday" ), translate_marker( "Monday" )
-        translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
-        translate_marker( "Thursday" ), translate_marker( "Friday" )
-        translate_marker( "Saturday" )
-    }};
-
-    // calendar::day gets mangled by season transitions, so recalculate days since start.
-    static const int start_day = 4; // Thursday is the start day
-    const int current_day = ( turn_number / DAYS(1) + start_day ) % 7;
-    return _( weekday_names[ current_day ].c_str() );
+    const int day_since_cataclysm = to_days<int>( p - calendar::time_of_cataclysm );
+    static const weekdays start_day = weekdays::THURSDAY;
+    const int result = day_since_cataclysm + static_cast<int>( start_day );
+    return static_cast<weekdays>( result % 7 );
 }
 
 bool calendar::eternal_season()
@@ -509,7 +496,7 @@ void calendar::sync()
 
 bool calendar::once_every( const time_duration &event_frequency )
 {
-    return ( calendar::turn.get_turn() % to_turns<int>( event_frequency ) ) == 0;
+    return ( calendar::turn % to_turns<int>( event_frequency ) ) == 0;
 }
 
 const std::string calendar::name_season( season_type s )

@@ -106,9 +106,7 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "day_of_week", rval = "string", args = { } },
             { name = "day_of_year", rval = "int", args = { } },
-            { name = "get_turn", rval = "int", args = { } },
             { name = "increment", rval = nil, args = { } },
             { name = "is_night", rval = "bool", args = { } },
             { name = "sunlight", rval = "float", args = { } },
@@ -524,7 +522,7 @@ classes = {
             { name = "eat", rval = "bool", args = { "item" } },
             { name = "eat", rval = "bool", args = { "item", "bool" } },
             { name = "environmental_revert_effect", rval = nil, args = { } },
-            { name = "fall_asleep", rval = nil, args = { "int" } },
+            { name = "fall_asleep", rval = nil, args = { "time_duration" } },
             { name = "fall_damage_mod", rval = "float", args = { } },
             { name = "fine_detail_vision_mod", rval = "float", args = { } },
             { name = "fire_gun", rval = "int", args = { "tripoint" } },
@@ -902,7 +900,7 @@ classes = {
             { name = "get_relative_rot", rval = "float", args = { } },
             { name = "get_remaining_capacity_for_liquid", rval = "int", args = { "item", "bool" } },
             { name = "get_remaining_chapters", rval = "int", args = { "player" } },
-            { name = "get_rot", rval = "int", args = { } },
+            { name = "get_rot", rval = "time_duration", args = { } },
             { name = "get_side", rval = "side", args = { } },
             { name = "get_storage", rval = "volume", args = { } },
             { name = "get_thickness", rval = "int", args = { } },
@@ -1136,8 +1134,7 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "accessible_furniture", rval = "bool", args = { "tripoint", "tripoint", "int" } },
-            { name = "accessible_items", rval = "bool", args = { "tripoint", "tripoint", "int" } },
+            { name = "accessible_items", rval = "bool", args = { "tripoint" } },
             { name = "add_camp", rval = nil, args = { "tripoint", "string" } },
             { name = "add_corpse", rval = nil, args = { "tripoint" } },
             { name = "add_field", rval = "bool", args = { "tripoint", "field_id", "int", "time_duration" } },
@@ -1532,7 +1529,7 @@ classes = {
             friendly = { type = "int", writable = true },
             hallucination = { type = "bool", writable = true },
             ignoring = { type = "int", writable = true },
-            last_updated = { type = "int", writable = true },
+            last_updated = { type = "time_point", writable = true },
             made_footstep = { type = "bool", writable = true },
             mission_id = { type = "int", writable = true },
             morale = { type = "int", writable = true },
@@ -1751,7 +1748,7 @@ classes = {
         attributes = {
             defaultMonster = { type = "mtype_id", writable = true },
             is_safe = { type = "bool", writable = true },
-            monster_group_time = { type = "int", writable = true },
+            monster_group_time = { type = "time_duration", writable = true },
             name = { type = "mongroup_id", writable = true },
             new_monster_group = { type = "mongroup_id", writable = true },
             replace_monster_group = { type = "bool", writable = true },

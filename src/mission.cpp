@@ -33,7 +33,7 @@ mission mission_type::create( const int npc_id ) const
     ret.monster_kill_goal = monster_kill_goal;
 
     if( deadline_low != 0 || deadline_high != 0 ) {
-        ret.deadline = int( calendar::turn ) + rng( deadline_low, deadline_high );
+        ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
     } else {
         ret.deadline = 0;
     }
@@ -346,7 +346,7 @@ bool mission::has_deadline() const
     return deadline != 0;
 }
 
-calendar mission::get_deadline() const
+time_point mission::get_deadline() const
 {
     return deadline;
 }
@@ -417,7 +417,7 @@ void mission::process()
         return;
     }
 
-    if( deadline > 0 && calendar::turn.get_turn() > deadline ) {
+    if( deadline > 0 && calendar::turn > deadline ) {
         fail();
     } else if( npc_id < 0 && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();
@@ -472,7 +472,7 @@ mission_type_id mission::mission_id()
 
 void mission::load_info( std::istream &data )
 {
-    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
+    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id, deadline_;
     std::string rew_item, itemid;
     data >> type_id;
     type = mission_type::get( mission_type::from_legacy( type_id ) );
@@ -486,8 +486,9 @@ void mission::load_info( std::istream &data )
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
     bool failed; // Dummy, no one has saves this old
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
+         uid >> target.x >> target.y >> itemid >> item_num >> deadline_ >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
+    deadline = time_point::from_turn( deadline_ );
     target.z = 0;
     follow_up = mission_type::from_legacy( tmpfollow );
     reward.type = npc_favor_type( reward_id );
@@ -526,6 +527,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 }
 
 mission::mission()
+    : deadline( 0 )
 {
     type = NULL;
     status = mission_status::yet_to_start;
@@ -539,7 +541,6 @@ mission::mission()
     target_npc_id = -1;
     monster_type = "mon_null";
     monster_kill_goal = -1;
-    deadline = 0;
     npc_id = -1;
     good_fac_id = -1;
     bad_fac_id = -1;

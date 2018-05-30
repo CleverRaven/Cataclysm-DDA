@@ -1062,10 +1062,9 @@ void iexamine::safe(player &p, const tripoint &examp)
         ///\EFFECT_PER speeds up safe cracking
 
         ///\EFFECT_MECHANICS speeds up safe cracking
-        int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
-                             (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
+        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
 
-         p.assign_activity( activity_id( "ACT_CRACKING" ), moves );
+         p.assign_activity( activity_id( "ACT_CRACKING" ), to_moves<int>( time ) );
          p.activity.placement = examp;
     }
 }
@@ -1448,7 +1447,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
         add_msg(m_bad, _("You fall asleep..."));
-        p.fall_asleep(1200);
+        p.fall_asleep( 2_hours );
         add_msg(m_bad, _("Your legs are covered in the poppy's roots!"));
         p.apply_damage(nullptr, bp_leg_l, 4);
         p.apply_damage(nullptr, bp_leg_r, 4);
@@ -1977,7 +1976,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     p.use_charges( "fire", 1 );
     g->m.i_clear( examp );
     g->m.furn_set( examp, next_kiln_type );
-    item result( "unfinished_charcoal", calendar::turn.get_turn() );
+    item result( "unfinished_charcoal", calendar::turn );
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
@@ -2022,7 +2021,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         }
     }
 
-    item result( "charcoal", calendar::turn.get_turn() );
+    item result( "charcoal", calendar::turn );
     result.charges = total_volume / char_type->volume;
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
@@ -2503,7 +2502,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
     bool has_container = false;
     long charges = 0;
 
-    const std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+    const std::string maple_sap_name = item::nname( "maple_sap" );
 
     auto items = g->m.i_at( examp );
     for( auto &it : items ) {

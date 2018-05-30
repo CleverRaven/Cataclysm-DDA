@@ -69,7 +69,6 @@ static std::list<item>  nulitems;          // Returned when &i_at() is asked for
 static field            nulfield;          // Returned when &field_at() is asked for an OOB value
 static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
-static item             nulitem;           // Returned when item adding functions fail to add an item
 
 // Less for performance and more so that it's visible for when ter_t gets its string_id
 static std::string null_ter_t = "t_null";
@@ -4291,7 +4290,7 @@ item &map::spawn_an_item(const tripoint &p, item new_item,
     new_item = new_item.in_its_container();
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
         has_flag("DESTROY_ITEM", p) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     new_item.set_damage( damlevel );
@@ -4414,17 +4413,17 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( "NO_DROP" ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
         if( obj.on_drop( pos ) ) {
-            return nulitem;
+            return null_item_reference();
         }
 
         // If tile can contain items place here...
@@ -4440,7 +4439,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             }
 
             if( obj.on_drop( e ) ) {
-                return nulitem;
+                return null_item_reference();
             }
 
             if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
@@ -4451,13 +4450,13 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
-    return nulitem;
+    return null_item_reference();
 }
 
 item &map::add_item(const tripoint &p, item new_item)
 {
     if( !inbounds( p ) ) {
-        return nulitem;
+        return null_item_reference();
     }
     int lx, ly;
     submap * const current_submap = get_submap_at(p, lx, ly);
@@ -4474,11 +4473,11 @@ item &map::add_item_at( const tripoint &p,
                         std::list<item>::iterator index, item new_item )
 {
     if( new_item.made_of(LIQUID) && has_flag( "SWIMMABLE", p ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     if( has_flag( "DESTROY_ITEM", p ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
@@ -4981,6 +4980,11 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 {
     std::list<item> ret;
     for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
+        // can not reach this -> can not access its contents
+        if( origin != p && !clear_path( origin, p, range, 1, 100 ) ) {
+            continue;
+        }
+
         // Handle infinite map sources.
         item water = water_from( p );
         if( water.typeId() == type ) {
@@ -4989,21 +4993,19 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             return ret;
         }
 
-        if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
+        if( has_furn( p ) ) {
             use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret );
             if( quantity <= 0 ) {
                 return ret;
             }
         }
 
-        if( !accessible_items( origin, p, range ) ) {
-            continue;
-        }
-
-        std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
-        ret.splice(ret.end(), tmp);
-        if (quantity <= 0) {
-            return ret;
+        if( accessible_items( p ) ) {
+            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
+            ret.splice(ret.end(), tmp);
+            if (quantity <= 0) {
+                return ret;
+            }
         }
 
         const optional_vpart_position vp = veh_at( p );
@@ -6284,15 +6286,9 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     return is_clear;
 }
 
-bool map::accessible_items( const tripoint &f, const tripoint &t, const int range ) const
+bool map::accessible_items( const tripoint &t ) const
 {
-    return ( !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t ) ) &&
-           ( f == t || clear_path( f, t, range, 1, 100 ) );
-}
-
-bool map::accessible_furniture( const tripoint &f, const tripoint &t, const int range ) const
-{
-    return ( f == t || clear_path( f, t, range, 1, 100 ) );
+    return !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t );
 }
 
 std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t ) const
@@ -6693,7 +6689,7 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
     if( itm.is_corpse() ) {
         itm.calc_rot( pnt );
-        return itm.get_rot() > DAYS( 10 ) && !itm.can_revive();
+        return itm.get_rot() > 10_days && !itm.can_revive();
     } else if( itm.goes_bad() ) {
         itm.calc_rot( pnt );
         return itm.has_rotten_away();

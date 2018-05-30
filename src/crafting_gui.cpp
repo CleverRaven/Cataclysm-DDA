@@ -498,7 +498,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
-                const int expected_turns = g->u.expected_time_to_craft( *current[line], count ) / MOVES( 1 );
+                const int expected_turns = g->u.expected_time_to_craft( *current[line],
+                                           count ) / to_moves<int>( 1_turns );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, _( "Time to complete: %s" ),
                                         to_string( time_duration::from_turns( expected_turns ) ) );
 
