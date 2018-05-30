@@ -1645,9 +1645,8 @@ struct weldrig_hack {
             return pseudo;
         }
 
-        static item nulitem;
         // null item should be handled just fine
-        return nulitem;
+        return null_item_reference();
     }
 
     void clean_up()
