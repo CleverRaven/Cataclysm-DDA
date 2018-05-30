@@ -1057,7 +1057,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         // Lose a significant amount of HP, probably about 25-33%
         p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p.fall_asleep( MINUTES( 300 - p.int_cur + ( strong ? 100 : 0 ) ) );
+        p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
         p.set_mutation( trait_MUTAGEN_AVOID );
         // Injected mutagen purges marloss, ingested doesn't
         if( strong ) {
@@ -1275,7 +1275,7 @@ int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
         if( m_category.iv_sleep && !one_in( 3 ) ) {
             p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
             /** @EFFECT_INT reduces sleep duration when using IV mutagen */
-            p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
+            p->fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p->int_cur * 5 ) );
         }
         // try crossing again after getting new in-category mutations.
         test_crossing_threshold( *p, m_category );
@@ -1457,7 +1457,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.mod_pain(90);
         p.hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p.fall_asleep( 6000 - p.int_cur * 10 ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( 10_hours - p.int_cur * 1_minutes ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1466,7 +1466,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
     } else if( marloss_count >= 2 ) {
         p.add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
-        p.fall_asleep( MINUTES( 40 - p.int_cur * 0.5f ) );
+        p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
         for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1574,7 +1574,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_morale(MORALE_MARLOSS, 1000, 1000); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player(m_good, _("Your eyes roll back in your head.  Everything dissolves into a blissful haze..."));
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus */
-        p->fall_asleep( 3000 - p->int_cur * 10 );
+        p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.

@@ -3946,21 +3946,22 @@ int player::hp_percentage() const
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-inline int ticks_between( int from, int to, int tick_length )
+inline int ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length )
 {
-    return (to / tick_length) - (from / tick_length);
+    return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
+            ( from ) / to_turns<int>( tick_length ) );
 }
 
 void player::update_body()
 {
-    const int now = calendar::turn;
-    update_body( now - 1, now );
+    update_body( calendar::turn - 1_turns, calendar::turn );
 }
 
-void player::update_body( int from, int to )
+void player::update_body( const time_point &from, const time_point &to )
 {
-    update_stamina( to - from );
-    const int five_mins = ticks_between( from, to, MINUTES(5) );
+    update_stamina( to_turns<int>( to - from ) );
+    const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
         update_needs( five_mins );
@@ -3969,7 +3970,7 @@ void player::update_body( int from, int to )
         mend( five_mins * MINUTES( 5 ) );
     }
 
-    const int thirty_mins = ticks_between( from, to, MINUTES(30) );
+    const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
@@ -3977,16 +3978,16 @@ void player::update_body( int from, int to )
     }
 
     for( const auto& v : vitamin::all() ) {
-        int rate = vitamin_rate( v.first );
-        if( rate > 0 ) {
+        const time_duration rate = vitamin_rate( v.first );
+        if( rate > 0_turns ) {
             int qty = ticks_between( from, to, rate );
             if( qty > 0 ) {
                 vitamin_mod( v.first, 0 - qty );
             }
 
-        } else if ( rate < 0 ) {
+        } else if ( rate < 0_turns ) {
             // mutations can result in vitamins being generated (but never accumulated)
-            int qty = ticks_between( from, to, std::abs( rate ) );
+            int qty = ticks_between( from, to, -rate );
             if( qty > 0 ) {
                 vitamin_mod( v.first, qty );
             }
@@ -4154,7 +4155,7 @@ void player::check_needs_extremes()
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
-                fall_asleep(5);
+                fall_asleep( 5_turns );
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
@@ -4163,7 +4164,7 @@ void player::check_needs_extremes()
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
             if (one_in(100 + int_cur)) {
-                fall_asleep(5);
+                fall_asleep( 5_turns );
             }
         } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _("*yawn* You should really get some sleep.") );
@@ -4382,13 +4383,13 @@ void player::add_addiction(add_type type, int strength)
     if( type == ADD_NULL ) {
         return;
     }
-    int timer = HOURS( 2 );
+    time_duration timer = 2_hours;
     if( has_trait( trait_ADDICTIVE ) ) {
         strength *= 2;
-        timer = HOURS( 1 );
+        timer = 1_hours;
     } else if( has_trait( trait_NONADDICTIVE ) ) {
         strength /= 2;
-        timer = HOURS( 6 );
+        timer = 6_hours;
     }
     //Update existing addiction
     for( auto &i : addictions ) {
@@ -4396,9 +4397,9 @@ void player::add_addiction(add_type type, int strength)
             continue;
         }
 
-        if( i.sated < 0 ) {
+        if( i.sated < 0_turns ) {
             i.sated = timer;
-        } else if( i.sated < MINUTES(10) ) {
+        } else if( i.sated < 10_minutes ) {
             i.sated += timer; // TODO: Make this variable?
         } else {
             i.sated += timer / 2;
@@ -4408,7 +4409,7 @@ void player::add_addiction(add_type type, int strength)
         }
 
         add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
-                 i.intensity, i.sated );
+                 i.intensity, to_turns<int>( i.sated ) );
 
         return;
     }
@@ -4738,7 +4739,7 @@ void player::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) ) {
             add_msg_if_player(_("You pass out!"));
-            fall_asleep(val);
+            fall_asleep( time_duration::from_turns( val ) );
         }
     }
 
@@ -4978,26 +4979,26 @@ void player::suffer()
                 add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
             }
         }
-        int timer = -HOURS( 6 );
+        time_duration timer = -6_hours;
         if( has_trait( trait_ADDICTIVE ) ) {
-            timer = -HOURS( 10 );
+            timer = -10_hours;
         } else if( has_trait( trait_NONADDICTIVE ) ) {
-            timer = -HOURS( 3 );
+            timer = -3_hours;
         }
         for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0 &&
+            if( cur_addiction.sated <= 0_turns &&
                 cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
                 addict_effect( *this, cur_addiction );
             }
-            cur_addiction.sated--;
+            cur_addiction.sated -= 1_turns;
             // Higher intensity addictions heal faster
-            if( cur_addiction.sated - 100 * cur_addiction.intensity < timer ) {
+            if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
                 if( cur_addiction.intensity <= 2 ) {
                     rem_addiction( cur_addiction.type );
                     break;
                 } else {
                     cur_addiction.intensity--;
-                    cur_addiction.sated = 0;
+                    cur_addiction.sated = 0_turns;
                 }
             }
         }
@@ -5653,7 +5654,7 @@ void player::suffer()
             const time_duration dur = rng( 30_minutes, 60_minutes );
             add_effect( effect_downed, dur );
             add_effect( effect_blind, dur );
-            fall_asleep( to_turns<int>( dur ) );
+            fall_asleep( dur );
         }
     }
     if ( stim < -120 || pkill > 160 ) {
@@ -9420,12 +9421,12 @@ bool player::can_sleep()
     return false;
 }
 
-void player::fall_asleep(int duration)
+void player::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
         cancel_activity();
     }
-    add_effect( effect_sleep, time_duration::from_turns( duration ) );
+    add_effect( effect_sleep, duration );
 }
 
 void player::wake_up()

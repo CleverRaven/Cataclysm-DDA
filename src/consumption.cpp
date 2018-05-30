@@ -199,9 +199,9 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
     return res;
 }
 
-int player::vitamin_rate( const vitamin_id &vit ) const
+time_duration player::vitamin_rate( const vitamin_id &vit ) const
 {
-    int res = vit.obj().rate();
+    time_duration res = vit.obj().rate();
 
     for( const auto &m : get_mutations() ) {
         const auto &mut = m.obj();

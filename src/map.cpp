@@ -6693,7 +6693,7 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
     if( itm.is_corpse() ) {
         itm.calc_rot( pnt );
-        return itm.get_rot() > DAYS( 10 ) && !itm.can_revive();
+        return itm.get_rot() > 10_days && !itm.can_revive();
     } else if( itm.goes_bad() ) {
         itm.calc_rot( pnt );
         return itm.has_rotten_away();

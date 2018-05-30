@@ -1141,7 +1141,7 @@ class map
         void process_falling();
 
         // mapgen.cpp functions
-        void generate( const int x, const int y, const int z, const int turn );
+        void generate( const int x, const int y, const int z, const time_point &when );
         void place_spawns( const mongroup_id &group, const int chance,
                            const int x1, const int y1, const int x2, const int y2, const float density );
         void place_gas_pump( const int x, const int y, const int charges );
@@ -1334,7 +1334,7 @@ class map
         void draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                        const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                        const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                       const oter_id t_above, const int turn, const float density,
+                       const oter_id t_above, const time_point &when, const float density,
                        const int zlevel, const regional_settings *rsettings );
 
         void build_transparency_cache( int zlev );

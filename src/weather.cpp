@@ -497,6 +497,20 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
+static std::string to_string( const weekdays &d )
+{
+    static const std::array<std::string, 7> weekday_names = {{
+            translate_marker( "Sunday" ), translate_marker( "Monday" )
+            translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
+            translate_marker( "Thursday" ), translate_marker( "Friday" )
+            translate_marker( "Saturday" )
+        }
+    };
+    static_assert( static_cast<int>( weekdays::SUNDAY ) == 0,
+                   "weekday_names array is out of sync with weekdays enumeration values" );
+    return _( weekday_names[ static_cast<int>( d ) ].c_str() );
+}
+
 static std::string print_time_just_hour( const time_point &p )
 {
     const int hour = to_hours<int>( time_past_midnight( p ) );
@@ -587,9 +601,9 @@ std::string weather_forecast( point const &abs_sm_pos )
             started_at_night = false;
         }
         if(d > 0 && ((started_at_night && !(d % 2)) || (!started_at_night && d % 2))) {
-            day = string_format( pgettext( "Mon Night", "%s Night" ), c.day_of_week().c_str() );
+            day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
-            day = c.day_of_week();
+            day = to_string( day_of_week( c ) );
         }
         weather_report << string_format(
                            _("%s... %s. Highs of %s. Lows of %s. "),
