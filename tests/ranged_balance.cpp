@@ -276,7 +276,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "an expert shooter with a heavily modded auto shotgun" ) {
         arm_shooter( shooter, "abzats", { "holo_sight", "light_grip", "tuned_mechanism", "barrel_rifled" } );
         test_shooting_scenario( shooter, 18, 24, 124 );
-        test_fast_shooting( shooter, 50, 0.6 );
+        test_fast_shooting( shooter, 80, 0.6 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );
