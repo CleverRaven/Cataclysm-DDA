@@ -52,6 +52,7 @@
   {
     "id": "m6_asw",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "M6 Aircrew Survival Weapon",
     "name_plural": "M6 Aircrew Survival Weapons",
     "description": "A lightweight combination rifle, combining a .22 rimfire barrel with .410 shotgun barrel, and designed to fold for compact storage.  Produced for military aircraft pilots who might be stranded after a crash, later produced commercially by various companies.",
@@ -123,6 +124,7 @@
   {
     "id": "bond_410",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Bond Arms Derringer",
     "name_plural": "Bond Arms Derringers",
     "description": "The Bond Arms Derringer is a series of double-barrel, compact pistols.  Most commonly chambered for .45 Long Colt, with chambers long enough to accept .410 shotgun shells.",

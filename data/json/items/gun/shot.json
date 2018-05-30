@@ -2,6 +2,7 @@
   {
     "id": "ashot",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "12 gauge pistol",
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
     "weight": 828,

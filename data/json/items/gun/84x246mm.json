@@ -2,6 +2,7 @@
   {
     "id": "m3_carlgustav",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
     "name": "M3 recoilless rifle",
