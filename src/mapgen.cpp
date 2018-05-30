@@ -3947,6 +3947,10 @@ ff.......|....|WWWWWWWW|\n\
                     } else {
                         add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
                     }
+                } else if( one_in( 4 ) ) { // Zombie Burner
+                    if( one_in( 5 ) ) {
+                        add_spawn( mon_zombie_flamer, 1, p->x, p->y );
+                    }
                 } else if (one_in(20)) {
                     rough_circle_furn( this, f_rubble, p->x, p->y, rng( 3, 6 ) );
                 }
