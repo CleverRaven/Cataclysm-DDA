@@ -323,7 +323,7 @@ std::string to_string_clipped( const time_duration &d )
 
 std::string to_string( const time_duration &d )
 {
-    if( d < time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+    if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
         return _( "for ever" );
     }
 
