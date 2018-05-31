@@ -323,7 +323,7 @@ std::string to_string_clipped( const time_duration &d )
 
 std::string to_string( const time_duration &d )
 {
-    if( d < time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+    if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
         return _( "for ever" );
     }
 
@@ -340,10 +340,13 @@ std::string to_string( const time_duration &d )
         divider = 24_hours;
     }
 
-    //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
-    return string_format( _( "%1$s and %2$s" ),
-                          to_string_clipped( d ),
-                          to_string_clipped( d % divider ) );
+    if( d % divider != 0 ) {
+    	//~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+		return string_format( _( "%1$s and %2$s" ),
+							  to_string_clipped( d ),
+							  to_string_clipped( d % divider ) );
+    }
+    return to_string_clipped( d );
 }
 
 std::string to_string_approx( const time_duration &d_, const bool verbose )
