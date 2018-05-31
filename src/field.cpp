@@ -2257,7 +2257,7 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_dazzling:
-            if (z.has_flag(MF_SEES)) {
+            if( z.has_flag( MF_SEES ) && !z.has_flag( MF_ELECTRONIC ) ) {
                 z.add_effect( effect_blind, cur.getFieldDensity() * 12_turns );
                 z.add_effect( effect_stunned, cur.getFieldDensity() * rng( 5_turns, 12_turns ) );
             }
