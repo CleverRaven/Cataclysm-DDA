@@ -5459,6 +5459,24 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "kilt_leather",
+    "type": "ARMOR",
+    "name": "leather kilt",
+    "description": "No true Scotsman would leave home without his kilt.",
+    "weight": 1814,
+    "volume": 6,
+    "price": 6500,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "LEGS" ],
+    "coverage": 50,
+    "storage": 1,
+    "warmth": 10,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "kimono",
     "type": "ARMOR",
     "name": "kimono",
