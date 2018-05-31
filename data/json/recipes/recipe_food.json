@@ -6955,7 +6955,8 @@
       [ "tortilla_corn", 3 ]
     ],
     [
-      [ "salt", 20 ]
+      [ "salt", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },{
@@ -6974,14 +6975,16 @@
   "components": [
     [
       [ "human_flesh", 1 ],
-      [ "dry_hflesh", 2],
-      [ "rehydrated_hflesh", 2]
+      [ "dry_hflesh", 2 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "human_canned", 1 ]
     ],
     [
       [ "tortilla_corn", 3 ]
     ],
     [
-      [ "salt", 20 ]
+      [ "salt", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },{
