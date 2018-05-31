@@ -62,7 +62,7 @@
     "volume": 6,
     "price": 200000,
     "bashing": 6,
-    "material": "steel",
+    "material": "aluminum",
     "symbol": ")",
     "color": "green",
     "use_action": {
