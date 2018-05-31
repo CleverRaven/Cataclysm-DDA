@@ -2,6 +2,7 @@
   {
     "id": "bbgun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "BB gun",
@@ -91,6 +92,7 @@
   {
     "id": "bullet_crossbow",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
     "name": "bullet crossbow",
@@ -123,6 +125,7 @@
   {
     "id": "ftk93",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "magenta",
     "name": "FTK-93 fusion gun",
@@ -193,6 +196,7 @@
   {
     "id": "plasma_rifle",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "light_blue",
     "name": "Boeing XM-P plasma rifle",
@@ -227,6 +231,7 @@
   {
     "id": "pipe_combination_gun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "pipe combination gun",
@@ -253,6 +258,7 @@
   {
     "id": "tihar",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "light_gray",
     "name": "pneumatic assault rifle",
@@ -279,6 +285,7 @@
   {
     "id": "helsing",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "pneumatic bolt driver",
@@ -304,6 +311,7 @@
   {
     "id": "mininuke_launcher",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "mininuke launcher",
@@ -326,6 +334,7 @@
   {
     "id": "m202_flash",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "M202 FLASH",
@@ -351,6 +360,7 @@
   {
     "id": "RPG",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "RPG-7",
@@ -375,6 +385,7 @@
   {
     "id": "speargun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "speargun",
@@ -399,6 +410,7 @@
   {
     "id": "minispeargun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "yellow",
     "name": "mini speargun",
@@ -421,6 +433,7 @@
   {
     "id": "doublespeargun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "double speargun",
@@ -445,6 +458,7 @@
   {
     "id": "airspeargun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "pneumatic speargun",
@@ -470,6 +484,7 @@
   {
     "id": "combination_gun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "combination gun",
@@ -503,6 +518,7 @@
   {
     "id": "surv_rocket_launcher",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "/",
     "color": "light_gray",
     "name": "survivor's rocket launcher",
@@ -551,6 +567,7 @@
   {
     "id": "abzats",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "heavy automatic shotgun",
@@ -576,6 +593,8 @@
   {
     "id": "chemical_thrower",
     "type": "GUN",
+    "reload_noise_volume": 10,
+    "reload_noise": "slosh.",
     "symbol": "(",
     "color": "dark_gray",
     "name": "chemical thrower",

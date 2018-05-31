@@ -2,6 +2,7 @@
   {
     "id": "pipe__gun_44",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "pipe gun: revolver ammo",
     "name_plural": "pipe guns: revolver ammo",
     "description": "A home-made breech-loading gun made from a metal pipe.  It can hold a single revolver round.",
@@ -27,6 +28,7 @@
   {
     "id": "levergun_44",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "lever action carbine",
     "description": "A rugged lever-action carbine reminiscent of the Wild West.  It holds twelve revolver rounds in a tubular internal magazine.",
     "weight": 3175,
