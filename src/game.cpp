@@ -3496,7 +3496,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
 
 bool game::is_game_over()
 {
-    if (uquit == QUIT_WATCH) {
+    if( uquit == QUIT_WATCH ) {
         // deny player movement and dodging
         u.moves = 0;
         // prevent pain from updating
@@ -3505,33 +3505,35 @@ bool game::is_game_over()
         u.dodges_left = 0;
         return false;
     }
-    if (uquit == QUIT_DIED) {
-        if (u.in_vehicle) {
-            m.unboard_vehicle(u.pos());
+    if( uquit == QUIT_DIED ) {
+        if( u.in_vehicle ) {
+            m.unboard_vehicle( u.pos() );
         }
         u.place_corpse();
         return true;
     }
-    if (uquit == QUIT_SUICIDE) {
-        if (u.in_vehicle) {
-            m.unboard_vehicle(u.pos());
+    if( uquit == QUIT_SUICIDE ) {
+        if( u.in_vehicle ) {
+            m.unboard_vehicle( u.pos() );
         }
         return true;
     }
-    if (uquit != QUIT_NO) {
+    if( uquit != QUIT_NO ) {
         return true;
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
-    if(u.is_dead_state()) {
-        if(get_option<std::string>( "DEATHCAM" ) == "always") {
+    if( u.is_dead_state() ) {
+        Messages::deactivate();
+        if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
-        } else if(get_option<std::string>( "DEATHCAM" ) == "ask") {
-            uquit = query_yn(_("Watch the last moments of your life...?")) ? QUIT_WATCH : QUIT_DIED;
-        } else if(get_option<std::string>( "DEATHCAM" ) == "never") {
+        } else if( get_option<std::string>( "DEATHCAM" ) == "ask" ) {
+            uquit = query_yn( _( "Watch the last moments of your life...?" ) ) ?
+                              QUIT_WATCH : QUIT_DIED;
+        } else if( get_option<std::string>( "DEATHCAM" ) == "never" ) {
             uquit = QUIT_DIED;
         } else {
             // Something funky happened here, just die.
-            dbg(D_ERROR) << "no deathcam option given to options, defaulting to QUIT_DIED";
+            dbg( D_ERROR ) << "no deathcam option given to options, defaulting to QUIT_DIED";
             uquit = QUIT_DIED;
         }
         return is_game_over();

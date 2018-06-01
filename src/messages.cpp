@@ -103,6 +103,7 @@ class Messages::impl_t
     public:
         std::deque<game_message> messages;   // Messages to be printed
         time_point curmes = 0; // The last-seen message.
+        bool active = true;
 
         bool has_undisplayed_messages() const {
             return !messages.empty() && messages.back().turn() > curmes;
@@ -140,7 +141,7 @@ class Messages::impl_t
         }
 
         void add_msg_string( std::string &&msg, game_message_type const type ) {
-            if( msg.length() == 0 ) {
+            if( msg.length() == 0 || !active ) {
                 return;
             }
 
@@ -222,6 +223,12 @@ void Messages::add_msg( const game_message_type type, std::string msg )
 void Messages::clear_messages()
 {
     player_messages.impl_->messages.clear();
+    player_messages.impl_->active = true;
+}
+
+void Messages::deactivate()
+{
+    player_messages.impl_->active = false;
 }
 
 size_t Messages::size()
