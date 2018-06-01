@@ -4943,8 +4943,8 @@ void player::suffer()
         sounds::sound( pos(), 10, _("BZZZZZ"));
     }
 
-    double shoe_factor = footwear_factor();
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag("DIGGABLE", pos()) && !shoe_factor) {
+    bool wearing_shoes = is_wearing_shoes( "left" ) || is_wearing_shoes( "right" );
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) && !wearing_shoes ) {
         if (one_in(100)) {
             add_msg_if_player(m_good, _("This soil is delicious!"));
             if (get_hunger() > -20) {
@@ -6739,9 +6739,10 @@ bool player::consume(int target_position)
 
 void player::rooted_message() const
 {
+    bool wearing_shoes = is_wearing_shoes( "left" ) || is_wearing_shoes( "right" );
     if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag("DIGGABLE", pos()) &&
-        !footwear_factor() ) {
+        !wearing_shoes ) {
         add_msg(m_info, _("You sink your roots into the soil."));
     }
 }
