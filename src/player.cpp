@@ -460,7 +460,7 @@ player::player() : Character()
     blocks_left = 1;
     power_level = 0;
     max_power_level = 0;
-    stamina = 1000; // Temporary value for stamina. It will be reset later from external json option.
+    stamina = 1000; //Temporary value for stamina. It will be reset later from external json option.
     stim = 0;
     pkill = 0;
     radiation = 0;
