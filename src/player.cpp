@@ -460,7 +460,7 @@ player::player() : Character()
     blocks_left = 1;
     power_level = 0;
     max_power_level = 0;
-    stamina = get_stamina_max();
+    stamina = 1000; // Temporary value for stamina. It will be reset later from json.
     stim = 0;
     pkill = 0;
     radiation = 0;
@@ -10694,11 +10694,12 @@ int player::get_hp_max( hp_part bp ) const
 
 int player::get_stamina_max() const
 {
+    int maxStamina = get_option< int >("PLAYER_MAX_STAMINA");
     if (has_trait( trait_BADCARDIO ))
-        return 750;
+        return maxStamina * 0.75;
     if (has_trait( trait_GOODCARDIO ))
-        return 1250;
-    return 1000;
+        return maxStamina * 1.25;
+    return maxStamina;
 }
 
 void player::burn_move_stamina( int moves )
