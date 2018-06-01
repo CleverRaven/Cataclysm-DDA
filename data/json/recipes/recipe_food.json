@@ -141,16 +141,7 @@
       [ "irradiated_lemon", 1 ]
     ],
     [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
+      [ "batter", 1, "LIST" ]
     ]
   ]
 },{
@@ -1230,28 +1221,11 @@
   ],
   "tools": [
     [ [ "surface_heat", 8, "LIST" ] ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ]
   ],
   "components": [
-    [
-      [ "mushroom_morel", 1 ]
-    ],
-    [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
-    ]
+    [ [ "mushroom_morel", 1 ] ],
+    [ [ "batter", 1, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
@@ -1313,28 +1287,11 @@
   ],
   "tools": [
     [ [ "surface_heat", 8, "LIST" ] ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ]
   ],
   "components": [
-    [
-      [ "raw_dandelion", 2 ]
-    ],
-    [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
-    ]
+    [ [ "raw_dandelion", 2 ] ],
+    [ [ "batter", 1, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
@@ -1645,11 +1602,7 @@
   ],
   "tools": [
     [ [ "surface_heat", 8, "LIST" ] ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ]
   ],
   "components": [
     [
