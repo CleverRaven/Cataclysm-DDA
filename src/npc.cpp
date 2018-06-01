@@ -124,6 +124,10 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
+    recalc_hp();
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_cur[i] = hp_max[i];
+    }
     for( auto &e : Skill::skills ) {
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
