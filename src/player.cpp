@@ -10694,11 +10694,13 @@ int player::get_hp_max( hp_part bp ) const
 
 int player::get_stamina_max() const
 {
-    int maxStamina = get_option< int >("PLAYER_MAX_STAMINA");
-    if (has_trait( trait_BADCARDIO ))
+    int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
+    if( has_trait( trait_BADCARDIO ) ) {
         return maxStamina * 0.75;
-    if (has_trait( trait_GOODCARDIO ))
+    }
+    if( has_trait( trait_GOODCARDIO ) ) {
         return maxStamina * 1.25;
+    }
     return maxStamina;
 }
 
