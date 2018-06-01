@@ -1665,7 +1665,7 @@ int player::blood_loss( body_part bp ) const
 {
     int hp_cur_sum = 1;
     int hp_max_sum = 1;
-    
+
     if( bp == bp_leg_l || bp == bp_leg_r ) {
         hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
         hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
@@ -1679,7 +1679,7 @@ int player::blood_loss( body_part bp ) const
         hp_cur_sum = hp_cur[hp_head];
         hp_max_sum = hp_max[hp_head];
     }
-    
+
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }

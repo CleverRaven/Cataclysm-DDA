@@ -1,7 +1,7 @@
 #include "messages.h"
 #include "input.h"
 #include "game.h"
-#include "player.h" // Only u.is_dead
+#include "player.h" // u.is_dead, plus post-thresh mycus check
 #include "debug.h"
 #include "compatibility.h" //to_string
 #include "json.h"
@@ -157,6 +157,8 @@ class Messages::impl_t
                 return;
             }
 
+            msg = parse_replacements( msg );
+
             while( messages.size() > 255 ) {
                 messages.pop_front();
             }
@@ -212,6 +214,32 @@ void Messages::deserialize( JsonObject &json )
     JsonObject obj = json.get_object( "player_messages" );
     obj.read( "messages", player_messages.impl_->messages );
     obj.read( "curmes", player_messages.impl_->curmes );
+}
+
+std::string Messages::replace_text( std::string& str, const std::string& from, const std::string& to )
+{
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return str;
+    str.replace(start_pos, from.length(), to);
+    return str;
+}
+
+std::string Messages::parse_replacements( std::string msg )
+{
+    if ( g->u.has_trait( trait_id( "THRESH_MYCUS" ) ) ) { //post-thresh mycus perceive themselves as plural
+        msg = replace_text(msg, "Your", "Our");
+        msg = replace_text(msg, "You're", "We are"); //cut out apostrophes, as the mycus is more static/formal
+        msg = replace_text(msg, "You are", "We are");
+        msg = replace_text(msg, "your", "our");
+        msg = replace_text(msg, "you're", "we are");
+        msg = replace_text(msg, "you are", "we are");
+        msg = replace_text(msg, "You", "We");
+        msg = replace_text(msg, "you hear", "we hear"); //this is an exception to the rule below, so we account for it
+        msg = replace_text(msg, "you had", "we had"); //so is this
+        msg = replace_text(msg, "you", "us"); //when "you" is used in lowercase, it's usually something like "the zombie grabs you!", so replace it with us
+    }
+    return msg;
 }
 
 void Messages::add_msg( std::string msg )
