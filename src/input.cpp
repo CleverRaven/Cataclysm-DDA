@@ -22,6 +22,9 @@
 #include <ctype.h>
 #include <algorithm>
 
+using std::min; // from <algorithm>
+using std::max;
+
 extern bool tile_iso;
 
 static const std::string default_context_id( "default" );
@@ -714,7 +717,7 @@ const std::string &input_context::handle_input()
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {
-            display_help();
+            display_menu();
             return HELP_KEYBINDINGS;
         }
 
@@ -834,11 +837,35 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
 const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
 
-void input_context::display_help()
+void input_context::display_menu()
 {
     inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
-    catacurses::window w_help = catacurses::newwin( std::max(FULL_SCREEN_HEIGHT, TERMY) - 2, std::max(FULL_SCREEN_WIDTH, TERMX) - 2, 1, 1);
+
+    input_context ctxt( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "UP", _( "Scroll up" ) );
+    ctxt.register_action( "DOWN", _( "Scroll down" ) );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "REMOVE" );
+    ctxt.register_action( "ADD_LOCAL" );
+    ctxt.register_action( "ADD_GLOBAL" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "ANY_INPUT" );
+
+    if( category != "HELP_KEYBINDINGS" ) {
+        // avoiding inception!
+        ctxt.register_action( "HELP_KEYBINDINGS" );
+    }
+
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
+
+    int maxwidth = max(FULL_SCREEN_WIDTH, TERMX);
+    int width = min(80, maxwidth);
+    int maxheight = max(FULL_SCREEN_HEIGHT, TERMY);
+    int height = min(maxheight, (int) hotkeys.size() + LEGEND_HEIGHT + BORDER_SPACE);
+
+    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2, maxwidth / 2 - width / 2);
 
     // has the user changed something?
     bool changed = false;
@@ -861,9 +888,9 @@ void input_context::display_help()
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
-    const size_t display_height = std::max(FULL_SCREEN_HEIGHT, TERMY) - 11 - 2; // -2 for the border
+    const size_t display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
     // width of the legend
-    const size_t legwidth = std::max(FULL_SCREEN_WIDTH, TERMX) - 4 - 2;
+    const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
     std::ostringstream legend;
     legend << "<color_" << string_from_color( unbound_key ) << ">" << _( "Unbound keys" ) <<
@@ -875,23 +902,6 @@ void input_context::display_help()
            "</color>\n";
     legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
 
-    input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "UP", _( "Scroll up" ) );
-    ctxt.register_action( "DOWN", _( "Scroll down" ) );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "ADD_LOCAL" );
-    ctxt.register_action( "ADD_GLOBAL" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "ANY_INPUT" );
-
-    if( category != "HELP_KEYBINDINGS" ) {
-        // avoiding inception!
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-    }
-
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
     std::string action;
