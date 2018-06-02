@@ -860,12 +860,13 @@ void input_context::display_menu()
 
     std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
 
-    int maxwidth = max(FULL_SCREEN_WIDTH, TERMX);
-    int width = min(80, maxwidth);
-    int maxheight = max(FULL_SCREEN_HEIGHT, TERMY);
-    int height = min(maxheight, (int) hotkeys.size() + LEGEND_HEIGHT + BORDER_SPACE);
+    int maxwidth = max( FULL_SCREEN_WIDTH, TERMX );
+    int width = min( 80, maxwidth );
+    int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
+    int height = min( maxheight, ( int ) hotkeys.size() + LEGEND_HEIGHT + BORDER_SPACE );
 
-    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2, maxwidth / 2 - width / 2);
+    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
+                                maxwidth / 2 - width / 2 );
 
     // has the user changed something?
     bool changed = false;
