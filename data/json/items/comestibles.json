@@ -3331,7 +3331,6 @@
         "price" : 400,
         "material" : ["wheat", "junk"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 30
     },
     {
