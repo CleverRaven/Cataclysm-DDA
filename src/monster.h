@@ -82,6 +82,7 @@ class monster : public Creature
         void hasten_upgrade();
         void try_upgrade( bool pin_time );
         void try_reproduce();
+        void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         int get_hp( hp_part ) const override;
@@ -426,6 +427,7 @@ class monster : public Creature
 
         int last_updated;
         int last_baby;
+        int last_biosig;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -452,6 +454,8 @@ class monster : public Creature
         int upgrade_time;
         bool reproduces;
         int baby_timer;
+        bool biosignatures;
+        int biosig_timer;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
