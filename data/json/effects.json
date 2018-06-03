@@ -733,7 +733,6 @@
             "healing_sleep_mult": [0]
         }
     },
-    },
     {
         "type": "effect_type",
         "id": "spores",
