@@ -1127,7 +1127,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "egg_bird", 1 ]
+      [ "eggs_bird", 1, "LIST" ]
     ],
     [
       [ "ammonia", 1 ],
