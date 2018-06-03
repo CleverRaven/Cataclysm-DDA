@@ -955,7 +955,7 @@
     "name": "locust nymph",
     "description": "A locust the size of a rabbit.  You’d hate to think what a swarm of these could do.",
     "default_faction": "locust",
-    "species": [ "INSECT"],
+    "species": [ "INSECT" ],
     "diff": 2,
     "size": "TINY",
     "hp": 5,
