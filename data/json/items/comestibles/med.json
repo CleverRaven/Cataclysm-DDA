@@ -16,14 +16,14 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "bandages_power" : 8,
+            "disinfectant_power" : 8,
             "bleed" : 0.95,
             "bite" : 0.99,
-            "infect" : 0.95,
             "move_cost" : 6000,
             "long_action" : true,
             "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
-        },
-        "flags" : [ "BANDAGES", "DISINFECTANT" ]
+        }
     },
     {
         "id" : "1st_aid_survivor",
@@ -41,11 +41,12 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "bandages_power" : 6,
+            "disinfectant_power" : 6,
             "bleed" : 1.0,
             "move_cost" : 50000,
             "long_action" : true
-        },
-        "flags" : [ "BANDAGES", "DISINFECTANT" ]
+        }
     },
     {
         "id" : "adderall",
@@ -172,10 +173,10 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "bandages_power" : 4,
             "bleed" : 0.9,
             "move_cost" : 300
-        },
-        "flags" : "BANDAGES"
+        }
     },
     {
         "id" : "bfipowder",
@@ -196,10 +197,10 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : "DISINFECTANT"
+        }
     },
     {
         "id" : "caff_gum",
@@ -278,10 +279,10 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : "DISINFECTANT"
+        }
     },
     {
         "id" : "cig",
@@ -435,6 +436,7 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "bandages_power" : 2,
             "bleed" : 0.9,
             "move_cost" : 300
         }
@@ -505,10 +507,10 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : "DISINFECTANT"
+        }
     },
     {
         "id" : "diazepam",
@@ -725,10 +727,10 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "bandages_power" : 2,
             "bleed" : 0.5,
             "move_cost" : 200
-        },
-        "flags" : "BANDAGES_WEAK"
+        }
     },
     {
         "id" : "meth",
@@ -1003,10 +1005,10 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "disinfectant_power" : 2,
             "bleed" : 90,
             "move_cost" : 100
-        },
-        "flags" : "DISINFECTANT"
+        }
     },
     {
         "id" : "saline",
@@ -1058,10 +1060,10 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : "DISINFECTANT"
+        }
     },
     {
         "id" : "tobacco",
@@ -1301,11 +1303,11 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
+            "disinfectant_power" : 2,
             "bite" : 0.75,
             "move_cost" : 200,
             "used_up_item" : { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
-        },
-        "flags" : "DISINFECTANT_WEAK"
+        }
     },
     {
         "id" : "disincotton_ball",
@@ -1319,10 +1321,9 @@
         "use_action" : {
             "type" : "heal",
             "limb_power" : 0,
-            "bite" : 0.95,
-            "move_cost" : 300,
-            "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
-        },
-        "flags" : "DISINFECTANT_WEAK"
+            "disinfectant_power" : 2,
+            "bite" : 0.8,
+            "move_cost" : 300
+        }
     }
 ]
