@@ -2662,7 +2662,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         } else{
             bandaged_rate += e_bandaged.get_amount( "HEAL_MED_RATE_W_OTHER", 0 ) / 100000.0f;
         }
-        bandaged_rate += std::max( awake_rate, 0 ) * e_bandaged.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
+        bandaged_rate += std::max( awake_rate, 0.0f ) * e_bandaged.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
         if( at_rest_quality > 0.0f ) {
             bandaged_rate *= e_bandaged.get_amount( "SLEEP_MULT", 0 ) / 10.0f;
         }
@@ -2681,7 +2681,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         } else{
             disinfected_rate += e_disinfected.get_amount( "HEAL_MED_RATE_W_OTHER", 0 ) / 100000.0f;
         }
-        disinfected_rate += std::max( awake_rate, 0 ) * e_disinfected.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
+        disinfected_rate += std::max( awake_rate, 0.0f ) * e_disinfected.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
         if( at_rest_quality > 0.0f ) {
             disinfected_rate *= e_disinfected.get_amount( "SLEEP_MULT", 0 ) / 10.0f;
         }
