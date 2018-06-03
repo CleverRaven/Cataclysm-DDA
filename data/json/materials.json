@@ -894,7 +894,7 @@
     "fire_resist": 0,
     "elec_resist": 1,
     "chip_resist": 1,
-    "dmg_adj": [ "squished", "squshed", "mashed", "mushed" ],
+    "dmg_adj": [ "squished", "squashed", "mashed", "mushed" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "squished",
     "burn_data": [
