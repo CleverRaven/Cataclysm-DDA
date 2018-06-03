@@ -40,6 +40,7 @@
 #include "string_input_popup.h"
 #include "options.h"
 #include "skill.h"
+#include "effect.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2773,6 +2774,11 @@ void heal_actor::load( JsonObject &obj )
     limb_power = obj.get_float( "limb_power" );
 
     // Optional
+    bandages_power = obj.get_float( "bandages_power", 0 );
+    bandages_scaling = obj.get_float( "bandages_scaling", 0.25f * bandages_power );
+    disinfectant_power = obj.get_float( "disinfectant_power", 0 );
+    disinfectant_scaling = obj.get_float( "disinfectant_scaling", 0.25f * disinfectant_power );
+
     head_power = obj.get_float( "head_power", 0.8f * limb_power );
     torso_power = obj.get_float( "torso_power", 1.5f * limb_power );
 
@@ -2982,25 +2988,27 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
 
     // apply healing over time effects
-    float heal_stack = 4 + 2 * healer.get_skill_level( skill_firstaid );
-    if( it.has_flag( "BANDAGES" ) && it.has_flag( "DISINFECTANT" ) ) {
-        heal_stack *= 2.0;
-    }
-    if( it.has_flag( "DISINFECTANT_WEAK" ) || it.has_flag( "BANDAGES_WEAK" ) ) {
-        heal_stack /= 2.0;
-    }
-    heal_stack = std::min( heal_stack, 16.0f );
-    if( it.has_flag( "BANDAGES" ) || it.has_flag( "BANDAGES_WEAK" ) ) {
+    if( bandages_power > 0 ) {
+        // remove previous effect, if exists
         patient.remove_effect( effect_bandaged, bp_healed );
-        patient.add_effect( effect_bandaged, time_duration::from_hours( 6 * heal_stack ), bp_healed );
+        // add new effect
+        float bandages_intensity = bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+        patient.add_effect( effect_bandaged, 1_turns, bp_healed );
+        effect &e = patient.get_effect( effect_bandaged, bp_healed );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity  );
         patient.damage_bandaged[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
-        practice_amount += heal_stack;
+        practice_amount += 2 * bandages_intensity;
     }
-    if( it.has_flag( "DISINFECTANT" ) || it.has_flag( "DISINFECTANT_WEAK" ) ) {
+    if( disinfectant_power > 0 ) {
+        // remove previous effect, if exists
         patient.remove_effect( effect_disinfected, bp_healed );
-        patient.add_effect( effect_disinfected, time_duration::from_hours( 6 * heal_stack ), bp_healed );
+        // add new effect
+        float disinfectant_intensity = disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+        patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+        effect &e = patient.get_effect( effect_disinfected, bp_healed );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity  );
         patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
-        practice_amount += heal_stack;
+        practice_amount += 2 * disinfectant_intensity;
     }
     practice_amount = std::max( 9.0f, practice_amount );
 
@@ -3093,8 +3101,8 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing self - let player select
         if( healer.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             const std::string menu_header = it.tname();
-            bool is_bandages = it.has_flag( "BANDAGES" ) || it.has_flag( "BANDAGES_WEAK" );
-            bool is_disinfectant = it.has_flag( "DISINFECTANT" ) || it.has_flag( "DISINFECTANT_WEAK" );
+            bool is_bandages = bandages_power;
+            bool is_disinfectant = disinfectant_power;
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
                                         bleed, bite, infect, force, is_bandages, is_disinfectant );
@@ -3114,8 +3122,8 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
         const std::string menu_header = it.tname();
-        bool is_bandages = it.has_flag( "BANDAGES" ) || it.has_flag( "BANDAGES_WEAK" );
-        bool is_disinfectant = it.has_flag( "DISINFECTANT" ) || it.has_flag( "DISINFECTANT_WEAK" );
+        bool is_bandages = bandages_power;
+        bool is_disinfectant = disinfectant_power;
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
                                     bleed, bite, infect, force, is_bandages, is_disinfectant );
