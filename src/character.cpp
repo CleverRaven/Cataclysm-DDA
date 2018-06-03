@@ -2651,38 +2651,50 @@ float Character::healing_rate( float at_rest_quality ) const
 float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
 {
     float rate_medicine = 0.0f;
-    int bandaged_intensity = 0;
-    int disinfected_intensity = 0;
+    float bandaged_rate = 0.0f;
+    float disinfected_rate = 0.0f;
+    float awake_rate = mutation_value( "healing_awake" );
 
-    auto matching_map_bandaged = effects->find( effect_bandaged );
-    if( matching_map_bandaged != effects->end() ) {
-        auto &bodyparts = matching_map_bandaged->second;
-        auto found_effect = bodyparts.find( bp );
-        if( found_effect != bodyparts.end() ) {
-            effect &e = found_effect->second;
-            bandaged_intensity = e.get_intensity();
+    if( has_effect( effect_bandaged, bp ) ) {
+        const effect &e_bandaged = get_effect( effect_bandaged, bp );
+        if( !has_effect( effect_disinfected, bp ) ) {
+            bandaged_rate += e_bandaged.get_amount( "HEAL_MED_RATE", 0 ) / 100000.0f;
+        } else{
+            bandaged_rate += e_bandaged.get_amount( "HEAL_MED_RATE_W_OTHER", 0 ) / 100000.0f;
+        }
+        bandaged_rate += std::max( awake_rate, 0 ) * e_bandaged.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
+        if( at_rest_quality > 0.0f ) {
+            bandaged_rate *= e_bandaged.get_amount( "SLEEP_MULT", 0 ) / 10.0f;
+        }
+        if( bp == bp_head ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD_MULT", 0 ) / 10.0f;
+        }
+        if( bp == bp_torso ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO_MULT", 0 ) / 10.0f;
         }
     }
 
-    auto matching_map_disinfected = effects->find( effect_disinfected );
-    if( matching_map_disinfected != effects->end() ) {
-        auto &bodyparts = matching_map_disinfected->second;
-        auto found_effect = bodyparts.find( bp );
-        if( found_effect != bodyparts.end() ) {
-            effect &e = found_effect->second;
-            disinfected_intensity = e.get_intensity();
+    if( has_effect( effect_disinfected, bp ) ) {
+        const effect &e_disinfected = get_effect( effect_disinfected, bp );
+        if( !has_effect( effect_bandaged, bp ) ) {
+            disinfected_rate += e_disinfected.get_amount( "HEAL_MED_RATE", 0 ) / 100000.0f;
+        } else{
+            disinfected_rate += e_disinfected.get_amount( "HEAL_MED_RATE_W_OTHER", 0 ) / 100000.0f;
+        }
+        disinfected_rate += std::max( awake_rate, 0 ) * e_disinfected.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
+        if( at_rest_quality > 0.0f ) {
+            disinfected_rate *= e_disinfected.get_amount( "SLEEP_MULT", 0 ) / 10.0f;
+        }
+        if( bp == bp_head ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD_MULT", 0 ) / 10.0f;
+        }
+        if( bp == bp_torso ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO_MULT", 0 ) / 10.0f;
         }
     }
-    bandaged_intensity = std::min( bandaged_intensity, 8 );
-    disinfected_intensity = std::min( disinfected_intensity, 8 );
-    rate_medicine += 0.0002f * bandaged_intensity + 0.0002f * disinfected_intensity ;
 
-    if( has_effect( effect_bandaged, bp ) && has_effect( effect_disinfected, bp ) ) {
-        rate_medicine *= 2.0f;
-    }
-    if( at_rest_quality > 0.0f ) {
-        rate_medicine *= 2.0f;
-    }
+    rate_medicine += bandaged_rate + disinfected_rate;
+
     if( get_healthy() > 0.0f ) {
         rate_medicine *= 1.0f + get_healthy() / 200.0f;
     } else {
