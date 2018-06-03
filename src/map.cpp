@@ -6750,7 +6750,11 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(mgroup);
         add_spawn(spawn_details.name, 1, pnt.x, pnt.y, false);
         if (g->u.sees(pnt)) {
-            add_msg(m_warning, _("Something has crawled out of the %s!"), item.tname().c_str());
+            if (item.is_seed()){
+                add_msg(m_warning, _("Something has crawled out of the %s plants!"), item.get_plant_name());
+            } else {
+                add_msg(m_warning, _("Something has crawled out of the %s!"), item.tname().c_str());
+            }
         }
     }
 }
@@ -6802,6 +6806,7 @@ void map::grow_plant( const tripoint &p )
     const time_duration plantEpoch = seed.get_plant_epoch();
 
     if( seed.age() >= plantEpoch ) {
+        rotten_item_spawn( seed, p);
         if( seed.age() < plantEpoch * 2 ) {
                 i_rem(p, 1);
                 furn_set(p, furn_str_id( "f_plant_seedling" ) );
