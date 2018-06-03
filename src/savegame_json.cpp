@@ -1387,6 +1387,9 @@ void monster::load(JsonObject &data)
     reproduces = data.get_bool("reproduces", type->reproduces);
     baby_timer = data.get_int("baby_timer", -1);
 
+    biosignatures = data.get_bool("biosignatures", type->biosignatures);
+    biosig_timer = data.get_int("biosig_timer", -1);
+
     data.read("inv", inv);
     if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
@@ -1398,6 +1401,7 @@ void monster::load(JsonObject &data)
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
     last_updated = data.get_int( "last_updated", calendar::turn );
     last_baby = data.get_int( "last_baby", calendar::turn );
+    last_biosig = data.get_int( "last_biosig", calendar::turn );
 
     data.read( "path", path );
 }
@@ -1447,6 +1451,10 @@ void monster::store(JsonOut &json) const
     json.member("reproduces", reproduces);
     json.member("baby_timer", baby_timer);
     json.member("last_baby", last_baby);
+    json.member("biosignatures", biosignatures);
+    json.member("biosig_timer", biosig_timer);
+    json.member("last_biosig", last_biosig);
+
 
     json.member( "inv", inv );
 
