@@ -81,6 +81,7 @@ class effect_type
 
     protected:
         int max_intensity;
+        int max_effective_intensity;
         time_duration max_duration;
 
         int dur_add_perc;
