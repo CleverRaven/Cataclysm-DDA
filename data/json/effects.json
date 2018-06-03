@@ -684,7 +684,26 @@
         "main_parts_only": true,
         "rating": "good",
         "int_dur_factor": 3600,
-        "max_intensity": 16
+        "max_intensity": 16,
+        "max_effective_intensity": 8,
+        "max_duration": 57600,
+        "base_mods": {
+            "//": "Default healing rate (x100000)", 
+            "healing_rate": [20],
+            "//": "Healing rate if bandaged and disinfected (x100000)", 
+            "healing_rate_w_other_effects": [20],
+            "//": "Multiplier for additional healing from regenerative mutations (x10)", 
+            "healing_mult_regen": [10],
+            "//": "Rate multipliers for head and torso (x10)", 
+            "healing_head_mult": [5],
+            "healing_torso_mult": [15],
+            "//": "Rate multiplier if asleep (x10)", 
+            "healing_sleep_mult": [20]
+        },
+        "scaling_mods": {
+            "healing_rate": [20],
+            "healing_rate_w_other_effects": [20]
+        }
     },
     {
         "type": "effect_type",
@@ -694,7 +713,26 @@
         "main_parts_only": true,
         "rating": "good",
         "int_dur_factor": 3600,
-        "max_intensity": 16
+        "max_intensity": 16,
+        "max_effective_intensity": 8,
+        "max_duration": 57600,
+        "base_mods": {
+            "healing_rate": [20],
+            "healing_rate_w_other_effects": [20],
+            "healing_mult_regen": [10],
+            "healing_head_mult": [5],
+            "healing_torso_mult": [15],
+            "healing_sleep_mult": [20]
+        },
+        "scaling_mods": {
+            "healing_rate": [20],
+            "healing_rate_w_other_effects": [20],
+            "healing_mult_regen": [0],
+            "healing_head_mult": [0],
+            "healing_torso_mult": [0],
+            "healing_sleep_mult": [0]
+        }
+    },
     },
     {
         "type": "effect_type",
