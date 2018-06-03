@@ -3620,9 +3620,12 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
 
-    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() )) {
-        remove_effect( effect_mending, hurt );
-        add_effect( effect_disabled, 1_turns, hurt, true );
+    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
+        if( has_effect( effect_mending, hurt ) ) {
+            effect &e = get_effect( effect_mending, hurt );
+            float remove_mend = dam / 20.0f;
+            e.mod_duration( -e.get_max_duration() * remove_mend );
+        }
     }
 
     lifetime_stats.damage_taken += dam;
@@ -3636,10 +3639,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     int disinfected_intensity = 0;
 
     if( remove_med > 0 && has_effect( effect_bandaged, hurt ) ) {
-        auto matching_map_bandaged = effects->find( effect_bandaged );
-        auto &bodyparts = matching_map_bandaged->second;
-        auto found_effect = bodyparts.find( hurt );
-        effect &e_bandaged = found_effect->second;
+        effect &e_bandaged = get_effect( effect_bandaged, hurt );
         bandaged_intensity = e_bandaged.get_intensity();
         if( remove_med >= bandaged_intensity ) {
             remove_effect( effect_bandaged, hurt );
@@ -3654,10 +3654,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     remove_med -= bandaged_intensity;
 
     if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-        auto matching_map_disinfected = effects->find( effect_disinfected );
-        auto &bodyparts = matching_map_disinfected->second;
-        auto found_effect = bodyparts.find( hurt );
-        effect &e_disinfected = found_effect->second;
+        effect &e_disinfected = get_effect( effect_disinfected, hurt );
         disinfected_intensity = e_disinfected.get_intensity();
         if( remove_med >= disinfected_intensity ) {
             remove_effect( effect_disinfected, hurt );
@@ -4369,21 +4366,10 @@ void player::regen( int rate_multiplier )
     for( int i = 0; i < num_hp_parts; i++ ) {
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
         float healing = healing_rate_medicine( rest, bp ) * MINUTES( 5 ) ;
-        switch( bp ) {
-            case bp_head:
-                healing *= 0.75;
-                break;
-            case bp_torso:
-                healing *= 1.5;
-                break;
-            case bp_arm_l:
-            case bp_arm_r:
-            case bp_leg_l:
-            case bp_leg_r:
-                break;
-            default:
-                break;
-        }
+
+
+        //add_msg(  ("damage %1s %2s %3s" ), damage_bandaged[i], damage_disinfected[i], body_part_name( bp ) );
+
         int healing_apply = roll_remainder( healing );
         heal( bp, healing_apply );
         if( damage_bandaged[i] > 0 ) {
