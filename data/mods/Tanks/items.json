@@ -407,6 +407,7 @@
   {
   "id": "30mm_autocannon",
   "type": "GUN",
+  "reload_noise_volume": 10,
   "symbol": "(",
   "color": "dark_gray",
   "name": "30mm autocannon",

@@ -9,6 +9,7 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
+#include "item_category.h"
 #include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
@@ -96,7 +97,6 @@
 #include "projectile.h"
 #include "game_inventory.h"
 #include "gates.h"
-#include "item_factory.h"
 #include "scent_map.h"
 #include "safemode_ui.h"
 #include "game_constants.h"
@@ -1149,7 +1149,7 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        int turns = calendar::turn.get_turn() - calendar::start.get_turn();
+        int turns = calendar::turn - calendar::start;
         int minutes = ( turns / MINUTES( 1 ) ) % 60;
         int hours = ( turns / HOURS( 1 ) ) % 24;
         int days = turns / DAYS( 1 );
@@ -3496,7 +3496,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
 
 bool game::is_game_over()
 {
-    if (uquit == QUIT_WATCH) {
+    if( uquit == QUIT_WATCH ) {
         // deny player movement and dodging
         u.moves = 0;
         // prevent pain from updating
@@ -3505,33 +3505,35 @@ bool game::is_game_over()
         u.dodges_left = 0;
         return false;
     }
-    if (uquit == QUIT_DIED) {
-        if (u.in_vehicle) {
-            m.unboard_vehicle(u.pos());
+    if( uquit == QUIT_DIED ) {
+        if( u.in_vehicle ) {
+            m.unboard_vehicle( u.pos() );
         }
         u.place_corpse();
         return true;
     }
-    if (uquit == QUIT_SUICIDE) {
-        if (u.in_vehicle) {
-            m.unboard_vehicle(u.pos());
+    if( uquit == QUIT_SUICIDE ) {
+        if( u.in_vehicle ) {
+            m.unboard_vehicle( u.pos() );
         }
         return true;
     }
-    if (uquit != QUIT_NO) {
+    if( uquit != QUIT_NO ) {
         return true;
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
-    if(u.is_dead_state()) {
-        if(get_option<std::string>( "DEATHCAM" ) == "always") {
+    if( u.is_dead_state() ) {
+        Messages::deactivate();
+        if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
-        } else if(get_option<std::string>( "DEATHCAM" ) == "ask") {
-            uquit = query_yn(_("Watch the last moments of your life...?")) ? QUIT_WATCH : QUIT_DIED;
-        } else if(get_option<std::string>( "DEATHCAM" ) == "never") {
+        } else if( get_option<std::string>( "DEATHCAM" ) == "ask" ) {
+            uquit = query_yn( _( "Watch the last moments of your life...?" ) ) ?
+                              QUIT_WATCH : QUIT_DIED;
+        } else if( get_option<std::string>( "DEATHCAM" ) == "never" ) {
             uquit = QUIT_DIED;
         } else {
             // Something funky happened here, just die.
-            dbg(D_ERROR) << "no deathcam option given to options, defaulting to QUIT_DIED";
+            dbg( D_ERROR ) << "no deathcam option given to options, defaulting to QUIT_DIED";
             uquit = QUIT_DIED;
         }
         return is_game_over();
@@ -4198,8 +4200,8 @@ void game::debug()
                     return;
                 }
                 const int new_value = ( std::atoi( text.c_str() ) - initial ) * factor;
-                calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn.get_turn(), new_value ),
-                                            -calendar::turn.get_turn() );
+                calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn, new_value ),
+                                            -calendar::turn );
             };
 
             uimenu smenu;
@@ -4214,7 +4216,7 @@ void game::debug()
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), calendar::turn.get_turn() );
+                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), static_cast<int>( calendar::turn ) );
                 smenu.addentry( 6, true, 'q', "%s", _( "quit" ) );
                 smenu.selected = iSel;
                 smenu.query();
@@ -4237,7 +4239,7 @@ void game::debug()
                         set_turn( minute_of_hour<int>( calendar::turn ), MINUTES( 1 ), _( "Set minute to?" ) );
                         break;
                     case 5:
-                        set_turn( calendar::turn.get_turn(), 1,
+                        set_turn( calendar::turn, 1,
                                   string_format( _( "Set turn to? (One day is %i turns)" ), int( DAYS( 1 ) ) ).c_str() );
                         break;
                     default:
@@ -4653,7 +4655,7 @@ void game::draw_sidebar()
     //moon phase display
     static std::vector<std::string> vMoonPhase = {"(   )", "(  ))", "( | )", "((  )"};
 
-    const int iPhase = int(calendar::turn.moon());
+    const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
     std::string sPhase = vMoonPhase[iPhase%4];
 
     if (iPhase > 0) {
@@ -8761,7 +8763,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             }
             std::string last_cat_name;
             for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, ( int )filtered_items.size() ); i++ ) {
-                const std::string &cat_name = filtered_items[i].example->get_category().name;
+                const std::string &cat_name = filtered_items[i].example->get_category().name();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
@@ -11446,6 +11448,7 @@ void game::place_player( const tripoint &dest_loc )
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = pos;
                         u.activity.auto_resume = true;
+                        u.activity.str_values.push_back("auto_pulp_no_acid");
                         return;
                     }
                 }
@@ -11930,7 +11933,10 @@ void game::autoattack()
     int reach = u.weapon.reach_range( u );
     auto critters = u.get_hostile_creatures( reach );
     if( critters.empty() ) {
-        add_msg( m_info, _( "No hostile creature in reach." ) );
+        add_msg( m_info, _( "No hostile creature in reach. Waiting a turn." ) );
+        if( check_safe_mode_allowed() ) {
+            u.pause();
+        }
         return;
     }
 
@@ -13027,7 +13033,7 @@ void game::wait()
 
     if( get_levz() >= 0 || has_watch ) {
         const auto diurnal_time_before = []( const int turn ) {
-            const int remainder = turn % DAYS( 1 ) - calendar::turn.get_turn() % DAYS( 1 );
+            const int remainder = turn % DAYS( 1 ) - calendar::turn % DAYS( 1 );
             return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
         };
 

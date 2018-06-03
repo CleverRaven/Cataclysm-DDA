@@ -217,6 +217,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
+- ```CATFOOD``` Becomes friendly / tamed with cat food.
 - ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
 - ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
@@ -227,6 +228,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CLIMBS``` Can climb.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
+- ```DOGFOOD``` Becomes friendly / tamed with dog food.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
@@ -782,6 +784,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
+- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
@@ -810,6 +813,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MUTAGEN_URSINE``` Causes mutation in the ursine (bear) branch.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`). Still needs one of the mutation flags from the above list.
+- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.

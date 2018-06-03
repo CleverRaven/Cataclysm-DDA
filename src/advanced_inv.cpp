@@ -2,6 +2,7 @@
 #include "game.h"
 #include "player.h"
 #include "output.h"
+#include "item_category.h"
 #include "map.h"
 #include "debug.h"
 #include "catacharset.h"
@@ -802,7 +803,7 @@ advanced_inv_listitem::advanced_inv_listitem( const item_category *category )
     : idx()
     , area()
     , id("null")
-    , name( category->name )
+    , name( category->name() )
     , name_without_prefix()
     , autopickup()
     , stacks()

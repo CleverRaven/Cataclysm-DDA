@@ -1338,13 +1338,6 @@ void CheckMessages()
                 if(get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor(-1)) {
                     SDL_ShowCursor(SDL_DISABLE);
                 }
-                const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-                // manually handle Alt+F4 for older SDL lib, no big deal
-                if( ev.key.keysym.sym == SDLK_F4
-                && (keystate[SDL_SCANCODE_RALT] || keystate[SDL_SCANCODE_LALT]) ) {
-                    quit = true;
-                    break;
-                }
                 const long lc = sdl_keysym_to_curses(ev.key.keysym);
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.

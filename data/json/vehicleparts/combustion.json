@@ -17,7 +17,7 @@
     "symbol": "*",
     "difficulty": 4,
     "durability": 400,
-    "epower": -300,
+    "epower": -350,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -33,7 +33,7 @@
     "fuel_type": "diesel",
     "difficulty": 4,
     "durability": 400,
-    "epower": -200,
+    "epower": -250,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -49,7 +49,7 @@
     "fuel_type": "diesel",
     "difficulty": 4,
     "durability": 400,
-    "epower": -300,
+    "epower": -350,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -97,7 +97,7 @@
     "fuel_type": "gasoline",
     "difficulty": 2,
     "durability": 300,
-    "epower": -100,
+    "epower": -150,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 20, 30 ] },
@@ -145,7 +145,7 @@
     "fuel_type": "gasoline",
     "difficulty": 3,
     "durability": 400,
-    "epower": -150,
+    "epower": -200,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -161,7 +161,7 @@
     "fuel_type": "gasoline",
     "difficulty": 3,
     "durability": 400,
-    "epower": -200,
+    "epower": -250,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 40, 50 ] },

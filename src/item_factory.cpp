@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "assign.h"
 #include "string_formatter.h"
+#include "item_category.h"
 #include "init.h"
 #include "item.h"
 #include "ammo.h"
@@ -1893,17 +1894,12 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 void Item_factory::load_item_category(JsonObject &jo)
 {
     const std::string id = jo.get_string("id");
-    // reuse an existing definition,
-    // override the name and the sort_rank if
-    // these are present in the json
-    item_category &cat = categories[id];
-    cat.id = id;
-    if (jo.has_member("name")) {
-        cat.name = _(jo.get_string("name").c_str());
+    const auto iter = categories.find( id );
+    if( iter != categories.end() ) {
+        debugmsg( "Item category %s already exists", id );
+        return;
     }
-    if (jo.has_member("sort_rank")) {
-        cat.sort_rank = jo.get_int("sort_rank");
-    }
+    categories.emplace( id, item_category( id, _( jo.get_string( "name" ).c_str() ), jo.get_int( "sort_rank" ) ) );
 }
 
 void Item_factory::load_migration( JsonObject &jo )

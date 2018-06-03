@@ -4,6 +4,7 @@
 #include "generic_factory.h"
 #include "calendar.h"
 #include "item.h"
+#include "assign.h"
 
 #include <algorithm>
 
@@ -293,13 +294,8 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     assign_function( jo, "end", end, mission_function_map );
     assign_function( jo, "fail", fail, mission_function_map );
 
-    if( jo.has_int( "deadline_low" ) ) {
-        deadline_low = DAYS( jo.get_int( "deadline_low" ) );
-    }
-
-    if( jo.has_int( "deadline_high" ) ) {
-        deadline_high = DAYS( jo.get_int( "deadline_high" ) );
-    }
+    assign( jo, "deadline_low", deadline_low, false, 1_days );
+    assign( jo, "deadline_high", deadline_high, false, 1_days );
 
     if( jo.has_member( "followup" ) ) {
         follow_up = mission_type_id( jo.get_string( "followup" ) );
@@ -307,6 +303,10 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "monster_species" ) ) {
         monster_species = species_id( jo.get_string( "monster_species" ) );
+    }
+
+    if( jo.has_member( "monster_kill_goal" ) ) {
+        monster_kill_goal = jo.get_int( "monster_kill_goal" );
     }
 
     assign( jo, "destination", target_id, strict );

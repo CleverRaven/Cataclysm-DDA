@@ -5003,7 +5003,7 @@ void vehicle::place_spawn_items()
                     created.emplace_back( item( e ).in_its_container() );
                 }
                 for( const std::string& e : spawn.item_groups ) {
-                    created.emplace_back( item_group::item_from( e, calendar::turn ) );
+                    created.emplace_back( item_group::item_from( e, calendar::time_of_cataclysm ) );
                 }
 
                 for( item& e : created ) {

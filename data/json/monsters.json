@@ -998,7 +998,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT" ]
   },
   {
     "id": "mon_centipede_giant",
@@ -1645,7 +1645,7 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "DOGFOOD", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_dog_skeleton",

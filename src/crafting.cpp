@@ -288,7 +288,11 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
     for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
-        if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
+        // can not reach this -> can not access its contents
+        if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
+            continue;
+        }
+        if( g->m.accessible_items( loc ) ) {
             for( const auto &it : g->m.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( &it );
@@ -1363,6 +1367,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         // Use item from components list, or (if not contained)
         // use newit, the default constructed.
         item act_item = newit;
+
+        // Refitted clothing disassembles into refitted components (when applicable)
+        if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
+            act_item.item_tags.insert( "FIT" );
+        }
 
         if( filthy ) {
             act_item.item_tags.insert( "FILTHY" );
