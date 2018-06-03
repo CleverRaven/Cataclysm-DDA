@@ -230,11 +230,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "vitamins": [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ],
-    "burn_data": [
-      { "fuel": 0, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 3, "burn": 2 },
-      { "fuel": 1, "smoke": 5, "burn": 5 }
-    ]
+    "burn_data": [ { "fuel": 0, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 3, "burn": 2 }, { "fuel": 1, "smoke": 5, "burn": 5 } ]
   },
   {
     "type": "material",
@@ -409,11 +405,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 1, "burn": 2 },
-      { "fuel": 1, "smoke": 1, "burn": 3 }
-    ]
+    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
   },
   {
     "type": "material",
@@ -489,11 +481,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 1, "burn": 2 },
-      { "fuel": 1, "smoke": 1, "burn": 3 }
-    ]
+    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
   },
   {
     "type": "material",
@@ -613,11 +601,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "immune": true },
-      { "immune": true },
-      { "immune": true }
-    ]
+    "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ]
   },
   {
     "type": "material",
@@ -669,11 +653,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "fuel": 10, "smoke": 1, "burn": 10 },
-      { "fuel": 8, "smoke": 1, "burn": 20 },
-      { "fuel": 5, "smoke": 1, "burn": 50 }
-    ],
+    "burn_data": [ { "fuel": 10, "smoke": 1, "burn": 10 }, { "fuel": 8, "smoke": 1, "burn": 20 }, { "fuel": 5, "smoke": 1, "burn": 50 } ],
     "burn_products": [ [ "ash", 0.013 ] ]
   },
   {
@@ -856,11 +836,7 @@
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
     "vitamins": [ [ "vitB", 1 ] ],
-    "burn_data": [
-      { "fuel": 1, "smoke": 2, "burn": 1 },
-      { "fuel": 1, "smoke": 2, "burn": 2 },
-      { "fuel": 1, "smoke": 1, "burn": 3 }
-    ]
+    "burn_data": [ { "fuel": 1, "smoke": 2, "burn": 1 }, { "fuel": 1, "smoke": 2, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
   },
   {
     "type": "material",
@@ -905,6 +881,26 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "feces",
+    "name": "Feces",
+    "density": 4,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 1,
+    "fire_resist": 0,
+    "elec_resist": 1,
+    "chip_resist": 1,
+    "dmg_adj": [ "squished", "squshed", "mashed", "mushed" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "squished",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+      { "fuel": 2, "smoke": 1, "burn": 2, "chance": 10 },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
     ]
   }
 ]
