@@ -104,6 +104,12 @@
     "monsters": [ { "monster": "mon_giant_cockroach_nymph", "freq": 10, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_LOCUST",
+    "type": "monstergroup",
+    "default": "mon_locust_nymph",
+    "monsters": [ { "monster": "mon_locust_nymph", "freq": 10, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_ANT",
     "type": "monstergroup",
     "default": "mon_ant_larva",
