@@ -1917,6 +1917,14 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
         "connects_to": "WOODFENCE",
         "open": "t_fencegate_o",
+        "deconstruct": {
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "count": 5 },
+                { "item": "pointy_stick", "count": 2 },
+                { "item": "nail", "charges": 12 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
             "sound": "crack.",
@@ -1941,6 +1949,14 @@
         ],
         "connects_to": "WOODFENCE",
         "close": "t_fencegate_c",
+        "deconstruct": {
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "count": 5 },
+                { "item": "pointy_stick", "count": 2 },
+                { "item": "nail", "charges": 12 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crash!",
@@ -3867,6 +3883,13 @@
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
             "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
         "connects_to": "WOODFENCE",
+        "deconstruct": {
+            "ter_set": "t_fence_post",
+            "items": [
+                { "item": "2x4", "count": 5 },
+                { "item": "nail", "charges": 8 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
@@ -3889,6 +3912,13 @@
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
             "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
         "connects_to": "WOODFENCE",
+        "deconstruct": {
+            "ter_set": "t_fence_post",
+            "items": [
+                { "item": "2x4", "count": 5 },
+                { "item": "nail", "charges": 8 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
@@ -3966,6 +3996,12 @@
         "color": "brown",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
+        "deconstruct": {
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "pointy_stick", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
