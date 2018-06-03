@@ -643,7 +643,22 @@ void mtype::load( JsonObject &jo, const std::string &src )
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
                   "null" );
+        if( jo.has_member( "baby_flags" ) ) {
+            baby_flags.clear();
+            JsonArray baby_tags = jo.get_array( "baby_flags" );
+            while( baby_tags.has_more() ) {
+                baby_flags.push_back( baby_tags.next_string() );
+            }
+        }
         reproduces = true;
+    }
+
+    if( jo.has_member( "biosignature" ) ) {
+        JsonObject biosig = jo.get_object( "biosignature" );
+        optional( biosig, was_loaded, "biosig_timer", biosig_timer, -1 );
+        optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
+                  "null" );
+        biosignatures = true;
     }
 
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
@@ -948,6 +963,7 @@ void MonsterGenerator::check_monster_definitions() const
                           mon.upgrade_group.c_str(), mon.id.c_str() );
             }
         }
+
         if( mon.reproduces ) {
             if( mon.baby_timer < 1) {
                 debugmsg( "Time between reproductions (%d) is invalid for %s",
@@ -968,8 +984,22 @@ void MonsterGenerator::check_monster_definitions() const
                           mon.baby_monster.c_str(), mon.id.c_str() );
             }
             if( !item::type_is_defined( mon.baby_egg )) {
-                debugmsg( "item_id %s of monster %s is not a valid monster group id",
+                debugmsg( "item_id %s of monster %s is not a valid item id",
                           mon.baby_egg.c_str(), mon.id.c_str() );
+            }
+        }
+
+        if( mon.biosignatures ) {
+            if( mon.biosig_timer < 1) {
+                debugmsg( "Time between biosignature drops (%d) is invalid for %s",
+                         mon.biosig_timer, mon.id.c_str() );
+            }
+            if( mon.biosig_item == "null" ) {
+                debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
+            }
+            if( !item::type_is_defined( mon.biosig_item )) {
+                debugmsg( "item_id %s of monster %s is not a valid item id",
+                          mon.biosig_item.c_str(), mon.id.c_str() );
             }
         }
     }
