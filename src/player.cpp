@@ -4367,9 +4367,6 @@ void player::regen( int rate_multiplier )
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
         float healing = healing_rate_medicine( rest, bp ) * MINUTES( 5 ) ;
 
-
-        //add_msg(  ("damage %1s %2s %3s" ), damage_bandaged[i], damage_disinfected[i], body_part_name( bp ) );
-
         int healing_apply = roll_remainder( healing );
         heal( bp, healing_apply );
         if( damage_bandaged[i] > 0 ) {
