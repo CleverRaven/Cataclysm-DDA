@@ -1595,6 +1595,17 @@
     ]
   },
   {
+    "name": "GROUP_CROPS_GENERAL",
+    "type": "monstergroup",
+    "default": "mon_crow",
+    "monsters": [
+      { "monster": "mon_locust", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_locust_nymph", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_giant_cockroach", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_giant_cockroach_nymph", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "name": "GROUP_ROTTING_TRIFFID_FAVOR",
     "type": "monstergroup",
     "default": "mon_triffid_sprig",
