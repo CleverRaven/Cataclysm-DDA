@@ -844,13 +844,14 @@ class heal_actor : public iuse_actor
          * If the used item is a tool it, it will be turned into the used up item.
          * If it is not a tool a new item with this id will be created.
          */
-        std::string used_up_item_id;
-        int used_up_item_quantity = 1;
-        int used_up_item_charges = 1;
-        std::set<std::string> used_up_item_flags;
+        std::string used_up_item;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const player &healer, hp_part healed ) const;
+        /** How much intensity levels will be applied using this actor by `healer`. */
+        int get_bandaged_level( const player &healer ) const;
+        /** How much intensity levels will be applied using this actor by `healer`. */
+        int get_disinfected_level( const player &healer ) const;
 
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
         long finish_using( player &healer, player &patient, item &it, hp_part part ) const;
