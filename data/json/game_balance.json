@@ -4,6 +4,6 @@
     "name": "PLAYER_MAX_STAMINA",
     "info": "Sets max stamina value of the player.",
     "stype": "int",
-    "value": 1000
+    "value": 100 0
   }
 ]
