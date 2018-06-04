@@ -440,7 +440,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
 int player::get_melee_stamina_cost( const skill_id &skill, const item &cur_weapon, bool use_deft_bonus )
 {
-    const int melee = get_skill_level( skill_melee );
+    const int melee = get_skill_level( skill );
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
     const int weight_cost = cur_weapon.weight() / ( 20_gram * std::max( 1, str_cur ) );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
