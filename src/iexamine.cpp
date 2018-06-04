@@ -2007,7 +2007,18 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
-        add_msg( _("It should take %d minutes to finish burning."), to_minutes<int>( time_left ) + 1 );
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( hours < 1 ) {
+                if ( minutes > 30 ) {
+                add_msg( _( "It will finish burning in less than an hour." ) );
+                } else {
+                add_msg( _("It should take about %d minutes to finish burning."), minutes );
+            } else {
+                add_msg( ngettext( "It will finish burning in about %d hour.",
+                                   "It will finish burning in about %d hours.",
+                                   hours ), hours );
+            }
         return;
     }
 
