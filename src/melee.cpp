@@ -438,7 +438,8 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     return;
 }
 
-int player::get_melee_stamina_cost( const skill_id &skill, const item &cur_weapon, bool use_deft_bonus )
+int player::get_melee_stamina_cost( const skill_id &skill, const item &cur_weapon,
+                                    bool use_deft_bonus )
 {
     const int melee = get_skill_level( skill_melee );
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
