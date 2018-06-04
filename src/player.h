@@ -473,6 +473,9 @@ class player : public Character
          */
         void melee_attack( Creature &t, bool allow_special );
 
+        /** Gets stamina cost for melee attacks */
+        int player::get_melee_stamina_cost( const skill_id &skill, const item &cur_weapon, bool use_deft_bonus = true);
+
         /**
          * Returns a weapon's modified dispersion value.
          * @param obj Weapon to check dispersion on
