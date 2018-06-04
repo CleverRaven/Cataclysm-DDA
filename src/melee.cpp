@@ -427,14 +427,8 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.check_dead_state();
     }
 
-    const int melee = get_skill_level( skill_melee );
-    /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
-    const int weight_cost = cur_weapon.weight() / ( 20_gram * std::max( 1, str_cur ) );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 5 : 0;
-    /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 10 ) * -1;
-    mod_stat( "stamina", std::min( -5, mod_sta ) );
+    const int mod_sta = get_melee_stamina_cost( skill_melee, cur_weapon, hit_spread < 0 );
+    mod_stat( "stamina", -mod_sta );
 
     mod_moves(-move_cost);
 
@@ -442,6 +436,18 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
     return;
+}
+
+int player::get_melee_stamina_cost( const skill_id &skill, const item &cur_weapon, bool use_deft_bonus )
+{
+    const int melee = get_skill_level( skill );
+    /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
+    const int weight_cost = cur_weapon.weight() / ( 20_gram * std::max( 1, str_cur ) );
+    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
+    const int deft_bonus = use_deft_bonus && has_trait( trait_DEFT ) ? 5 : 0;
+    /** @EFFECT_MELEE reduces stamina cost of melee attacks */
+    const int stamina_cost = ( weight_cost + encumbrance_cost - melee - deft_bonus + 10 );
+    return std::max( 5, stamina_cost );
 }
 
 void player::reach_attack( const tripoint &p )
@@ -458,6 +464,7 @@ void player::reach_attack( const tripoint &p )
 
     int move_cost = attack_speed( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
+    const int mod_sta = get_melee_stamina_cost( skill_melee, weapon, true );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
     path.pop_back(); // Last point is our critter
@@ -480,6 +487,7 @@ void player::reach_attack( const tripoint &p )
             /** @EFFECT_STR increases bash effects when reach attacking past something */
             g->m.bash( p, str_cur + weapon.damage_melee( DT_BASH ) );
             handle_melee_wear( weapon );
+            mod_stat( "stamina", -mod_sta ); // attacking past something drain addtional stamina
             mod_moves( -move_cost );
             return;
         }
@@ -488,13 +496,17 @@ void player::reach_attack( const tripoint &p )
     if( critter == nullptr ) {
         add_msg_if_player( _("You swing at the air.") );
         if( has_miss_recovery_tec( weapon ) ) {
-            move_cost /= 3; // "Probing" is faster than a regular miss
+            // "Probing" is faster and easier than a regular miss
+            mod_stat("stamina", -mod_sta / 3);
+            move_cost /= 3; 
         }
 
         mod_moves( -move_cost );
         return;
     }
 
+
+    mod_stat( "stamina", -mod_sta ); // Reach attack itself drain stamina
     melee_attack( *critter, false, force_technique, false );
 }
 
