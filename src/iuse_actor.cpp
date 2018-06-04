@@ -506,12 +506,12 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     const std::string vits = enumerate_as_string( vitamins.begin(), vitamins.end(),
     []( const decltype( vitamins )::value_type & v ) {
-        const int rate = g->u.vitamin_rate( v.first );
-        if( rate <= 0 ) {
+        const time_duration rate = g->u.vitamin_rate( v.first );
+        if( rate <= 0_turns ) {
             return std::string();
         }
-        const int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
-        const int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+        const int lo = int( v.second.first  * rate / 1_days * 100 );
+        const int hi = int( v.second.second * rate / 1_days * 100 );
 
         return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo,
                               hi );
@@ -1086,7 +1086,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     const int min_moves = std::min<int>( moves_base,
                                          sqrt( 1 + moves_base / to_moves<int>( 1_turns ) ) * to_moves<int>( 1_turns ) );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
-    if( moves > MOVES( MINUTES( 1 ) ) ) {
+    if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
         static const std::string sun_msg =
             _( "If the current weather holds, it will take around %d minutes to light a fire." );
@@ -2801,7 +2801,15 @@ void heal_actor::load( JsonObject &obj )
         }
     }
 
-    used_up_item = obj.get_string( "used_up_item", used_up_item );
+    if( obj.has_string( "used_up_item" ) ) {
+        used_up_item_id = obj.get_string( "used_up_item", used_up_item_id );
+    } else if( obj.has_object( "used_up_item" ) ) {
+        JsonObject u = obj.get_object( "used_up_item" );
+        used_up_item_id = u.get_string( "id", used_up_item_id );
+        used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
+        used_up_item_charges = u.get_int( "charges", used_up_item_charges );
+        used_up_item_flags = u.get_tags( "flags" );
+    }
 }
 
 player &get_patient( player &healer, const tripoint &pos )
@@ -2888,26 +2896,6 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     return heal_base;
 }
 
-int heal_actor::get_bandaged_level( const player &healer ) const
-{
-    if( bandages_power > 0 ) {
-        /** @EFFECT_FIRSTAID increases healing item effects */
-        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
-    }
-
-    return bandages_power;
-}
-
-int heal_actor::get_disinfected_level( const player &healer ) const
-{
-    if( disinfectant_power > 0 ) {
-        /** @EFFECT_FIRSTAID increases healing item effects */
-        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
-    }
-
-    return disinfectant_power;
-}
-
 long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
     float practice_amount = limb_power * 3.0f;
@@ -2981,14 +2969,21 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
-    if( !used_up_item.empty() ) {
+    if( !used_up_item_id.empty() ) {
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
-            it.convert( used_up_item );
+            it.convert( used_up_item_id );
+            for( const auto &flag : used_up_item_flags ) {
+                it.set_flag( flag );
+            }
         } else {
-            item used_up( used_up_item, it.birthday() );
-            healer.i_add_or_drop( used_up );
+            item used_up( used_up_item_id, it.birthday() );
+            used_up.charges = used_up_item_charges;
+            for( const auto &flag : used_up_item_flags ) {
+                used_up.set_flag( flag );
+            }
+            healer.i_add_or_drop( used_up, used_up_item_quantity );
         }
     }
 
@@ -2997,7 +2992,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         // remove previous effect, if exists
         patient.remove_effect( effect_bandaged, bp_healed );
         // add new effect
-        float bandages_intensity = get_bandaged_level( healer );
+        float bandages_intensity = bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity  );
@@ -3008,7 +3003,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         // remove previous effect, if exists
         patient.remove_effect( effect_disinfected, bp_healed );
         // add new effect
-        float disinfectant_intensity = get_disinfected_level( healer );
+        float disinfectant_intensity = disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity  );
@@ -3154,20 +3149,6 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
             dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "",
                                false );
             dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
-        }
-    }
-
-    if( bandages_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", bandages_power, true, "", true );
-        if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "", get_bandaged_level( g->u ), true, "", true );
-        }
-    }
-
-    if( disinfectant_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", disinfectant_power, true, "", true );
-        if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "", get_disinfected_level( g->u ), true, "", true );
         }
     }
 
