@@ -361,8 +361,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     return hit_spread;
 }
 
-void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
-                              const damage_instance &dam, dealt_damage_instance &dealt_dam)
+void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                               const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
