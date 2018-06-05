@@ -294,11 +294,11 @@ void bite_actor::load_internal( JsonObject &obj, const std::string &src )
 void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     melee_actor::on_damage( z, target, dealt );
-    int infectionchance = one_in( no_infection_chance - dealt.total_damage() );
+    bool infectionchance = one_in( no_infection_chance - dealt.total_damage() );
     //disable biting on ungrabbed targets
-    if ( !target.has_effect( effect_grabbed ) ) {
+    if( !target.has_effect( effect_grabbed ) ) {
         infectionchance = 0;
-    } else if ( infectionchance ) {
+    } else if( infectionchance ) {
         const body_part hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit ) ) {
             target.add_effect( effect_bite, 40_minutes, hit, true );
