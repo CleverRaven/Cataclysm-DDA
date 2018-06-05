@@ -2010,15 +2010,16 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( hours < 1 ) {
-                if ( minutes > 30 ) {
+            if( minutes > 30 ) {
                 add_msg( _( "It will finish burning in less than an hour." ) );
-                } else {
+            } else {
                 add_msg( _("It should take about %d minutes to finish burning."), minutes );
             } else {
                 add_msg( ngettext( "It will finish burning in about %d hour.",
-                                   "It will finish burning in about %d hours.",
-                                   hours ), hours );
+                                    "It will finish burning in about %d hours.",
+                                    hours ), hours );
             }
+        }
         return;
     }
 
