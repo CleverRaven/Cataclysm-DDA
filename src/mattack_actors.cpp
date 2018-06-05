@@ -16,6 +16,7 @@
 #include "generic_factory.h"
 #include "line.h"
 
+const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
