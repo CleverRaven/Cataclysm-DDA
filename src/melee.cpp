@@ -145,7 +145,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         damage_chance *= 4;
     }
     // FRAGILE_MELEE items are very fragile and likely start falling apart pretty quickly if used in combat
-    if (shield.has_flag("FRAGILE_MELEE")) {
+    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
         damage_chance = std::min( damage_chance / 4, 5 );
     }
 
