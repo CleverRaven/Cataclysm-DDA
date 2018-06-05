@@ -452,7 +452,7 @@
         "volume" : 7,
         "bashing" : 11,
         "cutting" : 8,
-        "flags" : ["STAB", "NONCONDUCTIVE"],
+        "flags" : ["STAB", "NONCONDUCTIVE", "FRAGILE_MELEE"],
         "price" : 18000,
         "price_postapoc": 0
     },
