@@ -3319,7 +3319,7 @@ bool game::handle_action()
             break;
 
         case ACTION_KEYBINDINGS:
-            ctxt.display_help();
+            ctxt.display_menu();
             refresh_all();
             break;
 
