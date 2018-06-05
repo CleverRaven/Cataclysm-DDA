@@ -1561,7 +1561,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         all_techniques.insert( techniques.begin(), techniques.end() );
         if( !all_techniques.empty() ) {
             insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ) +
+            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
                 return string_format( "<stat>%s:</stat> <info>%s</info>", tid.obj().name.c_str(), tid.obj().description.c_str() );
             } ) ) );
