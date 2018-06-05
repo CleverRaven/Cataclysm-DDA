@@ -1166,7 +1166,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             insert_separation_line();
 
             temp1.str( "" );
-            temp1 << _( "<bold>Mods:<bold> " );
+            temp1 << _( "<bold>Mods:</bold> " );
             int iternum = 0;
             for( auto &elem : gun.valid_mod_locations ) {
                 if( iternum != 0 ) {
