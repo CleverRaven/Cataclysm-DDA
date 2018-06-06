@@ -3545,7 +3545,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype &itemtype = *it.type;
             const int duration = itemtype.bionic->difficulty * 200;
             if( p.install_bionics( itemtype ) ) {
-                popup( _( "Using your knowledge of human anatomy, electronics and mechanics, you enter various data into the Autodoc console, configuring it to make bionic manipulations." ) );
+                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
                 p.fall_asleep( duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
