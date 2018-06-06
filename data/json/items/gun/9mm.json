@@ -2,6 +2,7 @@
   {
     "id": "briefcase_smg",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "briefcase SMG",
     "description": "A custom built 9x19mm submachine gun camouflaged to look as the average businessman suitcase, panes of cutting edge materials and its clever internal construction allowed it to bypass even the most scrupulous of security checkpoints.  Due to the fact that the average security guard is now only concerned in eating you, this million dollar baby has been reduced to little more than a novelty item.",
     "weight": 2640,
@@ -38,6 +39,7 @@
   {
     "id": "calico",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Calico M960",
     "name_plural": "Calico M960",
 	"//": "Automatic variant.  Cyclic fire rate: 750 rpm",
@@ -56,7 +58,6 @@
     "dispersion": 280,
     "durability": 6,
     "burst": 13,
-    "reload_noise_volume": 10,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -69,6 +70,7 @@
   {
     "id": "cx4",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Cx4 Storm",
     "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns.",
     "weight": 2300,
@@ -126,6 +128,7 @@
   {
     "id": "hk_mp5",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "H&K MP5",
     "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.",
     "weight": 2550,
@@ -158,6 +161,7 @@
   {
     "id": "ksub2000",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Kel-Tec SUB-2000",
     "name_plural": "Kel-Tec SUB-2000",
     "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes use of 9x19mm Glock magazines.",
@@ -268,6 +272,7 @@
   {
     "id": "rifle_9mm",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "pipe rifle: 9x19mm",
     "name_plural": "pipe rifles: 9x19mm",
     "//": "Despite its quality, it IS a small rifle, although not as effective as a genuine pistol carbine.",
@@ -295,6 +300,7 @@
   {
     "id": "sten",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "STEN",
     "description": "A British submachine gun developed during World War II, to make up for shortages of supplies.  Designed to be made using unskilled labor and not known for reliability, its main advantages were low cost and being able to use German 9mm ammunition.",
     "weight": 2945,
@@ -322,6 +328,7 @@
   {
     "id": "tec9",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "TEC-9",
     "name_plural": "TEC-9",
     "description": "The TEC-9 is a machine pistol made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks and low cost.",

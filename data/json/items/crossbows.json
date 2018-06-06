@@ -85,6 +85,7 @@
    {
       "id" : "hand_crossbow",
       "type" : "GUN",
+      "reload_noise_volume": 10,
       "symbol" : "(",
       "color" : "green",
       "name" : "pistol crossbow",
@@ -107,6 +108,7 @@
    {
       "id" : "crossbow",
       "type" : "GUN",
+      "reload_noise_volume": 10,
       "symbol" : "(",
       "color" : "green",
       "name" : "crossbow",
@@ -131,6 +133,7 @@
    {
       "id" : "huge_crossbow",
       "type" : "GUN",
+      "reload_noise_volume": 10,
       "symbol" : "(",
       "color" : "green",
       "name" : "heavy crossbow",
@@ -156,6 +159,7 @@
    {
       "id" : "rep_crossbow",
       "type" : "GUN",
+      "reload_noise_volume": 10,
       "symbol" : "(",
       "color" : "green",
       "name" : "repeating crossbow",

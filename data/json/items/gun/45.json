@@ -2,6 +2,7 @@
   {
     "id": "TDI",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "TDI Vector",
     "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
     "weight": 2600,
@@ -27,6 +28,7 @@
   {
     "id": "hk_ump45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "H&K UMP45",
     "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
     "weight": 2300,
@@ -74,6 +76,7 @@
   {
     "id": "l_long_45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
@@ -140,6 +143,7 @@
   {
     "id": "mac_10",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "MAC-10",
     "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
     "weight": 2630,
@@ -188,6 +192,7 @@
   {
     "id": "tommygun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Thompson submachine gun",
     "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
     "weight": 4630,

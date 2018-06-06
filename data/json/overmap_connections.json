@@ -39,7 +39,7 @@
     "subtypes": [
       {
         "terrain": "subway",
-        "locations": [ "subterranean" ],
+        "locations": [ "subterranean_subway" ],
         "flags": [ "ORTHOGONAL" ]
       }
     ]

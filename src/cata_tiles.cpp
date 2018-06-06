@@ -21,6 +21,7 @@
 #include "npc.h"
 #include "catacharset.h"
 #include "itype.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "game.h"
 #include "mapdata.h"
@@ -1963,9 +1964,10 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         tercol = cursesColorToSDL( curr_furn.color() );
     } else if( ( veh = g->m.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
         const int roof = veh->roof_at_part( part_below );
+        const auto vpobst = vpart_position( const_cast<vehicle&>( *veh ), part_below ).obstacle_at_part();
         tercol = cursesColorToSDL( ( roof >= 0 ||
-                                     veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_magenta );
-        sizefactor = ( roof >= 0 || veh->obstacle_at_part( part_below ) ) ? 4 : 2;
+                                     vpobst ) ? c_light_gray : c_magenta );
+        sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
         tercol = cursesColorToSDL( curr_ter.color() );
     } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
@@ -2213,8 +2215,8 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
                 break;
         }
     }
-    int cargopart = veh->part_with_feature(veh_part, "CARGO");
-    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
+    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
+    bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
                                    ll, nv_goggles_activated, height_3d );
     if ( ret && draw_highlight ) {
