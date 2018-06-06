@@ -2212,6 +2212,50 @@ std::string item::tname_generate_tagtext() const
         ret << _( " (right)" );
     }
 
+    if( has_flag( "FIT" ) ) {
+        ret << _( " (fits)" );
+    }
+
+    if( damage() != 0 ) {
+        if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+            ret << " (<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + "</color>)";
+        } else {
+            if( damage() < 0 )  {
+                if( is_gun() ) {
+                    ret << pgettext( "damage adjective", " (accurized)" );
+                } else {
+                    ret << pgettext( "damage adjective", " (reinforced)" );
+                }
+            } else {
+                ret << string_format( " (%s)", get_base_material().dmg_adj( damage() ) );
+            }
+        }
+    }
+
+    if( is_gun() || is_tool() || is_magazine() ) {
+        for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
+            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
+                ret << " (modified)";
+                break;
+            }
+        }
+    } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
+               item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
+        ret << " (modified)";
+    }
+
+    if( !faults.empty() ) {
+        ret << _( " (faulty)" );
+    }
+
+    if( !made_of( LIQUID ) ) {
+        if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
+            ret << pgettext( "burnt adjective", " (v.burnt)" );
+        } else if( burnt > 0 ) {
+            ret << pgettext( "burnt adjective", " (burnt)" );
+        }
+    }
+    
     if( is_food() ) {
         if( rotten() ) {
             ret << _( " (rotten)" );
