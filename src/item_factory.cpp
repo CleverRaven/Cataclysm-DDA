@@ -250,7 +250,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         // If a "gun" has a reach attack, give it an additional melee mode.
         if( obj.item_tags.count( "REACH_ATTACK" ) ) {
-	    obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
+            obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
                                     gun_modifier_data( translate_marker( "melee" ), 1,
                                                        { "MELEE" } ) );
         }
