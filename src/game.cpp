@@ -2984,9 +2984,8 @@ bool game::handle_action()
                 }
             }
 
-            if( u.weapon.is_gun() ) {
+            if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
                 plfire( u.weapon );
-
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
@@ -9656,11 +9655,8 @@ bool game::plfire_check( const targeting_data &args ) {
         return false;
     }
 
-    // skip the remaining checks if we are firing a melee weapon.
-    if( gun.melee() ) {
-        return true;
-    } else if( !weapon.is_gun() ) {
-        // no melee gun mode and the weapon itself isn't a gun, then this weapon is not fireable.
+    if( !weapon.is_gun() ) {
+        // The weapon itself isn't a gun, this weapon is not fireable.
         return false;
     }
 
@@ -9748,7 +9744,7 @@ bool game::plfire()
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
             // Update targeting data to include ammo's range bonus
-            args.range = gun.melee() ? gun.qty : gun.target->gun_range( &u );
+            args.range = gun.target->gun_range( &u );
             args.ammo = gun->ammo_data();
             u.set_targeting_data( args );
 
@@ -9777,20 +9773,15 @@ bool game::plfire()
 
     int shots = 0;
 
-    if( gun.melee() ) {
-        u.reach_attack( trajectory.back() );
-        shots = 1;
-    } else {
-        u.moves -= reload_time;
-        // @todo: add check for TRIGGERHAPPY
-        if( args.pre_fire ) {
-            args.pre_fire( shots );
-        }
-        shots = u.fire_gun( trajectory.back(), gun.qty, *gun );
-        if( args.post_fire ) {
-            args.post_fire( shots );
-        }
+    u.moves -= reload_time;
+    // @todo: add check for TRIGGERHAPPY
+    if( args.pre_fire ) {
+        args.pre_fire( shots );
     }
+    shots = u.fire_gun( trajectory.back(), gun.qty, *gun );
+    if( args.post_fire ) {
+        args.post_fire( shots );
+     }
 
     if( shots && args.power_cost ) {
         u.charge_power( -args.power_cost * shots );
@@ -9810,8 +9801,7 @@ bool game::plfire( item &weapon, int bp_cost )
     }
 
     targeting_data args = {
-        gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,
-        &weapon, gun.melee() ? gun.qty : gun.target->gun_range( &u ),
+        TARGET_MODE_FIRE, &weapon, gun.target->gun_range( &u ),
         bp_cost, &u.weapon == &weapon, gun->ammo_data(),
         target_callback(), target_callback(),
         firing_callback(), firing_callback()
