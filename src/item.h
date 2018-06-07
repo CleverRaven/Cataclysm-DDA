@@ -81,6 +81,8 @@ struct light_emission {
 };
 extern light_emission nolight;
 
+enum naming_style : int;
+
 namespace io {
 struct object_archive_tag;
 }
@@ -290,13 +292,31 @@ class item : public visitable<item>
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
      */
+
     nc_color color() const;
     /**
      * Returns the color of the item depending on usefulness for the player character,
      * e.g. differently if it its an unread book or a spoiling food item etc.
      * This should only be used for displaying data, it should not affect game play.
      */
+
     nc_color color_in_inventory() const;
+
+private:
+    /**
+     * Support functions for @ref tname for organizational purposes
+     */
+    /*@{*/
+    std::string tname_generate_tagtext() const;
+    std::string tname_generate_maintext( unsigned int ) const;
+    /*@}*/
+
+    /**
+     * Return the naming style to be used by @ref display_name
+     */
+    naming_style get_naming_style() const;
+
+public:
     /**
      * Return the (translated) item name.
      * @param quantity used for translation to the proper plural form of the name, e.g.
@@ -306,11 +326,40 @@ class item : public visitable<item>
      * in additional inventory)
      */
     std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+
     /**
      * Returns the item name and the charges or contained charges (if the item can have
      * charges at all). Calls @ref tname with given quantity and with_prefix being true.
      */
     std::string display_name( unsigned int quantity = 1) const;
+
+    /**
+     * Return the name of the item to be used for sorting. This excludes item
+     * prefixes and may return the name of an item's contents depending on
+     * naming style
+     */
+    std::string sorting_name( unsigned int quantity ) const;
+    
+    /**
+     * Name of the item type (not the item), with proper plural.
+     * This is only special when the item itself has a special name ("name" entry in
+     * @ref item_tags) or is a named corpse.
+     * It's effectively the same as calling @ref nname with the item type id. Use this when
+     * the actual item is not meant, for example "The shovel" instead of "Your shovel".
+     * Or "The jacket is too small", when it applies to all jackets, not just the one the
+     * character tried to wear).
+     */
+    std::string type_name( unsigned int quantity = 1 ) const;
+
+     /**
+     * Returns the translated item name for the item with given id.
+     * The name is in the proper plural form as specified by the
+     * quantity parameter. This is roughly equivalent to creating an item instance and calling
+     * @ref tname, however this function does not include strings like "(fresh)".
+     */
+    static std::string nname( const itype_id &id, unsigned int quantity = 1 );
+
+
     /**
      * Return all the information about the item and its type.
      *
@@ -1051,16 +1100,6 @@ public:
           */
         void on_damage( double qty, damage_type dt );
 
-        /**
-         * Name of the item type (not the item), with proper plural.
-         * This is only special when the item itself has a special name ("name" entry in
-         * @ref item_tags) or is a named corpse.
-         * It's effectively the same as calling @ref nname with the item type id. Use this when
-         * the actual item is not meant, for example "The shovel" instead of "Your shovel".
-         * Or "The jacket is too small", when it applies to all jackets, not just the one the
-         * character tried to wear).
-         */
-        std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
          * Number of charges of this item that fit into the given volume.
@@ -1586,13 +1625,6 @@ public:
          */
         bool units_sufficient( const Character &ch, int qty = -1 ) const;
 
-        /**
-         * Returns the translated item name for the item with given id.
-         * The name is in the proper plural form as specified by the
-         * quantity parameter. This is roughly equivalent to creating an item instance and calling
-         * @ref tname, however this function does not include strings like "(fresh)".
-         */
-        static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
          * Returns the item type of the given identifier. Never returns null.
          */

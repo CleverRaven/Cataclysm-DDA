@@ -447,14 +447,14 @@ struct advanced_inv_sorter {
         // secondary sort by name
         const std::string *n1;
         const std::string *n2;
-        if( d1.name_without_prefix == d2.name_without_prefix ) {
+        if( d1.sorting_name == d2.sorting_name ) {
             //if names without prefix equal, compare full name
             n1 = &d1.name;
             n2 = &d2.name;
         } else {
             //else compare name without prefix
-            n1 = &d1.name_without_prefix;
-            n2 = &d2.name_without_prefix;
+            n1 = &d1.sorting_name;
+            n2 = &d2.sorting_name;
         }
         return std::lexicographical_compare( n1->begin(), n1->end(),
                                              n2->begin(), n2->end(), sort_case_insensitive_less() );
@@ -756,7 +756,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , area( _area )
     , id(an_item->typeId())
     , name( an_item->tname( count ) )
-    , name_without_prefix( an_item->tname( 1, false ) )
+    , sorting_name( an_item->sorting_name( 1 ) )
     , autopickup( get_auto_pickup().has_rule( an_item->tname( 1, false ) ) )
     , stacks( count )
     , volume( an_item->volume() * stacks )
@@ -775,7 +775,7 @@ advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int i
     id(list.front()->typeId()),
     items(list),
     name(list.front()->tname(list.size())),
-    name_without_prefix(list.front()->tname(1, false)),
+    sorting_name(list.front()->sorting_name( 1 )),
     autopickup(get_auto_pickup().has_rule(list.front()->tname(1, false))),
     stacks(list.size()),
     volume(list.front()->volume() * stacks),
@@ -791,7 +791,7 @@ advanced_inv_listitem::advanced_inv_listitem()
     , area()
     , id("null")
     , name()
-    , name_without_prefix()
+    , sorting_name()
     , autopickup()
     , stacks()
     , volume()
@@ -805,7 +805,7 @@ advanced_inv_listitem::advanced_inv_listitem( const item_category *category )
     , area()
     , id("null")
     , name( category->name() )
-    , name_without_prefix()
+    , sorting_name()
     , autopickup()
     , stacks()
     , volume()

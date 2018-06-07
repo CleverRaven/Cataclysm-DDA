@@ -173,7 +173,7 @@ bool inventory_selector_preset::sort_compare( const item_location &lhs, const it
     const bool left_fav  = g->u.inv.assigned_invlet.count(lhs->invlet);
     const bool right_fav = g->u.inv.assigned_invlet.count(rhs->invlet);
     if ((left_fav && right_fav) || (!left_fav && !right_fav)) {
-        return lhs->tname(1).compare(rhs->tname(1)) < 0; // Simple alphabetic order
+        return lhs->sorting_name(1).compare(rhs->sorting_name(1)) < 0; // Simple alphabetic order
     } else if (left_fav) {
         return true;
     }
@@ -190,7 +190,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     const size_t count = entry.get_stack_size();
     const std::string disp_name = entry.location->display_name( count );
 
-    return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
+    return ( count > 1 ) ? string_format( "%1$s {x%2$d}", disp_name.c_str(), count ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const

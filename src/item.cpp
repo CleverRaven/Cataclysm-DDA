@@ -2201,103 +2201,61 @@ void item::on_damage( double, damage_type )
 
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix ) const
+std::string item::tname_generate_tagtext() const
 {
     std::stringstream ret;
 
-    // MATERIALS-TODO: put this in json
-    std::string damtext;
+    // Generate side text, ex: (left) or (right)
+    if( get_side() == side::LEFT ) {
+        ret << _( " (left)" );
+    } else if( get_side() == side::RIGHT ) {
+        ret << _( " (right)" );
+    }
 
-    if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() && with_prefix ) {
-        if( damage() < 0 )  {
-            if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
-            } else if( is_gun() ) {
-                damtext = pgettext( "damage adjective", "accurized " );
-            } else {
-                damtext = pgettext( "damage adjective", "reinforced " );
-            }
-        } else if( typeId() == "corpse" ) {
-            if( damage() > 0 ) {
-                switch( damage() ) {
-                    case 1:
-                        damtext = pgettext( "damage adjective", "bruised " );
-                        break;
-                    case 2:
-                        damtext = pgettext( "damage adjective", "damaged " );
-                        break;
-                    case 3:
-                        damtext = pgettext( "damage adjective", "mangled " );
-                        break;
-                    default:
-                        damtext = pgettext( "damage adjective", "pulped " );
-                        break;
-                }
-            }
-        } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+    if( has_flag( "FIT" ) ) {
+        ret << _( " (fits)" );
+    }
+
+    if( damage() != 0 ) {
+        if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+            ret << " (<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + "</color>)";
         } else {
-            damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
-        }
-    }
-    if( !faults.empty() ) {
-        damtext.insert( 0, _( "faulty " ) );
-    }
-
-    std::string vehtext = "";
-    if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ), engine_displacement() / 100.0f );
-
-    } else if( is_wheel() && type->wheel->diameter > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
-    }
-
-    std::string burntext;
-    if( with_prefix && !made_of( LIQUID ) ) {
-        if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
-            burntext = pgettext( "burnt adjective", "badly burnt " );
-        } else if( burnt > 0 ) {
-            burntext = pgettext( "burnt adjective", "burnt " );
+            if( damage() < 0 )  {
+                if( is_gun() ) {
+                    ret << pgettext( "damage adjective", " (accurized)" );
+                } else {
+                    ret << pgettext( "damage adjective", " (reinforced)" );
+                }
+            } else {
+                ret << string_format( " (%s)", get_base_material().dmg_adj( damage() ) );
+            }
         }
     }
 
-    std::string maintext;
-    if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
-        maintext = type_name( quantity );
-    } else if( is_gun() || is_tool() || is_magazine() ) {
-        ret.str("");
-        ret << label( quantity );
+    if( is_gun() || is_tool() || is_magazine() ) {
         for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
             if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
-                ret << "+";
+                ret << " (modified)";
+                break;
             }
         }
-        maintext = ret.str();
     } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
                item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
-        ret.str("");
-        ret << label( quantity );
-        ret << "+";
-        maintext = ret.str();
-    } else if( contents.size() == 1 ) {
-        if( contents.front().made_of( LIQUID ) ) {
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( quantity, with_prefix ).c_str() );
-        } else if( contents.front().is_food() ) {
-            const unsigned contents_count = contents.front().charges > 1 ? contents.front().charges : quantity;
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( contents_count, with_prefix ).c_str() );
-        } else {
-            maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( quantity, with_prefix ).c_str() );
-        }
-    } else if( !contents.empty() ) {
-        maintext = string_format( pgettext( "item name", "%s, full" ), label( quantity ).c_str() );
-    } else {
-        maintext = label( quantity );
+        ret << " (modified)";
     }
 
-    ret.str( "" );
+    if( !faults.empty() ) {
+        ret << _( " (faulty)" );
+    }
+
+    if( !made_of( LIQUID ) ) {
+        if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
+            ret << pgettext( "burnt adjective", " (v.burnt)" );
+        } else if( burnt > 0 ) {
+            ret << pgettext( "burnt adjective", " (burnt)" );
+        }
+    }
+    
     if( is_food() ) {
         if( rotten() ) {
             ret << _( " (rotten)" );
@@ -2310,6 +2268,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( has_flag( "HOT" ) ) {
             ret << _( " (hot)" );
         }
+
         if( has_flag( "COLD" ) ) {
             ret << _( " (cold)" );
         }
@@ -2323,9 +2282,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (filthy)" );
     }
 
-    if( is_tool() && has_flag( "USE_UPS" ) ){
+    if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
     }
+
     if( has_flag( "RADIO_MOD" ) ) {
         ret << _( " (radio:" );
         if( has_flag( "RADIOSIGNAL_1" ) ) {
@@ -2341,7 +2301,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     if( has_flag( "WET" ) ) {
-       ret << _( " (wet)" );
+        ret << _( " (wet)" );
     }
     if( has_flag( "LITCIG" ) ) {
         ret << _( " (lit)" );
@@ -2350,81 +2310,269 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (used)" );
     }
 
-    if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 || typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
+    if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
+            typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
     }
 
-    const std::string tagtext = ret.str();
+    return ret.str();
+}
+
+std::string item::tname_generate_maintext( unsigned int quantity ) const
+{
+    std::stringstream ret;
+
+    ret.str( "" );
+    if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
+        ret << type_name( quantity );
+    } else {
+        ret <<  label( quantity );
+    }
+
+    if( is_gun() || is_tool() || is_magazine() ) {
+        for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
+            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
+                ret << "+";
+            }
+        }
+    } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
+               item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
+        ret << "+";
+    }
+
+    return ret.str();
+}
+
+std::string item::tname( unsigned int quantity, bool with_prefix ) const
+{
+    // MATERIALS-TODO: put this in json
+    std::string damtext;
+    std::string burntext;
+
+    if( with_prefix ) {
+        if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() ) {
+            if( damage() < 0 )  {
+                if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+                    damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+                } else if( is_gun() ) {
+                    damtext = pgettext( "damage adjective", "accurized " );
+                } else {
+                    damtext = pgettext( "damage adjective", "reinforced " );
+                }
+            } else if( typeId() == "corpse" ) {
+                if( damage() > 0 ) {
+                    switch( damage() ) {
+                        case 1:
+                            damtext = pgettext( "damage adjective", "bruised " );
+                            break;
+                        case 2:
+                            damtext = pgettext( "damage adjective", "damaged " );
+                            break;
+                        case 3:
+                            damtext = pgettext( "damage adjective", "mangled " );
+                            break;
+                        default:
+                            damtext = pgettext( "damage adjective", "pulped " );
+                            break;
+                    }
+                }
+            } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+            } else {
+                damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ) );
+            }
+        }
+
+        if( !faults.empty() ) {
+            damtext.insert( 0, _( "faulty " ) );
+        }
+
+        if( with_prefix && !made_of( LIQUID ) ) {
+            if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
+                burntext = pgettext( "burnt adjective", "badly burnt " );
+            } else if( burnt > 0 ) {
+                burntext = pgettext( "burnt adjective", "burnt " );
+            }
+        }
+    }
+
+    std::string vehtext;
+    if( is_engine() && engine_displacement() > 0 ) {
+        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ),
+                                 engine_displacement() / 100.0f );
+
+    } else if( is_wheel() && type->wheel->diameter > 0 ) {
+        vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
+    }
+
+    std::string maintext = tname_generate_maintext( quantity );
+
+    std::string tagtext = tname_generate_tagtext();
 
     std::string modtext;
     if( gunmod_find( "barrel_small" ) ) {
         modtext += _( "sawn-off " );
     }
+
     if( has_flag( "DIAMOND" ) ) {
         modtext += std::string( _( "diamond" ) ) + " ";
     }
 
-    ret.str( "" );
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (fits)").
-    ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
-                          modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );
+    std::string final = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext,
+                                       burntext, modtext, vehtext, maintext, tagtext );
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
-        return string_format( _( "*%s*" ), ret.str().c_str() );
+        return string_format( _( "*%s*" ), final );
+    }
+
+    return final;
+}
+
+enum naming_style : int {
+    NAMING_SIMPLE,              // Wrench
+    NAMING_WITH_CHARGES,        // 00 Shot (10), Flashlight (100)
+    NAMING_WITH_AMMO_TYPE,      // Glock 18 (15) (9x19mm)
+    NAMING_CONTAINER_LEADING,   // plastic bottle with clean water (2)
+    NAMING_CONTAINER_TRAILING   // clean water (2) in plastic bottle
+};
+
+naming_style item::get_naming_style() const
+{
+    if( is_gun() || is_magazine() || is_bandolier() ) {
+        // Guns, magazines, and bandoliers first because we want them to use
+        // the AMMO_TYPE style and we don't want them treated as armor.
+        return NAMING_WITH_AMMO_TYPE;
+    } else if( is_armor() && !contents.empty() ) {
+        // All wearable items with contents (holsters, waterskins, etc)
+        // Wearable weapons (like rifles with slings) were caught earlier.
+        return NAMING_CONTAINER_LEADING;
+    } else if( is_container() && !contents.empty() ) {
+        // Items with the container type; things like bottles and boxes.
+        // Non-container items with ammo/contents won't get caught here.
+        return NAMING_CONTAINER_TRAILING;
+    } else if( ammo_capacity() > 0 ) {
+        // Other items that use ammo (like flashlights and sewing kits)
+        return NAMING_WITH_CHARGES;
+    } else if( !contents.empty() ) {
+        // Any other item with non-empty contents
+        // This includes: USB Drives and possibly other items
+        return NAMING_CONTAINER_TRAILING;
+    } else if( get_chapters() > 0 ) {
+        // Books with chapters remaining
+        return NAMING_WITH_CHARGES;
+    } else if( count_by_charges() && !has_infinite_charges() ) {
+        // Items with finite non-ammo charges.
+        // Things like lighters, drugs, food, fuel, and more.
+        return NAMING_WITH_CHARGES;
     } else {
-        return ret.str();
+        // Items that don't need their contents, charges, or ammo type
+        // displayed (everything else in the game)
+        return NAMING_SIMPLE;
     }
 }
 
 std::string item::display_name( unsigned int quantity ) const
 {
-    std::string name = tname( quantity );
-    std::string sidetxt;
-    std::string amt;
+    const naming_style style = get_naming_style();
 
-    switch( get_side() ) {
-        case side::BOTH:
-            break;
-        case side::LEFT:
-            sidetxt = string_format( " (%s)", _( "left" ) );
-            break;
-        case side::RIGHT:
-            sidetxt = string_format( " (%s)", _( "right" ) );
-            break;
-    }
-    int amount = 0;
-    bool has_item = is_container() && contents.size() == 1;
-    bool has_ammo = is_ammo_container() && !contents.empty();
-    bool contains = has_item || has_ammo;
-    bool show_amt = false;
+    std::string item_text;
+    std::string charges_text;
+    std::string content_text;
+    std::string ammo_type_text;
+    unsigned int _charges = 0;
 
-    // We should handle infinite charges properly in all cases.
-    if( contains ) {
-        amount = contents.front().charges;
-    } else if( is_book() && get_chapters() > 0 ) {
-        // a book which has remaining unread chapters
-        amount = get_remaining_chapters( g->u );
-    } else if( ammo_capacity() > 0 ) {
-        // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
-        amount = ammo_remaining();
-        show_amt = true;
-    } else if( count_by_charges() && !has_infinite_charges() ) {
-        // A chargeable item
-        amount = charges;
+    if( style == NAMING_SIMPLE ) {
+        item_text = tname( quantity );
+    } else {
+        // Most name formats read better as singular
+        item_text = tname( 1 );
     }
 
-    if( amount || show_amt ) {
-        if( ammo_type() == "money" ) {
-            amt = string_format( " ($%.2f)", ( double ) amount / 100 );
+    if( style == NAMING_CONTAINER_LEADING || style == NAMING_CONTAINER_TRAILING ) {
+        // This is recursive so keep an eye on it, could be a source of
+        // trouble if container-like items continue to become more complex
+        if( !contents.empty() ) {
+            if( contents.size() > 1 ) {
+                //~ This string replaces the name of the item in a container when there is more than one item. %1$i is the number of items without adornment (like 3 or 10).
+                content_text = string_format( _( "%1$i items" ), contents.size() );
+            } else {
+                content_text = contents.front().display_name( quantity );
+            }
         } else {
-            amt = string_format( " (%i)", amount );
+            debugmsg( "Tried to generate name for contents of empty container." );
+            content_text = "????";
         }
     }
 
-    return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
+    // Generate charges text, ex: (0) (13) ($25.50)
+    if( style == NAMING_WITH_CHARGES || style == NAMING_WITH_AMMO_TYPE ) {
+        if( is_book() ) {
+            _charges = get_remaining_chapters( g->u );
+        } else if( ammo_capacity() > 0 ) {
+            _charges = ammo_remaining();
+        } else {
+            _charges = charges;
+        }
+
+        if( ammo_type() == "money" ) {
+            // Charges are money in cents; reformat to display as dollars
+            charges_text = string_format( " ($%.2f)", ( double ) _charges / 100 );
+        } else {
+            // All other charges displayed as number with no units
+            charges_text = string_format( " (%i)", _charges );
+        }
+    }
+
+    // Generate ammo type text, ex: (9x19mm FMJ) or (00 Shot)
+    if( style == NAMING_WITH_AMMO_TYPE ) {
+        if( ammo_data() ) {
+            // Most guns use ammo_data()
+            ammo_type_text = string_format( " (%s)", ammo_data()->nname( 1 ).c_str() );
+        } else if( curammo ) {
+            // Some weapons use curammo instead, especially those that
+            // don't use magazines
+            ammo_type_text = string_format( " (%s)", curammo->nname( 1 ).c_str() );
+        } else if( !contents.empty() && contents.front().is_ammo() ) {
+            // We may want to display ammo type for something that doesn't
+            // actually use ammo (like bandoliers/quivers)
+            ammo_type_text = string_format( " (%s)", contents.front().label( 1 ) );
+        }
+    }
+
+    if( style == NAMING_SIMPLE ) {
+        //~ This string is used for an item name with no other components. %1$s is the name of the item.
+        return string_format( _( "%1$s" ), item_text);
+    } else if( style == NAMING_WITH_CHARGES ) {
+        //~ This string combines the full item name with the number of charges. %1$s is the item name with all modifiers (damaged, burned, (wet), etc) and %2$s is the the number of charges in parentheses like (10)
+        return string_format( _( "%1$s%2$s" ), item_text, charges_text );
+    } else if( style == NAMING_WITH_AMMO_TYPE ) {
+        //~ This string combines the full item name with the number of charges and the type of ammo loaded. %1$s is the item name with all modifiers (damaged, burned, (wet), etc), %2$s is the the number of charges in parentheses like (10), and %3$s is the ammo type in parentheses like (9x19mm)
+        return string_format( _( "%1$s%2$s%3$s" ), item_text, charges_text, ammo_type_text );
+    } else if( style == NAMING_CONTAINER_LEADING ) {
+        //~ This string combines the name of a container with the name of its contents. %1$s is the name of the container, %2$s is how many charges the container has (NOT the charges of the contents), and %3$s is the full name of the item inside the container.
+        return string_format( _( "%1$s%2$s with %3$s" ), item_text, charges_text, content_text );
+    } else if( style == NAMING_CONTAINER_TRAILING ) {
+        //~ This string combines the name of a container with the name of its contents. %1$s is the name of the item inside the container, %2$s is the name of the container, %3$s is how many charges the container has (NOT the charges of the contents)
+        return string_format( _( "%1$s in %2$s%3$s" ), content_text, item_text, charges_text );
+    } else {
+        debugmsg( "unrecognized value for naming_style" );
+        return "naming error";
+    }
+}
+
+std::string item::sorting_name( unsigned int quantity ) const
+{
+    const naming_style style = get_naming_style();
+
+    if( style == NAMING_CONTAINER_TRAILING && !contents.empty() ) {
+       return contents.front().tname(1, false);
+    } else {
+        return tname(quantity, false);
+    }
 }
 
 nc_color item::color() const
@@ -4329,6 +4477,10 @@ const itype * item::ammo_data() const
     }
 
     if( is_magazine() ) {
+        return !contents.empty() ? contents.front().ammo_data() : nullptr;
+    }
+
+    if( is_bandolier() ) {
         return !contents.empty() ? contents.front().ammo_data() : nullptr;
     }
 
