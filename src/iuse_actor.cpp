@@ -2896,6 +2896,26 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     return heal_base;
 }
 
+int heal_actor::get_bandaged_level( const player &healer ) const
+{
+    if( bandages_power > 0 ) {
+        /** @EFFECT_FIRSTAID increases healing item effects */
+        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+    }
+
+    return bandages_power;
+}
+
+int heal_actor::get_disinfected_level( const player &healer ) const
+{
+    if( disinfectant_power > 0 ) {
+        /** @EFFECT_FIRSTAID increases healing item effects */
+        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+    }
+
+    return disinfectant_power;
+}
+
 long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
     float practice_amount = limb_power * 3.0f;
@@ -2992,7 +3012,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         // remove previous effect, if exists
         patient.remove_effect( effect_bandaged, bp_healed );
         // add new effect
-        float bandages_intensity = bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+        int bandages_intensity = get_bandaged_level( healer );
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity  );
@@ -3003,7 +3023,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         // remove previous effect, if exists
         patient.remove_effect( effect_disinfected, bp_healed );
         // add new effect
-        float disinfectant_intensity = disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+        int disinfectant_intensity = get_disinfected_level( healer );
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity  );
@@ -3149,6 +3169,20 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
             dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "",
                                false );
             dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
+        }
+    }
+
+    if( bandages_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", bandages_power, true, "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "", get_bandaged_level( g->u ), true, "", true );
+        }
+    }
+
+    if( disinfectant_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", disinfectant_power, true, "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "", get_disinfected_level( g->u ), true, "", true );
         }
     }
 
