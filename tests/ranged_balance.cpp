@@ -247,7 +247,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ruger_mini", { "rifle_scope", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 10, 30, 90 );
-        test_fast_shooting( shooter, 100, 0.3 );
+        test_fast_shooting( shooter, 85, 0.3 );
     }
 }
 
