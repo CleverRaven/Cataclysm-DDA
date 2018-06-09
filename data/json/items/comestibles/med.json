@@ -15,7 +15,6 @@
         "color" : "red",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "bandages_power" : 8,
             "disinfectant_power" : 8,
             "bleed" : 0.95,
@@ -40,7 +39,6 @@
         "color" : "dark_gray",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "bandages_power" : 6,
             "disinfectant_power" : 6,
             "bleed" : 1.0,
@@ -172,7 +170,6 @@
         "stack_size" : 9,
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "bandages_power" : 4,
             "bleed" : 0.9,
             "move_cost" : 300
@@ -180,51 +177,27 @@
     },
     {
         "id": "bandages_makeshift",
-        "type": "COMESTIBLE",
-        "comestible_type": "MED",
+        "type" : "COMESTIBLE",
         "name": "makeshift bandage",
+        "copy-from": "bandages",
         "description": "Simple cloth bandages.  Better than nothing.",
-        "weight": 70,
-        "volume": 1,
-        "price": 600,
-        "material": "cotton",
-        "symbol": "!",
-        "color": "white",
-        "charges": 3,
-        "stack_size": 9,
-        "use_action": { "type": "heal", "limb_power": 0, "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
+        "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
     },
     {
         "id": "bandages_makeshift_bleached",
-        "type": "COMESTIBLE",
-        "comestible_type": "MED",
+        "type" : "COMESTIBLE",
         "name": "bleached makeshift bandage",
+        "copy-from": "bandages",
         "description": "Simple cloth bandages.  It is white, as real bandages should be.",
-        "weight": 70,
-        "volume": 1,
-        "price": 600,
-        "material": "cotton",
-        "symbol": "!",
-        "color": "white",
-        "charges": 3,
-        "stack_size": 9,
-        "use_action": { "type": "heal", "limb_power": 0, "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
+        "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
     },
     {
         "id": "bandages_makeshift_boiled",
-        "type": "COMESTIBLE",
-        "comestible_type": "MED",
+        "type" : "COMESTIBLE",
         "name": "boiled makeshift bandage",
+        "copy-from": "bandages",
         "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
-        "weight": 70,
-        "volume": 1,
-        "price": 600,
-        "material": "cotton",
-        "symbol": "!",
-        "color": "white",
-        "charges": 3,
-        "stack_size": 9,
-        "use_action": { "type": "heal", "limb_power": 0, "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
+        "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
     },
     {
         "id" : "bfipowder",
@@ -244,7 +217,6 @@
         "container" : "bottle_plastic_small",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 100
@@ -326,7 +298,6 @@
         "container" : "bottle_glass",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 100
@@ -385,8 +356,7 @@
         "symbol" : "!",
         "color" : "red",
         "use_action" : {
-            "type" : "heal",
-            "limb_power" : 1,
+            "type" : "consume_drug",
             "move_cost" : 100,
             "effects" : [
                 {
@@ -483,7 +453,6 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "bandages_power" : 2,
             "bleed" : 0.9,
             "move_cost" : 300
@@ -554,7 +523,6 @@
         "container" : "bottle_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 100
@@ -774,7 +742,6 @@
         "color" : "white",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "bandages_power" : 2,
             "bleed" : 0.5,
             "move_cost" : 200
@@ -1052,7 +1019,6 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "disinfectant_power" : 2,
             "bleed" : 90,
             "move_cost" : 100
@@ -1107,7 +1073,6 @@
         "spoils_in" : 672,
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 100
@@ -1350,7 +1315,6 @@
         "color": "white",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "disinfectant_power" : 2,
             "bite" : 0.75,
             "move_cost" : 200,
@@ -1368,7 +1332,6 @@
         "price" : 1000,
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
             "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 300,
