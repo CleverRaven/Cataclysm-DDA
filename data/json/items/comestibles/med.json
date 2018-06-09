@@ -177,7 +177,7 @@
     },
     {
         "id": "bandages_makeshift",
-        "type" : "COMESTIBLE",
+        "type": "COMESTIBLE",
         "name": "makeshift bandage",
         "copy-from": "bandages",
         "description": "Simple cloth bandages.  Better than nothing.",
@@ -185,7 +185,7 @@
     },
     {
         "id": "bandages_makeshift_bleached",
-        "type" : "COMESTIBLE",
+        "type": "COMESTIBLE",
         "name": "bleached makeshift bandage",
         "copy-from": "bandages",
         "description": "Simple cloth bandages.  It is white, as real bandages should be.",
@@ -193,7 +193,7 @@
     },
     {
         "id": "bandages_makeshift_boiled",
-        "type" : "COMESTIBLE",
+        "type": "COMESTIBLE",
         "name": "boiled makeshift bandage",
         "copy-from": "bandages",
         "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
