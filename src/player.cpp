@@ -1666,7 +1666,7 @@ int player::blood_loss( body_part bp ) const
 {
     int hp_cur_sum = 1;
     int hp_max_sum = 1;
-    
+
     if( bp == bp_leg_l || bp == bp_leg_r ) {
         hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
         hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
@@ -1680,7 +1680,7 @@ int player::blood_loss( body_part bp ) const
         hp_cur_sum = hp_cur[hp_head];
         hp_max_sum = hp_max[hp_head];
     }
-    
+
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
@@ -5156,7 +5156,7 @@ void player::suffer()
         }
     } // Done with while-awake-only effects
 
-    if( has_trait( trait_ASTHMA ) && one_in(3600 - stim * 50) &&
+    if( has_trait( trait_ASTHMA ) && one_in( (3600 - stim * 50) * ( 1 + 9 * in_sleep_state() ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
         bool auto_use = has_charges("inhaler", 1);
         if (underwater) {
