@@ -500,6 +500,9 @@ void consume_drug_iuse::load( JsonObject &obj )
         auto hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
     }
+
+    used_up_item = obj.get_string( "used_up_item", used_up_item );
+
 }
 
 void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -589,6 +592,14 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.use_charges( consumable->first, consumable->second );
         }
     }
+
+    if( !used_up_item.empty() ) {
+
+        item used_up( used_up_item, it.birthday() );
+        p.i_add_or_drop( used_up );
+    }
+}
+
     p.moves -= moves;
     return it.type->charges_to_use();
 }
@@ -2771,7 +2782,7 @@ void heal_actor::load( JsonObject &obj )
 {
     // Mandatory
     move_cost = obj.get_int( "move_cost" );
-    limb_power = obj.get_float( "limb_power" );
+    limb_power = obj.get_float( "limb_power", 0 );
 
     // Optional
     bandages_power = obj.get_float( "bandages_power", 0 );
@@ -3015,7 +3026,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         int bandages_intensity = get_bandaged_level( healer );
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
-        e.set_duration( e.get_int_dur_factor() * bandages_intensity  );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.damage_bandaged[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
         practice_amount += 2 * bandages_intensity;
     }
@@ -3026,7 +3037,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         int disinfectant_intensity = get_disinfected_level( healer );
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
-        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity  );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
         practice_amount += 2 * disinfectant_intensity;
     }
