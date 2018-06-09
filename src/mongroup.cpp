@@ -55,6 +55,29 @@ void mongroup::clear()
     monsters.clear();
 }
 
+float mongroup::avg_speed() const
+{
+    float avg_speed = 0;
+    if( monsters.empty() ) {
+        const MonsterGroup &g = type.obj();
+        int remaining_frequency = 1000;
+        for( auto &elem : g.monsters ) {
+            avg_speed += elem.frequency * elem.name.obj().speed;
+            remaining_frequency -= elem.frequency;
+        }
+        if( remaining_frequency > 0 ) {
+            avg_speed += g.defaultMonster.obj().speed * remaining_frequency;
+        }
+        avg_speed /= 1000;
+    } else {
+        for( auto &it : monsters ) {
+            avg_speed += it.type->speed;
+        }
+        avg_speed /= monsters.size();
+    }
+    return avg_speed;
+}
+
 const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id &group )
 {
     const MonsterGroup *groupptr = &group.obj();
