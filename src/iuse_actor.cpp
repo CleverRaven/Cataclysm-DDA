@@ -594,7 +594,6 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( !used_up_item.empty() ) {
-
         item used_up( used_up_item, it.birthday() );
         p.i_add_or_drop( used_up );
     }
