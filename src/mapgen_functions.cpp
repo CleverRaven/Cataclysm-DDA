@@ -2068,7 +2068,6 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
                 pos_x1 -= 2;
             }
             break;
-            m->furn_set(rng(x1 + 2, x2 - 2), rng(y1 + 1, y2 - 1), f_armchair);
         }
 
 

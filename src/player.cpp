@@ -2245,7 +2245,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         }
     }
 
-    for( const auto entry : kill_counts ) {
+    for( const auto& entry : kill_counts ) {
         memorial_file << "  " << std::get<1>( entry.first ) << " - "
                       << string_format( "%4d", entry.second ) << " "
                       << std::get<0>( entry.first ) << eol;

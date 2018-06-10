@@ -805,7 +805,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         // Then check if the effect is blocked by another
         for( auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
-                for( const auto blocked_effect : _effect_it.second.get_blocks_effects() ) {
+                for( const auto& blocked_effect : _effect_it.second.get_blocks_effects() ) {
                     if (blocked_effect == eff_id) {
                         // The effect is blocked by another, return
                         return;
@@ -975,7 +975,7 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            for( const auto removed_effect : _it.second.get_removes_effects() ) {
+            for( const auto& removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }

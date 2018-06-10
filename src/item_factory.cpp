@@ -1560,7 +1560,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
 
     if( jo.has_member( "mod_targets" ) ) {
         slot.usable.clear();
-        for( const auto t : jo.get_tags( "mod_targets" ) ) {
+        for( const auto& t : jo.get_tags( "mod_targets" ) ) {
             slot.usable.insert( gun_type_type( t ) );
         }
     }

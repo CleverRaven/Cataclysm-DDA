@@ -3443,7 +3443,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
     // Check the flag again to ensure the new terrain doesn't support anything
     if( supports && !has_flag( "SUPPORTS_ROOF", p ) ) {
-        for( const tripoint t : points_in_radius( p, 1 ) ) {
+        for( const tripoint& t : points_in_radius( p, 1 ) ) {
             if( p == t || !has_flag( "COLLAPSES", t ) ) {
                 continue;
             }
