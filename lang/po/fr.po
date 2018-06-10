@@ -1,18 +1,19 @@
 # Translators:
 # Mickaël Falck <lastmikoi+github@lastmikoi.net>, 2018
-# Jazz <jazzzz@gmail.com>, 2018
-# _hickop, 2018
+# Julien Maitre <julienm86230@hotmail.fr>, 2018
 # Brett Dong <brett.browning.dong@gmail.com>, 2018
 # Argasm Voragz <argasm@gmail.com>, 2018
-# Julien Maitre <julienm86230@hotmail.fr>, 2018
+# Jazz <jazzzz@gmail.com>, 2018
+# _hickop, 2018
 # Réouven Assouly <reouvenassouly@yahoo.fr>, 2018
+# master zu, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-25 07:27-0400\n"
+"POT-Creation-Date: 2018-06-01 19:14-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Réouven Assouly <reouvenassouly@yahoo.fr>, 2018\n"
+"Last-Translator: master zu, 2018\n"
 "Language-Team: French (https://www.transifex.com/cataclysm-dda-translators/teams/2217/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2704,7 +2705,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "field point wooden arrow"
-msgstr ""
+msgstr "flèche en bois à pointe durcie"
 
 #. ~ Description for field point wooden arrow
 #: lang/json/AMMO_from_json.py
@@ -2764,7 +2765,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "heavy field point arrow"
-msgstr ""
+msgstr "flèche à pointe renforcée"
 
 #. ~ Description for heavy field point arrow
 #: lang/json/AMMO_from_json.py
@@ -6467,8 +6468,8 @@ msgid ""
 "shot, but of lower quality."
 msgstr ""
 "Un obus 120mm avec une amorce électrique, rempli d'une large quantité de "
-"chevrotine. Effectivement similaire aux anciens obus à balle mais de qualité"
-" moindre."
+"chevrotine. Effectivement similaire aux anciens cartouche à balle mais de "
+"qualité moindre."
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift 120mm slug"
@@ -6578,7 +6579,7 @@ msgstr "EEI"
 
 #: lang/json/AMMO_from_json.py
 msgid "blast canister"
-msgstr "boîte explosive"
+msgstr "cartouche explosive"
 
 #. ~ Description for blast canister
 #: lang/json/AMMO_from_json.py
@@ -6591,7 +6592,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "Big Bang canister"
-msgstr "boîte Big Bang"
+msgstr "cartouche Big Bang"
 
 #. ~ Description for Big Bang canister
 #: lang/json/AMMO_from_json.py
@@ -6604,7 +6605,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "fire canister"
-msgstr "Boîte incendiaire"
+msgstr "cartouche incendiaire"
 
 #. ~ Description for fire canister
 #: lang/json/AMMO_from_json.py
@@ -6619,7 +6620,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "inferno canister"
-msgstr "boîte inferno"
+msgstr "cartouche inferno"
 
 #. ~ Description for inferno canister
 #: lang/json/AMMO_from_json.py
@@ -6634,7 +6635,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "fragmentation canister"
-msgstr "boîte à fragmentation"
+msgstr "cartouche à fragmentation"
 
 #. ~ Description for fragmentation canister
 #: lang/json/AMMO_from_json.py
@@ -9063,6 +9064,9 @@ msgid ""
 " doubles as an equipment belt with a reinforced loop for holding a large "
 "tool."
 msgstr ""
+"Une solide ceinture de pompier. Utile pour avoir votre Bunker prêt, elle "
+"sert également de ceinture à équipement avec une boucle d'attache renforcée "
+"pour porter un gros outil."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fishing waders"
@@ -9322,7 +9326,7 @@ msgstr[1] "Paires de lunettes à éclipse"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped "
-"with a layer of aluminium coating.  They allow safely staring at extremely "
+"with a layer of aluminum coating.  They allow safely staring at extremely "
 "bright and harmful sources of light like the sun during a solar eclipse."
 msgstr ""
 "Une paire de lunette cartonnées a verres anti UV et IR avec une couche "
@@ -11147,9 +11151,16 @@ msgstr[0] "kilt"
 msgstr[1] "kilts"
 
 #. ~ Description for kilt
+#. ~ Description for leather kilt
 #: lang/json/ARMOR_from_json.py
 msgid "No true Scotsman would leave home without his kilt."
 msgstr "Aucun Écossais ne quitterait sa maison sans son kilt."
+
+#: lang/json/ARMOR_from_json.py
+msgid "leather kilt"
+msgid_plural "leather kilts"
+msgstr[0] "kilt en cuir"
+msgstr[1] "kilts en cuir"
 
 #: lang/json/ARMOR_from_json.py
 msgid "kimono"
@@ -22559,8 +22570,8 @@ msgstr ""
 
 #. ~ Description for potato chips
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A bag of cheap, own-brand chips."
-msgstr "Un paquet de chips bon marché."
+msgid "Some plain, salted potato chips."
+msgstr "De simples chips salés"
 
 #. ~ Description for potato chips
 #: lang/json/COMESTIBLE_from_json.py
@@ -22568,14 +22579,16 @@ msgid "Oh man, you love these chips!  Score!"
 msgstr "Eh mec, vous adorez ces chips! Cool!"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "nachos"
-msgid_plural "nachos"
-msgstr[0] "nachos"
-msgstr[1] "nachos"
+msgid "tortilla chips"
+msgid_plural "tortilla chips"
+msgstr[0] "chips de maïs"
+msgstr[1] "chips de maïs"
 
-#. ~ Description for nachos
+#. ~ Description for tortilla chips
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salted corn chips, could really use some cheese, maybe some beef."
+msgid ""
+"Salted chips made from corn tortillas, could really use some cheese, maybe "
+"some beef."
 msgstr ""
 "Des chips de maïs salés. Ça serait meilleur avec du fromage ou de la viande."
 
@@ -22587,7 +22600,9 @@ msgstr[1] "nachos au fromage"
 
 #. ~ Description for nachos with cheese
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salted corn chips, now with cheese.  Could stand to have some meat."
+msgid ""
+"Salted chips made from corn tortillas, now with cheese.  Could stand to have"
+" some meat."
 msgstr ""
 "Des chips de maïs salés, avec du fromage. On pourrait y ajouter de la "
 "viande."
@@ -22601,7 +22616,8 @@ msgstr[1] "nachos à la viande"
 #. ~ Description for nachos with meat
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips, now with meat.  Could probably use some cheese, though."
+"Salted chips made from corn tortillas, now with meat.  Could probably use "
+"some cheese, though."
 msgstr ""
 "Des chips de maïs salés, avec de la viande. On pourrait y ajouter du "
 "fromage."
@@ -22615,7 +22631,8 @@ msgstr[1] "nachos niño"
 #. ~ Description for niño nachos
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips, with human flesh.  Some cheese might make it even better."
+"Salted chips made from corn tortillas, with human flesh.  Some cheese might "
+"make it even better."
 msgstr ""
 "Des chips de maïs salés, avec de la viande humaine. On pourrait y ajouter du"
 " fromage."
@@ -22629,8 +22646,9 @@ msgstr[1] "nachos avec viande et fromage"
 #. ~ Description for nachos with meat and cheese
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips with ground meat and smothered in cheese.  Delicious."
-msgstr "Des chips de maïs salés, avec de la viande et du fromage. Déliciex."
+"Salted chips made from corn tortillas with ground meat and smothered in "
+"cheese.  Delicious."
+msgstr "Des chips de maïs salés, avec de la viande et du fromage. Délicieux."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "niño nachos with cheese"
@@ -22641,7 +22659,8 @@ msgstr[1] "nachos niño avec fromage"
 #. ~ Description for niño nachos with cheese
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips with human flesh and smothered in cheese.  Delicious."
+"Salted chips made from corn tortillas with human flesh and smothered in "
+"cheese.  Delicious."
 msgstr ""
 "Des chips de maïs salés, avec de la viande humaine et du fromage. Délicieux."
 
@@ -30031,14 +30050,15 @@ msgstr[1] "seaux"
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab "
-"legs, french fries, animal feed, farm use, tailgating, crafts, planting "
+"legs, French fries, animal feed, farm use, tailgating, crafts, planting "
 "flowers, holding gift baskets, containing a fruit basket and herbs, loose "
 "item storage or as an ice bucket."
 msgstr ""
-"Un seau galvanisé pour les cacahuètes, le vin frai, les bières congelées, "
-"les homards, les pinces de crabe, l'utilisation a la ferme, l'artisanat, "
-"planter des fleurs, tenir un panier de cadeau, contenir un panier a fruit et"
-" a herbes, ranger du bazar ou comme seau a glace."
+"Un seau galvanisé pour les cacahuètes, le vin frais, les bières congelées, "
+"les homards, les pinces de crabe, les frites, nourrir les animaux, "
+"l'utilisation a la ferme, picoler, l'artisanat, planter des fleurs, tenir un"
+" panier de cadeau, contenir un panier à fruits et à herbes, ranger du bazar "
+"ou comme seau a glace."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "hydration pack"
@@ -30149,8 +30169,8 @@ msgstr "Une tasse en céramique, levez le petit doigt!"
 #: lang/json/CONTAINER_from_json.py
 msgid "clay canister"
 msgid_plural "clay canisters"
-msgstr[0] "vase en argile"
-msgstr[1] "vases en argile"
+msgstr[0] "boite en argile"
+msgstr[1] "boites en argile"
 
 #. ~ Description for clay canister
 #: lang/json/CONTAINER_from_json.py
@@ -31041,7 +31061,7 @@ msgstr "muscle"
 
 #: lang/json/GENERIC_from_json.py
 msgid "a smoking device and a source of flame"
-msgstr ""
+msgstr "un appareil à fumer et une flamme"
 
 #: lang/json/GENERIC_from_json.py
 msgid "file"
@@ -31638,6 +31658,8 @@ msgid ""
 "A broken skitterbot.  Much less threatening now that it lies limp on solid "
 "ground.  Could be gutted for parts."
 msgstr ""
+"Un robot cassé. Nettement moins menaçant maintenant qu'il est immobile et "
+"silencieux. On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken police bot"
@@ -31720,7 +31742,7 @@ msgstr ""
 msgid "broken manhack"
 msgid_plural "broken manhacks"
 msgstr[0] "man hax cassé"
-msgstr[1] "man haxs cassés"
+msgstr[1] "robots-lames cassés"
 
 #. ~ Description for broken manhack
 #: lang/json/GENERIC_from_json.py
@@ -31728,12 +31750,14 @@ msgid ""
 "A broken manhack.  Much less threatening now that it lies limp on solid "
 "ground.  Could be gutted for parts."
 msgstr ""
+"Un robot-lames cassé. Nettement moins menaçant maintenant qu'il est immobile"
+" et silencieux. On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken grenade hack"
 msgid_plural "broken grenade hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hack «grenade» cassé"
+msgstr[1] "hacks «grenade» cassés"
 
 #. ~ Description for broken grenade hack
 #: lang/json/GENERIC_from_json.py
@@ -31741,12 +31765,14 @@ msgid ""
 "A broken grenade hack.  Much less threatening now that it lies quiet on "
 "solid ground.  Could be gutted for parts."
 msgstr ""
+"Un hack-grenade cassé. Nettement moins menaçant maintenant qu'elle est au "
+"sol. On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken mininuke hack"
 msgid_plural "broken mininuke hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hacks-grenade cassé"
+msgstr[1] "hacks-grenade cassés"
 
 #. ~ Description for broken mininuke hack
 #: lang/json/GENERIC_from_json.py
@@ -31754,12 +31780,14 @@ msgid ""
 "A broken magenta hack.  Just looking at the wreck makes you shiver.  Could "
 "be gutted for parts."
 msgstr ""
+"Un hack-magenta cassé. Le simple fait de regarder l'épave vous fait "
+"frissonner. On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken tear gas hack"
 msgid_plural "broken tear gas hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hacks-lacrymogène cassé"
+msgstr[1] "hacks-lacrymogènes cassés"
 
 #. ~ Description for broken tear gas hack
 #: lang/json/GENERIC_from_json.py
@@ -31767,12 +31795,14 @@ msgid ""
 "A broken tear gas hack.  Much less threatening now that it lies quiet on "
 "solid ground.  Could be gutted for parts."
 msgstr ""
+"Un hack-lacrymogène cassé. Nettement moins menaçant maintenant qu'elle est "
+"au sol. On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken EMP hack"
 msgid_plural "broken EMP hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hacks-EMP cassé"
+msgstr[1] "hacks-EMP cassés"
 
 #. ~ Description for broken EMP hack
 #: lang/json/GENERIC_from_json.py
@@ -31780,12 +31810,14 @@ msgid ""
 "A broken EMP hack.  Much less threatening now that it lies quiet on solid "
 "ground.  Could be gutted for parts."
 msgstr ""
+"Un hack-EMP cassé. Nettement moins menaçant maintenant qu'elle est au sol. "
+"On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken flashbang hack"
 msgid_plural "broken flashbang hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hack-flashbang cassé"
+msgstr[1] "hacks-flashbang cassés"
 
 #. ~ Description for broken flashbang hack
 #: lang/json/GENERIC_from_json.py
@@ -31793,12 +31825,14 @@ msgid ""
 "A broken flashbang hack.  Much less threatening now that it lies quiet on "
 "solid ground.  Could be gutted for parts."
 msgstr ""
+"Un hack-flashbang cassé. Nettement moins menaçant maintenant qu'elle est au "
+"sol. On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken C-4 hack"
 msgid_plural "broken C-4 hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hack-C-4 cassé"
+msgstr[1] "hacks-C-4 cassés"
 
 #. ~ Description for broken C-4 hack
 #: lang/json/GENERIC_from_json.py
@@ -31806,6 +31840,8 @@ msgid ""
 "A broken C-4 hack.  Much less threatening now that it lies quiet on solid "
 "ground.  Could be gutted for parts."
 msgstr ""
+"Un hack-C-4 cassé. Nettement moins menaçant maintenant qu'elle est au sol. "
+"On peut en récupérer les pièces."
 
 #: lang/json/GENERIC_from_json.py
 msgid "processor board"
@@ -32985,14 +33021,14 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "canister grenade"
 msgid_plural "canister grenades"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "boîte de grenade"
+msgstr[1] "boîte de grenades"
 
 #. ~ Use action message for canister grenade.
 #: lang/json/GENERIC_from_json.py
 #, no-python-format
 msgid "You pull the pin on the %s."
-msgstr ""
+msgstr "Vous dégoupillez la %s."
 
 #: lang/json/GENERIC_from_json.py
 msgid "tear gas grenade"
@@ -33016,8 +33052,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "armed tear gas canister"
 msgid_plural "armed tear gas canisters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "grenade de gaz lacrymogène armée"
+msgstr[1] "grenades de gaz lacrymogène armées"
 
 #. ~ Description for armed tear gas canister
 #: lang/json/GENERIC_from_json.py
@@ -33719,12 +33755,15 @@ msgid ""
 "and other Japanese blades.  Occasionally used by samurai in early periods, "
 "or by their wives in defense of the household."
 msgstr ""
+"Une solide arme d'hast à lame courbe, faite de la même façon que les katanas"
+" et les autres lames japonaises. Occasionnellement utilisé par les samurai "
+"des premières époques, ou par leur femmes pour défendre le foyer."
 
 #: lang/json/GENERIC_from_json.py
 msgid "survivor naginata"
 msgid_plural "survivor naginata"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "naginata de survivant"
+msgstr[1] "naginatas de survivants"
 
 #. ~ Description for survivor naginata
 #: lang/json/GENERIC_from_json.py
@@ -36739,13 +36778,13 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "40mm canister"
 msgid_plural "40mm canisters"
-msgstr[0] "bonbonne 40mm"
-msgstr[1] "bonbonnes 40mm"
+msgstr[0] "cartouche de 40mm"
+msgstr[1] "cartouches de 40mm"
 
 #. ~ Description for 40mm canister
 #: lang/json/GENERIC_from_json.py
 msgid "A large canister from a spent 40mm grenade."
-msgstr "La cartouche d'une grenade de 40mm"
+msgstr "Une cartouche d'une grenade de 40mm"
 
 #: lang/json/GENERIC_from_json.py
 msgid ".44 Magnum casing"
@@ -38025,19 +38064,19 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid "30mm canister"
 msgid_plural "30mm canisters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cartouche de 30mm"
+msgstr[1] "cartouches de 30mm"
 
 #. ~ Description for 30mm canister
 #: lang/json/GENERIC_from_json.py
 msgid "A canister from a spent 30mm shell."
-msgstr ""
+msgstr "Une cartouche d'une grenade de 30mm."
 
 #: lang/json/GENERIC_from_json.py
 msgid "120mm canister"
 msgid_plural "120mm canisters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cartouche de 120mm"
+msgstr[1] "cartouches de 120mm"
 
 #. ~ Description for 120mm canister
 #: lang/json/GENERIC_from_json.py
@@ -38048,8 +38087,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "155mm canister"
 msgid_plural "155mm canisters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cartouche de 155mm"
+msgstr[1] "cartouches de 155mm"
 
 #. ~ Description for 155mm canister
 #: lang/json/GENERIC_from_json.py
@@ -43089,7 +43128,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "EMP hack"
-msgstr ""
+msgstr "hack-EMP"
 
 #. ~ Description for EMP hack
 #: lang/json/MONSTER_from_json.py
@@ -43100,7 +43139,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "C-4 hack"
-msgstr ""
+msgstr "hack-C-4"
 
 #. ~ Description for C-4 hack
 #: lang/json/MONSTER_from_json.py
@@ -43111,7 +43150,7 @@ msgstr "Une drone automatique de la taille d'un poing. Il est remplis de C-4."
 
 #: lang/json/MONSTER_from_json.py
 msgid "flashbang hack"
-msgstr ""
+msgstr "hack-flashbang"
 
 #. ~ Description for flashbang hack
 #: lang/json/MONSTER_from_json.py
@@ -43122,7 +43161,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "tear gas hack"
-msgstr ""
+msgstr "hack-lacrymogène"
 
 #. ~ Description for tear gas hack
 #: lang/json/MONSTER_from_json.py
@@ -43133,7 +43172,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "grenade hack"
-msgstr ""
+msgstr "hack-grenade"
 
 #. ~ Description for grenade hack
 #: lang/json/MONSTER_from_json.py
@@ -43144,7 +43183,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "manhack"
-msgstr "robot-lame"
+msgstr "robot-lames"
 
 #. ~ Description for manhack
 #: lang/json/MONSTER_from_json.py
@@ -43155,7 +43194,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "mininuke hack"
-msgstr ""
+msgstr "hack-mininuke"
 
 #. ~ Description for mininuke hack
 #: lang/json/MONSTER_from_json.py
@@ -43163,6 +43202,8 @@ msgid ""
 "Twice as large as a normal manhack, this flying drone appears to have a "
 "mininuke inside.  If this is targeting you...  Run."
 msgstr ""
+"Deux fois plus grand qu'un robot-lames normal, ce drone volant semble avoir "
+"un mininuke à l'intérieur. Si vous êtes sa cible ... Courez."
 
 #: lang/json/MONSTER_from_json.py
 msgid "Blinky"
@@ -43320,7 +43361,7 @@ msgstr "saumon"
 
 #. ~ Description for salmon
 #: lang/json/MONSTER_from_json.py
-msgid "A salmon.  A very fatty, nutricious fish.  Tastes great smoked."
+msgid "A salmon.  A very fatty, nutritious fish.  Tastes great smoked."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -43404,10 +43445,10 @@ msgstr ""
 "pêcheur du dimanche."
 
 #: lang/json/MONSTER_from_json.py
-msgid "Lobster"
-msgstr "Homard"
+msgid "lobster"
+msgstr ""
 
-#. ~ Description for Lobster
+#. ~ Description for lobster
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "These things were once considered pests not worth eating, then some "
@@ -43419,10 +43460,10 @@ msgstr ""
 "qu'ils gagnent en popularité... et en prix."
 
 #: lang/json/MONSTER_from_json.py
-msgid "Crayfish"
-msgstr "Écrevisse"
+msgid "crayfish"
+msgstr ""
 
-#. ~ Description for Crayfish
+#. ~ Description for crayfish
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "If you could get ahold of a bunch more of these, a hefty pot of boiling "
@@ -45821,8 +45862,8 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an ancient Chinese doubled-edged straight sword, with an ornate "
-"guard and a tassel attatched to the pommel.  One of the four major weapons "
-"in folklore, alongside the dao sabre, qiang spear, and gun staff."
+"guard and a tassel attached to the pommel.  One of the four major weapons in"
+" folklore, alongside the dao sabre, qiang spear, and gun staff."
 msgstr ""
 
 #. ~ Description for jian
@@ -46336,12 +46377,12 @@ msgstr[1] ""
 #. ~ Use action friendly_msg for inactive EMP hack.
 #: lang/json/TOOL_from_json.py
 msgid "The EMP hack flies from your hand and surveys the area!"
-msgstr ""
+msgstr "Le hack-EMP s'envole et surveille la zone!"
 
 #. ~ Use action hostile_msg for inactive EMP hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the EMP hack; take cover!"
-msgstr ""
+msgstr "Vous échouez à reprogrammer le hack-C-4; a couvert!"
 
 #. ~ Description for inactive EMP hack
 #: lang/json/TOOL_from_json.py
@@ -46352,6 +46393,11 @@ msgid ""
 "hack.  Electronics and computer skill determines if the targeting matrix is "
 "reprogrammed successfully."
 msgstr ""
+"C'est un hack-EMP inactif. C'est un robot volant de la taille d'un poing. "
+"Celui-ci contient une grenade EMP et attaque sa cible en lui fonçant dessus "
+"et explosant. Utilisez le pour l'activer et le relâcher. Les compétences "
+"Électronique et Informatique déterminent si la matrice cible est "
+"reprogrammée avec succès."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive C-4 hack"
@@ -46362,12 +46408,12 @@ msgstr[1] "pirates C-4 inactifs"
 #. ~ Use action friendly_msg for inactive C-4 hack.
 #: lang/json/TOOL_from_json.py
 msgid "The C-4 hack flies from your hand and surveys the area!"
-msgstr "Le pirate C-4 s'envole et surveille la zone!"
+msgstr "Le hack-C-4 s'envole et surveille la zone! à couvert!"
 
 #. ~ Use action hostile_msg for inactive C-4 hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the C-4 hack; take cover!"
-msgstr "Vous échouez à reprogrammer le pirate C-4; a couvert!"
+msgstr "Vous échouez à reprogrammer le hack-C-4; a couvert!"
 
 #. ~ Description for inactive C-4 hack
 #: lang/json/TOOL_from_json.py
@@ -46378,6 +46424,10 @@ msgid ""
 "hack.  Electronics and computer skill determines if the targeting matrix is "
 "reprogrammed successfully."
 msgstr ""
+"C'est un hack-C-4 inactif. C'est un robot volant de la taille d'un poing. "
+"Celui-ci contient du C-4 et attaque sa cible en lui fonçant dessus et "
+"explosant. Utilisez le pour l'activer. Les compétences Électronique et "
+"Informatique déterminent si la matrice cible est reprogrammée avec succès."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive flashbang hack"
@@ -46388,12 +46438,12 @@ msgstr[1] ""
 #. ~ Use action friendly_msg for inactive flashbang hack.
 #: lang/json/TOOL_from_json.py
 msgid "The flashbang hack flies from your hand and surveys the area!"
-msgstr ""
+msgstr "Le hack-flashbang s'envole et surveille la zone! à couvert!"
 
 #. ~ Use action hostile_msg for inactive flashbang hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the flashbang hack; take cover!"
-msgstr ""
+msgstr "Vous échouez à reprogrammer le hack-flashbang; a couvert!"
 
 #. ~ Description for inactive flashbang hack
 #: lang/json/TOOL_from_json.py
@@ -46404,6 +46454,11 @@ msgid ""
 "activate the flashbang hack.  Electronics and computer skill determines if "
 "the targeting matrix is reprogrammed successfully."
 msgstr ""
+"C'est un hack-flashbang inactif. C'est un robot volant de la taille d'un "
+"poing. Celui-ci contient une grenade flashbang et attaque sa cible en lui "
+"fonçant dessus et explosant. Utilisez le pour l'activer. Les compétences "
+"Électronique et Informatique déterminent si la matrice cible est "
+"reprogrammée avec succès."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive tear gas hack"
@@ -46414,12 +46469,12 @@ msgstr[1] ""
 #. ~ Use action friendly_msg for inactive tear gas hack.
 #: lang/json/TOOL_from_json.py
 msgid "The tear gas hack flies from your hand and surveys the area!"
-msgstr ""
+msgstr "Le hack-lacrymogène s'envole et surveille la zone!"
 
 #. ~ Use action hostile_msg for inactive tear gas hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the tear gas hack; take cover!"
-msgstr ""
+msgstr "Vous échouez à reprogrammer le hack-lacrymogène; a couvert!"
 
 #. ~ Description for inactive tear gas hack
 #: lang/json/TOOL_from_json.py
@@ -46430,6 +46485,11 @@ msgid ""
 " and activate the tear gas hack.  Electronics and computer skill determines "
 "if the targeting matrix is reprogrammed successfully."
 msgstr ""
+"C'est un hack-lacrymogène inactif. C'est un robot volant de la taille d'un "
+"poing. Celui-ci contient une grenade lacrymogène et attaque sa cible en lui "
+"fonçant dessus et explosant. Utilisez le pour l'activer. Les compétences "
+"Électronique et Informatique déterminent si la matrice cible est "
+"reprogrammée avec succès."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive grenade hack"
@@ -46440,12 +46500,12 @@ msgstr[1] ""
 #. ~ Use action friendly_msg for inactive grenade hack.
 #: lang/json/TOOL_from_json.py
 msgid "The grenade hack flies from your hand and surveys the area!"
-msgstr ""
+msgstr "Le hack-grenade s'envole et surveille la zone!"
 
 #. ~ Use action hostile_msg for inactive grenade hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the grenade hack; take cover!"
-msgstr ""
+msgstr "Vous échouez à reprogrammer le hack-grenade; a couvert!"
 
 #. ~ Description for inactive grenade hack
 #: lang/json/TOOL_from_json.py
@@ -46456,6 +46516,11 @@ msgid ""
 "grenade hack.  Electronics and computer skill determines if the targeting "
 "matrix is reprogrammed successfully."
 msgstr ""
+"C'est un hack-grenade inactif. C'est un robot volant de la taille d'un "
+"poing. Celui-ci contient une grenade et attaque sa cible en lui fonçant "
+"dessus et explosant. Utilisez le pour l'activer et le relâcher. Les "
+"compétences Électronique et Informatique déterminent si la matrice cible est"
+" reprogrammée avec succès."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive laser turret"
@@ -46474,15 +46539,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "inactive antimateriel turret"
-msgid_plural "inactive antimateriel turrets"
+msgid "inactive anti-materiel turret"
+msgid_plural "inactive anti-materiel turrets"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for inactive antimateriel turret
+#. ~ Description for inactive anti-materiel turret
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is an inactive antimateriel turret.  Using this item involves loading "
+"This is an inactive anti-materiel turret.  Using this item involves loading "
 "the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if "
 "you wish to divide your ammunition, set aside whatever .50 BMG Ball you do "
 "NOT want to give the turret) turning it on, and placing it on the ground, "
@@ -46500,12 +46565,12 @@ msgstr[1] "robots-lames inactifs"
 #. ~ Use action friendly_msg for inactive manhack.
 #: lang/json/TOOL_from_json.py
 msgid "The manhack flies from your hand and surveys the area!"
-msgstr ""
+msgstr "Le robot-lames s'envole et surveille la zone!"
 
 #. ~ Use action hostile_msg for inactive manhack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the manhack; it's hostile!"
-msgstr "Vous faites une erreur de programmation du Man Hax; il est hostile!"
+msgstr "Vous échouez à reprogrammer le robot-lames; il est hostile !"
 
 #. ~ Description for inactive manhack
 #: lang/json/TOOL_from_json.py
@@ -46516,6 +46581,11 @@ msgid ""
 "activate the manhack.  Electronics and computer skill determines if the "
 "targeting matrix is reprogrammed successfully."
 msgstr ""
+"C'est un robot-lames inactif. C'est un robot volant de la taille d'un poing."
+" Ils sont couverts de lames vrombissantes et attaquent en se jetant contre "
+"leur cible. Utilisez le pour l'activer et le relâcher. Les compétences "
+"Électronique et Informatique déterminent si la matrice cible est "
+"reprogrammée avec succès."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive mininuke hack"
@@ -46526,12 +46596,12 @@ msgstr[1] ""
 #. ~ Use action friendly_msg for inactive mininuke hack.
 #: lang/json/TOOL_from_json.py
 msgid "The mininuke hack floats from your hand and surveys the area!"
-msgstr ""
+msgstr "Le hack-mininuke s'envole et surveille la zone!"
 
 #. ~ Use action hostile_msg for inactive mininuke hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the mininuke hack.  Pray."
-msgstr ""
+msgstr "Vous échouez à reprogrammer le hack-mininuke; Priez."
 
 #. ~ Description for inactive mininuke hack
 #: lang/json/TOOL_from_json.py
@@ -46542,6 +46612,11 @@ msgid ""
 "Electronics and computer skill determines if the targeting matrix is "
 "reprogrammed successfully."
 msgstr ""
+"C'est un hack-mininuke inactif. Deux fois plus grand qu'un robot-lames "
+"normal, hack-mininuke contient une mini charge nucléaire et attaque sa cible"
+" en lui volant dessus et explosant. Utilisez le pour l'activer et le "
+"relâcher. Les compétences Électronique et Informatique déterminent si la "
+"matrice cible est reprogrammée avec succès."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive rifle turret"
@@ -58474,7 +58549,7 @@ msgstr "pompe à diesel"
 
 #. ~ Description for diesel pump
 #: lang/json/fault_from_json.py
-msgid "Required to pump and pressurise diesel from a vehicles tank."
+msgid "Required to pump and pressurize diesel from a vehicles tank."
 msgstr ""
 
 #. ~ Description for air filter
@@ -59188,7 +59263,7 @@ msgstr "coffre à armes électronique"
 #. ~ Description for electronic gun safe
 #: lang/json/furniture_from_json.py
 msgid "Can you hack it open to get the firearms?"
-msgstr ""
+msgstr "Pourrez-vous le pirater et l'ouvrir pour avoir les armes à feu ?"
 
 #: lang/json/furniture_from_json.py
 msgid "open safe"
@@ -60258,6 +60333,10 @@ msgstr[1] ""
 msgid ""
 "A bulky, self-made chemical sprayer with an internal conversion mechanism "
 "that allows all sorts of chemicals to be dispersed to your surroundings."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "slosh."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -62291,10 +62370,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "slosh."
-msgstr ""
-
-#: lang/json/gun_from_json.py
 msgid "spraycan flamethrower"
 msgid_plural "spraycan flamethrowers"
 msgstr[0] ""
@@ -62819,7 +62894,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "This is a cheap laser rifle made from common components.  Weak, but can be "
-"powered with rechargable batteries."
+"powered with rechargeable batteries."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -67799,7 +67874,7 @@ msgstr "Boxe"
 #. ~ Description for martial art 'Boxing'
 #: lang/json/martial_art_from_json.py
 msgid ""
-"Sport of the true Gentleman, modern boxing has evolved from the prizefights "
+"Sport of the true gentleman, modern boxing has evolved from the prizefights "
 "of the Victorian era."
 msgstr ""
 
@@ -69308,8 +69383,8 @@ msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid ""
-"You give up?  This country fell apart because no one could find agood man to"
-" rely on... might as well give up, I guess."
+"You give up?  This country fell apart because no one could find a good man "
+"to rely on... might as well give up, I guess."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -70132,8 +70207,8 @@ msgid ""
 " to install your first radio repeater mod.  Head topside and locate the "
 "nearest radio station.  Install the mod on the backup terminal and return to"
 " me so that I can verify that everything was successful.  Radio towers must "
-"unfortunatly be ignored for now, without a dedicated emergency power system "
-"they won't be useful for some time."
+"unfortunately be ignored for now, without a dedicated emergency power system"
+" they won't be useful for some time."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -70316,7 +70391,7 @@ msgid ""
 "received a message that a unit was deploying into our AO.  I don't have the "
 "exact coordinates but they said they were securing an underground facility "
 "and may require assistance.  The bird dropped them off next to a pump "
-"station.  Can't tell you much more.  If you cound locate the captain in "
+"station.  Can't tell you much more.  If you could locate the captain in "
 "charge, I'm sure he could use your skills.  Don't forget to wear your badge "
 "when meeting with them.  Thank you once again marshal."
 msgstr ""
@@ -94603,12 +94678,12 @@ msgstr ""
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "You hack at %s with a vicious strike"
-msgstr ""
+msgstr "Vous frappez sur %s avec un coup vicieux"
 
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "<npcname> hack at %s with a vicious strike"
-msgstr ""
+msgstr "<npcname> frappe sur %s avec un coup vicieux"
 
 #: lang/json/technique_from_json.py
 #, python-format
@@ -100174,6 +100249,8 @@ msgid ""
 "You hack into the corpse and chop off some body parts.  You think the zombie"
 " won't be able to attack when it reanimates."
 msgstr ""
+"Vous frappez le corps et découpez quelques morceaux. Vous pensez que le "
+"zombi ne pourra vous attacher lorsqu'il se réveillera."
 
 #: src/activity_handlers.cpp
 msgid "You cut up the corpse too much, it is thoroughly pulped."
@@ -102822,21 +102899,21 @@ msgstr ""
 msgid "forever"
 msgstr ""
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d seconde"
 msgstr[1] "%d secondes"
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minute"
 msgstr[1] "%d minutes"
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -102864,11 +102941,13 @@ msgid_plural "%d years"
 msgstr[0] "%d année"
 msgstr[1] "%d années"
 
+#: src/calendar.cpp
+msgid "for ever"
+msgstr ""
+
 #. ~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time
 #. (e.g. 11 minutes).
-#. ~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6
-#. minutes"
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%1$s and %2$s"
 msgstr ""
@@ -102906,34 +102985,6 @@ msgstr "%d:%02d:%02d%s du matin"
 #, c-format
 msgid "%d:%02d:%02d%sPM"
 msgstr "%d:%02d:%02d%s de l'après-midi"
-
-#: src/calendar.cpp
-msgid "Monday"
-msgstr "Lundi"
-
-#: src/calendar.cpp
-msgid "Sunday"
-msgstr "Dimanche"
-
-#: src/calendar.cpp
-msgid "Tuesday"
-msgstr "Mardi"
-
-#: src/calendar.cpp
-msgid "Wednesday"
-msgstr "Mercredi"
-
-#: src/calendar.cpp
-msgid "Friday"
-msgstr "Vendredi"
-
-#: src/calendar.cpp
-msgid "Thursday"
-msgstr "Jeudi"
-
-#: src/calendar.cpp
-msgid "Saturday"
-msgstr "Samedi"
 
 #: src/calendar.cpp
 msgid "End times"
@@ -110970,7 +111021,7 @@ msgstr "Engager les cibles."
 
 #: src/game.cpp
 msgid "Reprogram the manhack?"
-msgstr "Reprogrammer le manhax?"
+msgstr "Reprogrammer le robot-lames ?"
 
 #: src/game.cpp
 msgid "Follow me."
@@ -111293,8 +111344,8 @@ msgstr ""
 "terre ferme, vite!"
 
 #: src/game.cpp
-msgid "No hostile creature in reach."
-msgstr "Aucune créature hostile à portée."
+msgid "No hostile creature in reach. Waiting a turn."
+msgstr ""
 
 #: src/game.cpp
 msgid "You dive into water."
@@ -114099,7 +114150,7 @@ msgstr "Vous piratez le coffre-fort d'armes."
 
 #: src/iexamine.cpp
 msgid "You can't hack this gun safe without a hacking tool."
-msgstr ""
+msgstr "Vous ne pouvez pirater ce coffre à armes sans un outil de piratage."
 
 #: src/iexamine.cpp
 msgid "This electronic safe looks too complicated to open."
@@ -124976,48 +125027,49 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %s fumbles open a pouch and a grenade hack flies out!"
-msgstr ""
+msgstr "Le %s fouille une poche, et un hack-grenade s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s fumbles open a pouch and a flashbang hack flies out!"
-msgstr ""
+msgstr "Le %s fouille une poche, et un hack-flashbang s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s fumbles open a pouch and a tear gas hack flies out!"
-msgstr ""
+msgstr "Le %s fouille une poche, et un hack-lacrymogène s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s fumbles open a pouch and a C-4 hack flies out!"
-msgstr ""
+msgstr "Le %s fouille une poche, et un hack-C-4 s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s opens a pouch and a grenade hack flies out!"
-msgstr ""
+msgstr "Le %s ouvre une poche, et un hack-grenade s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s opens a pouch and a flashbang hack flies out!"
-msgstr ""
+msgstr "Le %s ouvre une poche, et un hack-flashbang s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s opens a pouch and a tear gas hack flies out!"
-msgstr ""
+msgstr "Le %s ouvre une poche, et un hack-lacrymogène s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s cackles and opens a pouch; a C-4 hack flies out!"
-msgstr ""
+msgstr "Le %s caquette et ouvre une poche; un hack-C-4 s'envole!"
 
 #: src/monattack.cpp
 #, c-format
 msgid ""
 "The %s opens its pack and spreads its hands, a mininuke hack floats out!"
 msgstr ""
+"Le %s ouvre ses paquets et écarte les mains; un hack-mininuke s'envole!"
 
 #: src/monattack.cpp
 #, c-format
@@ -135854,6 +135906,34 @@ msgstr "Votre armure énergétique vous protège de la pluie acide."
 #: src/weather.cpp
 msgid "The acid rain burns!"
 msgstr "La pluie acide vous brûle!"
+
+#: src/weather.cpp
+msgid "Monday"
+msgstr "Lundi"
+
+#: src/weather.cpp
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: src/weather.cpp
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: src/weather.cpp
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: src/weather.cpp
+msgid "Friday"
+msgstr "Vendredi"
+
+#: src/weather.cpp
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: src/weather.cpp
+msgid "Saturday"
+msgstr "Samedi"
 
 #: src/weather.cpp
 #, c-format
