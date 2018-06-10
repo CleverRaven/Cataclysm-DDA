@@ -264,7 +264,7 @@ class Character : public Creature, public visitable<Character>
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
-                         int intensity = 0, bool force = false ) override;
+                         int intensity = 0, bool force = false, bool deferred = false ) override;
         /**
          * Handles end-of-turn processing.
          */

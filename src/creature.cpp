@@ -737,7 +737,7 @@ void Creature::set_fake(const bool fake_value)
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                           bool permanent, int intensity, bool force )
+                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
@@ -847,7 +847,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        process_one_effect( e, true );
+        // only when not deferred
+        if( !deferred ) {
+            process_one_effect( e, true );
+        }
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
