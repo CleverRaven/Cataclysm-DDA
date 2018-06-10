@@ -9906,7 +9906,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 destroy = armor.burn( frd, true );
                 int fuel = roll_remainder( frd.fuel_produced );
                 if( fuel > 0 ) {
-                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp );
+                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false, true );
                 }
             }
 
