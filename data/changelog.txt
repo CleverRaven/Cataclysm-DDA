@@ -766,7 +766,7 @@ Charge rifle charging.
 Highlights:
 ---
 Releasing with Russian, Chinese, and bla translations.
-Draggable vhicles, e.g. shopping carts.
+Draggable vehicles, e.g. shopping carts.
 Memorial file listing player history.
 Tiles!
 Basic farming support.
@@ -1174,7 +1174,7 @@ Added crafting recipes for bandana, blanket, house coat, cloak.
 Weather radio
 Radios are tuneable, so you can receive from more than one station without moving.
 New item that doubles battery capacity of tools, recipe learn from certain electronics books.
-Bugfix: reduced chance of "Tried to kill monster" debug s	pam.
+Bugfix: reduced chance of "Tried to kill monster" debug spam.
 Bugfix: reduced chance of "Stopping out-of-map vehicle" spam.
 Bugfix: can unload liquids into items wielded in hands (e.g., steel jerrycans).
 Bionics screen shows current and maximum power.
