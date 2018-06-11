@@ -431,7 +431,7 @@ void reinitialize_framebuffer() { }
 #endif
 
 
-void game::init_ui()
+void game::init_ui( const bool resized )
 {
     // clear the screen
     static bool first_init = true;
@@ -461,6 +461,12 @@ void game::init_ui()
 #if (defined TILES || defined _WIN32 || defined __WIN32__)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
+
+    if ( resized ) {
+        get_options().get_option( "TERMINAL_X" ).setValue( TERMX );
+        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY );
+        get_options().save();
+    }
 #else
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
