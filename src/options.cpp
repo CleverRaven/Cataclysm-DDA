@@ -1979,7 +1979,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool sidebar_style_changed = false;
-    bool termial_size_changed = true;
+    bool terminal_size_changed = true;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
@@ -2004,7 +2004,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 lang_changed = true;
 
             } else if ( iter.first == "TERMINAL_X" || iter.first == "TERMINAL_Y" ) {
-                termial_size_changed = true;
+                terminal_size_changed = true;
             }
         }
     }
@@ -2048,9 +2048,11 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     }
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    if ( termial_size_changed ) {
+    if ( terminal_size_changed ) {
         handle_resize( projected_window_width( 0 ), projected_window_height( 0 ) );
     }
+#else
+    (void) terminal_size_changed;
 #endif
 
     refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
