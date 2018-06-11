@@ -453,8 +453,6 @@ void game::init_ui( const bool resized )
 #endif // TILES
     }
 
-    intro();
-
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     // First get TERMX, TERMY
@@ -468,6 +466,8 @@ void game::init_ui( const bool resized )
         get_options().save();
     }
 #else
+    intro();
+
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
 

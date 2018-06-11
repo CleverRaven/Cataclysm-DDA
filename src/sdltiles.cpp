@@ -368,8 +368,6 @@ bool WinCreate()
         TERMINAL_HEIGHT = WindowHeight / fontheight;
     }
 
-    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
-
     // Initialize framebuffer caches
     terminal_framebuffer.resize(TERMINAL_HEIGHT);
     for (int i = 0; i < TERMINAL_HEIGHT; i++) {
@@ -417,6 +415,8 @@ bool WinCreate()
             return false;
         }
     }
+
+    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
 
     ClearScreen();
 
