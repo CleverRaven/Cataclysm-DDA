@@ -1204,7 +1204,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
             add_msg_if_player(m_good, _("You have learned %s from extensive practice with the CQB Bionic."),
-                       style_selected.obj().name.c_str());
+                       _(style_selected.obj().name.c_str()));
         }
     }
 }

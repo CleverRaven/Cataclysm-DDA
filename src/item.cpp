@@ -1563,7 +1563,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
-                return string_format( "<stat>%s:</stat> <info>%s</info>", tid.obj().name.c_str(), tid.obj().description.c_str() );
+                return string_format( "<stat>%s:</stat> <info>%s</info>", _( tid.obj().name.c_str() ), _( tid.obj().description.c_str() ) );
             } ) ) );
         }
 
@@ -1616,7 +1616,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         const auto &styles = g->u.ma_styles;
         const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
         [ this ]( const matype_id &mid ) {
-            return mid.obj().has_weapon( typeId() ) ? mid.obj().name : std::string();
+            return mid.obj().has_weapon( typeId() ) ? _( mid.obj().name.c_str() ) : std::string();
         } );
         if( !valid_styles.empty() ) {
             insert_separation_line();
