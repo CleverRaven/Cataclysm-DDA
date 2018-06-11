@@ -443,7 +443,6 @@ void game::init_ui()
         FULL_SCREEN_WIDTH = 80;
         FULL_SCREEN_HEIGHT = 24;
         // print an intro screen, making sure the terminal is the correct size
-        intro();
 
         first_init = false;
 
@@ -453,6 +452,8 @@ void game::init_ui()
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
 #endif // TILES
     }
+
+    intro();
 
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
