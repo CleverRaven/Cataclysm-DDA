@@ -1807,22 +1807,22 @@ void map::player_in_field( player &u )
             {
                 // Burn message by intensity
                 static const std::array<std::string, 4> player_burn_msg = {{
-                    _("You burn your legs and feet!"),
-                    _("You're burning up!"),
-                    _("You're set ablaze!"),
-                    _("Your whole body is burning!")
+                    translate_marker("You burn your legs and feet!"),
+                    translate_marker("You're burning up!"),
+                    translate_marker("You're set ablaze!"),
+                    translate_marker("Your whole body is burning!")
                 }};
                 static const std::array<std::string, 4> npc_burn_msg = {{
-                    _("<npcname> burns their legs and feet!"),
-                    _("<npcname> is burning up!"),
-                    _("<npcname> is set ablaze!"),
-                    _("<npcname>s whole body is burning!")
+                    translate_marker("<npcname> burns their legs and feet!"),
+                    translate_marker("<npcname> is burning up!"),
+                    translate_marker("<npcname> is set ablaze!"),
+                    translate_marker("<npcname>s whole body is burning!")
                 }};
                 static const std::array<std::string, 4> player_warn_msg = {{
-                    _("You're standing in a fire!"),
-                    _("You're waist-deep in a fire!"),
-                    _("You're surrounded by raging fire!"),
-                    _("You're lying in fire!")
+                    translate_marker("You're standing in a fire!"),
+                    translate_marker("You're waist-deep in a fire!"),
+                    translate_marker("You're surrounded by raging fire!"),
+                    translate_marker("You're lying in fire!")
                 }};
 
                 int burn_min = adjusted_intensity;
@@ -1860,11 +1860,11 @@ void map::player_in_field( player &u )
                 }
                 if( total_damage > 0 ) {
                     u.add_msg_player_or_npc( m_bad,
-                        player_burn_msg[msg_num].c_str(),
-                        npc_burn_msg[msg_num].c_str() );
+                        _( player_burn_msg[msg_num].c_str() ),
+                        _( npc_burn_msg[msg_num].c_str() ) );
                 } else {
                     u.add_msg_if_player( m_warning,
-                        player_warn_msg[msg_num].c_str() );
+                        _( player_warn_msg[msg_num].c_str() ) );
                 }
                 u.check_dead_state();
             }
