@@ -12799,7 +12799,8 @@ void game::update_stair_monsters()
             critter.spawn( dest );
             while (tries < creature_push_attempts) {
                 tries++;
-                pushx = rng(-1, 1); pushy = rng(-1, 1);
+                pushx = rng(-1, 1);
+                pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
                 tripoint pos( iposx, iposy, get_levz() );
