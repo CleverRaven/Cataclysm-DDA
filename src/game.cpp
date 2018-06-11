@@ -466,6 +466,7 @@ void game::init_ui( const bool resized )
         get_options().save();
     }
 #else
+    (void) resized;
     intro();
 
     TERMY = getmaxy( catacurses::stdscr );
