@@ -151,7 +151,7 @@ void main_menu::handle_input_timout( input_context &ctxt, std::string &action )
 
 void main_menu::init_windows()
 {
-    if ( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
+    if( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
         return;
     }
 

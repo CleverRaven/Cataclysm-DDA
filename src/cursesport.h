@@ -96,5 +96,6 @@ extern void handle_additional_window_clear( WINDOW *win );
 void clear_window_area( const catacurses::window &win );
 int projected_window_width( int column_count );
 int projected_window_height( int row_count );
+bool handle_resize( int w, int h );
 
 #endif
