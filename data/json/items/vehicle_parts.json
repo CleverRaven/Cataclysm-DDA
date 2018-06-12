@@ -78,7 +78,8 @@
         "bashing" : 20,
         "category" : "veh_parts",
         "price" : 5500
-    },{
+    },
+    {
         "type":"GENERIC",
         "id" : "folding_basket",
         "name" : "folding wire basket",
@@ -93,7 +94,24 @@
         "bashing" : 20,
         "category" : "veh_parts",
         "price" : 5500
-    },{
+    },
+    {
+        "type":"GENERIC",
+        "id" : "bike_basket",
+        "name" : "bike basket",
+        "description" : "A simple bike basket. It is small and foldable.",
+        "weight" : 500,
+        "to_hit" : -5,
+        "color" : "cyan",
+        "symbol" : "]",
+        "material" : ["steel"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 10,
+        "bashing" : 20,
+        "category" : "veh_parts",
+        "price" : 2500
+    },
+    {
         "type":"GENERIC",
         "id" : "frame_wood",
         "name" : "wooden frame",

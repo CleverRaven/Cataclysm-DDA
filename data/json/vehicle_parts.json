@@ -778,10 +778,14 @@
     "durability": 75,
     "folded_volume": 4,
     "size": 60,
-    "item": "wire",
+    "item": "bike_basket",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "FOLDABLE" ]
+    "flags": [ "CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "FOLDABLE" ],
+    "requirements": {
+      "install": { "time": 15000, "skills": [ [ "mechanics", 0 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": 2000, "using": [ [ "welding_standard", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] } }
   },
   {
     "type": "vehicle_part",

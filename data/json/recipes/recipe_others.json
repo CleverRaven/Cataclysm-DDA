@@ -1172,6 +1172,20 @@
   },
   {
     "type": "recipe",
+    "result": "bike_basket",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 35 ], [ "toolset", 35 ], [ "oxy_torch", 5 ] ] ],
+    "components": [ [ [ "wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "foldframe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
