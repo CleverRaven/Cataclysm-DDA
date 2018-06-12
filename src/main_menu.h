@@ -92,7 +92,7 @@ class main_menu
         void display_credits();
 
         void init_windows();
-        void handle_input_timout( input_context &ctxt, std::string &action );
+        std::string handle_input_timeout( input_context &ctxt );
 };
 
 #endif

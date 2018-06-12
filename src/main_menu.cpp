@@ -136,17 +136,19 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
-void main_menu::handle_input_timout( input_context &ctxt, std::string &action )
+std::string main_menu::handle_input_timeout( input_context &ctxt )
 {
     inp_mngr.set_timeout( 125 );
 
-    action = ctxt.handle_input();
+    std::string action = ctxt.handle_input();
 
     if( action == "TIMEOUT" ) {
         init_windows();
     }
 
     inp_mngr.reset_timeout();
+
+    return action;
 }
 
 void main_menu::init_windows()
@@ -365,8 +367,7 @@ bool main_menu::opening_screen()
                 catacurses::refresh();
             }
 
-            std::string action;
-            handle_input_timout( ctxt, action );
+            std::string action = handle_input_timeout( ctxt );
 
             std::string sInput = ctxt.get_raw_input().text;
             // check automatic menu shortcuts
@@ -448,8 +449,7 @@ bool main_menu::opening_screen()
 
                 wrefresh( w_open );
                 catacurses::refresh();
-                std::string action;
-                handle_input_timout( ctxt, action );
+                std::string action = handle_input_timeout( ctxt );
                 if( action == "LEFT" ) {
                     if( sel2 > 0 ) {
                         sel2--;
@@ -509,8 +509,7 @@ bool main_menu::opening_screen()
                 print_menu_items( w_open, settings_subs, sel2, yoffset, xoffset - ( xlen / 4 ) );
                 wrefresh( w_open );
                 catacurses::refresh();
-                std::string action;
-                handle_input_timout( ctxt, action );
+                std::string action = handle_input_timeout( ctxt );
                 std::string sInput = ctxt.get_raw_input().text;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
                     for( auto hotkey : vSettingsHotkeys[i] ) {
@@ -597,8 +596,7 @@ bool main_menu::new_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
 
-            std::string action;
-            handle_input_timout( ctxt, action );
+            std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vNewGameHotkeys.size(); ++i ) {
                 for( auto hotkey : vNewGameHotkeys[i] ) {
@@ -693,8 +691,7 @@ bool main_menu::new_character_tab()
             }
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action;
-            handle_input_timout( ctxt, action );
+            std::string action = handle_input_timeout( ctxt );
             if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
@@ -797,8 +794,7 @@ bool main_menu::load_character_tab()
             }
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action;
-            handle_input_timout( ctxt, action );
+            std::string action = handle_input_timeout( ctxt );
             if( all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 1;
             } else if( action == "DOWN" ) {
@@ -855,8 +851,7 @@ bool main_menu::load_character_tab()
             }
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action;
-            handle_input_timout( ctxt, action );
+            std::string action = handle_input_timeout( ctxt );
             if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 2;
             } else if( action == "DOWN" ) {
@@ -933,8 +928,7 @@ void main_menu::world_tab()
 
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action;
-            handle_input_timout( ctxt, action );
+            std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 for( auto hotkey : vWorldHotkeys[i] ) {
@@ -1027,8 +1021,7 @@ void main_menu::world_tab()
 
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action;
-            handle_input_timout( ctxt, action );
+            std::string action = handle_input_timeout( ctxt );
 
             if( action == "DOWN" ) {
                 if( sel2 > 0 ) {
