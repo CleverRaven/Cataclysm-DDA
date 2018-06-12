@@ -1606,14 +1606,14 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
-// Calculates the new width of the window, given the number of columns.
-int projected_window_width(int)
+// Calculates the new width of the window
+int projected_window_width()
 {
     return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
-// Calculates the new height of the window, given the number of rows.
-int projected_window_height(int)
+// Calculates the new height of the window
+int projected_window_height()
 {
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }

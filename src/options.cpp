@@ -1839,7 +1839,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_x;
-            new_window_width = projected_window_width(new_terminal_x);
+            new_window_width = projected_window_width();
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            ngettext("%s #%s -- The window will be %d pixel wide with the selected value.",
@@ -1853,7 +1853,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_y;
-            new_window_height = projected_window_height(new_terminal_y);
+            new_window_height = projected_window_height();
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            ngettext("%s #%s -- The window will be %d pixel tall with the selected value.",
@@ -2049,7 +2049,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     if ( terminal_size_changed ) {
-        handle_resize( projected_window_width( 0 ), projected_window_height( 0 ) );
+        handle_resize( projected_window_width(), projected_window_height() );
     }
 #else
     (void) terminal_size_changed;
