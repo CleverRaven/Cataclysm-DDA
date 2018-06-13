@@ -1,4 +1,6 @@
 src/activity_handlers.cpp
+src/iuse_software_lighting.cpp
+src/lighting.cpp
 src/advanced_inv.cpp
 src/animation.cpp
 src/artifact.cpp
