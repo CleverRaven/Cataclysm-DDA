@@ -53,6 +53,8 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
 
@@ -166,6 +168,11 @@ struct islot_comestible
     int get_calories() const {
         return nutr * kcal_per_nutr;
     }
+    /** The monster group that is drawn from when the item rots away */
+    mongroup_id rot_spawn = mongroup_id::NULL_ID();
+
+    /** Chance the above monster group spawns*/
+    int rot_spawn_chance = 10;
 };
 
 struct islot_brewable {
@@ -847,4 +854,3 @@ public:
 };
 
 #endif
-
