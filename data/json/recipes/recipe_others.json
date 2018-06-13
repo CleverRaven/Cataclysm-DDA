@@ -1152,8 +1152,7 @@
     "time": 50000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1} ],
+    "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
     "components": [ [ [ "wire", 40 ] ] ]
   },
   {
@@ -1166,8 +1165,7 @@
     "time": 60000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1} ],
+    "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
     "components": [ [ [ "wire", 40 ], [ "basket", 1 ] ], [ [ "scrap", 8 ] ] ]
   },
   {
@@ -1180,8 +1178,7 @@
     "time": 35000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1} ],
+    "using": [ [ "welding_standard", 2 ], [ "cutting_wire_standard", 1 ] ],
     "components": [ [ [ "wire", 8 ] ] ]
   },
   {
