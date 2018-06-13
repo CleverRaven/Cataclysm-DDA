@@ -1,7 +1,7 @@
 #include "lighting.h"
 #include <math.h>
 
-Lighting::Lighting(int w, int h)
+Lighting::Lighting(const int w, const int h)
 {
     this->w = w;
     this->h = h;
@@ -16,7 +16,7 @@ Lighting::Lighting(int w, int h)
     tmpNew.resize(w);
 }
 
-void Lighting::recalculateLighting(vvInt objects, double startIntensity)
+void Lighting::recalculateLighting(const vvInt &objects, const double startIntensity)
 {
     light.clear();
     light.resize(w);
@@ -43,13 +43,13 @@ void Lighting::recalculateLighting(vvInt objects, double startIntensity)
 
         double alpha = M_PI / 4 * (2.0 * a / raysN);
         double slp = tan(alpha);
-        double td = sqrt(slp * slp + 1);
+        double td = sqrt((slp * slp) + 1);
 
         for (y = 0; y < h; y++) {
             tmpN = merge();
 
             for (int i = 0; i < tmpN; i++) {
-                T t = tmp[i];
+                T &t = tmp[i];
                 t.b += slp;
 
                 if (t.b < 0 || t.b + 1 >= w || t.i <= 0.0000001) {
@@ -61,7 +61,7 @@ void Lighting::recalculateLighting(vvInt objects, double startIntensity)
             tmpNewIntN = 0; // clear tmpNew
 
             for (int i = 0; i < tmpN; i++) {
-                T t = tmp[i];
+                T &t = tmp[i];
                 if (t.d) continue;
                 int fb = (int) (t.b);
                 int fe = fb + 1;
@@ -91,12 +91,12 @@ void Lighting::recalculateLighting(vvInt objects, double startIntensity)
     }
 }
 
-void Lighting::applyLight(T t, int x, int y, double td)
+void Lighting::applyLight(const T &t, const int x, const int y, const double td)
 {
     light[x][y] += max(min(t.b + t.l, x + 1) - max(t.b, x), 0) * t.i * td;
 }
 
-void Lighting::cutInterval(T t, int x)
+void Lighting::cutInterval(T &t, const int x)
 {
     double e = t.b + t.l;
     if (e <= x + 1 && e > x) {
@@ -137,10 +137,10 @@ int Lighting::merge()
     return n;
 }
 
-int Lighting::merge1(T t, int n)
+int Lighting::merge1(T &t, int n)
 {
     if (n > 0) {
-        T t2 = tmp[n - 1];
+        T &t2 = tmp[n - 1];
         double b = min(t.b, t2.b);
         double e = max(t.b + t.l, t2.b + t2.l);
         double l = e - b;
@@ -165,17 +165,17 @@ int Lighting::merge1(T t, int n)
     return n;
 }
 
-double Lighting::getLight(int x, int y)
+double Lighting::getLight(const int x, const int y) const
 {
     return light[x][y];
 }
 
-double Lighting::max(double a, double b)
+double Lighting::max(const double a, const double b)
 {
     return a > b ? a : b;
 }
 
-double Lighting::min(double a, double b)
+double Lighting::min(const double a, const double b)
 {
     return a < b ? a : b;
 }

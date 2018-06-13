@@ -15,8 +15,6 @@
 #include <vector>
 #include <cstdlib>
 
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
-
 lighting_game::lighting_game()
 {
     iLevelY = 0;
@@ -32,11 +30,6 @@ void lighting_game::new_level( const catacurses::window &w_lighting )
     for (int i = 0; i < iLevelX; i++) {
         mLevel[i].resize(iLevelY);
     }
-}
-
-void lighting_game::recalc_lighting()
-{
-
 }
 
 int lighting_game::start_game()

@@ -12,7 +12,6 @@ class window;
 class lighting_game
 {
     private:
-        void recalc_lighting();
         void new_level( const catacurses::window &w_lighting );
         int iLevelX, iLevelY;
 

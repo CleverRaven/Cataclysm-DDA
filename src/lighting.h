@@ -10,10 +10,10 @@ class Lighting
         typedef std::vector< std::vector<int> > vvInt;
         typedef std::vector< std::vector<double> > vvDouble;
 
-        Lighting( int w, int h );
+        Lighting( const int w, const int h );
 
-        void recalculateLighting( vvInt objects, double startIntensity );
-        double getLight( int x, int y );
+        void recalculateLighting( const vvInt &objects, const double startIntensity );
+        double getLight( const int x, const int y ) const;
 
         enum en_types {
             floor = 0,
@@ -54,12 +54,12 @@ class Lighting
         int tmp2IntN;
         int tmpNewIntN;
 
-        void applyLight( T t, int x, int y, double td );
-        void cutInterval( T t, int x );
+        void applyLight( const T &t, const int x, const int y, const double td );
+        void cutInterval( T &t, const int x );
         int merge();
-        int merge1( T t, int n );
-        static double max( double a, double b );
-        static double min( double a, double b );
+        int merge1( T &t, int n );
+        static double max( const double a, const double b );
+        static double min( const double a, const double b );
 };
 
 /*
