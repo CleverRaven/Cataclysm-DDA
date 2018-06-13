@@ -80,9 +80,9 @@ void load_mutation_category(JsonObject &jsobj)
     new_category.id = jsobj.get_string("id");
     new_category.name =_(jsobj.get_string("name").c_str());
     new_category.category = jsobj.get_string( "category" );
-    // @todo Remove
+    // @todo: Remove
     new_category.category_full = jsobj.get_string( "category_full", "MUTCAT_" + new_category.category );
-    // @todo Remove default, make it required
+    // @todo: Remove default, make it required
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut", "THRESH_" + new_category.category ) );
     new_category.mutagen_flag = jsobj.get_string( "mutagen_flag", "MUTAGEN_" + new_category.category );
 
@@ -228,7 +228,7 @@ void mutation_branch::load( JsonObject &jsobj )
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
         auto pair = vr.next_array();
-        new_mut.vitamin_rates[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        new_mut.vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ), time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
     new_mut.healing_awake = jsobj.get_float( "healing_awake", 0.0f );
@@ -252,14 +252,14 @@ void mutation_branch::load( JsonObject &jsobj )
         new_mut.prereqs.emplace_back( t );
     }
     // Helps to be able to have a trait require more than one other trait
-    // (Individual prereq-lists are "OR", not "AND".)
+    // (Individual prerequisite-lists are "OR", not "AND".)
     // Traits should NOT appear in both lists for a given mutation, unless
     // you want that trait to satisfy both requirements.
     // These are additional to the first list.
     for( auto &t : jsobj.get_string_array( "prereqs2" ) ) {
         new_mut.prereqs2.emplace_back( t );
     }
-    // Dedicated-purpose prereq slot for Threshold mutations
+    // Dedicated-purpose prerequisite slot for Threshold mutations
     // Stuff like Huge might fit in more than one mutcat post-threshold, so yeah
     for( auto &t : jsobj.get_string_array( "threshreq" ) ) {
         new_mut.threshreq.emplace_back( t );
@@ -319,10 +319,8 @@ void mutation_branch::load( JsonObject &jsobj )
         std::set<body_part> bps;
         for( const std::string &part_string : parts ) {
             if( part_string == "ALL" ) {
-                // Shorthand, since many muts protect whole body
-                for( size_t i = 0; i < num_bp; i++ ) {
-                    bps.insert( static_cast<body_part>( i ) );
-                }
+                // Shorthand, since many mutations protect whole body
+                bps.insert( all_body_parts.begin(), all_body_parts.end() );
             } else {
                 bps.insert( get_body_part_token( part_string ) );
             }

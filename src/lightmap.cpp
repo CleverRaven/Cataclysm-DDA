@@ -10,6 +10,7 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather.h"
+#include "vpart_position.h"
 #include "shadowcasting.h"
 
 #include <cmath>
@@ -144,7 +145,7 @@ void map::apply_character_light( player &p )
     }
 
     if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
-        p.add_effect( effect_haslight, 1 );
+        p.add_effect( effect_haslight, 1_turns );
     }
 }
 
@@ -339,8 +340,9 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
-                if( (    calendar::turn % 2   && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
-                    ( !( calendar::turn % 2 ) && vp.has_flag( VPFLAG_EVENTURN ) ) ||
+                const bool odd_turn = calendar::once_every( 2_turns );
+                if( (  odd_turn && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
+                    ( !odd_turn && vp.has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
 
                     add_light_source( src, vp.bonus );
@@ -757,11 +759,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
 
-    int part;
-    vehicle *veh = veh_at( origin, part );
-    if( veh == nullptr ) {
+    const optional_vpart_position vp = veh_at( origin );
+    if( !vp ) {
         return;
     }
+    vehicle *const veh = &vp->vehicle();
 
     // We're inside a vehicle. Do mirror calculations.
     std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);

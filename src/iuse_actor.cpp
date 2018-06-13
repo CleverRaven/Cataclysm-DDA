@@ -78,10 +78,6 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
-iuse_transform::~iuse_transform()
-{
-}
-
 iuse_actor *iuse_transform::clone() const
 {
     return new iuse_transform(*this);
@@ -221,8 +217,6 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
 }
 
-countdown_actor::~countdown_actor() = default;
-
 iuse_actor *countdown_actor::clone() const
 {
     return new countdown_actor( *this );
@@ -279,10 +273,6 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
     if( countdown_actor != nullptr ) {
         countdown_actor->info( it, dump );
     }
-}
-
-explosion_iuse::~explosion_iuse()
-{
 }
 
 iuse_actor *explosion_iuse::clone() const
@@ -351,21 +341,17 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
         std::vector<tripoint> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
             const int dens = rng(fields_min_density, fields_max_density);
-            g->m.add_field( gas_source, fields_type, dens, 1 );
+            g->m.add_field( gas_source, fields_type, dens, 1_turns );
         }
     }
     if (scrambler_blast_radius >= 0) {
-        for (int x = pos.x - scrambler_blast_radius; x <= pos.x + scrambler_blast_radius; x++) {
-            for (int y = pos.y - scrambler_blast_radius; y <= pos.y + scrambler_blast_radius; y++) {
-                g->scrambler_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
+            g->scrambler_blast( dest );
         }
     }
     if (emp_blast_radius >= 0) {
-        for (int x = pos.x - emp_blast_radius; x <= pos.x + emp_blast_radius; x++) {
-            for (int y = pos.y - emp_blast_radius; y <= pos.y + emp_blast_radius; y++) {
-                g->emp_blast( tripoint( x, y, pos.z ) );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
+            g->emp_blast( dest );
         }
     }
     return 1;
@@ -374,7 +360,7 @@ long explosion_iuse::use(player &p, item &it, bool t, const tripoint &pos) const
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( explosion.power <= 0 ) {
-        // @todo List other effects, like EMP and clouds
+        // @todo: List other effects, like EMP and clouds
         return;
     }
 
@@ -387,10 +373,6 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 }
 
 
-
-unfold_vehicle_iuse::~unfold_vehicle_iuse()
-{
-}
 
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
@@ -475,8 +457,6 @@ long unfold_vehicle_iuse::use(player &p, item &it, bool /*t*/, const tripoint &/
     return 1;
 }
 
-consume_drug_iuse::~consume_drug_iuse() {}
-
 iuse_actor *consume_drug_iuse::clone() const
 {
     return new consume_drug_iuse(*this);
@@ -484,7 +464,7 @@ iuse_actor *consume_drug_iuse::clone() const
 
 static effect_data load_effect_data( JsonObject &e )
 {
-    return effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+    return effect_data( efftype_id( e.get_string( "id" ) ), time_duration::from_turns( e.get_int( "duration", 0 ) ),
         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
@@ -518,12 +498,12 @@ void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
 {
     const std::string vits = enumerate_as_string( vitamins.begin(), vitamins.end(),
     []( const decltype( vitamins )::value_type &v ) {
-        const int rate = g->u.vitamin_rate( v.first );
-        if( rate <= 0 ) {
+        const time_duration rate = g->u.vitamin_rate( v.first );
+        if( rate <= 0_turns ) {
             return std::string();
         }
-        const int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
-        const int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+        const int lo = int( v.second.first  * rate / 1_days * 100 );
+        const int hi = int( v.second.second * rate / 1_days * 100 );
 
         return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
     } );
@@ -564,7 +544,7 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     }
     // Apply the various effects.
     for( auto eff : effects ) {
-        int dur = eff.duration;
+        time_duration dur = eff.duration;
         if (p.has_trait( trait_TOLERANCE )) {
             dur *= .8;
         } else if (p.has_trait( trait_LIGHTWEIGHT )) {
@@ -578,14 +558,14 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field({p.posx() + int(rng(-2, 2)), p.posy() + int(rng(-2, 2)), p.posz()}, fid, field->second, 0);
+            g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid, field->second );
         }
     }
 
     // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto& v : vitamins ) {
         // players with mutations that remove the requirement for a vitamin cannot suffer accumulation of it
-        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ), p.vitamin_rate( v.first ) > 0 ? false : true );
+        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ), p.vitamin_rate( v.first ) > 0_turns ? false : true );
     }
 
     // Output message.
@@ -601,8 +581,6 @@ long consume_drug_iuse::use(player &p, item &it, bool, const tripoint& ) const
     return it.type->charges_to_use();
 }
 
-delayed_transform_iuse::~delayed_transform_iuse() {}
-
 iuse_actor *delayed_transform_iuse::clone() const
 {
     return new delayed_transform_iuse(*this);
@@ -617,7 +595,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    //@todo change return type to time_duration
+    //@todo: change return type to time_duration
     return transform_age - to_turns<int>( it.age() );
 }
 
@@ -629,8 +607,6 @@ long delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &p
     }
     return iuse_transform::use( p, it, t, pos );
 }
-
-place_monster_iuse::~place_monster_iuse() {}
 
 iuse_actor *place_monster_iuse::clone() const
 {
@@ -649,18 +625,15 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-long place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
+long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
 {
     monster newmon( mtypeid );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
-        for( int x = p.posx() - 1; x <= p.posx() + 1; x++ ) {
-            for( int y = p.posy() - 1; y <= p.posy() + 1; y++ ) {
-                tripoint dest( x, y, pos.z );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         if( valid.empty() ) { // No valid points!
@@ -736,8 +709,6 @@ long place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) c
     return 1;
 }
 
-ups_based_armor_actor::~ups_based_armor_actor() {}
-
 iuse_actor *ups_based_armor_actor::clone() const
 {
     return new ups_based_armor_actor(*this);
@@ -792,7 +763,6 @@ long ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint& ) 
 }
 
 
-pick_lock_actor::~pick_lock_actor() {}
 
 iuse_actor *pick_lock_actor::clone() const
 {
@@ -890,8 +860,43 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint& ) const
     return it.type->charges_to_use();
 }
 
+iuse_actor *deploy_furn_actor::clone() const {
+    return new deploy_furn_actor( *this );
+}
 
-reveal_map_actor::~reveal_map_actor() {}
+void deploy_furn_actor::load( JsonObject &obj )
+{
+    furn_type = furn_str_id( obj.get_string( "furn_type" ) );
+}
+
+long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+{
+    tripoint dir = pos;
+    if( pos == p.pos() ) {
+        if( !choose_adjacent( _( "Deploy where?" ), dir ) ) {
+            return 0;
+        }
+    }
+
+    if( dir.x == p.posx() && dir.y == p.posy() ) {
+        p.add_msg_if_player( m_info,
+                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
+        return 0;
+    }
+
+    if( g->m.move_cost( dir ) != 2 ) {
+        p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
+        return 0;
+    }
+
+    if( g->m.has_furn( pos ) ) {
+        p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
+        return 0;
+    }
+
+    g->m.furn_set( dir, furn_type );
+    return 1;
+}
 
 iuse_actor *reveal_map_actor::clone() const
 {
@@ -988,7 +993,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
 {
-    if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
+    if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
         p.add_msg_if_player(_("You successfully light a fire."));
     }
 }
@@ -1054,17 +1059,17 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
     const int moves_base = moves_cost_by_fuel( pos );
-    const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / MOVES( 1 ) ) * MOVES( 1 ) );
+    const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / to_moves<int>( 1_turns ) ) * to_moves<int>( 1_turns ) );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
-    if( moves > MOVES( MINUTES( 1 ) ) ) {
+    if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
         static const std::string sun_msg =
             _("If the current weather holds, it will take around %d minutes to light a fire.");
         static const std::string normal_msg =
             _("At your skill level, it will take around %d minutes to light a fire.");
         p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
-            moves / MOVES( MINUTES( 1 ) ) );
-    } else if( moves < MOVES( 2 ) ) {
+            moves / to_moves<int>( 1_minutes ) );
+    } else if( moves < to_moves<int>( 2_turns ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
@@ -1249,7 +1254,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     add_msg(m_info, _("You try to salvage materials from the %s."), cut.tname().c_str());
 
     // Clean up before removing the item.
-    remove_ammo( &cut, p );
+    remove_ammo( cut, p );
     // Original item has been consumed.
     if( pos != INT_MIN ) {
         p.i_rem(pos);
@@ -1260,7 +1265,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     for( auto salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
-        item result( mat_name, int(calendar::turn) );
+        item result( mat_name, calendar::turn );
         if (amount > 0) {
             add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount),
                      amount, result.display_name( amount ).c_str() );
@@ -1405,7 +1410,7 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( &p, &it, string_format( _("%s what?"), _( verb.c_str() ) ) );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb.c_str() ) ) );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
@@ -1457,7 +1462,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         }
         const body_part bp = player::hp_to_bp( hpart );
         if (p.has_effect( effect_bite, bp)) {
-            p.add_effect( effect_bite, 2600, bp, true);
+            p.add_effect( effect_bite, 260_minutes, bp, true);
         }
 
         p.moves = 0;
@@ -1602,10 +1607,10 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
         /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
-        int moraleMalus = -50 * (5.0 / (float) p.get_skill_level( skill_survival ));
-        int maxMalus = -250 * (5.0 / (float)p.get_skill_level( skill_survival ));
-        int duration = 300 * (5.0 / (float)p.get_skill_level( skill_survival ));
-        int decayDelay = 30 * (5.0 / (float)p.get_skill_level( skill_survival ));
+        int moraleMalus = -50 * (5.0 / p.get_skill_level( skill_survival ));
+        int maxMalus = -250 * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration duration = 30_minutes * (5.0 / p.get_skill_level( skill_survival ));
+        time_duration decayDelay = 3_minutes * (5.0 / p.get_skill_level( skill_survival ));
 
         if (p.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
@@ -1652,17 +1657,17 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint& ) const
 
 ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint& ) const
 {
-    /** @EFFECT_SURVIVAL >1 allows enzlavement */
+    /** @EFFECT_SURVIVAL >=1 allows enzlavement */
 
-    /** @EFFECT_FIRSTAID >1 allows enzlavement */
+    /** @EFFECT_FIRSTAID >=1 allows enzlavement */
 
     // TODO: Extract such checks into some kind of 'stat_requirements' class.
-    if( p.get_skill_level( skill_survival ) <= 1 ) {
+    if( p.get_skill_level( skill_survival ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_survival->name().c_str() );
     }
 
-    if( p.get_skill_level( skill_firstaid ) <= 1 ) {
+    if( p.get_skill_level( skill_firstaid ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ), skill_firstaid->name().c_str() );
     }
@@ -1828,7 +1833,9 @@ void musical_instrument_actor::load( JsonObject &obj )
     volume = obj.get_int( "volume" );
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
-    description_frequency = obj.get_int( "description_frequency" );
+    if( !obj.read( "description_frequency", description_frequency ) ) {
+        obj.throw_error( "missing member \"description_frequency\"" );
+    }
     player_descriptions = obj.get_string_array( "player_descriptions" );
     npc_descriptions = obj.get_string_array( "npc_descriptions" );
 }
@@ -1895,20 +1902,19 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2, num_bp, false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
     }
 
     std::string desc = "";
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
-    //@todo change description_frequency to time_duration
-    if( morale_effect >= 0 && calendar::once_every( time_duration::from_turns( description_frequency ) ) ) {
+    if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
         if( !player_descriptions.empty() && p.is_player() ) {
             desc = _( random_entry( player_descriptions ).c_str() );
         } else if (!npc_descriptions.empty() && p.is_npc() ) {
             desc = string_format(_("%1$s %2$s"), p.disp_name(false).c_str(), random_entry( npc_descriptions ).c_str() );
         }
-    } else if( morale_effect < 0 && ( int(calendar::turn) % 10 ) == 0 ) {
+    } else if( morale_effect < 0 && calendar::once_every( 10_turns ) ) {
         // No musical skills = possible morale penalty
         if ( p.is_player() ) {
             desc = _("You produce an annoying sound");
@@ -1920,9 +1926,9 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     sounds::ambient_sound( p.pos(), volume, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
-        p.add_effect( effect_music, 1 );
+        p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_turns, 2_turns );
     }
 
     return 0;
@@ -2014,7 +2020,7 @@ bool holster_actor::store( player &p, item& holster, item& obj ) const
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
                          obj.tname().c_str(), holster.tname().c_str() );
 
-    // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+    // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     p.store( holster, obj, draw_cost, false );
     return true;
 }
@@ -2047,7 +2053,7 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // worn holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( p.is_worn( it ) ) {
             p.wield_contents( it, pos, draw_cost, false );
         } else {
@@ -2154,7 +2160,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
 
     item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
     if( !sel ) {
-        return false; // cancelled menu
+        return false; // canceled menu
     }
 
     p.mod_moves( -sel.moves() );
@@ -2732,7 +2738,15 @@ void heal_actor::load( JsonObject &obj )
         }
     }
 
-    used_up_item = obj.get_string( "used_up_item", used_up_item );
+    if( obj.has_string( "used_up_item" ) ) {
+        used_up_item_id = obj.get_string( "used_up_item", used_up_item_id );
+    } else if( obj.has_object( "used_up_item" ) ) {
+        JsonObject u = obj.get_object( "used_up_item" );
+        used_up_item_id = u.get_string( "id", used_up_item_id );
+        used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
+        used_up_item_charges = u.get_int( "charges", used_up_item_charges );
+        used_up_item_flags = u.get_tags( "flags" );
+    }
 }
 
 player &get_patient( player &healer, const tripoint &pos )
@@ -2873,7 +2887,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
     if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
-            int infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
+            const time_duration infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
             patient.remove_effect( effect_infected, bp_healed );
             patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
@@ -2892,14 +2906,21 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
-    if( !used_up_item.empty() ) {
+    if( !used_up_item_id.empty() ) {
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
-            it.convert( used_up_item );
+            it.convert( used_up_item_id );
+            for( const auto &flag : used_up_item_flags ) {
+                it.set_flag( flag );
+            }
         } else {
-            item used_up( used_up_item, it.birthday() );
-            healer.i_add_or_drop( used_up );
+            item used_up( used_up_item_id, it.birthday() );
+            used_up.charges = used_up_item_charges;
+            for( const auto &flag : used_up_item_flags ) {
+                used_up.set_flag( flag );
+            }
+            healer.i_add_or_drop( used_up, used_up_item_quantity );
         }
     }
 
@@ -2980,9 +3001,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             // Consider states too
             // Weights are arbitrary, may need balancing
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
             if (damage > highest_damage) {
                 highest_damage = damage;
                 healed = hp_part(i);
@@ -3219,7 +3240,7 @@ iuse_actor *emit_actor::clone() const
 void emit_actor::finalize( const itype_id &my_item_type )
 {
     /*
-    // @todo This must be called after all finalization
+    // @todo: This must be called after all finalization
     for( const auto& e : emits ) {
         if( !e.is_valid() ) {
             debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );

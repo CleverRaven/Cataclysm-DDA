@@ -58,7 +58,7 @@ void show_mutations_titlebar( const catacurses::window &window, std::string &men
 void player::power_mutations()
 {
     if( !is_player() ) {
-        // TODO: Implement NPCs activating muts
+        // TODO: Implement NPCs activating mutations
         return;
     }
 
@@ -106,7 +106,7 @@ void player::power_mutations()
     int START_Y = ( TERMY - HEIGHT ) / 2;
     catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
 
-    // Description window @ the bottom of the bio window
+    // Description window @ the bottom of the bionic window
     int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
     catacurses::window w_description = catacurses::newwin( DESCRIPTION_HEIGHT, WIDTH - 2,

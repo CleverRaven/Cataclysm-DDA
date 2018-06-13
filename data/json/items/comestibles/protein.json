@@ -3,7 +3,7 @@
     "id" : "hflesh_drink",
     "copy-from": "protein_drink",
     "type" : "COMESTIBLE",
-    "name" : "soylent green",
+    "name" : "soylent green drink",
     "name_plural" : "soylent green drinks",
     "description": "A thin slurry of refined human protein mixed with water.  While quite nutritious, it is not particularly tasty.",
     "material" : "hflesh"

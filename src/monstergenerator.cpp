@@ -57,12 +57,11 @@ bool string_id<species_type>::is_valid() const
 }
 
 MonsterGenerator::MonsterGenerator()
-    : mon_templates( new generic_factory<mtype>( "monster type", "id", "alias" ) )
-    , mon_species( new generic_factory<species_type>( "species" ) )
+    : mon_templates( "monster type", "id", "alias" )
+    , mon_species( "species" )
 {
     mon_templates->insert( mtype() );
     mon_species->insert( species_type() );
-    //ctor
     init_phases();
     init_attack();
     init_defense();
@@ -71,10 +70,7 @@ MonsterGenerator::MonsterGenerator()
     init_trigger();
 }
 
-MonsterGenerator::~MonsterGenerator()
-{
-    reset();
-}
+MonsterGenerator::~MonsterGenerator() = default;
 
 void MonsterGenerator::reset()
 {
@@ -88,7 +84,7 @@ void MonsterGenerator::reset()
 
     attack_map.clear();
     // Hardcode attacks need to be re-added here
-    // @todo Move initialization from constructor to init()
+    // @todo: Move initialization from constructor to init()
     init_attack();
 }
 
@@ -259,6 +255,7 @@ void MonsterGenerator::init_death()
     death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
     death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
+    death_map["FIREBALL"] = &mdeath::fireball;// Explode in a fireball
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
@@ -430,6 +427,7 @@ void MonsterGenerator::init_flags()
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["NOGIB"] = MF_NOGIB;
     flag_map["ABSORBS"] = MF_ABSORBS;
+    flag_map["ABSORBS_SPLITS"] = MF_ABSORBS_SPLITS;
     flag_map["LARVA"] = MF_LARVA;
     flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
     flag_map["ACID_BLOOD"] = MF_ACID_BLOOD;
@@ -452,8 +450,11 @@ void MonsterGenerator::init_flags()
     flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
+    flag_map["CATFOOD"] = MF_CATFOOD;
+    flag_map["DOGFOOD"] = MF_DOGFOOD;
     flag_map["MILKABLE"] = MF_MILKABLE;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
+    flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -507,7 +508,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     // Name and name plural are not translated here, but when needed in
     // combination with the actual count in `mtype::nname`.
     mandatory( jo, was_loaded, "name", name );
-    // default behaviour: Assume the regular plural form (appending an “s”)
+    // default behavior: Assume the regular plural form (appending an “s”)
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
     optional( jo, was_loaded, "description", description );
 
@@ -732,7 +733,7 @@ void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
 {
     if( attack_map.count( wrapper->id ) > 0 ) {
         if( test_mode ) {
-            debugmsg( "Overwritting monster attack with id %s", wrapper->id.c_str() );
+            debugmsg( "Overwriting monster attack with id %s", wrapper->id.c_str() );
         }
 
         attack_map.erase( wrapper->id );
@@ -919,8 +920,8 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.upgrades ) {
-            if( mon.half_life <= 0 ) {
-                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
+            if( mon.half_life < 0 ) {
+                debugmsg( "half_life %d (< 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
             }
             if( !mon.upgrade_into && !mon.upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );

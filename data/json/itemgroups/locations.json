@@ -15,7 +15,7 @@
               { "item": "suppressor" },
               { "item": "small_repairkit" },
               { "item": "briefcase" },
-              { "item": "cash_card", "charges-min": 50000, "charges-max": 90000 }
+              { "item": "cash_card", "charges-min": 50000, "charges-max": 250000 }
             ], "prob": 50
           },
           { "group": "guns_survival", "prob": 50 }

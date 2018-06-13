@@ -137,7 +137,7 @@ TEST_CASE( "available_recipes", "[.]" )
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.do_read( &cookbook );
+            dummy.do_read( cookbook );
             dummy.set_skill_level( r->skill_used, 2 );
 
             AND_WHEN( "he searches for the recipe in the book" ) {
@@ -164,7 +164,7 @@ TEST_CASE( "available_recipes", "[.]" )
     GIVEN( "a companion who can help with crafting" ) {
         standard_npc who( "helper", {}, 0 );
 
-        who.attitude = NPCATT_FOLLOW;
+        who.set_attitude( NPCATT_FOLLOW );
         who.spawn_at_sm( 0, 0, 0 );
 
         g->load_npcs();

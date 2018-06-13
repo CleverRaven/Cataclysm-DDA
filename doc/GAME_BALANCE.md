@@ -172,13 +172,13 @@ Should be specified first considering the below and then scaled against any equi
 <4 - **Poor**. Significant risk of catastrophic failure. Not applied by default to any item but can be acquired by damage or other factors.
 
 ### Rarity
-Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
+Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9x19mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
 
 Location          | Description                                               | With guns | Damaged   | Example
 ------------------|-----------------------------------------------------------|-----------|-----------|--------------------------
 Military site     | Only source of milspec magazines and ammo belts           | Never     | Never     | LW-56, .223 ammo belt
 Gun store         | Standard and extended capacity magazines                  | Never     | Never     | STANAG-30, Glock extended
-Police armory     | Mostly pistol magazines, especially 9mm, never extended   | Sometimes | Never     | Glock, MP5 magazine
+Police armory     | Mostly pistol magazines, especially 9x19mm, never extended| Sometimes | Never     | Glock, MP5 magazine
 SWAT truck        | Police or military magazines, occasionally extended       | Sometimes | Rarely    | MP5 extended
 Survivor basement | Anything except milspec weighted towards common types     | Often     | Sometimes | Saiga mag, M1911 extended
 Military surplus  | Older military magazines that are not current issue       | Never     | Rarely    | M9 mag, STEN magazine

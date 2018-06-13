@@ -33,8 +33,8 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "rag", 3 ] ],
-      [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "superglue", 1 ] ],
-      [ [ "hard_liquor_toxic", 14, "LIST" ] ]
+      [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ],
+      [ [ "hard_liquor_toxic", 14, "LIST" ], [ "honey_glassed", 3 ], [ "honey_bottled", 6 ] ]
     ]
   },
   {
@@ -110,6 +110,32 @@
     "components": [
       [ [ "cooking_oil", 2 ] ],
       [ [ "thyme", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "disinrag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skills_required": [ "firstaid", 1 ],
+    "time": 1000,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "disinfectant", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "disincotton_ball",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skills_required": [ "firstaid", 1 ],
+    "time": 1000,
+    "autolearn": true,
+    "components": [
+      [ [ "cotton_ball", 2 ] ],
+      [ [ "disinfectant", 1 ] ]
     ]
   }
 ]

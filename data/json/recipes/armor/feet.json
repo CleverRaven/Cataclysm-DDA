@@ -60,6 +60,26 @@
     ]
   },
   {
+    "result": "boots_acidchitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
+    "time": 80000,
+    "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "acidchitin_piece", 12 ] ],
+      [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
+    ]
+  },
+  {
     "result": "boots_fsurvivor",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -199,12 +219,12 @@
     "time": 480000,
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 250 ], [ "oxy_torch", 50 ] ]
     ],

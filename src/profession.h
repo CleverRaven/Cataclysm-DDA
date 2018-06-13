@@ -88,7 +88,7 @@ class profession
         static const std::vector<profession> &get_all();
 
         static bool has_initialized();
-        // clear profession map, every profession pointer becames invalid!
+        // clear profession map, every profession pointer becomes invalid!
         static void reset();
         /** calls @ref check_definition for each profession */
         static void check_definitions();
@@ -117,7 +117,7 @@ class profession
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        bool can_pick( player *u, int points ) const;
+        bool can_pick( const player &u, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
 };

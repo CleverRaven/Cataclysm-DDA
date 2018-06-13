@@ -1,5 +1,80 @@
 [
   {
+    "type": "recipe",
+    "result": "bowl_clay",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 20000,
+    "autolearn": true,
+    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ] ],
+    "tools": [ [ [ "brick_kiln", 40 ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "clay_canister",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ] ],
+    "tools": [ [ [ "brick_kiln", 60 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "clay_lump", 2 ] ],
+      [ [ "leather", 2 ], [ "fur", 2 ] ],
+      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 200 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "clay_hydria",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 45000,
+    "autolearn": true,
+    "using": [ [ "cordage_short", 2 ], [ "glazing", 2 ] ],
+    "tools": [ [ [ "brick_kiln", 120 ] ] ],
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "clay_lump", 10 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "clay_watercont",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 80000,
+    "autolearn": true,
+    "using": [ [ "cordage_short", 2 ], [ "glazing", 3 ] ],
+    "tools": [ [ [ "brick_kiln", 160 ] ] ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "clay_lump", 20 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "jug_clay",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 25000,
+    "autolearn": true,
+    "using": [ [ "cordage_short", 2 ], [ "glazing", 1 ] ],
+    "tools": [ [ [ "brick_kiln", 50 ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 6 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
+  },
+  {
     "result": "keg_steel",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -9,14 +84,43 @@
     "time": 164062,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_standard", 13 ] ],
-    "qualities": [
-        { "id": "HAMMER", "level": 3 },
-        { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1] ]
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "stomach_sealed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 30000,
+    "autolearn": true,
+    "using": [ [ "waterproofing", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 5 ], [ "water_clean", 5 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "large_stomach_sealed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 45000,
+    "autolearn": true,
+    "using": [ [ "waterproofing", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 8 ], [ "water_clean", 8 ] ],
+      [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ] ],
+      [ [ "cordage_short", 3, "LIST" ], [ "filament", 150, "LIST" ] ]
     ]
   }
 ]

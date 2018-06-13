@@ -75,7 +75,7 @@
         "type" : "martial_art",
         "id" : "style_boxing",
         "name" : "Boxing",
-        "description" : "Sport of the true Gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
+        "description" : "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
         "arm_block" : 2,
         "leg_block" : 99,
            "static_buffs" : [
@@ -145,7 +145,7 @@
         "type" : "martial_art",
         "id" : "style_tai_chi",
         "name" : "Tai Chi",
-        "description" : "Though tai chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+        "description" : "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
         "arm_block" : 1,
         "leg_block" : 99,
         "static_buffs" : [
@@ -218,7 +218,7 @@
                 "melee_allowed" : true,
                 "min_unarmed" : 0,
                 "mult_bonuses" : [["damage", "stab", 1.2]],
-                "description" : "Increased cutting damage"
+                "description" : "Increased stabbing damage"
             }
         ],
         "techniques" : [
@@ -594,7 +594,7 @@
         "type" : "martial_art",
         "id" : "style_eskrima",
         "name" : "Eskrima",
-        "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasises rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+        "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
@@ -808,7 +808,7 @@
                 "min_unarmed" : 2,
                 "buff_duration" : 3,
                 "max_stacks" : 8,
-                "flat_bonuses" : [["damage", "bash", "per", 3.0]]
+                "flat_bonuses" : [["damage", "bash", 3.0]]
             }
         ],
         "techniques" : [
@@ -922,7 +922,7 @@
         "type" : "martial_art",
         "id" : "style_lizard",
         "name" : "Lizard Kung Fu",
-        "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker.  Lizard Style focuses on using walls to your advantage.",
+        "description": "One of the Five Deadly Venoms.  Lizard Style focuses on using walls to your advantage.",
         "arm_block" : 2,
         "leg_block" : 99,
         "techniques" : [

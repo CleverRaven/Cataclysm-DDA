@@ -11,8 +11,6 @@
 #include "mongroup.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "worldfactory.h"
-#include "catacharset.h"
 #include "npc.h"
 #include "vehicle.h"
 #include "filesystem.h"
@@ -41,7 +39,7 @@ std::string overmapbuffer::terrain_filename(int const x, int const y)
 {
     std::ostringstream filename;
 
-    filename << world_generator->active_world->world_path << "/";
+    filename << g->get_world_base_save_path() << "/";
     filename << "o." << x << "." << y;
 
     return filename.str();
@@ -51,8 +49,7 @@ std::string overmapbuffer::player_filename(int const x, int const y)
 {
     std::ostringstream filename;
 
-    filename << world_generator->active_world->world_path << "/" << base64_encode(
-                 g->u.name) << ".seen." << x << "." << y;
+    filename << g->get_player_base_save_path() << ".seen." << x << "." << y;
 
     return filename.str();
 }
@@ -149,9 +146,9 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     }
     // Second step: put them back where they belong. This step involves loading
     // new overmaps (via `get`), which does in turn call this function for the
-    // newly loaded overmaps. This in turn may move npcs from the second overmap
+    // newly loaded overmaps. This in turn may move NPCs from the second overmap
     // back into the first overmap. This messes up the iteration of it. The
-    // iteration is therefor done in a separate step above (which does *not*
+    // iteration is therefore done in a separate step above (which does *not*
     // involve loading new overmaps).
     for( auto &ptr : to_relocate ) {
         npc &np = *ptr;
@@ -619,7 +616,7 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
     // XXXXXXXXX
     //
     // See overmap::place_specials for how we attempt to insure specials are placed within this range.
-    // The actual number is 5 becuase 1 covers the current overmap,
+    // The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
 
     int max = ( radius == 0 ? OMAPX * 5 : radius );
@@ -762,7 +759,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
 std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
 {
     std::vector<std::shared_ptr<npc>> available;
-    //@todo this is an arbitrary radius, replace with something sane.
+    //@todo: this is an arbitrary radius, replace with something sane.
     for( const auto &guy : get_npcs_near_player( 100 ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );
@@ -778,7 +775,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near( int x, int y, in
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             const tripoint pos = guy.global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
                 return false;
@@ -796,7 +793,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     std::vector<std::shared_ptr<npc>> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc &guy ) {
-            // Global position of NPC, in submap coordiantes
+            // Global position of NPC, in submap coordinates
             tripoint pos = guy.global_omt_location();
             if( z != INT_MIN && pos.z != z) {
                 return false;

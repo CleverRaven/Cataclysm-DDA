@@ -1,5 +1,56 @@
 [
   {
+    "result": "3006_clip",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 2 ],
+    "time": 20000,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 }
+    ],
+    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "762x39_clip",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 2 ],
+    "time": 20000,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 }
+    ],
+    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "components": [ [ [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "result": "762R_clip",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 2 ],
+    "time": 20000,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 }
+    ],
+    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
     "result": "garandclip",
     "type": "recipe",
     "category": "CC_WEAPON",
@@ -79,5 +130,19 @@
       [ [ "spring", 1 ] ],
       [ [ "duct_tape", 40 ] ]
     ]
+  },
+  {
+    "result": "aux_pressurized_tank",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "mechanics", 3 ],
+    "time": 40000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 1 } ],
+    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "components": [ [ [ "metal_tank_little", 1 ] ] ]
   }
 ]

@@ -26,7 +26,7 @@ struct fire_data {
  * Contains burning parameters for a given material.
  *
  * Contains the parameters which define how a given material reacts to being burned.  This is
- * currently used by the calcutions in @ref item::burn() to determine smoke produced and fuel
+ * currently used by the calculations in @ref item::burn() to determine smoke produced and fuel
  * values contributed to a fire.
  *
  * A given material will generally contain several of these structures, indexed by fire intensity.

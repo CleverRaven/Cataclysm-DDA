@@ -29,6 +29,7 @@
         "copy-from": "fake_item",
         "type": "TOOL",
         "name": "bionic goggles",
+        "name_plural": "bionic goggles",
         "qualities": [ ["GLARE", 2] ]
     },
     {
@@ -54,5 +55,52 @@
         "artifact_data": {
            "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ]
         }
+    },
+    {
+        "id": "acid_spit",
+        "type": "GUN",
+        "copy-from": "fake_item",
+        "name": "acid spit gun",
+        "description": "Fake gun that fires acid globs.",
+        "flags": [ "NEVER_JAMS" ],
+        "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+        "skill": "rifle",
+        "durability": 10,
+        "range" : 100,
+        "dispersion" : 1000,
+        "ranged_damage" : {
+            "damage_type": "acid",
+            "amount": 4
+        }
+    },
+    {
+      "id" : "reach_bow",
+      "type" : "GUN",
+      "symbol" : "(",
+      "color" : "yellow",
+      "name" : "reach bow",
+      "description" : "A test item that is both a ranged weapon and a reach weapon",
+      "price" : 16000,
+      "material" : "steel",
+      "flags" : ["REACH_ATTACK"],
+      "skill" : "archery",
+      "ammo" : "arrow",
+      "weight" : 340,
+      "volume" : 6,
+      "bashing" : 6,
+      "ranged_damage" : 3,
+      "range" : 5,
+      "dispersion" : 210,
+      "durability" : 6,
+      "clip_size" : 1,
+      "reload" : 60,
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
+    },
+    {
+        "id": "boulder_anvil",
+        "type": "TOOL",
+        "copy-from": "fake_item",
+        "name": "boulder anvil",
+        "qualities": [ [ "ANVIL", 1 ] ]
     }
 ]

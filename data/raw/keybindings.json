@@ -1059,6 +1059,42 @@
         ]
     },
     {
+        "type": "keybinding",
+        "id": "TOGGLE_SPACE",
+        "category": "LIGHTSON",
+        "name": "Toggle lights",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":" "
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "TOGGLE_5",
+        "category": "LIGHTSON",
+        "name": "Toggle lights",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"5"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "RESET",
+        "category": "LIGHTSON",
+        "name": "Reset level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
         "type" : "keybinding",
         "id":"CONFIRM",
         "name":"Confirm Choice",
@@ -1569,7 +1605,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"?"
+                "key":"0"
             }
         ]
     },
@@ -2090,7 +2126,7 @@
     { "type":"keybinding", "name": "View Kills", "category":"DEFAULTMODE", "id":"kills", "bindings":[ { "input_method":"keyboard", "key":")" } ] },
     { "type":"keybinding", "name": "View Morale", "category":"DEFAULTMODE", "id":"morale", "bindings":[ { "input_method":"keyboard", "key":"v" } ] },
     { "type":"keybinding", "name": "View Message Log", "category":"DEFAULTMODE", "id":"messages", "bindings":[ { "input_method":"keyboard", "key":"P" } ] },
-    { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"?" } ] },
+    { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"0" } ] },
     { "type":"keybinding", "name": "Zoom In", "category":"DEFAULTMODE", "id":"zoom_in", "bindings":[ { "input_method":"keyboard", "key":"z" } ] },
     { "type":"keybinding", "name": "Zoom Out", "category":"DEFAULTMODE", "id":"zoom_out", "bindings":[ { "input_method":"keyboard", "key":"Z" } ] },
     { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode" },
@@ -2100,7 +2136,7 @@
     { "type":"keybinding", "name": "Toggle Fullscreen mode", "category":"DEFAULTMODE", "id":"toggle_fullscreen" },
     { "type":"keybinding", "name": "Toggle Pixel Minimap", "category":"DEFAULTMODE", "id":"toggle_pixel_minimap", "bindings":[ { "input_method":"keyboard", "key":"N" } ] },
     { "type":"keybinding", "name": "Toggle Auto pulp or butcher", "category":"DEFAULTMODE", "id":"toggle_auto_pulp_butcher" },
-    { "type":"keybinding", "name": "Action Menu", "category":"DEFAULTMODE", "id":"action_menu" },
+    { "type":"keybinding", "name": "Action Menu", "category":"DEFAULTMODE", "id":"action_menu", "bindings":[ { "input_method":"keyboard", "key":"RETURN" } ] },
     { "type":"keybinding", "name": "Item Action Menu", "category":"DEFAULTMODE", "id":"item_action_menu", "bindings":[ { "input_method":"keyboard", "key":"%" } ] },
     { "type":"keybinding", "name": "Quicksave", "category":"DEFAULTMODE", "id":"quicksave" },
     { "type":"keybinding", "name": "Quickload", "category":"DEFAULTMODE", "id":"quickload" },

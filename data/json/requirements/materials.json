@@ -42,6 +42,22 @@
     "components": [ [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ] ] ]
   },
   {
+    "id": "glazing",
+    "type": "requirement",
+    "//": "Materials for glazing pottery",
+    "components": [
+      [
+        [ "tallow", 1 ],
+        [ "cooking_oil", 1 ],
+        [ "wax", 1 ],
+        [ "lamp_oil", 200 ],
+        [ "salt_water", 5 ],
+        [ "ash", 50 ],
+        [ "tin", 50 ]
+      ]
+    ]
+  },
+  {
     "id": "rope_natural",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible",
@@ -64,5 +80,11 @@
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "id": "waterproofing",
+    "type": "requirement",
+    "//": "Materials for waterproofing leather and wooden items.",
+    "components": [ [ [ "wax", 1 ], [ "pine_bough", 5 ] ] ]
   }
 ]

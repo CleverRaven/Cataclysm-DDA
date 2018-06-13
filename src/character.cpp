@@ -3,6 +3,7 @@
 #include "map.h"
 #include "bionics.h"
 #include "map_selector.h"
+#include "effect.h"
 #include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
@@ -17,12 +18,14 @@
 #include "mtype.h"
 #include "player.h"
 #include "mutation.h"
+#include "skill.h"
 #include "vehicle.h"
 #include "output.h"
 #include "veh_interact.h"
 #include "cata_utility.h"
-
+#include "pathfinding.h"
 #include "string_formatter.h"
+
 #include <algorithm>
 #include <sstream>
 #include <numeric>
@@ -108,7 +111,11 @@ static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
-Character::Character() : Creature(), visitable<Character>()
+Character::Character() : Creature(), visitable<Character>(), hp_cur(
+{{
+        0
+    }
+} ), hp_max( {{0}} )
 {
     str_max = 0;
     dex_max = 0;
@@ -130,12 +137,16 @@ Character::Character() : Creature(), visitable<Character>()
     stomach_food = 0;
     stomach_water = 0;
 
-    name = "";
+    name.clear();
 
-    path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
 }
 
 Character::~Character() = default;
+Character::Character( const Character & ) = default;
+Character::Character( Character && ) = default;
+Character &Character::operator=( const Character & ) = default;
+Character &Character::operator=( Character && ) = default;
 
 field_id Character::bloodType() const
 {
@@ -189,21 +200,18 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += encumb( bp_eyes );
+    dispersion += encumb( bp_eyes ) / 2;
 
     return std::max( dispersion, 0 );
 }
 
-std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) const
+std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
 {
     // Get fastest sight that can be used to improve aim further below @ref recoil.
     int sight_speed_modifier = INT_MIN;
     int limit = 0;
-    if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = 6;
-        limit = effective_dispersion( gun.type->gun->sight_dispersion );
-    } else if ( gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = 0;
+    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+        sight_speed_modifier = gun.has_flag( "DISABLE_SIGHTS" ) ? 0 : 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -220,6 +228,23 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
     return std::make_pair( sight_speed_modifier, limit );
 }
 
+int Character::get_most_accurate_sight( const item &gun ) const
+{
+    if( !gun.is_gun() ) {
+        return 0;
+    }
+
+    int limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    for( const auto e : gun.gunmods() ) {
+        const islot_gunmod &mod = *e->type->gunmod;
+        if( mod.aim_speed >= 0 ) {
+            limit = std::min( limit, effective_dispersion( mod.sight_dispersion ) );
+        }
+    }
+
+    return limit;
+}
+
 double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
 {
     double skill_mult = 1.0;
@@ -233,7 +258,7 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    return skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
+    return skill_mult * std::min( MAX_SKILL, get_skill_level( gun_skill ) );
 }
 
 double Character::aim_speed_dex_modifier() const
@@ -271,7 +296,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
         return 0.0;
     }
 
-    std::pair<int, int> best_sight = get_best_sight( gun, recoil );
+    std::pair<int, int> best_sight = get_fastest_sight( gun, recoil );
     int sight_speed_modifier = best_sight.first;
     int limit = best_sight.second;
     if( sight_speed_modifier == INT_MIN ) {
@@ -453,7 +478,7 @@ bool Character::move_effects(bool attacking)
     return true;
 }
 
-void Character::add_effect( const efftype_id &eff_id, int dur, body_part bp,
+void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
@@ -502,7 +527,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() ) {
+    if( is_blind() || in_sleep_state() ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
@@ -788,7 +813,7 @@ item Character::i_rem(int pos)
  item tmp;
  if (pos == -1) {
      tmp = weapon;
-     weapon = ret_null;
+     weapon = item();
      return tmp;
  } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
      auto iter = worn.begin();
@@ -806,7 +831,7 @@ item Character::i_rem(const item *it)
     auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; }, 1 );
     if( tmp.empty() ) {
         debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
-        return ret_null;
+        return item();
     }
     return tmp.front();
 }
@@ -822,7 +847,7 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
-    inv.assign_empty_invlet( it , this );
+    inv.assign_empty_invlet( it, *this );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
@@ -860,7 +885,7 @@ bool Character::has_active_item(const itype_id & id) const
 item Character::remove_weapon()
 {
  item tmp = weapon;
- weapon = ret_null;
+ weapon = item();
  return tmp;
 }
 
@@ -912,9 +937,10 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();
+        const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
-            if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
+        src.visit_items( [&src,&nested,&out,&mags,ammo]( item *node ) {
+            if( node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
@@ -931,9 +957,13 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
             if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
                 out = item_location( src, node );
             }
+            if( node->is_magazine() && node->has_flag( "SPEEDLOADER" ) ) {
+                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                    out = item_location( src, node );
+                }
+            }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
-
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
@@ -1148,56 +1178,57 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
-SkillLevel& Character::get_skill_level( const skill_id &ident )
+SkillLevel &Character::get_skill_level_object( const skill_id &ident )
 {
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
-                  get_name().c_str() );
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
     } else {
-        return _skills[ident];
+        return (*_skills)[ident];
     }
 
     null_skill.level( 0 );
     return null_skill;
 }
 
-SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
+int Character::get_skill_level( const skill_id &ident ) const
+{
+    return get_skill_level_object( ident ).level();
+}
+
+const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
 {
     static const SkillLevel null_skill;
 
-    if( !ident ) {
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
-    const auto iter = _skills.find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+    const auto iter = _skills->find( ident );
 
-    if( iter != _skills.end() ) {
+    if( iter != _skills->end() ) {
         return iter->second;
-    }
-
-    if( ident->is_contextual_skill() ) {
-        if( context.is_null() ) {
-            debugmsg( "Skill \"%s\" possessed by %s requires a non-empty context.", ident->name().c_str(),
-                      get_name().c_str() );
-        } else {
-            debugmsg( "Item \"%s\" hasn't provided a suitable context for skill \"%s\" possessed by %s.",
-                      context.tname().c_str(), ident->name().c_str(), get_name().c_str() );
-        }
     }
 
     return null_skill;
 }
 
-void Character::set_skill_level( const skill_id &ident, const int level )
+int Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    get_skill_level( ident ).level( level );
+    return get_skill_level_object( context.is_null() ? ident : context.contextualize_skill( ident ) ).level();
 }
 
-void Character::boost_skill_level( const skill_id &ident, const int delta )
+void Character::set_skill_level( const skill_id &ident, const int level )
 {
-    set_skill_level( ident, delta + get_skill_level( ident ) );
+    get_skill_level_object( ident ).level( level );
+}
+
+void Character::mod_skill_level( const skill_id &ident, const int delta )
+{
+    SkillLevel &obj = get_skill_level_object( ident );
+    obj.level( obj.level() + delta );
 }
 
 std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
@@ -1263,7 +1294,6 @@ void Character::normalize()
 {
     Creature::normalize();
 
-    ret_null = item("null", 0);
     weapon   = item("null", 0);
 
     recalc_hp();
@@ -1411,17 +1441,18 @@ void Character::reset_encumbrance()
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
 {
-    return calc_encumbrance( ret_null );
+    return calc_encumbrance( item() );
 }
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
 {
-    std::array<encumbrance_data, num_bp> ret;
 
-    item_encumb( ret, new_item );
-    mut_cbm_encumb( ret );
+    std::array<encumbrance_data, num_bp> enc;
 
-    return ret;
+    item_encumb( enc, new_item );
+    mut_cbm_encumb( enc );
+
+    return enc;
 }
 
 units::mass Character::get_weight() const
@@ -1449,10 +1480,12 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
     return calc_encumbrance( new_item );
 }
 
-using layer_data = std::array<int, MAX_CLOTHING_LAYER>;
+int Character::extraEncumbrance( const layer_level level, const int bp ) const
+{
+	return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+}
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 std::array<layer_data, num_bp> &layers,
                  const item &it, bool power_armor )
 {
     const auto item_layer = it.get_layer();
@@ -1463,17 +1496,14 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
     const int armorenc = !power_armor || !it.is_power_armor() ?
         encumber_val : std::max( 0, encumber_val - 40 );
 
-    for( size_t i = 0; i < num_bp; i++ ) {
-        body_part bp = body_part( i );
+    for( const body_part bp : all_body_parts ) {
         if( !it.covers( bp ) ) {
             continue;
         }
 
-        int &this_layer = layers[i][item_layer];
-        this_layer = std::max( this_layer, layering_encumbrance );
+        vals[bp].layer( static_cast<layer_level>( item_layer ), layering_encumbrance );
 
-        vals[i].armor_encumbrance += armorenc;
-        vals[i].layer_penalty += layering_encumbrance;
+        vals[bp].armor_encumbrance += armorenc;
     }
 }
 
@@ -1485,6 +1515,26 @@ bool Character::is_wearing_active_power_armor() const
         }
     }
     return false;
+}
+
+void layer_details::reset() {
+    *this = layer_details();
+}
+
+// The stacking penalty applies by doubling the encumbrance of
+// each item except the highest encumbrance one.
+// So we add them together and then subtract out the highest.
+int layer_details::layer( const int encumbrance ) {
+    pieces.push_back( encumbrance );
+
+    int current = total;
+    if( encumbrance > max ) {
+        total += max;   // *now* the old max is counted, just ignore the new max
+        max = encumbrance;
+    } else {
+        total += encumbrance;
+    }
+    return total - current;
 }
 
 /*
@@ -1504,35 +1554,28 @@ bool Character::is_wearing_active_power_armor() const
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const
+void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
+                             const item &new_item ) const
 {
-    // The highest encumbrance of any one item on the layer.
-    std::array<layer_data, num_bp> layers = {{
-        {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}
-    }};
+
+    // reset all layer data
+    vals = std::array<encumbrance_data, num_bp>();
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto& w : worn ) {
-        layer_item( vals, layers, w, power_armored );
+        layer_item( vals, w, power_armored );
     }
 
     if( !new_item.is_null() ) {
-        layer_item( vals, layers, new_item, power_armored );
+        layer_item( vals, new_item, power_armored );
     }
 
-    // The stacking penalty applies by doubling the encumbrance of
-    // each item except the highest encumbrance one.
-    // So we add them together and then subtract out the highest.
-    for( size_t i = 0; i < num_bp; i++ ) {
-        for( size_t j = 0; j < MAX_CLOTHING_LAYER; j++ ) {
-            vals[i].layer_penalty -= std::max( 0, layers[i][j] );
-        }
-    }
+    // make sure values are sane
+    for( const body_part bp : all_body_parts ) {
+        encumbrance_data &elem = vals[bp];
 
-    // Make sure the values are sane
-    for( auto &elem : vals ) {
         elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
-        elem.layer_penalty = std::max( 0, elem.layer_penalty );
+
         // Add armor and layering penalties for the final values
         elem.encumbrance += elem.armor_encumbrance + elem.layer_penalty;
     }
@@ -1545,7 +1588,7 @@ int Character::encumb( body_part bp ) const
 
 void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                             const mutation_branch &mut,
-                            const std::bitset<num_bp> &oversize )
+                            const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
@@ -1589,14 +1632,14 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     }
 }
 
-std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
+body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
 {
-    std::bitset<num_bp> ret;
-    ret.set();
+    body_part_set ret = body_part_set::all();
+
     for( const auto &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
             // Unset the parts covered by this item
-            ret &= ( ~elem.get_covered_body_parts() );
+            ret &= ~elem.get_covered_body_parts();
         }
     }
 
@@ -1663,13 +1706,13 @@ int Character::get_int_bonus() const
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
-    return std::max( ( 20.0 - get_dex() ) * 2.5, 0.0 );
+    return std::max( ( 20.0 - get_dex() ) * 0.5, 0.0 );
 }
 
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 2.0, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 1.0, 0.0 );
 }
 
 int Character::get_healthy() const
@@ -1848,7 +1891,7 @@ int Character::get_fatigue() const
 
 void Character::reset_bonuses()
 {
-    // Reset all bonuses to 0 and mults to 1.0
+    // Reset all bonuses to 0 and multipliers to 1.0
     str_bonus = 0;
     dex_bonus = 0;
     per_bonus = 0;
@@ -1922,7 +1965,7 @@ hp_part Character::body_window( const std::string &menu_header,
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
     const int y_off = 2; // 1 for border, 1 for header
 
-    /* This struct estabiles some kind of connection between the hp_part (which can be healed and
+    /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
@@ -2355,7 +2398,7 @@ long Character::ammo_count_for( const item &gun )
 float Character::rest_quality() const
 {
     // Just a placeholder for now.
-    // @todo Waiting/reading/being unconscious on bed/sofa/grass
+    // @todo: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
@@ -2413,7 +2456,7 @@ body_part Character::get_random_body_part( bool main ) const
 
 std::vector<body_part> Character::get_all_body_parts( bool main ) const
 {
-    // @todo Remove broken parts, parts removed by mutations etc.
+    // @todo: Remove broken parts, parts removed by mutations etc.
     static const std::vector<body_part> all_bps = {{
         bp_head,
         bp_eyes,
@@ -2441,10 +2484,10 @@ std::vector<body_part> Character::get_all_body_parts( bool main ) const
     return main ? main_bps : all_bps;
 }
 
-// @todo Better place for it?
+// @todo: Better place for it?
 std::string tag_colored_string( const std::string &s, nc_color color )
 {
-    // @todo Make this tag generation a function, put it in good place
+    // @todo: Make this tag generation a function, put it in good place
     std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
     return color_tag_open + s;
 }
@@ -2485,7 +2528,7 @@ std::string Character::extended_description() const
         ss << std::string( longest - bp_heading.size() + 1, ' ' );
         ss << tag_colored_string( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
-        // @todo Integrate into get_hp_bar somehow
+        // @todo: Integrate into get_hp_bar somehow
         ss << tag_colored_string( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
         ss << std::endl;
     }
@@ -2524,7 +2567,7 @@ float calc_mutation_value( const std::vector<const mutation_branch *> &mutations
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // @todo Get rid of if/else ladder
+    // @todo: Get rid of if/else ladder
     if( val == "healing_awake" ) {
         return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
     } else if( val == "healing_resting" ) {
@@ -2553,7 +2596,7 @@ float Character::mutation_value( const std::string &val ) const
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    // @todo Cache
+    // @todo: Cache
     float awake_rate = mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {

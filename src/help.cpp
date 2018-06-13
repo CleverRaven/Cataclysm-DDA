@@ -172,7 +172,7 @@ available cargo space, various fuel level indicators, and so on." ) ) );
     text.push_back( string_format( _( "Becoming a skilled mechanic, you may want \
 to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency \
 play significant roles it this process.  Named coefficients are measured in the range \
-from 100%% (which means ideal conditions) to 0%% (terrible inefficiency)." ) ) );
+from 0%% (which means terrible inefficiency) to 100%% (ideal conditions)." ) ) );
 
     int fig_last_line = pos_y + 8;
     std::vector<std::string> remained_text;
@@ -590,7 +590,7 @@ several other firearms. The firearms in the game often reflect real-world protot
 of caliber and compatibility. Below are some examples of interchangeable ammo:\n\
 .308 = 7.62x51mm,\n\
 .223 = 5.56 NATO,\n\
-.270 = 30-06,\n\
+.270 = .30-06,\n\
 .40 S&W = 10mm." ) );
 
     text.push_back( _( "Magazine descriptions also list the compatible ammo." ) );
@@ -1029,7 +1029,7 @@ or injured can also make you feel the cold more, so try to avoid these effects b
 
     text.push_back( _( "\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the irc channel #CataclysmDDA on freenode." ) );
+A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the IRC channel #CataclysmDDA on freenode." ) );
 
     return text;
 }

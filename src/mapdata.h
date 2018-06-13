@@ -85,7 +85,7 @@ struct map_deconstruct_info {
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
- * MOUNTABLE - Player can fire mounted weapons from here (EG: M2 Browning)
+ * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
  * GOES_UP - Can use '<' to go up a level
@@ -180,11 +180,15 @@ enum ter_connects : int {
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
     TERCONN_WATER,
+    TERCONN_PAVEMENT,
 };
 
 struct map_data_common_t {
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
+    
+    public:
+        virtual ~map_data_common_t() = default;
 
     protected:
         friend furn_t null_furniture_t();
@@ -194,7 +198,7 @@ struct map_data_common_t {
 
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
 
 public:
         std::string name() const;
@@ -301,6 +305,7 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
 
@@ -329,8 +334,8 @@ void verify_terrain();
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
 ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
-the code that can use the perormance boost and refer to core terrain types), and they are -not-
-provided for terrains added by mods. A string equivalent is always present, ie;
+the code that can use the performance boost and refer to core terrain types), and they are -not-
+provided for terrains added by mods. A string equivalent is always present, i.e.;
 t_basalt
 "t_basalt"
 */

@@ -3,7 +3,7 @@
         "type":"GENERIC",
         "id" : "mjolnir",
         "name" : "Mjölnir",
-        "description" : "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n \nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to...\nCRUSH!!'",
+        "description" : "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n \nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to...\nCRUSH!'",
         "weight" : 5443,
         "color" : "light_gray",
         "symbol" : "/",
@@ -1110,7 +1110,7 @@
         "volume": 2,
         "weight": 970,
         "bashing": 12,
-        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
+        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE"]
     },
     {
         "type":"GENERIC",
@@ -1281,7 +1281,7 @@
         "weight": 129,
         "volume": 1,
         "cutting": 6,
-        "flags": ["SHEATH_KNIFE", "CONDUCTIVE"],
+        "flags": ["SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE"],
         "qualities": [["BUTCHER", -18]]
     },{
         "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
@@ -1739,7 +1739,7 @@
     "color": "light_gray",
     "name": "jian",
     "name_plural": "jian",
-    "description": "This is an ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attatched to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.",
+    "description": "This is an ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.",
     "price": 100000,
     "material": "steel",
     "flags" : ["DURABLE_MELEE", "SHEATH_SWORD"],

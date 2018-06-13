@@ -82,6 +82,9 @@ struct uimenu_entry {
 class ui_container
 {
     public:
+        virtual ~ui_container() = default;
+
+    public:
         int w_x;
         int w_y;
         int w_width;
@@ -134,7 +137,7 @@ class uimenu_callback
         };
         virtual void refresh( uimenu * ) {};
         virtual void redraw( uimenu * ) {};
-        virtual ~uimenu_callback() {};
+        virtual ~uimenu_callback() = default;
 };
 /*@}*/
 /**
@@ -227,7 +230,6 @@ class uimenu: public ui_container
         void settext( std::string str );
 
         void reset();
-        ~uimenu();
 
         operator int() const;
 
@@ -252,7 +254,7 @@ class pointmenu_cb : public uimenu_callback
         tripoint last_view; // to reposition the view after selecting
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
-        ~pointmenu_cb() override { };
+        ~pointmenu_cb() override = default;
         void select( int num, uimenu *menu ) override;
         void refresh( uimenu *menu ) override;
 };

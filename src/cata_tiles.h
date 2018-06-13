@@ -225,11 +225,10 @@ struct minimap_submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     minimap_submap_cache( minimap_shared_texture_pool &pool );
+    minimap_submap_cache( minimap_submap_cache && );
     //handle the release of the borrowed texture
     ~minimap_submap_cache();
 };
-
-using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 
 class tileset
 {
@@ -364,9 +363,7 @@ class tileset_loader
 class cata_tiles
 {
     public:
-        /** Default constructor */
         cata_tiles( SDL_Renderer *render );
-        /** Default destructor */
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -588,7 +585,7 @@ class cata_tiles
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         minimap_shared_texture_pool tex_pool;
-        std::map< tripoint, minimap_cache_ptr> minimap_cache;
+        std::map<tripoint, minimap_submap_cache> minimap_cache;
 
         //persistent tiled minimap values
         void init_minimap( int destx, int desty, int width, int height );

@@ -10,6 +10,7 @@
 #include "json.h"
 #include "map.h"
 #include "mapgen.h"
+#include "map_extras.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -380,7 +381,7 @@ void start_location::burn( const tripoint &omtstart,
     }
     random_shuffle( valid.begin(), valid.end() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], fd_fire, 3, 0 );
+        m.add_field( valid[i], fd_fire, 3 );
     }
     m.save();
 }
@@ -407,7 +408,7 @@ void start_location::handle_heli_crash( player &u ) const
         switch( roll ) {
             case 1:
             case 2:// Damage + Bleed
-                u.add_effect( effect_bleed, 60, bp_part );
+                u.add_effect( effect_bleed, 6_minutes, bp_part );
             /* fallthrough */
             case 3:
             case 4:

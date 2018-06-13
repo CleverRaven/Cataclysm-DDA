@@ -36,6 +36,9 @@ static constexpr int KEY_ENTER      = 0x157;    /* enter */
 static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
 static constexpr int KEY_END        = 0x168;    /* End */
 
+static constexpr int LEGEND_HEIGHT = 11;
+static constexpr int BORDER_SPACE = 2;
+
 bool is_mouse_enabled();
 std::string get_input_string_from_file( std::string fname = "input.txt" );
 
@@ -180,6 +183,12 @@ class input_manager
          */
         const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
                 const std::string context = "default", bool *overwrites_default = NULL );
+
+        /**
+         * Return first char associated with an action ID in a given context.
+         */
+        long get_first_char_for_action( const std::string action_descriptor,
+                                        const std::string context = "default" );
 
         /**
          * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -448,7 +457,7 @@ class input_context
          * Displays the possible actions in the current context and their
          * keybindings.
          */
-        void display_help();
+        void display_menu();
 
         /**
          * Temporary method to retrieve the raw input received, so that input_contexts

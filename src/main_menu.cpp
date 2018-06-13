@@ -239,7 +239,7 @@ std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
 
 void main_menu::display_credits()
 {
-    // astyle got this redundant indent
+    // AStyle got this redundant indent
     catacurses::window w_credits_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                           ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                           ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
@@ -519,7 +519,7 @@ bool main_menu::opening_screen()
                         print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
-                        ctxt_default.display_help();
+                        ctxt_default.display_menu();
                     } else if( sel2 == 2 ) {
                         get_auto_pickup().show();
                     } else if( sel2 == 3 ) {
@@ -545,6 +545,7 @@ bool main_menu::new_character_tab()
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
+        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now! (<F|f>ixed Scenario)" ) );
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::vector<std::string>> vNewGameHotkeys;
@@ -595,11 +596,11 @@ bool main_menu::new_character_tab()
                 sel1 = 1;
             }
             if( action == "UP" || action == "CONFIRM" ) {
-                if( sel2 == 0 || sel2 == 2 || sel2 == 3 ) {
+                if( sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4 ) {
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
-                    WORLDPTR world = world_generator->pick_world( sel2 != 3 );
+                    WORLDPTR world = world_generator->pick_world( sel2 != 3 && sel2 != 4 );
                     if( world == NULL ) {
                         continue;
                     }
@@ -611,7 +612,22 @@ bool main_menu::new_character_tab()
                         g->u = player();
                         continue;
                     }
-                    if( !g->u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
+                    character_type play_type = PLTYPE_CUSTOM;
+                    switch( sel2 ) {
+                        case 0:
+                            play_type = PLTYPE_CUSTOM;
+                            break;
+                        case 2:
+                            play_type = PLTYPE_RANDOM;
+                            break;
+                        case 3:
+                            play_type = PLTYPE_NOW;
+                            break;
+                        case 4:
+                            play_type = PLTYPE_FULL_RANDOM;
+                            break;
+                    }
+                    if( !g->u.create( play_type ) ) {
                         g->u = player();
                         werase( w_background );
                         wrefresh( w_background );
@@ -621,7 +637,7 @@ bool main_menu::new_character_tab()
                     werase( w_background );
                     wrefresh( w_background );
 
-                    if( !g->start_game( world->world_name ) ) {
+                    if( !g->start_game() ) {
                         g->u = player();
                         continue;
                     }
@@ -704,7 +720,7 @@ bool main_menu::new_character_tab()
                 }
                 werase( w_background );
                 wrefresh( w_background );
-                if( !g->start_game( world_generator->active_world->world_name ) ) {
+                if( !g->start_game() ) {
                     g->u = player();
                     continue;
                 }
@@ -842,7 +858,7 @@ bool main_menu::load_character_tab()
                         continue;
                     }
 
-                    g->load( world->world_name, savegames[sel3] );
+                    g->load( savegames[sel3] );
                     start = true;
                 }
             }

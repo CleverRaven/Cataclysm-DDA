@@ -307,7 +307,6 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  -DLANGUAGES="cs;de;el;es_AR;es_ES"
  ```
 
-
  * LUA_BINARY=`<str>`
 
  Override default Lua binary name or path. You can try to use `luajit` for extra speed.
@@ -316,3 +315,8 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  * GIT_BINARY=`<str>`
 
  Override default Git binary name or path.
+ 
+ So a CMake command for building Cataclysm-DDA in release mode with tiles, sound and lua support will look as follows, provided it is run in build directory located in the project.
+```
+cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON -DLUA=ON
+```

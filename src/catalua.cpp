@@ -29,6 +29,7 @@
 #include "morale_types.h"
 #include "trap.h"
 #include "overmap.h"
+#include "gun_mode.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
@@ -60,6 +61,20 @@ std::string lua_file_path = "";
 
 std::stringstream lua_output_stream;
 std::stringstream lua_error_stream;
+
+// Not used in the C++ code, but implicitly required by the Lua bindings.
+// Gun modes need to be created via an actual item.
+template<>
+const gun_mode &string_id<gun_mode>::obj() const
+{
+    static const gun_mode dummy{};
+    return dummy;
+}
+template<>
+bool string_id<gun_mode>::is_valid() const
+{
+    return false;
+}
 
 #if LUA_VERSION_NUM < 502
 // Compatibility, for before Lua 5.2, which does not have luaL_setfuncs
@@ -179,7 +194,7 @@ bool lua_report_error( lua_State *L, int err, const char *path, bool simple = fa
  * thefoo.something(); // do something with it, not that myfoo and thefoo are different objects
  * \endcode
  *
- * @param T is the type of object that should be managed. It must be copy-constructable.
+ * @param T is the type of object that should be managed. It must be copy-constructible.
  */
 template<typename T>
 class LuaValue {
@@ -271,7 +286,7 @@ private:
      */
     static int index( lua_State * const L )
     {
-        // -2 is the userdata, -1 is the key (funtion to call)
+        // -2 is the userdata, -1 is the key (function to call)
         const char * const key = lua_tostring( L, -1 );
         if( key == nullptr ) {
             luaL_error( L, "Invalid input to __index: key is not a string." );
@@ -624,7 +639,7 @@ template<typename T>
 struct LuaType<LuaReference<T>> : public LuaReference<T> {
 };
 
-/** This basically transforms a string (therefor inheriting from LuaType<string>) into a C++
+/** This basically transforms a string (therefore inheriting from LuaType<string>) into a C++
  * enumeration value. It simply contains a table of string-to-enum-values. */
 template<typename E>
 class LuaEnum : private LuaType<std::string> {
@@ -658,7 +673,7 @@ private:
     }
     static int index( lua_State * const L )
     {
-        // -1 is the key (funtion to call)
+        // -1 is the key (function to call)
         const char * const key = lua_tostring( L, -1 );
         if( key == nullptr ) {
             luaL_error( L, "Invalid input to __index: key is not a string." );
@@ -830,7 +845,7 @@ void lua_callback(const char *callback_name)
 }
 
 //
-int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, float, const std::string &scr)
+int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, const time_point &t, float, const std::string &scr)
 {
     if( lua_state == nullptr ) {
         return 0;
@@ -843,18 +858,18 @@ int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, f
     if( lua_report_error( L, err, scr.c_str() ) ) {
         return err;
     }
-    //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
+    //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // @todo; make use of this
     //    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
 
     lua_pushstring(L, terrain_type.id().c_str());
     lua_setglobal(L, "tertype");
-    lua_pushinteger(L, t);
+    lua_pushinteger( L, to_turn<int>( t ) );
     lua_setglobal(L, "turn");
 
     err = lua_pcall(L, 0 , LUA_MULTRET, 0);
     lua_report_error( L, err, scr.c_str() );
 
-    //    luah_remove_from_registry(L, function_index); // todo: make use of this
+    //    luah_remove_from_registry(L, function_index); // @todo: make use of this
 
     return err;
 }
@@ -1059,7 +1074,7 @@ void lua_loadmod(std::string base_path, std::string main_file_name)
     if( file_exist( full_path ) ) {
         lua_file_path = base_path;
         lua_dofile( lua_state, full_path.c_str() );
-        lua_file_path = "";
+        lua_file_path.clear();
     }
     // debugmsg("Loading from %s", full_path.c_str());
 }

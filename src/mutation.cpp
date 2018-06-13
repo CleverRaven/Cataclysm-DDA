@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "overmapbuffer.h"
+#include "map_iterator.h"
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
@@ -94,8 +95,8 @@ void Character::unset_mutation( const trait_id &flag )
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
         my_mutations.erase( iter );
-        const mutation_branch *mut = &flag.obj();
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
+        const mutation_branch &mut = *flag;
+        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                                 cached_mutations.end() );
     } else {
         return;
@@ -368,7 +369,7 @@ void player::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        g->m.add_field(pos(), fd_web, 1, 0);
+        g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
         if( is_underwater() ) {
@@ -388,21 +389,20 @@ void player::activate_mutation( const trait_id &mut )
             tdata.powered = false;
             return;
         }
-        int turns;
+        time_duration time_to_do = 0_turns;
         if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
             g->m.ter(dirp) != t_tree) {
-            // Takes 30 minutes
             // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-            turns = MINUTES( 30 );
+            time_to_do = 30_minutes;
         } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
                    g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
-            turns = MINUTES( 10 );
+            time_to_do = 10_minutes;
         } else {
             add_msg_if_player(m_info, _("You can't burrow there."));
             tdata.powered = false;
             return;
         }
-        assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
+        assign_activity( activity_id( "ACT_BURROW" ), to_moves<int>( time_to_do ), -1, 0 );
         activity.placement = dirp;
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirp).c_str());
@@ -410,16 +410,13 @@ void player::activate_mutation( const trait_id &mut )
         return; // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty(dest)) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if (g->is_empty(dest)) {
+                valid.push_back( dest );
             }
         }
         // Oops, no room to divide!
-        if (valid.size() == 0) {
+        if( valid.empty() ) {
             add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
             tdata.powered = false;
             return;
@@ -600,7 +597,7 @@ void player::mutate()
         }
     } else {
         // Remove existing mutations that don't fit into our category
-        if (!downgrades.empty() && cat != "") {
+        if( !downgrades.empty() && !cat.empty() ) {
             size_t roll = rng(0, downgrades.size() + 4);
             if (roll < downgrades.size()) {
                 remove_mutation(downgrades[roll]);
@@ -616,10 +613,10 @@ void player::mutate()
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with MUTCAT_NULL
         if (!first_pass) {
-            cat = "";
+            cat.clear();
         }
 
-        if (cat == "") {
+        if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.second.valid ) {
@@ -645,7 +642,7 @@ void player::mutate()
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while (valid.empty() && cat != "");
+    } while ( valid.empty() && !cat.empty() );
 
     if (valid.empty()) {
         // Couldn't find anything at all!
@@ -663,7 +660,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo Turn it into the null id
+    // @todo: Turn it into the null id
     if( cat == "MUTCAT_ANY" ) {
         mutate();
         return;
@@ -775,7 +772,7 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
+    // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if (threshold) {
         add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;
@@ -797,7 +794,7 @@ bool player::mutate_towards( const trait_id &mut )
         return false;
     }
 
-    // Check if one of the prereqs that we have TURNS INTO this one
+    // Check if one of the prerequisites that we have TURNS INTO this one
     trait_id replacing = trait_id::NULL_ID();
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
@@ -937,7 +934,7 @@ bool player::mutate_towards( const trait_id &mut )
 void player::remove_mutation( const trait_id &mut )
 {
     const auto &mdata = mut.obj();
-    // Check if there's a prereq we should shrink back into
+    // Check if there's a prerequisite we should shrink back into
     trait_id replacing = trait_id::NULL_ID();
     std::vector<trait_id> originals = mdata.prereqs;
     for (size_t i = 0; !replacing && i < originals.size(); i++) {
@@ -962,8 +959,8 @@ void player::remove_mutation( const trait_id &mut )
         }
     }
 
-    // See if this mutation is cancelled by a base trait
-    //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
+    // See if this mutation is canceled by a base trait
+    //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {

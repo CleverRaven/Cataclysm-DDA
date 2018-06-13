@@ -1554,6 +1554,7 @@
         "description" : "Tea, the beverage of gentlemen everywhere.",
         "price" : 90,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -1593,9 +1594,11 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 40,
+        "addiction_potential" : 2,
         "nutrition" : 3,
         "description" : "Coffee.  The morning ritual of the pre-apocalyptic world.",
         "price" : 100,
+        "material" : "water",
         "volume" : 1,
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
@@ -1620,6 +1623,7 @@
         "nutrition" : 4,
         "description" : "This serving of coffee has been created using an atomic coffee pot's FULL NUCLEAR brewing cycle.  Every possible microgram of caffeine and flavor has been carefully extracted for your enjoyment, using the power of the atom.",
         "price" : 300,
+        "material" : "water",
         "volume" : 1,
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
@@ -1666,17 +1670,14 @@
         "fun" : -50
     },
     {
-        "type" : "COMESTIBLE",
+        "type" : "GENERIC",
         "id" : "bone",
         "category" : "spare_parts",
         "name" : "bone",
         "weight" : 225,
         "color" : "white",
-        "comestible_type" : "FOOD",
         "symbol" : "%",
-        "healthy" : -1,
-        "nutrition" : 4,
-        "description" : "A bone from some creature or other.  Could be eaten or used to make some stuff, like needles.",
+        "description" : "A bone from some creature or other.  Could be used to make some stuff, like needles.",
         "price" : 0,
         "material" : "bone",
         "volume" : 1
@@ -1944,12 +1945,12 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -1,
-        "nutrition" : 8,
+        "nutrition" : 3,
         "description" : "A type of lunch meat that comes pre-sliced.  Its first name isn't Oscar.  Can be eaten cold.",
         "price" : 1000,
         "material" : "flesh",
-        "volume" : 4,
-        "charges" : 40, "//" : "320 nutrition, net loss from 400 as cooked meat, but lasts much longer."
+        "volume" : 1,
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1962,12 +1963,12 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -1,
-        "nutrition" : 8,
+        "nutrition" : 3,
         "description" : "A type of lunch meat made out of human flesh that comes pre-sliced.  Its first name may have been Oscar.  Can be eaten cold.",
         "price" : 2000,
         "material" : "hflesh",
-        "volume" : 4,
-        "charges" : 40
+        "volume" : 1,
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -2153,6 +2154,7 @@
         "description" : "A healthy beverage made from dandelion roots steeped in boiling water.",
         "price" : 50,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -2175,7 +2177,9 @@
         "material" : "flesh",
         "flags" : "TRADER_AVOID",
         "volume" : 1,
-        "fun" : -10
+        "fun": -10,
+        "rot_spawn": "GROUP_CARRION_INFECTED",
+        "rot_spawn_chance": 15
     },
     {
         "type" : "COMESTIBLE",
@@ -2284,7 +2288,8 @@
         "price" : 0,
         "material" : "veggy",
         "flags": "TRADER_AVOID",
-        "volume" : 1
+        "volume": 1,
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -2630,7 +2635,8 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
+        "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -2648,8 +2654,9 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"]
-    },
+        "flags": [ "EATEN_HOT" ],
+        "rot_spawn": "GROUP_ROTTING_PLANT"
+	},
     {
         "type" : "COMESTIBLE",
         "id" : "apple",
@@ -3011,7 +3018,7 @@
         "symbol" : "%",
         "quench" : -2,
         "nutrition" : 8,
-        "description" : "A bag of cheap, own-brand chips.",
+        "description" : "Some plain, salted potato chips.",
         "price" : 135,
         "material" : "junk",
         "volume" : 1,
@@ -3040,8 +3047,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "nachos",
-        "name" : "nachos",
-        "name_plural" : "nachos",
+        "name" : "tortilla chips",
+        "name_plural" : "tortilla chips",
         "weight" : 85,
         "color" : "yellow",
         "container" : "bag_plastic",
@@ -3049,7 +3056,7 @@
         "symbol" : "%",
         "quench" : -10,
         "nutrition" : 4,
-        "description" : "Salted corn chips, could really use some cheese, maybe some beef.",
+        "description" : "Salted chips made from corn tortillas, could really use some cheese, maybe some beef.",
         "price" : 170,
         "material" : "junk",
         "volume" : 1,
@@ -3069,7 +3076,7 @@
         "symbol" : "%",
         "quench" : -10,
         "nutrition" : 12,
-        "description" : "Salted corn chips, now with cheese.  Could stand to have some meat.",
+        "description" : "Salted chips made from corn tortillas, now with cheese.  Could stand to have some meat.",
         "price" : 250,
         "material" : ["junk", "milk"],
         "volume" : 1,
@@ -3090,7 +3097,7 @@
         "symbol" : "%",
         "quench" : -10,
         "nutrition" : 12,
-        "description" : "Salted corn chips, now with meat.  Could probably use some cheese, though.",
+        "description" : "Salted chips made from corn tortillas, now with meat.  Could probably use some cheese, though.",
         "price" : 250,
         "material" : ["junk", "flesh"],
         "volume" : 1,
@@ -3111,7 +3118,7 @@
         "symbol" : "%",
         "quench" : -10,
         "nutrition" : 12,
-        "description" : "Salted corn chips, with human flesh.  Some cheese might make it even better.",
+        "description" : "Salted chips made from corn tortillas, with human flesh.  Some cheese might make it even better.",
         "price" : 250,
         "material" : ["junk", "hflesh"],
         "volume" : 1,
@@ -3132,7 +3139,7 @@
         "symbol" : "%",
         "quench" : -10,
         "nutrition" : 24,
-        "description" : "Salted corn chips with ground meat and smothered in cheese.  Delicious.",
+        "description" : "Salted chips made from corn tortillas with ground meat and smothered in cheese.  Delicious.",
         "price" : 300,
         "material" : ["flesh", "milk", "junk"],
         "volume" : 1,
@@ -3153,7 +3160,7 @@
         "symbol" : "%",
         "quench" : -10,
         "nutrition" : 24,
-        "description" : "Salted corn chips with human flesh and smothered in cheese.  Delicious.",
+        "description" : "Salted chips made from corn tortillas with human flesh and smothered in cheese.  Delicious.",
         "price" : 300,
         "material" : ["hflesh", "milk", "junk"],
         "volume" : 1,
@@ -3318,18 +3325,17 @@
         "id" : "smores",
         "name" : "s'mores",
         "name_plural" : "s'mores",
-        "weight" : 24,
+        "weight" : 6,
         "color" : "brown",
         "stim" : 8,
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "nutrition" : 2,
+        "nutrition" : 24,
         "description" : "A pair of graham crackers with some chocolate and a marshmallow between them.",
         "price" : 400,
         "material" : ["wheat", "junk"],
         "volume" : 1,
-        "charges" : 4,
         "fun" : 30
     },
     {
@@ -3748,7 +3754,8 @@
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "fun" : -3
+        "fun": -3,
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -3802,7 +3809,8 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "fun" : 1
+        "fun": 1,
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -4157,29 +4165,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_barley",
-        "category": "other",
-        "price" : 160,
-        "name" : "barley seed",
-        "name_plural" : "barley seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some barley seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 5,
-        "charges" : 2,
-        "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "barley",
-            "fruit": "barley",
-            "byproducts": [ "straw_pile" ],
-            "grow" : 70
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "sugar_beet",
         "name" : "sugar beet",
         "weight" : 310,
@@ -4195,27 +4180,6 @@
         "volume" : 4,
         "charges" : 4,
         "fun" : -10
-    },
-    {   "type" : "COMESTIBLE",
-        "id" : "seed_sugar_beet",
-        "category": "other",
-        "price" : 120,
-        "name" : "sugar beet seed",
-        "name_plural" : "sugar beet seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some sugar beet seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 0,
-        "weight" : 5,
-        "charges" : 4,
-        "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "sugar beet",
-            "fruit": "sugar_beet",
-            "grow" : 90
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -4233,29 +4197,6 @@
         "material" : "veggy",
         "volume" : 3,
         "charges" : 4
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_lettuce",
-        "category": "other",
-        "price" : 50,
-        "name" : "lettuce seed",
-        "name_plural" : "lettuce seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some lettuce seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "lettuce",
-            "fruit": "lettuce",
-            "byproducts": [ "withered" ],
-            "grow" : 85
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -4277,29 +4218,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_cabbage",
-        "category": "other",
-        "price" : 50,
-        "name" : "cabbage seed",
-        "name_plural" : "cabbage seeds",
-        "symbol" : ".",
-        "color" : "light_gray",
-        "description" : "Some white cabbage seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "cabbage",
-            "fruit": "cabbage",
-            "byproducts": [ "withered" ],
-            "grow" : 85
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "tomato",
         "name" : "tomato",
         "name_plural" : "tomatoes",
@@ -4318,57 +4236,11 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_tomato",
-        "category": "other",
-        "price" : 50,
-        "name" : "tomato seed",
-        "name_plural" : "tomato seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some tomato seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "tomato",
-            "fruit": "tomato",
-            "byproducts": [ "withered" ],
-            "grow" : 65
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_cotton_boll",
-        "category": "other",
-        "price" : 50,
-        "name" : "cotton seed",
-        "name_plural" : "cotton seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some cotton seeds.  Can be processed to produce an edible oil.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 5,
-        "charges" : 8,
-        "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "cotton",
-            "fruit": "cotton_boll",
-            "byproducts": [ "withered" ],
-            "grow" : 130
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "cotton_boll",
         "name" : "cotton boll",
         "name_plural" : "cotton bolls",
         "category" : "other",
-        "weight" : 540,
+        "weight" : 26,
         "color" : "light_green",
         "comestible_type" : "FOOD",
         "symbol" : "%",
@@ -4402,29 +4274,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_broccoli",
-        "category": "other",
-        "price" : 50,
-        "name" : "broccoli seed",
-        "name_plural" : "broccoli seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some broccoli seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "broccoli",
-            "fruit": "broccoli",
-            "byproducts": [ "withered" ],
-            "grow" : 75
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "zucchini",
         "name" : "zucchini",
         "weight" : 180,
@@ -4439,29 +4288,6 @@
         "material" : "veggy",
         "volume" : 1,
         "flags" : ["EATEN_HOT"]
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_zucchini",
-        "category": "other",
-        "price" : 50,
-        "name" : "zucchini seed",
-        "name_plural" : "zucchini seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some zucchini seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "zucchini",
-            "fruit": "zucchini",
-            "byproducts": [ "withered" ],
-            "grow" : 47
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -4483,29 +4309,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_onion",
-        "category": "other",
-        "price" : 50,
-        "name" : "onion seed",
-        "name_plural" : "onion seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some onion seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "onion",
-            "fruit": "onion",
-            "byproducts": [ "withered" ],
-            "grow" : 65
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "garlic",
         "name" : "garlic bulb",
         "weight" : 120,
@@ -4521,32 +4324,6 @@
         "volume" : 1,
         "fun" : -18,
         "fun_comment" : "Who in their right mind would eat an entire garlic bulb raw?"
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_garlic",
-        "category": "other",
-        "price" : 50,
-        "name" : "garlic clove",
-        "name_plural" : "garlic cloves",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Cloves of garlic.  Useful as a seasoning, or for planting.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "quench" : -3,
-        "nutrition" : 3,
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 6,
-        "stack_size" : 6,
-        "fun" : -3,
-        "seed_data": {
-            "plant_name": "garlic",
-            "fruit": "garlic",
-            "byproducts": [ "withered" ],
-            "grow" : 65
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -4569,29 +4346,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_carrot",
-        "category": "other",
-        "price" : 50,
-        "name" : "carrot seed",
-        "name_plural" : "carrot seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some carrot seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "carrot",
-            "fruit": "carrot",
-            "byproducts": [ "withered" ],
-            "grow" : 65
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "corn",
         "name" : "corn",
         "name_plural" : "corn",
@@ -4610,29 +4364,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_corn",
-        "category": "other",
-        "price" : 50,
-        "name" : "corn seed",
-        "name_plural" : "corn seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some corn seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "corn",
-            "fruit": "corn",
-            "byproducts": [ "withered" ],
-            "grow" : 80
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "chili_pepper",
         "name" : "chili pepper",
         "weight" : 114,
@@ -4647,29 +4378,6 @@
         "material" : "veggy",
         "volume" : 1,
         "fun" : -2
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_chili_pepper",
-        "category": "other",
-        "price" : 50,
-        "name" : "chili pepper seed",
-        "name_plural" : "chili pepper seeds",
-        "symbol" : ".",
-        "color" : "white",
-        "description" : "Some chili pepper seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "chili_pepper",
-            "fruit": "chili_pepper",
-            "byproducts": [ "withered" ],
-            "grow" : 65
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -4829,7 +4537,7 @@
         "description" : "Now with ONE POUND of meat and ONE POUND of carbs!  Not as appetizing or nutritious as it would be if heated up.",
         "price" : 320,
         "material" : ["flesh", "junk"],
-        "volume" : 5,
+        "volume" : 4,
         "fun" : -3
     },
     {
@@ -4847,7 +4555,7 @@
         "description" : "Now with ONE POUND of meat and ONE POUND of carbs!  Nice and heated up.  It's tastier and more filling, but will also spoil quickly.",
         "price" : 90,
         "material" : ["flesh", "junk"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -5497,7 +5205,7 @@
         "color" : "pink",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
-        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
+        "flags" : [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -12,
@@ -5517,7 +5225,7 @@
         "color" : "brown",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
-        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
+        "flags" : [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -8,
@@ -5537,7 +5245,7 @@
         "color" : "brown",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
-        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
+        "flags" : [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "healthy" : -8,
@@ -5620,33 +5328,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "marloss_seed",
-        "name" : "marloss seed",
-        "name_plural" : "marloss seeds",
-        "weight" : 177,
-        "color" : "cyan",
-        "addiction_type" : "marloss_b",
-        "use_action" : "MARLOSS_SEED",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "quench" : 5,
-        "healthy" : -10,
-        "addiction_potential" : 5,
-        "nutrition" : 20,
-        "description" : "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
-        "price" : 0,
-        "material" : "fruit",
-        "volume" : 0,
-        "stack_size" : 10,
-        "fun" : 30,
-        "seed_data": {
-            "fruit": "null", "//": "dummy entry, results are hardcoded",
-            "plant_name": "marloss berry",
-            "grow" : 91
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "marloss_gel",
         "name" : "marloss gelatin",
         "name_plural" : "marloss gelatin",
@@ -5685,6 +5366,7 @@
         "material" : "fruit",
         "volume" : 1,
         "stack_size" : 4,
+        "flags" : ["MYCUS_OK"],
         "fun" : 30
     },
     {
@@ -5760,29 +5442,7 @@
         "charges" : 4,
         "fun" : -10
     },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_oats",
-        "category": "other",
-        "price" : 50,
-        "name" : "oat seed",
-        "name_plural" : "oat seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some oat seeds.",
-        "material" : "wheat",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 5,
-        "charges" : 4,
-        "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "oats",
-            "fruit": "oats",
-            "byproducts": [ "withered" ],
-            "grow" : 45
-        }
-    },
+
     {
         "type" : "COMESTIBLE",
         "id" : "dry_beans",
@@ -6130,7 +5790,7 @@
         "symbol" : "%",
         "quench" : -1,
         "nutrition" : 1,
-        "description" : "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and burdock.",
+        "description" : "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, fireweed, and burdock.",
         "price" : 190,
         "material" : "veggy",
         "volume" : 1,
@@ -6157,6 +5817,7 @@
         "description" : "A healthy beverage made from herbs steeped in boiling water.",
         "price" : 100,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -6175,6 +5836,7 @@
         "description" : "A fragrant and healthy beverage made from pine needles steeped in boiling water.",
         "price" : 0,
         "volume" : 1,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : 1,
@@ -6220,13 +5882,13 @@
         "id" : "powder_eggs",
         "name" : "powdered egg",
         "name_plural" : "powdered eggs",
-        "weight" : 1,
+        "weight" : 2,
         "color" : "yellow",
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : -2,
-        "nutrition" : 3,
+        "nutrition" : 2,
         "description" : "Whole fresh eggs, dehydrated into an easy to store powder.",
         "price" : 1120,
         "material" : [ "powder", "egg" ],
@@ -6370,51 +6032,6 @@
         "charges" : 8,
         "bashing" : 2,
         "fun" : -1
-    },{
-        "type" : "COMESTIBLE",
-        "id" : "raw_beans",
-        "name" : "raw beans",
-        "name_plural" : "raw beans",
-        "weight" : 210,
-        "color" : "brown",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "healthy" : -2,
-        "nutrition" : 14,
-        "description" : "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
-        "price" : 90,
-        "material" : "veggy",
-        "volume" : 1,
-        "fun" : -1,
-        "seed_data": {
-            "plant_name": "beans",
-            "fruit": "raw_beans",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_potato_raw",
-        "category": "other",
-        "price" : 50,
-        "name" : "seed potato",
-        "name_plural" : "seed potatoes",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "A raw potato, cut into pieces, separating each bud for planting.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 20,
-        "charges" : 4,
-        "stack_size" : 10,
-        "seed_data": {
-            "plant_name": "potatoes",
-            "fruit": "potato_raw",
-            "byproducts": [ "withered" ],
-            "grow" : 95
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -6891,7 +6508,7 @@
         "description" : "A delicious baked pie with a sweet fruit filling.",
         "price" : 1250,
         "material" : ["wheat", "fruit"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -6912,7 +6529,7 @@
         "description" : "A delicious baked pie with a delicious vegetable filling.",
         "price" : 1250,
         "material" : ["wheat", "veggy"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -6933,10 +6550,12 @@
         "description" : "A delicious baked pie with a delicious meat filling.",
         "price" : 1350,
         "material" : ["wheat", "flesh"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
-        "fun" : 3
+        "fun": 3,
+        "rot_spawn": "GROUP_ROTTING_TRIFFID_FAVOR",
+        "rot_spawn_chance": 20
     },
     {
         "type" : "COMESTIBLE",
@@ -6954,7 +6573,7 @@
         "description" : "A meat pie with a little soldier, or maybe scientist, who knows.  God, that's good!",
         "price" : 1950,
         "material" : ["wheat", "hflesh"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -6976,7 +6595,7 @@
         "description" : "A sweet and delicious baked pie with pure maple syrup.",
         "price" : 1850,
         "material" : ["wheat", "milk"],
-        "volume" : 5,
+        "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -7237,6 +6856,7 @@
         "nutrition" : 2,
         "description" : "Dried leaves of a tropical plant.  You can boil them into tea, or you can just eat them raw.  They aren't too filling though.",
         "price" : 1030,
+        "material" : "veggy",
         "volume" : 1,
         "charges" : 20,
         "fun" : -1
@@ -7249,6 +6869,7 @@
         "weight" : 14,
         "color" : "brown",
         "addiction_type" : "caffeine",
+        "addiction_potential" : 1,
         "use_action" : "CAFF",
         "stim" : 8,
         "container" : "bag_plastic",
@@ -7256,6 +6877,7 @@
         "symbol" : "%",
         "description" : "Ground coffee beans.  You can boil it into a mediocre stimulant, or swallow it raw for a lesser stimulative boost.",
         "price" : 900,
+        "material" : "powder",
         "volume" : 1,
         "charges" : 20,
         "fun" : -5
@@ -7314,7 +6936,7 @@
         "symbol" : "%",
         "nutrition" : 25,
         "description" : "Delicious sponge cake with buttercream icing, it says happy birthday on it.",
-        "price" : 0,
+        "price" : 1500,
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "fun" : 20
@@ -7323,32 +6945,21 @@
         "type" : "COMESTIBLE",
         "id" : "cake2",
         "name" : "cake",
-        "weight" : 420,
-        "color" : "white",
-        "stim" : 4,
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "nutrition" : 25,
+        "copy-from": "jihelucake",
         "description" : "Delicious chocolate cake.  It has all the icing.  All of it.",
-        "price" : 0,
-        "material" : ["wheat", "junk"],
-        "volume" : 1,
-        "fun" : 20
+        "price" : 1800,
+        "stim" : 4
     },
     {
         "type" : "COMESTIBLE",
         "id" : "cake3",
         "name" : "cake",
-        "weight" : 420,
-        "color" : "white",
+        "copy-from": "jihelucake",
         "stim" : 8,
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
         "quench" : -5,
         "nutrition" : 20,
         "description" : "A cake coated in the thickest icing you've ever seen.  Someone has written guff in quotation marks on it...",
-        "price" : 0,
-        "material" : ["wheat", "junk"],
+        "price" : 2200,
         "volume" : 3,
         "fun" : 30
     },
@@ -7607,31 +7218,6 @@
         "fun" : 15
     },
     {
-        "type" : "COMESTIBLE",
-        "id" : "seed_weed",
-        "category": "other",
-        "name" : "cannabis seed",
-        "color" : "green",
-        "use_action" : "SEED",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "quench" : -1,
-        "healthy" : 1,
-        "nutrition" : 2,
-        "description" : "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
-        "price" : 100,
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "cannabis",
-            "fruit": "cannabis",
-            "grow" : 91
-        }
-    },
-    {
         "id": "mayonnaise",
         "type": "COMESTIBLE",
         "symbol": "~",
@@ -7645,11 +7231,10 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 15,
-        "nutrition": 15,
+        "nutrition": 3,
         "spoils_in": 160,
         "charges": 5,
-        "fun": -5,
+        "fun": -1,
         "phase": "liquid"
     },
     {
@@ -7685,8 +7270,8 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 10,
-        "nutrition": 10,
+        "fun": -1,
+        "nutrition": 3,
         "charges": 5,
         "phase": "liquid"
     },
@@ -7924,7 +7509,7 @@
         "color" : "red",
         "addiction_type" : "alcohol",
         "use_action" : "MUTAGEN",
-        "flags" : ["MUTAGEN_WEAK"],
+        "flags" : [ "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
         "stim" : -60,
         "container" : "bottle_glass",
         "comestible_type" : "DRINK",
@@ -8333,25 +7918,6 @@
         "stack_size" : 2,
         "fun" : 6
     },
-    {   "type" : "AMMO",
-        "id" : "fungal_seeds",
-        "category": "other",
-        "price" : 100,
-        "name" : "fungal seed",
-        "symbol" : ".",
-        "color" : "dark_gray",
-        "description" : "Some fungal seeds.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "ammo_type" : "NULL",
-        "stack_size" : 8,
-        "seed_data": {
-            "fruit": "null", "//": "dummy entry, results are hardcoded",
-            "plant_name": "fungal flower",
-            "grow" : 91
-        }
-    },
     {
         "type" : "COMESTIBLE",
         "id" : "choco_coffee_beans",
@@ -8365,7 +7931,7 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : -1,
-        "addiction_potential" : 3,
+        "addiction_potential" : 2,
         "nutrition" : 1,
         "description" : "Roasted coffee beans coated with dark chocolate, natural source of concentrated caffeine.",
         "price" : 300,
@@ -8466,9 +8032,10 @@
     },{
         "type" : "COMESTIBLE",
         "id" : "coffee_bean",
-        "category": "other",
+        "category": "seeds",
         "container": "bag_plastic",
         "price" : 50,
+        "material" : "veggy",
         "name" : "coffee beans",
         "name_plural" : "coffee beans",
         "symbol" : ".",
@@ -8476,6 +8043,7 @@
         "description" : "Some coffee beans, can be roasted.",
         "comestible_type": "FOOD",
         "addiction_type": "caffeine",
+        "addiction_potential" : 1,
         "volume" : 1,
         "stack_size" : 40,
         "weight" : 1
@@ -8485,6 +8053,7 @@
         "category": "other",
         "container": "bag_plastic",
         "price" : 50,
+        "material" : "veggy",
         "name" : "roasted coffee beans",
         "name_plural" : "roasted coffee beans",
         "symbol" : ".",
@@ -8492,6 +8061,7 @@
         "description" : "Some roasted coffee beans, can be ground into powder.",
         "comestible_type": "FOOD",
         "addiction_type": "caffeine",
+        "addiction_potential" : 1,
         "volume" : 1,
         "stack_size" : 40,
         "weight" : 1
@@ -9712,7 +9282,9 @@
         "material" : "egg",
         "volume" : 1,
         "stack_size" : 4,
-        "fun" : -8
+        "fun": -8,
+        "rot_spawn": "GROUP_EGG_CHICKEN",
+        "rot_spawn_chance": 60
     },{
         "type" : "COMESTIBLE",
         "id" : "egg_reptile",
@@ -9730,7 +9302,9 @@
         "material" : "egg",
         "volume" : 1,
         "stack_size" : 4,
-        "fun" : -12
+        "fun": -12,
+        "rot_spawn": "GROUP_EGG_SNAKE",
+        "rot_spawn_chance": 60
     },
     {
         "type" : "COMESTIBLE",
@@ -9800,28 +9374,6 @@
         "volume" : 1
     },{
         "type" : "COMESTIBLE",
-        "id" : "seed_cucumber",
-        "category": "other",
-        "price" : 50,
-        "name" : "cucumber seed",
-        "name_plural" : "cucumber seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some cucumber seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "cucumber",
-            "fruit": "cucumber",
-            "byproducts": [ "withered" ],
-            "grow" : 60
-        }
-    },{
-        "type" : "COMESTIBLE",
         "id" : "irradiated_cucumber",
         "name" : "irradiated cucumber",
         "weight" : 150,
@@ -9851,29 +9403,6 @@
         "price" : 200,
         "material" : "veggy",
         "volume" : 1
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_celery",
-        "category": "other",
-        "price" : 50,
-        "name" : "celery seed",
-        "name_plural" : "celery seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some celery seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "celery",
-            "fruit": "celery",
-            "byproducts": [ "withered" ],
-            "grow" : 130
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -10303,7 +9832,7 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "flags" : ["EATEN_COLD", "MUTAGEN_WEAK"],
+        "flags" : ["EATEN_COLD", "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
         "fun" : -15
     },
     {
@@ -10416,10 +9945,11 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 40,
+        "addiction_potential" : 2,
         "nutrition" : 8,
         "description" : "Coffee milk is pretty much the official morning drink among many countries.",
         "price" : 480,
-        "material" : "milk",
+        "material" : ["milk", "water"],
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
@@ -10442,7 +9972,7 @@
         "nutrition" : 8,
         "description" : "Usually consumed in the mornings, milk tea is common among many countries.",
         "price" : 450,
-        "material" : "milk",
+        "material" : [ "milk", "water" ],
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
@@ -10466,7 +9996,7 @@
         "nutrition" : 8,
         "description" : "A traditional south Asian mixed-spice tea with milk.",
         "price" : 475,
-        "material" : "milk",
+        "material" : [ "milk", "water" ],
         "volume" : 1,
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
@@ -10486,6 +10016,7 @@
         "description" : "Often regarded as folk medicine in some countries, bark tea tastes awful and tends to dry you out, but can help flush out stomach or other gut bugs.",
         "price" : 1250,
         "volume" : 2,
+        "material" : [ "water" ],
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
         "fun" : -5
@@ -10755,96 +10286,6 @@
         "volume" : 1,
         "price" : 0
     },{
-        "type" : "COMESTIBLE",
-        "id" : "seed_thyme",
-        "category": "other",
-        "price" : 120,
-        "name" : "thyme seeds",
-        "name_plural" : "thyme seeds",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some thyme seeds.  You could probably plant these.",
-        "comestible_type": "FOOD",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "thyme",
-            "fruit": "thyme",
-            "grow" : 91
-        }
-    },{
-        "type" : "COMESTIBLE",
-        "id" : "seed_canola",
-        "category": "other",
-        "price" : 120,
-        "name" : "canola seeds",
-        "name_plural" : "canola seeds",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some canola seeds.  You could probably plant these, or press them into oil.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "canola",
-            "fruit": "seed_canola",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-    },{
-        "type" : "COMESTIBLE",
-        "id" : "seed_pumpkin",
-        "category": "other",
-        "name" : "pumpkin seed",
-        "weight" : 1,
-        "color" : "green",
-        "use_action" : "SEED",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "nutrition" : 2,
-        "description" : "Some raw pumpkin seeds.  Could be fried and eaten or planted.",
-        "price" : 100,
-        "material" : "veggy",
-        "volume" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "pumpkin",
-            "fruit": "pumpkin",
-            "fruit_div": 3,
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-    },{
-        "type" : "COMESTIBLE",
-        "id" : "seed_sunflower",
-        "category": "other",
-        "name" : "sunflower seed",
-        "weight" : 1,
-        "color" : "green",
-        "use_action" : "SEED",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "nutrition" : 2,
-        "description" : "Some raw sunflower seeds.  Could be pressed into oil.",
-        "price" : 100,
-        "material" : "veggy",
-        "volume" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "sunflower",
-            "fruit": "seed_sunflower",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-    },{
         "type": "COMESTIBLE",
         "id" : "canola",
         "name" : "canola",
@@ -10877,28 +10318,6 @@
         "volume" : 1,
         "price" : 0
 },{
-        "type" : "COMESTIBLE",
-        "id" : "seed_dogbane",
-        "category": "other",
-        "price" : 120,
-        "name" : "dogbane seeds",
-        "name_plural" : "dogbane seeds",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some dogbane seeds.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "dogbane",
-            "fruit": "dogbane",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-},{
        "type": "COMESTIBLE",
        "id" : "bee_balm",
        "name" : "bee balm",
@@ -10913,28 +10332,6 @@
        "material" : ["veggy"],
        "volume" : 1,
        "price" : 0
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_bee_balm",
-        "category": "other",
-        "price" : 120,
-        "name" : "bee balm seeds",
-        "name_plural" : "bee balm seeds",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some bee balm seeds.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "bee balm",
-            "fruit": "bee_balm",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
 },{
        "type" : "COMESTIBLE",
        "id" : "bee_balm_tea",
@@ -10954,6 +10351,7 @@
        "description" : "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
        "price" : 100,
        "volume" : 1,
+       "material" : [ "water" ],
        "phase" : "liquid",
        "flags" : ["EATEN_HOT"],
        "fun" : 1
@@ -10974,221 +10372,6 @@
        "volume" : 1,
        "price" : 0
 },{
-        "type" : "COMESTIBLE",
-        "id" : "seed_mugwort",
-        "category": "other",
-        "price" : 120,
-        "name" : "mugwort seeds",
-        "name_plural" : "mugwort seeds",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some mugwort seeds.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "mugwort",
-            "fruit": "mugwort",
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_buckwheat",
-        "category": "other",
-        "price" : 120,
-        "name" : "buckwheat seeds",
-        "name_plural" : "buckwheat seeds",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some buckwheat seeds.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "buckwheat",
-            "fruit": "buckwheat",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_wild_herbs",
-        "category": "other",
-        "price" : 120,
-        "name" : "wild herb seeds",
-        "name_plural" : "wild herb seeds",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some seeds harvested from wild herbs.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "wild herb",
-            "fruit": "wild_herbs",
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_veggy_wild",
-        "category": "other",
-        "price" : 120,
-        "name" : "wild vegetable stems",
-        "name_plural" : "wild vegetable stems",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some wild vegetable stems.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "wild vegetable",
-            "fruit": "veggy_wild",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_raw_dandelion",
-        "category": "other",
-        "price" : 120,
-        "name" : "dandelion seeds",
-        "name_plural" : "dandelion seeds",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some dandelion seeds.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "dandelion",
-            "fruit": "raw_dandelion",
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_rhubarb",
-        "category": "other",
-        "price" : 120,
-        "name" : "rhubarb stems",
-        "name_plural" : "rhubarb stems",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some rhubarb stems.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "rhubarb",
-            "fruit": "rhubarb",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_mushroom",
-        "category": "other",
-        "price" : 120,
-        "name" : "mushroom spores",
-        "name_plural" : "mushroom spores",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some mushroom spores.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom",
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_mushroom_morel",
-        "category": "other",
-        "price" : 120,
-        "name" : "morel mushroom spores",
-        "name_plural" : "morel mushroom spores",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some morel mushroom spores.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "morel mushroom",
-            "fruit": "mushroom_morel",
-            "grow" : 91
-        }
-},{
-        "type" : "COMESTIBLE",
-        "id" : "seed_mushroom_magic",
-        "category": "other",
-        "price" : 120,
-        "name" : "mushroom spores",
-        "name_plural" : "mushroom spores",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some mushroom spores.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "flags" : "HIDDEN_HALLU",
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom_magic",
-            "grow" : 91
-        }
-    },{
-        "type" : "COMESTIBLE",
-        "id" : "seed_mushroom_poison",
-        "category": "other",
-        "price" : 120,
-        "name" : "mushroom spores",
-        "name_plural" : "mushroom spores",
-        "comestible_type" : "FOOD",
-        "symbol" : ".",
-        "color" : "green",
-        "description" : "Some mushroom spores.  You could probably plant these.",
-        "material" : "veggy",
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 2,
-        "stack_size" : 100,
-        "flags" : "HIDDEN_POISON",
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom_poison",
-            "grow" : 91
-        }
-    },{
         "type" : "COMESTIBLE",
         "id" : "eggnog",
         "name" : "eggnog",
