@@ -288,9 +288,6 @@
         "see_cost" : 1,
         "extras" : "build",
         "mondensity" : 2,
-        "mapgen": [
-            { "method": "builtin", "name": "parking_lot" }
-        ],
         "flags" : [ "SIDEWALK", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
