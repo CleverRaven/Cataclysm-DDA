@@ -2288,7 +2288,7 @@
     "luminance": 200,
     "special_attacks": [ [ "FUNGUS_BIG_BLOSSOM", 10 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
-    "harvest":"fungaloid_mass",
+    "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
   },
   {
@@ -2317,7 +2317,7 @@
     "special_attacks": [ [ "FUNGUS_FORTIFY", 10 ] ],
     "death_drops": "marloss_yellow_drops",
     "death_function": [ "FUNGUS", "NORMAL" ],
-    "harvest":"fungaloid_mass",
+    "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "HARDTOSHOOT", "NO_BREATHE", "QUEEN" ]
   },
   {
