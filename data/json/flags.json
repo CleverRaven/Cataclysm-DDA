@@ -217,6 +217,12 @@
     "description": "This item can be stored in a scabbard of the appropriate size."
   },
   {
+    "id": "SHEATH_POLEARM",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a holster of the appropriate size."
+  },
+  {
     "id": "SKINTIGHT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

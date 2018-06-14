@@ -1170,6 +1170,32 @@
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "polearmholster",
+    "type": "ARMOR",
+    "name": "polearm holster",
+    "description": "A large holster for storing spears and quarterstaves.  It is awkward to use without practice.  Activate to holster/draw a weapon.",
+    "weight": 160,
+    "volume": 3,
+    "price": 5200,
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "holster polearm",
+      "holster_msg": "You holster your %s",
+      "max_volume": 12,
+      "draw_cost": 130,
+      "flags": [ "SHEATH_POLEARM" ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "bowhat",
     "type": "ARMOR",
     "name": "bowler hat",
