@@ -950,7 +950,7 @@ void MonsterGenerator::check_monster_definitions() const
         if( mon.upgrades ) {
             if( mon.half_life < 0 && mon.age_grow < 0 ) {
                 debugmsg( "half_life %d and age_grow %d (<0) of monster %s is invalid",
-                         mon.half_life, mon.age_grow, mon.id.c_str() );
+                          mon.half_life, mon.age_grow, mon.id.c_str() );
             }
             if( !mon.upgrade_into && !mon.upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );
