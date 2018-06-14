@@ -3268,7 +3268,7 @@ int item::acid_resist( bool to_self ) const
     }
 
     const int env = get_env_resist();
-    if( !to_self && env < 10 ) {
+    if( env < 10 ) {
         // Low env protection means it doesn't prevent acid seeping in.
         resist *= env / 10.0f;
     }
@@ -3298,7 +3298,7 @@ int item::fire_resist( bool to_self ) const
     }
 
     const int env = get_env_resist();
-    if( !to_self && env < 10 ) {
+    if( env < 10 ) {
         // Iron resists immersion in magma, iron-clad knight won't.
         resist *= env / 10.0f;
     }

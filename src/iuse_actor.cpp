@@ -1482,7 +1482,7 @@ long cauterize_actor::use( player &p, item &it, bool t, const tripoint& ) const
     bool did_cauterize = false;
 
     if( has_disease ) {
-        did_cauterize = cauterize_effect( p, it, !has_disease );
+        did_cauterize = cauterize_effect( p, it, true );
     } else {
         const bool can_have_fun = p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) || p.has_trait( trait_CENOBITE );
 
