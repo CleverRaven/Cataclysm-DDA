@@ -71,7 +71,12 @@ int lighting_game::start_game()
     input_context ctxt( "MINESWEEPER" );
     ctxt.register_cardinal();
     ctxt.register_action( "NEW" );
-    ctxt.register_action( "FLAG" );
+    ctxt.register_action( "TEST" );
+    ctxt.register_action( "EMPTY" );
+    ctxt.register_action( "OBSTACLE" );
+    ctxt.register_action( "LIGHT" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -91,7 +96,7 @@ int lighting_game::start_game()
 
     std::string action = "NEW";
 
-    const float startIntensity = 0.5;
+    const float startIntensity = 1;
 
     do {
         if( action == "NEW" ) {
@@ -126,12 +131,14 @@ int lighting_game::start_game()
                 nc_color cColor;
 
                 cColor = c_white;
-                if( level[y][x] == Lighting::OBSTACLE ) {
-                    sGlyph = '#';
-                    cColor = c_white;
-                } else if( level[y][x] == Lighting::LIGHT_SOURCE ) {
-                    sGlyph = '!';
-                    cColor = c_yellow;
+                if( level[y][x] < Lighting::EMPTY && level[y][x] >= Lighting::OBSTACLE ) {
+                    sGlyph = level[y][x] == Lighting::OBSTACLE ? '#' : (level[y][x] * -1) + 48;
+                    cColor = c_brown;
+
+                } else if( level[y][x] > Lighting::EMPTY && level[y][x] <= Lighting::LIGHT_SOURCE ) {
+                    sGlyph = level[y][x] == Lighting::LIGHT_SOURCE ? '!' : level[y][x] + 48;
+                    cColor = c_yellow_red;
+
                 } else {
                     int intensity = lighting.getLight(y, x) + 32;
 
@@ -157,7 +164,7 @@ int lighting_game::start_game()
                 iPlayerX += iDirX;
                 iPlayerY += iDirY;
             }
-        } else if( action == "FLAG" ) {
+        } else if( action == "TEST" ) {
             std::for_each(level.begin(), level.end(), [](std::array<int, N_LIGHTING> &in){
                 std::fill(in.begin(), in.end(), Lighting::LIGHT_SOURCE);
             });
@@ -188,14 +195,26 @@ int lighting_game::start_game()
 
             debugmsg("Total 10 tests: %1.10f - Average: %1.10f", duration, duration / 10);
 
-        } else if( action == "CONFIRM" ) {
-            if( level[iPlayerY][iPlayerX] == Lighting::EMPTY ) {
-                level[iPlayerY][iPlayerX] = Lighting::OBSTACLE;
+        } else if( action == "EMTPY" ) {
+            level[iPlayerY][iPlayerX] = Lighting::EMPTY;
 
-            } else if( level[iPlayerY][iPlayerX] == Lighting::OBSTACLE ) {
-                level[iPlayerY][iPlayerX] = Lighting::LIGHT_SOURCE;
+        } else if( action == "OBSTACLE" ) {
+            level[iPlayerY][iPlayerX] = Lighting::OBSTACLE;
 
-            }  else {
+        } else if( action == "LIGHT" ) {
+            level[iPlayerY][iPlayerX] = Lighting::LIGHT_SOURCE;
+
+        } else if( action == "PAGE_DOWN" ) {
+            level[iPlayerY][iPlayerX] -= 1;
+
+            if ( level[iPlayerY][iPlayerX] < Lighting::OBSTACLE ) {
+                level[iPlayerY][iPlayerX] = Lighting::EMPTY;
+            }
+
+        } else if( action == "PAGE_UP" ) {
+            level[iPlayerY][iPlayerX] += 1;
+
+            if ( level[iPlayerY][iPlayerX] > Lighting::LIGHT_SOURCE ) {
                 level[iPlayerY][iPlayerX] = Lighting::EMPTY;
             }
         }

@@ -75,8 +75,10 @@ void Lighting::recalculateLighting(const float startIntensity)
                 * If beam intersects with the obstacle, cut the beam accordingly.
                 * */
             for (int i = 0; i < currentBeamsBufferN; i++) {
+                if (currentBeamsBuffer[i].d) {
+                    continue;
+                }
                 Beam &t = currentBeamsBuffer[i];
-                if (t.d) continue;
                 int fb = (int) (t.b);
                 int fe = fb + 1;
                 brightnessRow[fb] += applyLight(t, fb, y, td);
@@ -84,9 +86,16 @@ void Lighting::recalculateLighting(const float startIntensity)
 
                 if (inputRow[fb] == OBSTACLE) {
                     cutBeam(t, fb);
+
+                } else if ( inputRow[fb] < EMPTY ) {
+                    t.i *= ( 10 - inputRow[fb] * -1 ) / 10.0;
                 }
+
                 if (inputRow[fe] == OBSTACLE) {
                     cutBeam(t, fe);
+
+                } else if ( inputRow[fe] < EMPTY ) {
+                    t.i *= (10 - inputRow[fe] * -1) / 10.0;
                 }
             }
 
@@ -105,10 +114,11 @@ void Lighting::recalculateLighting(const float startIntensity)
                 * */
             if ((firstPass || lightPresent[y]) && (y < fieldSize / 2 || a % 2 == 0)) {
                 for (int x = 0; x < fieldSize; x++) {
-                    if (inputRow[x] == LIGHT_SOURCE) {
-                        brightnessRow[x] += startIntensity;
+                    if (inputRow[x] > EMPTY) {
+                        float modIntensity = startIntensity * (inputRow[x] / 10.0);
+                        brightnessRow[x] += modIntensity;
                         lightPresent[y] = true;
-                        newlyAddedBeamsBuffer[newlyAddedBeamsBufferN++].set(x, (y < fieldSize / 2 ? startIntensity : startIntensity * 2));
+                        newlyAddedBeamsBuffer[newlyAddedBeamsBufferN++].set(x, (y < fieldSize / 2 ? modIntensity : modIntensity * 2));
                     }
                 }
             }
@@ -181,20 +191,18 @@ void Lighting::cutBeam(Beam &t, const int x)
     */
 int Lighting::merge(const int nextBeamsBufferN)
 {
-    int i = 0;
     int j = 0;
 
     /* size of the `currentBeamsBuffer` as it is being filled */
     int n = 0;
 
-    j = 0;
     Beam tj;
 
     /*
         * Takes the next beam with the smallest `b` from either `nextBeamsBuffer` or `newlyAddedBeamsBuffer`
         * and `merges` it with the last beam in the `currentBeamsBuffer`.
         */
-    for (i = 0; i < nextBeamsBufferN; i++) {
+    for (int i = 0; i < nextBeamsBufferN; i++) {
         Beam &ti = nextBeamsBuffer[i];
         if (ti.d) continue;
         while (j < newlyAddedBeamsBufferN && (tj = newlyAddedBeamsBuffer[j]).b <= ti.b) {

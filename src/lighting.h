@@ -14,9 +14,27 @@ class Lighting
         typedef std::array< std::array<float, N_LIGHTING>, N_LIGHTING> aaFloat;
 
         enum en_types : int {
+            OBSTACLE = -10,
+            TRANSP_10,
+            TRANSP_20,
+            TRANSP_30,
+            TRANSP_40,
+            TRANSP_50,
+            TRANSP_60,
+            TRANSP_70,
+            TRANSP_80,
+            TRANSP_90,
             EMPTY = 0,
+            LIGHT_10,
+            LIGHT_20,
+            LIGHT_30,
+            LIGHT_40,
+            LIGHT_50,
+            LIGHT_60,
+            LIGHT_70,
+            LIGHT_80,
+            LIGHT_90,
             LIGHT_SOURCE,
-            OBSTACLE
         };
 
         enum en_rot : int {
