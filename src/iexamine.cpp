@@ -3526,7 +3526,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const item *it = bionic.get_item();
             const itype *itemtype = it->type;
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( itemtype ) ) {
+            if( p.install_bionics( *itemtype ) ) {
                 p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
                 p.fall_asleep( duration );
                 p.add_msg_if_player( m_info,
