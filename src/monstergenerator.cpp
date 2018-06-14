@@ -948,7 +948,7 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.upgrades ) {
-            if( mon.half_life < 0 && mon.age_grow < 0) {
+            if( mon.half_life < 0 && mon.age_grow < 0 ) {
                 debugmsg( "half_life %d and age_grow %d (<0) of monster %s is invalid",
                          mon.half_life, mon.age_grow, mon.id.c_str() );
             }
@@ -969,25 +969,25 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.reproduces ) {
-            if( mon.baby_timer < 1) {
+            if( mon.baby_timer < 1 ) {
                 debugmsg( "Time between reproductions (%d) is invalid for %s",
                          mon.baby_timer, mon.id.c_str() );
             }
-            if( mon.baby_count < 1) {
+            if( mon.baby_count < 1 ) {
                 debugmsg( "Number of children (%d) is invalid for %s",
                          mon.baby_count, mon.id.c_str() );
             }
             if( !mon.baby_monster && mon.baby_egg == "null" ) {
                 debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
             }
-            if( mon.baby_monster && mon.baby_egg != "null") {
+            if( mon.baby_monster && mon.baby_egg != "null" ) {
                 debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
             }
             if( !mon.baby_monster.is_valid() ) {
                 debugmsg( "baby_monster %s of monster %s is not a valid monster id",
                           mon.baby_monster.c_str(), mon.id.c_str() );
             }
-            if( !item::type_is_defined( mon.baby_egg )) {
+            if( !item::type_is_defined( mon.baby_egg ) ) {
                 debugmsg( "item_id %s of monster %s is not a valid item id",
                           mon.baby_egg.c_str(), mon.id.c_str() );
             }
@@ -1001,7 +1001,7 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon.biosig_item == "null" ) {
                 debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
             }
-            if( !item::type_is_defined( mon.biosig_item )) {
+            if( !item::type_is_defined( mon.biosig_item ) ) {
                 debugmsg( "item_id %s of monster %s is not a valid item id",
                           mon.biosig_item.c_str(), mon.id.c_str() );
             }
