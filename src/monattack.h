@@ -54,6 +54,7 @@ bool para_sting( monster *z );
 bool triffid_growth( monster *z );
 bool stare( monster *z );
 bool fear_paralyze( monster *z );
+bool proximity_alarm( monster *z );
 bool photograph( monster *z );
 bool tazer( monster *z );
 bool flamethrower( monster *z );

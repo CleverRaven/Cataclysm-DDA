@@ -2566,6 +2566,33 @@ bool mattack::fear_paralyze(monster *z)
     return true;
 }
 
+bool mattack::proximity_alarm( monster *z )
+{
+    if( within_visual_range( z, 40 ) < 0 ) {
+        return false;
+    } else if( within_visual_range( z, 20 ) > 0 ) {
+        add_msg( m_warning, _( "%s:YOU ARE IN A RESTRICTED ZONE.  LEAVE OR LETHAL FORCE WILL BE USED." ),
+                 z->name().c_str() );
+        return false;
+    }
+
+    if( z->friendly ) {
+        // Friendly (hacked?) bot ignore the player.
+        // TODO: might need to be revisited when it can target npcs.
+        return false;
+    }
+
+    z->moves -= 250;
+    add_msg( m_warning,
+             _( "The %s sounds a alarm! YOU HAVE BEEN FOUND GUILTY OF TRESSPASSING IN A RESTRICTED AREA.  THE AUTHORITIES ARE ON THEIR WAY." ),
+             z->name().c_str() );
+    // TODO: Make the player known to the faction
+    g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 40_turns, 60_turns ), z->faction.id().id(),
+                   g->u.global_sm_location() );
+
+                   return true;
+}
+
 bool mattack::photograph(monster *z)
 {
     if( within_visual_range(z, 6) < 0 ) {

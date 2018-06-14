@@ -310,6 +310,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
     add_hardcoded_attack( "STARE", mattack::stare );
     add_hardcoded_attack( "FEAR_PARALYZE", mattack::fear_paralyze );
+    add_hardcoded_attack( "PROXIMITY_ALARM", mattack::proximity_alarm );
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
