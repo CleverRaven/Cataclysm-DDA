@@ -28,14 +28,8 @@ class Lighting
 
         Lighting() {};
 
-        /**
-            * Resulting brightness of the tiles, bigger is brighter
-            * 0 - no illumination
-            */
-        aaFloat brightness;
-
         void setInputRotated( aaInt &input, const en_rot rotation );
-        void accumulateLightRotated( aaFloat &dst, const en_rot rotation );
+        void accumulateLightRotated( Lighting &dst, const en_rot rotation );
 
         void recalculateLighting( const float startIntensity );
 
@@ -115,6 +109,12 @@ class Lighting
             * Input field (fieldSize x fieldSize)
             */
         aaInt input;
+
+        /**
+            * Resulting brightness of the tiles, bigger is brighter
+            * 0 - no illumination
+            */
+        aaFloat brightness;
 
         float applyLight( const Beam &t, const int x, const int y, const float td );
 

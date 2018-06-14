@@ -103,15 +103,15 @@ int lighting_game::start_game()
 
         lighting_ccw.setInputRotated(level, Lighting::ROT_CCW);
         lighting_ccw.recalculateLighting(startIntensity);
-        lighting_ccw.accumulateLightRotated(lighting.brightness, Lighting::ROT_CW);
+        lighting_ccw.accumulateLightRotated(lighting, Lighting::ROT_CW);
 
         lighting_cw.setInputRotated(level, Lighting::ROT_CW);
         lighting_cw.recalculateLighting(startIntensity);
-        lighting_cw.accumulateLightRotated(lighting.brightness, Lighting::ROT_CCW);
+        lighting_cw.accumulateLightRotated(lighting, Lighting::ROT_CCW);
 
         lighting_pi.setInputRotated(level, Lighting::ROT_PI);
         lighting_pi.recalculateLighting(startIntensity);
-        lighting_pi.accumulateLightRotated(lighting.brightness, Lighting::ROT_PI);
+        lighting_pi.accumulateLightRotated(lighting, Lighting::ROT_PI);
 
         wclear( w_lighting );
 

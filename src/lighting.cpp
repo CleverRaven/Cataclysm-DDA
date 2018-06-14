@@ -285,20 +285,20 @@ void Lighting::setInputRotated(aaInt &input, const en_rot rotation)
     }
 }
 
-void Lighting::accumulateLightRotated(aaFloat &dst, const en_rot rotation)
+void Lighting::accumulateLightRotated(Lighting &dst, const en_rot rotation)
 {
     switch((int)rotation) {
         case ROT_NO:
-            rotateAndAddFloat_no(dst, brightness);
+            rotateAndAddFloat_no(dst.brightness, brightness);
             break;
         case ROT_CCW:
-            rotateAndAddFloat_ccw(dst, brightness);
+            rotateAndAddFloat_ccw(dst.brightness, brightness);
             break;
         case ROT_CW:
-            rotateAndAddFloat_cw(dst, brightness);
+            rotateAndAddFloat_cw(dst.brightness, brightness);
             break;
         case ROT_PI:
-            rotateAndAddFloat_pi(dst, brightness);
+            rotateAndAddFloat_pi(dst.brightness, brightness);
             break;
     }
 }
