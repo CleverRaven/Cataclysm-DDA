@@ -1386,10 +1386,10 @@ bool monster::move_effects(bool)
 }
 
 void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                          bool permanent, int intensity, bool force )
+                          bool permanent, int intensity, bool force, bool deferred )
 {
     bp = num_bp;
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
