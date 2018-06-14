@@ -14,6 +14,7 @@
 #include <sstream>
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
 
 lighting_game::lighting_game()
 {
@@ -25,11 +26,9 @@ void lighting_game::new_level( const catacurses::window &w_lighting )
 {
     werase( w_lighting );
 
-    mLevel.clear();
-    mLevel.resize(iLevelX);
-    for (int i = 0; i < iLevelX; i++) {
-        mLevel[i].resize(iLevelY);
-    }
+    std::for_each(level.begin(), level.end(), [](std::array<int, N_LIGHTING> &in){
+        std::fill(in.begin(), in.end(), 0);
+    });
 }
 
 int lighting_game::start_game()
@@ -77,10 +76,10 @@ int lighting_game::start_game()
     int iPlayerY = 0;
     int iPlayerX = 0;
 
-    iLevelY = getmaxy( w_lighting );
-    iLevelX = getmaxx( w_lighting );
+    iLevelY = N_LIGHTING;
+    iLevelX = N_LIGHTING;
 
-    Lighting lighting(iLevelX, iLevelY);
+    Lighting lighting;
 
     int iDirY, iDirX;
 
@@ -94,24 +93,29 @@ int lighting_game::start_game()
             iPlayerY = ( iLevelY / 2 ) + 1;
         }
 
-        lighting.recalculateLighting(mLevel, 0.4);
+        lighting.recalculateLighting(level, 5.0);
 
         wclear( w_lighting );
 
-        for (int x = 0; x < iLevelX; x++) {
-            for (int y = 0; y < iLevelY; y++) {
+        std::stringstream ss;
+
+        for (int y = 0; y < N_LIGHTING; y++) {
+            for (int x = 0; x < N_LIGHTING; x++) {
                 char sGlyph;
                 nc_color cColor;
 
                 cColor = c_white;
-                if( mLevel[x][y] == Lighting::wall ) {
+                if( level[y][x] == Lighting::OBSTACLE ) {
                     sGlyph = '#';
                     cColor = c_white;
-                } else if( mLevel[x][y] == Lighting::lightsource ) {
+                } else if( level[y][x] == Lighting::LIGHT_SOURCE ) {
                     sGlyph = '!';
                     cColor = c_yellow;
                 } else {
-                    double intensity = lighting.getLight(x, y);
+                    int intensity = lighting.getLight(y, x) + 32;
+
+                    ss << intensity << " ";
+
                     sGlyph = intensity > 0 ? intensity : ' ';
                     cColor = c_light_gray;
                 }
@@ -119,6 +123,8 @@ int lighting_game::start_game()
                 mvwputch( w_lighting, y, x, x == iPlayerX && y == iPlayerY ? hilite( cColor ) : cColor, sGlyph );
             }
         }
+
+        //debugmsg("%s", ss.str());
 
         wrefresh( w_lighting );
 
@@ -131,14 +137,14 @@ int lighting_game::start_game()
                 iPlayerY += iDirY;
             }
         } else if( action == "CONFIRM" ) {
-            if( mLevel[iPlayerX][iPlayerY] == Lighting::floor ) {
-                mLevel[iPlayerX][iPlayerY] = Lighting::wall;
+            if( level[iPlayerY][iPlayerX] == Lighting::EMPTY ) {
+                level[iPlayerY][iPlayerX] = Lighting::OBSTACLE;
 
-            } else if( mLevel[iPlayerX][iPlayerY] == Lighting::wall ) {
-                mLevel[iPlayerX][iPlayerY] = Lighting::lightsource;
+            } else if( level[iPlayerY][iPlayerX] == Lighting::OBSTACLE ) {
+                level[iPlayerY][iPlayerX] = Lighting::LIGHT_SOURCE;
 
             }  else {
-                mLevel[iPlayerX][iPlayerY] = Lighting::floor;
+                level[iPlayerY][iPlayerX] = Lighting::EMPTY;
             }
         }
 

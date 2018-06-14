@@ -2,117 +2,121 @@
 #ifndef LIGHTING_H
 #define LIGHTING_H
 
-#include <vector>
+#include <array>
+#include <algorithm>
+
+#define N_LIGHTING 24
 
 class Lighting
 {
     public:
-        typedef std::vector< std::vector<int> > vvInt;
-        typedef std::vector< std::vector<double> > vvDouble;
-
-        Lighting( const int w, const int h );
-
-        void recalculateLighting( const vvInt &objects, const double startIntensity );
-        double getLight( const int x, const int y ) const;
+        typedef std::array< std::array<int, N_LIGHTING>, N_LIGHTING> aaInt;
+        typedef std::array< std::array<float, N_LIGHTING>, N_LIGHTING> aaFloat;
 
         enum en_types {
-            floor = 0,
-            wall,
-            lightsource
+            EMPTY = 0,
+            LIGHT_SOURCE,
+            OBSTACLE
         };
+
+        Lighting() {};
+
+        /*void setInputRotated(aaInt &input, Rotation rotation);
+        void accumulateLightRotatated(aaFloat &dst, Rotation rotation);*/
+        void recalculateLighting( const aaInt &input, const float startIntensity );
+
+        float getLight( const int y, const int x );
+
+        static float max( const float a, const float b );
+        static float min( const float a, const float b );
 
     private:
-        class T
-        {
-            public:
-                double b, i, l;
-                bool d;
 
-                T() {};
+        struct Beam {
+            /**
+                * (beginning) start coordinate of the beam
+                */
+            float b;
 
-                T( double b, double i ) {
-                    this->b = b;
-                    this->l = 1;
-                    this->i = i;
-                    this->d = false;
-                }
+            /**
+                * (intensity) brightness of the beam
+                */
+            float i;
 
-                T &operator=( T *other ) {
-                    this->b = other->b;
-                    this->l = other->l;
-                    this->i = other->i;
-                    this->d = other->d;
+            /*
+                * (length) width of the beam
+                * important invariant:
+                *  0 < `l` <= 1
+                * */
+            float l;
 
-                    return *this;
-                }
+            /**
+                * (deleted) whether beam is marked for deletion
+                */
+            bool d;
+
+            Beam() : Beam( 0, 0 ) {};
+
+            Beam( const float b, const float i ) {
+                this->b = b;
+                this->l = 1;
+                this->i = i;
+                this->d = false;
+            }
+
+            void set( const float b, const float i ) {
+                this->b = b;
+                this->l = 1;
+                this->i = i;
+                this->d = false;
+            }
+
+            void setFrom( const Beam &other ) {
+                this->b = other.b;
+                this->i = other.i;
+                this->l = other.l;
+                this->d = other.d;
+            }
         };
 
-        int w, h;
-        vvDouble light;
-        std::vector<T> tmp, tmp2, tmpNew;
+        /**
+            * N — field size (field is NxN tiles)
+            */
+        static const int fieldSize = N_LIGHTING;
 
-        int tmp2IntN;
-        int tmpNewIntN;
+        /**
+            * Resulting brightness of the tiles, bigger is brighter
+            * 0 - no illumination
+            */
+        aaFloat brightness;
 
-        void applyLight( const T &t, const int x, const int y, const double td );
-        void cutInterval( T &t, const int x );
-        int merge();
-        int merge1( T &t, int n );
-        static double max( const double a, const double b );
-        static double min( const double a, const double b );
+        std::array<Beam, N_LIGHTING * 3> currentBeamsBuffer;
+        std::array<Beam, N_LIGHTING * 3> nextBeamsBuffer;
+        std::array<Beam, N_LIGHTING> newlyAddedBeamsBuffer;
+
+        int newlyAddedBeamsBufferN;
+
+        /*
+            * Number of beams to cast
+            * */
+        static const int beamsN = N_LIGHTING * 2;
+
+        /**
+            *
+            */
+        std::array<bool, N_LIGHTING> lightPresent;
+
+        /**
+            * Input field (fieldSize x fieldSize)
+            */
+        //aaInt input;
+
+        float applyLight( const Beam &t, const int x, const int y, const float td );
+
+        void cutBeam( Beam &t, const int x );
+
+        int merge( const int nextBeamsBufferN );
+        int merge1( Beam &t, int n );
 };
-
-/*
-*  ix   iy
-*  0     0    transpose
-*  0     1    ccw
-*  1     0    cw
-*  1     1    transpose other axis
-* */
-template<typename T>
-void rotate90( T &dst, const T &src, bool ix, bool iy )
-{
-    //assuming square
-    int w = src.size();
-    for( int x = 0; x < w; x++ ) {
-        for( int y = 0; y < w; y++ ) {
-            dst[iy ? w - 1 - y : y][ix ? w - 1 - x : x] = src[x][y];
-        }
-    }
-}
-
-template<typename T>
-void rotate180( T &dst, const T &src )
-{
-    //assuming square
-    int w = src.size();
-    for( int x = 0; x < w; x++ ) {
-        for( int y = 0; y < w; y++ ) {
-            dst[w - 1 - x][w - 1 - y] = src[x][y];
-        }
-    }
-}
-
-/* angle:
-    0 - copy as is
-    1 - 90º cw
-    2 - 180º
-    3 - 90º ccw
-* */
-template<typename T>
-void rotate( T &dst, const T &src, int angle )
-{
-    switch( angle ) {
-        case 0: {
-            dst = src;
-        }
-        case 1:
-            rotate90( dst, src, true, false );
-        case 2:
-            rotate180( dst, src );
-        case 3:
-            rotate90( dst, src, false, true );
-    }
-}
 
 #endif
