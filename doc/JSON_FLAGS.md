@@ -184,6 +184,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DISAPPEAR``` Hallucination disappears.
 - ```DISINTEGRATE``` Falls apart.
 - ```EXPLODE``` Damaging explosion.
+- ```FIREBALL``` 10 percent chance to explode in a fireball.
 - ```FUNGUS``` Explodes in spores.
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 - ```GUILT``` Moral penalty. There is also a flag with a similar effect.
@@ -229,6 +230,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
 - ```DOGFOOD``` Becomes friendly / tamed with dog food.
+- ```DRIPS_NAPALM``` Ocassionally drips napalm on move.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
@@ -836,6 +838,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```REACH_ATTACK``` Allows to perform reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
+- ```SHEATH_POLEARM``` Item can be sheathed in a polearm holster (volume must be 12 or lower).
 - ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
