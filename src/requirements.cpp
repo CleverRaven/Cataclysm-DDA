@@ -862,6 +862,11 @@ requirement_data requirement_data::disassembly_requirements() const
                     //deconstruction recipe can still specify glare protection
                     break;
                 }
+                if( quality.type == quality_id( "KNIT" ) ) {
+                    replaced = true;
+                    //Ditto for knitting needles
+                    break;
+                }
             }
             if( replaced ) {
                 it.clear();

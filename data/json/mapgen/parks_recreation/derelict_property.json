@@ -152,10 +152,8 @@
       },
       "place_items": [
         { "item": "bar_trash", "x": 7, "y": 9, "chance": 30 },
-        { "item": "bar_trash", "x": 14, "y": 8, "chance": 30 }
-      ],
-      "add": [
-        { "item": "holybook_bible3", "x": 17, "y": 6 }
+        { "item": "bar_trash", "x": 14, "y": 8, "chance": 30 },
+        { "item": "homebooks", "x": 17, "y": 6, "chance": 100 }
       ]
     }
   },

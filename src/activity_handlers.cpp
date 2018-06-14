@@ -1209,8 +1209,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at( pos );
     for( auto &corpse : corpse_pile ) {
-        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES )  ) {
-            // Don't smash non-rezing corpses
+        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES ) ||
+            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+              act->str_values.end() && corpse.get_mtype()->bloodType() == fd_acid ) ) {
+            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }
 
@@ -1643,9 +1645,8 @@ struct weldrig_hack {
             return pseudo;
         }
 
-        static item nulitem;
         // null item should be handled just fine
-        return nulitem;
+        return null_item_reference();
     }
 
     void clean_up()

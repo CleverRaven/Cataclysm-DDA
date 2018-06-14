@@ -1151,7 +1151,6 @@ void monster::melee_attack( Creature &target, float accuracy )
     bp_hit = dealt_dam.bp_hit;
 
     const int total_dealt = dealt_dam.total_damage();
-    bool armor_block = false;
     if( hitspread < 0 ) {
         // Miss
         if( u_see_me && !target.in_sleep_state() ) {
@@ -1192,7 +1191,6 @@ void monster::melee_attack( Creature &target, float accuracy )
     } else {
         // No damage dealt
         if( u_see_me ) {
-            armor_block = true;
             if( target.is_player() ) {
                     //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
                     add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
@@ -1247,26 +1245,25 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     const int stab_cut = dealt_dam.type_damage( DT_CUT ) + dealt_dam.type_damage( DT_STAB );
-    if (!armor_block) {
-        if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
-            target.add_msg_if_player( m_bad, _("You're poisoned!") );
-            target.add_effect( effect_poison, 3_minutes );
-        }
 
-        if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
-            target.add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
-            target.add_effect( effect_badpoison, 4_minutes );
-        }
+    if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
+        target.add_msg_if_player( m_bad, _("You're poisoned!") );
+        target.add_effect( effect_poison, 3_minutes );
+    }
 
-        if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
-            target.add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-            target.add_effect( effect_paralyzepoison, 10_minutes );
-        }
+    if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
+        target.add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
+        target.add_effect( effect_badpoison, 4_minutes );
+    }
 
-        if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
-            // Maybe should only be if DT_CUT > 6... Balance question
-            target.add_effect( effect_bleed, 6_minutes, bp_hit );
-        }
+    if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
+        target.add_msg_if_player(m_bad, _("You feel poison enter your body!"));
+        target.add_effect( effect_paralyzepoison, 10_minutes );
+    }
+
+    if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
+        // Maybe should only be if DT_CUT > 6... Balance question
+        target.add_effect( effect_bleed, 6_minutes, bp_hit );
     }
 }
 
@@ -1287,11 +1284,11 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     const bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
-    if( has_flag(MF_HARDTOSHOOT) &&
-        !one_in(10 - 10 * (.8 - missed_by)) &&
+    if( has_flag( MF_HARDTOSHOOT ) &&
+        !one_in( 10 - 10 * ( .8 - missed_by ) ) &&
         !effects.count( "WIDE" ) ) {
         if( u_see_mon ) {
-            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+            add_msg( _( "The shot passes through %s without hitting." ), disp_name().c_str() );
         }
         return;
     }
@@ -2331,7 +2328,7 @@ void monster::on_unload()
 void monster::on_load()
 {
     // Possible TODO: Integrate monster upgrade
-    const int dt = calendar::turn - last_updated;
+    const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0 ) {
         return;
@@ -2349,7 +2346,7 @@ void monster::on_load()
         regen = 0.25f / HOURS(1);
     }
 
-    const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
+    const int heal_amount = divide_roll_remainder( regen * to_turns<int>( dt ), 1.0 );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {
@@ -2359,7 +2356,7 @@ void monster::on_load()
     }
 
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
-             name().c_str(), dt, healed, healed_speed );
+             name().c_str(), to_turns<int>( dt ), healed, healed_speed );
 }
 
 const pathfinding_settings &monster::get_pathfinding_settings() const

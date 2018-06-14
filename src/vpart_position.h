@@ -8,6 +8,8 @@
 #include <string>
 
 class vehicle;
+enum vpart_bitflags : int;
+class vpart_reference;
 
 /**
  * Reference to a position (a point) of the @ref vehicle.
@@ -51,6 +53,17 @@ class vpart_position
          * @returns The label at this part of the vehicle, if there is any.
          */
         cata::optional<std::string> get_label() const;
+        /// @see vehicle::part_with_feature
+        cata::optional<vpart_reference> part_with_feature( const std::string &f,
+                bool unbroken = true ) const;
+        /// @see vehicle::part_with_feature
+        cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken = true ) const;
+        /**
+         * Returns the obstacle that exists at this point of the vehicle (if any).
+         * Open doors don't count as obstacles, but closed one do.
+         * Broken parts are also never obstacles.
+         */
+        cata::optional<vpart_reference> obstacle_at_part() const;
 };
 
 /**
@@ -67,6 +80,11 @@ class optional_vpart_position : public cata::optional<vpart_position>
         cata::optional<std::string> get_label() const {
             return has_value() ? value().get_label() : cata::nullopt;
         }
+        cata::optional<vpart_reference> part_with_feature( const std::string &f,
+                bool unbroken = true ) const;
+        cata::optional<vpart_reference> part_with_feature( vpart_bitflags f,
+                bool unbroken = true ) const;
+        cata::optional<vpart_reference> obstacle_at_part() const;
 };
 
 // For legacy code, phase out, don't use in new code.

@@ -7,10 +7,12 @@
 #include "map_selector.h"
 #include "output.h"
 #include "translations.h"
+#include "item_category.h"
 #include "string_formatter.h"
 #include "options.h"
 #include "messages.h"
 #include "catacharset.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
@@ -210,7 +212,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     } else if( cell_index != 0 ) {
         return replace_colors( cells[cell_index].title );
     } else {
-        return entry.get_category_ptr()->name;
+        return entry.get_category_ptr()->name();
     }
 }
 
@@ -551,7 +553,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
         const item_category *new_cat = entry.get_category_ptr();
 
         return cur_cat == new_cat || ( cur_cat != nullptr && new_cat != nullptr
-                                    && cur_cat->sort_rank <= new_cat->sort_rank );
+                                    && ( *cur_cat == *new_cat || *cur_cat < *new_cat ) );
     } );
     entries.insert( iter.base(), entry );
     entries_cell_cache.clear();
@@ -590,7 +592,7 @@ void inventory_column::prepare_paging( const std::string &filter )
         while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
             std::advance( to, 1 );
         }
-        if( ordered_categories.count( from->get_category_ptr()->id ) == 0 ) {
+        if( ordered_categories.count( from->get_category_ptr()->id() ) == 0 ) {
             std::sort( from, to, [ this ]( const inventory_entry &lhs, const inventory_entry &rhs ) {
                 if( lhs.is_selectable() != rhs.is_selectable() ) {
                     return lhs.is_selectable(); // Disabled items always go last
@@ -806,6 +808,8 @@ selection_column::selection_column( const std::string &id, const std::string &na
     inventory_column( selection_preset ),
     selected_cat( id, name, 0 ) {}
 
+selection_column::~selection_column() = default;
+
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
@@ -877,7 +881,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 {
     const auto find_cat_by_id = [ this ]( const std::string &id ) {
         const auto iter = std::find_if( categories.begin(), categories.end(), [ &id ]( const item_category &cat ) {
-            return cat.id == id;
+            return cat.id() == id;
         } );
         return iter != categories.end() ? &*iter : nullptr;
     };
@@ -886,20 +890,20 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 
     if( dist != 0 ) {
         const std::string suffix = direction_suffix( u.pos(), pos );
-        const std::string id = string_format( "%s_%s", category.id.c_str(), suffix.c_str() );
+        const std::string id = string_format( "%s_%s", category.id().c_str(), suffix.c_str() );
 
         const auto existing = find_cat_by_id( id );
         if( existing != nullptr ) {
             return existing;
         }
 
-        const std::string name = string_format( "%s %s", category.name.c_str(), suffix.c_str() );
-        const int sort_rank = category.sort_rank + dist;
+        const std::string name = string_format( "%s %s", category.name().c_str(), suffix.c_str() );
+        const int sort_rank = category.sort_rank() + dist;
         const item_category new_category( id, name, sort_rank );
 
         categories.push_back( new_category );
     } else {
-        const auto existing = find_cat_by_id( category.id );
+        const auto existing = find_cat_by_id( category.id() );
         if( existing != nullptr ) {
             return existing;
         }
@@ -968,7 +972,7 @@ void inventory_selector::add_character_items( Character &character )
 
 void inventory_selector::add_map_items( const tripoint &target )
 {
-    if( g->m.accessible_items( u.pos(), target, rl_dist( u.pos(), target ) ) ) {
+    if( g->m.accessible_items( target ) ) {
         const auto items = g->m.i_at( target );
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, name, 100 );
@@ -981,15 +985,12 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    optional_vpart_position vp = g->m.veh_at( target );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO" );
     if( !vp ) {
         return;
     }
     vehicle *const veh = &vp->vehicle();
-    const int part = veh->part_with_feature( vp->part_index(), "CARGO" );
-    if( part < 0 ) {
-        return;
-    }
+    const int part = vp->part_index();
     const auto items = veh->get_items( part );
     const std::string name = to_upper_case( veh->parts[part].name() );
     const item_category vehicle_cat( name, name, 200 );
@@ -1003,6 +1004,10 @@ void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
         for( const auto &pos : closest_tripoints_first( radius, u.pos() ) ) {
+            // can not reach this -> can not access its contents
+            if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+                continue;
+            }
             add_map_items( pos );
             add_vehicle_items( pos );
         }
@@ -1405,6 +1410,8 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     append_column( map_column );
     append_column( own_gear_column );
 }
+
+inventory_selector::~inventory_selector() = default;
 
 bool inventory_selector::empty() const
 {

@@ -16,6 +16,7 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size
 void Messages::add_msg( std::string ) {}
 void Messages::add_msg( game_message_type, std::string ) {}
 void Messages::clear_messages() {}
+void Messages::deactivate() {}
 size_t Messages::size()
 {
     return 0;

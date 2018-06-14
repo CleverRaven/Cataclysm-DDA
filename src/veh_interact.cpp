@@ -2129,7 +2129,7 @@ void veh_interact::display_details( const vpart_info *part )
         fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part->power );
     }
 
-    // line 5 [vertical/hybrid] 6 [horizontal]: flags
+    // line 5 [vertical/hybrid] flags
     std::vector<std::string> flags = { { "OPAQUE", "OPENABLE", "BOARDABLE" } };
     std::vector<std::string> flag_labels = { { _("opaque"), _("openable"), _("boardable") } };
     std::string label;
@@ -2138,7 +2138,15 @@ void veh_interact::display_details( const vpart_info *part )
             label += ( label.empty() ? "" : " " ) + flag_labels[i];
         }
     }
+    // 6 [horizontal]: (column 1) flags    (column 2) battery capacity (if applicable)
     fold_and_print(w_details, line + 5, col_1, details_w, c_yellow, label);
+
+    if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) && !part->has_flag( VPFLAG_ALTERNATOR ) ) {
+        cata::optional<islot_magazine> battery = item::find_type( part->item )->magazine;
+        fold_and_print( w_details, line + 5, col_2, column_width, c_white,
+                        "%s: <color_light_gray>%d</color>", small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
+                        battery->capacity );
+    }
 
     wrefresh(w_details);
 }

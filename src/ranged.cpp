@@ -651,9 +651,9 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
     // is not doing Gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
-	if( range == 0 ) {
-		return 2 * target_size;
-	}
+    if( range == 0 ) {
+        return 2 * target_size;
+    }
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
     return 1 / ( max_lateral_offset / target_size );
 }
@@ -678,7 +678,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     if( display_type != "numbers" ) {
-        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
+        mvwprintw( w, line_number++, 1, _( "Symbols: * = Great + = Normal | = Graze" ) );
     }
     for( const aim_type type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
@@ -753,8 +753,8 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-        { accuracy_headshot, '*', _( "Head" ) },
-        { accuracy_goodhit, '+', _( "Hit" ) },
+        { accuracy_critical, '*', _( "Great" ) },
+        { accuracy_standard, '+', _( "Normal" ) },
         { accuracy_grazing, '|', _( "Graze" ) }
     }};
 
@@ -796,8 +796,8 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
     static const std::vector<confidence_rating> confidence_config_critter = {{
-        { accuracy_headshot, '*', _( "Headshot" ) },
-        { accuracy_goodhit, '+', _( "Hit" ) },
+        { accuracy_critical, '*', _( "Great" ) },
+        { accuracy_standard, '+', _( "Normal" ) },
         { accuracy_grazing, '|', _( "Graze" ) }
     }};
     static const std::vector<confidence_rating> confidence_config_object = {{

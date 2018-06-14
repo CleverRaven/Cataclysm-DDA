@@ -10,6 +10,7 @@
 class martialart;
 class JsonObject;
 class mission;
+class time_point;
 class npc;
 class item;
 struct tripoint;
@@ -105,7 +106,7 @@ std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
 /// Returns npcs that have the given companion mission.
 std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id );
 npc *companion_choose();
-npc *companion_choose_return( std::string id, int deadline );
+npc *companion_choose_return( std::string id, const time_point &deadline );
 void companion_return( npc &comp );               //Return NPC to your party
 std::vector<item *> loot_building( const tripoint
                                    site ); //Smash stuff, steal valuables, and change map maker

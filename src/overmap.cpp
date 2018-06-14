@@ -22,6 +22,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "map_extras.h"
 #include "cata_utility.h"
 #include "sounds.h"
 #include "uistate.h"
@@ -183,7 +184,8 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "RIVER",          river_tile     },
     { "SIDEWALK",       has_sidewalk   },
     { "NO_ROTATE",      no_rotate      },
-    { "LINEAR",         line_drawing   }
+    { "LINEAR",         line_drawing   },
+    { "SUBWAY",         subway_connection   }
 };
 
 template<>
@@ -2020,10 +2022,10 @@ static bool get_weather_glyph( tripoint const &pos, nc_color &ter_color, long &t
 static bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
 {
     auto possible_scent = overmap_buffer.scent_at( pos );
-    if( possible_scent.creation_turn >= 0 ) {
+    if( possible_scent.creation_time != calendar::before_time_starts ) {
         color_manager &color_list = get_all_colors();
         int i = 0;
-        int scent_age = calendar::turn - possible_scent.creation_turn;
+        time_duration scent_age = calendar::turn - possible_scent.creation_time;
         while( i < num_colors && scent_age > 0 ) {
             i++;
             scent_age /= 10;

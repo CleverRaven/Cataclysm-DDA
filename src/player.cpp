@@ -22,6 +22,7 @@
 #include "material.h"
 #include "vpart_position.h"
 #include "translations.h"
+#include "vpart_reference.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "get_version.h"
@@ -460,7 +461,7 @@ player::player() : Character()
     blocks_left = 1;
     power_level = 0;
     max_power_level = 0;
-    stamina = get_stamina_max();
+    stamina = 1000; //Temporary value for stamina. It will be reset later from external json option.
     stim = 0;
     pkill = 0;
     radiation = 0;
@@ -1474,8 +1475,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    bool veh_bed = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "BED" ) >= 0 );
-    bool veh_seat = ( vp && vp->vehicle().part_with_feature( vp->part_index(), "SEAT" ) >= 0 );
+    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED" ) );
+    const bool veh_seat =static_cast<bool>( vp.part_with_feature( "SEAT" ) );
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -1907,8 +1908,7 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost += 8;
     }
 
-    if( !footwear_factor() && has_trait( trait_ROOTS3 ) &&
-        g->m.has_flag( "DIGGABLE", pos() ) ) {
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
         movecost += 10 * footwear_factor();
     }
 
@@ -3789,14 +3789,14 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
-        if( vp->vehicle().part_with_feature( vp->part_index(), "SHARP" ) != -1 ) {
+        if( vp.part_with_feature( "SHARP" ) ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
         armor_eff = 0.25f; // Not much
-        if( !slam && vp->vehicle().part_with_feature( vp->part_index(), "ROOF" ) ) {
+        if( !slam && vp->part_with_feature( "ROOF" ) ) {
             // Roof offers better landing than frame or pavement
             effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
         }
@@ -3947,21 +3947,22 @@ int player::hp_percentage() const
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-inline int ticks_between( int from, int to, int tick_length )
+inline int ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length )
 {
-    return (to / tick_length) - (from / tick_length);
+    return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
+            ( from ) / to_turns<int>( tick_length ) );
 }
 
 void player::update_body()
 {
-    const int now = calendar::turn;
-    update_body( now - 1, now );
+    update_body( calendar::turn - 1_turns, calendar::turn );
 }
 
-void player::update_body( int from, int to )
+void player::update_body( const time_point &from, const time_point &to )
 {
-    update_stamina( to - from );
-    const int five_mins = ticks_between( from, to, MINUTES(5) );
+    update_stamina( to_turns<int>( to - from ) );
+    const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
         update_needs( five_mins );
@@ -3970,7 +3971,7 @@ void player::update_body( int from, int to )
         mend( five_mins * MINUTES( 5 ) );
     }
 
-    const int thirty_mins = ticks_between( from, to, MINUTES(30) );
+    const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
@@ -3978,16 +3979,16 @@ void player::update_body( int from, int to )
     }
 
     for( const auto& v : vitamin::all() ) {
-        int rate = vitamin_rate( v.first );
-        if( rate > 0 ) {
+        const time_duration rate = vitamin_rate( v.first );
+        if( rate > 0_turns ) {
             int qty = ticks_between( from, to, rate );
             if( qty > 0 ) {
                 vitamin_mod( v.first, 0 - qty );
             }
 
-        } else if ( rate < 0 ) {
+        } else if ( rate < 0_turns ) {
             // mutations can result in vitamins being generated (but never accumulated)
-            int qty = ticks_between( from, to, std::abs( rate ) );
+            int qty = ticks_between( from, to, -rate );
             if( qty > 0 ) {
                 vitamin_mod( v.first, qty );
             }
@@ -4155,7 +4156,7 @@ void player::check_needs_extremes()
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
-                fall_asleep(5);
+                fall_asleep( 5_turns );
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
@@ -4164,7 +4165,7 @@ void player::check_needs_extremes()
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
             if (one_in(100 + int_cur)) {
-                fall_asleep(5);
+                fall_asleep( 5_turns );
             }
         } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _("*yawn* You should really get some sleep.") );
@@ -4383,13 +4384,13 @@ void player::add_addiction(add_type type, int strength)
     if( type == ADD_NULL ) {
         return;
     }
-    int timer = HOURS( 2 );
+    time_duration timer = 2_hours;
     if( has_trait( trait_ADDICTIVE ) ) {
         strength *= 2;
-        timer = HOURS( 1 );
+        timer = 1_hours;
     } else if( has_trait( trait_NONADDICTIVE ) ) {
         strength /= 2;
-        timer = HOURS( 6 );
+        timer = 6_hours;
     }
     //Update existing addiction
     for( auto &i : addictions ) {
@@ -4397,9 +4398,9 @@ void player::add_addiction(add_type type, int strength)
             continue;
         }
 
-        if( i.sated < 0 ) {
+        if( i.sated < 0_turns ) {
             i.sated = timer;
-        } else if( i.sated < MINUTES(10) ) {
+        } else if( i.sated < 10_minutes ) {
             i.sated += timer; // TODO: Make this variable?
         } else {
             i.sated += timer / 2;
@@ -4409,7 +4410,7 @@ void player::add_addiction(add_type type, int strength)
         }
 
         add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
-                 i.intensity, i.sated );
+                 i.intensity, to_turns<int>( i.sated ) );
 
         return;
     }
@@ -4739,7 +4740,7 @@ void player::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) ) {
             add_msg_if_player(_("You pass out!"));
-            fall_asleep(val);
+            fall_asleep( time_duration::from_turns( val ) );
         }
     }
 
@@ -4943,8 +4944,8 @@ void player::suffer()
         sounds::sound( pos(), 10, _("BZZZZZ"));
     }
 
-    double shoe_factor = footwear_factor();
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag("DIGGABLE", pos()) && !shoe_factor) {
+    bool wearing_shoes = is_wearing_shoes( "left" ) || is_wearing_shoes( "right" );
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) && !wearing_shoes ) {
         if (one_in(100)) {
             add_msg_if_player(m_good, _("This soil is delicious!"));
             if (get_hunger() > -20) {
@@ -4979,26 +4980,26 @@ void player::suffer()
                 add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
             }
         }
-        int timer = -HOURS( 6 );
+        time_duration timer = -6_hours;
         if( has_trait( trait_ADDICTIVE ) ) {
-            timer = -HOURS( 10 );
+            timer = -10_hours;
         } else if( has_trait( trait_NONADDICTIVE ) ) {
-            timer = -HOURS( 3 );
+            timer = -3_hours;
         }
         for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0 &&
+            if( cur_addiction.sated <= 0_turns &&
                 cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
                 addict_effect( *this, cur_addiction );
             }
-            cur_addiction.sated--;
+            cur_addiction.sated -= 1_turns;
             // Higher intensity addictions heal faster
-            if( cur_addiction.sated - 100 * cur_addiction.intensity < timer ) {
+            if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
                 if( cur_addiction.intensity <= 2 ) {
                     rem_addiction( cur_addiction.type );
                     break;
                 } else {
                     cur_addiction.intensity--;
-                    cur_addiction.sated = 0;
+                    cur_addiction.sated = 0_turns;
                 }
             }
         }
@@ -5654,7 +5655,7 @@ void player::suffer()
             const time_duration dur = rng( 30_minutes, 60_minutes );
             add_effect( effect_downed, dur );
             add_effect( effect_blind, dur );
-            fall_asleep( to_turns<int>( dur ) );
+            fall_asleep( dur );
         }
     }
     if ( stim < -120 || pkill > 160 ) {
@@ -6739,9 +6740,10 @@ bool player::consume(int target_position)
 
 void player::rooted_message() const
 {
+    bool wearing_shoes = is_wearing_shoes( "left" ) || is_wearing_shoes( "right" );
     if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag("DIGGABLE", pos()) &&
-        !footwear_factor() ) {
+        !wearing_shoes ) {
         add_msg(m_info, _("You sink your roots into the soil."));
     }
 }
@@ -7134,7 +7136,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber() >= 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber() > 20 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name.c_str() ) ) );
     }
@@ -7791,8 +7793,10 @@ bool player::wear( item& to_wear, bool interactive )
 bool player::wear_item( const item &to_wear, bool interactive )
 {
     const auto ret = can_wear( to_wear );
-    if( !ret.success() && interactive ) {
-        add_msg_if_player( m_info, "%s", ret.c_str() );
+    if( !ret.success() ) {
+        if( interactive ) {
+            add_msg_if_player( m_info, "%s", ret.c_str() );
+        }
         return false;
     }
 
@@ -7947,6 +7951,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
                 drop( get_item_position( &it ) );
+                return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
             }
@@ -9275,8 +9280,8 @@ void player::try_to_sleep()
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         ( vp && vp->vehicle().part_with_feature( vp->part_index(), "SEAT" ) >= 0 ) ||
-         ( vp && vp->vehicle().part_with_feature( vp->part_index(), "BED" ) >= 0 ) ) ) {
+         vp.part_with_feature( "SEAT" ) ||
+         vp.part_with_feature( "BED" ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
@@ -9334,9 +9339,9 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy += 4;
         // Else use the vehicle tile if we are in one
         } else if (vp) {
-            if (vp->vehicle().part_with_feature( vp->part_index(), "BED") >= 0) {
+            if( vp.part_with_feature( "BED" ) ) {
                 sleepy += 4;
-            } else if (vp->vehicle().part_with_feature (vp->part_index(), "SEAT") >= 0) {
+            } else if( vp.part_with_feature( "SEAT" ) ) {
                 sleepy += 3;
             } else {
                 // Sleeping elsewhere is uncomfortable
@@ -9421,12 +9426,12 @@ bool player::can_sleep()
     return false;
 }
 
-void player::fall_asleep(int duration)
+void player::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
         cancel_activity();
     }
-    add_effect( effect_sleep, time_duration::from_turns( duration ) );
+    add_effect( effect_sleep, duration );
 }
 
 void player::wake_up()
@@ -9455,14 +9460,12 @@ std::string player::is_snuggling() const
     auto end = g->m.i_at( pos() ).end();
 
     if( in_vehicle ) {
-        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( VPFLAG_CARGO, false ) ) {
             vehicle *const veh = &vp->vehicle();
-            const int cargo = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false );
-            if( cargo >= 0 ) {
-                if( !veh->get_items(cargo).empty() ) {
-                    begin = veh->get_items(cargo).begin();
-                    end = veh->get_items(cargo).end();
-                }
+            const int cargo = vp->part_index();
+            if( !veh->get_items(cargo).empty() ) {
+                begin = veh->get_items(cargo).begin();
+                end = veh->get_items(cargo).end();
             }
         }
     }
@@ -9923,7 +9926,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
-                iter = decltype(iter)( worn.erase( --iter.base() ) );
+                iter = decltype(iter)( worn.erase( --( iter.base() ) ) );
             } else {
                 ++iter;
                 outermost = false;
@@ -10691,11 +10694,14 @@ int player::get_hp_max( hp_part bp ) const
 
 int player::get_stamina_max() const
 {
-    if (has_trait( trait_BADCARDIO ))
-        return 750;
-    if (has_trait( trait_GOODCARDIO ))
-        return 1250;
-    return 1000;
+    int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
+    if( has_trait( trait_BADCARDIO ) ) {
+        return maxStamina * 0.75;
+    }
+    if( has_trait( trait_GOODCARDIO ) ) {
+        return maxStamina * 1.25;
+    }
+    return maxStamina;
 }
 
 void player::burn_move_stamina( int moves )

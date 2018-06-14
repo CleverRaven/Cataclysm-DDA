@@ -897,7 +897,7 @@ void overmap::unserialize( std::istream &fin ) {
             while( !jsin.end_array() ) {
                 jsin.start_object();
                 tripoint pos;
-                int time;
+                time_point time = calendar::before_time_starts;
                 int strength;
                 while( !jsin.end_object() ) {
                     std::string scent_member_name = jsin.get_member_name();
@@ -1251,7 +1251,7 @@ void overmap::serialize( std::ostream &fout ) const
     for( const auto &scent : scents ) {
         json.start_object();
         json.member( "pos", scent.first );
-        json.member( "time", scent.second.creation_turn );
+        json.member( "time", scent.second.creation_time );
         json.member( "strength", scent.second.initial_strength );
         json.end_object();
     }

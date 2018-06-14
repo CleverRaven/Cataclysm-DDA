@@ -28,6 +28,7 @@ class Messages
         static void add_msg( std::string msg );
         static void add_msg( game_message_type type, std::string msg );
         static void clear_messages();
+        static void deactivate();
         static size_t size();
         static bool has_undisplayed_messages();
         static void display_messages();

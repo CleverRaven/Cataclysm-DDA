@@ -1434,6 +1434,11 @@ void options_manager::init()
         translate_marker( "A scaling factor that determines density of monster spawns." ),
         0.0, 50.0, 1.0, 0.1
         );
+    
+    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
+        translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
+        0, 1000, 100, COPT_NO_HIDE, "%i%%"
+        );
 
     add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
         translate_marker( "A scaling factor that determines density of item spawns." ),

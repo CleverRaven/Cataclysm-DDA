@@ -5,6 +5,7 @@
 #include "iexamine.h"
 #include "debug.h"
 #include "iuse.h"
+#include "vpart_reference.h"
 #include "iuse_actor.h"
 #include "options.h"
 #include "vpart_position.h"
@@ -319,7 +320,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 {
     items.clear();
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
-        if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
+        // can not reach this -> can not access its contents
+        if( origin != p && !g->m.clear_path( origin, p, range, 1, 100 ) ) {
+            continue;
+        }
+
+        if( g->m.has_furn( p ) ) {
             const furn_t &f = g->m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
@@ -330,12 +336,11 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
                 add_item(furn_item);
             }
         }
-        if( !g->m.accessible_items( origin, p, range ) ) {
-            continue;
-        }
-        for (auto &i : g->m.i_at( p )) {
-            if (!i.made_of(LIQUID)) {
-                add_item(i, false, assign_invlet);
+        if( g->m.accessible_items( p ) ) {
+            for( auto &i : g->m.i_at( p ) ) {
+                if( !i.made_of( LIQUID ) ) {
+                    add_item( i, false, assign_invlet );
+                }
             }
         }
         // Kludges for now!
@@ -385,24 +390,23 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             continue;
         }
         vehicle *const veh = &vp->vehicle();
-        const int vpart = vp->part_index();
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-        const int faupart = veh->part_with_feature(vpart, "FAUCET");
-        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN" );
+        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET" );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
-        if (cargo >= 0) {
-            *this += std::list<item>( veh->get_items(cargo).begin(),
-                                      veh->get_items(cargo).end() );
+        if( cargo ) {
+            const auto items = veh->get_items( cargo->part_index() );
+            *this += std::list<item>( items.begin(), items.end() );
         }
 
-        if(faupart >= 0 ) {
+        if( faupart ) {
             for( const auto &it : veh->fuels_left() ) {
                 item fuel( it.first , 0 );
                 if( fuel.made_of( LIQUID ) ) {
@@ -412,7 +416,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             }
         }
 
-        if (kpart >= 0) {
+        if( kpart ) {
             item hotplate("hotplate", 0);
             hotplate.charges = veh->fuel_left("battery", true);
             hotplate.item_tags.insert("PSEUDO");
@@ -425,7 +429,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             pan.item_tags.insert("PSEUDO");
             add_item(pan);
         }
-        if (weldpart >= 0) {
+        if( weldpart ) {
             item welder("welder", 0);
             welder.charges = veh->fuel_left("battery", true);
             welder.item_tags.insert("PSEUDO");
@@ -436,7 +440,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             soldering_iron.item_tags.insert("PSEUDO");
             add_item(soldering_iron);
         }
-        if (craftpart >= 0) {
+        if( craftpart ) {
             item vac_sealer("vac_sealer", 0);
             vac_sealer.charges = veh->fuel_left("battery", true);
             vac_sealer.item_tags.insert("PSEUDO");
@@ -457,13 +461,13 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             press.item_tags.insert("PSEUDO");
             add_item(press);
         }
-        if (forgepart >= 0) {
+        if( forgepart ) {
             item forge("forge", 0);
             forge.charges = veh->fuel_left("battery", true);
             forge.item_tags.insert("PSEUDO");
             add_item(forge);
         }
-        if (chempart >= 0) {
+        if( chempart ) {
             item hotplate("hotplate", 0);
             hotplate.charges = veh->fuel_left("battery", true);
             hotplate.item_tags.insert("PSEUDO");

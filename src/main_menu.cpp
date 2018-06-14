@@ -519,7 +519,7 @@ bool main_menu::opening_screen()
                         print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
-                        ctxt_default.display_help();
+                        ctxt_default.display_menu();
                     } else if( sel2 == 2 ) {
                         get_auto_pickup().show();
                     } else if( sel2 == 3 ) {
