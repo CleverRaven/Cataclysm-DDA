@@ -994,7 +994,7 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.biosignatures ) {
-            if( mon.biosig_timer < 1) {
+            if( mon.biosig_timer < 1 ) {
                 debugmsg( "Time between biosignature drops (%d) is invalid for %s",
                          mon.biosig_timer, mon.id.c_str() );
             }
