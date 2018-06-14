@@ -1482,7 +1482,7 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
 
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
-	return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+    return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
