@@ -971,11 +971,11 @@ void MonsterGenerator::check_monster_definitions() const
         if( mon.reproduces ) {
             if( mon.baby_timer < 1 ) {
                 debugmsg( "Time between reproductions (%d) is invalid for %s",
-                         mon.baby_timer, mon.id.c_str() );
+                          mon.baby_timer, mon.id.c_str() );
             }
             if( mon.baby_count < 1 ) {
                 debugmsg( "Number of children (%d) is invalid for %s",
-                         mon.baby_count, mon.id.c_str() );
+                          mon.baby_count, mon.id.c_str() );
             }
             if( !mon.baby_monster && mon.baby_egg == "null" ) {
                 debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
@@ -996,7 +996,7 @@ void MonsterGenerator::check_monster_definitions() const
         if( mon.biosignatures ) {
             if( mon.biosig_timer < 1 ) {
                 debugmsg( "Time between biosignature drops (%d) is invalid for %s",
-                         mon.biosig_timer, mon.id.c_str() );
+                          mon.biosig_timer, mon.id.c_str() );
             }
             if( mon.biosig_item == "null" ) {
                 debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
