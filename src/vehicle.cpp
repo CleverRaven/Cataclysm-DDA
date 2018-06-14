@@ -4719,7 +4719,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     } else {
         if( pl_ctrl ) {
-            if( snd.length() > 0 ) {
+            if( snd.length() > 0 ) { // @todo: that is always false!
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s with a %4$s"),
                          name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str(), snd.c_str());

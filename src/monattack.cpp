@@ -3044,7 +3044,7 @@ bool mattack::flamethrower(monster *z)
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if (z->friendly != 0) {
+    if (z->friendly != 0) { // @todo: that is always false!
         // Attacking monsters, not the player!
         int boo_hoo;
         Creature *target = z->auto_find_hostile_target( 5, boo_hoo );

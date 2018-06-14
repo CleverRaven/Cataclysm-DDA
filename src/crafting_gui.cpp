@@ -727,7 +727,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, s
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XXXO );
-        } else if( i == width ) {
+        } else if( i == width ) { // @todo: that is always false!
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XOXX );
         } else {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_OXOX );

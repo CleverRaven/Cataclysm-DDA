@@ -476,7 +476,7 @@ task_reason veh_interact::cant_do (char mode)
     if( !part_free ) {
         return NOT_FREE;
     }
-    if( !has_skill ) {
+    if( !has_skill ) { // @todo: that is always false!
         return LACK_SKILL;
     }
     return CAN_DO;
