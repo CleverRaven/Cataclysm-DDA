@@ -2775,13 +2775,11 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
         print_fuel_indicator( win, y + yofs, x, f, verbose, desc );
-        if (fullsize) {
-            yofs++;
-        }
+        yofs++;
     }
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
-    if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) && fullsize) {
+    if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) ) {
         mvwprintz( win, y + yofs, x, c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
@@ -4383,7 +4381,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         // TODO: Make this more elegant
         if( vertical ) {
             vertical_velocity = velocity_before;
-        } else if( !just_detect && sgn( velocity_after ) != sign_before ) {
+        } else if( sgn( velocity_after ) != sign_before ) {
             // Sign of velocity inverted, collisions would be in wrong direction
             break;
         }

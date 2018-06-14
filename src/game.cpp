@@ -7282,7 +7282,7 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at(examp).empty() &&
             m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
-        } else if( !vp ) {//@todo can vp be valid at this point?
+        } else {
             Pickup::pick_up( examp, 0);
         }
     }
@@ -9395,7 +9395,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( _( "Never mind." ) );
             return;
         }
-        if( cont == source && source != nullptr ) {
+        if( source != nullptr && cont == source ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
@@ -12194,7 +12194,7 @@ void game::vertical_move(int movez, bool force)
         if( cost <= 0 || pts.empty() ) {
             add_msg( m_info, _("You can't climb here - there is no terrain above you that would support your weight") );
             return;
-        } else if( cost > 0 && !pts.empty() ) {
+        } else {
             // TODO: Make it an extended action
             climbing = true;
             move_cost = cost;

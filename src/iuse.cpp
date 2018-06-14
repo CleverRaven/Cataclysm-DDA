@@ -6650,7 +6650,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
         return true;
     }
     bool advanced = veh.all_parts_with_feature( "REMOTE_CONTROLS", true ).size() > 0;
-    if( advanced && veh.is_locked && veh.is_alarm_on ) {
+    if( advanced && veh.is_alarm_on ) {
         p.add_msg_if_player( m_bad, _("This vehicle's security system has locked you out!") );
         return false;
     }

@@ -4231,7 +4231,7 @@ void player::update_needs( int rate_multiplier )
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
         float fatigue_rate = 1.0f + mutation_value( "fatigue_modifier" );
 
-        if( !debug_ls && fatigue_rate > 0.0f ) {
+        if( fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
