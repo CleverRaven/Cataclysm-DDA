@@ -80,10 +80,15 @@ int lighting_game::start_game()
     iLevelX = N_LIGHTING;
 
     Lighting lighting;
+    Lighting lighting_ccw;
+    Lighting lighting_cw;
+    Lighting lighting_pi;
 
     int iDirY, iDirX;
 
     std::string action = "NEW";
+
+    const float startIntensity = 2.0;
 
     do {
         if( action == "NEW" ) {
@@ -93,11 +98,24 @@ int lighting_game::start_game()
             iPlayerY = ( iLevelY / 2 ) + 1;
         }
 
-        lighting.recalculateLighting(level, 5.0);
+        lighting.setInputRotated(level, Lighting::ROT_NO);
+        lighting.recalculateLighting(startIntensity);
+
+        lighting_ccw.setInputRotated(level, Lighting::ROT_CCW);
+        lighting_ccw.recalculateLighting(startIntensity);
+        lighting_ccw.accumulateLightRotated(lighting.brightness, Lighting::ROT_CW);
+
+        lighting_cw.setInputRotated(level, Lighting::ROT_CW);
+        lighting_cw.recalculateLighting(startIntensity);
+        lighting_cw.accumulateLightRotated(lighting.brightness, Lighting::ROT_CCW);
+
+        lighting_pi.setInputRotated(level, Lighting::ROT_PI);
+        lighting_pi.recalculateLighting(startIntensity);
+        lighting_pi.accumulateLightRotated(lighting.brightness, Lighting::ROT_PI);
 
         wclear( w_lighting );
 
-        std::stringstream ss;
+        //std::stringstream ss;
 
         for (int y = 0; y < N_LIGHTING; y++) {
             for (int x = 0; x < N_LIGHTING; x++) {
@@ -114,7 +132,7 @@ int lighting_game::start_game()
                 } else {
                     int intensity = lighting.getLight(y, x) + 32;
 
-                    ss << intensity << " ";
+                    //ss << intensity << " ";
 
                     sGlyph = intensity > 0 ? intensity : ' ';
                     cColor = c_light_gray;

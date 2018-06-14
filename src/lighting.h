@@ -13,22 +13,33 @@ class Lighting
         typedef std::array< std::array<int, N_LIGHTING>, N_LIGHTING> aaInt;
         typedef std::array< std::array<float, N_LIGHTING>, N_LIGHTING> aaFloat;
 
-        enum en_types {
+        enum en_types : int {
             EMPTY = 0,
             LIGHT_SOURCE,
             OBSTACLE
         };
 
+        enum en_rot : int {
+            ROT_NO = 0,
+            ROT_CCW,
+            ROT_CW,
+            ROT_PI
+        };
+
         Lighting() {};
 
-        /*void setInputRotated(aaInt &input, Rotation rotation);
-        void accumulateLightRotatated(aaFloat &dst, Rotation rotation);*/
-        void recalculateLighting( const aaInt &input, const float startIntensity );
+        /**
+            * Resulting brightness of the tiles, bigger is brighter
+            * 0 - no illumination
+            */
+        aaFloat brightness;
+
+        void setInputRotated( aaInt &input, const en_rot rotation );
+        void accumulateLightRotated( aaFloat &dst, const en_rot rotation );
+
+        void recalculateLighting( const float startIntensity );
 
         float getLight( const int y, const int x );
-
-        static float max( const float a, const float b );
-        static float min( const float a, const float b );
 
     private:
 
@@ -44,7 +55,7 @@ class Lighting
             float i;
 
             /*
-                * (length) width of the beam
+                * (size()) width of the beam
                 * important invariant:
                 *  0 < `l` <= 1
                 * */
@@ -84,12 +95,6 @@ class Lighting
             */
         static const int fieldSize = N_LIGHTING;
 
-        /**
-            * Resulting brightness of the tiles, bigger is brighter
-            * 0 - no illumination
-            */
-        aaFloat brightness;
-
         std::array<Beam, N_LIGHTING * 3> currentBeamsBuffer;
         std::array<Beam, N_LIGHTING * 3> nextBeamsBuffer;
         std::array<Beam, N_LIGHTING> newlyAddedBeamsBuffer;
@@ -109,7 +114,7 @@ class Lighting
         /**
             * Input field (fieldSize x fieldSize)
             */
-        //aaInt input;
+        aaInt input;
 
         float applyLight( const Beam &t, const int x, const int y, const float td );
 
@@ -117,6 +122,15 @@ class Lighting
 
         int merge( const int nextBeamsBufferN );
         int merge1( Beam &t, int n );
+
+        void rotateInt_no( aaInt &dst, const aaInt &src );
+        void rotateAndAddFloat_no( aaFloat &dst, const aaFloat &src );
+        void rotateInt_ccw( aaInt &dst, const aaInt &src );
+        void rotateAndAddFloat_ccw( aaFloat &dst, const aaFloat &src );
+        void rotateInt_cw( aaInt &dst, const aaInt &src );
+        void rotateAndAddFloat_cw( aaFloat &dst, const aaFloat &src );
+        void rotateInt_pi( aaInt &dst, const aaInt &a );
+        void rotateAndAddFloat_pi( aaFloat &dst, const aaFloat &src );
 };
 
 #endif

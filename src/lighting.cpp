@@ -14,34 +14,12 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  */
 
 #include "lighting.h"
+#include "game_constants.h"
 #include <math.h>
 #include <algorithm>
 
-/**
-    * Copies input data from input, applying the given rotation.
-    * <p>
-    * Input is one of the:
-    * * {@link #EMPTY}
-    * * {@link #LIGHT_SOURCE}
-    * * {@link #OBSTACLE}
-    *
-    * @param input
-    * @param rotation
-    */
-/*void Lighting::setInputRotated(aaInt &input, Rotation rotation)
+void Lighting::recalculateLighting(const float startIntensity)
 {
-    rotation.rotateInt(this->input, input);
-}
-
-void Lighting::accumulateLightRotatated(aaFloat &dst, Rotation rotation)
-{
-    rotation.rotateAndAddFloat(dst, brightness);
-}*/
-
-void Lighting::recalculateLighting(const aaInt &input, const float startIntensity)
-{
-    //input = input_in;
-
     /* cleaning lighting */
     std::for_each(brightness.begin(), brightness.end(), [](std::array<float, N_LIGHTING> &in){
         std::fill(in.begin(), in.end(), 0.0);
@@ -157,7 +135,7 @@ void Lighting::recalculateLighting(const aaInt &input, const float startIntensit
 float Lighting::applyLight(const Beam &t, const int x, const int, const float td)
 {
     /* calculating the intersection area between current beam and tile */
-    return max(min(t.b + t.l, x + 1) - max(t.b, x), 0) * t.i * td;
+    return fmax(fmin(t.b + t.l, x + 1) - fmax(t.b, x), 0) * t.i * td;
 }
 
 /**
@@ -246,8 +224,8 @@ int Lighting::merge1(Beam &t, int n)
 {
     if (n > 0) {
         Beam &t2 = currentBeamsBuffer[n - 1];
-        float b = min(t.b, t2.b);
-        float e = max(t.b + t.l, t2.b + t2.l);
+        float b = fmin(t.b, t2.b);
+        float e = fmax(t.b + t.l, t2.b + t2.l);
         float l = e - b;
         if (l <= 1) {
             t2.b = b;
@@ -278,12 +256,124 @@ float Lighting::getLight(const int y, const int x)
     return brightness[y][x];
 }
 
-float Lighting::max(const float a, const float b)
+/**
+    * Copies input data from input, applying the given rotation.
+    * <p>
+    * Input is one of the:
+    * * {@link #EMPTY}
+    * * {@link #LIGHT_SOURCE}
+    * * {@link #OBSTACLE}
+    *
+    * @param input
+    * @param rotation
+    */
+void Lighting::setInputRotated(aaInt &input, const en_rot rotation)
 {
-    return a > b ? a : b;
+    switch((int)rotation) {
+        case ROT_NO:
+            rotateInt_no(this->input, input);
+            break;
+        case ROT_CCW:
+            rotateInt_ccw(this->input, input);
+            break;
+        case ROT_CW:
+            rotateInt_cw(this->input, input);
+            break;
+        case ROT_PI:
+            rotateInt_pi(this->input, input);
+            break;
+    }
 }
 
-float Lighting::min(const float a, const float b)
+void Lighting::accumulateLightRotated(aaFloat &dst, const en_rot rotation)
 {
-    return a < b ? a : b;
+    switch((int)rotation) {
+        case ROT_NO:
+            rotateAndAddFloat_no(dst, brightness);
+            break;
+        case ROT_CCW:
+            rotateAndAddFloat_ccw(dst, brightness);
+            break;
+        case ROT_CW:
+            rotateAndAddFloat_cw(dst, brightness);
+            break;
+        case ROT_PI:
+            rotateAndAddFloat_pi(dst, brightness);
+            break;
+    }
+}
+
+void Lighting::rotateInt_no( aaInt &dst, const aaInt &src )
+{
+    dst = src;
+}
+
+void Lighting::rotateAndAddFloat_no( aaFloat &dst, const aaFloat &src )
+{
+    int size = dst.size();
+    for( int i = 0; i < size; i++ ) {
+        for( int j = 0; j < size; j++ ) {
+            dst[i][j] += src[i][j];
+        }
+    }
+}
+
+void Lighting::rotateInt_ccw( aaInt &dst, const aaInt &src )
+{
+    int size = src.size();
+    for( int i = 0; i < size; i++ ) {
+        for( int j = 0; j < size; j++ ) {
+            dst[size - j - 1][i] = src[i][j];
+        }
+    }
+}
+
+void Lighting::rotateAndAddFloat_ccw( aaFloat &dst, const aaFloat &src )
+{
+    int size = dst.size();
+    for( int i = 0; i < size; i++ ) {
+        for( int j = 0; j < size; j++ ) {
+            dst[i][j] += src[j][size - i - 1];
+        }
+    }
+}
+
+void Lighting::rotateInt_cw( aaInt &dst, const aaInt &src )
+{
+    int size = src.size();
+    for( int i = 0; i < size; i++ ) {
+        for( int j = 0; j < size; j++ ) {
+            dst[j][size - i - 1] = src[i][j];
+        }
+    }
+}
+
+void Lighting::rotateAndAddFloat_cw( aaFloat &dst, const aaFloat &src )
+{
+    int size = dst.size();
+    for( int i = 0; i < size; i++ ) {
+        for( int j = 0; j < size; j++ ) {
+            dst[i][j] += src[size - j - 1][i];
+        }
+    }
+}
+
+void Lighting::rotateInt_pi( aaInt &dst, const aaInt &a )
+{
+    int size = a.size();
+    for( int i = 0; i < size; i++ ) {
+        for( int j = 0; j < size; j++ ) {
+            dst[size - i - 1][size - j - 1] = a[i][j];
+        }
+    }
+}
+
+void Lighting::rotateAndAddFloat_pi( aaFloat &dst, const aaFloat &src )
+{
+    int size = dst.size();
+    for( int i = 0; i < size; i++ ) {
+        for( int j = 0; j < size; j++ ) {
+            dst[i][j] += src[size - i - 1][size - j - 1];
+        }
+    }
 }
