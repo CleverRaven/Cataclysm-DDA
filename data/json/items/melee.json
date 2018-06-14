@@ -42,7 +42,7 @@
         "weight": 908,
         "volume": 6,
         "bashing": 14,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "SHEATH_POLEARM"],
         "cutting": 8,
         "qualities": [["COOK", 1]]
     },
@@ -92,7 +92,7 @@
         "price": 4000,
         "material": "wood",
         "techniques" : ["WBLOCK_1", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "SHEATH_POLEARM"],
         "weight": 1400,
         "volume": 12,
         "bashing": 19,
@@ -110,7 +110,7 @@
         "price": 6000,
         "material": [ "wood", "iron" ],
         "techniques" : ["WBLOCK_1", "RAPID"],
-        "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE"],
+        "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "weight": 2200,
         "volume": 12,
         "bashing": 25,
@@ -284,7 +284,7 @@
         "bashing": 4,
         "cutting": 8,
         "to_hit": 1,
-        "flags": "SPEAR",
+        "flags": ["SPEAR", "SHEATH_POLEARM"],
         "techniques": ["WBLOCK_1"],
         "qualities": [["COOK", 1]]
     },
@@ -600,7 +600,7 @@
         "volume" : 5,
         "bashing" : 5,
         "cutting" : 13,
-        "flags" : ["SPEAR", "REACH_ATTACK", "NPC_THROWN"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_POLEARM"],
         "price" : 4000,
         "qualities": [["COOK", 1]]
     },
@@ -620,7 +620,7 @@
         "volume" : 6,
         "bashing" : 6,
         "cutting" : 17,
-        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "price" : 4900,
         "qualities": [["COOK", 1]]
     },{
@@ -637,7 +637,7 @@
         "volume" : 6,
         "bashing" : 5,
         "cutting" : 16,
-        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "price" : 1400,
         "qualities": [["COOK", 1]]
     },{
@@ -654,7 +654,7 @@
         "volume" : 12,
         "bashing" : 5,
         "cutting" : 29,
-        "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "price" : 16000,
         "qualities": [["COOK", 1]]
     },{
@@ -672,7 +672,7 @@
         "volume" : 5,
         "bashing" : 6,
         "cutting" : 20,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "SHEATH_POLEARM"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },{
@@ -689,7 +689,7 @@
         "volume" : 10,
         "bashing" : 4,
         "cutting" : 28,
-        "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "price" : 80000,
         "qualities": [["COOK", 1]]
     },{
@@ -735,7 +735,7 @@
         "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
         "price": 50000,
         "material": ["steel", "wood"],
-        "flags": ["DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags": ["DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "techniques" : "WBLOCK_2",
         "weight": 2100,
         "volume": 10,
@@ -757,7 +757,7 @@
         "volume" : 10,
         "bashing" : 6,
         "cutting" : 37,
-        "flags" : ["DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "price" : 80000
     },{
         "type":"GENERIC",
@@ -774,7 +774,7 @@
         "volume" : 9,
         "bashing" : 2,
         "cutting" : 24,
-        "flags" : ["STAB", "REACH_ATTACK"], "//" : "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
+        "flags" : ["STAB", "REACH_ATTACK", "SHEATH_POLEARM"], "//" : "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },
@@ -937,6 +937,7 @@
         "symbol" : "/",
         "material" : ["wood"],
         "techniques" : ["WBLOCK_1"],
+        "flags": ["SHEATH_POLEARM"],
         "volume" : 8,
         "bashing" : 10,
         "price" : 8000,
@@ -1716,7 +1717,7 @@
         "volume" : 7,
         "bashing" : 5,
         "cutting" : 18,
-        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_POLEARM"],
         "price" : 2000
     },{
         "id": "bullwhip",
