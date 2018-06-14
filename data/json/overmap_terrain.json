@@ -7314,5 +7314,56 @@
     "name": "icecream shop",
     "copy-from": "generic_city_building",
     "color": "white"
+  },
+  {
+    "type" : "overmap_terrain",
+    "abstract" : "generic_rivtech_building",
+    "name" : "rivtech building",
+    "sym" : 82,
+    "see_cost" : 5,
+    "extras" : "build",
+    "mondensity" : 2
+  },{
+    "type" : "overmap_terrain",
+    "id" : "rivtech_factory_00",
+    "name" : "Rivtech Factory",
+    "copy-from": "generic_rivtech_building",
+    "color" : "dark_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "rivtech_factory_01",
+    "name" : "Rivtech Factory",
+    "copy-from": "generic_rivtech_building",
+    "color" : "dark_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "rivtech_factory_02",
+    "name" : "Rivtech Factory",
+    "copy-from": "generic_rivtech_building",
+    "color" : "dark_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "rivtech_factory_03",
+    "name" : "Rivtech Factory",
+    "copy-from": "generic_rivtech_building",
+    "color" : "dark_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "rivtech_factory_04",
+    "name" : "Rivtech Factory",
+    "copy-from": "generic_rivtech_building",
+    "color" : "dark_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "rivtech_factory_10",
+    "name" : "Rivtech Factory",
+    "copy-from": "generic_rivtech_building",
+    "color" : "dark_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "rivtech_factory_11",
+    "name" : "Rivtech Factory",
+    "copy-from": "generic_rivtech_building",
+    "color" : "dark_gray"
   }
 ]
