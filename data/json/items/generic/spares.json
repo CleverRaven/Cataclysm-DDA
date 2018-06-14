@@ -107,5 +107,38 @@
     "weight": 2400,
     "volume": 4,
     "price": 1800
+  },
+  {
+    "id": "pulley",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "pulley",
+    "description": "A pulley, possibly from a conveyor.",
+    "material": [ "steel" ],
+    "weight": 20,
+    "volume": 1,
+    "price": 100
+  },
+  {
+    "id": "r_belt",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "rubber belt",
+    "description": "A belt, possibly from a motor or a conveyor.",
+    "material": [ "rubber" ],
+    "weight": 20,
+    "volume": 1,
+    "price": 100
+  },
+  {
+    "id": "plc",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "PLC",
+    "description": "A PLC, or programmable logic controller.  A very basic computer that is designed to withstand factory environments(heat, dust, physical impact, and electrical noise), and is used for industrial or electromechanical purposes.",
+    "material": [ "plastic", "steel" ],
+    "weight": 20,
+    "volume": 1,
+    "price": 100
   }
 ]
