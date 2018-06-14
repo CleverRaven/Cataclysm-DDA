@@ -265,7 +265,7 @@ void monster::hasten_upgrade() {
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
-    if ( type->age_grow > 0){
+    if( type->age_grow > 0 ){
         return type->age_grow;
     }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
@@ -288,7 +288,6 @@ void monster::try_upgrade(bool pin_time) {
         return;
     }
 
-    //const int current_day = to_days<int>( calendar::time_of_cataclysm - calendar::turn );
     const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
     //This should only occur when a monster is created or upgraded to a new form
     if (upgrade_time < 0) {
@@ -296,7 +295,7 @@ void monster::try_upgrade(bool pin_time) {
         if (upgrade_time < 0) {
             return;
         }
-        if (pin_time || type->age_grow > 0) {
+        if( pin_time || type->age_grow > 0 ) {
             // offset by today, always true for growing creatures
             upgrade_time += current_day;
         } else {
@@ -343,9 +342,9 @@ void monster::try_reproduce() {
     }
 
     const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
-    if (baby_timer < 0) {
+    if( baby_timer < 0 ) {
         baby_timer = type->baby_timer;
-        if (baby_timer < 0) {
+        if( baby_timer < 0 ) {
             return;
         }
         baby_timer += current_day;
@@ -354,39 +353,38 @@ void monster::try_reproduce() {
     bool season_spawn = false;
     bool season_match = true;
     for( auto &elem : type->baby_flags ) {
-        if( ( elem ) == "SUMMER" || ( elem ) == "WINTER" || ( elem ) == "SPRING" ||
-            ( elem ) == "AUTUMN" ) {
+        if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
             season_spawn = true;
         }
     }
 
-    while (true) {
-        if (baby_timer > current_day) {
+    while( true ) {
+        if( baby_timer > current_day ) {
             return;
         }
 
-        if (season_spawn){
+        if( season_spawn ){
             season_match = false;
             for( auto &elem : type->baby_flags ) {
-                if( ( season_of_year( DAYS(baby_timer) ) == SUMMER && ( elem ) == "SUMMER" ) ||
-                    ( season_of_year( DAYS(baby_timer) ) == WINTER && ( elem ) == "WINTER" ) ||
-                    ( season_of_year( DAYS(baby_timer) ) == SPRING && ( elem ) == "SPRING" ) ||
-                    ( season_of_year( DAYS(baby_timer) ) == AUTUMN && ( elem ) == "AUTUMN" ) ) {
+                if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == AUTUMN && elem == "AUTUMN" ) ) {
                     season_match = true;
                 }
             }
         }
 
-        if (season_match){
+        if( season_match ){
             if( type->baby_monster ) {
-                g->m.add_spawn(type->baby_monster, type->baby_count, pos().x, pos().y);
+                g->m.add_spawn( type->baby_monster, type->baby_count, pos().x, pos().y );
             } else {
-                g->m.add_item_or_charges(pos(), item( type->baby_egg, DAYS(baby_timer), type->baby_count), true);
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), type->baby_count ), true );
             }
         }
 
         const int next_baby = type->baby_timer;
-        if (next_baby < 0) {
+        if( next_baby < 0 ) {
             return;
         }
         baby_timer += next_baby;
@@ -399,22 +397,22 @@ void monster::try_biosignature() {
     }
 
     const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
-    if (biosig_timer < 0) {
+    if( biosig_timer < 0 ) {
         biosig_timer = type->biosig_timer;
-        if (biosig_timer < 0) {
+        if( biosig_timer < 0 ) {
             return;
         }
         biosig_timer += current_day;
     }
 
-    while (true) {
-        if (biosig_timer > current_day) {
+    while( true ) {
+        if( biosig_timer > current_day ) {
             return;
         }
 
-        g->m.add_item_or_charges(pos(), item( type->biosig_item, DAYS(biosig_timer), 1), true);
+        g->m.add_item_or_charges( pos(), item( type->biosig_item, DAYS( biosig_timer ), 1 ), true );
         const int next_biosig = type->biosig_timer;
-        if (next_biosig < 0) {
+        if( next_biosig < 0 ) {
             return;
         }
         biosig_timer += next_biosig;
