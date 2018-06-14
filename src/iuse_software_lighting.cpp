@@ -15,6 +15,7 @@
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
+#include <ctime>
 
 lighting_game::lighting_game()
 {
@@ -27,24 +28,25 @@ void lighting_game::new_level( const catacurses::window &w_lighting )
     werase( w_lighting );
 
     std::for_each(level.begin(), level.end(), [](std::array<int, N_LIGHTING> &in){
-        std::fill(in.begin(), in.end(), 0);
+        std::fill(in.begin(), in.end(), Lighting::EMPTY);
     });
 }
 
 int lighting_game::start_game()
 {
-    const int iCenterX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iCenterY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    const int iCenterX = ( TERMX > N_LIGHTING + 2 ) ? ( TERMX - N_LIGHTING + 2) / 2 : 0;
+    const int iCenterY = ( TERMY > N_LIGHTING + 2) ? ( TERMY - N_LIGHTING + 2) / 2 : 0;
 
-    catacurses::window w_lighting_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    catacurses::window w_lighting_border = catacurses::newwin( N_LIGHTING+ 2, N_LIGHTING+ 2,
                                            iCenterY, iCenterX );
-    catacurses::window w_lighting = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+    catacurses::window w_lighting = catacurses::newwin( N_LIGHTING, N_LIGHTING,
                                     iCenterY + 1, iCenterX + 1 );
 
     draw_border( w_lighting_border );
 
     std::vector<std::string> shortcuts;
     shortcuts.push_back( _( "<n>ew level" ) );
+    shortcuts.push_back( _( "<F> test" ) );
     shortcuts.push_back( _( "<ENTER> change tile" ) );
     shortcuts.push_back( _( "<q>uit" ) );
 
@@ -56,7 +58,7 @@ int lighting_game::start_game()
         iWidth += utf8_width( shortcut );
     }
 
-    int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
+    int iPos = N_LIGHTING - iWidth - 1;
     for( auto &shortcut : shortcuts ) {
         shortcut_print( w_lighting_border, 0, iPos, c_white, c_light_green, shortcut );
         iPos += utf8_width( shortcut ) + 1;
@@ -69,6 +71,7 @@ int lighting_game::start_game()
     input_context ctxt( "MINESWEEPER" );
     ctxt.register_cardinal();
     ctxt.register_action( "NEW" );
+    ctxt.register_action( "FLAG" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -88,7 +91,7 @@ int lighting_game::start_game()
 
     std::string action = "NEW";
 
-    const float startIntensity = 2.0;
+    const float startIntensity = 0.5;
 
     do {
         if( action == "NEW" ) {
@@ -117,8 +120,8 @@ int lighting_game::start_game()
 
         //std::stringstream ss;
 
-        for (int y = 0; y < N_LIGHTING; y++) {
-            for (int x = 0; x < N_LIGHTING; x++) {
+        for (int y = 0; y < iLevelY; y++) {
+            for (int x = 0; x < iLevelX; x++) {
                 char sGlyph;
                 nc_color cColor;
 
@@ -154,6 +157,37 @@ int lighting_game::start_game()
                 iPlayerX += iDirX;
                 iPlayerY += iDirY;
             }
+        } else if( action == "FLAG" ) {
+            std::for_each(level.begin(), level.end(), [](std::array<int, N_LIGHTING> &in){
+                std::fill(in.begin(), in.end(), Lighting::LIGHT_SOURCE);
+            });
+
+            std::clock_t start;
+            double duration;
+
+            start = std::clock();
+
+            for (int i=0; i < 10; i++) {
+                lighting.setInputRotated(level, Lighting::ROT_NO);
+                lighting.recalculateLighting(startIntensity);
+
+                lighting_ccw.setInputRotated(level, Lighting::ROT_CCW);
+                lighting_ccw.recalculateLighting(startIntensity);
+                lighting_ccw.accumulateLightRotated(lighting, Lighting::ROT_CW);
+
+                lighting_cw.setInputRotated(level, Lighting::ROT_CW);
+                lighting_cw.recalculateLighting(startIntensity);
+                lighting_cw.accumulateLightRotated(lighting, Lighting::ROT_CCW);
+
+                lighting_pi.setInputRotated(level, Lighting::ROT_PI);
+                lighting_pi.recalculateLighting(startIntensity);
+                lighting_pi.accumulateLightRotated(lighting, Lighting::ROT_PI);
+            }
+
+            duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+            debugmsg("Total 10 tests: %1.10f - Average: %1.10f", duration, duration / 10);
+
         } else if( action == "CONFIRM" ) {
             if( level[iPlayerY][iPlayerX] == Lighting::EMPTY ) {
                 level[iPlayerY][iPlayerX] = Lighting::OBSTACLE;

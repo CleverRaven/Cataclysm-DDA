@@ -5,7 +5,7 @@
 #include <array>
 #include <algorithm>
 
-#define N_LIGHTING 24
+#define N_LIGHTING 100
 
 class Lighting
 {
