@@ -2691,7 +2691,8 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
         }
 
         bool armor = part_flag(pl[i], "ARMOR");
-        std::string left_sym, right_sym;
+        std::string left_sym;
+        std::string right_sym;
         if(armor) {
             left_sym = "("; right_sym = ")";
         } else if(part_info(pl[i]).location == part_location_structure) {
@@ -3207,7 +3208,8 @@ void vehicle::noise_and_smoke( double load, double time )
     }};
     double noise = 0.0;
     double mufflesmoke = 0.0;
-    double muffle = 1.0, m;
+    double muffle = 1.0;
+    double m = 0.0;
     int exhaust_part = -1;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if( part_flag(p, "MUFFLER") ) {
@@ -5281,8 +5283,10 @@ void vehicle::refresh_pivot() const {
     //
     // so it turns into a fairly simple weighted average of the wheel positions.
 
-    float xc_numerator = 0, xc_denominator = 0;
-    float yc_numerator = 0, yc_denominator = 0;
+    float xc_numerator = 0;
+    float xc_denominator = 0;
+    float yc_numerator = 0;
+    float yc_denominator = 0;
 
     for (int p : wheelcache) {
         const auto &wheel = parts[p];

@@ -290,7 +290,8 @@ void veh_interact::do_main_loop()
         wrefresh( w_msg );
         std::string msg;
         bool redraw = false;
-        int dx, dy;
+        int dx = 0;
+        int dy = 0;
         if (main_context.get_direction(dx, dy, action)) {
             move_cursor(dx, dy);
         } else if (action == "QUIT") {
@@ -589,9 +590,11 @@ bool veh_interact::can_install_part() {
                               skill_mechanics.obj().name().c_str(), dif_steering ) << "\n";
     }
 
-    int lvl, str;
+    int lvl = 0;
+    int str = 0;
     quality_id qual;
-    bool use_aid, use_str;
+    bool use_aid = false;
+    bool use_str = false;
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
@@ -1286,9 +1289,11 @@ bool veh_interact::can_remove_part( int idx ) {
 
     msg << _( "<color_white>Additional requirements:</color>\n" );
 
-    int lvl, str;
+    int lvl = 0;
+    int str = 0;
     quality_id qual;
-    bool use_aid, use_str;
+    bool use_aid = false;
+    bool use_str = false;
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;

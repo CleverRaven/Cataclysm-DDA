@@ -1299,7 +1299,8 @@ void toggle_fullscreen_window()
             return;
         }
     }
-    int nw, nh;
+    int nw = 0;
+    int nh = 0;
     SDL_GetWindowSize( window.get(), &nw, &nh );
     handle_resize( nw, nh );
     fullscreen = !fullscreen;

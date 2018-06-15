@@ -384,7 +384,10 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
     
     WINDOW *const win = w.get<WINDOW>();
-    int i,j,drawx,drawy;
+    int i = 0;
+    int j = 0;
+    int drawx = 0;
+    int drawy = 0;
     wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,
                    (win->x + win->width) * fontwidth, -1};
