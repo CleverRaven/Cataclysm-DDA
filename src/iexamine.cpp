@@ -2007,8 +2007,18 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
-        add_msg( _("It should take %d minutes to finish burning."), to_minutes<int>( time_left ) + 1 );
-        return;
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( minutes > 60 ) {
+            add_msg( ngettext( "It will finish burning in about %d hour.",
+                               "It will finish burning in about %d hours.",
+                               hours ), hours );
+        } else if( minutes > 30 ) {
+            add_msg( _( "It will finish burning in less than an hour." ) );
+        } else {                
+            add_msg( _("It should take about %d minutes to finish burning."), minutes );
+        } 
+        return;                
     }
 
     units::volume total_volume = 0;
@@ -3467,6 +3477,67 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+void iexamine::autodoc( player &p, const tripoint &examp )
+{
+    enum options {
+        INSTALL_CBM,
+        CANCEL,
+    };
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
+
+    amenu.query();
+
+    bool adjacent_couch = false;
+    bool in_position = false;
+    for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( couch_loc ) == couch ) {
+            adjacent_couch = true;
+            if( p.pos() == couch_loc ) {
+                in_position = true;
+            }
+        }
+    }
+
+    switch( static_cast<options>( amenu.ret ) ) {
+        case INSTALL_CBM: {
+            if( !adjacent_couch ) {
+                popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
+                return;
+            }
+            if( !in_position ) {
+                popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
+                return;
+            }
+
+            const int bionic = g->inv_for_flag( "CBM", _( "Choose CBM to install" ) );
+            if( bionic == INT_MIN ) {
+                p.add_msg_if_player( m_info, _( "Never mind." ) );
+                return;
+            }
+
+            const item &it = p.i_at( bionic );
+            const itype &itemtype = *it.type;
+            const time_duration duration = itemtype.bionic->difficulty * 20_minutes;
+            if( p.install_bionics( itemtype ) ) {
+                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
+                p.fall_asleep( duration );
+                p.add_msg_if_player( m_info,
+                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+                p.i_rem( &it );
+            }
+        }
+
+        case CANCEL:
+            return;
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3538,7 +3609,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
+        { "climb_down", &iexamine::climb_down },
+        { "autodoc", &iexamine::autodoc }
     }};
 
     auto iter = function_map.find( function_name );

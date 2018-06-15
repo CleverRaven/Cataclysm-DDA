@@ -1042,7 +1042,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", g->u.aim_per_move( *mod, MAX_RECOIL ), true, "", true, true );
-        for( const aim_type type : g->u.get_aim_types( *mod ) ) {
+        for( const aim_type& type : g->u.get_aim_types( *mod ) ) {
             // Nameless aim levels don't get an entry.
             if( type.name.empty() ) {
                 continue;
@@ -1166,7 +1166,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             insert_separation_line();
 
             temp1.str( "" );
-            temp1 << _( "<bold>Mods:<bold> " );
+            temp1 << _( "<bold>Mods:</bold> " );
             int iternum = 0;
             for( auto &elem : gun.valid_mod_locations ) {
                 if( iternum != 0 ) {
@@ -1561,7 +1561,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         all_techniques.insert( techniques.begin(), techniques.end() );
         if( !all_techniques.empty() ) {
             insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ) +
+            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
                 return string_format( "<stat>%s:</stat> <info>%s</info>", tid.obj().name.c_str(), tid.obj().description.c_str() );
             } ) ) );
@@ -4512,6 +4512,9 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
 
     } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( pistol_gun_type ) ) {
         return ret_val<bool>::make_failure( _("isn't big enough to use that mod") );
+
+    } else if( mod.type->gunmod->location.str() == "underbarrel" && !mod.has_flag( "PUMP_RAIL_COMPATIBLE" ) && has_flag( "PUMP_ACTION" ) ) {
+        return ret_val<bool>::make_failure( _("can only accept small mods on that slot") );
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
         //~ %1$s - name of the gunmod, %2$s - name of the ammo

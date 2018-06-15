@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-01 19:14-0400\n"
+"POT-Creation-Date: 2018-06-09 21:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106194,7 +106194,18 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "It should take %d minutes to finish burning."
+msgid "It will finish burning in about %d hour."
+msgid_plural "It will finish burning in about %d hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iexamine.cpp
+msgid "It will finish burning in less than an hour."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It should take about %d minutes to finish burning."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -107362,7 +107373,7 @@ msgid "<bold>Compatible magazines:</bold> "
 msgstr ""
 
 #: src/item.cpp
-msgid "<bold>Mods:<bold> "
+msgid "<bold>Mods:</bold> "
 msgstr ""
 
 #: src/item.cpp
@@ -107677,7 +107688,7 @@ msgid "Contains items with qualities:"
 msgstr ""
 
 #: src/item.cpp
-msgid "Techniques: "
+msgid "<bold>Techniques when wielded</bold>: "
 msgstr ""
 
 #: src/item.cpp
@@ -108152,6 +108163,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "isn't big enough to use that mod"
+msgstr ""
+
+#: src/item.cpp
+msgid "can only accept small mods on that slot"
 msgstr ""
 
 #. ~ %1$s - name of the gunmod, %2$s - name of the ammo

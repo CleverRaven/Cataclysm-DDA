@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-25 07:27-0400\n"
+"POT-Creation-Date: 2018-06-01 19:14-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Meat <zero330xd@gmail.com>, 2018\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/cataclysm-dda-translators/teams/2217/zh_TW/)\n"
@@ -7880,7 +7880,7 @@ msgstr[0] "日蝕眼鏡"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped "
-"with a layer of aluminium coating.  They allow safely staring at extremely "
+"with a layer of aluminum coating.  They allow safely staring at extremely "
 "bright and harmful sources of light like the sun during a solar eclipse."
 msgstr ""
 
@@ -9358,9 +9358,15 @@ msgid_plural "kilts"
 msgstr[0] "蘇格蘭裙"
 
 #. ~ Description for kilt
+#. ~ Description for leather kilt
 #: lang/json/ARMOR_from_json.py
 msgid "No true Scotsman would leave home without his kilt."
 msgstr "沒有真正的蘇格蘭人會不穿他的蘇格蘭裙就出門。"
+
+#: lang/json/ARMOR_from_json.py
+msgid "leather kilt"
+msgid_plural "leather kilts"
+msgstr[0] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "kimono"
@@ -18633,8 +18639,8 @@ msgstr "一種能利用烤吐司機來烹調的水果點心。甚至還有裹糖
 
 #. ~ Description for potato chips
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A bag of cheap, own-brand chips."
-msgstr "一袋便宜的雜牌洋芋片。"
+msgid "Some plain, salted potato chips."
+msgstr ""
 
 #. ~ Description for potato chips
 #: lang/json/COMESTIBLE_from_json.py
@@ -18642,14 +18648,16 @@ msgid "Oh man, you love these chips!  Score!"
 msgstr "喔，你一定會喜歡這些洋芋片的！"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "nachos"
-msgid_plural "nachos"
-msgstr[0] "玉米片"
+msgid "tortilla chips"
+msgid_plural "tortilla chips"
+msgstr[0] ""
 
-#. ~ Description for nachos
+#. ~ Description for tortilla chips
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salted corn chips, could really use some cheese, maybe some beef."
-msgstr "加鹽調味的玉米片，要是能搭配一些起司，或是牛肉，就更棒了。"
+msgid ""
+"Salted chips made from corn tortillas, could really use some cheese, maybe "
+"some beef."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "nachos with cheese"
@@ -18658,8 +18666,10 @@ msgstr[0] "起司玉米片"
 
 #. ~ Description for nachos with cheese
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salted corn chips, now with cheese.  Could stand to have some meat."
-msgstr "加鹽調味的玉米片並搭配了起司。要是再加上一些肉，就更棒了。"
+msgid ""
+"Salted chips made from corn tortillas, now with cheese.  Could stand to have"
+" some meat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "nachos with meat"
@@ -18669,8 +18679,9 @@ msgstr[0] "加肉玉米片"
 #. ~ Description for nachos with meat
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips, now with meat.  Could probably use some cheese, though."
-msgstr "加鹽調味的玉米片並搭配了肉。要是再加上一些起司，就更棒了。"
+"Salted chips made from corn tortillas, now with meat.  Could probably use "
+"some cheese, though."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "niño nachos"
@@ -18680,8 +18691,9 @@ msgstr[0] "加人肉玉米片"
 #. ~ Description for niño nachos
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips, with human flesh.  Some cheese might make it even better."
-msgstr "加鹽調味的玉米片並搭配了人肉。要是再加上一些起司，就更棒了。"
+"Salted chips made from corn tortillas, with human flesh.  Some cheese might "
+"make it even better."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "nachos with meat and cheese"
@@ -18691,8 +18703,9 @@ msgstr[0] "肉起司玉米片"
 #. ~ Description for nachos with meat and cheese
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips with ground meat and smothered in cheese.  Delicious."
-msgstr "加鹽調味的玉米片並搭配了肉和起司。讚啦。"
+"Salted chips made from corn tortillas with ground meat and smothered in "
+"cheese.  Delicious."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "niño nachos with cheese"
@@ -18702,8 +18715,9 @@ msgstr[0] "人肉起司玉米片"
 #. ~ Description for niño nachos with cheese
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips with human flesh and smothered in cheese.  Delicious."
-msgstr "加鹽調味的玉米片並搭配了人肉和起司。讚啦。"
+"Salted chips made from corn tortillas with human flesh and smothered in "
+"cheese.  Delicious."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "popcorn kernels"
@@ -25075,11 +25089,10 @@ msgstr[0] "水桶"
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab "
-"legs, french fries, animal feed, farm use, tailgating, crafts, planting "
+"legs, French fries, animal feed, farm use, tailgating, crafts, planting "
 "flowers, holding gift baskets, containing a fruit basket and herbs, loose "
 "item storage or as an ice bucket."
 msgstr ""
-"鍍鋅的桶子，用於裝花生、冰鎮葡萄酒、冰鎮啤酒、龍蝦、蟹腿、薯條、飼料、養殖場使用、停車場野餐派對、工藝製作、花卉種植、拿著禮品籃、裝水果籃和草藥，寬鬆的物品的存儲或作為冰桶。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "hydration pack"
@@ -36892,8 +36905,8 @@ msgstr "鮭魚"
 
 #. ~ Description for salmon
 #: lang/json/MONSTER_from_json.py
-msgid "A salmon.  A very fatty, nutricious fish.  Tastes great smoked."
-msgstr "鮭魚。一種脂肪很多，營養豐富的魚。煙燻後非常好吃。"
+msgid "A salmon.  A very fatty, nutritious fish.  Tastes great smoked."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "sunfish"
@@ -36963,10 +36976,10 @@ msgid ""
 msgstr "一隻突變的鮭魚，大小和一隻大型犬差不多，對沒有經驗的垂釣者來說相當危險。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "Lobster"
-msgstr "龍蝦"
+msgid "lobster"
+msgstr ""
 
-#. ~ Description for Lobster
+#. ~ Description for lobster
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "These things were once considered pests not worth eating, then some "
@@ -36975,10 +36988,10 @@ msgid ""
 msgstr "這些東西曾經被認為是有毒不能吃，然後一些行銷天才開始將牠的美味推銷給人們，使得牠們的知名度飛躍式的提升......還有價格。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "Crayfish"
-msgstr "小龍蝦"
+msgid "crayfish"
+msgstr ""
 
-#. ~ Description for Crayfish
+#. ~ Description for crayfish
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "If you could get ahold of a bunch more of these, a hefty pot of boiling "
@@ -39164,9 +39177,9 @@ msgstr "這是一把巨大的戰斧。你注意到斧頭的位置不太正確。
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an ancient Chinese doubled-edged straight sword, with an ornate "
-"guard and a tassel attatched to the pommel.  One of the four major weapons "
-"in folklore, alongside the dao sabre, qiang spear, and gun staff."
-msgstr "一把古中國劍，雙刃開鋒，劍身長直，護手帶有裝飾，柄端附有流蘇。民間傳說中四大武器之一，其餘三個是：刀、槍和棍。"
+"guard and a tassel attached to the pommel.  One of the four major weapons in"
+" folklore, alongside the dao sabre, qiang spear, and gun staff."
+msgstr ""
 
 #. ~ Description for jian
 #: lang/json/TOOL_from_json.py
@@ -39757,14 +39770,14 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "inactive antimateriel turret"
-msgid_plural "inactive antimateriel turrets"
+msgid "inactive anti-materiel turret"
+msgid_plural "inactive anti-materiel turrets"
 msgstr[0] ""
 
-#. ~ Description for inactive antimateriel turret
+#. ~ Description for inactive anti-materiel turret
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is an inactive antimateriel turret.  Using this item involves loading "
+"This is an inactive anti-materiel turret.  Using this item involves loading "
 "the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if "
 "you wish to divide your ammunition, set aside whatever .50 BMG Ball you do "
 "NOT want to give the turret) turning it on, and placing it on the ground, "
@@ -50802,8 +50815,8 @@ msgstr "柴油泵"
 
 #. ~ Description for diesel pump
 #: lang/json/fault_from_json.py
-msgid "Required to pump and pressurise diesel from a vehicles tank."
-msgstr "從汽車油箱內抽取柴油的必備零件。"
+msgid "Required to pump and pressurize diesel from a vehicles tank."
+msgstr ""
 
 #. ~ Description for air filter
 #: lang/json/fault_from_json.py
@@ -52507,6 +52520,10 @@ msgid ""
 "A bulky, self-made chemical sprayer with an internal conversion mechanism "
 "that allows all sorts of chemicals to be dispersed to your surroundings."
 msgstr "一個笨重的自製化學藥劑噴灑器，裡面有著內部轉換機制，能把各種化學物質噴灑到四周。"
+
+#: lang/json/gun_from_json.py
+msgid "slosh."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "base gun"
@@ -54398,10 +54415,6 @@ msgid ""
 msgstr "一把有著大量瓦斯儲存槽的火焰噴射器。非常危險又致命。"
 
 #: lang/json/gun_from_json.py
-msgid "slosh."
-msgstr ""
-
-#: lang/json/gun_from_json.py
 msgid "spraycan flamethrower"
 msgid_plural "spraycan flamethrowers"
 msgstr[0] "噴霧器火槍"
@@ -54852,8 +54865,8 @@ msgstr[0] "粗製雷射步槍"
 #: lang/json/gun_from_json.py
 msgid ""
 "This is a cheap laser rifle made from common components.  Weak, but can be "
-"powered with rechargable batteries."
-msgstr "這是一把由常見的零件製作的劣質雷射步槍。火力不高，但能夠以可充電電池供電。"
+"powered with rechargeable batteries."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .45"
@@ -59531,9 +59544,9 @@ msgstr "拳擊"
 #. ~ Description for martial art 'Boxing'
 #: lang/json/martial_art_from_json.py
 msgid ""
-"Sport of the true Gentleman, modern boxing has evolved from the prizefights "
+"Sport of the true gentleman, modern boxing has evolved from the prizefights "
 "of the Victorian era."
-msgstr "一種真正的紳士運動，現代的拳擊可追朔到自維多利亞時代。"
+msgstr ""
 
 #. ~ Description of buff for martial art 'Boxing'
 #: lang/json/martial_art_from_json.py
@@ -60993,9 +61006,9 @@ msgstr "什麼？！你這騙子！"
 
 #: lang/json/mission_def_from_json.py
 msgid ""
-"You give up?  This country fell apart because no one could find agood man to"
-" rely on... might as well give up, I guess."
-msgstr "你放棄了？這個國家分崩離析就是因為沒有人能找到值得依靠的好人... 我想我也放棄好了。"
+"You give up?  This country fell apart because no one could find a good man "
+"to rely on... might as well give up, I guess."
+msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid "Find Corporate Accounts"
@@ -61736,10 +61749,9 @@ msgid ""
 " to install your first radio repeater mod.  Head topside and locate the "
 "nearest radio station.  Install the mod on the backup terminal and return to"
 " me so that I can verify that everything was successful.  Radio towers must "
-"unfortunatly be ignored for now, without a dedicated emergency power system "
-"they won't be useful for some time."
+"unfortunately be ignored for now, without a dedicated emergency power system"
+" they won't be useful for some time."
 msgstr ""
-"我大部分的器材都準備好了，是時候要你去安裝第一個無線電維修模組了。去最近的一個無線電站。在他們的主機上裝這個模組讓我知道是否成功。無線電塔應該已經棄置一段時間了，如果沒有緊急電力系統它應該還不能運作。"
 
 #: lang/json/mission_def_from_json.py
 msgid "I'll be standing by down here once you are done."
@@ -61928,7 +61940,7 @@ msgid ""
 "received a message that a unit was deploying into our AO.  I don't have the "
 "exact coordinates but they said they were securing an underground facility "
 "and may require assistance.  The bird dropped them off next to a pump "
-"station.  Can't tell you much more.  If you cound locate the captain in "
+"station.  Can't tell you much more.  If you could locate the captain in "
 "charge, I'm sure he could use your skills.  Don't forget to wear your badge "
 "when meeting with them.  Thank you once again marshal."
 msgstr ""
@@ -93072,19 +93084,19 @@ msgstr ""
 msgid "forever"
 msgstr "永遠"
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d 秒"
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d 分鐘"
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -93108,11 +93120,13 @@ msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] "%d 年"
 
+#: src/calendar.cpp
+msgid "for ever"
+msgstr ""
+
 #. ~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time
 #. (e.g. 11 minutes).
-#. ~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6
-#. minutes"
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%1$s and %2$s"
 msgstr "%1$s 和 %2$s"
@@ -93150,34 +93164,6 @@ msgstr "%d:%02d:%02d%s上午"
 #, c-format
 msgid "%d:%02d:%02d%sPM"
 msgstr "%d:%02d:%02d%s下午"
-
-#: src/calendar.cpp
-msgid "Monday"
-msgstr "星期一"
-
-#: src/calendar.cpp
-msgid "Sunday"
-msgstr "星期日"
-
-#: src/calendar.cpp
-msgid "Tuesday"
-msgstr "星期二"
-
-#: src/calendar.cpp
-msgid "Wednesday"
-msgstr "星期三"
-
-#: src/calendar.cpp
-msgid "Friday"
-msgstr "星期五"
-
-#: src/calendar.cpp
-msgid "Thursday"
-msgstr "星期四"
-
-#: src/calendar.cpp
-msgid "Saturday"
-msgstr "星期六"
 
 #: src/calendar.cpp
 msgid "End times"
@@ -101486,8 +101472,8 @@ msgid "You need to breathe but you can't swim!  Get to dry land, quick!"
 msgstr "你需要空氣但是你無法游泳！快到陸地上！"
 
 #: src/game.cpp
-msgid "No hostile creature in reach."
-msgstr "範圍內沒有敵對生物。"
+msgid "No hostile creature in reach. Waiting a turn."
+msgstr ""
 
 #: src/game.cpp
 msgid "You dive into water."
@@ -125661,6 +125647,34 @@ msgstr "你的動力裝甲保護了你不被酸雨傷害。"
 #: src/weather.cpp
 msgid "The acid rain burns!"
 msgstr "酸雨灼傷了你！"
+
+#: src/weather.cpp
+msgid "Monday"
+msgstr "星期一"
+
+#: src/weather.cpp
+msgid "Sunday"
+msgstr "星期日"
+
+#: src/weather.cpp
+msgid "Tuesday"
+msgstr "星期二"
+
+#: src/weather.cpp
+msgid "Wednesday"
+msgstr "星期三"
+
+#: src/weather.cpp
+msgid "Friday"
+msgstr "星期五"
+
+#: src/weather.cpp
+msgid "Thursday"
+msgstr "星期四"
+
+#: src/weather.cpp
+msgid "Saturday"
+msgstr "星期六"
 
 #: src/weather.cpp
 #, c-format

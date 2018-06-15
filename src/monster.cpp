@@ -1187,11 +1187,11 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     const bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
-    if( has_flag(MF_HARDTOSHOOT) &&
-        !one_in(10 - 10 * (.8 - missed_by)) &&
+    if( has_flag( MF_HARDTOSHOOT ) &&
+        !one_in( 10 - 10 * ( .8 - missed_by ) ) &&
         !effects.count( "WIDE" ) ) {
         if( u_see_mon ) {
-            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+            add_msg( _( "The shot passes through %s without hitting." ), disp_name().c_str() );
         }
         return;
     }
@@ -1386,10 +1386,10 @@ bool monster::move_effects(bool)
 }
 
 void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                          bool permanent, int intensity, bool force )
+                          bool permanent, int intensity, bool force, bool deferred )
 {
     bp = num_bp;
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
