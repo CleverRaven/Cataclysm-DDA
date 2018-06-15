@@ -515,8 +515,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
     int s_cargo = -1;
     int d_cargo = -1;
-    vehicle *s_veh = nullptr;
-    vehicle *d_veh = nullptr;
+    vehicle *s_veh, *d_veh;
+    s_veh = d_veh = nullptr;
 
     // load vehicle information if requested
     if( from_vehicle ) {
