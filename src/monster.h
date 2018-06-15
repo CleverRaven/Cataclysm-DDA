@@ -380,7 +380,8 @@ class monster : public Creature
 
         // DEFINING VALUES
         int friendly;
-        int anger, morale;
+        int anger = 0;
+        int morale = 0;
         mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         const mtype *type;

@@ -868,7 +868,9 @@ void monster::process_trigger(monster_trigger trig, int amount)
 int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
     int ret = 0;
-    bool check_terrain = false, check_meat = false, check_fire = false;
+    bool check_terrain = false;
+    bool check_meat = false;
+    bool check_fire = false;
     for( const auto &trigger : triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
@@ -1747,7 +1749,8 @@ void monster::die(Creature* nkiller)
     }
 
     // If our species fears seeing one of our own die, process that
-    int anger_adjust = 0, morale_adjust = 0;
+    int anger_adjust = 0;
+    int morale_adjust = 0;
     if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust += 15;
     }

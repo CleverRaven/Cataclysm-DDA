@@ -54,11 +54,14 @@ class main_menu
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
         input_context ctxt;
-        int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
+        int sel1 = 1;
+        int sel2 = 1;
+        int sel3 = 1;
+        int layer = 1;
         catacurses::window w_open;
         catacurses::window w_background;
         int iMenuOffsetX = 0;
-        int iMenuOffsetY;
+        int iMenuOffsetY = 0;
         std::vector<std::string> templates;
         int extra_w;
         std::vector<save_t> savegames;
