@@ -177,6 +177,7 @@
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
+      "CATFOOD",
       "PATH_AVOID_DANGER_1",
       "WARM",
       "FUR",
@@ -488,6 +489,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
+      "DOGFOOD",
       "PATH_AVOID_DANGER_1",
       "WARM",
       "FUR",
@@ -821,7 +823,6 @@
       "BORES",
       "CAN_DIG",
       "FAT",
-      "GOODHEARING",
       "HEARS",
       "KEENNOSE",
       "LEATHER",
@@ -830,7 +831,8 @@
       "REGEN_MORALE",
       "SMELLS",
       "WARM"
-    ]
+    ],
+    "//": "Reinsert GOODHEARING when z-level tunneling is possible."
   },
   {
     "id": "mon_opossum",
