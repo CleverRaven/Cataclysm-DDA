@@ -4321,7 +4321,6 @@ void game::debug()
 void game::draw_overmap()
 {
     overmap::draw_overmap();
-    refresh_all();
 }
 
 void game::disp_kills()
