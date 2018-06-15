@@ -560,11 +560,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             mvwprintz( w_skills, line, 1, text_color, "%s:", ( elem )->name().c_str() );
 
             if( ( elem )->ident() == skill_id( "dodge" ) ) {
-                double actual_dodge = level.level();
-                actual_dodge -= ::get_encumbrance( *this, bp_torso, false ) / 10;
-                actual_dodge -= ::get_encumbrance( *this, bp_leg_l, true ) / 10.0 / 4.0;
                 mvwprintz( w_skills, line, 15, text_color, "%-.1f/%-2d(%2d%%)",
-                           actual_dodge, level_num, ( exercise <  0 ? 0 : exercise ) );
+                           get_dodge(), level_num, exercise < 0 ? 0 : exercise );
             } else {
                 mvwprintz( w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
                            ( exercise <  0 ? 0 : exercise ) );
@@ -1010,11 +1007,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_skills, int( 1 + i - min ), 1, cstatus, "%s:", aSkill->name().c_str() );
 
                     if( aSkill->ident() == skill_id( "dodge" ) ) {
-                        double actual_dodge = level.level();
-                        actual_dodge -= ::get_encumbrance( *this, bp_torso, false ) / 10;
-                        actual_dodge -= ::get_encumbrance( *this, bp_leg_l, true ) / 10.0 / 4.0;
                         mvwprintz( w_skills, int( 1 + i - min ), 15, cstatus, "%-.1f/%-2d(%2d%%)",
-                                   actual_dodge, level.level(), ( exercise <  0 ? 0 : exercise ) );
+                                   get_dodge(), level.level(), exercise < 0 ? 0 : exercise );
                     } else {
                         mvwprintz( w_skills, int( 1 + i - min ), 19, cstatus, "%-2d(%2d%%)", level.level(),
                                    ( exercise <  0 ? 0 : exercise ) );
@@ -1063,11 +1057,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         mvwprintz( w_skills, i + 1,  1, cstatus, "%s:", thisSkill->name().c_str() );
 
                         if( thisSkill->ident() == skill_id( "dodge" ) ) {
-                            double actual_dodge = level.level();
-                            actual_dodge -= ::get_encumbrance( *this, bp_torso, false ) / 10;
-                            actual_dodge -= ::get_encumbrance( *this, bp_leg_l, true ) / 10.0 / 4.0;
                             mvwprintz( w_skills, i + 1, 15, cstatus, "%-.1f/%-2d(%2d%%)",
-                                       actual_dodge, level.level(), ( level.exercise() <  0 ? 0 : level.exercise() ) );
+                                       get_dodge(), level.level(), level.exercise() < 0 ? 0 : level.exercise() );
                         } else {
                             mvwprintz( w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", level.level(),
                                        ( level.exercise() <  0 ? 0 : level.exercise() ) );
