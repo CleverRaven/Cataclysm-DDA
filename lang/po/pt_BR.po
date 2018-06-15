@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-01 19:14-0400\n"
+"POT-Creation-Date: 2018-06-09 21:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Marco Przybysz <marcoprzybysz@protonmail.com>, 2018\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/cataclysm-dda-translators/teams/2217/pt_BR/)\n"
@@ -14886,6 +14886,9 @@ msgid ""
 "will be regularly counteracted by increasing hunger.  Can be toggled on and "
 "off at will."
 msgstr ""
+"Seu sistema digestivo e suprimento de energia são interconectados. Drenos de"
+" energia serão regularmente combatidos aumentando a fome. Pode ser ligado e "
+"desligado à vontade."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Weather Reader CBM"
@@ -61019,11 +61022,11 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This clothing is <info>very fancy</info>."
-msgstr ""
+msgstr "Esta roupa é <info>muito chique</info>."
 
 #: lang/json/json_flag_from_json.py
 msgid "Allows you to see much further under water."
-msgstr ""
+msgstr "Permite você ver muito além debaixo d'água."
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -61045,16 +61048,16 @@ msgstr ""
 
 #: lang/json/json_flag_from_json.py
 msgid "Can be made to fit via tailoring."
-msgstr ""
+msgstr "Pode ser feito caber via costura."
 
 #: lang/json/json_flag_from_json.py
 msgid "Layer for belts and other things worn on the waist."
-msgstr ""
+msgstr "Camada para cintos e outras coisas vestidas na cintura."
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This gear is worn on or around your <info>waist</info>."
-msgstr ""
+msgstr "Este equipamento é vestido ao redor ou na <info>cintura</info>."
 
 #: lang/json/json_flag_from_json.py
 msgid "Acts as a watch and allows the player to see actual time."
@@ -61063,7 +61066,7 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This gear allows to see <info>actual time</info>."
-msgstr ""
+msgstr "Este equipamento permite ver <info>o horário atual</info>."
 
 #: lang/json/json_flag_from_json.py
 msgid ""
@@ -107120,7 +107123,18 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "It should take %d minutes to finish burning."
+msgid "It will finish burning in about %d hour."
+msgid_plural "It will finish burning in about %d hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iexamine.cpp
+msgid "It will finish burning in less than an hour."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It should take about %d minutes to finish burning."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -108289,7 +108303,7 @@ msgid "<bold>Compatible magazines:</bold> "
 msgstr ""
 
 #: src/item.cpp
-msgid "<bold>Mods:<bold> "
+msgid "<bold>Mods:</bold> "
 msgstr ""
 
 #: src/item.cpp
@@ -108605,7 +108619,7 @@ msgid "Contains items with qualities:"
 msgstr ""
 
 #: src/item.cpp
-msgid "Techniques: "
+msgid "<bold>Techniques when wielded</bold>: "
 msgstr ""
 
 #: src/item.cpp
@@ -109085,6 +109099,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "isn't big enough to use that mod"
+msgstr ""
+
+#: src/item.cpp
+msgid "can only accept small mods on that slot"
 msgstr ""
 
 #. ~ %1$s - name of the gunmod, %2$s - name of the ammo
