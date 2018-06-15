@@ -256,6 +256,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
+- ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
