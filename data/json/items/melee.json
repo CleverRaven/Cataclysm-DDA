@@ -620,7 +620,7 @@
         "volume" : 6,
         "bashing" : 6,
         "cutting" : 17,
-        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE"],
         "price" : 4900,
         "qualities": [["COOK", 1]]
     },{
