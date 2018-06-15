@@ -219,6 +219,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```CATFOOD``` Becomes friendly / tamed with cat food.
+- ```CATTLEFODDER``` Becomes friendly / tamed with cattle fodder.
 - ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
 - ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
@@ -752,6 +753,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLECH``` Causes vomiting.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
+- ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
 - ```CIG``` Alleviates nicotine cravings. Adds disease `cig`.
 - ```COKE``` Decreases hunger. Adds disease `high`.
