@@ -1353,14 +1353,19 @@ class player : public Character
         time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
-        int power_level, max_power_level;
-        int tank_plut, reactor_plut, slow_rad;
+        int power_level;
+        int max_power_level;
+        int tank_plut;
+        int reactor_plut;
+        int slow_rad;
         int oxygen;
         int stamina;
         double recoil = MAX_RECOIL;
         int scent;
-        int dodges_left, blocks_left;
-        int stim, radiation;
+        int dodges_left;
+        int blocks_left;
+        int stim
+        int radiation;
         unsigned long cash;
         int movecounter;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;

@@ -754,13 +754,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
 
-        int start = 0, cur_it;
+        int start = 0;
+        int cur_it = 0;
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
         int iScrollPos = 0;
 
-        std::string filter, new_filter;
+        std::string filter;
+        std::string new_filter;
         std::vector<int> matches;//Indexes of items that match the filter
         bool filter_changed = true;
         if( g->was_fullscreen ) {
@@ -925,7 +927,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
             werase( w_item_info );
             if( selected >= 0 && selected <= ( int )stacked_here.size() - 1 ) {
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 selected_item.info( true, vThisItem );
 
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );

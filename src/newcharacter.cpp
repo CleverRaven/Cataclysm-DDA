@@ -275,7 +275,9 @@ void player::randomize( const bool random_scenario, points_left &points, bool pl
     // to many points, therefore they are added back.
     points.stat_points += 8 * 4;
 
-    int num_gtraits = 0, num_btraits = 0, tries = 0;
+    int num_gtraits = 0;
+    int num_btraits = 0;
+    int tries = 0;
     add_traits(); // adds mandatory profession/scenario traits.
     for( const auto &mut : my_mutations ) {
         const mutation_branch &mut_info = mut.first.obj();
@@ -1026,7 +1028,8 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     catacurses::window w_description = catacurses::newwin( 3, TERMX - 2, TERMY - 4 + getbegy( w ),
                                    1 + getbegx(w));
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
-    int num_good = 0, num_bad = 0;
+    int num_good = 0;
+    int num_bad = 0;
 
     std::vector<trait_id> vStartingTraits[2];
 
