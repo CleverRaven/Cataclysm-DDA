@@ -1755,7 +1755,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                         int spawns_todo = 0;
                         for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                            int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
+                            int mx = srcsm->spawns[i].posx;
+                            int my = srcsm->spawns[i].posy;
                             s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
                             destsm->spawns.push_back( srcsm->spawns[i] );
                             spawns_todo++;

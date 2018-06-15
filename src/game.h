@@ -617,7 +617,9 @@ class game
     private:
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
-        int ter_view_x, ter_view_y, ter_view_z;
+        int ter_view_x;
+        int ter_view_y;
+        int ter_view_z;
 
     private:
         catacurses::window w_terrain_ptr;
