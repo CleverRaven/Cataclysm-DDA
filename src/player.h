@@ -1103,7 +1103,7 @@ class player : public Character
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         /** Legacy activity assignment, should not be used where resuming is important. */
-        void assign_activity( activity_id type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
+        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
                              const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );

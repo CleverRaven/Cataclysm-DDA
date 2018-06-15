@@ -35,12 +35,12 @@ std::map<std::string, std::string> normalized_names;
 
 static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
                                       const recipe &rec );
-static void draw_recipe_tabs( const catacurses::window &w, std::string tab,
+static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
                               TAB_MODE mode = NORMAL );
-static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab, const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string get_cat_name( std::string prefixed_name )
+std::string get_cat_name( const std::string &prefixed_name )
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
@@ -69,7 +69,7 @@ void load_recipe_category( JsonObject &jsobj )
     }
 }
 
-std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
+std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_name( cat ) + "_";
 
@@ -690,7 +690,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
     }
 }
 
-static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_MODE mode )
+static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );
@@ -722,7 +722,7 @@ static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_
     wrefresh( w );
 }
 
-static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab, const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode )
 {
     werase( w );

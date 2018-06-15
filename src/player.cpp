@@ -10248,7 +10248,7 @@ void player::learn_recipe( const recipe * const rec )
     learned_recipes->include( rec );
 }
 
-void player::assign_activity( activity_id type, int moves, int index, int pos, const std::string &name )
+void player::assign_activity( const activity_id &type, int moves, int index, int pos, const std::string &name )
 {
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }

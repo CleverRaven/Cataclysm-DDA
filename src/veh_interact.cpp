@@ -1985,7 +1985,7 @@ size_t veh_interact::display_esc( const catacurses::window &win )
  * @param list The list to display parts from.
  * @param header Number of lines occupied by the list header
  */
-void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header)
+void veh_interact::display_list(size_t pos, const std::vector<const vpart_info*> &list, const int header)
 {
     werase (w_list);
     int lines_per_page = page_size - header;
