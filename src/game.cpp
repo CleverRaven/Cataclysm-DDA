@@ -682,6 +682,11 @@ void game::init_ui( const bool resized )
     werase(w_status2);
 
     liveview.init();
+
+    //Refresh only if ingame. Will crash on main menu
+    if( resized && !g->u.name.empty() ) {
+        g->refresh_all();
+    }
 }
 
 void game::toggle_sidebar_style()
