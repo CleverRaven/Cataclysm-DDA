@@ -214,7 +214,7 @@ struct artifact_armor_form_datum {
     int warmth;
     units::volume storage;
     int melee_bash;
-    int melee_cut
+    int melee_cut;
     int melee_hit;
     body_part_set covers;
     bool plural;

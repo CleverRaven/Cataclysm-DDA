@@ -1364,7 +1364,7 @@ class player : public Character
         int scent;
         int dodges_left;
         int blocks_left;
-        int stim
+        int stim;
         int radiation;
         unsigned long cash;
         int movecounter;

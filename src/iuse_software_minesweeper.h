@@ -15,7 +15,7 @@ class minesweeper_game
         bool check_win();
         void new_level( const catacurses::window &w_minesweeper );
         int iMaxX = 0;
-        int iMaxY = 0
+        int iMaxY = 0;
         int iMinX = 0;
         int iMinY = 0;
         int iLevelX = 0;
