@@ -163,7 +163,10 @@ moon_phase get_moon_phase( const time_point &p )
 
 calendar calendar::sunrise() const
 {
-    int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
+    int start_hour = 0;
+    int end_hour = 0;
+    int newhour = 0;
+    int newminute = 0;
     switch (season) {
     case SPRING:
         start_hour = SUNRISE_EQUINOX;
@@ -194,7 +197,10 @@ calendar calendar::sunrise() const
 
 calendar calendar::sunset() const
 {
-    int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
+    int start_hour = 0;
+    int end_hour = 0;
+    int newhour = 0;
+    int newminute = 0;
     switch (season) {
     case SPRING:
         start_hour = SUNSET_EQUINOX;
