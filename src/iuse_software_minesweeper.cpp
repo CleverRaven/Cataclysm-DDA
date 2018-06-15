@@ -228,7 +228,8 @@ int minesweeper_game::start_game()
         }
     };
 
-    int iDirY, iDirX;
+    int iDirY = 0;
+    int iDirX = 0;
 
     std::string action = "NEW";
 

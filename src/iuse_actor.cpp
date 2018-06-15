@@ -1340,7 +1340,8 @@ bool inscribe_actor::item_inscription( item &cut ) const
     menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
     menu.query();
 
-    std::string carving, carving_type;
+    std::string carving;
+    std::string carving_type;
     switch ( menu.ret )
     {
     case INSCRIPTION_LABEL:

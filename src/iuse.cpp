@@ -2032,7 +2032,8 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    int dirx, diry;
+    int dirx = 0;
+    int diry = 0;
 
     if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
         return 0;
@@ -2084,7 +2085,8 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
 
-        int dirx, diry;
+        int dirx = 0;
+        int diry = 0;
 
         if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
             return 0;
@@ -2517,7 +2519,8 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint& )
 
 static bool pry_nails( player &p, const ter_id &type, const int dirx, const int diry )
 {
-    int nails = 0, boards = 0;
+    int nails = 0;
+    int boards = 0;
     ter_id newter;
     if (type == t_fence_h || type == t_fence_v) {
         nails = 6;
@@ -2567,7 +2570,8 @@ static bool pry_nails( player &p, const ter_id &type, const int dirx, const int 
 int iuse::hammer(player *p, item *it, bool, const tripoint& )
 {
     g->draw();
-    int x, y;
+    int x = 0;
+    int y = 0;
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     if (!choose_adjacent(_("Pry where?"), x, y)) {
@@ -2997,7 +3001,8 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-    int dirx, diry;
+    int dirx = 0;
+    int diry = 0;
     if (!choose_adjacent(_("Mine where?"), dirx, diry)) {
         return 0;
     }
@@ -4273,7 +4278,8 @@ int iuse::portable_structure(player *p, item *it, bool, const tripoint& )
 
     int diam = 2*radius + 1;
 
-    int dirx, diry;
+    int dirx = 0;
+    int diry = 0;
     if (!choose_adjacent(
             string_format(_("Put up the %s where (%dx%d clear area)?"),
                 it->tname().c_str(),
@@ -4431,7 +4437,8 @@ int iuse::boltcutters(player *p, item *it, bool, const tripoint &pos )
 
 int iuse::mop( player *p, item *it, bool, const tripoint & )
 {
-    int dirx, diry;
+    int dirx = 0;
+    int diry = 0;
     if( !choose_adjacent( _( "Mop where?" ), dirx, diry ) ) {
         return 0;
     }
@@ -4496,7 +4503,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 sounds::sound(p->pos(), 10, _("Ka-BOOM!"));
                 int num_bolts = rng(2, 4);
                 for (int j = 0; j < num_bolts; j++) {
-                    int xdir = 0, ydir = 0;
+                    int xdir = 0;
+                    int ydir = 0;
                     while (xdir == 0 && ydir == 0) {
                         xdir = rng(-1, 1);
                         ydir = rng(-1, 1);
