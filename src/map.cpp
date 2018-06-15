@@ -4049,7 +4049,7 @@ const std::string map::get_signage( const tripoint &p ) const
 
     return current_submap->get_signage(lx, ly);
 }
-void map::set_signage( const tripoint &p, std::string message ) const
+void map::set_signage( const tripoint &p, const std::string &message ) const
 {
     if( !inbounds( p ) ) {
         return;
@@ -5204,7 +5204,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
     return false;
 }
 
-void map::trigger_rc_items( std::string signal )
+void map::trigger_rc_items( const std::string &signal )
 {
     process_items( false, trigger_radio_item, signal );
 }

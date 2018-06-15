@@ -2142,7 +2142,7 @@ std::string player::save_info() const
     return ::serialize( *this ) + "\n" + dump_memorial();
 }
 
-void player::memorial( std::ostream &memorial_file, std::string epitaph )
+void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
 {
     static const char *eol = cata_files::eol();
 
@@ -6590,7 +6590,7 @@ bool player::has_charges(const itype_id &it, long quantity) const
     return charges_of( it, quantity ) == quantity;
 }
 
-int  player::leak_level( std::string flag ) const
+int  player::leak_level( const std::string &flag ) const
 {
     int leak_level = 0;
     leak_level = inv.leak_level(flag);
@@ -9120,7 +9120,7 @@ void player::do_read( item &book )
     activity.set_to_null();
 }
 
-bool player::has_identified( std::string item_id ) const
+bool player::has_identified( const std::string &item_id ) const
 {
     return items_identified.count( item_id ) > 0;
 }
@@ -10248,7 +10248,7 @@ void player::learn_recipe( const recipe * const rec )
     learned_recipes->include( rec );
 }
 
-void player::assign_activity( activity_id type, int moves, int index, int pos, std::string name )
+void player::assign_activity( activity_id type, int moves, int index, int pos, const std::string &name )
 {
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }

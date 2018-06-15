@@ -2274,7 +2274,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     }
 }
 
-void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member,
+void Item_factory::set_use_methods_from_json( JsonObject &jo, const std::string &member,
                                               std::map<std::string, use_function> &use_methods )
 {
     if( !jo.has_member( member ) ) {

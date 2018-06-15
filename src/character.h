@@ -510,7 +510,7 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried() const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by( units::volume mod ) const;
+        units::volume volume_capacity_reduced_by( const units::volume &mod ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;

@@ -540,7 +540,7 @@ static const std::array<std::string, 20> artifact_noun = { {
     translate_marker( "%s Justice" ), translate_marker( "the %s Necropolis" ), translate_marker( "%s Ichor" ), translate_marker( "the %s Monolith" ), translate_marker( "%s Aeons" ),
     translate_marker( "%s Graves" ), translate_marker( "%s Horrors" ), translate_marker( "%s Suffering" ), translate_marker( "%s Death" ), translate_marker( "%s Horror" )
 } };
-std::string artifact_name(std::string type);
+std::string artifact_name( const std::string &type );
 
 // Constructors for artifact itypes.
 it_artifact_tool::it_artifact_tool() : itype()
@@ -992,7 +992,7 @@ std::vector<art_effect_active> fill_bad_active()
     return ret;
 }
 
-std::string artifact_name(std::string type)
+std::string artifact_name( const std::string &type )
 {
     std::string ret;
     std::string noun = _( random_entry_ref( artifact_noun ).c_str() );

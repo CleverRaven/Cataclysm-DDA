@@ -182,7 +182,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
                                  drop_group( "EMPTY_GROUP" ),
                                  ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
 
-bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
+bool map_bash_info::load(JsonObject &jsobj, const std::string &member, bool is_furniture) {
     if( !jsobj.has_object(member) ) {
         return false;
     }
@@ -211,7 +211,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     sound = j.get_string("sound", _("smash!"));
     sound_fail = j.get_string("sound_fail", _("thump!"));
 
-    if( isfurniture ) {
+    if( is_furniture ) {
         furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
     } else {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
@@ -234,7 +234,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
                                                ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
 
-bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
+bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
 {
     if (!jsobj.has_object(member)) {
         return false;
@@ -242,7 +242,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     JsonObject j = jsobj.get_object(member);
     furn_set = furn_str_id( j.get_string("furn_set", "f_null" ) );
 
-    if (!isfurniture) {
+    if (!is_furniture) {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
     can_do = true;

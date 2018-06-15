@@ -50,12 +50,12 @@ bool mtype::has_flag( m_flag flag ) const
     return bitflags[flag];
 }
 
-bool mtype::has_flag( std::string flag ) const
+bool mtype::has_flag( const std::string &flag ) const
 {
     return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
 }
 
-void mtype::set_flag( std::string flag, bool state )
+void mtype::set_flag( const std::string &flag, bool state )
 {
     if( state ) {
         flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
@@ -84,7 +84,7 @@ bool mtype::has_placate_trigger( monster_trigger trig ) const
     return bitplacate[trig];
 }
 
-bool mtype::in_category( std::string category ) const
+bool mtype::in_category( const std::string &category ) const
 {
     return ( categories.find( category ) != categories.end() );
 }

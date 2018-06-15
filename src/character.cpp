@@ -1054,7 +1054,7 @@ units::volume Character::volume_capacity() const
     return volume_capacity_reduced_by( 0 );
 }
 
-units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
+units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         return units::volume_max;

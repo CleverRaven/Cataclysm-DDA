@@ -140,7 +140,7 @@ class player : public Character
         player &operator=(player &&);
 
         // newcharacter.cpp
-        bool create(character_type type, std::string tempname = "");
+        bool create(character_type type, const std::string &tempname = "");
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
@@ -185,7 +185,7 @@ class player : public Character
         virtual void serialize( JsonOut &jsout ) const;
 
         /** Prints out the player's memorial file */
-        void memorial( std::ostream &memorial_file, std::string epitaph );
+        void memorial( std::ostream &memorial_file, const std::string &epitaph );
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
@@ -1023,7 +1023,7 @@ class player : public Character
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( std::string item_id ) const;
+        bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
         /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
@@ -1104,7 +1104,7 @@ class player : public Character
 
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( activity_id type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
-                             std::string name = "" );
+                             const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity( const activity_id type) const;
@@ -1177,7 +1177,7 @@ class player : public Character
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
-        int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
+        int  leak_level( const std::string &flag ) const; // carried items may leak radiation or chemicals
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag ) const;

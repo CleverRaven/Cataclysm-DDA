@@ -83,7 +83,7 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
-void sounds::ambient_sound( const tripoint &p, int vol, std::string description )
+void sounds::ambient_sound( const tripoint &p, int vol, const std::string &description )
 {
     sound( p, vol, description, true );
 }
@@ -662,8 +662,8 @@ struct sound_thread {
 };
 } // namespace sfx
 
-void sfx::generate_melee_sound( tripoint source, tripoint target, bool hit, bool targ_mon,
-                                std::string material )
+void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, bool hit, bool targ_mon,
+                                const std::string &material )
 {
     // If creating a new thread for each invocation is to much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
