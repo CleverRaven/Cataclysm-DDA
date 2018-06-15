@@ -628,7 +628,7 @@ classes = {
             { name = "is_underwater", rval = "bool", args = { } },
             { name = "is_wearing_active_power_armor", rval = "bool", args = { } },
             { name = "is_wearing_power_armor", rval = "bool", args = { } },
-            { name = "is_wearing_shoes", rval = "bool", args = { "string" } },
+            { name = "is_wearing_shoes", rval = "bool", args = { "side" } },
             { name = "is_wearing_shoes", rval = "bool", args = { } },
             { name = "item_handling_cost", rval = "int", args = { "item" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool" } },
