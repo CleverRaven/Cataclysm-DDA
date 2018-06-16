@@ -1683,8 +1683,6 @@ bool vehicle::can_unmount(int const p) const
     int dx = parts[p].mount.x;
     int dy = parts[p].mount.y;
 
-    std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
-
     // Can't remove an engine if there's still an alternator there
     if(part_flag(p, VPFLAG_ENGINE) && part_with_feature(p, VPFLAG_ALTERNATOR) >= 0) {
         return false;
@@ -1718,6 +1716,7 @@ bool vehicle::can_unmount(int const p) const
     //Structural parts have extra requirements
     if(part_info(p).location == part_location_structure) {
 
+        std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for( auto &elem : parts_in_square ) {
@@ -1816,7 +1815,6 @@ bool vehicle::is_connected(vehicle_part const &to, vehicle_part const &from, veh
             std::vector<int> parts_there = parts_at_relative(next.x, next.y);
 
             if(!parts_there.empty()) {
-                vehicle_part next_part = parts[parts_there[0]];
                 //Only add the part if we haven't been here before
                 bool found = false;
                 for( auto &elem : discovered ) {
@@ -1834,6 +1832,7 @@ bool vehicle::is_connected(vehicle_part const &to, vehicle_part const &from, veh
                     }
                 }
                 if(!found) {
+                    vehicle_part next_part = parts[parts_there[0]];
                     discovered.push_back(next_part);
                 }
             }

@@ -498,8 +498,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         wmove( w_worlds_header, 0, 7 );
 
         for( size_t i = 0; i < num_pages; ++i ) {
-            nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
-            if( !world_pages[i].empty() ) { //skip empty pages
+            if (!world_pages[i].empty()) { //skip empty pages
+                nc_color tabcolor = (selpage == i) ? hilite(c_white) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
                 wprintz( w_worlds_header, tabcolor, _("Page %lu"), i + 1) ;
                 wprintz( w_worlds_header, c_white, "]" );

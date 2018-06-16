@@ -1019,11 +1019,11 @@ void sfx::do_obstacle()
 /*@{*/
 void sfx::load_sound_effects( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
-void sfx::play_variant_sound( std::string, std::string, int, int, float, float ) { }
-void sfx::play_variant_sound( std::string, std::string, int ) { }
-void sfx::play_ambient_variant_sound( std::string, std::string, int, int, int ) { }
+void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
+void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
+void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int ) { }
 void sfx::generate_gun_sound( const player &, const item & ) { }
-void sfx::generate_melee_sound( const tripoint, const tripoint, bool, bool, std::string ) { }
+void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool, const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }
 void sfx::remove_hearing_loss() { }
 void sfx::do_projectile_hit( const Creature & ) { }
@@ -1047,7 +1047,7 @@ void sfx::do_obstacle() { }
 /** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
   * without sound support. */
 /*@{*/
-int sfx::get_heard_volume( const tripoint source )
+int sfx::get_heard_volume( const tripoint &source )
 {
     int distance = rl_dist( g->u.pos(), source );
     // fract = -100 / 24
@@ -1060,7 +1060,7 @@ int sfx::get_heard_volume( const tripoint source )
     return ( heard_volume );
 }
 
-int sfx::get_heard_angle( const tripoint source )
+int sfx::get_heard_angle( const tripoint &source )
 {
     int angle = g->m.coord_to_angle( g->u.posx(), g->u.posy(), source.x, source.y ) + 90;
     //add_msg(m_warning, "angle: %i", angle);

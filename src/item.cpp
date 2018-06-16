@@ -5365,9 +5365,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         long charges_remaining = charges;
         const long rounds_exploded = rng( 1, charges_remaining );
-        // Yank the exploding item off the map for the duration of the explosion
-        // so it doesn't blow itself up.
-        item temp_item = *this;
         const islot_ammo &ammo_type = *type->ammo;
 
         if( ammo_type.special_cookoff ) {
@@ -5380,7 +5377,10 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
                          false, rounds_exploded / 5.0f );
         }
         charges_remaining -= rounds_exploded;
-        if( charges_remaining > 0 ) {
+        if (charges_remaining > 0) {
+            // Yank the exploding item off the map for the duration of the explosion
+            // so it doesn't blow itself up.
+            item temp_item = *this;
             temp_item.charges = charges_remaining;
             drops.push_back( temp_item );
         }

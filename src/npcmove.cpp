@@ -2215,13 +2215,13 @@ void npc::drop_items( int weight, int volume )
         g->m.add_item_or_charges( pos(), dropped );
     }
     // Finally, describe the action if u can see it
-    std::string item_name_str = item_name.str();
     if( g->u.sees( *this ) ) {
         if( num_items_dropped >= 3 ) {
             add_msg( ngettext( "%s drops %d item.", "%s drops %d items.",
                                num_items_dropped ), name.c_str(),
                      num_items_dropped );
         } else {
+            std::string item_name_str = item_name.str();
             add_msg( _( "%1$s drops a %2$s." ), name.c_str(),
                      item_name_str.c_str() );
         }
@@ -3279,8 +3279,8 @@ void npc::do_reload( item &it )
                                        it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
     // @todo: Consider printing this info to player too
-    const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
+        const std::string ammo_name = usable_ammo->tname();
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
                   it.tname().c_str(), qty, ammo_name.c_str() );
         return;

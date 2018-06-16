@@ -2198,9 +2198,9 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    const std::string booze_name = g->m.i_at( examp ).front().tname();
     if( g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
+        const std::string booze_name = g->m.i_at( examp ).front().tname();
         add_msg(_("You squeeze the last drops of %s from the vat."), booze_name.c_str());
     }
 }
@@ -3523,9 +3523,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             const item &it = p.i_at( bionic );
             const itype &itemtype = *it.type;
-            const time_duration duration = itemtype.bionic->difficulty * 20_minutes;
             if( p.install_bionics( itemtype ) ) {
-                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
+                p.add_msg_if_player(m_info, _("You type data into the console, configuring Autodoc to install a CBM."));
+                const time_duration duration = itemtype.bionic->difficulty * 20_minutes;
                 p.fall_asleep( duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );

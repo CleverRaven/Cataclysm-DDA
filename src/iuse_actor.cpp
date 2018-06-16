@@ -3189,7 +3189,7 @@ long place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
             if( !is_allowed( p, t, it.tname() ) ) {
                 p.add_msg_if_player( m_info, _( "That trap needs a 3x3 space to be clear, centered two tiles from you." ) );
-                return false;
+                return 0;
             }
         }
     }

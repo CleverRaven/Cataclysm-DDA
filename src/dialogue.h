@@ -79,7 +79,8 @@ void companion_mission( npc & );
 //Primary Loop
 bool outpost_missions( npc &p, const std::string &id, const std::string &title );
 //Send a companion on an individual mission or attaches them to a group to depart later
-void individual_mission( npc &p, const std::string &desc, const std::string &id, bool group = false );
+void individual_mission( npc &p, const std::string &desc, const std::string &id,
+                         bool group = false );
 
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
 void caravan_depart( npc &p, const std::string &dest, const std::string &id );
