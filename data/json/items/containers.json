@@ -150,7 +150,8 @@
     "contains": 3,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+	"flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "bottle_plastic",
@@ -525,7 +526,8 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+	"flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "flask_hip",
@@ -568,7 +570,8 @@
     "color": "cyan",
     "contains": 2,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+	"flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "glass_bowl",
@@ -585,7 +588,8 @@
     "color": "cyan",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+	"flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "jar_3l_glass",
@@ -603,7 +607,8 @@
     "contains": 12,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+	"flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -635,7 +640,8 @@
     "seals": true,
     "watertight": true,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+	"flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "jar_glass_sealed",
