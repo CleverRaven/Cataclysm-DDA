@@ -3825,7 +3825,8 @@ int iuse::solarpack(player *p, item *it, bool, const tripoint& )
                               it->tname().c_str() );
     return 0;
     }
-    p->add_msg_if_player(_( "You unfold solar array from the pack and plug it it." ));
+
+    p->add_msg_if_player(_( "You unfold solar array from the pack and plug it in." ));
     
     if ( it->typeId( "solarpack" ) ) {
         it->convert( "solarpack_on" );
