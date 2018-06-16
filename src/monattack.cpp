@@ -196,17 +196,17 @@ bool mattack::none(monster *)
     return true;
 }
 
-bool mattack::eat_crop(monster *z)
+bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.has_flag("PLANT", p) && one_in(4) ) {
-            g->m.ter_set(p, t_dirt);
-            g->m.furn_set(p, f_null);
+        if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
+            g->m.ter_set( p, t_dirt );
+            g->m.furn_set( p, f_null );
 
-            auto items = g->m.i_at(p);
+            auto items = g->m.i_at( p );
             for( auto i = items.begin(); i != items.end(); ) {
                 if( i->is_seed() ) {
-                    g->m.i_rem(p, i);
+                    g->m.i_rem( p, i );
                     return true;
                 }
             }
@@ -215,10 +215,10 @@ bool mattack::eat_crop(monster *z)
     return true;
 }
 
-bool mattack::eat_food(monster *z)
+bool mattack::eat_food( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        auto items = g->m.i_at(p);
+        auto items = g->m.i_at( p );
         for( auto i = items.begin(); i != items.end(); ) {
             if( i->is_food() ) {
                 long consumed = 1;
