@@ -145,7 +145,7 @@
     "type": "GUN",
     "name": "pump action shotgun",
     "reload_noise": "chuk chuk.",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ]
   },
   {
     "abstract": "smg_base",

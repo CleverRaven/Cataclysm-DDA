@@ -2177,7 +2177,9 @@
         "material" : "flesh",
         "flags" : "TRADER_AVOID",
         "volume" : 1,
-        "fun" : -10
+        "fun": -10,
+        "rot_spawn": "GROUP_CARRION_INFECTED",
+        "rot_spawn_chance": 15
     },
     {
         "type" : "COMESTIBLE",
@@ -2286,7 +2288,8 @@
         "price" : 0,
         "material" : "veggy",
         "flags": "TRADER_AVOID",
-        "volume" : 1
+        "volume": 1,
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -2632,7 +2635,8 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
+        "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -2650,8 +2654,9 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"]
-    },
+        "flags": [ "EATEN_HOT" ],
+        "rot_spawn": "GROUP_ROTTING_PLANT"
+	},
     {
         "type" : "COMESTIBLE",
         "id" : "apple",
@@ -3320,18 +3325,17 @@
         "id" : "smores",
         "name" : "s'mores",
         "name_plural" : "s'mores",
-        "weight" : 24,
+        "weight" : 6,
         "color" : "brown",
         "stim" : 8,
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "nutrition" : 2,
+        "nutrition" : 24,
         "description" : "A pair of graham crackers with some chocolate and a marshmallow between them.",
         "price" : 400,
         "material" : ["wheat", "junk"],
         "volume" : 1,
-        "charges" : 4,
         "fun" : 30
     },
     {
@@ -3750,7 +3754,8 @@
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "fun" : -3
+        "fun": -3,
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -3804,7 +3809,8 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "fun" : 1
+        "fun": 1,
+        "rot_spawn": "GROUP_ROTTING_PLANT"
     },
     {
         "type" : "COMESTIBLE",
@@ -5784,7 +5790,7 @@
         "symbol" : "%",
         "quench" : -1,
         "nutrition" : 1,
-        "description" : "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and burdock.",
+        "description" : "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, fireweed, and burdock.",
         "price" : 190,
         "material" : "veggy",
         "volume" : 1,
@@ -6547,7 +6553,9 @@
         "volume" : 4,
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
-        "fun" : 3
+        "fun": 3,
+        "rot_spawn": "GROUP_ROTTING_TRIFFID_FAVOR",
+        "rot_spawn_chance": 20
     },
     {
         "type" : "COMESTIBLE",
@@ -9274,7 +9282,9 @@
         "material" : "egg",
         "volume" : 1,
         "stack_size" : 4,
-        "fun" : -8
+        "fun": -8,
+        "rot_spawn": "GROUP_EGG_CHICKEN",
+        "rot_spawn_chance": 60
     },{
         "type" : "COMESTIBLE",
         "id" : "egg_reptile",
@@ -9292,7 +9302,9 @@
         "material" : "egg",
         "volume" : 1,
         "stack_size" : 4,
-        "fun" : -12
+        "fun": -12,
+        "rot_spawn": "GROUP_EGG_SNAKE",
+        "rot_spawn_chance": 60
     },
     {
         "type" : "COMESTIBLE",
