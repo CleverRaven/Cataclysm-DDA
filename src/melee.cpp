@@ -141,6 +141,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     float material_factor;
 
     itype_id weak_comp;
+    // Fragile items that fall apart easily when used as a weapon due to poor construction quality
     if( shield.has_flag( "FRAGILE_MELEE" ) ) {
         const float fragile_factor = 6;
         int weak_chip = INT_MAX;
@@ -219,6 +220,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
 
     remove_item( shield );
 
+    // Breakdown fragile weapons into components
     if( temp.has_flag( "FRAGILE_MELEE" ) && !temp.components.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
                                       _( "<npcname>'s %s breaks apart!" ),
@@ -227,15 +229,17 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         std::vector<item> all_comps = temp.components;
 
         for( auto &comp : all_comps ) {
-            if( comp.has_flag( "HANDLE" ) && comp.typeId() != weak_comp && !is_armed() ) {
+            int break_chance = comp.typeId() == weak_comp ? 2 : 8;
+
+            if( one_in( break_chance ) ) {
+                add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
+                continue;
+            }
+
+            if( comp.has_flag( "HANDLE" ) && !is_armed() ) {
                 wield( comp );
             } else {
-                int break_chance = comp.typeId() == weak_comp ? 2 : 8;
-                if( !one_in( break_chance ) ) {
-                    g->m.add_item_or_charges( pos(), comp );
-                } else {
-                    add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
-                }
+                g->m.add_item_or_charges( pos(), comp );
             }
         }
     } else {
