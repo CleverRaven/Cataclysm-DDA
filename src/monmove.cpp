@@ -1120,8 +1120,8 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             if( one_in( 4 ) ) {
                 g->m.add_field( pos(), fd_fire, 2 );
                 add_msg( m_warning,
-                _( "The burning end of the %1$s's flamethrower accidentally touches puddle of napalm, and it flares up!" ),
-                name() );
+                         _( "The burning end of the %1$s's flamethrower accidentally touches puddle of napalm, and it flares up!" ),
+                         name() );
             }
         }
     }
