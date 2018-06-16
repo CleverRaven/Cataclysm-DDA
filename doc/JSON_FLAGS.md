@@ -993,6 +993,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```MOP``` Mop up the mess.
 - ```MP3``` Turn the mp3 player on.
 - ```MP3_ON``` Turn the mp3 player off.
+- ```SOLARPACK``` Unfold solar backpack array.
+- ```SOLARPACK_OFF``` Fold solar backpack array.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
 - ```PHEROMONE``` Makes zombies love you.

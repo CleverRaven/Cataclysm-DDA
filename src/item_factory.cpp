@@ -644,6 +644,8 @@ void Item_factory::init()
     add_iuse( "SIPHON", &iuse::siphon );
     add_iuse( "SLEEP", &iuse::sleep );
     add_iuse( "SMOKING", &iuse::smoking );
+    add_iuse( "SOLARPACK", &iuse::solar );
+    add_iuse( "SOLARPACK_OFF", &iuse::solar_off );
     add_iuse( "SPRAY_CAN", &iuse::spray_can );
     add_iuse( "STIMPACK", &iuse::stimpack );
     add_iuse( "TAZER", &iuse::tazer );

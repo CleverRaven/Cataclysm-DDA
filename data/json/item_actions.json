@@ -461,6 +461,14 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "SOLARPACK",
+        "name" : "Unfold"
+    },{
+        "type" : "item_action",
+        "id" : "SOLARPACK_OFF",
+        "name" : "Fold"
+    },{
+        "type" : "item_action",
         "id" : "MULTICOOKER",
         "name" : "Cook"
     },{
