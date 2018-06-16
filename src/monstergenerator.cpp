@@ -266,6 +266,8 @@ void MonsterGenerator::init_death()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
+    add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
