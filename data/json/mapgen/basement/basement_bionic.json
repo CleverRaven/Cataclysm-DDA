@@ -32,9 +32,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "basement_game"
-      ],
+      "palettes": [ "basement_game" ],
       "furniture": {
         "}": "f_pinball_machine",
         "*": "f_shower",
@@ -69,9 +67,7 @@
         { "item": "towel", "x": 2, "y": 7, "chance": 60 },
         { "item": "stereo", "x": 1, "y": 7, "chance": 50 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_BROKEN_CYBORG", "x": [ 5, 17 ], "y": [ 9, 11 ], "chance": 75 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_BROKEN_CYBORG", "x": [ 5, 17 ], "y": [ 9, 11 ], "chance": 75 } ]
     }
   },
   {
@@ -107,9 +103,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "basement_game"
-      ],
+      "palettes": [ "basement_game" ],
       "furniture": {
         "}": "f_pinball_machine",
         "*": "f_shower",
@@ -140,9 +134,7 @@
         { "item": "towel", "x": 2, "y": 7, "chance": 60 },
         { "item": "stereo", "x": 1, "y": 7, "chance": 50 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 5, 17 ], "y": [ 9, 11 ], "chance": 2 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 17 ], "y": [ 9, 11 ], "chance": 2 } ]
     }
   }
 ]
