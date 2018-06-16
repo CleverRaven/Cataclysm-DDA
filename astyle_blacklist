@@ -25,7 +25,6 @@ src/inventory.cpp
 src/inventory_ui.cpp
 src/item.cpp
 src/item_factory.cpp
-src/iuse.cpp
 src/json.cpp
 src/lightmap.cpp
 src/line.cpp
@@ -70,7 +69,6 @@ src/field.h
 src/io.h
 src/item.h
 src/itype.h
-src/iuse.h
 src/json.h
 src/mapdata.h
 src/mapgen_functions.h
