@@ -142,7 +142,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
 
     itype_id weak_comp;
     if( shield.has_flag( "FRAGILE_MELEE" ) ) {
-        const float fragile_factor = 1;
+        const float fragile_factor = 6;
         int weak_chip = INT_MAX;
 
         //Items that should have no bearing on durability
