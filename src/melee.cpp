@@ -188,9 +188,6 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     //    damage_chance = std::min( damage_chance / 4, 5 );
     //}
 
-    add_msg( m_bad, _( "damage_chance: %d" ), damage_chance );
-    add_msg( m_bad, _( "    weak_comp: %s" ), weak_comp );
-
     if( damage_chance > 0 && !one_in(damage_chance) ) {
         return false;
     }
@@ -234,7 +231,6 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
                 wield( comp );
             } else {
                 int break_chance = comp.typeId() == weak_comp ? 2 : 8;
-
                 if( !one_in( break_chance ) ) {
                     g->m.add_item_or_charges( pos(), comp );
                 } else {
