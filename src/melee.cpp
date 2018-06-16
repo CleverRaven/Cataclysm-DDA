@@ -137,7 +137,39 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     const float stat_factor = dex_cur / 2.0f
         + get_skill_level( skill_melee )
         + ( 64.0f / std::max( str_cur, 4 ) );
-    const float material_factor = shield.chip_resistance();
+
+    float material_factor;
+
+    itype_id weak_comp;
+    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
+        const float fragile_factor = 1;
+        int weak_chip = INT_MAX;
+
+        //Items that should have no bearing on durability
+        const std::vector<itype_id> blacklist = { "rag",
+                                                  "leather",
+                                                  "fur" };
+
+        std::vector<item> valid_components;
+        for( auto &comp : shield.components ) {
+            add_msg( m_bad, _( "comp: %s" ), comp.typeId() );
+            for( const auto &black : blacklist ) {
+                black == comp.typeId() ? false : valid_components.push_back( comp );
+            }
+        }
+        if( valid_components.size() > 0 ) {
+            for( auto &valid : valid_components ) {
+                if( weak_chip > valid.chip_resistance() ) {
+                    weak_chip = valid.chip_resistance();
+                    weak_comp = valid.typeId();
+                }
+            }
+        }
+        material_factor = ( weak_chip < INT_MAX ? weak_chip : shield.chip_resistance() ) / fragile_factor;
+    } else {
+        material_factor = shield.chip_resistance();
+    }
+
     int damage_chance = static_cast<int>( stat_factor * material_factor / wear_multiplier );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
@@ -145,9 +177,12 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         damage_chance *= 4;
     }
     // FRAGILE_MELEE items are very fragile and likely start falling apart pretty quickly if used in combat
-    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
-        damage_chance = std::min( damage_chance / 4, 5 );
-    }
+    //if( shield.has_flag( "FRAGILE_MELEE" ) ) {
+    //    damage_chance = std::min( damage_chance / 4, 5 );
+    //}
+
+    add_msg( m_bad, _( "damage_chance: %d" ), damage_chance );
+    add_msg( m_bad, _( "    weak_comp: %s" ), weak_comp );
 
     if( damage_chance > 0 && !one_in(damage_chance) ) {
         return false;
