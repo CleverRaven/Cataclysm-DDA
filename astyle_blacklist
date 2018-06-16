@@ -27,8 +27,6 @@ src/item.cpp
 src/item_factory.cpp
 src/iuse_actor.cpp
 src/iuse.cpp
-src/iuse_software_kitten.cpp
-src/iuse_software_minesweeper.cpp
 src/json.cpp
 src/lightmap.cpp
 src/line.cpp
