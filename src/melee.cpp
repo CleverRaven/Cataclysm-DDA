@@ -145,16 +145,23 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         const float fragile_factor = 6;
         int weak_chip = INT_MAX;
 
-        //Items that should have no bearing on durability
+        // Items that should have no bearing on durability
         const std::vector<itype_id> blacklist = { "rag",
                                                   "leather",
                                                   "fur" };
 
         std::vector<item> valid_components;
         for( auto &comp : shield.components ) {
-            add_msg( m_bad, _( "comp: %s" ), comp.typeId() );
+            bool valid = true;
+
             for( const auto &black : blacklist ) {
-                black == comp.typeId() ? false : valid_components.push_back( comp );
+                if( comp.typeId() == black ) {
+                    valid = false;
+                }
+            }
+
+            if( valid ) {
+                valid_components.push_back( comp );
             }
         }
         if( valid_components.size() > 0 ) {
@@ -197,10 +204,6 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
-                            _("<npcname>'s %s is destroyed by the blow!"),
-                            str.c_str());
-
     // Dump its contents on the ground
     // Destroy irremovable mods, if any
 
@@ -214,7 +217,36 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         g->m.add_item_or_charges( pos(), elem );
     }
 
+    // Preserve item temporarily for component breakdown
+    item temp = shield;
+
     remove_item( shield );
+
+    if( temp.has_flag( "FRAGILE_MELEE" ) && !temp.components.empty() ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
+                                      _( "<npcname>'s %s breaks apart!" ),
+                                      str.c_str() );
+
+        std::vector<item> all_comps = temp.components;
+
+        for( auto &comp : all_comps ) {
+            if( comp.has_flag( "HANDLE" ) && comp.typeId() != weak_comp && !is_armed() ) {
+                wield( comp );
+            } else {
+                int break_chance = comp.typeId() == weak_comp ? 2 : 8;
+
+                if( !one_in( break_chance ) ) {
+                    g->m.add_item_or_charges( pos(), comp );
+                } else {
+                    add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
+                }
+            }
+        }
+    } else {
+        add_msg_player_or_npc( m_bad, _( "Your %s is destroyed by the blow!" ),
+                                      _( "<npcname>'s %s is destroyed by the blow!" ),
+                                      str.c_str() );
+    }
 
     return true;
 }
