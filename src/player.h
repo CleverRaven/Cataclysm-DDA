@@ -1079,10 +1079,10 @@ class player : public Character
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
-        bool is_wearing_shoes( const side &side = side::BOTH ) const;
+        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
         /** Returns true if the player is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
-        /** Returns the total emcumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
+        /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
         int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;

@@ -462,7 +462,8 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
  * @param[in] action_to_highlight An action ID to drive the highlighting output
  * @returns true if player input was valid, otherwise returns false
  */
-bool choose_adjacent_highlight( const std::string &message, tripoint &p, action_id action_to_highlight );
+bool choose_adjacent_highlight( const std::string &message, tripoint &p,
+                                action_id action_to_highlight );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );

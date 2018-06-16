@@ -37,7 +37,8 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
                                       const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
                               TAB_MODE mode = NORMAL );
-static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab, const std::string &subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
+                                 const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
 std::string get_cat_name( const std::string &prefixed_name )
@@ -722,7 +723,8 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
     wrefresh( w );
 }
 
-static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab, const std::string &subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
+                                 const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode )
 {
     werase( w );

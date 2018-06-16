@@ -10002,11 +10002,11 @@ bool player::natural_attack_restricted_on( body_part bp ) const
     return false;
 }
 
-bool player::is_wearing_shoes( const side &side ) const
+bool player::is_wearing_shoes( const side &which_side ) const
 {
     bool left = true;
     bool right = true;
-    if (side == side::LEFT || side == side::BOTH) {
+    if( which_side == side::LEFT || which_side == side::BOTH ) {
         left = false;
         for( const item &worn_item : worn ) {
             if (worn_item.covers(bp_foot_l) &&
@@ -10017,7 +10017,7 @@ bool player::is_wearing_shoes( const side &side ) const
             }
         }
     }
-    if (side == side::RIGHT || side == side::BOTH) {
+    if( which_side == side::RIGHT || which_side == side::BOTH ) {
         right = false;
         for( const item &worn_item : worn ) {
             if (worn_item.covers(bp_foot_r) &&

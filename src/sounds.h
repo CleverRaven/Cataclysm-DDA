@@ -62,7 +62,8 @@ void load_playlist( JsonObject &jsobj );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                          float pitch_mix = 1.0, float pitch_max = 1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );
-void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume, int channel,
+void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
+                                 int channel,
                                  int duration );
 void generate_gun_sound( const player &source, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
@@ -70,7 +71,8 @@ void generate_melee_sound( const tripoint &source, const tripoint &target, bool 
 void do_hearing_loss( int turns );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
-int get_heard_volume( const tripoint source );
+int get_heard_volume( const tripoint &source );
+int get_heard_angle( const tripoint &source );
 void do_footstep();
 void do_danger_music();
 void do_ambient();
@@ -80,7 +82,6 @@ bool is_channel_playing( int channel );
 void stop_sound_effect_fade( int channel, int duration );
 void do_player_death_hurt( const player &target, bool death );
 void do_fatigue();
-int get_heard_angle( const tripoint source );
 void do_obstacle();
 }
 

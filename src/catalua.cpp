@@ -1256,7 +1256,7 @@ int call_lua( std::string ) {
 void lua_callback( const char * )
 {
 }
-void lua_loadmod( std::string, std::string )
+void lua_loadmod( const std::string &, const std::string & )
 {
 }
 void game::init_lua()
