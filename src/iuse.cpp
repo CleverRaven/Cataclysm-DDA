@@ -3813,10 +3813,10 @@ int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
 
 int iuse::solarpack(player *p, item *it, bool, const tripoint& )
 {
-    if ( !p->has_bionic("bio_cable") ) { // Cable CBM required
+    if ( !p->has_bionic( bionic_id( "bio_cable" ) ) ) { // Cable CBM required
         p->add_msg_if_player(_( "You have no cable charging system to plug it in, so you leave it alone." ));
         return 0;
-    } else if ( !p->has_active_bionic("bio_cable") ) { // when OFF it takes no effect
+    } else if ( !p->has_active_bionic( bionic_id( "bio_cable" ) ) ) { // when OFF it takes no effect
         p->add_msg_if_player(_( "Activate your cable charging system to take advantage of it." ));
     }
 
@@ -3828,7 +3828,7 @@ int iuse::solarpack(player *p, item *it, bool, const tripoint& )
 
     p->add_msg_if_player(_( "You unfold solar array from the pack and plug it in." ));
     
-    if ( it->typeId( "solarpack" ) ) {
+    if ( it->typeId() == "solarpack" ) {
         it->convert( "solarpack_on" );
     } else {
         it->convert( "q_solarpack_on" );
@@ -3844,7 +3844,7 @@ int iuse::solarpack_off(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_( "You unplug and fold solar array into the pack." ));
     }
 
-    if ( it->typeId( "solarpack_on" ) ) {
+    if ( it->typeId() == "solarpack_on" ) {
         it->convert( "solarpack" );
     } else {
         it->convert( "q_solarpack" );
