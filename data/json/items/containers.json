@@ -150,7 +150,7 @@
     "contains": 3,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
 	"flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -526,7 +526,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
 	"flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -570,7 +570,7 @@
     "color": "cyan",
     "contains": 2,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
 	"flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -588,7 +588,7 @@
     "color": "cyan",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
 	"flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -607,7 +607,7 @@
     "contains": 12,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
 	"flags": [ "FRAGILE_MELEE" ]
   },
   {
@@ -640,7 +640,7 @@
     "seals": true,
     "watertight": true,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
 	"flags": [ "FRAGILE_MELEE" ]
   },
   {
