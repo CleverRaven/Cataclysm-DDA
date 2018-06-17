@@ -1,5 +1,25 @@
 [
   {
+    "id": "model_10_revolver",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": "Model 10 revolver",
+    "name_plural": "Model 10 revolver",
+    "description": "A six-shot revolver. It has a swing-out cylinder for ease of reloading.",
+    "weight": 975,
+    "volume": 2,
+    "price": 42400,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "ammo": "38",
+    "dispersion": 360,
+    "durability": 8,
+    "clip_size": 6,
+    "magazines": [ [ "38", [ "38_speedloader" ] ] ]
+  },
+  {
     "id": "cop_38",
     "copy-from": "cop_38",
     "type": "GUN",
