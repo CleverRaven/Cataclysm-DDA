@@ -180,7 +180,7 @@ class game
     public:
 
         /** Initializes the UI. */
-        void init_ui();
+        void init_ui( const bool resized = false );
         void setup();
         /** True if the game has just started or loaded, else false. */
         bool new_game;
