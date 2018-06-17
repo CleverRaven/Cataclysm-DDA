@@ -5156,24 +5156,35 @@ void player::suffer()
         }
     } // Done with while-awake-only effects
 
-    if( has_trait( trait_ASTHMA ) && one_in( (3600 - stim * 50) * ( 1 + 9 * in_sleep_state() ) ) &&
+    if( has_trait( trait_ASTHMA ) && one_in( ( 3600 - stim * 50 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
-        bool auto_use = has_charges("inhaler", 1);
-        if (underwater) {
+        bool auto_use = has_charges( "inhaler", 1 );
+        if ( underwater ) {
             oxygen = oxygen / 2;
             auto_use = false;
         }
 
         if( has_effect( effect_sleep ) ) {
-            add_msg_if_player(_("You have an asthma attack!"));
-            wake_up();
-            auto_use = false;
-        } else {
             add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
-        }
-
-        if (auto_use) {
-            use_charges("inhaler", 1);
+            inventory map_inv;
+            map_inv.form_from_map( g->u.pos(), 2 );
+            // check if character has an inhaler
+            if ( auto_use ) {
+                use_charges( "inhaler", 1 );
+                add_msg_if_player( m_info, _( "You use your inhaler." ) );
+                add_msg_if_player( m_info, _( "You go back to sleep." ) );
+            // check if an inhaler is somewhere near
+            } else if ( map_inv.has_charges( "inhaler", 1 ) ) {
+                // create new variable to resolve a reference issue
+                long amount = 1;
+                g->m.use_charges( g->u.pos(), 2, "inhaler", amount );
+                add_msg_if_player( m_info, _( "You use your inhaler." ) );
+                add_msg_if_player( m_info, _( "You go back to sleep." ) );
+            } else {
+                wake_up();
+            }
+        } else if ( auto_use ) {
+            use_charges( "inhaler", 1 );
             moves -= 40;
             const auto charges = charges_of( "inhaler" );
             if( charges == 0 ) {
@@ -5185,7 +5196,7 @@ void player::suffer()
             }
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-            if (!is_npc()) {
+            if ( !is_npc() ) {
                 g->cancel_activity_query( _( "You have an asthma attack!" ) );
             }
         }
