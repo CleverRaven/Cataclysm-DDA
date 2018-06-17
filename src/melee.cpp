@@ -141,42 +141,32 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     float material_factor;
 
     itype_id weak_comp;
+    itype_id big_comp = "null";
     // Fragile items that fall apart easily when used as a weapon due to poor construction quality
     if( shield.has_flag( "FRAGILE_MELEE" ) ) {
         const float fragile_factor = 6;
         int weak_chip = INT_MAX;
 
         // Items that should have no bearing on durability
-        const std::vector<itype_id> blacklist = { "rag",
-                                                  "leather",
-                                                  "fur" };
+        const std::set<itype_id> blacklist = { "rag",
+                                               "leather",
+                                               "fur" };
 
-        std::vector<item> valid_components;
         for( auto &comp : shield.components ) {
-            bool valid = true;
-
-            for( const auto &black : blacklist ) {
-                if( comp.typeId() == black ) {
-                    valid = false;
+            if( blacklist.count( comp.typeId() ) <= 0 ) {
+                if( weak_chip > comp.chip_resistance() ) {
+                    weak_chip = comp.chip_resistance();
+                    weak_comp = comp.typeId();
                 }
             }
-            if( valid ) {
-                valid_components.push_back( comp );
-            }
-        }
-        if( valid_components.size() > 0 ) {
-            for( auto &valid : valid_components ) {
-                if( weak_chip > valid.chip_resistance() ) {
-                    weak_chip = valid.chip_resistance();
-                    weak_comp = valid.typeId();
-                }
+            if( comp.volume() > item::find_type( big_comp )->volume ) {
+                big_comp = comp.typeId();
             }
         }
         material_factor = ( weak_chip < INT_MAX ? weak_chip : shield.chip_resistance() ) / fragile_factor;
     } else {
         material_factor = shield.chip_resistance();
     }
-
     int damage_chance = static_cast<int>( stat_factor * material_factor / wear_multiplier );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
@@ -221,9 +211,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
                                       _( "<npcname>'s %s breaks apart!" ),
                                       str.c_str() );
 
-        std::vector<item> all_comps = temp.components;
-
-        for( auto &comp : all_comps ) {
+        for( auto &comp : temp.components ) {
             int break_chance = comp.typeId() == weak_comp ? 2 : 8;
 
             if( one_in( break_chance ) ) {
@@ -231,7 +219,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
                 continue;
             }
 
-            if( comp.has_flag( "HANDLE" ) && !is_armed() ) {
+            if( comp.typeId() == big_comp && !is_armed() ) {
                 wield( comp );
             } else {
                 g->m.add_item_or_charges( pos(), comp );
