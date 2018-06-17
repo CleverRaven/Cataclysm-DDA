@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-25 07:27-0400\n"
+"POT-Creation-Date: 2018-06-09 21:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>, 2018\n"
 "Language-Team: Serbian (https://www.transifex.com/cataclysm-dda-translators/teams/2217/sr/)\n"
@@ -8637,7 +8637,7 @@ msgstr[2] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped "
-"with a layer of aluminium coating.  They allow safely staring at extremely "
+"with a layer of aluminum coating.  They allow safely staring at extremely "
 "bright and harmful sources of light like the sun during a solar eclipse."
 msgstr ""
 
@@ -10367,9 +10367,17 @@ msgstr[1] ""
 msgstr[2] ""
 
 #. ~ Description for kilt
+#. ~ Description for leather kilt
 #: lang/json/ARMOR_from_json.py
 msgid "No true Scotsman would leave home without his kilt."
 msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "leather kilt"
+msgid_plural "leather kilts"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "kimono"
@@ -21012,7 +21020,7 @@ msgstr ""
 
 #. ~ Description for potato chips
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A bag of cheap, own-brand chips."
+msgid "Some plain, salted potato chips."
 msgstr ""
 
 #. ~ Description for potato chips
@@ -21021,15 +21029,17 @@ msgid "Oh man, you love these chips!  Score!"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "nachos"
-msgid_plural "nachos"
+msgid "tortilla chips"
+msgid_plural "tortilla chips"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for nachos
+#. ~ Description for tortilla chips
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salted corn chips, could really use some cheese, maybe some beef."
+msgid ""
+"Salted chips made from corn tortillas, could really use some cheese, maybe "
+"some beef."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -21041,7 +21051,9 @@ msgstr[2] ""
 
 #. ~ Description for nachos with cheese
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salted corn chips, now with cheese.  Could stand to have some meat."
+msgid ""
+"Salted chips made from corn tortillas, now with cheese.  Could stand to have"
+" some meat."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -21054,7 +21066,8 @@ msgstr[2] ""
 #. ~ Description for nachos with meat
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips, now with meat.  Could probably use some cheese, though."
+"Salted chips made from corn tortillas, now with meat.  Could probably use "
+"some cheese, though."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -21067,7 +21080,8 @@ msgstr[2] ""
 #. ~ Description for niño nachos
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips, with human flesh.  Some cheese might make it even better."
+"Salted chips made from corn tortillas, with human flesh.  Some cheese might "
+"make it even better."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -21080,7 +21094,8 @@ msgstr[2] ""
 #. ~ Description for nachos with meat and cheese
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips with ground meat and smothered in cheese.  Delicious."
+"Salted chips made from corn tortillas with ground meat and smothered in "
+"cheese.  Delicious."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -21093,7 +21108,8 @@ msgstr[2] ""
 #. ~ Description for niño nachos with cheese
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips with human flesh and smothered in cheese.  Delicious."
+"Salted chips made from corn tortillas with human flesh and smothered in "
+"cheese.  Delicious."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -28030,7 +28046,7 @@ msgstr[2] ""
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab "
-"legs, french fries, animal feed, farm use, tailgating, crafts, planting "
+"legs, French fries, animal feed, farm use, tailgating, crafts, planting "
 "flowers, holding gift baskets, containing a fruit basket and herbs, loose "
 "item storage or as an ice bucket."
 msgstr ""
@@ -41005,7 +41021,7 @@ msgstr ""
 
 #. ~ Description for salmon
 #: lang/json/MONSTER_from_json.py
-msgid "A salmon.  A very fatty, nutricious fish.  Tastes great smoked."
+msgid "A salmon.  A very fatty, nutritious fish.  Tastes great smoked."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41082,10 +41098,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "Lobster"
+msgid "lobster"
 msgstr ""
 
-#. ~ Description for Lobster
+#. ~ Description for lobster
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "These things were once considered pests not worth eating, then some "
@@ -41094,10 +41110,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "Crayfish"
+msgid "crayfish"
 msgstr ""
 
-#. ~ Description for Crayfish
+#. ~ Description for crayfish
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "If you could get ahold of a bunch more of these, a hefty pot of boiling "
@@ -43446,8 +43462,8 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an ancient Chinese doubled-edged straight sword, with an ornate "
-"guard and a tassel attatched to the pommel.  One of the four major weapons "
-"in folklore, alongside the dao sabre, qiang spear, and gun staff."
+"guard and a tassel attached to the pommel.  One of the four major weapons in"
+" folklore, alongside the dao sabre, qiang spear, and gun staff."
 msgstr ""
 
 #. ~ Description for jian
@@ -44093,16 +44109,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "inactive antimateriel turret"
-msgid_plural "inactive antimateriel turrets"
+msgid "inactive anti-materiel turret"
+msgid_plural "inactive anti-materiel turrets"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for inactive antimateriel turret
+#. ~ Description for inactive anti-materiel turret
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is an inactive antimateriel turret.  Using this item involves loading "
+"This is an inactive anti-materiel turret.  Using this item involves loading "
 "the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if "
 "you wish to divide your ammunition, set aside whatever .50 BMG Ball you do "
 "NOT want to give the turret) turning it on, and placing it on the ground, "
@@ -55930,7 +55946,7 @@ msgstr ""
 
 #. ~ Description for diesel pump
 #: lang/json/fault_from_json.py
-msgid "Required to pump and pressurise diesel from a vehicles tank."
+msgid "Required to pump and pressurize diesel from a vehicles tank."
 msgstr ""
 
 #. ~ Description for air filter
@@ -57706,6 +57722,10 @@ msgstr[2] ""
 msgid ""
 "A bulky, self-made chemical sprayer with an internal conversion mechanism "
 "that allows all sorts of chemicals to be dispersed to your surroundings."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "slosh."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -59832,10 +59852,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "slosh."
-msgstr ""
-
-#: lang/json/gun_from_json.py
 msgid "spraycan flamethrower"
 msgid_plural "spraycan flamethrowers"
 msgstr[0] ""
@@ -60354,7 +60370,7 @@ msgstr[2] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "This is a cheap laser rifle made from common components.  Weak, but can be "
-"powered with rechargable batteries."
+"powered with rechargeable batteries."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -65430,7 +65446,7 @@ msgstr ""
 #. ~ Description for martial art 'Boxing'
 #: lang/json/martial_art_from_json.py
 msgid ""
-"Sport of the true Gentleman, modern boxing has evolved from the prizefights "
+"Sport of the true gentleman, modern boxing has evolved from the prizefights "
 "of the Victorian era."
 msgstr ""
 
@@ -66876,8 +66892,8 @@ msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid ""
-"You give up?  This country fell apart because no one could find agood man to"
-" rely on... might as well give up, I guess."
+"You give up?  This country fell apart because no one could find a good man "
+"to rely on... might as well give up, I guess."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -67603,8 +67619,8 @@ msgid ""
 " to install your first radio repeater mod.  Head topside and locate the "
 "nearest radio station.  Install the mod on the backup terminal and return to"
 " me so that I can verify that everything was successful.  Radio towers must "
-"unfortunatly be ignored for now, without a dedicated emergency power system "
-"they won't be useful for some time."
+"unfortunately be ignored for now, without a dedicated emergency power system"
+" they won't be useful for some time."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -67787,7 +67803,7 @@ msgid ""
 "received a message that a unit was deploying into our AO.  I don't have the "
 "exact coordinates but they said they were securing an underground facility "
 "and may require assistance.  The bird dropped them off next to a pump "
-"station.  Can't tell you much more.  If you cound locate the captain in "
+"station.  Can't tell you much more.  If you could locate the captain in "
 "charge, I'm sure he could use your skills.  Don't forget to wear your badge "
 "when meeting with them.  Thank you once again marshal."
 msgstr ""
@@ -98519,7 +98535,7 @@ msgstr ""
 msgid "forever"
 msgstr ""
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -98527,7 +98543,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -98535,7 +98551,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -98567,11 +98583,13 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
+#: src/calendar.cpp
+msgid "for ever"
+msgstr ""
+
 #. ~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time
 #. (e.g. 11 minutes).
-#. ~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6
-#. minutes"
-#: src/calendar.cpp src/construction.cpp
+#: src/calendar.cpp
 #, c-format
 msgid "%1$s and %2$s"
 msgstr ""
@@ -98608,34 +98626,6 @@ msgstr ""
 #: src/calendar.cpp
 #, c-format
 msgid "%d:%02d:%02d%sPM"
-msgstr ""
-
-#: src/calendar.cpp
-msgid "Monday"
-msgstr ""
-
-#: src/calendar.cpp
-msgid "Sunday"
-msgstr ""
-
-#: src/calendar.cpp
-msgid "Tuesday"
-msgstr ""
-
-#: src/calendar.cpp
-msgid "Wednesday"
-msgstr ""
-
-#: src/calendar.cpp
-msgid "Friday"
-msgstr ""
-
-#: src/calendar.cpp
-msgid "Thursday"
-msgstr ""
-
-#: src/calendar.cpp
-msgid "Saturday"
 msgstr ""
 
 #: src/calendar.cpp
@@ -106764,7 +106754,7 @@ msgid "You need to breathe but you can't swim!  Get to dry land, quick!"
 msgstr ""
 
 #: src/game.cpp
-msgid "No hostile creature in reach."
+msgid "No hostile creature in reach. Waiting a turn."
 msgstr ""
 
 #: src/game.cpp
@@ -109421,7 +109411,19 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "It should take %d minutes to finish burning."
+msgid "It will finish burning in about %d hour."
+msgid_plural "It will finish burning in about %d hours."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/iexamine.cpp
+msgid "It will finish burning in less than an hour."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It should take about %d minutes to finish burning."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -110595,7 +110597,7 @@ msgid "<bold>Compatible magazines:</bold> "
 msgstr ""
 
 #: src/item.cpp
-msgid "<bold>Mods:<bold> "
+msgid "<bold>Mods:</bold> "
 msgstr ""
 
 #: src/item.cpp
@@ -110917,7 +110919,7 @@ msgid "Contains items with qualities:"
 msgstr ""
 
 #: src/item.cpp
-msgid "Techniques: "
+msgid "<bold>Techniques when wielded</bold>: "
 msgstr ""
 
 #: src/item.cpp
@@ -111399,6 +111401,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "isn't big enough to use that mod"
+msgstr ""
+
+#: src/item.cpp
+msgid "can only accept small mods on that slot"
 msgstr ""
 
 #. ~ %1$s - name of the gunmod, %2$s - name of the ammo
@@ -130698,6 +130704,34 @@ msgstr ""
 
 #: src/weather.cpp
 msgid "The acid rain burns!"
+msgstr ""
+
+#: src/weather.cpp
+msgid "Monday"
+msgstr ""
+
+#: src/weather.cpp
+msgid "Sunday"
+msgstr ""
+
+#: src/weather.cpp
+msgid "Tuesday"
+msgstr ""
+
+#: src/weather.cpp
+msgid "Wednesday"
+msgstr ""
+
+#: src/weather.cpp
+msgid "Friday"
+msgstr ""
+
+#: src/weather.cpp
+msgid "Thursday"
+msgstr ""
+
+#: src/weather.cpp
+msgid "Saturday"
 msgstr ""
 
 #: src/weather.cpp

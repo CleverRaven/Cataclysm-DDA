@@ -126,7 +126,7 @@
         "required_skills" : [ [ "survival", 2 ] ],
         "time" : 60,
         "qualities": [ [
-            { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
+            { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 }
         ] ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",

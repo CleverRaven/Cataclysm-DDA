@@ -184,6 +184,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DISAPPEAR``` Hallucination disappears.
 - ```DISINTEGRATE``` Falls apart.
 - ```EXPLODE``` Damaging explosion.
+- ```FIREBALL``` 10 percent chance to explode in a fireball.
 - ```FUNGUS``` Explodes in spores.
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 - ```GUILT``` Moral penalty. There is also a flag with a similar effect.
@@ -218,6 +219,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```CATFOOD``` Becomes friendly / tamed with cat food.
+- ```CATTLEFODDER``` Becomes friendly / tamed with cattle fodder.
 - ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
 - ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
@@ -229,6 +231,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
 - ```DOGFOOD``` Becomes friendly / tamed with dog food.
+- ```DRIPS_NAPALM``` Ocassionally drips napalm on move.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
@@ -253,6 +256,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
+- ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
@@ -750,6 +754,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLECH``` Causes vomiting.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
+- ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
 - ```CIG``` Alleviates nicotine cravings. Adds disease `cig`.
 - ```COKE``` Decreases hunger. Adds disease `high`.

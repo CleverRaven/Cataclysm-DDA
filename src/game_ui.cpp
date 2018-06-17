@@ -4,5 +4,5 @@
 
 void game_ui::init_ui()
 {
-    g->init_ui();
+    g->init_ui( true );
 }
