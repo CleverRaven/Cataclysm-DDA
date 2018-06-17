@@ -1,0 +1,21 @@
+[
+  {
+    "type": "palette",
+    "id": "rivtech",
+    "terrain": {
+      "!": "t_door_metal_locked",
+      "#": "t_concrete_wall",
+      "%": "t_shrub",
+      "-": "t_railing",
+      "6": "t_gates_control_concrete",
+      ":": "t_pavement_y",
+      "=": "t_conveyor",
+      "H": "t_floor",
+      "P": "t_floor",
+      "T": "t_machinery_heavy",
+      "X": "t_floor",
+      "~": "t_water_dp"
+    },
+    "furniture": { "H": "f_industrial_a_loader", "P": "f_plc", "X": "f_hopper" }
+  }
+]

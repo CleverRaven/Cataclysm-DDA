@@ -1992,7 +1992,7 @@
   },
   {
     "id": "broken_prox_alarm",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "symbol": ",",
     "color": "green",
     "name": "broken proximity sensor",
