@@ -8,7 +8,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
+    "om_terrain": [ "basement_bionic" ],
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
@@ -79,7 +79,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
+    "om_terrain": [ "basement_bionic" ],
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
