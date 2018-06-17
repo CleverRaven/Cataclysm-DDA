@@ -738,30 +738,43 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         }
     } else { // Let the player pick which component they want to use
         uimenu cmenu;
-        // Populate options with the names of the items
+        // Populate options with the names of the items 
+        std::string rot;
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+            rot = "";
+            if( item(map_ha.type).is_comestible() && map_inv.amount_of_rotten( map_ha.type ) > 0 ){
+                rot = "(rotting)";
+            }
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby) %s" ),
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ? map_inv.charges_of( map_ha.type ) : map_inv.amount_of(
-                                                    map_ha.type ) );
+                                                    map_ha.type ), rot);
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
+            rot = "";
+            if( item(player_ha.type).is_comestible() && map_inv.amount_of_rotten( player_ha.type ) > 0 ){
+                rot = "(rotting)";
+            }
+            std::string tmpStr = string_format( _( "%s (%d/%d on person) %s" ),
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ? charges_of( player_ha.type ) : amount_of(
-                                                    player_ha.type ) );
+                                                    player_ha.type ), rot );
             cmenu.addentry( tmpStr );
         }
         for( auto &elem :
              mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+            rot = "";
+            if( item(elem.type).is_comestible() && map_inv.amount_of_rotten( elem.type ) > 0 ){
+                rot = "(rotting)";
+            }
+            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person) %s" ),
                                                 item::nname( elem.type ),
                                                 ( elem.count * batch ),
                                                 item::count_by_charges( elem.type ) ? map_inv.charges_of( elem.type ) + charges_of( elem.type ) :
-                                                map_inv.amount_of( elem.type ) + amount_of( elem.type ) );
+                                                map_inv.amount_of( elem.type ) + amount_of( elem.type ), rot );
             cmenu.addentry( tmpStr );
         }
 
