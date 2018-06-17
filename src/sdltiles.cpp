@@ -1788,7 +1788,6 @@ bool gamepad_available() {
 void rescale_tileset(int size) {
     tilecontext->set_draw_scale(size);
     game_ui::init_ui();
-    ClearScreen();
 }
 
 bool input_context::get_coordinates( const catacurses::window &capture_win_, int& x, int& y) {
