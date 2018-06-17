@@ -950,8 +950,6 @@ int visitable<Character>::amount_of_rotten( const std::string &what, bool pseudo
     return amount_of_internal_rotten( *this, what, pseudo, limit );
 }
 
-
-
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;
