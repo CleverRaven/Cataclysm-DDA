@@ -5,7 +5,7 @@
     "type": "GUN",
     "name": "Model 10 revolver",
     "name_plural": "Model 10 revolver",
-    "description": "A six-shot revolver. It has a swing-out cylinder for ease of reloading.",
+    "description": "A six-shot revolver.  It has a swing-out cylinder for ease of reloading.",
     "weight": 975,
     "volume": 2,
     "price": 42400,
