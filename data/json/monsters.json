@@ -1289,7 +1289,7 @@
     "melee_cut": 6,
     "dodge": 2,
     "armor_bash": 2,
-    "starting_ammo": { "milk": 4 },
+    "starting_ammo": { "milk": 10 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -1301,7 +1301,7 @@
     },
     "death_function": [ "NORMAL" ],
     "harvest": "animal_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "MILKABLE", "PET_WONT_FOLLOW", "BONES", "FAT", "LEATHER" ]
   },
   {
     "id": "mon_coyote",
@@ -2867,7 +2867,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "harvest": "animal_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CATTLEFODDER", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "BONES", "FAT", "LEATHER" ]
   },
   {
     "id": "mon_human_snail",
@@ -3888,11 +3888,12 @@
     "melee_dice_sides": 6,
     "melee_cut": 2,
     "dodge": 2,
+    "starting_ammo": { "milk": 2 },
     "anger_triggers": [],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "WOOL", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "WOOL", "BONES", "FAT", "CATTLEFODDER", "MILKABLE", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_shia",

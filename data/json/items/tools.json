@@ -8301,7 +8301,7 @@
     "material": "veggy",
     "symbol": ";",
     "color": "brown",
-    "use_action": "FEEDCATTLE"
+    "use_action": "CATTLEFODDER"
   },
   {
     "id": "link_sheet",
