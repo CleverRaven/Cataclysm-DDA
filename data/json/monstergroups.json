@@ -1622,13 +1622,5 @@
       { "monster": "mon_biollante", "freq": 30, "cost_multiplier": 1 },
       { "monster": "mon_giant_cockroach", "freq": 30, "cost_multiplier": 1 }
     ]
-  },
-  {
-    "type":"monstergroup",
-    "name" : "GROUP_BROKEN_CYBORG",
-    "default" : "mon_broken_cyborg",
-    "monsters" : [
-      { "monster" : "mon_broken_cyborg", "freq" : 100, "cost_multiplier" : 0 }
-    ]
   }
 ]
