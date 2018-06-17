@@ -478,13 +478,13 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         bool already_has;
         for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
             already_has = false;
-            for (auto cont : buffer_has){
-                if (cont == a->to_string(batch) + a->get_color( has_one, crafting_inv, batch )){
+            for( auto cont : buffer_has ) {
+                if( cont == a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) ) {
                     already_has = true;
                     break;
                 }
             }
-            if (already_has){
+            if( already_has ) {
                     continue;
             }
 
