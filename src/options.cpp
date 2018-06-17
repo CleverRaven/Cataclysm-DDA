@@ -1434,6 +1434,11 @@ void options_manager::init()
         translate_marker( "A scaling factor that determines density of monster spawns." ),
         0.0, 50.0, 1.0, 0.1
         );
+    
+    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
+        translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
+        0, 1000, 100, COPT_NO_HIDE, "%i%%"
+        );
 
     add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
         translate_marker( "A scaling factor that determines density of item spawns." ),
@@ -1839,7 +1844,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_x;
-            new_window_width = projected_window_width(new_terminal_x);
+            new_window_width = projected_window_width();
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            ngettext("%s #%s -- The window will be %d pixel wide with the selected value.",
@@ -1853,7 +1858,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_y;
-            new_window_height = projected_window_height(new_terminal_y);
+            new_window_height = projected_window_height();
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            ngettext("%s #%s -- The window will be %d pixel tall with the selected value.",
@@ -1979,6 +1984,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool sidebar_style_changed = false;
+    bool terminal_size_changed = true;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
@@ -1992,17 +1998,18 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
               || iter.first == "PIXEL_MINIMAP_RATIO"
               || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
-            }
 
-            if( iter.first == "SIDEBAR_STYLE" ) {
+            } else if( iter.first == "SIDEBAR_STYLE" ) {
                 sidebar_style_changed = true;
-            }
 
-            if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
                 used_tiles_changed = true;
 
             } else if ( iter.first == "USE_LANG" ) {
                 lang_changed = true;
+
+            } else if ( iter.first == "TERMINAL_X" || iter.first == "TERMINAL_Y" ) {
+                terminal_size_changed = true;
             }
         }
     }
@@ -2028,6 +2035,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             }
         }
     }
+
     if( lang_changed ) {
         set_language();
     }
@@ -2043,6 +2051,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             g->init_ui();
         }
     }
+
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+    if ( terminal_size_changed ) {
+        handle_resize( projected_window_width(), projected_window_height() );
+    }
+#else
+    (void) terminal_size_changed;
+#endif
 
     refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
 

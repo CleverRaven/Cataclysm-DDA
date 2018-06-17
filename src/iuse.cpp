@@ -1690,7 +1690,7 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
             }
             break;
         case CATTLEFODDER:
-            if( mon.has_flag( MF_MILKABLE ) ) {
+            if( mon.has_flag( MF_CATTLEFODDER ) ) {
                 p.add_msg_if_player( m_good, _( "The %s seems to like you!  It lets you pat its head and seems friendly." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 mon.add_effect( effect_pet, 1_turns, num_bp, true );
@@ -3850,6 +3850,58 @@ int iuse::solarpack_off(player *p, item *it, bool, const tripoint& )
         it->convert( "q_solarpack" );
     }
     return 0;
+}
+
+int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( t ) { // Normal use
+        if( p->is_worn( *it ) ) {
+            // calculate amount of absorbed gas per filter charge
+            const field &gasfield = g->m.field_at( pos );
+            for( auto &dfield : gasfield ) {
+                const field_entry &entry = dfield.second;
+                const field_id fid = entry.getFieldType();
+                switch( fid ) {
+                    case fd_smoke:
+                        it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 12 );
+                        break;
+                    case fd_tear_gas:
+                    case fd_toxic_gas:
+                    case fd_gas_vent:
+                    case fd_relax_gas:
+                    case fd_fungal_haze:
+                        it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 15 );
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
+                it->ammo_consume( 1, p->pos() );
+                it->set_var( "gas_absorbed", 0 );
+            }
+            if( it->charges == 0 ) {
+                p->add_msg_player_or_npc(
+                    m_bad,
+                    _( "Your %s requires new filter!" ),
+                    _( "<npcname> needs new gas mask filter!" )
+                    , it->tname().c_str() );
+            }
+        }
+    } else { // activate
+        if( it->charges == 0 ) {
+            p->add_msg_if_player( _( "Your %s don't have a filter." ), it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( _( "You prepared your %s." ), it->tname().c_str() );
+            it->active = true;
+            it->set_var( "overwrite_env_resist", it->get_env_resist_w_filter() );
+        }
+    }
+    if( it->charges == 0 ) {
+        it->set_var( "overwrite_env_resist", 0 );
+        it->active = false;
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::portable_game(player *p, item *it, bool, const tripoint& )

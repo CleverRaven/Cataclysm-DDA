@@ -461,6 +461,10 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "GASMASK",
+        "name" : "Prepare to use"
+    },{
+        "type" : "item_action",
         "id" : "SOLARPACK",
         "name" : "Unfold"
     },{
@@ -750,7 +754,7 @@
     },
     {
         "type" : "item_action",
-        "id" : "FEEDCATTLE",
+        "id" : "CATTLEFODDER",
         "name" : "Place"
     },
     {

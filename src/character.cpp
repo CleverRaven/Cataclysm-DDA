@@ -479,9 +479,9 @@ bool Character::move_effects(bool attacking)
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                            bool permanent, int intensity, bool force )
+                            bool permanent, int intensity, bool force, bool deferred )
 {
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 void Character::process_turn()
@@ -527,7 +527,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() ) {
+    if( is_blind() || in_sleep_state() ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
