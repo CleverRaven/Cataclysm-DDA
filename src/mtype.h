@@ -267,9 +267,23 @@ struct mtype {
         // Monster upgrade variables
         bool upgrades;
         int half_life;
+        int age_grow;
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+
+        // Monster reproduction variables
+        bool reproduces;
+        int baby_timer;
+        int baby_count;
+        mtype_id baby_monster;
+        itype_id baby_egg;
+        std::vector<std::string> baby_flags;
+
+        // Monster biosignature variables
+        bool biosignatures;
+        int biosig_timer;
+        itype_id biosig_item;
 
         // Monster's ability to destroy terrain and vehicles
         int bash_skill;

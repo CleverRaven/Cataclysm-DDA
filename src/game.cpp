@@ -6259,11 +6259,15 @@ bool game::add_zombie(monster &critter, bool pin_upgrade)
     }
 
     critter.try_upgrade(pin_upgrade);
+    critter.try_reproduce();
+    critter.try_biosignature();
     if( !pin_upgrade ) {
         critter.on_load();
     }
 
     critter.last_updated = calendar::turn;
+    critter.last_baby = calendar::turn;
+    critter.last_biosig = calendar::turn;
     return critter_tracker->add(critter);
 }
 
