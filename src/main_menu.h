@@ -58,6 +58,8 @@ class main_menu
         int sel2 = 1;
         int sel3 = 1;
         int layer = 1;
+        int LAST_TERMX = 0;
+        int LAST_TERMY = 0;
         catacurses::window w_open;
         catacurses::window w_background;
         int iMenuOffsetX = 0;
@@ -93,6 +95,9 @@ class main_menu
                          int iMenuOffsetY, bool bShowDDA = true );
 
         void display_credits();
+
+        void init_windows();
+        std::string handle_input_timeout( input_context &ctxt );
 };
 
 #endif

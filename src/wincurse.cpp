@@ -113,7 +113,7 @@ bool WinCreate()
                                    0, 0, WindowINST, NULL);
     if (WindowHandle == 0)
         return false;
-        
+
     return true;
 };
 
@@ -157,10 +157,10 @@ void create_backbuffer()
     DeleteObject(SelectObject( backbuffer, backbit ) );//load the buffer into DC
 }
 
-void handle_resize()
+bool handle_resize(int, int)
 {
     if( !initialized ) {
-        return;
+        return false;
     }
     needs_resize = false;
     RECT WndRect;
@@ -179,6 +179,8 @@ void handle_resize()
         }
         catacurses::refresh();
     }
+
+    return true;
 }
 
 // Copied from sdlcurses.cpp
@@ -306,7 +308,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                 lastchar = code;
         }
         return 0;
-        
+
     case WM_SIZE:
     case WM_SIZING:
         needs_resize = true;
@@ -382,7 +384,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
-    
+
     WINDOW *const win = w.get<WINDOW>();
     int i = 0;
     int j = 0;
@@ -509,18 +511,18 @@ void CheckMessages()
         DispatchMessage(&msg);
     }
     if( needs_resize ) {
-        handle_resize();
+        handle_resize(0, 0);
     }
 }
 
-// Calculates the new width of the window, given the number of columns.
-int projected_window_width(int)
+// Calculates the new width of the window
+int projected_window_width()
 {
     return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
-// Calculates the new height of the window, given the number of rows.
-int projected_window_height(int)
+// Calculates the new height of the window
+int projected_window_height()
 {
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
@@ -592,7 +594,7 @@ void catacurses::init_interface()
 
     stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0 );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-    
+
     initialized = true;
 }
 

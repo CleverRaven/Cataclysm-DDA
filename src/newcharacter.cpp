@@ -52,6 +52,11 @@
 #define COL_TR_BAD_ON_ACT   c_light_red   // A toggled-on bad trait
 #define COL_TR_BAD_OFF_PAS  c_dark_gray  // A toggled-off bad trait
 #define COL_TR_BAD_ON_PAS   c_red     // A toggled-on bad trait
+#define COL_TR_NEUT         c_brown     // Neutral trait descriptive text
+#define COL_TR_NEUT_OFF_ACT c_dark_gray  // A toggled-off neutral trait
+#define COL_TR_NEUT_ON_ACT  c_yellow   // A toggled-on neutral trait
+#define COL_TR_NEUT_OFF_PAS c_dark_gray  // A toggled-off neutral trait
+#define COL_TR_NEUT_ON_PAS  c_brown     // A toggled-on neutral trait
 #define COL_SKILL_USED      c_green   // A skill with at least one point
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MAJOR      c_green   // Important note
@@ -1031,7 +1036,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     int num_good = 0;
     int num_bad = 0;
 
-    std::vector<trait_id> vStartingTraits[2];
+    std::vector<trait_id> vStartingTraits[3];
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
@@ -1039,23 +1044,30 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
             continue;
         }
 
+        // Always show profession locked traits, regardless of if they are forbidden
+        const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
+        const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(), traits_iter.first ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) {
-            if( traits_iter.second.points >= 0 ) {
+        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) || is_proftrait ) {
+            if( traits_iter.second.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.first );
 
                 if( u.has_trait( traits_iter.first ) ) {
                     num_good += traits_iter.second.points;
                 }
-            } else {
+            } else if( traits_iter.second.points < 0 ) {
                 vStartingTraits[1].push_back( traits_iter.first );
 
                 if( u.has_trait( traits_iter.first ) ) {
                     num_bad += traits_iter.second.points;
                 }
+            } else {
+                vStartingTraits[2].push_back( traits_iter.first );
             }
         }
     }
+    //If the third page is empty, only use the first two.
+    const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
 
     for( auto &vStartingTrait : vStartingTraits ) {
         std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
@@ -1066,19 +1078,14 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     const size_t iContentHeight = TERMY - 9;
     int iCurWorkingPage = 0;
 
-    int iStartPos[2];
-    iStartPos[0] = 0;
-    iStartPos[1] = 0;
+    int iStartPos[3] = { 0, 0, 0 };
+    int iCurrentLine[3] = { 0, 0, 0 };
+    size_t traits_size[3];
+    for( int i = 0; i < 3; i++ ) {
+        traits_size[i] = vStartingTraits[i].size();
+    }
 
-    int iCurrentLine[2];
-    iCurrentLine[0] = 0;
-    iCurrentLine[1] = 0;
-
-    size_t traits_size[2];
-    traits_size[0] = vStartingTraits[0].size();
-    traits_size[1] = vStartingTraits[1].size();
-
-    const size_t page_width = 38;
+    const size_t page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
 
     input_context ctxt("NEW_CHAR_TRAITS");
     ctxt.register_cardinal();
@@ -1098,25 +1105,36 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
         // Clear the bottom of the screen.
         werase(w_description);
 
-        for (int iCurrentPage = 0; iCurrentPage < 2; iCurrentPage++) { //Good/Bad
-            if (iCurrentPage == 0) {
-                col_on_act  = COL_TR_GOOD_ON_ACT;
+        for (int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++) { //Good/Bad
+            switch( iCurrentPage ) {
+            case 0:
+                col_on_act = COL_TR_GOOD_ON_ACT;
                 col_off_act = COL_TR_GOOD_OFF_ACT;
-                col_on_pas  = COL_TR_GOOD_ON_PAS;
+                col_on_pas = COL_TR_GOOD_ON_PAS;
                 col_off_pas = COL_TR_GOOD_OFF_PAS;
                 col_tr = COL_TR_GOOD;
-                hi_on  = hilite(col_on_act);
-                hi_off = hilite(col_off_act);
-            } else {
-                col_on_act  = COL_TR_BAD_ON_ACT;
+                hi_on = hilite( col_on_act );
+                hi_off = hilite( col_off_act );
+                break;
+            case 1:
+                col_on_act = COL_TR_BAD_ON_ACT;
                 col_off_act = COL_TR_BAD_OFF_ACT;
-                col_on_pas  = COL_TR_BAD_ON_PAS;
+                col_on_pas = COL_TR_BAD_ON_PAS;
                 col_off_pas = COL_TR_BAD_OFF_PAS;
                 col_tr = COL_TR_BAD;
-                hi_on  = hilite(col_on_act);
-                hi_off = hilite(col_off_act);
+                hi_on = hilite( col_on_act );
+                hi_off = hilite( col_off_act );
+                break;
+            default:
+                col_on_act = COL_TR_NEUT_ON_ACT;
+                col_off_act = COL_TR_NEUT_OFF_ACT;
+                col_on_pas = COL_TR_NEUT_ON_PAS;
+                col_off_pas = COL_TR_NEUT_OFF_PAS;
+                col_tr = COL_TR_NEUT;
+                hi_on = hilite( col_on_act );
+                hi_off = hilite( col_off_act );
+                break;
             }
-
             int start_y = iStartPos[iCurrentPage];
             int cur_line_y = iCurrentLine[iCurrentPage];
             calcStartPos( start_y, cur_line_y, iContentHeight,
@@ -1176,12 +1194,12 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 int cur_line_y = 5 + i - start_y;
                 int cur_line_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, cur_line_y, cur_line_x, c_light_gray, std::string( page_width, ' ' ).c_str() );
-                mvwprintz( w, cur_line_y, cur_line_x, cLine, mdata.name.c_str() );
+                mvwprintz( w, cur_line_y, cur_line_x, cLine, utf8_truncate( mdata.name, page_width - 2 ).c_str() );
             }
 
-            //Draw Scrollbar, one for good and one for bad traits
-            draw_scrollbar(w, iCurrentLine[0], iContentHeight, traits_size[0], 5);
-            draw_scrollbar(w, iCurrentLine[1], iContentHeight, traits_size[1], 5, getmaxx(w) - 1);
+            for( int i = 0; i < used_pages; i++ ) {
+                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], 5 , page_width * i );
+            }
         }
 
         wrefresh(w);
@@ -1190,11 +1208,11 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
         if (action == "LEFT") {
             iCurWorkingPage--;
             if (iCurWorkingPage < 0) {
-                iCurWorkingPage = 1;
+                iCurWorkingPage = used_pages - 1;
             }
         } else if (action == "RIGHT") {
             iCurWorkingPage++;
-            if (iCurWorkingPage > 1) {
+            if (iCurWorkingPage > used_pages - 1 ) {
                 iCurWorkingPage = 0;
             }
         } else if (action == "UP") {

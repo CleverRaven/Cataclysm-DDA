@@ -2935,7 +2935,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     werase(g->w_overmap);
     werase(g->w_omlegend);
     catacurses::erase();
-    g->refresh_all();
+    g->init_ui( true );
     return ret;
 }
 
