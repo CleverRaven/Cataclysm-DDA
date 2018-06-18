@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-01 19:14-0400\n"
+"POT-Creation-Date: 2018-06-09 21:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Meat <zero330xd@gmail.com>, 2018\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/cataclysm-dda-translators/teams/2217/zh_TW/)\n"
@@ -104289,8 +104289,18 @@ msgstr "這裡有碳化爐。"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "It should take %d minutes to finish burning."
-msgstr "還需要 %d 分鐘才能完成。"
+msgid "It will finish burning in about %d hour."
+msgid_plural "It will finish burning in about %d hours."
+msgstr[0] ""
+
+#: src/iexamine.cpp
+msgid "It will finish burning in less than an hour."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It should take about %d minutes to finish burning."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You have no brew to ferment."
@@ -105456,8 +105466,8 @@ msgid "<bold>Compatible magazines:</bold> "
 msgstr "<bold>兼容彈匣:</bold> "
 
 #: src/item.cpp
-msgid "<bold>Mods:<bold> "
-msgstr "<bold>模組:<bold> "
+msgid "<bold>Mods:</bold> "
+msgstr ""
 
 #: src/item.cpp
 #, c-format
@@ -105766,8 +105776,8 @@ msgid "Contains items with qualities:"
 msgstr "收納的物品具有以下特性:"
 
 #: src/item.cpp
-msgid "Techniques: "
-msgstr "技巧: "
+msgid "<bold>Techniques when wielded</bold>: "
+msgstr ""
 
 #: src/item.cpp
 msgid "* This item can be used to make <stat>long reach attacks</stat>."
@@ -106249,6 +106259,10 @@ msgstr "無法安裝 %s"
 #: src/item.cpp
 msgid "isn't big enough to use that mod"
 msgstr "不夠大無法使用那個模組"
+
+#: src/item.cpp
+msgid "can only accept small mods on that slot"
+msgstr ""
 
 #. ~ %1$s - name of the gunmod, %2$s - name of the ammo
 #: src/item.cpp
