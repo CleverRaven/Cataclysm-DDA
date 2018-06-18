@@ -1831,6 +1831,129 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     return ret;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * Display mapgen results over selected target position, and optionally regenerate / apply / abort
+ */
+int editmap::mapgen_set( real_coords &tc, std::string om_name)
+{
+    int ret = 0;
+    update_view( true );
+
+    // Coordinates of the overmap terrain that should be generated.
+    const point omt_pos = ms_to_omt_copy( tc.abs_pos );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
+    omt_ref = oter_id(om_name);
+    tinymap tmpmap;
+    // TODO: add a do-not-save-generated-submaps parameter
+    // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
+    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
+
+    tripoint pofs = pos2screen( { target.x - 11, target.y - 11, target.z } );
+    catacurses::window w_preview = catacurses::newwin( 24, 24, pofs.y, pofs.x );
+
+    uphelp( _( "[pgup/pgdn]: prev/next oter type" ),
+            _( "[up/dn] select, [enter] accept, [q] abort" ),
+            string_format( "Mapgen: %s", omt_ref.id().str().substr( 0, 40 ).c_str() )
+          );
+    bool showpreview = true;
+        cleartmpmap( tmpmap );
+        tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
+        showpreview = true;
+
+        if( showpreview ) {
+            hilights["mapgentgt"].draw( *this, true );
+            wrefresh( g->w_terrain );
+            tmpmap.reset_vehicle_cache( target.z );
+            for( int x = 0; x < 24; x++ ) {
+                for( int y = 0; y < 24; y++ ) {
+                    tmpmap.drawsq( w_preview, g->u, tripoint( x, y, target.z ),
+                                   false, true, tripoint( 12, 12, target.z ), false, true );
+                }
+            }
+            wrefresh( w_preview );
+        } else {
+            update_view( false );
+        }
+        inp_mngr.set_timeout( BLINK_SPEED * 3 );
+
+        point target_sub( target.x / 12, target.y / 12 );
+        g->m.clear_vehicle_cache( target.z );
+
+        std::string s = "";
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                // functions that would alter the results
+                submap *destsm = g->m.get_submap_at_grid( target_sub.x + x, target_sub.y + y, target.z );
+                submap *srcsm = tmpmap.get_submap_at_grid( x, y, target.z );
+                destsm->is_uniform = false;
+                srcsm->is_uniform = false;
+
+                for( auto &v : destsm->vehicles ) {
+                    auto &ch = g->m.access_cache( v->smz );
+                    ch.vehicle_list.erase( v );
+                }
+                destsm->delete_vehicles();
+                for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
+                    s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
+                    vehicle *veh1 = srcsm->vehicles[i];
+                    // vehicle *veh1 = veh;   // @todo: fixme: is this required?
+                    veh1->smx = target_sub.x + x;
+                    veh1->smy = target_sub.y + y;
+                    veh1->smz = target.z;
+                    destsm->vehicles.push_back( veh1 );
+                    g->m.update_vehicle_cache( veh1, target.z );
+                }
+                srcsm->vehicles.clear();
+                g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
+
+                int spawns_todo = 0;
+                for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
+                    int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
+                    s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
+                    destsm->spawns.push_back( srcsm->spawns[i] );
+                    spawns_todo++;
+                }
+
+                for( int sx = 0; sx < 12; sx++ ) {  // copy fields
+                    for( int sy = 0; sy < 12; sy++ ) {
+                        destsm->fld[sx][sy] = srcsm->fld[sx][sy];
+                    }
+                }
+                destsm->field_count = srcsm->field_count; // and count
+
+                std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
+                std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
+                std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
+                std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
+                std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
+                for( int x = 0; x < SEEX; ++x ) {
+                    for( int y = 0; y < SEEY; ++y ) {
+                        destsm->itm[x][y].swap( srcsm->itm[x][y] );
+                        destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
+                    }
+                }
+
+                // various misc variables
+                destsm->active_items = srcsm->active_items;
+
+                destsm->temperature = srcsm->temperature;
+                destsm->last_touched = calendar::turn;
+                destsm->comp = std::move( srcsm->comp );
+                destsm->camp = srcsm->camp;
+
+                if( spawns_todo > 0 ) {                               // trigger spawnpoints
+                    g->m.spawn_monsters( true );
+                }
+            }
+        }
+        g->m.reset_vehicle_cache( target.z );
+
+    cleartmpmap( tmpmap );
+    return ret;
+}
+
 /*
  * Move mapgen's target, which is different enough from the standard tile edit to warrant it's own function.
  */
@@ -1954,6 +2077,26 @@ int editmap::edit_mapgen()
         }
     } while( ! menu_escape( gmenu.keypress ) );
     return ret;
+}
+
+/*
+ * apply mapgen to a temporary map and overlay over terrain window, optionally regenerating, rotating, and applying to the real in-game map
+ */
+int editmap::set_mapgen(std::string om_name, tripoint pt)
+{
+    edit_mapgen_callback cb( this );
+    real_coords tc;
+    target = pt;
+    tc.fromabs( g->m.getabs( target.x, target.y ) );
+    point omt_lpos = g->m.getlocal( tc.begin_om_pos() );
+    tripoint om_ltarget = tripoint( omt_lpos.x + 11, omt_lpos.y + 11, target.z );
+
+    if( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
+        target = om_ltarget;
+        tc.fromabs( g->m.getabs( target.x, target.y ) );
+    }
+    mapgen_set( tc, om_name);
+    return 0;
 }
 
 /*
