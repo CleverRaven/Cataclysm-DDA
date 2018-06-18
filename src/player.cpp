@@ -5165,22 +5165,22 @@ void player::suffer()
         }
 
         if( has_effect( effect_sleep ) ) {
-            add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2 );
             // check if character has an inhaler
             if ( auto_use ) {
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 use_charges( "inhaler", 1 );
-                add_msg_if_player( m_info, _( "You use your inhaler." ) );
-                add_msg_if_player( m_info, _( "You go back to sleep." ) );
+                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
             // check if an inhaler is somewhere near
             } else if ( map_inv.has_charges( "inhaler", 1 ) ) {
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 // create new variable to resolve a reference issue
                 long amount = 1;
                 g->m.use_charges( g->u.pos(), 2, "inhaler", amount );
-                add_msg_if_player( m_info, _( "You use your inhaler." ) );
-                add_msg_if_player( m_info, _( "You go back to sleep." ) );
+                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
             } else {
+                add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
                 wake_up();
             }
         } else if ( auto_use ) {
