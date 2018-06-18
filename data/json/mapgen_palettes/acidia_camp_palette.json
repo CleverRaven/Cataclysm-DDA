@@ -1,0 +1,49 @@
+[
+  {
+    "type": "palette",
+    "id": "acidia_camp_palette",
+    "terrain": {
+      "^": [ "t_tree", "t_tree", "t_tree", "t_tree_young", "t_tree_dead", "t_tree_pine", "t_tree_pine", "t_tree_pine" ],
+      "+": [ "t_door_c", "t_door_c", "t_door_c", "t_door_o", "t_door_o", "t_door_locked_interior" ],
+      ",": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+      "#": "t_palisade",
+      "$": "t_dirt",
+      "(": "t_dirtfloor",
+      ";": "t_dirtfloor",
+      "'": "t_dirtfloor",
+      "*": "t_wall_log",
+      "3": "t_dirtfloor",
+      "4": "t_door_c",
+      "7": "t_dirt",
+      "8": "t_water_pump",
+      "b": "t_dirtfloor",
+      "D": "t_dirtfloor",
+      "G": "t_floor_green",
+      "o": "t_dirtfloor",
+      "Q": "t_dirtfloor",
+      "r": "t_dirtfloor",
+      "t": "t_dirtfloor",
+      "U": "t_pit",
+      "W": "t_dirtfloor"
+    },
+    "furniture": {
+      "#": "f_null",
+      "b": "f_straw_bed",
+      "r": "f_rack",
+      ";": "f_groundsheet",
+      "o": "f_woodstove",
+      "'": "f_null",
+      "U": "f_null",
+      "D": "f_canvas_door",
+      "Q": "f_trashcan",
+      "3": "f_crate_o",
+      "W": "f_canvas_wall",
+      "*": "f_null",
+      "4": "f_null",
+      "G": "f_null",
+      "$": "f_crate_o",
+      "7": "f_brazier",
+      "8": "f_null"
+    }
+  }
+]
