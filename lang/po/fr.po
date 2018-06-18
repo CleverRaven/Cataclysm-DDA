@@ -1,17 +1,17 @@
 # Translators:
 # Mickaël Falck <lastmikoi+github@lastmikoi.net>, 2018
-# Julien Maitre <julienm86230@hotmail.fr>, 2018
-# Brett Dong <brett.browning.dong@gmail.com>, 2018
-# Argasm Voragz <argasm@gmail.com>, 2018
 # Jazz <jazzzz@gmail.com>, 2018
 # _hickop, 2018
+# Brett Dong <brett.browning.dong@gmail.com>, 2018
+# Argasm Voragz <argasm@gmail.com>, 2018
+# Julien Maitre <julienm86230@hotmail.fr>, 2018
 # Réouven Assouly <reouvenassouly@yahoo.fr>, 2018
 # master zu, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-01 19:14-0400\n"
+"POT-Creation-Date: 2018-06-09 21:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: master zu, 2018\n"
 "Language-Team: French (https://www.transifex.com/cataclysm-dda-translators/teams/2217/fr/)\n"
@@ -5551,7 +5551,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift shotgun shot"
-msgstr "balle de fusil de chasse de fortune"
+msgstr "balle de fusil à pompe de fortune"
 
 #. ~ Description for makeshift shotgun shot
 #: lang/json/AMMO_from_json.py
@@ -7452,7 +7452,7 @@ msgid ""
 "travels.  It has a lot of storage space."
 msgstr ""
 "Une tenue de fortune faite de vêtements pré-cataclysme conçue pour de longs "
-"voyages."
+"voyages. Elle a beaucoup de poches."
 
 #: lang/json/ARMOR_from_json.py
 msgid "plated leather armor"
@@ -33794,6 +33794,8 @@ msgid ""
 "A telescoping baton that collapses for easy storage.  Makes an excellent "
 "melee weapon.  Activate to expand."
 msgstr ""
+"Une matraque télescopique qui se réduit pour un rangement plus facile. Fait "
+"une excellente arme de mêlée. Activer pour développer"
 
 #: lang/json/GENERIC_from_json.py
 msgid "expandable baton (extended)"
@@ -33817,6 +33819,8 @@ msgid ""
 "A telescoping baton that collapses for easy storage.  Makes an excellent "
 "melee weapon.  Activate to collapse."
 msgstr ""
+"Une matraque télescopique qui se réduit pour un rangement plus facile. Fait "
+"une excellente arme de mêlée. Activer pour réduire."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bee sting"
@@ -33828,17 +33832,18 @@ msgstr[1] "dards d'abeille"
 #: lang/json/GENERIC_from_json.py
 msgid "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon."
 msgstr ""
+"Un dard de 6 pouces d'une abeille géante. Fait une arme médiocre de mêlée"
 
 #: lang/json/GENERIC_from_json.py
 msgid "fungal fighter sting"
 msgid_plural "fungal fighter stings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Dard d'un guerrier fongique"
+msgstr[1] "dards d'un guerrier fongique"
 
 #. ~ Description for fungal fighter sting
 #: lang/json/GENERIC_from_json.py
 msgid "A short dart from a fungal fighter.  Makes an poor melee weapon."
-msgstr ""
+msgstr "Un petit dard d'un guerrier fongique. Fait une pauvre arme de Mélée."
 
 #: lang/json/GENERIC_from_json.py
 msgid "wasp sting"
@@ -37037,8 +37042,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift air filter"
 msgid_plural "makeshift air filters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "filtre à air de fortune"
+msgstr[1] "filtres à air de fortune"
 
 #. ~ Description for makeshift air filter
 #: lang/json/GENERIC_from_json.py
@@ -37061,8 +37066,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift automotive filter"
 msgid_plural "makeshift automotive filters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "filtre pour voiture de fortune"
+msgstr[1] "filtres pour voiture de fortune"
 
 #. ~ Description for makeshift automotive filter
 #: lang/json/GENERIC_from_json.py
@@ -37200,8 +37205,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift bayonet"
 msgid_plural "makeshift bayonets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "baïonnette de fortune"
+msgstr[1] "baïonnettes de fortune"
 
 #. ~ Description for makeshift bayonet
 #: lang/json/GENERIC_from_json.py
@@ -37209,6 +37214,8 @@ msgid ""
 "A makeshift version of a bayonet that consists of a mere spike with some "
 "string."
 msgstr ""
+"Une baïonnettes de fortune faite à partir d'une simple pointe et de "
+"ficelles."
 
 #: lang/json/GENERIC_from_json.py
 msgid "aluminum ingot"
@@ -37336,6 +37343,8 @@ msgid ""
 "A makeshift pallet lifter.  If attached to a frame it could be used to lift "
 "up to 0.5 metric tonnes."
 msgstr ""
+"Un porte palettes de fortune. Attachée à un cadre il peut être utilisé pour "
+"lever jusqu’à une demi tonne."
 
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle crafting rig"
@@ -38004,8 +38013,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift pot"
 msgid_plural "makeshift pots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pot de fortune"
+msgstr[1] "pots de fortune"
 
 #. ~ Description for makeshift pot
 #: lang/json/GENERIC_from_json.py
@@ -40106,7 +40115,7 @@ msgstr "Pas de monstres fongiques"
 #. ~ Description for No Fungal Monsters
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes fungal monsters and regions from the game."
-msgstr ""
+msgstr "Retire les monstres et les régions fongiques du jeux."
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Medieval Items"
@@ -77585,7 +77594,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Bee"
-msgstr ""
+msgstr "Abeille"
 
 #. ~ Description for Bee
 #: lang/json/mutation_from_json.py
@@ -77593,6 +77602,8 @@ msgid ""
 "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you "
 "have it."
 msgstr ""
+"Trait d'un NPC faisant voir les monstres comme des abailles. C'est un bug "
+"(eheh) si vous l'avez."
 
 #: lang/json/mutation_from_json.py
 msgid "mute"
@@ -114436,8 +114447,19 @@ msgstr "Il y a un four à charbon ici."
 
 #: src/iexamine.cpp
 #, c-format
-msgid "It should take %d minutes to finish burning."
-msgstr "Il faut %d minutes pour que tout soit brûlé."
+msgid "It will finish burning in about %d hour."
+msgid_plural "It will finish burning in about %d hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iexamine.cpp
+msgid "It will finish burning in less than an hour."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It should take about %d minutes to finish burning."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You have no brew to ferment."
@@ -115628,7 +115650,7 @@ msgid "<bold>Compatible magazines:</bold> "
 msgstr "<bold>Chargeurs compatibles:</bold> "
 
 #: src/item.cpp
-msgid "<bold>Mods:<bold> "
+msgid "<bold>Mods:</bold> "
 msgstr ""
 
 #: src/item.cpp
@@ -115946,8 +115968,8 @@ msgid "Contains items with qualities:"
 msgstr "Contient des objets avec les qualités:"
 
 #: src/item.cpp
-msgid "Techniques: "
-msgstr "Techniques: "
+msgid "<bold>Techniques when wielded</bold>: "
+msgstr ""
 
 #: src/item.cpp
 msgid "* This item can be used to make <stat>long reach attacks</stat>."
@@ -116428,6 +116450,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "isn't big enough to use that mod"
+msgstr ""
+
+#: src/item.cpp
+msgid "can only accept small mods on that slot"
 msgstr ""
 
 #. ~ %1$s - name of the gunmod, %2$s - name of the ammo

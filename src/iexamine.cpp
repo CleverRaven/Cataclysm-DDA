@@ -3515,21 +3515,23 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            const int bionic = g->inv_for_flag( "CBM", _( "Choose CBM to install" ) );
-            if( bionic == INT_MIN ) {
-                p.add_msg_if_player( m_info, _( "Never mind." ) );
+            const item_location bionic = g->inv_map_splice( []( const item &e ) {
+                return e.has_flag( "CBM" );
+            }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install" ) );
+
+            if( !bionic ) {
                 return;
             }
 
-            const item &it = p.i_at( bionic );
-            const itype &itemtype = *it.type;
-            const time_duration duration = itemtype.bionic->difficulty * 20_minutes;
-            if( p.install_bionics( itemtype ) ) {
+            const item *it = bionic.get_item();
+            const itype *itemtype = it->type;
+            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+            if( p.install_bionics( *itemtype ) ) {
                 p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
                 p.fall_asleep( duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
-                p.i_rem( &it );
+                g->m.i_rem( bionic.position(), it );
             }
         }
 

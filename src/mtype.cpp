@@ -22,8 +22,20 @@ mtype::mtype()
     def_chance = 0;
     upgrades = false;
     half_life = -1;
+    age_grow = -1;
     upgrade_into = mtype_id::NULL_ID();
     upgrade_group = mongroup_id::NULL_ID();
+
+    reproduces = false;
+    baby_timer = -1;
+    baby_count = -1;
+    baby_monster = mtype_id::NULL_ID();
+    baby_egg = "null";
+
+    biosignatures = false;
+    biosig_timer = -1;
+    biosig_item = "null";
+
     burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
