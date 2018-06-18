@@ -94,6 +94,16 @@ bool labor_return( npc &p );
 bool carpenter_return( npc &p );
 bool forage_return( npc &p );
 
+void become_overseer( npc & );
+void om_camp_upgrade( npc &p );
+std::string om_upgrade_description( npc &p, std::string bldg );
+std::string om_gathering_description( npc &p, std::string bldg );
+std::string om_next_upgrade( std::string bldg );
+bool om_min_level( std::string target, std::string bldg );
+bool upgrade_return( npc &p );
+bool camp_gathering_return( npc &p, std::string task );
+bool camp_menial_return( npc &p );
+
 //Combat functions
 void force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
                      std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage );
