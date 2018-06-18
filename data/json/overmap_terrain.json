@@ -7314,5 +7314,167 @@
     "name": "icecream shop",
     "copy-from": "generic_city_building",
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_1",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_2",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_3",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_4",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_5",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_6",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_7",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_8",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_9",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_10",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_11",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_12",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_13",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_14",
+    "name": "survivor camp",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_15",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_16",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_17",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_18",
+    "name": "survivor base",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
   }
 ]
