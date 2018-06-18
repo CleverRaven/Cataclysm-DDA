@@ -1349,7 +1349,7 @@ void talk_function::om_camp_upgrade( npc &comp ){
     } else {
         edit.set_mapgen( om_next_upgrade(om_old), comp.pos());
     }
-    
+
     tripoint np = tripoint( 5 * SEEX + 5 % SEEX, 4 * SEEY + 5 % SEEY, comp.posz() );
     np.x = g->u.posx()+1;
     np.y = g->u.posy();
@@ -1357,8 +1357,8 @@ void talk_function::om_camp_upgrade( npc &comp ){
     tripoint p( 0, 0, comp.posz() );
     int &x = p.x;
     int &y = p.y;
-    for( x = 0; x < SEEX * g->m.my_MAPSIZE; x++ ) {
-        for( y = 0; y < SEEY * g->m.my_MAPSIZE; y++ ) {
+    for( x = 0; x < SEEX * g->m.getmapsize(); x++ ) {
+        for( y = 0; y < SEEY * g->m.getmapsize(); y++ ) {
             if(g->m.ter(x, y) == ter_id( "t_floor_green" )) {
                 np.x = x;
                 np.y = y;
@@ -1398,7 +1398,7 @@ std::string talk_function::om_upgrade_description( npc &p, std::string bldg ){
         "Difficulty: " + making->required_skills_string() + "\n" +
         comp +
         " \nRisk: None\n"
-        "Time: "+ to_string( time_duration::from_turns( making->time / MOVES( 1 ) ) )+"\n"
+        "Time: "+ to_string( time_duration::from_turns( making->time ) )+"\n"
         "Positions: "+ to_string(npc_list.size()) +"/1\n");
     return comp;
 }
@@ -1469,7 +1469,7 @@ bool talk_function::om_min_level( std::string target, std::string bldg ){
 
 bool talk_function::upgrade_return( npc &p )
 {
-    npc *comp = companion_choose_return( p.name + "_faction_upgrade_camp", calendar::turn.get_turn()-1800 );
+    npc *comp = companion_choose_return( p.name + "_faction_upgrade_camp", calendar::turn - 3_hours );
     if (comp == NULL){
         return false;
     }
@@ -1496,7 +1496,7 @@ bool talk_function::upgrade_return( npc &p )
 bool talk_function::camp_gathering_return( npc &p, std::string task )
 {
     //minimum working time is 3 hour
-    npc *comp = companion_choose_return( p.name + task, calendar::turn.get_turn()-1800 );
+    npc *comp = companion_choose_return( p.name + task, calendar::turn - 3_hours );
     if (comp == NULL){
         return false;
     }
@@ -1617,7 +1617,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
 bool talk_function::camp_menial_return( npc &p )
 {
     //minimum working time is 3 hour
-    npc *comp = companion_choose_return( p.name + "_faction_camp_menial", calendar::turn.get_turn()-1800 );
+    npc *comp = companion_choose_return( p.name + "_faction_camp_menial", calendar::turn - 3_hours );
     if (comp == NULL){
         return false;
     }
@@ -2032,7 +2032,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((t == t_window || t == t_window_taped || t == t_window_domestic || 
+            else if ((t == t_window || t == t_window_taped || t == t_window_domestic ||
                     t == t_window_boarded_noglass || t == t_window_domestic_taped ||
                     t == t_window_alarm_taped || t == t_window_boarded ||
                     t == t_curtains || t == t_window_alarm ||
