@@ -619,7 +619,7 @@ void npc::talk_to_u()
         mvwvline( d.win, 1, ( FULL_SCREEN_WIDTH / 2 ) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1 );
         mvwputch( d.win, 0, ( FULL_SCREEN_WIDTH / 2 ) + 1, BORDER_COLOR, LINE_OXXX );
         mvwputch( d.win, FULL_SCREEN_HEIGHT - 1, ( FULL_SCREEN_WIDTH / 2 ) + 1, BORDER_COLOR, LINE_XXOX );
-        mvwprintz( d.win, 1,  1, c_white, _( "Dialogue with %s" ), name.c_str() );
+        mvwprintz( d.win, 1,  1, c_white, _( "Dialogue: %s" ), name.c_str() );
         mvwprintz( d.win, 1, ( FULL_SCREEN_WIDTH / 2 ) + 3, c_white, _( "Your response:" ) );
         const talk_topic next = d.opt( d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
@@ -1200,6 +1200,9 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_FRIEND_GUARD" ) {
         return _( "I'm on watch." );
+
+    } else if( topic == "TALK_CAMP_OVERSEER" ) {
+        return _( "Hey Boss..." );
 
     } else if( topic == "TALK_DENY_GUARD" ) {
         return _( "Not a bloody chance, I'm going to get left behind!" );
@@ -2298,6 +2301,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "I need you to come with me." ), "TALK_FRIEND", &talk_function::stop_guard );
         add_response_done( _( "See you around." ) );
 
+    } else if( topic == "TALK_CAMP_OVERSEER" ) {
+        add_response( _( "What needs to be done" ), "TALK_CAMP_OVERSEER", &talk_function::companion_mission );
+        add_response_done( _( "See you around." ) );
+
     } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
         if( p->is_following() ) {
             add_response( _( "Combat commands..." ), "TALK_COMBAT_COMMANDS" );
@@ -2349,6 +2356,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "Wait at this base." ), "TALK_DONE", &talk_function::assign_base );
         }
         if( p->is_following() ) {
+            add_response( _( "I want you to build a camp here." ), "TALK_DONE", &talk_function::become_overseer );
+
             RESPONSE( _( "Guard this position." ) );
             SUCCESS( "TALK_FRIEND_GUARD" );
             SUCCESS_ACTION( &talk_function::assign_guard );
@@ -2978,6 +2987,16 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
+}
+
+void talk_function::become_overseer( npc &p )
+{
+    add_msg( _( "%s has become a camp manager." ), p.name.c_str() );
+    p.name = p.name + ", Camp Manager";
+    p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_GUARD;
+    p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
+    p.set_destination();
 }
 
 void talk_function::wake_up( npc &p )
