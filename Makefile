@@ -652,7 +652,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
-OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
 
 ifdef LANGUAGES
   L10N = localization
