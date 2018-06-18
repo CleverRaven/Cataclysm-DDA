@@ -40,6 +40,8 @@ class recipe
         std::string category;
         std::string subcategory;
 
+        std::string description;
+
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
 
