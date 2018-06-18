@@ -4068,7 +4068,7 @@
   {
     "id": "hat_noise_cancelling",
     "type": "ARMOR",
-    "name": "noise cancelling headgear",
+    "name": "noise canceling headgear",
     "description": "Padding over your ears kept in place by some string.  Blocks incoming sounds.",
     "weight": 72,
     "volume": 2,
