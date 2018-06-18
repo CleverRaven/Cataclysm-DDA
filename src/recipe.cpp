@@ -6,6 +6,7 @@
 #include "item.h"
 #include "string_formatter.h"
 #include "output.h"
+#include "overmap.h"
 #include "skill.h"
 #include "game_constants.h"
 
@@ -183,6 +184,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
         assign( jo, "category", category, strict );
         assign( jo, "subcategory", subcategory, strict );
+        assign( jo, "description", description, strict );
         assign( jo, "reversible", reversible, strict );
 
         if( jo.has_member( "byproducts" ) ) {
@@ -236,7 +238,11 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ ) ) {
+    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING") {
+        return "defines invalid result";
+    }
+
+    if( category == "CC_BUILDING" && !oter_str_id( result_.c_str() ).is_valid() ) {
         return "defines invalid result";
     }
 
