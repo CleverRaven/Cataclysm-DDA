@@ -381,6 +381,8 @@ enum talk_topic_enum {
     TALK_LOOK_AT,
     TALK_OPINION,
 
+    TALK_CAMP_OVERSEER,
+
     NUM_TALK_TOPICS
 };
 
