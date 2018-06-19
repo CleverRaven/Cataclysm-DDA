@@ -11898,7 +11898,7 @@ void game::on_move_effects()
 
     if( u.move_mode == "run" && u.has_effect( effect_winded ) ) {
         u.toggle_move_mode();
-        add_msg(m_bad, _("You're too tired to run."));
+        add_msg(m_bad, _("You don't have enough stamina for running."));
     }
 
     // apply martial art move bonuses
