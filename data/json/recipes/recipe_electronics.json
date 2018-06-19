@@ -1252,9 +1252,9 @@
   "reversible": true,
   "decomp_learn": 5,
   "autolearn": true,
-  "book_learn": [["manual_electronics", 7] , ["textbook_electronics", 6] , ["advanced_electronics", 6]],
+  "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20] ],
-  "qualities": [ {"id":"SCREW","level":1}, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
@@ -1275,9 +1275,9 @@
   "reversible": true,
   "decomp_learn": 5,
   "autolearn": true,
-  "book_learn": [["recipe_augs", 7] , ["recipe_lab_elec", 7] , ["advanced_electronics", 8]],
+  "book_learn": [ [ "recipe_augs" , 7 ], [ "recipe_lab_elec", 7 ], [ "advanced_electronics", 8 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20] ],
-  "qualities": [ {"id":"SCREW","level":1}, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
@@ -1299,7 +1299,7 @@
   "autolearn": true,
   "book_learn": [["manual_electronics", 7] , ["textbook_electronics", 6] , ["advanced_electronics", 6]],
   "using": [ [ "soldering_standard", 35 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
+  "qualities" : [ {"id": "SCREW","level":1} ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
