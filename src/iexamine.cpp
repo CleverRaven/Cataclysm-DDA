@@ -3537,6 +3537,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     g->m.i_rem( bionic.position(), it );
                 }
             }
+            break;
         }
 
         case CANCEL:
