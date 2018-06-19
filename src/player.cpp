@@ -4416,8 +4416,8 @@ void player::update_stamina( int turns )
     mod_stat( "thirst", AddThrist );
 
     int StaminaIncreaseFatigue = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE" );
-    float AddFatigie = roll_remainder( stamina_recovery * turns / 1000.0f * StaminaIncreaseFatigue );
-    mod_stat( "fatigue", AddFatigie );
+    float AddFatigue = roll_remainder( stamina_recovery * turns / 1000.0f * StaminaIncreaseFatigue );
+    mod_stat( "fatigue", AddFatigue );
 }
 
 bool player::is_hibernating() const
