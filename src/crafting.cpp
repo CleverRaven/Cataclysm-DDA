@@ -739,11 +739,10 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     } else { // Let the player pick which component they want to use
         uimenu cmenu;
         // Populate options with the names of the items
-        std::string rot;
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            rot = "";
+            std::string rot;
             if( item(map_ha.type).is_comestible() && map_inv.amount_of_rotten( map_ha.type ) > 0 ){
-                rot = "(rotting)";
+                rot =  _( "(rotting)" );
             }
             std::string tmpStr = string_format( _( "%s (%d/%d nearby) %s" ),
                                                 item::nname( map_ha.type ),
@@ -753,9 +752,9 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            rot = "";
+            std::string rot;
             if( item(player_ha.type).is_comestible() && amount_of_rotten( player_ha.type ) > 0 ){
-                rot = "(rotting)";
+                rot =  _( "(rotting)" );
             }
             std::string tmpStr = string_format( _( "%s (%d/%d on person) %s" ),
                                                 item::nname( player_ha.type ),
@@ -766,9 +765,9 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         }
         for( auto &elem :
              mixed ) { // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            rot = "";
+            std::string rot;
             if( item(elem.type).is_comestible() && (map_inv.amount_of_rotten( elem.type ) + amount_of_rotten( elem.type ) ) > 0 ){
-                rot = "(rotting)";
+                rot =  _( "(rotting)" );
             }
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person) %s" ),
                                                 item::nname( elem.type ),
