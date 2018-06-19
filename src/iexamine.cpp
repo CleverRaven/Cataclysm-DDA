@@ -3481,6 +3481,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 {
     enum options {
         INSTALL_CBM,
+        UNINSTALL_CBM,
         CANCEL,
     };
 
@@ -3509,6 +3510,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.selected = 0;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+    amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
     amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
 
     amenu.query();
