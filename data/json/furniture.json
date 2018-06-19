@@ -2413,7 +2413,7 @@
     },
     {
         "type" : "furniture",
-        "id" : "f_floor_canvas",
+        "id" : "f_punching_bag",
         "name": "heavy punching bag",
         "description": "Punch Punch!  Exercise those arms!",
         "symbol": "0",

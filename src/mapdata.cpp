@@ -821,7 +821,7 @@ furn_id f_null,
     f_standing_tank,
     f_statue, f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
-    f_floor_canvas,
+    f_punching_bag,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
     f_robotic_arm, f_vending_reinforced,
@@ -919,7 +919,7 @@ void set_furn_ids() {
     f_egg_sackws = furn_id( "f_egg_sackws" );
     f_egg_sacke = furn_id( "f_egg_sacke" );
     f_flower_marloss = furn_id( "f_flower_marloss" );
-    f_floor_canvas = furn_id( "f_floor_canvas" );
+    f_punching_bag = furn_id( "f_punching_bag" );
     f_kiln_empty = furn_id( "f_kiln_empty" );
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
