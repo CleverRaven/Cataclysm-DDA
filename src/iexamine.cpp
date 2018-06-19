@@ -3542,6 +3542,45 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             break;
         }
 
+        case UNINSTALL_CBM: {
+            bionic_collection installed_bionics = *g->u.my_bionics;
+            if( installed_bionics.empty() ) {
+                popup( _( "You don't have any bionics installed." ) );
+                return;
+            }
+
+            item bionic_to_uninstall;
+            std::vector<itype_id> bionic_types;
+            std::vector<std::string> bionic_names;
+
+            for( auto &bio : installed_bionics ) {
+                if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+                    if( bio.id != bionic_id( "bio_power_storage" ) ||
+                        bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                        bionic_to_uninstall = item( bio.id.str(), 0 );
+                        bionic_types.push_back( bio.id.str() );
+                        bionic_names.push_back( bionic_to_uninstall.tname() );
+                    }
+                }
+            }
+
+            int bionic_index = menu_vec( true, _( "Choose bionic to uninstall" ),
+                                         bionic_names ) - 1;
+            if( bionic_index < 0 ) {
+                return;
+            }
+
+            const itype *itemtype = bionic_to_uninstall.type;
+            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
+                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
+                p.fall_asleep( duration );
+                p.add_msg_if_player( m_info,
+                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+            }
+            break;
+        }
+
         case CANCEL:
             return;
     }
