@@ -125,7 +125,7 @@
           },
           "furniture": {
             "#": "f_table",
-            "0": "f_floor_canvas",
+            "0": "f_punching_bag",
             "5": "f_canvas_floor",
             "B": "f_bench",
             "C": "f_chair",
