@@ -40,5 +40,40 @@
     "info": "Set base NPC healing rate per turn. Default: 0.01",
     "stype": "float",
     "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STAMINA_PENALTY",
+    "info": "How many used stamina points required to reduce stamina pool size by 1.  Default: 100",
+    "stype": "int",
+    "value": 100
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STAMINA_REGENERATE",
+    "info": "Stamina pool regenerating rate per turn while sleeping.  Default: 0.2",
+    "stype": "float",
+    "value": 0.2
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER",
+    "info": "How much hunger will be added for recovering 1000 stamina.  Default: 10",
+    "stype": "int",
+    "value": 10
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_RECOVER_STAMINA_INCREASE_THRIST",
+    "info": "How much thrist will be added for recovering 1000 stamina.  Default: 10",
+    "stype": "int",
+    "value": 10
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE",
+    "info": "How much fatigue will be added for recovering 1000 stamina.  Default: 10",
+    "stype": "int",
+    "value": 10
   }
 ]
