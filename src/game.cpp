@@ -11896,13 +11896,9 @@ void game::on_move_effects()
         }
     }
 
-    if( u.move_mode == "run" ) {
-        if( u.stamina <= 0 ) {
-            u.toggle_move_mode();
-        }
-        if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
-            u.add_effect( effect_winded, 3_turns );
-        }
+    if( u.move_mode == "run" && u.has_effect( effect_winded ) ) {
+        u.toggle_move_mode();
+        add_msg(m_bad, _("You're too tired to run."));
     }
 
     // apply martial art move bonuses
