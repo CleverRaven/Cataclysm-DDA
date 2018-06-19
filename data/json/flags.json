@@ -65,6 +65,13 @@
     "inherit": false
   },
   {
+    "id": "DURABLE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
+    "conflicts": [ "FRAGILE_MELEE" ]
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -103,6 +110,13 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
     "conflicts": [ "STURDY" ]
+  },
+  {
+    "id": "FRAGILE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
+    "conflicts": [ "DURABLE_MELEE" ]
   },
   {
     "id": "GAS_PROOF",
