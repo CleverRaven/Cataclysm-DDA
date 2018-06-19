@@ -605,6 +605,10 @@ bool veh_interact::can_install_part() {
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
+        if(get_option<bool>("DISABLE_LIFTING")){
+         use_aid = true;
+         use_str = true;
+        }
     }
 
     if( !( use_aid || use_str ) ) {
@@ -1302,6 +1306,10 @@ bool veh_interact::can_remove_part( int idx ) {
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
+        if(get_option<bool>("DISABLE_LIFTING")){
+         use_aid = true;
+         use_str = true;
+        }
     }
 
     if( !( use_aid || use_str ) ) {
