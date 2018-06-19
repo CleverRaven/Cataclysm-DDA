@@ -3577,7 +3577,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const itype *itemtype = bionic_to_uninstall.type;
-            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+            // Malfunctioning bionics don't have associated items and get a difficulty of 12
+            const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
+            const time_duration duration = difficulty * 20_minutes;
             if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
                 p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
                 p.fall_asleep( duration );
