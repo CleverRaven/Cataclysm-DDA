@@ -3531,7 +3531,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 p.fall_asleep( duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
-                g->m.i_rem( bionic.position(), it );
+                if( p.has_item( *it ) ) {
+                    p.i_rem( it );
+                } else {
+                    g->m.i_rem( bionic.position(), it );
+                }
             }
         }
 
