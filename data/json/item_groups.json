@@ -5317,7 +5317,7 @@
       ["omnicamera", 7],
       ["chem_nitric_acid", 1],
       ["l-stick", 1],
-      ["solarpack, 10"]
+      ["solarpack", 10]
     ]
   },{
     "type" : "item_group",
@@ -7168,7 +7168,7 @@
       ["bot_manhack", 1],
       ["bot_grenade_hack", 1],
       ["l-stick", 1],
-      ["solarpack, 2"]
+      ["solarpack", 2]
     ]
   },{
     "type" : "item_group",
