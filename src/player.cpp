@@ -2431,7 +2431,10 @@ void player::mod_stat( const std::string &stat, float modifier )
         stamina = std::max( 0, stamina );
         if( modifier < 0 ){
             int MaxStaminaPenalty = get_option< int >( "PLAYER_MAX_STAMINA_PENALTY" );
-            int stamina_penalty = roll_remainder( modifier / MaxStaminaPenalty * ( 1.0f + mutation_value( "fatigue_modifier" ) ) ) ;
+            int stamina_penalty = roll_remainder( modifier / 10000.0f * MaxStaminaPenalty * ( 1.0f + mutation_value( "fatigue_modifier" ) ) ) ;
+            if( is_npc() ) {
+                stamina_penalty *= 0.25f;
+            }
             mod_stamina_max_penalty( - stamina_penalty );
         }
     } else {
@@ -4400,24 +4403,31 @@ void player::update_stamina( int turns )
         add_effect( effect_winded, 10_turns );
     }
 
-    // increase needs with stamina recovery
-    int StaminaIncreaseHunger = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER" );
-    float AddHunger = roll_remainder( stamina_recovery * turns / 1000.0f * StaminaIncreaseHunger );
-    if( is_npc() ) {
-        AddHunger *= 0.25f;
-    }
-    mod_stat( "hunger", AddHunger );
+    // Increase needs with stamina recovery
+    // Sleeping character will recover stamina pool, thus regenerate stamina
+    // This regeneration should not increase needs
+    if( !has_effect( effect_sleep ) ){
+        int StaminaIncreaseHunger = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER" );
+        float AddHunger = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseHunger );
+        if( is_npc() ) {
+            AddHunger *= 0.25f;
+        }
+        mod_stat( "hunger", AddHunger );
 
-    int StaminaIncreaseThrist = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_THRIST" );
-    float AddThrist = roll_remainder( stamina_recovery * turns / 1000.0f * StaminaIncreaseThrist );
-    if( is_npc() ) {
-        AddThrist *= 0.25f;
-    }
-    mod_stat( "thirst", AddThrist );
+        int StaminaIncreaseThrist = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_THRIST" );
+        float AddThrist = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseThrist );
+        if( is_npc() ) {
+            AddThrist *= 0.25f;
+        }
+        mod_stat( "thirst", AddThrist );
 
-    int StaminaIncreaseFatigue = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE" );
-    float AddFatigue = roll_remainder( stamina_recovery * turns / 1000.0f * StaminaIncreaseFatigue );
-    mod_stat( "fatigue", AddFatigue );
+        int StaminaIncreaseFatigue = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE" );
+        float AddFatigue = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseFatigue );
+        if( is_npc() ) {
+            AddFatigue *= 0.25f;
+        }
+        mod_stat( "fatigue", AddFatigue );
+    }
 }
 
 bool player::is_hibernating() const
