@@ -3519,7 +3519,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case INSTALL_CBM: {
             const item_location bionic = g->inv_map_splice( []( const item &e ) {
                 return e.has_flag( "CBM" );
-            }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install" ) );
+            }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install." ) );
 
             if( !bionic ) {
                 return;
