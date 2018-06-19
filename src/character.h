@@ -12,6 +12,7 @@
 
 #include <map>
 #include <vector>
+#include <bitset>
 
 class Skill;
 struct pathfinding_settings;
@@ -30,6 +31,7 @@ struct mutation_branch;
 class bionic_collection;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+class recipe;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -59,14 +61,43 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
+struct layer_details {
+
+    std::vector<int> pieces;
+    int max = 0;
+    int total = 0;
+
+    void reset();
+    int layer( const int encumbrance );
+
+    bool operator ==( const layer_details &rhs ) const {
+        return max == rhs.max &&
+               total == rhs.total &&
+               pieces == rhs.pieces;
+    }
+};
+
 struct encumbrance_data {
     int encumbrance = 0;
     int armor_encumbrance = 0;
     int layer_penalty = 0;
+
+    std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
+    layer_penalty_details;
+
+    void layer( const layer_level level, const int emcumbrance ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
+    }
+
+    void reset() {
+        *this = encumbrance_data();
+    }
+
     bool operator ==( const encumbrance_data &rhs ) const {
         return encumbrance == rhs.encumbrance &&
                armor_encumbrance == rhs.armor_encumbrance &&
-               layer_penalty == rhs.layer_penalty;
+               layer_penalty == rhs.layer_penalty &&
+               layer_penalty_details == rhs.layer_penalty_details;
     }
 };
 
@@ -215,6 +246,8 @@ class Character : public Creature, public visitable<Character>
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
         std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
+        /** Get encumbrance penalty per layer & body part */
+        int extraEncumbrance( const layer_level level, const int bp ) const;
 
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
@@ -223,14 +256,15 @@ class Character : public Creature, public visitable<Character>
         bool is_blind() const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
+        body_part_set exclusive_flag_coverage( const std::string &flag ) const;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                         int intensity = 0, bool force = false ) override;
+        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+                         bool permanent = false,
+                         int intensity = 0, bool force = false, bool deferred = false ) override;
         /**
          * Handles end-of-turn processing.
          */
@@ -314,7 +348,8 @@ class Character : public Creature, public visitable<Character>
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
         /** Applies encumbrance from items only */
-        void item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const;
+        void item_encumb( std::array<encumbrance_data, num_bp> &vals,
+                          const item &new_item ) const;
     public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect( const trait_id &mut );
@@ -385,7 +420,7 @@ class Character : public Creature, public visitable<Character>
 
         /**
          * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or @ref ret_null.
+         * At the moment it's always @ref weapon or a reference to a null item.
          */
         /*@{*/
         const item &used_weapon() const;
@@ -615,7 +650,6 @@ class Character : public Creature, public visitable<Character>
         inventory inv;
         itype_id last_item;
         item weapon;
-        item ret_null; // Null item, sometimes returns by weapon() etc
 
         pimpl<bionic_collection> my_bionics;
 

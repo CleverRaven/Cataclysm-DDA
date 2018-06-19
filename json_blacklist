@@ -30,7 +30,6 @@ data/json/itemgroups/vending_machines.json
 data/json/items/ammo.json
 data/json/items/ammo_types.json
 data/json/items/archery.json
-data/json/items/armor/ammo_pouch.json
 data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
@@ -48,7 +47,6 @@ data/json/items/fake.json
 data/json/items/fuel.json
 data/json/items/generic/ammolink.json
 data/json/items/generic.json
-data/json/items/generic/spares.json
 data/json/items/generic/string.json
 data/json/items/grenades.json
 data/json/items/gun/223.json
@@ -69,18 +67,15 @@ data/json/items/gun/9mm.json
 data/json/items/gun/flintlock.json
 data/json/items/gunmod/magazine.json
 data/json/items/gunmod/underbarrel.json
-data/json/items/gun/nail.json
 data/json/items/gun/shot.json
 data/json/items/handloaded_bullets.json
 data/json/items/melee.json
 data/json/items/migration.json
 data/json/items/newspaper.json
-data/json/items/ranged.json
 data/json/items/resources/metals.json
 data/json/items/software.json
 data/json/items/tool_armor.json
 data/json/items/tool/lighting.json
-data/json/items/tool/radio_tools.json
 data/json/items/tools.json
 data/json/items/vehicle_parts.json
 data/json/lab_notes.json
@@ -212,7 +207,6 @@ data/json/monster_drops.json
 data/json/monsterdrops/zombie_cop.json
 data/json/monsterdrops/zombie_soldier.json
 data/json/monsterdrops/zombie_survivor.json
-data/json/monster_factions.json
 data/json/monstergroups.json
 data/json/monsters/defense_bot.json
 data/json/monsters/drones.json
@@ -227,7 +221,6 @@ data/json/mutation_ordering.json
 data/json/mutations.json
 data/json/npcs/classes.json
 data/json/npcs/epilogues.json
-data/json/npcs/factions.json
 data/json/npcs/items_generic.json
 data/json/npcs/missiondef.json
 data/json/npcs/NC_ARSONIST.json
@@ -302,7 +295,6 @@ data/json/regional_map_settings.json
 data/json/requirements/ammo.json
 data/json/road_vehicles.json
 data/json/scenarios/scenarios.json
-data/json/skills.json
 data/json/snippets.json
 data/json/species.json
 data/json/speech.json
@@ -341,7 +333,6 @@ data/json/vehicles/military.json
 data/json/vehicles/trucks.json
 data/json/vehicles/utility.json
 data/json/vehicles/vans_busses.json
-data/json/vitamin.json
 data/legacy/1/obsolete.json
 data/legacy/4/boots.json
 data/legacy/5/vehicle_parts.json

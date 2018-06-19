@@ -127,6 +127,7 @@
       ["m3_carlgustav", 10],
       ["m202_flash", 20],
       ["RPG", 40],
+      ["RPG-7_ammo", 40],
       ["flamethrower", 50],
       ["rm451_flamethrower", 40]
     ]

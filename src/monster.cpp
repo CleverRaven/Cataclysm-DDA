@@ -18,6 +18,7 @@
 #include <numeric>
 #include "cursesdef.h"
 #include "effect.h"
+#include "melee.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
@@ -168,6 +169,10 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
+    baby_timer = -1;
+    last_baby = 0;
+    biosig_timer = -1;
+    last_biosig = 0;
 }
 
 monster::monster( const mtype_id& id ) : monster()
@@ -184,7 +189,9 @@ monster::monster( const mtype_id& id ) : monster()
     morale = type->morale;
     faction = type->default_faction;
     ammo = type->starting_ammo;
-    upgrades = type->upgrades && type->half_life;
+    upgrades = type->upgrades && (type->half_life || type->age_grow);
+    reproduces = type->reproduces && type->baby_timer;
+    biosignatures = type->biosignatures;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -234,6 +241,8 @@ void monster::poly( const mtype_id& id )
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
+    reproduces = type->reproduces;
+    biosignatures = type->biosignatures;
 }
 
 bool monster::can_upgrade() {
@@ -256,6 +265,9 @@ void monster::hasten_upgrade() {
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
+    if( type->age_grow > 0 ){
+        return type->age_grow;
+    }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
     for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
@@ -276,19 +288,19 @@ void monster::try_upgrade(bool pin_time) {
         return;
     }
 
-    const int current_day = calendar::turn.get_turn() / DAYS(1);
-
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    //This should only occur when a monster is created or upgraded to a new form
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
         if (upgrade_time < 0) {
             return;
         }
-        if (pin_time) {
-            // offset by today
+        if( pin_time || type->age_grow > 0 ) {
+            // offset by today, always true for growing creatures
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start / DAYS(1);
+            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
         }
     }
 
@@ -321,6 +333,89 @@ void monster::try_upgrade(bool pin_time) {
             return;
         }
         upgrade_time += next_upgrade;
+    }
+}
+
+void monster::try_reproduce() {
+    if( !reproduces ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    if( baby_timer < 0 ) {
+        baby_timer = type->baby_timer;
+        if( baby_timer < 0 ) {
+            return;
+        }
+        baby_timer += current_day;
+    }
+
+    bool season_spawn = false;
+    bool season_match = true;
+    for( auto &elem : type->baby_flags ) {
+        if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
+            season_spawn = true;
+        }
+    }
+
+    while( true ) {
+        if( baby_timer > current_day ) {
+            return;
+        }
+
+        if( season_spawn ){
+            season_match = false;
+            for( auto &elem : type->baby_flags ) {
+                if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == AUTUMN && elem == "AUTUMN" ) ) {
+                    season_match = true;
+                }
+            }
+        }
+
+        if( season_match ){
+            if( type->baby_monster ) {
+                g->m.add_spawn( type->baby_monster, type->baby_count, pos().x, pos().y );
+            } else {
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), type->baby_count ), true );
+            }
+        }
+
+        const int next_baby = type->baby_timer;
+        if( next_baby < 0 ) {
+            return;
+        }
+        baby_timer += next_baby;
+    }
+}
+
+void monster::try_biosignature() {
+    if( !biosignatures ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    if( biosig_timer < 0 ) {
+        biosig_timer = type->biosig_timer;
+        if( biosig_timer < 0 ) {
+            return;
+        }
+        biosig_timer += current_day;
+    }
+
+    while( true ) {
+        if( biosig_timer > current_day ) {
+            return;
+        }
+
+        g->m.add_item_or_charges( pos(), item( type->biosig_item, DAYS( biosig_timer ), 1 ), true );
+        const int next_biosig = type->biosig_timer;
+        if( next_biosig < 0 ) {
+            return;
+        }
+        biosig_timer += next_biosig;
     }
 }
 
@@ -522,7 +617,7 @@ std::string monster::extended_description() const
     } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
-        ss << _( "It has head." ) << std::endl;
+        ss << _( "It has a head." ) << std::endl;
     }
 
     return replace_colors( ss.str() );
@@ -736,7 +831,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         const npc *np = dynamic_cast< const npc * >( u );
-        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
+        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
     }
@@ -784,7 +879,7 @@ monster_attitude monster::attitude( const Character *u ) const
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
-                    effective_morale += 5;
+                    effective_morale += 55;
                 }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
@@ -805,7 +900,11 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        return MATT_IGNORE;
+        if( get_hp() != get_hp_max() ) {
+            return MATT_FLEE;
+        } else {
+            return MATT_IGNORE;
+        }
     }
 
     if( effective_anger < 10 ) {
@@ -1004,14 +1103,14 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack( Creature &target, bool allow_special, const matec_id& force_technique )
+void monster::melee_attack( Creature &target )
 {
-    int hitspread = target.deal_melee_attack(this, hit_roll());
-    melee_attack( target, allow_special, force_technique, hitspread );
+    melee_attack( target, get_hit() );
 }
 
-void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspread )
+void monster::melee_attack( Creature &target, float accuracy )
 {
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
@@ -1026,11 +1125,11 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
         // Make us a valid target for a few turns
-        add_effect( effect_hit_by_player, 3 );
+        add_effect( effect_hit_by_player, 3_turns );
     }
 
     if( has_flag( MF_HIT_AND_RUN ) ) {
-        add_effect( effect_run, 4 );
+        add_effect( effect_run, 4_turns );
     }
 
     const bool u_see_me = g->u.sees( *this );
@@ -1052,7 +1151,7 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
         // Miss
-        if( u_see_me ) {
+        if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
                     add_msg( _("You dodge %s."), disp_name().c_str() );
             } else if( target.is_npc() ) {
@@ -1139,7 +1238,7 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
-            target.add_effect( eff.id, eff.duration, affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
 
@@ -1147,22 +1246,22 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
 
     if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
         target.add_msg_if_player( m_bad, _("You're poisoned!") );
-        target.add_effect( effect_poison, 30 );
+        target.add_effect( effect_poison, 3_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
-        target.add_effect( effect_badpoison, 40 );
+        target.add_effect( effect_badpoison, 4_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
         target.add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-        target.add_effect( effect_paralyzepoison, 100 );
+        target.add_effect( effect_paralyzepoison, 10_minutes );
     }
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 60, bp_hit );
+        target.add_effect( effect_bleed, 6_minutes, bp_hit );
     }
 }
 
@@ -1173,7 +1272,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
-        add_effect( effect_run, rng(3, 5));
+        add_effect( effect_run, rng( 3_turns, 5_turns ) );
     }
 
     if( missed_by > 1.0 ) {
@@ -1183,11 +1282,11 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     const bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
-    if( has_flag(MF_HARDTOSHOOT) &&
-        !one_in(10 - 10 * (.8 - missed_by)) &&
+    if( has_flag( MF_HARDTOSHOOT ) &&
+        !one_in( 10 - 10 * ( .8 - missed_by ) ) &&
         !effects.count( "WIDE" ) ) {
         if( u_see_mon ) {
-            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+            add_msg( _( "The shot passes through %s without hitting." ), disp_name().c_str() );
         }
         return;
     }
@@ -1381,11 +1480,11 @@ bool monster::move_effects(bool)
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
-                          bool permanent, int intensity, bool force )
+void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+                          bool permanent, int intensity, bool force, bool deferred )
 {
     bp = num_bp;
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
@@ -1463,7 +1562,7 @@ float monster::hit_roll() const {
         hit /= 4;
     }
 
-    return normal_roll( hit * 5, 25.0f );
+    return melee::melee_hit_range( hit );
 }
 
 bool monster::has_grab_break_tec() const
@@ -1566,7 +1665,7 @@ int monster::impact( const int force, const tripoint &p )
     apply_damage( nullptr, bp_torso, bash_damage );
     total_dealt += force * mod;
 
-    add_effect( effect_downed, rng( 0, mod * 3 + 1 ) );
+    add_effect( effect_downed, time_duration::from_turns( rng( 0, mod * 3 + 1 ) ) );
 
     return total_dealt;
 }
@@ -1675,7 +1774,7 @@ void monster::die(Creature* nkiller)
     if( !is_hallucination() && ch != nullptr ) {
         if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( trait_PACIFIST ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
-            mdeath::guilt(this);
+            mdeath::guilt( *this );
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
@@ -1733,13 +1832,13 @@ void monster::die(Creature* nkiller)
     // Also, perform our death function
     if(is_hallucination()) {
         //Hallucinations always just disappear
-        mdeath::disappear(this);
+        mdeath::disappear( *this );
         return;
     }
 
     //Not a hallucination, go process the death effects.
     for (auto const &deathfunction : type->dies) {
-        deathfunction(this);
+        deathfunction( *this );
     }
 
     // If our species fears seeing one of our own die, process that
@@ -2227,7 +2326,7 @@ void monster::on_unload()
 void monster::on_load()
 {
     // Possible TODO: Integrate monster upgrade
-    const int dt = calendar::turn - last_updated;
+    const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0 ) {
         return;
@@ -2245,7 +2344,7 @@ void monster::on_load()
         regen = 0.25f / HOURS(1);
     }
 
-    const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
+    const int heal_amount = divide_roll_remainder( regen * to_turns<int>( dt ), 1.0 );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {
@@ -2255,7 +2354,7 @@ void monster::on_load()
     }
 
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
-             name().c_str(), dt, healed, healed_speed );
+             name().c_str(), to_turns<int>( dt ), healed, healed_speed );
 }
 
 const pathfinding_settings &monster::get_pathfinding_settings() const

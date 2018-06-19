@@ -14,12 +14,14 @@
 #include "map.h"
 #include "trap.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
 #include "catacharset.h"
 #include "itype.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "game.h"
 #include "mapdata.h"
@@ -1364,18 +1366,14 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 color.r = 12;
                 color.g = 12;
                 color.b = 12;
+            } else if( const optional_vpart_position vp = g->m.veh_at( p ) ) {
+                color = cursesColorToSDL( vp->vehicle().part_color( vp->part_index() ) );
+            } else if( g->m.has_furn( p ) ) {
+                auto &furniture = g->m.furn( p ).obj();
+                color = cursesColorToSDL( furniture.color() );
             } else {
-                int veh_part = 0;
-                vehicle *veh = g->m.veh_at( p, veh_part );
-                if( veh != nullptr ) {
-                    color = cursesColorToSDL( veh->part_color( veh_part ) );
-                } else if( g->m.has_furn( p ) ) {
-                    auto &furniture = g->m.furn( p ).obj();
-                    color = cursesColorToSDL( furniture.color() );
-                } else {
-                    auto &terrain = g->m.ter( p ).obj();
-                    color = cursesColorToSDL( terrain.color() );
-                }
+                auto &terrain = g->m.ter( p ).obj();
+                color = cursesColorToSDL( terrain.color() );
             }
             pixel pix( color );
             //color terrain according to lighting conditions
@@ -1739,9 +1737,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO also use some vehicle id, for less predictability
         {
             // new scope for variable declarations
-            int partid;
-            vehicle *veh = g->m.veh_at( pos, partid );
-            vehicle_part &part = veh->parts[partid];
+            const optional_vpart_position vp = g->m.veh_at( pos );
+            vehicle_part &part = vp->vehicle().parts[vp->part_index()];
             seed = part.mount.x + part.mount.y * 65536;
         }
         break;
@@ -1967,9 +1964,10 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         tercol = cursesColorToSDL( curr_furn.color() );
     } else if( ( veh = g->m.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
         const int roof = veh->roof_at_part( part_below );
+        const auto vpobst = vpart_position( const_cast<vehicle&>( *veh ), part_below ).obstacle_at_part();
         tercol = cursesColorToSDL( ( roof >= 0 ||
-                                     veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_magenta );
-        sizefactor = ( roof >= 0 || veh->obstacle_at_part( part_below ) ) ? 4 : 2;
+                                     vpobst ) ? c_light_gray : c_magenta );
+        sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
         tercol = cursesColorToSDL( curr_ter.color() );
     } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
@@ -2183,12 +2181,13 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*h
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
 {
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( p, veh_part );
+    const optional_vpart_position vp = g->m.veh_at( p );
 
-    if (!veh) {
+    if( !vp ) {
         return false;
     }
+    vehicle *const veh = &vp->vehicle();
+    const int veh_part = vp->part_index();
     // veh_part is the index of the part
     // get a north-east-south-west value instead of east-south-west-north value to use with rotation
     int veh_dir = (veh->face.dir4() + 1) % 4;
@@ -2216,8 +2215,8 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
                 break;
         }
     }
-    int cargopart = veh->part_with_feature(veh_part, "CARGO");
-    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
+    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
+    bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
                                    ll, nv_goggles_activated, height_3d );
     if ( ret && draw_highlight ) {

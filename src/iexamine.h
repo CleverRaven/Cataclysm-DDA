@@ -49,6 +49,7 @@ void rubble( player &p, const tripoint &examp );
 void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
 void bars( player &p, const tripoint &examp );
+void deployed_furniture( player &p, const tripoint &pos );
 void portable_structure( player &p, const tripoint &examp );
 void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
@@ -97,6 +98,7 @@ void curtains( player &p, const tripoint &examp );
 void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
+void autodoc( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );

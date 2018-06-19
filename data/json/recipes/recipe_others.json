@@ -9,8 +9,8 @@
     "difficulty": 2,
     "time": 100000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
   },
   {
@@ -66,7 +66,7 @@
     "autolearn": true,
     "using": [ [ "filament", 12 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "cotton_ball", 8 ] ] ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -106,7 +106,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -167,8 +167,8 @@
     "difficulty": 5,
     "time": 45000,
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "scrap", 6 ] ], [ [ "element", 2 ], [ "hotplate", 1 ] ], [ [ "cable", 2 ] ] ]
   },
   {
@@ -838,7 +838,7 @@
     "time": 9000,
     "autolearn": true,
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 2 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -850,7 +850,7 @@
     "difficulty": 2,
     "time": 6000,
     "autolearn": true,
-    "using": [ [ "filament", 100 ] ],
+    "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "KNIT", "level": 1 } ]
   },
   {
@@ -1027,13 +1027,8 @@
     "difficulty": 3,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1118,8 +1113,8 @@
     "time": 180000,
     "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1153,13 +1148,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": 8000,
+    "difficulty": 2,
+    "time": 50000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "wire", 6 ] ] ]
+    "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
+    "components": [ [ [ "wire", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -1167,13 +1161,25 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": 8000,
+    "difficulty": 2,
+    "time": 60000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "wire", 6 ], [ "basket", 1 ] ], [ [ "scrap", 8 ] ] ]
+    "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
+    "components": [ [ [ "wire", 40 ], [ "basket", 1 ] ], [ [ "scrap", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bike_basket",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 35000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 2 ], [ "cutting_wire_standard", 1 ] ],
+    "components": [ [ [ "wire", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -1625,7 +1631,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1635,8 +1641,10 @@
       [ [ "spike", 2 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1647,7 +1655,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1657,8 +1665,10 @@
       [ [ "grenade", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1669,7 +1679,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 7,
-    "time": 16000,
+    "time": 35000,
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 8 ] ],
@@ -1679,8 +1689,10 @@
       [ [ "mininuke", 1 ] ],
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
-      [ [ "power_supply", 2 ], [ "plut_cell", 2 ] ],
-      [ [ "scrap", 4 ] ]
+      [ [ "power_supply", 2 ] ],
+      [ [ "small_storage_battery", 2 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "motor_small", 2 ] ]
     ]
   },
   {
@@ -1691,7 +1703,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1701,8 +1713,10 @@
       [ [ "gasbomb", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1713,7 +1727,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1723,8 +1737,10 @@
       [ [ "EMPbomb", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1735,7 +1751,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1745,8 +1761,10 @@
       [ [ "flashbang", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1757,7 +1775,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 25000,
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -1767,8 +1785,10 @@
       [ [ "c4", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -1831,10 +1851,9 @@
     "difficulty": 3,
     "time": 120000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 150 ], [ "oxy_torch", 30 ] ]
@@ -2085,8 +2104,8 @@
     "difficulty": 3,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "anvil", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 3 ] ] ]
   },
   {
@@ -2108,8 +2127,8 @@
       [ "textbook_armwest", 5 ]
     ],
     "using": [ [ "forging_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ] ]
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2127,8 +2146,8 @@
       [ "textbook_armeast", 5 ],
       [ "textbook_armwest", 5 ]
     ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ] ]
   },
   {
@@ -2140,8 +2159,8 @@
     "difficulty": 5,
     "time": 120000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -2153,8 +2172,8 @@
     "difficulty": 5,
     "time": 140000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "2x4", 1 ], [ "stick", 2 ], [ "splinter", 6 ] ] ]
   },
   {
@@ -2166,8 +2185,8 @@
     "difficulty": 1,
     "time": 180000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
   },
   {
@@ -2179,8 +2198,8 @@
     "difficulty": 2,
     "time": 120000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ] ]
   },
   {
@@ -2206,8 +2225,8 @@
     "difficulty": 2,
     "time": 90000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ] ]
   },
   {
@@ -2219,8 +2238,8 @@
     "difficulty": 2,
     "time": 90000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
   },
   {
@@ -2233,8 +2252,8 @@
     "difficulty": 2,
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
   },
   {
@@ -2246,13 +2265,8 @@
     "difficulty": 4,
     "time": 300000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 200 ], [ "oxy_torch", 40 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ], [ "oxy_torch", 40 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
   },
   {
@@ -2264,13 +2278,8 @@
     "difficulty": 2,
     "time": 300000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 100 ], [ "oxy_torch", 20 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -2283,8 +2292,8 @@
     "time": 320000,
     "autolearn": true,
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 200 ], [ "oxy_torch", 40 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 200 ], [ "oxy_torch", 40 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -2298,13 +2307,8 @@
     "time": 380000,
     "autolearn": true,
     "book_learn": [ [ "manual_mechanics", 4 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 300 ], [ "oxy_torch", 60 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -2317,13 +2321,8 @@
     "time": 280000,
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 2 ], [ "textbook_fabrication", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 200 ], [ "oxy_torch", 40 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ], [ "oxy_torch", 40 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
@@ -2336,11 +2335,10 @@
     "time": 320000,
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "swage", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
     ],
@@ -2356,13 +2354,8 @@
     "time": 320000,
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 250 ], [ "oxy_torch", 50 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
@@ -2375,13 +2368,8 @@
     "time": 360000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 300 ], [ "oxy_torch", 60 ] ] ],
     "components": [ [ [ "steel_lump", 3 ], [ "steel_chunk", 9 ], [ "scrap", 27 ] ], [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
   },
   {
@@ -2394,13 +2382,8 @@
     "time": 420000,
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 350 ], [ "oxy_torch", 70 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
@@ -2413,13 +2396,8 @@
     "time": 460000,
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 300 ], [ "oxy_torch", 60 ] ] ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ] ], [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
   },
   {
@@ -2431,10 +2409,9 @@
     "difficulty": 6,
     "time": 520000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
@@ -2450,13 +2427,8 @@
     "difficulty": 6,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 20 ], [ "oxy_torch", 4 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 20 ], [ "oxy_torch", 4 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
   },
   {
@@ -2610,8 +2582,8 @@
     "difficulty": 6,
     "time": 150000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ] ]
   },
   {
@@ -2623,8 +2595,8 @@
     "difficulty": 6,
     "time": 150000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
     "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ] ]
   },
   {
@@ -2685,8 +2657,8 @@
     "difficulty": 4,
     "time": 120000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
   },
   {
@@ -2752,8 +2724,7 @@
     "difficulty": 3,
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "tools": [ [ [ "anvil", -1 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "2x4", 30 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
@@ -2765,13 +2736,8 @@
     "difficulty": 8,
     "time": 420000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 400 ], [ "oxy_torch", 80 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 400 ], [ "oxy_torch", 80 ] ] ],
     "components": [ [ [ "steel_lump", 16 ], [ "steel_chunk", 64 ] ] ]
   },
   {
@@ -2783,13 +2749,8 @@
     "difficulty": 8,
     "time": 262500,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 250 ], [ "oxy_torch", 40 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 40 ] ] ],
     "components": [ [ [ "steel_lump", 10 ], [ "steel_chunk", 40 ] ] ]
   },
   {
@@ -3129,8 +3090,8 @@
     "difficulty": 5,
     "time": 90000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "scrap_copper", 2 ], [ "copper", 200 ] ] ]
   },
   {
@@ -3219,8 +3180,8 @@
     "difficulty": 4,
     "time": 120000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "scrap", 7 ] ] ]
   },
   {
@@ -3273,6 +3234,18 @@
   },
   {
     "type": "recipe",
+    "result": "acidchitin_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 55000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bone_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -3295,13 +3268,8 @@
     "difficulty": 6,
     "time": 360000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 250 ], [ "oxy_torch", 50 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ] ]
   },
   {
@@ -3313,8 +3281,8 @@
     "difficulty": 6,
     "time": 180000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "scrap", 7 ] ] ]
   },
   {
@@ -3326,8 +3294,8 @@
     "difficulty": 2,
     "time": 90000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
@@ -3570,8 +3538,8 @@
     "time": 440000,
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 8 ], [ "textbook_fabrication", 6 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 350 ], [ "oxy_torch", 70 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 350 ], [ "oxy_torch", 70 ] ] ],
     "components": [ [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ] ]
   },
   {
@@ -3824,6 +3792,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3837,6 +3806,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3850,6 +3820,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],
@@ -3863,6 +3834,7 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 10000,
+    "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ] ],

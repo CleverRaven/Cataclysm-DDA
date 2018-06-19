@@ -82,10 +82,6 @@ inline bool assign( JsonObject &jo, const std::string &name, bool &val, bool str
         return false;
     }
 
-    if( out != true && out != false ) {
-        err.throw_error( "value outside supported range", name );
-    }
-
     if( strict && out == val ) {
         report_strict_violation( err, "assignment does not update value", name );
     }

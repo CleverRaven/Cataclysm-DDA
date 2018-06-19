@@ -228,7 +228,7 @@ void mutation_branch::load( JsonObject &jsobj )
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
         auto pair = vr.next_array();
-        new_mut.vitamin_rates[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        new_mut.vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ), time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
     new_mut.healing_awake = jsobj.get_float( "healing_awake", 0.0f );
@@ -320,9 +320,7 @@ void mutation_branch::load( JsonObject &jsobj )
         for( const std::string &part_string : parts ) {
             if( part_string == "ALL" ) {
                 // Shorthand, since many mutations protect whole body
-                for( size_t i = 0; i < num_bp; i++ ) {
-                    bps.insert( static_cast<body_part>( i ) );
-                }
+                bps.insert( all_body_parts.begin(), all_body_parts.end() );
             } else {
                 bps.insert( get_body_part_token( part_string ) );
             }

@@ -464,7 +464,8 @@ int main(int argc, char *argv[])
         if( check_mods ) {
             init_colors();
             loading_ui ui( false );
-            exit( g->check_mod_data( opts, ui ) && !test_dirty ? 0 : 1 );
+            const std::vector<mod_id> mods( opts.begin(), opts.end() );
+            exit( g->check_mod_data( mods, ui ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

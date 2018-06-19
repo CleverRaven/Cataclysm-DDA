@@ -16,6 +16,7 @@
 #include "units.h"
 #include "overmapbuffer.h"
 #include "json.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -30,6 +31,7 @@
 #include "vehicle_selector.h"
 #include "skill.h"
 #include "ui.h"
+#include "help.h"
 
 #include "string_formatter.h"
 #include <vector>
@@ -455,9 +457,9 @@ const std::string &talk_trial::name() const
 }
 
 /** Time (in turns) and cost (in cent) for training: */
-static int calc_skill_training_time( const npc &p, const skill_id &skill )
+static time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return MINUTES( 10 + 5 * g->u.get_skill_level( skill ) - p.get_skill_level( skill ) );
+    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) - 1_turns * p.get_skill_level( skill );
 }
 
 static int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -472,9 +474,9 @@ static int calc_skill_training_cost( const npc &p, const skill_id &skill )
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-static int calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+static time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
 {
-    return MINUTES( 30 );
+    return 30_minutes;
 }
 
 static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
@@ -510,17 +512,17 @@ void npc_chatbin::check_missions()
 void npc::talk_to_u()
 {
     if( g->u.is_dead_state() ) {
-        attitude = NPCATT_NULL;
+        set_attitude( NPCATT_NULL );
         return;
     }
     const bool has_mind_control = g->u.has_trait( trait_DEBUG_MIND_CONTROL );
     // This is necessary so that we don't bug the player over and over
-    if( attitude == NPCATT_TALK ) {
-        attitude = NPCATT_NULL;
-    } else if( attitude == NPCATT_FLEE && !has_mind_control ) {
+    if( get_attitude() == NPCATT_TALK ) {
+        set_attitude( NPCATT_NULL );
+    } else if( get_attitude() == NPCATT_FLEE && !has_mind_control ) {
         add_msg( _( "%s is fleeing from you!" ), name.c_str() );
         return;
-    } else if( attitude == NPCATT_KILL && !has_mind_control ) {
+    } else if( get_attitude() == NPCATT_KILL && !has_mind_control ) {
         add_msg( _( "%s is hostile!" ), name.c_str() );
         return;
     }
@@ -681,7 +683,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // TODO: make it a member of the mission class, maybe at mission instance specific data
         const std::string &ret = miss->dialogue_for_topic( topic );
         if( ret.empty() ) {
-            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
+            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%s) or topic(%s)",
                       type.id.c_str(), topic.c_str() );
             return "";
         }
@@ -782,11 +784,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( g->u.is_wearing( "badge_marshal" ) )
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    return _( "Hello marshal." );
+                    return _( "Hello, marshal." );
                 case 2:
                     return _( "Marshal, I'm afraid I can't talk now." );
                 case 3:
-                    return _( "I'm not in charge here marshal." );
+                    return _( "I'm not in charge here, marshal." );
                 case 4:
                     return _( "I'm supposed to direct all questions to my leadership, marshal." );
             }
@@ -887,7 +889,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         if( g->u.has_trait( trait_PROF_FED ) ) {
-            return _( "Can I help you marshal?" );
+            return _( "Can I help you, marshal?" );
         }
         if( g->u.male ) {
             return _( "Morning sir, how can I help you?" );
@@ -1096,7 +1098,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             case 2:
                 return _( "At least we've got shelter." );
         }
-
+    } else if( topic == "TALK_SHELTER_ADVICE" ) {
+        return get_hint();
     } else if( topic == "TALK_SHELTER_PLANS" ) {
         switch( rng( 1, 5 ) ) {
             case 1:
@@ -1443,8 +1446,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return give_item_to( *p, false, true );
         // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
-        p->attitude = NPCATT_FOLLOW;
-        return _( "YES MASTER" );
+        p->set_attitude( NPCATT_FOLLOW );
+        return _( "YES, MASTER!" );
     }
 
     return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
@@ -1479,8 +1482,8 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                     std::function<void( npc & )> effect_success,
-                                     dialogue_consequence consequence )
+                                       std::function<void( npc & )> effect_success,
+                                       dialogue_consequence consequence )
 {
     talk_response &result = add_response( text, r );
     result.success.set_effect_consequence( effect_success, consequence );
@@ -1735,14 +1738,14 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_EVAC_GUARD3_HOSTILE" ) {
         p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 15;
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
         p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
         p->my_fac->respects_u -= 5;
 
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
-        p->my_fac = g->faction_by_ident( "hells_raiders" );
+        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
 
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
         add_response_done( _( "Don't mind me..." ) );
@@ -1793,7 +1796,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "necropolis_freq",
                 0 ).tname().c_str() );
         g->u.i_add( item( "necropolis_freq", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose sane duration
         add_response( _( "Thanks." ), "TALK_OLD_GUARD_NEC_COMMO" );
 
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
@@ -1868,7 +1871,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "commune_prospectus",
                 0 ).tname().c_str() );
         g->u.i_add( item( "commune_prospectus", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose a sane duration
         add_response( _( "Thanks." ), "TALK_RANCH_FOREMAN" );
     } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
         add_response( _( "How many refugees are you expecting?" ), "TALK_RANCH_FOREMAN_REFUGEES" );
@@ -2071,6 +2074,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Thanks..." ), "TALK_DONE" );
     } else if( topic == "TALK_SHELTER" ) {
         add_response( _( "What should we do now?" ), "TALK_SHELTER_PLANS" );
+        add_response( _( "Any tips?" ), "TALK_SHELTER_ADVICE" );
         add_response( _( "Can I do anything for you?" ), "TALK_MISSION_LIST" );
         if( !p->is_following() ) {
             add_response( _( "Want to travel with me?" ), "TALK_SUGGEST_FOLLOW" );
@@ -2078,7 +2082,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Let's trade items." ), "TALK_NONE", &talk_function::start_trade );
         add_response( _( "I can't leave the shelter without equipment..." ), "TALK_SHARE_EQUIPMENT" );
         add_response_done( _( "Well, bye." ) );
-
+    } else if( topic == "TALK_SHELTER_ADVICE" ) {
+        add_response_none( _( "Thanks!" ) );
     } else if( topic == "TALK_SHELTER_PLANS" ) {
         // TODO: Add _("follow me")
         add_response_none( _( "Hmm, okay." ) );
@@ -2303,9 +2308,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
             std::stringstream reasons;
-            vehicle *veh = g->m.veh_at( p->pos() );
-            if( veh != nullptr ) {
-                if( abs( veh->velocity ) > 0 ) {
+            if( const optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
+                if( abs( vp->vehicle().velocity ) > 0 ) {
                     reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
                 }
             }
@@ -2954,13 +2958,13 @@ void talk_function::assign_base( npc &p )
 
     add_msg( _( "%1$s waits at %2$s" ), p.name.c_str(), camp->camp_name().c_str() );
     p.mission = NPC_MISSION_BASE;
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::assign_guard( npc &p )
 {
     add_msg( _( "%s is posted as a guard." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_destination();
@@ -2968,7 +2972,7 @@ void talk_function::assign_guard( npc &p )
 
 void talk_function::stop_guard( npc &p )
 {
-    p.attitude = NPCATT_FOLLOW;
+    p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name.c_str() );
     p.mission = NPC_MISSION_NULL;
     p.chatbin.first_topic = "TALK_FRIEND";
@@ -3000,7 +3004,7 @@ void talk_function::insult_combat( npc &p )
 {
     add_msg( _( "You start a fight with %s!" ), p.name.c_str() );
     p.chatbin.first_topic = "TALK_DONE";
-    p.attitude =  NPCATT_KILL;
+    p.set_attitude( NPCATT_KILL );
 }
 
 void talk_function::give_equipment( npc &p )
@@ -3027,13 +3031,13 @@ void talk_function::give_equipment( npc &p )
 
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
-    p.add_effect( effect_asked_for_item, 1800 );
+    p.add_effect( effect_asked_for_item, 3_hours );
 }
 
 void talk_function::give_aid( npc &p )
 {
     g->u.cash -= 20000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
         bp_healed = player::hp_to_bp( hp_part( i ) );
@@ -3055,7 +3059,7 @@ void talk_function::give_aid( npc &p )
 void talk_function::give_all_aid( npc &p )
 {
     g->u.cash -= 30000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
@@ -3079,7 +3083,7 @@ void talk_function::give_all_aid( npc &p )
 
 void talk_function::buy_haircut( npc &p )
 {
-    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 7200, 30 );
+    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     g->u.cash -= 1000;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
     g->u.activity.str_values.push_back( p.name );
@@ -3088,7 +3092,7 @@ void talk_function::buy_haircut( npc &p )
 
 void talk_function::buy_shave( npc &p )
 {
-    g->u.add_morale( MORALE_SHAVE, 10, 10, 3600, 30 );
+    g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     g->u.cash -= 500;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
@@ -3099,7 +3103,7 @@ void talk_function::buy_10_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
@@ -3117,7 +3121,7 @@ void talk_function::buy_10_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 10 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 14400 );
+    p.add_effect( effect_currently_busy, 1_days );
     g->u.cash -= 200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3126,7 +3130,7 @@ void talk_function::buy_100_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
@@ -3144,7 +3148,7 @@ void talk_function::buy_100_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 100 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 100800 );
+    p.add_effect( effect_currently_busy, 7_days );
     g->u.cash -= 1200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3152,39 +3156,39 @@ void talk_function::buy_100_logs( npc &p )
 
 void talk_function::follow( npc &p )
 {
-    p.attitude = NPCATT_FOLLOW;
+    p.set_attitude( NPCATT_FOLLOW );
     g->u.cash += p.cash;
     p.cash = 0;
 }
 
 void talk_function::deny_follow( npc &p )
 {
-    p.add_effect( effect_asked_to_follow, 3600 );
+    p.add_effect( effect_asked_to_follow, 6_hours );
 }
 
 void talk_function::deny_lead( npc &p )
 {
-    p.add_effect( effect_asked_to_lead, 3600 );
+    p.add_effect( effect_asked_to_lead, 6_hours );
 }
 
 void talk_function::deny_equipment( npc &p )
 {
-    p.add_effect( effect_asked_for_item, 600 );
+    p.add_effect( effect_asked_for_item, 1_hours );
 }
 
 void talk_function::deny_train( npc &p )
 {
-    p.add_effect( effect_asked_to_train, 3600 );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void talk_function::deny_personal_info( npc &p )
 {
-    p.add_effect( effect_asked_personal_info, 1800 );
+    p.add_effect( effect_asked_personal_info, 3_hours );
 }
 
 void talk_function::hostile( npc &p )
 {
-    if( p.attitude == NPCATT_KILL ) {
+    if( p.get_attitude() == NPCATT_KILL ) {
         return;
     }
 
@@ -3195,38 +3199,38 @@ void talk_function::hostile( npc &p )
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
                            p.name.c_str() );
-    p.attitude = NPCATT_KILL;
+    p.set_attitude( NPCATT_KILL );
 }
 
 void talk_function::flee( npc &p )
 {
     add_msg( _( "%s turns to flee!" ), p.name.c_str() );
-    p.attitude = NPCATT_FLEE;
+    p.set_attitude( NPCATT_FLEE );
 }
 
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::stranger_neutral( npc &p )
 {
     add_msg( _( "%s feels less threatened by you." ), p.name.c_str() );
-    p.attitude = NPCATT_NULL;
+    p.set_attitude( NPCATT_NULL );
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
 void talk_function::start_mugging( npc &p )
 {
-    p.attitude = NPCATT_MUG;
+    p.set_attitude( NPCATT_MUG );
     add_msg( _( "Pause to stay still.  Any movement may cause %s to attack." ),
              p.name.c_str() );
 }
 
 void talk_function::player_leaving( npc &p )
 {
-    p.attitude = NPCATT_WAIT_FOR_LEAVE;
+    p.set_attitude( NPCATT_WAIT_FOR_LEAVE );
     p.patience = 15 - p.personality.aggression;
 }
 
@@ -3252,7 +3256,7 @@ void talk_function::lead_to_safety( npc &p )
     const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
     mission->assign( g->u );
     p.goal = mission->get_target();
-    p.attitude = NPCATT_LEAD;
+    p.set_attitude( NPCATT_LEAD );
 }
 
 bool pay_npc( npc &np, int cost )
@@ -3274,7 +3278,7 @@ bool pay_npc( npc &np, int cost )
 void talk_function::start_training( npc &p )
 {
     int cost;
-    int time;
+    time_duration time = 0_turns;
     std::string name;
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
@@ -3297,8 +3301,8 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
-    p.add_effect( effect_asked_to_train, 3600 );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void parse_tags( std::string &phrase, const player &u, const npc &me )
@@ -3506,7 +3510,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     formatted_text = foldstring( ftext, fold_width );
 
     std::set<dialogue_consequence> consequences = get_consequences( d );
-    if(  consequences.count( dialogue_consequence::hostile ) > 0 ) {
+    if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
         color = c_red;
     } else if( text[0] == '*' || consequences.count( dialogue_consequence::helpless ) > 0 ) {
         color = c_light_red;
@@ -3540,7 +3544,8 @@ talk_topic talk_response::effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-void talk_response::effect_t::set_effect_consequence( std::function<void (npc&)> fun, dialogue_consequence con )
+void talk_response::effect_t::set_effect_consequence( std::function<void ( npc & )> fun,
+        dialogue_consequence con )
 {
     effect = fun;
     guaranteed_consequence = con;
@@ -3552,7 +3557,8 @@ void talk_response::effect_t::set_effect( dialogue_fun_ptr ptr )
     // Kinda hacky
     if( ptr == &talk_function::hostile ) {
         guaranteed_consequence = dialogue_consequence::hostile;
-    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away || ptr == &talk_function::start_mugging ) {
+    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away ||
+               ptr == &talk_function::start_mugging ) {
         guaranteed_consequence = dialogue_consequence::helpless;
     } else {
         guaranteed_consequence = dialogue_consequence::none;
@@ -3857,7 +3863,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             std::set<item *> without;
             std::vector<item *> added;
 
-            inventory newinv;
             for( auto &pricing : yours ) {
                 if( pricing.selected ) {
                     added.push_back( pricing.loc.get_item() );
@@ -4422,7 +4427,7 @@ enum consumption_result {
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // @todo: Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_container();
+    bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;
     if( !comest ) {

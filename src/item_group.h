@@ -246,7 +246,7 @@ class Item_group : public Item_spawn_data
         } Type;
 
         Item_group( Type type, int probability, int ammo_chance, int magazine_chance );
-        ~Item_group() override;
+        ~Item_group() override = default;
 
         const Type type;
         /**
@@ -257,7 +257,7 @@ class Item_group : public Item_spawn_data
          * If type is G_DISTRIBUTION, probability is relative,
          * the sum probability is sum_prob.
          */
-        typedef std::vector<Item_spawn_data *> prop_list;
+        typedef std::vector<std::unique_ptr<Item_spawn_data>> prop_list;
 
         void add_item_entry( const Item_tag &itemid, int probability );
         void add_group_entry( const Group_tag &groupid, int probability );
@@ -266,7 +266,7 @@ class Item_group : public Item_spawn_data
          * @ref Item_factory::add_entry, @ref add_item_entry or @ref add_group_entry). Its purpose is to add
          * a Single_item_creator or Item_group to @ref items.
          */
-        void add_entry( std::unique_ptr<Item_spawn_data> &ptr );
+        void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
         virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;

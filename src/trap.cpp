@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "line.h"
 #include "json.h"
+#include "map_iterator.h"
 #include "map.h"
 #include "debug.h"
 #include "translations.h"
@@ -196,10 +197,8 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
         m.spawn_item( p.x, p.y, "shot_00", 1, 2 );
     }
     if( is_3x3_trap() ) {
-        for( int i = -1; i <= 1; i++ ) {
-            for( int j = -1; j <= 1; j++ ) {
-                m.remove_trap( tripoint( p.x + i, p.y + j, p.z ) );
-            }
+        for( const tripoint &dest : m.points_in_radius( p, 1 ) ) {
+            m.remove_trap( dest );
         }
     } else {
         m.remove_trap( p );

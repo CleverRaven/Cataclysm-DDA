@@ -109,6 +109,7 @@ public:
     int teleport            ( player*, item*, bool, const tripoint& );
     int can_goo             ( player*, item*, bool, const tripoint& );
     int throwable_extinguisher_act( player*, item*, bool, const tripoint& );
+    int directional_hologram( player*, item*, bool, const tripoint& );
     int capture_monster_act ( player*, item*, bool, const tripoint& );
     int pipebomb_act        ( player*, item*, bool, const tripoint& );
     int granade             ( player*, item*, bool, const tripoint& );
@@ -135,6 +136,7 @@ public:
     int shocktonfa_on       ( player*, item*, bool, const tripoint& );
     int mp3                 ( player*, item*, bool, const tripoint& );
     int mp3_on              ( player*, item*, bool, const tripoint& );
+    int gasmask             ( player*, item*, bool, const tripoint& );
     int portable_game       ( player*, item*, bool, const tripoint& );
     int vibe                ( player*, item*, bool, const tripoint& );
     int vortex              ( player*, item*, bool, const tripoint& );

@@ -5,6 +5,7 @@ chkjson*
 data/*.template
 templates/
 save/
+mods/
 graveyard/
 memorial/
 obj/
@@ -121,6 +122,9 @@ msvc-full-features/ipch
 lnk*.tmp
 Cataclysm.exe.lastcodeanalysissucceeded
 
+#Visual Studio 2017
+msvc-full-features/PredictedInputCache_Debug_x64.dat
+
 # cppcheck
 *cppcheck.xml
 *.cppcheck
@@ -136,3 +140,18 @@ msvc-full-features/distribution
 
 # Transifex Client
 .tx/
+
+# Snapcraft build directories
+prime
+snap
+stage
+
+# Snapcraft build file
+*.snap
+
+# Eclipse IDE
+.cproject
+.settings/
+
+# Apple Xcode IDE
+Xcode/

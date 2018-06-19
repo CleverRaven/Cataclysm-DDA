@@ -4,6 +4,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "spare parts",
+    "name_plural": "spare parts",
     "description": "Items with are not themselves useful but are instead requirements for crafting or repairs",
     "symbol": ";",
     "color": "dark_gray"
@@ -33,7 +34,7 @@
   {
     "id": "filter_air",
     "copy-from": "spare_part",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "name": "air filter",
     "description": "A plastic box containing crêped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
@@ -44,7 +45,7 @@
   {
     "id": "filter_air_makeshift",
     "copy-from": "spare_part",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "name": "makeshift air filter",
     "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "plastic", "paper" ],
@@ -55,7 +56,7 @@
   {
     "id": "filter_liquid",
     "copy-from": "spare_part",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "name": "automotive filter",
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
@@ -66,7 +67,7 @@
   {
     "id": "filter_liquid_makeshift",
     "copy-from": "spare_part",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "name": "makeshift automotive filter",
     "description": "An improvised automotive filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "steel", "paper" ],
@@ -77,7 +78,7 @@
   {
     "id": "glowplug",
     "copy-from": "spare_part",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "name": "glow plug",
     "description": "A cylindrical heating device designed to be screwed in to a diesel engine to aid starting in cold weather.",
     "material": [ "plastic", "copper" ],
@@ -88,7 +89,7 @@
   {
     "id": "pump_complex",
     "copy-from": "spare_part",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "name": "high-pressure pump",
     "description": "An complex mechanical pump capable of achieving high pressures.  Far beyond anything you could reasonably improvise.",
     "material": "iron",
@@ -99,7 +100,7 @@
   {
     "id": "well_pump",
     "copy-from": "spare_part",
-    "type":"GENERIC",
+    "type": "GENERIC",
     "name": "mechanical pump",
     "description": "An simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
     "material": "iron",

@@ -104,7 +104,7 @@ void character_edit_menu()
         std::stringstream data;
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
-             npc_attitude_name( np->attitude ) << std::endl;
+             npc_attitude_name( np->get_attitude() ) << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                    np->goal.x, np->goal.y, np->goal.z,
@@ -213,7 +213,7 @@ void character_edit_menu()
             }
             p.worn.clear();
             p.inv.clear();
-            p.weapon = p.ret_null;
+            p.weapon = item();
             break;
         case D_ITEM_WORN: {
             int item_pos = g->inv_for_all( _( "Make target equip" ) );
@@ -302,9 +302,8 @@ void character_edit_menu()
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
-
+            int value;
             switch( smenu.ret ) {
-                    int value;
                 case 0:
                     if( query_int( value, _( "Set hunger to? Currently: %d" ), p.get_hunger() ) ) {
                         p.set_hunger( value );
@@ -347,8 +346,8 @@ void character_edit_menu()
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
+            int value;
             switch( smenu.ret ) {
-                    int value;
                 case 0:
                     if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy() ) ) {
                         p.set_healthy( value );

@@ -1,0 +1,29 @@
+name: cataclysm
+version: git
+summary: Post-apocalyptic survival roguelike
+icon: data/xdg/cataclysm-dda.svg
+architectures:
+  - build-on: [amd64]
+    run-on: [amd64]
+description: |
+  Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. Surviving is difficult, you have been thrown, ill-equipped, into a landscape now riddled with monstrosities of which flesh eating zombies are neither the strangest nor the deadliest.
+
+  Note: This snap install the ncurses version of the game. Start playing by running the command `cataclysm` on your favorite terminal after installation.
+
+  License: CC-BY-SA 3.0 unported
+grade: devel
+confinement: strict
+apps:
+  cataclysm:
+    command: cataclysm-launcher
+    environment:
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/x86_64-linux-gnu/
+
+parts:
+  cataclysm:
+    plugin: make
+    build-packages: [astyle, ccache, build-essential, libncurses5-dev, libncursesw5-dev, lua5.2, liblua5.2-dev, gettext]
+    stage-packages: [liblua5.2-0]
+    override-build: make NATIVE=linux64 RELEASE=1 LTO=1 LUA=1 LOCALIZE=1 CCACHE=1 USE_HOME_DIR=1 && mv * $SNAPCRAFT_PART_INSTALL
+    stage: [data, lua, cataclysm, cataclysm-launcher, usr]
+    prime: [data, lua, cataclysm, cataclysm-launcher, usr]

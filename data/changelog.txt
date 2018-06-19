@@ -32,7 +32,7 @@ Monster grab and pull attacks.
 Recipes based on offal and corpse waste.
 Cheesemaking.
 biodiesel
-Alchohol stoves.
+Alcohol stoves.
 Vehicle based tools, street sweepers, tractors, plows, planters.
 Seasonal variation in foliage.
 Expanded tree variety.
@@ -46,7 +46,7 @@ Items can have a side (left v right).
 
 Interface:
 Bionics menu tabbed for better visibility.
-Steamlined reload menu.
+Streamlined reload menu.
 Bundled a square font.
 Separate zombies better by color.
 Many menus are resizeable.
@@ -118,7 +118,7 @@ Fixed crash when target dies between successive automatic attacks.
 Fixed deafening noise from collapsing buildings.
 
 Performance:
-Optimized mapgen when generating homogenous tiles (empty air or all rock).
+Optimized mapgen when generating homogeneous tiles (empty air or all rock).
 Shadowcasting optimizations for ~10% performance speedup.
 
 Infrastructure:
@@ -128,7 +128,7 @@ Windows build cleanup.
 Better help menu for command line invocation.
 Moved mutation definitions to json.
 3D map infrastructure.
-Move NPC dialogue to json.
+Move NPC dialog to json.
 Use lightmap consistently in both curses and tiles.
 More flexible menu filtering system.
 Moved special tool items to json.
@@ -189,10 +189,10 @@ Lots of clay and pottery recipes/items.
 Diesel fuel/engines/pumps.
 Lots of comestibles and recipes for them.
 Buildable concrete and brick walls and roofs.
-Flu shot that actually innoculates against flu.
+Flu shot that actually inoculates against flu.
 Metal tank furniture similar to a keg, but easier to make.
 Lots of new clothes and recipes for them.
-Large amounts of chemical and metalurgy additions, lots of bombs and rockets.
+Large amounts of chemical and metallurgy additions, lots of bombs and rockets.
 Interior lights for vehicles.
 Fire engine, with a water cannon!
 Occasional mineral drops when tunneling (limestone so far).
@@ -264,7 +264,7 @@ About half of the item types are now composable, for example you can easily make
 Overhaul and simplification of map data handling.
 Simplification of gun and gunmod handling.
 Restored building under MSVC.
-Build performance improvements via removing unecessary includes.
+Build performance improvements via removing unnecessary includes.
 Simplify handling of vehicle coordinates.
 Visibility checking API cleanup.
 Unified filesystem API.
@@ -322,7 +322,7 @@ Messages give feedback on melee misses.
 Foraging is seasonal, fruits will grow each season, but once picked are gone until the next.
 Pet menu to interact with friendly monsters.
 Starting scenarios stitch together profession, traits, and starting location.
-Picking up and dropping multiple items is now an interruptable activity.
+Picking up and dropping multiple items is now an interruptible activity.
 Activatable mutations.
 Heavily moddable gun platform.
 Fire creates invisible hot air fields, which meander around in enclosed spaces and warm them up.
@@ -335,10 +335,10 @@ Crafting a large batch of items can apply a discount to the crafting time requir
 Overhaul of "cut up" system:
   Cannot cut up an item if it includes a material that can't be cut up (e.g. shotgun).
   Cutting up returns items from each material that makes up the item.
-  Cuting up most items should respect the total volume of the item.
+  Cutting up most items should respect the total volume of the item.
 Most terrain can be smashed now, if you can hit it hard enough.
 Can turn individual vehicle engines on and off.
-Filling an item with water from e.g. a river is now an interruptable action.
+Filling an item with water from e.g. a river is now an interruptible action.
 
 Infrastructure:
 Switched to SDL 2.0.
@@ -509,7 +509,7 @@ Avoid resetting creature speed to 100 when a creature is saved/loaded.
 Option to disable joystick input in case you have a broken joystick.
 Always practice at least one of the melee skill types when attacking.
 Fixed off-by-one error that made 100% coverage armor 99% coverage.
-Move critical multiplier calculaton after armor absorbs damage.
+Move critical multiplier calculation after armor absorbs damage.
 Added move cost for interacting with computers.
 Use maximum heard sound for effects (such as deafness), not the sum.
 Player graveyard works as intended, most recent player save is moved to the graveyard folder.
@@ -587,7 +587,7 @@ Blacklist and whitelist for including/excluding content.
 
 Balance:
 Sleep increases rate of fatigue recovery and healing over time.
-Remove automatic matches and poketknife from player spawn.
+Remove automatic matches and pocketknife from player spawn.
 Add skintight flag for underwear-type clothing to negate layering penalties.
 First Aid and bandages take time to apply now.
 Increased city size variability.
@@ -651,7 +651,7 @@ Fixed issue where exploding items could destroy themselves and cause a segfault.
 Check for errors when attempting to write files and take appropriate action.
 Fixed some lab finale features.
 Fixed vehicle workshops being usable as components in recipes.
-Cruise control is now smooth, even the sportscar is driveable.
+Cruise control is now smooth, even the sportscar is drivable.
 Sinkholes don't turn into pits after you step in them.
 Can no longer block attacks in your sleep.
 Translations build and ship with releases.
@@ -675,9 +675,9 @@ World Factory: Multiple worlds managed at once.
 New mutation categories.
 TsuTiles.
 Basic mouse support in SDL builds.
-Vehicle constructon system rework.
-Backward compatability with 0.8 saves.
-Unbielievable amount of new content.
+Vehicle construction system rework.
+Backward compatibility with 0.8 saves.
+Unbelievable amount of new content.
 
 Features:
 ---
@@ -686,7 +686,7 @@ Blob drops are semi-useful.
 World Factory: Multiple worlds managed at once.
 Single keypress pulping.
 Better Basements.
-Dynamically swap between text and tiles, and amoung tilesets.
+Dynamically swap between text and tiles, and among tilesets.
 Funnels catch water when the player is far away.
 TsuTiles.
 Curvy roads.
@@ -696,10 +696,10 @@ Emergency vehicles.
 Shia's back.
 Doors tougher, but zombies can pile on when trying to bash through them.
 Spawning monsters in packs.
-Shopping carts are driveable.
+Shopping carts are drivable.
 Basic mouse support in SDL builds.
 Food dehydrator.
-Some clothes have hoods that are used automaticlly if there's no hat in the way.
+Some clothes have hoods that are used automatically if there's no hat in the way.
 Only prompt to confirm butchering if there are hostiles nearby.
 Books have chapters.
 Better furniture dragging interface with 'G'rab.
@@ -714,14 +714,14 @@ Survivor armor.
 Large numbers of wild animals.
 Power system for vehicles and battery components.
 Reinforced vehicle components.
-Vehicle constructon system rework.
+Vehicle construction system rework.
 Multi-square vehicle doors.
 Make vehicles more resilient to damage and better able to smash through obstacles.
 Vehicle spawns have personality added in various ways.
 Removed action interruption from drug cravings.
-Ludricrous numbers of new foods.
+Ludicrous numbers of new foods.
 Vehicle horns.
-Backward compatability with 0.8 saves.
+Backward compatibility with 0.8 saves.
 Stylish trait.
 Pickup partial stacks.
 Flaming weapons.
@@ -738,8 +738,8 @@ Monsters that don't take damage no longer leave blood trails.
 Broken gas tanks act broken.
 Highlighting lines in tiles mode.
 Show all sounds made by player.
-Dissasemble items with charges properly.
-Supress smoke warning when you have a gas mask.
+Disassemble items with charges properly.
+Suppress smoke warning when you have a gas mask.
 Stims work again.
 Menu cleanups all over.
 Better in-city detection for roads.
@@ -752,9 +752,9 @@ Prevent input overbuffering when it's raining.
 Eating related bugs.
 Hallucination fixes.
 Vehicle mounted turrets.
-Crafting conuming containers with contents.
+Crafting consuming containers with contents.
 Prevents many actions from passing through walls.
-Weird handling of cancelled item use.
+Weird handling of canceled item use.
 Gunmods with firing modes.
 Stabilized monster coordinates.
 Many fixes in defense mode.
@@ -766,11 +766,11 @@ Charge rifle charging.
 Highlights:
 ---
 Releasing with Russian, Chinese, and bla translations.
-Draggable vhicles, e.g. shopping carts.
+Draggable vehicles, e.g. shopping carts.
 Memorial file listing player history.
 Tiles!
 Basic farming support.
-Support for save backwards compatability.
+Support for save backwards compatibility.
 Option to adjust city size, make a whole map metropolis!
 Option to adjust monster density, walls of zombies!
 
@@ -785,7 +785,7 @@ Beanbag rounds for shotguns and grenade launchers.
 Added headlights that can be aimed at installation time.
 Active bionics.
 Throw single items from stacks instead of whole stack.
-Updated many menus to updated menu system that provides acrolling, filtering and more unified hotkeys.
+Updated many menus to updated menu system that provides scrolling, filtering and more unified hotkeys.
 Crafting overhaul, crafting no longer trains combat skills and vice versa.
 Reworked rain protection, items now have waterproof flags.
 Crafting recipes you can actually perform bubble to the top of the list.
@@ -803,7 +803,7 @@ Plastic item crafting.
 Option overhaul with new tabbed menu.
 Swimming now makes you wet.
 Wetness can be a good thing when it's hot and you're properly attired.
-Wetness effects asjusted by some mutations.
+Wetness effects adjusted by some mutations.
 Portable Game system now usable, has playable games snake, sokoban, and robotfindskitten.
 Vehicle components, vehicles, mutations and traits are moddable in json.
 fruit bushes spawn in groups.
@@ -865,8 +865,8 @@ Light from items more consistent.
 Vehicle bed sleepiness fix.
 Made coughing from smoke wake you up.
 Update version for MSVC project builds.
-Remove coverage property from wristwatch to prevent ensumberance.
-Supress pickup from vehicle when doing autopickup.
+Remove coverage property from wristwatch to prevent encumbrance.
+Suppress pickup from vehicle when doing autopickup.
 Fix typo in spawn list.
 Don't draw item glyphs on top of furniture glyphs.
 Strip out references to a removed ammunition in spawn lists.
@@ -923,12 +923,12 @@ Bugfixes:
 ---
 Multiple gates near one handle work correctly.
 Made wild Jabberwocks much more rare.
-Fix turrets shuffing around when off map.
+Fix turrets shuffling around when off map.
 Prevent gibbing from low-damage sources.
 House generation fixes.
 Allow deconstruction of refrigerators.
 More consistent road placement.
-Make mongroups die propperly, even if the queen dies at a distance
+Make mongroups die properly, even if the queen dies at a distance
 Monsters killed by wide attacks drop corpses/loot
 Fix solar panel power production on vehicles.
 Cleanup tire changing activity.
@@ -957,15 +957,15 @@ Highlights:
 * Reworked the armor/protection code.
 * Reworked the learning system: replaced XP with Focus. See the relevant help text.
 * Added a *bunch* of new multi-stage missions, for those who play with the shelter NPC turned on.
-* Many new buildings (See full changelong list)
+* Many new buildings (See full changelog list)
 * Vehicle collision physics are now based on *actual* physics! Reduces collision insanity.
-* Option to use triginometric distance instead of roguelike distance. In other words light, line of sight are circular instead of square.
+* Option to use trigonometric distance instead of roguelike distance. In other words light, line of sight are circular instead of square.
 * Zombie density in towns is based on nearby buildings instead of distance from town center.
 * Higher-performance (on windows) SDL-based rendering as an optional build type.
 * Movement on and around vehicles greatly streamlined.
 * Sound indicator lets you know how much noise you're making.
 * Turn cost indicator lets you know how long actions take.
-* Overkilled monsters now spray gibs around instead of disapearing.
+* Overkilled monsters now spray gibs around instead of disappearing.
 * Mostly remove limits on how many items fit in a tile of ground.
 * As usual, many bugfixes.
 
@@ -1064,11 +1064,11 @@ Having too little intelligence for a book is more of a penalty.
 Vehicle headlight state is persistent after save-load.
 Being hot no longer increases thirst by an unreasonable amount
 Minor : temp_conv and dis.intensity are saved, fixing strange on-load inconsistencies
-Minor : Diseases that affect speed no longer overwrite eachother in the @ menu
+Minor : Diseases that affect speed no longer overwrite each other in the @ menu
 Clothing with pockets provides a bonus to hand warmth when not wielding a weapon.
 New large building with basement: Prison
 Basement level for hazardous waste sarcophagus.
-New building with basement: musterious cabin.
+New building with basement: mysterious cabin.
 Display recent log messages on player death.
 Radiation exposure is now more dangerous
 Mutations from radiation can be disabled.
@@ -1101,7 +1101,7 @@ Lava burns things and can be used for crafting.
 Multiple fixes to burst-fire targeting.
 Prevent turrets from shooting themselves.
 Prevent friendly turrets from trying to shoot through the player.
-Brasas catcher item to catch your brass for recrafting.
+Brass catcher item to catch your brass for recrafting.
 More power armor variants.
 Make movement take half the cost of both the beginning and end tiles, instead of just taking the cost of the end tile.
 Made shooting interactions more realistic.
@@ -1111,7 +1111,7 @@ Significantly reduces the number of giant worms.
 Adds strawberry bushes.
 Advanced inventory: Add [c]ategory sort.
 Large number of added archery items: Wide range of bows crossbows, and arrows, and a multitude of crafting recipes.
-Stop unnecessaraly saving adjacent overmaps every time they are potentially dirtied. (prevents periodic pauses!)
+Stop unnecessarily saving adjacent overmaps every time they are potentially dirtied. (prevents periodic pauses!)
 Hard Leg Guards and Metal Leg guards.
 Picking berry bushes trains survival (at low levels).
 Added skill support into professions.
@@ -1165,7 +1165,7 @@ Glowsticks, found in sporting goods stores and bedrooms.
 Broken and Empty windows can no longer be taped up, alarmed windows can.
 Palisade walls changed to require 2 6foot ropes rather than one thirty foot one.
 Domestic Windows drop strings now (Those are the kind that can be opened)
-String can be made from sinew and plant fibre.
+String can be made from sinew and plant fiber.
 Added blankets, fur blankets (craft only), emergency blankets, sleeping bags, fur sleeping bags (craft only).
 Added house coat, snuggie, cloak, fur cloak (craft only), leather cloak (craft only).
 Added fur scarf, fur gloves, fur trenchcoat, fur pants, fur boots (all craft only).
@@ -1174,7 +1174,7 @@ Added crafting recipes for bandana, blanket, house coat, cloak.
 Weather radio
 Radios are tuneable, so you can receive from more than one station without moving.
 New item that doubles battery capacity of tools, recipe learn from certain electronics books.
-Bugfix: reduced chance of "Tried to kill monster" debug s	pam.
+Bugfix: reduced chance of "Tried to kill monster" debug spam.
 Bugfix: reduced chance of "Stopping out-of-map vehicle" spam.
 Bugfix: can unload liquids into items wielded in hands (e.g., steel jerrycans).
 Bionics screen shows current and maximum power.
@@ -1187,7 +1187,7 @@ Furry mutation provides warmth, Bark mutation protects from fire.
 Removed/reduced a lot of spam messages related to being hot or cold.
 Sleeping should be easier in the cold (decreased chances of waking up).
 Being too hot can now wake you up.
-Inreased the amount fo heat generated by the player while awake.
+Increased the amount fo heat generated by the player while awake.
 Tweaked hunger and fatigue's contribution to body temperature.
 More traits and mutations have body temperature effects.
 Fix artifact saving and loading.
@@ -1219,7 +1219,7 @@ Work to make NPCs less buggy.
 Nuclear missile fixes.
 Tweaked steel recycler behavior.
 Autosaves take into account the passage of real-world time.
-Placable funnel that collects some water while raining.
+Placeable funnel that collects some water while raining.
 Characters with the Android trait no longer get unimplemented bionics.
 Added several new options.
 NPC spawning is toggled with the in-game options menu rather than a text file hack.
@@ -1262,7 +1262,7 @@ Tires can be changed with a wrench and a jack.
 Add game logic to handle recipes that take the same item as a component and a tool, and add UI to alert the player.
 Improve rendering in the main Windows port - animations should display better.
 Cave-ins cause damaging rubble to fall.
-Improve fuel guage display in the vehicle examination window.
+Improve fuel gauge display in the vehicle examination window.
 Overmap notes blink again.
 Space and tab should be available for keymaps.
 Hitting the "pause"/"skip turn" button will let you cancel reading, crafting, and other long-term actions.
@@ -1297,11 +1297,11 @@ Sunny and clear weather no longer warm the player underground.
 Standing in water or sewage will increase the rate of heat loss (but not make the player colder)
 The head and torso now lose heat faster than other body parts.
 Body temperature drops as you lose HP.
-Encumberance menu's listing of warmth has been made more colorful.
+Encumbrance menu's listing of warmth has been made more colorful.
 Mouth (face) now has appropriate cold and hot diseases.
 The ability to cauterize wounds to heal bites and stop bleeding. (a)ctivate a knife, requires a lighter.
 The ability to craft an item as many times as is possible. Defaults to the + key. (Linux and Mac users will need to assign a key)
-Added M72-LAW. Makes a large explosion and penetrates armour well. One shot only.
+Added M72-LAW. Makes a large explosion and penetrates armor well. One shot only.
 Clothing can be made fitted by (a)pplying a sewing kit.
 Some foods can be heated, hot food grants a larger morale bonus than cold food.
 Ammunition explodes rather than burning.
@@ -1322,7 +1322,7 @@ Alcohol cost for molotovs has been reduced to 14, gasoline cost increased to 400
 Chitinous boots and gauntlets added.
 Picklock kits break when damaged 5 times.
 Zombie spawn ratios have been rebalanced for static spawning.
-Pocketknives are useable for all logical recipes.
+Pocketknives are usable for all logical recipes.
 Child zombies have had a small pool of item drops added.
 HP Ignorant is now the player default, Self Aware can be purchased to display exact HP.
 Lawnmower blades have been replaced with generic blades, most bladed items are made using blades instead of machetes/swords now.
@@ -1348,7 +1348,7 @@ Crash bug caused by the screen being larger than the loaded overmap has
 been fixed.
 Crash bug when going down stairs near cities has been fixed.
 Hunger now affects body temperature.
-Added new crafting recipes: shorts, cargo shorts, balclava, long underwear,
+Added new crafting recipes: shorts, cargo shorts, balaclava, long underwear,
 glove liners, socks.
 Added a digging stick. Can be used to dig shallow pits, and level construction enough to enable crafting of stone shovels.
 
@@ -1361,7 +1361,7 @@ Implementation of a context menu when examining inventory items.
 Machine added to hospitals to regrow limbs.
 
 0.1
-Palisade Walls and Gates - Pretty tough to bash down, and can be fired throguh
+Palisade Walls and Gates - Pretty tough to bash down, and can be fired through
 Log Walls - Basically the same as wood walls, different construction methods.
 The ability to disassemble tshirts and tank tops by hand. - Handy for bleeding.
 Revolver Shotgun - NotTe much to say on this.

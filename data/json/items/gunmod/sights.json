@@ -13,7 +13,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "sight_dispersion": 45,
+    "sight_dispersion": 11,
     "aim_speed": 4
   },
   {
@@ -29,7 +29,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
-    "sight_dispersion": 50,
+    "sight_dispersion": 13,
     "aim_speed": 6,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
@@ -49,7 +49,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "sight_dispersion": 120,
+    "sight_dispersion": 30,
     "aim_speed": 6,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
@@ -67,7 +67,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "pistol", "crossbow" ],
-    "sight_dispersion": 30,
+    "sight_dispersion": 8,
     "aim_speed": 2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
@@ -86,7 +86,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
-    "sight_dispersion": 90,
+    "sight_dispersion": 23,
     "aim_speed": 6,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
@@ -124,7 +124,7 @@
     "location": "sights",
     "mod_targets": [ "rifle", "crossbow", "launcher" ],
     "install_time": 30000,
-    "sight_dispersion": 30,
+    "sight_dispersion": 8,
     "aim_speed": 2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
@@ -141,5 +141,42 @@
     "material": [ "superalloy", "ceramic" ],
     "aim_speed": 2,
     "flags": [ "ZOOM", "IRREMOVABLE" ]
+  },
+  {
+    "id": "tele_sight",
+    "type": "GUNMOD",
+    "name": "telescopic sight",
+    "description": "A simple telescopic sight, essentially a small telescope with crosshairs.  Increases weight but improves accuracy.",
+    "weight": 300,
+    "volume": 1,
+    "price": 30000,
+    "material": [ "plastic", "steel", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
+    "install_time": 30000,
+    "sight_dispersion": 15,
+    "aim_speed": 1,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
+  },
+  {
+    "id": "tele_sight_pistol",
+    "type": "GUNMOD",
+    "name": "telescopic pistol sight",
+    "description": "A simple telescopic sight intended for use on a handgun.  Increases weight but improves accuracy greatly.",
+    "weight": 220,
+    "volume": 1,
+    "price": 27000,
+    "material": [ "plastic", "steel", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "pistol", "crossbow" ],
+    "sight_dispersion": 20,
+    "aim_speed": 1,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   }
 ]

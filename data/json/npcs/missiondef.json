@@ -270,7 +270,7 @@
       "inquire": "Rescued the standard yet?",
       "success": "America, fuck ya!",
       "success_lie": "What?!  You liar!",
-      "failure": "You give up?  This country fell apart because no one could find agood man to rely on... might as well give up, I guess."
+      "failure": "You give up?  This country fell apart because no one could find a good man to rely on... might as well give up, I guess."
     }
   },
   {
@@ -504,7 +504,9 @@
     "id": "MISSION_KILL_100_Z",
     "type": "mission_definition",
     "name": "Kill 100 Zombies",
-    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 100,
     "difficulty": 5,
     "value": 250000,
     "start": "kill_100_z",
@@ -513,7 +515,7 @@
     "followup": "MISSION_KILL_HORDE_MASTER",
     "dialogue": {
       "describe": "You seem to know this new world better than most...",
-      "offer": "You're kitted out better than most... would you be interested in making this world a little better for the rest of us?  The towns have enough supplies for us survivors to start securing a foothold but we don't have anyone with the skills and equipment to thin the masses of undead.  I'll lend you a hand to the best of my ability but you really showed promise taking out that other beast.  You, I, and a 100 regular zombies laid to rest, what do you say?",
+      "offer": "You're kitted out better than most... would you be interested in making this world a little better for the rest of us?  The towns have enough supplies for us survivors to start securing a foothold but we don't have anyone with the skills and equipment to thin the masses of undead.  I'll lend you a hand to the best of my ability but you really showed promise taking out that other beast.  You, I, and a 100 zombies laid to rest, what do you say?",
       "accepted": "Hell ya, we may get ourselves killed but we'll be among the first legends of the apocalypse.",
       "rejected": "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
       "advice": "I'd secure an ammo cache and try to sweep a town in multiple passes.",
@@ -645,6 +647,7 @@
     "difficulty": 5,
     "value": 250000,
     "start": "kill_20_nightmares",
+    "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help...",
@@ -713,7 +716,7 @@
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_4",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Most of my essential gear has been brought back online so it is time for you to install your first radio repeater mod.  Head topside and locate the nearest radio station.  Install the mod on the backup terminal and return to me so that I can verify that everything was successful.  Radio towers must unfortunatly be ignored for now, without a dedicated emergency power system they won't be useful for some time.",
+      "offer": "Most of my essential gear has been brought back online so it is time for you to install your first radio repeater mod.  Head topside and locate the nearest radio station.  Install the mod on the backup terminal and return to me so that I can verify that everything was successful.  Radio towers must unfortunately be ignored for now, without a dedicated emergency power system they won't be useful for some time.",
       "accepted": "I'll be standing by down here once you are done.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
       "advice": "If you could make some sort of directional antenna, it might help locating the radio stations.",
@@ -826,7 +829,7 @@
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies... it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
-      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you cound locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
+      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -895,7 +898,7 @@
       "offer": "Sugar and molasses remains in short supply.  I've put in a request for more but it is unlikely that I'm going to see a reliable source for some time.  If you are interested, we are going to need sugar beet seeds to meet future demand regardless of what the scavengers can find.  Could you bring me at least enough seeds to plant a small 10 meter long patch?",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
-      "advice": "Farms or supply stories might have a few seeds...",
+      "advice": "Farms or supply stores might have a few seeds...",
       "inquire": "Do you have the sugar beet seeds?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
@@ -929,7 +932,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_5",
     "type": "mission_definition",
-    "name": "Find 2 55-Gallon Drums",
+    "name": "Find 2 200-Liter Drums",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -940,11 +943,11 @@
     "followup": "MISSION_RANCH_BARTENDER_5",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "The other survivor outposts that we have contact with have been more than eager to trade for beer or other drinks.  Transporting the drinks to them has presented a number of challenges though.  If you could locate a pair of 55-gallon drums we should be able to keep them supplied while turning a significant profit.",
+      "offer": "The other survivor outposts that we have contact with have been more than eager to trade for beer or other drinks.  Transporting the drinks to them has presented a number of challenges though.  If you could locate a pair of 200-liter drums we should be able to keep them supplied while turning a significant profit.",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "Factories or junk yards are the only places I know where to look.",
-      "inquire": "Do you have the 55-gallon drums?",
+      "inquire": "Do you have the 200-liter drums?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
@@ -1059,7 +1062,7 @@
     "followup": "MISSION_RANCH_FOREMAN_14",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Check with the nurse when you get a chance, I know she will need help setting up our clinic.  On the construction front, we are going to need to get dedicated scavenger teams setup to bring in the miscellaneous supplies that we use in small quantities.  We are going to start setting up a junk shop for them in the North end of the outpost so we could use your help with that.  Communication is the biggest obstacle for the teams... could you bring in a pair two two-way radios?",
+      "offer": "Check with the nurse when you get a chance, I know she will need help setting up our clinic.  On the construction front, we are going to need to get dedicated scavenger teams setup to bring in the miscellaneous supplies that we use in small quantities.  We are going to start setting up a junk shop for them in the North end of the outpost so we could use your help with that.  Communication is the biggest obstacle for the teams... could you bring in a pair of two-way radios?",
       "accepted": "Organizing the scavenging missions is difficult enough without communication.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "You should be able to find them in electronics stores or at a police station.",
@@ -1252,7 +1255,7 @@
     "dialogue": {
       "describe": "We need help...",
       "offer": "Well, our first crop will be planted shortly but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output. ",
-      "accepted": "I don't know the exact recipie but I'm sure you could make it from a comercial fertilizer or produce it from bonemeal.",
+      "accepted": "I don't know the exact recipe but I'm sure you could make it from a commercial fertilizer or produce it from bonemeal.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "I'd look through a few basic chemistry books to find a simple recipe.",
       "inquire": "Do you have the liquid fertilizer?",
@@ -1347,7 +1350,7 @@
     "followup": "MISSION_RANCH_FOREMAN_10",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me five gallons of bleach so we can get started.",
+      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 5 gallon jugs of bleach so we can get started.",
       "accepted": "I'm sure you can find bleach in most homes...",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "If you can't find a large supply I'd recommend checking hospitals or research labs.",

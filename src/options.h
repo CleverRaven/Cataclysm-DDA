@@ -24,6 +24,8 @@ class options_manager
 
         std::map<std::string, std::string> post_json_verify;
 
+        std::map<std::string, std::pair<std::string, std::map<std::string, std::string> > > mMigrateOption;
+
         friend options_manager &get_options();
         options_manager();
 
@@ -95,6 +97,10 @@ class options_manager
                     return !operator==( rhs );
                 }
 
+                void setPrerequisite( const std::string &sOption );
+                std::string getPrerequisite() const;
+                bool hasPrerequisite() const;
+
             private:
                 std::string sName;
                 std::string sPage;
@@ -105,6 +111,8 @@ class options_manager
                 std::string sType;
 
                 std::string format;
+
+                std::string sPrerequisite;
 
                 copt_hide_t hide;
                 int iSortPos;
@@ -149,6 +157,9 @@ class options_manager
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
+        std::string migrateOptionName( const std::string &name ) const;
+        std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
+
         /**
          * Returns a copy of the options in the "world default" page. The options have their
          * current value, which acts as the default for new worlds.
@@ -162,6 +173,10 @@ class options_manager
         bool has_option( const std::string &name ) const;
 
         cOpt &get_option( const std::string &name );
+
+        //add hidden external option with value
+        void add_external( const std::string sNameIn, const std::string sPageIn, const std::string sType,
+                           const std::string sMenuTextIn, const std::string sTooltipIn );
 
         //add string select option
         void add( const std::string sNameIn, const std::string sPageIn,

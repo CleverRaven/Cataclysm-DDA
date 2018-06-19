@@ -12,7 +12,8 @@
                     [ "sweater", "sweatshirt" ],
                     [ "boots_winter", "boots_fur" ],
                     [ "cloak_wool", "cloak_leather" ],
-                    [ "gloves_wool", "gloves_leather" ]
+                    [ "gloves_wool", "gloves_leather" ],
+                    [ "kilt", "kilt_leather" ]
                 ]
             },
             {
@@ -2467,13 +2468,13 @@
         "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
         "points": 8,
         "CBMs":[
-            "bio_solar",
             "bio_eye_enhancer",
             "bio_targeting",
             "bio_climate",
             "bio_evap",
             "bio_lighter",
-            "bio_power_storage_mkII"
+            "bio_power_storage_mkII",
+            "bio_torsionratchet"
         ],
         "skills": [
             {

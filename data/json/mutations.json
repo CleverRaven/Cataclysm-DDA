@@ -533,8 +533,30 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER"],
+        "cancels" : ["FASTHEALER", "SLOWHEALER2", "SLOWHEALER3"],
         "healing_resting" : -0.0025
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER2",
+        "name" : "Very Slow Sleep Healing",
+        "points" : -4,
+        "description" : "You heal much slower than most; sleeping will heal only one third HP compared to the average person.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["SLOWHEALER", "SLOWHEALER3"],
+        "healing_resting" : -0.0066
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER3",
+        "name" : "Extremely Slow Sleep Healing",
+        "points" : -8,
+        "description" : "You almost cannot recover lost health by sleeping; sleeping will heal only one tenth HP compared to the average person.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["SLOWHEALER", "SLOWHEALER2"],
+        "healing_resting" : -0.009
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -1703,7 +1725,7 @@
         "points" : 5,
         "visibility" : 10,
         "ugliness" : 3,
-        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to bashing and cutting damage and minor protection from fire.  Greatly reduces wet effects.",
+        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
         "prereqs" : ["PLANTSKIN"],
         "category" : ["MUTCAT_PLANT"],
         "wet_protection" : [
@@ -2765,7 +2787,7 @@
         "id" : "PRED2",
         "name" : "Hunter",
         "points" : 3,
-        "description" : "Your brain has a lot more in common with predatory animal than a human, making it easer to control misplaced reactions to death of your prey.  Additionally, combat skills, which you use to hunt, are easer to learn and maintain.",
+        "description" : "Your brain has a lot more in common with predatory animal than a human, making it easier to control misplaced reactions to death of your prey.  Additionally, combat skills, which you use to hunt, are easier to learn and maintain.",
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED1"],
@@ -2778,7 +2800,7 @@
         "id" : "PRED3",
         "name" : "Predator",
         "points" : 3,
-        "description" : "You consider yourself something other than human and no longer empathise with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
+        "description" : "You consider yourself something other than human and no longer empathize with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],

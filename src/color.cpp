@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "json.h"
 
+#include <algorithm> // for std::count
 #include <iostream>
 
 void nc_color::serialize( JsonOut &jsout ) const
@@ -69,8 +70,15 @@ void color_manager::finalize()
     for( size_t i = 0; i < color_array.size(); i++ ) {
         color_struct &entry = color_array[i];
         const std::string my_name = get_name( entry.color );
-        for( size_t j = 0; j < NUM_HL; j++ ) {
-            entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
+        const std::string root = my_name.substr( 2, my_name.length() - 2 );
+        const size_t underscore_num = std::count( root.begin(), root.end(), '_' ) -
+                                      ( root.find( "light_" ) != std::string::npos ) -
+                                      ( root.find( "dark_" ) != std::string::npos );
+        // do not try to highlight color pairs, highlighted, background, and invalid colors
+        if( my_name.substr( 0, 2 ) == "c_" && root != "unset" && underscore_num < 1 ) {
+            for( size_t j = 0; j < NUM_HL; j++ ) {
+                entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
+            }
         }
     }
 }
@@ -247,7 +255,7 @@ void color_manager::load_default()
     add_color( def_i_black, "i_black", color_pair( 32 ), def_c_black );
     add_color( def_i_white, "i_white", color_pair( 8 ).blink(), def_c_white );
     add_color( def_i_light_gray, "i_light_gray", color_pair( 8 ), def_c_light_gray );
-    add_color( def_i_dark_gray, "i_dark__gray", color_pair( 32 ).blink(), def_c_dark_gray );
+    add_color( def_i_dark_gray, "i_dark_gray", color_pair( 32 ).blink(), def_c_dark_gray );
     add_color( def_i_red, "i_red", color_pair( 9 ), def_c_red );
     add_color( def_i_green, "i_green", color_pair( 10 ), def_c_green );
     add_color( def_i_blue, "i_blue", color_pair( 11 ), def_c_blue );
@@ -261,6 +269,7 @@ void color_manager::load_default()
     add_color( def_i_pink, "i_pink", color_pair( 13 ).blink(), def_c_pink );
     add_color( def_i_yellow, "i_yellow", color_pair( 14 ).blink(), def_c_yellow );
 
+    add_color( def_c_black_red, "c_black_red", color_pair( 9 ).bold(), def_c_red );
     add_color( def_c_white_red, "c_white_red", color_pair( 23 ).bold(), def_c_red_white );
     add_color( def_c_light_gray_red, "c_light_gray_red", color_pair( 23 ), def_c_light_red_white );
     add_color( def_c_dark_gray_red, "c_dark_gray_red", color_pair( 9 ), def_c_dark_gray_red );
@@ -475,14 +484,14 @@ void init_colors()
     all_colors.load_default();
     all_colors.load_custom();
 
-    // The color codes are intentionally untranslatable.
+    // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
-        {"br", {c_brown, _( "brown" )}}, {"lg", {c_light_gray, _( "light_gray" )}},
-        {"dg", {c_dark_gray, _( "dark gray" )}}, {"r", {c_light_red, _( "light_red" )}},
-        {"R", {c_red, _( "red" )}}, {"g", {c_light_green, _( "light_green" )}},
-        {"G", {c_green, _( "green" )}}, {"b", {c_light_blue, _( "light_blue" )}},
+        {"br", {c_brown, _( "brown" )}}, {"lg", {c_light_gray, _( "light gray" )}},
+        {"dg", {c_dark_gray, _( "dark gray" )}}, {"r", {c_light_red, _( "light red" )}},
+        {"R", {c_red, _( "red" )}}, {"g", {c_light_green, _( "light green" )}},
+        {"G", {c_green, _( "green" )}}, {"b", {c_light_blue, _( "light blue" )}},
         {"B", {c_blue, _( "blue" )}}, {"W", {c_white, _( "white" )}},
-        {"C", {c_cyan, _( "cyan" )}}, {"c", {c_light_cyan, _( "light_cyan" )}},
+        {"C", {c_cyan, _( "cyan" )}}, {"c", {c_light_cyan, _( "light cyan" )}},
         {"P", {c_pink, _( "pink" )}}, {"m", {c_magenta, _( "magenta" )}}
     };
 }

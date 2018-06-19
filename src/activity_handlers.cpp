@@ -17,6 +17,7 @@
 #include "morale_types.h"
 #include "string_formatter.h"
 #include "output.h"
+#include "vpart_position.h"
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
@@ -50,6 +51,8 @@ using namespace activity_handlers;
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
 {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
+    { activity_id( "ACT_CRAFT" ), craft_do_turn },
+    { activity_id( "ACT_LONGCRAFT" ), craft_do_turn },
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
@@ -263,7 +266,7 @@ void set_up_butchery( player_activity &act, player &u )
     act.moves_left = time_to_cut;
 }
 
-void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point &age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point &age, const std::function<int()> &roll_butchery )
 {
     itype_id meat = corpse->get_meat_itype();
     if( corpse->made_of( material_id( "bone" ) ) ) {
@@ -536,7 +539,7 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
     }
 }
 
-void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int()> &roll_butchery )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
 
@@ -721,7 +724,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         switch( source_type ) {
         case LST_VEHICLE:
-            source_veh = g->m.veh_at( source_pos );
+            source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
             if( source_veh == nullptr ) {
                 throw std::runtime_error( "could not find source vehicle for liquid transfer" );
             }
@@ -759,8 +762,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
         case LTT_VEHICLE:
-            if( auto veh = g->m.veh_at( act.coords.at( 1 ) ) ) {
-                p->pour_into( *veh, liquid );
+            if( const optional_vpart_position vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
+                p->pour_into( vp->vehicle(), liquid );
             } else {
                 throw std::runtime_error( "could not find target vehicle for liquid transfer" );
             }
@@ -890,11 +893,11 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
    if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-        if( fishables.size() < 1 ) {
+        if( fishables.empty() ) {
             if( one_in(20) ) {
                 item fish;
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                const mtype_id &fish_mon = random_entry_ref( fish_group );
                 g->m.add_item_or_charges(p->pos(), item::make_corpse( fish_mon ) );
                 p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
@@ -1015,8 +1018,8 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
-    if( veh ) {
+    if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
+        vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
         if( mech_skill > (int)rng(1, 6) ) {
             //success
@@ -1206,8 +1209,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at( pos );
     for( auto &corpse : corpse_pile ) {
-        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES )  ) {
-            // Don't smash non-rezing corpses
+        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES ) ||
+            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+              act->str_values.end() && corpse.get_mtype()->bloodType() == fd_acid ) ) {
+            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }
 
@@ -1278,6 +1283,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     int qty = act->index;
+    bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname().c_str() );
@@ -1289,7 +1295,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable.has_flag( "RELOAD_ONE" ) ) {
+        if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
                 if( reloadable.ammo_type() == ammotype( "bolt" ) ) {
                     msg = _( "You insert a bolt into the %s." );
@@ -1377,7 +1383,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
+    const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
     veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -1392,11 +1398,11 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
         debugmsg("process_activity invalid ACT_VEHICLE values:%d",
                  act->values.size());
     } else {
-        if( veh ) {
+        if( vp ) {
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
-            g->exam_vehicle( *veh, act->values[ 2 ], act->values[ 3 ] );
+            g->exam_vehicle( vp->vehicle(), act->values[ 2 ], act->values[ 3 ] );
             return;
         } else {
             dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";
@@ -1451,7 +1457,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     vehicle *veh = g->remoteveh();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
-        veh = g->m.veh_at( pos );
+        veh = veh_pointer_or_null( g->m.veh_at( pos ) );
         if( !veh ) { return; }
     }
 
@@ -1622,7 +1628,7 @@ struct weldrig_hack {
         }
 
         part = act.values[1];
-        veh = g->m.veh_at( act.coords[0] );
+        veh = veh_pointer_or_null( g->m.veh_at( act.coords[0] ) );
         if( veh == nullptr || veh->parts.size() <= ( size_t )part ) {
             part = -1;
             return false;
@@ -1639,9 +1645,8 @@ struct weldrig_hack {
             return pseudo;
         }
 
-        static item nulitem;
         // null item should be handled just fine
-        return nulitem;
+        return null_item_reference();
     }
 
     void clean_up()
@@ -1828,9 +1833,15 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
-            p->i_rem( &gun );
+            // Remove irremovable mods prior to destroying the gun
+            for( auto mod : gun.gunmods() ) {
+                if( mod->is_irremovable() ) {
+                    p->remove_item( *mod );
+                }
+            }
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );
+            p->i_rem( &gun );
         } else {
             add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );
@@ -1967,6 +1978,27 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::craft_do_turn( player_activity *act, player *p )
+{
+    const recipe &rec = recipe_id( act->name ).obj();
+    float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    if( crafting_speed <= 0.0f ) {
+        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        }
+        p->cancel_activity();
+        return;
+    }
+    act->moves_left -= crafting_speed * p->get_moves();
+    p->set_moves( 0 );
+    if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
+        // @todo Describe the causes of slowdown
+        p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+    }
+}
+
 void activity_handlers::craft_finish( player_activity *act, player *p )
 {
     p->complete_craft();
@@ -2014,21 +2046,6 @@ void activity_handlers::aim_finish( player_activity *, player * )
     // Aim bails itself by resetting itself every turn,
     // you only re-enter if it gets set again.
     return;
-}
-
-void activity_handlers::washing_finish( player_activity *act, player *p )
-{
-    item &filthy_item = p->i_at( act->position );
-
-    if( p->is_worn( filthy_item ) ) {
-        filthy_item.on_takeoff( *p );
-        filthy_item.item_tags.erase( "FILTHY" );
-        filthy_item.on_wear( *p );
-    }
-    filthy_item.item_tags.erase( "FILTHY" );
-
-    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
-    act->set_to_null();
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {

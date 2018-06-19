@@ -32,7 +32,7 @@
         "_1___#_7___dddS___4__#_|"
       ],
       "terrain": {
-        "#": "t_underbrush_harvested_winter",
+        "#": "t_underbrush",
         "-": "t_wall",
         ".": "t_pavement",
         "0": "t_window_empty",

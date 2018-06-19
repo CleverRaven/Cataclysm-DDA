@@ -30,7 +30,7 @@ std::string robot_finds_kitten::getmessage(int idx)
         _("Not kitten, just a packet of Kool-Aid(tm)."),
         _("A freshly-baked pumpkin pie."),
         _("A lone, forgotten comma, sits here, sobbing."),
-        _("ONE HUNDRED THOUSAND CARPET FIBERS!!!!!"),
+        _("ONE HUNDRED THOUSAND CARPET FIBERS!"),
         _("It's Richard Nixon's nose!"),
         _("It's Lucy Ricardo. \"Aaaah, Ricky!\", she says."),
         _("You stumble upon Bill Gates' stand-up act."),
@@ -328,7 +328,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 
     while (input != 'q' && input != 'Q' && input != 27 /*escape*/) {
         process_input(input, w);
-        if(ret == true) {
+        if( ret ) {
             break;
         }
         /* Redraw robot, where available */

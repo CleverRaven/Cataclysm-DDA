@@ -11,7 +11,9 @@
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
+#include "vpart_position.h"
 #include "vehicle.h"
+#include "vpart_reference.h"
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "string_formatter.h"
@@ -524,9 +526,10 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     PickupMap mapPickup;
 
     if( from_vehicle ) {
-        int veh_root_part = -1;
-        veh = g->m.veh_at( pickup_target, veh_root_part );
-        cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pickup_target ).part_with_feature( "CARGO",
+                false );
+        veh = &vp->vehicle();
+        cargo_part = vp->part_index();
     }
 
     bool problem = false;
@@ -575,20 +578,22 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
 // Pick up items at (pos).
 void Pickup::pick_up( const tripoint &pos, int min )
 {
-    int veh_root_part = 0;
     int cargo_part = -1;
 
-    vehicle *veh = g->m.veh_at( pos, veh_root_part );
+    const optional_vpart_position vp = g->m.veh_at( pos );
+    vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        switch( interact_with_vehicle( veh, pos, veh_root_part ) ) {
+        switch( interact_with_vehicle( veh, pos, vp ? vp->part_index() : -1 ) ) {
             case DONE:
                 return;
-            case ITEMS_FROM_CARGO:
-                cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
-                from_vehicle = cargo_part >= 0;
-                break;
+            case ITEMS_FROM_CARGO: {
+                const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+                cargo_part = carg ? carg->part_index() : -1;
+            }
+            from_vehicle = cargo_part >= 0;
+            break;
             case ITEMS_FROM_GROUND:
                 // Nothing to change, default is to pick from ground anyway.
                 if( g->m.has_flag( "SEALED", pos ) ) {
@@ -646,7 +651,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         }
 
         // Bail out if this square cannot be auto-picked-up
-        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
+        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), pos ) ) {
             return;
         } else if( g->m.has_flag( "SEALED", pos ) ) {
             return;

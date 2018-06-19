@@ -10,7 +10,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
-    "use_action": "install_bionic"
+    "use_action": "install_bionic",
+    "flags": [ "CBM" ]
   },
   {
     "id": "bio_adrenaline",
@@ -697,15 +698,6 @@
     "description": "You generate a powerful shockwave, knocking back all nearby creatures.  Targets are stunned briefly, take damage and additional stun upon impact with impassable terrain, and knockback any creatures they collide with.",
     "price": 550000,
     "difficulty": 5
-  },
-  {
-    "id": "bio_solar",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Solar Panels CBM",
-    "description": "You have a few solar panels installed.  While in direct sunlight, your power level will slowly recharge.",
-    "price": 350000,
-    "difficulty": 4
   },
   {
     "id": "bio_speed",

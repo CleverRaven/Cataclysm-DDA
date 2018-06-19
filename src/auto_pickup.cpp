@@ -5,14 +5,13 @@
 #include "json.h"
 #include "debug.h"
 #include "item_factory.h"
-#include "catacharset.h"
 #include "translations.h"
 #include "cata_utility.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "filesystem.h"
 #include "input.h"
-#include "worldfactory.h"
+#include "options.h"
 #include "itype.h"
 #include "string_input_popup.h"
 
@@ -396,17 +395,12 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX );
     catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX );
 
-    draw_border(w_test_rule_border);
-
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
                                     nmatch), nmatch, vRules[iTab][iRow].sRule.c_str());
-    mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
-              buf );
-
-    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
-              _("Won't display bottled and suffixes=(fits)"));
-
+    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+    center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
+                  _( "Won't display bottled and suffixes=(fits)" ) );
     wrefresh(w_test_rule_border);
 
     int iLine = 0;
@@ -600,9 +594,9 @@ bool auto_pickup::save(const bool bCharacter)
     auto savefile = FILENAMES["autopickup"];
 
         if (bCharacter) {
-            savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+            savefile = g->get_player_base_save_path() + ".apu.json";
 
-            const std::string player_save = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav";
+            const std::string player_save = g->get_player_base_save_path() + ".sav";
             if( !file_exist( player_save ) ) {
                 return true; //Character not saved yet.
             }
@@ -630,7 +624,7 @@ void auto_pickup::load(const bool bCharacter)
 
     std::string sFile = FILENAMES["autopickup"];
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+        sFile = g->get_player_base_save_path() + ".apu.json";
     }
 
     if( !read_from_file_optional_json( sFile, [this]( JsonIn &jsin ) { deserialize( jsin ); } ) ) {
@@ -683,7 +677,7 @@ bool auto_pickup::load_legacy(const bool bCharacter)
     std::string sFile = FILENAMES["legacy_autopickup2"];
 
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
     auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
