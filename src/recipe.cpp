@@ -6,13 +6,15 @@
 #include "item.h"
 #include "string_formatter.h"
 #include "output.h"
-#include "overmap.h"
 #include "skill.h"
 #include "game_constants.h"
 
 #include <algorithm>
 #include <numeric>
 #include <math.h>
+
+struct oter_t;
+using oter_str_id = string_id<oter_t>;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
