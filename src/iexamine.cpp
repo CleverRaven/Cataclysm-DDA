@@ -3484,14 +3484,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         CANCEL,
     };
 
-    uimenu amenu;
-    amenu.selected = 0;
-    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
-    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
-    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
-
-    amenu.query();
-
     bool adjacent_couch = false;
     bool in_position = false;
     for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
@@ -3504,17 +3496,25 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     }
 
+    if( !adjacent_couch ) {
+        popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
+        return;
+    }
+    if( !in_position ) {
+        popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
+        return;
+    }
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
+
+    amenu.query();
+
     switch( static_cast<options>( amenu.ret ) ) {
         case INSTALL_CBM: {
-            if( !adjacent_couch ) {
-                popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
-                return;
-            }
-            if( !in_position ) {
-                popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
-                return;
-            }
-
             const item_location bionic = g->inv_map_splice( []( const item &e ) {
                 return e.has_flag( "CBM" );
             }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install" ) );
