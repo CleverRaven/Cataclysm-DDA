@@ -1005,14 +1005,14 @@ void options_manager::init()
         0, 200, 100, COPT_NO_SOUND_HIDE
         );
 
-    get_option("MUSIC_VOLUME").setPrerequisite("SOUND_ENABLED");
+    get_option( "MUSIC_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
     add( "SOUND_EFFECT_VOLUME", "general", translate_marker( "Sound effect volume" ),
         translate_marker( "Adjust the volume of sound effects being played by the game." ),
         0, 200, 100, COPT_NO_SOUND_HIDE
         );
 
-    get_option("SOUND_EFFECT_VOLUME").setPrerequisite("SOUND_ENABLED");
+    get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
