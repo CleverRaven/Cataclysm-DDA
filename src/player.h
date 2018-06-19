@@ -1362,6 +1362,7 @@ class player : public Character
         int slow_rad;
         int oxygen;
         int stamina;
+        int stamina_max_penalty;
         double recoil = MAX_RECOIL;
         int scent;
         int dodges_left;
@@ -1443,6 +1444,8 @@ class player : public Character
         int get_hp_max( hp_part bp ) const override;
         int get_hp_max() const override;
         int get_stamina_max() const;
+        int get_stamina_max_penalty() const;
+        void mod_stamina_max_penalty( int modifier );
         void burn_move_stamina( int moves );
 
         //message related stuff
