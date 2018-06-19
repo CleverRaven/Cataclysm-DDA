@@ -35,6 +35,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "bionics.h"
 
 #include <sstream>
 #include <algorithm>
