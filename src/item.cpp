@@ -71,6 +71,7 @@ const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_unarmed( "unarmed" );
+const skill_id skill_cooking( "cooking" );
 
 const quality_id quality_jack( "JACK" );
 const quality_id quality_lift( "LIFT" );
