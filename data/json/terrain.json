@@ -6933,7 +6933,7 @@
         { "item": "bearing", "amount": 12, "minamount": 4 },
         { "item": "frame", "amount": 1, "chance": 60 },
         { "item": "motor", "amount": 1, "chance": 30 },
-        { "item": "metal_tank_small", "amount": 1, "chance": 30 },
+        { "item": "metal_tank_little", "amount": 1, "chance": 30 },
         { "item": "motor_large", "amount": 1, "chance": 10 }
       ]
     },
@@ -6954,7 +6954,7 @@
         { "item": "bearing", "amount": 8, "minamount": 2 },
         { "item": "frame", "amount": 1, "chance": 30 },
         { "item": "motor", "amount": 1, "chance": 10 },
-        { "item": "metal_tank_small", "amount": 1, "chance": 20 },
+        { "item": "metal_tank_little", "amount": 1, "chance": 20 },
         { "item": "motor_large", "amount": 1, "chance": 5 }
       ]
     }
