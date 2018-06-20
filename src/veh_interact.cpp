@@ -599,13 +599,20 @@ bool veh_interact::can_install_part() {
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
-    } else {
-        qual = LIFT;
-        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
-        str = base.lift_strength();
-        use_aid = max_lift >= lvl;
-        use_str = g->u.can_lift( base );
-    }
+    } else if( get_option<bool>( "DISABLE_LIFTING" ) ) {
+         qual = LIFT;
+         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
+         str = base.lift_strength();
+         use_aid = true;
+         use_str = true;
+        } else {
+         qual = LIFT;
+         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
+         str = base.lift_strength();
+         use_aid = max_lift >= lvl;
+         use_str = g->u.can_lift( base );
+        }
+
 
     if( !( use_aid || use_str ) ) {
         ok = false;
@@ -1296,13 +1303,19 @@ bool veh_interact::can_remove_part( int idx ) {
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
-    } else {
-        qual = LIFT;
-        lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
-        str = base.lift_strength();
-        use_aid = max_lift >= lvl;
-        use_str = g->u.can_lift( base );
-    }
+    } else if( get_option<bool>( "DISABLE_LIFTING" ) ) {
+         qual = LIFT;
+         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
+         str = base.lift_strength();
+         use_aid = true;
+         use_str = true;
+        } else {
+         qual = LIFT;
+         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
+         str = base.lift_strength();
+         use_aid = max_lift >= lvl;
+         use_str = g->u.can_lift( base );
+        }
 
     if( !( use_aid || use_str ) ) {
         ok = false;

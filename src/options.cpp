@@ -1434,7 +1434,7 @@ void options_manager::init()
         translate_marker( "A scaling factor that determines density of monster spawns." ),
         0.0, 50.0, 1.0, 0.1
         );
-    
+
     add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
         0, 1000, 100, COPT_NO_HIDE, "%i%%"
@@ -1590,6 +1590,13 @@ void options_manager::init()
 
     add( "NO_NPC_FOOD", "world_default", translate_marker( "Disables tracking food, thirst and ( partially ) fatigue for NPCs." ),
         translate_marker( "If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties." ),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
+    add( "DISABLE_LIFTING", "world_default", translate_marker( "Disables lifting requirements for vehicle parts." ),
+        translate_marker( "If true, strength checks and/or lifting qualities no longer need to be met in order to change parts." ),
         false, COPT_ALWAYS_HIDE
         );
 
