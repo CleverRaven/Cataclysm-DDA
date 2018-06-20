@@ -3074,7 +3074,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3093,7 +3093,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3112,7 +3112,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                 { "item": "stick", "count": [0, 5] }
+                 { "item": "stick_long", "count": [0, 5] }
             ]
         }
     },{
@@ -3135,7 +3135,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3156,7 +3156,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3180,7 +3180,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3201,7 +3201,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3225,7 +3225,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3246,7 +3246,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3270,7 +3270,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3291,7 +3291,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3315,7 +3315,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3336,7 +3336,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3360,7 +3360,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3381,7 +3381,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3405,7 +3405,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3424,7 +3424,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3448,7 +3448,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3467,7 +3467,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3490,7 +3490,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3508,7 +3508,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3527,7 +3527,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3546,7 +3546,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3569,7 +3569,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3589,7 +3589,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3607,7 +3607,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }

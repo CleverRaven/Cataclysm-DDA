@@ -31,6 +31,20 @@
     },
     {
         "type":"GENERIC",
+        "id": "stick_long",
+        "symbol": "/",
+        "color": "brown",
+        "name": "long stick",
+        "description": "A long stick.  Makes a decent melee weapon, and can be broken into heavy sticks for crafting.",
+        "material": "wood",
+        "flags": "TRADER_AVOID",
+        "weight": 3400,
+        "volume": 10,
+        "bashing": 18,
+        "to_hit": -1
+    },
+    {
+        "type":"GENERIC",
         "id": "spear_rebar",
         "symbol": "/",
         "color": "dark_gray",
