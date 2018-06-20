@@ -6601,10 +6601,18 @@ void game::use_item( int pos )
             add_msg( _( "Never mind." ) );
             return;
         }
-        int obtain_cost = loc.obtain_cost( u );
-        pos = loc.obtain( u );
-        // This method only handles items in te inventory, so refund the obtain cost.
-        u.moves += obtain_cost;
+
+        auto item = loc.get_item();
+
+        if(u.has_item(*loc))
+        {
+            pos = u.get_item_position(item);
+
+        } else{
+            wield(loc);
+            pos = -1;
+        }
+
     }
 
     refresh_all();
