@@ -1344,7 +1344,7 @@ Xx-^^X^.########.^X^^-xX\n\
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v ),
+                        t_railing ),
                     mapf::furn_bind( ". # ^ - X x |",
                         f_null,
                         f_null,
@@ -1387,7 +1387,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v ),
+                        t_railing ),
                     mapf::furn_bind( ". # ^ - X x |",
                         f_null,
                         f_null,
@@ -1431,7 +1431,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v ),
+                        t_railing ),
                     mapf::furn_bind( ". # ^ - X x |",
                         f_null,
                         f_null,
@@ -1473,7 +1473,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v ),
+                        t_railing ),
                     mapf::furn_bind( ". # ^ - X x |",
                         f_null,
                         f_null,
@@ -1517,7 +1517,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v),
+                        t_railing),
                     mapf::furn_bind( ". # ^ - X x |",
                         f_null,
                         f_null,
@@ -1668,7 +1668,7 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, const time_poi
             if (i < 3 || i >= SEEX * 2 - 3) {
                 m->ter_set(i, j, dat.groundcover());
             } else if (i == 3 || i == SEEX * 2 - 4) {
-                m->ter_set(i, j, t_railing_v);
+                m->ter_set(i, j, t_railing);
             } else {
                 if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0) {
                     m->ter_set(i, j, t_pavement_y);
@@ -1944,10 +1944,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         m->furn_set(x1 + 2, y1 + 1, f_table);
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
-                if ((i == x1) || (i == x2)) {
-                    m->ter_set(i, j, t_fence_v);
-                } else if (j == y2) {
-                    m->ter_set(i, j, t_fence_h);
+                if ((i == x1) || (i == x2 || (j == y2))) {
+                    m->ter_set(i, j, t_fence);
                 } else {
                     m->ter_set( i, j, t_grass);
                     if (one_in(35) && !m->has_furn(i ,j)) {
@@ -2625,11 +2623,10 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     //////
     if (rng(2, 7) < tw) { // Big front yard has a chance for a fence
         for (int i = lw; i <= rw; i++) {
-            m->ter_set(i, 0, t_fence_h);
+            m->ter_set(i, 0, t_fence);
         }
         for (int i = 1; i < tw; i++) {
-            m->ter_set(lw, i, t_fence_v);
-            m->ter_set(rw, i, t_fence_v);
+            m->ter_set(lw, i, t_fence);
         }
         int hole = rng(SEEX - 3, SEEX + 2);
         m->ter_set(hole, 0, t_dirt);
