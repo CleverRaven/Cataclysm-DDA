@@ -3,6 +3,7 @@
     "type": "MOD_INFO",
     "ident": "disable_lifting",
     "name": "No Lifting Reqs",
+    "authors": "Wad67",
     "description": "Strength checks and lifting qualities are no longer required for installing or removing vehicle parts.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
