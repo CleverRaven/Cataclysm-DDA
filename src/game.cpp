@@ -10560,16 +10560,27 @@ void game::wield()
     }
 }
 
-void game::read()
-{
-    // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
 
-    if( loc ) {
-        u.read( loc.obtain( u ) );
-    } else {
-        add_msg( _( "Never mind." ) );
+void game::read() {
+    // Can read items from inventory or within one tile (including in vehicles)
+    auto loc = game_menus::inv::read(u);
+
+    if (!loc) {
+        add_msg(_("Never mind."));
+        return;
     }
+
+    auto item = loc.get_item();
+    int pos;
+
+    if (u.has_item(*loc)) {
+        pos = u.get_item_position(item);
+
+    } else {
+        wield(loc);
+        pos = -1;
+    }
+    u.read(pos);
 }
 
 void game::chat()
