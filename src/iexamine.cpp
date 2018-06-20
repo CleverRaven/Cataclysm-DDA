@@ -3558,13 +3558,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
                     if( bio.id != bionic_id( "bio_power_storage" ) ||
                         bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                        const auto &bio_data = bio.info();
+                        bionic_names.push_back( bio_data.name );
                         bionic_types.push_back( bio.id.str() );
                         if( item::type_is_defined( bio.id.str() ) ) {
                             bionic_to_uninstall = item( bio.id.str(), 0 );
-                            bionic_names.push_back( bionic_to_uninstall.tname() );
-                        } else {
-                            // @todo Display name instead of id
-                            bionic_names.push_back( bio.id.str() );
                         }
                     }
                 }
