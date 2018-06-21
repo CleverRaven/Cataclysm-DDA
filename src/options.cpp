@@ -990,15 +990,17 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
+        translate_marker( "If true, music and sound are enabled." ),
+        true, COPT_NO_SOUND_HIDE
+        );
+
     add( "SOUNDPACKS", "general", translate_marker( "Choose soundpack" ),
         translate_marker( "Choose the soundpack you want to use." ),
         build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
         ); // populate the options dynamically
 
-    add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
-        translate_marker( "If true, music and sound are enabled." ),
-        true, COPT_NO_SOUND_HIDE
-        );
+    get_option( "SOUNDPACKS" ).setPrerequisite( "SOUND_ENABLED" );
 
     add( "MUSIC_VOLUME", "general", translate_marker( "Music volume" ),
         translate_marker( "Adjust the volume of the music being played in the background." ),
