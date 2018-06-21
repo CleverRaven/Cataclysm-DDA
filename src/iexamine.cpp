@@ -55,6 +55,7 @@ const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
 
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 
@@ -3532,6 +3533,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( p.install_bionics( *itemtype ) ) {
                 p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
                 p.fall_asleep( duration );
+                p.add_effect( effect_narcosis, duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
                 if( p.has_item( *it ) ) {
@@ -3581,6 +3583,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
                 p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
                 p.fall_asleep( duration );
+                p.add_effect( effect_narcosis, duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
             }
