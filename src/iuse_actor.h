@@ -401,20 +401,19 @@ class firestarter_actor : public iuse_actor
         /**
          * Moves used at start of the action when starting fires with good fuel.
          */
-        int moves_cost_fast = 100;
-
-        /**
-         * Total moves when starting fires with mediocre fuel.
-         */
-        int moves_cost_slow = 1000;
+        int moves_cost = 1000;
 
         /**
          * Does it need sunlight to be used.
          */
         bool need_sunlight = false;
 
-        static bool prep_firestarter_use( const player &p, tripoint &pos );
-        static void resolve_firestarter_use( const player &p, const tripoint &pos );
+        // Returns resulting fire size
+        // 2 if successful
+        // 1 if successful without tinder
+        // 0 if fail
+        static int prep_firestarter_use( const player &p, tripoint &pos );
+        static void resolve_firestarter_use( const player &p, const tripoint &pos, const int &density );
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( const tripoint &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */

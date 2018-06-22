@@ -2,6 +2,9 @@
 #ifndef FIRE_H
 #define FIRE_H
 
+const int MAX_FIRE_SIZE = 4;
+const int FIRE_SIZE_THRESHOLD = 2;
+
 /**
  * Contains the state of a fire in one tile on one turn
  *

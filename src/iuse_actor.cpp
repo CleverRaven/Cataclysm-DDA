@@ -944,8 +944,7 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint& ) const
 
 void firestarter_actor::load( JsonObject &obj )
 {
-    moves_cost_fast = obj.get_int( "moves", moves_cost_fast );
-    moves_cost_slow = obj.get_int( "moves_slow", moves_cost_fast * 10 );
+    moves_cost = obj.get_int( "moves", moves_cost );
     need_sunlight = obj.get_bool( "need_sunlight", false );
 }
 
@@ -954,7 +953,7 @@ iuse_actor *firestarter_actor::clone() const
     return new firestarter_actor( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
+int firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
     if( pos == p.pos() && !choose_adjacent( _("Light where?"), pos ) ) {
         g->refresh_all();
@@ -973,27 +972,59 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     if( g->m.flammable_items_at( pos ) ||
         g->m.has_flag( "FLAMMABLE", pos ) || g->m.has_flag( "FLAMMABLE_ASH", pos ) ||
         g->m.get_field_strength( pos, fd_web ) > 0 ) {
-        // Check for a brazier.
-        bool has_unactivated_brazier = false;
+        
+        bool has_unactivated_brazier = false; // Check for a brazier.
+        bool has_tinder_here = false;
         for( const auto &i : g->m.i_at( pos ) ) {
             if( i.typeId() == "brazier" ) {
                 has_unactivated_brazier = true;
             }
+            if( i.is_tinder() ) {
+                has_tinder_here = true;
+            }
         }
         if( has_unactivated_brazier &&
             !query_yn(_("There's a brazier there but you haven't set it up to contain the fire. Continue?")) ) {
-            return false;
+            return 0;
         }
-        return true;
+
+        inventory &inv = g->u.inv;
+        if( has_tinder_here ) {
+            return 2;
+        } else if( inv.has_tools( "tinder", 1 ) ) {
+            item &tinder = inv.find_item( inv.position_by_type( "tinder" ) );
+            int used_charges = tinder.type->stack_size / 2;
+
+            if( tinder.count_by_charges() && tinder.charges >= used_charges ) {
+                tinder.charges -= used_charges;
+                if( tinder.charges <= 0 ) {
+                    inv.remove_item( &tinder );
+                }
+
+                p.add_msg_if_player( m_info, "You use %d charges of tinder to light the fire.", 
+                                                              used_charges );
+                return 2;
+            } else if( query_yn( string_format( "You only have %d of %d charges of tinder needed to start a fire. Continue without tinder?",
+                                 tinder.charges, used_charges ) ) ) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        if( query_yn( _( "There is not enough tinder here to start a fire. Continue?" ) ) ) {
+            return 1;
+        }
+        return 0;
+
     } else {
         p.add_msg_if_player(m_info, _("There's nothing to light there."));
-        return false;
+        return 0;
     }
 }
 
-void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
+void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos, const int &density )
 {
-    if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
+    if( g->m.add_field( pos, fd_fire, density, 10_minutes ) ) {
         p.add_msg_if_player(_("You successfully light a fire."));
     }
 }
@@ -1032,15 +1063,17 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
 
 int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
 {
-    if( g->m.flammable_items_at( pos, 100 ) ) {
-        return moves_cost_fast;
+    if( g->m.flammable_items_at( pos ) ) {
+        float fuel_eff = 0;
+        for( auto &i : g->m.i_at( pos ) ) {
+            for( auto &m : i.made_of() ) {
+                fuel_eff = std::max( fuel_eff, m->burn_data( 1 ).fuel );
+            }
+        }
+        return moves_cost / fuel_eff;
+    } else {
+        return moves_cost / 0.25;
     }
-
-    if( g->m.flammable_items_at( pos, 10 ) ) {
-        return ( moves_cost_slow + moves_cost_fast ) / 2;
-    }
-
-    return moves_cost_slow;
 }
 
 long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) const
@@ -1048,10 +1081,11 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
     if( t ) {
         return 0;
     }
-
+    
     tripoint pos = spos;
     float light = light_mod( pos );
-    if( !prep_firestarter_use( p, pos ) ) {
+    int density = prep_firestarter_use( p, pos );
+    if( density <= 0 ) {
         return 0;
     }
 
@@ -1071,14 +1105,15 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
             moves / to_moves<int>( 1_minutes ) );
     } else if( moves < to_moves<int>( 2_turns ) ) {
         // If less than 2 turns, don't start a long action
-        resolve_firestarter_use( p, pos );
+        resolve_firestarter_use( p, pos, density );
         p.mod_moves( -moves );
         return it.type->charges_to_use();
     }
     p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, -1, p.get_item_position( &it ), it.tname() );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
+    p.activity.values.push_back( density );
     p.activity.placement = pos;
-    p.practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
+    p.practice( skill_survival, moves_modifier + moves_cost / 100 + 2, 5 );
     return it.type->charges_to_use();
 }
 

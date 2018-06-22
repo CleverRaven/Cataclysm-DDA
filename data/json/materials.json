@@ -15,6 +15,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "burn_data": [
+      { "fuel": 75, "smoke": 0, "burn": 0.5},
       { "fuel": 150, "smoke": 0, "burn": 1 },
       { "fuel": 300, "smoke": 0, "burn": 2 },
       { "fuel": 450, "smoke": 0, "burn": 3 }
@@ -51,6 +52,7 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 1, "burn": 1, "chance": 5 },
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
@@ -73,6 +75,7 @@
     "cut_dmg_verb": "chipped",
     "vitamins": [ [ "calcium", 2 ] ],
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 1, "burn": 1, "chance": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
@@ -139,6 +142,7 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 1, "burn": 1, "chance": 5 },
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
@@ -194,6 +198,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
+      { "fuel": 0.5, "smoke": 1, "burn": 0.5 },
       { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
@@ -231,6 +236,7 @@
     "cut_dmg_verb": "damaged",
     "vitamins": [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ],
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 3, "burn": 2 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
@@ -253,6 +259,7 @@
     "cut_dmg_verb": "sliced",
     "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 2 ] ],
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.5 },
       { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
       { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
       { "fuel": 3, "smoke": 10, "burn": 3 }
@@ -290,6 +297,7 @@
     "cut_dmg_verb": "cut",
     "vitamins": [ [ "vitC", 2 ] ],
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 1, "smoke": 2, "burn": 1, "chance": 5 },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 3 }
@@ -313,6 +321,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
     "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 0.5 },
       { "fuel": 1, "smoke": 3, "burn": 1, "chance": 5 },
       { "fuel": 1, "smoke": 5, "burn": 2 },
       { "fuel": 1, "smoke": 10, "burn": 4 }
@@ -333,6 +342,7 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched",
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 1000, "chance": 20, "//": "More like shattering than melting" }
@@ -389,6 +399,7 @@
     "cut_dmg_verb": "sliced",
     "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 2 ] ],
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.5 },
       { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
       { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
       { "fuel": 3, "smoke": 10, "burn": 3 }
@@ -410,6 +421,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "burn_data": [
+      { "fuel": 0, "smoke": 1, "burn": 0.5 },
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 3 }
@@ -430,6 +442,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "burn_data": [
+      { "fuel": 50, "smoke": 0, "burn": 0.1 },
       { "fuel": 300, "smoke": 6, "burn": 1 },
       { "fuel": 600, "smoke": 6, "burn": 2 },
       { "fuel": 900, "smoke": 6, "burn": 3 }
@@ -452,6 +465,7 @@
     "cut_dmg_verb": "sliced",
     "vitamins": [ [ "calcium", 1 ] ],
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.5 },
       { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
       { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
       { "fuel": 3, "smoke": 10, "burn": 3 }
@@ -490,6 +504,7 @@
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.5 },
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 3 }
@@ -547,6 +562,7 @@
     "cut_dmg_verb": "sliced",
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 1, "smoke": 3, "burn": 2, "chance": 2 },
       { "fuel": 1, "smoke": 3, "burn": 2 }
     ]
@@ -568,6 +584,7 @@
     "cut_dmg_verb": "damaged",
     "vitamins": [ [ "vitB", 0.5 ], [ "calcium", 1.5 ] ],
     "burn_data": [
+      { "fuel": -1000, "smoke": 0, "burn": 1 },
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },
       { "fuel": -10, "smoke": 2, "burn": 2 }
@@ -591,6 +608,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.2 },
       { "fuel": 1, "smoke": 3, "burn": 1, "chance": 10 },
       { "fuel": 1, "smoke": 3, "burn": 2 },
       { "fuel": 1, "smoke": 3, "burn": 3 }
@@ -614,6 +632,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
+      { "immune": true },
       { "immune": true },
       { "immune": true },
       { "immune": true }
@@ -650,6 +669,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "burn_data": [
+      { "fuel": 50, "smoke": 1, "burn": 0.1 },
       { "fuel": 300, "smoke": 3, "burn": 1 },
       { "fuel": 600, "smoke": 6, "burn": 2 },
       { "fuel": 900, "smoke": 9, "burn": 3 }
@@ -670,6 +690,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
+      { "fuel": 2, "smoke": 1, "burn": 2 },
       { "fuel": 10, "smoke": 1, "burn": 10 },
       { "fuel": 8, "smoke": 1, "burn": 20 },
       { "fuel": 5, "smoke": 1, "burn": 50 }
@@ -693,9 +714,10 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
     "burn_data": [
-      { "fuel": 1, "smoke": 2, "burn": 1, "chance": 3 },
-      { "fuel": 1, "smoke": 3, "burn": 2 },
-      { "fuel": 1, "smoke": 5, "burn": 5 }
+      { "fuel": 0.8, "smoke": 5, "burn": 0.8},
+      { "fuel": 1, "smoke": 10, "burn": 1, "chance": 3 },
+      { "fuel": 1, "smoke": 20, "burn": 2 },
+      { "fuel": 1, "smoke": 50, "burn": 5 }
     ]
   },
   {
@@ -713,6 +735,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "burn_data": [
+      { "fuel": 10, "smoke": 2, "burn": 10 },
       { "fuel": 10, "smoke": 2, "burn": 10 },
       { "fuel": 10, "smoke": 2, "burn": 10 },
       { "fuel": 10, "smoke": 2, "burn": 10 }
@@ -814,6 +837,7 @@
     "cut_dmg_verb": "cut",
     "vitamins": [ [ "calcium", 0.1 ], [ "vitA", 1 ], [ "vitC", 0.5 ] ],
     "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.5 },
       { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
       { "fuel": 2, "smoke": 1, "burn": 2, "chance": 10 },
       { "fuel": 2, "smoke": 1, "burn": 3 }
@@ -835,6 +859,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "burn_data": [
+      { "fuel": -1000, "smoke": 1, "burn": 0.5 },
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },
       { "fuel": -10, "smoke": 2, "burn": 2 }
@@ -857,6 +882,7 @@
     "cut_dmg_verb": "cut",
     "vitamins": [ [ "vitB", 1 ] ],
     "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 0.8 },
       { "fuel": 1, "smoke": 2, "burn": 1 },
       { "fuel": 1, "smoke": 2, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 3 }
@@ -878,6 +904,7 @@
     "bash_dmg_verb": "splintered",
     "cut_dmg_verb": "gouged",
     "burn_data": [
+      { "fuel": 0.5, "smoke": 1, "burn": 0.01 },
       { "fuel": 1, "smoke": 1, "burn": 0.02, "chance": 5 },
       { "fuel": 2, "smoke": 1, "burn": 0.04, "chance": 20 },
       { "fuel": 3, "smoke": 1, "burn": 0.06 }
@@ -902,6 +929,7 @@
     "bash_dmg_verb": "torn",
     "cut_dmg_verb": "cut",
     "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 0.8 },
       { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 5 }

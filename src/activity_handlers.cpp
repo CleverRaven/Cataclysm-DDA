@@ -1316,7 +1316,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
-    firestarter_actor::resolve_firestarter_use( *p, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, act->placement, act->values[1] );
     act->set_to_null();
 }
 

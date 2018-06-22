@@ -2649,8 +2649,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "firestarter",
-      "moves": 500,
-      "moves_slow": 25000
+      "moves": 5000
     }
   },
   {
@@ -2666,8 +2665,7 @@
     "color": "brown",
     "use_action": {
       "type": "firestarter",
-      "moves": 200,
-      "moves_slow": 10000
+      "moves": 3000
     }
   },
   {
@@ -4431,8 +4429,7 @@
     "color": "green",
     "use_action": {
       "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 25000,
+      "moves": 10000,
       "need_sunlight": true
     }
   },
@@ -4628,8 +4625,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "firestarter",
-      "moves": 40,
-      "moves_slow": 1000
+      "moves": 750
     }
   },
   {
@@ -5870,8 +5866,7 @@
     "use_action": [
       {
         "type": "firestarter",
-        "moves": 40,
-        "moves_slow": 500
+        "moves": 40
       },
       {
         "target": "ref_lighter",
@@ -6773,8 +6768,7 @@
     "color": "green",
     "use_action": {
       "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 25000,
+      "moves": 25000,
       "need_sunlight": true
     },
     "flags": [ "ZOOM" ]

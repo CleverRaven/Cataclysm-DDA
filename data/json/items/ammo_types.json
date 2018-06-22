@@ -466,5 +466,11 @@
         "id" : "milk",
         "name" : "milk",
         "default" : "milk"
+    },
+    {
+        "id": "tinder",
+        "name": "tinder",
+        "default": "tinder",
+        "type": "ammunition_type"
     }
 ]

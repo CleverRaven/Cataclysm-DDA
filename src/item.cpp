@@ -1651,6 +1651,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             info.push_back( iteminfo( "BASE", string_format( _( "* This item <bad>conducts</bad> electricity." ) ) ) );
         }
 
+        if( is_tinder() ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "* This item will make <good>good</good> tinder." ) ) ) );
+        }
+
         // concatenate base and acquired flags...
         std::vector<std::string> flags;
         std::set_union( type->item_tags.begin(), type->item_tags.end(),
@@ -4928,6 +4932,28 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
+bool item::is_tinder() const {
+    const auto &mats = made_of();
+    float fuel = 0.0f;
+    for( const auto &m : mats ) {
+        const auto &bd = m->burn_data( 1 );
+        if( bd.immune ) {
+            break;
+        }
+        fuel = std::max( fuel, bd.fuel );
+    }
+    
+    double vol_in_liter = units::to_liter( base_volume() );
+    if( vol_in_liter <= fuel / 2 ) {
+        if( count_by_charges() && charges >= type->stack_size / 2) {
+            return true;
+        } else if( vol_in_liter >= fuel / 4 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::burn( fire_data &frd, bool contained)
 {
     const auto &mats = made_of();
@@ -5012,7 +5038,7 @@ bool item::flammable( int threshold ) const
         return false;
     }
 
-    int flammability = 0;
+    float flammability = 0.0f;
     int chance = 0;
     for( const auto &m : mats ) {
         const auto &bd = m->burn_data( 1 );
@@ -5025,8 +5051,8 @@ bool item::flammable( int threshold ) const
         chance += bd.chance_in_volume;
     }
 
-    if( threshold == 0 || flammability <= 0 ) {
-        return flammability > 0;
+    if( threshold == 0 || flammability <= 0.0f ) {
+        return flammability > 0.0f;
     }
 
     chance /= mats.size();

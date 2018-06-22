@@ -3439,7 +3439,7 @@ int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
     } else {
         if( !t ) {
             for( auto &&pt : g->m.points_in_radius( pos, 1, 0 ) ) {
-                const int density = 1 + one_in( 3 ) + one_in( 5 );
+                const int density = 2 + one_in( 3 ) + one_in( 5 );
                 g->m.add_field( pt, fd_fire, density );
             }
         }
@@ -4396,9 +4396,10 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
+                int density = firestarter_actor::prep_firestarter_use( *p, temp );
+                if( density > 0 ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
+                    firestarter_actor::resolve_firestarter_use( *p, temp, density );
                     return it->type->charges_to_use();
                 }
             }
@@ -4439,9 +4440,10 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
+                int density = firestarter_actor::prep_firestarter_use( *p, temp );
+                if( density > 0 ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
+                    firestarter_actor::resolve_firestarter_use( *p, temp, density );
                     return it->type->charges_to_use();
                 }
             }
