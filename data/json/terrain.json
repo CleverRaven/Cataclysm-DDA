@@ -43,7 +43,10 @@
             "sound": "crash!",
             "sound_fail": "bash!",
             "ter_set": "t_null",
-            "items": [ { "item": "rock", "count": [6, 10] } ]
+            "items": [
+                { "item": "rock", "count": [5, 8] },
+                { "item": "brick", "count": [1, 3] }
+            ]
         }
     },{
         "type" : "terrain",
@@ -61,7 +64,8 @@
             "sound_fail": "bash!",
             "ter_set": "t_null",
             "items": [
-                { "item": "rock", "count": [10, 20] }
+                { "item": "rock", "count": [8, 15] },
+                { "item": "brick", "count": [2, 6] }
             ]
         }
     },{

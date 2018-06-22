@@ -54,7 +54,7 @@ class main_menu
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
         input_context ctxt;
-        int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
+        int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1, LAST_TERMX = 0, LAST_TERMY = 0;
         catacurses::window w_open;
         catacurses::window w_background;
         int iMenuOffsetX = 0;
@@ -90,6 +90,9 @@ class main_menu
                          int iMenuOffsetY, bool bShowDDA = true );
 
         void display_credits();
+
+        void init_windows();
+        std::string handle_input_timeout( input_context &ctxt );
 };
 
 #endif
