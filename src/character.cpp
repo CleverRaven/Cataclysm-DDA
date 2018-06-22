@@ -2603,7 +2603,7 @@ float Character::healing_rate( float at_rest_quality ) const
     } else {
         heal_rate = get_option< float >( "NPC_HEALING_RATE" );
     }
-    float awake_rate = heal_rate * ( 1.0f + mutation_value( "healing_awake" ) );
+    float awake_rate = heal_rate * mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
