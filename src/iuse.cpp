@@ -65,6 +65,7 @@
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_cat( "mon_cat" );
+const mtype_id mon_hologram ( "mon_hologram" );
 const mtype_id mon_dog( "mon_dog" );
 const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_fly( "mon_fly" );
@@ -1056,7 +1057,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         // Lose a significant amount of HP, probably about 25-33%
         p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p.fall_asleep( MINUTES( 300 - p.int_cur + ( strong ? 100 : 0 ) ) );
+        p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
         p.set_mutation( trait_MUTAGEN_AVOID );
         // Injected mutagen purges marloss, ingested doesn't
         if( strong ) {
@@ -1274,7 +1275,7 @@ int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
         if( m_category.iv_sleep && !one_in( 3 ) ) {
             p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
             /** @EFFECT_INT reduces sleep duration when using IV mutagen */
-            p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
+            p->fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p->int_cur * 5 ) );
         }
         // try crossing again after getting new in-category mutations.
         test_crossing_threshold( *p, m_category );
@@ -1403,7 +1404,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
             }
         }
 
-        p.set_hunger( -100 );
+        p.set_hunger( -10 );
         spawn_spores( p );
         return;
     }
@@ -1443,7 +1444,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         }
     } else if( effect == 7 ) {
         p.add_msg_if_player(m_good, _("It is delicious, and very filling!"));
-        p.set_hunger(-100);
+        p.set_hunger(-10);
     } else if( effect == 8 ) {
         p.add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p.vomit();
@@ -1456,7 +1457,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.mod_pain(90);
         p.hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p.fall_asleep( 6000 - p.int_cur * 10 ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( 10_hours - p.int_cur * 1_minutes ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1465,7 +1466,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
     } else if( marloss_count >= 2 ) {
         p.add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
-        p.fall_asleep( MINUTES( 40 - p.int_cur * 0.5f ) );
+        p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
         for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1573,7 +1574,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_morale(MORALE_MARLOSS, 1000, 1000); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player(m_good, _("Your eyes roll back in your head.  Everything dissolves into a blissful haze..."));
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus */
-        p->fall_asleep( 3000 - p->int_cur * 10 );
+        p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
@@ -1666,8 +1667,8 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                     p.add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                     return 1;
                 }
-            } else if( mon.type->id == mon_dog ) {
-                p.add_msg_if_player( m_good, _( "The dog seems to like you!" ) );
+            } else if( mon.has_flag( MF_DOGFOOD ) ) {
+                p.add_msg_if_player( m_good, _( "The %s seems to like you!  It lets you pat its head and seems friendly." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 mon.add_effect( effect_pet, 1_turns, num_bp, true );
                 return 1;
@@ -1678,9 +1679,9 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
 
             break;
         case CATFOOD:
-            if( mon.type->id == mon_cat ) {
+            if( mon.has_flag( MF_CATFOOD ) ) {
                 p.add_msg_if_player( m_good,
-                         _( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
+                         _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 return 1;
             } else {
@@ -3957,7 +3958,7 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     }
     p->add_msg_if_player(_("You blow your dog whistle."));
     for( monster &critter : g->all_monsters() ) {
-        if( critter.friendly != 0 && critter.type->id == mon_dog ) {
+        if( critter.friendly != 0 && critter.has_flag( MF_DOGFOOD ) ) {
             bool u_see = g->u.sees( critter );
             if( critter.has_effect( effect_docile ) ) {
                 if (u_see) {
@@ -7349,6 +7350,30 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
+{
+    if ( it->is_armor() &&  !( p->is_worn( *it ) ) ) {
+        p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before activating it." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    tripoint posp = pos;
+    if ( !choose_adjacent( _( "Choose hologram direction." ), posp ) ) {
+        return 0;
+    }
+    if ( !g->is_empty( posp ) ) {
+        p->add_msg_if_player( m_info, _( "Can't create a hologram there." ) );
+        return 0;
+    }
+    monster *const hologram = g->summon_mon( mon_hologram, posp );
+    tripoint target = pos;
+    target.x = p->posx() + 2 * SEEX * ( posp.x - p->posx() );
+    target.y = p->posy() + 2 * SEEY * ( posp.y - p->posy() );
+    hologram->set_dest( target );
+    p->mod_moves( -100 );
+    return it->type->charges_to_use();
+}
+
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->has_var("contained_name") ) {
@@ -7541,6 +7566,9 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
         required_water += ( mod.volume() / 125_ml ) * pair.second;
         time += ( 1000 * mod.volume() / 250_ml ) * pair.second;
         required_cleanser += ( mod.volume() / 1000_ml ) * pair.second;
+    }
+    if( required_water < 1 ) {
+        required_water = 1;
     }
     if( required_cleanser < 1 ) {
         required_cleanser = 1;

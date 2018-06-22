@@ -1,7 +1,6 @@
 #include "messages.h"
 #include "input.h"
 #include "game.h"
-#include "player.h" // Only u.is_dead
 #include "debug.h"
 #include "compatibility.h" //to_string
 #include "json.h"
@@ -104,6 +103,7 @@ class Messages::impl_t
     public:
         std::deque<game_message> messages;   // Messages to be printed
         time_point curmes = 0; // The last-seen message.
+        bool active = true;
 
         bool has_undisplayed_messages() const {
             return !messages.empty() && messages.back().turn() > curmes;
@@ -141,11 +141,7 @@ class Messages::impl_t
         }
 
         void add_msg_string( std::string &&msg, game_message_type const type ) {
-            if( msg.length() == 0 ) {
-                return;
-            }
-            // hide messages if dead
-            if( g->u.is_dead_state() ) {
+            if( msg.length() == 0 || !active ) {
                 return;
             }
 
@@ -227,6 +223,12 @@ void Messages::add_msg( const game_message_type type, std::string msg )
 void Messages::clear_messages()
 {
     player_messages.impl_->messages.clear();
+    player_messages.impl_->active = true;
+}
+
+void Messages::deactivate()
+{
+    player_messages.impl_->active = false;
 }
 
 size_t Messages::size()

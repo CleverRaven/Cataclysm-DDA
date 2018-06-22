@@ -1063,10 +1063,9 @@ void iexamine::safe(player &p, const tripoint &examp)
         ///\EFFECT_PER speeds up safe cracking
 
         ///\EFFECT_MECHANICS speeds up safe cracking
-        int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
-                             (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
+        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
 
-         p.assign_activity( activity_id( "ACT_CRACKING" ), moves );
+         p.assign_activity( activity_id( "ACT_CRACKING" ), to_moves<int>( time ) );
          p.activity.placement = examp;
     }
 }
@@ -1449,7 +1448,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
         add_msg(m_bad, _("You fall asleep..."));
-        p.fall_asleep(1200);
+        p.fall_asleep( 2_hours );
         add_msg(m_bad, _("Your legs are covered in the poppy's roots!"));
         p.apply_damage(nullptr, bp_leg_l, 4);
         p.apply_damage(nullptr, bp_leg_r, 4);
@@ -1978,7 +1977,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     p.use_charges( "fire", 1 );
     g->m.i_clear( examp );
     g->m.furn_set( examp, next_kiln_type );
-    item result( "unfinished_charcoal", calendar::turn.get_turn() );
+    item result( "unfinished_charcoal", calendar::turn );
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
@@ -2008,8 +2007,18 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
-        add_msg( _("It should take %d minutes to finish burning."), to_minutes<int>( time_left ) + 1 );
-        return;
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( minutes > 60 ) {
+            add_msg( ngettext( "It will finish burning in about %d hour.",
+                               "It will finish burning in about %d hours.",
+                               hours ), hours );
+        } else if( minutes > 30 ) {
+            add_msg( _( "It will finish burning in less than an hour." ) );
+        } else {                
+            add_msg( _("It should take about %d minutes to finish burning."), minutes );
+        } 
+        return;                
     }
 
     units::volume total_volume = 0;
@@ -2023,7 +2032,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         }
     }
 
-    item result( "charcoal", calendar::turn.get_turn() );
+    item result( "charcoal", calendar::turn );
     result.charges = total_volume / char_type->volume;
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
@@ -2504,7 +2513,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
     bool has_container = false;
     long charges = 0;
 
-    const std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+    const std::string maple_sap_name = item::nname( "maple_sap" );
 
     auto items = g->m.i_at( examp );
     for( auto &it : items ) {
@@ -3468,6 +3477,67 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+void iexamine::autodoc( player &p, const tripoint &examp )
+{
+    enum options {
+        INSTALL_CBM,
+        CANCEL,
+    };
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
+
+    amenu.query();
+
+    bool adjacent_couch = false;
+    bool in_position = false;
+    for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( couch_loc ) == couch ) {
+            adjacent_couch = true;
+            if( p.pos() == couch_loc ) {
+                in_position = true;
+            }
+        }
+    }
+
+    switch( static_cast<options>( amenu.ret ) ) {
+        case INSTALL_CBM: {
+            if( !adjacent_couch ) {
+                popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
+                return;
+            }
+            if( !in_position ) {
+                popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
+                return;
+            }
+
+            const int bionic = g->inv_for_flag( "CBM", _( "Choose CBM to install" ) );
+            if( bionic == INT_MIN ) {
+                p.add_msg_if_player( m_info, _( "Never mind." ) );
+                return;
+            }
+
+            const item &it = p.i_at( bionic );
+            const itype &itemtype = *it.type;
+            const time_duration duration = itemtype.bionic->difficulty * 20_minutes;
+            if( p.install_bionics( itemtype ) ) {
+                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
+                p.fall_asleep( duration );
+                p.add_msg_if_player( m_info,
+                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+                p.i_rem( &it );
+            }
+        }
+
+        case CANCEL:
+            return;
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3539,7 +3609,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
+        { "climb_down", &iexamine::climb_down },
+        { "autodoc", &iexamine::autodoc }
     }};
 
     auto iter = function_map.find( function_name );

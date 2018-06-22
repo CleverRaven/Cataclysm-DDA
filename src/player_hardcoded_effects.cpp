@@ -608,7 +608,7 @@ void player::hardcoded_effects( effect &it )
                 if( !is_npc() ) {
                     add_msg( m_bad, _( "You pass out." ) );
                 }
-                fall_asleep( 1200 );
+                fall_asleep( 2_hours );
                 if( one_in( 6 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -829,7 +829,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
 
-        if( dur > 1800_minutes && one_in( MINUTES( 5 ) * 512 ) ) {
+        if( dur > 1800_minutes && one_in( 50 * 512 ) ) {
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
                 add_msg_if_player( m_bad,
                                    _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
@@ -963,14 +963,14 @@ void player::hardcoded_effects( effect &it )
             if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
                 add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
                                   pgettext( "memorial_female", "Entered hibernation." ) );
-                // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
-                fall_asleep( 144000 );
+                // some days worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                fall_asleep( 10_days );
                 // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
                 // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
                 // will last about 8 days.
             }
 
-            fall_asleep( 6000 ); //10 hours, default max sleep time.
+            fall_asleep( 10_hours ); // default max sleep time.
             // Set ourselves up for removal
             it.set_duration( 0 );
         }

@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
+#include "calendar.h"
 
 #include <vector>
 #include <map>
@@ -283,7 +284,7 @@ class monster : public Creature
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
-                         int intensity = 0, bool force = false ) override;
+                         int intensity = 0, bool force = false, bool defererd = false ) override;
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
@@ -423,7 +424,7 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        int last_updated;
+        time_point last_updated = calendar::time_of_cataclysm;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */

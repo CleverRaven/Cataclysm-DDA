@@ -498,7 +498,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
-                const int expected_turns = g->u.expected_time_to_craft( *current[line], count ) / MOVES( 1 );
+                const int expected_turns = g->u.expected_time_to_craft( *current[line],
+                                           count ) / to_moves<int>( 1_turns );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, _( "Time to complete: %s" ),
                                         to_string( time_duration::from_turns( expected_turns ) ) );
 
@@ -742,7 +743,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, s
         case NORMAL: {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
-            for( const auto stt : craft_subcat_list[tab] ) {
+            for( const auto &stt : craft_subcat_list[tab] ) {
                 bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;

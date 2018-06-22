@@ -5,6 +5,7 @@
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "damage.h"
+#include "calendar.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -137,7 +138,7 @@ struct mutation_branch {
     std::vector<mut_attack> attacks_granted;
 
     /** Mutations may adjust one or more of the default vitamin usage rates */
-    std::map<vitamin_id, int> vitamin_rates;
+    std::map<vitamin_id, time_duration> vitamin_rates;
 
     std::vector<trait_id> prereqs; // Prerequisites; Only one is required
     std::vector<trait_id> prereqs2; // Prerequisites; need one from here too

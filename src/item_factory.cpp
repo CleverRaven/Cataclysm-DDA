@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "assign.h"
 #include "string_formatter.h"
+#include "item_category.h"
 #include "init.h"
 #include "item.h"
 #include "ammo.h"
@@ -244,11 +245,20 @@ void Item_factory::finalize_pre( itype &obj )
         };
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ), gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
+        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ),
+                                gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
+        // If a "gun" has a reach attack, give it an additional melee mode.
+        if( obj.item_tags.count( "REACH_ATTACK" ) ) {
+            obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
+                                    gun_modifier_data( translate_marker( "melee" ), 1,
+                                                       { "MELEE" } ) );
+        }
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
-            obj.gun->modes.emplace( gun_mode_id( "AUTO" ), gun_modifier_data( translate_marker( "auto" ), obj.gun->burst, std::set<std::string>() ) );
+            obj.gun->modes.emplace( gun_mode_id( "AUTO" ),
+                                    gun_modifier_data( translate_marker( "auto" ), obj.gun->burst,
+                                                       std::set<std::string>() ) );
         }
 
         if( obj.gun->handling < 0 ) {
@@ -526,6 +536,7 @@ void Item_factory::init()
     add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
+    add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
@@ -1490,6 +1501,12 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
             }
         }
     }
+
+    if( jo.has_string( "rot_spawn" ) ) {
+        slot.rot_spawn = mongroup_id(jo.get_string( "rot_spawn" ));
+    }
+    assign( jo, "rot_spawn_chance", slot.rot_spawn_chance, strict, 0 );
+
 }
 
 void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
@@ -1558,7 +1575,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
 
     if( jo.has_member( "mod_targets" ) ) {
         slot.usable.clear();
-        for( const auto t : jo.get_tags( "mod_targets" ) ) {
+        for( const auto& t : jo.get_tags( "mod_targets" ) ) {
             slot.usable.insert( gun_type_type( t ) );
         }
     }
@@ -1892,17 +1909,12 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 void Item_factory::load_item_category(JsonObject &jo)
 {
     const std::string id = jo.get_string("id");
-    // reuse an existing definition,
-    // override the name and the sort_rank if
-    // these are present in the json
-    item_category &cat = categories[id];
-    cat.id = id;
-    if (jo.has_member("name")) {
-        cat.name = _(jo.get_string("name").c_str());
+    const auto iter = categories.find( id );
+    if( iter != categories.end() ) {
+        debugmsg( "Item category %s already exists", id );
+        return;
     }
-    if (jo.has_member("sort_rank")) {
-        cat.sort_rank = jo.get_int("sort_rank");
-    }
+    categories.emplace( id, item_category( id, _( jo.get_string( "name" ).c_str() ), jo.get_int( "sort_rank" ) ) );
 }
 
 void Item_factory::load_migration( JsonObject &jo )

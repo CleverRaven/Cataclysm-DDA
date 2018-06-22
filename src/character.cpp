@@ -200,7 +200,7 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += encumb( bp_eyes );
+    dispersion += encumb( bp_eyes ) / 2;
 
     return std::max( dispersion, 0 );
 }
@@ -479,9 +479,9 @@ bool Character::move_effects(bool attacking)
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                            bool permanent, int intensity, bool force )
+                            bool permanent, int intensity, bool force, bool deferred )
 {
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 void Character::process_turn()
@@ -527,7 +527,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() ) {
+    if( is_blind() || in_sleep_state() ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
@@ -1503,7 +1503,7 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
 
         vals[bp].layer( static_cast<layer_level>( item_layer ), layering_encumbrance );
 
-        vals[bp].armor_encumbrance += armorenc;                
+        vals[bp].armor_encumbrance += armorenc;
     }
 }
 
@@ -1554,7 +1554,7 @@ int layer_details::layer( const int encumbrance ) {
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,                              
+void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
                              const item &new_item ) const
 {
 
@@ -1706,13 +1706,13 @@ int Character::get_int_bonus() const
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
-    return std::max( ( 20.0 - get_dex() ) * 2.5, 0.0 );
+    return std::max( ( 20.0 - get_dex() ) * 0.5, 0.0 );
 }
 
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 2.0, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 1.0, 0.0 );
 }
 
 int Character::get_healthy() const

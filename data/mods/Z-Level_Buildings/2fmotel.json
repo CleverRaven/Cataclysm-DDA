@@ -225,15 +225,11 @@
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
-         "add": [
-                { "item": "phonebook", "x": 10, "y": 16, "chance": 2 },
-                { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 },
-                { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
-                { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 }
-            ],
             "place_items": [
                 { "item": "cleaning", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
                 { "item": "home_hw", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
+                { "item": "book_motel", "x": 10, "y": 16, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 22, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 22,22 ] },
                 { "item": "dining", "chance": 30, "x": [ 21,22 ], "y": [ 4,5 ] },
@@ -350,17 +346,11 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
-         "add": [
-                { "item": "phonebook", "x": 5, "y": 8, "chance": 2 },
-                { "item": "holybook_bible3", "x": 5, "y": 8, "chance": 2 },
-                { "item": "phonebook", "x": 5, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 5, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 12, "y": 18, "chance": 2 },
-                { "item": "holybook_bible3", "x": 12, "y": 18, "chance": 2 },
-                { "item": "phonebook", "x": 18, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 18, "y": 13, "chance": 2 }
-            ],
             "place_items": [
+                { "item": "book_motel", "x": 5, "y": 8, "chance": 100 },
+                { "item": "book_motel", "x": 5, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 12, "y": 18, "chance": 100 },
+                { "item": "book_motel", "x": 18, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -479,20 +469,14 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
-         "add": [
-                { "item": "phonebook", "x": 4, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 4, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 10, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 10, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 16, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 16, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 22, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 22, "y": 13, "chance": 2 }
-            ],
             "place_vehicles": [
                 { "vehicle": "car", "x": 8, "y": 8, "rotation": 90, "chance": 35  }
             ],
             "place_items": [
+                { "item": "book_motel", "x": 4, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 16, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 22, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 4,4 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -705,13 +689,9 @@
                 { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
-         "add": [
-                { "item": "phonebook", "x": 10, "y": 16, "chance": 2 },
-                { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 },
-                { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
-                { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 }
-            ],
             "place_items": [
+                { "item": "book_motel", "x": 10, "y": 16, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 22, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 22,22 ] },
                 { "item": "bed", "chance": 60, "x": [5,6], "y": [19,20] },
@@ -819,17 +799,11 @@
             "set": [
                 { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
-         "add": [
-                { "item": "phonebook", "x": 5, "y": 8, "chance": 2 },
-                { "item": "holybook_bible3", "x": 5, "y": 8, "chance": 2 },
-                { "item": "phonebook", "x": 5, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 5, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 12, "y": 18, "chance": 2 },
-                { "item": "holybook_bible3", "x": 12, "y": 18, "chance": 2 },
-                { "item": "phonebook", "x": 18, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 18, "y": 13, "chance": 2 }
-            ],
             "place_items": [
+                { "item": "book_motel", "x": 5, "y": 8, "chance": 100 },
+                { "item": "book_motel", "x": 5, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 12, "y": 18, "chance": 100 },
+                { "item": "book_motel", "x": 18, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -942,17 +916,11 @@
             "set": [
                 { "point": "terrain", "id": "t_open_air", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
-         "add": [
-                { "item": "phonebook", "x": 4, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 4, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 10, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 10, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 16, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 16, "y": 13, "chance": 2 },
-                { "item": "phonebook", "x": 22, "y": 13, "chance": 2 },
-                { "item": "holybook_bible3", "x": 22, "y": 13, "chance": 2 }
-            ],
             "place_items": [
+                { "item": "book_motel", "x": 4, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 10, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 16, "y": 13, "chance": 100 },
+                { "item": "book_motel", "x": 22, "y": 13, "chance": 100 },
                 { "item": "traveler", "chance": 30, "x": [ 4,4 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },

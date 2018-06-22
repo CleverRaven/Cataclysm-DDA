@@ -235,8 +235,8 @@
     "difficulty": 2,
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "javelin", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1094,12 +1094,12 @@
   "time": 55000,
   "book_learn": [ [ "welding_book", 7 ], [ "recipe_melee", 5 ] ],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     { "id": "HAMMER", "level": 3 },
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [
-      [ "anvil", -1 ],
       [ "swage", -1 ],
       [ "tongs", -1 ]
     ],
@@ -2249,14 +2249,12 @@
   "time": 300000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2288,14 +2286,12 @@
   "time": 360000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2330,14 +2326,12 @@
   "time": 240000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2368,14 +2362,12 @@
   "time": 360000,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2406,14 +2398,12 @@
   "time": 390000,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2444,14 +2434,12 @@
   "time": 390000,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 4 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2482,14 +2470,12 @@
   "time": 360000,
   "book_learn": [[ "manual_knives", 9 ] , [ "textbook_weapeast", 8 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2519,14 +2505,12 @@
   "time": 240000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2552,6 +2536,7 @@
   "time": 180000,
   "autolearn": true,
   "qualities" : [
+    { "id": "ANVIL", "level": 3 },
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
@@ -2559,9 +2544,6 @@
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["forge", 150], [ "oxy_torch", 30]
@@ -2616,14 +2598,12 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 5 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2653,14 +2633,12 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 6 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2690,14 +2668,12 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -2744,14 +2720,12 @@
   "time": 420000,
   "book_learn": [[ "textbook_fireman", 8 ] , ["textbook_fabrication", 9]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["crucible", -1],
@@ -2783,14 +2757,12 @@
   "time": 460000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["swage", -1]
@@ -2820,14 +2792,12 @@
   "time": 260000,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 5 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["swage", -1]
@@ -3092,15 +3062,13 @@
   "time": 400000,
   "book_learn": [[ "textbook_weapwest", 6 ], [ "scots_cookbook", 8 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3136,12 +3104,12 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 425 ],
@@ -3173,15 +3141,13 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3217,15 +3183,13 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 8 ] , ["recipe_melee", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3261,15 +3225,13 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 8 ] , [ "recipe_melee", 6 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3301,15 +3263,13 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapwest", 8 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3346,12 +3306,12 @@
   "book_learn": [[ "textbook_armschina", 7 ]],
   "using": [ [ "filament", 100 ] ],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 425 ],
@@ -3383,12 +3343,12 @@
   "time": 420000,
   "book_learn": [[ "textbook_armschina", 7 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
@@ -3420,12 +3380,12 @@
   "time": 490000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
@@ -3457,12 +3417,12 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
@@ -3494,15 +3454,13 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 8 ], [ "scots_cookbook", 10 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3573,15 +3531,13 @@
   "time": 380000,
   "book_learn": [[ "textbook_weapeast", 6 ], [ "manual_knives", 7 ] , [ "recipe_melee", 8 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3617,15 +3573,13 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapeast", 7 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3661,15 +3615,13 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapeast", 8 ]],
   "qualities": [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3705,15 +3657,13 @@
   "time": 580000,
   "book_learn": [[ "textbook_weapeast", 8 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3748,15 +3698,13 @@
   "time": 180000,
   "book_learn": [[ "textbook_weapwest", 3 ] , [ "recipe_melee", 4 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["forge", 200], ["oxy_torch", 40]
@@ -3788,15 +3736,13 @@
   "time": 240000,
   "book_learn": [[ "textbook_weapwest", 5 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3831,15 +3777,13 @@
   "time": 360000,
   "book_learn": [[ "textbook_weapwest", 6 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -3898,14 +3842,12 @@
   "autolearn": true,
   "book_learn": [[ "textbook_weapwest", 2 ] , [ "recipe_melee", 3 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3}
   ],
   "tools": [
     [
       ["tongs", -1]
-    ],
-    [
-      ["anvil", -1]
     ],
     [
       ["forge", 150], ["oxy_torch", 30]
@@ -3929,15 +3871,13 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapeast", 9 ] , [ "recipe_melee", 4 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
       ],
       [
       ["swage", -1]
@@ -4139,6 +4079,7 @@
   "time": 60000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
@@ -4147,9 +4088,6 @@
      ],
      [
       ["swage", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["forge", 50], [ "oxy_torch", 10]
@@ -4172,6 +4110,7 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
@@ -4180,9 +4119,6 @@
      ],
      [
       ["swage", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["forge", 100], [ "oxy_torch", 20]
@@ -4207,12 +4143,12 @@
   "book_learn": [[ "textbook_armschina", 6 ]],
   "using": [ [ "filament", 100 ] ],
   "qualities" : [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ]  ],
-    [ [ "anvil", -1 ]  ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
@@ -4244,12 +4180,12 @@
   "time": 360000,
   "book_learn": [[ "textbook_weapwest", 6 ]],
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 350 ],
@@ -4281,12 +4217,12 @@
   "time": 460000,
   "book_learn": [[ "textbook_weapwest", 6 ]],
   "qualities" : [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450],
@@ -4318,12 +4254,12 @@
   "time": 460000,
   "book_learn": [[ "textbook_weapeast", 6 ]],
   "qualities" : [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
@@ -4356,13 +4292,13 @@
   "time": 46000,
   "book_learn": [[ "textbook_weapeast", 6 ]],
   "qualities" : [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
     [ [ "swage", -1 ] ],
-    [ [ "anvil", -1 ] ],
     [
       [ "forge", 100 ],
       [ "oxy_torch", 20 ]
@@ -4386,6 +4322,7 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":1},
     {"id":"SAW_M","level":1},
     { "id": "CHISEL", "level": 3 }
@@ -4395,9 +4332,6 @@
      ],
      [
       ["swage", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["forge", 100], [ "oxy_torch", 20]
@@ -4527,6 +4461,7 @@
   "autolearn": true,
   "qualities":
     [
+      { "id": "ANVIL", "level": 3 },
       {"id":"SAW_M","level":1},
       {"id":"SAW_M_FINE","level":1},
       {"id":"SCREW_FINE","level":1},
@@ -4539,9 +4474,6 @@
     [
       [
         ["tongs", -1]
-      ],
-      [
-        ["anvil", -1]
       ],
       [
         ["crucible", -1],

@@ -2,6 +2,7 @@
   {
     "id": "ashot",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "12 gauge pistol",
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
     "weight": 828,
@@ -61,7 +62,7 @@
     "durability": 7,
     "clip_size": 7,
     "built_in_mods": [ "ksg_aux_shotgun" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 2 ] ]
   },
   {
     "id": "l_def_12",

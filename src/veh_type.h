@@ -152,7 +152,7 @@ class vpart_info
         std::map<skill_id, int> install_skills;
 
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
-        int install_moves = MOVES( HOURS( 1 ) );
+        int install_moves = to_moves<int>( 1_hours );
 
         /** Installation time (in moves) for this component accounting for player skills */
         int install_time( const Character &ch ) const;
@@ -179,7 +179,7 @@ class vpart_info
         std::map<skill_id, int> repair_skills;
 
         /** Repair time (in moves) to fully repair a component (@see repair_time) */
-        int repair_moves = MOVES( HOURS( 1 ) );
+        int repair_moves = to_moves<int>( 1_hours );
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
         int repair_time( const Character &ch ) const;

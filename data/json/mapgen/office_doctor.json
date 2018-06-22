@@ -12,30 +12,30 @@
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
-        "                        ",
-        "   ###################  ",
-        "   #..C#.&.s#..eccScc#  ",
-        "   #...+....+........;~ ",
-        "   ##########.......5#r ",
-        "   #o.......#..###X###r ",
-        "   #d.hd.h..+..#H...6#  ",
-        "   #o.......#..#H...O#  ",
-        "   ##########..#H...O#  ",
-        "   #I....ccS#..#HHllO#  ",
-        "   #I..t....+..#######  ",
-        "   #I.......#..#....I#  ",
-        "   ##########..#.t..I#  ",
-        "   #&.#d.......!....I#  ",
-        "   #s.#d.h..#..#Scc..#  ",
-        "   ##+##ccc##++#######  ",
-        "   #.................#  ",
-        "   w....bbbb....bbbb.w  ",
-        "   w.................w  ",
-        "   #....bbbb....bbbb.#  ",
-        "   #.................#  ",
-        "   ##++##wwww#wwww####  ",
         "     ~~                 ",
-        "     ~~                 "
+        "     ~~                 ",
+        "   ##++##wwww#wwww####  ",
+        "   #.................#  ",
+        "   #....bbbb....bbbb.#  ",
+        "   w.................w  ",
+        "   w....bbbb....bbbb.w  ",
+        "   #.................#  ",
+        "   ##+##ccc##++#######  ",
+        "   #s.#d.h..#..#Scc..#  ",
+        "   #&.#d.......!....I#  ",
+        "   ##########..#.t..I#  ",
+        "   #I.......#..#....I#  ",
+        "   #I..t....+..#######  ",
+        "   #I....ccS#..#HHllO#  ",
+        "   ##########..#H...O#  ",
+        "   #o.......#..#H...O#  ",
+        "   #d.hd.h..+..#H...6#  ",
+        "   #o.......#..###X###r ",
+        "   ##########.......5#r ",
+        "   #...+....+........;~ ",
+        "   #..C#.&.s#..eccScc#  ",
+        "   ###################  ",
+        "                        "
       ],
       "palettes": [
         "office_doctor"
@@ -55,13 +55,13 @@
       ],
       "computers": {
         "5": {
-          "name": "Medical Supply Access", "options": [ { "name": "Unlock Door", "action": "unlock" } ], "failures": [
+          "name": "Medical Supply Access", "security": 2, "options": [ { "name": "Unlock Door", "action": "unlock" } ], "failures": [
             { "action": "shutdown" },
             { "action": "alarm" }
           ]
         },
         "6": {
-          "name": "Medical Supply Access", "options": [
+          "name": "Medical Supply Access", "security": 2, "options": [
             { "name": "Lock Door", "action": "lock" },
             { "name": "Unlock Door", "action": "unlock" }
           ], "failures": [

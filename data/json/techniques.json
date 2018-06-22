@@ -188,8 +188,8 @@
         "melee_allowed" : true,
         "disarms" : true,
         "messages" : [
-            "You disarm %s using your whip!",
-            "<npcname> disarm %s using their whip!"
+            "You disarm %s using your whip",
+            "<npcname> disarms %s using their whip"
         ],
         "description" : "Unwield target's weapon"
     },{
@@ -287,7 +287,7 @@
             "boxing_counter"
             ],
         "messages" : [
-            "You Cross-Counter %s",
+            "You cross-counter %s",
             "<npcname> throws a perfect counter at %s"
         ],
         "mult_bonuses" : [["movecost", 0.0]],
@@ -829,7 +829,7 @@
         "crit_tec" : true,
         "down_dur" : 3,
         "messages" : [
-            "You ground %s with a low blow!",
+            "You ground %s with a low blow",
             "<npcname> grounds %s with a low blow"
         ]
     },{
@@ -844,7 +844,7 @@
             ["damage", "stab", 1.5]
         ],
         "messages" : [
-            "You viciously wound %s!",
+            "You viciously wound %s",
             "<npcname> viciously wounds %s"
         ]
     },{
@@ -856,8 +856,8 @@
         "stun_dur" : 1,
         "knockback_dist" : 1,
         "messages" : [
-            "You send %s reeling backwards!",
-            "<npcname> sends %s reeling!"
+            "You send %s reeling backwards",
+            "<npcname> sends %s reeling"
         ]
     },{
         "type" : "technique",
@@ -870,8 +870,8 @@
             "silat_dodge_buff"
         ],
         "messages" : [
-            "You hit %s with a dirty blow!",
-            "<npcname> delivers a dirty blow to %s!"
+            "You hit %s with a dirty blow",
+            "<npcname> delivers a dirty blow to %s"
         ]
     },{
         "type" : "technique",
@@ -924,8 +924,8 @@
             "venom_snake_combo_continue"
         ],
         "messages" : [
-            "You Viper Strike %s!",
-            "<npcname> Viper Strikes %s!"
+            "You Viper Strike %s",
+            "<npcname> Viper Strikes %s"
         ]
     },{
         "type" : "technique",
@@ -947,8 +947,8 @@
             ["damage", "bash", 2]
         ],
         "messages" : [
-            "Your Stinger Kick sends %s flying!",
-            "<npcname>'s Stinger Kick sends %s flying!"
+            "Your Stinger Kick sends %s flying",
+            "<npcname>'s Stinger Kick sends %s flying"
         ]
     },{
         "type" : "technique",
@@ -960,8 +960,8 @@
             ["damage", "bash", 1.25]
         ],
         "messages" : [
-            "You punch %s with your Pincer Fist!",
-            "<npcname> jabs %s with a Pincer Fist!"
+            "You punch %s with your Pincer Fist",
+            "<npcname> jabs %s with a Pincer Fist"
         ],
         "stun_dur" : 2
     },{
@@ -1029,8 +1029,8 @@
         "defensive" : true,
         "grab_break" : true,
         "messages" : [
-            "You slither free!",
-            "<npcname> slithers free!"
+            "You slither free",
+            "<npcname> slithers free"
         ]
     },{
         "type" : "technique",
@@ -1052,8 +1052,8 @@
         "unarmed_allowed" : true,
         "down_dur" : 1,
         "messages" : [
-            "You grab and ground %s!",
-            "<npcname> grabs and grounds %s!"
+            "You grab and ground %s",
+            "<npcname> grabs and grounds %s"
         ]
     },{
         "type" : "technique",
@@ -1063,8 +1063,8 @@
         "unarmed_allowed" : true,
         "crit_tec" : true,
         "messages" : [
-            "You strike out at %s with your Leopard Fist!",
-            "<npcname> strikes out at %s with a Leopard Fist!"
+            "You strike out at %s with your Leopard Fist",
+            "<npcname> strikes out at %s with a Leopard Fist"
         ],
         "stun_dur" : 2
     },{
@@ -1095,8 +1095,8 @@
             ["damage", "bash", 1.5]
         ],
         "messages" : [
-            "You dodge the attack and swipe at %s's exposed flank!",
-            "<npcname> dodges and catches %s exposed!"
+            "You dodge the attack and swipe at %s's exposed flank",
+            "<npcname> dodges and catches %s exposed"
         ]
     },{
         "type" : "technique",
@@ -1107,8 +1107,8 @@
         "stun_dur" : 2,
         "bash_mult" : 1.2,
         "messages" : [
-            "You grab and knee %s!",
-            "<npcname> grabs and knees %s!"
+            "You grab and knee %s",
+            "<npcname> grabs and knees %s"
         ]
     },{
         "type" : "technique",
@@ -1121,8 +1121,8 @@
         "mult_bonuses" : [["movecost", 0.0]],
         "stun_dur" : 2,
         "messages" : [
-            "You catch the attack and send %s spinning!",
-            "<npcname> catches and spins %s!"
+            "You catch the attack and send %s spinning",
+            "<npcname> catches and spins %s"
         ]
     },{
         "type" : "technique",
@@ -1132,8 +1132,8 @@
         "unarmed_allowed" : true,
         "down_dur" : 2,
         "messages" : [
-            "You low-roundhouse %s 's legs!",
-            "<npcname> low-roundhouses %s 's legs!"
+            "You low-roundhouse %s 's legs",
+            "<npcname> low-roundhouses %s 's legs"
         ]
     },{
         "type" : "technique",
@@ -1145,8 +1145,8 @@
         "stun_dur" : 1,
         "knockback_dist" : 1,
         "messages" : [
-            "You send %s reeling with a Dragon Strike!",
-            "<npcname> sends %s reeling with a Dragon Strike!"
+            "You send %s reeling with a Dragon Strike",
+            "<npcname> sends %s reeling with a Dragon Strike"
         ]
     },{
         "type" : "technique",
@@ -1157,8 +1157,8 @@
         "defensive" : true,
         "miss_recovery" : true,
         "messages" : [
-            "You raise your arms intimidatingly!",
-            "<npcname> performs the Crane Wing!"
+            "You raise your arms intimidatingly",
+            "<npcname> performs the Crane Wing"
         ]
     },{
         "type" : "technique",
@@ -1169,8 +1169,8 @@
         "defensive" : true,
         "grab_break" : true,
         "messages" : [
-            "You swing your arms and break free!",
-            "<npcname> flaps free!"
+            "You swing your arms and break free",
+            "<npcname> flaps free"
         ]
     },{
         "type" : "technique",
@@ -1220,8 +1220,8 @@
         "block_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
-            "You catch %s's attack, and hit back!",
-            "<npcname> catches %s, and counters!"
+            "You catch %s's attack, and hit back",
+            "<npcname> catches %s, and counters"
         ]
     },{
         "type" : "technique",
@@ -1269,8 +1269,8 @@
             ["damage", "cut", 1.5]
         ],
         "messages" : [
-            "You stun %s with the force of the blow!",
-            "<npcname> stuns %s with the force of the blow!"
+            "You stun %s with the force of the blow",
+            "<npcname> stuns %s with the force of the blow"
         ],
         "stun_dur" : 2
    },{
@@ -1282,8 +1282,8 @@
             "niten_set-up"
         ],
         "messages" : [
-            "You strike at %s's weaknesses!",
-            "<npcname> strikes %s's weaknesses!"
+            "You strike at %s's weaknesses",
+            "<npcname> strikes %s's weaknesses"
         ],
         "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
         "mult_bonuses" : [

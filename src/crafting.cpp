@@ -20,6 +20,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
+#include "vpart_reference.h"
 #include "translations.h"
 #include "ui.h"
 #include "vpart_position.h"
@@ -288,7 +289,11 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
     for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
-        if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
+        // can not reach this -> can not access its contents
+        if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
+            continue;
+        }
+        if( g->m.accessible_items( loc ) ) {
             for( const auto &it : g->m.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( &it );
@@ -296,13 +301,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( optional_vpart_position vp = g->m.veh_at( loc ) ) {
-            const int part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
-            if( part != -1 ) {
-                for( const auto &it : vp->vehicle().get_items( part ) ) {
-                    if( is_container_eligible_for_crafting( it, false ) ) {
-                        conts.emplace_back( &it );
-                    }
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO" ) ) {
+            for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
+                if( is_container_eligible_for_crafting( it, false ) ) {
+                    conts.emplace_back( &it );
                 }
             }
         }
@@ -1113,8 +1115,16 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
             list << "- " << elem.front().to_string() << std::endl;
         }
 
-        if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ), obj.tname().c_str(),
-                       list.str().c_str() ) ) {
+        if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
+            if( !query_yn(
+                    _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
+                    obj.tname().c_str(),
+                    list.str().c_str() ) ) {
+                return false;
+            }
+        } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
+                              obj.tname().c_str(),
+                              list.str().c_str() ) ) {
             return false;
         }
     }
@@ -1356,6 +1366,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         // use newit, the default constructed.
         item act_item = newit;
 
+        // Refitted clothing disassembles into refitted components (when applicable)
+        if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
+            act_item.item_tags.insert( "FIT" );
+        }
+
         if( filthy ) {
             act_item.item_tags.insert( "FILTHY" );
         }
@@ -1369,12 +1384,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const optional_vpart_position vp = g->m.veh_at( pos() );
-        const int veh_part = vp ? vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) : -1;
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO" );
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( veh_part != -1 && vp->vehicle().add_item( veh_part, act_item ) ) {
+        } else if( vp && vp->vehicle().add_item( vp->part_index(), act_item ) ) {
             // add_item did put the items in the vehicle, nothing further to be done
         } else {
             // TODO: For items counted by charges, add as much as we can to the vehicle, and
