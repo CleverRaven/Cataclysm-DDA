@@ -3878,13 +3878,13 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::solarpack(player *p, item *it, bool, const tripoint& )
+int iuse::solarpack( player *p, item *it, bool, const tripoint& )
 {
     if ( !p->has_bionic( bionic_id( "bio_cable" ) ) ) { // Cable CBM required
-        p->add_msg_if_player(_( "You have no cable charging system to plug it in, so you leave it alone." ));
+        p->add_msg_if_player( _( "You have no cable charging system to plug it in, so you leave it alone." ) );
         return 0;
     } else if ( !p->has_active_bionic( bionic_id( "bio_cable" ) ) ) { // when OFF it takes no effect
-        p->add_msg_if_player(_( "Activate your cable charging system to take advantage of it." ));
+        p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
     }
 
     if ( it->is_armor() && !( p->is_worn( *it ) ) ) {
@@ -3893,7 +3893,7 @@ int iuse::solarpack(player *p, item *it, bool, const tripoint& )
     return 0;
     }
 
-    p->add_msg_if_player(_( "You unfold solar array from the pack and plug it in." ));
+    p->add_msg_if_player( _( "You unfold solar array from the pack and plug it in." ) );
     
     if ( it->typeId() == "solarpack" ) {
         it->convert( "solarpack_on" );
@@ -3903,12 +3903,12 @@ int iuse::solarpack(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::solarpack_off(player *p, item *it, bool, const tripoint& )
+int iuse::solarpack_off( player *p, item *it, bool, const tripoint& )
 {
     if ( !p->is_worn( *it ) ) { // folding when not worn
-        p->add_msg_if_player(_( "You fold solar array into the pack." ));
+        p->add_msg_if_player( _( "You fold solar array into the pack." ) );
     } else {
-        p->add_msg_if_player(_( "You unplug and fold solar array into the pack." ));
+        p->add_msg_if_player( _( "You unplug and fold solar array into the pack." ) );
     }
 
     if ( it->typeId() == "solarpack_on" ) {
