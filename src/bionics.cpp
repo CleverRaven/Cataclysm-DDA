@@ -52,6 +52,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pblue( "pblue" );
@@ -1474,4 +1475,22 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge = jo.get_int( "charge" );
+}
+
+void player::introduce_into_anesthesia( time_duration const &duration )
+{
+    add_msg_if_player( m_info,
+                       _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
+    add_effect( effect_narcosis, duration );
+    fall_asleep( duration );
+    add_msg_if_player( m_info,
+                       _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+    std::vector<item_comp> comps;
+    std::vector<const item*> a_filter = crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+    for( const item *anesthesia_item : a_filter ) {
+        comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+    }
+    consume_items( comps );
 }
