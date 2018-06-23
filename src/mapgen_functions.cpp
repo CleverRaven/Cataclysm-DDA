@@ -2657,8 +2657,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     }
 
     // For rotation
-    const bool has_basement = terrain_type->get_type_id().str() == "house_base";
-    if( has_basement ) {
+    if( one_in( dat.region.city_spec.house_basement_chance ) ) {
         const bool force = get_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first
         const tripoint abs_sub_here = m->get_abs_sub();

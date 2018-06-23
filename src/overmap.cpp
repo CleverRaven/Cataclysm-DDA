@@ -851,6 +851,9 @@ void load_region_settings( JsonObject &jo )
         if ( ! cjo.read("park_radius", new_region.city_spec.park_radius) && strict ) {
             jo.throw_error("city: park_radius required for default");
         }
+        if ( ! cjo.read("house_basement_chance", new_region.city_spec.house_basement_chance) && strict ) {
+            jo.throw_error("city: house_basement_chance required for default");
+        }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string &type,
                                                          building_bin &dest ) {
             if ( !cjo.has_object( type ) && strict ) {
@@ -868,6 +871,7 @@ void load_region_settings( JsonObject &jo )
             }
         };
         load_building_types( "houses", new_region.city_spec.houses );
+        load_building_types( "basements", new_region.city_spec.basements );
         load_building_types( "shops", new_region.city_spec.shops );
         load_building_types( "parks", new_region.city_spec.parks );
     }
@@ -1028,6 +1032,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
     cityjo.read("shop_radius", region.city_spec.shop_radius);
     cityjo.read("park_radius", region.city_spec.park_radius);
+    cityjo.read("house_basement_chance", region.city_spec.house_basement_chance);
 
     const auto load_building_types = [&cityjo]( const std::string &type, building_bin &dest ) {
         JsonObject typejo = cityjo.get_object( type );
@@ -1039,6 +1044,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
         }
     };
     load_building_types( "houses", region.city_spec.houses );
+    load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
 }
@@ -4297,6 +4303,12 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
+    // Place basement for houses.
+    if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {
+        const overmap_special_id basement_tid = settings.city_spec.pick_basement();
+        const tripoint basement_p = tripoint( p.x, p.y, p.z - 1 );
+        place_special( *basement_tid, basement_p, dir, cit );
+    }
 }
 
 std::vector<point> overmap::get_sectors() const
@@ -4773,6 +4785,7 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
 void city_settings::finalize()
 {
     houses.finalize();
+    basements.finalize();
     shops.finalize();
     parks.finalize();
 }
