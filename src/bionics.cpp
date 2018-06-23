@@ -836,14 +836,6 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         popup( _( "You don't have this bionic installed." ) );
         return false;
     }
-    //If you are paying the doctor to do it, shouldn't use your supplies
-    static const quality_id CUT_FINE( "CUT_FINE" );
-    if( !( crafting_inv.has_quality( CUT_FINE ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
-        skill_level == -1 ) {
-        popup( _( "Removing bionics requires a tool with %s quality, and a first aid kit." ),
-               CUT_FINE.obj().name.c_str() );
-        return false;
-    }
 
     if( b_id == "bio_blaster" ) {
         popup( _( "Removing your Fusion Blaster Arm would leave you with a useless stump." ) );
