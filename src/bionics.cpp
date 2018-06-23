@@ -1486,7 +1486,7 @@ void player::introduce_into_anesthesia( time_duration const &duration )
     add_msg_if_player( m_info,
                        _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
     std::vector<item_comp> comps;
-    std::vector<const item*> a_filter = crafting_inventory().items_with( []( const item & it ) {
+    std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
         return it.has_flag( "ANESTHESIA" );
     } );
     for( const item *anesthesia_item : a_filter ) {
