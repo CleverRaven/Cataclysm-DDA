@@ -851,6 +851,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     WINDOW *const win = w.get<WINDOW>();
     bool update = false;
     if (g && w == g->w_terrain && use_tiles) {
+        // Strings with colors do be drawn with map_font on top of tiles.
+        std::map<point, std::pair<std::string, int>> strings;
+
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
@@ -858,7 +861,25 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             win->y * fontheight,
             tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
-            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
+            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
+            strings);
+
+        for( const auto &iter : strings ) {
+            const auto coord = iter.first;
+            const utf8_wrapper text(iter.second.first);
+            const auto color = iter.second.second;
+
+            // TODO: ensure it works with composite chars
+            for (size_t i = 0; i < text.display_width(); ++i ) {
+                //const int x = (win->x + i) * map_font->fontwidth + (coord.x - POSX) * tilecontext->get_tile_width();
+                //const int y = win->y * map_font->fontheight + (coord.y - POSY) * tilecontext->get_tile_height();
+                const int x = (win->x + i) * map_font->fontwidth + coord.x;
+                const int y = win->y * map_font->fontheight + coord.y;
+                // TODO: draw with outline / BG color for better readability
+                // TODO: ensure other windows are not overdrawn
+                map_font->OutputChar(text.substr_display(i, 1).str(), x, y, color, win->FS);
+            }
+        }
 
         invalidate_framebuffer(terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
 

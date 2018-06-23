@@ -372,7 +372,7 @@ class cata_tiles
 
     public:
         /** Draw to screen */
-        void draw( int destx, int desty, const tripoint &center, int width, int height );
+        void draw( int destx, int desty, const tripoint &center, int width, int height, std::map<point, std::pair<std::string, int>> &strings );
 
         /** Minimap functionality */
         void draw_minimap( int destx, int desty, const tripoint &center, int width, int height );
@@ -461,7 +461,7 @@ class cata_tiles
         void void_weather();
 
         void init_draw_sct();
-        void draw_sct_frame();
+        void draw_sct_frame( std::map<point, std::pair<std::string, int>> &strings );
         void void_sct();
 
         void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
@@ -500,6 +500,7 @@ class cata_tiles
             return tile_ratioy;
         }
         void do_tile_loading_report();
+        point player_to_screen( int x, int y ) const;
     protected:
         template <typename maptype>
         void tile_loading_report( maptype const &tiletypemap, std::string const &label,

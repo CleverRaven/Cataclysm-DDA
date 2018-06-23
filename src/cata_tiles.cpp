@@ -944,7 +944,7 @@ struct tile_render_info {
     }
 };
 
-void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height )
+void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height, std::map<point, std::pair<std::string, int>> &strings )
 {
     if (!g) {
         return;
@@ -1100,7 +1100,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             void_weather();
         }
         if (do_draw_sct) {
-            draw_sct_frame();
+            draw_sct_frame(strings);
             void_sct();
         }
         if (do_draw_zones) {
@@ -1706,20 +1706,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     // translate from player-relative to screen relative tile position
-    int screen_x, screen_y;
-    if( tile_iso ) {
-        screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
-        op_x;
-        // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = (( pos.y - o_y ) - ( pos.x - o_x ) - 4) * tile_width / 4 +
-            screentile_height * tile_height / 2 + // TODO: more obvious centering math
-            op_y;
-    } else {
-        screen_x = ( pos.x - o_x ) * tile_width + op_x;
-        screen_y = ( pos.y - o_y ) * tile_height + op_y;
-    }
-
+    const point screen_pos = player_to_screen( pos.x, pos.y );
 
     // seed the PRNG to get a reproducible random int
     // TODO faster solution here
@@ -1790,7 +1777,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     //draw it!
-    draw_tile_at( display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles, height_3d );
+    draw_tile_at( display_tile, screen_pos.x, screen_pos.y, loc_rand, rota, ll, apply_night_vision_goggles, height_3d );
 
     return true;
 }
@@ -2592,8 +2579,11 @@ void cata_tiles::draw_weather_frame()
     }
 }
 
-void cata_tiles::draw_sct_frame()
+void cata_tiles::draw_sct_frame( std::map<point, std::pair<std::string, int>> &strings )
 {
+    // TODO: use an option
+    const bool use_font = true;
+
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const int iDX = iter->getPosX();
         const int iDY = iter->getPosY();
@@ -2606,22 +2596,35 @@ void cata_tiles::draw_sct_frame()
             int FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
-            for( std::string::iterator it = sText.begin(); it != sText.end(); ++it ) {
-                const std::string generic_id = get_ascii_tile_id( *it, FG, -1 );
-
-                if( tileset_ptr->find_tile_type( generic_id ) ) {
-                    draw_from_id_string( generic_id, C_NONE, empty_string,
-                                         { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
-                }
+            if( use_font ) {
+                // TODO: ensure no gaps between string parts
+                strings.emplace( 
+                    player_to_screen( iDX + iOffsetX, iDY + iOffsetY ),
+                    std::make_pair( sText, FG ) );
 
                 if( tile_iso ) {
-                    iOffsetY++;
+                    iOffsetY += sText.length();
                 }
-                iOffsetX++;
+                iOffsetX += sText.length();
+            } else {
+                for (std::string::iterator it = sText.begin(); it != sText.end(); ++it) {
+                    const std::string generic_id = get_ascii_tile_id(*it, FG, -1);
+
+                    if (tileset_ptr->find_tile_type(generic_id)) {
+                        draw_from_id_string(generic_id, C_NONE, empty_string,
+                            { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
+                    }
+
+                    if (tile_iso) {
+                        iOffsetY++;
+                    }
+                    iOffsetX++;
+                }
             }
         }
     }
 }
+
 void cata_tiles::draw_zones_frame()
 {
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY) {
@@ -2821,6 +2824,25 @@ void cata_tiles::do_tile_loading_report() {
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );
+}
+
+point cata_tiles::player_to_screen( const int x, const int y ) const
+{
+    int screen_x, screen_y;
+    if (tile_iso) {
+        screen_x = ((x - o_x) - (o_y - y) + screentile_width - 2) * tile_width / 2 +
+            op_x;
+        // y uses tile_width because width is definitive for iso tiles
+        // tile footprints are half as tall as wide, arbitrarily tall
+        screen_y = ((y - o_y) - (x - o_x) - 4) * tile_width / 4 +
+            screentile_height * tile_height / 2 + // TODO: more obvious centering math
+            op_y;
+    }
+    else {
+        screen_x = (x - o_x) * tile_width + op_x;
+        screen_y = (y - o_y) * tile_height + op_y;
+    }
+    return {screen_x, screen_y};
 }
 
 template<typename Iter, typename Func>
