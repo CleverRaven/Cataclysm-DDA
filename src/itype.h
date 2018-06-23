@@ -154,6 +154,9 @@ struct islot_comestible
     /** stimulant effect */
     int stim = 0;
 
+    /** change stamina penalty */
+    int stamina_penalty = 0;
+
     /** @todo: add documentation */
     int healthy = 0;
 
