@@ -113,6 +113,7 @@ const efftype_id effect_cold( "cold" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_corroding( "corroding" );
+const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
@@ -142,6 +143,8 @@ const efftype_id effect_lack_sleep( "lack_sleep" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_narcosis( "narcosis" );
+const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pkill( "pkill" );
@@ -163,8 +166,6 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -1666,7 +1667,7 @@ int player::blood_loss( body_part bp ) const
 {
     int hp_cur_sum = 1;
     int hp_max_sum = 1;
-    
+
     if( bp == bp_leg_l || bp == bp_leg_r ) {
         hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
         hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
@@ -1680,7 +1681,7 @@ int player::blood_loss( body_part bp ) const
         hp_cur_sum = hp_cur[hp_head];
         hp_max_sum = hp_max[hp_head];
     }
-    
+
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
@@ -3269,7 +3270,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( in_sleep_state() ) {
+        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         if( !is_npc() ) {
@@ -3576,7 +3577,7 @@ void player::react_to_felt_pain( int intensity )
         g->cancel_activity_query( _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
-    if( in_sleep_state() ) {
+    if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
         int pain_thresh = rng( 3, 5 );
 
         if( has_trait( trait_HEAVYSLEEPER ) ) {
@@ -4507,7 +4508,8 @@ void player::cough(bool harmful, int loudness)
 
     moves -= 80;
 
-    if( has_effect( effect_sleep ) && ((harmful && one_in(3)) || one_in(10)) ) {
+    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
+        ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
         wake_up();
     }
 }
@@ -5164,24 +5166,35 @@ void player::suffer()
         }
     } // Done with while-awake-only effects
 
-    if( has_trait( trait_ASTHMA ) && one_in(3600 - stim * 50) &&
+    if( has_trait( trait_ASTHMA ) && one_in( ( 3600 - stim * 50 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
-        bool auto_use = has_charges("inhaler", 1);
-        if (underwater) {
+        bool auto_use = has_charges( "inhaler", 1 );
+        if ( underwater ) {
             oxygen = oxygen / 2;
             auto_use = false;
         }
 
-        if( has_effect( effect_sleep ) ) {
-            add_msg_if_player(_("You have an asthma attack!"));
-            wake_up();
-            auto_use = false;
-        } else {
-            add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
-        }
-
-        if (auto_use) {
-            use_charges("inhaler", 1);
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+            inventory map_inv;
+            map_inv.form_from_map( g->u.pos(), 2 );
+            // check if character has an inhaler
+            if ( auto_use ) {
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                use_charges( "inhaler", 1 );
+                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+            // check if an inhaler is somewhere near
+            } else if ( map_inv.has_charges( "inhaler", 1 ) ) {
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                // create new variable to resolve a reference issue
+                long amount = 1;
+                g->m.use_charges( g->u.pos(), 2, "inhaler", amount );
+                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+            } else {
+                add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
+                wake_up();
+            }
+        } else if ( auto_use ) {
+            use_charges( "inhaler", 1 );
             moves -= 40;
             const auto charges = charges_of( "inhaler" );
             if( charges == 0 ) {
@@ -5193,7 +5206,7 @@ void player::suffer()
             }
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-            if (!is_npc()) {
+            if ( !is_npc() ) {
                 g->cancel_activity_query( _( "You have an asthma attack!" ) );
             }
         }
@@ -5220,7 +5233,7 @@ void player::suffer()
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
-            if( in_sleep_state() ) {
+            if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
                 wake_up();
             }
             if( one_in(10) ) {
@@ -5241,7 +5254,7 @@ void player::suffer()
     if (has_trait( trait_SUNBURN ) && g->is_in_sunlight(pos()) && one_in(10)) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player(m_bad, _("The sunlight burns your skin!"));
-        if (in_sleep_state()) {
+        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         mod_pain(1);
