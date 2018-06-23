@@ -595,21 +595,21 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( has_trait( trait_id( "COLDBLOOD4" ) ) && g->get_temperature() > 65 ) {
-        pen = ( g->get_temperature() - 65 ) / 2;
+    if( has_trait( trait_id( "COLDBLOOD4" ) ) && g->get_temperature( g->u.pos() ) > 65 ) {
+        pen = ( g->get_temperature( g->u.pos() ) - 65 ) / 2;
         mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
     if( ( has_trait( trait_id( "COLDBLOOD" ) ) || has_trait( trait_id( "COLDBLOOD2" ) ) ||
           has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) &&
-        g->get_temperature() < 65 ) {
+        g->get_temperature( g->u.pos() ) < 65 ) {
         if( has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) {
-            pen = ( 65 - g->get_temperature() ) / 2;
+            pen = ( 65 - g->get_temperature( g->u.pos() ) ) / 2;
         } else if( has_trait( trait_id( "COLDBLOOD2" ) ) ) {
-            pen = ( 65 - g->get_temperature() ) / 3;
+            pen = ( 65 - g->get_temperature( g->u.pos() ) ) / 3;
         } else {
-            pen = ( 65 - g->get_temperature() ) / 5;
+            pen = ( 65 - g->get_temperature( g->u.pos() ) ) / 5;
         }
         mvwprintz( w_speed, line, 1, c_red, _( "Cold-Blooded        -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );

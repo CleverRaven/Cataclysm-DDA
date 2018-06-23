@@ -585,7 +585,7 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
-        int get_temperature();    // Returns outdoor or indoor temperature of current location
+        int get_temperature( const tripoint &location );    // Returns outdoor or indoor temperature of given location
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
         pimpl<w_point> weather_precise; // Cached weather data

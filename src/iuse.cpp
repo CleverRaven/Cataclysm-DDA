@@ -7297,10 +7297,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     if( it->has_flag( "THERMOMETER" ) ) {
         if( it->typeId() == "thermometer" ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                                  print_temperature( g->get_temperature() ).c_str() );
+                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( g->get_temperature() ).c_str() );
+                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {
@@ -7344,7 +7344,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower) +
-                g->get_temperature() ).c_str() );
+                g->get_temperature( g->u.pos() ) ).c_str() );
     }
 
     return 0;
