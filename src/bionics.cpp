@@ -824,7 +824,6 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
-    const inventory &crafting_inv = crafting_inventory();
     if( item::type_is_defined( b_id.c_str() ) ) {
         auto type = item::find_type( b_id.c_str() );
         if( type->bionic ) {
