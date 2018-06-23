@@ -1720,7 +1720,6 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                     p.add_msg_if_player( _( "There is nothing to be fed here." ) );
                     return 0;
                 }
-
                 break;
             case CATFOOD:
                 if( mon.has_flag( MF_CATFOOD ) ) {
@@ -3066,6 +3065,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
+
     int dirx = 0;
     int diry = 0;
     if( !choose_adjacent( _( "Mine where?" ), dirx, diry ) ) {

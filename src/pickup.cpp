@@ -429,7 +429,14 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
-        add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
+        if( !autopickup ) {
+            const std::string &explain = string_format( _( "The %s is too heavy!" ),
+                                         newit.display_name().c_str() );
+            option = handle_problematic_pickup( newit, offered_swap, explain );
+            did_prompt = true;
+        } else {
+            option = CANCEL;
+        }
     } else if( newit.is_bucket() && !newit.is_container_empty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),

@@ -2101,7 +2101,7 @@ void play_music_file(std::string filename, int volume) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
         return;
     }
-    Mix_VolumeMusic(volume * get_option<int>( "MUSIC_VOLUME" ) / 100);
+    Mix_VolumeMusic(get_option<bool>( "SOUND_ENABLED" ) ? volume * get_option<int>( "MUSIC_VOLUME" ) / 100 : 0);
     if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
         dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
@@ -2174,7 +2174,7 @@ void play_music(std::string playlist) {
 
 void update_music_volume() {
 #ifdef SDL_SOUND
-    Mix_VolumeMusic( get_option<int>( "MUSIC_VOLUME" ) );
+    Mix_VolumeMusic( get_option<bool>( "SOUND_ENABLED" ) ? get_option<int>( "MUSIC_VOLUME" ) : 0 );
 #endif
 }
 
@@ -2313,7 +2313,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume ) 
     const sound_effect& selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
-    Mix_VolumeChunk( effect_to_play,
+    Mix_VolumeChunk( effect_to_play, !get_option<bool>( "SOUND_ENABLED" ) ? 0 :
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     Mix_PlayChannel( -1, effect_to_play, 0 );
 }
@@ -2334,7 +2334,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
-    Mix_VolumeChunk( shifted_effect,
+    Mix_VolumeChunk( shifted_effect, !get_option<bool>( "SOUND_ENABLED" ) ? 0 :
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
     Mix_SetPosition( channel, angle, 1 );
@@ -2353,7 +2353,7 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
     const sound_effect& selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
-    Mix_VolumeChunk( effect_to_play,
+    Mix_VolumeChunk( effect_to_play, !get_option<bool>( "SOUND_ENABLED" ) ? 0 :
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
