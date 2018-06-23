@@ -2581,8 +2581,7 @@ void cata_tiles::draw_weather_frame()
 
 void cata_tiles::draw_sct_frame( std::map<point, std::pair<std::string, int>> &strings )
 {
-    // TODO: use an option
-    const bool use_font = true;
+    const bool use_font = get_option<bool>("ANIMATION_SCT_USE_FONT");
 
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const int iDX = iter->getPosX();

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:51+0800\n"
+"POT-Creation-Date: 2018-06-24 00:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -747,6 +747,14 @@ msgstr ""
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "If true, will display scrolling combat text animations."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "SCT with unicode font"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, will display scrolling combat text with unicode font."
 msgstr ""
 
 #: lang/extra/android/options.cpp src/options.cpp
