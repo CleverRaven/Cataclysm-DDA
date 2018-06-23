@@ -157,6 +157,7 @@ const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
+const efftype_id effect_stamina_penalty( "stamina_penalty" );
 const efftype_id effect_stim( "stim" );
 const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
@@ -4408,25 +4409,37 @@ void player::update_stamina( int turns )
     // This regeneration should not increase needs
     if( !has_effect( effect_sleep ) ){
         int StaminaIncreaseHunger = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER" );
-        float AddHunger = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseHunger );
+        float mutation_hunger = 1.0f + mutation_value( "metabolism_modifier" );
+        float AddHunger = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseHunger * mutation_hunger );
         if( is_npc() ) {
             AddHunger *= 0.25f;
         }
         mod_stat( "hunger", AddHunger );
 
-        int StaminaIncreaseThrist = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_THRIST" );
-        float AddThrist = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseThrist );
+        int StaminaIncreaseThirst = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_THIRST" );
+        float mutation_thirst = 1.0f + mutation_value( "thirst_modifier" );
+        float AddThirst = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseThirst * mutation_thirst );
         if( is_npc() ) {
-            AddThrist *= 0.25f;
+            AddThirst *= 0.25f;
         }
-        mod_stat( "thirst", AddThrist );
+        mod_stat( "thirst", AddThirst );
 
         int StaminaIncreaseFatigue = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE" );
-        float AddFatigue = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseFatigue );
+        float mutation_fatugue = 1.0f + mutation_value( "fatigue_modifier" );
+        float AddFatigue = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseFatigue * mutation_fatugue );
         if( is_npc() ) {
             AddFatigue *= 0.25f;
         }
         mod_stat( "fatigue", AddFatigue );
+    }
+
+    float relative_stamina = ( float )stamina_max_penalty / get_stamina_max();
+    if ( relative_stamina > 0.5 ){
+        add_effect( effect_stamina_penalty, 1_turns, bp_torso, false, 3 );
+    } else if( relative_stamina > 0.25 ){
+        add_effect( effect_stamina_penalty, 1_turns, bp_torso, false, 2 );
+    } else if( relative_stamina > 0.1 ){
+        add_effect( effect_stamina_penalty, 1_turns, bp_torso, false, 1);
     }
 }
 
