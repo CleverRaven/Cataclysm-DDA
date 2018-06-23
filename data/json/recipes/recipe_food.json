@@ -523,7 +523,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -2626,7 +2626,7 @@
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_veggy", 2 ],
       [ "dandelion_cooked", 2 ],
@@ -2826,7 +2826,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -2893,7 +2893,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -2966,7 +2966,7 @@
       [ "milk_powder", 1 ],
       [ "crackers", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -3029,7 +3029,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3082,7 +3082,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -3156,7 +3156,7 @@
     ],
     [
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3569,7 +3569,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3699,7 +3699,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3827,7 +3827,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -4162,7 +4162,7 @@
   ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ]
   ]
@@ -4203,7 +4203,7 @@
   ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4225,7 +4225,7 @@
   ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -4321,7 +4321,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4361,7 +4361,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4405,7 +4405,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4445,7 +4445,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4486,7 +4486,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4532,7 +4532,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4582,7 +4582,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -5692,7 +5692,7 @@
       [ "sausage", 4 ],
       [ "bacon", 4 ],
       [ "powder_eggs", 20 ],
-      [ "egg_bird", 4 ],
+      [ "eggs_bird", 4, "LIST" ],
       [ "egg_reptile", 4 ]
     ],
     [
@@ -5753,7 +5753,7 @@
       [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "beans_cooked", 2 ],
@@ -5813,7 +5813,7 @@
       [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "beans_cooked", 2 ],
@@ -5904,7 +5904,7 @@
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "spaghetti_raw", 2 ],
@@ -5986,7 +5986,7 @@
       [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "spaghetti_raw", 2 ],
@@ -6048,7 +6048,7 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "dry_veggy", 4 ],
       [ "dandelion_cooked", 4 ],
@@ -7918,7 +7918,7 @@
     ],
     [
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -8416,7 +8416,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -8483,7 +8483,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -8566,7 +8566,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -8628,7 +8628,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -8714,7 +8714,7 @@
       [ "milk_powder", 1 ],
       [ "crackers", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -9539,7 +9539,7 @@
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -9572,7 +9572,7 @@
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [

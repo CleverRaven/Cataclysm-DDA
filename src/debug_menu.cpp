@@ -302,9 +302,8 @@ void character_edit_menu()
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
-
+            int value;
             switch( smenu.ret ) {
-                    int value;
                 case 0:
                     if( query_int( value, _( "Set hunger to? Currently: %d" ), p.get_hunger() ) ) {
                         p.set_hunger( value );
@@ -347,8 +346,8 @@ void character_edit_menu()
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
+            int value;
             switch( smenu.ret ) {
-                    int value;
                 case 0:
                     if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy() ) ) {
                         p.set_healthy( value );

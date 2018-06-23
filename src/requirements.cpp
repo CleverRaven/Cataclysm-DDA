@@ -474,7 +474,20 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
         std::ostringstream buffer;
+        std::vector<std::string> buffer_has;
+        bool already_has;
         for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
+            already_has = false;
+            for( auto cont : buffer_has ) {
+                if( cont == a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) ) {
+                    already_has = true;
+                    break;
+                }
+            }
+            if( already_has ) {
+                    continue;
+            }
+
             if( a != comp_list.begin() ) {
                 buffer << "<color_white> " << _( "OR" ) << "</color> ";
             }
@@ -486,6 +499,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 buffer << "<color_" << col << ">";
             }
             buffer << a->to_string( batch ) << "</color>" << "</color>";
+            buffer_has.push_back( a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) );
         }
         std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
 
