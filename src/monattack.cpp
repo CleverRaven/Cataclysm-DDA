@@ -218,9 +218,18 @@ bool mattack::eat_crop( monster *z )
 bool mattack::eat_food( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+        //Protect crop seeds from carnivores, give omnivores eat_crop special also
+        if( g->m.has_flag( "PLANT", p ) ){
+            continue;
+        }
         auto items = g->m.i_at( p );
-        for( auto i = items.begin(); i != items.end(); ) {
-            if( i->is_food() ) {
+        for( auto i = items.begin(); i != items.end(); i++) {
+            //Fun limit prevents scavengers from eating feces
+            if( !i->is_food() || i->type->comestible->fun < -20 ) {
+                continue;
+            }
+            //Don't eat own eggs
+            if( z->type->baby_egg != i->type->get_id()) {
                 long consumed = 1;
                 if( i->count_by_charges() ) {
                     g->m.use_charges( p, 0, i->type->get_id(), consumed );
