@@ -862,21 +862,21 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         return false;
     }
 
-    // removal of bionics adds +2 difficulty over installation, high quality tool subtracts its fine cutting quality amount
+    // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
     if( skill_level != -1 ) {
         chance_of_success = bionic_manip_cos( skill_level,
                                               skill_level,
                                               skill_level,
                                               skill_level,
-                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
+                                              difficulty + 2 );
     } else {
         ///\EFFECT_INT increases chance of success removing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
                                               get_skill_level( skilll_electronics ),
                                               get_skill_level( skilll_firstaid ),
                                               get_skill_level( skilll_mechanics ),
-                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
+                                              difficulty + 2 );
     }
 
     if( !query_yn(
