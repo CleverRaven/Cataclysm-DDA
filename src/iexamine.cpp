@@ -3508,7 +3508,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
-    const bool has_anesthesia = p.crafting_inventory().has_amount( "anesthesia", 1 );
+    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
 
     uimenu amenu;
     amenu.selected = 0;
@@ -3549,7 +3551,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     g->m.i_rem( bionic.position(), it );
                 }
                 std::vector<item_comp> comps;
-                comps.push_back( item_comp( "anesthesia", 1 ) );
+                std::vector<const item*> a_filter = p.crafting_inventory().items_with( []( const item &it ) {
+                    return it.has_flag( "ANESTHESIA" );
+                } );
+                for( const item *anesthesia_item : a_filter ) {
+                    comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+                }
                 p.consume_items( comps );
             }
             break;
@@ -3602,7 +3609,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
                 std::vector<item_comp> comps;
-                comps.push_back( item_comp( "anesthesia", 1 ) );
+                std::vector<const item*> a_filter = p.crafting_inventory().items_with( []( const item &it ) {
+                    return it.has_flag( "ANESTHESIA" );
+                } );
+                for( const item *anesthesia_item : a_filter ) {
+                    comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+                }
                 p.consume_items( comps );
             }
             break;
