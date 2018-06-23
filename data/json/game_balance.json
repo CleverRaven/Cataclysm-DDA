@@ -64,7 +64,7 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_RECOVER_STAMINA_INCREASE_THRIST",
+    "name": "PLAYER_RECOVER_STAMINA_INCREASE_THIRST",
     "info": "How much thrist will be added for recovering 10000 stamina.  Default: 10.  Set to 0 to turn it off.",
     "stype": "int",
     "value": 10
