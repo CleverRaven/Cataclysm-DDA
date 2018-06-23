@@ -3508,6 +3508,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
+    const bool has_anesthesia = p.crafting_inventory().has_amount( "anesthesia", 1 );
+
     uimenu amenu;
     amenu.selected = 0;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
@@ -3527,6 +3529,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+                return;
+            }
+
             const item *it = bionic.get_item();
             const itype *itemtype = it->type;
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
@@ -3541,6 +3548,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 } else {
                     g->m.i_rem( bionic.position(), it );
                 }
+                std::vector<item_comp> comps;
+                comps.push_back( item_comp( "anesthesia", 1 ) );
+                p.consume_items( comps );
             }
             break;
         }
@@ -3549,6 +3559,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             bionic_collection installed_bionics = *g->u.my_bionics;
             if( installed_bionics.empty() ) {
                 popup( _( "You don't have any bionics installed." ) );
+                return;
+            }
+
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
                 return;
             }
 
@@ -3586,6 +3601,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 p.add_effect( effect_narcosis, duration );
                 p.add_msg_if_player( m_info,
                                      _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+                std::vector<item_comp> comps;
+                comps.push_back( item_comp( "anesthesia", 1 ) );
+                p.consume_items( comps );
             }
             break;
         }
