@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-09 21:55+0800\n"
+"POT-Creation-Date: 2018-06-15 19:51+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Marco Przybysz <marcoprzybysz@protonmail.com>, 2018\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/cataclysm-dda-translators/teams/2217/pt_BR/)\n"
@@ -21619,7 +21619,7 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A tasty collection of wild herbs including violet, sassafras, mint, clover, "
-"purslane, and burdock."
+"purslane, fireweed, and burdock."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -36838,6 +36838,7 @@ msgid "chicken"
 msgstr ""
 
 #. ~ Description for chicken
+#. ~ Description for chicken chick
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A domesticated descendant of junglefowl, it may still be the most numerous "
@@ -37133,6 +37134,19 @@ msgid ""
 "A fusion-driven UAV largely comprised of a high-resolution camera lens, this"
 " spheroid robot hovers above the ground, silent witness to the carnage and "
 "mayhem around it."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "zombie burner"
+msgstr ""
+
+#. ~ Description for zombie burner
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Realizing that bullets weren't enough, the army dispatched flamethrower "
+"units to burn the walking dead.  Unfortunately, there were too many zombies "
+"and not enough flamers.  It seems that the tank of the undead soldier you "
+"see before you is damaged."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -38871,6 +38885,50 @@ msgstr ""
 msgid ""
 "An otherwise normal-looking cougar, except that its hind legs are swollen, "
 "and its eyes bulge with black goo."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "skittering plague"
+msgstr ""
+
+#. ~ Description for skittering plague
+#: lang/json/MONSTER_from_json.py
+msgid "A giant infected roach, it has been feeding on the undead."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague nymph"
+msgstr ""
+
+#. ~ Description for plague nymph
+#: lang/json/MONSTER_from_json.py
+msgid "An infected mutant cockroach about the size of a rat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague vector"
+msgstr ""
+
+#. ~ Description for plague vector
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This infected roach has been feeding on the undead and started to mutate "
+"chaotically.  Extra limbs and growths sprout from its thorax."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid sprig"
+msgstr ""
+
+#. ~ Description for triffid sprig
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A teeny-tiny triffid that has recently germinated.  Like a house cat, you "
+"know it wants to eat you but it just can't figure out how."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "chicken chick"
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -52551,6 +52609,10 @@ msgstr ""
 msgid "You lie down to go to sleep..."
 msgstr ""
 
+#: lang/json/effects_from_json.py src/player_hardcoded_effects.cpp
+msgid "You fall asleep."
+msgstr ""
+
 #: lang/json/effects_from_json.py
 msgid "You wake up."
 msgstr ""
@@ -53603,12 +53665,14 @@ msgstr ""
 msgid "A road barricade.  For barricading roads."
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/map.cpp
-#: src/mapdata.cpp
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
+#: lang/json/terrain_from_json.py src/map.cpp src/mapdata.cpp
 msgid "smash!"
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
 msgid "whump."
 msgstr ""
 
@@ -53643,8 +53707,8 @@ msgstr ""
 msgid "Pin some notes for other survivors to read."
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -54000,7 +54064,8 @@ msgstr ""
 msgid "glass breaking"
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
 msgid "whack!"
 msgstr ""
 
@@ -54508,6 +54573,24 @@ msgid "thunk!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "autodoc"
+msgstr ""
+
+#. ~ Description for autodoc
+#: lang/json/furniture_from_json.py
+msgid "A medical apparatus for automated diagnosis and healing."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "autodoc couch"
+msgstr ""
+
+#. ~ Description for autodoc couch
+#: lang/json/furniture_from_json.py
+msgid "A special medical couch connected with the adjacent autodoc."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "mutated cactus"
 msgstr ""
 
@@ -54919,6 +55002,16 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "Fake gun that fires acid globs."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "reach bow"
+msgid_plural "reach bows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid "A test item that is both a ranged weapon and a reach weapon"
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -79324,8 +79417,8 @@ msgstr "arquearia"
 #: lang/json/skill_from_json.py
 msgid ""
 "Your skill in using bow weapons, from hand-carved self bows to complex "
-"hunting crossbows.  Quiet and effective, they require strength of body and "
-"sight to wield, and are not terribly accurate over a long distance."
+"compound bows.  Quiet and effective, they require strength of body and sight"
+" to wield, and are not terribly accurate over a long distance."
 msgstr ""
 
 #: lang/json/skill_from_json.py
@@ -79388,7 +79481,7 @@ msgid ""
 "destructive power, but they are cumbersome and hard to manage."
 msgstr ""
 
-#: lang/json/skill_from_json.py
+#: lang/json/skill_from_json.py src/item_factory.cpp
 msgid "melee"
 msgstr "corpo-a-corpo"
 
@@ -98171,9 +98264,10 @@ msgid_plural "You need a %s with %d charges."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
-#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
+#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp
+#: src/iexamine.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp
+#: src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
@@ -107633,6 +107727,42 @@ msgid "You may have problems climbing back up. Climb down?"
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "Autodoc Mk. XI.  Status: Online.  Please choose operation."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose Compact Bionic Module to install."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Do nothing."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "No connected couches found.  Operation impossible.  Exiting."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"No patient found located on the connected couches.  Operation impossible.  "
+"Exiting."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose CBM to install"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You type data into the console, configuring Autodoc to install a CBM."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"Autodoc injected you with anesthesia, and while you were sleeping conducted "
+"a medical operation on you."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Use electrohack?"
 msgstr ""
 
@@ -114813,6 +114943,16 @@ msgstr ""
 msgid "You fail to disarm the trap, and you set it off!"
 msgstr ""
 
+#: src/map.cpp
+#, c-format
+msgid "Something has crawled out of the %s plants!"
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "Something has crawled out of the %s!"
+msgstr ""
+
 #: src/map_extras.cpp
 msgid "DANGER! MINEFIELD!"
 msgstr ""
@@ -117880,6 +118020,15 @@ msgstr ""
 
 #: src/mondeath.cpp
 msgid "A cockroach nymph crawls out of the pregnant giant cockroach corpse."
+msgstr ""
+
+#: src/mondeath.cpp
+#, c-format
+msgid "an explosion of tank of the %s's flamethrower!"
+msgstr ""
+
+#: src/mondeath.cpp
+msgid "I love the smell of burning zed in the morning."
 msgstr ""
 
 #: src/mondefense.cpp
@@ -122302,6 +122451,16 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Carrion spawn rate scaling factor"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"A scaling factor that determines how often creatures spawn from rotting "
+"material."
+msgstr ""
+
+#: src/options.cpp
 msgid "( WIP feature ) Determines terrain, shops, plants, and more."
 msgstr ""
 
@@ -125624,10 +125783,6 @@ msgstr ""
 #: src/player_hardcoded_effects.cpp
 msgctxt "memorial_female"
 msgid "Succumbed to the infection."
-msgstr ""
-
-#: src/player_hardcoded_effects.cpp
-msgid "You fall asleep."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
