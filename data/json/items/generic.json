@@ -2371,6 +2371,7 @@
         "price": 50000,
         "material": "plastic",
         "symbol": "!",
-        "color": "cyan"
+        "color": "cyan",
+        "flags": ["ANESTHESIA"]
     }
 ]
