@@ -225,5 +225,16 @@
     "description": "You were outside of civilization when the bombs fell; you didn't even know the end had come, or that everyone was (un)dead.  Will this ignorance save you from the fate of the rest?",
     "start_name": "Out of City",
     "allowed_locs": [ "Swamp Shack", "campground", "survivalist farm", "cabin_woods" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "cyberpunk",
+    "name": "High tech, low life",
+    "description": "Advanced technology, dystopian society, and trenchcoats.",
+    "flags": [ "CITY_START" ],
+    "points" : -4,
+    "start_name": "Somewhere in town",
+    "allowed_locs": [ "house", "boarded_house", "pawn", "basement_bionic" ],
+    "professions": [  "cyberjunkie", "faulty_bionic", "cykotic", "razorgirl" ]
   }
 ]

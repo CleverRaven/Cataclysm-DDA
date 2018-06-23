@@ -152,3 +152,6 @@ stage
 # Eclipse IDE
 .cproject
 .settings/
+
+# Apple Xcode IDE
+Xcode/

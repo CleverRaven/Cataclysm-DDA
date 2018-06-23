@@ -42,6 +42,7 @@
 #include "scent_map.h"
 #include "harvest.h"
 #include "input.h"
+#include "options.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -1131,7 +1132,7 @@ optional_vpart_position map::veh_at( const tripoint &p ) const
         return optional_vpart_position( cata::nullopt );
     }
     return optional_vpart_position( vpart_position( *veh, part_num ) );
-    
+
 }
 
 const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
@@ -3443,7 +3444,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
     // Check the flag again to ensure the new terrain doesn't support anything
     if( supports && !has_flag( "SUPPORTS_ROOF", p ) ) {
-        for( const tripoint t : points_in_radius( p, 1 ) ) {
+        for( const tripoint& t : points_in_radius( p, 1 ) ) {
             if( p == t || !has_flag( "COLLAPSES", t ) ) {
                 continue;
             }
@@ -6697,9 +6698,34 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt )
     const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
         if( has_rotten_away( *it, abs_pnt ) ) {
+            if (it->is_comestible()){
+                rotten_item_spawn( *it, pnt);
+            }
             it = i_rem( pnt, it );
         } else {
             ++it;
+        }
+    }
+}
+
+void map::rotten_item_spawn( const item &item, const tripoint &pnt )
+{
+    if( g->critter_at( pnt ) != nullptr )
+        return;
+    auto &comest = item.type->comestible;
+    mongroup_id mgroup = comest->rot_spawn;
+    if ( mgroup == "GROUP_NULL" )
+        return;
+    const int chance = ( comest->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
+    if (rng(0, 100) < chance){
+        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(mgroup);
+        add_spawn(spawn_details.name, 1, pnt.x, pnt.y, false);
+        if (g->u.sees(pnt)) {
+            if (item.is_seed()){
+                add_msg(m_warning, _("Something has crawled out of the %s plants!"), item.get_plant_name());
+            } else {
+                add_msg(m_warning, _("Something has crawled out of the %s!"), item.tname().c_str());
+            }
         }
     }
 }
@@ -6751,6 +6777,7 @@ void map::grow_plant( const tripoint &p )
     const time_duration plantEpoch = seed.get_plant_epoch();
 
     if( seed.age() >= plantEpoch ) {
+        rotten_item_spawn( seed, p);
         if( seed.age() < plantEpoch * 2 ) {
                 i_rem(p, 1);
                 furn_set(p, furn_str_id( "f_plant_seedling" ) );

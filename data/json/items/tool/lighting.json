@@ -24,7 +24,8 @@
         "msg": "You turn the lamp on.",
         "need_charges": 1,
         "need_charges_msg": "The lantern has no batteries."
-    }
+    },
+    "flags": [ "RADIO_MODABLE" ]
   },
   {
     "id": "electric_lantern_on",
@@ -40,7 +41,7 @@
         "target": "electric_lantern",
         "msg": "You turn the lamp off."
     },
-    "flags": [ "LIGHT_15", "TRADER_AVOID" ]
+    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID" ]
   },
   {
     "id": "flashlight",

@@ -2227,7 +2227,7 @@ item consume_vpart_item( const vpart_id &vpid )
     } else {
         // popup menu!?
         std::vector<std::string> options;
-        for( const auto &candidate : candidates ) {
+        for( const auto candidate : candidates ) {
             const vpart_info &info = vpid.obj();
             if( candidate ) {
                 // In inventory.
