@@ -195,6 +195,23 @@
     },
     {
         "type": "effect_type",
+        "id": "stamina_penalty",
+        "name": [
+            "Achy",
+            "Stiff",
+            "Sore"
+        ],
+        "desc": [
+            "Your muscles are beginning to ache from the constant exertion.  Your stamina is temporarily limited by more than 10% until you rest.",
+            "Your muscles are starting to become stiff and difficult to move.  Your stamina is temporarily limited by more than 25% until you rest",
+            "Your muscles are extremely sore and exertion requires much more effort now.  Your stamina is temporarily limited by more than 50% until you rest"
+        ],
+        "rating": "bad",
+        "max_intensity": 3,
+        "show_in_info": true
+    },
+    {
+        "type": "effect_type",
         "id": "darkness",
         "apply_message": "Your vision flickers and goes gray!",
         "remove_message": "The world flickers back to normality.",
