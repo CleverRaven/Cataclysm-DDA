@@ -9933,8 +9933,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             // Even though it doesn't cause direct physical damage to it
             if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
                 // @todo: Different fire intensity values based on damage
-                fire_data frd{ 2, 0.0f, 0.0f };
-                destroy = armor.burn( frd, true );
+                fire_data frd{ 2 };
+                destroy = armor.burn( frd );
                 int fuel = roll_remainder( frd.fuel_produced );
                 if( fuel > 0 ) {
                     add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false, true );

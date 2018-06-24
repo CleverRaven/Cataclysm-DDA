@@ -2343,5 +2343,13 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Mark firewood source",
+        "category" : "OTHER",
+        "required_skills" : [],
+        "time" : 0,
+        "pre_special" : "check_no_trap",
+        "post_special" : "done_mark_firewood"
     }
 ]
