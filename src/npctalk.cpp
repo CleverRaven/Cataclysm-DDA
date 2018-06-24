@@ -58,20 +58,10 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_ELFAEYES( "ELFAEYES" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_GROWL( "GROWL" );
-static const trait_id trait_HISS( "HISS" );
 static const trait_id trait_LIAR( "LIAR" );
-static const trait_id trait_MINOTAUR( "MINOTAUR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-static const trait_id trait_SNARL( "SNARL" );
 static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
-static const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 struct dialogue;
@@ -2636,19 +2626,14 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
             chance += u.mutation_social_mod( "lie" );
-            if( u.has_trait( trait_TRUTHTELLER ) ) {
-                chance -= 40;
+
+            //@todo jsonize this
+            if( u.has_trait( trait_TAIL_FLUFFY ) && u.has_trait( trait_LIAR ) ) {
+                chance -= 40; // Your tail acts as a tell and prevents the liar trait from functioning
             }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance -= 20;
-            } else if( u.has_trait( trait_LIAR ) ) {
-                chance += 40;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( ( u.has_trait( trait_WINGS_BUTTERFLY ) ) || ( u.has_trait( trait_FLOWERS ) ) ) {
-                chance += 10;
+            //@todo jsonize this
+            if( u.has_trait( trait_WINGS_BUTTERFLY ) && u.has_trait( trait_FLOWERS ) ) {
+                chance -= 10; // Flowers and butterfly wings only count once even if you have both
             }
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
                 chance += 10;
@@ -2661,26 +2646,9 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
             chance += u.mutation_social_mod( "persuade" );
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance += 15; // Flutter your wings at 'em
-            }
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance -= 60;
             }
             if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
                 chance -= 50;
@@ -2693,36 +2661,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                       p.personality.bravery * 2;
             chance += u.mutation_social_mod( "intimidate" );
-            if( u.has_trait( trait_MINOTAUR ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_MUZZLE ) ) {
-                chance += 6;
-            }
-            if( u.has_trait( trait_MUZZLE_LONG ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_SABER_TEETH ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_TERRIFYING ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance += 30;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance -= 20; // Butterflies are not terribly threatening.  :-(
-            }
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
             }
