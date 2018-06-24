@@ -2635,6 +2635,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
+            chance += u.mutation_social_mod( "lie" );
             if( u.has_trait( trait_TRUTHTELLER ) ) {
                 chance -= 40;
             }
@@ -2659,6 +2660,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_PERSUADE:
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
+            chance += u.mutation_social_mod( "persuade" );
             if( u.has_trait( trait_ELFAEYES ) ) {
                 chance += 20;
             }
@@ -2690,6 +2692,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_INTIMIDATE:
             chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                       p.personality.bravery * 2;
+            chance += u.mutation_social_mod( "intimidate" );
             if( u.has_trait( trait_MINOTAUR ) ) {
                 chance += 15;
             }
