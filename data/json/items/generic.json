@@ -2360,18 +2360,5 @@
         "symbol": ".",
         "color": "white",
         "ammo_type": "components"
-    },
-    {
-        "id": "anesthesia",
-        "type": "GENERIC",
-        "name": "anesthesia kit",
-        "description": "A kit for introducing the patient into anesthesia, containing several syringes with a variety of drugs, including hypnotic, analgetic, stimulants, and other.",
-        "weight": 100,
-        "volume": 1,
-        "price": 50000,
-        "material": "plastic",
-        "symbol": "!",
-        "color": "cyan",
-        "flags": ["ANESTHESIA"]
     }
 ]
