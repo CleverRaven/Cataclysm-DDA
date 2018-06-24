@@ -56,10 +56,10 @@ class editmap
         int edit_critter( Creature &critter );
         int edit_veh();
         int edit_mapgen();
-        int set_mapgen(std::string om_name, tripoint pt);
         void cleartmpmap( tinymap &tmpmap );
         int mapgen_preview( real_coords &tc, uimenu &gmenu );
-        int mapgen_set( real_coords &tc, std::string om_name);
+        bool mapgen_set( std::string om_name, tripoint omt_tgt, int r = 0);
+        vehicle* mapgen_veh_query( tripoint omt_tgt, vehicle* car_target = NULL, bool destroy = false);
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
