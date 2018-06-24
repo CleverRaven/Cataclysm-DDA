@@ -361,22 +361,19 @@ class tileset_loader
         void load( const std::string &tileset_id, bool precheck );
 };
 
-enum text_alignment
-{
+enum text_alignment {
     TEXT_ALIGNMENT_LEFT,
     TEXT_ALIGNMENT_CENTER,
     TEXT_ALIGNMENT_RIGHT,
 };
 
-struct formatted_text
-{
+struct formatted_text {
     std::string text;
     int color;
     text_alignment alignment;
 
     formatted_text( const std::string text, const int color, const text_alignment alignment )
-        : text( text ), color( color ), alignment( alignment )
-    {
+        : text( text ), color( color ), alignment( alignment ) {
     }
 
     formatted_text( const std::string text, const int color, const direction direction );
@@ -394,7 +391,7 @@ class cata_tiles
 
     public:
         /** Draw to screen */
-        void draw( int destx, int desty, const tripoint &center, int width, int height, 
+        void draw( int destx, int desty, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings );
 
         /** Minimap functionality */
