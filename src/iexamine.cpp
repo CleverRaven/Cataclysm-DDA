@@ -3540,11 +3540,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( p.install_bionics( *itemtype ) ) {
                 p.introduce_into_anesthesia( duration );
-                if( p.has_item( *it ) ) {
-                    p.i_rem( it );
-                } else {
-                    g->m.i_rem( bionic.position(), it );
-                }
+                std::vector<item_comp> comps;
+                comps.push_back( item_comp( it->typeId(), 1 ) );
+                p.consume_items( comps );
             }
             break;
         }
