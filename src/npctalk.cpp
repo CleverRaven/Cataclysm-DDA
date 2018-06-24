@@ -2627,14 +2627,14 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
             chance += u.mutation_social_mod( "lie" );
 
-            //@todo jsonize this
+            //@todo jsonize these kinds of interactions
             if( u.has_trait( trait_TAIL_FLUFFY ) && u.has_trait( trait_LIAR ) ) {
                 chance -= 40; // Your tail acts as a tell and prevents the liar trait from functioning
             }
-            //@todo jsonize this
             if( u.has_trait( trait_WINGS_BUTTERFLY ) && u.has_trait( trait_FLOWERS ) ) {
                 chance -= 10; // Flowers and butterfly wings only count once even if you have both
             }
+
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
                 chance += 10;
             }
