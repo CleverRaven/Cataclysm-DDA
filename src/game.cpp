@@ -1747,9 +1747,15 @@ void game::update_weather()
     }
 }
 
-int game::get_temperature()
+int game::get_temperature( const tripoint &location )
 {
-    return temperature + m.temperature( u.pos() );
+    
+    if ( location.z < 0 ) {
+        // underground temperature = average New England temperature = 43F/6C rounded to int
+        return 43 + m.temperature( location );
+    }
+    // if not underground use weather determined temperature
+    return temperature + m.temperature( location );
 }
 
 int game::assign_mission_id()
@@ -4657,7 +4663,7 @@ void game::draw_sidebar()
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
+        wprintz( w_location, c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str());
     }
 
     //moon phase display
