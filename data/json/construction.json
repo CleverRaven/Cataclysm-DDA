@@ -2375,5 +2375,22 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Build Root Cellar",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "survival", 4 ], [ "fabrication", 4 ] ],
+        "time" : 130,
+        "qualities": [
+            [ { "id": "DIG", "level": 2 } ],
+            [ { "id": "HAMMER", "level": 2 } ]
+        ],
+        "components" : [
+            [ [ "rock", 40 ], [ "brick", 40] ],
+            [ [ "2x4", 6 ], [ "heavy stick",6 ] ],
+            [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "f_rootcellar"
     }
 ]

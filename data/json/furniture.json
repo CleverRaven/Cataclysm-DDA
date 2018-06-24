@@ -2901,5 +2901,29 @@
                 { "item": "sheet_metal", "count": [0, 2] }
             ]
         }
+    },{
+        "type" : "furniture",
+        "id" : "f_rootcellar",
+        "name": "root cellar",
+        "symbol": "=",
+        "bgcolor": "green",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT"],
+        "deconstruct": {
+          "items": [
+            { "item": "rock", "count": 40 },
+            { "item": "stick", "count": [16, 16] }
+          ]
+        },
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "rock", "count": 8 },
+                { "item": "stick", "count": [8, 12] }
+            ]
+        }
     }
 ]
