@@ -163,6 +163,15 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
+int mutation_branch::social_mod( const std::string &type ) const
+{
+    const auto iter = social_modifiers.find( type );
+    if( iter == social_modifiers.end() ) {
+        return 0;
+    }
+    return iter->second;
+}
+
 void Character::mutation_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {

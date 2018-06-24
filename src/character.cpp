@@ -2550,6 +2550,15 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
+int Character::mutation_social_mod( const std::string &type ) const
+{
+    int mod = 0;
+    for( const mutation_branch *mut : cached_mutations ) {
+        mod += mut->social_mod( type );
+    }
+    return mod;
+}
+
 template <float mutation_branch::*member>
 float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
 {

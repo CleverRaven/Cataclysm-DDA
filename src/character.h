@@ -618,6 +618,11 @@ class Character : public Creature, public visitable<Character>
          */
         float mutation_value( const std::string &val ) const;
 
+        /**
+         * Goes over all mutations, adding up the social modifier of the given type
+         */
+        int mutation_social_mod( const std::string &val ) const;
+
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
 

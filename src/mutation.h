@@ -176,6 +176,10 @@ struct mutation_branch {
      * Returns damage resistance on a given body part granted by this mutation.
      */
     const resistances &damage_resistance( body_part bp ) const;
+    /*
+     * Returns the social modifier of this mutation for the given type of social interaction
+     */
+    int social_mod( const std::string &type ) const;
     /**
      * Shortcut for getting the name of a (translated) mutation, same as
      * @code get( mutation_id ).name @endcode
