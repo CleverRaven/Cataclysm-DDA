@@ -79,8 +79,9 @@ void companion_mission( npc & );
 //Primary Loop
 bool outpost_missions( npc &p, std::string id, std::string title );
 //Send a companion on an individual mission or attaches them to a group to depart later
-void individual_mission( npc &p, std::string desc, std::string id, bool group = false );
-
+npc* individual_mission( npc &p, std::string desc, std::string id, bool group = false,
+                        std::vector<item *> equipment = {}, std::string skill_tested = "", int skill_level = 0);
+std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment );
 void caravan_return( npc &p, std::string dest, std::string id );
 void caravan_depart( npc &p, std::string dest, std::string id );
 int caravan_dist( std::string dest );
@@ -95,14 +96,26 @@ bool carpenter_return( npc &p );
 bool forage_return( npc &p );
 
 void become_overseer( npc & );
-void om_camp_upgrade( npc &p );
+bool om_camp_upgrade( npc &p, const point omt_pos );
 std::string om_upgrade_description( npc &p, std::string bldg );
 std::string om_gathering_description( npc &p, std::string bldg );
 std::string om_next_upgrade( std::string bldg );
 bool om_min_level( std::string target, std::string bldg );
-bool upgrade_return( npc &p );
+bool upgrade_return( npc &p, point omt_pos, std::string miss );
 bool camp_gathering_return( npc &p, std::string task );
+bool camp_garage_chop_start( npc &p, std::string task );
+bool camp_farm_return( npc &p, std::string task, bool harvest, bool plant, bool plow );
 bool camp_menial_return( npc &p );
+bool camp_expansion_select( npc &p );
+bool camp_distribute_food( npc &p );
+std::vector<std::pair<std::string, tripoint>> om_building_region( npc &p, int range, bool purge = false );
+std::string om_simple_dir( point omt_pos, tripoint omt_tar );
+std::string camp_farm_description( point omt_pos, bool harvest = true, bool plots = true, bool plow = true );
+std::string camp_car_description( vehicle *car );
+std::string camp_direction( std::string line);
+int camp_food_supply( int change = 0 );
+int camp_food_supply( time_duration work );
+int time_to_food( time_duration work );
 
 //Combat functions
 void force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
@@ -114,12 +127,13 @@ std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
 
 //Utility functions
 /// Returns npcs that have the given companion mission.
-std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id );
-npc *companion_choose();
+std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id, bool contains = false );
+std::vector<npc *> companion_sort( std::vector<npc *> available, std::string skill_tested = "" );
+std::vector<tripoint> companion_rank( std::vector<npc *> available, bool adj = true );
+npc *companion_choose( std::string skill_tested = "", int skill_level = 0 );
 npc *companion_choose_return( std::string id, const time_point &deadline );
 void companion_return( npc &comp );               //Return NPC to your party
-std::vector<item *> loot_building( const tripoint
-                                   site ); //Smash stuff, steal valuables, and change map maker
+std::vector<item *> loot_building( const tripoint site ); //Smash stuff, steal valuables, and change map maker
 };
 
 void unload_talk_topics();
