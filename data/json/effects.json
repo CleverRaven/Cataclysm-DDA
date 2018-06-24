@@ -1489,6 +1489,10 @@
     },
     {
         "type": "effect_type",
+        "id": "narcosis"
+    },
+    {
+        "type": "effect_type",
         "id": "alarm_clock"
     },
     {

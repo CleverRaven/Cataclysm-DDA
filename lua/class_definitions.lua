@@ -341,7 +341,7 @@ classes = {
             { name = "get_levx", rval = "int", args = { } },
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
-            { name = "get_temperature", rval = "int", args = { } },
+            { name = "get_temperature", rval = "int", args = { "tripoint" } },
             { name = "handle_liquid", rval = "bool", args = { "item" } },
             { name = "increase_kill_count", rval = nil, args = { "mtype_id" } },
             { name = "inv_for_all", rval = "int", args = { "string" } },
