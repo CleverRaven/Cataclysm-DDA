@@ -245,7 +245,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
 
     auto social_mod = jsobj.get_array( "social_modifiers" );
-    while( vr.has_more() ) {
+    while( social_mod.has_more() ) {
         auto pair = social_mod.next_array();
         new_mut.social_modifiers.emplace( pair.get_string( 0 ) , pair.get_int( 1 ) );
     }

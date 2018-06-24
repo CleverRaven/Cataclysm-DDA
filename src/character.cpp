@@ -2550,11 +2550,13 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
+//@todo the interaction type should probably be an enum or something
 int Character::mutation_social_mod( const std::string &type ) const
 {
     int mod = 0;
     for( const mutation_branch *mut : cached_mutations ) {
         mod += mut->social_mod( type );
+        add_msg( m_debug, "%s chance modified %d%% by %s", type.c_str(), mut->social_mod( type ), mut->name.c_str() );
     }
     return mod;
 }
