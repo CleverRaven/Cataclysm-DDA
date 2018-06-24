@@ -550,7 +550,7 @@
       "material_thickness": 1
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "OVERSIZE" ]
   },
   {
     "id": "glass",
