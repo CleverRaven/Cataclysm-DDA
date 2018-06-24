@@ -55,7 +55,6 @@ const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
 
-const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 
@@ -3508,6 +3507,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
+    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+
     uimenu amenu;
     amenu.selected = 0;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
@@ -3527,15 +3530,16 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+                return;
+            }
+
             const item *it = bionic.get_item();
             const itype *itemtype = it->type;
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( p.install_bionics( *itemtype ) ) {
-                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
-                p.fall_asleep( duration );
-                p.add_effect( effect_narcosis, duration );
-                p.add_msg_if_player( m_info,
-                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+                p.introduce_into_anesthesia( duration );
                 if( p.has_item( *it ) ) {
                     p.i_rem( it );
                 } else {
@@ -3549,6 +3553,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             bionic_collection installed_bionics = *g->u.my_bionics;
             if( installed_bionics.empty() ) {
                 popup( _( "You don't have any bionics installed." ) );
+                return;
+            }
+
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
                 return;
             }
 
@@ -3581,11 +3590,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
             if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
-                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
-                p.fall_asleep( duration );
-                p.add_effect( effect_narcosis, duration );
-                p.add_msg_if_player( m_info,
-                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+                p.introduce_into_anesthesia( duration );
             }
             break;
         }
