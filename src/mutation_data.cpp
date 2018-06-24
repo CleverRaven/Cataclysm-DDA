@@ -244,9 +244,11 @@ void mutation_branch::load( JsonObject &jsobj )
 
     new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
 
-    new_mut.lie_modifier = jsobj.get_int( "lie_modifier", 0 );
-    new_mut.persuasion_modifier = jsobj.get_int( "persuasion_modifier", 0 );
-    new_mut.intimidation_modifier = jsobj.get_int( "intimidation_modifier", 0 );
+    auto social_mod = jsobj.get_array( "social_modifiers" );
+    while( vr.has_more() ) {
+        auto pair = social_mod.next_array();
+        new_mut.social_modifiers.emplace( pair.get_string( 0 ) , pair.get_int( 1 ) );
+    }
 
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state
