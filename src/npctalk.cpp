@@ -58,11 +58,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_LIAR( "LIAR" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
-static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 struct dialogue;
 
@@ -2625,15 +2621,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
-            chance += u.mutation_social_mod( "lie" );
-
-            //@todo jsonize these kinds of interactions
-            if( u.has_trait( trait_TAIL_FLUFFY ) && u.has_trait( trait_LIAR ) ) {
-                chance -= 40; // Your tail acts as a tell and prevents the liar trait from functioning
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) && u.has_trait( trait_FLOWERS ) ) {
-                chance -= 10; // Flowers and butterfly wings only count once even if you have both
-            }
+            chance += u.get_mutation_social_mod( "lie" );
 
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
                 chance += 10;
@@ -2645,7 +2633,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_PERSUADE:
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
-            chance += u.mutation_social_mod( "persuade" );
+            chance += u.get_mutation_social_mod( "persuade" );
 
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
@@ -2660,7 +2648,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_INTIMIDATE:
             chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                       p.personality.bravery * 2;
-            chance += u.mutation_social_mod( "intimidate" );
+            chance += u.get_mutation_social_mod( "intimidate" );
 
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;

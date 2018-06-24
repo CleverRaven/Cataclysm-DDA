@@ -318,9 +318,9 @@
         "description" : "There's something about you that creatures find frightening, and they are more likely to try to flee.",
         "starting_trait" : true,
         "category" : ["MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_CHIMERA"],
-        "social_modifiers" : [
-        	[ "intimidate" , 15 ] 
-        ]
+        "social_modifiers" : {
+            "intimidate" : 15 
+        }
     },{
         "type" : "mutation",
         "id" : "DISRESISTANT",
@@ -491,9 +491,11 @@
         "description" : "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
         "starting_trait" : true,
         "cancels" : ["TRUTHTELLER"],
-        "social_modifiers" : [
-        	[ "lie" , 40 ] 
-        ]
+        "social_modifiers" : {
+            "//" : "The tail acts as a tell, preventing this trait from working",
+            "blocker_mutations" : ["TAIL_FLUFFY"],
+            "lie" : 40
+        }
     },{
         "type" : "mutation",
         "id" : "PRETTY",
@@ -899,9 +901,9 @@
         "description" : "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
         "starting_trait" : true,
         "cancels" : ["LIAR"],
-        "social_modifiers" : [
-        	[ "lie" , -40 ] 
-        ]
+        "social_modifiers" : {
+            "lie" : -40
+        }
     },{
         "type" : "mutation",
         "id" : "UGLY",
@@ -1022,11 +1024,11 @@
         "valid" : false,
         "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "category" : ["MUTCAT_ELFA"],
-        "social_modifiers" : [
-        	[ "lie" , 10 ],
-        	[ "persuade" , 20 ],
-        	[ "intimidate" , 10 ] 
-        ]
+        "social_modifiers" : {
+            "lie" : 10,
+            "persuade" : 20,
+            "intimidate" : 10 
+        }
     },{
         "type" : "mutation",
         "id" : "ELFA_NV",
@@ -1791,9 +1793,10 @@
         "cancels" : ["SMELLY", "SMELLY2"],
         "threshreq" : ["THRESH_PLANT"],
         "category" : ["MUTCAT_PLANT"],
-        "social_modifiers" : [
-        	[ "lie" , 10 ] 
-        ]
+        "social_modifiers" : {
+            "blocker_mutations" : ["WINGS_BUTTERFLY"],
+            "lie" : 10 
+        }
     },{
         "type" : "mutation",
         "id" : "M_SPORES",
@@ -2372,9 +2375,9 @@
         "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"],
         "restricts_gear" : [ "MOUTH" ],
         "destroys_gear" : true,
-        "social_modifiers" : [
-        	[ "intimidate" , 15 ] 
-        ],
+        "social_modifiers" : {
+            "intimidate" : 15 
+        },
         "attacks" : {
             "attack_text_u" : "You tear into %s with your saber teeth",
             "attack_text_npc" : "%1$s tears into %2$s with their saber teeth",
@@ -2607,10 +2610,10 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true,
-        "social_modifiers" : [
-        	[ "lie" , -20 ],
-        	[ "persuade" , 10 ] 
-        ]
+        "social_modifiers" : {
+            "lie": -20 ,
+            "persuade": 10 
+        }
     },{
         "type" : "mutation",
         "id" : "TAIL_STING",
@@ -3567,11 +3570,11 @@
         "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BAT"],
         "category" : ["MUTCAT_INSECT"],
         "restricts_gear" : [ "TORSO" ],
-        "social_modifiers" : [
-        	[ "lie" , 10 ],
-        	[ "persuade" , 15 ],
-        	[ "intimidate" , -20 ] 
-        ]
+        "social_modifiers" : {
+            "lie" : 10,
+            "persuade" : 15,
+            "intimidate" : -20 
+        }
     },{
         "type" : "mutation",
         "id" : "PALE",
@@ -3694,9 +3697,9 @@
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_CATTLE"],
         "restricts_gear" : [ "MOUTH" ],
-        "social_modifiers" : [
-        	[ "intimidate" , 15 ] 
-        ]
+        "social_modifiers" : {
+            "intimidate" : 15 
+        }
     },{
         "type" : "mutation",
         "id" : "MUZZLE",
@@ -3710,9 +3713,9 @@
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"],
         "restricts_gear" : [ "MOUTH" ],
-        "social_modifiers" : [
-        	[ "intimidate" , 6 ] 
-        ],
+        "social_modifiers" : {
+            "intimidate" : 6 
+        },
         "attacks" : {
             "attack_text_u" : "You nip at %s",
             "attack_text_npc" : "%1$s nips and harries %2$s",
@@ -3767,9 +3770,9 @@
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"],
         "restricts_gear" : [ "MOUTH" ],
-        "social_modifiers" : [
-        	[ "intimidate" , 20 ] 
-        ],
+        "social_modifiers" : {
+            "intimidate" : 20 
+        },
         "attacks" : {
             "attack_text_u" : "You bite a chunk out of %s",
             "attack_text_npc" : "%1$s bites a chunk out of %2$s",
@@ -4502,10 +4505,10 @@
         "description" : "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
         "changes_to" : ["SNARL"],
         "category" : ["MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_LUPINE"],
-        "social_modifiers" : [
-        	[ "persuade" , -25 ],
-        	[ "intimidate" , 15 ] 
-        ]
+        "social_modifiers" : {
+            "persuade" : -25,
+            "intimidate" : 15 
+        }
     },{
         "type" : "mutation",
         "id" : "SNARL",
@@ -4515,10 +4518,10 @@
         "description" : "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA", "MUTCAT_FELINE"],
-        "social_modifiers" : [
-        	[ "persuade" , -60 ],
-        	[ "intimidate" , 30 ] 
-        ]
+        "social_modifiers" : {
+            "persuade" : -60,
+            "intimidate" : 30 
+        }
     },{
         "type" : "mutation",
         "id" : "HISS",
@@ -4527,10 +4530,10 @@
         "points": -1,
         "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
         "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"],
-        "social_modifiers" : [
-        	[ "persuade" , -25 ],
-        	[ "intimidate" , 15 ] 
-        ]
+        "social_modifiers" : {
+            "persuade" : -25,
+            "intimidate" : 15 
+        }
     },{
         "type" : "mutation",
         "id" : "SHOUT1",

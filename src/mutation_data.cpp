@@ -183,6 +183,17 @@ static mut_attack load_mutation_attack( JsonObject &jo )
     return ret;
 }
 
+static mut_social_mod load_mutation_social_mod( JsonObject &jo )
+{
+    mut_social_mod ret;
+    jo.read( "required_mutations", ret.required_mutations );
+    jo.read( "blocker_mutations", ret.blocker_mutations );
+    jo.read( "lie", ret.lie );
+    jo.read( "persuade", ret.persuade );
+    jo.read( "intimidate", ret.intimidate );
+    return ret;
+}
+
 void mutation_branch::load( JsonObject &jsobj )
 {
     const trait_id id( jsobj.get_string( "id" ) );
@@ -244,10 +255,15 @@ void mutation_branch::load( JsonObject &jsobj )
 
     new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
 
-    auto social_mod = jsobj.get_array( "social_modifiers" );
-    while( social_mod.has_more() ) {
-        auto pair = social_mod.next_array();
-        new_mut.social_modifiers.emplace( pair.get_string( 0 ) , pair.get_int( 1 ) );
+    if( jsobj.has_array( "social_modifiers" ) ) {
+        JsonArray soc_mods = jsobj.get_array( "social_modifiers" );
+        while( soc_mods.has_more() ) {
+            JsonObject jo = soc_mods.next_object();
+            new_mut.social_mods.emplace_back( load_mutation_social_mod( jo ) );
+        }
+    } else if( jsobj.has_object( "social_modifiers" ) ) {
+        JsonObject jo = jsobj.get_object( "social_modifiers" );
+        new_mut.social_mods.emplace_back( load_mutation_social_mod( jo ) );
     }
 
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
