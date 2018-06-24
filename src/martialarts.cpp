@@ -65,7 +65,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
 
 void ma_technique::load( JsonObject &jo, const std::string &src )
 {
-    optional( jo, was_loaded, "name", name, "" );
+    mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, "" );
 
     if( jo.has_member( "messages" ) ) {
