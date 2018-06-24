@@ -168,6 +168,26 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
     return -1;
 }
 
+formatted_text::formatted_text( const std::string text, const int color, const direction direction )
+    : text( text ), color( color )
+{
+    switch( direction ) {
+        case NORTHWEST:
+        case WEST:
+        case SOUTHWEST:
+            alignment = TEXT_ALIGNMENT_RIGHT;
+            break;
+        case NORTH:
+        case CENTER:
+        case SOUTH:
+            alignment = TEXT_ALIGNMENT_CENTER;
+            break;
+        default:
+            alignment = TEXT_ALIGNMENT_LEFT;
+            break;
+    }
+}
+
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     assert( render );
@@ -944,7 +964,8 @@ struct tile_render_info {
     }
 };
 
-void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height, std::map<point, std::pair<std::string, int>> &strings )
+void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height, 
+                       std::multimap<point, formatted_text> &overlay_strings )
 {
     if (!g) {
         return;
@@ -1100,7 +1121,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             void_weather();
         }
         if (do_draw_sct) {
-            draw_sct_frame(strings);
+            draw_sct_frame( overlay_strings );
             void_sct();
         }
         if (do_draw_zones) {
@@ -2579,13 +2600,14 @@ void cata_tiles::draw_weather_frame()
     }
 }
 
-void cata_tiles::draw_sct_frame( std::map<point, std::pair<std::string, int>> &strings )
+void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings )
 {
     const bool use_font = get_option<bool>("ANIMATION_SCT_USE_FONT");
 
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const int iDX = iter->getPosX();
         const int iDY = iter->getPosY();
+        const int full_text_length = iter->getText().length();
 
         int iOffsetX = 0;
         int iOffsetY = 0;
@@ -2596,15 +2618,14 @@ void cata_tiles::draw_sct_frame( std::map<point, std::pair<std::string, int>> &s
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
-                // TODO: ensure no gaps between string parts
-                strings.emplace( 
-                    player_to_screen( iDX + iOffsetX, iDY + iOffsetY ),
-                    std::make_pair( sText, FG ) );
+                const auto direction = iter->getDirecton();
+                // Compensate for string length offset added at SCT creation 
+                // (it will be readded using font size and proper encoding later).
+                const int direction_offset = (-direction_XY( direction ).x + 1) * full_text_length / 2;
 
-                if( tile_iso ) {
-                    iOffsetY += sText.length();
-                }
-                iOffsetX += sText.length();
+                overlay_strings.emplace( 
+                    player_to_screen( iDX + direction_offset, iDY ),
+                    formatted_text( sText, FG, direction ) );
             } else {
                 for (std::string::iterator it = sText.begin(); it != sText.end(); ++it) {
                     const std::string generic_id = get_ascii_tile_id(*it, FG, -1);

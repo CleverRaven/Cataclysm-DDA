@@ -852,7 +852,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     bool update = false;
     if (g && w == g->w_terrain && use_tiles) {
         // Strings with colors do be drawn with map_font on top of tiles.
-        std::map<point, std::pair<std::string, int>> strings;
+        std::multimap<point, formatted_text> overlay_strings;
 
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
@@ -862,23 +862,47 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
-            strings);
+            overlay_strings );
 
-        for( const auto &iter : strings ) {
-            const auto coord = iter.first;
-            const utf8_wrapper text(iter.second.first);
-            const auto color = iter.second.second;
+        point prev_coord;
+        int x_offset = 0;
+        for( const auto &iter : overlay_strings ) {
+            const point coord = iter.first;
+            const formatted_text ft = iter.second;
+            const utf8_wrapper text( ft.text );
+            const auto wtext = utf8_to_wstr(ft.text);
+
+            // Strings at equal coords are displayed sequentially.
+            if( coord != prev_coord ) {
+                x_offset = 0;
+            }
+
+            // Calculate length of all strings in sequence to align them.
+            int full_text_length = 0;
+            const auto range = overlay_strings.equal_range( coord );
+            for( auto ri = range.first; ri != range.second; ++ri ) {
+                utf8_wrapper rt( ri->second.text );
+                full_text_length += rt.display_width();
+            }    
+
+            int alignment_offset = 0;
+            if ( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                alignment_offset = full_text_length / 2;
+            } else if ( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                alignment_offset = full_text_length - 1;
+            }
 
             // TODO: ensure it works with composite chars
-            for (size_t i = 0; i < text.display_width(); ++i ) {
-                //const int x = (win->x + i) * map_font->fontwidth + (coord.x - POSX) * tilecontext->get_tile_width();
-                //const int y = win->y * map_font->fontheight + (coord.y - POSY) * tilecontext->get_tile_height();
-                const int x = (win->x + i) * map_font->fontwidth + coord.x;
+            for( size_t i = 0; i < text.display_width(); ++i ) {
+                const int x = ( win->x + x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
                 const int y = win->y * map_font->fontheight + coord.y;
                 // TODO: draw with outline / BG color for better readability
                 // TODO: ensure other windows are not overdrawn
-                map_font->OutputChar(text.substr_display(i, 1).str(), x, y, color, win->FS);
+                map_font->OutputChar( text.substr_display(i, 1).str(), x, y, ft.color, win->FS );
             }
+
+            prev_coord = coord;
+            x_offset = text.display_width();
         }
 
         invalidate_framebuffer(terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
