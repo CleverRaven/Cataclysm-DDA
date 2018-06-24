@@ -13,7 +13,9 @@
     "stack_size": 100,
     "material": "veggy",
     "symbol": ".",
-    "color": "brown"
+    "color": "brown",
+    "rot_spawn": "GROUP_CROPS_GENERAL",
+    "rot_spawn_chance": 2
   },
   {
     "abstract": "seed_fruit",

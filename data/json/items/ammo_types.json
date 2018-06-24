@@ -372,6 +372,24 @@
         "default" : "rebreather_filter"
     },
     {
+        "type": "ammunition_type",
+        "id": "gasfilter_s",
+        "name": "filter mask cartridge",
+        "default": "gasfilter_s"
+   },
+   {
+        "type": "ammunition_type",
+        "id": "gasfilter_m",
+        "name": "gas mask cartridge",
+        "default": "gasfilter_m"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "gasfilter_l",
+        "name": "hazmat mask cartridge",
+        "default": "gasfilter_l"
+    },
+    {
         "type" : "ammunition_type",
         "id" : "300",
         "name" : ".300",

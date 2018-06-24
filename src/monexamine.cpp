@@ -20,7 +20,7 @@ void monexamine::milk_source( monster &source_mon )
         debugmsg( "milked item must be a liquid" );
     } else {
 
-        const time_duration milk_per_day = 1_days / HOURS( milked_item.begin()->second );
+        const time_duration milk_per_day = 1_days / milked_item.begin()->second;
 
         if( !source_mon.has_effect( effect_milked ) ) {
             g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, &source_mon );

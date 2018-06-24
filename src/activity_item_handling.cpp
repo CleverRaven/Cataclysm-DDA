@@ -424,7 +424,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         return;
     }
 
-    for( const auto ait : items ) {
+    for( const auto &ait : items ) {
         item *filthy_item = const_cast<item *>( ait.it );
         filthy_item->item_tags.erase( "FILTHY" );
     }

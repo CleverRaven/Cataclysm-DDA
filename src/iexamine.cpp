@@ -35,6 +35,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "bionics.h"
 
 #include <sstream>
 #include <algorithm>
@@ -3477,6 +3478,128 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+void iexamine::autodoc( player &p, const tripoint &examp )
+{
+    enum options {
+        INSTALL_CBM,
+        UNINSTALL_CBM,
+        CANCEL,
+    };
+
+    bool adjacent_couch = false;
+    bool in_position = false;
+    for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( couch_loc ) == couch ) {
+            adjacent_couch = true;
+            if( p.pos() == couch_loc ) {
+                in_position = true;
+            }
+        }
+    }
+
+    if( !adjacent_couch ) {
+        popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
+        return;
+    }
+    if( !in_position ) {
+        popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
+        return;
+    }
+
+    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+    amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
+    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
+
+    amenu.query();
+
+    switch( static_cast<options>( amenu.ret ) ) {
+        case INSTALL_CBM: {
+            const item_location bionic = g->inv_map_splice( []( const item &e ) {
+                return e.is_bionic();
+            }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install." ) );
+
+            if( !bionic ) {
+                return;
+            }
+
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+                return;
+            }
+
+            const item *it = bionic.get_item();
+            const itype *itemtype = it->type;
+            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+            if( p.install_bionics( *itemtype ) ) {
+                p.introduce_into_anesthesia( duration );
+                if( p.has_item( *it ) ) {
+                    p.i_rem( it );
+                } else {
+                    g->m.i_rem( bionic.position(), it );
+                }
+            }
+            break;
+        }
+
+        case UNINSTALL_CBM: {
+            bionic_collection installed_bionics = *g->u.my_bionics;
+            if( installed_bionics.empty() ) {
+                popup( _( "You don't have any bionics installed." ) );
+                return;
+            }
+
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+                return;
+            }
+
+            item bionic_to_uninstall;
+            std::vector<itype_id> bionic_types;
+            std::vector<std::string> bionic_names;
+
+            for( auto &bio : installed_bionics ) {
+                if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+                    if( bio.id != bionic_id( "bio_power_storage" ) ||
+                        bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                        const auto &bio_data = bio.info();
+                        bionic_names.push_back( bio_data.name );
+                        bionic_types.push_back( bio.id.str() );
+                        if( item::type_is_defined( bio.id.str() ) ) {
+                            bionic_to_uninstall = item( bio.id.str(), 0 );
+                        }
+                    }
+                }
+            }
+
+            int bionic_index = menu_vec( true, _( "Choose bionic to uninstall" ),
+                                         bionic_names ) - 1;
+            if( bionic_index < 0 ) {
+                return;
+            }
+
+            const itype *itemtype = bionic_to_uninstall.type;
+            // Malfunctioning bionics don't have associated items and get a difficulty of 12
+            const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
+            const time_duration duration = difficulty * 20_minutes;
+            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
+                p.introduce_into_anesthesia( duration );
+            }
+            break;
+        }
+
+        case CANCEL:
+            return;
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3548,7 +3671,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
+        { "climb_down", &iexamine::climb_down },
+        { "autodoc", &iexamine::autodoc }
     }};
 
     auto iter = function_map.find( function_name );

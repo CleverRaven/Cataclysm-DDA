@@ -361,8 +361,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     return hit_spread;
 }
 
-void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
-                              const damage_instance &dam, dealt_damage_instance &dealt_dam)
+void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                               const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
@@ -737,7 +737,7 @@ void Creature::set_fake(const bool fake_value)
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                           bool permanent, int intensity, bool force )
+                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
@@ -805,7 +805,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         // Then check if the effect is blocked by another
         for( auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
-                for( const auto blocked_effect : _effect_it.second.get_blocks_effects() ) {
+                for( const auto& blocked_effect : _effect_it.second.get_blocks_effects() ) {
                     if (blocked_effect == eff_id) {
                         // The effect is blocked by another, return
                         return;
@@ -847,7 +847,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        process_one_effect( e, true );
+        // only when not deferred
+        if( !deferred ) {
+            process_one_effect( e, true );
+        }
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
@@ -975,7 +978,7 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            for( const auto removed_effect : _it.second.get_removes_effects() ) {
+            for( const auto& removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }

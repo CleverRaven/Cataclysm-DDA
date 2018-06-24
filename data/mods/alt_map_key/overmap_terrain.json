@@ -1938,16 +1938,17 @@
     },{
         "type" : "overmap_terrain",
         "id" : "basement",
-        "name" : "basement",
         "sym" : 98,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2,
+        "copy-from" : "generic_city_house_basement",
         "mapgen": [
             { "method": "builtin", "name": "basement_junk" },
             { "method": "builtin", "name": "basement_spiders" }
-        ],
-        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
+        ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "basement_bionic",
+        "sym" : 98,
+        "copy-from" : "generic_city_house_basement"
     },{
         "type" : "overmap_terrain",
         "id" : "cavern",
