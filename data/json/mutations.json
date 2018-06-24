@@ -1794,7 +1794,6 @@
         "threshreq" : ["THRESH_PLANT"],
         "category" : ["MUTCAT_PLANT"],
         "social_modifiers" : {
-            "blocker_mutations" : ["WINGS_BUTTERFLY"],
             "lie" : 10 
         }
     },{
