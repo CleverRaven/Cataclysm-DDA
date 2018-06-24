@@ -130,6 +130,13 @@ struct mutation_branch {
     // Modifier for the rate at which stamina regenerates.
     float stamina_regen_modifier = 0.0f;
 
+    // Bonus or penalty to lying (additive).  50 adds 50% to success, -25 subtracts 25%
+    int lie_modifier = 0;
+    // Bonus or penalty to persuasion (additive).  50 adds 50% to success, -25 subtracts 25%
+    int persuasion_modifier = 0;
+    // Bonus or penalty to intimidation (additive).  50 adds 50% to success, -25 subtracts 25%
+    int intimidation_modifier = 0;
+
     /** The item, if any, spawned by the mutation */
     itype_id spawn_item;
     std::string spawn_item_message;
