@@ -32,6 +32,9 @@
 #include "skill.h"
 #include "ui.h"
 #include "help.h"
+#include "coordinate_conversions.h"
+#include "overmap.h"
+#include "editmap.h"
 
 #include "string_formatter.h"
 #include <vector>
@@ -2991,6 +2994,71 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::become_overseer( npc &p )
 {
+    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
+
+    if( omt_ref.id() != "field" ){
+        popup( _("You must build your camp in an empty field.") );
+        return;
+    }
+
+    std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( p, 1 );
+    for( const auto &om_near : om_region ){
+        if ( om_near.first != "field" && om_near.first != "forest" && om_near.first != "swamp" &&
+                om_near.first.find("river_") == std::string::npos ){
+            popup( _("You need more room for camp expansions!") );
+            return;
+        }
+    }
+    std::vector<std::pair<std::string, tripoint>> om_region_extended = om_building_region( p, 3 );
+    int forests = 0;
+    int waters = 0;
+    int swamps = 0;
+    int fields = 0;
+    for( const auto &om_near : om_region_extended ){
+        if (om_near.first.find("faction_base_camp") != std::string::npos ){
+            popup( _("You are too close to another camp!") );
+            return;
+        }
+        if (om_near.first == "forest" ){
+            forests++;
+        } else if (om_near.first.find("river_") != std::string::npos ){
+            waters++;
+        } else if (om_near.first == "swamp" ){
+            swamps++;
+        } else if (om_near.first == "field" ){
+            fields++;
+        }
+    }
+
+    bool display = false;
+    std::string buffer = _("Warning, you have selected a region with the following issues:\n \n");
+    if( forests < 3 ){
+        display = true;
+        buffer = buffer + _("There are few forests.  Wood is your primary construction material.\n");
+    }
+    if( waters == 0 ){
+        display = true;
+        buffer = buffer + _("There are few large clean-ish water sources.\n");
+    }
+    if( swamps == 0 ){
+        display = true;
+        buffer = buffer + _("There are no swamps.  Swamps provide access to a few late game industries.\n");
+    }
+    if( fields < 4 ){
+        display = true;
+        buffer = buffer + _("There are few fields.  Producing enough food to supply your camp may be difficult.\n");
+    }
+    if ( display && !query_yn( "%s \nAre you sure you wish to continue? ", buffer )) {
+        return;
+    }
+
+    editmap edit;
+    if (!edit.mapgen_set( "faction_base_camp_0", tripoint(omt_pos.x, omt_pos.y, p.posz() ) ) ){
+        popup( _("You weren't able to survey the camp site.") );
+        return;
+    }
+
     add_msg( _( "%s has become a camp manager." ), p.name.c_str() );
     p.name = p.name + ", Camp Manager";
     p.set_attitude( NPCATT_NULL );
