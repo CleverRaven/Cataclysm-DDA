@@ -894,10 +894,18 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
             // TODO: ensure it works with composite chars
             for( size_t i = 0; i < text.display_width(); ++i ) {
-                const int x = ( win->x + x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
-                const int y = win->y * map_font->fontheight + coord.y;
+                const int x0 = win->x * fontwidth;
+                const int y0 = win->y * fontheight;
+                const int x = x0 + ( x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
+                const int y = y0 + coord.y;                
+
+                // Clip to window bounds.
+                if( x < x0 || x > x0 + (TERRAIN_WINDOW_TERM_WIDTH - 1) * font->fontwidth
+                    || y < y0 || y > y0 + (TERRAIN_WINDOW_TERM_HEIGHT - 1) * font->fontheight ) {
+                    continue;
+                }
+
                 // TODO: draw with outline / BG color for better readability
-                // TODO: ensure other windows are not overdrawn
                 map_font->OutputChar( text.substr_display(i, 1).str(), x, y, ft.color, win->FS );
             }
 
