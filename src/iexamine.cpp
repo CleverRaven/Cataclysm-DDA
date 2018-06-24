@@ -3530,13 +3530,30 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
+            const item *it = bionic.get_item();
+            const itype *itemtype = it->type;
+            const bionic_id &bid = itemtype->bionic->id;
+
+            if( p.has_bionic( bid ) ) {
+                popup( _( "You have already installed this bionic."  ) );
+                return;
+            } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
+                popup( _( "You have no base version of this bionic to upgrade." ) );
+                return;
+            } else {
+                const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
+                                                    std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                if( downgrade ) {
+                    popup( _( "You have already installed a superior version of this bionic." ) );
+                    return;
+                }
+            }
+
             if( !has_anesthesia ) {
                 popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
                 return;
             }
 
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( p.install_bionics( *itemtype ) ) {
                 p.introduce_into_anesthesia( duration );
