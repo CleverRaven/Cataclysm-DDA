@@ -857,8 +857,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    temperature = 65; // Springtime-appropriate?
-    update_weather(); // Springtime-appropriate, definitely.
+    temperature = SPRING_TEMPERATURE;
+    update_weather();
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1751,8 +1751,8 @@ int game::get_temperature( const tripoint &location )
 {
     
     if ( location.z < 0 ) {
-        // underground temperature = average New England temperature = 43F/6C rounded to int
-        return 43 + m.temperature( location );
+        // underground temperature = average annual temperature
+        return AVERAGE_ANNUAL_TEMPERATURE + m.temperature( location );
     }
     // if not underground use weather determined temperature
     return temperature + m.temperature( location );

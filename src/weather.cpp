@@ -17,6 +17,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "player.h"
+#include "game_constants.h"
 
 #include <vector>
 #include <sstream>
@@ -73,8 +74,15 @@ int get_hourly_rotpoints_at_temp( int temp );
 
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
 {
-
     time_duration ret = 0;
+    // root cellars are considered as underground storage, ignores weather
+    if ( g->m.tername( location ) == "root cellar" ) {
+        for( time_point i = start; i < end; i += 1_hours ) {
+        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( AVERAGE_ANNUAL_TEMPERATURE ) * 1_turns;
+        }
+        return ret;
+    }
+  
     // if underground it ignores weather, using strait underground temperature instead
     if ( location.z < 0 ) {
         for( time_point i = start; i < end; i += 1_hours ) {
