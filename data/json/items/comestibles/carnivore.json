@@ -208,7 +208,6 @@
     "charges": 4,
     "stack_size": 4,
     "parasites": 0,
-    "spoils_in": 0,
     "quench": -5,
     "fun": 4,
     "proportional": { "price": 2, "calories": 0.45 }
@@ -226,7 +225,6 @@
     "charges": 3,
     "stack_size": 3,
     "parasites": 0,
-    "spoils_in": 0,
     "quench": -5,
     "fun": 4,
     "proportional": { "price": 0.44, "calories": 0.34 }
