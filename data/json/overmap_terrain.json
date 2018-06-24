@@ -7317,6 +7317,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_camp_0",
+    "name": "camp survey",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_camp_1",
     "name": "survivor camp",
     "sym": 43,
@@ -7474,6 +7483,195 @@
     "name": "survivor base",
     "sym": 43,
     "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_0",
+    "name": "farm survey",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_1",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_2",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_3",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_4",
+    "name": "farm",
+    "sym": 43,
+    "color": "i_brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_0",
+    "name": "garage survey",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_1",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_2",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_3",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_4",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_5",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_6",
+    "name": "garage",
+    "sym": 43,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_0",
+    "name": "kitchen survey",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_1",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_2",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_3",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_4",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_5",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_6",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_7",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_8",
+    "name": "kitchen",
+    "sym": 43,
+    "color": "i_green",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   }
