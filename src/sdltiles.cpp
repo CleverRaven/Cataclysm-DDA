@@ -866,11 +866,11 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
         point prev_coord;
         int x_offset = 0;
+        int alignment_offset = 0;
         for( const auto &iter : overlay_strings ) {
             const point coord = iter.first;
             const formatted_text ft = iter.second;
             const utf8_wrapper text( ft.text );
-            const auto wtext = utf8_to_wstr(ft.text);
 
             // Strings at equal coords are displayed sequentially.
             if( coord != prev_coord ) {
@@ -878,21 +878,23 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             // Calculate length of all strings in sequence to align them.
-            int full_text_length = 0;
-            const auto range = overlay_strings.equal_range( coord );
-            for( auto ri = range.first; ri != range.second; ++ri ) {
-                utf8_wrapper rt( ri->second.text );
-                full_text_length += rt.display_width();
-            }    
+            if ( x_offset == 0 ) {
+                int full_text_length = 0;
+                const auto range = overlay_strings.equal_range( coord );
+                for( auto ri = range.first; ri != range.second; ++ri ) {
+                    utf8_wrapper rt(ri->second.text);
+                    full_text_length += rt.display_width();
+                }
 
-            int alignment_offset = 0;
-            if ( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
-                alignment_offset = full_text_length / 2;
-            } else if ( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
-                alignment_offset = full_text_length - 1;
+                alignment_offset = 0;
+                if( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                    alignment_offset = full_text_length / 2;
+                }
+                else if( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                    alignment_offset = full_text_length - 1;
+                }
             }
 
-            // TODO: ensure it works with composite chars
             for( size_t i = 0; i < text.display_width(); ++i ) {
                 const int x0 = win->x * fontwidth;
                 const int y0 = win->y * fontheight;
@@ -900,13 +902,13 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 const int y = y0 + coord.y;                
 
                 // Clip to window bounds.
-                if( x < x0 || x > x0 + (TERRAIN_WINDOW_TERM_WIDTH - 1) * font->fontwidth
-                    || y < y0 || y > y0 + (TERRAIN_WINDOW_TERM_HEIGHT - 1) * font->fontheight ) {
+                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->fontwidth
+                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->fontheight ) {
                     continue;
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                map_font->OutputChar( text.substr_display(i, 1).str(), x, y, ft.color, win->FS );
+                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color, win->FS );
             }
 
             prev_coord = coord;
