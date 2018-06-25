@@ -91,7 +91,7 @@ void iexamine::none(player &p, const tripoint &examp)
 void iexamine::cvdmachine( player &p, const tripoint & ) {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item &e ) {
-        return e.is_melee( DT_CUT ) && e.made_of( material_id( "steel" ) ) &&
+        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_id( "steel" ) ) &&
                !e.has_flag( "DIAMOND" ) && !e.has_flag( "NO_CVD" );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
@@ -102,6 +102,10 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
     // Require materials proportional to selected item volume
     auto qty = loc->volume() / units::legacy_volume_factor;
     auto reqs = *requirement_id( "cvd_diamond" ) * qty;
+    if(qty == 0) {
+        reqs = *requirement_id( "cvd_diamond" ) * 1;
+    }
+
     if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
