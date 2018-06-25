@@ -38,13 +38,14 @@ public:
   int sw_fac = 0; // dir == 6
   int nw_fac = 0; // dir == 7
   oter_id t_above;
+  oter_id t_below;
   int zlevel;
   const regional_settings &region;
   map &m;
   weighted_int_list<ter_id> default_groundcover;
   mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
              oter_id t_neast, oter_id t_seast, oter_id t_swest, oter_id t_nwest,
-             oter_id up, int z, const regional_settings &rsettings, map &mp );
+             oter_id up, oter_id below, int z, const regional_settings &rsettings, map &mp );
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);
@@ -57,6 +58,7 @@ public:
   const oter_id &swest() const { return t_nesw[6]; }
   const oter_id &nwest() const { return t_nesw[7]; }
   const oter_id &above() const { return t_above; }
+  const oter_id &below() const { return t_below; }
   const oter_id &neighbor_at( om_direction::type dir ) const;
   void fill_groundcover();
   void square_groundcover(const int x1, const int y1, const int x2, const int y2);
