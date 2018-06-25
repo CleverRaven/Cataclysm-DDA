@@ -75,16 +75,6 @@ struct mut_attack {
     bool hardcoded_effect = false;
 };
 
-struct mut_social_mod {
-    // Need these additional mutations to qualify for this set of modifiers
-    std::set<trait_id> required_mutations;
-    // Need none of these mutations to qualify for this set of modifies
-    std::set<trait_id> blocker_mutations;
-
-    // Social modifiers while this effect is active
-    social_modifiers mods;
-};
-
 struct mutation_branch {
     using MutationMap = std::unordered_map<trait_id, mutation_branch>;
     // True if this is a valid mutation (False for "unavailable from generic mutagen").
@@ -142,7 +132,7 @@ struct mutation_branch {
     float stamina_regen_modifier = 0.0f;
 
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
-    std::vector<mut_social_mod> social_mods;
+    social_modifiers social_mods;
 
     /** The item, if any, spawned by the mutation */
     itype_id spawn_item;

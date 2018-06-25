@@ -2554,25 +2554,7 @@ const social_modifiers Character::get_mutation_social_mods() const
 {
     social_modifiers mods;
     for( const mutation_branch *mut : cached_mutations ) {
-        for( const mut_social_mod &mut_soc : mut->social_mods ) {
-            // If player has any blocker, bail out
-            if( std::any_of( mut_soc.blocker_mutations.begin(), mut_soc.blocker_mutations.end(),
-            [this]( const trait_id & blocker ) {
-            return has_trait( blocker );
-            } ) ) {
-                continue;
-            }
-
-            // Player must have all needed traits
-            if( !std::all_of( mut_soc.required_mutations.begin(), mut_soc.required_mutations.end(),
-            [this]( const trait_id & need ) {
-            return has_trait( need );
-            } ) ) {
-                continue;
-            }
-
-            mods += mut_soc.mods;
-        }
+        mods += mut->social_mods;
     }
 
     return mods;

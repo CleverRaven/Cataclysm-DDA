@@ -492,8 +492,6 @@
         "starting_trait" : true,
         "cancels" : ["TRUTHTELLER"],
         "social_modifiers" : {
-            "//" : "The tail acts as a tell, preventing this trait from working",
-            "blocker_mutations" : ["TAIL_FLUFFY"],
             "lie" : 40
         }
     },{
