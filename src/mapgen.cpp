@@ -1929,9 +1929,7 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
         lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
-    if( md.has_basement() ) {
-        place_basement_stairs( m, terrain_type, md );
-    }
+    place_stairs( m, terrain_type, md );
 
     objects.apply( md, 0, 0, d );
 
