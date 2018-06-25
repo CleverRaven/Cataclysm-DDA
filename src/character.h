@@ -121,7 +121,8 @@ struct social_modifiers {
         return *this;
     }
 };
-inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs ) {
+inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
+{
     lhs += rhs;
     return lhs;
 }
