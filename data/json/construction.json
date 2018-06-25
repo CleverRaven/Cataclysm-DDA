@@ -2390,7 +2390,8 @@
             [ [ "2x4", 6 ], [ "stick", 6 ] ],
             [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
         ],
-        "pre_terrain" : "t_pit",
-        "post_terrain" : "t_rootcellar"
+        "pre_note":  "You need a deep pit to construct a root cellar.",
+        "pre_terrain": "t_pit",
+        "post_terrain": "t_rootcellar"
     }
 ]
