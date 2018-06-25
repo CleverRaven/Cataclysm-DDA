@@ -188,9 +188,9 @@ static mut_social_mod load_mutation_social_mod( JsonObject &jo )
     mut_social_mod ret;
     jo.read( "required_mutations", ret.required_mutations );
     jo.read( "blocker_mutations", ret.blocker_mutations );
-    jo.read( "lie", ret.lie );
-    jo.read( "persuade", ret.persuade );
-    jo.read( "intimidate", ret.intimidate );
+    jo.read( "lie", ret.mods.lie );
+    jo.read( "persuade", ret.mods.persuade );
+    jo.read( "intimidate", ret.mods.intimidate );
     return ret;
 }
 

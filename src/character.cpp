@@ -2550,15 +2550,13 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
-//@todo the interaction type should either be an enum or jsonized
-int Character::get_mutation_social_mod( const std::string &type ) const
+const social_modifiers Character::get_mutation_social_mods() const
 {
-    int mod = 0;
+    social_modifiers mods;
     for( const mutation_branch *mut : cached_mutations ) {
-        int mut_mod = 0;
-        for( const mut_social_mod &soc_mod : mut->social_mods ) {
+        for( const mut_social_mod &mut_soc : mut->social_mods ) {
             // If player has any blocker, bail out
-            if( std::any_of( soc_mod.blocker_mutations.begin(), soc_mod.blocker_mutations.end(),
+            if( std::any_of( mut_soc.blocker_mutations.begin(), mut_soc.blocker_mutations.end(),
                 [this]( const trait_id &blocker ) {
                     return has_trait( blocker );
                 } ) ) {
@@ -2566,27 +2564,18 @@ int Character::get_mutation_social_mod( const std::string &type ) const
             }
 
             // Player must have all needed traits
-            if( !std::all_of( soc_mod.required_mutations.begin(), soc_mod.required_mutations.end(),
+            if( !std::all_of( mut_soc.required_mutations.begin(), mut_soc.required_mutations.end(),
                 [this]( const trait_id &need ) {
                     return has_trait( need );
                 } ) ) {
                 continue;
             }
 
-            if ( type == "lie" ) {
-                mut_mod += soc_mod.lie;
-            } else if ( type == "persuade" ) {
-                mut_mod += soc_mod.persuade;
-            } else if ( type == "intimidate" ) {
-                mut_mod += soc_mod.intimidate;
-            }
+            mods += mut_soc.mods;
         }
-
-        mod += mut_mod;
-        add_msg( m_debug, "%s chance modified %d%% by %s", type.c_str(), mut_mod, mut->name.c_str() );
     }
 
-    return mod;
+    return mods;
 }
 
 template <float mutation_branch::*member>

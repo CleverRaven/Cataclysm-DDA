@@ -2,6 +2,7 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include "character.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "damage.h"
@@ -81,9 +82,7 @@ struct mut_social_mod {
     std::set<trait_id> blocker_mutations;
 
     // Social modifiers while this effect is active
-    int lie = 0;
-    int persuade = 0;
-    int intimidate = 0;
+    social_modifiers mods;
 };
 
 struct mutation_branch {

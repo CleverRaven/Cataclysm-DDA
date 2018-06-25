@@ -2611,6 +2611,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
+    const social_modifiers &u_mods = u.get_mutation_social_mods();
 
     npc &p = *d.beta;
     int chance = difficulty;
@@ -2621,7 +2622,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
-            chance += u.get_mutation_social_mod( "lie" );
+            chance += u_mods.lie;
 
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
                 chance += 10;
@@ -2633,7 +2634,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_PERSUADE:
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
-            chance += u.get_mutation_social_mod( "persuade" );
+            chance += u_mods.persuade;
 
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
@@ -2648,7 +2649,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_INTIMIDATE:
             chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                       p.personality.bravery * 2;
-            chance += u.get_mutation_social_mod( "intimidate" );
+            chance += u_mods.intimidate;
 
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
