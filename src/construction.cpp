@@ -412,8 +412,12 @@ void construction_menu()
                             std::string result_string;
                             if( current_con->post_is_furniture ) {
                                 result_string = furn_str_id( current_con->post_terrain ).obj().name();
+                                result_string += ": ";
+                                result_string += furn_str_id( current_con->post_terrain ).obj().description;
                             } else {
                                 result_string = ter_str_id( current_con->post_terrain ).obj().name();
+                                result_string += ": ";
+                                result_string += ter_str_id( current_con->post_terrain ).obj().description;
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Result: %s" ), result_string.c_str() ) << "</color>";
@@ -421,6 +425,19 @@ void construction_menu()
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
+                        } else if( !current_con->post_terrain.empty() ) {
+                            // display description of the result
+                            current_line.str( "" );
+                            if( current_con->post_is_furniture ) {
+                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
+                            } else {
+                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
+                            }
+                            std::vector<std::string> folded_result_string = foldstring( current_line.str(),
+                                available_window_width );
+                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
+                                                   folded_result_string.end() );
+                            current_buffer.push_back( "" );
                         }
 
                         current_line.str( "" );
