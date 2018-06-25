@@ -4034,8 +4034,13 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         return 0;
     } else {
         int time = 20000; // 20 minutes per
-        p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
-                              it->tname().c_str() );
+        if( it->ammo_remaining() > 0 ) {
+            p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
+                                  it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
+                                  it->tname().c_str() );
+        }
         p->assign_activity( activity_id( "ACT_VIBE" ), time, -1, p->get_item_position( it ),
                             "de-stressing" );
     }
