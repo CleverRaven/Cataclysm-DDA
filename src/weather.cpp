@@ -76,7 +76,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
 {
     time_duration ret = 0;
     // root cellars are considered as underground storage, ignores weather, constant temperature
-    if ( g->m.ter( g->m.getlocal( location ) == t_rootcellar ) {
+    if ( g->m.ter( g->m.getlocal( location ) ) == t_rootcellar ) {
         for( time_point i = start; i < end; i += 1_hours ) {
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( AVERAGE_ANNUAL_TEMPERATURE ) * 1_turns;
         }
