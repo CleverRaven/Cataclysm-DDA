@@ -2264,18 +2264,6 @@
     },
     {
         "type" : "keybinding",
-        "id":"REMOVE",
-        "category":"BIONICS",
-        "name":"Remove bionic",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"-"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id":"UP",
         "category":"BIONICS",
         "name":"Move cursor up",

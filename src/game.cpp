@@ -431,7 +431,7 @@ void reinitialize_framebuffer() { }
 #endif
 
 
-void game::init_ui()
+void game::init_ui( const bool resized )
 {
     // clear the screen
     static bool first_init = true;
@@ -443,7 +443,6 @@ void game::init_ui()
         FULL_SCREEN_WIDTH = 80;
         FULL_SCREEN_HEIGHT = 24;
         // print an intro screen, making sure the terminal is the correct size
-        intro();
 
         first_init = false;
 
@@ -460,7 +459,16 @@ void game::init_ui()
 #if (defined TILES || defined _WIN32 || defined __WIN32__)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
+
+    if ( resized ) {
+        get_options().get_option( "TERMINAL_X" ).setValue( TERMX );
+        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY );
+        get_options().save();
+    }
 #else
+    (void) resized;
+    intro();
+
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
 
@@ -674,6 +682,11 @@ void game::init_ui()
     werase(w_status2);
 
     liveview.init();
+
+    //Refresh only if ingame. Will crash on main menu
+    if( resized && !g->u.name.empty() ) {
+        g->refresh_all();
+    }
 }
 
 void game::toggle_sidebar_style()
@@ -1734,9 +1747,15 @@ void game::update_weather()
     }
 }
 
-int game::get_temperature()
+int game::get_temperature( const tripoint &location )
 {
-    return temperature + m.temperature( u.pos() );
+    
+    if ( location.z < 0 ) {
+        // underground temperature = average New England temperature = 43F/6C rounded to int
+        return 43 + m.temperature( location );
+    }
+    // if not underground use weather determined temperature
+    return temperature + m.temperature( location );
 }
 
 int game::assign_mission_id()
@@ -4307,7 +4326,6 @@ void game::debug()
 void game::draw_overmap()
 {
     overmap::draw_overmap();
-    refresh_all();
 }
 
 void game::disp_kills()
@@ -4645,7 +4663,7 @@ void game::draw_sidebar()
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
+        wprintz( w_location, c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str());
     }
 
     //moon phase display
@@ -6247,11 +6265,15 @@ bool game::add_zombie(monster &critter, bool pin_upgrade)
     }
 
     critter.try_upgrade(pin_upgrade);
+    critter.try_reproduce();
+    critter.try_biosignature();
     if( !pin_upgrade ) {
         critter.on_load();
     }
 
     critter.last_updated = calendar::turn;
+    critter.last_baby = calendar::turn;
+    critter.last_biosig = calendar::turn;
     return critter_tracker->add(critter);
 }
 
@@ -12789,7 +12811,8 @@ void game::update_stair_monsters()
             critter.spawn( dest );
             while (tries < creature_push_attempts) {
                 tries++;
-                pushx = rng(-1, 1), pushy = rng(-1, 1);
+                pushx = rng(-1, 1);
+                pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
                 tripoint pos( iposx, iposy, get_levz() );

@@ -680,7 +680,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( display_type != "numbers" ) {
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Great + = Normal | = Graze" ) );
     }
-    for( const aim_type type : aim_types ) {
+    for( const aim_type& type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
         std::string label = _( "Current Aim" );

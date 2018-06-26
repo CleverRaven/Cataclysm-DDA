@@ -5,13 +5,13 @@
 # Argasm Voragz <argasm@gmail.com>, 2018
 # Jazz <jazzzz@gmail.com>, 2018
 # _hickop, 2018
-# Réouven Assouly <reouvenassouly@yahoo.fr>, 2018
+# 0a12861a88fd8e19ef9d434658b16f47, 2018
 # master zu, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-01 19:14-0400\n"
+"POT-Creation-Date: 2018-06-15 19:51+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: master zu, 2018\n"
 "Language-Team: French (https://www.transifex.com/cataclysm-dda-translators/teams/2217/fr/)\n"
@@ -5551,7 +5551,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift shotgun shot"
-msgstr "balle de fusil de chasse de fortune"
+msgstr "balle de fusil à pompe de fortune"
 
 #. ~ Description for makeshift shotgun shot
 #: lang/json/AMMO_from_json.py
@@ -7452,7 +7452,7 @@ msgid ""
 "travels.  It has a lot of storage space."
 msgstr ""
 "Une tenue de fortune faite de vêtements pré-cataclysme conçue pour de longs "
-"voyages."
+"voyages. Elle a beaucoup de poches."
 
 #: lang/json/ARMOR_from_json.py
 msgid "plated leather armor"
@@ -24327,7 +24327,7 @@ msgstr[1] "herbes sauvages"
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A tasty collection of wild herbs including violet, sassafras, mint, clover, "
-"purslane, and burdock."
+"purslane, fireweed, and burdock."
 msgstr ""
 "Un ensemble délicieux d'herbes sauvages: violette, sassafras, menthe, "
 "trèfle, pourpier, et bardane."
@@ -31649,8 +31649,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "broken skitterbot"
 msgid_plural "broken skitterbots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "skitterbot cassé"
+msgstr[1] "skitterbots cassés"
 
 #. ~ Description for broken skitterbot
 #: lang/json/GENERIC_from_json.py
@@ -32285,6 +32285,10 @@ msgid ""
 "actions.  With gunsmithing tools, some skill, and a few hours, you could "
 "take a 'tacti-cool' rifle and convert it to the classic Russian design."
 msgstr ""
+"Une belle crosse en bois et du matériel conçus pour s'adapter aux Mosin-"
+"Nagants. Avec des outils d'armurerie, des compétences et quelques heures, "
+"vous pourriez prendre un fusil \"tacti-cool\" et lui donner l'apparence du "
+"classique Russe."
 
 #: lang/json/GENERIC_from_json.py
 msgid "Mosin-Nagant EBR conversion kit"
@@ -33771,6 +33775,8 @@ msgid ""
 "This sturdy steel shaft with a sword blade at the end is good for both "
 "slashing and stabbing."
 msgstr ""
+"Ce solide tuyau d'acier avec une lame d'épée au bout est à la fois "
+"valablement contondant et tranchant. "
 
 #: lang/json/GENERIC_from_json.py
 msgid "expandable baton"
@@ -33794,6 +33800,8 @@ msgid ""
 "A telescoping baton that collapses for easy storage.  Makes an excellent "
 "melee weapon.  Activate to expand."
 msgstr ""
+"Une matraque télescopique qui se réduit pour un rangement plus facile. Fait "
+"une excellente arme de mêlée. Activer pour développer"
 
 #: lang/json/GENERIC_from_json.py
 msgid "expandable baton (extended)"
@@ -33817,6 +33825,8 @@ msgid ""
 "A telescoping baton that collapses for easy storage.  Makes an excellent "
 "melee weapon.  Activate to collapse."
 msgstr ""
+"Une matraque télescopique qui se réduit pour un rangement plus facile. Fait "
+"une excellente arme de mêlée. Activer pour réduire."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bee sting"
@@ -33828,17 +33838,18 @@ msgstr[1] "dards d'abeille"
 #: lang/json/GENERIC_from_json.py
 msgid "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon."
 msgstr ""
+"Un dard de 6 pouces d'une abeille géante. Fait une arme médiocre de mêlée"
 
 #: lang/json/GENERIC_from_json.py
 msgid "fungal fighter sting"
 msgid_plural "fungal fighter stings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Dard d'un guerrier fongique"
+msgstr[1] "dards d'un guerrier fongique"
 
 #. ~ Description for fungal fighter sting
 #: lang/json/GENERIC_from_json.py
 msgid "A short dart from a fungal fighter.  Makes an poor melee weapon."
-msgstr ""
+msgstr "Un petit dard d'un guerrier fongique. Fait une pauvre arme de Mélée."
 
 #: lang/json/GENERIC_from_json.py
 msgid "wasp sting"
@@ -33938,6 +33949,8 @@ msgid ""
 "A fire-hardened wooden spear honed to a sharper point.  The grip area has "
 "been carved and covered for better grip."
 msgstr ""
+"Une pique en bois durcie au feu aiguisée pour être plus pointue. La zone de "
+"prise à été sculptée et revêtue pour une meilleure prise."
 
 #. ~ Description for iron javelin
 #: lang/json/GENERIC_from_json.py
@@ -33945,6 +33958,8 @@ msgid ""
 "An iron-tipped wooden throwing spear.  The grip area has been carved and "
 "covered for better grip."
 msgstr ""
+"Un javelot en bois renforcé avec du fer. La poignée a été taillée et revêtue"
+" pour permettre une meilleure prise."
 
 #: lang/json/GENERIC_from_json.py
 msgid "bionic claws"
@@ -33971,6 +33986,8 @@ msgid ""
 "A foot-long blade made from high-tech alloy and edged with bonded "
 "nanocrystals."
 msgstr ""
+"Une lame de 30cm faite de matériaux de haute technologie et dont le fil est "
+"composé de nano-cristaux."
 
 #: lang/json/GENERIC_from_json.py
 msgid "punch dagger"
@@ -34021,8 +34038,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "razorbar katar"
 msgid_plural "razorbar katars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "katar razorback"
+msgstr[1] "katars razorback"
 
 #. ~ Description for razorbar katar
 #: lang/json/GENERIC_from_json.py
@@ -37037,8 +37054,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift air filter"
 msgid_plural "makeshift air filters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "filtre à air de fortune"
+msgstr[1] "filtres à air de fortune"
 
 #. ~ Description for makeshift air filter
 #: lang/json/GENERIC_from_json.py
@@ -37061,8 +37078,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift automotive filter"
 msgid_plural "makeshift automotive filters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "filtre pour voiture de fortune"
+msgstr[1] "filtres pour voiture de fortune"
 
 #. ~ Description for makeshift automotive filter
 #: lang/json/GENERIC_from_json.py
@@ -37200,8 +37217,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift bayonet"
 msgid_plural "makeshift bayonets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "baïonnette de fortune"
+msgstr[1] "baïonnettes de fortune"
 
 #. ~ Description for makeshift bayonet
 #: lang/json/GENERIC_from_json.py
@@ -37209,6 +37226,8 @@ msgid ""
 "A makeshift version of a bayonet that consists of a mere spike with some "
 "string."
 msgstr ""
+"Une baïonnettes de fortune faite à partir d'une simple pointe et de "
+"ficelles."
 
 #: lang/json/GENERIC_from_json.py
 msgid "aluminum ingot"
@@ -37336,6 +37355,8 @@ msgid ""
 "A makeshift pallet lifter.  If attached to a frame it could be used to lift "
 "up to 0.5 metric tonnes."
 msgstr ""
+"Un porte palettes de fortune. Attachée à un cadre il peut être utilisé pour "
+"lever jusqu’à une demi tonne."
 
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle crafting rig"
@@ -38004,8 +38025,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift pot"
 msgid_plural "makeshift pots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pot de fortune"
+msgstr[1] "pots de fortune"
 
 #. ~ Description for makeshift pot
 #: lang/json/GENERIC_from_json.py
@@ -40106,7 +40127,7 @@ msgstr "Pas de monstres fongiques"
 #. ~ Description for No Fungal Monsters
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes fungal monsters and regions from the game."
-msgstr ""
+msgstr "Retire les monstres et les régions fongiques du jeux."
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Medieval Items"
@@ -40842,6 +40863,7 @@ msgid "chicken"
 msgstr "poule"
 
 #. ~ Description for chicken
+#. ~ Description for chicken chick
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A domesticated descendant of junglefowl, it may still be the most numerous "
@@ -41159,6 +41181,19 @@ msgid ""
 msgstr ""
 "Un drone avec une caméra haute résolution. Ce robot de forme sphérique "
 "flotte au dessus du sol, témoin du chaos et du carnage qui l'entoure."
+
+#: lang/json/MONSTER_from_json.py
+msgid "zombie burner"
+msgstr ""
+
+#. ~ Description for zombie burner
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Realizing that bullets weren't enough, the army dispatched flamethrower "
+"units to burn the walking dead.  Unfortunately, there were too many zombies "
+"and not enough flamers.  It seems that the tank of the undead soldier you "
+"see before you is damaged."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "flaming eye"
@@ -43092,6 +43127,50 @@ msgstr ""
 msgid ""
 "An otherwise normal-looking cougar, except that its hind legs are swollen, "
 "and its eyes bulge with black goo."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "skittering plague"
+msgstr ""
+
+#. ~ Description for skittering plague
+#: lang/json/MONSTER_from_json.py
+msgid "A giant infected roach, it has been feeding on the undead."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague nymph"
+msgstr ""
+
+#. ~ Description for plague nymph
+#: lang/json/MONSTER_from_json.py
+msgid "An infected mutant cockroach about the size of a rat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague vector"
+msgstr ""
+
+#. ~ Description for plague vector
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This infected roach has been feeding on the undead and started to mutate "
+"chaotically.  Extra limbs and growths sprout from its thorax."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid sprig"
+msgstr ""
+
+#. ~ Description for triffid sprig
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A teeny-tiny triffid that has recently germinated.  Like a house cat, you "
+"know it wants to eat you but it just can't figure out how."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "chicken chick"
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -57595,6 +57674,10 @@ msgstr "Vous n'avez pas assez d'énergie pour vous battre."
 msgid "You lie down to go to sleep..."
 msgstr "Vous vous couchez pour dormir."
 
+#: lang/json/effects_from_json.py src/player_hardcoded_effects.cpp
+msgid "You fall asleep."
+msgstr "Vous vous endormez."
+
 #: lang/json/effects_from_json.py
 msgid "You wake up."
 msgstr "Vous vous réveillez."
@@ -58659,12 +58742,14 @@ msgstr "barrière routière"
 msgid "A road barricade.  For barricading roads."
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/map.cpp
-#: src/mapdata.cpp
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
+#: lang/json/terrain_from_json.py src/map.cpp src/mapdata.cpp
 msgid "smash!"
 msgstr "fracas!"
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
 msgid "whump."
 msgstr "boum."
 
@@ -58699,8 +58784,8 @@ msgstr "panneau d'affichage public"
 msgid "Pin some notes for other survivors to read."
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr "crac!"
 
@@ -59056,7 +59141,8 @@ msgstr ""
 msgid "glass breaking"
 msgstr "débris de verre"
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
 msgid "whack!"
 msgstr "clac!"
 
@@ -59564,6 +59650,24 @@ msgid "thunk!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "autodoc"
+msgstr ""
+
+#. ~ Description for autodoc
+#: lang/json/furniture_from_json.py
+msgid "A medical apparatus for automated diagnosis and healing."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "autodoc couch"
+msgstr ""
+
+#. ~ Description for autodoc couch
+#: lang/json/furniture_from_json.py
+msgid "A special medical couch connected with the adjacent autodoc."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "mutated cactus"
 msgstr "cactus mutant"
 
@@ -60005,6 +60109,16 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "Fake gun that fires acid globs."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "reach bow"
+msgid_plural "reach bows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid "A test item that is both a ranged weapon and a reach weapon"
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -77585,7 +77699,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Bee"
-msgstr ""
+msgstr "Abeille"
 
 #. ~ Description for Bee
 #: lang/json/mutation_from_json.py
@@ -77593,6 +77707,8 @@ msgid ""
 "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you "
 "have it."
 msgstr ""
+"Trait d'un NPC faisant voir les monstres comme des abailles. C'est un bug "
+"(eheh) si vous l'avez."
 
 #: lang/json/mutation_from_json.py
 msgid "mute"
@@ -85442,13 +85558,9 @@ msgstr "tir à l'arc"
 #: lang/json/skill_from_json.py
 msgid ""
 "Your skill in using bow weapons, from hand-carved self bows to complex "
-"hunting crossbows.  Quiet and effective, they require strength of body and "
-"sight to wield, and are not terribly accurate over a long distance."
+"compound bows.  Quiet and effective, they require strength of body and sight"
+" to wield, and are not terribly accurate over a long distance."
 msgstr ""
-"Votre compétence à utiliser tout type d'arcs, allant du simple arc fait à la"
-" main aux arbalètes de chasse plus avancées. Silencieux, il vous faudra de "
-"la force et une bonne perception pour les utiliser efficacement. Ils ne sont"
-" pas très précis sur une distance élevée."
 
 #: lang/json/skill_from_json.py
 msgid "bashing weapons"
@@ -85527,7 +85639,7 @@ msgstr ""
 "missiles. Ces armes à l'immense pouvoir destructeur sont bien souvent "
 "encombrantes et difficiles à gérer."
 
-#: lang/json/skill_from_json.py
+#: lang/json/skill_from_json.py src/item_factory.cpp
 msgid "melee"
 msgstr "mêlée"
 
@@ -105030,9 +105142,10 @@ msgid_plural "You need a %s with %d charges."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
-#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
+#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp
+#: src/iexamine.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp
+#: src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
 msgstr "Pas la peine."
@@ -114436,8 +114549,19 @@ msgstr "Il y a un four à charbon ici."
 
 #: src/iexamine.cpp
 #, c-format
-msgid "It should take %d minutes to finish burning."
-msgstr "Il faut %d minutes pour que tout soit brûlé."
+msgid "It will finish burning in about %d hour."
+msgid_plural "It will finish burning in about %d hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iexamine.cpp
+msgid "It will finish burning in less than an hour."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It should take about %d minutes to finish burning."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You have no brew to ferment."
@@ -114940,6 +115064,42 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You may have problems climbing back up. Climb down?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Autodoc Mk. XI.  Status: Online.  Please choose operation."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose Compact Bionic Module to install."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Do nothing."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "No connected couches found.  Operation impossible.  Exiting."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"No patient found located on the connected couches.  Operation impossible.  "
+"Exiting."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose CBM to install"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You type data into the console, configuring Autodoc to install a CBM."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"Autodoc injected you with anesthesia, and while you were sleeping conducted "
+"a medical operation on you."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -115628,7 +115788,7 @@ msgid "<bold>Compatible magazines:</bold> "
 msgstr "<bold>Chargeurs compatibles:</bold> "
 
 #: src/item.cpp
-msgid "<bold>Mods:<bold> "
+msgid "<bold>Mods:</bold> "
 msgstr ""
 
 #: src/item.cpp
@@ -115946,8 +116106,8 @@ msgid "Contains items with qualities:"
 msgstr "Contient des objets avec les qualités:"
 
 #: src/item.cpp
-msgid "Techniques: "
-msgstr "Techniques: "
+msgid "<bold>Techniques when wielded</bold>: "
+msgstr ""
 
 #: src/item.cpp
 msgid "* This item can be used to make <stat>long reach attacks</stat>."
@@ -116428,6 +116588,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "isn't big enough to use that mod"
+msgstr ""
+
+#: src/item.cpp
+msgid "can only accept small mods on that slot"
 msgstr ""
 
 #. ~ %1$s - name of the gunmod, %2$s - name of the ammo
@@ -122187,6 +122351,16 @@ msgstr "Vous ne parvenez pas à désamorcer le piège."
 msgid "You fail to disarm the trap, and you set it off!"
 msgstr "Vous ne parvenez pas à désamorcer le piège et vous le déclenchez!"
 
+#: src/map.cpp
+#, c-format
+msgid "Something has crawled out of the %s plants!"
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "Something has crawled out of the %s!"
+msgstr ""
+
 #: src/map_extras.cpp
 msgid "DANGER! MINEFIELD!"
 msgstr "DANGER! CHAMP DE MINES!"
@@ -125259,6 +125433,15 @@ msgstr ""
 
 #: src/mondeath.cpp
 msgid "A cockroach nymph crawls out of the pregnant giant cockroach corpse."
+msgstr ""
+
+#: src/mondeath.cpp
+#, c-format
+msgid "an explosion of tank of the %s's flamethrower!"
+msgstr ""
+
+#: src/mondeath.cpp
+msgid "I love the smell of burning zed in the morning."
 msgstr ""
 
 #: src/mondefense.cpp
@@ -129712,6 +129895,16 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Carrion spawn rate scaling factor"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"A scaling factor that determines how often creatures spawn from rotting "
+"material."
+msgstr ""
+
+#: src/options.cpp
 msgid "( WIP feature ) Determines terrain, shops, plants, and more."
 msgstr ""
 
@@ -133096,10 +133289,6 @@ msgstr "A succombé à l'infection."
 msgctxt "memorial_female"
 msgid "Succumbed to the infection."
 msgstr "A succombé à l'infection."
-
-#: src/player_hardcoded_effects.cpp
-msgid "You fall asleep."
-msgstr "Vous vous endormez."
 
 #: src/player_hardcoded_effects.cpp
 msgid "You nestle your pile of clothes for warmth."

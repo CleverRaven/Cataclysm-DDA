@@ -31,9 +31,14 @@
           "type": "town",
           "shop_radius": 80,                "//": "tldr: less means more",
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "house_basement_chance": 1,       "//": "one_in(n) chance a house has basement",
           "houses": {
               "house": 1,
               "house_base": 1
+          },
+          "basements": {
+              "basement": 1,
+              "basement_bionic": 1
           },
           "parks": {
               "park": 2,

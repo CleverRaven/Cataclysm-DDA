@@ -787,6 +787,13 @@ public:
     int max_damage() const;
 
     /**
+     * Relative item health.
+     * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
+     * and values above 1 for reinforced ++items.
+     */
+    float get_relative_health() const;
+
+    /**
      * Apply damage to item constrained by @ref min_damage and @ref max_damage
      * @param qty maximum amount by which to adjust damage (negative permissible)
      * @param dt type of damage which may be passed to @ref on_damage callback
@@ -1287,6 +1294,13 @@ public:
          * For non-armor it returns 0.
          */
         int get_env_resist() const;
+        /**
+         * Returns the resistance to environmental effects if an item (for example a gas mask)
+         * requires a gas filter to operate and this filter is installed. Used in iuse::gasmask to
+         * change protection of a gas mask if it has (or don't has) filters. For other applications
+         * use get_env_resist() above.
+         */
+        int get_env_resist_w_filter() const;
         /**
          * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
          * or similar.

@@ -1728,7 +1728,7 @@
             { "point":[1,1,0], "overmap": "dairy_farm_SE"}
         ],
         "connections" : [
-            { "point" : [1,-1,0], "terrain" : "road" }
+            { "point" : [0,2,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [5, 10],

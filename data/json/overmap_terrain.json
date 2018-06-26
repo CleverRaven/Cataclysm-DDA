@@ -28,6 +28,14 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
+        "abstract" : "generic_city_house_basement",
+        "name" : "basement",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "copy-from" : "generic_city_building_no_sidewalk",
+        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
         "abstract" : "generic_necropolis_surface_building",
         "name" : "city building",
         "sym" : 94,
@@ -1874,16 +1882,15 @@
     },{
         "type" : "overmap_terrain",
         "id" : "basement",
-        "name" : "basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2,
+        "copy-from" : "generic_city_house_basement",
         "mapgen": [
             { "method": "builtin", "name": "basement_junk" },
             { "method": "builtin", "name": "basement_spiders" }
-        ],
-        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
+        ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "basement_bionic",
+        "copy-from" : "generic_city_house_basement"
     },{
         "type" : "overmap_terrain",
         "id" : "cavern",
