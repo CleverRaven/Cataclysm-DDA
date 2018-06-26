@@ -1332,20 +1332,5 @@
             "move_cost" : 300,
             "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
         }
-    },
-	{
-	  "id": "anesthesia",
-	  "type": "COMESTIBLE",
-	  "comestible_type": "MED",
-	  "name": "anesthetic kit",
-	  "description": "A kit for inducing anesthesia for surgery, containing several syringes with a variety of powerful hypnotic, analgetic, and stimulative drugs. Once you're under, don't expect to wake up until it's out of your system.",
-	  "weight": 100,
-	  "volume": 1,
-	  "price": 50000,
-	  "material": "plastic",
-	  "symbol": "!",
-	  "color": "cyan",
-	  "flags": [ "ANESTHESIA" ],
-	  "use_action": "ANESTHETIC"
-	}
+    }
 ]

@@ -123,7 +123,6 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_music( "music" );
-const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_poison( "poison" );
@@ -1771,15 +1770,6 @@ int iuse::catfood( player *p, item *it, bool, const tripoint & )
 int iuse::feedcattle( player *p, item *it, bool, const tripoint & )
 {
     return petfood( *p, *it, CATTLEFODDER );
-}
-
-int iuse::anesthetic( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( m_mixed, _( "You feel all sensation fade, and fall into deep sleep..." ), it->tname().c_str() );
-    const time_duration duration = 4_hours + ( 20_minutes * p->get_skill_level( skill_firstaid ) );
-    p->add_effect( effect_narcosis, duration );
-    p->fall_asleep( duration );
-    return it->type->charges_to_use();
 }
 
 int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )

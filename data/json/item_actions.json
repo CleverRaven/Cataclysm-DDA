@@ -763,10 +763,5 @@
         "type" : "item_action",
         "id" : "CHOP_LOGS",
         "name" : "Chop a Tree Trunk into logs"
-    },
-    {
-        "type" : "item_action",
-        "id" : "ANESTHETIC",
-        "name" : "Induce anesthesia"
     }
 ]
