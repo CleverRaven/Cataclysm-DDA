@@ -501,9 +501,9 @@ void construction_menu()
                         if( !current_con->pre_note.empty() ) {
                             current_line.str( "" ); 
                             current_line << _( "Annotation: " ) << color_data 
-                                << current_con->pre_note.c_str() << "</color>";
+                                << _( current_con->pre_note.c_str() ) << "</color>";
                             std::vector<std::string> folded_result_string =
-                                foldstring( _( current_line.str() ), available_window_width );
+                                foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
