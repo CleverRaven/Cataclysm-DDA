@@ -1505,346 +1505,210 @@
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "broadsword", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+  },  {
+    "type": "recipe",
+    "result": "firekatana_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "katana", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "zweifire_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "zweihander", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tihar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 6,
+    "time": 160000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "oxy_torch", 30 ], [ "welder", 150 ], [ "welder_crude", 225 ], [ "toolset", 225 ] ] ],
+    "components": [
+      [ [ "pipe", 4 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bigun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 7,
+    "time": 17000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ] ] ],
+    "components": [
+      [ [ "xlframe", 1 ] ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "pipe", 6 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "scrap", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "helsing",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 8,
+    "time": 180000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "components": [
+      [ [ "pipe", 8 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_launcher",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 8,
+    "time": 240000,
+    "book_learn": [ [ "recipe_mininuke_launch", 5 ] ],
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ] ] ],
+    "components": [
+      [ [ "pipe", 2 ], [ "rebar", 2 ] ],
+      [ [ "duct_tape", 200 ] ],
+      [ [ "2x4", 2 ], [ "stick", 2 ] ],
+      [ [ "spring", 2 ] ],
+      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "ashot",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 3,
+    "time": 180000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 2 ] ],
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "oxy_torch", 20 ], [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rifle",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ "mechanics", 6 ],
+    "difficulty": 9,
+    "time": 360000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "components": [
+      [ [ "cable", 80 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "steel_chunk", 3 ], [ "scrap", 18 ] ],
+      [ [ "rebar", 1 ], [ "pipe", 1 ] ],
+      [ [ "e_scrap", 20 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_crude",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 5000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "spray_can", 1 ] ], [ [ "duct_tape", 25 ] ], [ [ "lighter", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "knuckle_steel",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "skills_required": [ "bashing", 1 ],
+    "difficulty": 2,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "scrap", 4 ] ] ]
   },
 {
-  "type" : "recipe",
-  "result": "firekatana_off",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "mechanics",
-  "difficulty": 5,
-  "time": 30000,
-  "reversible": true,
-  "decomp_learn": 4,
-  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "oxy_torch", 4 ],
-      ["welder", 20],
-      ["welder_crude", 30],
-      ["toolset", 30]
-    ]
-    ],
-  "components": [
-    [
-      ["leather", 5]
-    ],
-    [
-      ["pipe", 1]
-    ],
-    [
-      ["katana", 1]
-    ],
-    [
-      ["flamethrower_crude", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "zweifire_off",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "mechanics",
-  "difficulty": 5,
-  "time": 30000,
-  "reversible": true,
-  "decomp_learn": 4,
-  "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "oxy_torch", 4 ],
-      ["welder", 20],
-      ["welder_crude", 30],
-      ["toolset", 30]
-    ]
-    ],
-  "components": [
-    [
-      ["leather", 5]
-    ],
-    [
-      ["pipe", 1]
-    ],
-    [
-      ["zweihander", 1]
-    ],
-    [
-      ["flamethrower_crude", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "tihar",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": ["gun",2],
-  "difficulty": 6,
-  "time": 160000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"WRENCH_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      ["oxy_torch", 30], ["welder", 150], ["welder_crude", 225], ["toolset", 225]
-    ]
-  ],
-  "components": [
-    [
-        ["pipe", 4]
-    ],
-    [
-        ["duct_tape", 100],
-        ["superglue", 1]
-    ],
-    [
-        ["2x4", 1],
-        ["stick", 1 ]
-    ],
-    [
-        ["metal_tank_little", 1]
-    ],
-    [
-        ["steel_chunk", 3],
-        ["scrap", 9 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bigun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": ["gun",2],
-  "difficulty": 7,
-  "time": 17000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"WRENCH_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      ["oxy_torch", 40], ["welder", 200], ["welder_crude", 300], ["toolset", 300]
-    ]
-  ],
-  "components": [
-    [
-      ["xlframe", 1]
-    ],
-    [
-      ["foot_crank", 1]
-    ],
-    [
-      ["spring", 1]
-    ],
-    [
-      ["pipe", 6]
-    ],
-    [
-      ["duct_tape", 100]
-    ],
-    [
-      ["scrap", 2]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "helsing",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": ["gun",3],
-  "difficulty": 8,
-  "time": 180000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"WRENCH_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
-    ]
-  ],
-  "components": [
-    [
-      ["pipe", 8]
-    ],
-    [
-      ["duct_tape", 100],
-      ["superglue", 1]
-    ],
-    [
-      ["2x4", 1],
-      ["stick", 1 ]
-    ],
-    [
-      ["metal_tank_little", 1]
-    ],
-    [
-      ["steel_chunk", 3],
-      ["scrap", 9]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mininuke_launcher",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": ["gun",3],
-  "difficulty": 8,
-  "time": 240000,
-  "book_learn": [["recipe_mininuke_launch", 5]],
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"WRENCH_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      ["oxy_torch", 40], ["welder", 200], ["welder_crude", 300], ["toolset", 300]
-    ]
-  ],
-  "components": [
-    [
-      ["pipe", 2],
-      ["rebar", 2]
-    ],
-    [
-      ["duct_tape", 200]
-    ],
-    [
-      ["2x4", 2],
-      ["stick", 2 ]
-    ],
-    [
-      ["spring", 2]
-    ],
-    [
-      ["steel_chunk", 3],
-      ["scrap", 9]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "ashot",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": ["gun", 2],
-  "difficulty": 3,
-  "time": 180000,
-  "autolearn": true,
-  "book_learn": [["textbook_fabrication", 2]],
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"WRENCH_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      ["oxy_torch", 20], ["welder", 100], ["welder_crude", 150], ["toolset", 150]
-    ]
-  ],
-  "components": [
-    [
-      ["pipe", 1]
-    ],
-    [
-      ["2x4", 1],
-      [ "stick", 1 ]
-    ],
-    [
-      ["scrap", 2]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "rebar_rifle",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "electronics",
-  "skills_required": ["mechanics",6],
-  "difficulty": 9,
-  "time": 360000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"WRENCH_FINE","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
-    ]
-  ],
-  "components": [
-    [
-      ["cable", 80]
-    ],
-    [
-      ["2x4", 1],
-      [ "stick", 1 ]
-    ],
-    [
-      ["power_supply", 2]
-    ],
-    [
-      ["steel_chunk", 3],
-      [ "scrap", 18]
-    ],
-    [
-      ["rebar", 1],
-      ["pipe", 1 ]
-    ],
-    [
-      ["e_scrap", 20]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "flamethrower_crude",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "survival",
-  "difficulty": 1,
-  "time": 5000,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "components": [ [ ["spray_can", 1] ],
-    [ ["duct_tape", 25] ],
-    [ ["lighter", 1] ] ]
-},{
-  "type" : "recipe",
-  "result": "knuckle_steel",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "skills_required": ["bashing",1],
-  "difficulty": 2,
-  "time": 20000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components":
-    [
-    [ ["rag", 4] ],
-    [ ["scrap", 4] ]
-  ]
-},{
   "type" : "recipe",
   "result": "knuckle_katar",
   "category": "CC_WEAPON",
