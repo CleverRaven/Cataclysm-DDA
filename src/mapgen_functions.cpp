@@ -279,12 +279,9 @@ bool mapgendata::is_groundcover( const ter_id iid ) const {
 bool mapgendata::has_basement() const
 {
     std::vector<std::string> all_basements = region.city_spec.basements.all;
-    for( auto b : all_basements ) {
-        if( t_below == oter_id( b ) ) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( all_basements.begin(), all_basements.end(), [this]( const std::string & b ) {
+        return t_below == oter_id( b );
+    } );
 }
 
 ter_id mapgendata::groundcover() {
