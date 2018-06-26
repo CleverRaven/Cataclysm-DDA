@@ -1589,6 +1589,11 @@ item_location inventory_pick_selector::execute()
         } else {
             on_input( input );
         }
+
+        if ( input.action == "HELP_KEYBINDINGS" ) {
+            g->draw_ter();
+            wrefresh( g->w_terrain );
+        }
     }
 }
 
