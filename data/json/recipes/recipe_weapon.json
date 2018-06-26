@@ -949,7 +949,8 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 20 ] ] ]
-  },  {
+  },
+  {
     "type": "recipe",
     "result": "shoulder_strap",
     "category": "CC_WEAPON",
