@@ -47,6 +47,7 @@ static const std::array<int, NUM_AEPS> passive_effect_cost = { {
     3, // AEP_RESIST_ELECTRICITY
     3, // AEP_CARRY_MORE
     5, // AEP_SAP_LIFE
+    1, // AEP_FUN
 
     0, // AEP_SPLIT
 
@@ -89,6 +90,7 @@ static const std::array<int, NUM_AEAS> active_effect_cost = { {
     1, // AEA_LIGHT
     4, // AEA_GROWTH
     6, // AEA_HURTALL
+    2, // AEA_FUN
 
     0, // AEA_SPLIT
 
@@ -105,6 +107,7 @@ static const std::array<int, NUM_AEAS> active_effect_cost = { {
     -4, // AEA_FLASH
     -2, // AEA_VOMIT
     -5  // AEA_SHADOWS
+    -2  // AEA_STAMINA_EMPTY
 } };
 
 enum artifact_natural_shape {
@@ -1316,6 +1319,7 @@ static const std::unordered_map<std::string, art_effect_active> art_effect_activ
     PAIR( AEA_LIGHT ),
     PAIR( AEA_GROWTH ),
     PAIR( AEA_HURTALL ),
+    PAIR( AEA_FUN ),
     //PAIR( AEA_SPLIT ), // not really used
     PAIR( AEA_RADIATION ),
     PAIR( AEA_PAIN ),
@@ -1330,6 +1334,7 @@ static const std::unordered_map<std::string, art_effect_active> art_effect_activ
     PAIR( AEA_FLASH ),
     PAIR( AEA_VOMIT ),
     PAIR( AEA_SHADOWS ),
+    PAIR( AEA_STAMINA_EMPTY ),
 } };
 static const std::unordered_map<std::string, art_charge> art_charge_values = { {
     PAIR( ARTC_NULL ),
@@ -1337,6 +1342,7 @@ static const std::unordered_map<std::string, art_charge> art_charge_values = { {
     PAIR( ARTC_SOLAR ),
     PAIR( ARTC_PAIN ),
     PAIR( ARTC_HP ),
+    PAIR( ARTC_FATIGUE ),
 } };
 #undef PAIR
 
