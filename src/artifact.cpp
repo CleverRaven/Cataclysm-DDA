@@ -1281,6 +1281,7 @@ static const std::unordered_map<std::string, art_effect_passive> art_effect_pass
     PAIR( AEP_RESIST_ELECTRICITY ),
     PAIR( AEP_CARRY_MORE ),
     PAIR( AEP_SAP_LIFE ),
+    PAIR( AEP_FUN ),
     //PAIR( AEP_SPLIT, // not really used
     PAIR( AEP_HUNGER ),
     PAIR( AEP_THIRST ),

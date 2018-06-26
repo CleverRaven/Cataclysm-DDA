@@ -4901,8 +4901,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
             
             case AEA_STAMINA_EMPTY:
-                p->add_msg_if_player( m_bad, _( "All the air is sucked out of your lungs!" ) );
-                p->stamina = p_stamina * 1/( rng( 3, 8 ) );
+                p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
+                p->stamina = p->stamina * 1/( rng( 3, 8 ) );
                 break;
                 
             case AEA_FUN:

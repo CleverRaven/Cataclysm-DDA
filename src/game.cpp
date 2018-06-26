@@ -13319,8 +13319,9 @@ void game::process_artifact( item &it, player &p )
                 break;
             case ARTC_FATIGUE:
                 if( calendar::once_every( 1_minutes ) ) {
-                    add_msg(m_bad, _("You feel fatigue flow over your body."));
+                    add_msg(m_bad, _("You feel fatigue seeping into your body."));
                     u.mod_fatigue( 3 * rng( 1, 3 ) );
+                    u.mod_stat("stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
                     it.charges++;
                 }
                 break;
@@ -13376,8 +13377,8 @@ void game::process_artifact( item &it, player &p )
             break;
             
         case AEP_FUN:
-            //Bonus fluctuates somewhat, weighted towards 10
-            p->add_morale( MORALE_FEELING_GOOD, rng( 1, 3 ), 10, 10_turns, 5_turns );
+            //Bonus fluctuates, wavering between 0 and 30-ish - usually around 12
+            p.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
             break;
 
         case AEP_HUNGER:
