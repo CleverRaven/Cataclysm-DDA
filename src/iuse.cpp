@@ -4907,7 +4907,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 
             case AEA_FUN:
                 p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
-                p->add_morale( MORALE_FEELING_GOOD, rng( 20,50 ), 150, 5_minutes, 5_turns );
+                p->add_morale( MORALE_FEELING_GOOD, rng( 20,50 ), 0, 5_minutes, 5_turns, false );
                 break;
 
             case AEA_SPLIT: // TODO
