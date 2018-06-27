@@ -12,8 +12,7 @@
       "t": "f_table",
       "c": "f_counter",
       "S": "f_sink",
-      "T": "f_toilet",
-      "^": "f_rubble"
+      "T": "f_toilet"
     },
     "terrain": {
       "b": "t_rock_floor",
@@ -36,9 +35,7 @@
       "t": "t_rock_floor",
       "c": "t_rock_floor",
       "S": "t_rock_floor",
-      "T": "t_rock_floor",
-      "R": "t_rock",
-      "^": "t_rock_floor"
+      "T": "t_rock_floor"
     },
     "toilets": {
         "T": {}
@@ -81,6 +78,13 @@
       "palettes": [
         "lab_palette"
       ],
+      "furniture": {
+        "^": "f_rubble"
+      },
+      "terrain": {
+        "^": "t_rock_floor",
+        "R": "t_rock"
+      },
       "place_nested": [
         { "chunks": [ "lab_room_9x9" ], "x": 1, "y": 1 },
         { "chunks": [ "lab_room_9x9" ], "x": 14, "y": 1 }
@@ -130,6 +134,12 @@
         { "monster": "mon_zombie_bio_op", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 33 },
         { "monster": "mon_zombie_hulk", "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
       ],
+      "furniture": {
+        "^": "f_rubble"
+      },
+      "terrain": {
+        "^": "t_rock_floor"
+      },
       "place_items": [
         { "item": "building_rubble", "x": 11, "y": 4, "chance": 100 },
         { "item": "building_rubble", "x": 12, "y": 13, "chance": 100 }
@@ -147,6 +157,9 @@
         },
         "d": {
           "items": [ { "item": "office", "chance": 50 } ]
+        },
+        "^": {
+          "items": [ { "item": "building_rubble", "chance": 100, "repeat": 2 } ]
         },
         "r": {
           "items": [
@@ -196,7 +209,7 @@
         "lab_palette"
       ],
       "place_nested": [
-        { "chunks": [ "lab_room_9x9" ], "x": [0, 1], "y": [0, 1] },
+        { "chunks": [ "lab_room_7x7_fixed_doors_kennel" ], "x": [0, 1], "y": [0, 1] },
         { "chunks": [ "lab_room_9x9" ], "x": 14, "y": [0,1] },
         { "chunks": [ "lab_room_9x9" ], "x": [0,1], "y": 14 },
         { "chunks": [ "lab_room_9x9" ], "x": 14, "y": 14 },
@@ -245,15 +258,15 @@
         "lab_palette"
       ],
       "place_nested": [
-        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 0, "y": 0 },
-        { "chunks": [ "lab_room_7x7", "null" ], "x": 0, "y": 8 },
-        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 0, "y": 16 },
-        { "chunks": [ "lab_room_7x7", "null" ], "x": 8, "y": 0 },
-        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 8, "y": 8 },
-        { "chunks": [ "lab_room_7x7", "null" ], "x": 8, "y": 16 },
-        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 16, "y": 0 },
-        { "chunks": [ "lab_room_7x7", "null" ], "x": 16, "y": 8 },
-        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 16, "y": 16 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 0, "y": 8 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 0, "y": 16 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 8, "y": 0 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 8, "y": 8 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 8, "y": 16 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 16, "y": 0 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 16, "y": 8 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 16, "y": 16 },
         { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
         { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
         { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
@@ -275,15 +288,6 @@
     }
   },
   {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_room_7x7_maybe_fixed_doors",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "//": "There are only a few rooms that need fixed single doors in the center, so select them rarely.",
-      "place_nested": [ { "chunks": [ "lab_room_7x7", "lab_room_7x7", "lab_room_7x7_fixed_doors" ], "x": 0, "y": 0} ]
-    }
-  },  {
     "//": "7x7 active blob room",
     "type": "mapgen",
     "method": "json",
@@ -496,7 +500,7 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "place_nested": [
-        { "chunks": [ "lab_supply_crate" ], "x": [0,6], "y": [0,6], "repeat": 20}
+        { "chunks": [ "lab_supply_crate" ], "x": [0,6], "y": [0,6], "repeat": 15}
       ]
     }
   },
@@ -508,7 +512,7 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "place_nested": [
-        { "chunks": [ "lab_supply_crate" ], "x": [0,8], "y": [0,8], "repeat": 30}
+        { "chunks": [ "lab_supply_crate" ], "x": [0,8], "y": [0,8], "repeat": 20}
       ]
     }
   },
@@ -596,6 +600,36 @@
             { "item": "bed", "chance": 50 }
         ]}
       }
+    }
+  },
+  {
+    "//": "7x7 kennel",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_fixed_doors_kennel",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [ "..=.=..",
+                "..=.=..",
+                "=^=.=^=",
+                ".......",
+                "=^=.=^=",
+                "..=.=..",
+                "..=.=.." ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "terrain": {
+        "=": "t_chainfence_h",
+        "^": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [1,2] },
+        { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 5, 6 ], "chance": 50, "repeat": [1,2] },
+        { "monster": "mon_zombie_dog", "x": [ 5, 6 ], "y": [ 0, 1 ], "chance": 50, "repeat": [1,2] },
+        { "monster": "mon_zombie_dog", "x": [ 5, 6 ], "y": [ 5, 6 ], "chance": 50, "repeat": [1,2] }
+      ]
     }
   },
   {
