@@ -185,20 +185,20 @@
         "..........|..|.........|",
         "..........|..|.........|",
         "..........|..|.........|",
-        "..........+..+.........|",
+        "..........+..|.........|",
         "..........|..|.........|",
         "..........|..|.........|",
         "..........|..|.........|",
         "..........|..|.........|",
-        "----------|..|---------|",
+        "----------|..|----+----|",
         ".......................+",
         ".......................+",
-        "----------|..|---------|",
+        "-----+----|..|---------|",
         "..........|..|.........|",
         "..........|..|.........|",
         "..........|..|.........|",
         "..........|..|.........|",
-        "..........+..+.........|",
+        "..........|..+.........|",
         "..........|..|.........|",
         "..........|..|.........|",
         "..........|..|.........|",
@@ -236,15 +236,15 @@
         ".......|.......|.......|",
         ".......|.......|.......|",
         ".......|.......|.......|",
-        "---+---|---+---|---+---|",
+        "---?---|---?---|---+---|",
         ".......|.......|.......|",
         ".......|.......|.......|",
         ".......|.......|.......|",
-        ".......+.......+.......+",
+        ".......?.......+.......+",
         ".......|.......|.......+",
         ".......|.......|.......|",
         ".......|.......|.......|",
-        "---+---|---+---|---+---|",
+        "---+---|---+---|---?---|",
         ".......|.......|.......|",
         ".......|.......|.......|",
         ".......|.......|.......|",
@@ -257,6 +257,9 @@
       "palettes": [
         "lab_palette"
       ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_door_metal_c", "t_door_metal_c"]
+      },
       "place_nested": [
         { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 0, "y": 0 },
         { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 0, "y": 8 },
@@ -288,23 +291,89 @@
     }
   },
   {
-    "//": "7x7 active blob room",
+    "//": "monster room -- uses a single entry in the main lab_room_7x7 list to make these less likely, because submaps don't seem to respect weights",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_9x9",
+    "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
-      "place_monsters": [ { "monster": "GROUP_GOO", "x": [0, 8], "y": [ 0,8 ], "density": 0.1 } ]
+      "place_nested": [ { "chunks": [ "lab_room_7x7_monster" ], "x": 0, "y": 0} ]
     }
   },
   {
-    "//": "9x9 active blob room",
+    "//": "monster room -- uses a single entry in the main lab_room_9x9 list to make these less likely, because submaps don't seem to respect weights",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_monsters": [ { "monster": "GROUP_GOO", "x": [0, 8], "y": [ 0,8 ], "density": 0.1 } ]
+      "place_nested": [ { "chunks": [ "lab_room_7x7_monster" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "7x7 monster room - horde of blobs",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_monster",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_monsters": [ { "monster": "GROUP_GOO", "x": [ 0, 6 ], "y": [ 0, 6 ], "density": 0.2 } ]
+    }
+  },
+  {
+    "//": "7x7 monster room - cyborg & dissector",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_monster",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        "ccccccc",
+        ".......",
+        ".......",
+        ".......",
+        ".......",
+        "......."
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "dissection", "chance": 20 }
+          ]
+        }
+      },
+      "//": "TODO: Figure out why the dissector isn't spawning.",
+      "set": { "point": "trap", "id": "tr_dissector", "x": [ 3, 3 ], "y": [ 4, 5 ] },
+      "place_monster": [ { "monster": "mon_broken_cyborg", "x": [0, 6], "y": [ 0, 6 ] } ]
+    }
+  },
+  {
+    "//": "7x7 monster room - turret TODO make the console work",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_monster",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        ".......",
+        ".......",
+        "..cccx.",
+        ".......",
+        ".......",
+        "......."
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_monster": [ { "monster": "mon_turret", "x": [2, 2], "y": [ 3, 3 ] } ]
     }
   },
   {
@@ -407,7 +476,7 @@
     "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
-      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 1, "y": 1} ]
+      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 1, "y": 1 } ]
     }
   },
   {
@@ -417,7 +486,7 @@
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 2, "y": 2} ]
+      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 2, "y": 2 } ]
     }
   },
   {
@@ -437,7 +506,7 @@
       "palettes": [
         "lab_palette"
       ],
-      "place_monster": [ { "monster": "mon_zombie_brute", "x": [ 1, 2 ], "y": [ 1, 2 ] } ]
+      "place_monster": [ { "monster": "mon_zombie_brute", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 80 } ]
     }
   },
   {
@@ -512,7 +581,7 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "place_nested": [
-        { "chunks": [ "lab_supply_crate" ], "x": [0,6], "y": [0,6], "repeat": 15}
+        { "chunks": [ "sub_f_crate" ], "x": [0,6], "y": [0,6], "repeat": 10}
       ]
     }
   },
@@ -524,15 +593,14 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "place_nested": [
-        { "chunks": [ "lab_supply_crate" ], "x": [0,8], "y": [0,8], "repeat": 20}
+        { "chunks": [ "sub_f_crate" ], "x": [0,8], "y": [0,8], "repeat": 15}
       ]
     }
   },
   {
-    "//": "subcomponent of crate room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_supply_crate",
+    "nested_mapgen_id": "sub_f_crate",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
@@ -552,6 +620,44 @@
            { "item": "harddrugs", "chance": 5 },
            { "item": "softdrugs", "chance": 5 }
         ]}
+      }
+    }
+  },
+  {
+    "//": "7x7 machine room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [
+        { "chunks": [ "sub_t_machinery"], "x": [0,6], "y": [0,6], "repeat": 15},
+        { "chunks": [ "sub_t_machinery", "sub_f_crate" ], "x": [0,6], "y": [0,6], "repeat": 10}
+      ]
+    }
+  },
+  {
+    "//": "9x9 machine room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [
+        { "chunks": [ "sub_t_machinery"], "x": [0,6], "y": [0,6], "repeat": 20},
+        { "chunks": [ "sub_t_machinery", "sub_f_crate" ], "x": [0,8], "y": [0,8], "repeat": 10}
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sub_t_machinery",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "A" ],
+      "terrain": {
+        "A": [ "t_machinery_heavy", "t_machinery_electronic", "t_machinery_light", "t_centrifuge", "t_console_broken"]
       }
     }
   },
