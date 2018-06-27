@@ -9,6 +9,7 @@
       "r": "f_rack",
       "d": "f_desk",
       "h": "f_chair",
+      "f": "f_fridge",
       "t": "f_table",
       "c": "f_counter",
       "S": "f_sink",
@@ -20,6 +21,7 @@
       "A": "t_floor",
       "r": "t_rock_floor",
       "d": "t_rock_floor",
+      "f": "t_rock_floor",
       "C": "t_centrifuge",
       "h": "t_rock_floor",
       "6": "t_console",
@@ -179,10 +181,10 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
-        { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } },
         { "chunks": [ "lab_north_wall" ], "x": 0, "y": 0, "neighbors": { "north": ["empty_rock"] } },
         { "chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": ["empty_rock"] } }
       ]
@@ -254,6 +256,18 @@
         { "ter": "t_concrete_wall", "x": 0, "y": 22 },
         { "ter": "t_concrete_wall", "x": 0, "y": 23 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sub_t_concrete_wall",
+    "object": {
+      "rows": [ "-" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapgensize": [ 1, 1 ]
     }
   },
   {
@@ -359,13 +373,78 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_wall",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 100,
     "object": {
-      "rows": [ "-" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "...............|.cccccA|",
+        "...............+......A|",
+        "..-----+----|..|-------|",
+        "..|.........|..|.......|",
+        "..|.........|..|.......|",
+        "..|.........|..|.......|",
+        "..|.........|..+.......|",
+        "..?.........?..|.......|",
+        "..|.........|..|.......|",
+        "..|.........|..|.......|",
+        "..|.........|..----?---|",
+        "..|.........|..........+",
+        "..|.........|..........+",
+        "-?-----?-----..----+---|",
+        "..........|....|.......|",
+        "..........|....|.......|",
+        "..........|..|-|.......|",
+        "..........|..|f|.......|",
+        "..........+..+.|.......|",
+        "..........|..|-|.......|",
+        "..........|..|T|.......|",
+        "..........|..+.|---+---|",
+        "..........|..|S|A.....A|",
+        "-----------++----------|"
+      ],
       "palettes": [
         "lab_palette"
       ],
-      "mapgensize": [ 1, 1 ]
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
+      },
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "dissection", "chance": 20 },
+            { "item": "chem_lab", "chance": 20 },
+            { "item": "mut_lab", "chance": 2 }
+          ]
+        },
+        "f": {
+          "items": [
+            { "item": "fridge", "chance": 60, "repeat": 2 }
+          ]
+        },
+        "S": {
+          "items": [
+            { "item": "harddrugs", "chance": 20 }
+          ]
+        },
+        "A": { "items": [
+           { "item": "chem_lab", "chance": 10 },
+           { "item": "mut_lab", "chance": 2 },
+           { "item": "robots", "chance": 5 },
+           { "item": "science", "chance": 5 },
+           { "item": "sewage_plant", "chance": 5 },
+           { "item": "harddrugs", "chance": 5 },
+           { "item": "softdrugs", "chance": 5 }
+        ]}
+      },
+      "place_nested": [
+        { "chunks": [ "lab_room_9x9" ], "x": 3, "y": 3 },
+        { "chunks": [ "lab_room_9x9" ], "x": 0, "y": 14 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors" ], "x": 16, "y": 3 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors" ], "x": 16, "y": 14 },
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
   },
   {
@@ -690,7 +769,7 @@
       "mapping": {
         "A": { "items": [
            { "item": "chem_lab", "chance": 10 },
-           { "item": "mut_lab", "chance": 10 },
+           { "item": "mut_lab", "chance": 2 },
            { "item": "robots", "chance": 5 },
            { "item": "science", "chance": 5 },
            { "item": "sewage_plant", "chance": 5 },
