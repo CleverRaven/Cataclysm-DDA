@@ -2607,7 +2607,13 @@ float Character::mutation_value( const std::string &val ) const
 float Character::healing_rate( float at_rest_quality ) const
 {
     // @todo: Cache
-    float awake_rate = mutation_value( "healing_awake" );
+    float heal_rate;
+    if( !is_npc() ){
+        heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );
+    } else {
+        heal_rate = get_option< float >( "NPC_HEALING_RATE" );
+    }
+    float awake_rate = heal_rate * mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
@@ -2617,7 +2623,7 @@ float Character::healing_rate( float at_rest_quality ) const
     }
     float asleep_rate = 0.0f;
     if( at_rest_quality > 0.0f ) {
-        asleep_rate = at_rest_quality * ( 0.01f + mutation_value( "healing_resting" ) );
+        asleep_rate = at_rest_quality * heal_rate * ( 1.0f + mutation_value( "healing_resting" ) );
     }
     if( asleep_rate > 0.0f ) {
         final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );

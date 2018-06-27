@@ -84,8 +84,8 @@
         "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
         "category" : ["MUTCAT_MEDICAL"],
-        "healing_awake" : 0.002,
-        "healing_resting" : 0.005
+        "healing_awake" : 0.2,
+        "healing_resting" : 0.5
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
@@ -539,30 +539,8 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER", "SLOWHEALER2", "SLOWHEALER3"],
-        "healing_resting" : -0.0025
-    },{
-        "type" : "mutation",
-        "id" : "SLOWHEALER2",
-        "name" : "Very Slow Sleep Healing",
-        "points" : -4,
-        "description" : "You heal much slower than most; sleeping will heal only one third HP compared to the average person.",
-        "starting_trait" : true,
-        "valid": false,
-        "purifiable": false,
-        "cancels" : ["SLOWHEALER", "SLOWHEALER3"],
-        "healing_resting" : -0.0066
-    },{
-        "type" : "mutation",
-        "id" : "SLOWHEALER3",
-        "name" : "Extremely Slow Sleep Healing",
-        "points" : -8,
-        "description" : "You almost cannot recover lost health by sleeping; sleeping will heal only one tenth HP compared to the average person.",
-        "starting_trait" : true,
-        "valid": false,
-        "purifiable": false,
-        "cancels" : ["SLOWHEALER", "SLOWHEALER2"],
-        "healing_resting" : -0.009
+        "cancels" : ["FASTHEALER"],
+        "healing_resting" : -0.25
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -1132,8 +1110,8 @@
         "prereqs" : ["FASTHEALER"],
         "changes_to" : ["REGEN"],
         "category" : ["MUTCAT_PLANT"],
-        "healing_awake" : 0.0066,
-        "healing_resting" : 0.005
+        "healing_awake" : 0.66,
+        "healing_resting" : 0.5
     },{
         "type" : "mutation",
         "id" : "REGEN",
@@ -1143,8 +1121,8 @@
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"],
-        "healing_awake" : 0.02,
-        "healing_resting" : 0.015
+        "healing_awake" : 2.0,
+        "healing_resting" : 1.5
     },{
         "type" : "mutation",
         "id" : "REGEN_LIZ",
@@ -3846,8 +3824,8 @@
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
         "category" : ["MUTCAT_RAT"],
-        "healing_awake" : 0.002,
-        "healing_resting" : 0.005,
+        "healing_awake" : 0.2,
+        "healing_resting" : 0.5,
         "fatigue_modifier": 0.5,
         "fatigue_regen_modifier": 0.333,
         "metabolism_modifier": 0.333
@@ -3932,8 +3910,8 @@
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "changes_to" : ["ROT2"],
         "category" : ["MUTCAT_ELFA"],
-        "healing_awake" : -0.00002,
-        "healing_resting" : -0.0025
+        "healing_awake" : -0.002,
+        "healing_resting" : -0.25
     },{
         "type" : "mutation",
         "id" : "ROT2",
@@ -3945,7 +3923,7 @@
         "prereqs" : ["ROT1"],
         "changes_to" : ["ROT3"],
         "category" : ["MUTCAT_CHIMERA"],
-        "healing_awake" : -0.0002
+        "healing_awake" : -0.02
     },{
         "type" : "mutation",
         "id" : "ROT3",
@@ -3956,7 +3934,7 @@
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT2"],
         "category": ["MUTCAT_ALPHA"],
-        "healing_awake" : -0.0008
+        "healing_awake" : -0.08
     },{
         "type" : "mutation",
         "id" : "SUNBURN",
