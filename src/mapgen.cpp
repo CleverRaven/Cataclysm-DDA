@@ -2876,7 +2876,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 const std::string function_key = "lab_1side"; // terrain_type->get_mapgen_id();
                 const auto fmapit = oter_mapgen.find( function_key );
 
-                const int hardcoded_1side_map_weight = 400; // weight of all hardcoded maps.
+                const int hardcoded_1side_map_weight = 800; // weight of all hardcoded 1-sided maps -- making them 4x more likely.
                 bool use_hardcoded_1side_map = false;
 
                 if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
