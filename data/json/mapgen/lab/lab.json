@@ -175,6 +175,90 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "lab_border_walls",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } },
+        { "chunks": [ "lab_north_wall" ], "x": 0, "y": 0, "neighbors": { "north": ["empty_rock"] } },
+        { "chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": ["empty_rock"] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_north_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_terrain": [
+        { "ter": "t_concrete_wall", "x": 0, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 1, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 2, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 3, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 4, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 5, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 6, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 7, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 8, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 9, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 10, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 11, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 12, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 13, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 14, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 15, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 16, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 17, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 18, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 19, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 20, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 21, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 22, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 23, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_west_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_terrain": [
+        { "ter": "t_concrete_wall", "x": 0, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 1 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 2 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 3 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 4 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 5 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 6 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 7 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 8 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 9 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 10 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 11 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 12 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 13 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 14 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 15 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 16 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 17 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 18 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 19 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 20 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 21 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 22 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 23 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -213,10 +297,7 @@
         { "chunks": [ "lab_room_9x9" ], "x": 14, "y": [0,1] },
         { "chunks": [ "lab_room_9x9" ], "x": [0,1], "y": 14 },
         { "chunks": [ "lab_room_9x9" ], "x": 14, "y": 14 },
-        { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } }
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
       ],
       "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
@@ -270,10 +351,7 @@
         { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 16, "y": 0 },
         { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 16, "y": 8 },
         { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 16, "y": 16 },
-        { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
-        { "chunks": [ "lab_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } }
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
       ],
       "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
     }
@@ -359,7 +437,6 @@
     "nested_mapgen_id": "lab_room_7x7_monster",
     "object": {
       "mapgensize": [ 7, 7 ],
-
       "rotation": [ 0, 3 ],
       "rows": [
         ".......",
@@ -497,16 +574,16 @@
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "ggGgg",
-        "g...g",
-        "g...g",
+        "ggggg",
         "g.STg",
-        "ggggg"
+        "g...g",
+        "g...g",
+        "ggGgg"
       ],
       "palettes": [
         "lab_palette"
       ],
-      "place_monster": [ { "monster": "mon_zombie_brute", "x": [ 1, 2 ], "y": [ 1, 2 ], "chance": 80 } ]
+      "place_monster": [ { "monster": "mon_zombie_brute", "x": [ 2, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
     }
   },
   {

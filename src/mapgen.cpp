@@ -1112,6 +1112,11 @@ public:
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         dat.m.ter_set( x.get(), y.get(), id );
+        // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
+        if( dat.m.has_flag_ter("WALL", x.get(), y.get() ) ) {
+            dat.m.furn_set( x.get(), y.get(), f_null);
+            dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+        }
     }
 };
 /**
