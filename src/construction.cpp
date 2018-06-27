@@ -451,7 +451,6 @@ void construction_menu()
                                 available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
-                            //current_buffer.push_back( "" );
                         }
 
                         current_line.str( "" );
