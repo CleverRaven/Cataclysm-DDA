@@ -32,7 +32,8 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 
 struct spawn_point {
-    int posx, posy;
+    int posx;
+    int posy;
     int count;
     mtype_id type;
     int faction_id;

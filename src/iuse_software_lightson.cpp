@@ -153,7 +153,8 @@ int lightson_game::start_game()
 
     wrefresh( w_border );
 
-    int iDirY, iDirX;
+    int iDirY = 0;
+    int iDirX = 0;
     win = true;
     int hasWon = 0;
 

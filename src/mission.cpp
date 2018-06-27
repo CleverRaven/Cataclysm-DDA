@@ -472,8 +472,16 @@ mission_type_id mission::mission_id()
 
 void mission::load_info( std::istream &data )
 {
-    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id, deadline_;
-    std::string rew_item, itemid;
+    int type_id = 0;
+    int rewtype = 0;
+    int reward_id = 0;
+    int rew_skill = 0;
+    int tmpfollow = 0;
+    int item_num = 0;
+    int target_npc_id = 0;
+    int deadline_ = 0;
+    std::string rew_item;
+    std::string itemid;
     data >> type_id;
     type = mission_type::get( mission_type::from_legacy( type_id ) );
     std::string tmpdesc;

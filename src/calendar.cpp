@@ -163,7 +163,10 @@ moon_phase get_moon_phase( const time_point &p )
 
 calendar calendar::sunrise() const
 {
-    int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
+    int start_hour = 0;
+    int end_hour = 0;
+    int newhour = 0;
+    int newminute = 0;
     switch (season) {
     case SPRING:
         start_hour = SUNRISE_EQUINOX;
@@ -194,7 +197,10 @@ calendar calendar::sunrise() const
 
 calendar calendar::sunset() const
 {
-    int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
+    int start_hour = 0;
+    int end_hour = 0;
+    int newhour = 0;
+    int newminute = 0;
     switch (season) {
     case SPRING:
         start_hour = SUNSET_EQUINOX;
@@ -341,10 +347,10 @@ std::string to_string( const time_duration &d )
     }
 
     if( d % divider != 0 ) {
-    	//~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
-		return string_format( _( "%1$s and %2$s" ),
-							  to_string_clipped( d ),
-							  to_string_clipped( d % divider ) );
+        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+        return string_format( _( "%1$s and %2$s" ),
+                            to_string_clipped( d ),
+                            to_string_clipped( d % divider ) );
     }
     return to_string_clipped( d );
 }

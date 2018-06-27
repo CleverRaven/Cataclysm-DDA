@@ -1228,7 +1228,9 @@ public:
      * is loaded into the map the values are directly set. The vehicles position does
      * not change therefor no call to set_submap_moved is required.
      */
-    int smx, smy, smz;
+    int smx;
+    int smy;
+    int smz;
 
     float alternator_load;
 

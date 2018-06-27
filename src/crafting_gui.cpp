@@ -178,7 +178,9 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::string previous_tab = "";
     std::string previous_subtab = "";
     item tmp;
-    int line = 0, ypos, scroll_pos = 0;
+    int line = 0;
+    int ypos = 0;
+    int scroll_pos = 0;
     bool redraw = true;
     bool keepline = false;
     bool done = false;
@@ -186,7 +188,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = NULL;
-    std::vector<iteminfo> thisItem, dummy;
+    std::vector<iteminfo> thisItem;
+    std::vector<iteminfo> dummy;
 
     input_context ctxt( "CRAFTING" );
     ctxt.register_cardinal();
@@ -727,7 +730,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, s
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XXXO );
-        } else if( i == width ) {
+        } else if( i == width ) { // @todo: that is always false!
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XOXX );
         } else {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_OXOX );

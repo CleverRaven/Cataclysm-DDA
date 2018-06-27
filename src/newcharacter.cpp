@@ -280,7 +280,9 @@ void player::randomize( const bool random_scenario, points_left &points, bool pl
     // to many points, therefore they are added back.
     points.stat_points += 8 * 4;
 
-    int num_gtraits = 0, num_btraits = 0, tries = 0;
+    int num_gtraits = 0;
+    int num_btraits = 0;
+    int tries = 0;
     add_traits(); // adds mandatory profession/scenario traits.
     for( const auto &mut : my_mutations ) {
         const mutation_branch &mut_info = mut.first.obj();
@@ -418,7 +420,7 @@ void player::randomize( const bool random_scenario, points_left &points, bool pl
             const skill_id aSkill = Skill::random_skill();
             const int level = get_skill_level(aSkill);
 
-            if (level < points.skill_points_left() && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
+            if (level < points.skill_points_left() && level < MAX_SKILL && (level <= MAX_SKILL || loops > 10000)) {
                 points.skill_points -= skill_increment_cost( *this, aSkill );
                 // For balance reasons, increasing a skill from level 0 gives you 1 extra level for free
                 set_skill_level( aSkill, ( level == 0 ? 2 : level + 1 )  );
@@ -1031,7 +1033,8 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
     catacurses::window w_description = catacurses::newwin( 3, TERMX - 2, TERMY - 4 + getbegy( w ),
                                    1 + getbegx(w));
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
-    int num_good = 0, num_bad = 0;
+    int num_good = 0;
+    int num_bad = 0;
 
     std::vector<trait_id> vStartingTraits[3];
 

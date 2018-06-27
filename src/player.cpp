@@ -3934,7 +3934,8 @@ void player::knock_back_from( const tripoint &p )
 
 int player::hp_percentage() const
 {
-    int total_cur = 0, total_max = 0;
+    int total_cur = 0;
+    int total_max = 0;
     // Head and torso HP are weighted 3x and 2x, respectively
     total_cur = hp_cur[hp_head] * 3 + hp_cur[hp_torso] * 2;
     total_max = hp_max[hp_head] * 3 + hp_max[hp_torso] * 2;
@@ -4232,7 +4233,7 @@ void player::update_needs( int rate_multiplier )
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
         float fatigue_rate = 1.0f + mutation_value( "fatigue_modifier" );
 
-        if( !debug_ls && fatigue_rate > 0.0f ) {
+        if( fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -9578,7 +9579,8 @@ int player::get_wind_resistance(body_part bp) const
 
 int player::warmth(body_part bp) const
 {
-    int ret = 0, warmth = 0;
+    int ret = 0;
+    int warmth = 0;
 
     for (auto &i : worn) {
         if( i.covers( bp ) ) {

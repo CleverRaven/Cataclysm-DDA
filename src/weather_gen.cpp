@@ -124,7 +124,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             r = WEATHER_FLURRIES;
         } else if( r > WEATHER_DRIZZLE ) {
             r = WEATHER_SNOW;
-        } else if( r > WEATHER_THUNDER ) {
+        } else if( r > WEATHER_THUNDER ) { // @todo: that is always false!
             r = WEATHER_SNOWSTORM;
         }
     }

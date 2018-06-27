@@ -2649,7 +2649,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input( BLINK_SPEED );
 
-        int dirx, diry;
+        int dirx = 0;
+        int diry = 0;
         if (ictxt.get_direction(dirx, diry, action)) {
             curs.x += dirx;
             curs.y += diry;
@@ -3187,7 +3188,9 @@ void overmap::place_forest()
 {
     int forests_placed = 0;
     for (int i = 0; i < settings.num_forests; i++) {
-        int forx, fory, fors;
+        int forx = 0;
+        int fory = 0;
+        int fors = 0;
         // try to place this forest
         int tries = 100;
         do {
@@ -3274,7 +3277,8 @@ void overmap::place_forest()
 
 void overmap::place_river(point pa, point pb)
 {
-    int x = pa.x, y = pa.y;
+    int x = pa.x;
+    int y = pa.y;
     do {
         x += rng(-1, 1);
         y += rng(-1, 1);
@@ -3567,7 +3571,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     int numstairs = 0;
     if( s > 0 ) { // Build stairs going down
         while( !one_in( 6 ) ) {
-            int stairx, stairy;
+            int stairx = 0;
+            int stairy = 0;
             int tries = 0;
             do {
                 stairx = rng( x - s, x + s );
@@ -3581,7 +3586,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
         }
     }
     if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
-        int finalex, finaley;
+        int finalex = 0;
+        int finaley = 0;
         int tries = 0;
         do {
             finalex = rng( x - s, x + s );
