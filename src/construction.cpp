@@ -426,13 +426,7 @@ void construction_menu()
                             
                             // display description of the result for multi-stages
                             current_line.str( "" );
-                            current_line << _( "Result: " ) << color_data;
-                            if( current_con->post_is_furniture ) {
-                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
-                            } else {
-                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
-                            }
-                            current_line << "</color>";
+                            current_line << get_description_string( current_con );
                             folded_result_string = foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
@@ -440,13 +434,7 @@ void construction_menu()
                         // display description of the result for single stages
                         } else if( !current_con->post_terrain.empty() ) {
                             current_line.str( "" );
-                            current_line << _( "Result: " ) << color_data;
-                            if( current_con->post_is_furniture ) {
-                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
-                            } else {
-                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
-                            }
-                            current_line << "</color>";
+                            current_line << get_description_string( current_con );
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                 available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -1336,6 +1324,19 @@ std::string construction::get_time_string() const
     std::ostringstream time_text;
     time_text << _( "Time to complete: " ) << color_data << to_string( turns ) << "</color>";
     return time_text.str();
+}
+
+std::string construction::get_description_string( construction con ) const
+{
+    std::ostringstream desc;
+    desc << _( "Result: " ) << color_data;
+    if( con->post_is_furniture ) {
+        desc << furn_str_id( con->post_terrain ).obj().description;
+    } else {
+        desc << ter_str_id( con->post_terrain ).obj().description;
+    }
+    desc << "</color>";
+    return desc.str();
 }
 
 std::vector<std::string> construction::get_folded_time_string( int width ) const
