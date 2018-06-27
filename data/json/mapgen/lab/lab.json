@@ -1,0 +1,80 @@
+[
+  {
+    "type": "palette",
+    "id": "lab_palette",
+    "furniture": {
+      "b": "f_bed",
+      "l": "f_locker",
+      "A": "f_crate_c",
+      "r": "f_rack",
+      "d": "f_desk",
+      "h": "f_chair",
+      "t": "f_table",
+      "c": "f_counter",
+      "S": "f_sink",
+      "T": "f_toilet"
+    },
+    "terrain": {
+      "b": "t_rock_floor",
+      "l": "t_rock_floor",
+      "A": "t_floor",
+      "r": "t_rock_floor",
+      "d": "t_rock_floor",
+      "C": "t_centrifuge",
+      "h": "t_rock_floor",
+      "6": "t_console",
+      "x": "t_console_broken",
+      "g": "t_reinforced_glass",
+      "G": "t_reinforced_glass",
+      ",": "t_floor_blue",
+      ".": "t_rock_floor",
+      "-": "t_concrete_wall",
+      "|": "t_concrete_wall",
+      "+": "t_door_metal_c",
+      "D": "t_door_metal_locked",
+      "t": "t_rock_floor",
+      "c": "t_rock_floor",
+      "S": "t_rock_floor",
+      "T": "t_rock_floor",
+      "R": "t_rock"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "|----------++----------|",
+        "|.........|..|.........|",
+        "|.........|..|.........|",
+        "|.........|..|.........|",
+        "|.........|..|.........|",
+        "|.........+..+.........|",
+        "|.........|..|.........|",
+        "|.........|..|.........|",
+        "|.........|..|.........|",
+        "|.........|..|.........|",
+        "|---------|..|---------|",
+        "RRRRR.................RR",
+        "RRRRRRR..............RRR",
+        "RRRRR-----|..|--------RR",
+        "RRR.......|..|RRRRRRRRRR",
+        "|R........|..|RRRRRRRRRR",
+        "|.........|..|RRRRRRRRRR",
+        "|.........|..RRRRRRRRRRR",
+        "|.........+.RRRRRRRRRRRR",
+        "RR.......R|RRRRRRRRRRRRR",
+        "RRRRRRRRRRRRRRRRRRRRRRRR",
+        "RRRRRRRRRRRRRRRRRRRRRRRR",
+        "RRRRRRRRRRRRRRRRRRRRRRRR",
+        "RRRRRRRRRRRRRRRRRRRRRRRR"
+      ],
+      "palettes": [
+        "lab_palette"
+      ]
+    }
+  }
+]
