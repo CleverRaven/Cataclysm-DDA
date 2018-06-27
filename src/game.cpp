@@ -5081,6 +5081,25 @@ void game::draw_minimap()
             mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
         }
     }
+
+    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    for( int i = -3; i <= 3; i++ ) {
+        for( int j = -3; j <= 3; j++ ) {
+            if( i > -3 && i < 3 && j > -3 && j < 3 ) {
+                continue; // only do hordes on the border, skip inner map
+            }
+            const int omx = cursx + i;
+            const int omy = cursy + j;
+            tripoint const cur_pos {omx, omy, get_levz()};
+            if( overmap_buffer.has_horde( omx, omy, get_levz() )
+                && ( omx != targ.x || omy != targ.y )
+                && overmap_buffer.seen( omx, omy, get_levz() )
+                && g->u.overmap_los( cur_pos, sight_points ) ) {
+                mvwputch( w_minimap, j + 3, i + 3, c_green, 'Z' );
+            }
+        }
+    }
+
     wrefresh( w_minimap );
 }
 
