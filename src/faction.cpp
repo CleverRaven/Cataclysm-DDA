@@ -377,9 +377,9 @@ bool faction::matches_us(faction_value v) const
 
 std::string faction::describe() const
 {
-    std::string ret;
-    ret = string_format( "%1$s\n \n%2$s have the ultimate goal of %3$s.", _( desc.c_str() ), _( name.c_str() ),
-                                          _( facgoal_data[goal].name.c_str() ) );
+    std::string ret = _( desc.c_str() );
+    ret = ret + "\n\n" + string_format( _( "%1$s have the ultimate goal of %2$s." ), _( name.c_str() ),
+                                        _( facgoal_data[goal].name.c_str() ) );
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), _( facjob_data[job1].name.c_str()));
     } else {
