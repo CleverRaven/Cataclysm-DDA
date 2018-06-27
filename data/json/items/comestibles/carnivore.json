@@ -8,11 +8,8 @@
     "symbol": "%",
     "color": "red",
     "parasites": 32,
-    "vitamins": [
-      [ "calcium", 1 ],
-      [ "iron", 20 ],
-      [ "vitB", 10 ]
-    ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 20 ], [ "vitB", 10 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "id": "fish",
@@ -53,12 +50,7 @@
     "type": "COMESTIBLE",
     "name": "large human stomach",
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-    "proportional": {
-      "weight": 2.0,
-      "volume": 2.0,
-      "price": 1.5,
-      "calories": 2.0
-    }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
     "id": "human_flesh",
@@ -114,14 +106,8 @@
     "type": "COMESTIBLE",
     "name": "raw offal",
     "description": "Uncooked internal organs and entrails.  Unappealing to eat but filled with essential vitamins.",
-    "proportional": {
-        "calories": 0.5,
-        "parasites": 2.0
-    },
-    "relative": {
-        "vitamins": [ [ "vitA", 5 ] ],
-        "fun": -5
-    }
+    "proportional": { "calories": 0.5, "parasites": 2.0 },
+    "relative": { "vitamins": [ [ "vitA", 5 ] ], "fun": -5 }
   },
   {
     "id": "offal_cooked",
@@ -145,9 +131,9 @@
     "volume": 2,
     "stack_size": 2,
     "parasites": 0,
-    "container" : "jar_glass",
+    "container": "jar_glass",
     "spoils_in": 36,
-    "quench" : -1,
+    "quench": -1,
     "fun": -1,
     "proportional": { "calories": 0.5 }
   },
@@ -161,7 +147,7 @@
     "volume": 2,
     "stack_size": 2,
     "parasites": 0,
-    "container" : "can_food",
+    "container": "can_food",
     "fun": -2,
     "proportional": { "calories": 0.5 }
   },
@@ -186,12 +172,7 @@
     "type": "COMESTIBLE",
     "name": "large stomach",
     "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
-    "proportional": {
-      "weight": 2.0,
-      "volume": 2.0,
-      "price": 1.5,
-      "calories": 2.0
-    }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
     "id": "jerky",
@@ -210,10 +191,7 @@
     "spoils_in": 0,
     "quench": -5,
     "fun": 4,
-    "proportional": {
-      "price": 0.64,
-      "calories": 0.34
-    }
+    "proportional": { "price": 0.64, "calories": 0.34 }
   },
   {
     "id": "salted_fish",
@@ -232,10 +210,7 @@
     "spoils_in": 0,
     "quench": -5,
     "fun": 4,
-    "proportional": {
-      "price": 2,
-      "calories": 0.45
-    }
+    "proportional": { "price": 2, "calories": 0.45 }
   },
   {
     "id": "jerky_human",
@@ -252,10 +227,7 @@
     "spoils_in": 0,
     "quench": -5,
     "fun": 4,
-    "proportional": {
-      "price": 0.44,
-      "calories": 0.34
-    }
+    "proportional": { "price": 0.44, "calories": 0.34 }
   },
   {
     "id": "meat_smoked",
@@ -273,10 +245,7 @@
     "healthy": 0,
     "quench": -1,
     "fun": 5,
-    "proportional": {
-      "price": 6,
-      "calories": 0.95
-    },
+    "proportional": { "price": 6, "calories": 0.95 },
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -295,10 +264,7 @@
     "spoils_in": 0,
     "healthy": 1,
     "fun": 6,
-    "proportional": {
-      "price": 2,
-      "calories": 0.95
-    },
+    "proportional": { "price": 2, "calories": 0.95 },
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -315,10 +281,7 @@
     "spoils_in": 0,
     "quench": -1,
     "fun": 5,
-    "proportional": {
-      "price": 20,
-      "calories": 0.95
-    },
+    "proportional": { "price": 20, "calories": 0.95 },
     "flags": [ "EATEN_HOT" ]
   }
 ]

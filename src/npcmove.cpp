@@ -2132,14 +2132,16 @@ void npc::drop_items( int weight, int volume )
              to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
              volume_capacity() / units::legacy_volume_factor );
 
-    int weight_dropped = 0, volume_dropped = 0;
+    int weight_dropped = 0;
+    int volume_dropped = 0;
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
     for( unsigned int i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
-        double wgt_ratio, vol_ratio;
+        double wgt_ratio = 0.0;
+        double vol_ratio = 0.0;
         if( value( it ) == 0 ) {
             wgt_ratio = 99999;
             vol_ratio = 99999;
@@ -2147,7 +2149,8 @@ void npc::drop_items( int weight, int volume )
             wgt_ratio = it.weight() / 1_gram / value( it );
             vol_ratio = it.volume() / units::legacy_volume_factor / value( it );
         }
-        bool added_wgt = false, added_vol = false;
+        bool added_wgt = false;
+        bool added_vol = false;
         for( size_t j = 0; j < rWgt.size() && !added_wgt; j++ ) {
             if( wgt_ratio > rWgt[j].ratio ) {
                 added_wgt = true;

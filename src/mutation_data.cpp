@@ -183,6 +183,15 @@ static mut_attack load_mutation_attack( JsonObject &jo )
     return ret;
 }
 
+static social_modifiers load_mutation_social_mods( JsonObject &jo )
+{
+    social_modifiers ret;
+    jo.read( "lie", ret.lie );
+    jo.read( "persuade", ret.persuade );
+    jo.read( "intimidate", ret.intimidate );
+    return ret;
+}
+
 void mutation_branch::load( JsonObject &jsobj )
 {
     const trait_id id( jsobj.get_string( "id" ) );
@@ -243,6 +252,11 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.fatigue_regen_modifier = jsobj.get_float( "fatigue_regen_modifier", 0.0f );
 
     new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
+
+    if( jsobj.has_object( "social_modifiers" ) ) {
+        JsonObject jo = jsobj.get_object( "social_modifiers" );
+        new_mut.social_mods = load_mutation_social_mods( jo );
+    }
 
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state

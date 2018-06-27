@@ -230,7 +230,7 @@ void mdeath::kill_vines( monster &z )
                 break;
             }
         }
-        if (!closer) {
+        if (!closer) { // @todo: closer variable is not being updated and is always false!
             vine->die( &z );
         }
     }
@@ -770,5 +770,17 @@ void mdeath::preg_roach( monster &z )
         if( num_roach == 0 ) {
             break;
         }
+    }
+}
+
+void mdeath::fireball( monster &z )
+{
+    if( one_in( 10 ) ) {
+        g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
+        std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ), z.name().c_str() );
+        sounds::sound( z.pos(), 24, explode );
+        add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
+    } else {
+        normal( z );
     }
 }

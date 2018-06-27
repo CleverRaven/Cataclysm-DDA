@@ -168,6 +168,11 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
+    last_updated = 0;
+    baby_timer = -1;
+    last_baby = 0;
+    biosig_timer = -1;
+    last_biosig = 0;
 }
 
 monster::monster( const mtype_id& id ) : monster()
@@ -184,7 +189,9 @@ monster::monster( const mtype_id& id ) : monster()
     morale = type->morale;
     faction = type->default_faction;
     ammo = type->starting_ammo;
-    upgrades = type->upgrades && type->half_life;
+    upgrades = type->upgrades && (type->half_life || type->age_grow);
+    reproduces = type->reproduces && type->baby_timer;
+    biosignatures = type->biosignatures;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -234,6 +241,8 @@ void monster::poly( const mtype_id& id )
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
+    reproduces = type->reproduces;
+    biosignatures = type->biosignatures;
 }
 
 bool monster::can_upgrade() {
@@ -256,6 +265,9 @@ void monster::hasten_upgrade() {
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
+    if( type->age_grow > 0 ){
+        return type->age_grow;
+    }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
     for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
@@ -276,15 +288,15 @@ void monster::try_upgrade(bool pin_time) {
         return;
     }
 
-    const int current_day = to_days<int>( calendar::time_of_cataclysm - calendar::turn );
-
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    //This should only occur when a monster is created or upgraded to a new form
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
         if (upgrade_time < 0) {
             return;
         }
-        if (pin_time) {
-            // offset by today
+        if( pin_time || type->age_grow > 0 ) {
+            // offset by today, always true for growing creatures
             upgrade_time += current_day;
         } else {
             // offset by starting season
@@ -321,6 +333,89 @@ void monster::try_upgrade(bool pin_time) {
             return;
         }
         upgrade_time += next_upgrade;
+    }
+}
+
+void monster::try_reproduce() {
+    if( !reproduces ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    if( baby_timer < 0 ) {
+        baby_timer = type->baby_timer;
+        if( baby_timer < 0 ) {
+            return;
+        }
+        baby_timer += current_day;
+    }
+
+    bool season_spawn = false;
+    bool season_match = true;
+    for( auto &elem : type->baby_flags ) {
+        if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
+            season_spawn = true;
+        }
+    }
+
+    while( true ) {
+        if( baby_timer > current_day ) {
+            return;
+        }
+
+        if( season_spawn ){
+            season_match = false;
+            for( auto &elem : type->baby_flags ) {
+                if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == AUTUMN && elem == "AUTUMN" ) ) {
+                    season_match = true;
+                }
+            }
+        }
+
+        if( season_match ){
+            if( type->baby_monster ) {
+                g->m.add_spawn( type->baby_monster, type->baby_count, pos().x, pos().y );
+            } else {
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), type->baby_count ), true );
+            }
+        }
+
+        const int next_baby = type->baby_timer;
+        if( next_baby < 0 ) {
+            return;
+        }
+        baby_timer += next_baby;
+    }
+}
+
+void monster::try_biosignature() {
+    if( !biosignatures ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    if( biosig_timer < 0 ) {
+        biosig_timer = type->biosig_timer;
+        if( biosig_timer < 0 ) {
+            return;
+        }
+        biosig_timer += current_day;
+    }
+
+    while( true ) {
+        if( biosig_timer > current_day ) {
+            return;
+        }
+
+        g->m.add_item_or_charges( pos(), item( type->biosig_item, DAYS( biosig_timer ), 1 ), true );
+        const int next_biosig = type->biosig_timer;
+        if( next_biosig < 0 ) {
+            return;
+        }
+        biosig_timer += next_biosig;
     }
 }
 
@@ -868,7 +963,9 @@ void monster::process_trigger(monster_trigger trig, int amount)
 int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
     int ret = 0;
-    bool check_terrain = false, check_meat = false, check_fire = false;
+    bool check_terrain = false;
+    bool check_meat = false;
+    bool check_fire = false;
     for( const auto &trigger : triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
@@ -1187,11 +1284,11 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     const bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
-    if( has_flag(MF_HARDTOSHOOT) &&
-        !one_in(10 - 10 * (.8 - missed_by)) &&
+    if( has_flag( MF_HARDTOSHOOT ) &&
+        !one_in( 10 - 10 * ( .8 - missed_by ) ) &&
         !effects.count( "WIDE" ) ) {
         if( u_see_mon ) {
-            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+            add_msg( _( "The shot passes through %s without hitting." ), disp_name().c_str() );
         }
         return;
     }
@@ -1386,10 +1483,10 @@ bool monster::move_effects(bool)
 }
 
 void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                          bool permanent, int intensity, bool force )
+                          bool permanent, int intensity, bool force, bool deferred )
 {
     bp = num_bp;
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
@@ -1747,7 +1844,8 @@ void monster::die(Creature* nkiller)
     }
 
     // If our species fears seeing one of our own die, process that
-    int anger_adjust = 0, morale_adjust = 0;
+    int anger_adjust = 0;
+    int morale_adjust = 0;
     if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust += 15;
     }

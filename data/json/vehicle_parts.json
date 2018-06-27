@@ -776,12 +776,16 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
-    "folded_volume": 4,
-    "size": 60,
-    "item": "wire",
+    "folded_volume": 6,
+    "size": 80,
+    "item": "bike_basket",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "FOLDABLE" ]
+    "flags": [ "CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "FOLDABLE" ],
+    "requirements": {
+      "install": { "time": 15000, "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": 25000, "using": [ [ "welding_standard", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] } }
   },
   {
     "type": "vehicle_part",
@@ -793,11 +797,15 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
-    "size": 200,
+    "size": 600,
     "item": "basket",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE" ]
+    "flags": [ "CARGO", "OBSTACLE" ],
+    "requirements": {
+      "install": { "time": 45000, "skills": [ [ "mechanics", 1 ] ], "using": [ [ "welding_standard", 2 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": 35000, "using": [ [ "welding_standard", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SAW_M", "level": 1 } ] } }
   },
   {
     "type": "vehicle_part",
@@ -809,12 +817,16 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
-    "size": 200,
+    "size": 600,
+    "folded_volume": 24,
     "item": "folding_basket",
     "difficulty": 1,
     "location": "center",
     "flags": [ "CARGO", "OBSTACLE", "FOLDABLE" ],
-    "folded_volume": 12
+    "requirements": {
+      "install": { "time": 45000, "skills": [ [ "mechanics", 1 ] ], "using": [ [ "welding_standard", 2 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": 35000, "using": [ [ "welding_standard", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SAW_M", "level": 1 } ] } }
   },
   {
     "type": "vehicle_part",

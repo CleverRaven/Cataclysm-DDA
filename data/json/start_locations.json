@@ -218,5 +218,11 @@
     "ident" : "religous_cemetery",
     "name" : "Religious Cemetery",
     "target" : "cemetery_4square_10"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "basement_bionic",
+    "name" : "Shady Basement",
+    "target" : "basement_bionic"
   }
 ]

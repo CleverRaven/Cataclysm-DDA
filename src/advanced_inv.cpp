@@ -1152,6 +1152,17 @@ bool advanced_inventory::move_all_items(bool nested_call)
             popup(_("There are no items to be moved!"));
             return false;
         }
+
+        auto &sarea = squares[spane.get_area()];
+        auto &darea = squares[dpane.get_area()];
+
+
+        // Check first if the destination area still have enough room for moving all.
+        if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+            !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+            return false;
+        }
+
         // make sure that there are items to be moved
         bool done = false;
         // copy the current pane, to be restored after the move is queued
@@ -1287,6 +1298,13 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 g->u.activity.str_values.push_back( "equip" );
             }
         } else { // Vehicle and map destinations are handled the same.
+
+            // Check first if the destination area still have enough room for moving all.
+            if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+                !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+                return false;
+            }
+
             g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
             // store whether the source is from a vehicle (first entry)
             g->u.activity.values.push_back(spane.in_vehicle());
@@ -1584,7 +1602,8 @@ void advanced_inventory::display()
                     } else if(srcarea == AIM_WORN) {
                         g->u.takeoff( *sitem->items.front(), &moving_items );
                     }
-                    int items_left = 0, moved = 0;
+                    int items_left = 0;
+                    int moved = 0;
                     for(auto &elem : moving_items) {
                         assert(!elem.is_null());
                         items_left = add_item(destarea, elem);
@@ -1730,7 +1749,8 @@ void advanced_inventory::display()
                 recalc = true;
             } else {
                 item &it = *sitem->items.front();
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 it.info( true, vThisItem );
                 int iDummySelect = 0;
                 ret = draw_item_info( info_startx,

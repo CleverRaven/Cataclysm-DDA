@@ -671,8 +671,10 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 {
     size_t pos = item_tag.find('=');
     if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string var_name, val_decoded;
-        int svarlen, svarsep;
+        std::string var_name;
+        std::string val_decoded;
+        int svarlen = 0;
+        int svarsep = 0;
         svarsep = item_tag.find('=');
         svarlen = item_tag.size();
         val_decoded.clear();
@@ -726,7 +728,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const {
 
 std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) const
 {
-    std::stringstream temp1, temp2;
+    std::stringstream temp1;
+    std::stringstream temp2;
     std::string space = "  ";
     const bool debug = g != nullptr && debug_mode;
 
@@ -1067,7 +1070,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         }
 
         info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", g->u.aim_per_move( *mod, MAX_RECOIL ), true, "", true, true );
-        for( const aim_type type : g->u.get_aim_types( *mod ) ) {
+        for( const aim_type& type : g->u.get_aim_types( *mod ) ) {
             // Nameless aim levels don't get an entry.
             if( type.name.empty() ) {
                 continue;
@@ -2108,7 +2111,8 @@ void item::on_wear( Character &p )
 {
     if( is_sided() && get_side() == side::BOTH ) {
         // for sided items wear the item on the side which results in least encumbrance
-        int lhs = 0, rhs = 0;
+        int lhs = 0;
+        int rhs = 0;
 
         set_side( side::LEFT );
         const auto left_enc = p.get_encumbrance( *this );
@@ -3002,8 +3006,22 @@ int item::get_env_resist() const
     if( t == nullptr ) {
         return 0;
     }
+    // modify if item is a gas mask and has filter
+    int resist_base = static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
+    int resist_filter = get_var( "overwrite_env_resist", 0 );
+    int resist = std::max( resist_base, resist_filter );
+
+    return lround( resist * get_relative_health() );
+}
+
+int item::get_env_resist_w_filter() const
+{
+    const auto t = find_armor_data();
+    if( t == nullptr ) {
+        return 0;
+    }
     // it_armor::env_resist is unsigned char
-    return static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
+    return static_cast<int>( static_cast<unsigned int>( t->env_resist_w_filter ) );
 }
 
 bool item::is_power_armor() const
@@ -3293,7 +3311,7 @@ int item::acid_resist( bool to_self ) const
     }
 
     const int env = get_env_resist();
-    if( !to_self && env < 10 ) {
+    if( env < 10 ) {
         // Low env protection means it doesn't prevent acid seeping in.
         resist *= env / 10.0f;
     }
@@ -3323,7 +3341,7 @@ int item::fire_resist( bool to_self ) const
     }
 
     const int env = get_env_resist();
-    if( !to_self && env < 10 ) {
+    if( env < 10 ) {
         // Iron resists immersion in magma, iron-clad knight won't.
         resist *= env / 10.0f;
     }
@@ -3358,6 +3376,11 @@ int item::min_damage() const
 int item::max_damage() const
 {
     return type->damage_max;
+}
+
+float item::get_relative_health() const
+{
+    return ( max_damage() + 1.0f - damage() ) / ( max_damage() + 1.0f );
 }
 
 bool item::mod_damage( double qty, damage_type dt )

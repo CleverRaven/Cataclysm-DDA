@@ -34,8 +34,8 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "shotgun" ],
-    "damage_modifier": -20,
-    "dispersion_modifier": -150,
+    "damage_modifier": -8,
+    "dispersion_modifier": -200,
     "min_skills": [ [ "weapon", 5 ] ]
   },
   {

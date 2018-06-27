@@ -295,7 +295,11 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
     bool a_has_drugs = one_in( 2 );
 
     for( int i = 0; i < num_bodies_a; i++ ) {
-        int x, y, x_offset, y_offset, tries = 0;
+        int x = 0;
+        int y = 0;
+        int x_offset = 0;
+        int y_offset = 0;
+        int tries = 0;
         do { // Loop until we find a valid spot to dump a body, or we give up
             if( north_south ) {
                 x = rng( 0, SEEX * 2 - 1 );
@@ -333,7 +337,11 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
         }
     }
     for( int i = 0; i < num_bodies_b; i++ ) {
-        int x, y, x_offset, y_offset, tries = 0;
+        int x = 0;
+        int y = 0;
+        int x_offset = 0;
+        int y_offset = 0;
+        int tries = 0;
         do { // Loop until we find a valid spot to dump a body, or we give up
             if( north_south ) {
                 x = rng( 0, SEEX * 2 - 1 );

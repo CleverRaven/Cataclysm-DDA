@@ -429,7 +429,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, const t
     }
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            int forest_chance = 0, num = 0;
+            int forest_chance = 0;
+            int num = 0;
             if (j < dat.n_fac) {
                 forest_chance += dat.n_fac - j;
                 num++;
@@ -778,7 +779,8 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, const time_point &turn, 
     }
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            int forest_chance = 0, num = 0;
+            int forest_chance = 0;
+            int num = 0;
             if (j < dat.n_fac) {
                 forest_chance += dat.n_fac - j;
                 num++;
@@ -1096,7 +1098,10 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
                 if( sidewalks_neswx[ ( dir + 3 ) % 4     ] ||  // has_sidewalk west?
                     sidewalks_neswx[ ( dir + 3 ) % 4 + 4 ] ||  // has_sidewalk northwest?
                     sidewalks_neswx[   dir               ] ) { // has_sidewalk north?
-                    int x1 = 0, y1 = 0, x2 = 3, y2 = SEEY - 1 + dead_end_extension;
+                    int x1 = 0;
+                    int y1 = 0;
+                    int x2 = 3;
+                    int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
                     square( m, t_sidewalk, x1, y1, x2, y2 );
@@ -1105,7 +1110,10 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
                 if( sidewalks_neswx[ ( dir + 1 ) % 4 ] ||  // has_sidewalk east?
                     sidewalks_neswx[   dir + 4       ] ||  // has_sidewalk northeast?
                     sidewalks_neswx[   dir           ] ) { // has_sidewalk north?
-                    int x1 = SEEX * 2 - 5, y1 = 0, x2 = SEEX * 2 - 1, y2 = SEEY - 1 + dead_end_extension;
+                    int x1 = SEEX * 2 - 5;
+                    int y1 = 0;
+                    int x2 = SEEX * 2 - 1;
+                    int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
                     square( m, t_sidewalk, x1, y1, x2, y2 );
@@ -1122,7 +1130,10 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
         // also corner pieces to curve towards diagonal neighbors
         for( int dir = 0; dir < 4; dir++ ) {
             if( roads_nesw[dir] ) {
-                int x1 = 4, y1 = 0, x2 = SEEX * 2 - 1 - 4, y2 = SEEY - 1 + dead_end_extension;
+                int x1 = 4;
+                int y1 = 0;
+                int x2 = SEEX * 2 - 1 - 4;
+                int y2 = SEEY - 1 + dead_end_extension;
                 coord_rotate_cw( x1, y1, dir );
                 coord_rotate_cw( x2, y2, dir );
                 square( m, t_pavement, x1, y1, x2, y2 );
@@ -1148,7 +1159,8 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
                     for( int y = 0; y < max_y; y++ ) {
                         if( ( y + ( ( dir + rot ) / 2 % 2 ) ) % 4 ) {
-                            int xn = x, yn = y;
+                            int xn = x;
+                            int yn = y;
                             coord_rotate_cw( xn, yn, dir );
                             m->ter_set( xn, yn, t_pavement_y );
                         }
@@ -1985,7 +1997,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
     }
 
     items_location placed = "none";
-    int chance = 0, rn;
+    int chance = 0;
+    int rn = 0;
     switch (type) {
     case room_study:
         placed = "livingroom";
@@ -2068,7 +2081,6 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
                 pos_x1 -= 2;
             }
             break;
-            m->furn_set(rng(x1 + 2, x2 - 2), rng(y1 + 1, y2 - 1), f_armchair);
         }
 
 
@@ -2078,7 +2090,10 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         chance = 75;
         m->place_items("cleaning",  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, turn);
         m->place_items("home_hw",   40, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, turn);
-        int oven_x = -1, oven_y = -1, cupboard_x = -1, cupboard_y = -1;
+        int oven_x = -1;
+        int oven_y = -1;
+        int cupboard_x = -1;
+        int cupboard_y = -1;
 
         switch (rng(1, 4)) { //fridge, sink, oven and some cupboards near them
         case 1:
@@ -2642,8 +2657,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     }
 
     // For rotation
-    const bool has_basement = terrain_type->get_type_id().str() == "house_base";
-    if( has_basement ) {
+    if( one_in( dat.region.city_spec.house_basement_chance ) ) {
         const bool force = get_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first
         const tripoint abs_sub_here = m->get_abs_sub();
@@ -2723,8 +2737,10 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
         }
         int num_pods = rng(8, 12);
         for (int i = 0; i < num_pods; i++) {
-            int podx = rng(1, SEEX * 2 - 2), pody = rng(1, SEEY * 2 - 2);
-            int nonx = 0, nony = 0;
+            int podx = rng(1, SEEX * 2 - 2);
+            int pody = rng(1, SEEY * 2 - 2);
+            int nonx = 0;
+            int nony = 0;
             while (nonx == 0 && nony == 0) {
                 nonx = rng(-1, 1);
                 nony = rng(-1, 1);
@@ -3447,7 +3463,8 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, const time_point &turn, float 
             mapgen_forest_general(m, oter_str_id("forest").id(), dat, turn, density);
             // Clear the center with some rocks
             square(m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
-            int pathx, pathy;
+            int pathx = 0;
+            int pathy = 0;
             if (one_in(2)) {
                 pathx = rng(SEEX - 6, SEEX + 5);
                 pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
@@ -3492,7 +3509,8 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, const time_point &turn, fl
             m->add_spawn(mon_rat_king, 1, SEEX, SEEY);
             m->place_items("rare", 75, SEEX - 4, SEEY - 4, SEEX + 4, SEEY + 4, true, turn);
         } else { // Level 1
-            int cavex = SEEX, cavey = SEEY * 2 - 3;
+            int cavex = SEEX;
+            int cavey = SEEY * 2 - 3;
             int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
             int centerx = 0;
             do {
@@ -3607,7 +3625,8 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, const time_point &turn, floa
     }
     m->place_items("cavern", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     if (one_in(6)) { // Miner remains
-        int x, y;
+        int x = 0;
+        int y = 0;
         do {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);

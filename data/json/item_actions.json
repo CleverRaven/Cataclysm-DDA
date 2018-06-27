@@ -461,6 +461,10 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "GASMASK",
+        "name" : "Prepare to use"
+    },{
+        "type" : "item_action",
         "id" : "MULTICOOKER",
         "name" : "Cook"
     },{
@@ -742,7 +746,7 @@
     },
     {
         "type" : "item_action",
-        "id" : "FEEDCATTLE",
+        "id" : "CATTLEFODDER",
         "name" : "Place"
     },
     {

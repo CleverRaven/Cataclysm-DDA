@@ -6634,7 +6634,7 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE" ]
   },
   {
     "id": "spray_can",
@@ -8301,7 +8301,7 @@
     "material": "veggy",
     "symbol": ";",
     "color": "brown",
-    "use_action": "FEEDCATTLE"
+    "use_action": "CATTLEFODDER"
   },
   {
     "id": "link_sheet",

@@ -92,6 +92,7 @@ const mtype_id mon_zombie_child( "mon_zombie_child" );
 const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+const mtype_id mon_zombie_flamer( "mon_zombie_flamer" );
 const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
 const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
 const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
@@ -2057,7 +2058,10 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     std::array<oter_id, 8> t_nesw = {{ t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest }};
     std::array<int, 8> nesw_fac = {{ 0, 0, 0, 0, 0, 0, 0, 0 }};
-    int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
+    int &n_fac = nesw_fac[0];
+    int &e_fac = nesw_fac[1];
+    int &s_fac = nesw_fac[2];
+    int &w_fac = nesw_fac[3];
 
     mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, *rsettings, *this );
 
@@ -3861,7 +3865,8 @@ ff.......|....|WWWWWWWW|\n\
                 if (by2 < 20) {
                     doorsides.push_back(SOUTH);
                 }
-                int doorx = 0, doory = 0;
+                int doorx = 0;
+                int doory = 0;
                 switch( random_entry( doorsides ) ) {
                 case WEST:
                     doorx = bx1;
@@ -3945,6 +3950,10 @@ ff.......|....|WWWWWWWW|\n\
                         add_spawn( mon_zombie_grenadier_elite, 1, p->x, p->y );
                     } else {
                         add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
+                    }
+                } else if( one_in( 4 ) ) { // Zombie Burner
+                    if( one_in( 5 ) ) {
+                        add_spawn( mon_zombie_flamer, 1, p->x, p->y );
                     }
                 } else if (one_in(20)) {
                     rough_circle_furn( this, f_rubble, p->x, p->y, rng( 3, 6 ) );
@@ -4226,7 +4235,9 @@ ff.......|....|WWWWWWWW|\n\
                     }
                 }
                 // Now go backwards through path (start to finish), toggling any tiles that need
-                bool toggle_red = false, toggle_green = false, toggle_blue = false;
+                bool toggle_red = false;
+                bool toggle_green = false;
+                bool toggle_blue = false;
                 for (int i = path.size() - 1; i >= 0; i--) {
                     if (ter(path[i].x, path[i].y) == t_floor_red) {
                         toggle_green = !toggle_green;
@@ -6016,6 +6027,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         place_items("office", 80, 3, 16, 3, 18, false, 0);
         place_items("office", 80, 6, 16, 6, 18, false, 0);
         add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
+        add_spawn( mon_zombie_flamer, rng( 1, 2 ), 4, 17 );
 
         // Rotate to face the road
         if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
@@ -6123,6 +6135,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             }
             place_items("office", 80, 10, 11, 13, 12, false, 0);
             add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
+            add_spawn( mon_zombie_flamer, rng( 1, 2 ), 12, 14 );
         } else {
             switch (rng(1, 5)) {
             case 1:
@@ -6373,7 +6386,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         // Chance increases by 1 each turn, and gives the % chance of forcing a move
         // to the right or down.
         int chance = 0;
-        int x = 4, y = 4;
+        int x = 4;
+        int y = 4;
         do {
             ter_set(x, y, t_dirt);
 
@@ -6402,7 +6416,10 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             } else {
                 chance++; // Increase chance of forced movement down/right
                 // Weigh movement towards directions with lots of existing walls
-                int chance_west = 0, chance_east = 0, chance_north = 0, chance_south = 0;
+                int chance_west = 0;
+                int chance_east = 0;
+                int chance_north = 0;
+                int chance_south = 0;
                 for (int dist = 1; dist <= 5; dist++) {
                     if (ter(x - dist, y) == t_root_wall) {
                         chance_west++;
@@ -6737,7 +6754,8 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
                    !terrain.has_flag("FLAT");
         };
 
-        int px, py;
+        int px = 0;
+        int py = 0;
         do {
             px = rng(x1, x2);
             py = rng(y1, y2);
@@ -6774,7 +6792,8 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
         debugmsg("Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y);
         return;
     }
-    int offset_x, offset_y;
+    int offset_x = 0;
+    int offset_y = 0;
     submap *place_on_submap = get_submap_at(x, y, offset_x, offset_y);
 
     if(!place_on_submap) {
@@ -7087,7 +7106,8 @@ void map::rotate(int turns)
                 new_y = old_x;
                 break;
             }
-            int new_lx, new_ly;
+            int new_lx = 0;
+            int new_ly = 0;
             const auto new_sm = get_submap_at( new_x, new_y, new_lx, new_ly );
             new_sm->is_uniform = false;
             std::swap( rotated[old_x][old_y], new_sm->ter[new_lx][new_ly] );
@@ -7216,7 +7236,8 @@ void map::rotate(int turns)
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            int lx, ly;
+            int lx = 0;
+            int ly = 0;
             const auto sm = get_submap_at( i, j, lx, ly );
             sm->is_uniform = false;
             std::swap( rotated[i][j], sm->ter[lx][ly] );
@@ -7723,8 +7744,11 @@ void silo_rooms(map *m)
     // first is room position, second is its size
     std::vector<std::pair<point, point>> rooms;
     bool okay = true;
+    int x = 0;
+    int y = 0;
+    int width = 0;
+    int height = 0;
     do {
-        int x, y, height, width;
         if (one_in(2)) { // True = top/bottom, False = left/right
             x = rng(0, SEEX * 2 - 6);
             y = rng(0, 4);
@@ -7810,7 +7834,8 @@ void silo_rooms(map *m)
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
 
     while (rooms.size() > 1) {
-        int best_dist = 999, closest = 0;
+        int best_dist = 999;
+        int closest = 0;
         for (size_t i = 1; i < rooms.size(); i++) {
             int dist = trig_dist( rooms[0].first.x, rooms[0].first.y, rooms[i].first.x, rooms[i].first.y );
             if (dist < best_dist) {
@@ -7820,7 +7845,8 @@ void silo_rooms(map *m)
         }
         // We chose the closest room; now draw a corridor there
         point origin = rooms[0].first, origsize = rooms[0].second, dest = rooms[closest].first;
-        int x = origin.x + origsize.x, y = origin.y + origsize.y;
+        int x = origin.x + origsize.x;
+        int y = origin.y + origsize.y;
         bool x_first = (abs(origin.x - dest.x) > abs(origin.y - dest.y));
         while (x != dest.x || y != dest.y) {
             if (m->ter(x, y) == t_rock) {

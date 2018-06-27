@@ -851,6 +851,9 @@ void load_region_settings( JsonObject &jo )
         if ( ! cjo.read("park_radius", new_region.city_spec.park_radius) && strict ) {
             jo.throw_error("city: park_radius required for default");
         }
+        if ( ! cjo.read("house_basement_chance", new_region.city_spec.house_basement_chance) && strict ) {
+            jo.throw_error("city: house_basement_chance required for default");
+        }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string &type,
                                                          building_bin &dest ) {
             if ( !cjo.has_object( type ) && strict ) {
@@ -868,6 +871,7 @@ void load_region_settings( JsonObject &jo )
             }
         };
         load_building_types( "houses", new_region.city_spec.houses );
+        load_building_types( "basements", new_region.city_spec.basements );
         load_building_types( "shops", new_region.city_spec.shops );
         load_building_types( "parks", new_region.city_spec.parks );
     }
@@ -1028,6 +1032,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
     cityjo.read("shop_radius", region.city_spec.shop_radius);
     cityjo.read("park_radius", region.city_spec.park_radius);
+    cityjo.read("house_basement_chance", region.city_spec.house_basement_chance);
 
     const auto load_building_types = [&cityjo]( const std::string &type, building_bin &dest ) {
         JsonObject typejo = cityjo.get_object( type );
@@ -1039,6 +1044,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
         }
     };
     load_building_types( "houses", region.city_spec.houses );
+    load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
 }
@@ -2643,7 +2649,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input( BLINK_SPEED );
 
-        int dirx, diry;
+        int dirx = 0;
+        int diry = 0;
         if (ictxt.get_direction(dirx, diry, action)) {
             curs.x += dirx;
             curs.y += diry;
@@ -2934,7 +2941,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     werase(g->w_overmap);
     werase(g->w_omlegend);
     catacurses::erase();
-    g->refresh_all();
+    g->init_ui( true );
     return ret;
 }
 
@@ -3181,7 +3188,9 @@ void overmap::place_forest()
 {
     int forests_placed = 0;
     for (int i = 0; i < settings.num_forests; i++) {
-        int forx, fory, fors;
+        int forx = 0;
+        int fory = 0;
+        int fors = 0;
         // try to place this forest
         int tries = 100;
         do {
@@ -3268,7 +3277,8 @@ void overmap::place_forest()
 
 void overmap::place_river(point pa, point pb)
 {
-    int x = pa.x, y = pa.y;
+    int x = pa.x;
+    int y = pa.y;
     do {
         x += rng(-1, 1);
         y += rng(-1, 1);
@@ -3561,7 +3571,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     int numstairs = 0;
     if( s > 0 ) { // Build stairs going down
         while( !one_in( 6 ) ) {
-            int stairx, stairy;
+            int stairx = 0;
+            int stairy = 0;
             int tries = 0;
             do {
                 stairx = rng( x - s, x + s );
@@ -3575,7 +3586,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
         }
     }
     if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
-        int finalex, finaley;
+        int finalex = 0;
+        int finaley = 0;
         int tries = 0;
         do {
             finalex = rng( x - s, x + s );
@@ -4291,6 +4303,12 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
+    // Place basement for houses.
+    if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {
+        const overmap_special_id basement_tid = settings.city_spec.pick_basement();
+        const tripoint basement_p = tripoint( p.x, p.y, p.z - 1 );
+        place_special( *basement_tid, basement_p, dir, cit );
+    }
 }
 
 std::vector<point> overmap::get_sectors() const
@@ -4767,6 +4785,7 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
 void city_settings::finalize()
 {
     houses.finalize();
+    basements.finalize();
     shops.finalize();
     parks.finalize();
 }

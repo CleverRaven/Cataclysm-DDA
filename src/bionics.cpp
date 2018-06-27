@@ -52,6 +52,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pblue( "pblue" );
@@ -492,7 +493,7 @@ bool player::activate_bionic( int b, bool eff_only )
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                            cur_om_ter, g->is_sheltered( g->u.pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
-                           print_temperature( g->get_temperature() ).c_str() );
+                           print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, g->weather,
@@ -505,7 +506,7 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + g->get_temperature() ).c_str() );
+                                       windpower ) + g->get_temperature( g->u.pos() ) ).c_str() );
     } else if( bio.id == "bio_remote" ) {
         int choice = menu( true, _( "Perform which function:" ), _( "Nothing" ),
                            _( "Control vehicle" ), _( "RC radio" ), NULL );
@@ -824,7 +825,6 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
-    const inventory &crafting_inv = crafting_inventory();
     if( item::type_is_defined( b_id.c_str() ) ) {
         auto type = item::find_type( b_id.c_str() );
         if( type->bionic ) {
@@ -834,14 +834,6 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 
     if( !has_bionic( b_id ) ) {
         popup( _( "You don't have this bionic installed." ) );
-        return false;
-    }
-    //If you are paying the doctor to do it, shouldn't use your supplies
-    static const quality_id CUT_FINE( "CUT_FINE" );
-    if( !( crafting_inv.has_quality( CUT_FINE ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
-        skill_level == -1 ) {
-        popup( _( "Removing bionics requires a tool with %s quality, and a first aid kit." ),
-               CUT_FINE.obj().name.c_str() );
         return false;
     }
 
@@ -870,21 +862,21 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         return false;
     }
 
-    // removal of bionics adds +2 difficulty over installation, high quality tool subtracts its fine cutting quality amount
+    // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
     if( skill_level != -1 ) {
         chance_of_success = bionic_manip_cos( skill_level,
                                               skill_level,
                                               skill_level,
                                               skill_level,
-                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
+                                              difficulty + 2 );
     } else {
         ///\EFFECT_INT increases chance of success removing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
                                               get_skill_level( skilll_electronics ),
                                               get_skill_level( skilll_firstaid ),
                                               get_skill_level( skilll_mechanics ),
-                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
+                                              difficulty + 2 );
     }
 
     if( !query_yn(
@@ -972,69 +964,6 @@ bool player::install_bionics( const itype &type, int skill_level )
         }
         popup( _( "Not enough space for bionic installation!%s" ), detailed_info.c_str() );
         return false;
-    }
-
-    const int pk = get_painkiller();
-    const int overall_pk_dur = to_minutes<int>( get_effect_dur( effect_pkill1 ) + get_effect_dur(
-                                   effect_pkill2 ) +
-                               get_effect_dur( effect_pkill3 ) + get_effect_dur( effect_pkill_l ) );
-    int pain_cap = 100;
-    if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-        pain_cap = pain_cap / 2;
-    } else if( has_trait( trait_PAINRESIST ) ) {
-        pain_cap = pain_cap / 1.5;
-    }
-
-    int fa_level = get_skill_level( skilll_firstaid );
-
-    if( has_trait( trait_PROF_MED ) ) {
-        fa_level = 5;
-    }
-
-    if( !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
-        !has_trait( trait_MASOCHIST_MED ) && !has_bionic( bionic_id( "bio_painkiller" ) ) ) {
-        if( pk == 0 ) {
-            popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
-            return false;
-        } else if( pk < pain_cap / 2 ) {
-            if( fa_level < 2 ) {
-                popup( _( "You need to be a lot more numb to tolerate installing bionics.  "
-                          "Note that painkillers you've already taken could take up to an hour"
-                          " to achieve full effect." ) );
-            } else if( fa_level <= 4 ) {
-                popup( _( "Intensity of painkillers you've already taken is less than half of "
-                          "the threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       overall_pk_dur );
-            } else {
-                popup( _( "Intensity of painkillers you've already taken is %i percent of the "
-                          "threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       100 * pk / pain_cap, overall_pk_dur );
-            }
-            return false;
-        } else if( pk < pain_cap ) {
-            if( fa_level < 2 ) {
-                popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that"
-                          " painkillers you've already taken could take up to an hour to achieve "
-                          "full effect." ) );
-            } else if( fa_level <= 4 ) {
-                popup( _( "Intensity of painkillers you've already taken is more than half of the "
-                          "threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       overall_pk_dur );
-            } else {
-                popup( _( "Intensity of painkillers you've already taken is %i percent of the "
-                          "threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       100 * pk / pain_cap, overall_pk_dur );
-            }
-            return false;
-        }
     }
 
     if( !query_yn(
@@ -1546,4 +1475,22 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge = jo.get_int( "charge" );
+}
+
+void player::introduce_into_anesthesia( time_duration const &duration )
+{
+    add_msg_if_player( m_info,
+                       _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
+    add_effect( effect_narcosis, duration );
+    fall_asleep( duration );
+    add_msg_if_player( m_info,
+                       _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+    std::vector<item_comp> comps;
+    std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+    for( const item *anesthesia_item : a_filter ) {
+        comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+    }
+    consume_items( comps );
 }

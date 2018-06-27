@@ -250,7 +250,8 @@ void faction::randomize()
     } while( ( one_in( num_values ) || one_in( num_values ) ) && tries < 15 );
 
     std::string noun;
-    int sel = 1, best = strength;
+    int sel = 1;
+    int best = strength;
     if (sneak > best) {
         sel = 2;
         best = sneak;
@@ -547,7 +548,8 @@ std::string invent_name()
 std::string invent_adj()
 {
     int syllables = dice(2, 2) - 1;
-    std::string ret,  tmp;
+    std::string ret;
+    std::string tmp;
     switch (rng(0, 25)) {
     case  0:
         ret = pgettext( "faction adjective", "Ald" );

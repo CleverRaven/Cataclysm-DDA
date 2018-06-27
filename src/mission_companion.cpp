@@ -190,7 +190,8 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
     std::vector<std::string> keys;
     std::map<std::string, std::string> col_missions;
     std::vector<std::shared_ptr<npc>> npc_list;
-    std::string entry, entry_aux;
+    std::string entry;
+    std::string entry_aux;
 
     if (id == "SCAVENGER"){
         col_missions["Assign Scavenging Patrol"] = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
@@ -537,7 +538,8 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
     //So we have chosen to return an individual or party who went on the mission
     //Everyone who was on the mission will have the same companion_mission_time
     //and will simulate the mission and return together
-    std::vector<std::shared_ptr<npc>> caravan_party, bandit_party;
+    std::vector<std::shared_ptr<npc>> caravan_party;
+    std::vector<std::shared_ptr<npc>> bandit_party;
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     for (int i = 0; i < rng(1,3); i++){
         caravan_party.push_back(temp_npc(string_id<npc_template>( "commune_guard" )));
@@ -571,7 +573,8 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
         }
     }
 
-    int y,i;
+    int y = 0;
+    int i = 0;
     int money = 0;
     for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
@@ -718,7 +721,7 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, std::string place )
 {
-    if (g->get_temperature() < 50) {
+    if (g->get_temperature( g->u.pos() ) < 50) {
         popup(_("It is too cold to plant anything now."));
         return;
     }
@@ -988,7 +991,8 @@ bool talk_function::scavenging_patrol_return( npc &p )
     int money = rng( 25, 450 );
     g->u.cash += money*100;
 
-    int y, i = 0;
+    int y = 0;
+    int i = 0;
     while (i < experience){
         y = rng( 0, 100 );
         if( y < 40 ){
@@ -1084,7 +1088,8 @@ bool talk_function::scavenging_raid_return( npc &p )
     int money = rng( 200, 900 );
     g->u.cash += money * 100;
 
-    int y,i=0;
+    int y = 0;
+    int i = 0;
     while (i < experience){
         y = rng( 0, 100 );
         if (y < 40){
@@ -1146,7 +1151,8 @@ bool talk_function::labor_return( npc &p )
     g->u.cash += money*100;
 
     int exp = turns;
-    int y,i = 0;
+    int y = 0;
+    int i = 0;
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 50){
@@ -1214,7 +1220,8 @@ bool talk_function::carpenter_return( npc &p )
     g->u.cash += money*100;
 
     int exp = turns;
-    int y,i = 0;
+    int y = 0;
+    int i = 0;
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 70){
@@ -1301,7 +1308,8 @@ bool talk_function::forage_return( npc &p )
     g->u.cash += money*100;
 
     int exp = turns;
-    int y,i = 0;
+    int y = 0;
+    int i = 0;
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 60){
@@ -1369,8 +1377,10 @@ void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, 
         defender.size(), defender[0]->my_fac->name.c_str(), def_desc.c_str(),
         attacker.size(), attacker[0]->my_fac->name.c_str(), att_desc.c_str(),
         adv.c_str());
-    int defense, attack;
-    int att_init, def_init;
+    int defense = 0;
+    int attack = 0;
+    int att_init = 0;
+    int def_init = 0;
     while (true){
         std::vector<std::shared_ptr<npc>> remaining_att;
         for( const auto &elem : attacker ) {
