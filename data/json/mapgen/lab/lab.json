@@ -315,13 +315,15 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "ccc.ccc",
-                ".h...h.",
-                "...c...",
-                "..hc...",
-                "...c...",
-                ".h...h.",
-                "ccc.ccc" ],
+      "rows": [
+        "ccc.ccc",
+        ".h...h.",
+        "...c...",
+        "..hc...",
+        "...c...",
+        ".h...h.",
+        "ccc.ccc"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -347,15 +349,17 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "ccc...ccc",
-                ".h.....h.",
-                "...hxh...",
-                ".c.....c.",
-                ".ch...hc.",
-                ".c.....c.",
-                "...hxh...",
-                ".h.....h.",
-                "ccc...ccc" ],
+      "rows": [
+        "ccc...ccc",
+        ".h.....h.",
+        "...hxh...",
+        ".c.....c.",
+        ".ch...hc.",
+        ".c.....c.",
+        "...hxh...",
+        ".h.....h.",
+        "ccc...ccc"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -380,15 +384,17 @@
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "rows": [ ".........",
-                ".C.C.C.C.",
-                ".........",
-                ".C.C.C.C.",
-                ".........",
-                ".C.C.C.C.",
-                ".........",
-                ".C.C.C.C.",
-                "........." ],
+      "rows": [
+        ".........",
+        ".C.C.C.C.",
+        ".........",
+        ".C.C.C.C.",
+        ".........",
+        ".C.C.C.C.",
+        ".........",
+        ".C.C.C.C.",
+        "........."
+      ],
       "palettes": [
         "lab_palette"
       ]
@@ -421,11 +427,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "ggGgg",
-                "g...g",
-                "g...g",
-                "g.STg",
-                "ggggg" ],
+      "rows": [
+        "ggGgg",
+        "g...g",
+        "g...g",
+        "g.STg",
+        "ggggg"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -440,13 +448,15 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
-      "rows": [ "c.c.c.c",
-                "c.c.c.c",
-                "c.c.c.c",
-                ".......",
-                "c.c.c.c",
-                "c.c.c.c",
-                "c.c.c.c" ],
+      "rows": [
+        "c.c.c.c",
+        "c.c.c.c",
+        "c.c.c.c",
+        ".......",
+        "c.c.c.c",
+        "c.c.c.c",
+        "c.c.c.c"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -469,15 +479,17 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rotation": [0, 3],
-      "rows": [ "c.c...c.c",
-                "c.c...c.c",
-                "c.c...c.c",
-                ".........",
-                ".ccc.ccc.",
-                ".........",
-                "c.c...c.c",
-                "c.c...c.c",
-                "c.c...c.c" ],
+      "rows": [
+        "c.c...c.c",
+        "c.c...c.c",
+        "c.c...c.c",
+        ".........",
+        ".ccc.ccc.",
+        ".........",
+        "c.c...c.c",
+        "c.c...c.c",
+        "c.c...c.c"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -551,13 +563,15 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
-      "rows": [ "Tl|.|Tl",
-                "S.|.|.S",
-                "-+-.-+-",
-                ".......",
-                "-+-.-+-",
-                "S.|.|.S",
-                "lT|.|Tl" ],
+      "rows": [
+        "Tl|.|Tl",
+        "S.|.|.S",
+        "-+-.-+-",
+        ".......",
+        "-+-.-+-",
+        "S.|.|.S",
+        "lT|.|Tl"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -576,13 +590,15 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
-      "rows": [ "bb|.|Tl",
-                "d.|.|.S",
-                "-+-.-+-",
-                ".......",
-                "-+-.-+-",
-                "d.|.|.d",
-                "bb|.|bb" ],
+      "rows": [
+        "bb|.|Tl",
+        "d.|.|.S",
+        "-+-.-+-",
+        ".......",
+        "-+-.-+-",
+        "d.|.|.d",
+        "bb|.|bb"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -610,13 +626,15 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
-      "rows": [ "..=.=..",
-                "..=.=..",
-                "=^=.=^=",
-                ".......",
-                "=^=....",
-                "..=..hl",
-                "..=.ccc" ],
+      "rows": [
+        "..=.=..",
+        "..=.=..",
+        "=^=.=^=",
+        ".......",
+        "=^=....",
+        "..=..hl",
+        "..=.ccc"
+      ],
       "palettes": [
         "lab_palette"
       ],
@@ -654,15 +672,17 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
-      "rows": [ ".........",
-                "...ggggg.",
-                ".hxgWWWg.",
-                ".gggWWWg.",
-                ".gWWWWWg.",
-                ".gWWWWWg.",
-                ".gWWWWWg.",
-                ".ggggggg.",
-                "........." ],
+      "rows": [
+        ".........",
+        "...ggggg.",
+        ".hxgWWWg.",
+        ".gggWWWg.",
+        ".gWWWWWg.",
+        ".gWWWWWg.",
+        ".gWWWWWg.",
+        ".ggggggg.",
+        "........."
+      ],
       "palettes": [
         "lab_palette"
       ],
