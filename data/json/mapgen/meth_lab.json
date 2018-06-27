@@ -54,11 +54,7 @@
         "G": "t_floor",
         "|": "t_wall"
       },
-      "furniture": {
-        "9": "f_rack",
-        ">": "f_counter",
-        "G": "f_oven"
-      },
+      "furniture": { "9": "f_rack", ">": "f_counter", "G": "f_oven" },
       "place_items": [
         { "item": "trash", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 90, "repeat": [ 2, 3 ] },
         { "item": "methchef", "x": [ 10, 10 ], "y": [ 8, 8 ], "chance": 90 },
