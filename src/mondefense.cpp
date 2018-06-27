@@ -26,20 +26,20 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 }
 
 void mdefense::zapback( monster &m, Creature *const source,
-                        dealt_projectile_attack const * )
+                        dealt_projectile_attack const *projectile )
 {
     if( source == nullptr ) {
         return;
     }
+    // If we have a projectile, we're a ranged attack, no zapback.
+    if( projectile != nullptr ) {
+        return;
+    }
+
     player const *const foe = dynamic_cast<player *>( source );
 
     // Players/NPCs can avoid the shock by using non-conductive weapons
     if( foe != nullptr && foe->is_armed() && !foe->weapon.conductive() ) {
-        return;
-    }
-
-    // Ranged weapons get no zapback, unless they have an active MELEE mode.
-    if( foe != nullptr && foe->weapon.is_gun() && !foe->weapon.gun_current_mode().melee() ) {
         return;
     }
 
