@@ -1299,7 +1299,8 @@ void toggle_fullscreen_window()
             return;
         }
     }
-    int nw, nh;
+    int nw = 0;
+    int nh = 0;
     SDL_GetWindowSize( window.get(), &nw, &nh );
     handle_resize( nw, nh );
     fullscreen = !fullscreen;
@@ -2228,7 +2229,7 @@ const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
     if( iter == sound_effects_p.end() ) {
         return nullptr;
     }
-	return &random_entry_ref( iter->second );
+    return &random_entry_ref( iter->second );
 }
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
 const sound_effect* find_random_effect( const std::string &id, const std::string& variant )

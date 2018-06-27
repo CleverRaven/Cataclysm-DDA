@@ -22,7 +22,7 @@
       "encumbrance": 4,
       "material_thickness": 2
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -392,7 +392,7 @@
       "encumbrance": 2,
       "material_thickness": 2
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "ceramic_bowl",
@@ -550,7 +550,7 @@
       "material_thickness": 1
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "glass",
@@ -858,7 +858,7 @@
       "coverage": 5,
       "material_thickness": 2
     },
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -883,7 +883,7 @@
       "coverage": 10,
       "material_thickness": 2
     },
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -908,7 +908,7 @@
       "coverage": 15,
       "material_thickness": 2
     },
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "wooden_barrel",

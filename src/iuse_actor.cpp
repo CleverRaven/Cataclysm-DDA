@@ -1364,7 +1364,8 @@ bool inscribe_actor::item_inscription( item &cut ) const
     menu.addentry( INSCRIPTION_CANCEL, true, 'q', _( "Cancel" ) );
     menu.query();
 
-    std::string carving, carving_type;
+    std::string carving;
+    std::string carving_type;
     switch( menu.ret ) {
         case INSCRIPTION_LABEL:
             carving = "item_label";
@@ -1505,7 +1506,7 @@ long cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     bool did_cauterize = false;
 
     if( has_disease ) {
-        did_cauterize = cauterize_effect( p, it, !has_disease );
+        did_cauterize = cauterize_effect( p, it, false );
     } else {
         const bool can_have_fun = p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
                                   p.has_trait( trait_CENOBITE );
