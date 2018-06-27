@@ -50,14 +50,7 @@
         "w": "t_gates_mech_control",
         "|": "t_wall"
       },
-      "furniture": {
-        "#": "f_counter",
-        "G": "f_desk",
-        "c": "f_chair",
-        "f": "f_glass_fridge",
-        "l": "f_vending_c",
-        "r": "f_rack"
-      },
+      "furniture": { "#": "f_counter", "G": "f_desk", "c": "f_chair", "f": "f_glass_fridge", "l": "f_vending_c", "r": "f_rack" },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "drugs_pharmacy", "x": [ 10, 22 ], "y": [ 19, 19 ], "chance": 50, "repeat": [ 2, 6 ] },
