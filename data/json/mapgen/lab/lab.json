@@ -614,9 +614,9 @@
                 "..=.=..",
                 "=^=.=^=",
                 ".......",
-                "=^=.=^=",
-                "..=.=..",
-                "..=.=.." ],
+                "=^=....",
+                "..=..hl",
+                "..=.ccc" ],
       "palettes": [
         "lab_palette"
       ],
@@ -624,11 +624,25 @@
         "=": "t_chainfence_h",
         "^": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ]
       },
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "office", "chance": 30 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 }
+          ]
+        },
+        "h": {
+          "item": [ {"item": "coat_lab", "chance": 10} ]
+        },
+        "l": {
+          "item": [ {"item": "vet_softdrug", "chance": 80, "repeat": 2} ]
+        }
+      },
       "place_monster": [
         { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [1,2] },
         { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 5, 6 ], "chance": 50, "repeat": [1,2] },
-        { "monster": "mon_zombie_dog", "x": [ 5, 6 ], "y": [ 0, 1 ], "chance": 50, "repeat": [1,2] },
-        { "monster": "mon_zombie_dog", "x": [ 5, 6 ], "y": [ 5, 6 ], "chance": 50, "repeat": [1,2] }
+        { "monster": "mon_zombie_dog", "x": [ 5, 6 ], "y": [ 0, 1 ], "chance": 50, "repeat": [1,2] }
       ]
     }
   },
