@@ -309,6 +309,9 @@ class mapgen_function_json_nested : public mapgen_function_json_base {
         void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
     protected:
         bool setup_internal( JsonObject &jo ) override;
+
+    private:
+        jmapgen_int rotation;
 };
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,8 @@
       "t": "f_table",
       "c": "f_counter",
       "S": "f_sink",
-      "T": "f_toilet"
+      "T": "f_toilet",
+      "^": "f_rubble"
     },
     "terrain": {
       "b": "t_rock_floor",
@@ -25,7 +26,7 @@
       "6": "t_console",
       "x": "t_console_broken",
       "g": "t_reinforced_glass",
-      "G": "t_reinforced_glass",
+      "G": "t_reinforced_door_glass_c",
       ",": "t_floor_blue",
       ".": "t_rock_floor",
       "-": "t_concrete_wall",
@@ -36,10 +37,15 @@
       "c": "t_rock_floor",
       "S": "t_rock_floor",
       "T": "t_rock_floor",
-      "R": "t_rock"
+      "R": "t_rock",
+      "^": "t_rock_floor"
+    },
+    "toilets": {
+        "T": {}
     }
   },
   {
+    "//": "collapsed hallway",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
@@ -58,23 +64,563 @@
         "|.........|..|.........|",
         "|.........|..|.........|",
         "|---------|..|---------|",
-        "RRRRR.................RR",
-        "RRRRRRR..............RRR",
+        "RRRRR^^..............^RR",
+        "RRRRRRR^...........^^RRR",
         "RRRRR-----|..|--------RR",
-        "RRR.......|..|RRRRRRRRRR",
-        "|R........|..|RRRRRRRRRR",
+        "RRR^^^....|..|RRRRRRRRRR",
+        "|R^.......|..|RRRRRRRRRR",
+        "|^........|..|RRRRRRRRRR",
         "|.........|..|RRRRRRRRRR",
-        "|.........|..RRRRRRRRRRR",
-        "|.........+.RRRRRRRRRRRR",
-        "RR.......R|RRRRRRRRRRRRR",
-        "RRRRRRRRRRRRRRRRRRRRRRRR",
+        "|^........+.^RRRRRRRRRRR",
+        "RR^^...^^^|^RRRRRRRRRRRR",
+        "RRR^^.^^^RRRRRRRRRRRRRRR",
         "RRRRRRRRRRRRRRRRRRRRRRRR",
         "RRRRRRRRRRRRRRRRRRRRRRRR",
         "RRRRRRRRRRRRRRRRRRRRRRRR"
       ],
       "palettes": [
         "lab_palette"
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_room_9x9" ], "x": 1, "y": 1 },
+        { "chunks": [ "lab_room_9x9" ], "x": 14, "y": 1 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+    }
+  },
+  {
+    "//": "military bunker, smashed by a hulk. TODO: add computers based on bank.json, make hulk smash a variant.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 50,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "|--|--|--|-..-|--|-----|",
+        "|bb|bb|bb|....|..|l...b|",
+        "|..|..|..|...x|..+....b|",
+        "|l.|l.|l.|....|..|-----|",
+        "|-+|-+|-+|-^D-|..|l...b|",
+        "|............x...+....b|",
+        "|................|-----|",
+        "|--+-|...........|l...b|",
+        "|S...|...........+....b|",
+        "|S...|D--|.......|-----|",
+        "|....|..cg.......|....l|",
+        "|+|+-|.hxg.......+.h..b|",
+        "|T|.T|..cg.......|ddd.b|",
+        "|-|--|+--|-D^----|-----|",
+        "|.rrr..........rrrrrr..|",
+        "|......................|",
+        "|......................|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r....................r|",
+        "|----------------------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "place_monster": [
+        { "monster": "mon_zombie_bio_op", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 33 },
+        { "monster": "mon_zombie_hulk", "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
+      ],
+      "place_items": [
+        { "item": "building_rubble", "x": 11, "y": 4, "chance": 100 },
+        { "item": "building_rubble", "x": 12, "y": 13, "chance": 100 }
+      ],
+      "mapping": {
+        "l": {
+          "items": [
+            { "item": "clothing_soldier_set", "chance": 100 },
+            { "item": "gear_soldier_sidearm", "chance": 33},
+            { "item": "book_military", "chance": 33}
+          ]
+        },
+        "b": {
+          "items": [ { "item": "bed", "chance": 50 } ]
+        },
+        "d": {
+          "items": [ { "item": "office", "chance": 50 } ]
+        },
+        "r": {
+          "items": [
+            { "item": "military", "chance": 10 },
+            { "item": "ammo_milspec", "chance": 10},
+            { "item": "mags_milspec", "chance": 10},
+            { "item": "guns_milspec", "chance": 10}
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........+..+.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "----------|..|---------|",
+        ".......................+",
+        ".......................+",
+        "----------|..|---------|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........+..+.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "..........|..|.........|",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_room_9x9" ], "x": [0, 1], "y": [0, 1] },
+        { "chunks": [ "lab_room_9x9" ], "x": 14, "y": [0,1] },
+        { "chunks": [ "lab_room_9x9" ], "x": [0,1], "y": 14 },
+        { "chunks": [ "lab_room_9x9" ], "x": 14, "y": 14 },
+        { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......+.......+.......|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        "---+---|---+---|---+---|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......+.......+.......+",
+        ".......|.......|.......+",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        "---+---|---+---|---+---|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......+.......+.......|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        ".......|.......|.......|",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_room_7x7", "null" ], "x": 0, "y": 8 },
+        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 0, "y": 16 },
+        { "chunks": [ "lab_room_7x7", "null" ], "x": 8, "y": 0 },
+        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 8, "y": 8 },
+        { "chunks": [ "lab_room_7x7", "null" ], "x": 8, "y": 16 },
+        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 16, "y": 0 },
+        { "chunks": [ "lab_room_7x7", "null" ], "x": 16, "y": 8 },
+        { "chunks": [ "lab_room_7x7_maybe_fixed_doors", "null" ], "x": 16, "y": 16 },
+        { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
+        { "chunks": [ "lab_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_wall",
+    "object": {
+      "rows": [ "-" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapgensize": [ 1, 1 ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_maybe_fixed_doors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "//": "There are only a few rooms that need fixed single doors in the center, so select them rarely.",
+      "place_nested": [ { "chunks": [ "lab_room_7x7", "lab_room_7x7", "lab_room_7x7_fixed_doors" ], "x": 0, "y": 0} ]
+    }
+  },  {
+    "//": "7x7 active blob room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_monsters": [ { "monster": "GROUP_GOO", "x": [0, 8], "y": [ 0,8 ], "density": 0.1 } ]
+    }
+  },
+  {
+    "//": "9x9 active blob room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_monsters": [ { "monster": "GROUP_GOO", "x": [0, 8], "y": [ 0,8 ], "density": 0.1 } ]
+    }
+  },
+  {
+    "//": "7x7 desks",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_fixed_doors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "ccc.ccc",
+                ".h...h.",
+                "...c...",
+                "..hc...",
+                "...c...",
+                ".h...h.",
+                "ccc.ccc" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "office", "chance": 30 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 }
+          ]
+        },
+        "h": {
+          "item": [ {"item": "coat_lab", "chance": 10} ]
+        }
+      }
+    }
+  },
+  {
+    "//": "9x9 desks",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "ccc...ccc",
+                ".h.....h.",
+                "...hxh...",
+                ".c.....c.",
+                ".ch...hc.",
+                ".c.....c.",
+                "...hxh...",
+                ".h.....h.",
+                "ccc...ccc" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "office", "chance": 30 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 }
+          ]
+        },
+        "h": {
+          "item": [ {"item": "coat_lab", "chance": 10} ]
+        }
+      }
+    }
+  },
+  {
+    "//": "9x9 centrifuge room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [ ".........",
+                ".C.C.C.C.",
+                ".........",
+                ".C.C.C.C.",
+                ".........",
+                ".C.C.C.C.",
+                ".........",
+                ".C.C.C.C.",
+                "........." ],
+      "palettes": [
+        "lab_palette"
       ]
+    }
+  },
+  {
+    "//": "7x7 glass brute cage",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 1, "y": 1} ]
+    }
+  },
+  {
+    "//": "9x9 glass brute cage",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 2, "y": 2} ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "glass_brute_cage",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "ggGgg",
+                "g...g",
+                "g...g",
+                "g.STg",
+                "ggggg" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_monster": [ { "monster": "mon_zombie_brute", "x": [ 1, 2 ], "y": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "//": "7x7 chem_storage",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [ "c.c.c.c",
+                "c.c.c.c",
+                "c.c.c.c",
+                ".......",
+                "c.c.c.c",
+                "c.c.c.c",
+                "c.c.c.c" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "chem_lab", "chance": 20 },
+            { "item": "mut_lab", "chance": 2},
+            { "item": "science", "chance": 2}
+          ]
+        }
+      }
+    }
+  },
+  {
+    "//": "9x9 chem_storage",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [ "c.c...c.c",
+                "c.c...c.c",
+                "c.c...c.c",
+                ".........",
+                ".ccc.ccc.",
+                ".........",
+                "c.c...c.c",
+                "c.c...c.c",
+                "c.c...c.c" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "chem_lab", "chance": 20 },
+            { "item": "mut_lab", "chance": 2},
+            { "item": "science", "chance": 2}
+          ]
+        }
+      }
+    }
+  },
+  {
+    "//": "7x7 crate room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [
+        { "chunks": [ "lab_supply_crate" ], "x": [0,6], "y": [0,6], "repeat": 20}
+      ]
+    }
+  },
+  {
+    "//": "9x9 crate room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [
+        { "chunks": [ "lab_supply_crate" ], "x": [0,8], "y": [0,8], "repeat": 30}
+      ]
+    }
+  },
+  {
+    "//": "subcomponent of crate room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_supply_crate",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "A" ],
+      "furniture": {
+        "A": [ "f_crate_c", "f_crate_c", "f_crate_o"]
+      },
+      "terrain": {
+        "A": "t_rock_floor"
+      },
+      "mapping": {
+        "A": { "items": [
+           { "item": "chem_lab", "chance": 10 },
+           { "item": "mut_lab", "chance": 10 },
+           { "item": "robots", "chance": 5 },
+           { "item": "science", "chance": 5 },
+           { "item": "sewage_plant", "chance": 5 },
+           { "item": "harddrugs", "chance": 5 },
+           { "item": "softdrugs", "chance": 5 }
+        ]}
+      }
+    }
+  },
+  {
+    "//": "7x7 bathrooms",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_fixed_doors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [ "Tl|.|Tl",
+                "S.|.|.S",
+                "-+-.-+-",
+                ".......",
+                "-+-.-+-",
+                "S.|.|.S",
+                "lT|.|Tl" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "l": { "items": [
+            { "item": "cleaning", "chance": 50 }
+        ]}
+      }
+    }
+  },
+  {
+    "//": "7x7 bedrooms",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_fixed_doors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [ "bb|.|Tl",
+                "d.|.|.S",
+                "-+-.-+-",
+                ".......",
+                "-+-.-+-",
+                "d.|.|.d",
+                "bb|.|bb" ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "furniture": {
+        "d": "f_dresser"
+      },
+      "mapping": {
+        "l": { "items": [
+            { "item": "cleaning", "chance": 50 }
+        ]},
+        "d": { "items": [
+            { "item": "dresser", "chance": 80 }
+        ]},
+        "b": { "items": [
+            { "item": "bed", "chance": 50 }
+        ]}
+      }
+    }
+  },
+  {
+    "//": "water tank 9x9",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ ".........",
+                "...ggggg.",
+                ".hxgWWWg.",
+                ".gggWWWg.",
+                ".gWWWWWg.",
+                ".gWWWWWg.",
+                ".gWWWWWg.",
+                ".ggggggg.",
+                "........." ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "terrain": {
+        "W": "t_water_dp"
+      }
     }
   }
 ]

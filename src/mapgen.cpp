@@ -463,6 +463,7 @@ mapgen_function_json::mapgen_function_json( const std::string s, const int w,
 
 mapgen_function_json_nested::mapgen_function_json_nested( const std::string s )
 : mapgen_function_json_base( s )
+, rotation( 0 )
 {
 }
 
@@ -1666,6 +1667,10 @@ bool mapgen_function_json_nested::setup_internal( JsonObject &jo )
         jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );
     }
 
+    if( jo.has_member( "rotation" ) ) {
+        rotation = jmapgen_int( jo, "rotation" );
+    }
+
     // Nested mapgen is always halal because it can assume underlying map is.
     return true;
 }
@@ -1939,6 +1944,9 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const
 {
+    // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
+    //int chosen_rotation = rotation.get() % 4;
+
     if( do_format ) {
         formatted_set_incredibly_simple( dat.m, offset_x, offset_y );
     }
@@ -1948,6 +1956,7 @@ void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int
     }
 
     objects.apply( dat, offset_x, offset_y, density );
+
 }
 
 /*
@@ -1977,6 +1986,7 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y, 
         const auto &what = *obj.second;
         const int repeat = where.repeat.get();
         for( int i = 0; i < repeat; i++ ) {
+            // TODO(BrianLefler): Pass rotation into apply.
             what.apply( dat, where.x, where.y, density );
         }
     }
@@ -3083,7 +3093,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         ter_set( *p, t_stairs_down );
                     }
                 }
-            } else switch (rng(1, 4)) { // Pick a random lab layout
+            } else switch (rng(1, 5)) { // Pick a random lab layout - results of 5+ will use json, so 20% w/ a 1,5 rng.
                 case 1: // Cross shaped
                     for (int i = 0; i < SEEX * 2; i++) {
                         for (int j = 0; j < SEEY * 2; j++) {
@@ -3543,7 +3553,31 @@ ff.......|....|WWWWWWWW|\n\
                         }
                     }
                     break;
+                default:
+                    const std::string function_key = "lab_4side"; // terrain_type->get_mapgen_id();
+                    const auto fmapit = oter_mapgen.find( function_key );
 
+                    if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
+                        std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
+                        const int rlast = weightit->second.rbegin()->first;
+                        const int roll = rng(1, rlast);
+                        const int fidx = weightit->second.lower_bound( roll )->second;
+
+                        fmapit->second[fidx]->generate(this, terrain_type, dat, when, density);
+                    } else {
+                        debugmsg("Error: Tried to generate 4-sided lab but no lab_4side json exists.");
+                    }
+                    if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
+                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            ter_set( *p, t_stairs_up );
+                        }
+                    }
+                    if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
+                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            ter_set( *p, t_stairs_down );
+                        }
+                    }
+                    break; 
                 }
         }
         // Ants will totally wreck up the place
