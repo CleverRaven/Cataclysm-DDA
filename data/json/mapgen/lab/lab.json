@@ -209,7 +209,7 @@
         "lab_palette"
       ],
       "place_nested": [
-        { "chunks": [ "lab_room_7x7_fixed_doors_kennel" ], "x": [0, 1], "y": [0, 1] },
+        { "chunks": [ "lab_room_9x9" ], "x": [0, 1], "y": [0, 1] },
         { "chunks": [ "lab_room_9x9" ], "x": 14, "y": [0,1] },
         { "chunks": [ "lab_room_9x9" ], "x": [0,1], "y": 14 },
         { "chunks": [ "lab_room_9x9" ], "x": 14, "y": 14 },
@@ -258,15 +258,15 @@
         "lab_palette"
       ],
       "place_nested": [
-        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 0, "y": 0 },
         { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 0, "y": 8 },
-        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 0, "y": 16 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 0, "y": 16 },
         { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 8, "y": 0 },
-        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 8, "y": 8 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 8, "y": 8 },
         { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 8, "y": 16 },
-        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 16, "y": 0 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 16, "y": 0 },
         { "chunks": [ "lab_room_7x7", "lab_room_7x7", "null" ], "x": 16, "y": 8 },
-        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors_kennel", "null" ], "x": 16, "y": 16 },
+        { "chunks": [ "lab_room_7x7", "lab_room_7x7_fixed_doors", "null" ], "x": 16, "y": 16 },
         { "chunks": [ "lab_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
         { "chunks": [ "lab_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
         { "chunks": [ "lab_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
@@ -606,7 +606,7 @@
     "//": "7x7 kennel",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_7x7_fixed_doors_kennel",
+    "nested_mapgen_id": "lab_room_7x7_fixed_doors",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
@@ -636,7 +636,7 @@
           "item": [ {"item": "coat_lab", "chance": 10} ]
         },
         "l": {
-          "item": [ {"item": "vet_softdrug", "chance": 80, "repeat": 2} ]
+          "items": [ {"item": "vet_softdrug", "chance": 80, "repeat": 2} ]
         }
       },
       "place_monster": [
