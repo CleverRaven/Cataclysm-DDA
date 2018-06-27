@@ -475,7 +475,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
     {
         translate_marker( "Ring" ), def_c_light_green, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-        {}, true,
+        {}, false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     }
 } };

@@ -4040,8 +4040,13 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         return 0;
     } else {
         int time = 20000; // 20 minutes per
-        p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
-                              it->tname().c_str() );
+        if( it->ammo_remaining() > 0 ) {
+            p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
+                                  it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
+                                  it->tname().c_str() );
+        }
         p->assign_activity( activity_id( "ACT_VIBE" ), time, -1, p->get_item_position( it ),
                             "de-stressing" );
     }
@@ -7445,10 +7450,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     if( it->has_flag( "THERMOMETER" ) ) {
         if( it->typeId() == "thermometer" ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                                  print_temperature( g->get_temperature() ).c_str() );
+                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( g->get_temperature() ).c_str() );
+                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {
@@ -7492,7 +7497,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                g->get_temperature() ).c_str() );
+                g->get_temperature( g->u.pos() ) ).c_str() );
     }
 
     return 0;

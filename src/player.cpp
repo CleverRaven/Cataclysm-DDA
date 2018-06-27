@@ -981,7 +981,7 @@ void player::update_bodytemp()
     }
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature() ) );
+    int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature( g->u.pos() ) ) );
     w_point const weather = *g->weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
@@ -1086,7 +1086,7 @@ void player::update_bodytemp()
 
         bp_windpower = int( ( float )bp_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
         // Calculate windchill
-        int windchill = get_local_windchill( g->get_temperature(),
+        int windchill = get_local_windchill( g->get_temperature( g->u.pos() ),
                                              get_local_humidity( weather.humidity, g->weather,
                                                      sheltered ),
                                              bp_windpower );
@@ -1348,7 +1348,7 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = int( g->get_temperature() +
+            int Ftemperature = int( g->get_temperature( g->u.pos() ) +
                                     warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
             // Windchill reduced by your armor
             int FBwindPower = int( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
@@ -1758,12 +1758,12 @@ void player::recalc_speed_bonus()
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
-        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && g->get_temperature() < 65 ) ) {
-            mod_speed_bonus( ( g->get_temperature() - 65 ) / 2 );
-        } else if( has_trait( trait_COLDBLOOD2 ) && g->get_temperature() < 65 ) {
-            mod_speed_bonus( ( g->get_temperature() - 65 ) / 3 );
-        } else if( has_trait( trait_COLDBLOOD ) && g->get_temperature() < 65 ) {
-            mod_speed_bonus( ( g->get_temperature() - 65 ) / 5 );
+        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && g->get_temperature( pos() ) < 65 ) ) {
+            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 2 );
+        } else if( has_trait( trait_COLDBLOOD2 ) && g->get_temperature( pos() ) < 65 ) {
+            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 3 );
+        } else if( has_trait( trait_COLDBLOOD ) && g->get_temperature( pos() ) < 65 ) {
+            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 5 );
         }
     }
 
@@ -4192,9 +4192,10 @@ void player::update_needs( int rate_multiplier )
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
 
-    float thirst_rate = 1.0f + mutation_value( "thirst_modifier" );
+    float thirst_rate = get_option< float >( "PLAYER_THIRST_RATE" );
+    thirst_rate *= 1.0f +  mutation_value( "thirst_modifier" );
     if( is_wearing("stillsuit") ) {
-        thirst_rate -= 0.3f;
+        thirst_rate *= 0.7f;
     }
 
     // Note: intentionally not in metabolic rate
@@ -4231,7 +4232,8 @@ void player::update_needs( int rate_multiplier )
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
-        float fatigue_rate = 1.0f + mutation_value( "fatigue_modifier" );
+        float fatigue_rate = get_option< float >( "PLAYER_FATIGUE_RATE" );
+        fatigue_rate *= 1.0f + mutation_value( "fatigue_modifier" );
 
         if( fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );

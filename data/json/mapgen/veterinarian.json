@@ -78,7 +78,8 @@
       [ "1st_aid", 30 ],
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
-      [ "vaccine_shot", 15 ]
+      [ "vaccine_shot", 15 ],
+      [ "anesthesia", 20 ]
     ]
   },
   {
