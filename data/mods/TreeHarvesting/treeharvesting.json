@@ -3,10 +3,12 @@
 {
    "type" : "terrain",
    "id" : "t_tree_apple_cut",
-   "copy-from": "t_tree_apple",
+   "copy-from": "t_tree_apple_harvested",
    "name": "cut apple tree",
    "symbol": "7",
    "color": "ltgreen",
+   "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CUT"],
+   "transforms_into": "t_tree_apple_harvested",
    "examine_action": "harvest_ter_nectar"
  },{
    "type" : "construction",
@@ -131,10 +133,12 @@
 },{
    "type" : "terrain",
    "id" : "t_tree_pear_cut",
-   "copy-from": "t_tree_pear",
+   "copy-from": "t_tree_pear_harvested",
    "name": "cut pear tree",
    "symbol": "7",
    "color": "ltgreen",
+   "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CUT"],
+   "transforms_into": "t_tree_pear_harvested",
    "examine_action": "harvest_ter_nectar"
 },{
    "type" : "construction",
@@ -259,10 +263,12 @@
 },{
    "type" : "terrain",
    "id" : "t_tree_cherry_cut",
-   "copy-from": "t_tree_cherry",
+   "copy-from": "t_tree_cherry_harvested",
    "name": "cut cherry tree",
    "symbol": "7",
    "color": "ltgreen",
+   "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CUT"],
+   "transforms_into": "t_tree_cherry_harvested",
    "examine_action": "harvest_ter_nectar"
 },{
    "type" : "construction",
@@ -387,10 +393,12 @@
 },{
    "type" : "terrain",
    "id" : "t_tree_peach_cut",
-   "copy-from": "t_tree_peach",
+   "copy-from": "t_tree_peach_harvested",
    "name": "cut peach tree",
    "symbol": "7",
    "color": "ltgreen",
+   "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CUT"],
+   "transforms_into": "t_tree_peach_harvested",
    "examine_action": "harvest_ter_nectar"
 },{
    "type" : "construction",
@@ -515,10 +523,12 @@
 },{
    "type" : "terrain",
    "id" : "t_tree_apricot_cut",
-   "copy-from": "t_tree_apricot",
+   "copy-from": "t_tree_apricot_harvested",
    "name": "cut apricot tree",
    "symbol": "7",
    "color": "ltgreen",
+   "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CUT"],
+   "transforms_into": "t_tree_apricot_harvested",
    "examine_action": "harvest_ter_nectar"
 },{
    "type" : "construction",
@@ -643,10 +653,12 @@
 },{
    "type" : "terrain",
    "id" : "t_tree_plum_cut",
-   "copy-from": "t_tree_plum",
+   "copy-from": "t_tree_plum_harvested",
    "name": "cut plum tree",
    "symbol": "7",
    "color": "ltgreen",
+   "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CUT"],
+   "transforms_into": "t_tree_plum_harvested",
    "examine_action": "harvest_ter_nectar"
 },{
    "type" : "construction",
