@@ -74,14 +74,7 @@
             "y": "t_floor",
             "|": "t_wall"
           },
-          "furniture": {
-            "#": "f_counter",
-            ":": "f_dresser",
-            "?": "f_statue",
-            "@": "f_bed",
-            "^": "f_indoor_plant",
-            "y": "f_indoor_plant_y"
-          },
+          "furniture": { "#": "f_counter", ":": "f_dresser", "?": "f_statue", "@": "f_bed", "^": "f_indoor_plant", "y": "f_indoor_plant_y" },
           "place_items": [
             { "item": "bed", "x": [ 3, 3 ], "y": [ 3, 3 ], "chance": 80 },
             { "item": "bed", "x": [ 5, 5 ], "y": [ 3, 3 ], "chance": 80 },
