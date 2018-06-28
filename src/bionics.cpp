@@ -542,10 +542,10 @@ bool player::activate_bionic( int b, bool eff_only )
         }
         if( g->u.is_wearing( "solarpack_on" ) || g->u.is_wearing ( "q_solarpack_on" ) ) {
             add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
-                " your system." ) );
+                                          " your system." ) );
         } else if( g->u.is_wearing( "solarpack" ) || g->u.is_wearing ( "q_solarpack" ) ) {
             add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
-                " system, if you unfold it." ) );
+                                          " system, if you unfold it." ) );
         }
     }
 
