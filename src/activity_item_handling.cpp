@@ -649,13 +649,14 @@ void activity_on_turn_move_items()
     }
 }
 
-cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from )
+cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )
 {
     cata::optional<tripoint> best_fire;
     time_duration best_fire_age = 1_days;
     for( const tripoint &pt : from ) {
         field_entry *fire = g->m.get_field( pt, fd_fire );
-        if( fire == nullptr || fire->getFieldDensity() > 1 ) {
+        if( fire == nullptr || fire->getFieldDensity() > 1 ||
+            !g->m.clear_path( center, pt, PICKUP_RANGE, 1, 100 ) ) {
             continue;
         }
         time_duration fire_age = fire->getFieldAge();
@@ -675,20 +676,21 @@ cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from )
 
 void try_refuel_fire( player &p )
 {
-    auto adjacent = closest_tripoints_first( 1, p.pos() );
+    const tripoint pos = p.pos();
+    auto adjacent = closest_tripoints_first( PICKUP_RANGE, pos );
     adjacent.erase( adjacent.begin() );
-    cata::optional<tripoint> best_fire = find_best_fire( adjacent );
+    cata::optional<tripoint> best_fire = find_best_fire( adjacent, pos );
 
     if( !best_fire || !g->m.accessible_items( *best_fire ) ) {
         return;
     }
 
     const auto refuel_spot = std::find_if( adjacent.begin(), adjacent.end(),
-    []( const tripoint & pt ) {
+    [pos]( const tripoint & pt ) {
         // Hacky - firewood spot is a trap and it's ID-checked
         // @todo Something cleaner than ID-checking a trap
         return g->m.tr_at( pt ).id == tr_firewood_source && g->m.has_items( pt ) &&
-               g->m.accessible_items( pt );
+               g->m.accessible_items( pt ) && g->m.clear_path( pos, pt, PICKUP_RANGE, 1, 100 );
     } );
     if( refuel_spot == adjacent.end() ) {
         return;
@@ -697,34 +699,32 @@ void try_refuel_fire( player &p )
     // Special case: fire containers allow burning logs, so use them as fuel iif fire is contained
     bool contained = g->m.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
-
     time_duration fire_age = g->m.get_field_age( *best_fire, fd_fire );
+
     // Maybe @todo - refuelling in the rain could use more fuel
     // First, simulate expected burn per turn, to see if we need more fuel
-    const float low_cap = fire_age / 10_minutes;
-    // High cap is 10 fuel/turn for 10 minute old fire, 1 fuel/turn for 0 old
-    const float high_cap = 10.0f - 9.0f * ( 10_minutes - fire_age ) / 10_minutes;
     auto fuel_on_fire = g->m.i_at( *best_fire );
     for( size_t i = 0; i < fuel_on_fire.size(); i++ ) {
         fuel_on_fire[i].simulate_burn( fd );
-        if( fd.fuel_produced > high_cap && !fuel_on_fire[i].made_of( LIQUID ) ) {
+        // Uncontained fires grow below -50_minutes age
+        if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f &&
+            !fuel_on_fire[i].made_of( LIQUID ) ) {
             // Too much - we don't want a firestorm!
             // Put first item back to refuelling pile
             std::list<int> indices_to_remove{ static_cast<int>( i ) };
             std::list<int> quantities_to_remove{ 0 };
-            move_items( *best_fire - p.pos(), false, *refuel_spot - p.pos(), false, indices_to_remove,
+            move_items( *best_fire - pos, false, *refuel_spot - pos, false, indices_to_remove,
                         quantities_to_remove );
             return;
         }
     }
 
     // Enough to sustain the fire
-    if( fd.fuel_produced >= low_cap ) {
+    // @todo It's not enough in the rain
+    if( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) {
         return;
     }
 
-    std::list<int> indices;
-    std::list<int> quantities;
     // We need to move fuel from stash to fire
     auto potential_fuel = g->m.i_at( *refuel_spot );
     for( size_t i = 0; i < potential_fuel.size(); i++ ) {
@@ -732,21 +732,14 @@ void try_refuel_fire( player &p )
             continue;
         }
 
-        // item::flammable isn't good enough - we need "fuelable"
         float last_fuel = fd.fuel_produced;
         potential_fuel[i].simulate_burn( fd );
         if( fd.fuel_produced > last_fuel ) {
-            indices.push_back( static_cast<int>( i ) );
-            quantities.push_back( 0 );
+            std::list<int> indices{ static_cast<int>( i ) };
+            std::list<int> quantities{ 0 };
+            // Note: move_items handles messages (they're the generic "you drop x")
+            move_items( *refuel_spot - p.pos(), false, *best_fire - p.pos(), false, indices, quantities );
+            return;
         }
-        // After we move those items, we should have enough
-        if( fd.fuel_produced > low_cap ) {
-            break;
-        }
-    }
-
-    if( !indices.empty() ) {
-        // Note: move_items handles messages (they're the generic "you drop x")
-        move_items( *refuel_spot - p.pos(), false, *best_fire - p.pos(), false, indices, quantities );
     }
 }
