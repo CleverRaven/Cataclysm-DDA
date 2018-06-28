@@ -482,7 +482,8 @@
     "color": "pink",
     "time": 10,
     "chapters": 4,
-    "fun": 1
+    "fun": 1,
+    "flags": [ "SUPER_LEWD" ]
   },
   {
     "id": "necropolis_freq",
@@ -624,7 +625,8 @@
     "intelligence": 7,
     "time": 18,
     "chapters": 28,
-    "fun": 1
+    "fun": 1,
+    "flags": [ "SUPER_LEWD" ]
   },
   {
     "id": "novel_experimental",

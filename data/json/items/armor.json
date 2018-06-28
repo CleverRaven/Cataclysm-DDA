@@ -1101,7 +1101,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SUPER_LEWD" ]
   },
   {
     "id": "bondage_suit",
@@ -1121,7 +1121,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "SUPER_LEWD" ]
   },
   {
     "id": "bookplate",
@@ -1921,7 +1921,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "FANCY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "FANCY", "SKINTIGHT", "LEWD" ]
   },
   {
     "id": "cowboy_hat",
@@ -5494,7 +5494,7 @@
     "storage": 4,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
   {
     "id": "kippah",
@@ -5637,7 +5637,7 @@
     "material": [ "leather" ],
     "symbol": "-",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "LEWD" ]
   },
   {
     "id": "leather_pouch",
@@ -6142,7 +6142,7 @@
     "storage": 2,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "LEWD" ]
   },
   {
     "id": "maid_hat",
@@ -6160,7 +6160,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "LEWD" ]
   },
   {
     "id": "makeshift_knapsack",
@@ -6437,7 +6437,7 @@
     "covers": [ "LEGS" ],
     "coverage": 7,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "LEWD" ]
   },
   {
     "id": "necklace",
@@ -9403,7 +9403,7 @@
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "LEWD" ]
   },
   {
     "id": "winter_gloves_army",
@@ -9483,7 +9483,7 @@
     "warmth": 50,
     "material_thickness": 7,
     "environmental_protection": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER", "LEWD" ]
   },
   {
     "id": "wool_hoodie",
