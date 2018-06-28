@@ -470,9 +470,9 @@ ter_id t_null,
     t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
-    t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
+    t_fence, t_chainfence, t_chainfence_posts,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-    t_railing_v, t_railing_h,
+    t_railing,
     // Nether
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
     t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
@@ -674,17 +674,14 @@ void set_ter_ids() {
     t_root_wall = ter_id( "t_root_wall" );
     t_wax = ter_id( "t_wax" );
     t_floor_wax = ter_id( "t_floor_wax" );
-    t_fence_v = ter_id( "t_fence_v" );
-    t_fence_h = ter_id( "t_fence_h" );
-    t_chainfence_v = ter_id( "t_chainfence_v" );
-    t_chainfence_h = ter_id( "t_chainfence_h" );
+    t_fence = ter_id( "t_fence" );
+    t_chainfence = ter_id( "t_chainfence" );
     t_chainfence_posts = ter_id( "t_chainfence_posts" );
     t_fence_post = ter_id( "t_fence_post" );
     t_fence_wire = ter_id( "t_fence_wire" );
     t_fence_barbed = ter_id( "t_fence_barbed" );
     t_fence_rope = ter_id( "t_fence_rope" );
-    t_railing_v = ter_id( "t_railing_v" );
-    t_railing_h = ter_id( "t_railing_h" );
+    t_railing = ter_id( "t_railing" );
     t_marloss = ter_id( "t_marloss" );
     t_fungus_floor_in = ter_id( "t_fungus_floor_in" );
     t_fungus_floor_sup = ter_id( "t_fungus_floor_sup" );

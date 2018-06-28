@@ -961,8 +961,7 @@ void sfx::do_footstep()
             ter_str_id( "t_sewage" ),
         };
         static std::set<ter_str_id> const chain_fence = {
-            ter_str_id( "t_chainfence_h" ),
-            ter_str_id( "t_chainfence_v" ),
+            ter_str_id( "t_chainfence" ),
         };
         if( !g->u.wearing_something_on( bp_foot_l ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );

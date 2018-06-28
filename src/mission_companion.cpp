@@ -708,10 +708,10 @@ void talk_function::field_build_2( npc &p )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
     bay.load(site.x * 2, site.y * 2, site.z, false);
-    bay.draw_square_ter(t_fence_h, 4, 3, 16, 3);
-    bay.draw_square_ter(t_fence_h, 4, 15, 16, 15);
-    bay.draw_square_ter(t_fence_v, 4, 3, 4, 15);
-    bay.draw_square_ter(t_fence_v, 16, 3, 16, 15);
+    bay.draw_square_ter(t_fence, 4, 3, 16, 3);
+    bay.draw_square_ter(t_fence, 4, 15, 16, 15);
+    bay.draw_square_ter(t_fence, 4, 3, 4, 15);
+    bay.draw_square_ter(t_fence, 16, 3, 16, 15);
     bay.draw_square_ter(t_fencegate_c, 10, 3, 10, 3);
     bay.draw_square_ter(t_fencegate_c, 10, 15, 10, 15);
     bay.draw_square_ter(t_fencegate_c, 4, 9, 4, 9);
@@ -814,7 +814,7 @@ void talk_function::field_plant( npc &p, std::string place )
             }
         }
     }
-    bay.draw_square_ter(t_fence_h, 4, 3, 16, 3);
+    bay.draw_square_ter(t_fence, 4, 3, 16, 3);
     bay.save();
     popup( _( "After counting your money and collecting your seeds, %s calls forth a labor party to plant your field." ), p.name.c_str() );
 }

@@ -2583,7 +2583,7 @@ static bool pry_nails( player &p, const ter_id &type, const int dirx, const int 
     int nails = 0;
     int boards = 0;
     ter_id newter;
-    if( type == t_fence_h || type == t_fence_v ) {
+    if( type == t_fence ) {
         nails = 6;
         boards = 3;
         newter = t_fence_post;
@@ -4315,7 +4315,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         moves = 200;
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = 500;
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+    } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
                ter == t_window_bars || ter == t_reb_cage ) {
         moves = 1000;
@@ -4367,7 +4367,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
         moves = 10000;
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = 30000;
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+    } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_reb_cage ) {
         moves = 60000;
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
@@ -4551,7 +4551,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint &pos )
         g->m.ter_set( dirx, diry, t_chaingate_c );
         sounds::sound( dirp, 5, _( "Gachunk!" ) );
         g->m.spawn_item( p->posx(), p->posy(), "scrap", 3 );
-    } else if( g->m.ter( dirx, diry ) == t_chainfence_v || g->m.ter( dirx, diry ) == t_chainfence_h ) {
+    } else if( g->m.ter( dirx, diry ) == t_chainfence ) {
         p->moves -= 500;
         g->m.ter_set( dirx, diry, t_chainfence_posts );
         sounds::sound( dirp, 5, _( "Snick, snick, gachunk!" ) );
@@ -7321,7 +7321,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         }
         const optional_vpart_position vp = g->m.veh_at( posp );
         auto ter = g->m.ter( posp );
-        if( !vp && ter != t_chainfence_h && ter != t_chainfence_v ) {
+        if( !vp && ter != t_chainfence ) {
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return 0;
         } else {
