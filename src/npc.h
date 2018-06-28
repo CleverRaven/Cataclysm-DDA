@@ -820,7 +820,11 @@ class npc : public player
         // Personality & other defining characteristics
         string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac;
-        time_point companion_mission_time;
+        std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
+        std::vector<tripoint> companion_mission_points; //Mission leader use to determine item sorting, patrols use for points
+        time_point companion_mission_time; //When you left for ongoing/repeating missions
+        time_point companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
+        inventory companion_mission_inv; //Inventory that is added and dropped on mission
         npc_mission mission;
         npc_personality personality;
         npc_opinion op_of_u;
