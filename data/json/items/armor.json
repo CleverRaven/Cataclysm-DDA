@@ -1170,6 +1170,32 @@
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "spearsling",
+    "type": "ARMOR",
+    "name": "spear strap",
+    "description": "A cloth strap tied around the torso for toting spears while keeping your hands free. You have to duck to get through doors while one's in it, though. Activate to holster/draw a weapon.",
+    "weight": 160,
+    "volume": 2,
+    "price": 5200,
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Holster spear",
+      "holster_msg": "You holster your %s",
+      "max_volume": 14,
+      "draw_cost": 50,
+      "flags": [ "SHEATH_SPEAR" ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "bowhat",
     "type": "ARMOR",
     "name": "bowler hat",
