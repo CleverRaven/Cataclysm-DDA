@@ -89,6 +89,7 @@ extern const morale_type MORALE_SCREAM;
 extern const morale_type MORALE_PERM_MASOCHIST;
 extern const morale_type MORALE_PERM_HOARDER;
 extern const morale_type MORALE_PERM_FANCY;
+extern const morale_type MORALE_PERM_LEWD;
 extern const morale_type MORALE_PERM_OPTIMIST;
 extern const morale_type MORALE_PERM_BADTEMPER;
 extern const morale_type MORALE_PERM_CONSTRAINED;

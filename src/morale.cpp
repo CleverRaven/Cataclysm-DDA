@@ -32,6 +32,7 @@ bool is_permanent_morale( const morale_type id )
             MORALE_PERM_OPTIMIST,
             MORALE_PERM_BADTEMPER,
             MORALE_PERM_FANCY,
+            MORALE_PERM_LEWD,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
             MORALE_PERM_FILTHY,
@@ -209,6 +210,7 @@ player_morale::player_morale() :
     took_prozac( false ),
     took_prozac_bad( false ),
     stylish( false ),
+    lewd( false ),
     perceived_pain( 0 )
 {
     using namespace std::placeholders;
@@ -218,6 +220,7 @@ player_morale::player_morale() :
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
+    const auto set_lewd           = std::bind( &player_morale::set_lewd,    _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
@@ -230,6 +233,9 @@ player_morale::player_morale() :
     mutations[trait_id( "STYLISH" )]       = mutation_data(
                 std::bind( set_stylish, _1, true ),
                 std::bind( set_stylish, _1, false ) );
+    mutations[trait_id( "LEWD" )]          = mutation_data(
+                std::bind( set_lewd,    _1, true ),
+                std::bind( set_lewd,    _1, false ) );
     mutations[trait_id( "FLOWERS" )]       = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
@@ -495,6 +501,9 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     } else if( stylish != morale.stylish ) {
         debugmsg( "player_morale::stylish is inconsistent." );
         return false;
+    } else if( lewd != morale.lewd ) {
+        debugmsg( "player_morale::lewd is inconsistent." );
+        return false;
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
         return false;
@@ -515,6 +524,8 @@ void player_morale::clear()
     took_prozac_bad = false;
     stylish = false;
     super_fancy_items.clear();
+    lewd = false;
+    super_lewd_items.clear();
 
     invalidate();
 }
@@ -583,12 +594,17 @@ void player_morale::set_worn( const item &it, bool worn )
 {
     const bool fancy = it.has_flag( "FANCY" );
     const bool super_fancy = it.has_flag( "SUPER_FANCY" );
+    const bool lewd = it.has_flag( "LEWD" );
+    const bool super_lewd = it.has_flag( "SUPER_LEWD" );
     const bool filthy_gear = it.has_flag( "FILTHY" );
     const int sign = ( worn ) ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
         if( fancy || super_fancy ) {
             bp_data.fancy += sign;
+        }
+        if( lewd || super_lewd ) {
+            bp_data.lewd += sign;
         }
         if( filthy_gear ) {
             bp_data.filthy += sign;
@@ -626,6 +642,24 @@ void player_morale::set_worn( const item &it, bool worn )
     if( fancy || super_fancy ) {
         update_stylish_bonus();
     }
+    if( super_lewd ) {
+        const auto id = it.typeId();
+        const auto iter = super_lewd_items.find( id );
+
+        if( iter != super_lewd_items.end() ) {
+            iter->second += sign;
+            if( iter->second == 0 ) {
+                super_lewd_items.erase( iter );
+            }
+        } else if( worn ) {
+            super_lewd_items[id] = 1;
+        } else {
+            debugmsg( "Tried to take off \"%s\" which isn't worn.", id.c_str() );
+        }
+    }
+    if( lewd || super_lewd ) {
+        update_lewd_bonus();
+    }
     if( filthy_gear ) {
         update_squeamish_penalty();
     }
@@ -657,6 +691,14 @@ void player_morale::set_stylish( bool new_stylish )
     }
 }
 
+void player_morale::set_lewd( bool new_lewd )
+{
+    if( lewd != new_lewd ) {
+        lewd = new_lewd;
+        update_lewd_bonus();
+    }
+}
+
 void player_morale::update_stylish_bonus()
 {
     int bonus = 0;
@@ -678,6 +720,29 @@ void player_morale::update_stylish_bonus()
                           bp_bonus( bp_hand_l, 1 ), 20 );
     }
     set_permanent( MORALE_PERM_FANCY, bonus );
+}
+
+void player_morale::update_lewd_bonus()
+{
+    int bonus = 0;
+
+    if( lewd ) {
+        const auto bp_bonus = [ this ]( body_part bp, int bonus ) -> int {
+            return (
+                body_parts[bp].lewd > 0 ||
+                body_parts[opposite_body_part( bp )].lewd > 0 ) ? bonus : 0;
+        };
+        bonus = std::min( int( 2 * super_lewd_items.size() ) +
+                          2 * std::min( int( no_body_part.lewd ), 3 ) +
+                          bp_bonus( bp_torso,  6 ) +
+                          bp_bonus( bp_head,   3 ) +
+                          bp_bonus( bp_eyes,   2 ) +
+                          bp_bonus( bp_mouth,  2 ) +
+                          bp_bonus( bp_leg_l,  2 ) +
+                          bp_bonus( bp_foot_l, 1 ) +
+                          bp_bonus( bp_hand_l, 1 ), 20 );
+    }
+    set_permanent( MORALE_PERM_LEWD, bonus );
 }
 
 void player_morale::update_masochist_bonus()

@@ -7868,7 +7868,8 @@
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100,
-    "use_action": "VIBE"
+    "use_action": "VIBE",
+    "flags": [ "SUPER_LEWD" ]
   },
   {
     "id": "violin",

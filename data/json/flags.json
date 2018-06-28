@@ -144,6 +144,14 @@
     "inherit": false
   },
   {
+    "id": "LEWD",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR", "TOOL" ],
+    "description": "Wearing this clothing gives a morale bonus if the player has the Kinky trait.",
+    "info": "This item is <info>lewd</info>.",
+    "conflicts": [ "SUPER_LEWD" ]
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -259,6 +267,14 @@
     "description": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
     "info": "This clothing is <info>very fancy</info>.",
     "conflicts": [ "FANCY" ]
+  },
+  {
+    "id": "SUPER_LEWD",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR", "TOOL" ],
+    "description": "Gives an additional morale bonus over LEWD if the player has the Kinky trait.",
+    "info": "This item is <info>very lewd</info>.",
+    "conflicts": [ "LEWD" ]
   },
   {
     "id": "SWIM_GOGGLES",
