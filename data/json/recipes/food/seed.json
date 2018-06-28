@@ -29,10 +29,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SEEDS",
     "skill_used": "survival",
-    "difficulty": 2,
-    "time": 5000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "oats", 1 ] ] ]
   },
   {
@@ -48,18 +45,6 @@
     "components": [ [ [ "corn", 1 ] ] ]
   },
   {
-    "result": "seed_onion",
-    "type": "recipe",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_SEEDS",
-    "skill_used": "survival",
-    "difficulty": 2,
-    "time": 5000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "onion", 1 ] ] ]
-  },
-  {
     "result": "seed_zucchini",
     "type": "recipe",
     "category": "CC_FOOD",
@@ -72,27 +57,12 @@
     "components": [ [ [ "zucchini", 1 ] ] ]
   },
   {
-    "result": "seed_sugar_beet",
-    "type": "recipe",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_SEEDS",
-    "skill_used": "survival",
-    "difficulty": 2,
-    "time": 5000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sugar_beet", 1 ] ] ]
-  },
-  {
     "result": "seed_barley",
     "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SEEDS",
     "skill_used": "survival",
-    "difficulty": 2,
-    "time": 5000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "barley", 1 ] ] ]
   },
   {
@@ -117,7 +87,7 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cranberries", 3 ] ] ]
+    "components": [ [ [ "cranberries", 1 ] ] ]
   },
   {
     "result": "seed_blackberries",
@@ -166,6 +136,27 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "strawberries", 1 ] ] ]
+  },
+  {
+    "result": "seed_chili_pepper",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SEEDS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": 5000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
+  },
+  {
+    "result": "seed_wheat",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SEEDS",
+    "skill_used": "survival",
+    "autolearn": true,
+    "components": [ [ [ "wheat", 1 ] ] ]
   },
   {
     "result": "seed_bee_balm",
