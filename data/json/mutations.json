@@ -5153,6 +5153,14 @@
         "purifiable": false
     },{
         "type" : "mutation",
+        "id" : "FACTION_CAMP_TUTORIAL",
+        "name" : "Has seen faction camp tutorial.",
+        "points" : 0,
+        "description" : "Understand what's going on?",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
         "points" : 99,
