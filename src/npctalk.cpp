@@ -76,6 +76,7 @@ static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+static const trait_id trait_FACTION_CAMP_TUTORIAL( "FACTION_CAMP_TUTORIAL" );
 
 struct dialogue;
 
@@ -1706,6 +1707,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_EVAC_MERCHANT" ) {
         if( p->has_trait( trait_id( "NPC_MISSION_LEV_1" ) ) ) {
             add_response( _( "I figured you might be looking for some help..." ), "TALK_EVAC_MERCHANT" );
+            p->companion_mission_role_id = "REFUGEE MERCHANT";
             SUCCESS_ACTION( &talk_function::companion_mission );
         }
 
@@ -1871,6 +1873,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "About one of those jobs..." ), "TALK_MISSION_LIST_ASSIGNED" );
         }
         add_response( _( "I figured you might be looking for some help..." ), "TALK_RANCH_FOREMAN" );
+        p->companion_mission_role_id = "FOREMAN";
         SUCCESS_ACTION( &talk_function::companion_mission );
         add_response( _( "I've got to go..." ), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_FOREMAN_PROSPECTUS" ) {
@@ -1939,6 +1942,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_RANCH_CROP_OVERSEER" ) {
         add_response( _( "What are you doing here?" ), "TALK_RANCH_CROP_OVERSEER_JOB" );
         add_response( _( "I'm interested in investing in agriculture..." ), "TALK_RANCH_CROP_OVERSEER" );
+        p->companion_mission_role_id = "COMMUNE CROPS";
         SUCCESS_ACTION( &talk_function::companion_mission );
         add_response( _( "Can I help you with anything?" ), "TALK_MISSION_LIST" );
         if( p->chatbin.missions_assigned.size() == 1 ) {
@@ -2014,6 +2018,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "..." ), "TALK_RANCH_SCAVENGER_1" );
     } else if( topic == "TALK_RANCH_SCAVENGER_1_HIRE" ) {
         add_response( _( "Tell me more about the scavenging runs..." ), "TALK_RANCH_SCAVENGER_1" );
+        p->companion_mission_role_id = "SCAVENGER";
         SUCCESS_ACTION( &talk_function::companion_mission );
         add_response( _( "What kind of tasks do you have for me?" ), "TALK_MISSION_LIST" );
         add_response( _( "..." ), "TALK_RANCH_SCAVENGER_1" );
@@ -2305,6 +2310,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response_done( _( "See you around." ) );
 
     } else if( topic == "TALK_CAMP_OVERSEER" ) {
+        p->companion_mission_role_id = "FACTION_CAMP";
         add_response( _( "What needs to be done" ), "TALK_CAMP_OVERSEER", &talk_function::companion_mission );
         add_response_done( _( "See you around." ) );
 
@@ -2994,6 +3000,13 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::become_overseer( npc &p )
 {
+    if( !g->u.has_trait( trait_FACTION_CAMP_TUTORIAL ) ){
+        g->u.set_mutation( trait_FACTION_CAMP_TUTORIAL );
+        if( query_yn( _("Would you like to review the faction camp description?") ) ){
+            faction_camp_tutorial();
+        }
+    }
+
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
 
@@ -3004,7 +3017,7 @@ void talk_function::become_overseer( npc &p )
 
     std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( p, 1 );
     for( const auto &om_near : om_region ){
-        if ( om_near.first != "field" && om_near.first != "forest" && om_near.first != "swamp" &&
+        if ( om_near.first != "field" && om_near.first != "forest" && om_near.first != "forest_water" &&
                 om_near.first.find("river_") == std::string::npos ){
             popup( _("You need more room for camp expansions!") );
             return;
@@ -3061,6 +3074,7 @@ void talk_function::become_overseer( npc &p )
 
     add_msg( _( "%s has become a camp manager." ), p.name.c_str() );
     p.name = p.name + ", Camp Manager";
+    p.companion_mission_role_id = "FACTION_CAMP";
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD;
     p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
