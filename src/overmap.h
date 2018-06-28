@@ -335,6 +335,13 @@ class overmap
      */
     static tripoint draw_overmap();
     /**
+     * Interactive point choosing; used as the map screen.
+     * The map is initially centered on the @ref origin.
+     * @returns The absolute coordinates of the chosen point or
+     * invalid_point if canceled with Escape (or similar key).
+     */
+    static tripoint draw_overmap( tripoint origin );
+    /**
      * Draw overmap like with @ref draw_overmap() and display hordes.
      */
     static tripoint draw_hordes();
