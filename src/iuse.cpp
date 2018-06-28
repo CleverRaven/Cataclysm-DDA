@@ -3893,7 +3893,12 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
                               it->tname().c_str() );
         return 0;
     }
-
+    // no doubled sources of power
+    if( p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" ) ) {
+        p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
+                              it->tname().c_str() );
+        return 0;
+    }
     p->add_msg_if_player( _( "You unfold solar array from the pack and plug it in." ) );
 
     if( it->typeId() == "solarpack" ) {
@@ -3907,9 +3912,9 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
 int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
 {
     if( !p->is_worn( *it ) ) {  // folding when not worn
-        p->add_msg_if_player( _( "You fold solar array into the pack." ) );
+        p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
     } else {
-        p->add_msg_if_player( _( "You unplug and fold solar array into the pack." ) );
+        p->add_msg_if_player( _( "You unplug and fold your portable solar array into the pack." ) );
     }
 
     if( it->typeId() == "solarpack_on" ) {

@@ -7130,6 +7130,12 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
+    
+    for( auto &i : worn ) {
+        if( i.has_flag( "ONLY_ONE" ) && i.typeId() == it.typeId() ) {
+            return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname().c_str() );
+        }
+    }
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
