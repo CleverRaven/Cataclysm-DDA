@@ -17,7 +17,7 @@
     "difficulty": 0,
     "time": 10,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "apple_sapling", 1 ] ] ],
+    "components": [ [ [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ], [ [ "apple_sapling", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_tree_apple_harvested"
   },
@@ -122,7 +122,11 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "clay_plant_pot", 1 ] ], [ [ "apple_cutting", 1 ] ] ]
+    "components": [
+      [ [ "clay_plant_pot", 1 ] ],
+      [ [ "fertilizer_liquid", 1 ], [ "fertilizer_commercial", 1 ] ],
+      [ [ "apple_cutting", 1 ] ]
+    ]
   },
   {
     "type": "terrain",
@@ -142,7 +146,7 @@
     "difficulty": 0,
     "time": 10,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pear_sapling", 1 ] ] ],
+    "components": [ [ [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ], [ [ "pear_sapling", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_tree_pear_harvested"
   },
@@ -247,7 +251,11 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "clay_plant_pot", 1 ] ], [ [ "pear_cutting", 1 ] ] ]
+    "components": [
+      [ [ "clay_plant_pot", 1 ] ],
+      [ [ "fertilizer_liquid", 1 ], [ "fertilizer_commercial", 1 ] ],
+      [ [ "pear_cutting", 1 ] ]
+    ]
   },
   {
     "type": "terrain",
@@ -267,7 +275,7 @@
     "difficulty": 0,
     "time": 10,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "cherry_sapling", 1 ] ] ],
+    "components": [ [ [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ], [ [ "cherry_sapling", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_tree_cherry_harvested"
   },
@@ -372,7 +380,11 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "clay_plant_pot", 1 ] ], [ [ "cherry_cutting", 1 ] ] ]
+    "components": [
+      [ [ "clay_plant_pot", 1 ] ],
+      [ [ "fertilizer_liquid", 1 ], [ "fertilizer_commercial", 1 ] ],
+      [ [ "cherry_cutting", 1 ] ]
+    ]
   },
   {
     "type": "terrain",
@@ -392,7 +404,7 @@
     "difficulty": 0,
     "time": 10,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "peach_sapling", 1 ] ] ],
+    "components": [ [ [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ], [ [ "peach_sapling", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_tree_peach_harvested"
   },
@@ -497,7 +509,11 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "clay_plant_pot", 1 ] ], [ [ "peach_cutting", 1 ] ] ]
+    "components": [
+      [ [ "clay_plant_pot", 1 ] ],
+      [ [ "fertilizer_liquid", 1 ], [ "fertilizer_commercial", 1 ] ],
+      [ [ "peach_cutting", 1 ] ]
+    ]
   },
   {
     "type": "terrain",
@@ -517,7 +533,7 @@
     "difficulty": 0,
     "time": 10,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "apricot_sapling", 1 ] ] ],
+    "components": [ [ [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ], [ [ "apricot_sapling", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_tree_apricot_harvested"
   },
@@ -622,7 +638,11 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "clay_plant_pot", 1 ] ], [ [ "apricot_cutting", 1 ] ] ]
+    "components": [
+      [ [ "clay_plant_pot", 1 ] ],
+      [ [ "fertilizer_liquid", 1 ], [ "fertilizer_commercial", 1 ] ],
+      [ [ "apricot_cutting", 1 ] ]
+    ]
   },
   {
     "type": "terrain",
@@ -642,7 +662,7 @@
     "difficulty": 0,
     "time": 10,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "plum_sapling", 1 ] ] ],
+    "components": [ [ [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ], [ [ "plum_sapling", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_tree_plum_harvested"
   },
@@ -747,7 +767,11 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "clay_plant_pot", 1 ] ], [ [ "plum_cutting", 1 ] ] ]
+    "components": [
+      [ [ "clay_plant_pot", 1 ] ],
+      [ [ "fertilizer_liquid", 1 ], [ "fertilizer_commercial", 1 ] ],
+      [ [ "plum_cutting", 1 ] ]
+    ]
   },
   {
     "type": "GENERIC",
