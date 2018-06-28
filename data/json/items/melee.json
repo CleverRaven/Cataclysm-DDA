@@ -608,7 +608,7 @@
         "type":"GENERIC",
         "id" : "spear_forked",
         "name" : "forked spear",
-        "description" : "A wooden pole with three spikes tied to it and decent grip. It's specialized for catching weapons, and not intended for extended use in combat.",
+        "description" : "A wooden pole with three spikes tied to it and decent grip.  It's specialized for catching weapons, and not intended for extended use in combat.",
         "weight" : 1650,
         "//" : "That's strictly the weight of three spikes.  Shaft is free, be happy.",
         "to_hit" : 1,
