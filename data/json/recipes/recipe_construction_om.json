@@ -562,5 +562,18 @@
     "time": 3600000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 40 ] ], [ [ "stick", 30 ] ], [ [ "2x4", 135 ] ], [ [ "nail", 150 ] ], [ [ "glass_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_wall_level_N_0",
+    "description": "A trench that may detour movement but is meant to be the foundation of a picket or palisade.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": false,
+    "time": 510000,
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "stick", 3 ] ] ]
   }
 ]
