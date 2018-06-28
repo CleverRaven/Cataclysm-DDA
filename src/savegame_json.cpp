@@ -1032,6 +1032,9 @@ void npc::load(JsonObject &data)
     std::string facID;
     std::string comp_miss;
     std::string classid;
+    std::string companion_mission_role;
+    time_point companion_mission_t = 0;
+    time_point companion_mission_t_r = 0;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
@@ -1119,8 +1122,34 @@ void npc::load(JsonObject &data)
         companion_mission = comp_miss;
     }
 
-    if( !data.read( "companion_mission_time", companion_mission_time ) ) {
+    if ( data.read( "companion_mission_role_id", companion_mission_role ) ) {
+        companion_mission_role_id = companion_mission_role;
+    }
+
+    std::vector<tripoint> companion_mission_pts;
+    data.read("companion_mission_points", companion_mission_pts);
+    if( !companion_mission_pts.empty() ) {
+        for( auto pt : companion_mission_pts ){
+            companion_mission_points.push_back( pt );
+        }
+    }
+
+    if( !data.read( "companion_mission_time", companion_mission_t ) ) {
         companion_mission_time = calendar::before_time_starts;
+    } else {
+        companion_mission_time = companion_mission_t;
+    }
+
+    if( !data.read( "companion_mission_time_ret", companion_mission_t_r ) ) {
+        companion_mission_time_ret = calendar::before_time_starts;
+    } else {
+        companion_mission_time_ret = companion_mission_t_r;
+    }
+
+    companion_mission_inv.clear();
+    if ( data.has_member( "companion_mission_inv" ) ) {
+        JsonIn *invin_mission = data.get_raw( "companion_mission_inv" );
+        companion_mission_inv.json_load_items( *invin_mission );
     }
 
     if( !data.read( "restock", restock ) ) {
@@ -1207,7 +1236,12 @@ void npc::store(JsonOut &json) const
     json.member("rules", rules);
 
     json.member("companion_mission", companion_mission);
+    json.member("companion_mission_role_id", companion_mission_role_id);
+    json.member("companion_mission_points", companion_mission_points);
     json.member("companion_mission_time", companion_mission_time);
+    json.member("companion_mission_time_ret", companion_mission_time_ret);
+    json.member( "companion_mission_inv" );
+    companion_mission_inv.json_save_items( json );
     json.member("restock", restock);
 
     json.member("last_updated", last_updated);
