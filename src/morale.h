@@ -125,6 +125,7 @@ class player_morale
         void set_prozac( bool new_took_prozac );
         void set_prozac_bad( bool new_took_prozac_bad );
         void set_stylish( bool new_stylish );
+        void set_lewd( bool new_lewd );
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
         bool has_mutation( const trait_id &mid );
@@ -134,6 +135,7 @@ class player_morale
         void invalidate();
 
         void update_stylish_bonus();
+        void update_lewd_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
         void update_bodytemp_penalty( time_duration ticks );
@@ -145,6 +147,7 @@ class player_morale
         struct body_part_data {
             unsigned int covered;
             unsigned int fancy;
+            unsigned int lewd;
             unsigned int filthy;
             int hot;
             int cold;
@@ -152,6 +155,7 @@ class player_morale
             body_part_data() :
                 covered( 0 ),
                 fancy( 0 ),
+                lewd( 0 ),
                 filthy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {};
@@ -182,6 +186,7 @@ class player_morale
         std::map<trait_id, mutation_data> mutations;
 
         std::map<std::string, int> super_fancy_items;
+        std::map<std::string, int> super_lewd_items;
 
         // Mutability is required for lazy initialization
         mutable int level;
@@ -190,6 +195,7 @@ class player_morale
         bool took_prozac;
         bool took_prozac_bad;
         bool stylish;
+        bool lewd;
         int perceived_pain;
 };
 

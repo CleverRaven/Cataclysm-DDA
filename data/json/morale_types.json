@@ -240,6 +240,11 @@
     "text": "Stylish"
   },
   {
+    "id": "morale_perm_lewd",
+    "type": "morale_type",
+    "text": "Kinky"
+  },
+  {
     "id": "morale_perm_optimist",
     "type": "morale_type",
     "text": "Optimist"

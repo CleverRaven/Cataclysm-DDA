@@ -61,6 +61,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_masochist" ),
             morale_type( "morale_perm_hoarder" ),
             morale_type( "morale_perm_fancy" ),
+            morale_type( "morale_perm_lewd" ),
             morale_type( "morale_perm_optimist" ),
             morale_type( "morale_perm_badtemper" ),
             morale_type( "morale_perm_constrained" ),
@@ -135,6 +136,7 @@ const morale_type MORALE_SCREAM( "morale_scream" );
 const morale_type MORALE_PERM_MASOCHIST( "morale_perm_masochist" );
 const morale_type MORALE_PERM_HOARDER( "morale_perm_hoarder" );
 const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
+const morale_type MORALE_PERM_LEWD( "morale_perm_lewd" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
 const morale_type MORALE_PERM_BADTEMPER( "morale_perm_badtemper" );
 const morale_type MORALE_PERM_CONSTRAINED( "morale_perm_constrained" );

@@ -385,6 +385,14 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "LEWD",
+        "name" : "Kinky",
+        "points" : 2,
+        "description" : "Before the Cataclysm, your dirty mind was held back only by society. Now that it's gone, there's no reason not to indulge. Your morale is improved by wearing lewd clothing.",
+        "starting_trait" : true,
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "LIGHTSTEP",
         "name" : "Light Step",
         "points" : 1,
