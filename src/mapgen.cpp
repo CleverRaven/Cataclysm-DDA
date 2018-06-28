@@ -3567,6 +3567,16 @@ ff.......|....|WWWWWWWW|\n\
             }
         }
 
+        // Chance of adding occasional lighting through the area.
+        if (one_in(2)) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && one_in(150)) {
+                        ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
+        }
 
     } else if (terrain_type == "lab_finale" ||
                terrain_type == "ice_lab_finale") {
@@ -3600,7 +3610,7 @@ ff.......|....|WWWWWWWW|\n\
                 } else if (j < tw || j > SEEY * 2 - 1 - bw) {
                     ter_set(i, j, t_concrete_wall);
                 } else {
-                    ter_set(i, j, t_floor);
+                    ter_set(i, j, t_rock_floor);
                 }
             }
         }
@@ -3776,6 +3786,17 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX   , SEEY - 2, t_cvdmachine);
             spawn_item( SEEX, SEEY - 3, "id_science" );
             break;
+        }
+
+        // Chance of adding occasional lighting through the finale room.
+        if (one_in(2)) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && one_in(200)) {
+                        ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
         }
 
     } else if (terrain_type == "outpost") {
