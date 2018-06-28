@@ -1835,7 +1835,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 /*
  * Display mapgen results over selected target position, and optionally regenerate / apply / abort
  */
-bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r)
+bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool change_sensitive)
 {
     if( r > 0 ){
         popup( _("Select a tile up to %d tiles away."), r );
@@ -1848,7 +1848,13 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r)
             popup( _("You must select a tile within %d range of the camp"), r );
             return false;
         }
+
         omt_tgt = tripoint(where.x, where.y, omt_tgt.z);
+        oter_id &omt_test = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, omt_tgt.z );
+        if( omt_test.id() != "field" ){
+            popup( _("You must construct expansions in fields.") );
+            return false;
+        }
     }
 
     // Coordinates of the overmap terrain that should be generated.
@@ -1893,12 +1899,6 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r)
                 spawns_todo++;
             }
 
-            for( int sx = 0; sx < 12; sx++ ) {  // copy fields
-                for( int sy = 0; sy < 12; sy++ ) {
-
-                }
-            }
-
             destsm->field_count = srcsm->field_count; // and count
             std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
             std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
@@ -1910,16 +1910,17 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r)
                     for( auto &elem : srcsm->itm[sx][sy] ) {
                         destsm->itm[sx][sy].push_back(elem);
                     }
-
                     //Don't cover existing crops, for farm upgrades
-                    if( destsm->frn[sx][sy] != furn_str_id( "f_plant_seed" ) &&
-                       destsm->frn[sx][sy] != furn_str_id( "f_plant_seedling" ) &&
-                       destsm->frn[sx][sy] != furn_str_id( "f_plant_mature" ) &&
-                       destsm->frn[sx][sy] != furn_str_id( "f_plant_harvest" ) ) {
-                           destsm->ter[sx][sy] = srcsm->ter[sx][sy];
-                           destsm->frn[sx][sy] = srcsm->frn[sx][sy];
-                    }
-
+                    //Don't destroy terrain to place grass/dirt
+                    if( change_sensitive && destsm->frn[sx][sy] != furn_str_id( "f_plant_seed" ) &&
+                        destsm->frn[sx][sy] != furn_str_id( "f_plant_seedling" ) &&
+                        destsm->frn[sx][sy] != furn_str_id( "f_plant_mature" ) &&
+                        destsm->frn[sx][sy] != furn_str_id( "f_plant_harvest" ) &&
+                        srcsm->ter[sx][sy] != ter_str_id( "t_grass" ) &&
+                        srcsm->ter[sx][sy] != ter_str_id( "t_dirt" ) ) {
+                               destsm->ter[sx][sy] = srcsm->ter[sx][sy];
+                               destsm->frn[sx][sy] = srcsm->frn[sx][sy];
+                       }
                     destsm->fld[sx][sy] = srcsm->fld[sx][sy];
                     destsm->cosmetics[sx][sy].swap( srcsm->cosmetics[sx][sy] );
                 }
@@ -1955,7 +1956,7 @@ vehicle* editmap::mapgen_veh_query( tripoint omt_tgt, vehicle* car_target, bool 
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( x, y, target.z );
             int target_pos = -1;
-            for( int z = 0; z < destsm->vehicles.size(); z++ ){
+            for( size_t z = 0; z < destsm->vehicles.size(); z++ ){
                 possible_vehicles.push_back(destsm->vehicles[z]);
                 if( destsm->vehicles[z] == car_target && destroy){
                     target_pos = z;
