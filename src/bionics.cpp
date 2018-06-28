@@ -540,10 +540,10 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
         }
-        if( g->u.is_wearing( "solarpack_on" ) || g->u.is_wearing ( "q_solarpack_on" ) ) {
+        if( g->u.is_wearing( "solarpack_on" ) || g->u.is_wearing( "q_solarpack_on" ) ) {
             add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
                                           " your system." ) );
-        } else if( g->u.is_wearing( "solarpack" ) || g->u.is_wearing ( "q_solarpack" ) ) {
+        } else if( g->u.is_wearing( "solarpack" ) || g->u.is_wearing( "q_solarpack" ) ) {
             add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
                                           " system, if you unfold it." ) );
         }
