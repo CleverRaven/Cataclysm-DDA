@@ -325,19 +325,18 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         bool avail = ( companion_list( p, "_faction_camp_gathering" ).size() < 3 );
         mission_key_push( key_vectors, "Gather Materials", "", false, avail );
 
-        col_missions["Distribute Food"] = _("Notes:\n"
-            "Distribute food to your follower and fill you larders.  Place the food you wish to distribute opposite the tent door between the manager and wall.\n \n"
+
+        col_missions["Distribute Food"] = string_format( "Notes:\n"
+            "Distribute food to your follower and fill you larders.  Place the food you wish to distribute opposite the tent door between "
+            "the manager and wall.\n \n"
             "Effects:\n"
             "> Increases your faction's food supply value which in turn is used to pay laborers for their time\n \n"
             "Must have enjoyability >= -6\n"
             "Perishible food liquidated at penalty depending on upgrades and rot time:\n"
-            "> Rotten: 0%\n"
-            "> Rots in < 2 days: 60%\n"
-            "> Rots in < 5 days: 80%\n \n"
-            "Total faction food stock: " +
-            to_string( 10 * camp_food_supply() ) + " kcal or " +
-            to_string( 10 * camp_food_supply() /2600) + " day's rations"
-            );
+            "> Rotten: 0%%\n"
+            "> Rots in < 2 days: 60%%\n"
+            "> Rots in < 5 days: 80%%\n \n"
+            "Total faction food stock: %d kcal or %d day's rations", 10 * camp_food_supply(), 10 * camp_food_supply() /2600 );
         mission_key_push( key_vectors, "Distribute Food" );
     }
 
@@ -564,7 +563,6 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             col_missions["Recover Ally from Upgrading"] = entry;
             mission_key_push( key_vectors, "Recover Ally from Upgrading", "", true );
         }
-
 
         npc_list = companion_list( p, "_faction_upgrade_exp_", true );
         if( !npc_list.empty() ){
@@ -2399,13 +2397,8 @@ std::string talk_function::om_upgrade_description( std::string bldg ){
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    comp = _("Notes:\n" +
-        making->description + "\n \n" +
-        "Skill used: " + making->skill_used.obj().name() + "\n" +
-        "Difficulty: " + to_string( making->difficulty ) + "\n" +
-        comp +
-        " \nRisk: None\n"
-        "Time: "+ to_string( time_duration::from_turns( making->time / 100 ) )+"\n");
+    comp = string_format( "Notes:\n%s\n \nSkill used: %s\nDifficulty: %d\n%s \nRisk: None\nTime: %s\n", making->description,
+                         making->skill_used.obj().name(), making->difficulty, comp, to_string( time_duration::from_turns( making->time / 100 ) ) );
     return comp;
 }
 
@@ -2426,11 +2419,8 @@ std::string talk_function::om_craft_description( std::string itm ){
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    comp = _(
-        "Skill used: " + making.skill_used.obj().name() + "\n" +
-        "Difficulty: " + to_string( making.difficulty ) + "\n" +
-        comp +
-        "\nTime: "+ to_string( time_duration::from_turns( making.time / 100 ) )+"\n");
+    comp = string_format("Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n", making.skill_used.obj().name(), making.difficulty,
+                         comp, to_string( time_duration::from_turns( making.time / 100 ) ) );
     return comp;
 }
 
@@ -3429,7 +3419,8 @@ std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p, c
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         if( elem->get_companion_mission() == p.name + id || elem->get_companion_mission() == mission_format ) {
             available.push_back( elem );
-        } else if( contains && elem->get_companion_mission().find(p.name + id) != std::string::npos ){
+        } else if( contains && (elem->get_companion_mission().find(p.name + id) != std::string::npos ||
+                  (elem->get_companion_mission().find(mission_format) != std::string::npos ) ) ){
             available.push_back( elem );
         }
     }
@@ -4361,7 +4352,5 @@ void talk_function::faction_camp_tutorial(){
     popup( "%s", slide_overview );
     if( query_yn( _("Repeat?") ) ){
         faction_camp_tutorial();
-        return;
     }
 }
-
