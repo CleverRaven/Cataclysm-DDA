@@ -273,6 +273,7 @@
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
   "skill_used": "electronics",
   "time": 10000,
+  "flags": ["BLIND_EASY"],
   "components": [
     [ [ "lightstrip_dead", 1 ] ],
     [ [ "battery", 15 ] ]
