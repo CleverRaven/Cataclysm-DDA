@@ -77,6 +77,7 @@ npc::npc()
     : player()
     , restock( calendar::before_time_starts )
     , companion_mission_time( calendar::before_time_starts )
+    , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
 {
     submap_coords = point( 0, 0 );
@@ -2389,9 +2390,8 @@ std::string npc::extended_description() const
 
 void npc::set_companion_mission( npc &p, const std::string &id )
 {
-    //@todo: store them separately
-    //@todo: set time here as well.
-    companion_mission = p.name + id;
+    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
+    companion_mission = string_format( "%s(%d,%d,%d)%s", p.companion_mission_role_id, omt_pos.x, omt_pos.y, p.posz(), id );
 }
 
 void npc::reset_companion_mission()
