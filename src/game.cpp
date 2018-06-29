@@ -822,7 +822,7 @@ special_game_id game::gametype() const
     return gamemode ? gamemode->id() : SGAME_NULL;
 }
 
-void game::load_map( tripoint pos_sm )
+void game::load_map( const tripoint &pos_sm )
 {
     m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
 }
@@ -13523,7 +13523,7 @@ void game::start_calendar()
     calendar::turn = calendar::start;
 }
 
-void game::add_artifact_messages(std::vector<art_effect_passive> effects)
+void game::add_artifact_messages( const std::vector<art_effect_passive> &effects )
 {
     int net_str = 0;
     int net_dex = 0;

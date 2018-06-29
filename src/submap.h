@@ -141,7 +141,7 @@ struct submap {
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    void set_signage( const int x, const int y, std::string s ) {
+    void set_signage( const int x, const int y, const std::string &s ) {
         is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }

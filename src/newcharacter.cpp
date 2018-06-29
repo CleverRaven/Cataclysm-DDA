@@ -67,7 +67,7 @@
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
-void draw_tabs( const catacurses::window &w, std::string sTab );
+void draw_tabs( const catacurses::window &w, const std::string &sTab );
 void draw_points( const catacurses::window &w, points_left &points, int netPointCost = 0 );
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -431,7 +431,7 @@ void player::randomize( const bool random_scenario, points_left &points, bool pl
     }
 }
 
-bool player::create(character_type type, std::string tempname)
+bool player::create(character_type type, const std::string &tempname)
 {
     weapon = item("null", 0);
 
@@ -641,7 +641,7 @@ bool player::create(character_type type, std::string tempname)
     return true;
 }
 
-void draw_tabs( const catacurses::window &w, std::string sTab )
+void draw_tabs( const catacurses::window &w, const std::string &sTab )
 {
     for (int i = 1; i < TERMX - 1; i++) {
         mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);

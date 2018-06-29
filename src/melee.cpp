@@ -74,7 +74,7 @@ static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
 
-void player_hit_message(player* attacker, std::string message,
+void player_hit_message(player* attacker, const std::string &message,
                         Creature &t, int dam, bool crit = false);
 int  stumble( player &u, const item &weap );
 std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
@@ -1811,7 +1811,7 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
 }
 
 // display the hit message for an attack
-void player_hit_message( player* attacker, std::string message,
+void player_hit_message( player* attacker, const std::string &message,
                         Creature &t, int dam, bool crit )
 {
     std::string msg;

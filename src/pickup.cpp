@@ -45,7 +45,7 @@ static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpo
         int veh_root_part );
 
 static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                        int &moves_taken, int curmit );
+                                        int moves_taken, int curmit );
 static void show_pickup_message( const PickupMap &mapPickup );
 
 struct pickup_count {
@@ -1134,7 +1134,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
 //helper function for Pickup::pick_up (singular item)
 void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                 int &moves_taken, int curmit )
+                                 int moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );

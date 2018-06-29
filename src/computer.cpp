@@ -86,7 +86,7 @@ void computer::add_option( const computer_option &opt )
     options.emplace_back( opt );
 }
 
-void computer::add_option(std::string opt_name, computer_action action,
+void computer::add_option(const std::string &opt_name, computer_action action,
                           int Security)
 {
     add_option( computer_option( opt_name, action, Security ) );

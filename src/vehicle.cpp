@@ -2795,7 +2795,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
  * @param verbose true if there should be anything after the gauge (either the %, or number)
  * @param desc true if the name of the fuel should be at the end
  */
-void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x, itype_id fuel_type, bool verbose, bool desc ) const
+void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x, const itype_id &fuel_type, bool verbose, bool desc ) const
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
@@ -6423,7 +6423,7 @@ void vehicle_part::unset_crew()
     crew_id = -1;
 }
 
-void vehicle_part::reset_target( tripoint pos )
+void vehicle_part::reset_target( const tripoint &pos )
 {
     target.first = pos;
     target.second = pos;

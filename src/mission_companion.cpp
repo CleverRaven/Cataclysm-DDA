@@ -185,7 +185,7 @@ void talk_function::companion_mission(npc &p)
  talk_function::outpost_missions( p, id, title );
 }
 
-bool talk_function::outpost_missions( npc &p, std::string id, std::string title )
+bool talk_function::outpost_missions( npc &p, const std::string &id, const std::string &title )
 {
     std::vector<std::string> keys;
     std::map<std::string, std::string> col_missions;
@@ -483,7 +483,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
     return true;
 }
 
-void talk_function::individual_mission( npc &p, std::string desc, std::string id, bool group )
+void talk_function::individual_mission( npc &p, const std::string &desc, const std::string &id, bool group )
 {
     npc *comp = companion_choose();
     if (comp == NULL){
@@ -500,7 +500,7 @@ void talk_function::individual_mission( npc &p, std::string desc, std::string id
     assert( !comp->is_active() );
 }
 
-void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
+void talk_function::caravan_depart( npc &p, const std::string &dest, const std::string &id )
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     int distance = caravan_dist(dest);
@@ -517,14 +517,14 @@ void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
 }
 
 //Could be expanded to actually path to the site, just returns the distance
-int talk_function::caravan_dist(std::string dest)
+int talk_function::caravan_dist( const std::string &dest )
 {
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), dest, 0, false );
     int distance = rl_dist( g->u.pos(), site );
     return distance;
 }
 
-void talk_function::caravan_return( npc &p, std::string dest, std::string id )
+void talk_function::caravan_return( npc &p, const std::string &dest, const std::string &id )
 {
     npc *comp = companion_choose_return( p.name + id, calendar::turn );
     if (comp == NULL){
@@ -719,7 +719,7 @@ void talk_function::field_build_2( npc &p )
     popup( _( "After counting your money %s directs a nearby laborer to begin constructing a fence around your plot..." ), p.name.c_str() );
 }
 
-void talk_function::field_plant( npc &p, std::string place )
+void talk_function::field_plant( npc &p, const std::string &place )
 {
     if (g->get_temperature( g->u.pos() ) < 50) {
         popup(_("It is too cold to plant anything now."));
@@ -819,7 +819,7 @@ void talk_function::field_plant( npc &p, std::string place )
     popup( _( "After counting your money and collecting your seeds, %s calls forth a labor party to plant your field." ), p.name.c_str() );
 }
 
-void talk_function::field_harvest( npc &p, std::string place )
+void talk_function::field_harvest( npc &p, const std::string &place )
 {
     //First we need a list of plants that can be harvested...
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20, false );
@@ -1364,8 +1364,8 @@ bool talk_function::forage_return( npc &p )
     return true;
 }
 
-void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
-    std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage )
+void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, const std::string &def_desc,
+    std::vector<std::shared_ptr<npc>> attacker, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if (advantage < 0){
@@ -1469,7 +1469,7 @@ npc *talk_function::companion_choose(){
     return NULL;
 }
 
-npc *talk_function::companion_choose_return( std::string id, const time_point &deadline )
+npc *talk_function::companion_choose_return( const std::string &id, const time_point &deadline )
 {
     std::vector<npc *> available;
     for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {

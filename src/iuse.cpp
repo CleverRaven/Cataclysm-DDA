@@ -214,7 +214,8 @@ bool check_litcig( player &u )
     return false;
 }
 
-static bool item_inscription( player &/*p*/, item &cut, std::string verb, std::string gerund,
+static bool item_inscription( player &/*p*/, item &cut, const std::string &verb,
+                              const std::string &gerund,
                               bool carveable )
 {
     if( !cut.made_of( SOLID ) ) {
@@ -265,7 +266,8 @@ static bool item_inscription( player &/*p*/, item &cut, std::string verb, std::s
 
 // Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
 
-static bool inscribe_item( player &p, std::string verb, std::string gerund, bool carveable )
+static bool inscribe_item( player &p, const std::string &verb, const std::string &gerund,
+                           bool carveable )
 {
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,

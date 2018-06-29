@@ -308,7 +308,7 @@ class Item_factory
         void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member,
+        void set_use_methods_from_json( JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
 
         use_function usage_from_string( const std::string &type ) const;

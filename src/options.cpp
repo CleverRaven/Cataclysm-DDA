@@ -755,7 +755,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  */
 static std::vector<std::pair<std::string, std::string>> build_resource_list(
     std::map<std::string, std::string> &resource_option, std::string operation_name,
-    std::string dirname_label, std::string filename_label ) {
+    const std::string &dirname_label, const std::string &filename_label ) {
     std::vector<std::pair<std::string, std::string>> resource_names;
 
     resource_option.clear();
