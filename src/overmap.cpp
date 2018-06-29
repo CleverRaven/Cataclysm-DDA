@@ -3094,6 +3094,7 @@ void overmap::move_hordes()
             if(
                 !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
                 type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
+                this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
                 this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
             ) {
