@@ -101,7 +101,7 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
 
     // Require materials proportional to selected item volume
     auto qty = loc->volume() / units::legacy_volume_factor;
-    qty = (qty ? qty : 1);
+    qty = std::max( 1, qty );;
     auto reqs = *requirement_id( "cvd_diamond" ) * qty;
 
     if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
