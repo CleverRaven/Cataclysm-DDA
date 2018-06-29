@@ -109,6 +109,24 @@ struct aim_type {
     int threshold;
 };
 
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+};
+inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
+{
+    lhs += rhs;
+    return lhs;
+}
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -510,7 +528,7 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried() const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by( units::volume mod ) const;
+        units::volume volume_capacity_reduced_by( const units::volume &mod ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -617,6 +635,11 @@ class Character : public Creature, public visitable<Character>
          * @return min( 0, lowest ) + max( 0, highest )
          */
         float mutation_value( const std::string &val ) const;
+
+        /**
+         * Goes over all mutations, returning the sum of the social modifiers
+         */
+        const social_modifiers get_mutation_social_mods() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;

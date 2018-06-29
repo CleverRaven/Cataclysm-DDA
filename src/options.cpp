@@ -755,7 +755,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  */
 static std::vector<std::pair<std::string, std::string>> build_resource_list(
     std::map<std::string, std::string> &resource_option, std::string operation_name,
-    std::string dirname_label, std::string filename_label ) {
+    const std::string &dirname_label, const std::string &filename_label ) {
     std::vector<std::pair<std::string, std::string>> resource_names;
 
     resource_option.clear();
@@ -1851,7 +1851,8 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
         if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X") {
-            int new_terminal_x, new_window_width;
+            int new_terminal_x = 0;
+            int new_window_width = 0;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_x;
@@ -1865,7 +1866,8 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_width);
         } else if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y") {
-            int new_terminal_y, new_window_height;
+            int new_terminal_y = 0;
+            int new_window_height = 0;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_y;

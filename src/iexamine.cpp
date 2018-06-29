@@ -73,7 +73,7 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
+static void pick_plant( player &p, const tripoint &examp, const std::string &itemType, ter_id new_ter,
                         bool seeds = false );
 
 /**
@@ -2418,7 +2418,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 }
 
 void pick_plant(player &p, const tripoint &examp,
-                std::string itemType, ter_id new_ter, bool seeds)
+                const std::string &itemType, ter_id new_ter, bool seeds)
 {
     if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
@@ -3050,7 +3050,7 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
     return tank_loc;
 }
 
-static int getGasDiscountCardQuality(item it)
+static int getGasDiscountCardQuality( const item &it )
 {
     std::set<std::string> tags = it.type->item_tags;
 

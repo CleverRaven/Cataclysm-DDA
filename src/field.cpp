@@ -1467,13 +1467,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur.setFieldDensity(3);
                             int num_bolts = rng(3, 6);
                             for (int i = 0; i < num_bolts; i++) {
-                                int xdir = 0, ydir = 0;
+                                int xdir = 0;
+                                int ydir = 0;
                                 while (xdir == 0 && ydir == 0) {
                                     xdir = rng(-1, 1);
                                     ydir = rng(-1, 1);
                                 }
                                 int dist = rng(4, 12);
-                                int boltx = p.x, bolty = p.y;
+                                int boltx = p.x;
+                                int bolty = p.y;
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;

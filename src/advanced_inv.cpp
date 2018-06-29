@@ -1602,7 +1602,8 @@ void advanced_inventory::display()
                     } else if(srcarea == AIM_WORN) {
                         g->u.takeoff( *sitem->items.front(), &moving_items );
                     }
-                    int items_left = 0, moved = 0;
+                    int items_left = 0;
+                    int moved = 0;
                     for(auto &elem : moving_items) {
                         assert(!elem.is_null());
                         items_left = add_item(destarea, elem);
@@ -1748,7 +1749,8 @@ void advanced_inventory::display()
                 recalc = true;
             } else {
                 item &it = *sitem->items.front();
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 it.info( true, vThisItem );
                 int iDummySelect = 0;
                 ret = draw_item_info( info_startx,

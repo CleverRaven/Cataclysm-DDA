@@ -230,7 +230,7 @@ void mdeath::kill_vines( monster &z )
                 break;
             }
         }
-        if (!closer) {
+        if (!closer) { // @todo: closer variable is not being updated and is always false!
             vine->die( &z );
         }
     }

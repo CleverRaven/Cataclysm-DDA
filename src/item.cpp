@@ -71,6 +71,7 @@ const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_unarmed( "unarmed" );
+const skill_id skill_cooking( "cooking" );
 
 const quality_id quality_jack( "JACK" );
 const quality_id quality_lift( "LIFT" );
@@ -670,8 +671,10 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 {
     size_t pos = item_tag.find('=');
     if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string var_name, val_decoded;
-        int svarlen, svarsep;
+        std::string var_name;
+        std::string val_decoded;
+        int svarlen = 0;
+        int svarsep = 0;
         svarsep = item_tag.find('=');
         svarlen = item_tag.size();
         val_decoded.clear();
@@ -725,7 +728,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const {
 
 std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) const
 {
-    std::stringstream temp1, temp2;
+    std::stringstream temp1;
+    std::stringstream temp2;
     std::string space = "  ";
     const bool debug = g != nullptr && debug_mode;
 
@@ -913,6 +917,30 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
+
+            // Good cooks and survivalists can estimate food's age on fresh-to-rotten scale
+            const double rot_progress = food_item->get_relative_rot();
+            if( !food_item->rotten() && ( g->u.get_skill_level( skill_cooking ) >= 3 || g->u.get_skill_level( skill_survival ) >= 4 ) ) {
+                if( food_item->is_fresh() ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks as <good>fresh</good> as it can be." ) );
+                } else if( rot_progress >= 0.1 && rot_progress < 0.3 ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks <good>still quite fresh</good>. "
+                                                         "It's far from becoming old." ) );
+                } else if( rot_progress >= 0.3 && rot_progress < 0.5 ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks like it is reaching its <neutral>midlife</neutral>. "
+                                                         "It has some time ahead before spoiling." ) );
+                } else if( rot_progress >= 0.5 && rot_progress < 0.7 ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks like it has <neutral>passed its midlife</neutral>. "
+                                                         "Edible, but will go old sooner rather then later." ) );
+                } else if( rot_progress >= 0.7 && rot_progress <= 0.9 ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks like it <bad>will be old soon</bad>. "
+                                                         "It's now or never, if you plan to use it." ) );
+                } else if( food_item->is_going_bad() ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks <bad>old</bad>. "
+                                                         "It's on a brink of becoming inedible." ) );
+                }
+            }
+
             if( food_item->rotten() ) {
                 if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
@@ -2083,7 +2111,8 @@ void item::on_wear( Character &p )
 {
     if( is_sided() && get_side() == side::BOTH ) {
         // for sided items wear the item on the side which results in least encumbrance
-        int lhs = 0, rhs = 0;
+        int lhs = 0;
+        int rhs = 0;
 
         set_side( side::LEFT );
         const auto left_enc = p.get_encumbrance( *this );
@@ -3282,7 +3311,7 @@ int item::acid_resist( bool to_self ) const
     }
 
     const int env = get_env_resist();
-    if( !to_self && env < 10 ) {
+    if( env < 10 ) {
         // Low env protection means it doesn't prevent acid seeping in.
         resist *= env / 10.0f;
     }
@@ -3312,7 +3341,7 @@ int item::fire_resist( bool to_self ) const
     }
 
     const int env = get_env_resist();
-    if( !to_self && env < 10 ) {
+    if( env < 10 ) {
         // Iron resists immersion in magma, iron-clad knight won't.
         resist *= env / 10.0f;
     }

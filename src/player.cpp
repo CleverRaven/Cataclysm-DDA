@@ -1902,10 +1902,10 @@ int player::run_cost( int base_cost, bool diag ) const
     // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
     const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
                          has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
-    if( !is_wearing_shoes( "left" ) && !mutfeet ) {
+    if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
         movecost += 8;
     }
-    if( !is_wearing_shoes( "right" ) && !mutfeet ) {
+    if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
         movecost += 8;
     }
 
@@ -2143,7 +2143,7 @@ std::string player::save_info() const
     return ::serialize( *this ) + "\n" + dump_memorial();
 }
 
-void player::memorial( std::ostream &memorial_file, std::string epitaph )
+void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
 {
     static const char *eol = cata_files::eol();
 
@@ -3934,7 +3934,8 @@ void player::knock_back_from( const tripoint &p )
 
 int player::hp_percentage() const
 {
-    int total_cur = 0, total_max = 0;
+    int total_cur = 0;
+    int total_max = 0;
     // Head and torso HP are weighted 3x and 2x, respectively
     total_cur = hp_cur[hp_head] * 3 + hp_cur[hp_torso] * 2;
     total_max = hp_max[hp_head] * 3 + hp_max[hp_torso] * 2;
@@ -4191,9 +4192,10 @@ void player::update_needs( int rate_multiplier )
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
 
-    float thirst_rate = 1.0f + mutation_value( "thirst_modifier" );
+    float thirst_rate = get_option< float >( "PLAYER_THIRST_RATE" );
+    thirst_rate *= 1.0f +  mutation_value( "thirst_modifier" );
     if( is_wearing("stillsuit") ) {
-        thirst_rate -= 0.3f;
+        thirst_rate *= 0.7f;
     }
 
     // Note: intentionally not in metabolic rate
@@ -4230,9 +4232,10 @@ void player::update_needs( int rate_multiplier )
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
-        float fatigue_rate = 1.0f + mutation_value( "fatigue_modifier" );
+        float fatigue_rate = get_option< float >( "PLAYER_FATIGUE_RATE" );
+        fatigue_rate *= 1.0f + mutation_value( "fatigue_modifier" );
 
-        if( !debug_ls && fatigue_rate > 0.0f ) {
+        if( fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -4946,7 +4949,7 @@ void player::suffer()
         sounds::sound( pos(), 10, _("BZZZZZ"));
     }
 
-    bool wearing_shoes = is_wearing_shoes( "left" ) || is_wearing_shoes( "right" );
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) && !wearing_shoes ) {
         if (one_in(100)) {
             add_msg_if_player(m_good, _("This soil is delicious!"));
@@ -6602,7 +6605,7 @@ bool player::has_charges(const itype_id &it, long quantity) const
     return charges_of( it, quantity ) == quantity;
 }
 
-int  player::leak_level( std::string flag ) const
+int  player::leak_level( const std::string &flag ) const
 {
     int leak_level = 0;
     leak_level = inv.leak_level(flag);
@@ -6753,7 +6756,7 @@ bool player::consume(int target_position)
 
 void player::rooted_message() const
 {
-    bool wearing_shoes = is_wearing_shoes( "left" ) || is_wearing_shoes( "right" );
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     if( (has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag("DIGGABLE", pos()) &&
         !wearing_shoes ) {
@@ -7128,8 +7131,8 @@ ret_val<bool> player::can_wear( const item& it  ) const
                                MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ).c_str() );
     }
 
-    if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
-          ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
+    if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( side::LEFT ) ) ||
+          ( it.covers( bp_foot_r ) && is_wearing_shoes( side::RIGHT ) ) ) &&
           ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
           !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
@@ -9132,7 +9135,7 @@ void player::do_read( item &book )
     activity.set_to_null();
 }
 
-bool player::has_identified( std::string item_id ) const
+bool player::has_identified( const std::string &item_id ) const
 {
     return items_identified.count( item_id ) > 0;
 }
@@ -9578,7 +9581,8 @@ int player::get_wind_resistance(body_part bp) const
 
 int player::warmth(body_part bp) const
 {
-    int ret = 0, warmth = 0;
+    int ret = 0;
+    int warmth = 0;
 
     for (auto &i : worn) {
         if( i.covers( bp ) ) {
@@ -10013,11 +10017,11 @@ bool player::natural_attack_restricted_on( body_part bp ) const
     return false;
 }
 
-bool player::is_wearing_shoes(std::string side) const
+bool player::is_wearing_shoes( const side &which_side ) const
 {
     bool left = true;
     bool right = true;
-    if (side == "left" || side == "both") {
+    if( which_side == side::LEFT || which_side == side::BOTH ) {
         left = false;
         for( const item &worn_item : worn ) {
             if (worn_item.covers(bp_foot_l) &&
@@ -10028,7 +10032,7 @@ bool player::is_wearing_shoes(std::string side) const
             }
         }
     }
-    if (side == "right" || side == "both") {
+    if( which_side == side::RIGHT || which_side == side::BOTH ) {
         right = false;
         for( const item &worn_item : worn ) {
             if (worn_item.covers(bp_foot_r) &&
@@ -10259,7 +10263,7 @@ void player::learn_recipe( const recipe * const rec )
     learned_recipes->include( rec );
 }
 
-void player::assign_activity( activity_id type, int moves, int index, int pos, std::string name )
+void player::assign_activity( const activity_id &type, int moves, int index, int pos, const std::string &name )
 {
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
