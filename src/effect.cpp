@@ -318,13 +318,9 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "vomit_tick",       member, "VOMIT",    "tick");
 
         // Then healing effects
-        extract_effect( j, mod_data, "healing_rate",                 member, "HEAL_MED_RATE", "amount" );
-        extract_effect( j, mod_data, "healing_rate_w_other_effects", member, "HEAL_MED_RATE_W_OTHER",
-                        "amount" );
-        extract_effect( j, mod_data, "healing_mult_regen",           member, "HEAL_MED_REGEN", "amount" );
-        extract_effect( j, mod_data, "healing_head_mult", member, "HEAL_HEAD_MULT", "amount" );
-        extract_effect( j, mod_data, "healing_torso_mult", member, "HEAL_TORSO_MULT", "amount" );
-        extract_effect( j, mod_data, "healing_sleep_mult", member, "HEAL_SLEEP_MULT", "amount" );
+        extract_effect( j, mod_data, "healing_rate",    member, "HEAL_RATE",  "amount" );
+        extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
+        extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
 
         return true;
     } else {

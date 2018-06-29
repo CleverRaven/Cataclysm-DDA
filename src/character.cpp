@@ -2657,43 +2657,39 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
 
     if( has_effect( effect_bandaged, bp ) ) {
         const effect &e_bandaged = get_effect( effect_bandaged, bp );
-        if( !has_effect( effect_disinfected, bp ) ) {
-            bandaged_rate += e_bandaged.get_amount( "HEAL_MED_RATE", 0 ) / 100000.0f;
-        } else{
-            bandaged_rate += e_bandaged.get_amount( "HEAL_MED_RATE_W_OTHER", 0 ) / 100000.0f;
-        }
-        bandaged_rate += std::max( awake_rate, 0.0f ) * e_bandaged.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
-        if( at_rest_quality > 0.0f ) {
-            bandaged_rate *= e_bandaged.get_amount( "SLEEP_MULT", 0 ) / 10.0f;
-        }
+        bandaged_rate += e_bandaged.get_amount( "HEAL_RATE", 0 ) / HOURS( 24 );
+
         if( bp == bp_head ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD_MULT", 0 ) / 10.0f;
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD_MULT", 0 ) / 100.0f;
         }
         if( bp == bp_torso ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO_MULT", 0 ) / 10.0f;
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO_MULT", 0 ) / 100.0f;
         }
     }
 
     if( has_effect( effect_disinfected, bp ) ) {
         const effect &e_disinfected = get_effect( effect_disinfected, bp );
-        if( !has_effect( effect_bandaged, bp ) ) {
-            disinfected_rate += e_disinfected.get_amount( "HEAL_MED_RATE", 0 ) / 100000.0f;
-        } else{
-            disinfected_rate += e_disinfected.get_amount( "HEAL_MED_RATE_W_OTHER", 0 ) / 100000.0f;
-        }
-        disinfected_rate += std::max( awake_rate, 0.0f ) * e_disinfected.get_amount( "HEAL_MED_REGEN", 0 ) / 10.0f;
-        if( at_rest_quality > 0.0f ) {
-            disinfected_rate *= e_disinfected.get_amount( "SLEEP_MULT", 0 ) / 10.0f;
-        }
+        disinfected_rate += e_disinfected.get_amount( "HEAL_RATE", 0 ) / HOURS( 24 );
+
         if( bp == bp_head ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD_MULT", 0 ) / 10.0f;
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
         }
         if( bp == bp_torso ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO_MULT", 0 ) / 10.0f;
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
         }
     }
 
     rate_medicine += bandaged_rate + disinfected_rate;
+    rate_medicine *= 1.0f + mutation_value( "healing_resting" );
+
+    if( at_rest_quality > 0.0f ) {
+            bandaged_rate *= 2;
+    }
+
+    // increase healing if character has both effects
+    if( has_effect( effect_bandaged, bp ) && has_effect( effect_disinfected, bp ) ){
+        rate_medicine *= 2;
+    }
 
     if( get_healthy() > 0.0f ) {
         rate_medicine *= 1.0f + get_healthy() / 200.0f;

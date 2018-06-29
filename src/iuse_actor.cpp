@@ -3018,9 +3018,6 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
 
     // apply healing over time effects
     if( bandages_power > 0 ) {
-        // remove previous effect, if exists
-        patient.remove_effect( effect_bandaged, bp_healed );
-        // add new effect
         int bandages_intensity = get_bandaged_level( healer );
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
@@ -3029,9 +3026,6 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
-        // remove previous effect, if exists
-        patient.remove_effect( effect_disinfected, bp_healed );
-        // add new effect
         int disinfectant_intensity = get_disinfected_level( healer );
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );

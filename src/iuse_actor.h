@@ -858,7 +858,6 @@ class heal_actor : public iuse_actor
         int get_bandaged_level( const player &healer ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
         int get_disinfected_level( const player &healer ) const;
-
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
         long finish_using( player &healer, player &patient, item &it, hp_part part ) const;
 
