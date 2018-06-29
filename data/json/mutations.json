@@ -539,7 +539,7 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER", "SLOWHEALER2", "SLOWHEALER3"],
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER2", "SLOWHEALER3"],
         "healing_resting" : -0.25
     },{
         "type" : "mutation",
@@ -550,7 +550,7 @@
         "starting_trait" : true,
         "valid": false,
         "purifiable": false,
-        "cancels" : ["SLOWHEALER", "SLOWHEALER3"],
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER3"],
         "healing_resting" : -0.66
     },{
         "type" : "mutation",
@@ -561,7 +561,7 @@
         "starting_trait" : true,
         "valid": false,
         "purifiable": false,
-        "cancels" : ["SLOWHEALER", "SLOWHEALER2"],
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER2"],
         "healing_resting" : -0.9
     },{
         "type" : "mutation",
