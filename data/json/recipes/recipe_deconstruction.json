@@ -2103,6 +2103,13 @@
     "components": [ [ [ "scrap", 7 ] ] ]
   },
   {
+    "result": "stick_long",
+    "type": "uncraft",
+    "time": 1000,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 2] ] ]
+  },
+  {
     "result": "straw_basket",
     "type": "uncraft",
     "time": 2000,
