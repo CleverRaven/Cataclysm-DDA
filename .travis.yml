@@ -27,16 +27,6 @@ addons:
   apt:
     sources: &apt_sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise
-      - llvm-toolchain-precise-3.5
-      - llvm-toolchain-precise-3.6
-      - llvm-toolchain-precise-3.7
-      - llvm-toolchain-precise-3.8
-      - llvm-toolchain-trusty
-      - llvm-toolchain-trusty-3.9
-      - llvm-toolchain-trusty-4.0
-      - llvm-toolchain-trusty-5.0
-      - llvm-toolchain-trusty-6.0
 
 compiler: gcc
 os: linux
@@ -153,10 +143,9 @@ matrix:
       addons: &clang40
         apt:
           packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+          sources: [*apt_sources, llvm-toolchain-trusty-4.0]
           config:
             retries: true
-
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       dist: trusty
@@ -164,7 +153,7 @@ matrix:
       addons: &clang50
         apt:
           packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+          sources: [*apt_sources, llvm-toolchain-trusty-5.0]
           config:
             retries: true
           
@@ -175,10 +164,9 @@ matrix:
       addons: &clang60
         apt:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+          sources: [*apt_sources, llvm-toolchain-trusty-6.0]
           config:
             retries: true
-
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
