@@ -138,8 +138,8 @@
         "crit_tec" : true,
         "weighting" : -250,
         "messages" : [
-            "You slice through %s like hot knife slices through butter",
-            "<npcname> slices through %s like hot knife slices through butter"
+            "Snicker-snack! You slice through %s like hot knife slices through butter",
+            "Snicker-snack! <npcname> slices through %s like hot knife slices through butter"
         ],
         "description" : "Cut damage multiply by 99, crit only"
     },{
