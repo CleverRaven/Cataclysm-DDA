@@ -1480,7 +1480,7 @@ void bionic::deserialize( JsonIn &jsin )
 void player::introduce_into_anesthesia( time_duration const &duration )
 {
     add_msg_if_player( m_info,
-                       _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
+                       _( "You type data into the console, configuring Autodoc to work with a CBM." ) );
     add_effect( effect_narcosis, duration );
     fall_asleep( duration );
     add_msg_if_player( m_info,
