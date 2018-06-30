@@ -2003,5 +2003,21 @@
     "to_hit": 1,
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
+  },
+  {
+    "id": "broken_prox_alarm",
+    "type": "GENERIC",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken proximity sensor",
+    "category": "other",
+    "description": "A broken proximity sensor. Thankfully no longer able to call for robot reinforcements. Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 300,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3
   }
 ]

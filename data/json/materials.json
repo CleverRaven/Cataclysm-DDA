@@ -885,6 +885,21 @@
   },
   {
     "type": "material",
+    "ident": "rubber",
+    "name": "Rubber",
+    "density": 3,
+    "bash_resist": 1,
+    "cut_resist": 2,
+    "acid_resist": 3,
+    "fire_resist": 4,
+    "elec_resist": 20,
+    "chip_resist": 8,
+    "dmg_adj": [ "scarred", "worn-out", "badly worn-out", "shredded" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged"
+  },
+  {
+    "type": "material",
     "ident": "feces",
     "name": "Feces",
     "density": 4,

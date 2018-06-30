@@ -1963,5 +1963,23 @@
     "city_distance": [ -1, 10 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Rivtech Factory",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "rivtech_factory_00_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "rivtech_factory_01_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "rivtech_factory_02_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "rivtech_factory_03_north" },
+      { "point": [ 4, 0, 0 ], "overmap": "rivtech_factory_04_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "rivtech_factory_10_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "rivtech_factory_11_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 10 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "ROTATE" ]
   }
 ]
