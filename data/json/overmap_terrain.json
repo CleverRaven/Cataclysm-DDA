@@ -7321,5 +7321,12 @@
     "name": "icecream shop",
     "copy-from": "generic_city_building",
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "glasses_shop",
+    "name": "glasses shop",
+    "copy-from": "generic_city_building",
+    "color": "h_cyan"
   }
 ]
