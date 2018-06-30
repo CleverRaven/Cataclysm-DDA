@@ -1870,6 +1870,10 @@ classes = {
     },
     time_duration = {
         by_value_and_reference = true,
+        new = {
+            --{ "int" }, --private
+            { "time_duration" },
+        },
         attributes = {
         },
         functions = {
@@ -1877,6 +1881,11 @@ classes = {
     },
     time_point = {
         by_value_and_reference = true,
+        new = {
+            { "calendar" },
+            { "int" },
+            { "time_point" },
+        },
         attributes = {
         },
         functions = {
