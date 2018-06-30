@@ -157,7 +157,7 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
 /**
  * Get the amount of rotting that an item would accumulate between start and end turn at the given
  * locations.
- * The location is in local maps squares (convertable inside by @ref map::getabs() to the system 
+ * The location is in local maps squares (convertable inside by @ref map::getabs() to the system
  * which the @ref map uses).
  * The returned value is in time at standard conditions it is `end - start`.
  */
