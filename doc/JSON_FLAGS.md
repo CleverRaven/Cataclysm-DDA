@@ -696,6 +696,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
+- ```ONLY_ONE``` You can wear only one.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
@@ -998,6 +999,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```MOP``` Mop up the mess.
 - ```MP3``` Turn the mp3 player on.
 - ```MP3_ON``` Turn the mp3 player off.
+- ```SOLARPACK``` Unfold solar backpack array.
+- ```SOLARPACK_OFF``` Fold solar backpack array.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
 - ```PHEROMONE``` Makes zombies love you.

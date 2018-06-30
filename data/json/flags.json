@@ -84,6 +84,12 @@
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
   },
   {
+    "id": "ONLY_ONE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "You can wear <info>only one</info>."
+  },
+  {
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
