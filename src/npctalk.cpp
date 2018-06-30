@@ -16,6 +16,7 @@
 #include "units.h"
 #include "overmapbuffer.h"
 #include "json.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -57,21 +58,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_ELFAEYES( "ELFAEYES" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_GROWL( "GROWL" );
-static const trait_id trait_HISS( "HISS" );
-static const trait_id trait_LIAR( "LIAR" );
-static const trait_id trait_MINOTAUR( "MINOTAUR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-static const trait_id trait_SNARL( "SNARL" );
-static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
-static const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 struct dialogue;
 
@@ -456,9 +443,9 @@ const std::string &talk_trial::name() const
 }
 
 /** Time (in turns) and cost (in cent) for training: */
-static int calc_skill_training_time( const npc &p, const skill_id &skill )
+static time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return MINUTES( 10 + 5 * g->u.get_skill_level( skill ) - p.get_skill_level( skill ) );
+    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) - 1_turns * p.get_skill_level( skill );
 }
 
 static int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -473,9 +460,9 @@ static int calc_skill_training_cost( const npc &p, const skill_id &skill )
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-static int calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+static time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
 {
-    return MINUTES( 30 );
+    return 30_minutes;
 }
 
 static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
@@ -682,7 +669,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // TODO: make it a member of the mission class, maybe at mission instance specific data
         const std::string &ret = miss->dialogue_for_topic( topic );
         if( ret.empty() ) {
-            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
+            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%s) or topic(%s)",
                       type.id.c_str(), topic.c_str() );
             return "";
         }
@@ -783,11 +770,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( g->u.is_wearing( "badge_marshal" ) )
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    return _( "Hello marshal." );
+                    return _( "Hello, marshal." );
                 case 2:
                     return _( "Marshal, I'm afraid I can't talk now." );
                 case 3:
-                    return _( "I'm not in charge here marshal." );
+                    return _( "I'm not in charge here, marshal." );
                 case 4:
                     return _( "I'm supposed to direct all questions to my leadership, marshal." );
             }
@@ -888,7 +875,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         if( g->u.has_trait( trait_PROF_FED ) ) {
-            return _( "Can I help you marshal?" );
+            return _( "Can I help you, marshal?" );
         }
         if( g->u.male ) {
             return _( "Morning sir, how can I help you?" );
@@ -1446,7 +1433,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
         p->set_attitude( NPCATT_FOLLOW );
-        return _( "YES MASTER" );
+        return _( "YES, MASTER!" );
     }
 
     return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
@@ -1795,7 +1782,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "necropolis_freq",
                 0 ).tname().c_str() );
         g->u.i_add( item( "necropolis_freq", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose sane duration
         add_response( _( "Thanks." ), "TALK_OLD_GUARD_NEC_COMMO" );
 
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
@@ -1870,7 +1857,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         popup( _( "%1$s gives you a %2$s" ), p->name.c_str(), item( "commune_prospectus",
                 0 ).tname().c_str() );
         g->u.i_add( item( "commune_prospectus", 0 ) );
-        p->add_effect( effect_gave_quest_item, 9999 );
+        p->add_effect( effect_gave_quest_item, 9999_turns ); //@todo choose a sane duration
         add_response( _( "Thanks." ), "TALK_RANCH_FOREMAN" );
     } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
         add_response( _( "How many refugees are you expecting?" ), "TALK_RANCH_FOREMAN_REFUGEES" );
@@ -2307,9 +2294,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
             std::stringstream reasons;
-            vehicle *veh = g->m.veh_at( p->pos() );
-            if( veh != nullptr ) {
-                if( abs( veh->velocity ) > 0 ) {
+            if( const optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
+                if( abs( vp->vehicle().velocity ) > 0 ) {
                     reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
                 }
             }
@@ -2625,6 +2611,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
+    const social_modifiers &u_mods = u.get_mutation_social_mods();
 
     npc &p = *d.beta;
     int chance = difficulty;
@@ -2635,20 +2622,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
-            if( u.has_trait( trait_TRUTHTELLER ) ) {
-                chance -= 40;
-            }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance -= 20;
-            } else if( u.has_trait( trait_LIAR ) ) {
-                chance += 40;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( ( u.has_trait( trait_WINGS_BUTTERFLY ) ) || ( u.has_trait( trait_FLOWERS ) ) ) {
-                chance += 10;
-            }
+            chance += u_mods.lie;
+
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
                 chance += 10;
             }
@@ -2659,26 +2634,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_PERSUADE:
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance += 15; // Flutter your wings at 'em
-            }
+            chance += u_mods.persuade;
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance -= 60;
             }
             if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
                 chance -= 50;
@@ -2690,36 +2649,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_INTIMIDATE:
             chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                       p.personality.bravery * 2;
-            if( u.has_trait( trait_MINOTAUR ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_MUZZLE ) ) {
-                chance += 6;
-            }
-            if( u.has_trait( trait_MUZZLE_LONG ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_SABER_TEETH ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_TERRIFYING ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance += 30;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance -= 20; // Butterflies are not terribly threatening.  :-(
-            }
+            chance += u_mods.intimidate;
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
             }
@@ -3031,13 +2962,13 @@ void talk_function::give_equipment( npc &p )
 
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
-    p.add_effect( effect_asked_for_item, 1800 );
+    p.add_effect( effect_asked_for_item, 3_hours );
 }
 
 void talk_function::give_aid( npc &p )
 {
     g->u.cash -= 20000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     body_part bp_healed;
     for( int i = 0; i < num_hp_parts; i++ ) {
         bp_healed = player::hp_to_bp( hp_part( i ) );
@@ -3059,7 +2990,7 @@ void talk_function::give_aid( npc &p )
 void talk_function::give_all_aid( npc &p )
 {
     g->u.cash -= 30000;
-    p.add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     body_part bp_healed;
     for( npc &guy : g->all_npcs() ) {
@@ -3083,7 +3014,7 @@ void talk_function::give_all_aid( npc &p )
 
 void talk_function::buy_haircut( npc &p )
 {
-    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 7200, 30 );
+    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     g->u.cash -= 1000;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
     g->u.activity.str_values.push_back( p.name );
@@ -3092,7 +3023,7 @@ void talk_function::buy_haircut( npc &p )
 
 void talk_function::buy_shave( npc &p )
 {
-    g->u.add_morale( MORALE_SHAVE, 10, 10, 3600, 30 );
+    g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     g->u.cash -= 500;
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back( p.name );
@@ -3103,7 +3034,7 @@ void talk_function::buy_10_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
@@ -3121,7 +3052,7 @@ void talk_function::buy_10_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 10 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 14400 );
+    p.add_effect( effect_currently_busy, 1_days );
     g->u.cash -= 200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3130,7 +3061,7 @@ void talk_function::buy_100_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
                                        g->u.global_omt_location(), "ranch_camp_67", 1, false );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
@@ -3148,7 +3079,7 @@ void talk_function::buy_100_logs( npc &p )
     bay.spawn_item( 7, 15, "log", 100 );
     bay.save();
 
-    p.add_effect( effect_currently_busy, 100800 );
+    p.add_effect( effect_currently_busy, 7_days );
     g->u.cash -= 1200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
@@ -3163,27 +3094,27 @@ void talk_function::follow( npc &p )
 
 void talk_function::deny_follow( npc &p )
 {
-    p.add_effect( effect_asked_to_follow, 3600 );
+    p.add_effect( effect_asked_to_follow, 6_hours );
 }
 
 void talk_function::deny_lead( npc &p )
 {
-    p.add_effect( effect_asked_to_lead, 3600 );
+    p.add_effect( effect_asked_to_lead, 6_hours );
 }
 
 void talk_function::deny_equipment( npc &p )
 {
-    p.add_effect( effect_asked_for_item, 600 );
+    p.add_effect( effect_asked_for_item, 1_hours );
 }
 
 void talk_function::deny_train( npc &p )
 {
-    p.add_effect( effect_asked_to_train, 3600 );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void talk_function::deny_personal_info( npc &p )
 {
-    p.add_effect( effect_asked_personal_info, 1800 );
+    p.add_effect( effect_asked_personal_info, 3_hours );
 }
 
 void talk_function::hostile( npc &p )
@@ -3278,7 +3209,7 @@ bool pay_npc( npc &np, int cost )
 void talk_function::start_training( npc &p )
 {
     int cost;
-    int time;
+    time_duration time = 0_turns;
     std::string name;
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
@@ -3301,8 +3232,8 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
-    p.add_effect( effect_asked_to_train, 3600 );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
+    p.add_effect( effect_asked_to_train, 6_hours );
 }
 
 void parse_tags( std::string &phrase, const player &u, const npc &me )
@@ -4427,7 +4358,7 @@ enum consumption_result {
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // @todo: Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_container();
+    bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;
     if( !comest ) {

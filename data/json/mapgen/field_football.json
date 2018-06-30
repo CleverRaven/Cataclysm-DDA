@@ -308,10 +308,12 @@
         ",": "t_dirt",
         ".": "t_pavement_y",
         "H": "t_dirt",
+        "R": "t_dirt",
         "p": "t_pavement"
       },
       "furniture": {
-        "H": "f_bench"
+        "H": "f_bench",
+        "R": "f_trashcan"
       }
     }
   },

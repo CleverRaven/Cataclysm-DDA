@@ -583,7 +583,7 @@ Press [%s] to remove selected armor from oneself.\n\
  \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
-The second number is an additional encumbrance penalty caused by wearing multiple items on one of the bodypart's four layers.\n\
+The second number is an additional encumbrance penalty caused by wearing multiple items on one of the bodypart's layers.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart." ),
                           ctxt.get_desc( "MOVE_ARMOR" ).c_str(),
                           ctxt.get_desc( "PREV_TAB" ).c_str(),

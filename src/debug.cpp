@@ -77,13 +77,21 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 
     fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
+                    " %s\n" // translated user string: error notification
+                    " -----------------------------------------------------------\n"
+                    // developer-facing error report. INTENTIONALLY UNTRANSLATED!
                     " DEBUG    : %s\n \n"
                     " FUNCTION : %s\n"
                     " FILE     : %s\n"
-                    " LINE     : %s\n \n"
-                    " Press <color_white>spacebar</color> to continue the game...\n"
-                    " Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future...",
-                    text.c_str(), funcname, filename, line );
+                    " LINE     : %s\n"
+                    " -----------------------------------------------------------\n"
+                    " %s\n" // translated user string: space to continue
+                    " %s\n", // translated user string: ignore key
+                    _( "An error has occurred! Written below is the error report:" ),
+                    text.c_str(), funcname, filename, line,
+                    _( "Press <color_white>space bar</color> to continue the game." ),
+                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+                  );
 
     for( bool stop = false; !stop; ) {
         switch( inp_mngr.get_input_event().get_first_input() ) {
@@ -142,7 +150,7 @@ struct NullBuf : public std::streambuf {
 struct DebugFile {
     DebugFile();
     ~DebugFile();
-    void init( std::string filename );
+    void init( const std::string &filename );
     void deinit();
 
     std::ofstream &currentTime();
@@ -177,7 +185,7 @@ void DebugFile::deinit()
     file.close();
 }
 
-void DebugFile::init( std::string filename )
+void DebugFile::init( const std::string &filename )
 {
     this->filename = filename;
     const std::string oldfile = filename + ".prev";

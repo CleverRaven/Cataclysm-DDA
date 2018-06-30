@@ -24,6 +24,8 @@
 
 // see item.h
 class item_category;
+class gun_mode;
+using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
 class recipe;
 class emit;
@@ -51,8 +53,34 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
+
+class gun_modifier_data
+{
+    private:
+        std::string name_;
+        int qty_;
+        std::set<std::string> flags_;
+
+    public:
+        /**
+         * @param n A string that can be translated via @ref _ (must have been extracted for translation).
+         */
+        gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ), qty_( q ), flags_( f ) { }
+        /// @returns The translated name of the gun mode.
+        std::string name() const {
+            return _( name_.c_str() );
+        }
+        int qty() const {
+            return qty_;
+        }
+        const std::set<std::string> &flags() const {
+            return flags_;
+        }
+};
 
 class gunmod_location
 {
@@ -140,6 +168,11 @@ struct islot_comestible
     int get_calories() const {
         return nutr * kcal_per_nutr;
     }
+    /** The monster group that is drawn from when the item rots away */
+    mongroup_id rot_spawn = mongroup_id::NULL_ID();
+
+    /** Chance the above monster group spawns*/
+    int rot_spawn_chance = 10;
 };
 
 struct islot_brewable {
@@ -201,6 +234,10 @@ struct islot_armor {
      * Resistance to environmental effects.
      */
     int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
     /**
      * How much warmth this item provides.
      */
@@ -383,7 +420,7 @@ struct islot_gun : common_ranged_data {
     int reload_noise_volume = 0;
 
     /** Maximum aim achievable using base weapon sights */
-    int sight_dispersion = 120;
+    int sight_dispersion = 30;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -416,7 +453,7 @@ struct islot_gun : common_ranged_data {
     std::set<itype_id> default_mods;
 
     /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
-    std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> modes;
+    std::map<gun_mode_id, gun_modifier_data> modes;
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
@@ -476,7 +513,7 @@ struct islot_gunmod : common_ranged_data {
     int ups_charges = 0;
 
     /** Firing modes added to or replacing those of the base gun */
-    std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+    std::map<gun_mode_id, gun_modifier_data> mode_modifier;
 
     std::set<std::string> ammo_effects;
 
@@ -821,4 +858,3 @@ public:
 };
 
 #endif
-

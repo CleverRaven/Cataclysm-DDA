@@ -571,7 +571,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "whistle multitool",
-    "description": "A cheap gadget combining a whistle, thermometer, magnifying glass, and button compass.",
+    "description": "A cheap gadget combining a whistle, thermometer, magnifying glass, and compass.",
     "weight": 1,
     "volume": 1,
     "price": 200,

@@ -29,6 +29,7 @@
 #include "cata_utility.h"
 #include "uistate.h"
 #include "string_input_popup.h"
+#include "vpart_position.h"
 
 #include <algorithm>
 #include <map>
@@ -817,7 +818,7 @@ bool construct::check_empty( const tripoint &p )
 {
     return ( g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
              g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
-             g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL );
+             g->m.i_at( p ).empty() && !g->m.veh_at( p ) );
 }
 
 inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
@@ -1298,27 +1299,8 @@ int construction::adjusted_time() const
 
 std::string construction::get_time_string() const
 {
-    const int turns = adjusted_time() / 100;
-    std::string text;
-    if( turns < MINUTES( 1 ) ) {
-        const int seconds = std::max( 1, turns * 6 );
-        text = string_format( ngettext( "%d second", "%d seconds", seconds ), seconds );
-    } else {
-        const int minutes = ( turns % HOURS( 1 ) ) / MINUTES( 1 );
-        const int hours = turns / HOURS( 1 );
-        if( hours == 0 ) {
-            text = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
-        } else if( minutes == 0 ) {
-            text = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
-        } else {
-            const std::string h = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
-            const std::string m = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
-            //~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
-            text = string_format( _( "%1$s and %2$s" ), h.c_str(), m.c_str() );
-        }
-    }
-    text = string_format( _( "Time to complete: %s" ), text.c_str() );
-    return text;
+    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
+    return string_format( _( "Time to complete: %s" ), to_string( turns ) );
 }
 
 std::vector<std::string> construction::get_folded_time_string( int width ) const

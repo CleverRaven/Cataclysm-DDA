@@ -22,12 +22,12 @@
     "time": 120000,
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
     ],
@@ -181,6 +181,62 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_fireman", 4 ], [ "atomic_survival", 4 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 4 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "oxy_powder", 50 ] ],
+      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
+    "result": "gasfilter_s",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 2 ],
+    "time": 5000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "result": "gasfilter_m",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 2 ],
+    "time": 10000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "result": "gasfilter_l",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "cooking", 1 ],
+    "time": 60000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [
+      [ "textbook_fireman", 4 ],
+      [ "atomic_survival", 4 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 4 ]
+    ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [

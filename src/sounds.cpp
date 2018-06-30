@@ -23,6 +23,8 @@
 #include "time.h"
 #include "mapdata.h"
 #include "itype.h"
+#include "map_iterator.h"
+
 #include <chrono>
 #include <algorithm>
 #include <cmath>
@@ -49,6 +51,7 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_deaf( "deaf" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
@@ -81,7 +84,7 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
-void sounds::ambient_sound( const tripoint &p, int vol, std::string description )
+void sounds::ambient_sound( const tripoint &p, int vol, const std::string &description )
 {
     sound( p, vol, description, true );
 }
@@ -254,7 +257,7 @@ void sounds::process_sound_markers( player *p )
         // Deaf players hear no sound, but still are at risk of additional hearing loss.
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-                p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
+                p->add_effect( effect_deaf, std::min( 4_minutes, time_duration::from_turns( felt_volume - 130 ) / 8 ) );
                 if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
@@ -266,11 +269,11 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-            const int deafness_duration = ( felt_volume - 130 ) / 4;
+            const time_duration deafness_duration = time_duration::from_turns( felt_volume - 130 ) / 4;
             p->add_effect( effect_deaf, deafness_duration );
             if( p->is_deaf() ) {
                 is_deaf = true;
-                sfx::do_hearing_loss( deafness_duration );
+                sfx::do_hearing_loss( to_turns<int>( deafness_duration ) );
                 continue;
             }
         }
@@ -293,10 +296,11 @@ void sounds::process_sound_markers( player *p )
         bool slept_through = p->has_effect( effect_slept_through_alarm );
         // See if we need to wake someone up
         if( p->has_effect( effect_sleep ) ) {
-            if( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
+            if( ( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
                      p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                 ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
-                ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) {
+                ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
+                !p->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
@@ -334,7 +338,7 @@ void sounds::process_sound_markers( player *p )
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
             !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
-            if( p->get_effect( effect_alarm_clock ).get_duration() < 2 ) {
+            if( p->get_effect( effect_alarm_clock ).get_duration() < 2_turns ) {
                 if( slept_through ) {
                     p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
                 } else {
@@ -342,7 +346,7 @@ void sounds::process_sound_markers( player *p )
                 }
                 p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }
-            p->get_effect( effect_alarm_clock ).set_duration( 0 );
+            p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
 
         const std::string &sfx_id = sound.id;
@@ -372,14 +376,9 @@ void sounds::process_sound_markers( player *p )
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
-        tripoint newp = pos;
-        int &newx = newp.x;
-        int &newy = newp.y;
-        for( newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++ ) {
-            for( newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++ ) {
-                if( diff_z || !p->sees( newp ) ) {
-                    unseen_points.emplace_back( newp );
-                }
+        for( const tripoint &newp : g->m.points_in_radius( pos, err_offset ) ) {
+            if( diff_z || !p->sees( newp ) ) {
+                unseen_points.emplace_back( newp );
             }
         }
 
@@ -665,8 +664,8 @@ struct sound_thread {
 };
 } // namespace sfx
 
-void sfx::generate_melee_sound( tripoint source, tripoint target, bool hit, bool targ_mon,
-                                std::string material )
+void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, bool hit, bool targ_mon,
+                                const std::string &material )
 {
     // If creating a new thread for each invocation is to much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
@@ -962,8 +961,7 @@ void sfx::do_footstep()
             ter_str_id( "t_sewage" ),
         };
         static std::set<ter_str_id> const chain_fence = {
-            ter_str_id( "t_chainfence_h" ),
-            ter_str_id( "t_chainfence_v" ),
+            ter_str_id( "t_chainfence" ),
         };
         if( !g->u.wearing_something_on( bp_foot_l ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
@@ -1022,11 +1020,11 @@ void sfx::do_obstacle()
 /*@{*/
 void sfx::load_sound_effects( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
-void sfx::play_variant_sound( std::string, std::string, int, int, float, float ) { }
-void sfx::play_variant_sound( std::string, std::string, int ) { }
-void sfx::play_ambient_variant_sound( std::string, std::string, int, int, int ) { }
+void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
+void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
+void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int ) { }
 void sfx::generate_gun_sound( const player &, const item & ) { }
-void sfx::generate_melee_sound( const tripoint, const tripoint, bool, bool, std::string ) { }
+void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool, const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }
 void sfx::remove_hearing_loss() { }
 void sfx::do_projectile_hit( const Creature & ) { }
@@ -1050,7 +1048,7 @@ void sfx::do_obstacle() { }
 /** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
   * without sound support. */
 /*@{*/
-int sfx::get_heard_volume( const tripoint source )
+int sfx::get_heard_volume( const tripoint &source )
 {
     int distance = rl_dist( g->u.pos(), source );
     // fract = -100 / 24
@@ -1063,7 +1061,7 @@ int sfx::get_heard_volume( const tripoint source )
     return ( heard_volume );
 }
 
-int sfx::get_heard_angle( const tripoint source )
+int sfx::get_heard_angle( const tripoint &source )
 {
     int angle = g->m.coord_to_angle( g->u.posx(), g->u.posy(), source.x, source.y ) + 90;
     //add_msg(m_warning, "angle: %i", angle);

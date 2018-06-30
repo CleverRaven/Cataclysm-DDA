@@ -28,7 +28,7 @@ TEST_CASE( "use_eyedrops" )
 
     REQUIRE( test_item.charges == 5 );
 
-    dummy.add_env_effect( efftype_id( "boomered" ), bp_eyes, 3, 12 );
+    dummy.add_env_effect( efftype_id( "boomered" ), bp_eyes, 3, 12_turns );
 
     int test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );

@@ -141,16 +141,7 @@
       [ "irradiated_lemon", 1 ]
     ],
     [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
+      [ "batter", 1, "LIST" ]
     ]
   ]
 },{
@@ -532,7 +523,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -1230,28 +1221,11 @@
   ],
   "tools": [
     [ [ "surface_heat", 8, "LIST" ] ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ]
   ],
   "components": [
-    [
-      [ "mushroom_morel", 1 ]
-    ],
-    [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
-    ]
+    [ [ "mushroom_morel", 1 ] ],
+    [ [ "batter", 1, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
@@ -1313,28 +1287,11 @@
   ],
   "tools": [
     [ [ "surface_heat", 8, "LIST" ] ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ]
   ],
   "components": [
-    [
-      [ "raw_dandelion", 2 ]
-    ],
-    [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
-    ]
+    [ [ "raw_dandelion", 2 ] ],
+    [ [ "batter", 1, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
@@ -1428,19 +1385,22 @@
     ]
   ]
 },{
-  "type" : "recipe",
-   "result": "chips2",
-   "category": "CC_FOOD",
-   "subcategory": "CSC_FOOD_SNACK",
-   "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 20000,
-   "autolearn": true,
-   "qualities" : [
-     {"id":"CUT","level":1},
-     {"id":"COOK","level":2}
+  "type": "recipe",
+  "result": "chips2",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 16000,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":2}
   ],
-   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+  "tools": [
+    [ [ "surface_heat", 8, "LIST" ] ],
+    [ [ "frying_oil", 1, "LIST" ] ]
+  ],
   "components": [
     [
       [ "potato_raw", 1 ],
@@ -1472,25 +1432,29 @@
     ]
   ]
 },{
-  "type" : "recipe",
-   "result": "nachos",
-   "category": "CC_FOOD",
+  "type": "recipe",
+  "result": "nachos",
+  "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
-   "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 20000,
-   "autolearn": true,
-   "qualities" : [
-     {"id":"CUT","level":1},
-     {"id":"COOK","level":2}
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 16000,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":2}
   ],
-   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+  "tools": [
+    [ [ "surface_heat", 8, "LIST" ] ],
+    [ [ "frying_oil", 1, "LIST" ] ]
+  ],
   "components": [
     [
-      [ "cornmeal", 1 ]
+      [ "tortilla_corn", 1 ]
     ],
     [
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },{
@@ -1638,11 +1602,7 @@
   ],
   "tools": [
     [ [ "surface_heat", 8, "LIST" ] ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ]
   ],
   "components": [
     [
@@ -2666,7 +2626,7 @@
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_veggy", 2 ],
       [ "dandelion_cooked", 2 ],
@@ -2866,7 +2826,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -2933,7 +2893,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -3006,7 +2966,7 @@
       [ "milk_powder", 1 ],
       [ "crackers", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -3069,7 +3029,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3122,7 +3082,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -3196,7 +3156,7 @@
     ],
     [
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3609,7 +3569,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3739,7 +3699,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -3867,7 +3827,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -4202,13 +4162,30 @@
   ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scrambled_eggs",
+  "id_suffix": "from_powder",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2}
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+  "components": [
+    [
+      [ "powder_eggs", 10 ]
     ],
     [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -4226,7 +4203,7 @@
   ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4248,9 +4225,49 @@
   ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "bacon", 2 ],
+      [ "meat_cooked", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
+      [ "sausage", 2 ],
+      [ "jerky", 3 ],
+      [ "salted_fish", 2 ],
+      [ "meat_pickled", 1 ],
+      [ "meat_vac", 1 ],
+      [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
+      [ "can_spam", 1 ],
+      [ "fish_pickled", 1 ],
+      [ "fish_vac", 1 ],
+      [ "fish_canned", 1 ],
+      [ "cracklins", 4 ],
+      [ "can_sardine", 1 ],
+      [ "can_tuna", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_herring", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "deluxe_eggs",
+  "id_suffix": "from_powder",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2}
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+  "components": [
+    [
+      [ "powder_eggs", 10 ]
     ],
     [
       [ "bacon", 2 ],
@@ -4304,7 +4321,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4344,7 +4361,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4388,7 +4405,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4428,7 +4445,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4469,7 +4486,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4515,7 +4532,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -4565,7 +4582,7 @@
     ],
     [
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ]
     ],
     [
@@ -5172,13 +5189,13 @@
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 1,
-  "time": 8000,
+  "time": 2000,
   "autolearn": true,
   "qualities" : [ { "id" : "COOK","level" : 1,"amount" : 1 } ],
-  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
-    [ [ "grahmcrackers", 8 ] ],
-    [ [ "marshmallow", 8 ] ],
+    [ [ "grahmcrackers", 1 ] ],
+    [ [ "marshmallow", 1 ] ],
     [ [ "chocolate", 1 ] ]
   ]
 },{
@@ -5675,7 +5692,7 @@
       [ "sausage", 4 ],
       [ "bacon", 4 ],
       [ "powder_eggs", 20 ],
-      [ "egg_bird", 4 ],
+      [ "eggs_bird", 4, "LIST" ],
       [ "egg_reptile", 4 ]
     ],
     [
@@ -5736,7 +5753,7 @@
       [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "beans_cooked", 2 ],
@@ -5796,7 +5813,7 @@
       [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "beans_cooked", 2 ],
@@ -5887,7 +5904,7 @@
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "spaghetti_raw", 2 ],
@@ -5969,7 +5986,7 @@
       [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "can_beans", 2 ],
       [ "spaghetti_raw", 2 ],
@@ -6031,7 +6048,7 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ],
       [ "dry_veggy", 4 ],
       [ "dandelion_cooked", 4 ],
@@ -6891,7 +6908,8 @@
       [ "tortilla_corn", 3 ]
     ],
     [
-      [ "salt", 20 ]
+      [ "salt", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },{
@@ -6910,14 +6928,16 @@
   "components": [
     [
       [ "human_flesh", 1 ],
-      [ "dry_hflesh", 2],
-      [ "rehydrated_hflesh", 2]
+      [ "dry_hflesh", 2 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "human_canned", 1 ]
     ],
     [
       [ "tortilla_corn", 3 ]
     ],
     [
-      [ "salt", 20 ]
+      [ "salt", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },{
@@ -7898,7 +7918,7 @@
     ],
     [
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -8396,7 +8416,7 @@
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -8463,7 +8483,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -8546,7 +8566,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -8608,7 +8628,7 @@
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -8694,7 +8714,7 @@
       [ "milk_powder", 1 ],
       [ "crackers", 2 ],
       [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
+      [ "eggs_bird", 1, "LIST" ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
@@ -9519,7 +9539,7 @@
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [
@@ -9552,7 +9572,7 @@
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
-      [ "egg_bird", 2 ],
+      [ "eggs_bird", 2, "LIST" ],
       [ "egg_reptile", 2 ]
     ],
     [

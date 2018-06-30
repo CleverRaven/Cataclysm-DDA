@@ -54,7 +54,7 @@ struct map_bash_info {
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -66,7 +66,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 
 /*
@@ -187,6 +187,9 @@ enum ter_connects : int {
 struct map_data_common_t {
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
+    
+    public:
+        virtual ~map_data_common_t() = default;
 
     protected:
         friend furn_t null_furniture_t();
@@ -389,9 +392,9 @@ extern ter_id t_null,
     t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_birch_harvested, t_tree_willow, t_tree_willow_harvested, t_tree_maple, t_tree_maple_tapped, t_tree_deadpine, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
-    t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
+    t_fence, t_chainfence, t_chainfence_posts,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-    t_railing_v, t_railing_h,
+    t_railing,
     // Nether
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
     t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,

@@ -43,7 +43,10 @@
             "sound": "crash!",
             "sound_fail": "bash!",
             "ter_set": "t_null",
-            "items": [ { "item": "rock", "count": [6, 10] } ]
+            "items": [
+                { "item": "rock", "count": [5, 8] },
+                { "item": "brick", "count": [1, 3] }
+            ]
         }
     },{
         "type" : "terrain",
@@ -61,7 +64,8 @@
             "sound_fail": "bash!",
             "ter_set": "t_null",
             "items": [
-                { "item": "rock", "count": [10, 20] }
+                { "item": "rock", "count": [8, 15] },
+                { "item": "brick", "count": [2, 6] }
             ]
         }
     },{
@@ -185,7 +189,7 @@
         "symbol": "#",
         "color": "dark_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE"],
         "connects_to": "WALL",
         "bash": {
             "str_min": 20, "str_max": 100,
@@ -209,7 +213,7 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 100,
             "str_max": 400,
@@ -232,7 +236,7 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
         ],
         "bash": {
-            "sound": "SCRRRASH!!",
+            "sound": "SCRRRASH!",
             "ter_set": "t_null",
             "str_min": 100,
             "str_max": 400,
@@ -254,7 +258,7 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 150,
             "str_max": 400,
@@ -277,7 +281,7 @@
                 "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
         ],
         "bash": {
-                "sound": "SCRRRASH!!",
+                "sound": "SCRRRASH!",
                 "ter_set": "t_null",
                 "str_min": 100,
                 "str_max": 400,
@@ -299,7 +303,7 @@
                 "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
-                "sound": "SMASH!!",
+                "sound": "SMASH!",
                 "ter_set": "t_null",
                 "str_min": 50,
                 "str_max": 400,
@@ -708,7 +712,7 @@
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -733,7 +737,7 @@
         ],
         "bash": {
             "str_min": 50, "str_max": 400,
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min_supported": 100,
             "bash_below": true,
@@ -753,7 +757,7 @@
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -775,7 +779,7 @@
             "TRANSPARENT", "DIGGABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -825,7 +829,7 @@
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -1305,7 +1309,7 @@
         "symbol": "\"",
         "color": "light_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 60, "str_max": 250,
             "sound": "metal screeching!",
@@ -1894,7 +1898,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "PERMEABLE", "LOCKED"],
+        "flags": ["TRANSPARENT", "PERMEABLE", "LOCKED", "THIN_OBSTACLE"],
         "connects_to": "CHAINFENCE",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 175,
@@ -1917,6 +1921,14 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
         "connects_to": "WOODFENCE",
         "open": "t_fencegate_o",
+        "deconstruct": {
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "count": 5 },
+                { "item": "pointy_stick", "count": 2 },
+                { "item": "nail", "charges": 12 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
             "sound": "crack.",
@@ -1941,6 +1953,14 @@
         ],
         "connects_to": "WOODFENCE",
         "close": "t_fencegate_c",
+        "deconstruct": {
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "count": 5 },
+                { "item": "pointy_stick", "count": 2 },
+                { "item": "nail", "charges": 12 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crash!",
@@ -1960,7 +1980,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "DOOR", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE"],
         "connects_to": "CHAINFENCE",
         "open": "t_chaingate_o",
         "bash": {
@@ -2266,7 +2286,7 @@
         "color": "cyan",
         "move_cost": 0,
         "roof": "t_flat_roof",
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE"],
         "open": "t_door_bar_o",
         "close": "t_door_bar_locked",
         "bash": {
@@ -2310,7 +2330,7 @@
         "color": "cyan",
         "move_cost": 0,
         "roof": "t_flat_roof",
-        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
@@ -2549,7 +2569,7 @@
         "symbol": "'",
         "color": "white",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
         "close": "t_window_no_curtains",
         "bash": {
             "str_min": 3, "str_max": 6,
@@ -2619,7 +2639,7 @@
         "symbol": "'",
         "color": "light_gray",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
         "close": "t_window_domestic",
         "bash": {
             "str_min": 3, "str_max": 6,
@@ -2724,7 +2744,7 @@
         "move_cost": 4,
         "roof": "t_flat_roof",
         "flags": [
-            "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL"
+            "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE"
         ],
         "bash": {
             "str_min": 10, "str_max": 70,
@@ -2882,7 +2902,7 @@
         "symbol": "#",
         "color": "light_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 60, "str_max": 250,
             "sound": "metal screeching!",
@@ -3058,7 +3078,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3077,7 +3097,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3096,7 +3116,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                 { "item": "stick", "count": [0, 5] }
+                 { "item": "stick_long", "count": [0, 5] }
             ]
         }
     },{
@@ -3119,7 +3139,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3140,7 +3160,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3164,7 +3184,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3185,7 +3205,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3209,7 +3229,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3230,7 +3250,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3254,7 +3274,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3275,7 +3295,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3299,7 +3319,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3320,7 +3340,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3344,7 +3364,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3365,7 +3385,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3373,7 +3393,7 @@
         "type" : "terrain",
         "id" : "t_tree_pine",
         "name": "pine tree",
-        "description": "A towering deciduous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  If you examined the tree more closely, you might find usable sticky whorls and unharvested pinecones.  Also, you could cut it down with the right tools.",
+        "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  If you examined the tree more closely, you might find usable sticky whorls and unharvested pinecones.  Also, you could cut it down with the right tools.",
         "symbol": "4",
         "color": "green",
         "move_cost": 0,
@@ -3389,7 +3409,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3397,7 +3417,7 @@
         "type" : "terrain",
         "id" : "t_tree_deadpine",
         "name": "dead pine tree",
-        "description": "A towering deciduous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  You could also cut it down with the right tools.",
+        "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  You could also cut it down with the right tools.",
         "symbol": "4",
         "color": "brown",
         "move_cost": 0,
@@ -3408,7 +3428,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3432,7 +3452,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3451,7 +3471,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3474,7 +3494,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3492,7 +3512,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3511,7 +3531,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3530,7 +3550,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3553,7 +3573,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3573,7 +3593,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3591,7 +3611,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3858,7 +3878,11 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT"]
     },{
         "type" : "terrain",
-        "id" : "t_fence_v",
+        "id" : "t_fence",
+        "aliases" : [
+            "t_fence_h",
+            "t_fence_v"
+        ],
         "name": "picket fence",
         "symbol": "LINE_OXOX",
         "color": "brown",
@@ -3867,6 +3891,13 @@
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
             "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
         "connects_to": "WOODFENCE",
+        "deconstruct": {
+            "ter_set": "t_fence_post",
+            "items": [
+                { "item": "2x4", "count": 5 },
+                { "item": "nail", "charges": 8 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
@@ -3880,49 +3911,11 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_fence_h",
-        "name": "picket fence",
-        "symbol": "LINE_OXOX",
-        "color": "brown",
-        "move_cost": 3,
-        "flags": [
-            "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-            "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
-        "connects_to": "WOODFENCE",
-        "bash": {
-            "str_min": 4, "str_max": 20,
-            "sound": "crack.",
-            "sound_fail": "wham.",
-            "ter_set": "t_null",
-            "items": [
-                { "item": "2x4", "count": [1, 3] },
-                { "item": "nail", "charges": [2, 6] },
-                { "item": "splinter", "count": 1 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_chainfence_v",
-        "name": "chain link fence",
-        "symbol": "LINE_OXOX",
-        "color": "cyan",
-        "move_cost": 0,
-        "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
-        "connects_to": "CHAINFENCE",
-        "examine_action": "chainfence",
-        "bash": {
-            "str_min": 10, "str_max": 150,
-            "sound": "metal screeching!",
-            "sound_fail": "clang!",
-            "ter_set": "t_chainfence_posts",
-            "items": [
-                { "item": "wire", "count": [8, 15] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_chainfence_h",
+        "id" : "t_chainfence",
+        "aliases" : [
+            "t_chainfence_h",
+            "t_chainfence_v"
+        ],
         "name": "chain link fence",
         "symbol": "LINE_OXOX",
         "color": "cyan",
@@ -3966,6 +3959,12 @@
         "color": "brown",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
+        "deconstruct": {
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "pointy_stick", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
@@ -4050,28 +4049,11 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_railing_v",
-        "name": "railing",
-        "symbol": "LINE_OXOX",
-        "color": "yellow",
-        "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
-        "connects_to": "RAILING",
-        "bash": {
-            "str_min": 20, "str_max": 80,
-            "sound": "crack!",
-            "sound_fail": "whump.",
-            "ter_set": "t_floor",
-            "items": [
-                { "item": "2x4", "prob": 50 },
-                { "item": "nail", "charges": [2, 6] },
-                { "item": "scrap", "count": [1, 3] },
-                { "item": "splinter", "count": [1, 3] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_railing_h",
+        "id" : "t_railing",
+        "aliases" : [
+            "t_railing_h",
+            "t_railing_v"
+        ],
         "name": "railing",
         "symbol": "LINE_OXOX",
         "color": "yellow",
@@ -4095,7 +4077,7 @@
         "id" : "t_marloss",
         "name": "marloss bush",
         "symbol": "#",
-        "color": "dark_gray",
+        "color": "pink",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT"],
         "examine_action": "shrub_marloss",
@@ -4164,7 +4146,7 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS"],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 20,
             "str_max": 400,
@@ -4266,7 +4248,7 @@
         "id" : "t_marloss_tree",
         "name": "marloss tree",
         "symbol": "7",
-        "color": "dark_gray",
+        "color": "pink",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"],
         "examine_action": "tree_marloss",
@@ -4774,7 +4756,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4793,7 +4775,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4812,7 +4794,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4831,7 +4813,7 @@
         "symbol": "6",
         "color": "white",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -4850,7 +4832,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -4877,7 +4859,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT", "THIN_OBSTACLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -4904,7 +4886,7 @@
         "symbol": "1",
         "color": "light_gray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE"],
         "bash": {
             "str_min": 30, "str_max": 210,
             "sound": "metal screeching!",
@@ -5419,7 +5401,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -5439,7 +5421,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -5459,7 +5441,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -5479,7 +5461,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -5500,7 +5482,7 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -5521,7 +5503,7 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
-            "sound": "SMASH!!",
+            "sound": "SMASH!",
             "ter_set": "t_null",
             "str_min": 50,
             "str_max": 400,
@@ -5708,7 +5690,7 @@
         "symbol": "&",
         "color": "light_gray",
         "move_cost": 6,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
         "deconstruct": {
             "ter_set": "t_covered_well",
             "items": [
@@ -6850,7 +6832,7 @@
       "str_min_supported": 100,
       "ter_set": "t_null",
       "bash_below": true,
-      "sound": "SMASH!!",
+      "sound": "SMASH!",
       "items": [ { "item": "wax", "count": [ 1, 3 ] } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ]
@@ -6869,7 +6851,7 @@
       "str_min_supported": 100,
       "ter_set": "t_null",
       "bash_below": true,
-      "sound": "SMASH!!",
+      "sound": "SMASH!",
       "items": [ { "item": "wax", "count": [ 1, 3 ] } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ]

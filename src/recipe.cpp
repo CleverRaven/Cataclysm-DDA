@@ -298,7 +298,7 @@ item recipe::create_result() const
         newit.item_tags.insert( "FIT" );
     }
 
-    if( contained == true ) {
+    if( contained ) {
         newit = newit.in_container( container );
     }
 
@@ -353,7 +353,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
 
 bool recipe::has_byproducts() const
 {
-    return byproducts.size() != 0;
+    return !byproducts.empty();
 }
 
 std::string recipe::required_skills_string() const

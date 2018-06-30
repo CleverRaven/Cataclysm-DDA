@@ -2,7 +2,7 @@
   {
     "type" : "overmap_terrain",
     "id" : "s_vfw",
-    "name" : "vfw hall",
+    "name" : "VFW hall",
     "sym" : 94,
     "color" : "i_green",
     "see_cost" : 5,

@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "assign.h"
 #include "string_formatter.h"
+#include "item_category.h"
 #include "init.h"
 #include "item.h"
 #include "ammo.h"
@@ -55,6 +56,20 @@ bool item_is_blacklisted(const std::string &id)
     return item_blacklist.count( id );
 }
 
+static void assign( JsonObject &jo, const std::string &name,
+                    std::map<gun_mode_id, gun_modifier_data> &mods )
+{
+    if( !jo.has_array( name ) ) {
+        return;
+    }
+    mods.clear();
+    JsonArray jarr = jo.get_array( name );
+    while( jarr.has_more() ) {
+        JsonArray curr = jarr.next_array();
+        mods.emplace( gun_mode_id( curr.get_string( 0 ) ), gun_modifier_data( curr.get_string( 1 ),
+                      curr.get_int( 2 ), curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>() ) );
+    }
+}
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
                                        body_part_set &parts, bool &sided )
@@ -219,21 +234,31 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.gun ) {
         handle_legacy_ranged( *obj.gun );
         // @todo: add explicit action field to gun definitions
-        std::string defmode = _( "semi-auto" );
-        if( obj.gun->clip == 1 ) {
-            defmode = _( "manual" ); // break-type actions
-        } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
-            defmode = _( "revolver" );
-        }
+        const auto defmode_name = [&]() {
+            if( obj.gun->clip == 1 ) {
+                return translate_marker( "manual" ); // break-type actions
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+                return translate_marker( "revolver" );
+            } else {
+                return translate_marker( "semi-auto" );
+            }
+        };
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
-                                std::set<std::string>() ) );
+        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ),
+                                gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
+        // If a "gun" has a reach attack, give it an additional melee mode.
+        if( obj.item_tags.count( "REACH_ATTACK" ) ) {
+            obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
+                                    gun_modifier_data( translate_marker( "melee" ), 1,
+                                                       { "MELEE" } ) );
+        }
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
-            obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
-                                    std::set<std::string>() ) );
+            obj.gun->modes.emplace( gun_mode_id( "AUTO" ),
+                                    gun_modifier_data( translate_marker( "auto" ), obj.gun->burst,
+                                                       std::set<std::string>() ) );
         }
 
         if( obj.gun->handling < 0 ) {
@@ -511,10 +536,12 @@ void Item_factory::init()
     add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
+    add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
     add_iuse( "CATFOOD", &iuse::catfood );
+    add_iuse( "CATTLEFODDER", &iuse::feedcattle );
     add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
@@ -541,7 +568,6 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
-    add_iuse( "FEEDCATTLE", &iuse::feedcattle );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
@@ -585,6 +611,7 @@ void Item_factory::init()
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
+    add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MUTAGEN", &iuse::mutagen );
     add_iuse( "MUT_IV", &iuse::mut_iv );
@@ -1259,20 +1286,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         }
     }
 
-    if( jo.has_array( "modes" ) ) {
-        slot.modes.clear();
-        JsonArray jarr = jo.get_array( "modes" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
-
-            std::tuple<std::string, int, std::set<std::string>> mode(
-                curr.get_string( 1 ),
-                curr.get_int( 2 ),
-                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
-            );
-            slot.modes.emplace( curr.get_string( 0 ), mode );
-        }
-    }
+    assign( jo, "modes", slot.modes );
 }
 
 void Item_factory::load_gun( JsonObject &jo, const std::string &src )
@@ -1301,6 +1315,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "coverage", slot.coverage, strict, 0, 100 );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0 );
     assign( jo, "power_armor", slot.power_armor, strict );
@@ -1488,6 +1503,12 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
             }
         }
     }
+
+    if( jo.has_string( "rot_spawn" ) ) {
+        slot.rot_spawn = mongroup_id(jo.get_string( "rot_spawn" ));
+    }
+    assign( jo, "rot_spawn_chance", slot.rot_spawn_chance, strict, 0 );
+
 }
 
 void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
@@ -1556,25 +1577,12 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
 
     if( jo.has_member( "mod_targets" ) ) {
         slot.usable.clear();
-        for( const auto t : jo.get_tags( "mod_targets" ) ) {
+        for( const auto& t : jo.get_tags( "mod_targets" ) ) {
             slot.usable.insert( gun_type_type( t ) );
         }
     }
 
-    if( jo.has_array( "mode_modifier" ) ) {
-        slot.mode_modifier.clear();
-        JsonArray jarr = jo.get_array( "mode_modifier" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
-
-            std::tuple<std::string, int, std::set<std::string>> mode(
-                curr.get_string( 1 ),
-                curr.get_int( 2 ),
-                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
-            );
-            slot.mode_modifier.emplace( curr.get_string( 0 ), mode );
-        }
-    }
+    assign( jo, "mode_modifier", slot.mode_modifier );
 }
 
 void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
@@ -1903,17 +1911,12 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 void Item_factory::load_item_category(JsonObject &jo)
 {
     const std::string id = jo.get_string("id");
-    // reuse an existing definition,
-    // override the name and the sort_rank if
-    // these are present in the json
-    item_category &cat = categories[id];
-    cat.id = id;
-    if (jo.has_member("name")) {
-        cat.name = _(jo.get_string("name").c_str());
+    const auto iter = categories.find( id );
+    if( iter != categories.end() ) {
+        debugmsg( "Item category %s already exists", id );
+        return;
     }
-    if (jo.has_member("sort_rank")) {
-        cat.sort_rank = jo.get_int("sort_rank");
-    }
+    categories.emplace( id, item_category( id, _( jo.get_string( "name" ).c_str() ), jo.get_int( "sort_rank" ) ) );
 }
 
 void Item_factory::load_migration( JsonObject &jo )
@@ -2273,7 +2276,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     }
 }
 
-void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member,
+void Item_factory::set_use_methods_from_json( JsonObject &jo, const std::string &member,
                                               std::map<std::string, use_function> &use_methods )
 {
     if( !jo.has_member( member ) ) {

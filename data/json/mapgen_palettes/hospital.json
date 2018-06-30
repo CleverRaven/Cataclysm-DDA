@@ -10,6 +10,8 @@
       ".": "t_floor",
       "b": "t_floor",
       "c": "t_floor",
+      "d": "t_floor",
+      "k": "t_floor",
       "f": "t_floor",
       "l": "t_floor",
       "L": "t_floor",
@@ -37,14 +39,17 @@
       "S": "t_floor",
       "2": "t_floor",
       "8": "t_floor",
-      "9": "t_floor"
+      "9": "t_floor",
+      "A": "t_floor",
+      "?": "t_floor"
     },
     "furniture": {
       "b": "f_bench",
       "c": "f_chair",
       "B": "f_bed",
       "f": "f_fridge",
-      "D": "f_desk",
+      "d": "f_desk",
+      "k": "f_bookcase",
       "C": "f_counter",
       "S": "f_sofa",
       "s": "f_sink",
@@ -58,7 +63,9 @@
       "2": "f_table",
       "T": "f_table",
       "9": "f_table",
-      "&": "f_toilet"
+      "&": "f_toilet",
+      "A": "f_autodoc",
+      "?": "f_autodoc_couch"
     },
     "toilets": { "&": {  } }
   }

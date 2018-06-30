@@ -8,6 +8,7 @@
 #include "json.h"
 #include "mtype.h"
 #include "calendar.h"
+#include "assign.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
@@ -58,9 +59,10 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 {
     const MonsterGroup *groupptr = &group.obj();
     if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-        const int replace_time = DAYS( groupptr->monster_group_time *
-                                       get_option<float>( "MONSTER_UPGRADE_FACTOR" ) );
-        while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
+        const time_duration replace_time = groupptr->monster_group_time *
+                                           get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+        while( groupptr->replace_monster_group &&
+               calendar::turn - calendar::time_of_cataclysm > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
     }
@@ -92,7 +94,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         valid_entry = valid_entry && ( it->lasts_forever() ||
                                        calendar::time_of_cataclysm + it->ends > calendar::turn );
 
-        std::vector<std::pair<int, int> > valid_times_of_day;
+        std::vector<std::pair<time_point, time_point> > valid_times_of_day;
         bool season_limited = false;
         bool season_matched = false;
         //Collect the various spawn conditions, and then insure they are met appropriately
@@ -100,16 +102,16 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             //Collect valid time of day ranges
             if( ( elem ) == "DAY" || ( elem ) == "NIGHT" || ( elem ) == "DUSK" ||
                 ( elem ) == "DAWN" ) {
-                int sunset = calendar::turn.sunset().get_turn();
-                int sunrise = calendar::turn.sunrise().get_turn();
+                const time_point sunset = calendar::turn.sunset();
+                const time_point sunrise = calendar::turn.sunrise();
                 if( ( elem ) == "DAY" ) {
                     valid_times_of_day.push_back( std::make_pair( sunrise, sunset ) );
                 } else if( ( elem ) == "NIGHT" ) {
                     valid_times_of_day.push_back( std::make_pair( sunset, sunrise ) );
                 } else if( ( elem ) == "DUSK" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset - HOURS( 1 ), sunset + HOURS( 1 ) ) );
+                    valid_times_of_day.push_back( std::make_pair( sunset - 1_hours, sunset + 1_hours ) );
                 } else if( ( elem ) == "DAWN" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise - HOURS( 1 ), sunrise + HOURS( 1 ) ) );
+                    valid_times_of_day.push_back( std::make_pair( sunrise - 1_hours, sunrise + 1_hours ) );
                 }
             }
 
@@ -128,14 +130,13 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
         //Make sure the current time of day is within one of the valid time ranges for this spawn
         bool is_valid_time_of_day = false;
-        if( valid_times_of_day.size() < 1 ) {
+        if( valid_times_of_day.empty() ) {
             //Then it can spawn whenever, since no times were defined
             is_valid_time_of_day = true;
         } else {
             //Otherwise, it's valid if it matches any of the times of day
             for( auto &elem : valid_times_of_day ) {
-                int time_now = calendar::turn.get_turn();
-                if( time_now > elem.first && time_now < elem.second ) {
+                if( calendar::turn > elem.first && calendar::turn < elem.second ) {
                     is_valid_time_of_day = true;
                 }
             }
@@ -368,7 +369,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     g.replace_monster_group = jo.get_bool( "replace_monster_group", false );
     g.new_monster_group = mongroup_id( jo.get_string( "new_monster_group_id",
                                        mongroup_id::NULL_ID().str() ) );
-    g.monster_group_time = jo.get_int( "replacement_time", 0 );
+    assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
     g.is_safe = jo.get_bool( "is_safe", false );
 
     monsterGroupMap[g.name] = g;

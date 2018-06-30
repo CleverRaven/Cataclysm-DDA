@@ -62,7 +62,7 @@
         "&": "f_trashcan",
         "S": "f_sink",
         "T": "f_toilet",
-        "X": "f_safe_c",
+        "X": "f_safe_l",
         "^": "f_indoor_plant",
         "b": "f_bench",
         "c": "f_chair",

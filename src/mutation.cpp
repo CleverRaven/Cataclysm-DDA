@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "overmapbuffer.h"
+#include "map_iterator.h"
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
@@ -368,7 +369,7 @@ void player::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        g->m.add_field(pos(), fd_web, 1, 0);
+        g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
         if( is_underwater() ) {
@@ -388,21 +389,20 @@ void player::activate_mutation( const trait_id &mut )
             tdata.powered = false;
             return;
         }
-        int turns;
+        time_duration time_to_do = 0_turns;
         if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
             g->m.ter(dirp) != t_tree) {
-            // Takes 30 minutes
             // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-            turns = MINUTES( 30 );
+            time_to_do = 30_minutes;
         } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
                    g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
-            turns = MINUTES( 10 );
+            time_to_do = 10_minutes;
         } else {
             add_msg_if_player(m_info, _("You can't burrow there."));
             tdata.powered = false;
             return;
         }
-        assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
+        assign_activity( activity_id( "ACT_BURROW" ), to_moves<int>( time_to_do ), -1, 0 );
         activity.placement = dirp;
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirp).c_str());
@@ -410,16 +410,13 @@ void player::activate_mutation( const trait_id &mut )
         return; // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty(dest)) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if (g->is_empty(dest)) {
+                valid.push_back( dest );
             }
         }
         // Oops, no room to divide!
-        if (valid.size() == 0) {
+        if( valid.empty() ) {
             add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
             tdata.powered = false;
             return;
@@ -579,7 +576,7 @@ void player::mutate()
                     // non-purifiable stuff should be pretty tenacious
                     // category-enforcement only targets it 25% of the time
                     // (purify_save defaults true, = false for non-purifiable)
-                    if((purify_save) || ((one_in(4)) && (!(purify_save))) ) {
+                    if( purify_save || ( one_in( 4 ) && !purify_save ) ) {
                         downgrades.push_back(base_mutation);
                     }
                 }

@@ -184,6 +184,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DISAPPEAR``` Hallucination disappears.
 - ```DISINTEGRATE``` Falls apart.
 - ```EXPLODE``` Damaging explosion.
+- ```FIREBALL``` 10 percent chance to explode in a fireball.
 - ```FUNGUS``` Explodes in spores.
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 - ```GUILT``` Moral penalty. There is also a flag with a similar effect.
@@ -217,6 +218,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
+- ```CATFOOD``` Becomes friendly / tamed with cat food.
+- ```CATTLEFODDER``` Becomes friendly / tamed with cattle fodder.
 - ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
 - ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
@@ -227,6 +230,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CLIMBS``` Can climb.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
+- ```DOGFOOD``` Becomes friendly / tamed with dog food.
+- ```DRIPS_NAPALM``` Ocassionally drips napalm on move.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
@@ -251,6 +256,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
+- ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
@@ -525,6 +531,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver
 - ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
+- ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TURRET``` Is a weapon turret.
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
@@ -747,6 +754,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLECH``` Causes vomiting.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
+- ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
 - ```CIG``` Alleviates nicotine cravings. Adds disease `cig`.
 - ```COKE``` Decreases hunger. Adds disease `high`.
@@ -781,6 +789,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
+- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
@@ -809,6 +818,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MUTAGEN_URSINE``` Causes mutation in the ursine (bear) branch.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`). Still needs one of the mutation flags from the above list.
+- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
@@ -851,6 +861,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_BOOM``` Cancels the ammo effect "FLAME".
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair it (but not reinforce).
+- ```PUMP_ACTION``` Gun has a rails on its pump action, allowing to install only mods with PUMP_RAIL_COMPATIBLE flag on underbarrel slot.
+- ```PUMP_RAIL_COMPATIBLE``` Mod can be installed on underbarrel slot of guns with rails on their pump action.
 - ```RAPIDFIRE``` Increases rate of fire by 50% for AUTO firing mode
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
@@ -1027,7 +1039,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ### Flags
 
+- ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
+- ```FRAGILE_MELEE``` ... Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").

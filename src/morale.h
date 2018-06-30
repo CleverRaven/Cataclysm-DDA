@@ -35,20 +35,20 @@ class player_morale
         player_morale &operator =( const player_morale & ) = default;
 
         /** Adds morale to existing or creates one */
-        void add( morale_type type, int bonus, int max_bonus = 0, int duration = MINUTES( 6 ),
-                  int decay_start = MINUTES( 3 ), bool capped = false, const itype *item_type = nullptr );
+        void add( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
+                  time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
         /** Sets the new level for the permanent morale, or creates one */
-        void set_permanent( morale_type type, int bonus, const itype *item_type = nullptr );
+        void set_permanent( const morale_type &type, int bonus, const itype *item_type = nullptr );
         /** Returns bonus from specified morale */
-        int has( morale_type type, const itype *item_type = nullptr ) const;
+        int has( const morale_type &type, const itype *item_type = nullptr ) const;
         /** Removes specified morale */
-        void remove( morale_type type, const itype *item_type = nullptr );
+        void remove( const morale_type &type, const itype *item_type = nullptr );
         /** Clears up all morale points */
         void clear();
         /** Returns overall morale level */
         int get_level() const;
         /** Ticks down morale counters and removes them */
-        void decay( int ticks = 1 );
+        void decay( time_duration ticks = 1_turns );
         /** Displays morale screen */
         void display( double focus_gain );
         /** Returns false whether morale is inconsistent with the argument.
@@ -74,16 +74,16 @@ class player_morale
                     const itype *item_type = nullptr,
                     int bonus = 0,
                     int max_bonus = 0,
-                    int duration = MINUTES( 6 ),
-                    int decay_start = MINUTES( 3 ),
+                    time_duration duration = 6_minutes,
+                    time_duration decay_start = 3_minutes,
                     bool capped = false ) :
 
                     type( type ),
                     item_type( item_type ),
                     bonus( normalize_bonus( bonus, max_bonus, capped ) ),
-                    duration( std::max( duration, 0 ) ),
-                    decay_start( std::max( decay_start, 0 ) ),
-                    age( 0 ) {};
+                    duration( std::max( duration, 0_turns ) ),
+                    decay_start( std::max( decay_start, 0_turns ) ),
+                    age( 0_turns ) {}
 
                 void deserialize( JsonIn &jsin );
                 void serialize( JsonOut &json ) const;
@@ -93,27 +93,27 @@ class player_morale
                 int get_net_bonus( const morale_mult &mult ) const;
                 bool is_expired() const;
                 bool is_permanent() const;
-                bool matches( morale_type _type, const itype *_item_type = nullptr ) const;
+                bool matches( const morale_type &_type, const itype *_item_type = nullptr ) const;
                 bool matches( const morale_point &mp ) const;
 
-                void add( int new_bonus, int new_max_bonus, int new_duration,
-                          int new_decay_start, bool new_cap );
-                void decay( int ticks = 1 );
+                void add( int new_bonus, int new_max_bonus, time_duration new_duration,
+                          time_duration new_decay_start, bool new_cap );
+                void decay( time_duration ticks = 1_turns );
 
             private:
                 morale_type type;
                 const itype *item_type;
 
                 int bonus;
-                int duration;   // Zero duration == infinity
-                int decay_start;
-                int age;
+                time_duration duration;   // Zero duration == infinity
+                time_duration decay_start;
+                time_duration age;
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).
                  * Only returns new time if same_sign is true
                  */
-                int pick_time( int cur_time, int new_time, bool same_sign ) const;
+                time_duration pick_time( time_duration cur_time, time_duration new_time, bool same_sign ) const;
                 /**
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */
@@ -136,7 +136,7 @@ class player_morale
         void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
-        void update_bodytemp_penalty( int ticks );
+        void update_bodytemp_penalty( time_duration ticks );
         void update_constrained_penalty();
 
     private:
