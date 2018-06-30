@@ -510,13 +510,29 @@
     }
   },
   {
-    "//": "TODO elevator lobby or something which uses the 9x9 walls, in the meantime put something here to avoid breaking spawn references",
+    "//": "Elevator lobby and bathroom",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ "lab_room_9x9" ], "x": 0, "y": 0} ]
+      "rotation": [0, 3],
+      "rows": [
+        "EEe|.|eEE",
+        "EEE+.+EEE",
+        "EEE+.+EEE",
+        "----.----",
+        ".........",
+        "......|--",
+        "......|.T",
+        "......+..",
+        "......|.S"
+      ],
+      "mapping": {
+        "l": { "items": [
+            { "item": "cleaning", "chance": 50 }
+        ]}
+      }
     }
   }
 ]
