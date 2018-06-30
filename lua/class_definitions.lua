@@ -2141,6 +2141,12 @@ global_functions = {
         cpp_name = "get_calendar_turn_wrapper",
         args = {},
         rval = "calendar&"
+    },
+    get_time_duration = {
+        cpp_name = "get_time_duration_wrapper",
+        args = { "int" },
+        rval = "time_duration",
+        desc = "Cosntructs `time_duration` with given `int` value (which is number of turns). You can also use TURNS(n), MINUTES(n), HOURS(n) and DAYS(n) wrapper functions from `autoexec.lua`."
     }
 }
 
