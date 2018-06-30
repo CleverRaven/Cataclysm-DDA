@@ -72,13 +72,15 @@ void weather_effect::glare()
 
 int get_hourly_rotpoints_at_temp( int temp );
 
-time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
+time_duration get_rot_since( const time_point &start, const time_point &end,
+                             const tripoint &location )
 {
     time_duration ret = 0;
     // if underground it ignores weather, using strait underground temperature instead
     // root cellars are considered as underground storage, ignores weather, constant temperature
-    if ( g->m.ter( location ) == t_rootcellar || location.z < 0 ) {
-        ret = ( end - start ) / 1_hours * get_hourly_rotpoints_at_temp( AVERAGE_ANNUAL_TEMPERATURE ) * 1_turns;
+    if( g->m.ter( location ) == t_rootcellar || location.z < 0 ) {
+        ret = ( end - start ) / 1_hours * get_hourly_rotpoints_at_temp( AVERAGE_ANNUAL_TEMPERATURE ) *
+              1_turns;
         return ret;
     }
 
