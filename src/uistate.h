@@ -59,6 +59,7 @@ class uistatedata
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool overmap_show_city_labels = true;
+        bool overmap_show_hordes = true;
 
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};
