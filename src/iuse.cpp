@@ -4899,15 +4899,15 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 }
             }
             break;
-            
+
             case AEA_STAMINA_EMPTY:
                 p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
-                p->stamina = p->stamina * 1/( rng( 3, 8 ) );
+                p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
                 break;
-                
+
             case AEA_FUN:
                 p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
-                p->add_morale( MORALE_FEELING_GOOD, rng( 20,50 ), 0, 5_minutes, 5_turns, false );
+                p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
                 break;
 
             case AEA_SPLIT: // TODO
