@@ -1869,14 +1869,14 @@ classes = {
         },
     },
     time_duration = {
-        by_value = true,
+        by_value_and_reference = true,
         attributes = {
         },
         functions = {
         },
     },
     time_point = {
-        by_value = true,
+        by_value_and_reference = true,
         attributes = {
         },
         functions = {
