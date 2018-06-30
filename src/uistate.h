@@ -138,6 +138,7 @@ class uistatedata
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
             json.member( "overmap_show_city_labels", overmap_show_city_labels );
+            json.member( "overmap_show_hordes", overmap_show_hordes );
             json.member( "vmenu_show_items", vmenu_show_items );
             json.member( "list_item_sort", list_item_sort );
             json.member( "list_item_filter_active", list_item_filter_active );
@@ -224,6 +225,7 @@ class uistatedata
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
+            jo.read( "overmap_show_hordes", overmap_show_hordes );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,
