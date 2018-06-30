@@ -13338,47 +13338,67 @@ void game::process_artifact( item &it, player &p )
     if( it.is_tool() ) {
         // Recharge it if necessary
         if( it.ammo_remaining() < it.ammo_capacity() ) {
-            switch( it.type->artifact->charge_type ) {
-            case ARTC_NULL:
-            case NUM_ARTCS:
-                break; // dummy entries
-            case ARTC_TIME:
-                // Once per hour
-                if( calendar::once_every( 1_hours ) ) {
-                    it.charges++;
-                }
+            //Check that any extra charge requirements are met
+            bool reqsmet = true;
+            switch( it.type->artifact->charge_req ) {
+            case(ACR_NULL):
+            case(NUM_ACRS):
                 break;
-            case ARTC_SOLAR:
-                if( calendar::once_every( 10_minutes ) &&
-                    is_in_sunlight( p.pos() ) ) {
-                    it.charges++;
-                }
+            case(ACR_EQUIP):
+                //Generated artifacts won't both be wearable and have charges, but nice for mods
+                reqsmet = (worn || ( wielded && it.type->artifact->effects_worn.empty() ) );
                 break;
-            // Artifacts can inflict pain even on Deadened folks.
-            // Some weird Lovecraftian thing.  ;P
-            // (So DON'T route them through mod_pain!)
-            case ARTC_PAIN:
-                if( calendar::once_every( 1_minutes ) ) {
-                    add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p.mod_pain_noresist( 3 * rng( 1, 3 ) );
-                    it.charges++;
+            default:
+                break; //TODO implement rest
+            }
+            //Proceed with recharging if extra reqs are met
+            if(reqsmet) {
+                switch( it.type->artifact->charge_type ) {
+                case ARTC_NULL:
+                case NUM_ARTCS:
+                    break; // dummy entries
+                case ARTC_TIME:
+                    // Once per hour
+                    if( calendar::once_every( 1_hours ) ) {
+                        it.charges++;
+                    }
+                    break;
+                case ARTC_SOLAR:
+                    if( calendar::once_every( 10_minutes ) &&
+                        is_in_sunlight( p.pos() ) ) {
+                        it.charges++;
+                    }
+                    break;
+                // Artifacts can inflict pain even on Deadened folks.
+                // Some weird Lovecraftian thing.  ;P
+                // (So DON'T route them through mod_pain!)
+                case ARTC_PAIN:
+                    if( calendar::once_every( 1_minutes ) ) {
+                        add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
+                        p.mod_pain_noresist( 3 * rng( 1, 3 ) );
+                        it.charges++;
+                    }
+                    break;
+                case ARTC_HP:
+                    if( calendar::once_every( 1_minutes ) ) {
+                        add_msg(m_bad, _("You feel your body decaying."));
+                        p.hurtall( 1, nullptr );
+                        it.charges++;
+                    }
+                    break;
                 }
+                case ARTC_FATIGUE:
+                    if( calendar::once_every( 1_minutes ) ) {
+                        add_msg(m_bad, _("You feel fatigue seeping into your body."));
+                        u.mod_fatigue( 3 * rng( 1, 3 ) );
+                        u.mod_stat("stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                        it.charges++;
+                    }
+                    break;
                 break;
-            case ARTC_HP:
-                if( calendar::once_every( 1_minutes ) ) {
-                    add_msg(m_bad, _("You feel your body decaying."));
-                    p.hurtall( 1, nullptr );
-                    it.charges++;
-                }
-                break;
-            case ARTC_FATIGUE:
-                if( calendar::once_every( 1_minutes ) ) {
-                    add_msg(m_bad, _("You feel fatigue seeping into your body."));
-                    u.mod_fatigue( 3 * rng( 1, 3 ) );
-                    u.mod_stat("stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
-                    it.charges++;
-                }
-                break;
+<<<<<<< HEAD
+=======
+>>>>>>> Working on making extra charge reqs actually do something
             }
         }
     }

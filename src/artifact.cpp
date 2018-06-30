@@ -1080,6 +1080,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
+    artifact->charge_req = (art_charge_req)jo.get_int("charge_req");
 
     JsonArray ja = jo.get_array("effects_wielded");
     while (ja.has_more()) {
@@ -1222,6 +1223,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
 
     // artifact data
     json.member("charge_type", artifact->charge_type);
+    json.member("charge_req", artifact->charge_req);
     serialize_enum_vector_as_int( json, "effects_wielded", artifact->effects_wielded );
     serialize_enum_vector_as_int( json, "effects_activated", artifact->effects_activated );
     serialize_enum_vector_as_int( json, "effects_carried", artifact->effects_carried );
