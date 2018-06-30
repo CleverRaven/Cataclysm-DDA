@@ -522,6 +522,10 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    if ( ammo_type() == "money" ) {
+        // Dealing with cash cards
+        return true;
+    }
     // This function is also used to test whether items counted by charges should be merged, for that
     // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
     if( !count_by_charges() && charges != rhs.charges ) {
@@ -2408,6 +2412,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 }
 
+std::string item::display_money(unsigned int quantity, unsigned long charge) const {
+	//~ This is a string to display the total ammount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the ammount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
+    return string_format( _("%s ($%.2f)"), tname(quantity), (double)charge / 100);
+}
+
 std::string item::display_name( unsigned int quantity ) const
 {
     std::string name = tname( quantity );
@@ -2429,7 +2438,6 @@ std::string item::display_name( unsigned int quantity ) const
     bool has_ammo = is_ammo_container() && !contents.empty();
     bool contains = has_item || has_ammo;
     bool show_amt = false;
-
     // We should handle infinite charges properly in all cases.
     if( contains ) {
         amount = contents.front().charges;
@@ -2446,11 +2454,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( ammo_type() == "money" ) {
-            amt = string_format( " ($%.2f)", ( double ) amount / 100 );
-        } else {
-            amt = string_format( " (%i)", amount );
-        }
+        amt = string_format( " (%i)", amount );
     }
 
     return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
