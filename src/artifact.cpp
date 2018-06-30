@@ -718,6 +718,10 @@ std::string new_artifact()
         if (one_in(8) && num_bad + num_good >= 4) {
             def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
+        //Maybe pick an extra recharge requirement
+        if (one_in( std::max(1, 8-num_good) ) && def.artifact->charge_type!=ARTC_NULL ) { 
+            def.artifact->charge_req = art_charge_req( rng(ACR_NULL + 1, NUM_ACRS - 1) );
+        }
         item_controller->add_item_type( static_cast<itype &>( def ) );
         return def.get_id();
     } else { // Generate an armor artifact
@@ -927,6 +931,10 @@ std::string new_natural_artifact(artifact_natural_property prop)
     if (!def.artifact->effects_activated.empty()) {
         def.tool->def_charges = def.tool->max_charges = rng( 1, 4 );
         def.artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
+        //Maybe pick an extra recharge requirement
+        if (one_in(8)) {
+            def.artifact->charge_req = art_charge_req( rng(ACR_NULL + 1, NUM_ACRS - 1) );
+        }
     }
     item_controller->add_item_type( static_cast<itype &>( def ) );
     return def.get_id();
@@ -1354,6 +1362,16 @@ static const std::unordered_map<std::string, art_charge> art_charge_values = { {
     PAIR( ARTC_PAIN ),
     PAIR( ARTC_HP ),
     PAIR( ARTC_FATIGUE ),
+} };
+static const std::unordered_map<std::string, art_charge_req> art_charge_req_values = { {
+    PAIR( ACR_NULL ),
+    PAIR( ACR_EQUIP ),
+    PAIR( ACR_SKIN ),
+    PAIR( ACR_SLEEP ),
+    PAIR( ACR_RAD ),
+    PAIR( ACR_WET ),
+    PAIR( ACR_SKY ),
+    PAIR( ACR_NPC ),
 } };
 #undef PAIR
 
