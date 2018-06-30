@@ -51,7 +51,7 @@
     }
   },
   {
-    "//": "military bunker, smashed by a hulk. TODO: add computers based on bank.json, make hulk smash a variant.",
+    "//": "military bunker, smashed by a hulk. TODO: make hulk smash a variant, add weight, remove hardcoded version.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
@@ -61,7 +61,7 @@
       "rows": [
         "|--|--|--|-..-|--|-----|",
         "|bb|bb|bb|....|..|l...b|",
-        "|..|..|..|...x|..+....b|",
+        "|..|..|..|...6|..+....b|",
         "|l.|l.|l.|....|..|-----|",
         "|-+|-+|-+|-^D-|..|l...b|",
         "|............x...+....b|",
@@ -70,7 +70,7 @@
         "|S...|...........+....b|",
         "|S...|D--|.......|-----|",
         "|....|..cg.......|....l|",
-        "|+|+-|.hxg.......+.h..b|",
+        "|+|+-|.h7g.......+.h..b|",
         "|T|.T|..cg.......|ddd.b|",
         "|-|--|+--|-D^----|-----|",
         "|.rrr..........rrrrrr..|",
@@ -89,14 +89,16 @@
       ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_monster": [
-        { "monster": "mon_zombie_bio_op", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 33 },
+        { "monster": "mon_zombie_bio_op", "x": [ 1, 22 ], "y": [ 1, 16 ], "chance": 25 },
+        { "monster": "mon_zombie_grenadier", "x": [ 1, 22 ], "y": [ 1, 16 ], "chance": 25 },
         { "monster": "mon_zombie_hulk", "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
       ],
       "furniture": {
         "^": "f_rubble"
       },
       "terrain": {
-        "^": "t_rock_floor"
+        "^": "t_rock_floor",
+        "7": "t_console"
       },
       "place_items": [
         { "item": "building_rubble", "x": 11, "y": 4, "chance": 100 },
@@ -125,6 +127,20 @@
             { "item": "ammo_milspec", "chance": 10},
             { "item": "mags_milspec", "chance": 10},
             { "item": "guns_milspec", "chance": 10}
+          ]
+        }
+      },
+      "computers": {
+        "6": {
+          "name": "Barracks Entrance", "security": 4, "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 6 } ], "failures": [
+            { "action": "damage" },
+            { "action": "shutdown" }
+          ]
+        },
+        "7": {
+          "name": "Magazine Entrance", "security": 6, "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 7 } ], "failures": [
+            { "action": "damage" },
+            { "action": "shutdown" }
           ]
         }
       }
