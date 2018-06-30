@@ -75,24 +75,18 @@ int get_hourly_rotpoints_at_temp( int temp );
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
 {
     time_duration ret = 0;
-    // root cellars are considered as underground storage, ignores weather, constant temperature
-    if ( g->m.ter( location ) == t_rootcellar ) {
-        for( time_point i = start; i < end; i += 1_hours ) {
-        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( AVERAGE_ANNUAL_TEMPERATURE ) * 1_turns;
-        }
-        return ret;
-    }
     // if underground it ignores weather, using strait underground temperature instead
-    if ( location.z < 0 ) {
-        for( time_point i = start; i < end; i += 1_hours ) {
-            ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( g->get_temperature( g->m.getabs( location ) ) ) * 1_turns;
-        }
+    // root cellars are considered as underground storage, ignores weather, constant temperature
+    if ( g->m.ter( location ) == t_rootcellar || location.z < 0 ) {
+        ret = ( end - start ) / 1_hours * get_hourly_rotpoints_at_temp( AVERAGE_ANNUAL_TEMPERATURE ) * 1_turns;
         return ret;
     }
+
     // if on- or above-ground it uses progressive weather-determined temperatures at location
     const auto &wgen = g->get_cur_weather_gen();
+    const tripoint abs_loc = g->m.getabs( location );
     for( time_point i = start; i < end; i += 1_hours ) {
-        w_point w = wgen.get_weather( g->m.getabs( location ), i, g->get_seed() );
+        w_point w = wgen.get_weather( abs_loc, i, g->get_seed() );
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( w.temperature ) * 1_turns;
     }
     return ret;
