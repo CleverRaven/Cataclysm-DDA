@@ -213,7 +213,8 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
 
 std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 {
-    std::vector<dependency_node *> dependents, ret;
+    std::vector<dependency_node *> dependents;
+    std::vector<dependency_node *> ret;
     std::set<mod_id> found;
 
     std::stack<dependency_node *> nodes_to_check;

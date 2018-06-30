@@ -3770,7 +3770,8 @@
       ["oxygen_tank", 50],
       ["smoxygen_tank", 25],
       ["bfipowder", 15],
-      ["quikclot", 10]
+      ["quikclot", 10],
+      ["anesthesia", 20]
     ]
   },{
     "type" : "item_group",
@@ -4194,6 +4195,7 @@
       ["pocketwatch", 5],
       ["sf_watch", 10],
       ["survnote", 3],
+      ["holo_cloak", 5],
       ["stillsuit", 5],
       ["l-stick", 1]
     ]

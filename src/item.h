@@ -169,43 +169,6 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
-/**
- *  Contains metadata for one category of items
- *
- *  Every item belongs to a category (e.g. weapons, armor, food, etc).  This class
- *  contains the info about one such category.  Actual categories are normally added
- *  by class @ref Item_factory from definitions in the json data files.
- */
-class item_category
-{
-    public:
-        /** Unique ID of this category, used when loading from json. */
-        std::string id;
-        /** Name of category for displaying to the user (localized) */
-        std::string name;
-        /** Used to sort categories when displaying.  Lower values are shown first. */
-        int sort_rank;
-
-        item_category();
-        /**
-         *  @param id: Unique ID of this category
-         *  @param name: Localized string for displaying name of this category
-         *  @param sort_rank: Used to order a display list of categories
-         */
-        item_category(const std::string &id, const std::string &name, int sort_rank);
-
-        /**
-         *  Comparison operators
-         *
-         *  Used for sorting.  Will result in sorting by sort_rank, then by name, then by id.
-         */
-        /*@{*/
-        bool operator<(const item_category &rhs) const;
-        bool operator==(const item_category &rhs) const;
-        bool operator!=(const item_category &rhs) const;
-        /*@}*/
-};
-
 class item : public visitable<item>
 {
     public:
@@ -689,10 +652,9 @@ private:
     time_point last_rot_check = calendar::time_of_cataclysm;
 
 public:
-    int get_rot() const
-    {
-        return to_turns<int>( rot );
-    }
+        time_duration get_rot() const {
+            return rot;
+        }
 
     /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
     time_point fridge = calendar::before_time_starts;
@@ -825,6 +787,13 @@ public:
     int max_damage() const;
 
     /**
+     * Relative item health.
+     * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
+     * and values above 1 for reinforced ++items.
+     */
+    float get_relative_health() const;
+
+    /**
      * Apply damage to item constrained by @ref min_damage and @ref max_damage
      * @param qty maximum amount by which to adjust damage (negative permissible)
      * @param dt type of damage which may be passed to @ref on_damage callback
@@ -953,6 +922,8 @@ public:
 
     bool is_faulty() const;
     bool is_irremovable() const;
+
+    bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
@@ -1323,6 +1294,13 @@ public:
          * For non-armor it returns 0.
          */
         int get_env_resist() const;
+        /**
+         * Returns the resistance to environmental effects if an item (for example a gas mask)
+         * requires a gas filter to operate and this filter is installed. Used in iuse::gasmask to
+         * change protection of a gas mask if it has (or don't has) filters. For other applications
+         * use get_env_resist() above.
+         */
+        int get_env_resist_w_filter() const;
         /**
          * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
          * or similar.

@@ -554,6 +554,7 @@ void monster::move()
 
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
+    const bool can_climb = has_flag( MF_CLIMBS );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
@@ -570,9 +571,13 @@ void monster::move()
                     can_z_move = false;
                 }
 
-                if( can_z_move && !can_fly && candidate.z > posz() && !g->m.has_floor_or_support( candidate ) ) {
-                    // Can't "jump" up a whole z-level
-                    can_z_move = false;
+                // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
+                // This prevents non-climb/fly enemies running up walls
+                if( candidate.z > posz() && !can_fly ) {
+                    if( !can_climb || !g->m.has_floor_or_support( candidate ) ) {
+                        // Can't "jump" up a whole z-level
+                        can_z_move = false;
+                    }
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
@@ -634,7 +639,7 @@ void monster::move()
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( moved == false || x_in_y( progress, switch_chance ) ) {
+            if( !moved || x_in_y( progress, switch_chance ) ) {
                 moved = true;
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
@@ -1106,6 +1111,12 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             if( fstr >= 2 ) {
                 g->m.add_field( sludge_p, fd_sludge, fstr );
             }
+        }
+    }
+
+    if( has_flag( MF_DRIPS_NAPALM ) ) {
+        if( one_in( 10 ) ) {
+            g->m.add_item_or_charges( pos(), item( "napalm" ) );
         }
     }
 

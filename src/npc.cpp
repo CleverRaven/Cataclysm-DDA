@@ -124,6 +124,10 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
+    recalc_hp();
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_cur[i] = hp_max[i];
+    }
     for( auto &e : Skill::skills ) {
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
@@ -2090,13 +2094,13 @@ void npc::on_load()
     add_msg( m_debug, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
-        update_body( to_turn<int>( cur ), to_turn<int>( cur + 30_minutes ) );
+        update_body( cur, cur + 30_minutes );
     }
     for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
-        update_body( to_turn<int>( cur ), to_turn<int>( cur + 5_minutes ) );
+        update_body( cur, cur + 5_minutes );
     }
     for( ; cur < calendar::turn; cur += 1_turns ) {
-        update_body( to_turn<int>( cur ), to_turn<int>( cur + 1_turns ) );
+        update_body( cur, cur + 1_turns );
     }
 
     if( dt > 0 ) {
@@ -2136,7 +2140,7 @@ void epilogue::load_epilogue( JsonObject &jsobj )
     _all_epilogue[base.id] = base;
 }
 
-epilogue *epilogue::find_epilogue( std::string ident )
+epilogue *epilogue::find_epilogue( const std::string &ident )
 {
     epilogue_map::iterator found = _all_epilogue.find( ident );
     if( found != _all_epilogue.end() ) {

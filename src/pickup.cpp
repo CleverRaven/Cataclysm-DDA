@@ -11,7 +11,9 @@
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
+#include "vpart_position.h"
 #include "vehicle.h"
+#include "vpart_reference.h"
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "string_formatter.h"
@@ -43,7 +45,7 @@ static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpo
         int veh_root_part );
 
 static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                        int &moves_taken, int curmit );
+                                        int moves_taken, int curmit );
 static void show_pickup_message( const PickupMap &mapPickup );
 
 struct pickup_count {
@@ -80,7 +82,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
                                 ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
-    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
+    const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
@@ -427,7 +429,14 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
-        add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
+        if( !autopickup ) {
+            const std::string &explain = string_format( _( "The %s is too heavy!" ),
+                                         newit.display_name().c_str() );
+            option = handle_problematic_pickup( newit, offered_swap, explain );
+            did_prompt = true;
+        } else {
+            option = CANCEL;
+        }
     } else if( newit.is_bucket() && !newit.is_container_empty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
@@ -524,9 +533,10 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     PickupMap mapPickup;
 
     if( from_vehicle ) {
-        int veh_root_part = -1;
-        veh = g->m.veh_at( pickup_target, veh_root_part );
-        cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pickup_target ).part_with_feature( "CARGO",
+                false );
+        veh = &vp->vehicle();
+        cargo_part = vp->part_index();
     }
 
     bool problem = false;
@@ -575,20 +585,22 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
 // Pick up items at (pos).
 void Pickup::pick_up( const tripoint &pos, int min )
 {
-    int veh_root_part = 0;
     int cargo_part = -1;
 
-    vehicle *veh = g->m.veh_at( pos, veh_root_part );
+    const optional_vpart_position vp = g->m.veh_at( pos );
+    vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        switch( interact_with_vehicle( veh, pos, veh_root_part ) ) {
+        switch( interact_with_vehicle( veh, pos, vp ? vp->part_index() : -1 ) ) {
             case DONE:
                 return;
-            case ITEMS_FROM_CARGO:
-                cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
-                from_vehicle = cargo_part >= 0;
-                break;
+            case ITEMS_FROM_CARGO: {
+                const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+                cargo_part = carg ? carg->part_index() : -1;
+            }
+            from_vehicle = cargo_part >= 0;
+            break;
             case ITEMS_FROM_GROUND:
                 // Nothing to change, default is to pick from ground anyway.
                 if( g->m.has_flag( "SEALED", pos ) ) {
@@ -749,13 +761,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
 
-        int start = 0, cur_it;
+        int start = 0;
+        int cur_it = 0;
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
         int iScrollPos = 0;
 
-        std::string filter, new_filter;
+        std::string filter;
+        std::string new_filter;
         std::vector<int> matches;//Indexes of items that match the filter
         bool filter_changed = true;
         if( g->was_fullscreen ) {
@@ -920,7 +934,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
             werase( w_item_info );
             if( selected >= 0 && selected <= ( int )stacked_here.size() - 1 ) {
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 selected_item.info( true, vThisItem );
 
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
@@ -1119,7 +1134,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
 //helper function for Pickup::pick_up (singular item)
 void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                 int &moves_taken, int curmit )
+                                 int moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );

@@ -97,7 +97,7 @@ class uistatedata
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
         bool _really_testing_save = false; // internal: spammy
 
-        std::vector<std::string> &gethistory( std::string id ) {
+        std::vector<std::string> &gethistory( const std::string &id ) {
             return input_history[id];
         }
 
