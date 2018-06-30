@@ -310,13 +310,13 @@ struct mtype {
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
         bool has_flag( m_flag flag ) const;
-        bool has_flag( std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
         bool made_of( const material_id &material ) const;
-        void set_flag( std::string flag, bool state );
+        void set_flag( const std::string &flag, bool state );
         bool has_anger_trigger( monster_trigger trigger ) const;
         bool has_fear_trigger( monster_trigger trigger ) const;
         bool has_placate_trigger( monster_trigger trigger ) const;
-        bool in_category( std::string category ) const;
+        bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.

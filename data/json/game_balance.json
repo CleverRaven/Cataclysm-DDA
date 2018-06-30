@@ -5,5 +5,40 @@
     "info": "Sets max stamina value of the player.",
     "stype": "int",
     "value": 1000
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_HUNGER_RATE",
+    "info": "Set base hunger rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_THIRST_RATE",
+    "info": "Set base thirst rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_FATIGUE_RATE",
+    "info": "Set base fatigue rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_HEALING_RATE",
+    "info": "Set base player healing rate per turn. Default: 0.01",
+    "stype": "float",
+    "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NPC_HEALING_RATE",
+    "info": "Set base NPC healing rate per turn. Default: 0.01",
+    "stype": "float",
+    "value": 0.01
   }
 ]

@@ -1564,9 +1564,8 @@ bool mattack::fungus_big_blossom(monster *z)
         //~Sound of a giant fungal blossom blowing out the dangerous fire!
         sounds::sound(z->pos(), 20, _("POUFF!"));
         return true;
-    }
-    // No fire detected, routine haze-emission
-    if (!firealarm) {
+    } else {
+        // No fire detected, routine haze-emission
         //~ That spore sound, much louder
         sounds::sound(z->pos(), 15, _("POUF."));
         if( u_see ) {
@@ -1889,7 +1888,7 @@ bool mattack::impale(monster *z)
                                     z->name().c_str());
 
         target->on_hit( z, bp_torso,  z->type->melee_skill );
-        if( one_in( 60 / (dam + 20)) && (dam > 0) ) {
+        if( one_in( 60 / (dam + 20)) ) {
             target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
         }
 
@@ -3092,7 +3091,7 @@ bool mattack::flamethrower(monster *z)
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if (z->friendly != 0) {
+    if (z->friendly != 0) { // @todo: that is always false!
         // Attacking monsters, not the player!
         int boo_hoo;
         Creature *target = z->auto_find_hostile_target( 5, boo_hoo );
@@ -3189,9 +3188,9 @@ bool mattack::copbot(monster *z)
     if( rl_dist( z->pos(), target->pos() ) > 2 || foe == nullptr || !z->sees( *target ) ) {
         if (one_in(3)) {
             if (sees_u) {
-                if ( foe != nullptr && foe->unarmed_attack() ) {
+                if ( foe->unarmed_attack() ) {
                     sounds::sound(z->pos(), 18, _("a robotic voice boom, \"Citizen, Halt!\""));
-                } else if( foe != nullptr && !cuffed ) {
+                } else if( !cuffed ) {
                     sounds::sound(z->pos(), 18, _("a robotic voice boom, \"\
 Please put down your weapon.\""));
                 }

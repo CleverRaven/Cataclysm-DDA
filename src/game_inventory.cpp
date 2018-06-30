@@ -959,8 +959,12 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
             break;
         }
 
-        std::vector<iteminfo> vItemLastCh, vItemCh;
-        std::string sItemLastCh, sItemCh, sItemLastTn, sItemTn;
+        std::vector<iteminfo> vItemLastCh;
+        std::vector<iteminfo> vItemCh;
+        std::string sItemLastCh;
+        std::string sItemCh;
+        std::string sItemLastTn;
+        std::string sItemTn;
 
         to_compare.first->info( true, vItemCh );
         sItemCh = to_compare.first->tname();

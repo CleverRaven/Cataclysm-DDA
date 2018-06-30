@@ -55,7 +55,6 @@ const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
 
-const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 
@@ -74,7 +73,7 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
+static void pick_plant( player &p, const tripoint &examp, const std::string &itemType, ter_id new_ter,
                         bool seeds = false );
 
 /**
@@ -2419,7 +2418,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 }
 
 void pick_plant(player &p, const tripoint &examp,
-                std::string itemType, ter_id new_ter, bool seeds)
+                const std::string &itemType, ter_id new_ter, bool seeds)
 {
     if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
@@ -3051,7 +3050,7 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
     return tank_loc;
 }
 
-static int getGasDiscountCardQuality(item it)
+static int getGasDiscountCardQuality( const item &it )
 {
     std::set<std::string> tags = it.type->item_tags;
 
@@ -3508,6 +3507,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
+    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+
     uimenu amenu;
     amenu.selected = 0;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
@@ -3529,18 +3532,34 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             const item *it = bionic.get_item();
             const itype *itemtype = it->type;
+            const bionic_id &bid = itemtype->bionic->id;
+
+            if( p.has_bionic( bid ) ) {
+                popup( _( "You have already installed this bionic."  ) );
+                return;
+            } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
+                popup( _( "You have no base version of this bionic to upgrade." ) );
+                return;
+            } else {
+                const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
+                                                    std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                if( downgrade ) {
+                    popup( _( "You have already installed a superior version of this bionic." ) );
+                    return;
+                }
+            }
+
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+                return;
+            }
+
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( p.install_bionics( *itemtype ) ) {
-                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to install a CBM." ) );
-                p.fall_asleep( duration );
-                p.add_effect( effect_narcosis, duration );
-                p.add_msg_if_player( m_info,
-                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
-                if( p.has_item( *it ) ) {
-                    p.i_rem( it );
-                } else {
-                    g->m.i_rem( bionic.position(), it );
-                }
+                p.introduce_into_anesthesia( duration );
+                std::vector<item_comp> comps;
+                comps.push_back( item_comp( it->typeId(), 1 ) );
+                p.consume_items( comps );
             }
             break;
         }
@@ -3549,6 +3568,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             bionic_collection installed_bionics = *g->u.my_bionics;
             if( installed_bionics.empty() ) {
                 popup( _( "You don't have any bionics installed." ) );
+                return;
+            }
+
+            if( !has_anesthesia ) {
+                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
                 return;
             }
 
@@ -3581,11 +3605,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
             if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
-                p.add_msg_if_player( m_info, _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
-                p.fall_asleep( duration );
-                p.add_effect( effect_narcosis, duration );
-                p.add_msg_if_player( m_info,
-                                     _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+                p.introduce_into_anesthesia( duration );
             }
             break;
         }

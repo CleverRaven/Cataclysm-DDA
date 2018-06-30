@@ -457,7 +457,8 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     }
     const auto opts = item_controller->all();
 
-    int prev_amount, amount = 1;
+    int prev_amount = 1;
+    int amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;

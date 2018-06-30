@@ -32,7 +32,8 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 
 struct spawn_point {
-    int posx, posy;
+    int posx;
+    int posy;
     int count;
     mtype_id type;
     int faction_id;
@@ -140,7 +141,7 @@ struct submap {
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    void set_signage( const int x, const int y, std::string s ) {
+    void set_signage( const int x, const int y, const std::string &s ) {
         is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }

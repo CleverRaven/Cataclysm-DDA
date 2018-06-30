@@ -2148,7 +2148,7 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "down_blanket",
@@ -3781,7 +3781,7 @@
     "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "gown",
@@ -5494,7 +5494,7 @@
     "storage": 4,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "kippah",
@@ -7407,7 +7407,7 @@
     "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "shark_suit",
@@ -9538,7 +9538,7 @@
     "color": "dark_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "wsurvivor_suit",

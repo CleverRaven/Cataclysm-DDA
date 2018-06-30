@@ -548,7 +548,7 @@ void vehicle::smash() {
         }
 
         //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
-        if( mod_hp( part, 0 - ( rng_float( 0.1f, 1.2f ) * part.info().durability ) ), DT_BASH ) {
+        if( mod_hp( part, 0 - ( rng_float( 0.1f, 1.2f ) * part.info().durability ), DT_BASH ) ) {
             part.ammo_unset();
         }
     }
@@ -1128,7 +1128,7 @@ double vehicle::engine_cold_factor( const int e ) const
 {
     if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
 
-    int eff_temp = g->get_temperature();
+    int eff_temp = g->get_temperature( g->u.pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
@@ -2691,7 +2691,8 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
         }
 
         bool armor = part_flag(pl[i], "ARMOR");
-        std::string left_sym, right_sym;
+        std::string left_sym;
+        std::string right_sym;
         if(armor) {
             left_sym = "("; right_sym = ")";
         } else if(part_info(pl[i]).location == part_location_structure) {
@@ -2775,13 +2776,11 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
         print_fuel_indicator( win, y + yofs, x, f, verbose, desc );
-        if (fullsize) {
-            yofs++;
-        }
+        yofs++;
     }
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
-    if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) && fullsize) {
+    if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) ) {
         mvwprintz( win, y + yofs, x, c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
@@ -2796,7 +2795,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
  * @param verbose true if there should be anything after the gauge (either the %, or number)
  * @param desc true if the name of the fuel should be at the end
  */
-void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x, itype_id fuel_type, bool verbose, bool desc ) const
+void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x, const itype_id &fuel_type, bool verbose, bool desc ) const
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
@@ -3209,7 +3208,8 @@ void vehicle::noise_and_smoke( double load, double time )
     }};
     double noise = 0.0;
     double mufflesmoke = 0.0;
-    double muffle = 1.0, m;
+    double muffle = 1.0;
+    double m = 0.0;
     int exhaust_part = -1;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if( part_flag(p, "MUFFLER") ) {
@@ -4383,7 +4383,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         // TODO: Make this more elegant
         if( vertical ) {
             vertical_velocity = velocity_before;
-        } else if( !just_detect && sgn( velocity_after ) != sign_before ) {
+        } else if( sgn( velocity_after ) != sign_before ) {
             // Sign of velocity inverted, collisions would be in wrong direction
             break;
         }
@@ -4721,7 +4721,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     } else {
         if( pl_ctrl ) {
-            if( snd.length() > 0 ) {
+            if( snd.length() > 0 ) { // @todo: that is always false!
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s with a %4$s"),
                          name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str(), snd.c_str());
@@ -5283,8 +5283,10 @@ void vehicle::refresh_pivot() const {
     //
     // so it turns into a fairly simple weighted average of the wheel positions.
 
-    float xc_numerator = 0, xc_denominator = 0;
-    float yc_numerator = 0, yc_denominator = 0;
+    float xc_numerator = 0;
+    float xc_denominator = 0;
+    float yc_numerator = 0;
+    float yc_denominator = 0;
 
     for (int p : wheelcache) {
         const auto &wheel = parts[p];
@@ -6421,7 +6423,7 @@ void vehicle_part::unset_crew()
     crew_id = -1;
 }
 
-void vehicle_part::reset_target( tripoint pos )
+void vehicle_part::reset_target( const tripoint &pos )
 {
     target.first = pos;
     target.second = pos;

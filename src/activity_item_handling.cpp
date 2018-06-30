@@ -513,9 +513,9 @@ static void move_items( const tripoint &src, bool from_vehicle,
     tripoint source = src + g->u.pos();
     tripoint destination = dest + g->u.pos();
 
-    int s_cargo, d_cargo;   // oui oui, mon frere
-    s_cargo = d_cargo = -1;
-    vehicle *s_veh, *d_veh; // 2diva4me
+    int s_cargo = -1;
+    int d_cargo = -1;
+    vehicle *s_veh, *d_veh;
     s_veh = d_veh = nullptr;
 
     // load vehicle information if requested

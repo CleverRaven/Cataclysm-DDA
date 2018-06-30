@@ -654,6 +654,8 @@ void Item_factory::init()
     add_iuse( "SIPHON", &iuse::siphon );
     add_iuse( "SLEEP", &iuse::sleep );
     add_iuse( "SMOKING", &iuse::smoking );
+    add_iuse( "SOLARPACK", &iuse::solarpack );
+    add_iuse( "SOLARPACK_OFF", &iuse::solarpack_off );
     add_iuse( "SPRAY_CAN", &iuse::spray_can );
     add_iuse( "STIMPACK", &iuse::stimpack );
     add_iuse( "TAZER", &iuse::tazer );
@@ -2276,7 +2278,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     }
 }
 
-void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member,
+void Item_factory::set_use_methods_from_json( JsonObject &jo, const std::string &member,
                                               std::map<std::string, use_function> &use_methods )
 {
     if( !jo.has_member( member ) ) {

@@ -1054,7 +1054,7 @@ units::volume Character::volume_capacity() const
     return volume_capacity_reduced_by( 0 );
 }
 
-units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
+units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         return units::volume_max;
@@ -1482,7 +1482,7 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
 
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
-	return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+    return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
@@ -2550,6 +2550,16 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
+const social_modifiers Character::get_mutation_social_mods() const
+{
+    social_modifiers mods;
+    for( const mutation_branch *mut : cached_mutations ) {
+        mods += mut->social_mods;
+    }
+
+    return mods;
+}
+
 template <float mutation_branch::*member>
 float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
 {
@@ -2597,7 +2607,13 @@ float Character::mutation_value( const std::string &val ) const
 float Character::healing_rate( float at_rest_quality ) const
 {
     // @todo: Cache
-    float awake_rate = mutation_value( "healing_awake" );
+    float heal_rate;
+    if( !is_npc() ){
+        heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );
+    } else {
+        heal_rate = get_option< float >( "NPC_HEALING_RATE" );
+    }
+    float awake_rate = heal_rate * mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
@@ -2607,7 +2623,7 @@ float Character::healing_rate( float at_rest_quality ) const
     }
     float asleep_rate = 0.0f;
     if( at_rest_quality > 0.0f ) {
-        asleep_rate = at_rest_quality * ( 0.01f + mutation_value( "healing_resting" ) );
+        asleep_rate = at_rest_quality * heal_rate * ( 1.0f + mutation_value( "healing_resting" ) );
     }
     if( asleep_rate > 0.0f ) {
         final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );

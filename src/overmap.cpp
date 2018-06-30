@@ -2074,6 +2074,8 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
                              100;
+    // Whether showing hordes is currently enabled
+    const bool showhordes = uistate.overmap_show_hordes;
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
@@ -2206,7 +2208,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
-            } else if (blink && los && overmap_buffer.has_horde(omx, omy, z)) {
+            } else if (blink && showhordes && los && overmap_buffer.has_horde(omx, omy, z)) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
                 ter_sym   = 'Z';
@@ -2489,6 +2491,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
         print_hint( "TOGGLE_BLINKING" );
         print_hint( "TOGGLE_OVERLAYS" );
         print_hint( "TOGGLE_CITY_LABELS" );
+        print_hint( "TOGGLE_HORDES" );
         print_hint( "TOGGLE_EXPLORED" );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
@@ -2636,6 +2639,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     ictxt.register_action("LIST_NOTES");
     ictxt.register_action("TOGGLE_BLINKING");
     ictxt.register_action("TOGGLE_OVERLAYS");
+    ictxt.register_action("TOGGLE_HORDES");
     ictxt.register_action("TOGGLE_CITY_LABELS");
     ictxt.register_action("TOGGLE_EXPLORED");
     if( data.debug_editor ) {
@@ -2649,7 +2653,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input( BLINK_SPEED );
 
-        int dirx, diry;
+        int dirx = 0;
+        int diry = 0;
         if (ictxt.get_direction(dirx, diry, action)) {
             curs.x += dirx;
             curs.y += diry;
@@ -2710,6 +2715,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 show_explored = !show_explored;
             }
+        } else if (action == "TOGGLE_HORDES") {
+            uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
@@ -3187,7 +3194,9 @@ void overmap::place_forest()
 {
     int forests_placed = 0;
     for (int i = 0; i < settings.num_forests; i++) {
-        int forx, fory, fors;
+        int forx = 0;
+        int fory = 0;
+        int fors = 0;
         // try to place this forest
         int tries = 100;
         do {
@@ -3274,7 +3283,8 @@ void overmap::place_forest()
 
 void overmap::place_river(point pa, point pb)
 {
-    int x = pa.x, y = pa.y;
+    int x = pa.x;
+    int y = pa.y;
     do {
         x += rng(-1, 1);
         y += rng(-1, 1);
@@ -3567,7 +3577,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     int numstairs = 0;
     if( s > 0 ) { // Build stairs going down
         while( !one_in( 6 ) ) {
-            int stairx, stairy;
+            int stairx = 0;
+            int stairy = 0;
             int tries = 0;
             do {
                 stairx = rng( x - s, x + s );
@@ -3581,7 +3592,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
         }
     }
     if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
-        int finalex, finaley;
+        int finalex = 0;
+        int finaley = 0;
         int tries = 0;
         do {
             finalex = rng( x - s, x + s );

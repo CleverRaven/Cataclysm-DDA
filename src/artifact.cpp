@@ -178,10 +178,14 @@ struct artifact_weapon_datum {
     std::string adjective;
     units::volume volume;
     units::mass weight; // Only applicable if this is an *extra* weapon
-    int bash_min, bash_max;
-    int cut_min, cut_max;
-    int stab_min, stab_max;
-    int to_hit_min, to_hit_max;
+    int bash_min;
+    int bash_max;
+    int cut_min;
+    int cut_max;
+    int stab_min;
+    int stab_max;
+    int to_hit_min;
+    int to_hit_max;
     std::string tag;
 };
 
@@ -209,7 +213,9 @@ struct artifact_armor_form_datum {
     int env_resist;
     int warmth;
     units::volume storage;
-    int melee_bash, melee_cut, melee_hit;
+    int melee_bash;
+    int melee_cut;
+    int melee_hit;
     body_part_set covers;
     bool plural;
     std::array<artifact_armor_mod, 5> available_mods;
@@ -469,7 +475,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
     {
         translate_marker( "Ring" ), def_c_light_green, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-        {}, true,
+        {}, false,
         {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     }
 } };
@@ -534,7 +540,7 @@ static const std::array<std::string, 20> artifact_noun = { {
     translate_marker( "%s Justice" ), translate_marker( "the %s Necropolis" ), translate_marker( "%s Ichor" ), translate_marker( "the %s Monolith" ), translate_marker( "%s Aeons" ),
     translate_marker( "%s Graves" ), translate_marker( "%s Horrors" ), translate_marker( "%s Suffering" ), translate_marker( "%s Death" ), translate_marker( "%s Horror" )
 } };
-std::string artifact_name(std::string type);
+std::string artifact_name( const std::string &type );
 
 // Constructors for artifact itypes.
 it_artifact_tool::it_artifact_tool() : itype()
@@ -638,7 +644,9 @@ std::string new_artifact()
         // Finally, pick some powers
         art_effect_passive passive_tmp = AEP_NULL;
         art_effect_active active_tmp = AEA_NULL;
-        int num_good = 0, num_bad = 0, value = 0;
+        int num_good = 0;
+        int num_bad = 0;
+        int value = 0;
         std::vector<art_effect_passive> good_effects = fill_good_passive();
         std::vector<art_effect_passive> bad_effects = fill_bad_passive();
 
@@ -791,7 +799,9 @@ std::string new_artifact()
         def.description = description.str();
 
         // Finally, pick some effects
-        int num_good = 0, num_bad = 0, value = 0;
+        int num_good = 0;
+        int num_bad = 0;
+        int value = 0;
         art_effect_passive passive_tmp = AEP_NULL;
         std::vector<art_effect_passive> good_effects = fill_good_passive();
         std::vector<art_effect_passive> bad_effects = fill_bad_passive();
@@ -982,7 +992,7 @@ std::vector<art_effect_active> fill_bad_active()
     return ret;
 }
 
-std::string artifact_name(std::string type)
+std::string artifact_name( const std::string &type )
 {
     std::string ret;
     std::string noun = _( random_entry_ref( artifact_noun ).c_str() );
