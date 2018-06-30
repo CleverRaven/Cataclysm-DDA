@@ -107,6 +107,7 @@ classes = {
         },
         functions = {
             { name = "day_of_year", rval = "int", args = { } },
+            { name = "get_turn", rval = "int", cpp_name = "operator int", args = { } },
             { name = "increment", rval = nil, args = { } },
             { name = "is_night", rval = "bool", args = { } },
             { name = "sunlight", rval = "float", args = { } },
