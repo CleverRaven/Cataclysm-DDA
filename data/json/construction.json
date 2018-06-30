@@ -160,7 +160,7 @@
         "components" : [
             [ [ "nail", 4 ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
             [ [ "sheet", 2 ] ],
-            [ [ "stick", 1 ] ],
+            [ [ "stick_long", 1 ] ],
             [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "string_36", 1 ] ]
         ],
         "pre_note" : "Can be deconstructed without tools.",
@@ -479,7 +479,7 @@
         "components" : [
             [ [ "nail", 4 ] ],
             [ [ "sheet", 2 ] ],
-            [ [ "stick", 1 ] ],
+            [ [ "stick_long", 1 ] ],
             [ [ "string_36", 1 ] ]
         ],
         "pre_terrain" : "t_window_no_curtains",
