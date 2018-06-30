@@ -81,7 +81,7 @@
         "points" : 2,
         "description" : "You heal faster when sleeping and will even recover small amount of HP when not sleeping.",
         "starting_trait" : true,
-        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3", "MET_RAT"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
         "category" : ["MUTCAT_MEDICAL"],
         "healing_awake" : 0.2,
@@ -539,7 +539,7 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER", "SLOWHEALER2", "SLOWHEALER3"],
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER2", "SLOWHEALER3"],
         "healing_resting" : -0.25
     },{
         "type" : "mutation",
@@ -550,7 +550,7 @@
         "starting_trait" : true,
         "valid": false,
         "purifiable": false,
-        "cancels" : ["SLOWHEALER", "SLOWHEALER3"],
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER3"],
         "healing_resting" : -0.66
     },{
         "type" : "mutation",
@@ -561,7 +561,7 @@
         "starting_trait" : true,
         "valid": false,
         "purifiable": false,
-        "cancels" : ["SLOWHEALER", "SLOWHEALER2"],
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER2"],
         "healing_resting" : -0.9
     },{
         "type" : "mutation",
@@ -1128,7 +1128,7 @@
         "name" : "Very Fast Healer",
         "points" : 4,
         "description" : "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
-        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3"],
         "prereqs" : ["FASTHEALER"],
         "changes_to" : ["REGEN"],
         "category" : ["MUTCAT_PLANT"],
