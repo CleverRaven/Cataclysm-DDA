@@ -1,0 +1,282 @@
+[
+  {
+    "//": "collapsed hallway",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "|----------++----------|",
+        "|         |..|         |",
+        "|         |..|         |",
+        "|         |..|         |",
+        "|         |..|         |",
+        "|         +..+         |",
+        "|         |..|         |",
+        "|         |..|         |",
+        "|         |..|         |",
+        "|         |..|         |",
+        "|---------|..|---------|",
+        "RRRRR^^..............^RR",
+        "RRRRRRR^...........^^RRR",
+        "RRRRR-----|..|--------RR",
+        "RRR^^^....|..|RRRRRRRRRR",
+        "|R^.......|..|RRRRRRRRRR",
+        "|^........|..|RRRRRRRRRR",
+        "|.........|..|RRRRRRRRRR",
+        "|^........+.^RRRRRRRRRRR",
+        "RR^^...^^^|^RRRRRRRRRRRR",
+        "RRR^^.^^^RRRRRRRRRRRRRRR",
+        "RRRRRRRRRRRRRRRRRRRRRRRR",
+        "RRRRRRRRRRRRRRRRRRRRRRRR",
+        "RRRRRRRRRRRRRRRRRRRRRRRR"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "furniture": {
+        "^": "f_rubble"
+      },
+      "terrain": {
+        "^": "t_rock_floor",
+        "R": "t_rock"
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+    }
+  },
+  {
+    "//": "military bunker, smashed by a hulk. TODO: add computers based on bank.json, make hulk smash a variant.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 50,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "|--|--|--|-..-|--|-----|",
+        "|bb|bb|bb|....|..|l...b|",
+        "|..|..|..|...x|..+....b|",
+        "|l.|l.|l.|....|..|-----|",
+        "|-+|-+|-+|-^D-|..|l...b|",
+        "|............x...+....b|",
+        "|................|-----|",
+        "|--+-|...........|l...b|",
+        "|S...|...........+....b|",
+        "|S...|D--|.......|-----|",
+        "|....|..cg.......|....l|",
+        "|+|+-|.hxg.......+.h..b|",
+        "|T|.T|..cg.......|ddd.b|",
+        "|-|--|+--|-D^----|-----|",
+        "|.rrr..........rrrrrr..|",
+        "|......................|",
+        "|......................|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r..rr..rr....rr..rr..r|",
+        "|r....................r|",
+        "|----------------------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "place_monster": [
+        { "monster": "mon_zombie_bio_op", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 33 },
+        { "monster": "mon_zombie_hulk", "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
+      ],
+      "furniture": {
+        "^": "f_rubble"
+      },
+      "terrain": {
+        "^": "t_rock_floor"
+      },
+      "place_items": [
+        { "item": "building_rubble", "x": 11, "y": 4, "chance": 100 },
+        { "item": "building_rubble", "x": 12, "y": 13, "chance": 100 }
+      ],
+      "mapping": {
+        "l": {
+          "items": [
+            { "item": "clothing_soldier_set", "chance": 100 },
+            { "item": "gear_soldier_sidearm", "chance": 33},
+            { "item": "book_military", "chance": 33}
+          ]
+        },
+        "b": {
+          "items": [ { "item": "bed", "chance": 50 } ]
+        },
+        "d": {
+          "items": [ { "item": "office", "chance": 50 } ]
+        },
+        "^": {
+          "items": [ { "item": "building_rubble", "chance": 100, "repeat": 2 } ]
+        },
+        "r": {
+          "items": [
+            { "item": "military", "chance": 10 },
+            { "item": "ammo_milspec", "chance": 10},
+            { "item": "mags_milspec", "chance": 10},
+            { "item": "guns_milspec", "chance": 10}
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          +..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "----------|..|----+----|",
+        ".......................+",
+        ".......................+",
+        "-----+----|..|---------|",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..+         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1] },
+        { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1] },
+        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14 },
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       +       +       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "---?---|---?---|---+---|",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       ?       +       +",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "---+---|---+---|---?---|",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       +       +       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_door_metal_c", "t_door_metal_c"]
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_spawn_7x7" ], "x": 0, "y": 8 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 0, "y": 16 },
+        { "chunks": [ "lab_spawn_7x7" ], "x": 8, "y": 0 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 8, "y": 8 },
+        { "chunks": [ "lab_spawn_7x7" ], "x": 8, "y": 16 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 0 },
+        { "chunks": [ "lab_spawn_7x7" ], "x": 16, "y": 8 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16 },
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...............|.cccccX|",
+        "...............+......X|",
+        "..-----+-----..|-------|",
+        "..|         |..|       |",
+        "..|         |..|       |",
+        "..|         |..|       |",
+        "..|         |..+       |",
+        "..?         ?..|       |",
+        "..|         |..|       |",
+        "..|         |..|       |",
+        "..|         |..----?---|",
+        "..|         |..........+",
+        "..|         |..........+",
+        "-?-----?-----..----+---|",
+        "          |....|       |",
+        "          |....|       |",
+        "          |..|-|       |",
+        "          |..|f|       |",
+        "          +..+.|       |",
+        "          |..|-|       |",
+        "          |..|T|       |",
+        "          |..+.|---+---|",
+        "          |..|S|X.....X|",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_generic"
+      ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 3, "y": 3 },
+        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+    }
+  }
+]
