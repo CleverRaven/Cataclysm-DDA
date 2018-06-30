@@ -104,8 +104,16 @@ classes = {
         },
         by_value_and_reference = true,
         attributes = {
+            before_time_starts = { type = "time_point", writable = false },
+            time_of_cataclysm = { type = "time_point", writable = false },
         },
         functions = {
+            { name = "eternal_season", rval = "bool", args = { } },
+            { name = "year_length", rval = "time_duration", args = { } },
+            { name = "season_length", rval = "time_duration", args = { } },
+            { name = "season_ratio", rval = "float", args = { } },
+            { name = "season_from_default_ratio", rval = "float", args = { } },
+            { name = "name_season", rval = "string", args = { "season_type" } },
             { name = "day_of_year", rval = "int", args = { } },
             { name = "get_turn", rval = "int", cpp_name = "operator int", args = { } },
             { name = "increment", rval = nil, args = { } },
