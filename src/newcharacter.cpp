@@ -638,6 +638,9 @@ bool player::create(character_type type, const std::string &tempname)
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
 
+    // Set stamina penalty to 0
+    stamina_max_penalty = 0;
+
     return true;
 }
 
