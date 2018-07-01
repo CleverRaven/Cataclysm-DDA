@@ -7591,7 +7591,7 @@
     "symbol": "%",
     "quench": 5,
     "nutrition": 25,
-    "description": "A pickled cucumber.  Rather sour, but tastes good and basically lasts forever.",
+    "description": "A pickled cucumber.  Rather sour, but tastes good and lasts for a long time.",
     "price": 250,
     "material": "veggy",
     "volume": 1,
@@ -7638,6 +7638,24 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "pickled_egg",
+    "name": "pickled egg",
+    "weight": 80,
+    "color": "white",
+    "spoils_in": 720,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "nutrition": 38,
+    "description": "A pickled egg.  Rather salty, but tastes good and lasts for a long time.",
+    "price": 95,
+    "material": "egg",
+    "volume": 1,
+    "fun": 2,
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
