@@ -720,7 +720,7 @@ std::string new_artifact()
             def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
         //Maybe pick an extra recharge requirement
-        if (one_in( std::max(1, 8-num_good) ) && def.artifact->charge_type!=ARTC_NULL ) { 
+        if (one_in( std::max(1, 8-num_good) ) && def.artifact->charge_type!=ARTC_NULL ) {
             def.artifact->charge_req = art_charge_req( rng(ACR_NULL + 1, NUM_ACRS - 1) );
         }
         item_controller->add_item_type( static_cast<itype &>( def ) );

@@ -13373,7 +13373,7 @@ void game::process_artifact( item &it, player &p )
             case(ACR_WET):
                 reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
                                []( const int w ) { return w != 0; } );
-                if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0 
+                if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
                     && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
                    reqsmet = true;
                 }
@@ -13383,7 +13383,7 @@ void game::process_artifact( item &it, player &p )
                 break;
             }
             //Proceed with actually recharging if all extra requirements met
-            if(reqsmet){ 
+            if(reqsmet){
                 switch( it.type->artifact->charge_type ) {
                 case ARTC_NULL:
                 case NUM_ARTCS:
@@ -13427,9 +13427,6 @@ void game::process_artifact( item &it, player &p )
                     }
                     break;
                 break;
-<<<<<<< HEAD
-=======
->>>>>>> Working on making extra charge reqs actually do something
             }
         }
     }
