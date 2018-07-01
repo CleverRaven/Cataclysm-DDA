@@ -654,7 +654,7 @@ class player : public Character
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
-        reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
+        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
