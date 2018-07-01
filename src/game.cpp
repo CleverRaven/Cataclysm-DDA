@@ -13476,7 +13476,7 @@ void game::process_artifact( item &it, player &p )
                 m.adjust_field_age( dest, fd_fire, -1_turns );
             }
             break;
-            
+
         case AEP_FUN:
             //Bonus fluctuates, wavering between 0 and 30-ish - usually around 12
             p.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
@@ -13679,7 +13679,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
         case AEP_CARRY_MORE:
             add_msg(m_good, _("Your back feels strengthened."));
             break;
-            
+
         case AEP_FUN:
             add_msg(m_good, _("You feel a pleasant tingle."));
             break;
