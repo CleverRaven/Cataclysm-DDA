@@ -1683,7 +1683,7 @@
             "target": "long_patchwork_scarf_loose",
             "menu_text": "Loosen"
         },
-        "covers" : ["MOUTH"],
+        "covers" : ["MOUTH", "HANDS"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
         "warmth" : 20,
         "environmental_protection" : 1,
@@ -1712,7 +1712,7 @@
             "menu_text": "Wrap tighter"
         },
         "revert_to": "long_patchwork_scarf",
-        "covers" : ["MOUTH"],
+        "covers" : ["MOUTH", "HANDS"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 10,
         "environmental_protection" : 1,
