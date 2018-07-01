@@ -505,7 +505,8 @@ class input_context
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
-        int coordinate_x, coordinate_y;
+        int coordinate_x;
+        int coordinate_y;
         bool coordinate_input_received;
         bool handling_coordinate_input;
         input_event next_action;

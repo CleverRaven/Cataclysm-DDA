@@ -555,13 +555,34 @@ void game::init_ui( const bool resized )
     //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
     reinitialize_framebuffer();
 
-    int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
-    int hpX, hpY, hpW, hpH;
-    int messX, messY, messW, messHshort, messHlong;
-    int locX, locY, locW, locH;
-    int statX, statY, statW, statH;
-    int stat2X, stat2Y, stat2W, stat2H;
-    int pixelminimapW, pixelminimapH, pixelminimapX, pixelminimapY;
+    // minimapX x minimapY is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
+    int minimapX = 0;
+    int minimapY = 0;
+    int hpX = 0;
+    int hpY = 0;
+    int hpW = 0;
+    int hpH = 0;
+    int messX = 0;
+    int messY = 0;
+    int messW = 0;
+    int messHshort = 0;
+    int messHlong = 0;
+    int locX = 0;
+    int locY = 0;
+    int locW = 0;
+    int locH = 0;
+    int statX = 0;
+    int statY = 0;
+    int statW = 0;
+    int statH = 0;
+    int stat2X = 0;
+    int stat2Y = 0;
+    int stat2W = 0;
+    int stat2H = 0;
+    int pixelminimapW = 0;
+    int pixelminimapH = 0;
+    int pixelminimapX = 0;
+    int pixelminimapY = 0;
 
     bool pixel_minimap_custom_height = false;
 
@@ -801,7 +822,7 @@ special_game_id game::gametype() const
     return gamemode ? gamemode->id() : SGAME_NULL;
 }
 
-void game::load_map( tripoint pos_sm )
+void game::load_map( const tripoint &pos_sm )
 {
     m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
 }
@@ -1847,7 +1868,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 
     item &oThisItem = u.i_at( pos );
     if( u.has_item( oThisItem ) ) {
-        std::vector<iteminfo> vThisItem, vDummy;
+        std::vector<iteminfo> vThisItem;
+        std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule(oThisItem.tname( 1, false ));
         const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
@@ -2028,7 +2050,8 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
     do {
         action = ctxt.handle_input();
         if (action == "MOUSE_MOVE") {
-            int mx, my;
+            int mx = 0;
+            int my = 0;
             const bool are_valid_coordinates = ctxt.get_coordinates(w_terrain, mx, my);
             // TODO: Z
             int mz = g->get_levz();
@@ -2389,7 +2412,9 @@ void game::rcdrive(int dx, int dy)
         u.add_msg_if_player(m_warning, _("No radio car connected."));
         return;
     }
-    int cx, cy, cz;
+    int cx = 0;
+    int cy = 0;
+    int cz = 0;
     car_location_string >> cx >> cy >> cz;
 
     auto rc_pairs = m.get_rc_items( cx, cy, cz );
@@ -2536,7 +2561,8 @@ bool game::handle_action()
                 return false;
             }
 
-            int mx, my;
+            int mx = 0;
+            int my = 0;
             if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees( tripoint( mx, my, u.posz() ) ) ) {
                 // Not clicked in visible terrain
                 return false;
@@ -5024,7 +5050,8 @@ void game::draw_minimap()
                 mvwputch( w_minimap, 0, 3, c_red, '*' );
             }
         } else {
-            int arrowx = -1, arrowy = -1;
+            int arrowx = -1;
+            int arrowy = -1;
             if( fabs( slope ) >= 1. ) { // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = int( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
@@ -5054,6 +5081,25 @@ void game::draw_minimap()
             mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
         }
     }
+
+    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    for( int i = -3; i <= 3; i++ ) {
+        for( int j = -3; j <= 3; j++ ) {
+            if( i > -3 && i < 3 && j > -3 && j < 3 ) {
+                continue; // only do hordes on the border, skip inner map
+            }
+            const int omx = cursx + i;
+            const int omy = cursy + j;
+            tripoint const cur_pos {omx, omy, get_levz()};
+            if( overmap_buffer.has_horde( omx, omy, get_levz() )
+                && ( omx != targ.x || omy != targ.y )
+                && overmap_buffer.seen( omx, omy, get_levz() )
+                && g->u.overmap_los( cur_pos, sight_points ) ) {
+                mvwputch( w_minimap, j + 3, i + 3, c_green, 'Z' );
+            }
+        }
+    }
+
     wrefresh( w_minimap );
 }
 
@@ -7304,7 +7350,7 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at(examp).empty() &&
             m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
-        } else if( !vp ) {//@todo can vp be valid at this point?
+        } else {
             Pickup::pick_up( examp, 0);
         }
     }
@@ -8062,7 +8108,9 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     bool fast_scroll = false;
     bool blink = false;
 
-    int lookWidth, lookY, lookX;
+    int lookWidth = 0;
+    int lookY = 0;
+    int lookX = 0;
     get_lookaround_dimensions(lookWidth, lookY, lookX);
 
     bool bNewWindow = false;
@@ -8256,7 +8304,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             draw_ter( lp, true );
             wrefresh( w_terrain );
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
-            int dx, dy;
+            int dx = 0;
+            int dy = 0;
             ctxt.get_direction(dx, dy, action);
 
             if (dx == -2) {
@@ -8685,7 +8734,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             uistate.list_item_filter_active = false;
             addcategory = !sort_radius;
         } else if( action == "EXAMINE" && !filtered_items.empty() ) {
-            std::vector<iteminfo> vThisItem, vDummy;
+            std::vector<iteminfo> vThisItem;
+            std::vector<iteminfo> vDummy;
             int dummy = 0; // draw_item_info needs an int &
             activeItem->example->info( true, vThisItem );
             draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
@@ -8922,7 +8972,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             werase(w_item_info);
 
             if( iItemNum > 0 ) {
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 activeItem->example->info( true, vThisItem );
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
                 // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
@@ -9417,7 +9468,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( _( "Never mind." ) );
             return;
         }
-        if( cont == source && source != nullptr ) {
+        if( source != nullptr && cont == source ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
@@ -10590,7 +10641,8 @@ void game::chat()
 
     nmenu.return_invalid = true;
 
-    int yell, yell_sentence;
+    int yell = 0;
+    int yell_sentence = 0;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
@@ -12216,7 +12268,7 @@ void game::vertical_move(int movez, bool force)
         if( cost <= 0 || pts.empty() ) {
             add_msg( m_info, _("You can't climb here - there is no terrain above you that would support your weight") );
             return;
-        } else if( cost > 0 && !pts.empty() ) {
+        } else {
             // TODO: Make it an extended action
             climbing = true;
             move_cost = cost;
@@ -12573,7 +12625,8 @@ void game::update_map( player &p )
 
 void game::update_map(int &x, int &y)
 {
-    int shiftx = 0, shifty = 0;
+    int shiftx = 0;
+    int shifty = 0;
 
     while (x < SEEX * int(MAPSIZE / 2)) {
         x += SEEX;
@@ -12688,7 +12741,8 @@ void game::replace_stair_monsters()
 void game::update_stair_monsters()
 {
     // Search for the stairs closest to the player.
-    std::vector<int> stairx, stairy;
+    std::vector<int> stairx;
+    std::vector<int> stairy;
     std::vector<int> stairdist;
 
     const bool from_below = monstairz < get_levz();
@@ -13317,6 +13371,14 @@ void game::process_artifact( item &it, player &p )
                     it.charges++;
                 }
                 break;
+            case ARTC_FATIGUE:
+                if( calendar::once_every( 1_minutes ) ) {
+                    add_msg(m_bad, _("You feel fatigue seeping into your body."));
+                    u.mod_fatigue( 3 * rng( 1, 3 ) );
+                    u.mod_stat("stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                    it.charges++;
+                }
+                break;
             }
         }
     }
@@ -13366,6 +13428,11 @@ void game::process_artifact( item &it, player &p )
             for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
                 m.adjust_field_age( dest, fd_fire, -1_turns );
             }
+            break;
+            
+        case AEP_FUN:
+            //Bonus fluctuates, wavering between 0 and 30-ish - usually around 12
+            p.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
             break;
 
         case AEP_HUNGER:
@@ -13469,9 +13536,13 @@ void game::start_calendar()
     calendar::turn = calendar::start;
 }
 
-void game::add_artifact_messages(std::vector<art_effect_passive> effects)
+void game::add_artifact_messages( const std::vector<art_effect_passive> &effects )
 {
-    int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
+    int net_str = 0;
+    int net_dex = 0;
+    int net_per = 0;
+    int net_int = 0;
+    int net_speed = 0;
 
     for (auto &i : effects) {
         switch (i) {
@@ -13560,6 +13631,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
         case AEP_CARRY_MORE:
             add_msg(m_good, _("Your back feels strengthened."));
+            break;
+            
+        case AEP_FUN:
+            add_msg(m_good, _("You feel a pleasant tingle."));
             break;
 
         case AEP_HUNGER:

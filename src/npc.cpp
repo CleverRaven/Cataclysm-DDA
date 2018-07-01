@@ -2140,7 +2140,7 @@ void epilogue::load_epilogue( JsonObject &jsobj )
     _all_epilogue[base.id] = base;
 }
 
-epilogue *epilogue::find_epilogue( std::string ident )
+epilogue *epilogue::find_epilogue( const std::string &ident )
 {
     epilogue_map::iterator found = _all_epilogue.find( ident );
     if( found != _all_epilogue.end() ) {

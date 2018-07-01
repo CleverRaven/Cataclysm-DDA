@@ -4197,7 +4197,8 @@
       ["survnote", 3],
       ["holo_cloak", 5],
       ["stillsuit", 5],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["q_solarpack", 3]
     ]
   },{
     "type" : "item_group",
@@ -4669,7 +4670,8 @@
       ["eboshi", 1],
       ["kariginu", 2],
       ["kimono", 3],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["solarpack", 5]
     ]
   },{
     "type" : "item_group",
@@ -4753,7 +4755,8 @@
       ["bfipowder", 20],
       ["sheath", 10],
       ["bootsheath", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["solarpack", 1]
     ]
   },{
     "type" : "item_group",
@@ -5314,7 +5317,8 @@
       ["radiocontrol", 25],
       ["omnicamera", 7],
       ["chem_nitric_acid", 1],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["solarpack", 10]
     ]
   },{
     "type" : "item_group",
@@ -5792,7 +5796,8 @@
       ["beret", 50],
       ["beret_wool", 40],
       ["elbow_pads", 50],
-      ["knee_pads", 50]
+      ["knee_pads", 50],
+      ["solarpack", 5]
     ]
   },{
     "type" : "item_group",
@@ -5822,7 +5827,8 @@
       ["sheath", 10],
       ["bootsheath", 8],
       ["holster", 15],
-      ["sholster", 10]
+      ["sholster", 10],
+      ["solarpack", 5]
     ]
   },{
     "type" : "item_group",
@@ -6929,7 +6935,8 @@
       ["grapnel", 1],
       ["briefcase", 5],
       ["survnote", 2],
-      ["robot_controls", 3]
+      ["robot_controls", 3],
+      ["solarpack", 1]
     ]
   },{
     "type" : "item_group",
@@ -7161,7 +7168,8 @@
       ["shoulder_strap", 16],
       ["bot_manhack", 1],
       ["bot_grenade_hack", 1],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["solarpack", 2]
     ]
   },{
     "type" : "item_group",
@@ -7768,7 +7776,8 @@
       ["toolbox", 1],
       ["smoxygen_tank", 35],
       ["watercannon", 10],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["solarpack", 2]
     ]
   },{
     "type" : "item_group",

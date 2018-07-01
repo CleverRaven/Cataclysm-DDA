@@ -61,7 +61,7 @@ bool inbounds( const int x, const int y, const int z )
            z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-std::vector<std::string> fld_string( std::string str, int width )
+std::vector<std::string> fld_string( const std::string &str, int width )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -323,7 +323,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 /*
  * update the help text, which hijacks w_info's bottom border
  */
-void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
+void editmap::uphelp( const std::string &txt1, const std::string &txt2, const std::string &title )
 {
 
     if( !txt1.empty() ) {
@@ -1755,7 +1755,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                         int spawns_todo = 0;
                         for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                            int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
+                            int mx = srcsm->spawns[i].posx;
+                            int my = srcsm->spawns[i].posy;
                             s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
                             destsm->spawns.push_back( srcsm->spawns[i] );
                             spawns_todo++;

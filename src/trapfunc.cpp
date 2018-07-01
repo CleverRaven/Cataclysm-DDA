@@ -539,7 +539,8 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
             }
 
             int tries = 0;
-            int newposx, newposy;
+            int newposx = 0;
+            int newposy = 0;
             do {
                 newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
                 newposy = rng( z->posy() - SEEY, z->posy() + SEEY );

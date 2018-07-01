@@ -1264,6 +1264,18 @@
     },
     {
         "type" : "keybinding",
+        "id":"TOGGLE_HORDES",
+        "category":"OVERMAP",
+        "name":"Toggle Hordes",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"H"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_EXPLORED",
         "category":"OVERMAP",
         "name":"Toggle Explored",
@@ -2259,18 +2271,6 @@
             {
                 "input_method":"keyboard",
                 "key":"="
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"REMOVE",
-        "category":"BIONICS",
-        "name":"Remove bionic",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"-"
             }
         ]
     },

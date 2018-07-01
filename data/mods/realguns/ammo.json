@@ -353,7 +353,7 @@
     "stack_size": 20,
     "ammo_type": [ "454", "410" ],
     "casing": "410_hull",
-    "range": 5,
+    "range": 10,
     "damage": 32,
     "recoil": 1200,
     "loudness": 140,

@@ -719,7 +719,7 @@ mtype_id MonsterGenerator::get_valid_hallucination() const
     return random_entry( hallucination_monsters );
 }
 
-m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
+m_flag MonsterGenerator::m_flag_from_string( const std::string &flag ) const
 {
     return flag_map.find( flag )->second;
 }

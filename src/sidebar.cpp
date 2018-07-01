@@ -335,7 +335,8 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    int current_bp_extreme = 0, conv_bp_extreme = 0;
+    int current_bp_extreme = 0;
+    int conv_bp_extreme = 0;
     for( int i = 0; i < num_bp ; i++ ) {
         if( abs( temp_cur[i] - BODYTEMP_NORM ) > abs( temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
             current_bp_extreme = i;

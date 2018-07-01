@@ -1277,15 +1277,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_fence_post",
-        "post_terrain" : "t_fence_h"
-    },{
-        "type" : "construction",
-        "description" : "Realign Fence", "//": "horizontal to vertical",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_fence_h",
-        "post_terrain" : "t_fence_v"
+        "post_terrain" : "t_fence"
     },{
         "type" : "construction",
         "description" : "Build Fence Gate",
@@ -1307,14 +1299,6 @@
         ],
         "pre_flags" : "DIGGABLE",
         "post_terrain" : "t_fencegate_c"
-    },{
-        "type" : "construction",
-        "description" : "Realign Fence", "//": "vertical to horizontal",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_fence_v",
-        "post_terrain" : "t_fence_h"
     },
     {
         "type" : "construction",
@@ -1368,7 +1352,7 @@
         "post_terrain" : "t_chainfence_posts"
     },{
         "type" : "construction",
-        "description" : "Build Chainlink Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
+        "description" : "Build Chainlink Fence", "//": "Step 2: chainlink",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
@@ -1376,23 +1360,7 @@
             [ [ "wire", 20 ] ]
         ],
         "pre_terrain" : "t_chainfence_posts",
-        "post_terrain" : "t_chainfence_v"
-    },{
-        "type" : "construction",
-        "description" : "Realign Chainlink Fence",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_chainfence_h",
-        "post_terrain" : "t_chainfence_v"
-    },{
-        "type" : "construction",
-        "description" : "Realign Chainlink Fence",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_chainfence_v",
-        "post_terrain" : "t_chainfence_h"
+        "post_terrain" : "t_chainfence"
     },{
         "type" : "construction",
         "description" : "Build Chainlink Gate",
