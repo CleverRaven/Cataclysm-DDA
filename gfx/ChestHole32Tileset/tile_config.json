@@ -39580,10 +39580,10 @@
           "rotates": false
         },
         {
-          "id": "t_chainfence_h",
+          "id": [ "t_chainfence", "t_chainfence_h" ],
           "fg": 1965,
           "bg": 640,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -39628,7 +39628,7 @@
           "id": "t_chainfence_v",
           "fg": 1965,
           "bg": 640,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -39713,6 +39713,7 @@
           "id": "t_fence_v",
           "fg": 2017,
           "bg": 640,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -39735,7 +39736,7 @@
           "rotates": false
         },
         {
-          "id": "t_fence_h",
+          "id": [ "t_fence", "t_fence_h" ],
           "fg": 2014,
           "bg": 640,
           "rotates": true,
@@ -43140,9 +43141,10 @@
           "rotates": false
         },
         {
-          "id": "t_railing_h",
+          "id": [ "t_railing", "t_railing_h" ],
           "fg": 2097,
           "bg": 660,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -43181,6 +43183,7 @@
           "id": "t_railing_v",
           "fg": 2097,
           "bg": 660,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -44153,9 +44156,10 @@
           "bg": 669
         },
         {
-          "id": "t_chainfence_h_season_winter",
+          "id": [ "t_chainfence_season_winter", "t_chainfence_h_season_winter" ],
           "fg": 1965,
           "bg": 669,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -44370,6 +44374,7 @@
           "id": "t_chainfence_v_season_winter",
           "fg": 1965,
           "bg": 669,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
