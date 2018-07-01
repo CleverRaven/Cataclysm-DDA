@@ -528,6 +528,9 @@
         "......+..",
         "......|.S"
       ],
+      "palettes": [
+        "lab_palette"
+      ],
       "terrain": {
         "E": "t_elevator",
         "e": "t_elevator_control_off"
