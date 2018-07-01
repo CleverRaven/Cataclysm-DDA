@@ -44,7 +44,7 @@ bool lcmatch( const std::string &str, const std::string &qry )
 
 bool match_include_exclude( const std::string &text, std::string filter )
 {
-    unsigned long iPos;
+    size_t iPos;
     bool found = false;
 
     if( filter.empty() ) {
