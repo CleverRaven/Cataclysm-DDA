@@ -13417,7 +13417,6 @@ void game::process_artifact( item &it, player &p )
                         it.charges++;
                     }
                     break;
-                }
                 case ARTC_FATIGUE:
                     if( calendar::once_every( 1_minutes ) ) {
                         add_msg(m_bad, _("You feel fatigue seeping into your body."));
@@ -13426,7 +13425,7 @@ void game::process_artifact( item &it, player &p )
                         it.charges++;
                     }
                     break;
-                break;
+                }
             }
         }
     }
