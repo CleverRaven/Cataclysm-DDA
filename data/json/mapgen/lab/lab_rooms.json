@@ -528,10 +528,9 @@
         "......+..",
         "......|.S"
       ],
-      "mapping": {
-        "l": { "items": [
-            { "item": "cleaning", "chance": 50 }
-        ]}
+      "terrain": {
+        "E": "t_elevator",
+        "e": "t_elevator_control_off"
       }
     }
   }
