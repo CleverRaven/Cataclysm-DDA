@@ -751,7 +751,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( !is_null() ) {
         if (parts->test(iteminfo_parts::BASE_CATEGORY) )
-            info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name + "</header>",
+            info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name() + "</header>",
                                       -999, true, "", false ) );
         const int price_preapoc = price( false ) * batch;
         const int price_postapoc = price( true ) * batch;
