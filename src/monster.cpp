@@ -1281,17 +1281,6 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         return;
     }
 
-    const bool u_see_mon = g->u.sees(*this);
-    // Maxes out at 50% chance with perfect hit
-    if( has_flag( MF_HARDTOSHOOT ) &&
-        !one_in( 10 - 10 * ( .8 - missed_by ) ) &&
-        !effects.count( "WIDE" ) ) {
-        if( u_see_mon ) {
-            add_msg( _( "The shot passes through %s without hitting." ), disp_name().c_str() );
-        }
-        return;
-    }
-    // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
     if( missed_by < accuracy_headshot && has_flag( MF_NOHEAD ) ) {
         missed_by = accuracy_headshot;

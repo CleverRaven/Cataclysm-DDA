@@ -247,7 +247,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT``` You feel guilty for killing it.
-- ```HARDTOSHOOT``` Some shots are actually misses.
+- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then MS_TINY 
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
