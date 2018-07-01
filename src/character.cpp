@@ -2653,7 +2653,6 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     float rate_medicine = 0.0f;
     float bandaged_rate = 0.0f;
     float disinfected_rate = 0.0f;
-    float awake_rate = mutation_value( "healing_awake" );
 
     if( has_effect( effect_bandaged, bp ) ) {
         const effect &e_bandaged = get_effect( effect_bandaged, bp );
