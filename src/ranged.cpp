@@ -74,6 +74,8 @@ double Creature::ranged_target_size() const
 {
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
+            case MS_TINY:
+                return occupied_tile_fraction( MS_TINY );
             case MS_SMALL:
                 return occupied_tile_fraction( MS_TINY );
             case MS_MEDIUM:
@@ -84,7 +86,6 @@ double Creature::ranged_target_size() const
                 return occupied_tile_fraction( MS_LARGE );
         }
     }
-    return occupied_tile_fraction( get_size() );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )
