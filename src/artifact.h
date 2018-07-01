@@ -65,12 +65,11 @@ enum art_charge : int {
 enum art_charge_req : int {
     ACR_NULL = 0, //No extra requirement
     ACR_EQUIP,    //Must be worn/wielded as appropriate
-    ACR_SKIN,     //TODO As ACR_EQUIP plus must be only thing worn on bodypart (no gloves if wielded, freebie if no parts covered)
-    ACR_SLEEP,    //TODO Only while sleeping
-    ACR_RAD,      //TODO Must be irradiated/in irradiated tile
-    ACR_WET,      //TODO Must be wet/in water/in rain
-    ACR_SKY,      //TODO Must be on a Z-level above the surface
-    ACR_NPC,      //TODO Must be carried by someone other than the one who activated it (i.e. anyone but you)
+    ACR_SKIN,     //As ACR_EQUIP, plus must be only* thing on a bodypart (or no gloves if wielded)
+    ACR_SLEEP,    //Only while sleeping            ^*Anything with <50% coverage doesn't count
+    ACR_RAD,      //Must be irradiated/in irradiated tile
+    ACR_WET,      //Must be wet or in rain
+    ACR_SKY,      //Must be on a Z-level above the surface
     NUM_ACRS
 };
 

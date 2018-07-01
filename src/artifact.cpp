@@ -1374,7 +1374,6 @@ static const std::unordered_map<std::string, art_charge_req> art_charge_req_valu
     PAIR( ACR_RAD ),
     PAIR( ACR_WET ),
     PAIR( ACR_SKY ),
-    PAIR( ACR_NPC ),
 } };
 #undef PAIR
 
