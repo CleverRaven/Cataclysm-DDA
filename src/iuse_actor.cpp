@@ -3176,16 +3176,20 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( bandages_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", bandages_power, true, "", true );
+        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", bandages_power, true,
+                           "", true );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "", get_bandaged_level( g->u ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "",
+                               get_bandaged_level( g->u ), true, "", true );
         }
     }
 
     if( disinfectant_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", disinfectant_power, true, "", true );
+        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", disinfectant_power,
+                           true, "", true );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "", get_disinfected_level( g->u ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "",
+                               get_disinfected_level( g->u ), true, "", true );
         }
     }
 
