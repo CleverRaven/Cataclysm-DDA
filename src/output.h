@@ -417,14 +417,14 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch = false, const bool without_border = false,
                             const bool handle_scrolling = false, const bool scrollbar_left = true,
-                            const bool use_full_win = false );
+                            const bool use_full_win = false, const unsigned int padding = 1 );
 
 input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
                             const std::string sItemName, const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch = false, const bool without_border = false,
                             const bool handle_scrolling = false, const bool scrollbar_left = true,
-                            const bool use_full_win = false );
+                            const bool use_full_win = false, const unsigned int padding = 1 );
 
 enum class item_filter_type : int {
     FIRST = 1, // used for indexing into tables
