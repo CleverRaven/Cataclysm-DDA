@@ -344,7 +344,7 @@ class Character : public Creature, public visitable<Character>
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant  ) const;
+                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
