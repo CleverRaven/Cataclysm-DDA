@@ -64,7 +64,7 @@ enum art_charge : int {
 
 enum art_charge_req : int {
     ACR_NULL = 0, //No extra requirement
-    ACR_EQUIP,    //TODO Must be worn/wielded as appropriate
+    ACR_EQUIP,    //Must be worn/wielded as appropriate
     ACR_SKIN,     //TODO As ACR_EQUIP plus must be only thing worn on bodypart (no gloves if wielded, freebie if no parts covered)
     ACR_SLEEP,    //TODO Only while sleeping
     ACR_RAD,      //TODO Must be irradiated/in irradiated tile

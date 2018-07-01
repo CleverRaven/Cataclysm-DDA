@@ -554,6 +554,7 @@ it_artifact_tool::it_artifact_tool() : itype()
     price = 0;
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
+    artifact->charge_req = ACR_NULL;
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
@@ -1080,7 +1081,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
-    artifact->charge_req = (art_charge_req)jo.get_int("charge_req");
+    artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
 
     JsonArray ja = jo.get_array("effects_wielded");
     while (ja.has_more()) {
@@ -1393,5 +1394,11 @@ template<>
 art_charge string_to_enum<art_charge>( const std::string &data )
 {
     return string_to_enum_look_up( art_charge_values, data );
+}
+
+template<>
+art_charge_req string_to_enum<art_charge_req>( const std::string &data )
+{
+    return string_to_enum_look_up( art_charge_req_values, data );
 }
 } // namespace io

@@ -13346,7 +13346,7 @@ void game::process_artifact( item &it, player &p )
                 break;
             case(ACR_EQUIP):
                 //Generated artifacts won't both be wearable and have charges, but nice for mods
-                reqsmet = (worn || ( wielded && it.type->artifact->effects_worn.empty() ) );
+                reqsmet = (worn || ( wielded && !it.is_armor() ) );
                 break;
             default:
                 break; //TODO implement rest

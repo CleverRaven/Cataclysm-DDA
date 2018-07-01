@@ -1158,6 +1158,7 @@ bool Item_factory::load_definition( JsonObject& jo, const std::string &src, ityp
 void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string & )
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
+    slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
