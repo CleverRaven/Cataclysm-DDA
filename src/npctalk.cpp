@@ -16,6 +16,7 @@
 #include "units.h"
 #include "overmapbuffer.h"
 #include "json.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
@@ -57,21 +58,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_ELFAEYES( "ELFAEYES" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_GROWL( "GROWL" );
-static const trait_id trait_HISS( "HISS" );
-static const trait_id trait_LIAR( "LIAR" );
-static const trait_id trait_MINOTAUR( "MINOTAUR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-static const trait_id trait_SNARL( "SNARL" );
-static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
-static const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 struct dialogue;
 
@@ -456,9 +443,9 @@ const std::string &talk_trial::name() const
 }
 
 /** Time (in turns) and cost (in cent) for training: */
-static int calc_skill_training_time( const npc &p, const skill_id &skill )
+static time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return MINUTES( 10 + 5 * g->u.get_skill_level( skill ) - p.get_skill_level( skill ) );
+    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) - 1_turns * p.get_skill_level( skill );
 }
 
 static int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -473,9 +460,9 @@ static int calc_skill_training_cost( const npc &p, const skill_id &skill )
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-static int calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+static time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
 {
-    return MINUTES( 30 );
+    return 30_minutes;
 }
 
 static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
@@ -2307,9 +2294,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
             std::stringstream reasons;
-            vehicle *veh = g->m.veh_at( p->pos() );
-            if( veh != nullptr ) {
-                if( abs( veh->velocity ) > 0 ) {
+            if( const optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
+                if( abs( vp->vehicle().velocity ) > 0 ) {
                     reasons << _( "I can't train you properly while you're operating a vehicle!" ) << std::endl;
                 }
             }
@@ -2625,6 +2611,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
+    const social_modifiers &u_mods = u.get_mutation_social_mods();
 
     npc &p = *d.beta;
     int chance = difficulty;
@@ -2635,20 +2622,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
-            if( u.has_trait( trait_TRUTHTELLER ) ) {
-                chance -= 40;
-            }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance -= 20;
-            } else if( u.has_trait( trait_LIAR ) ) {
-                chance += 40;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( ( u.has_trait( trait_WINGS_BUTTERFLY ) ) || ( u.has_trait( trait_FLOWERS ) ) ) {
-                chance += 10;
-            }
+            chance += u_mods.lie;
+
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
                 chance += 10;
             }
@@ -2659,26 +2634,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_PERSUADE:
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance += 15; // Flutter your wings at 'em
-            }
+            chance += u_mods.persuade;
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance -= 60;
             }
             if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
                 chance -= 50;
@@ -2690,36 +2649,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_INTIMIDATE:
             chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                       p.personality.bravery * 2;
-            if( u.has_trait( trait_MINOTAUR ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_MUZZLE ) ) {
-                chance += 6;
-            }
-            if( u.has_trait( trait_MUZZLE_LONG ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_SABER_TEETH ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_TERRIFYING ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance += 30;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance -= 20; // Butterflies are not terribly threatening.  :-(
-            }
+            chance += u_mods.intimidate;
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
             }
@@ -3278,7 +3209,7 @@ bool pay_npc( npc &np, int cost )
 void talk_function::start_training( npc &p )
 {
     int cost;
-    int time;
+    time_duration time = 0_turns;
     std::string name;
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
@@ -3301,7 +3232,7 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
@@ -4427,7 +4358,7 @@ enum consumption_result {
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // @todo: Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_container();
+    bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto &comest = to_eat.type->comestible;
     if( !comest ) {

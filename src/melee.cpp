@@ -74,7 +74,7 @@ static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
 
-void player_hit_message(player* attacker, std::string message,
+void player_hit_message(player* attacker, const std::string &message,
                         Creature &t, int dam, bool crit = false);
 int  stumble( player &u, const item &weap );
 std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
@@ -137,7 +137,36 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     const float stat_factor = dex_cur / 2.0f
         + get_skill_level( skill_melee )
         + ( 64.0f / std::max( str_cur, 4 ) );
-    const float material_factor = shield.chip_resistance();
+
+    float material_factor;
+
+    itype_id weak_comp;
+    itype_id big_comp = "null";
+    // Fragile items that fall apart easily when used as a weapon due to poor construction quality
+    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
+        const float fragile_factor = 6;
+        int weak_chip = INT_MAX;
+
+        // Items that should have no bearing on durability
+        const std::set<itype_id> blacklist = { "rag",
+                                               "leather",
+                                               "fur" };
+
+        for( auto &comp : shield.components ) {
+            if( blacklist.count( comp.typeId() ) <= 0 ) {
+                if( weak_chip > comp.chip_resistance() ) {
+                    weak_chip = comp.chip_resistance();
+                    weak_comp = comp.typeId();
+                }
+            }
+            if( comp.volume() > item::find_type( big_comp )->volume ) {
+                big_comp = comp.typeId();
+            }
+        }
+        material_factor = ( weak_chip < INT_MAX ? weak_chip : shield.chip_resistance() ) / fragile_factor;
+    } else {
+        material_factor = shield.chip_resistance();
+    }
     int damage_chance = static_cast<int>( stat_factor * material_factor / wear_multiplier );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
@@ -158,15 +187,49 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
-                            _("<npcname>'s %s is destroyed by the blow!"),
-                            str.c_str());
     // Dump its contents on the ground
+    // Destroy irremovable mods, if any
+
+    for( auto mod : shield.gunmods() ) {
+        if( mod->is_irremovable() ) {
+            remove_item( *mod );
+        }
+    }
+
     for( auto &elem : shield.contents ) {
         g->m.add_item_or_charges( pos(), elem );
     }
 
+    // Preserve item temporarily for component breakdown
+    item temp = shield;
+
     remove_item( shield );
+
+    // Breakdown fragile weapons into components
+    if( temp.has_flag( "FRAGILE_MELEE" ) && !temp.components.empty() ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
+                                      _( "<npcname>'s %s breaks apart!" ),
+                                      str.c_str() );
+
+        for( auto &comp : temp.components ) {
+            int break_chance = comp.typeId() == weak_comp ? 2 : 8;
+
+            if( one_in( break_chance ) ) {
+                add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
+                continue;
+            }
+
+            if( comp.typeId() == big_comp && !is_armed() ) {
+                wield( comp );
+            } else {
+                g->m.add_item_or_charges( pos(), comp );
+            }
+        }
+    } else {
+        add_msg_player_or_npc( m_bad, _( "Your %s is destroyed by the blow!" ),
+                                      _( "<npcname>'s %s is destroyed by the blow!" ),
+                                      str.c_str() );
+    }
 
     return true;
 }
@@ -274,7 +337,7 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
     p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
     // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
+    p.practice( weap.is_unarmed_weapon() ? skill_unarmed : skill_bashing,
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
@@ -286,7 +349,7 @@ void player::melee_attack( Creature &t, bool allow_special )
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique )
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, bool allow_unarmed )
 {
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
@@ -294,7 +357,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
 
-    item &cur_weapon = used_weapon();
+    item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
@@ -486,7 +549,7 @@ void player::reach_attack( const tripoint &p )
         return;
     }
 
-    melee_attack( *critter, false, force_technique );
+    melee_attack( *critter, false, force_technique, false );
 }
 
 int stumble( player &u, const item &weap )
@@ -521,7 +584,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( unarmed_attack() ) {
+    if( weap.is_unarmed_weapon() ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         /** @EFFECT_UNARMED increases critical chance with UNARMED_WEAPON */
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
@@ -643,7 +706,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 {
     float bash_dam = 0.0f;
 
-    const bool unarmed = weap.has_flag("UNARMED_WEAPON");
+    const bool unarmed = weap.is_unarmed_weapon();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     if( has_active_bionic(bio_cqb) ) {
         skill = BIO_CQB_LEVEL;
@@ -733,7 +796,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         cutting_skill = BIO_CQB_LEVEL;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.is_unarmed_weapon() ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
@@ -806,7 +869,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
         stabbing_skill = BIO_CQB_LEVEL;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.is_unarmed_weapon() ) {
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
             weap.is_null();
@@ -1748,7 +1811,7 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
 }
 
 // display the hit message for an attack
-void player_hit_message( player* attacker, std::string message,
+void player_hit_message( player* attacker, const std::string &message,
                         Creature &t, int dam, bool crit )
 {
     std::string msg;

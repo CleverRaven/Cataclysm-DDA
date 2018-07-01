@@ -292,7 +292,8 @@ void defense_game::init_map()
     int old_percent = 0;
     for( int i = 0; i <= MAPSIZE * 2; i += 2 ) {
         for( int j = 0; j <= MAPSIZE * 2; j += 2 ) {
-            int mx = 100 - MAPSIZE + i, my = 100 - MAPSIZE + j;
+            int mx = 100 - MAPSIZE + i;
+            int my = 100 - MAPSIZE + j;
             int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
                           ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
             if( percent >= old_percent + 1 ) {
@@ -919,7 +920,9 @@ void defense_game::caravan()
 
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0 );
 
-    int offset = 0, item_selected = 0, category_selected = 0;
+    int offset = 0;
+    int item_selected = 0;
+    int category_selected = 0;
 
     int current_window = 0;
 

@@ -45,6 +45,12 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
+    "id": "CBM",
+    "type": "json_flag",
+    "context": [ "BIONIC_ITEM" ],
+    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> to safely install it into your body, or you may attempt to perform a <info>self-installation</info> with a higher risk of damaging yourself."
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -65,10 +71,23 @@
     "inherit": false
   },
   {
+    "id": "DURABLE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
+    "conflicts": [ "FRAGILE_MELEE" ]
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
+  },
+  {
+    "id": "ONLY_ONE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "You can wear <info>only one</info>."
   },
   {
     "id": "FANCY",
@@ -103,6 +122,13 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
     "conflicts": [ "STURDY" ]
+  },
+  {
+    "id": "FRAGILE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
+    "conflicts": [ "DURABLE_MELEE" ]
   },
   {
     "id": "GAS_PROOF",

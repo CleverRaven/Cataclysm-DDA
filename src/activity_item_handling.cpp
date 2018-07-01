@@ -13,6 +13,8 @@
 #include "monster.h"
 #include "output.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 #include "veh_type.h"
 #include "player.h"
 #include "string_formatter.h"
@@ -190,14 +192,9 @@ void drop_on_map( const player &p, const std::list<item> &items, const tripoint 
 void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
                                const tripoint &where )
 {
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( where, veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, "CARGO" );
-        if( veh_part >= 0 ) {
-            put_into_vehicle( p, items, *veh, veh_part );
-            return;
-        }
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( "CARGO" ) ) {
+        put_into_vehicle( p, items, vp->vehicle(), vp->part_index() );
+        return;
     }
     drop_on_map( p, items, where );
 }
@@ -427,7 +424,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         return;
     }
 
-    for( const auto ait : items ) {
+    for( const auto &ait : items ) {
         item *filthy_item = const_cast<item *>( ait.it );
         filthy_item->item_tags.erase( "FILTHY" );
     }
@@ -516,22 +513,26 @@ static void move_items( const tripoint &src, bool from_vehicle,
     tripoint source = src + g->u.pos();
     tripoint destination = dest + g->u.pos();
 
-    int s_cargo, d_cargo;   // oui oui, mon frere
-    s_cargo = d_cargo = -1;
-    vehicle *s_veh, *d_veh; // 2diva4me
+    int s_cargo = -1;
+    int d_cargo = -1;
+    vehicle *s_veh, *d_veh;
     s_veh = d_veh = nullptr;
 
     // load vehicle information if requested
-    if( from_vehicle == true ) {
-        s_veh = g->m.veh_at( source, s_cargo );
-        assert( s_veh != nullptr );
-        s_cargo = s_veh->part_with_feature( s_cargo, "CARGO", false );
+    if( from_vehicle ) {
+        const cata::optional<vpart_reference> vp = g->m.veh_at( source ).part_with_feature( "CARGO",
+                false );
+        assert( vp );
+        s_veh = &vp->vehicle();
+        s_cargo = vp->part_index();
         assert( s_cargo >= 0 );
     }
-    if( to_vehicle == true ) {
-        d_veh = g->m.veh_at( destination, d_cargo );
-        assert( d_veh != nullptr );
-        d_cargo = d_veh->part_with_feature( d_cargo, "CARGO", false );
+    if( to_vehicle ) {
+        const cata::optional<vpart_reference> vp = g->m.veh_at( destination ).part_with_feature( "CARGO",
+                false );
+        assert( vp );
+        d_veh = &vp->vehicle();
+        d_cargo = vp->part_index();
         assert( d_cargo >= 0 );
     }
 
@@ -569,7 +570,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
                 drop_on_map( g->u, { *temp_item }, destination );
             }
             // Remove from map or vehicle.
-            if( from_vehicle == true ) {
+            if( from_vehicle ) {
                 s_veh->remove_item( s_cargo, index );
             } else {
                 g->m.i_rem( source, index );

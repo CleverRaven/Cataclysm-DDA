@@ -10,7 +10,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
-    "use_action": "install_bionic"
+    "use_action": "install_bionic",
+    "flags": [ "CBM" ]
   },
   {
     "id": "bio_adrenaline",

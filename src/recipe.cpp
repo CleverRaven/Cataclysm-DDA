@@ -298,7 +298,7 @@ item recipe::create_result() const
         newit.item_tags.insert( "FIT" );
     }
 
-    if( contained == true ) {
+    if( contained ) {
         newit = newit.in_container( container );
     }
 

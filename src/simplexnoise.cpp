@@ -173,7 +173,9 @@ float scaled_raw_noise_4d( const float loBound, const float hiBound, const float
 // 2D raw Simplex noise
 float raw_noise_2d( const float x, const float y ) {
     // Noise contributions from the three corners
-    float n0, n1, n2;
+    float n0 = 0;
+    float n1 = 0;
+    float n2 = 0;
 
     // Skew the input space to determine which simplex cell we're in
     float F2 = 0.5 * (sqrtf(3.0) - 1.0);

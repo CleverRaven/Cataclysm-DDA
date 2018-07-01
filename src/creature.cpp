@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "effect.h"
 #include "mtype.h"
 #include "npc.h"
@@ -229,14 +230,14 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
     int pldist = rl_dist( pos(), g->u.pos() );
-    int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( pos(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
-        if( in_veh && g->m.veh_at( u.pos(), part ) == in_veh && in_veh->is_inside( part ) ) {
+        const optional_vpart_position vp = g->m.veh_at( u.pos() );
+        if( in_veh && veh_pointer_or_null( vp ) == in_veh && vp->is_inside() ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
@@ -278,7 +279,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->pos(), part ) == in_veh ) {
+        if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( m->pos() ) ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
@@ -360,8 +361,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     return hit_spread;
 }
 
-void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
-                              const damage_instance &dam, dealt_damage_instance &dealt_dam)
+void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                               const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
@@ -736,7 +737,7 @@ void Creature::set_fake(const bool fake_value)
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                           bool permanent, int intensity, bool force )
+                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
@@ -798,13 +799,13 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
     }
 
-    if( found == false ) {
+    if( !found ) {
         // If we don't already have it then add a new one
 
         // Then check if the effect is blocked by another
         for( auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
-                for( const auto blocked_effect : _effect_it.second.get_blocks_effects() ) {
+                for( const auto& blocked_effect : _effect_it.second.get_blocks_effects() ) {
                     if (blocked_effect == eff_id) {
                         // The effect is blocked by another, return
                         return;
@@ -846,7 +847,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        process_one_effect( e, true );
+        // only when not deferred
+        if( !deferred ) {
+            process_one_effect( e, true );
+        }
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
@@ -974,7 +978,7 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            for( const auto removed_effect : _it.second.get_removes_effects() ) {
+            for( const auto& removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }
@@ -995,7 +999,7 @@ void Creature::process_effects()
     }
 }
 
-bool Creature::resists_effect(effect e)
+bool Creature::resists_effect( const effect &e )
 {
     for (auto &i : e.get_resist_effects()) {
         if (has_effect(i)) {

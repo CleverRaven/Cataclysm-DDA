@@ -513,6 +513,10 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     int shots = 0;
 
+    if( gun.query() != turret_data::status::ready ) {
+        return shots;
+    }
+
     // The position of the vehicle part.
     tripoint pos = global_part_pos3( pt );
 

@@ -27,7 +27,7 @@
   {
     "id": "mon_broken_cyborg",
     "type": "harvest",
-    "message": "You search for any salvagable bionic hardware in what's left of this failed experiment",
+    "message": "You search for any salvageable bionic hardware in what's left of this failed experiment",
     "entries": [
       { "drop": "bio_power_storage", "base_num": [ 0, 0 ], "scale_num": [ 0.05, 0.2 ], "max": 1 },
       { "drop": "burnt_out_bionic", "scale_num": [ 0.1, 0.3 ], "max": 1 },
@@ -76,6 +76,17 @@
       { "drop": "meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80 },
       { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10 },
       { "drop": "fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18 }
+    ]
+  },
+  {
+    "id": "fungaloid_mass",
+    "type": "harvest",
+    "message": "You laboriously hack and dig through the remains of the fungal mass.",
+    "entries": [
+      { "drop": "veggy", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 20 },
+      { "drop": "veggy_tainted", "base_num": [ 16, 25 ], "scale_num": [ 0.6, 0.8 ], "max": 50 },
+      { "drop": "plant_sac", "base_num": [ 3, 6 ], "scale_num": [ 0.7, 0.9 ], "max": 10 },
+      { "drop": "plant_fibre", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10 }
     ]
   }
 ]

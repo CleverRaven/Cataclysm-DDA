@@ -48,6 +48,11 @@ HFONT font;             //Handle to the font created by CreateFont
 std::array<RGBQUAD, color_loader<RGBQUAD>::COLOR_NAMES_COUNT> windowsPalette;
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
+bool needs_resize = false; // The window needs to be resized
+bool initialized = false;
+
+static int TERMINAL_WIDTH;
+static int TERMINAL_HEIGHT;
 
 //***********************************
 //Non-curses, Window functions      *
@@ -87,7 +92,7 @@ bool WinCreate()
         return false;
 
     // Adjust window size
-    uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
+    uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
     RECT WndRect;
     WndRect.left   = WndRect.top = 0;
     WndRect.right  = WindowWidth;
@@ -125,6 +130,58 @@ void WinDestroy()
         WindowINST = 0;
     }
 };
+
+// creates a backbuffer to prevent flickering
+void create_backbuffer()
+{
+    if( WindowDC != NULL ) {
+        ReleaseDC( WindowHandle, WindowDC );
+    }
+    if( backbuffer != NULL ) {
+        ReleaseDC(WindowHandle, backbuffer );
+    }
+    WindowDC   = GetDC( WindowHandle );
+    backbuffer = CreateCompatibleDC( WindowDC );
+
+    BITMAPINFO bmi = BITMAPINFO();
+    bmi.bmiHeader.biSize         = sizeof(BITMAPINFOHEADER);
+    bmi.bmiHeader.biWidth        = WindowWidth;
+    bmi.bmiHeader.biHeight       = -WindowHeight;
+    bmi.bmiHeader.biPlanes       = 1;
+    bmi.bmiHeader.biBitCount     = 8;
+    bmi.bmiHeader.biCompression  = BI_RGB; // Raw RGB
+    bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
+    bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
+    bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
+    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, ( void** ) &dcbits, NULL, 0);
+    DeleteObject(SelectObject( backbuffer, backbit ) );//load the buffer into DC
+}
+
+bool handle_resize(int, int)
+{
+    if( !initialized ) {
+        return false;
+    }
+    needs_resize = false;
+    RECT WndRect;
+    if( GetClientRect( WindowHandle, &WndRect ) ) {
+        TERMINAL_WIDTH = WndRect.right / fontwidth;
+        TERMINAL_HEIGHT = WndRect.bottom / fontheight;
+        WindowWidth = TERMINAL_WIDTH * fontwidth;
+        WindowHeight = TERMINAL_HEIGHT * fontheight;
+        catacurses::resizeterm();
+        create_backbuffer();
+        SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
+        SelectObject(backbuffer, font);//Load our font into the DC
+        color_loader<RGBQUAD>().load( windowsPalette );
+        if( SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
+            throw std::runtime_error( "SetDIBColorTable failed" );
+        }
+        catacurses::refresh();
+    }
+
+    return true;
+}
 
 // Copied from sdlcurses.cpp
 #define ALT_BUFFER_SIZE 8
@@ -252,6 +309,11 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
         }
         return 0;
 
+    case WM_SIZE:
+    case WM_SIZING:
+        needs_resize = true;
+        return 0;
+
     case WM_SYSCHAR:
         add_alt_code((char)wParam);
         return 0;
@@ -322,8 +384,12 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+
     WINDOW *const win = w.get<WINDOW>();
-    int i,j,drawx,drawy;
+    int i = 0;
+    int j = 0;
+    int drawx = 0;
+    int drawy = 0;
     wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,
                    (win->x + win->width) * fontwidth, -1};
@@ -444,18 +510,29 @@ void CheckMessages()
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+    if( needs_resize ) {
+        handle_resize(0, 0);
+    }
 }
 
-// Calculates the new width of the window, given the number of columns.
-int projected_window_width(int)
+// Calculates the new width of the window
+int projected_window_width()
 {
     return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
-// Calculates the new height of the window, given the number of rows.
-int projected_window_height(int)
+// Calculates the new height of the window
+int projected_window_height()
 {
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
+}
+
+int get_terminal_width() {
+    return TERMINAL_WIDTH;
+}
+
+int get_terminal_height() {
+    return TERMINAL_HEIGHT;
 }
 
 //***********************************
@@ -474,28 +551,16 @@ void catacurses::init_interface()
     ::fontheight = fl.fontheight;
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= get_option<int>( "TERMINAL_X" ) * fontwidth;
-    WindowHeight = get_option<int>( "TERMINAL_Y" ) * fontheight;
+    TERMINAL_WIDTH = get_option<int>( "TERMINAL_X" );
+    TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
+    WindowWidth = TERMINAL_WIDTH * fontwidth;
+    WindowHeight = TERMINAL_HEIGHT * fontheight;
 
     WinCreate();    //Create the actual window, register it, etc
     timeBeginPeriod(1); // Set Sleep resolution to 1ms
     CheckMessages();    //Let the message queue handle setting up the window
 
-    WindowDC   = GetDC(WindowHandle);
-    backbuffer = CreateCompatibleDC(WindowDC);
-
-    BITMAPINFO bmi = BITMAPINFO();
-    bmi.bmiHeader.biSize         = sizeof(BITMAPINFOHEADER);
-    bmi.bmiHeader.biWidth        = WindowWidth;
-    bmi.bmiHeader.biHeight       = -WindowHeight;
-    bmi.bmiHeader.biPlanes       = 1;
-    bmi.bmiHeader.biBitCount     = 8;
-    bmi.bmiHeader.biCompression  = BI_RGB; // Raw RGB
-    bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
-    bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
-    bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
-    backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
-    DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
+    create_backbuffer();
 
     // Load private fonts
     if (SetCurrentDirectoryW(L"data\\font")){
@@ -529,6 +594,8 @@ void catacurses::init_interface()
 
     stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0 );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
+
+    initialized = true;
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
