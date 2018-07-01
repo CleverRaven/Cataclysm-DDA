@@ -47,6 +47,7 @@ static const std::array<int, NUM_AEPS> passive_effect_cost = { {
     3, // AEP_RESIST_ELECTRICITY
     3, // AEP_CARRY_MORE
     5, // AEP_SAP_LIFE
+    1, // AEP_FUN
 
     0, // AEP_SPLIT
 
@@ -89,6 +90,7 @@ static const std::array<int, NUM_AEAS> active_effect_cost = { {
     1, // AEA_LIGHT
     4, // AEA_GROWTH
     6, // AEA_HURTALL
+    2, // AEA_FUN
 
     0, // AEA_SPLIT
 
@@ -105,6 +107,7 @@ static const std::array<int, NUM_AEAS> active_effect_cost = { {
     -4, // AEA_FLASH
     -2, // AEA_VOMIT
     -5  // AEA_SHADOWS
+    -2  // AEA_STAMINA_EMPTY
 } };
 
 enum artifact_natural_shape {
@@ -261,9 +264,9 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
     },
     {
         translate_marker( "wriggling" ), translate_marker( "is constantly wriggling" ),
-        {{AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL}},
+        {{AEP_SPEED_UP, AEP_SNAKES, AEP_FUN, AEP_NULL}},
         {{AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL}},
-        {{AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL}},
+        {{AEA_TELEPORT, AEA_ADRENALINE, AEA_FUN, AEA_NULL}},
         {{AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}}
     },
     {
@@ -275,10 +278,10 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
     },
     {
         translate_marker( "humming" ), translate_marker( "hums very quietly" ),
-        {{AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL}},
+        {{AEP_ALL_UP, AEP_PSYSHIELD, AEP_FUN, AEP_NULL}},
         {{AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL}},
-        {{AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL}},
-        {{AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}}
+        {{AEA_PULSE, AEA_ENTRANCE, AEA_FUN, AEA_NULL}},
+        {{AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_STAMINA_EMPTY}}
     },
     {
         translate_marker( "moving" ), translate_marker( "shifts from side to side slowly" ),
@@ -300,7 +303,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
         {{AEP_SAP_LIFE, AEP_ALL_UP, AEP_SPEED_UP, AEP_CARRY_MORE}},
         {{AEP_HUNGER, AEP_THIRST, AEP_SICK, AEP_BAD_WEATHER}},
         {{AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH}},
-        {{AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}}
+        {{AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_STAMINA_EMPTY}}
     },
     {
         translate_marker( "dead" ), translate_marker( "is icy cold to the touch" ),
@@ -311,7 +314,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
     },
     {
         translate_marker( "itchy" ), translate_marker( "makes your skin itch slightly when it is close" ),
-        {{AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL}},
+        {{AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_FUN}},
         {{AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL}},
         {{AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS}},
         {{AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}}
@@ -327,7 +330,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
         translate_marker( "electric" ), translate_marker( "very weakly shocks you when touched" ),
         {{AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD}},
         {{AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER}},
-        {{AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL}},
+        {{AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_FUN}},
         {{AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}}
     },
     {
@@ -353,7 +356,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
     },
     {
         translate_marker( "warm" ), translate_marker( "is warm to the touch" ),
-        {{AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL}},
+        {{AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_FUN}},
         {{AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL}},
         {{AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT}},
         {{AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}}
@@ -370,14 +373,14 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
         {{AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH}},
         {{AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL}},
         {{AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL}},
-        {{AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_NULL}}
+        {{AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_STAMINA_EMPTY}}
     },
     {
         translate_marker( "fractal" ),
         translate_marker( "has a self-similar pattern which repeats until it is too small for you to see" ),
         {{AEP_ALL_UP, AEP_ALL_UP, AEP_CLAIRVOYANCE, AEP_PSYSHIELD}},
         {{AEP_SCHIZO, AEP_ATTENTION, AEP_FORCE_TELEPORT, AEP_BAD_WEATHER}},
-        {{AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL}},
+        {{AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_FUN}},
         {{AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}}
     }
 } };
@@ -1288,6 +1291,7 @@ static const std::unordered_map<std::string, art_effect_passive> art_effect_pass
     PAIR( AEP_RESIST_ELECTRICITY ),
     PAIR( AEP_CARRY_MORE ),
     PAIR( AEP_SAP_LIFE ),
+    PAIR( AEP_FUN ),
     //PAIR( AEP_SPLIT, // not really used
     PAIR( AEP_HUNGER ),
     PAIR( AEP_THIRST ),
@@ -1326,6 +1330,7 @@ static const std::unordered_map<std::string, art_effect_active> art_effect_activ
     PAIR( AEA_LIGHT ),
     PAIR( AEA_GROWTH ),
     PAIR( AEA_HURTALL ),
+    PAIR( AEA_FUN ),
     //PAIR( AEA_SPLIT ), // not really used
     PAIR( AEA_RADIATION ),
     PAIR( AEA_PAIN ),
@@ -1340,6 +1345,7 @@ static const std::unordered_map<std::string, art_effect_active> art_effect_activ
     PAIR( AEA_FLASH ),
     PAIR( AEA_VOMIT ),
     PAIR( AEA_SHADOWS ),
+    PAIR( AEA_STAMINA_EMPTY ),
 } };
 static const std::unordered_map<std::string, art_charge> art_charge_values = { {
     PAIR( ARTC_NULL ),
@@ -1347,6 +1353,7 @@ static const std::unordered_map<std::string, art_charge> art_charge_values = { {
     PAIR( ARTC_SOLAR ),
     PAIR( ARTC_PAIN ),
     PAIR( ARTC_HP ),
+    PAIR( ARTC_FATIGUE ),
 } };
 #undef PAIR
 

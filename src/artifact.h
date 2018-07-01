@@ -30,6 +30,7 @@ enum art_effect_active : int {
     AEA_LIGHT, // Temporary light source
     AEA_GROWTH, // Grow plants, a la triffid queen
     AEA_HURTALL, // Hurts all monsters!
+    AEA_FUN, // Temporary morale bonus
 
     AEA_SPLIT, // Split between good and bad
 
@@ -46,16 +47,18 @@ enum art_effect_active : int {
     AEA_FLASH, // Flashbang
     AEA_VOMIT, // User vomits
     AEA_SHADOWS, // Summon shadow creatures
+    AEA_STAMINA_EMPTY, // Empties most of the player's stamina gauge
 
     NUM_AEAS
 };
 
 enum art_charge : int {
-    ARTC_NULL,  // Never recharges!
-    ARTC_TIME,  // Very slowly recharges with time
-    ARTC_SOLAR, // Recharges in sunlight
-    ARTC_PAIN,  // Creates pain to recharge
-    ARTC_HP,    // Drains HP to recharge
+    ARTC_NULL,    // Never recharges!
+    ARTC_TIME,    // Very slowly recharges with time
+    ARTC_SOLAR,   // Recharges in sunlight
+    ARTC_PAIN,    // Creates pain to recharge
+    ARTC_HP,      // Drains HP to recharge
+    ARTC_FATIGUE, // Creates fatigue to recharge
     NUM_ARTCS
 };
 

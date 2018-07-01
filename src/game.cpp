@@ -13371,6 +13371,14 @@ void game::process_artifact( item &it, player &p )
                     it.charges++;
                 }
                 break;
+            case ARTC_FATIGUE:
+                if( calendar::once_every( 1_minutes ) ) {
+                    add_msg(m_bad, _("You feel fatigue seeping into your body."));
+                    u.mod_fatigue( 3 * rng( 1, 3 ) );
+                    u.mod_stat("stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                    it.charges++;
+                }
+                break;
             }
         }
     }
@@ -13420,6 +13428,11 @@ void game::process_artifact( item &it, player &p )
             for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
                 m.adjust_field_age( dest, fd_fire, -1_turns );
             }
+            break;
+            
+        case AEP_FUN:
+            //Bonus fluctuates, wavering between 0 and 30-ish - usually around 12
+            p.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
             break;
 
         case AEP_HUNGER:
@@ -13618,6 +13631,10 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
 
         case AEP_CARRY_MORE:
             add_msg(m_good, _("Your back feels strengthened."));
+            break;
+            
+        case AEP_FUN:
+            add_msg(m_good, _("You feel a pleasant tingle."));
             break;
 
         case AEP_HUNGER:
