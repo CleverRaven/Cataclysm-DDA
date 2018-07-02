@@ -135,11 +135,7 @@
     "decomp_learn": 4,
     "book_learn": [ [ "book_icef", 3 ], [ "textbook_mechanics", 3 ], [ "textbook_carpentry", 3 ] ],
     "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "1cyl_combustion_small", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
@@ -733,11 +729,7 @@
     "time": 60000,
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "frame", 4 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
   },
   {
@@ -894,11 +886,7 @@
     "decomp_learn": 3,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 3 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "welding_standard", 5 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 10 ] ], [ [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ] ]
   },
   {
@@ -1242,9 +1230,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "steel_lump", 10 ] ] ]
   },
   {
@@ -1258,9 +1244,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "steel_lump", 18 ] ] ]
   },
   {
@@ -1351,7 +1335,7 @@
     "time": 12000,
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
-    "using": [ [ [ "welding_standard", 10 ], [ "forging_standard" , 5 ] ] ],
+    "using": [ [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ] ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
   },
   {
@@ -2433,11 +2417,7 @@
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "textbook_carpentry", 5 ], [ "book_icef", 6 ] ],
     "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "1cyl_combustion", 1 ], [ "1cyl_combustion_small", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
