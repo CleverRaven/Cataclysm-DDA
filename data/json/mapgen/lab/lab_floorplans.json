@@ -40,7 +40,7 @@
         "^": "f_rubble"
       },
       "terrain": {
-        "^": "t_rock_floor",
+        "^": "t_rock_floor"
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
