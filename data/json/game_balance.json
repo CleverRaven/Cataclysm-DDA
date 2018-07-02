@@ -68,7 +68,7 @@
     "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.",
     "stype": "bool",
     "value": false
-  },  
+  },
   {
     "type": "EXTERNAL_OPTION",
     "name": "NO_NPC_FOOD",
