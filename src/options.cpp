@@ -2094,10 +2094,7 @@ void options_manager::serialize(JsonOut &json) const
             const auto iter = options.find( elem );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
-                //Skip hidden option because it is set by mod and should not be saved
-                if ( opt.hide == COPT_ALWAYS_HIDE ) {
-                    continue;
-                }
+
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );
