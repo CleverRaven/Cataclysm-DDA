@@ -2522,7 +2522,7 @@
         "type": "TOOL_ARMOR",
         "name": "quantum solar backpack (folded)",
         "name_plural": "quantum solar backpacks (folded)",
-        "description": "Personal portable charging system consisting of an array of quantum solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system. Cutting edge technology.",
+        "description": "Personal portable charging system consisting of an array of quantum solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.  Cutting edge technology.",
         "weight": 7500,
         "volume": 20,
         "price": 1500000,

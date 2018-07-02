@@ -7540,7 +7540,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "rocket candy",
-    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
+    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
     "weight": 250,
     "volume": 1,
     "price": 100,
