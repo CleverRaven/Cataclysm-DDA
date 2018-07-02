@@ -62,6 +62,17 @@ enum art_charge : int {
     NUM_ARTCS
 };
 
+enum art_charge_req : int {
+    ACR_NULL = 0, //No extra requirement
+    ACR_EQUIP,    //Must be worn/wielded as appropriate
+    ACR_SKIN,     //As ACR_EQUIP, plus must be only 50+-coverage thing on a bodypart (or no gloves if wielded)
+    ACR_SLEEP,    //Only while sleeping
+    ACR_RAD,      //Must be irradiated/in irradiated tile
+    ACR_WET,      //Must be wet or in rain
+    ACR_SKY,      //Must be on a Z-level above the surface
+    NUM_ACRS
+};
+
 /* CLASSES */
 
 class it_artifact_tool : public itype
