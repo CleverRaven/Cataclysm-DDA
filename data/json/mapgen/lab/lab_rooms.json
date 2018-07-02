@@ -536,5 +536,29 @@
         "e": "t_elevator_control_off"
       }
     }
+  },
+  {
+    "//": "broken computer chamber",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".xxx.xxx.",
+        "x.......x",
+        "x.xx.xx.x",
+        "x.xx.xx.x",
+        ".........",
+        "x.xx.xx.x",
+        "x.xx.xx.x",
+        "x.......x",
+        ".xxx.xxx."
+      ],
+      "palettes": [
+        "lab_palette"
+      ]
+    }
   }
 ]
