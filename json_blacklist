@@ -133,6 +133,7 @@ data/json/mapgen/house/house_garage_prepper.json
 data/json/mapgen/house/house_rv.json
 data/json/mapgen/house/house_suicide.json
 data/json/mapgen/lab/lab_common.json
+data/json/mapgen/lab/lab_floorplan_cross.json
 data/json/mapgen/lab/lab_floorplans.json
 data/json/mapgen/lab/lab_rooms.json
 data/json/mapgen/laundromat.json
