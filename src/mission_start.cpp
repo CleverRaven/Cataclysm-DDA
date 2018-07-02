@@ -37,8 +37,6 @@ const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 const efftype_id effect_infection( "infection" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -361,19 +359,16 @@ void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
-    miss->monster_species = ZOMBIE;
-    int killed = 0;
-    killed += g->kill_count( ZOMBIE );
-    miss->monster_kill_goal = 100 + killed; //your kill score must increase by 100
+    //kill count of the monsters from a given species you need to reach
+    miss->kill_count_to_reach = g->kill_count( miss->monster_species ) + miss->monster_kill_goal;
 }
 
 void mission_start::kill_20_nightmares( mission *miss )
 {
     target_om_ter( "necropolis_c_44", 3, miss, false );
     miss->monster_type = mon_charred_nightmare.str();
-    int killed = 0;
-    killed += g->kill_count( mon_charred_nightmare );
-    miss->monster_kill_goal = 20 + killed; //your kill score must increase by 20
+    //kill count of the monster type you need to reach
+    miss->kill_count_to_reach = g->kill_count( mon_charred_nightmare ) + miss->monster_kill_goal;
 }
 
 void mission_start::kill_horde_master( mission *miss )
@@ -1522,15 +1517,15 @@ void mission_start::ranch_scavenger_1(mission *miss)
  tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false, RANCH_SIZE);
  tinymap bay;
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.draw_square_ter(t_chainfence_v, 15, 13, 15, 22);
- bay.draw_square_ter(t_chainfence_h, 16, 13, 23, 13);
- bay.draw_square_ter(t_chainfence_h, 16, 22, 23, 22);
+ bay.draw_square_ter(t_chainfence, 15, 13, 15, 22);
+ bay.draw_square_ter(t_chainfence, 16, 13, 23, 13);
+ bay.draw_square_ter(t_chainfence, 16, 22, 23, 22);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_49", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.place_items( "mechanics", 65, 9, 13, 10, 16, true, 0 );
- bay.draw_square_ter(t_chainfence_h, 0, 22, 7, 22);
+ bay.draw_square_ter(t_chainfence, 0, 22, 7, 22);
  bay.draw_square_ter(t_dirt, 2, 22, 3, 22);
  bay.spawn_item( 7, 19, "30gal_drum" );
  bay.save();

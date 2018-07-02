@@ -239,9 +239,9 @@
     "type": "vehicle",
     "id": "forklift",
     "name": "Forklift",
-    "blueprint": [ 
+    "blueprint": [
       [ "o#o-" ],
-      [ "o|o-" ] 
+      [ "o|o-" ]
     ],
     "parts": [
       { "x": -1, "y": 0, "part": "frame_sw" },

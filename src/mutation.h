@@ -2,9 +2,11 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include "character.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "damage.h"
+#include "calendar.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -129,6 +131,9 @@ struct mutation_branch {
     // Modifier for the rate at which stamina regenerates.
     float stamina_regen_modifier = 0.0f;
 
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
+
     /** The item, if any, spawned by the mutation */
     itype_id spawn_item;
     std::string spawn_item_message;
@@ -137,7 +142,7 @@ struct mutation_branch {
     std::vector<mut_attack> attacks_granted;
 
     /** Mutations may adjust one or more of the default vitamin usage rates */
-    std::map<vitamin_id, int> vitamin_rates;
+    std::map<vitamin_id, time_duration> vitamin_rates;
 
     std::vector<trait_id> prereqs; // Prerequisites; Only one is required
     std::vector<trait_id> prereqs2; // Prerequisites; need one from here too

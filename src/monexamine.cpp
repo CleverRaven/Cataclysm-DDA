@@ -13,14 +13,14 @@ const efftype_id effect_milked( "milked" );
 void monexamine::milk_source( monster &source_mon )
 {
     const auto milked_item = source_mon.type->starting_ammo;
-    item milk( milked_item.begin()->first, calendar::turn.get_turn(), 1 );
+    item milk( milked_item.begin()->first, calendar::turn, 1 );
 
     // Milked items must be liquids.
     if( !milk.made_of( LIQUID ) ) {
         debugmsg( "milked item must be a liquid" );
     } else {
 
-        const time_duration milk_per_day = 1_days / HOURS( milked_item.begin()->second );
+        const time_duration milk_per_day = 1_days / milked_item.begin()->second;
 
         if( !source_mon.has_effect( effect_milked ) ) {
             g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, &source_mon );

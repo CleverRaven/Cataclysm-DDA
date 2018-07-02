@@ -197,8 +197,16 @@ void item::load_info( const std::string &data )
 
     unset_flags();
     clear_vars();
-    std::string idtmp, ammotmp, item_tag, mode;
-    int lettmp, damtmp, acttmp, corp, tag_count, bday_;
+    std::string idtmp;
+    std::string ammotmp;
+    std::string item_tag;
+    std::string mode;
+    int lettmp = 0;
+    int damtmp = 0;
+    int acttmp = 0;
+    int corp = 0;
+    int tag_count = 0;
+    int bday_ = 0;
     int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
@@ -247,7 +255,17 @@ void overmap::unserialize_legacy(std::istream & fin) {
     // DEBUG VARS
     int nummg = 0;
     char datatype;
-    int cx, cy, cz, cs, cp, cd, cdying, horde, tx, ty, intr;
+    int cx = 0;
+    int cy = 0;
+    int cz = 0;
+    int cs = 0;
+    int cp = 0;
+    int cd = 0;
+    int cdying = 0;
+    int horde = 0;
+    int tx = 0;
+    int ty = 0;
+    int intr = 0;
     std::string cstr;
     city tmp;
     std::list<item> npc_inventory;

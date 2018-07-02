@@ -36,6 +36,9 @@ static constexpr int KEY_ENTER      = 0x157;    /* enter */
 static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
 static constexpr int KEY_END        = 0x168;    /* End */
 
+static constexpr int LEGEND_HEIGHT = 11;
+static constexpr int BORDER_SPACE = 2;
+
 bool is_mouse_enabled();
 std::string get_input_string_from_file( std::string fname = "input.txt" );
 
@@ -454,7 +457,7 @@ class input_context
          * Displays the possible actions in the current context and their
          * keybindings.
          */
-        void display_help();
+        void display_menu();
 
         /**
          * Temporary method to retrieve the raw input received, so that input_contexts
@@ -502,7 +505,8 @@ class input_context
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
-        int coordinate_x, coordinate_y;
+        int coordinate_x;
+        int coordinate_y;
         bool coordinate_input_received;
         bool handling_coordinate_input;
         input_event next_action;

@@ -59,6 +59,7 @@ class uistatedata
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool overmap_show_city_labels = true;
+        bool overmap_show_hordes = true;
 
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};
@@ -97,7 +98,7 @@ class uistatedata
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
         bool _really_testing_save = false; // internal: spammy
 
-        std::vector<std::string> &gethistory( std::string id ) {
+        std::vector<std::string> &gethistory( const std::string &id ) {
             return input_history[id];
         }
 
@@ -137,6 +138,7 @@ class uistatedata
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
             json.member( "overmap_show_city_labels", overmap_show_city_labels );
+            json.member( "overmap_show_hordes", overmap_show_hordes );
             json.member( "vmenu_show_items", vmenu_show_items );
             json.member( "list_item_sort", list_item_sort );
             json.member( "list_item_filter_active", list_item_filter_active );
@@ -223,6 +225,7 @@ class uistatedata
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
+            jo.read( "overmap_show_hordes", overmap_show_hordes );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,

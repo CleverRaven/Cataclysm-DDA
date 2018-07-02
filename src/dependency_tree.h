@@ -30,7 +30,8 @@ class dependency_node
         bool availability;
 
         // cyclic check variables
-        int index, lowlink;
+        int index;
+        int lowlink;
         bool on_stack;
 
         dependency_node();

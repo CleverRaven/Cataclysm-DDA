@@ -858,7 +858,7 @@ void uimenu::query(bool loop)
  */
 void uimenu::reset()
 {
-	window = catacurses::window();
+    window = catacurses::window();
     init();
 }
 

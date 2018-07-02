@@ -136,6 +136,54 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
+std::string main_menu::handle_input_timeout( input_context &ctxt )
+{
+    inp_mngr.set_timeout( 125 );
+
+    std::string action = ctxt.handle_input();
+
+    if( action == "TIMEOUT" ) {
+        init_windows();
+    }
+
+    inp_mngr.reset_timeout();
+
+    return action;
+}
+
+void main_menu::init_windows()
+{
+    if( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
+        return;
+    }
+
+    w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    werase( w_background );
+    wrefresh( w_background );
+
+    // main window should also expand to use available display space.
+    // expanding to evenly use up half of extra space, for now.
+    extra_w = ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) - 1;
+    int extra_h = ( ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) - 1;
+    extra_w = ( extra_w > 0 ? extra_w : 0 );
+    extra_h = ( extra_h > 0 ? extra_h : 0 );
+    const int total_w = FULL_SCREEN_WIDTH + extra_w;
+    const int total_h = FULL_SCREEN_HEIGHT + extra_h;
+
+    // position of window within main display
+    const int x0 = ( TERMX - total_w ) / 2;
+    const int y0 = ( TERMY - total_h ) / 2;
+
+    w_open = catacurses::newwin( total_h, total_w, y0, x0 );
+
+    iMenuOffsetY = total_h - 3;
+    // note: if iMenuOffset is changed,
+    // please update MOTD and credits to indicate how long they can be.
+
+    LAST_TERMX = TERMX;
+    LAST_TERMY = TERMY;
+}
+
 void main_menu::init_strings()
 {
     // ASCII Art
@@ -261,29 +309,7 @@ bool main_menu::opening_screen()
     world_generator->set_active_world( NULL );
     world_generator->init();
 
-    w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
-    werase( w_background );
-    wrefresh( w_background );
-
-    // main window should also expand to use available display space.
-    // expanding to evenly use up half of extra space, for now.
-    extra_w = ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) - 1;
-    int extra_h = ( ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) - 1;
-    extra_w = ( extra_w > 0 ? extra_w : 0 );
-    extra_h = ( extra_h > 0 ? extra_h : 0 );
-    const int total_w = FULL_SCREEN_WIDTH + extra_w;
-    const int total_h = FULL_SCREEN_HEIGHT + extra_h;
-
-    // position of window within main display
-    const int x0 = ( TERMX - total_w ) / 2;
-    const int y0 = ( TERMY - total_h ) / 2;
-
-    w_open = catacurses::newwin( total_h, total_w, y0, x0 );
-
-    iMenuOffsetY = total_h - 3;
-    // note: if iMenuOffset is changed,
-    // please update MOTD and credits to indicate how long they can be.
-
+    init_windows();
     init_strings();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
@@ -341,7 +367,8 @@ bool main_menu::opening_screen()
                 catacurses::refresh();
             }
 
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
+
             std::string sInput = ctxt.get_raw_input().text;
             // check automatic menu shortcuts
             for( size_t i = 0; i < vMenuHotkeys.size(); ++i ) {
@@ -422,7 +449,7 @@ bool main_menu::opening_screen()
 
                 wrefresh( w_open );
                 catacurses::refresh();
-                std::string action = ctxt.handle_input();
+                std::string action = handle_input_timeout( ctxt );
                 if( action == "LEFT" ) {
                     if( sel2 > 0 ) {
                         sel2--;
@@ -482,7 +509,7 @@ bool main_menu::opening_screen()
                 print_menu_items( w_open, settings_subs, sel2, yoffset, xoffset - ( xlen / 4 ) );
                 wrefresh( w_open );
                 catacurses::refresh();
-                std::string action = ctxt.handle_input();
+                std::string action = handle_input_timeout( ctxt );
                 std::string sInput = ctxt.get_raw_input().text;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
                     for( auto hotkey : vSettingsHotkeys[i] ) {
@@ -519,7 +546,7 @@ bool main_menu::opening_screen()
                         print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
-                        ctxt_default.display_help();
+                        ctxt_default.display_menu();
                     } else if( sel2 == 2 ) {
                         get_auto_pickup().show();
                     } else if( sel2 == 3 ) {
@@ -569,7 +596,7 @@ bool main_menu::new_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
 
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vNewGameHotkeys.size(); ++i ) {
                 for( auto hotkey : vNewGameHotkeys[i] ) {
@@ -664,7 +691,7 @@ bool main_menu::new_character_tab()
             }
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
@@ -767,7 +794,7 @@ bool main_menu::load_character_tab()
             }
             wrefresh( w_open );
             catacurses::refresh();
-            const std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             if( all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 1;
             } else if( action == "DOWN" ) {
@@ -824,7 +851,7 @@ bool main_menu::load_character_tab()
             }
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 2;
             } else if( action == "DOWN" ) {
@@ -901,7 +928,7 @@ void main_menu::world_tab()
 
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 for( auto hotkey : vWorldHotkeys[i] ) {
@@ -994,7 +1021,7 @@ void main_menu::world_tab()
 
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
 
             if( action == "DOWN" ) {
                 if( sel2 > 0 ) {

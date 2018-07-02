@@ -27,8 +27,22 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+} // namespace units
 class emit;
 using emit_id = string_id<emit>;
+class vpart_position;
+class optional_vpart_position;
 class player;
 class monster;
 class item;
@@ -432,26 +446,15 @@ class map
         std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint &destination ) const;
 
         /**
-         * Check whether items in the target square are accessible from the source square
-         * `f` and `t`.
-         *
-         * Checks two things:
-         * 1. The `sees()` algorithm between `f` and `t` OR origin and target match.
-         * 2. That the target location isn't sealed.
+         * Check whether the player can access the items located @p. Certain furniture/terrain
+         * may prevent that (e.g. a locked safe).
          */
-        bool accessible_items( const tripoint &f, const tripoint &t, const int range ) const;
-        /**
-         * Like @ref accessible_items but checks for accessible furniture.
-         * It ignores the furniture flags of the target square (ignores if target is SEALED).
-         */
-        bool accessible_furniture( const tripoint &f, const tripoint &t, const int range ) const;
-
+        bool accessible_items( const tripoint &t ) const;
         /**
          * Calculate next search points surrounding the current position.
          * Points closer to the target come first.
          * This method leads to straighter lines and prevents weird looking movements away from the target.
          */
-        std::vector<point> getDirCircle( const int Fx, const int Fy, const int Tx, const int Ty ) const;
         std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
         /**
@@ -492,18 +495,10 @@ class map
         * Checks if tile is occupied by vehicle and by which part.
         *
         * @param p Tile to check for vehicle
-        * @param part_num The part number of the part at this tile will be returned in this parameter.
-        * @return A pointer to the vehicle in this tile.
         */
-        vehicle *veh_at( const tripoint &p, int &part_num );
-        const vehicle *veh_at( const tripoint &p, int &part_num ) const;
+        optional_vpart_position veh_at( const tripoint &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
-        /**
-        * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
-        */
-        vehicle *veh_at( const tripoint &p );// checks if tile is occupied by vehicle
-        const vehicle *veh_at( const tripoint &p ) const;
         // put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
         void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
@@ -801,7 +796,7 @@ class map
 
         // Signs
         const std::string get_signage( const tripoint &p ) const;
-        void set_signage( const tripoint &p, std::string message ) const;
+        void set_signage( const tripoint &p, const std::string &message ) const;
         void delete_signage( const tripoint &p ) const;
 
         // Radiation
@@ -827,7 +822,7 @@ class map
 
         // Items
         void process_active_items();
-        void trigger_rc_items( std::string signal );
+        void trigger_rc_items( const std::string &signal );
 
         // Items: 2D
         map_stack i_at( int x, int y );
@@ -972,6 +967,8 @@ class map
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &trap_locations( trap_id t ) const;
 
+        //Spawns byproducts from items destroyed in fire.
+        void create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass );
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *const current_submap,
                                        const int submap_x, const int submap_y, const int submap_z ); // See fields.cpp
@@ -1087,7 +1084,7 @@ class map
 
         // Computers
         computer *computer_at( const tripoint &p );
-        computer *add_computer( const tripoint &p, std::string name, const int security );
+        computer *add_computer( const tripoint &p, const std::string &name, const int security );
 
         // Camps
         bool allow_camp( const tripoint &p, const int radius = CAMPCHECK );
@@ -1140,20 +1137,20 @@ class map
         void process_falling();
 
         // mapgen.cpp functions
-        void generate( const int x, const int y, const int z, const int turn );
+        void generate( const int x, const int y, const int z, const time_point &when );
         void place_spawns( const mongroup_id &group, const int chance,
                            const int x1, const int y1, const int x2, const int y2, const float density );
         void place_gas_pump( const int x, const int y, const int charges );
-        void place_gas_pump( const int x, const int y, const int charges, std::string fuel_type );
+        void place_gas_pump( const int x, const int y, const int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge
         void place_toilet( const int x, const int y, const int charges = 6 * 4 );
-        void place_vending( int x, int y, std::string type, bool reinforced = false );
+        void place_vending( int x, int y, const std::string &type, bool reinforced = false );
         int place_npc( int x, int y, const string_id<npc_template> &type );
 
         void add_spawn( const mtype_id &type, const int count, const int x, const int y,
                         bool friendly = false,
                         const int faction_id = -1, const int mission_id = -1,
-                        std::string name = "NONE" );
+                        const std::string &name = "NONE" );
         vehicle *add_vehicle( const vgroup_id &type, const point &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
@@ -1293,6 +1290,12 @@ class map
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
+         * Checks to see if the item that is rotting away generates a creature when it does.
+         * @param item item that is spawning creatures
+         * @param p The point on this map where the item is and creature will be
+         */
+        void rotten_item_spawn( const item &item, const tripoint &p );
+        /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
          */
@@ -1333,7 +1336,7 @@ class map
         void draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                        const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                        const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                       const oter_id t_above, const int turn, const float density,
+                       const oter_id t_above, const time_point &when, const float density,
                        const int zlevel, const regional_settings *rsettings );
 
         void build_transparency_cache( int zlev );
@@ -1567,4 +1570,3 @@ class tinymap : public map
 };
 
 #endif
-

@@ -2,6 +2,7 @@
 #include "game.h"
 #include "player.h"
 #include "output.h"
+#include "item_category.h"
 #include "map.h"
 #include "debug.h"
 #include "catacharset.h"
@@ -16,6 +17,8 @@
 #include "input.h"
 #include "options.h"
 #include "ui.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -604,9 +607,12 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            veh = g->m.veh_at( pos, vstor );
-            if( veh != nullptr ) {
-                vstor = veh->part_with_feature( vstor, "CARGO", false );
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
+                veh = &vp->vehicle();
+                vstor = vp->part_index();
+            } else {
+                veh = nullptr;
+                vstor = -1;
             }
             if( vstor >= 0 ) {
                 desc[0] = veh->name;
@@ -641,16 +647,17 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
-            veh = g->m.veh_at( pos, vstor );
-            if( veh != nullptr ) {
-                vstor = veh->part_with_feature( vstor, "CARGO", false );
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
+                veh = &vp->vehicle();
+                vstor = vp->part_index();
+            } else {
+                veh = nullptr;
+                vstor = -1;
             }
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             if( can_store_in_vehicle() ) {
-                // get storage label
-                const auto part = veh->parts[veh->global_part_at(pos.x, pos.y)];
-                desc[1] = veh->get_label(part.mount.x, part.mount.y);
+                desc[1] = vpart_position( *veh, vstor ).get_label().value_or( "" );
             }
             // get graffiti or terrain name
             desc[0] = g->m.has_graffiti_at( pos ) ?
@@ -797,7 +804,7 @@ advanced_inv_listitem::advanced_inv_listitem( const item_category *category )
     : idx()
     , area()
     , id("null")
-    , name( category->name )
+    , name( category->name() )
     , name_without_prefix()
     , autopickup()
     , stacks()
@@ -1145,6 +1152,17 @@ bool advanced_inventory::move_all_items(bool nested_call)
             popup(_("There are no items to be moved!"));
             return false;
         }
+
+        auto &sarea = squares[spane.get_area()];
+        auto &darea = squares[dpane.get_area()];
+
+
+        // Check first if the destination area still have enough room for moving all.
+        if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+            !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+            return false;
+        }
+
         // make sure that there are items to be moved
         bool done = false;
         // copy the current pane, to be restored after the move is queued
@@ -1280,6 +1298,13 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 g->u.activity.str_values.push_back( "equip" );
             }
         } else { // Vehicle and map destinations are handled the same.
+
+            // Check first if the destination area still have enough room for moving all.
+            if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+                !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+                return false;
+            }
+
             g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
             // store whether the source is from a vehicle (first entry)
             g->u.activity.values.push_back(spane.in_vehicle());
@@ -1577,7 +1602,8 @@ void advanced_inventory::display()
                     } else if(srcarea == AIM_WORN) {
                         g->u.takeoff( *sitem->items.front(), &moving_items );
                     }
-                    int items_left = 0, moved = 0;
+                    int items_left = 0;
+                    int moved = 0;
                     for(auto &elem : moving_items) {
                         assert(!elem.is_null());
                         items_left = add_item(destarea, elem);
@@ -1723,7 +1749,8 @@ void advanced_inventory::display()
                 recalc = true;
             } else {
                 item &it = *sitem->items.front();
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 it.info( true, vThisItem );
                 int iDummySelect = 0;
                 ret = draw_item_info( info_startx,
@@ -2396,13 +2423,12 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    vstor = -1;
-    veh = g->m.veh_at( pos, vstor );
-    if( veh != nullptr ) {
-        vstor = veh->part_with_feature( vstor, "CARGO", false );
-    }
-    if( vstor < 0 ) {
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
+        veh = &vp->vehicle();
+        vstor = vp->part_index();
+    } else {
         veh = nullptr;
+        vstor = -1;
     }
 }
 

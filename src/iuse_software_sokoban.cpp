@@ -234,7 +234,8 @@ int sokoban_game::start_game()
     int iMoves = 0;
     iTotalMoves = 0;
 
-    int iDirY, iDirX;
+    int iDirY = 0;
+    int iDirX = 0;
 
     const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;

@@ -300,7 +300,7 @@ class Creature
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
-                                 bool permanent = false, int intensity = 0, bool force = false );
+                                 bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength, time_duration dur,
                              body_part bp = num_bp, bool permanent = false, int intensity = 1,
@@ -321,7 +321,7 @@ class Creature
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns true if the creature resists an effect */
-        bool resists_effect( effect e );
+        bool resists_effect( const effect &e );
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );

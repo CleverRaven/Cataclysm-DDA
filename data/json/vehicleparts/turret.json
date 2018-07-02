@@ -5,6 +5,7 @@
     "symbol": "t",
     "durability": 400,
     "damage_modifier": 80,
+    "location": "on_roof",
     "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {

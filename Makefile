@@ -652,7 +652,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
-OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
 
 ifdef LANGUAGES
   L10N = localization
@@ -876,6 +876,7 @@ endif
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
 ifdef LANGUAGES
+	lang/compile_mo.sh $(LANGUAGES)
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif

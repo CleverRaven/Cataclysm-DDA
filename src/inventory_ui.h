@@ -381,6 +381,7 @@ class selection_column : public inventory_column
 {
     public:
         selection_column( const std::string &id, const std::string &name );
+        ~selection_column() override;
 
         virtual bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
@@ -406,7 +407,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector() = default;
+        ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );

@@ -8,6 +8,7 @@
 #include "game.h"
 #include "fungal_effects.h"
 #include "messages.h"
+#include "vpart_position.h"
 #include "translations.h"
 #include "material.h"
 #include "monster.h"
@@ -462,6 +463,32 @@ field_id field_from_ident(const std::string &field_ident)
     return fd_null;
 }
 
+void map::create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass ) {
+    std::vector<material_id> all_mats = fuel.made_of();
+    if( all_mats.empty() ) {
+        return; 
+    }
+    //Items that are multiple materials are assumed to be equal parts each.
+    units::mass by_weight = burned_mass / all_mats.size();
+    for( auto &mat : all_mats ) {
+        for( auto &bp : mat->burn_products() ) {
+            itype_id id = bp.first;
+            // Spawning the same item as the one that was just burned is pointless
+            // and leads to infinite recursion.
+            if( fuel.typeId() == id ) {
+                continue;
+            }
+            float eff = bp.second;
+            int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+
+            if( n <= 0 ) {
+                continue;
+            }
+            spawn_item( p, id, n, 1, calendar::turn );
+        }
+    }
+}
+
 bool map::process_fields()
 {
     bool dirty_transparency_cache = false;
@@ -874,8 +901,18 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             int max_consume = cur.getFieldDensity() * 2;
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
-
+                                // `item::burn` modifies the charges in order to simulate some of them getting
+                                // destroyed by the fire, this changes the item weight, but may not actually
+                                // destroy it. We need to spawn products anyway.
+                                const units::mass old_weight = fuel->weight( false );
                                 bool destroyed = fuel->burn( frd, can_spread);
+                                // If the item is considered destroyed, it may have negative charge count,
+                                // see `item::burn?. This in turn means `item::weight` returns a negative value,
+                                // which we can not use, so only call `weight` when it's still an existing item.
+                                const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
+                                if( old_weight != new_weight ) {
+                                    create_burnproducts( p, *fuel, old_weight - new_weight );
+                                }
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
@@ -1430,13 +1467,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur.setFieldDensity(3);
                             int num_bolts = rng(3, 6);
                             for (int i = 0; i < num_bolts; i++) {
-                                int xdir = 0, ydir = 0;
+                                int xdir = 0;
+                                int ydir = 0;
                                 while (xdir == 0 && ydir == 0) {
                                     xdir = rng(-1, 1);
                                     ydir = rng(-1, 1);
                                 }
                                 int dist = rng(4, 12);
-                                int boltx = p.x, bolty = p.y;
+                                int boltx = p.x;
+                                int bolty = p.y;
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;
@@ -1616,8 +1655,6 @@ void map::player_in_field( player &u )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
     field &curfield = get_field( u.pos() );
-    int veh_part; // vehicle part existing on this tile.
-    vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
     //to modify power of a field based on... whatever is relevant for the effect.
     int adjusted_intensity;
@@ -1625,8 +1662,9 @@ void map::player_in_field( player &u )
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if (u.in_vehicle) {
-        veh = veh_at( u.pos(), veh_part );
-        inside = (veh && veh->is_inside(veh_part));
+        if( const optional_vpart_position vp = veh_at( u.pos() ) ) {
+            inside = vp->is_inside();
+        }
     }
 
     // Iterate through all field effects on this tile.
@@ -1771,22 +1809,22 @@ void map::player_in_field( player &u )
             {
                 // Burn message by intensity
                 static const std::array<std::string, 4> player_burn_msg = {{
-                    _("You burn your legs and feet!"),
-                    _("You're burning up!"),
-                    _("You're set ablaze!"),
-                    _("Your whole body is burning!")
+                    translate_marker("You burn your legs and feet!"),
+                    translate_marker("You're burning up!"),
+                    translate_marker("You're set ablaze!"),
+                    translate_marker("Your whole body is burning!")
                 }};
                 static const std::array<std::string, 4> npc_burn_msg = {{
-                    _("<npcname> burns their legs and feet!"),
-                    _("<npcname> is burning up!"),
-                    _("<npcname> is set ablaze!"),
-                    _("<npcname>s whole body is burning!")
+                    translate_marker("<npcname> burns their legs and feet!"),
+                    translate_marker("<npcname> is burning up!"),
+                    translate_marker("<npcname> is set ablaze!"),
+                    translate_marker("<npcname>s whole body is burning!")
                 }};
                 static const std::array<std::string, 4> player_warn_msg = {{
-                    _("You're standing in a fire!"),
-                    _("You're waist-deep in a fire!"),
-                    _("You're surrounded by raging fire!"),
-                    _("You're lying in fire!")
+                    translate_marker("You're standing in a fire!"),
+                    translate_marker("You're waist-deep in a fire!"),
+                    translate_marker("You're surrounded by raging fire!"),
+                    translate_marker("You're lying in fire!")
                 }};
 
                 int burn_min = adjusted_intensity;
@@ -1824,11 +1862,11 @@ void map::player_in_field( player &u )
                 }
                 if( total_damage > 0 ) {
                     u.add_msg_player_or_npc( m_bad,
-                        player_burn_msg[msg_num].c_str(),
-                        npc_burn_msg[msg_num].c_str() );
+                        _( player_burn_msg[msg_num].c_str() ),
+                        _( npc_burn_msg[msg_num].c_str() ) );
                 } else {
                     u.add_msg_if_player( m_warning,
-                        player_warn_msg[msg_num].c_str() );
+                        _( player_warn_msg[msg_num].c_str() ) );
                 }
                 u.check_dead_state();
             }
@@ -2221,7 +2259,7 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_dazzling:
-            if (z.has_flag(MF_SEES)) {
+            if( z.has_flag( MF_SEES ) && !z.has_flag( MF_ELECTRONIC ) ) {
                 z.add_effect( effect_blind, cur.getFieldDensity() * 12_turns );
                 z.add_effect( effect_stunned, cur.getFieldDensity() * rng( 5_turns, 12_turns ) );
             }

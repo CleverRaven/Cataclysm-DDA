@@ -829,7 +829,7 @@ void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
 }
 
 // Call the given string directly, used in the lua debug command.
-int call_lua(std::string tocall)
+int call_lua( const std::string &tocall )
 {
     lua_State *L = lua_state;
 
@@ -845,7 +845,7 @@ void lua_callback(const char *callback_name)
 }
 
 //
-int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, float, const std::string &scr)
+int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, const time_point &t, float, const std::string &scr)
 {
     if( lua_state == nullptr ) {
         return 0;
@@ -863,7 +863,7 @@ int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, f
 
     lua_pushstring(L, terrain_type.id().c_str());
     lua_setglobal(L, "tertype");
-    lua_pushinteger(L, t);
+    lua_pushinteger( L, to_turn<int>( t ) );
     lua_setglobal(L, "turn");
 
     err = lua_pcall(L, 0 , LUA_MULTRET, 0);
@@ -892,7 +892,7 @@ static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
 }
 
-static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {
+static std::string string_input_popup_wrapper( const std::string &title, int width, const std::string &desc ) {
     return string_input_popup().title(title).width(width).description(desc).query_string();
 }
 
@@ -1068,7 +1068,7 @@ static int game_register_iuse(lua_State *L)
 #include "lua/catabindings.cpp"
 
 // Load the main file of a mod
-void lua_loadmod(std::string base_path, std::string main_file_name)
+void lua_loadmod(const std::string &base_path, const std::string &main_file_name)
 {
     std::string full_path = base_path + "/" + main_file_name;
     if( file_exist( full_path ) ) {
@@ -1256,7 +1256,7 @@ int call_lua( std::string ) {
 void lua_callback( const char * )
 {
 }
-void lua_loadmod( std::string, std::string )
+void lua_loadmod( const std::string &, const std::string & )
 {
 }
 void game::init_lua()
