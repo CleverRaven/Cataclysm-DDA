@@ -151,7 +151,15 @@ matrix:
       sudo: required
       addons: &gcc
         apt:
-          packages: ["wine"]      
+          packages: ["wine"]
+
+    # Linux Tiles
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
