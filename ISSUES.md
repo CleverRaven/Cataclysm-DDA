@@ -36,7 +36,7 @@ The OS and CDDA version are very important - with the pace of changes here it is
 
 ### Enhancements and addition ideas
 
-We have hundreds of issues open - most of them are ideas and suggestions. If you have a general idea or anything that can't be easily described in terms of *current* code changes you'd be better off suggesting it in the appropriate section of the forum. You'll also get much broader exposure for your idea there. After developing a polished idea on the forum, it should be easy to make a GitHub issue for it.
+We have hundreds of issues open - most of them are ideas and suggestions. If you have a general idea or anything that can't be easily described in terms of *current* code changes you'd be better off suggesting it in the appropriate section of [the forum](https://discourse.cataclysmdda.org/). You'll also get much broader exposure for your idea there. After developing a polished idea on the forum, it should be easy to make a GitHub issue for it.
 
 Please first search if something like what you have on mind has been already proposed. If so, feel free to join the discussion! If your idea is related but sufficiently different, open a new issue and refer to the older discussion (use GitHub's `#issue_number` reference system).
 
