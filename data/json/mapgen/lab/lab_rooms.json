@@ -95,7 +95,7 @@
     }
   },
   {
-    "//": "7x7 monster room - turret TODO make the console work",
+    "//": "7x7 monster room",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_7x7_monster",
@@ -106,7 +106,7 @@
         ".......",
         ".......",
         ".......",
-        "..cccx.",
+        "..ccc6.",
         ".......",
         ".......",
         "......."
@@ -114,6 +114,20 @@
       "palettes": [
         "lab_palette"
       ],
+      "computers": {
+        "6": {
+          "name": "Log Console", "security": 3,
+          "options": [
+            { "name": "View Research Logs", "action": "research", "security": 0 },
+            { "name": "Download Map Data", "action": "maps", "security": 0 }
+          ],
+          "failures": [
+            { "action": "damage" },
+            { "action": "alarm" },
+            { "action": "shutdown" }
+          ]
+        }
+      },
       "place_monster": [ { "monster": "mon_turret", "x": [2, 2], "y": [ 3, 3 ] } ]
     }
   },
