@@ -346,7 +346,11 @@
       "rows": [ "X" ],
       "palettes": [
         "lab_palette", "lab_loot_generic"
-      ]
+      ],
+      "//": "Places a crate, 25% chance of being pre-opened.",
+      "furniture": {
+        "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ]
+      }
     }
   },
   {

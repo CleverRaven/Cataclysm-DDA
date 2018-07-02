@@ -5,7 +5,7 @@
     "furniture": {
       "b": "f_bed",
       "l": "f_locker",
-      "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
+      "X": "f_crate_c",
       "r": "f_rack",
       "d": "f_desk",
       "h": "f_chair",
@@ -19,7 +19,7 @@
     "terrain": {
       "b": "t_rock_floor",
       "l": "t_rock_floor",
-      "X": "t_floor",
+      "X": "t_rock_floor",
       "r": "t_rock_floor",
       "d": "t_rock_floor",
       "f": "t_rock_floor",
