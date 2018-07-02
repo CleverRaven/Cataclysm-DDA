@@ -255,13 +255,13 @@
       "rows": [
         "...............|.cccccX|",
         "...............+......X|",
-        "..-----+-----..|-------|",
-        "..|         |..|       |",
+        "...HtH...HtH...|-------|",
+        "..-----+-----..|       |",
         "..|         |..|       |",
         "..|         |..|       |",
         "..|         |..+       |",
-        "..?         ?..|       |",
         "..|         |..|       |",
+        "..?         ?..|       |",
         "..|         |..|       |",
         "..|         |..----?---|",
         "..|         |..........+",
@@ -281,11 +281,19 @@
       "palettes": [
         "lab_palette", "lab_loot_generic"
       ],
+      "furniture": {
+        "H": [ "f_armchair" ]
+      },
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
       },
+      "mapping": {
+        "t": {
+          "items": [ { "item": "textbooks", "chance": 5 } ]
+        }
+      },
       "place_nested": [
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 3, "y": 3 },
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 3, "y": 4 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
