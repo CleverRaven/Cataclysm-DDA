@@ -149,7 +149,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
-    "weight": 100,
+    "weight": 50,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
