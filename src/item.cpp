@@ -523,8 +523,8 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
-    if ( ammo_type() == "money" ) {
-        // Dealing with cash cards
+    if ( ammo_type() == "money" && charges != 0 && rhs.charges != 0) {
+        // Dealing with nonempty cash cards
         return true;
     }
     // This function is also used to test whether items counted by charges should be merged, for that
