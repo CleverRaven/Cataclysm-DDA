@@ -71,12 +71,6 @@
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
 #  make style-all-json
-# Disable astyle of source files.
-# make ASTYLE=0
-# Disable format check of whitelisted json files.
-# make LINTJSON=0
-# Disable building and running tests.
-# make RUNTESTS=0
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -140,25 +134,6 @@ LUASRC_DIR = $(SRC_DIR)/$(LUA_DIR)
 LUA_BINARY = lua
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
-
-# Enable astyle by default
-ifndef ASTYLE
-  ASTYLE = 1
-endif
-
-# Enable json format check by default
-ifndef LINTJSON
-  LINTJSON = 1
-endif
-
-# Enable running tests by default
-ifndef RUNTESTS
-  RUNTESTS = 1
-endif
-
-ifeq ($(RUNTESTS), 1)
-  TESTS = tests
-endif
 
 # tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
 
@@ -275,12 +250,7 @@ ifdef RELEASE
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
-  ifeq ($(ASTYLE), 1)
-    CHECKS += astyle-check
-  endif
-  ifeq ($(LINTJSON), 1)
-    CHECKS += style-json
-  endif
+  CHECKS = astyle-check style-json
 endif
 
 ifndef RELEASE
@@ -397,11 +367,6 @@ else
   endif
 endif
 
-# MSYS2
-ifeq ($(MSYS2), 1)
-  TARGETSYSTEM=WINDOWS
-endif
-
 # Cygwin
 ifeq ($(NATIVE), cygwin)
   TARGETSYSTEM=CYGWIN
@@ -421,7 +386,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  ifeq ($(DYNAMIC_LINKING), 1)
+  ifdef DYNAMIC_LINKING
     # Windows isn't sold with programming support, these are static to remove MinGW dependency.
     LDFLAGS += -static-libgcc -static-libstdc++
   else
@@ -449,8 +414,8 @@ endif
 PKG_CONFIG = $(CROSS)pkg-config
 SDL2_CONFIG = $(CROSS)sdl2-config
 
-ifeq ($(SOUND), 1)
-  ifneq ($(TILES),1)
+ifdef SOUND
+  ifndef TILES
     $(error "SOUND=1 only works with TILES=1")
   endif
   ifeq ($(NATIVE),osx)
@@ -473,8 +438,8 @@ ifeq ($(SOUND), 1)
     LDFLAGS += -lpthread
   endif
 
-  ifeq ($(MSYS2),1)
-    LDFLAGS += -lmad -lvorbisfile -lvorbis -logg -lmodplug -lflac -lfluidsynth
+  ifdef MSYS2
+    LDFLAGS += -lmad
   endif
 
   CXXFLAGS += -DSDL_SOUND
@@ -482,7 +447,7 @@ endif
 
 ifdef LUA
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    ifeq ($(MSYS2),1)
+    ifdef MSYS2
       LUA_USE_PKGCONFIG := 1
     else
       # Windows expects to have lua unpacked at a specific location
@@ -567,7 +532,7 @@ ifdef TILES
         LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
         LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
       else
-        ifeq ($(MSYS2),1)
+        ifdef MSYS2
           LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
         else
           LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
@@ -671,9 +636,8 @@ ifeq ($(TARGETSYSTEM),CYGWIN)
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
-ifeq ($(MSYS2),1)
+ifdef MSYS2
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
-  CXXFLAGS += -DMSYS2
 endif
 
 # Enumerations of all the source files and headers.
@@ -727,7 +691,7 @@ ifdef LTO
   LDFLAGS += $(CXXFLAGS)
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version $(CHECKS) $(TARGET) $(L10N) tests
 	@
 
 $(TARGET): $(ODIR) $(OBJS)
