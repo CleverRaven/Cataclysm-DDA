@@ -11,21 +11,21 @@
     "name": "PLAYER_HUNGER_RATE",
     "info": "Set base hunger rate per 5 minutes. Default: 1.0",
     "stype": "float",
-    "value": 1.0
+    "value": 0.65
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_THIRST_RATE",
     "info": "Set base thirst rate per 5 minutes. Default: 1.0",
     "stype": "float",
-    "value": 1.0
+    "value": 0.65
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_FATIGUE_RATE",
     "info": "Set base fatigue rate per 5 minutes. Default: 1.0",
     "stype": "float",
-    "value": 1.0
+    "value": 0.8
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -60,20 +60,20 @@
     "name": "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER",
     "info": "How much hunger will be added for recovering 10000 stamina.  Default: 10.  Set to 0 to turn it off.",
     "stype": "int",
-    "value": 10
+    "value": 80
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_RECOVER_STAMINA_INCREASE_THIRST",
     "info": "How much thrist will be added for recovering 10000 stamina.  Default: 10.  Set to 0 to turn it off.",
     "stype": "int",
-    "value": 10
+    "value": 80
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE",
     "info": "How much fatigue will be added for recovering 10000 stamina.  Default: 10.  Set to 0 to turn it off.",
     "stype": "int",
-    "value": 10
+    "value": 40
   }
 ]
