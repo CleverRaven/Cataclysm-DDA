@@ -73,6 +73,6 @@
     "name": "Leadworks gyroscopic stabilizer",
     "description": "An advanced Leadworks built in gyroscopic stabilizer.",
     "price": 0,
-	"flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE" ]
   }
 ]
