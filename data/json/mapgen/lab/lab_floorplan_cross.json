@@ -42,8 +42,7 @@
         { "chunks": [ "lab_spawn_9x9" ], "x": 0, "y": 14 },
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14 },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 9, 14 ], "y": [ 9, 14 ], "density": 0.1 } ]
+      ]
     }
   },
   {

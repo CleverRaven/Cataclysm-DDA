@@ -45,8 +45,7 @@
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+      ]
     }
   },
   {
@@ -187,8 +186,7 @@
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14 },
         { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+      ]
     }
   },
   {
@@ -211,7 +209,7 @@
         "       |       |       |",
         "       |       |       |",
         "       ?       +       +",
-        "       |       |       |",
+        "       |       |       +",
         "       |       |       |",
         "       |       |       |",
         "---+---|---+---|---?---|",
@@ -241,8 +239,7 @@
         { "chunks": [ "lab_spawn_7x7" ], "x": 16, "y": 8 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16 },
         { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+      ]
     }
   },
   {
@@ -289,7 +286,8 @@
       },
       "mapping": {
         "t": {
-          "items": [ { "item": "textbooks", "chance": 5 } ]
+          "items": [ { "item": "textbooks", "chance": 5 } ],
+          "items": [ { "item": "magazines", "chance": 3 } ]
         }
       },
       "place_nested": [
@@ -298,8 +296,7 @@
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
         { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+      ]
     }
   },
   {
@@ -352,8 +349,7 @@
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 13 },
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 },
         { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ]
+      ]
     }
   }
 ]
