@@ -388,18 +388,6 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 
             already_nested.insert( req_id );
             const auto &req = req_id.obj();
-
-            // The inlined requirement must have ONLY the type of component we are inlining
-            // That is, tools or components, not both (nor neither)
-            // Also, it must only offer alternatives, not more than one component "family" at a time
-            // @todo: Remove the requirement to separate tools and components
-            // @todo: Remove the requirement to have only one component "family" per inlined requirement
-            if( req.get_components().size() + req.get_tools().size() != 1 ) {
-                debugmsg( "Tried to inline requirement %s which has more than one set of elements",
-                          req_id.c_str() );
-                return;
-            }
-
             const requirement_data multiplied = req * iter->count;
             iter = vec.erase( iter );
 
