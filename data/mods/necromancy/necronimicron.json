@@ -131,8 +131,7 @@
     "difficulty": 5,
     "time": 15000,
     "book_learn": [[ "abdul_necro", 4 ]],
-    "using": [ [ "filament", 30 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 30 ] ],
     "tools":[
       [ ["UPS_off", 1], ["adv_UPS_off", 1] ]
     ],
@@ -171,8 +170,7 @@
     "difficulty": 7,
     "time": 120000,
     "book_learn": [["abdul_necro", 7]],
-    "using": [ [ "filament", 240 ] ],
-    "qualities": [ { "id" : "SEW", "level" : 1 } ],
+    "using": [ [ "sewing_standard", 240 ] ],
     "tools": [
       [ ["syringe", -1] ]
     ],
