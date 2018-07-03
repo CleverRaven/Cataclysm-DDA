@@ -103,7 +103,7 @@
     "description": "A Leadworks built in heavy duty barrel especially designed for prolonged shooting. Reduce accuracy but increase damage output and weapon range.",
     "price": 0,
     "damage_modifier": 3,
-	"dispersion_modifier": 60,
+    "dispersion_modifier": 60,
     "range": 3,
     "flags": [ "IRREMOVABLE" ]
   }
