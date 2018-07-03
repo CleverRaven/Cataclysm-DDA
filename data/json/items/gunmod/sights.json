@@ -215,5 +215,14 @@
     "price": 0,
     "aim_speed": 6,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_holo_sight",
+    "copy-from": "holo_sight",
+    "type": "GUNMOD",
+    "name": "Leadworks holographic sight",
+    "description": "Built in Leadworks holographic sight.",
+    "price": 0,
+    "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   }
 ]
