@@ -768,6 +768,10 @@ std::string new_artifact()
         def.artifact->dream_msg_met    = artifact_dream_data[(int)(def.artifact->charge_req)].msg_met;
         def.artifact->dream_freq_unmet = artifact_dream_data[(int)(def.artifact->charge_req)].freq_unmet;
         def.artifact->dream_freq_met   = artifact_dream_data[(int)(def.artifact->charge_req)].freq_met;
+        // Stronger artifacts have a higher chance of picking their dream
+        def.artifact->dream_freq_unmet *= ( 1 + 0.1*(num_bad+num_good) );
+        def.artifact->dream_freq_met   *= ( 1 + 0.1*(num_bad+num_good) );
+
         item_controller->add_item_type( static_cast<itype &>( def ) );
         return def.get_id();
     } else { // Generate an armor artifact
