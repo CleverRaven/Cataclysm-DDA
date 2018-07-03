@@ -240,7 +240,7 @@
         "name": "bundle of rags",
         "description": "Cotton rags, bundled tightly together for storage. Disassemble to unpack.",
         "weight": 800,
-        "volume": 4,
+        "volume": 3,
         "price": 0,
         "material": "cotton",
         "symbol": ",",
