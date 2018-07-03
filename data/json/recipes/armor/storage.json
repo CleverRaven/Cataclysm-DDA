@@ -126,8 +126,7 @@
     "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ], [ "cordage", 1 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 40 ], [ "cordage", 1 ] ],
     "components": [ [ [ "leather", 8 ] ] ]
   },
   {
@@ -140,8 +139,7 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ], [ "cordage", 1 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 40 ], [ "cordage", 1 ] ],
     "components": [ [ [ "leather", 8 ] ] ]
   },
   {
@@ -154,8 +152,7 @@
     "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ], [ "cordage", 1 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 40 ], [ "cordage", 1 ] ],
     "components": [ [ [ "leather", 8 ] ] ]
   },
   {
@@ -521,10 +518,9 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "using": [ [ "filament", 8 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "sewing_standard", 8 ], [ "steel_tiny", 1 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SEW", "level": 1 }
+      { "id": "HAMMER", "level": 2 }
     ],
     "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
   },

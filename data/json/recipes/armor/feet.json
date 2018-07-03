@@ -8,8 +8,8 @@
     "difficulty": 2,
     "time": 30000,
     "autolearn": true,
-    "using": [ [ "filament", 140 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "filament", 140, "LIST" ] ] ]
   },
   {
     "result": "boots",
