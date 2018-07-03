@@ -759,7 +759,7 @@ std::string new_artifact()
             def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
         // Maybe pick an extra recharge requirement
-        if (one_in( std::max(1, 8-num_good) ) && def.artifact->charge_type!=ARTC_NULL ) {
+        if (one_in( std::max(1, 6-num_good) ) && def.artifact->charge_type!=ARTC_NULL ) {
             def.artifact->charge_req = art_charge_req( rng(ACR_NULL + 1, NUM_ACRS - 1) );
         }
         // Assign dream data (stored individually so they can be overridden in json)
@@ -981,7 +981,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
         def.tool->def_charges = def.tool->max_charges = rng( 1, 4 );
         def.artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
         //Maybe pick an extra recharge requirement
-        if (one_in(8)) {
+        if (one_in(6)) {
             def.artifact->charge_req = art_charge_req( rng(ACR_NULL + 1, NUM_ACRS - 1) );
         }
     }
