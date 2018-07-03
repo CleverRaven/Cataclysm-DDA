@@ -2083,7 +2083,7 @@ void map::player_in_field( player &u )
                     break;
                 }
                 // Full body suits protect you from the effects of the gas.
-                if( u.worn_with_flag( "GAS_PROOF" ) || ( u.get_env_resist( bp_mouth ) >= 15 && u.get_env_resist( bp_eyes ) >= 15 ) ) {
+                if( u.worn_with_flag( "GAS_PROOF" ) && u.get_env_resist( bp_mouth ) >= 15 && u.get_env_resist( bp_eyes ) >= 15 ) {
                     break;
                 }
                 bool inhaled = false;
