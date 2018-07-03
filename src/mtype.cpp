@@ -11,10 +11,9 @@ const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
-    id = NULL_ID;
+    id = mtype_id::NULL_ID();
     name = "human";
     name_plural = "humans";
-    description = "";
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
@@ -23,12 +22,24 @@ mtype::mtype()
     def_chance = 0;
     upgrades = false;
     half_life = -1;
-    upgrade_into = NULL_ID;
-    upgrade_group = NULL_ID;
-    burn_into = NULL_ID;
+    age_grow = -1;
+    upgrade_into = mtype_id::NULL_ID();
+    upgrade_group = mongroup_id::NULL_ID();
+
+    reproduces = false;
+    baby_timer = -1;
+    baby_count = -1;
+    baby_monster = mtype_id::NULL_ID();
+    baby_egg = "null";
+
+    biosignatures = false;
+    biosig_timer = -1;
+    biosig_item = "null";
+
+    burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
-    harvest = NULL_ID;
+    harvest = harvest_id::NULL_ID();
     luminance = 0;
     bash_skill = 0;
     flags.insert( MF_HUMAN );
@@ -51,12 +62,12 @@ bool mtype::has_flag( m_flag flag ) const
     return bitflags[flag];
 }
 
-bool mtype::has_flag( std::string flag ) const
+bool mtype::has_flag( const std::string &flag ) const
 {
     return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
 }
 
-void mtype::set_flag( std::string flag, bool state )
+void mtype::set_flag( const std::string &flag, bool state )
 {
     if( state ) {
         flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
@@ -85,7 +96,7 @@ bool mtype::has_placate_trigger( monster_trigger trig ) const
     return bitplacate[trig];
 }
 
-bool mtype::in_category( std::string category ) const
+bool mtype::in_category( const std::string &category ) const
 {
     return ( categories.find( category ) != categories.end() );
 }
@@ -204,41 +215,7 @@ int mtype::get_meat_chunks_count() const
     return 0;
 }
 
-bool mtype_special_attack::call( monster &mon ) const
+std::string mtype::get_description() const
 {
-    if( function_type == ATTACK_CPP ) {
-        return cpp_function( &mon );
-    } else if( function_type == ATTACK_ACTOR_PTR ) {
-        return actor_ptr->call( mon );
-    }
-
-    return false;
-}
-
-mtype_special_attack::~mtype_special_attack()
-{
-    if( function_type == ATTACK_ACTOR_PTR ) {
-        delete actor_ptr;
-    }
-}
-
-mtype_special_attack::mtype_special_attack( const mtype_special_attack &other )
-    : function_type( other.function_type ), cooldown( other.cooldown )
-{
-    if( function_type == ATTACK_CPP ) {
-        cpp_function = other.cpp_function;
-    } else if( function_type == ATTACK_ACTOR_PTR ) {
-        actor_ptr = other.actor_ptr->clone();
-    }
-}
-
-void mtype_special_attack::operator=( const mtype_special_attack &other )
-{
-    this->~mtype_special_attack();
-    new( this ) mtype_special_attack( other );
-}
-
-void mtype_special_attack::set_cooldown( int i )
-{
-    cooldown = i;
+    return _( description.c_str() );
 }

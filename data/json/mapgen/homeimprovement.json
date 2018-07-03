@@ -16,12 +16,7 @@
   {
     "id": "rug",
     "type": "item_group",
-    "items": [
-      [ "r_carpet", 45 ],
-      [ "g_carpet", 45 ],
-      [ "y_carpet", 45 ],
-      [ "p_carpet", 45 ]
-    ]
+    "items": [ [ "r_carpet", 45 ], [ "g_carpet", 45 ], [ "y_carpet", 45 ], [ "p_carpet", 45 ] ]
   },
   {
     "id": "home_improvement",
@@ -29,10 +24,8 @@
     "name": "home improvement store",
     "sym": 94,
     "color": "c_yellow_green",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
-    "sidewalk": true,
     "extras": "build",
     "mapgen": [
       {
@@ -75,52 +68,13 @@
             ":": "t_floor",
             "?": "t_floor",
             "@": "t_floor",
-            "F": "t_floor",
-            "G": "t_floor",
-            "L": "t_door_locked",
-            "M": "t_door_metal_locked",
             "O": "t_window",
-            "S": "t_floor",
-            "T": "t_floor",
             "^": "t_floor",
-            "_": "t_pavement_y",
-            "c": "t_floor",
-            "l": "t_floor",
             "r": "t_carpet_red",
-            "t": "t_floor",
-            "w": "t_gates_mech_control",
-            "x": "t_console_broken",
             "y": "t_floor",
             "|": "t_wall"
           },
-          "furniture": {
-            " ": "f_null",
-            "#": "f_counter",
-            "+": "f_null",
-            ",": "f_null",
-            "-": "f_null",
-            ".": "f_null",
-            ":": "f_dresser",
-            "?": "f_statue",
-            "@": "f_bed",
-            "F": "f_fridge",
-            "G": "f_oven",
-            "L": "f_null",
-            "M": "f_null",
-            "O": "f_null",
-            "S": "f_sink",
-            "T": "f_toilet",
-            "^": "f_indoor_plant",
-            "_": "f_null",
-            "c": "f_chair",
-            "l": "f_locker",
-            "r": "f_null",
-            "t": "f_table",
-            "w": "f_null",
-            "x": "f_null",
-            "y": "f_indoor_plant_y",
-            "|": "f_null"
-          },
+          "furniture": { "#": "f_counter", ":": "f_dresser", "?": "f_statue", "@": "f_bed", "^": "f_indoor_plant", "y": "f_indoor_plant_y" },
           "place_items": [
             { "item": "bed", "x": [ 3, 3 ], "y": [ 3, 3 ], "chance": 80 },
             { "item": "bed", "x": [ 5, 5 ], "y": [ 3, 3 ], "chance": 80 },
@@ -139,6 +93,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

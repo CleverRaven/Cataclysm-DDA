@@ -1,0 +1,30 @@
+[
+  {
+    "id": "surface_heat",
+    "type": "requirement",
+    "//": "Heat usable for heating a surface - for example a pot or frying pan.",
+    "tools": [ [ [ "hotplate", 1 ], [ "multi_cooker", 1 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ] ]
+  },
+  {
+    "id": "frying_oil",
+    "type": "requirement",
+    "//": "Oil usable for frying. Note: the oil is reusable.",
+    "tools": [ [ [ "cooking_oil", -1 ], [ "tallow", -1 ], [ "lard", -1 ] ] ]
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else.",
+    "tools": [
+      [
+        [ "hotplate", 1 ],
+        [ "multi_cooker", 1 ],
+        [ "char_smoker", 1 ],
+        [ "toolset", 1 ],
+        [ "coffeemaker", 1 ],
+        [ "atomic_coffeepot", -1 ],
+        [ "fire", -1 ]
+      ]
+    ]
+  }
+]

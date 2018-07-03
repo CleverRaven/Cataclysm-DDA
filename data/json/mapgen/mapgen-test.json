@@ -21,13 +21,7 @@
     "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
     "sym": 37,
     "color": "white",
-    "rotate": false,
-    "line_drawing": false,
-    "mondensity": 1,
-    "allow_road": false,
-    "sidewalk": false,
-    "known_up": false,
-    "known_down": false
+    "mondensity": 1
   },
   {
     "type": "mapgen",
@@ -83,7 +77,8 @@
       },
       "furniture": {
         ",": "f_table",
-        "-": [ "f_chair", { "furn": "f_bed" } ]
+        "-": [ "f_chair", { "furn": "f_bed" } ],
+        "g": "f_brazier"
       },
       "place_furniture": [
         { "furn": "f_rack", "x": 9, "y": 3 }
@@ -94,7 +89,7 @@
       "traps": {
         "F": "tr_cot",
         "f": { "trap": "tr_funnel" },
-        "g": [ "tr_funnel", { "trap": "tr_brazier" } ]
+        "g": { "trap": "tr_funnel" }
       },
       "fields": {
         "B": { "field": "fd_blood", "density": 1, "age": 10 }

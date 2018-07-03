@@ -3,6 +3,7 @@
         "type" : "furniture",
         "id" : "f_hay",
         "name": "hay",
+        "description": "A bale of hay.  You could sleep on it, if desperate.",
         "symbol": "#",
         "bgcolor": "brown",
         "move_cost_mod": 3,
@@ -22,7 +23,8 @@
         "id" : "f_rubble",
         "name": "pile of rubble",
         "symbol": "^",
-        "color": "ltgray",
+        "description": "Pile of various metals, bricks, and other building materials.  You could clear it with a shovel.",
+        "color": "light_gray",
         "move_cost_mod": 6,
         "max_volume": 3000,
         "required_str": -1,
@@ -33,8 +35,9 @@
         "type" : "furniture",
         "id" : "f_rubble_rock",
         "name": "pile of rocky rubble",
+        "description": "Pile of rocks.  Useless.",
         "symbol": "^",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 6,
         "max_volume": 3000,
         "required_str": -1,
@@ -45,6 +48,7 @@
         "type" : "furniture",
         "id" : "f_wreckage",
         "name": "metal wreckage",
+        "description": "Pile of various bent and twisted metals.",
         "symbol": "#",
         "color": "cyan",
         "move_cost_mod": 6,
@@ -58,10 +62,11 @@
         "id" : "f_ash",
         "name": "pile of ash",
         "symbol": "#",
-        "color": "ltgray",
+        "description": "Some ash, from wood or possibly bodies.",
+        "color": "light_gray",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "NOCOLLIDE"],
+        "flags": ["TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -69,9 +74,11 @@
         "name": "road barricade",
         "symbol": "#",
         "bgcolor": "yellow",
-        "move_cost_mod": 3,
+        "description": "A road barricade.  For barricading roads.",
+        "move_cost_mod": -1,
         "required_str": 5,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 6 },
@@ -84,7 +91,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -94,9 +101,11 @@
         "name": "sandbag barricade",
         "symbol": "#",
         "bgcolor": "brown",
-        "move_cost_mod": 3,
+        "description": "A sandbag, typically used for blocking bullets.",
+        "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 2 },
@@ -119,8 +128,9 @@
         "symbol": "#",
         "bgcolor": "brown",
         "move_cost_mod": -1,
+        "description": "A few stacked sandbags.",
         "required_str": -1,
-        "flags": ["NOITEM", "BLOCKSDOOR"],
+        "flags": ["NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 4 },
@@ -142,6 +152,7 @@
         "type" : "furniture",
         "id" : "f_bulletin",
         "name": "bulletin board",
+        "description": "Pin some notes for other survivors to read.",
         "symbol": "6",
         "color": "blue",
         "move_cost_mod": -1,
@@ -171,9 +182,34 @@
         "symbol": "^",
         "color": "green",
         "move_cost_mod": 2,
+        "description": "A variety of plant, used for decoration.",
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "SHORT"],
+        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT"],
+        "bash": {
+            "str_min": 2, "str_max": 18,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "withered", "prob": 50 },
+                { "item": "wrapper", "prob": 50 },
+                { "item": "can_drink_unsealed", "prob": 50 },
+                { "item": "bag_plastic", "prob": 50 },
+                { "item": "ceramic_shard", "count": [1, 3] },
+                { "item": "cig_butt", "prob": 50 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_indoor_plant_y",
+        "name": "yellow indoor plant",
+        "description": "A variety of plant for decoration.  It's yellow.",
+        "symbol": "^",
+        "color": "yellow",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "max_volume": 2000,
+        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT"],
         "bash": {
             "str_min": 2, "str_max": 18,
             "sound": "smash!",
@@ -192,6 +228,7 @@
         "id" : "f_bed",
         "name": "bed",
         "symbol": "#",
+        "description": "Quite comfortable to sleep in.",
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": -1,
@@ -222,6 +259,7 @@
         "name": "toilet",
         "symbol": "&",
         "color": "white",
+        "description": "Emergency water source, from the tank, and provider of relief.",
         "move_cost_mod": 2,
         "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
@@ -240,9 +278,10 @@
         "id" : "f_makeshift_bed",
         "name": "makeshift bed",
         "symbol": "#",
+        "description": "Not as comfortable as a real bed, but it will suffice.",
         "color": "magenta",
         "move_cost_mod": 3,
-        "required_str": 12,
+        "required_str": 10,
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 4 },
@@ -268,6 +307,7 @@
         "id" : "f_straw_bed",
         "name": "straw bed",
         "symbol": "#",
+        "description": "Kinda itches when you lay on it.",
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": -1,
@@ -278,7 +318,7 @@
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT"],
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "crunch!",
@@ -294,6 +334,7 @@
         "id" : "f_sink",
         "name": "sink",
         "symbol": "&",
+        "description": "Emergency relief provider.  Water isn't running, so no water.",
         "color": "white",
         "move_cost_mod": 2,
         "required_str": -1,
@@ -313,9 +354,10 @@
         "id" : "f_oven",
         "name": "oven",
         "symbol": "#",
-        "color": "dkgray",
+        "description": "Used for heating and cooking food with electricity.  Doesn't look like it's working, although it still has parts.",
+        "color": "dark_gray",
         "move_cost_mod": 2,
-        "required_str": 16,
+        "required_str": 10,
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -323,6 +365,7 @@
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "count": [2, 3] },
                 { "item": "element", "count": [1, 4] },
+                { "item": "cable", "charges": [1, 3] },
                 { "item": "pilot_light", "count": 1 }
             ]
         },
@@ -346,6 +389,7 @@
         "name": "wood stove",
         "symbol": "#",
         "bgcolor": "red",
+        "description": "Wood stove for heating and cooking.  Much more effective than an open flame.",
         "move_cost_mod": 2,
         "required_str": 10,
         "max_volume": 4000,
@@ -370,6 +414,7 @@
         "id" : "f_fireplace",
         "name": "fireplace",
         "symbol": "#",
+        "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.",
         "bgcolor": "white",
         "move_cost_mod": 2,
         "required_str": -1,
@@ -387,6 +432,7 @@
         "id" : "f_shower",
         "name": "shower",
         "symbol": "~",
+        "description": "You would be able to clean yourself if water was running.",
         "color": "white",
         "move_cost_mod": 0,
         "required_str": -1,
@@ -409,6 +455,7 @@
         "id" : "f_bathtub",
         "name": "bathtub",
         "symbol": "~",
+        "description": "You could lay in and take a soothing bath.  Only if water was running.",
         "color": "white",
         "move_cost_mod": 2,
         "required_str": -1,
@@ -428,6 +475,7 @@
         "id" : "f_chair",
         "name": "chair",
         "symbol": "#",
+        "description": "Sit down, have a drink.",
         "color": "brown",
         "move_cost_mod": 1,
         "required_str": 4,
@@ -454,6 +502,7 @@
         "id" : "f_armchair",
         "name": "arm chair",
         "symbol": "H",
+        "description": "A more comfortable way of sitting down.",
         "color": "green",
         "move_cost_mod": 1,
         "required_str": 7,
@@ -482,6 +531,7 @@
         "id" : "f_sofa",
         "name": "sofa",
         "symbol": "H",
+        "description": "Lay down OR sit down!  Perfect!",
         "bgcolor": "red",
         "move_cost_mod": 1,
         "required_str": 10,
@@ -510,6 +560,7 @@
         "id" : "f_cupboard",
         "name": "cupboard",
         "symbol": "#",
+        "description": "Store your cups.",
         "color": "blue",
         "move_cost_mod": 1,
         "required_str": -1,
@@ -536,7 +587,8 @@
         "id" : "f_trashcan",
         "name": "trash can",
         "symbol": "&",
-        "color": "ltcyan",
+        "description": "One man's trash is another mans dinner.",
+        "color": "light_cyan",
         "move_cost_mod": 1,
         "required_str": 5,
         "max_volume": 4000,
@@ -554,7 +606,8 @@
         "id" : "f_desk",
         "name": "desk",
         "symbol": "#",
-        "color": "ltred",
+        "description": "Sit down at it, and, if up to, work on it.",
+        "color": "light_red",
         "move_cost_mod": 1,
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
@@ -580,7 +633,8 @@
         "id" : "f_exercise",
         "name": "exercise machine",
         "symbol": "T",
-        "color": "dkgray",
+        "description": "Typically used for, well, exercising.  You're not up for it.",
+        "color": "dark_gray",
         "move_cost_mod": 1,
         "required_str": 8,
         "flags": ["TRANSPARENT"],
@@ -607,8 +661,9 @@
         "type" : "furniture",
         "id" : "f_ball_mach",
         "name": "ball machine",
+        "description": "Remember when baseball was a thing?",
         "symbol": "T",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 1,
         "required_str": -1,
         "flags": ["TRANSPARENT"],
@@ -627,6 +682,7 @@
         "id" : "f_bench",
         "name": "bench",
         "symbol": "#",
+        "description": "Hobo bed.  Use at your own risk.",
         "color": "brown",
         "move_cost_mod": 1,
         "required_str": 8,
@@ -652,6 +708,7 @@
         "type" : "furniture",
         "id" : "f_lane",
         "name": "lane guard",
+        "description": "Used to be used for keeping traffic.",
         "symbol": "#",
         "color": "brown",
         "move_cost_mod": 1,
@@ -671,6 +728,7 @@
         "type" : "furniture",
         "id" : "f_table",
         "name": "table",
+        "description": "Sit down when you eat!",
         "symbol": "#",
         "color": "red",
         "move_cost_mod": 2,
@@ -689,7 +747,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -698,10 +756,11 @@
         "id" : "f_sign",
         "name": "sign",
         "symbol": "P",
+        "description": "Read it.  Warnings ahead.",
         "color": "brown",
         "examine_action": "sign",
         "move_cost_mod": 1,
-        "required_str": 8,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -724,6 +783,7 @@
         "id" : "f_pool_table",
         "name": "pool table",
         "symbol": "#",
+        "description": "A good-looking pool table.  You wish you learned how to play.",
         "color": "green",
         "move_cost_mod": 2,
         "required_str": -1,
@@ -751,6 +811,7 @@
         "type" : "furniture",
         "id" : "f_counter",
         "name": "counter",
+        "description": "Affixed to the wall or found in kitchens or stores.",
         "symbol": "#",
         "color": "blue",
         "move_cost_mod": 2,
@@ -769,7 +830,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -778,7 +839,8 @@
         "id" : "f_fridge",
         "name": "refrigerator",
         "symbol": "{",
-        "color": "ltcyan",
+        "description": "Freeze your food with the amazing science of electricity!  Oh wait, none is flowing.",
+        "color": "light_cyan",
         "move_cost_mod": -1,
         "required_str": 10,
         "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
@@ -808,7 +870,8 @@
         "id" : "f_glass_fridge",
         "name": "glass door fridge",
         "symbol": "{",
-        "color": "ltcyan",
+        "color": "light_cyan",
+        "description": "Wow!  See INTO your fridge before you open it!",
         "move_cost_mod": -1,
         "required_str": 10,
         "flags": ["PLACE_ITEM", "BLOCKSDOOR"],
@@ -840,6 +903,7 @@
         "id" : "f_dresser",
         "name": "dresser",
         "symbol": "{",
+        "description": "Dress yourself for the prom, or other occasions.",
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 8,
@@ -857,7 +921,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -866,7 +930,8 @@
         "id" : "f_locker",
         "name": "locker",
         "symbol": "{",
-        "color": "ltgray",
+        "description": "Usually used for storing equipment or items.",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 9,
         "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
@@ -891,14 +956,16 @@
         "type" : "furniture",
         "id" : "f_rack",
         "name": "display rack",
+        "description": "Display your items.",
         "symbol": "{",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
-                { "item": "pipe", "count": [6, 12] }
+                { "item": "pipe", "count": [6, 12] },
+                { "item": "sheet_metal", "count": [1, 2] }
             ]
         },
         "max_volume": 7000,
@@ -917,6 +984,7 @@
         "id" : "f_bookcase",
         "name": "book case",
         "symbol": "{",
+        "description": "Stores books.  Y'know, Those things.  Who reads books anymore?",
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 9,
@@ -942,10 +1010,11 @@
         "type" : "furniture",
         "id" : "f_washer",
         "name": "washing machine",
+        "description": "You could wash your dirty clothes if electricity was running.",
         "symbol": "{",
         "bgcolor": "white",
         "move_cost_mod": -1,
-        "required_str": 16,
+        "required_str": 12,
         "max_volume": 4000,
         "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
@@ -955,6 +1024,7 @@
                 { "item": "steel_chunk", "count": [1, 3] },
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
+                { "item": "hose", "count": [1, 2] },
                 { "item": "cu_pipe", "count": [2, 5] }
             ]
         },
@@ -976,16 +1046,18 @@
         "type" : "furniture",
         "id" : "f_dryer",
         "name": "dryer",
+        "description": "Dry your clothes!",
         "symbol": "{",
         "bgcolor": "white",
         "move_cost_mod": -1,
-        "required_str": 16,
+        "required_str": 12,
         "max_volume": 4000,
         "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
             "items": [
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "count": [1, 3] },
+                { "item": "element", "count": [2, 3] },
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
                 { "item": "cu_pipe", "count": [1, 3] }
@@ -1008,6 +1080,7 @@
         "id" : "f_bigmirror",
         "name": "standing mirror",
         "symbol": "{",
+        "description": "Lookin' good- is that blood?",
         "color": "white",
         "move_cost_mod": 2,
         "required_str": 5,
@@ -1026,8 +1099,9 @@
         "type" : "furniture",
         "id" : "f_bigmirror_b",
         "name": "broken standing mirror",
+        "description": "You could look at yourself, if the mirror wasn't covered in cracks and fractures.",
         "symbol": "{",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": 2,
         "required_str": 5,
         "flags": ["NOITEM","BLOCKSDOOR"],
@@ -1044,13 +1118,14 @@
         "id" : "f_vending_c",
         "name": "vending machine",
         "symbol": "{",
-        "color": "ltcyan",
+        "description": "Buy stuff with a cash card.",
+        "color": "light_cyan",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": 12,
         "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
         "examine_action": "vending",
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 20, "str_max": 40,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "sound_vol": 16,
@@ -1064,13 +1139,14 @@
         "type" : "furniture",
         "id" : "f_vending_o",
         "name": "broken vending machine",
+        "description": "Ponder if you could buy stuff, as it's broken.",
         "symbol": "{",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": -1,
-        "required_str": 10,
+        "required_str": 12,
         "flags": ["PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
-            "str_min": 18, "str_max": 50,
+            "str_min": 30, "str_max": 50,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
@@ -1085,6 +1161,7 @@
         "type" : "furniture",
         "id" : "f_dumpster",
         "name": "dumpster",
+        "description": "Stores your trash.",
         "symbol": "{",
         "color": "green",
         "move_cost_mod": -1,
@@ -1104,8 +1181,9 @@
         "type" : "furniture",
         "id" : "f_dive_block",
         "name": "diving block",
+        "description": "Jump!  Jump!  Dive!",
         "symbol": "O",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 16,
         "flags": ["TRANSPARENT", "MOUNTABLE"],
@@ -1122,6 +1200,7 @@
         "type" : "furniture",
         "id" : "f_coffin_c",
         "name": "coffin",
+        "description": "Holds the bodies of the countless you kill.",
         "symbol": "0",
         "bgcolor": "brown",
         "move_cost_mod": -1,
@@ -1130,8 +1209,8 @@
                   "ORGANIC", "MOUNTABLE", "SHORT"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "count": 6 },
-                { "item": "nail", "charges": [6, 10] },
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [12, 24] },
                 { "item": "rag", "count": [15, 20] }
             ]
         },
@@ -1142,6 +1221,7 @@
             "sound_fail": "wham!",
             "items": [
                 { "item": "2x4", "count": [1, 5] },
+                { "item": "splinter", "count": [2, 6] },
                 { "item": "nail", "charges": [2, 10] },
                 { "item": "rag", "count": [ 8, 12] }
             ]
@@ -1150,6 +1230,7 @@
         "type" : "furniture",
         "id" : "f_coffin_o",
         "name": "open coffin",
+        "description": "Look at the bodies of the countless you've killed.",
         "symbol": "O",
         "bgcolor": "brown",
         "move_cost_mod": -1,
@@ -1158,8 +1239,8 @@
           "SHORT"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "count": 6 },
-                { "item": "nail", "charges": [6, 10] },
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [12, 24] },
                 { "item": "rag", "count": [15, 20] }
             ]
         },
@@ -1170,18 +1251,20 @@
             "sound_fail": "wham!",
             "items": [
                 { "item": "2x4", "count": [1, 5] },
+                { "item": "splinter", "count": [2, 6] },
                 { "item": "nail", "charges": [2, 10] },
-                { "item": "rag", "count": [ 6, 12] }
+                { "item": "rag", "count": [ 8, 12] }
             ]
         }
     },{
         "type" : "furniture",
         "id" : "f_crate_c",
         "name": "crate",
+        "description": "What's inside?  Find out!",
         "symbol": "X",
         "bgcolor": "brown",
         "move_cost_mod": -1,
-        "required_str": 14,
+        "required_str": 12,
         "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM",
                   "ORGANIC", "MOUNTABLE", "SHORT"],
         "examine_action": "crate",
@@ -1205,10 +1288,11 @@
         "type" : "furniture",
         "id" : "f_crate_o",
         "name": "open crate",
+        "description": "What's inside?  Look in it!",
         "symbol": "O",
         "bgcolor": "brown",
         "move_cost_mod": -1,
-        "required_str": 12,
+        "required_str": 10,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE",
           "SHORT"],
         "deconstruct": {
@@ -1409,6 +1493,7 @@
         "id" : "f_skin_wall",
         "name": "animalskin wall",
         "symbol": "#",
+        "description": "Wall made out of animal skin.  Either an amazing or horrifying sight.",
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
@@ -1494,7 +1579,7 @@
         "id" : "f_flower_fungal",
         "name": "fungal flower",
         "symbol": "f",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 1,
         "required_str": -1,
         "flags": ["TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH"],
@@ -1509,7 +1594,7 @@
         "id" : "f_fungal_mass",
         "name": "fungal mass",
         "symbol": "O",
-        "bgcolor": "dkgray",
+        "bgcolor": "dark_gray",
         "move_cost_mod": -10,
         "required_str": -1,
         "flags": ["CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT"],
@@ -1523,7 +1608,7 @@
         "id" : "f_fungal_clump",
         "name": "fungal clump",
         "symbol": "#",
-        "bgcolor": "ltgray",
+        "bgcolor": "light_gray",
         "move_cost_mod": 3,
         "required_str": -1,
         "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE",
@@ -1537,8 +1622,9 @@
         "type" : "furniture",
         "id" : "f_safe_c",
         "name": "safe",
+        "description": "Holds items.  Securely.",
         "symbol": "X",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
@@ -1558,7 +1644,8 @@
         "id" : "f_safe_l",
         "name": "safe",
         "symbol": "X",
-        "color": "ltgray",
+        "description": "What needs protection like this?",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
@@ -1577,8 +1664,9 @@
         "type" : "furniture",
         "id" : "f_gunsafe_ml",
         "name": "gun safe",
+        "description": "Oooooohhhh.  Shiny.",
         "symbol": "X",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
@@ -1597,8 +1685,9 @@
         "type" : "furniture",
         "id" : "f_gunsafe_mj",
         "name": "jammed gun safe",
+        "description": "Does it have guns in it?  You won't find out.  It's jammed.",
         "symbol": "X",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
@@ -1616,8 +1705,9 @@
         "type" : "furniture",
         "id" : "f_gun_safe_el",
         "name": "electronic gun safe",
+        "description": "Can you hack it open to get the firearms?",
         "symbol": "X",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
@@ -1636,8 +1726,9 @@
         "type" : "furniture",
         "id" : "f_safe_o",
         "name": "open safe",
+        "description": "Grab the firearms!",
         "symbol": "O",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
@@ -1660,7 +1751,7 @@
         "color": "brown",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
         "examine_action": "aggie_plant"
     },{
         "type" : "furniture",
@@ -1670,7 +1761,7 @@
         "color": "green",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
         "examine_action": "aggie_plant",
         "bash": {
             "str_min": 2, "str_max": 6,
@@ -1685,7 +1776,7 @@
         "color": "green",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
         "examine_action": "aggie_plant",
         "bash": {
             "str_min": 3, "str_max": 8,
@@ -1697,10 +1788,10 @@
         "id" : "f_plant_harvest",
         "name": "harvestable plant",
         "symbol": "#",
-        "color": "ltgreen",
+        "color": "light_green",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
         "examine_action": "aggie_plant",
         "bash": {
             "str_min": 4, "str_max": 10,
@@ -1711,12 +1802,21 @@
         "type" : "furniture",
         "id" : "f_fvat_empty",
         "name": "empty fermenting vat",
+        "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
         "symbol": "O",
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER"],
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_empty",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 14 },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 3, "str_max": 45,
             "sound": "smash!",
@@ -1732,12 +1832,21 @@
         "type" : "furniture",
         "id" : "f_fvat_full",
         "name": "full fermenting vat",
+        "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
         "symbol": "O",
         "color": "brown_cyan",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER"],
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
         "examine_action": "fvat_full",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 14 },
+                { "item": "nail", "charges": [6, 12] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 2 }
+            ]
+        },
         "bash": {
             "str_min": 12, "str_max": 50,
             "sound": "smash!",
@@ -1753,12 +1862,21 @@
         "type" : "furniture",
         "id" : "f_wood_keg",
         "name": "wooden keg",
+        "description": "A keg made mostly of wood.  Holds liquids, preferably beer.",
         "symbol": "H",
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg",
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 18 },
+                { "item": "nail", "charges": [7, 14] },
+                { "item": "water_faucet", "count": 1 },
+                { "item": "sheet_metal", "count": 3 }
+            ]
+        },
         "bash": {
             "str_min": 12, "str_max": 50,
             "sound": "smash!",
@@ -1772,32 +1890,11 @@
         }
     },{
         "type" : "furniture",
-        "id" : "f_indoor_plant_y",
-        "name": "yellow indoor plant",
-        "symbol": "^",
-        "color": "yellow",
-        "move_cost_mod": 2,
-        "required_str": 5,
-        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY"],
-        "bash": {
-            "str_min": 2, "str_max": 18,
-            "sound": "smash!",
-            "sound_fail": "whump.",
-            "items": [
-                { "item": "withered", "prob": 50 },
-                { "item": "wrapper", "prob": 50 },
-                { "item": "can_drink_unsealed", "prob": 50 },
-                { "item": "bag_plastic", "prob": 50 },
-                { "item": "ceramic_shard", "count": [1, 3] },
-                { "item": "cig_butt", "prob": 50 }
-            ]
-        }
-    },{
-        "type" : "furniture",
         "id" : "f_statue",
         "name": "statue",
+        "description": "A carved statue made of stone..",
         "symbol": "S",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": -1,
         "required_str": 10,
         "flags": ["PLACE_ITEM", "BLOCKSDOOR"],
@@ -1813,6 +1910,7 @@
         "type" : "furniture",
         "id" : "f_mannequin",
         "name": "mannequin",
+        "description": "Put clothes on it and wish you looked as good.",
         "symbol": "@",
         "color": "brown",
         "move_cost_mod": 2,
@@ -1944,12 +2042,13 @@
         "type" : "furniture",
         "id" : "f_forge",
         "name": "forge",
+        "description": "Metalworking station typically used in combination with an anvil.",
         "symbol": "^",
-        "color": "ltred",
+        "color": "light_red",
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "char_forge",
-        "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM"],
+        "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "char_forge", "count": 1 }
@@ -1968,17 +2067,18 @@
         "type" : "furniture",
         "id" : "f_anvil",
         "name": "anvil",
+        "description": "Used in metalworking.",
         "symbol": "^",
-        "color": "ltred",
+        "color": "light_red",
         "move_cost_mod": -1,
-        "required_str": -1,
+        "required_str": 16,
         "crafting_pseudo_item": "anvil",
         "deconstruct": {
             "items": [
                 { "item": "anvil", "count": 1 }
             ]
         },
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
         "bash": {
             "str_min": 4, "str_max": 8,
             "sound": "crunch!",
@@ -1991,8 +2091,9 @@
         "type" : "furniture",
         "id" : "f_still",
         "name": "still",
+        "description": "Invaluable equipment in brewery and chemisty, that distiles liquids.",
         "symbol": "^",
-        "color": "ltred",
+        "color": "light_red",
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "still",
@@ -2001,7 +2102,7 @@
                 { "item": "still", "count": 1 }
             ]
         },
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
         "bash": {
             "str_min": 4, "str_max": 8,
             "sound": "crunch!",
@@ -2076,6 +2177,7 @@
         "type" : "furniture",
         "id" : "f_vending_reinforced",
         "name": "reinforced vending machine",
+        "description": "A bit tougher to crack open than regular vending machines.",
         "symbol": "{",
         "color": "light_red",
         "move_cost_mod": -1,
@@ -2083,7 +2185,7 @@
         "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD"],
         "examine_action": "vending",
         "bash": {
-            "str_min": 40, "str_max": 200,
+            "str_min": 150, "str_max": 520,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "furn_set": "f_vending_o",
@@ -2095,6 +2197,7 @@
         "type" : "furniture",
         "id" : "f_arcade_machine",
         "name": "arcade machine",
+        "description": "Play stupid games, win stupid prizes.",
         "symbol": "6",
         "color": "red",
         "move_cost_mod": -1,
@@ -2131,6 +2234,7 @@
         "type" : "furniture",
         "id" : "f_pinball_machine",
         "name": "pinball machine",
+        "description": "Most underrated game of the 20th century.  Press buttons so it doesn't go in the hole.",
         "symbol": "7",
         "color": "red",
         "move_cost_mod": -1,
@@ -2175,7 +2279,7 @@
         "id" : "f_ergometer",
         "name": "ergometer",
         "symbol": "5",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 2,
         "required_str": 8,
         "flags": ["BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
@@ -2216,8 +2320,9 @@
         "type" : "furniture",
         "id" : "f_treadmill",
         "name": "treadmill",
+        "description": "Used for training leg muscles.  It'll be hard without power.",
         "symbol": "L",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 1,
         "required_str": 12,
         "flags": ["BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
@@ -2240,7 +2345,7 @@
                 { "item": "scrap", "count": [0, 3] },
                 { "item": "pipe", "count": [0, 4] },
                 { "item": "small_lcd_screen", "prob": 50 },
-                { "item": "RAM", "count": [4, 1] },
+                { "item": "RAM", "count": [0, 1] },
                 { "item": "nail", "charges": [2, 6] }
             ]
         }
@@ -2248,8 +2353,9 @@
         "type" : "furniture",
         "id" : "f_displaycase",
         "name": "display case",
+        "description": "Display your stuff.  Securely.",
         "symbol": "#",
-        "color": "ltcyan",
+        "color": "light_cyan",
         "move_cost_mod": 2,
         "required_str": 9,
         "flags": ["TRANSPARENT", "SEALED", "PLACE_ITEM"],
@@ -2268,8 +2374,9 @@
         "type" : "furniture",
         "id" : "f_displaycase_b",
         "name": "broken display case",
+        "description": "Display your stuff.  It'll get stolen.",
         "symbol": "#",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": 2,
         "required_str": 9,
         "flags": ["TRANSPARENT", "PLACE_ITEM"],
@@ -2286,8 +2393,9 @@
         "type": "furniture",
         "id": "f_standing_tank",
         "name": "standing tank",
+        "description": "A large freestanding metal tank, useful for holding liquids.",
         "symbol" : "O",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod" : -1,
         "required_str": -1,
         "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
@@ -2312,8 +2420,9 @@
         "type" : "furniture",
         "id" : "f_floor_canvas",
         "name": "heavy punching bag",
+        "description": "Punch Punch!  Exercise those arms!",
         "symbol": "0",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": -1,
         "required_str": 10,
         "flags": ["BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
@@ -2341,6 +2450,7 @@
         "type" : "furniture",
         "id" : "f_kiln_empty",
         "name": "charcoal kiln",
+        "description": "A rock kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
         "symbol": "U",
         "color": "brown",
         "move_cost_mod": -1,
@@ -2348,7 +2458,7 @@
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
-        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
@@ -2366,12 +2476,13 @@
         "type" : "furniture",
         "id" : "f_kiln_full",
         "name": "filled charcoal kiln",
+        "description": "A rock kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
         "symbol": "U",
         "color": "brown_red",
         "move_cost_mod": -1,
         "required_str": -1,
         "examine_action": "kiln_full",
-        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
@@ -2389,6 +2500,7 @@
         "type" : "furniture",
         "id" : "f_kiln_metal_empty",
         "name": "metal charcoal kiln",
+        "description": "A metal kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
         "symbol": "U",
         "color": "blue",
         "move_cost_mod": -1,
@@ -2417,6 +2529,7 @@
         "type" : "furniture",
         "id" : "f_kiln_metal_full",
         "name": "filled metal charcoal kiln",
+        "description": "A metal kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
         "symbol": "U",
         "color": "blue_red",
         "move_cost_mod": -1,
@@ -2499,7 +2612,7 @@
         "id" : "f_aut_gas_console_o",
         "name": "broken automated gas console",
         "symbol": "9",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": -1,
         "required_str": 20,
         "flags": ["BLOCKSDOOR"],
@@ -2519,11 +2632,12 @@
     "type" : "furniture",
     "id" : "f_smoking_rack",
     "name": "smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.",
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM"],
+    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "reload_furniture",
     "deconstruct": {
@@ -2545,12 +2659,13 @@
     "type" : "furniture",
     "id" : "f_forge_rock",
     "name": "rock forge",
+    "description": "Metalworking station made of rock, typically used in combination with an anvil.",
     "symbol": "^",
-    "color": "ltred",
+    "color": "light_red",
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": ["SEALED", "CONTAINER", "NOITEM"],
+    "flags": ["SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
     "deconstruct": {
       "items": [
         { "item": "rock", "count": 40 }
@@ -2569,12 +2684,13 @@
         "type" : "furniture",
         "id" : "f_clay_kiln",
         "name": "clay kiln",
+        "description": "A kiln designed to bake clay pottery and bricks.",
         "symbol": "^",
-        "color": "ltred",
+        "color": "light_red",
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "brick_kiln",
-        "flags": [ "SEALED", "CONTAINER", "NOITEM"],
+        "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": 40 }
@@ -2613,10 +2729,12 @@
         "type" : "furniture",
         "id" : "f_boulder_small",
         "name": "small boulder",
+        "description": "Blocking your path.  Should be easy to move.  It can be used as a primitive anvil.",
         "symbol": "o",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 3,
         "required_str": 10,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY"],
         "bash": {
             "str_min": 16, "str_max": 40,
@@ -2630,10 +2748,12 @@
         "type" : "furniture",
         "id" : "f_boulder_medium",
         "name": "medium boulder",
+        "description": "Blocking your path.  It'll be a struggle to move.  It can be used as a primitive anvil.",
         "symbol": "0",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 6,
         "required_str": 16,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE"],
         "bash": {
             "str_min": 32, "str_max": 80,
@@ -2647,8 +2767,9 @@
         "type" : "furniture",
         "id" : "f_boulder_large",
         "name": "large boulder",
+        "description": "Now how are you going to move this?",
         "symbol": "O",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": -1,
         "required_str": 32,
         "flags": ["NOITEM", "MINEABLE", "BASHABLE"],
@@ -2667,9 +2788,10 @@
         "id" : "f_slab",
         "name": "stone slab",
         "symbol": "n",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 2,
         "required_str": 12,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 20, "str_max": 40,
@@ -2684,7 +2806,7 @@
         "id" : "f_shackle",
         "name": "manacles",
         "symbol": "8",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": 1,
         "required_str": -1,
         "flags": ["TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
@@ -2700,10 +2822,12 @@
         "type" : "furniture",
         "id" : "f_grave_head",
         "name": "headstone",
+        "description": "Keeps the bodies.",
         "symbol": "_",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": 0,
         "required_str": -1,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["MINEABLE", "TRANSPARENT", "SHORT", "NOCOLLIDE", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "PLACE_ITEM"],
         "bash": {
             "str_min": 50, "str_max": 150,
@@ -2717,10 +2841,12 @@
         "type" : "furniture",
         "id" : "f_grave_stone",
         "name": "gravestone",
+        "description": "Keeps the bodies.  More fancy.",
         "symbol": "^",
-        "color": "ltgray",
+        "color": "light_gray",
         "move_cost_mod": 2,
         "required_str": -1,
+        "crafting_pseudo_item": "boulder_anvil",
         "flags": ["MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM"],
         "bash": {
             "str_min": 60, "str_max": 160,
@@ -2734,8 +2860,9 @@
         "type" : "furniture",
         "id" : "f_grave_stone_old",
         "name": "worn gravestone",
+        "description": "A worn-out gravestone.",
         "symbol": "^",
-        "color": "dkgray",
+        "color": "dark_gray",
         "move_cost_mod": 1.5,
         "required_str": -1,
         "flags": ["MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM", "UNSTABLE"],
@@ -2762,6 +2889,102 @@
             "sound_fail": "thunk!",
             "items": [
                 { "item": "rock", "count": [18, 30] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_brazier",
+        "name": "brazier",
+        "symbol": "#",
+        "color": "red",
+        "move_cost_mod": 2,
+        "required_str": 8,
+        "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT"],
+        "deployed_item": "brazier",
+        "examine_action": "deployed_furniture",
+        "max_volume": 4000,
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "count": [0, 3] },
+                { "item": "steel_chunk", "count": [0, 2] },
+                { "item": "sheet_metal", "count": [0, 2] }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_autodoc",
+        "name": "autodoc",
+        "symbol": "&",
+        "description": "A medical apparatus for automated diagnosis and healing.",
+        "color": "light_cyan",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "autodoc",
+        "deconstruct": {
+            "items": [
+                { "item": "processor", "count": [1, 2] },
+                { "item": "RAM", "count": [4, 8] },
+                { "item": "cable", "charges": [4, 6] },
+                { "item": "small_lcd_screen", "count": [1, 2] },
+                { "item": "e_scrap", "count": [10, 16] },
+                { "item": "circuit", "count": [6, 10] },
+                { "item": "power_supply", "count": [2, 4] },
+                { "item": "amplifier", "count": [2, 4] },
+                { "item": "plastic_chunk", "count": [10, 12] },
+                { "item": "scrap", "count": [6, 8] }
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 150,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "items": [
+                { "item": "processor", "prob": 25 },
+                { "item": "RAM", "count": [0, 2], "prob": 50 },
+                { "item": "cable", "charges": [1, 2], "prob": 50 },
+                { "item": "small_lcd_screen", "prob": 25 },
+                { "item": "e_scrap", "count": [1, 4], "prob": 50 },
+                { "item": "circuit", "count": [0, 2], "prob": 50 },
+                { "item": "power_supply", "prob": 25 },
+                { "item": "amplifier", "prob": 25 },
+                { "item": "plastic_chunk", "count": [4, 10], "prob": 50 },
+                { "item": "scrap", "count": [2, 6], "prob": 50 }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_autodoc_couch",
+        "name": "autodoc couch",
+        "symbol": "H",
+        "description": "A special medical couch connected with the adjacent autodoc.",
+        "bgcolor": "red",
+        "move_cost_mod": 2,
+        "required_str": 10,
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 12 },
+                { "item": "rag", "count": [30, 33] },
+                { "item": "nail", "charges": [8, 10] },
+                { "item": "cable", "charges": [1, 2], "prob": 50 }
+            ]
+        },
+        "max_volume": 4000,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE"],
+        "bash": {
+            "str_min": 10, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "count": [2, 5] },
+                { "item": "nail", "charges": [3, 8] },
+                { "item": "splinter", "count": [1, 2] },
+                { "item": "rag", "count": [20, 30] }
             ]
         }
     }

@@ -1,24 +1,32 @@
+#pragma once
 #ifndef OMDATA_H
 #define OMDATA_H
 
 #include "color.h"
 #include "common_types.h"
-#include "json.h"
 #include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "translations.h"
 
 #include <string>
 #include <vector>
 #include <limits>
 #include <list>
+#include <bitset>
 #include <set>
 
 struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 struct city;
 struct oter_t;
 struct oter_type_t;
-struct overmap_special_location;
+struct overmap_location;
+class JsonObject;
+class overmap_connection;
+class overmap_special_batch;
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -37,22 +45,29 @@ enum class type : int {
 const std::array<type, 4> all = {{ type::north, type::east, type::south, type::west }};
 const size_t size = all.size();
 
+/** Number of bits needed to store directions. */
+const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
 
-/** Human readable name of @param dir. */
+/** Get Human readable name of a direction */
 const std::string &name( type dir );
 
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-int_id<oter_t> rotate( const int_id<oter_t> &oter, type dir );
 long rotate_symbol( long sym, type dir );
 
-/** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
+/** Returns point(0, 0) displaced in specified direction by a specified distance
+ * @param dir Direction of displacement
+ * @param dist Distance of displacement
+ */
 point displace( type dir, int dist = 1 );
 
-/** Returns a sum of @param dir1 and @param dir2. */
+/** Returns a sum of two numbers
+ *  @param dir1 first number
+ *  @param dir2 second number */
 type add( type dir1, type dir2 );
 
 /** Turn by 90 degrees to the left, to the right, or randomly (either left or right). */
@@ -66,27 +81,27 @@ type opposite( type dir );
 /** Returns a random direction. */
 type random();
 
+/** Whether these directions are parallel. */
+bool are_parallel( type dir1, type dir2 );
+
 };
 
-struct overmap_spawns : public JsonDeserializer {
-    overmap_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace it with NULL_ID.
+struct overmap_spawns {
+        overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
 
-    string_id<MonsterGroup> group;
-    numeric_interval<int> population;
+        string_id<MonsterGroup> group;
+        numeric_interval<int> population;
 
-    bool operator==( const overmap_spawns &rhs ) const {
-        return group == rhs.group && population == rhs.population;
-    }
+        bool operator==( const overmap_spawns &rhs ) const {
+            return group == rhs.group && population == rhs.population;
+        }
 
-    virtual void load( JsonObject &jo ) {
-        jo.read( "group", group );
-        jo.read( "population", population );
-    }
-
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject jo = jsin.get_object();
-        load( jo );
-    }
+    protected:
+        template<typename JsonObjectType>
+        void load( JsonObjectType &jo ) {
+            jo.read( "group", group );
+            jo.read( "population", population );
+        }
 };
 
 struct overmap_static_spawns : public overmap_spawns {
@@ -96,7 +111,9 @@ struct overmap_static_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
     }
 
-    void load( JsonObject &jo ) override {
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "chance", chance );
     }
@@ -106,12 +123,11 @@ struct overmap_static_spawns : public overmap_spawns {
 enum oter_flags {
     known_down = 0,
     known_up,
+    no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     river_tile,
-    road_tile,
     has_sidewalk,
-    allow_road,
-    rotates,      // does this tile have four versions, one for each direction?
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
+    subway_connection,
     num_oter_flags
 };
 
@@ -120,9 +136,12 @@ using oter_str_id = string_id<oter_t>;
 
 struct oter_type_t {
     public:
+        static const oter_type_t null_type;
+
+    public:
         string_id<oter_type_t> id;
-        std::string name;
-        long sym = '\0';                // This is a long, so we can support curses linedrawing
+        std::string name;               // Untranslated name
+        long sym = '\0';                // This is a long, so we can support curses line drawing
         nc_color color = c_black;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         std::string extras = "none";
@@ -149,6 +168,14 @@ struct oter_type_t {
         void check() const;
         void finalize();
 
+        bool is_rotatable() const {
+            return !has_flag( no_rotate ) && !has_flag( line_drawing );
+        }
+
+        bool is_linear() const {
+            return has_flag( line_drawing );
+        }
+
     private:
         std::bitset<num_oter_flags> flags;
         std::vector<oter_id> directional_peers;
@@ -157,11 +184,11 @@ struct oter_type_t {
 };
 
 struct oter_t {
-    public:
-        const oter_type_t *type; // @todo Don't reference this. Encapsulate further.
+    private:
+        const oter_type_t *type;
 
+    public:
         oter_str_id id;         // definitive identifier.
-        om_direction::type dir = om_direction::type::none;
 
         oter_t();
         oter_t( const oter_type_t &type );
@@ -173,9 +200,10 @@ struct oter_t {
         }
 
         std::string get_mapgen_id() const;
+        oter_id get_rotated( om_direction::type dir ) const;
 
-        const std::string &get_name() const {
-            return type->name;
+        const std::string get_name() const {
+            return _( type->name.c_str() );
         }
 
         long get_sym() const {
@@ -184,6 +212,14 @@ struct oter_t {
 
         nc_color get_color() const {
             return type->color;
+        }
+
+        om_direction::type get_dir() const {
+            return dir;
+        }
+
+        size_t get_line() const {
+            return line;
         }
 
         unsigned char get_see_cost() const {
@@ -202,22 +238,39 @@ struct oter_t {
             return type->static_spawns;
         }
 
-        inline bool type_is( int_id<oter_type_t> type_id ) const;
-        inline bool type_is( const oter_type_t &type ) const;
+        bool type_is( const int_id<oter_type_t> &type_id ) const;
+        bool type_is( const oter_type_t &type ) const;
+
+        bool has_connection( om_direction::type dir ) const;
 
         bool has_flag( oter_flags flag ) const {
             return type->has_flag( flag );
         }
 
+        bool is_hardcoded() const;
+
+        bool is_rotatable() const {
+            return type->is_rotatable();
+        }
+
+        bool is_linear() const {
+            return type->is_linear();
+        }
+
+        bool is_river() const {
+            return type->has_flag( river_tile );
+        }
+
     private:
-        static const oter_type_t null_type;
-        long sym = '\0';    // This is a long, so we can support curses linedrawing.
-        size_t line = 0;    // Index of line. Only valid in case of line drawing.
+        om_direction::type dir = om_direction::type::none;
+        long sym = '\0';         // This is a long, so we can support curses line drawing.
+        size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
 // @todo: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
+
 
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
@@ -239,33 +292,38 @@ struct overmap_special_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    void load( JsonObject &jo ) override {
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "radius", radius );
     }
 };
 
-struct overmap_special_terrain : public JsonDeserializer {
+struct overmap_special_terrain {
     overmap_special_terrain() { };
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
 
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject om = jsin.get_object();
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto om = jsin.get_object();
         om.read( "point", p );
         om.read( "overmap", terrain );
         om.read( "flags", flags );
     }
 };
 
-struct overmap_special_connection : public JsonDeserializer {
+struct overmap_special_connection {
     tripoint p;
-    oter_str_id terrain;
+    string_id<oter_type_t> terrain; // TODO: Remove it.
+    string_id<overmap_connection> connection;
     bool existing = false;
 
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject jo = jsin.get_object();
+    template<typename JsonStream>
+    void deserialize( JsonStream &jsin ) {
+        auto jo = jsin.get_object();
         jo.read( "point", p );
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
@@ -279,15 +337,15 @@ class overmap_special
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /**
          * Returns whether the special can be placed on the specified terrain.
-         * It's true if @ref oter meets any of @ref locations.
+         * It's true if oter meets any of locations.
          */
         bool can_be_placed_on( const oter_id &oter ) const;
-        /** Returns whether this special requires a city at all. */
+        /** @returns true if this special requires a city */
         bool requires_city() const;
-        /** Returns whether the special at @ref p can belong to the specified city. */
+        /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint &p, const city &cit ) const;
 
-        string_id<overmap_special> id;
+        overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
         std::vector<overmap_special_connection> connections;
 
@@ -297,21 +355,47 @@ class overmap_special
 
         bool rotatable = true;
         overmap_special_spawns spawns;
-        std::set<const overmap_special_location *> locations;
+        std::set<string_id<overmap_location>> locations;
         std::set<std::string> flags;
 
         // Used by generic_factory
         bool was_loaded = false;
         void load( JsonObject &jo, const std::string &src );
+        void finalize();
         void check() const;
 };
+
+namespace overmap_terrains
+{
+
+void load( JsonObject &jo, const std::string &src );
+void check_consistency();
+void finalize();
+void reset();
+
+size_t count();
+
+}
 
 namespace overmap_specials
 {
 
 void load( JsonObject &jo, const std::string &src );
+void finalize();
 void check_consistency();
 void reset();
+overmap_special_batch get_default_batch( const point &origin );
+/**
+ * Generates a simple special from a building id.
+ */
+overmap_special_id create_building_from( const string_id<oter_type_t> &base );
+
+}
+
+namespace city_buildings
+{
+
+void load( JsonObject &jo, const std::string &src );
 
 }
 

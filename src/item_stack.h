@@ -1,12 +1,18 @@
+#pragma once
 #ifndef ITEM_STACK_H
 #define ITEM_STACK_H
-
-#include "units.h"
 
 #include <list>
 #include <cstddef>
 
 class item;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
+} // namespace units
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
@@ -47,14 +53,12 @@ class item_stack
         virtual units::volume max_volume() const = 0;
         /** Total volume of the items here */
         units::volume stored_volume() const;
-        units::volume free_volume() const {
-            return max_volume() - stored_volume();
-        }
+        units::volume free_volume() const;
         /**
-         * Returns how many of the @ref it (or how many charges if it's counted by charges)
+         * Returns how many of the specified item (or how many charges if it's counted by charges)
          * could be added without violating either the volume or itemcount limits.
          *
-         * @ret is always at least 0 for all items. For items counted by charges, it is always at
+         * @returns Value of zero or greater for all items. For items counted by charges, it is always at
          * most it.charges.
          */
         long amount_can_fit( const item &it ) const;

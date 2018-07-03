@@ -1,3 +1,4 @@
+#pragma once
 #ifndef OVERMAPBUFFER_H
 #define OVERMAPBUFFER_H
 
@@ -20,13 +21,13 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 
 class overmap;
+class overmap_special;
+class overmap_special_batch;
 struct radio_tower;
 struct regional_settings;
 class vehicle;
 
 struct radio_tower_reference {
-    /** Overmap the radio tower is on. */
-    overmap *om;
     /** The radio tower itself, points into @ref overmap::radios */
     radio_tower *tower;
     /** The global absolute position of the tower (in submap coordinates) */
@@ -39,17 +40,19 @@ struct radio_tower_reference {
 };
 
 struct city_reference {
-    /** Overmap the city is on. */
-    overmap *om;
+    static const city_reference invalid;
     /** The city itself, points into @ref overmap::cities */
-    struct city *city;
+    const struct city *city;
     /** The global absolute position of the city (in submap coordinates!) */
     tripoint abs_sm_pos;
     /** Distance to center of the search */
     int distance;
+
     operator bool() const {
         return city != nullptr;
     }
+
+    int get_distance_from_bounds() const;
 };
 
 class overmapbuffer
@@ -67,6 +70,7 @@ public:
     overmap &get( const int x, const int y );
     void save();
     void clear();
+    void create_custom_overmap( int const x, int const y, overmap_special_batch &specials );
 
     /**
      * Uses global overmap terrain coordinates, creates the
@@ -143,50 +147,54 @@ public:
      * Get all npcs in a area with given radius around (x, y).
      * Only npcs on the given z-level are considered.
      * Uses square_dist for distance calculation.
-     * x,y are submap coordinates.
-     * @radius Maximal distance of npc from (x,y). If the npc
+     * @param x,y,z are submap coordinates.
+     * @param radius Maximal distance of npc from (x,y). If the npc
      * is at most this far away from (x,y) it will be returned.
      * A radius of 0 returns only those npcs that are on the
-     * specifc submap.
+     * specific submap.
      */
-    std::vector<npc*> get_npcs_near(int x, int y, int z, int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near( int x, int y, int z, int radius );
+        /**
+         * Get all (currently loaded!) npcs that have a companion
+         * mission set.
+         */
+        std::vector<std::shared_ptr<npc>> get_companion_mission_npcs();
     /**
-     * Uses overmap terrain coords, this also means radius is
+     * Uses overmap terrain coordinates, this also means radius is
      * in overmap terrain.
-     * A radius of 0 returns all npcs that are on that specifc
+     * A radius of 0 returns all npcs that are on that specific
      * overmap terrain tile.
      */
-    std::vector<npc*> get_npcs_near_omt(int x, int y, int z, int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near_omt( int x, int y, int z, int radius );
     /**
      * Same as @ref get_npcs_near(int,int,int,int) but uses
      * player position as center.
      */
-    std::vector<npc*> get_npcs_near_player(int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near_player( int radius );
     /**
      * Find the npc with the given ID.
      * Returns NULL if the npc could not be found.
      * Searches all loaded overmaps.
      */
-    npc* find_npc(int id);
+    std::shared_ptr<npc> find_npc( int id );
     /**
      * Find npc by id and if found, erase it from the npc list
-     * and delete the npc object. This assumes that the npc is
-     * already dead and not contained in game::active_npc anymore.
+     * and return it ( or return nullptr if not found ).
      */
-    void remove_npc(int id);
-
-    /**
-     * Find npc by id and if found, erase it from the npc list
-     * but not delete the npc object. This is used for missions
-     * that dispatch an npc on an abstracted quest.
-     */
-    void hide_npc(int id);
+    std::shared_ptr<npc> remove_npc( int id );
+        /**
+         * Adds the npc to an overmap ( based on the npcs current location )
+         * and stores it there. The overmap takes ownership of the pointer.
+         */
+        void insert_npc( std::shared_ptr<npc> who );
 
     /**
      * Find all places with the specific overmap terrain type.
      * The function only searches on the z-level indicated by
      * origin.
-     * This function may greate a new overmap if needed.
+     * This function may create a new overmap if needed.
+     * @param origin Location of search
+     * @param type Terrain type to search for
      * @param dist The maximum search distance.
      * If 0, OMAPX is used.
      * @param must_be_seen If true, only terrain seen by the player
@@ -198,7 +206,8 @@ public:
     /**
      * Returns a random point of specific terrain type among those found in certain search radius.
      * This function may create new overmaps if needed.
-     * @param radius The maximal radius of the area to search for the desired terrain.
+     * @param type Type of terrain to search for
+     * @param dist The maximal radius of the area to search for the desired terrain.
      * A value of 0 will search an area equal to 4 entire overmaps.
      * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.
      * @param origin uses overmap terrain coordinates.
@@ -209,21 +218,23 @@ public:
         int dist, bool must_be_seen);
 
     /**
-     * Mark a square area around center on z-level z
+     * Mark a square area around center on Z-level z
      * as seen.
-     * center is in absolute overmap terrain coords.
+     * @param center is in absolute overmap terrain coordinates.
      * @param radius The half size of the square to make visible.
      * A value of 0 makes only center visible, radius 1 makes a
      * square 3x3 visible.
+     * @param z Z level to make area on
      * @return true if something has actually been revealed.
      */
     bool reveal(const point &center, int radius, int z);
     bool reveal( const tripoint &center, int radius );
 
-    bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0 );
+    bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0, bool road_only = false );
     /**
      * Returns the closest point of terrain type.
      * This function may create new overmaps if needed.
+     * @param type Type of terrain to look for
      * @param radius The maximal radius of the area to search for the desired terrain.
      * A value of 0 will search an area equal to 4 entire overmaps.
      * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.
@@ -317,11 +328,20 @@ public:
      */
     std::vector<radio_tower_reference> find_all_radio_stations();
     /**
+     * Find all cities within the specified @ref radius.
+     * Result is sorted by proximity to @ref location in ascending order.
+     */
+    std::vector<city_reference> get_cities_near( const tripoint &location, int radius );
+    /**
      * Find the closest city. If no city is close, returns an object with city set to nullptr.
      * @param center The center of the search, the distance for determining the closest city is
      * calculated as distance to this point. In global submap coordinates!
      */
     city_reference closest_city( const tripoint &center );
+
+    city_reference closest_known_city( const tripoint &center );
+
+    std::string get_description_at( const tripoint &where );
 
 private:
     std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
@@ -353,6 +373,10 @@ private:
      * groups to the correct overmap (if it exists), also removes empty groups.
      */
     void fix_mongroups(overmap &new_overmap);
+    /**
+     * Moves out-of-bounds NPCs to the overmaps they should be in.
+     */
+    void fix_npcs( overmap &new_overmap );
     /**
      * Retrieve overmaps that overlap the bounding box defined by the location and radius.
      * The location is in absolute submap coordinates, the radius is in the same system.

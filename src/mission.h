@@ -1,27 +1,35 @@
+#pragma once
 #ifndef MISSION_H
 #define MISSION_H
 
 #include <vector>
 #include <string>
+#include <functional>
+#include <iosfwd>
+#include <map>
 
-#include "omdata.h"
-#include "itype.h"
-#include "json.h"
+#include "enums.h"
+#include "calendar.h"
 #include "npc_favor.h"
 
+class player;
 class mission;
 class game;
 class npc;
 class Creature;
-class calendar;
 class npc_class;
 class JsonObject;
+class JsonIn;
+class JsonOut;
 struct mission_type;
+struct oter_type_t;
+struct species_type;
 
 enum npc_mission : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
+using species_id = string_id<species_type>;
 
 namespace debug_menu
 {
@@ -34,6 +42,7 @@ enum mission_origin {
     ORIGIN_OPENER_NPC, // NPC comes up to you when the game starts
     ORIGIN_ANY_NPC,    // Any NPC
     ORIGIN_SECONDARY,  // Given at the end of another mission
+    ORIGIN_COMPUTER,   // Taken after reading investigation provoking entries in computer terminal
     NUM_ORIGIN
 };
 
@@ -51,6 +60,7 @@ enum mission_goal {
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
+    MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
     NUM_MGOAL
 };
 
@@ -109,16 +119,16 @@ struct mission_start {
     static void ranch_construct_5  ( mission *); // Continues work on wood yard, crops, well (pit)
     static void ranch_construct_6  ( mission *); // Continues work on wood yard, well (covered), fireplaces
     static void ranch_construct_7  ( mission *); // Continues work on wood yard, well (finished), continues walling
-    static void ranch_construct_8  ( mission *); // Finishes wood yard, starts outhouse, starts toolshed
-    static void ranch_construct_9  ( mission *); // Finishes outhouse, finishes toolshed, starts clinic
+    static void ranch_construct_8  ( mission *); // Finishes wood yard, starts outhouse, starts tool shed
+    static void ranch_construct_9  ( mission *); // Finishes outhouse, finishes tool shed, starts clinic
     static void ranch_construct_10 ( mission *); // Continues clinic, starts chop-shop
     static void ranch_construct_11 ( mission *); // Continues clinic, continues chop-shop
     static void ranch_construct_12 ( mission *); // Finish chop-shop, starts junk shop
     static void ranch_construct_13 ( mission *); // Continues junk shop
     static void ranch_construct_14 ( mission *); // Finish junk shop, starts bar
     static void ranch_construct_15 ( mission *); // Continues bar
-    static void ranch_construct_16 ( mission *); // Finish bar, start green shouse
-    static void ranch_nurse_1      ( mission *); // Need asprin
+    static void ranch_construct_16 ( mission *); // Finish bar, start greenhouse
+    static void ranch_nurse_1      ( mission *); // Need aspirin
     static void ranch_nurse_2      ( mission *); // Need hotplates
     static void ranch_nurse_3      ( mission *); // Need vitamins
     static void ranch_nurse_4      ( mission *); // Need charcoal water filters
@@ -139,6 +149,7 @@ struct mission_start {
     static void reveal_office_tower( mission *); // Find corporate accounts
     static void reveal_doctors_office ( mission *); // Find patient records
     static void reveal_cathedral   ( mission *); // Find relic
+    static void reveal_refugee_center ( mission *); // Find refugee center
 };
 
 struct mission_end { // These functions are run when a mission ends
@@ -161,8 +172,8 @@ struct mission_type {
     mission_goal goal; // The basic goal type
     int difficulty = 0; // Difficulty; TODO: come up with a scale
     int value = 0; // Value; determines rewards and such
-    int deadline_low = 0; // Low and high deadlines (turn numbers)
-    int deadline_high = 0;
+    time_duration deadline_low = 0_turns; // Low and high deadlines
+    time_duration deadline_high = 0_turns;
     bool urgent = false; // If true, the NPC will press this mission!
 
     std::vector<mission_origin> origins; // Points of origin
@@ -171,6 +182,7 @@ struct mission_type {
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
     std::string monster_type = "mon_null";
+    species_id monster_species;
     int monster_kill_goal = -1;
     string_id<oter_type_t> target_id;
     mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
@@ -219,7 +231,7 @@ struct mission_type {
     void load( JsonObject &jo, const std::string &src );
 };
 
-class mission : public JsonSerializer, public JsonDeserializer
+class mission
 {
 public:
     enum class mission_status {
@@ -248,8 +260,10 @@ private:
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
         std::string monster_type;    // Monster ID that are to be killed
-        int monster_kill_goal;  // the kill count you wish to reach
-        int deadline;           // Turn number
+        species_id monster_species;  // Monster species that are to be killed
+        int monster_kill_goal;  // The number of monsters you need to kill
+        int kill_count_to_reach; // The kill count you need to reach to complete mission
+        time_point deadline;
         int npc_id;             // ID of a related npc
         int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
         int step;               // How much have we completed?
@@ -258,16 +272,15 @@ private:
 public:
 
         std::string name();
-        using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const override;
-        using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        mission_type_id mission_id();
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         mission();
     /** Getters, they mostly return the member directly, mostly. */
     /*@{*/
     bool has_deadline() const;
-    calendar get_deadline() const;
+    time_point get_deadline() const;
     std::string get_description() const;
     bool has_target() const;
     const tripoint &get_target() const;
@@ -315,7 +328,7 @@ public:
     /** Processes this mission. */
     void process();
 
-    // @todo Give topics a string_id
+    // @todo: Give topics a string_id
     std::string dialogue_for_topic( const std::string &topic ) const;
 
     /**
@@ -361,7 +374,11 @@ public:
     static mission_status status_from_string( const std::string &s );
     static const std::string status_to_string( mission_status st );
 
+    /** Used to handle saves from before player_id was a member of mission */
+    void set_player_id_legacy_0c( int id );
+
 private:
+    bool legacy_no_player_id = false;
     // Don't use this, it's only for loading legacy saves.
     void load_info(std::istream &info);
 

@@ -3,11 +3,14 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
+#include "output.h"
 #include "debug.h"
 #include "name.h"
 #include <sstream>
+#include "string_formatter.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "translations.h"
 #include "overmap.h"
@@ -96,8 +99,7 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
                                bool must_see, int range )
 {
     auto places = overmap_buffer.find_all( g->u.global_omt_location(), omter, range, must_see );
-    if( places.size() == 0 ) {
-        debugmsg( "Couldn't find %s", omter.c_str() );
+    if( places.empty() ) {
         return g->u.global_omt_location();
     }
     const auto &cur_om = g->get_cur_om();
@@ -116,6 +118,36 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
     return place;
 }
 
+/**
+ * Wraps target_om_ter_random() and takes an extra argument specifying the
+ * type of tile it is permitted to replace. If it doesn't find an extant tile
+ * of the specified type (e.g. bandit_camp_1) it will find a random unexplored
+ * tile of the fallback type and replace it with the original type. If even
+ * that fails, it will print a debug message.
+ */
+static tripoint target_om_ter_random_or_create( const std::string &omter, int reveal_rad,
+        mission *miss, bool must_see, int range, const std::string &replace_omter )
+{
+    tripoint site = target_om_ter_random(omter, reveal_rad, miss, must_see, range);
+
+    // If no suitable site is found nearby, make one in an unvisited tile of type `replace_omter`
+    if (site == g->u.global_omt_location()) {
+        for ( int tries = 10 * range; tries > 0; --tries ) {
+            site = target_om_ter_random( replace_omter, 1, miss, false, range  );
+            if ( !overmap_buffer.is_explored( site.x, site.y, site.z ) ) {
+                overmap_buffer.ter( site ) = oter_id( omter );
+                miss->set_target( site );
+                return site;
+            }
+        }
+        debugmsg( "Failed to find either an extant overmap tile of type %s, or an unvisited tile "
+                  "of type %s that could be replaced with one. (Search radius: %d)",
+                  omter, replace_omter, range );
+    }
+
+    return site;
+}
+
 void mission_start::standard( mission * )
 {
 }
@@ -123,7 +155,7 @@ void mission_start::standard( mission * )
 void mission_start::join( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;
+    p->set_attitude( NPCATT_FOLLOW );
 }
 
 void mission_start::infect_npc( mission *miss )
@@ -133,7 +165,7 @@ void mission_start::infect_npc( mission *miss )
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
-    p->add_effect( effect_infection, 1, num_bp, 1, true );
+    p->add_effect( effect_infection, 1_turns, num_bp, 1, true );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
@@ -198,7 +230,7 @@ void mission_start::place_zombie_bay( mission *miss )
     tripoint site = target_om_ter_random( "evac_center_9", 1, miss, false, EVAC_CENTER_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin" );
+    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, _( "Sean McLaughlin" ) );
     bay.save();
 }
 
@@ -247,22 +279,23 @@ void mission_start::place_caravan_ambush( mission *miss )
     madd_field( &bay, SEEX + 2, SEEY + 8, fd_blood, 1 );
     madd_field( &bay, SEEX + 1, SEEY + 9, fd_blood, 1 );
     madd_field( &bay, SEEX, SEEY + 9, fd_blood, 1 );
-    bay.place_npc( SEEX + 3, SEEY - 5, "bandit" );
-    bay.place_npc( SEEX, SEEY - 7, "thug" );
-    miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, "bandit" );
+    bay.place_npc( SEEX + 3, SEEY - 5, string_id<npc_template>( "bandit" ) );
+    bay.place_npc( SEEX, SEEY - 7, string_id<npc_template>( "thug" ) );
+    miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, string_id<npc_template>( "bandit" ) );
     bay.save();
 }
 
 void mission_start::place_bandit_cabin( mission *miss )
 {
-    tripoint site = target_om_ter_random( "bandit_cabin", 1, miss, false, 50 );
+    tripoint site = target_om_ter_random_or_create( "bandit_cabin", 1, miss, false, 50, "forest" );
+
     tinymap cabin;
     cabin.load( site.x * 2, site.y * 2, site.z, false );
     cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
     cabin.trap_set( {SEEX - 7, SEEY - 7, site.z}, tr_landmine_buried );
     cabin.trap_set( {SEEX - 4, SEEY - 7, site.z}, tr_landmine_buried );
     cabin.trap_set( {SEEX - 12, SEEY - 1, site.z}, tr_landmine_buried );
-    miss->target_npc_id = cabin.place_npc( SEEX, SEEY, "bandit" );
+    miss->target_npc_id = cabin.place_npc( SEEX, SEEY, string_id<npc_template>( "bandit" ) );
     cabin.save();
 }
 
@@ -271,15 +304,15 @@ void mission_start::place_informant( mission *miss )
     tripoint site = target_om_ter_random( "evac_center_19", 1, miss, false, EVAC_CENTER_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay.place_npc( SEEX, SEEY, "evac_guard3" );
+    miss->target_npc_id = bay.place_npc( SEEX, SEEY, string_id<npc_template>( "evac_guard3" ) );
     bay.save();
 
     site = target_om_ter_random( "evac_center_7", 1, miss, false, EVAC_CENTER_SIZE );
     tinymap bay2;
     bay2.load( site.x * 2, site.y * 2, site.z, false );
-    bay2.place_npc( SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ), "scavenger_hunter" );
+    bay2.place_npc( SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ), string_id<npc_template>( "scavenger_hunter" ) );
     bay2.save();
-    site = target_om_ter_random( "evac_center_17", 1, miss, false, EVAC_CENTER_SIZE );
+    target_om_ter_random( "evac_center_17", 1, miss, false, EVAC_CENTER_SIZE );
 }
 
 void mission_start::place_grabber( mission *miss )
@@ -288,7 +321,7 @@ void mission_start::place_grabber( mission *miss )
     tinymap there;
     there.load( site.x * 2, site.y * 2, site.z, false );
     there.add_spawn( mon_graboid, 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
-    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy" );
+    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, _( "Little Guy" ) );
     there.save();
 }
 
@@ -303,12 +336,13 @@ void mission_start::place_bandit_camp( mission *miss )
     // Ideally this would happen at the end of the mission
     // (you're told that they entered your image into the databases, etc)
     // but better to get it working.
-    g->u.set_mutation( "PROF_FED" );
+    g->u.set_mutation( trait_id( "PROF_FED" ) );
 
-    tripoint site = target_om_ter_random( "bandit_camp_1", 1, miss, false, 50 );
+    tripoint site = target_om_ter_random_or_create( "bandit_camp_1", 1, miss, false, 50, "forest" );
+
     tinymap bay1;
     bay1.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, "bandit" );
+    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );
     bay1.save();
 }
 
@@ -324,26 +358,23 @@ void mission_start::place_jabberwock( mission *miss )
 void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
-    miss->monster_type = mon_zombie.str(); // TODO: change monster_type to be mtype_id (better: species!)
-    int killed = 0;
-    killed += g->kill_count( mon_zombie );
-    miss->monster_kill_goal = 100 + killed; //your kill score must increase by 100
+    p->set_attitude( NPCATT_FOLLOW );//npc joins you
+    //kill count of the monsters from a given species you need to reach
+    miss->kill_count_to_reach = g->kill_count( miss->monster_species ) + miss->monster_kill_goal;
 }
 
 void mission_start::kill_20_nightmares( mission *miss )
 {
     target_om_ter( "necropolis_c_44", 3, miss, false );
     miss->monster_type = mon_charred_nightmare.str();
-    int killed = 0;
-    killed += g->kill_count( mon_charred_nightmare );
-    miss->monster_kill_goal = 20 + killed; //your kill score must increase by 100
+    //kill count of the monster type you need to reach
+    miss->kill_count_to_reach = g->kill_count( mon_charred_nightmare ) + miss->monster_kill_goal;
 }
 
 void mission_start::kill_horde_master( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->set_attitude( NPCATT_FOLLOW );//npc joins you
     //pick one of the below locations for the horde to haunt
     const auto center = p->global_omt_location();
     tripoint site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
@@ -360,7 +391,7 @@ void mission_start::kill_horde_master( mission *miss )
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
     tile.load( site.x * 2, site.y * 2, site.z, false );
-    tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul" );
+    tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, _( "Demonic Soul" ) );
     tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
     tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
 
@@ -481,7 +512,7 @@ void mission_start::place_priest_diary( mission *miss )
 void mission_start::place_deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->set_attitude( NPCATT_FOLLOW );//npc joins you
     tripoint site = overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
     if( site == overmap::invalid_tripoint ) {
         site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
@@ -533,7 +564,7 @@ void mission_start::open_sarcophagus( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     if( p != NULL ) {
-        p->attitude = NPCATT_FOLLOW;
+        p->set_attitude( NPCATT_FOLLOW );
         g->u.i_add( item( "sarcophagus_access_code", 0 ) );
         add_msg( m_good, _( "%s gave you sarcophagus access code." ), p->name.c_str() );
     } else {
@@ -547,9 +578,9 @@ void mission_start::reveal_hospital( mission *miss )
     npc *dev = g->find_npc( miss->npc_id );
     if( dev != NULL ) {
         g->u.i_add( item( "vacutainer", 0 ) );
-        add_msg( _( "%s gave you a vacutainer." ), dev->name.c_str() );
+        add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
     }
-    target_om_ter( "hospital", 3, miss, false );
+    target_om_ter( "hospital_2", 3, miss, false );
 }
 
 void mission_start::find_safety( mission *miss )
@@ -604,7 +635,7 @@ void mission_start::find_safety( mission *miss )
 
 void mission_start::point_prison( mission *miss )
 {
-    target_om_ter( "prison_5", 3, miss, false );
+    target_om_ter( "prison_1_5", 3, miss, false );
 }
 
 void mission_start::point_cabin_strange( mission *miss )
@@ -615,19 +646,18 @@ void mission_start::point_cabin_strange( mission *miss )
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    p->attitude = NPCATT_FOLLOW;//npc joins you
+    p->set_attitude( NPCATT_FOLLOW );// NPC joins you
 
     tripoint site = target_om_ter( "cabin", 2, miss, false );
     miss->recruit_class = NC_COWBOY;
 
-    npc *temp = new npc();
+    std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->randomize( NC_COWBOY );
-    // NPCs spawn with submap coordinates, site is in overmap terrain coords
-    temp->spawn_at( site.x * 2, site.y * 2, site.z );
-    temp->setx( 11 );
-    temp->sety( 11 );
-    temp->attitude = NPCATT_TALK;
+    // NPCs spawn with submap coordinates, site is in overmap terrain coordinates
+    temp->spawn_at_precise( { site.x * 2, site.y * 2 }, tripoint( 11, 11, site.z ) );
+    overmap_buffer.insert_npc( temp );
+    temp->set_attitude( NPCATT_TALK );
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
     temp->op_of_u.owed = 10;
@@ -646,11 +676,11 @@ void mission_start::start_commune(mission *miss)
  tripoint site = target_om_ter("ranch_camp_67",1,miss,false);
  tinymap bay;
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.place_npc(SEEX+4, SEEY+3, "ranch_foreman");
- bay.place_npc(SEEX-3, SEEY+5, "ranch_construction_1");
+ bay.place_npc(SEEX+4, SEEY+3, string_id<npc_template>( "ranch_foreman" ) );
+ bay.place_npc(SEEX-3, SEEY+5, string_id<npc_template>( "ranch_construction_1" ) );
  bay.save();
  npc *p = g->find_npc( miss->npc_id );
- p->set_mutation( "NPC_MISSION_LEV_1" );
+ p->set_mutation( trait_id( "NPC_MISSION_LEV_1" ) );
 }
 
 const int RANCH_SIZE = 5;
@@ -690,7 +720,7 @@ void mission_start::ranch_construct_1(mission *miss)
  bay.ter_set(16, 0, t_wall_wood);
  bay.ter_set(15, 0, t_door_c);
  bay.save();
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_2(mission *miss)
@@ -730,7 +760,7 @@ void mission_start::ranch_construct_2(mission *miss)
  bay.furn_set(5, 19, f_makeshift_bed);
  bay.furn_set(4, 23, f_makeshift_bed);
  bay.furn_set(5, 23, f_makeshift_bed);
- bay.place_npc( 19, 8, "ranch_construction_2");
+ bay.place_npc( 19, 8, string_id<npc_template>( "ranch_construction_2" ) );
  bay.save();
  site = target_om_ter_random("ranch_camp_65", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
@@ -751,7 +781,7 @@ void mission_start::ranch_construct_2(mission *miss)
  bay.furn_set(18, 23, f_makeshift_bed);
  bay.furn_set(19, 23, f_makeshift_bed);
  bay.save();
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_3(mission *miss)
@@ -775,11 +805,11 @@ void mission_start::ranch_construct_3(mission *miss)
  //overmap_buffer.ter(site.x, site.y, 0) = "farm_field";
  site = target_om_ter_random("ranch_camp_66", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.place_npc( 4, 11, "ranch_woodcutter_1");
+ bay.place_npc( 4, 11, string_id<npc_template>( "ranch_woodcutter_1" ) );
  bay.save();
  site = target_om_ter_random("ranch_camp_65", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.place_npc( 19, 20, "ranch_farmer_1");
+ bay.place_npc( 19, 20, string_id<npc_template>( "ranch_farmer_1" ) );
  bay.furn_set(17, 11, f_bookcase);
  bay.save();
  site = target_om_ter_random("ranch_camp_56", 1, miss, false, RANCH_SIZE);
@@ -787,7 +817,7 @@ void mission_start::ranch_construct_3(mission *miss)
  bay.translate(t_underbrush, t_dirt);
  bay.add_vehicle(vproto_id("hippie_van"), 13, 20, 270);
  bay.save();
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_4(mission *miss)
@@ -817,7 +847,7 @@ void mission_start::ranch_construct_4(mission *miss)
  bay.save();
  site = target_om_ter_random("ranch_camp_57", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.place_npc( 12, 7, "ranch_crop_overseer");
+ bay.place_npc( 12, 7, string_id<npc_template>( "ranch_crop_overseer" ) );
  bay.translate(t_underbrush, t_dirt);
  bay.save();
  site = target_om_ter_random("ranch_camp_56", 1, miss, false, RANCH_SIZE);
@@ -855,7 +885,7 @@ void mission_start::ranch_construct_5(mission *miss)
  site = target_om_ter_random("ranch_camp_66", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.ter_set(23, 22, t_palisade);
- bay.place_npc( 9, 22, "ranch_farmer_2");
+ bay.place_npc( 9, 22, string_id<npc_template>( "ranch_farmer_2" ) );
  bay.save();
 
  site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
@@ -889,7 +919,7 @@ void mission_start::ranch_construct_6(mission *miss)
  bay.spawn_item( 3, 13, "log");
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_7(mission *miss)
@@ -920,7 +950,7 @@ void mission_start::ranch_construct_7(mission *miss)
  bay.draw_square_ter(t_dirt, 0, 4, 12, 18);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_8(mission *miss)
@@ -937,7 +967,7 @@ void mission_start::ranch_construct_8(mission *miss)
  bay.draw_square_ter(t_machinery_old, 3, 9, 3, 10);
  bay.ter_set(3, 11, t_machinery_heavy);
  bay.spawn_item( 3, 12, "2x4", rng(1,10));
- bay.place_npc( 4, 10, "ranch__woodcutter_2");
+ bay.place_npc( 4, 10, string_id<npc_template>( "ranch__woodcutter_2" ) );
  bay.save();
 
  //Finish west wall
@@ -967,7 +997,7 @@ void mission_start::ranch_construct_8(mission *miss)
  bay.ter_set(18, 4, t_pit);
  bay.save();
 
- //Start Toolshed
+ //Start Tool shed
  site = target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_underbrush, t_dirt);
@@ -977,7 +1007,7 @@ void mission_start::ranch_construct_8(mission *miss)
  bay.draw_square_ter(t_dirt, 10, 23, 12, 23);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_9(mission *miss)
@@ -989,10 +1019,10 @@ void mission_start::ranch_construct_9(mission *miss)
  bay.translate(t_wall_half,t_wall_wood);
  bay.ter_set(16, 2, t_door_c);
  bay.ter_set(16, 4, t_door_c);
- bay.place_npc( 17, 4, "ranch_ill_1");
+ bay.place_npc( 17, 4, string_id<npc_template>( "ranch_ill_1" ) );
  bay.save();
 
- //Finish Toolshed
+ //Finish Tool shed
  site = target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_wall_half,t_wall_wood);
@@ -1013,7 +1043,7 @@ void mission_start::ranch_construct_9(mission *miss)
  bay.draw_square_ter(t_dirt, 5, 10, 6, 10);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_10(mission *miss)
@@ -1045,7 +1075,7 @@ void mission_start::ranch_construct_10(mission *miss)
  bay.ter_set(11, 18, t_door_frame);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_11(mission *miss)
@@ -1063,7 +1093,7 @@ void mission_start::ranch_construct_11(mission *miss)
  bay.ter_set(6, 10, t_door_c);
  bay.draw_square_furn(f_cupboard, 15, 4, 18, 4);
  bay.draw_square_furn(f_table, 16, 7, 17, 7);
- bay.place_npc( 5, 6, "ranch_nurse_1");
+ bay.place_npc( 5, 6, string_id<npc_template>( "ranch_nurse_1" ) );
  bay.spawn_item( 16, 18, "hoe");
  bay.save();
 
@@ -1095,7 +1125,7 @@ void mission_start::ranch_construct_11(mission *miss)
  bay.save();
 
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_12(mission *miss)
@@ -1114,7 +1144,7 @@ void mission_start::ranch_construct_12(mission *miss)
  bay.draw_square_furn(f_rack, 10,19,10,20);
  bay.draw_square_furn(f_makeshift_bed, 8,19,8,20);
  bay.draw_square_furn(f_rack, 6,19,6,20);
- bay.place_npc( 13, 12, "ranch_scrapper_1");
+ bay.place_npc( 13, 12, string_id<npc_template>( "ranch_scrapper_1" ) );
  bay.save();
 
  //Start Junk Shop
@@ -1138,7 +1168,7 @@ void mission_start::ranch_construct_12(mission *miss)
  bay.add_vehicle(vproto_id("cube_van"), 13, 15, 180);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_13(mission *miss)
@@ -1166,10 +1196,10 @@ void mission_start::ranch_construct_13(mission *miss)
 
  site = target_om_ter("ranch_camp_66", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.place_npc( 5, 3, "ranch_barber");
+ bay.place_npc( 5, 3, string_id<npc_template>( "ranch_barber" ) );
  bay.save();
 
- site = target_om_ter("ranch_camp_67", 1, miss, false);
+ target_om_ter("ranch_camp_67", 1, miss, false);
 }
 
 void mission_start::ranch_construct_14(mission *miss)
@@ -1189,7 +1219,7 @@ void mission_start::ranch_construct_14(mission *miss)
  bay.draw_square_furn(f_rack, 1, 13, 5, 13);
  bay.draw_square_furn(f_counter, 9, 13, 10, 16);
  bay.draw_square_furn(f_counter, 12, 13, 13, 16);
- bay.place_npc( 10, 21, "ranch_scavenger_1");
+ bay.place_npc( 10, 21, string_id<npc_template>( "ranch_scavenger_1" ) );
  bay.save();
 
  //Start Bar
@@ -1223,7 +1253,7 @@ void mission_start::ranch_construct_14(mission *miss)
  bay.add_vehicle(vproto_id("ambulance"), 14, 4, 90);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_15(mission *miss)
@@ -1242,7 +1272,7 @@ void mission_start::ranch_construct_15(mission *miss)
  bay.ter_set(7,4,t_window_frame);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_construct_16(mission *miss)
@@ -1269,17 +1299,17 @@ void mission_start::ranch_construct_16(mission *miss)
  bay.draw_square_furn(f_wood_keg, 16, 19, 17, 19);
  bay.draw_square_furn(f_fvat_empty, 16, 21, 17, 21);
  //Do a check to prevent duplicate NPCs in the last mission of each version
- std::vector<npc*> all_npcs = overmap_buffer.get_npcs_near(site.x*2,site.y*2,site.z,3);
+    const std::vector<std::shared_ptr<npc>> all_npcs = overmap_buffer.get_npcs_near( site.x*2,site.y*2,site.z,3 );
  bool already_has = false;
  unsigned int a = -1;
- for( auto *elem : all_npcs) {
+ for( auto &elem : all_npcs ) {
     if (elem->name.find(", Bartender") != a){
         already_has = true;
     }
  }
- if (already_has == false){
-    bay.place_npc( 12, 22,"ranch_bartender");
-    bay.place_npc( 7, 20, "scavenger_merc" );
+    if( !already_has ) {
+    bay.place_npc( 12, 22, string_id<npc_template>( "ranch_bartender" ) );
+    bay.place_npc( 7, 20, string_id<npc_template>( "scavenger_merc" ) );
  }
  bay.save();
 
@@ -1302,7 +1332,7 @@ void mission_start::ranch_construct_16(mission *miss)
  bay.draw_square_ter(t_dirt, 3, 11, 11, 21);
  bay.save();
 
- site = target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_nurse_1(mission *miss)
@@ -1473,10 +1503,10 @@ void mission_start::ranch_nurse_9(mission *miss)
  bay.furn_set(8, 17, f_dresser);
  bay.furn_set(14, 17, f_dresser);
  bay.furn_set(19, 17, f_dresser);
- bay.place_npc( 16, 19, "ranch_doctor");
+ bay.place_npc( 16, 19, string_id<npc_template>( "ranch_doctor" ) );
  bay.save();
 
- site = target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
+ target_om_ter_random("ranch_camp_59", 1, miss, false, RANCH_SIZE);
 }
 
 void mission_start::ranch_scavenger_1(mission *miss)
@@ -1487,15 +1517,15 @@ void mission_start::ranch_scavenger_1(mission *miss)
  tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false, RANCH_SIZE);
  tinymap bay;
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.draw_square_ter(t_chainfence_v, 15, 13, 15, 22);
- bay.draw_square_ter(t_chainfence_h, 16, 13, 23, 13);
- bay.draw_square_ter(t_chainfence_h, 16, 22, 23, 22);
+ bay.draw_square_ter(t_chainfence, 15, 13, 15, 22);
+ bay.draw_square_ter(t_chainfence, 16, 13, 23, 13);
+ bay.draw_square_ter(t_chainfence, 16, 22, 23, 22);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_49", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.place_items( "mechanics", 65, 9, 13, 10, 16, true, 0 );
- bay.draw_square_ter(t_chainfence_h, 0, 22, 7, 22);
+ bay.draw_square_ter(t_chainfence, 0, 22, 7, 22);
  bay.draw_square_ter(t_dirt, 2, 22, 3, 22);
  bay.spawn_item( 7, 19, "30gal_drum" );
  bay.save();
@@ -1556,7 +1586,7 @@ void mission_start::ranch_bartender_1(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->set_mutation( "NPC_BRANDY" );
+ p->set_mutation( trait_id( "NPC_BRANDY" ) );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;
@@ -1578,7 +1608,7 @@ void mission_start::ranch_bartender_2(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->set_mutation( "NPC_RUM" );
+ p->set_mutation( trait_id( "NPC_RUM" ) );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;
@@ -1602,7 +1632,7 @@ void mission_start::ranch_bartender_3(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->set_mutation( "NPC_WHISKEY" );
+ p->set_mutation( trait_id( "NPC_WHISKEY" ) );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;
@@ -1670,7 +1700,7 @@ void reveal_route( mission *miss, const tripoint destination )
     const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s marks as well the road that leads to it..." ),
+        add_msg( _( "%s also marks the road that leads to it..." ),
                  p->name.c_str() );
     }
 }
@@ -1686,7 +1716,7 @@ void reveal_target( mission *miss, const std::string &omter_id )
     const tripoint destination = reveal_destination( omter_id );
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s have marked the only %s known to them on your map." ),
+        add_msg( _( "%s has marked the only %s known to them on your map." ),
                  p->name.c_str(), oter->get_name().c_str() );
         miss->set_target( destination );
         if( one_in( 3 ) ) {
@@ -1712,10 +1742,41 @@ void mission_start::reveal_office_tower( mission *miss )
 
 void mission_start::reveal_doctors_office( mission *miss )
 {
-    reveal_any_target( miss, { "office_doctor", "hospital" } );
+    reveal_any_target( miss, { "office_doctor", "hospital_2" } );
 }
 
 void mission_start::reveal_cathedral( mission *miss )
 {
     reveal_any_target( miss, { "cathedral_1", "museum" } );
+}
+
+void mission_start::reveal_refugee_center( mission *miss )
+{
+    const tripoint your_pos = g->u.global_omt_location();
+    const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", 0, false );
+
+    if( center_pos == overmap::invalid_tripoint ) {
+        add_msg( _( "You don't know where the address could be..." ) );
+        return;
+    }
+
+    miss->set_target( center_pos );
+
+    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
+        add_msg( _( "You already know that address..." ) );
+        return;
+    }
+
+    add_msg( _( "It takes you forever to find the address on your map..." ) );
+
+    overmap_buffer.reveal( center_pos, 3 );
+
+    const tripoint source_road = overmap_buffer.find_closest( your_pos, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( center_pos, "road", 3, false );
+
+    if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
+        add_msg( _( "You mark the refugee center and the road that leads to it..." ) );
+    } else {
+        add_msg( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );
+    }
 }

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "rechargeable_battery",
+    "type": "MAGAZINE",
+    "name": "rechargeable battery",
+    "name_plural": "rechargeable batteries",
+    "description": "This surprisingly heavy battery is not very energy-dense, but can be recharged.",
+    "weight": 500,
+    "volume": 1,
+    "price": 1000,
+    "price_postapoc": 10000,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "green",
+    "ammo_type": "battery",
+    "capacity": 200,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+  },
+  {
+    "id": "hd_battery",
+    "copy-from": "rechargeable_battery",
+    "type": "MAGAZINE",
+    "name": "heavy duty battery",
+    "name_plural": "heavy duty batteries",
+    "description": "This big rechargeable battery is almost as heavy as solid lead.",
+    "weight": 5000,
+    "volume": 4,
+    "price": 8000,
+    "price_postapoc": 30000,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "color": "light_gray",
+    "capacity": 1000
+  },
+  {
+    "id": "recharge_station",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "battery charger",
+    "description": "A charger for batteries that runs off vehicle power.  It is quite inefficient, but charges fast.",
+    "weight": 1000,
+    "volume": 4,
+    "price": 2000,
+    "price_postapoc": 10000,
+    "material": [ "steel", "plastic" ],
+    "symbol": "-",
+    "color": "light_blue"
+  }
+]

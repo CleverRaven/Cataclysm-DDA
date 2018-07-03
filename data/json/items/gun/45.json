@@ -2,6 +2,7 @@
   {
     "id": "TDI",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "TDI Vector",
     "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
     "weight": 2600,
@@ -16,7 +17,7 @@
     "skill": "smg",
     "dispersion": 280,
     "durability": 7,
-    "burst": 8,
+    "burst": 20,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 2,
     "magazines": [
@@ -27,6 +28,7 @@
   {
     "id": "hk_ump45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "H&K UMP45",
     "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
     "weight": 2300,
@@ -42,7 +44,7 @@
     "ranged_damage": 1,
     "dispersion": 240,
     "durability": 8,
-    "burst": 4,
+    "burst": 10,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "45", [ "ump45mag" ] ],
@@ -74,6 +76,7 @@
   {
     "id": "l_long_45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
@@ -102,7 +105,7 @@
     "copy-from": "l_mp_9mm",
     "type": "GUN",
     "name": "L39B-45",
-    "description": "After the success of the 9mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "After the success of the 9x19mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "45"
   },
   {
@@ -140,6 +143,7 @@
   {
     "id": "mac_10",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "MAC-10",
     "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
     "weight": 2630,
@@ -154,7 +158,7 @@
     "skill": "smg",
     "dispersion": 520,
     "durability": 7,
-    "burst": 30,
+    "burst": 18,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -188,6 +192,7 @@
   {
     "id": "tommygun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Thompson submachine gun",
     "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
     "weight": 4630,
@@ -203,7 +208,7 @@
     "ranged_damage": 2,
     "dispersion": 360,
     "durability": 7,
-    "burst": 6,
+    "burst": 10,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
@@ -217,6 +222,8 @@
     "type": "GUN",
     "name": "USP .45",
     "ammo": "45",
-    "ranged_damage": 1
+    "ranged_damage": 0,
+    "built_in_mods": [ "match_trigger" ],
+    "default_mods": [ "suppressor" ]
   }
 ]

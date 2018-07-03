@@ -1,0 +1,73 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_garage" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    e         e         ",
+        " ----======----======-- ",
+        " |c.eM#MM#M...eM#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..M#MM#M....M#MM#M.| ",
+        " |c..MMMMMMMMMMMMMMMM.| ",
+        " |....................| ",
+        " |---............HHHHH| ",
+        " |ts|............HLLLL| ",
+        " |-+|............Hbbbb| ",
+        " |...............$....+ ",
+        " |^W|............Hhbbb| ",
+        " |xx|ccccccccccccH6LLL| ",
+        " |----::::--::::------| ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "$": "t_door_glass_c",
+        "*": "t_door_frame",
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_floor",
+        "6": "t_console_broken",
+        ":": "t_window",
+        "=": "t_door_metal_locked",
+        "H": "t_wall_glass",
+        "e": "t_gates_mech_control",
+        "|": "t_wall",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "M": "t_metal_floor",
+        "#": "t_grate"
+      },
+      "furniture": {
+        "L": "f_locker",
+        "b": "f_bench",
+        "c": "f_counter",
+        "s": "f_sink",
+        "t": "f_toilet",
+        "x": "f_crate_c",
+        "h": "f_chair"
+      },
+      "items": {
+        "L": { "item": "clothing_work_set", "chance": 25 },
+        "c": { "item": "mechanics", "chance": 20 },
+        "x": { "item": "mechanics", "chance": 10 }
+      },
+      "place_vehicles": [
+        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
+      ]
+    }
+  }
+]

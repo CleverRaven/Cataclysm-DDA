@@ -15,10 +15,14 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "main_menu.h"
+#include "loading_ui.h"
 
 #include <cstring>
 #include <ctime>
+#include <locale>
 #include <map>
+#include <iostream>
+#include <stdexcept>
 #include <signal.h>
 #ifdef LOCALIZE
 #include <libintl.h>
@@ -87,7 +91,7 @@ int main(int argc, char *argv[])
         const char *section_default = nullptr;
         const char *section_map_sharing = "Map sharing";
         const char *section_user_directory = "User directories";
-        const arg_handler first_pass_arguments[] = {
+        const std::array<arg_handler, 12> first_pass_arguments = {{
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -101,7 +105,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--jsonverify", nullptr,
-                "Checks the cdda json files",
+                "Checks the CDDA json files",
                 section_default,
                 [&verifyexit](int, const char **) -> int {
                     verifyexit = true;
@@ -110,7 +114,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--check-mods", "[mods...]",
-                "Checks the json files belonging to cdda mods",
+                "Checks the json files belonging to CDDA mods",
                 section_default,
                 [&check_mods,&opts]( int n, const char *params[] ) -> int {
                     check_mods = true;
@@ -233,11 +237,11 @@ int main(int argc, char *argv[])
                     return 1;
                 }
             }
-        };
+        }};
 
         // The following arguments are dependent on one or more of the previous flags and are run
         // in a second pass.
-        const arg_handler second_pass_arguments[] = {
+        const std::array<arg_handler, 9> second_pass_arguments = {{
             {
                 "--worldmenu", nullptr,
                 "Enables the world menu in the map-sharing code",
@@ -329,7 +333,7 @@ int main(int argc, char *argv[])
                     return 1;
                 }
             },
-        };
+        }};
 
         // Process CLI arguments.
         const size_t num_first_pass_arguments =
@@ -340,8 +344,8 @@ int main(int argc, char *argv[])
         const char **saved_argv = (const char **)++argv;
         while (argc) {
             if(!strcmp(argv[0], "--help")) {
-                printHelpMessage(first_pass_arguments, num_first_pass_arguments,
-                    second_pass_arguments, num_second_pass_arguments);
+                printHelpMessage(first_pass_arguments.data(), num_first_pass_arguments,
+                    second_pass_arguments.data(), num_second_pass_arguments);
                 return 0;
             } else {
                 bool arg_handled = false;
@@ -386,7 +390,7 @@ int main(int argc, char *argv[])
                     break;
                 }
             }
-            // Ingore unknown options.
+            // Ignore unknown options.
             if (!arg_handled) {
                 --saved_argc;
                 ++saved_argv;
@@ -394,7 +398,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+    if (!assure_dir_exist(FILENAMES["user_dir"])) {
         printf("Can't open or create %s. Check permissions.\n",
                FILENAMES["user_dir"].c_str());
         exit(1);
@@ -402,34 +406,46 @@ int main(int argc, char *argv[])
 
     setupDebug();
 
+/**
+ * OS X does not populate locale env vars correctly (they usually default to
+ * "C") so don't bother trying to set the locale based on them.
+ */
+#if (!defined MACOSX)
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
+    } else {
+#endif
+        try {
+            std::locale::global( std::locale( "" ) );
+        } catch( const std::exception& ) {
+            // if user default locale retrieval isn't implemented by system
+            try{
+                // default to basic C locale
+                std::locale::global( std::locale::classic() );
+            } catch( const std::exception &err ) {
+                debugmsg( "%s", err.what() );
+                exit_handler(-999);
+            }
+        }
+#if (!defined MACOSX)
     }
+#endif
 
-    // Options strings loaded with system locale
     get_options().init();
     get_options().load();
-
-    set_language(true);
+    set_language();
 
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
-         if( initscr() == nullptr ) { // Initialize ncurses
-            DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+        try {
+            catacurses::init_interface();
+        } catch( const std::exception &err ) {
+            // can't use any curses function as it has not been initialized
+            std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
+            DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
             return 1;
         }
-        init_interface();
-        noecho();  // Don't echo keypresses
-        cbreak();  // C-style breaks (e.g. ^C to SIGINT)
-        keypad(stdscr, true); // Numpad is numbers
     }
-
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
-    // For tiles or windows, this is handled already in initscr().
-    init_colors();
-#endif
-    // curs_set(0); // Invisible cursor
-    set_escdelay(10); // Make escape actually responsive
 
     srand(seed);
 
@@ -439,9 +455,6 @@ int main(int argc, char *argv[])
     try {
         g->load_static_data();
         if (verifyexit) {
-            if(g->game_error()) {
-                exit_handler(-999);
-            }
             exit_handler(0);
         }
         if( !dump.empty() ) {
@@ -450,7 +463,9 @@ int main(int argc, char *argv[])
         }
         if( check_mods ) {
             init_colors();
-            exit( g->check_mod_data( opts ) && !test_dirty ? 0 : 1 );
+            loading_ui ui( false );
+            const std::vector<mod_id> mods( opts.begin(), opts.end() );
+            exit( g->check_mod_data( mods, ui ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
@@ -460,11 +475,8 @@ int main(int argc, char *argv[])
     // Now we do the actual game.
 
     g->init_ui();
-    if(g->game_error()) {
-        exit_handler(-999);
-    }
 
-    curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
+    catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
 #if (!(defined _WIN32 || defined WINDOWS))
     struct sigaction sigIntHandler;
@@ -472,6 +484,26 @@ int main(int argc, char *argv[])
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
+
+#ifdef LOCALIZE
+    std::string lang = "";
+#if (defined _WIN32 || defined WINDOWS)
+    lang = getLangFromLCID( GetUserDefaultLCID() );
+#else
+    const char *v = setlocale( LC_ALL, NULL );
+    if( v != NULL ) {
+        lang = v;
+
+        if( lang == "C" ) {
+            lang = "en";
+        }
+    }
+#endif
+    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() || !isValidLanguage( lang ) ) ) {
+        select_language();
+        set_language();
+    }
 #endif
 
     while( true ) {
@@ -489,9 +521,6 @@ int main(int argc, char *argv[])
         }
 
         while( !g->do_turn() );
-        if( g->game_error() ) {
-            break;
-        }
     };
 
 
@@ -547,21 +576,21 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
 
 void exit_handler(int s)
 {
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-        erase(); // Clear screen
+        catacurses::erase(); // Clear screen
 
         deinitDebug();
 
         int exit_status = 0;
         if( g != NULL ) {
-            if( g->game_error() ) {
-                exit_status = 1;
-            }
             delete g;
         }
 
-        endwin();
+        catacurses::endwin();
 
         exit( exit_status );
     }
+    inp_mngr.set_timeout( old_timeout );
 }

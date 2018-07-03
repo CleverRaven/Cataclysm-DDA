@@ -1,12 +1,15 @@
+#pragma once
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
 #include "itype.h"
-#include "json.h"
 #include "enums.h"
 
 #include <string>
 #include <vector>
+
+class JsonObject;
+class JsonOut;
 
 enum art_effect_active : int {
     AEA_NULL = 0,
@@ -27,6 +30,7 @@ enum art_effect_active : int {
     AEA_LIGHT, // Temporary light source
     AEA_GROWTH, // Grow plants, a la triffid queen
     AEA_HURTALL, // Hurts all monsters!
+    AEA_FUN, // Temporary morale bonus
 
     AEA_SPLIT, // Split between good and bad
 
@@ -43,32 +47,39 @@ enum art_effect_active : int {
     AEA_FLASH, // Flashbang
     AEA_VOMIT, // User vomits
     AEA_SHADOWS, // Summon shadow creatures
+    AEA_STAMINA_EMPTY, // Empties most of the player's stamina gauge
 
     NUM_AEAS
 };
 
 enum art_charge : int {
-    ARTC_NULL,  // Never recharges!
-    ARTC_TIME,  // Very slowly recharges with time
-    ARTC_SOLAR, // Recharges in sunlight
-    ARTC_PAIN,  // Creates pain to recharge
-    ARTC_HP,    // Drains HP to recharge
+    ARTC_NULL,    // Never recharges!
+    ARTC_TIME,    // Very slowly recharges with time
+    ARTC_SOLAR,   // Recharges in sunlight
+    ARTC_PAIN,    // Creates pain to recharge
+    ARTC_HP,      // Drains HP to recharge
+    ARTC_FATIGUE, // Creates fatigue to recharge
     NUM_ARTCS
+};
+
+enum art_charge_req : int {
+    ACR_NULL = 0, //No extra requirement
+    ACR_EQUIP,    //Must be worn/wielded as appropriate
+    ACR_SKIN,     //As ACR_EQUIP, plus must be only 50+-coverage thing on a bodypart (or no gloves if wielded)
+    ACR_SLEEP,    //Only while sleeping
+    ACR_RAD,      //Must be irradiated/in irradiated tile
+    ACR_WET,      //Must be wet or in rain
+    ACR_SKY,      //Must be on a Z-level above the surface
+    NUM_ACRS
 };
 
 /* CLASSES */
 
-class it_artifact_tool : public itype, public JsonSerializer, public JsonDeserializer
+class it_artifact_tool : public itype
 {
     public:
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        using JsonDeserializer::deserialize;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonObject &jo );
-        void deserialize( JsonIn &jsin ) override {
-            JsonObject jo = jsin.get_object();
-            deserialize( jo );
-        }
 
         it_artifact_tool();
         it_artifact_tool( JsonObject &jo );
@@ -78,17 +89,11 @@ class it_artifact_tool : public itype, public JsonSerializer, public JsonDeseria
         void create_name( const std::string &property_name, const std::string &shape_name );
 };
 
-class it_artifact_armor : public itype, public JsonSerializer, public JsonDeserializer
+class it_artifact_armor : public itype
 {
     public:
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        using JsonDeserializer::deserialize;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonObject &jo );
-        void deserialize( JsonIn &jsin ) override {
-            JsonObject jo = jsin.get_object();
-            deserialize( jo );
-        }
 
         it_artifact_armor();
         it_artifact_armor( JsonObject &jo );
@@ -100,7 +105,6 @@ class it_artifact_armor : public itype, public JsonSerializer, public JsonDeseri
 
 /* FUNCTIONS */
 
-void init_artifacts();
 std::string new_artifact();
 std::string new_natural_artifact( artifact_natural_property prop );
 std::string architects_cube();

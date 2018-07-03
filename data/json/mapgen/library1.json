@@ -83,9 +83,7 @@
         "s": "f_sink",
         "y": "f_indoor_plant_y"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "magazines", "x": 10, "y": [ 13, 19 ], "chance": 50, "repeat": [ 3, 6 ] },
         { "item": "novels", "x": 13, "y": [ 13, 19 ], "chance": 60, "repeat": [ 4, 8 ] },

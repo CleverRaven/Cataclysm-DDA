@@ -3,7 +3,9 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
+#include "line.h"
 #include "rng.h"
+#include "output.h"
 #include "options.h"
 #include "translations.h"
 #include "overmapbuffer.h"
@@ -24,9 +26,9 @@ const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 
-event::event( event_type e_t, int t, int f_id, tripoint p )
+event::event( event_type e_t, const time_point &w, int f_id, tripoint p )
 : type( e_t )
-, turn( t )
+, when( w )
 , faction_id( f_id )
 , map_point( p )
 {
@@ -37,44 +39,6 @@ void event::actualize()
     switch( type ) {
         case EVENT_HELP:
             debugmsg("Currently disabled while NPC and monster factions are being rewritten.");
-        /*
-        {
-            int num = 1;
-            if( faction_id >= 0 ) {
-                num = rng( 1, 6 );
-            }
-            for( int i = 0; i < num; i++ ) {
-                npc *temp = new npc();
-                temp->normalize();
-                if( faction_id != -1 ) {
-                    faction *fac = g->faction_by_id( faction_id );
-                    if( fac ) {
-                        temp->randomize_from_faction( fac );
-                    } else {
-                        debugmsg( "EVENT_HELP run with invalid faction_id" );
-                        temp->randomize();
-                    }
-                } else {
-                    temp->randomize();
-                }
-                temp->attitude = NPCATT_DEFEND;
-                // important: npc::spawn_at must be called to put the npc into the overmap
-                temp->spawn_at( g->get_levx(), g->get_levy(), g->get_levz() );
-                // spawn at the border of the reality bubble, outside of the players view
-                if( one_in( 2 ) ) {
-                    temp->setx( rng( 0, SEEX * MAPSIZE - 1 ) );
-                    temp->sety( rng( 0, 1 ) * SEEY * MAPSIZE );
-                } else {
-                    temp->setx( rng( 0, 1 ) * SEEX * MAPSIZE );
-                    temp->sety( rng( 0, SEEY * MAPSIZE - 1 ) );
-                }
-                // And tell the npc to go to the player.
-                temp->goal.x = g->u.global_omt_location().x;
-                temp->goal.y = g->u.global_omt_location().y;
-                // The npcs will be loaded later by game::load_npcs()
-            }
-        }
-        */
         break;
 
     case EVENT_ROBOT_ATTACK: {
@@ -116,11 +80,11 @@ void event::actualize()
             sounds::sound(g->u.pos(), 60, "");
             if (!g->u.is_deaf()) {
                 add_msg(_("The eye you're carrying lets out a tortured scream!"));
-                g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+                g->u.add_morale(MORALE_SCREAM, -15, 0, 30_minutes, 5_turns);
             }
         }
         if (!one_in(25)) { // They just keep coming!
-            g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
+            g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 15_turns, 25_turns ) );
         }
     } break;
 
@@ -128,7 +92,8 @@ void event::actualize()
         g->u.add_memorial_log(pgettext("memorial_male", "Angered a group of amigara horrors!"),
                               pgettext("memorial_female", "Angered a group of amigara horrors!"));
         int num_horrors = rng(3, 5);
-        int faultx = -1, faulty = -1;
+        int faultx = -1;
+        int faulty = -1;
         bool horizontal = false;
         for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
             for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++) {
@@ -141,7 +106,8 @@ void event::actualize()
         }
         for (int i = 0; i < num_horrors; i++) {
             int tries = 0;
-            int monx = -1, mony = -1;
+            int monx = -1;
+            int mony = -1;
             do {
                 if (horizontal) {
                     monx = rng(faultx, faultx + 2 * SEEX - 8);
@@ -186,7 +152,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
       g->m.ter_set(x, y, t_stairs_down);
-      if (!saw_grate && g->u.sees(x, y))
+      if (!saw_grate && g->u.sees(tripoint(x, y,g->get_levz())))
        saw_grate = true;
      }
     }
@@ -252,7 +218,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++)
        g->m.ter_set(x, y, flood_buf[x][y]);
    }
-   g->add_event(EVENT_TEMPLE_FLOOD, int(calendar::turn) + rng(2, 3));
+   g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + rng( 2_turns, 3_turns ) );
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
@@ -260,7 +226,9 @@ void event::actualize()
             mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
         } };
         const mtype_id &montype = random_entry( temple_monsters );
-        int tries = 0, x, y;
+        int tries = 0;
+        int x = 0;
+        int y = 0;
         do {
             x = rng(g->u.posx() - 5, g->u.posx() + 5);
             y = rng(g->u.posy() - 5, g->u.posy() + 5);
@@ -282,26 +250,26 @@ void event::per_turn()
     switch (type) {
     case EVENT_WANTED: {
         // About once every 5 minutes. Suppress in classic zombie mode.
-        if (g->get_levz() >= 0 && one_in(50) && !get_world_option<bool>( "CLASSIC_ZOMBIES" )) {
+        if (g->get_levz() >= 0 && one_in(50) && !get_option<bool>( "CLASSIC_ZOMBIES" )) {
             point place = g->m.random_outdoor_tile();
             if (place.x == -1 && place.y == -1) {
                 return; // We're safely indoors!
             }
             g->summon_mon(mon_eyebot, tripoint(place.x, place.y, g->u.posz()));
-            if (g->u.sees( place )) {
+            if (g->u.sees( tripoint(place.x, place.y, g->u.posz()) )) {
                 add_msg(m_warning, _("An eyebot swoops down nearby!"));
             }
             // One eyebot per trigger is enough, really
-            turn = int(calendar::turn);
+            when = calendar::turn;
         }
     } break;
 
   case EVENT_SPAWN_WYRMS:
      if (g->get_levz() >= 0) {
-         turn--;
+         when -= 1_turns;
          return;
      }
-     if( calendar::once_every(3) ) {
+     if( calendar::once_every( 3_turns ) ) {
          add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
      }
      break;
@@ -317,4 +285,43 @@ void event::per_turn()
   default:
      break; // Nothing happens for other events
  }
+}
+
+void event_manager::process()
+{
+    for( auto it = events.begin(); it != events.end(); ) {
+        it->per_turn();
+        if( it->when <= calendar::turn ) {
+            it->actualize();
+            it = events.erase( it );
+        } else {
+            it++;
+        }
+    }
+}
+
+void event_manager::add( const event_type type, const time_point &when, const int faction_id )
+{
+    add( type, when, faction_id, g->u.global_sm_location() );
+}
+
+void event_manager::add( const event_type type, const time_point &when, const int faction_id,
+                         const tripoint center )
+{
+    events.emplace_back( type, when, faction_id, center );
+}
+
+bool event_manager::queued( const event_type type ) const
+{
+    return const_cast<event_manager&>( *this ).get( type ) != nullptr;
+}
+
+event *event_manager::get( const event_type type )
+{
+    for( auto &e : events ) {
+        if( e.type == type ) {
+            return &e;
+        }
+    }
+    return nullptr;
 }

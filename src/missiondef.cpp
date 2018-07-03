@@ -4,6 +4,7 @@
 #include "generic_factory.h"
 #include "calendar.h"
 #include "item.h"
+#include "assign.h"
 
 #include <algorithm>
 
@@ -65,14 +66,14 @@ enum legacy_mission_type_id {
     MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
     MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
     MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
-    MISSION_RANCH_NURSE_1,                 //Need asprin
+    MISSION_RANCH_NURSE_1,                 //Need aspirin
     MISSION_RANCH_NURSE_2,                 //Need hotplates
     MISSION_RANCH_NURSE_3,                 //Need multivitamins
     MISSION_RANCH_NURSE_4,                 //Need charcoal water filters
     MISSION_RANCH_NURSE_5,                 //Need chemistry set
     MISSION_RANCH_NURSE_6,                 //Need filter masks
     MISSION_RANCH_NURSE_7,                 //Need rubber gloves
-    MISSION_RANCH_NURSE_8,                 //Need X-acto
+    MISSION_RANCH_NURSE_8,                 //Need X-Acto
     MISSION_RANCH_NURSE_9,                 //Need Guide to Advanced Emergency Care
     MISSION_RANCH_NURSE_10,                //Need flu shot
     MISSION_RANCH_NURSE_11,                //Need empty syringes
@@ -156,6 +157,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "reveal_office_tower", mission_start::reveal_office_tower },
     { "reveal_doctors_office", mission_start::reveal_doctors_office },
     { "reveal_cathedral", mission_start::reveal_cathedral },
+    { "reveal_refugee_center", mission_start::reveal_refugee_center },
     // Endings
     { "leave", mission_end::leave },
     { "thankful", mission_end::thankful },
@@ -177,7 +179,8 @@ static const std::map<std::string, mission_origin> origin_map = {{
     { "ORIGIN_GAME_START", ORIGIN_GAME_START },
     { "ORIGIN_OPENER_NPC", ORIGIN_OPENER_NPC },
     { "ORIGIN_ANY_NPC", ORIGIN_ANY_NPC },
-    { "ORIGIN_SECONDARY", ORIGIN_SECONDARY }
+    { "ORIGIN_SECONDARY", ORIGIN_SECONDARY },
+    { "ORIGIN_COMPUTER", ORIGIN_COMPUTER }
 }};
 template<>
 mission_origin string_to_enum<mission_origin>( const std::string &data )
@@ -196,6 +199,7 @@ static const std::map<std::string, mission_goal> goal_map = {{
     { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
     { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
     { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
+    { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
     { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
     { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
     { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE }
@@ -210,15 +214,14 @@ mission_goal string_to_enum<mission_goal>( const std::string &data )
 
 generic_factory<mission_type> mission_type_factory( "mission_type" );
 
-template<>
-const mission_type_id string_id<mission_type>::NULL_ID( "MISSION_NULL" );
-
+/** @relates string_id */
 template<>
 const mission_type &string_id<mission_type>::obj() const
 {
     return mission_type_factory.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<mission_type>::is_valid() const
 {
@@ -252,41 +255,10 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
-
-    auto djo = jo.get_object( "dialogue" );
-    // @todo There should be a cleaner way to do it
-    mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
-    mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
-    mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
-    mandatory( djo, was_loaded, "rejected", dialogue[ "rejected" ] );
-    mandatory( djo, was_loaded, "advice", dialogue[ "advice" ] );
-    mandatory( djo, was_loaded, "inquire", dialogue[ "inquire" ] );
-    mandatory( djo, was_loaded, "success", dialogue[ "success" ] );
-    mandatory( djo, was_loaded, "success_lie", dialogue[ "success_lie" ] );
-    mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
-
-    optional( jo, was_loaded, "urgent", urgent );
-    optional( jo, was_loaded, "item", item_id );
-    optional( jo, was_loaded, "count", item_count, 1 );
-
-    goal = jo.get_enum_value<decltype(goal)>( "goal" );
-
-    assign_function( jo, "place", place, tripoint_function_map );
-    assign_function( jo, "start", start, mission_function_map );
-    assign_function( jo, "end", end, mission_function_map );
-    assign_function( jo, "fail", fail, mission_function_map );
-
-    if( jo.has_int( "deadline_low" ) ) {
-        deadline_low = DAYS( jo.get_int( "deadline_low" ) );
-    }
-
-    if( jo.has_int( "deadline_high" ) ) {
-        deadline_high = DAYS( jo.get_int( "deadline_high" ) );
-    }
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
@@ -295,8 +267,46 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         }
     }
 
+    if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
+        return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
+    } ) ) {
+        auto djo = jo.get_object( "dialogue" );
+        // @todo: There should be a cleaner way to do it
+        mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
+        mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
+        mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
+        mandatory( djo, was_loaded, "rejected", dialogue[ "rejected" ] );
+        mandatory( djo, was_loaded, "advice", dialogue[ "advice" ] );
+        mandatory( djo, was_loaded, "inquire", dialogue[ "inquire" ] );
+        mandatory( djo, was_loaded, "success", dialogue[ "success" ] );
+        mandatory( djo, was_loaded, "success_lie", dialogue[ "success_lie" ] );
+        mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
+    }
+
+    optional( jo, was_loaded, "urgent", urgent );
+    optional( jo, was_loaded, "item", item_id );
+    optional( jo, was_loaded, "count", item_count, 1 );
+
+    goal = jo.get_enum_value<decltype( goal )>( "goal" );
+
+    assign_function( jo, "place", place, tripoint_function_map );
+    assign_function( jo, "start", start, mission_function_map );
+    assign_function( jo, "end", end, mission_function_map );
+    assign_function( jo, "fail", fail, mission_function_map );
+
+    assign( jo, "deadline_low", deadline_low, false, 1_days );
+    assign( jo, "deadline_high", deadline_high, false, 1_days );
+
     if( jo.has_member( "followup" ) ) {
         follow_up = mission_type_id( jo.get_string( "followup" ) );
+    }
+
+    if( jo.has_member( "monster_species" ) ) {
+        monster_species = species_id( jo.get_string( "monster_species" ) );
+    }
+
+    if( jo.has_member( "monster_kill_goal" ) ) {
+        monster_kill_goal = jo.get_int( "monster_kill_goal" );
     }
 
     assign( jo, "destination", target_id, strict );
@@ -429,5 +439,5 @@ mission_type_id mission_type::get_random_id( const mission_origin origin, const 
             valid.push_back( t.id );
         }
     }
-    return random_entry( valid, NULL_ID );
+    return random_entry( valid, mission_type_id::NULL_ID() );
 }

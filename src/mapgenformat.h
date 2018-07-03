@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
@@ -19,6 +20,7 @@ class format_effect;
 
 /**
  * Set terrain and furniture on the supplied map.
+ * @param m The supplied map
  * @param ter_b,furn_b The lookup table for placing terrain / furniture
  *   (result of @ref ter_bind / @ref furn_bind).
  * @param cstr Contains the ASCII representation of the map. Each character in it represents

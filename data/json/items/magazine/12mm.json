@@ -9,7 +9,7 @@
     "price": 8000,
     "material": "steel",
     "symbol": "#",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo_type": "12mm",
     "capacity": 20,
     "reliability": 10,

@@ -1,19 +1,23 @@
+#include "damage.h"
 #include "item.h"
 #include "monster.h"
-#include "game.h"
-#include "map.h"
-#include "damage.h"
-#include "rng.h"
 #include "debug.h"
 #include "map_iterator.h"
-#include "field.h"
 #include "mtype.h"
 #include "json.h"
-#include "itype.h"
 
 #include <map>
 #include <algorithm>
 #include <numeric>
+
+bool damage_unit::operator==( const damage_unit &other ) const
+{
+    return type == other.type &&
+           amount == other.amount &&
+           res_pen == other.res_pen &&
+           res_mult == other.res_mult &&
+           damage_multiplier == other.damage_multiplier;
+}
 
 damage_instance::damage_instance() { }
 damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
@@ -32,11 +36,15 @@ damage_instance::damage_instance( damage_type dt, float a, float rp, float rm, f
 void damage_instance::add_damage( damage_type dt, float a, float rp, float rm, float mul )
 {
     damage_unit du( dt, a, rp, rm, mul );
-    damage_units.push_back( du );
+    add( du );
 }
 
 void damage_instance::mult_damage( double multiplier, bool pre_armor )
 {
+    if( multiplier <= 0.0 ) {
+        clear();
+    }
+
     if( pre_armor ) {
         for( auto &elem : damage_units ) {
             elem.amount *= multiplier;
@@ -79,19 +87,59 @@ bool damage_instance::empty() const
 void damage_instance::add( const damage_instance &b )
 {
     for( auto &added_du : b.damage_units ) {
-        auto iter = std::find_if( damage_units.begin(), damage_units.end(),
-        [&added_du]( const damage_unit & du ) {
-            return du.type == added_du.type;
-        } );
-        if( iter == damage_units.end() ) {
-            damage_units.emplace_back( added_du );
-        } else {
-            damage_unit &du = *iter;
-            float mult = added_du.damage_multiplier / du.damage_multiplier;
-            du.amount += added_du.amount * mult;
-            du.res_pen += added_du.res_pen * mult;
-        }
+        add( added_du );
     }
+}
+
+void damage_instance::add( const damage_unit &added_du )
+{
+    auto iter = std::find_if( damage_units.begin(), damage_units.end(),
+    [&added_du]( const damage_unit & du ) {
+        return du.type == added_du.type;
+    } );
+    if( iter == damage_units.end() ) {
+        damage_units.emplace_back( added_du );
+    } else {
+        damage_unit &du = *iter;
+        float mult = added_du.damage_multiplier / du.damage_multiplier;
+        du.amount += added_du.amount * mult;
+        du.res_pen += added_du.res_pen * mult;
+        // Linearly interpolate armor multiplier based on damage proportion contributed
+        float t = added_du.damage_multiplier / ( added_du.damage_multiplier + du.damage_multiplier );
+        du.res_mult = lerp( du.res_mult, added_du.damage_multiplier, t );
+    }
+}
+
+std::vector<damage_unit>::iterator damage_instance::begin()
+{
+    return damage_units.begin();
+}
+
+std::vector<damage_unit>::const_iterator damage_instance::begin() const
+{
+    return damage_units.begin();
+}
+
+std::vector<damage_unit>::iterator damage_instance::end()
+{
+    return damage_units.end();
+}
+
+std::vector<damage_unit>::const_iterator damage_instance::end() const
+{
+    return damage_units.end();
+}
+
+bool damage_instance::operator==( const damage_instance &other ) const
+{
+    return damage_units == other.damage_units;
+}
+
+void damage_instance::deserialize( JsonIn &jsin )
+{
+    JsonObject jo( jsin );
+    // @todo Clean up
+    damage_units = load_damage_instance( jo ).damage_units;
 }
 
 dealt_damage_instance::dealt_damage_instance()
@@ -219,7 +267,7 @@ const skill_id &skill_by_dt( damage_type dt )
             return skill_stabbing;
 
         default:
-            return NULL_ID;
+            return skill_id::NULL_ID();
     }
 }
 

@@ -50,6 +50,7 @@
       { "item": "scrap", "count": [ 1, 4 ] },
       { "item": "small_storage_battery", "count": [ 0, 4 ] }
     ],
+    "requirements": { "install": { "time": 20000 } },
     "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] }
   },
   {
@@ -62,6 +63,7 @@
     "durability": 100,
     "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "requirements": { "install": { "time": 10000 } },
     "extend": { "flags": [ "TOOL_NONE", "FOLDABLE" ] }
   },
   {
@@ -91,6 +93,7 @@
     "name": "swappable storage battery",
     "item": "storage_battery",
     "location": "on_battery_mount",
-    "extend": { "flags": [ "TOOL_NONE", "NEEDS_BATTERY_MOUNT" ] }
+    "requirements": { "install": { "time": 1000 } },
+    "flags": [ "NEEDS_BATTERY_MOUNT" ]
   }
 ]

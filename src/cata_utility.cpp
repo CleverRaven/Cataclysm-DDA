@@ -3,7 +3,6 @@
 #include "options.h"
 #include "material.h"
 #include "enums.h"
-#include "item.h"
 #include "creature.h"
 #include "translations.h"
 #include "debug.h"
@@ -11,10 +10,13 @@
 #include "output.h"
 #include "json.h"
 #include "filesystem.h"
-#include "item_search.h"
+#include "rng.h"
+#include "units.h"
 
 #include <algorithm>
 #include <cmath>
+#include <string>
+#include <locale>
 
 double round_up( double val, unsigned int dp )
 {
@@ -40,74 +42,42 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return haystack.find( needle ) != std::string::npos;
 }
 
-std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
-        std::string filter )
+bool match_include_exclude( const std::string &text, std::string filter )
 {
-    std::vector<map_item_stack> ret;
+    size_t iPos;
+    bool found = false;
 
-    std::string sFilterTemp = filter;
-    auto z = item_filter_from_string( filter );
-    std::copy_if( stack.begin(),
-                  stack.end(),
-                  std::back_inserter( ret ),
-    [z]( const map_item_stack & a ) {
-        if( a.example != nullptr ) {
-            return z( *a.example );
-        }
+    if( filter.empty() ) {
         return false;
     }
-                );
 
-    return ret;
-}
+    do {
+        iPos = filter.find( "," );
 
-//returns the first non priority items.
-int list_filter_high_priority( std::vector<map_item_stack> &stack, std::string priorities )
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    const auto filter_fn = item_filter_from_string( priorities );
-    for( auto it = stack.begin(); it != stack.end(); ) {
-        if( priorities.empty() || ( it->example != nullptr && !filter_fn( *it->example ) ) ) {
-            tempstack.push_back( *it );
-            it = stack.erase( it );
-        } else {
-            it++;
+        std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
+        const bool exclude = term.substr( 0, 1 ) == "-";
+        if( exclude ) {
+            term = term.substr( 1 );
         }
-    }
 
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
-}
+        if( ( !found || exclude ) && lcmatch( text, term ) ) {
+            if( exclude ) {
+                return false;
+            }
 
-int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
-                              std::string priorities )
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    const auto filter_fn = item_filter_from_string( priorities );
-    for( auto it = stack.begin() + start; it != stack.end(); ) {
-        if( !priorities.empty() && it->example != nullptr && filter_fn( *it->example ) ) {
-            tempstack.push_back( *it );
-            it = stack.erase( it );
-        } else {
-            it++;
+            found = true;
         }
-    }
 
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
+        if( iPos != std::string::npos ) {
+            filter = filter.substr( iPos + 1, filter.size() );
+        }
+    } while( iPos != std::string::npos );
+
+    return found;
 }
 
-// Operator overload required by sort interface.
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
-                                   const std::pair<int, tripoint> &b )
+                                   const std::pair<int, tripoint> &b ) const
 {
     return a.first > b.first;
 }
@@ -116,14 +86,11 @@ bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
 // This stuff could be moved elsewhere, but there
 // doesn't seem to be a good place to put it right now.
 
-// Basic logistic function.
 double logarithmic( double t )
 {
     return 1 / ( 1 + exp( -t ) );
 }
 
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
 double logarithmic_range( int min, int max, int pos )
 {
     const double LOGI_CUTOFF = 4;
@@ -192,11 +159,11 @@ const char *volume_units_abbr()
 {
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
-        return _( "c" );
+        return pgettext( "Volume unit", "c" );
     } else if( vol_units == "l" ) {
-        return _( "L" );
+        return pgettext( "Volume unit", "L" );
     } else {
-        return _( "qt" );
+        return pgettext( "Volume unit", "qt" );
     }
 }
 
@@ -212,9 +179,6 @@ const char *volume_units_long()
     }
 }
 
-/**
-* Convert internal velocity units to units defined by user
-*/
 double convert_velocity( int velocity, const units_type vel_units )
 {
     // internal units to mph conversion
@@ -235,13 +199,9 @@ double convert_velocity( int velocity, const units_type vel_units )
     return ret;
 }
 
-/**
-* Convert weight in grams to units defined by user (kg or lbs)
-*/
-double convert_weight( int weight )
+double convert_weight( const units::mass &weight )
 {
-    double ret;
-    ret = double( weight );
+    double ret = to_gram( weight );
     if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
         ret /= 1000;
     } else {
@@ -250,18 +210,11 @@ double convert_weight( int weight )
     return ret;
 }
 
-/**
-* Convert volume from ml to units defined by user.
-*/
 double convert_volume( int volume )
 {
     return convert_volume( volume, NULL );
 }
 
-/**
-* Convert volume from ml to units defined by user,
-* optionally returning the units preferred scale.
-*/
 double convert_volume( int volume, int *out_scale )
 {
     double ret = volume;
@@ -293,12 +246,6 @@ double clamp_to_width( double value, int width, int &scale )
     return clamp_to_width( value, width, scale, NULL );
 }
 
-/**
-* Clamp (number and space wise) value to with,
-* taking into account the specified preferred scale,
-* returning the adjusted (shortened) scale that best fit the width,
-* optionally returning a flag that indicate if the value was truncated to fit the width
-*/
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
 {
     if( out_truncated != NULL ) {
@@ -306,7 +253,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
     }
     if( value >= std::pow( 10.0, width ) ) {
         // above the maximum number we can fit in the width without decimal
-        // show the bigest number we can without decimal
+        // show the biggest number we can without decimal
         // flag as truncated
         value = std::pow( 10.0, width ) - 1.0;
         scale = 0;
@@ -424,6 +371,33 @@ bool write_to_file_exclusive( const std::string &path,
     }
 }
 
+std::istream &safe_getline( std::istream &ins, std::string &str )
+{
+    str.clear();
+    std::istream::sentry se( ins, true );
+    std::streambuf *sb = ins.rdbuf();
+
+    while( true ) {
+        int c = sb->sbumpc();
+        switch( c ) {
+            case '\n':
+                return ins;
+            case '\r':
+                if( sb->sgetc() == '\n' ) {
+                    sb->sbumpc();
+                }
+                return ins;
+            case EOF:
+                if( str.empty() ) {
+                    ins.setstate( std::ios::eofbit );
+                }
+                return ins;
+            default:
+                str += ( char )c;
+        }
+    }
+}
+
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
@@ -443,7 +417,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
     }
 }
 
-bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader )
+bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
 {
     return read_from_file( path, [&reader]( std::istream & fin ) {
         JsonIn jsin( fin );
@@ -453,7 +427,7 @@ bool read_from_file( const std::string &path, const std::function<void( JsonIn &
 
 bool read_from_file( const std::string &path, JsonDeserializer &reader )
 {
-    return read_from_file( path, [&reader]( JsonIn & jsin ) {
+    return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
 }
@@ -467,8 +441,8 @@ bool read_from_file_optional( const std::string &path,
     return file_exist( path ) && read_from_file( path, reader );
 }
 
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader )
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( JsonIn & )> &reader )
 {
     return read_from_file_optional( path, [&reader]( std::istream & fin ) {
         JsonIn jsin( fin );
@@ -478,7 +452,60 @@ bool read_from_file_optional( const std::string &path,
 
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
 {
-    return read_from_file_optional( path, [&reader]( JsonIn & jsin ) {
+    return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
+}
+
+std::string obscure_message( const std::string &str, std::function<char()> f )
+{
+    //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
+    std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
+    std::string gibberish_wide =
+        //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
+        _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
+    std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
+    std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
+    std::wstring w_str = utf8_to_wstr( str );
+    char transformation[2] = { 0 }; // a trailing NULL terminator is necessary for utf8_width function
+    for( size_t i = 0; i < w_str.size(); ++i ) {
+        transformation[0] = f();
+        std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
+        if( transformation[0] == -1 ) {
+            continue;
+        } else if( transformation[0] == 0 ) {
+            if( utf8_width( this_char ) == 1 ) {
+                w_str[i] = random_entry( w_gibberish_narrow );
+            } else {
+                w_str[i] = random_entry( w_gibberish_wide );
+            }
+        } else {
+            // Only support the case e.g. replace current character to symbols like # or ?
+            if( utf8_width( transformation ) != 1 ) {
+                debugmsg( "target character isn't narrow" );
+            }
+            // A 2-width wide character in the original string should be replace by two narrow characters
+            w_str.replace( i, 1, utf8_to_wstr( std::string( utf8_width( this_char ), transformation[0] ) ) );
+        }
+    }
+    std::string result = wstr_to_utf8( w_str );
+    if( utf8_width( str ) != utf8_width( result ) ) {
+        debugmsg( "utf8_width differ between original string and obscured string" );
+    }
+    return result;
+}
+
+std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback )
+{
+    std::ostringstream buffer;
+    JsonOut jsout( buffer );
+    callback( jsout );
+    return buffer.str();
+}
+
+void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const std::string &data )
+{
+    std::istringstream buffer( data );
+    JsonIn jsin( buffer );
+    callback( jsin );
 }

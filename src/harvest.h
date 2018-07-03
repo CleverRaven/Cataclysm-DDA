@@ -1,8 +1,11 @@
+#pragma once
 #ifndef HARVEST_H
 #define HARVEST_H
 
 #include <list>
+#include <map>
 #include <set>
+
 #include "string_id.h"
 
 typedef std::string itype_id;
@@ -16,7 +19,7 @@ struct harvest_entry {
     itype_id drop = "null";
     std::pair<float, float> base_num = { 1.0f, 1.0f };
     // This is multiplied by survival and added to the above
-    // @todo Make it a map: skill->scaling
+    // @todo: Make it a map: skill->scaling
     std::pair<float, float> scale_num = { 0.0f, 0.0f };
 
     int max = 1000;
@@ -24,17 +27,16 @@ struct harvest_entry {
     static harvest_entry load( JsonObject &jo, const std::string &src );
 };
 
-class harvest_list {
+class harvest_list
+{
     public:
-        harvest_list() : id_( NULL_ID ) {}
+        harvest_list();
 
-        const harvest_id &id() const {
-            return id_;
-        }
+        const harvest_id &id() const;
 
-        bool is_null() const {
-            return id_ == NULL_ID;
-        }
+        std::string message() const;
+
+        bool is_null() const;
 
         const std::list<harvest_entry> &entries() const {
             return entries_;
@@ -52,6 +54,8 @@ class harvest_list {
             return names_;
         }
 
+        std::string describe( int at_skill = -1 ) const;
+
         std::list<harvest_entry>::const_iterator begin() const;
         std::list<harvest_entry>::const_iterator end() const;
         std::list<harvest_entry>::const_reverse_iterator rbegin() const;
@@ -59,7 +63,7 @@ class harvest_list {
 
         /** Load harvest data, create relevant global entries, then return the id of the new list */
         static const harvest_id &load( JsonObject &jo, const std::string &src,
-                                      const std::string &force_id = "" );
+                                       const std::string &force_id = "" );
 
         /** Get all currently loaded harvest data */
         static const std::map<harvest_id, harvest_list> &all();
@@ -76,6 +80,7 @@ class harvest_list {
         harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
+        std::string message_;
 
         void finalize();
 };

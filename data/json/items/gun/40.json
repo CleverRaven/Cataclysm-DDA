@@ -2,6 +2,7 @@
   {
     "id": "glock_22",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Glock 22",
     "name_plural": "Glock 22",
     "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI and of countless other law enforcement agencies worldwide.",
@@ -24,12 +25,13 @@
       [ "40", [ "glock40mag", "glock40bigmag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
-      [ "9mm", [ "glockmag", "glockbigmag" ] ]
+      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22" ] ]
     ]
   },
   {
     "id": "sig_40",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "SIG Pro .40",
     "name_plural": "SIG Pro .40",
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
@@ -51,12 +53,13 @@
       [ "40", [ "sig40mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
-      [ "9mm", [ "glockmag", "glockbigmag" ] ]
+      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22" ] ]
     ]
   },
   {
     "id": "surv_six_shooter",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "survivor's six shooter",
     "name_plural": "survivor's six shooters",
     "description": "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",

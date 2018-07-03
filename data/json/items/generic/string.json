@@ -64,5 +64,32 @@
     "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.",
     "material": "veggy",
     "color": "light_green"
+  },
+  {
+    "id": "rope_makeshift_6",
+    "copy-from": "rope_6",
+    "type": "GENERIC",
+    "name": "short makeshift rope",
+    "description": "A six-foot long piece of rough rope, woven from natural cordage.  Useful for some purposes, but not as strong or flexible as proper rope.",
+    "material": "veggy"
+  },
+  {
+    "id": "rope_makeshift_30",
+    "copy-from": "rope_makeshift_6",
+    "type": "GENERIC",
+    "name": "long makeshift rope",
+    "description": "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things.",
+    "armor_data": {
+      "covers": [ "TORSO" ],
+      "coverage": 12,
+      "encumbrance": 14,
+      "material_thickness": 6
+    },
+    "proportional": {
+      "weight": 5,
+      "volume": 5,
+      "price": 5
+    },
+    "extend": { "flags": [ "BELTED" ] }
   }
 ]

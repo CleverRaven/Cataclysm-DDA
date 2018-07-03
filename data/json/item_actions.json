@@ -25,6 +25,10 @@
         "name" : "Pick a lock"
     },{
         "type" : "item_action",
+        "id" : "deploy_furn",
+        "name" : "Deploy item"
+    },{
+        "type" : "item_action",
         "id" : "CROWBAR",
         "name" : "Pry crate, window or door"
     },{
@@ -67,6 +71,10 @@
         "type" : "item_action",
         "id" : "GUN_REPAIR",
         "name" : "Repair a gun"
+    },{
+        "type" : "item_action",
+        "id" : "DIRECTIONAL_HOLOGRAM",
+        "name" : "Create a moving hologram"
     },{
         "type" : "item_action",
         "id" : "ROBOTCONTROL",
@@ -149,7 +157,7 @@
         "name" : "Use holster"
     },{
         "type" : "item_action",
-        "id" : "SAW_BARREL",
+        "id" : "saw_barrel",
         "name" : "Saw down barrel"
     },{
         "type" : "item_action",
@@ -222,7 +230,7 @@
     },{
         "type" : "item_action",
         "id" : "CAFF",
-        "name" : "Drink"
+        "name" : "Consume"
     },{
         "type" : "item_action",
         "id" : "CAMERA",
@@ -254,7 +262,7 @@
     },{
         "type" : "item_action",
         "id" : "COKE",
-        "name" : "Drink"
+        "name" : "Snort coke"
     },{
         "type" : "item_action",
         "id" : "COMBATSAW_OFF",
@@ -377,7 +385,7 @@
         "name" : "Activate"
     },{
         "type" : "item_action",
-        "id" : "GUN_DETACH_GUNMODS",
+        "id" : "detach_gunmods",
         "name" : "Detach gunmods"
     },{
         "type" : "item_action",
@@ -451,6 +459,18 @@
         "type" : "item_action",
         "id" : "MP3_ON",
         "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "GASMASK",
+        "name" : "Prepare to use"
+    },{
+        "type" : "item_action",
+        "id" : "SOLARPACK",
+        "name" : "Unfold"
+    },{
+        "type" : "item_action",
+        "id" : "SOLARPACK_OFF",
+        "name" : "Fold"
     },{
         "type" : "item_action",
         "id" : "MULTICOOKER",
@@ -649,7 +669,7 @@
         "name" : "Inject"
     },{
         "type" : "item_action",
-        "id" : "VACUTAINER",
+        "id" : "BLOOD_DRAW",
         "name" : "Draw some blood"
     },{
         "type" : "item_action",
@@ -731,5 +751,25 @@
         "type" : "item_action",
         "id" : "ups_based_armor",
         "name" : "Activate/deactivate"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CATTLEFODDER",
+        "name" : "Place"
+    },
+    {
+        "type" : "item_action",
+        "id" : "install_bionic",
+        "name" : "Install bionic"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_TREE",
+        "name" : "Chop down a tree"
+    },
+    {
+        "type" : "item_action",
+        "id" : "CHOP_LOGS",
+        "name" : "Chop a Tree Trunk into logs"
     }
 ]

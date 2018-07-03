@@ -5,17 +5,21 @@
 #include "input.h"
 #include "output.h"
 #include "rng.h"
+#include "cursesdef.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
 #include <cmath>  // max in help_main
 #include <vector>
 
-void help_draw_dir( WINDOW *win, int line_y )
+void help_draw_dir( const catacurses::window &win, int line_y )
 {
-    action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
-                             ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
-                            };
+    std::array<action_id, 9> movearray = {{
+            ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
+            ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
+            ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+        }
+    };
     mvwprintz( win, line_y + 1, 0, c_white, _( "\
   \\ | /     \\ | /\n\
    \\|/       \\|/ \n\
@@ -26,16 +30,16 @@ void help_draw_dir( WINDOW *win, int line_y )
         for( int actx = 0; actx < 3; actx++ ) {
             std::vector<char> keys = keys_bound_to( movearray[acty * 3 + actx] );
             if( !keys.empty() ) {
-                mvwputch( win, acty * 3 + line_y, actx * 3 + 1, c_ltblue, keys[0] );
+                mvwputch( win, acty * 3 + line_y, actx * 3 + 1, c_light_blue, keys[0] );
                 if( keys.size() > 1 ) {
-                    mvwputch( win, acty * 3 + line_y, actx * 3 + 11, c_ltblue, keys[1] );
+                    mvwputch( win, acty * 3 + line_y, actx * 3 + 11, c_light_blue, keys[1] );
                 }
             }
         }
     }
 }
 
-void help_main( WINDOW *win )
+void help_main( const catacurses::window &win )
 {
     werase( win );
     int y = fold_and_print( win, 0, 1, getmaxx( win ) - 2, c_white, _( "\
@@ -85,7 +89,7 @@ Press q or ESC to return to the game." ) ) + 1;
     wrefresh( win );
 }
 
-void help_movement( WINDOW *win )
+void help_movement( const catacurses::window &win )
 {
     werase( win );
     std::vector<std::string> text;
@@ -128,7 +132,7 @@ monsters enter the player's view." ),
     multipage( win, remained_text, "", pos_y );
 }
 
-void help_driving( WINDOW *win )
+void help_driving( const catacurses::window &win )
 {
     std::vector<std::string> text;
     werase( win );
@@ -168,7 +172,7 @@ available cargo space, various fuel level indicators, and so on." ) ) );
     text.push_back( string_format( _( "Becoming a skilled mechanic, you may want \
 to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency \
 play significant roles it this process.  Named coefficients are measured in the range \
-from 100%% (which means ideal conditions) to 0%% (terrible inefficiency)." ) ) );
+from 0%% (which means terrible inefficiency) to 100%% (ideal conditions)." ) ) );
 
     int fig_last_line = pos_y + 8;
     std::vector<std::string> remained_text;
@@ -399,16 +403,17 @@ require the installation of a special bionic just for fuel consumption." ) );
 
     text.push_back( _( "\
 Bionics come in ready-to-install canisters. Installation of a bionic is best left to a trained \
-professional. However, you may attempt to perform a self-installation. Performing such a task \
-requires high levels of intelligence, first aid, mechanics, and electronics. Beware though, a failure may \
-cripple you! Many bionic canisters are difficult to find, but may be purchased from certain \
+professional or to an autodoc, if you manage to find one. However, you may attempt to perform \
+a self-installation. Performing such a task requires high levels of intelligence, \
+first aid, mechanics, and electronics. Beware though, a failure may cripple you! \
+Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price." ) );
 
     text.push_back( _( "\
 As you may note, all of your body parts have only limited space for containing bionics, \
 so you should choose bionics for installation wisely. Of course, any bionic can be removed \
-from your body but it's not any easier than its installation; \
-this non-trivial surgical procedure requires special tools (and many, many painkillers)." ) );
+from your body but it's not any easier than its installation; and as well as installation, \
+this non-trivial surgical procedure requires anesthesia." ) );
 
     return text;
 }
@@ -586,7 +591,7 @@ several other firearms. The firearms in the game often reflect real-world protot
 of caliber and compatibility. Below are some examples of interchangeable ammo:\n\
 .308 = 7.62x51mm,\n\
 .223 = 5.56 NATO,\n\
-.270 = 30-06,\n\
+.270 = .30-06,\n\
 .40 S&W = 10mm." ) );
 
     text.push_back( _( "Magazine descriptions also list the compatible ammo." ) );
@@ -694,18 +699,17 @@ that they would cause frostbite. If you're having trouble staying warm over nigh
 of clothing on the floor to sleep on." ) );
 
     text.push_back( _( "\
-Your clothing can sit in one of four layers on your body: next-to-skin, standard, over, and belted. \
-You can wear one item from each layer on a body part without incurring an encumbrance penalty for \
-too many worn items. Any items beyond the first on each layer add an additional 10 points to the body \
-part's encumbrance. (However, you can wear one additional item that would be encumbrance 0 before \
-fitting, and is fitted anyway, without incurring that penalty.)" ) );
+Your clothing can sit in one of five layers on your body: next-to-skin, standard, waist, over, \
+and belted. You can wear one item from each layer on a body part without incurring an \
+encumbrance penalty for too many worn items. Any items beyond the first on each layer add the \
+encumbrance of the additional article(s) of clothing to the body part's encumbrance. The \
+layering penalty applies a minimum of 2 and a maximum of 10 encumbrance per article of clothing." ) );
 
     text.push_back( _( "\
 For example, on her torso, a character might wear a leather corset (next-to-skin), a leather touring \
 suit (standard), a trenchcoat (over), and a survivor's runner pack (belted). Her encumbrance penalty \
-is 0. She could also wear one encumbrance 0 fitted item on any layer without triggering the penalty: \
-for example, a tank top (next-to-skin) or a t-shirt (standard). If she put on a tank top AND a \
-t-shirt, one of them would be penalized, bringing her encumbrance to 1." ) );
+is 0.  If she put on a tank top it would conflict with the leather touring suit and add the minimum \
+encumbrance penalty of 2." ) );
 
     return text;
 }
@@ -782,47 +786,47 @@ contain useful crafting recipes." ),
     return text;
 }
 
-void help_map( WINDOW *win )
+void help_map( const catacurses::window &win )
 {
     werase( win );
-    mvwprintz( win, 0, 0, c_ltgray,  _( "MAP SYMBOLS:" ) );
+    mvwprintz( win, 0, 0, c_light_gray,  _( "MAP SYMBOLS:" ) );
     mvwprintz( win, 1, 0, c_brown,   _( "\
 .           Field - Empty grassland, occasional wild fruit." ) );
     mvwprintz( win, 2, 0, c_green,   _( "\
 F           Forest - May be dense or sparse. Slow moving; foragable food." ) );
-    mvwputch( win,  3,  0, c_dkgray, LINE_XOXO );
-    mvwputch( win,  3,  1, c_dkgray, LINE_OXOX );
-    mvwputch( win,  3,  2, c_dkgray, LINE_XXOO );
-    mvwputch( win,  3,  3, c_dkgray, LINE_OXXO );
-    mvwputch( win,  3,  4, c_dkgray, LINE_OOXX );
-    mvwputch( win,  3,  5, c_dkgray, LINE_XOOX );
-    mvwputch( win,  3,  6, c_dkgray, LINE_XXXO );
-    mvwputch( win,  3,  7, c_dkgray, LINE_XXOX );
-    mvwputch( win,  3,  8, c_dkgray, LINE_XOXX );
-    mvwputch( win,  3,  9, c_dkgray, LINE_OXXX );
-    mvwputch( win,  3, 10, c_dkgray, LINE_XXXX );
+    mvwputch( win,  3,  0, c_dark_gray, LINE_XOXO );
+    mvwputch( win,  3,  1, c_dark_gray, LINE_OXOX );
+    mvwputch( win,  3,  2, c_dark_gray, LINE_XXOO );
+    mvwputch( win,  3,  3, c_dark_gray, LINE_OXXO );
+    mvwputch( win,  3,  4, c_dark_gray, LINE_OOXX );
+    mvwputch( win,  3,  5, c_dark_gray, LINE_XOOX );
+    mvwputch( win,  3,  6, c_dark_gray, LINE_XXXO );
+    mvwputch( win,  3,  7, c_dark_gray, LINE_XXOX );
+    mvwputch( win,  3,  8, c_dark_gray, LINE_XOXX );
+    mvwputch( win,  3,  9, c_dark_gray, LINE_OXXX );
+    mvwputch( win,  3, 10, c_dark_gray, LINE_XXXX );
 
-    mvwprintz( win,  3, 12, c_dkgray,  _( "\
+    mvwprintz( win,  3, 12, c_dark_gray,  _( "\
 Road - Safe from burrowing animals." ) );
-    mvwprintz( win,  4, 0, c_dkgray,  _( "\
+    mvwprintz( win,  4, 0, c_dark_gray,  _( "\
 H=          Highway - Like roads, but lined with guard rails." ) );
-    mvwprintz( win,  5, 0, c_dkgray,  _( "\
+    mvwprintz( win,  5, 0, c_dark_gray,  _( "\
 |-          Bridge - Helps you cross rivers." ) );
     mvwprintz( win,  6, 0, c_blue,    _( "\
 R           River - Most creatures can not swim across them, but you may." ) );
-    mvwprintz( win,  7, 0, c_dkgray,  _( "\
+    mvwprintz( win,  7, 0, c_dark_gray,  _( "\
 O           Parking lot - Empty lot, few items. Mostly useless." ) );
-    mvwprintz( win,  8, 0, c_ltgreen, _( "\
+    mvwprintz( win,  8, 0, c_light_green, _( "\
 ^>v<        House - Filled with a variety of items. Good place to sleep." ) );
-    mvwprintz( win,  9, 0, c_ltblue,  _( "\
+    mvwprintz( win,  9, 0, c_light_blue,  _( "\
 ^>v<        Gas station - A good place to collect gasoline. Risk of explosion." ) );
-    mvwprintz( win, 10, 0, c_ltred,   _( "\
+    mvwprintz( win, 10, 0, c_light_red,   _( "\
 ^>v<        Pharmacy - The best source for vital medications." ) );
     mvwprintz( win, 11, 0, c_green,   _( "\
 ^>v<        Grocery store - A good source of canned food and other supplies." ) );
     mvwprintz( win, 12, 0, c_cyan,    _( "\
 ^>v<        Hardware store - Home to tools, melee weapons and crafting goods." ) );
-    mvwprintz( win, 13, 0, c_ltcyan,  _( "\
+    mvwprintz( win, 13, 0, c_light_cyan,  _( "\
 ^>v<        Sporting Goods store - Several survival tools and melee weapons." ) );
     mvwprintz( win, 14, 0, c_magenta, _( "\
 ^>v<        Liquor store - Alcohol is good for crafting Molotov cocktails." ) );
@@ -834,9 +838,9 @@ O           Parking lot - Empty lot, few items. Mostly useless." ) );
 ^>v<        Library - Home to books, both entertaining and informative." ) );
     mvwprintz( win, 18, 0, c_white, _( "\
 ^>v<        Man-made buildings - The pointed side indicates the front door." ) );
-    mvwprintz( win, 19, 0, c_ltgray, _( "\
+    mvwprintz( win, 19, 0, c_light_gray, _( "\
             There are many others out there... search for them!" ) );
-    mvwprintz( win, 20, 0,  c_ltgray,  _( "Note colors: " ) );
+    mvwprintz( win, 20, 0,  c_light_gray,  _( "Note colors: " ) );
     int row = 20;
     int column = utf8_width( _( "Note colors: " ) );
     for( auto color_pair : get_note_color_names() ) {
@@ -854,15 +858,15 @@ O           Parking lot - Empty lot, few items. Mostly useless." ) );
         column += pair_width;
     }
     wrefresh( win );
-    refresh();
-    getch();
+    catacurses::refresh();
+    inp_mngr.wait_for_any_key();
 }
 
 std::vector<std::string> text_guns()
 {
     std::vector<std::string> text;
 
-    text.push_back( _( "<color_ltgray>( Handguns</color>\n\
+    text.push_back( _( "<color_light_gray>( Handguns</color>\n\
 Handguns are small weapons held in one or both hands. They are much more difficult \
 to aim and control than larger firearms, and this is reflected in their poor accuracy. \
 However, their small size makes them appropriate for short-range combat, where larger guns \
@@ -925,7 +929,7 @@ Assault rifles are an excellent choice for medium or long range combat, or \
 even close-range bursts again a large number of enemies. They are difficult \
 to use, and are best saved for skilled riflemen." ) );
 
-    text.push_back( _( "<color_ltred>( Machine Guns</color>\n\
+    text.push_back( _( "<color_light_red>( Machine Guns</color>\n\
 Machine guns are one of the most powerful firearms available. They are even \
 larger than assault rifles, and make poor melee weapons; however, they are \
 capable of holding 100 or more rounds of highly-damaging ammunition. They \
@@ -1026,21 +1030,19 @@ or injured can also make you feel the cold more, so try to avoid these effects b
 
     text.push_back( _( "\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc channel #CataclysmDDA on freenode." ) );
+A: Ask the helpful people on the forum at discourse.cataclysmdda.org or at the IRC channel #CataclysmDDA on freenode." ) );
 
     return text;
 }
 
-extern input_context get_default_mode_input_context();
-
 void display_help()
 {
-    WINDOW *w_help_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    WINDOW *w_help = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                             1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                             1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    catacurses::window w_help_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
     char ch;
     bool needs_refresh = true;
     do {
@@ -1048,10 +1050,11 @@ void display_help()
             draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
             wrefresh( w_help_border );
             help_main( w_help );
-            refresh();
+            catacurses::refresh();
             needs_refresh = false;
         };
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event().get_first_input();
         switch( ch ) {
             case 'a':
             case 'A':
@@ -1153,8 +1156,6 @@ void display_help()
         };
         needs_refresh = true;
     } while( ch != 'q' && ch != KEY_ESCAPE );
-    delwin( w_help );
-    delwin( w_help_border );
 }
 
 std::string get_hint()

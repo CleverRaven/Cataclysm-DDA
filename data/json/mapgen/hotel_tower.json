@@ -18,6 +18,14 @@
     ]
   },
   {
+    "type" : "item_group",
+    "id" : "book_hotel_tower_bible",
+    "subtype": "collection",
+    "items":[
+      { "item": "holybook_bible3", "prob": 100 }
+    ]
+  },
+  {
     "name": "GROUP_HOTEL_POOL",
     "type": "monstergroup",
     "default": "mon_zombie_swimmer",
@@ -231,10 +239,8 @@
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
         "c": { "item": "magazines", "chance": 15 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
-      },
-      "item": {
-        "d": { "item": "holybook_bible3", "chance": 2 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 0, 23 ] }
@@ -308,10 +314,8 @@
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
-        "c": { "item": "magazines", "chance": 15 }
-      },
-      "item": {
-        "d": { "item": "holybook_bible3", "chance": 2 }
+        "c": { "item": "magazines", "chance": 15 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 7, 23 ], "repeat": 2 }
@@ -385,10 +389,8 @@
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
-        "c": { "item": "magazines", "chance": 15 }
-      },
-      "item": {
-        "d": { "item": "holybook_bible3", "chance": 2 }
+        "c": { "item": "magazines", "chance": 15 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 7, 23 ], "repeat": 2 }
@@ -462,10 +464,8 @@
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "t": { "item": "magazines", "chance": 25 }
-      },
-      "item": {
-        "d": { "item": "holybook_bible3", "chance": 2 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 7, 23 ], "repeat": 2 }
@@ -530,10 +530,8 @@
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
         "c": { "item": "magazines", "chance": 15 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
-      },
-      "item": {
-        "d": { "item": "holybook_bible3", "chance": 2 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 23 ] }
@@ -606,11 +604,11 @@
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
         "c": { "item": "magazines", "chance": 15 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
       "item": {
-        "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] },
-        "d": { "item": "holybook_bible3", "chance": 2 }
+        "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 0, 22 ], "repeat": 2 }
@@ -679,11 +677,11 @@
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
         "c": { "item": "magazines", "chance": 15 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
       "item": {
-        "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] },
-        "d": { "item": "holybook_bible3", "chance": 2 }
+        "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 23, 3 ], "repeat": 2 }
@@ -754,11 +752,11 @@
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
         "c": { "item": "magazines", "chance": 15 },
+        "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
       "item": {
-        "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] },
-        "d": { "item": "holybook_bible3", "chance": 2 }
+        "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 }

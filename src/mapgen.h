@@ -1,20 +1,32 @@
+#pragma once
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
 #include <map>
 #include <string>
 #include <memory>
-#include "mapgenformat.h"
-#include "mapdata.h"
+#include <vector>
 
+#include "int_id.h"
+
+class time_point;
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
 struct oter_t;
 using oter_id = int_id<oter_t>;
-
+struct point;
+class JsonArray;
+class JsonObject;
 struct mapgendata;
-typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+struct tripoint;
+class map;
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,const time_point &,float);
+struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////
-///// function pointer class; provides absract referencing of
+///// function pointer class; provides abstract referencing of
 ///// map generator functions written in multiple ways for per-terrain
 ///// random selection pool
 class mapgen_function {
@@ -23,9 +35,9 @@ class mapgen_function {
     protected:
     mapgen_function( const int w ) : weight( w ) { }
     public:
-    virtual ~mapgen_function() { }
-    virtual bool setup() { return true; }
-    virtual void generate(map*, const oter_id &, const mapgendata &, int, float) = 0;
+    virtual ~mapgen_function() = default;
+    virtual void setup() { } // throws
+    virtual void generate(map*, const oter_id &, const mapgendata &, const time_point &, float) = 0;
 };
 
 
@@ -36,7 +48,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    void generate(map*m, const oter_id &o, const mapgendata &mgd, int i, float d) override;
+    void generate(map*m, const oter_id &o, const mapgendata &mgd, const time_point &i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +61,7 @@ struct jmapgen_int {
   short valmax;
   jmapgen_int(int v) : val(v), valmax(v) {}
   jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
-  jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
+    jmapgen_int( point p );
     /**
      * Throws as usually if the json is invalid or missing.
      */
@@ -104,7 +116,7 @@ struct jmapgen_setmap {
     ) :
        x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation),
        fuel(ifuel), status(istatus) {}
-    bool apply( map * m );
+    bool apply( const mapgendata &dat, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -132,9 +144,9 @@ class jmapgen_piece {
 protected:
     jmapgen_piece() { }
 public:
-    /** Place something on the map m at (x,y). mon_density */
-    virtual void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
-    virtual ~jmapgen_piece() { }
+    /** Place something on the map from mapgendata dat, at (x,y). mon_density */
+    virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
+    virtual ~jmapgen_piece() = default;
 };
 
 /**
@@ -145,14 +157,67 @@ public:
     jmapgen_place() : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 ) { }
     jmapgen_place(const int a, const int b) : x( a ), y( b ), repeat( 1, 1 ) { }
     jmapgen_place( JsonObject &jsi );
+    void offset( const int x, const int y );
     jmapgen_int x;
     jmapgen_int y;
     jmapgen_int repeat;
 };
 
+using palette_id = std::string;
+
+class mapgen_palette {
+public:
+    palette_id id;
+    /**
+     * The mapping from character code (key) to a list of things that should be placed. This is
+     * similar to objects, but it uses key to get the actual position where to place things
+     * out of the json "bitmap" (which is used to paint the terrain/furniture).
+     */
+    using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
+
+    std::map<int, ter_id> format_terrain;
+    std::map<int, furn_id> format_furniture;
+    placing_map format_placings;
+
+    template<typename PieceType>
+    /**
+     * Load (append to format_placings) the places that should be put there.
+     * member_name is the name of an optional object / array in the json object jsi.
+     */
+    void load_place_mapings( JsonObject &jsi, const std::string &member_name, placing_map &format_placings );
+    /**
+     * Loads a palette object and returns it. Doesn't save it anywhere.
+     */
+    static mapgen_palette load_temp( JsonObject &jo, const std::string &src );
+    /**
+     * Load a palette object and adds it to the global set of palettes.
+     * If "palette" field is specified, those palettes will be loaded recursively.
+     */
+    static void load( JsonObject &jo, const std::string &src );
+
+    /**
+     * Returns a palette with given id. If not found, debugmsg and returns a dummy.
+     */
+    static const mapgen_palette &get( const palette_id &id );
+
+private:
+    static mapgen_palette load_internal( JsonObject &jo, const std::string &src, bool require_id, bool allow_recur );
+
+    /**
+     * Adds a palette to this one. New values take preference over the old ones.
+     * 
+     */
+    void add( const palette_id &rh );
+    void add( const mapgen_palette &rh );
+};
+
 struct jmapgen_objects {
 
-    void add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece);
+    jmapgen_objects( int offset_x, int offset_y, size_t size_x, size_t size_y );
+
+    bool check_bounds( const jmapgen_place place, JsonObject &jso );
+
+    void add( const jmapgen_place &place, std::shared_ptr<jmapgen_piece> piece );
 
     /**
      * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -169,7 +234,8 @@ struct jmapgen_objects {
     template<typename PieceType>
     void load_objects(JsonObject &jsi, const std::string &member_name);
 
-    void apply(map* m, float density) const;
+    void apply( const mapgendata &dat, float density ) const;
+    void apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
 
 private:
     /**
@@ -177,49 +243,72 @@ private:
      */
     using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
     std::vector<jmapgen_obj> objects;
+    int offset_x;
+    int offset_y;
+    size_t mapgensize_x;
+    size_t mapgensize_y;
 };
 
-class mapgen_function_json : public virtual mapgen_function {
+class mapgen_function_json_base {
     public:
-    bool check_inbounds( const jmapgen_int &var ) const;
-    void setup_setmap( JsonArray &parray );
-    bool setup() override;
-    void generate(map *, const oter_id &, const mapgendata &, int, float) override;
+        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const;
+        size_t calc_index( size_t x, size_t y ) const;
 
-    mapgen_function_json( std::string s, int w = 1000 );
-    ~mapgen_function_json() override {
-    }
+    private:
+        std::string jdata;
 
-    size_t calc_index( size_t x, size_t y ) const;
+    protected:
+        mapgen_function_json_base( const std::string s );
+        virtual ~mapgen_function_json_base();
 
-    std::string jdata;
-    size_t mapgensize;
-    ter_id fill_ter;
-    std::vector<ter_furn_id> format;
-    std::vector<jmapgen_setmap> setmap_points;
+        void setup_common();
+        void setup_setmap( JsonArray &parray );
+        // Returns true if the mapgen qualifies at this point already
+        virtual bool setup_internal( JsonObject &jo ) = 0;
+        virtual void setup_setmap_internal() { };
 
-    /**
-     * The mapping from character code (key) to a list of things that should be placed. This is
-     * similar to @ref objects, but it uses key to get the actual position where to place things
-     * out of the json "bitmap" (which is used to paint the terrain/furniture).
-     */
-    using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
-    template<typename PieceType>
-    /**
-     * Load (append to format_placings) the places that should be put there.
-     * member_name is the name of an optional object / array in the json object jsi.
-     */
-    void load_place_mapings( JsonObject &jsi, const std::string &member_name, placing_map &format_placings );
-    std::string luascript;
+        void formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const;
 
-    bool do_format;
-    bool is_ready;
+        bool do_format;
+        bool is_ready;
 
-private:
-    jmapgen_objects objects;
-    jmapgen_int rotation;
+        size_t mapgensize_x;
+        size_t mapgensize_y;
+        int x_offset;
+        int y_offset;
+        std::vector<ter_furn_id> format;
+        std::vector<jmapgen_setmap> setmap_points;
 
-    void formatted_set_incredibly_simple( map *m ) const;
+        jmapgen_objects objects;
+};
+
+class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function {
+    public:
+        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
+        void setup() override;
+        mapgen_function_json( const std::string s, int w,
+                              const int x_grid_offset = 0, const int y_grid_offset = 0 );
+        ~mapgen_function_json() override = default;
+
+        ter_id fill_ter;
+        std::string luascript;
+
+    protected:
+        bool setup_internal( JsonObject &jo ) override;
+
+    private:
+        jmapgen_int rotation;
+};
+
+class mapgen_function_json_nested : public mapgen_function_json_base {
+    public:
+        void setup();
+        mapgen_function_json_nested( const std::string s );
+        ~mapgen_function_json_nested() override = default;
+
+        void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
+    protected:
+        bool setup_internal( JsonObject &jo ) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -228,16 +317,16 @@ class mapgen_function_lua : public virtual mapgen_function {
     public:
     const std::string scr;
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
-        // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
+        // scr = s; // @todo: if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
-    void generate(map*, const oter_id &, const mapgendata &, int, float) override;
+    void generate(map*, const oter_id &, const mapgendata &, const time_point &, float) override;
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
 /*
- * Load mapgen function of any type from a jsonobject
+ * Load mapgen function of any type from a json object
  */
-mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx);
+std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
@@ -247,15 +336,15 @@ void reset_mapgens();
 /*
  * stores function ref and/or required data
  */
-extern std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
+extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 /*
- * random selector list for the nested vector above, as per indivdual mapgen_function_::weight value
+ * random selector list for the nested vector above, as per individual mapgen_function_::weight value
  */
 extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
-void calculate_mapgen_weights();
+void calculate_mapgen_weights(); // throws
 
 /// move to building_generation
 enum room_type {
@@ -280,22 +369,6 @@ enum room_type {
     room_mine_storage,
     room_mine_fuel,
     room_mine_housing,
-    room_bunker_bots,
-    room_bunker_launcher,
-    room_bunker_rifles,
-    room_bunker_grenades,
-    room_bunker_armor,
-    room_mansion_courtyard,
-    room_mansion_entry,
-    room_mansion_bedroom,
-    room_mansion_library,
-    room_mansion_kitchen,
-    room_mansion_dining,
-    room_mansion_game,
-    room_mansion_pool,
-    room_mansion_study,
-    room_mansion_bathroom,
-    room_mansion_gallery,
     room_split
 };
 
@@ -319,9 +392,5 @@ void circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
 typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);
-
-namespace MapExtras {
-    map_special_pointer get_function(const std::string &name);
-};
 
 #endif

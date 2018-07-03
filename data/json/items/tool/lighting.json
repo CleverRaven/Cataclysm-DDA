@@ -24,7 +24,8 @@
         "msg": "You turn the lamp on.",
         "need_charges": 1,
         "need_charges_msg": "The lantern has no batteries."
-    }
+    },
+    "flags": [ "RADIO_MODABLE" ]
   },
   {
     "id": "electric_lantern_on",
@@ -35,11 +36,12 @@
     "turns_per_charge": 45,
     "revert_to": "electric_lantern",
     "use_action": {
+        "menu_text": "Turn off",
         "type": "transform",
         "target": "electric_lantern",
         "msg": "You turn the lamp off."
     },
-    "flags": [ "LIGHT_15", "TRADER_AVOID" ]
+    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID" ]
   },
   {
     "id": "flashlight",
@@ -75,6 +77,7 @@
     "turns_per_charge": 20,
     "revert_to": "flashlight",
     "use_action": {
+        "menu_text": "Turn off",
         "type": "transform",
         "msg": "You turn the flashlight off.",
         "target": "flashlight"
@@ -95,6 +98,7 @@
     "max_charges": 300,
     "initial_charges": 300,
     "use_action": {
+        "menu_text": "Strike the striker",
         "type": "transform",
         "target": "handflare_lit",
         "active": true,
@@ -150,6 +154,7 @@
     "turns_per_charge": 12,
     "revert_to": "heavy_flashlight",
     "use_action": {
+        "menu_text": "Turn off",
         "type": "transform",
         "msg": "You turn the heavy duty flashlight off.",
         "target": "heavy_flashlight"
@@ -191,8 +196,8 @@
     "turns_per_charge": 240,
     "revert_to": "oxylamp",
     "use_action": {
-        "type": "transform",
         "menu_text": "Turn off",
+        "type": "transform",
         "msg": "The %s is extinguished",
         "target": "oxylamp"
     },

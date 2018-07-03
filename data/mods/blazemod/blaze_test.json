@@ -45,23 +45,22 @@
     "reversible": false,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
-      [ [ "goggles_welding", -1 ] ],
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
-      [ [ "forge", 400 ], [ "char_forge", 100 ] ],
       [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
       [ [ "chain", 6 ] ],
-      [ [ "scrap", 27 ], [ "steel_chunk", 9 ], [ "steel_lump", 3 ] ],
       [ [ "foot_crank", 6 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "plastic_chunk", 30 ] ]
@@ -78,17 +77,17 @@
     "time": 108000,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
-      [ [ "goggles_welding", -1 ] ],
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
-      [ [ "forge", 400 ], [ "char_forge", 100 ] ],
       [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
     ],
     "components": [
@@ -96,7 +95,6 @@
       [ [ "chain", 6 ] ],
       [ [ "foot_crank", 3 ] ],
       [ [ "metal_tank", 1 ] ],
-      [ [ "scrap", 27 ], [ "steel_chunk", 9 ], [ "steel_lump", 3 ] ],
       [ [ "plastic_chunk", 30 ] ],
       [ [ "alternator_truck", 6 ], [ "alternator_car", 6 ], [ "alternator_motorbike", 6 ] ]
     ]
@@ -113,12 +111,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
-    ],
+    "tools": [ [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ] ],
     "components": [
       [ [ "cargo_rack", 1 ] ],
       [ [ "teleporter", 1 ] ],
@@ -169,7 +165,7 @@
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "2x4", 12 ], [ "stick", 12 ] ],
-      [ [ "nail", 60 ], [ "duct_tape", 100 ], [ "superglue", 5 ] ],
+      [ [ "nail", 60 ], [ "adhesive", 5, "LIST" ] ],
       [ [ "steel_chunk", 24 ], [ "steel_lump", 6 ] ],
       [ [ "string_36", 12 ] ],
       [ [ "foot_crank", 1 ] ],
@@ -257,11 +253,11 @@
     "difficulty": 10,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [
-      [ [ "chisel", -1 ] ],
-      [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ]
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
     ],
+    "tools": [ [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "charcoal", 50 ] ],
       [ [ "plasma", 10 ] ],
@@ -297,7 +293,6 @@
     "type": "vehicle_part",
     "name": "vortex accelerator turret",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -315,7 +310,6 @@
     "type": "vehicle_part",
     "name": "automated vortex accelerator",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -332,7 +326,6 @@
     "type": "vehicle_part",
     "name": "vortex bolter turret",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -350,7 +343,6 @@
     "type": "vehicle_part",
     "name": "automated vortex bolter",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -367,7 +359,6 @@
     "type": "vehicle_part",
     "name": "vortex rifle turret",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -385,7 +376,6 @@
     "type": "vehicle_part",
     "name": "automated vortex rifle",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -399,21 +389,10 @@
   },
   {
     "id": "charcoal",
+    "copy-from": "charcoal",
     "type": "AMMO",
     "category": "spare_parts",
     "name": "charcoal",
-    "name_plural": "charcoal",
-    "description": "Charcoal is a flammable carbon based material obtained by removing water and other volatile constituents from animal and vegetation substances.  It is produced by slowly heating wood or other substances in the absence of oxygen.",
-    "weight": 220,
-    "volume": 5,
-    "price": 1000,
-    "bashing": 1,
-    "phase": "solid",
-    "material": "wood",
-    "symbol": "=",
-    "color": "dark_gray",
-    "count": 10,
-    "ammo_type": "charcoal",
     "casing": "dcluster"
   },
   {
@@ -771,7 +750,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo": "charcoal",
     "skill": "launcher",
     "range": 30,
@@ -790,8 +769,6 @@
     "type": "vehicle_part",
     "name": "diamond lance",
     "item": "diamondlance",
-    "location": "on_roof",
-    "fuel_type": "charcoal",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -809,8 +786,6 @@
     "type": "vehicle_part",
     "name": "diamond nova",
     "item": "diamondnova",
-    "location": "on_roof",
-    "fuel_type": "charcoal",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -828,7 +803,7 @@
     "type": "GUN",
     "name": "diamond nova",
     "//": "Behold, the bringer of light.",
-    "description": "A weapon that is as deadly as it is dazzling.  The diamond matrix in this weapon's center acts as a catalyst; rapidly changing carbon-heavy materials into a crystalline substance that is nearly equal to diamond in hardness.  The substance rapidly decays when separated from the catalyst, and at  sizes as large as the projectile used, also rapidly decays when in contact with other matter. Thus the projectile is held and launched by the use of pressurized air from a vortex stone.  Upon striking its target, the projectile undergoes explosive decomposition; shattering into a brilliant burst of diamond fragments.",
+    "description": "A weapon that is as deadly as it is dazzling.  The diamond matrix in this weapon's center acts as a catalyst; rapidly changing carbon-heavy materials into a crystalline substance that is nearly equal to diamond in hardness.  The substance rapidly decays when separated from the catalyst, and at sizes as large as the projectile used, also rapidly decays when in contact with other matter.  Thus the projectile is held and launched by the use of pressurized air from a vortex stone.  Upon striking its target, the projectile undergoes explosive decomposition; shattering into a brilliant burst of diamond fragments.",
     "weight": 25815,
     "volume": 22,
     "price": 60000,
@@ -836,7 +811,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo": "charcoal",
     "skill": "launcher",
     "range": 30,
@@ -939,6 +914,7 @@
     "id": "spiral_matrix",
     "type": "TOOL",
     "name": "diamond matrix",
+    "name_plural": "diamond matrices",
     "description": "A sparkling diamond with a dazzling spiral pattern.  Small pieces of glittering crystal form on the edges as you hold it.",
     "weight": 250,
     "volume": 1,
@@ -999,7 +975,8 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
-    ]
+    ],
+    "flags": [ "REACTOR" ]
   },
   {
     "id": "vgen2",
@@ -1026,7 +1003,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "TOOL_NONE" ]
+    "flags": [ "ENGINE", "TOOL_NONE" ]
   },
   {
     "id": "vgen2",
@@ -1058,7 +1035,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo": "BB",
     "skill": "rifle",
     "range": 10,
@@ -1078,7 +1055,6 @@
     "type": "vehicle_part",
     "name": "vortex accelerator",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1096,7 +1072,6 @@
     "type": "vehicle_part",
     "name": "vortex bolter",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1121,7 +1096,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo": "bolt",
     "skill": "rifle",
     "range": 15,
@@ -1142,7 +1117,6 @@
     "type": "vehicle_part",
     "name": "vortex cannon",
     "item": "vortexcannon",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1160,7 +1134,6 @@
     "type": "vehicle_part",
     "name": "vortex cannon turret",
     "item": "vortexcannon",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1186,7 +1159,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo": "metal_rail",
     "skill": "launcher",
     "range": 50,
@@ -1204,7 +1177,6 @@
     "type": "vehicle_part",
     "name": "vortex rifle",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1229,7 +1201,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "ltgray",
+    "color": "light_gray",
     "ammo": "pebble",
     "skill": "rifle",
     "range": 15,
@@ -1263,6 +1235,7 @@
     "bashing": 1,
     "phase": "solid",
     "material": "diamond",
+    "fuel": { "energy": 1 },
     "symbol": "=",
     "color": "magenta",
     "count": 1,

@@ -1,23 +1,18 @@
 [
-    {
-        "type" : "material",
-        "ident" : "bronze",
-        "name" : "Bronze",
-        "salvaged_into" : "scrap_bronze",
-        "bash_resist" : 4,
-        "cut_resist" : 5,
-        "bash_dmg_verb" : "dented",
-        "cut_dmg_verb" : "scratched",
-        "dmg_adj" : [
-            "marked",
-            "dented",
-            "smashed",
-            "shattered"
-        ],
-        "acid_resist" : 1,
-        "elec_resist" : 0,
-        "fire_resist" : 2,
-        "chip_resist" : 15,
-        "density" : 58
-    }
+  {
+    "type": "material",
+    "ident": "bronze",
+    "name": "Bronze",
+    "density": 58,
+    "bash_resist": 4,
+    "cut_resist": 5,
+    "acid_resist": 1,
+    "fire_resist": 2,
+    "elec_resist": 0,
+    "chip_resist": 15,
+    "salvaged_into": "scrap_bronze",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
+  }
 ]

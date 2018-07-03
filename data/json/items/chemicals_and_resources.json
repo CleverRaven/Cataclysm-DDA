@@ -2,7 +2,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_sulphur",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 50,
     "name" : "sulfur",
     "name_plural" : "sulfur",
@@ -18,7 +18,7 @@
     "count" : 100
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "chunk_sulfur",
     "category" : "spare_parts",
     "price" : 50,
@@ -268,11 +268,12 @@
     "name_plural" : "acid water",
     "weight" : 260,
     "color" : "light_green",
+    "flags" : [ "ACID" ],
     "use_action" : "BLECH",
     "container" : "jug_plastic",
     "comestible_type" : "DRINK",
     "symbol" : "~",
-    "quench" : -96,
+    "quench" : -56,
     "healthy" : -2,
     "description" : "Water collected during an acid rainstorm.  Don't drink it.  Boiling it concentrates the acid.",
     "price" : 0,
@@ -288,6 +289,7 @@
     "name_plural" : "weak acid water",
     "weight" : 255,
     "color" : "light_green",
+    "flags" : [ "ACID" ],
     "use_action" : "BLECH",
     "container" : "jug_plastic",
     "comestible_type" : "DRINK",
@@ -308,18 +310,24 @@
     "name_plural" : "concentrated acid",
     "weight" : 250,
     "color" : "green",
+    "flags" : [ "ACID" ],
     "use_action" : "BLECH",
     "container" : "jug_plastic",
     "comestible_type" : "DRINK",
     "symbol" : "~",
     "quench" : -96,
-    "healthy" : -2,
+    "healthy" : -4,
     "description" : "Concentrated acid.  Don't drink it.",
     "price" : 2000,
     "volume" : 1,
     "phase" : "liquid",
     "category" : "chems",
-    "fun" : -30
+    "fun" : -45,
+    "drop_action": {
+        "type": "emit_actor",
+        "emits": [ "emit_acid_splash" ],
+        "scale_qty": true
+    }
    },
    {
     "type" : "COMESTIBLE",
@@ -343,7 +351,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_aluminium_powder",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 500,
     "name" : "aluminum powder",
     "name_plural" : "aluminum powder",
@@ -392,7 +400,12 @@
     "ammo_type" : "components",
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "drop_action": {
+        "type": "emit_actor",
+        "emits": [ "emit_acid_drop" ],
+        "scale_qty": true
+    }
    },
 {
     "type" : "AMMO",
@@ -427,7 +440,12 @@
     "ammo_type" : "components",
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "drop_action": {
+        "type": "emit_actor",
+        "emits": [ "emit_acid_drop" ],
+        "scale_qty": true
+    }
    },
 {
     "type" : "AMMO",
@@ -537,7 +555,7 @@
     "count" : 50
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "material_niter",
     "category" : "spare_parts",
     "price" : 75,
@@ -590,7 +608,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_thermite",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 2500,
     "name" : "thermite",
     "name_plural" : "thermite",
@@ -608,7 +626,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_anfo",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 5000,
     "name" : "ANFO",
     "name_plural" : "ANFO",
@@ -626,7 +644,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_black_powder",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 400,
     "name" : "black gunpowder",
     "name_plural" : "black gunpowder",
@@ -644,7 +662,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_rdx",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 7500,
     "name" : "RDX",
     "name_plural" : "RDX",
@@ -661,7 +679,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_hmtd",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 5000,
     "name" : "HMTD",
     "name_plural" : "HMTD",
@@ -679,7 +697,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_rocket_fuel",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 500,
     "name" : "rocket fuel",
     "name_plural" : "rocket fuel",
@@ -724,8 +742,8 @@
     "weight": 500,
     "volume": 2,
     "to_hit": -2
-    },
-    {
+   },
+   {
     "type":"GENERIC",
     "id": "hickory_nut",
     "symbol": "%",
@@ -734,11 +752,11 @@
     "name_plural": "hickory nuts",
     "description": "A handful of hard nuts from a hickory tree, still in their shell.",
     "price": 0,
-    "material": "wood",
     "weight": 212,
     "volume": 1,
     "to_hit": -2
-    },{
+   },
+   {
     "type" : "COMESTIBLE",
     "id" : "water_sewage",
     "name" : "sewage water",
@@ -755,5 +773,55 @@
     "phase" : "liquid",
     "category" : "chems",
     "fun" : -20
+   },
+   {
+    "type" : "AMMO",
+    "id" : "detergent",
+    "category" : "chems",
+    "price" : 1000,
+    "name" : "detergent",
+    "symbol" : "=",
+    "color" : "white",
+    "description" : "A popular pre-cataclysm washing powder.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 1,
+    "ammo_type" : "components",
+    "container" : "box_small",
+    "count" : 20
+   },
+   {
+    "type" : "COMESTIBLE",
+    "id" : "lye",
+    "name" : "lye",
+    "name_plural" : "lye",
+    "weight" : 125,
+    "color" : "white",
+    "container" : "bottle_plastic",
+    "symbol" : "~",
+    "quench" : -96,
+    "healthy" : -20,
+    "description" : "This is a liquid form of sodium hydroxide.  It is highly corrosive, handle with care.",
+    "price" : 100,
+    "volume" : 1,
+    "phase" : "liquid",
+    "category" : "chems",
+    "fun": -20
+   },
+   {
+    "type" : "AMMO",
+    "id" : "ash",
+    "category" : "chems",
+    "price" : 0,
+    "name" : "wood ash",
+    "name_plural" : "wood ashes",
+    "symbol" : "=",
+    "color" : "light_gray",
+    "description" : "This is almost weightless residue left after the burning of some substance.",
+    "material" : "powder_nonflam",
+    "volume" : 0.1,
+    "weight" : 1,
+    "ammo_type" : "components",
+    "count" : 100
    }
 ]

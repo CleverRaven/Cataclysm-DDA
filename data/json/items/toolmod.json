@@ -37,6 +37,7 @@
     "category": "spare_parts",
     "name": "UPS conversion mod",
     "description": "This device replaces conventional battery connections with a rechargeable power cell that runs off of a Unified Power System.  Having the UPS on or placing a tool in a special recharging station will slowly charge it.",
+    "ammo_modifier": "battery",
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -60,9 +61,9 @@
     "type": "TOOLMOD",
     "category": "spare_parts",
     "name": "battery compartment mod",
-    "description": "A battery compartment mod that allows using high-density, rechargeable vehicle batteries in regular tools.",
+    "description": "A battery compartment mod that allows using vehicle batteries and small storage batteries in regular tools.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
-    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "medium_storage_battery", "battery_motorbike", "battery_car" ] ] ]
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
   }
 ]

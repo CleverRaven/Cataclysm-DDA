@@ -73,9 +73,49 @@
     "target" : "cabin"
   },{
     "type" : "start_location",
-    "ident" : "hospital",
+    "ident" : "hospital_1",
     "name" : "Hospital",
-    "target" : "hospital"
+    "target" : "hospital_1"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_2",
+    "name" : "Hospital",
+    "target" : "hospital_2"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_3",
+    "name" : "Hospital",
+    "target" : "hospital_3"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_4",
+    "name" : "Hospital",
+    "target" : "hospital_4"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_5",
+    "name" : "Hospital",
+    "target" : "hospital_5"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_6",
+    "name" : "Hospital",
+    "target" : "hospital_6"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_7",
+    "name" : "Hospital",
+    "target" : "hospital_7"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_8",
+    "name" : "Hospital",
+    "target" : "hospital_8"
+  },{
+    "type" : "start_location",
+    "ident" : "hospital_9",
+    "name" : "Hospital",
+    "target" : "hospital_9"
   },{
     "type" : "start_location",
     "ident" : "lmoe",
@@ -131,7 +171,7 @@
     "type" : "start_location",
     "ident" : "school",
     "name" : "School",
-    "target" : "school_5"
+    "target" : "school_1_5"
   },{
     "type" : "start_location",
     "ident" : "mine_finale",
@@ -141,6 +181,48 @@
     "type": "start_location",
     "ident": "prison",
     "name": "Prison",
-    "target": "prison_b_entrance"
+    "target": "prison_1_b_2"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "Swamp Shack",
+    "name" : "Hermit Shack",
+    "target" : "hunter_shack"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "campground",
+    "name" : "campgrounds",
+    "target" : "campsite_a"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "survivalist farm",
+    "name" : "farm",
+    "target" : "farm_2"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "cabin_woods",
+    "name" : "cabin in the woods",
+    "target" : "cabin"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "religous_church",
+    "name" : "Church",
+    "target" : "church"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "religous_cemetery",
+    "name" : "Religious Cemetery",
+    "target" : "cemetery_4square_10"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "basement_bionic",
+    "name" : "Shady Basement",
+    "target" : "basement_bionic"
   }
 ]

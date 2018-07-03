@@ -21,15 +21,15 @@
         "  |{....#...........{|  ",
         "  |{............{{{{{|  ",
         "  |-:::::::::::------|  ",
-        "  |..................|  ",
+        "  |l.................|  ",
         "  |--#--#--#--#--#--+|  ",
         "  |..................|  ",
         "  |..................|  ",
         "  |..................|  ",
         "  |..................|  ",
         "  |..................|  ",
-        "  |..................|  ",
-        "  --------------------  "
+        "  |ssssssssssssssssss|  ",
+        "  ====================  "
       ],
       "place_terrain": [
         { "ter": "t_door_metal_pickable", "x": [ 11, 14 ], "y": 6 },
@@ -43,12 +43,17 @@
         "-": "t_wall",
         ".": "t_floor",
         ":": "t_window_bars_alarm",
+        "=": "t_strconc_wall",
         "_": "t_pavement",
+        "l": "t_floor",
+        "s": "t_floor",
         "{": "t_floor",
         "|": "t_wall"
       },
       "furniture": {
         "#": "f_counter",
+        "l": "f_locker",
+        "s": "f_sandbag_wall",
         "{": "f_rack"
       },
       "place_loot": [
@@ -85,7 +90,9 @@
         { "group": "guns_pistol_rare", "x": 8, "y": 16, "chance": 20, "ammo": 75, "magazine": 100 },
         { "group": "guns_pistol_obscure", "x": 11, "y": 16, "chance": 20, "ammo": 100, "magazine": 100 },
         { "group": "guns_pistol_rare", "x": 14, "y": 16, "chance": 20, "ammo": 75, "magazine": 100 },
-        { "group": "guns_pistol_common", "x": 17, "y": 16, "chance": 20, "ammo": 25, "magazine": 100 }
+        { "group": "guns_pistol_common", "x": 17, "y": 16, "chance": 20, "ammo": 25, "magazine": 100 },
+        { "item": "ear_plugs", "x": 2, "y": 14, "chance": 50, "repeat": 2 },
+        { "item": "powered_earmuffs", "x": 2, "y": 14, "chance": 30 }
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] }

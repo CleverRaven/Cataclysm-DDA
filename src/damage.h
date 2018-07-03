@@ -1,8 +1,10 @@
+#pragma once
 #ifndef DAMAGE_H
 #define DAMAGE_H
 
 #include "enums.h"
 #include "string_id.h"
+#include <array>
 #include <string>
 #include <vector>
 #include <set>
@@ -11,13 +13,14 @@
 class item;
 class monster;
 class JsonObject;
+class JsonArray;
 
 class Skill;
 using skill_id = string_id<Skill>;
 
 enum body_part : int;
 
-    enum damage_type : int {
+enum damage_type : int {
     DT_NULL = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
     DT_BIOLOGICAL, // internal damage, like from smoke or poison
@@ -40,6 +43,8 @@ struct damage_unit {
 
     damage_unit( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f ) :
         type( dt ), amount( a ), res_pen( rp ), res_mult( rm ), damage_multiplier( mul ) { }
+
+    bool operator==( const damage_unit &other ) const;
 };
 
 
@@ -49,7 +54,6 @@ struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance();
     static damage_instance physical( float bash, float cut, float stab, float arpen = 0.0f );
-    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
     damage_instance( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
     float type_damage( damage_type dt ) const;
@@ -57,8 +61,25 @@ struct damage_instance {
     void clear();
     bool empty() const;
 
-    /** Adds a damage instance to this one. Normalizes multipliers, which makes it very lossy. */
+    std::vector<damage_unit>::iterator begin();
+    std::vector<damage_unit>::const_iterator begin() const;
+    std::vector<damage_unit>::iterator end();
+    std::vector<damage_unit>::const_iterator end() const;
+
+    bool operator==( const damage_instance &other ) const;
+
+    /**
+     * Adds damage to the instance.
+     * If the damage type already exists in the instance, the old and new instance are normalized.
+     * The normalization means that the effective damage can actually decrease (depending on target's armor).
+     */
+    /*@{*/
+    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
     void add( const damage_instance &b );
+    void add( const damage_unit &b );
+    /*@}*/
+
+    void deserialize( JsonIn & );
 };
 
 struct dealt_damage_instance {

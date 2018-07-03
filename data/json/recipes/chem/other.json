@@ -1,0 +1,45 @@
+[
+  {
+    "result": "bone_glue",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "skills_required": [ "cooking", 2 ],
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ] ]
+  },
+  {
+    "result": "superglue",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 12000,
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "bleach", 1 ],
+        [ "lye_powder", 100 ],
+        [ "bone", 20 ],
+        [ "bone_human", 20 ],
+        [ "bone_tainted", 40 ],
+        [ "cured_hide", 2 ],
+        [ "pine_bough", 10 ],
+        [ "raw_dandelion", 20 ],
+        [ "biollante_bud", 1 ],
+        [ "ant_egg", 1 ],
+        [ "slime_scrap", 1 ]
+      ]
+    ]
+  }
+]

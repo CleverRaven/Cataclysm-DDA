@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SHADOWCASTING_H
 #define SHADOWCASTING_H
 
@@ -5,7 +6,7 @@
 #include "game_constants.h"
 
 // Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
-// Beer–Lambert law says attenuation is going to be equal to
+// Beer-Lambert law says attenuation is going to be equal to
 // 1 / (e^al) where a = coefficient of absorption and l = length.
 // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
 // We merge all of the absorption values by taking their cumulative average.

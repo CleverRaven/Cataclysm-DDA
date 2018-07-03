@@ -12,7 +12,7 @@
 bool is_char_allowed( long ch )
 {
     if( !std::isprint( ch ) && ch <= 127 ) {
-        // above 127 are non-ascii, therefor unicode, therefor OK
+        // above 127 are non-ASCII, therefore Unicode, therefore OK
         return false;
     }
     if( ch == '\\' || ch == '/' ) {

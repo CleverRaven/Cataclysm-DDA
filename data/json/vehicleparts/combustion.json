@@ -17,7 +17,7 @@
     "symbol": "*",
     "difficulty": 4,
     "durability": 400,
-    "epower": -300,
+    "epower": -350,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -33,7 +33,7 @@
     "fuel_type": "diesel",
     "difficulty": 4,
     "durability": 400,
-    "epower": -200,
+    "epower": -250,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -49,7 +49,7 @@
     "fuel_type": "diesel",
     "difficulty": 4,
     "durability": 400,
-    "epower": -400,
+    "epower": -350,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -97,7 +97,7 @@
     "fuel_type": "gasoline",
     "difficulty": 2,
     "durability": 300,
-    "epower": -100,
+    "epower": -150,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 20, 30 ] },
@@ -122,6 +122,22 @@
     ]
   },
   {
+    "id": "diesel_engine_v12",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "item": "v12_diesel",
+    "fuel_type": "diesel",
+    "difficulty": 7,
+    "durability": 600,
+    "epower": -400,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 45, 58 ] },
+      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "scrap", "count": [ 45, 58 ] }
+    ]
+  },
+  {
     "id": "engine_v6",
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
@@ -129,7 +145,7 @@
     "fuel_type": "gasoline",
     "difficulty": 3,
     "durability": 400,
-    "epower": -150,
+    "epower": -200,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -144,8 +160,8 @@
     "item": "v8_combustion",
     "fuel_type": "gasoline",
     "difficulty": 3,
-    "durability": 800,
-    "epower": -200,
+    "durability": 400,
+    "epower": -250,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 40, 50 ] },

@@ -1,18 +1,19 @@
 #include "veh_type.h"
 #include "requirements.h"
 #include "vehicle.h"
-#include "game.h"
 #include "debug.h"
 #include "item_group.h"
 #include "json.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "color.h"
 #include "itype.h"
+#include "ammo.h"
 #include "vehicle_group.h"
 #include "init.h"
+#include "output.h"
 #include "generic_factory.h"
 #include "character.h"
-#include "cata_utility.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -62,8 +63,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
-    { "ENGINE", VPFLAG_ENGINE },
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
+    { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
@@ -71,9 +72,10 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
-    { "VPFLAG_TRACK", VPFLAG_TRACK },
     { "RECHARGE", VPFLAG_RECHARGE },
-    { "VISION", VPFLAG_EXTENDS_VISION }
+    { "VISION", VPFLAG_EXTENDS_VISION },
+    { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
+    { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -82,15 +84,14 @@ static std::map<vpart_id, vpart_info> abstract_parts;
 
 static DynamicDataLoader::deferred_json deferred;
 
-template<>
-const vpart_id string_id<vpart_info>::NULL_ID( "null" );
-
+/** @relates string_id */
 template<>
 bool string_id<vpart_info>::is_valid() const
 {
     return vpart_info_all.count( *this );
 }
 
+/** @relates string_id */
 template<>
 const vpart_info &string_id<vpart_info>::obj() const
 {
@@ -105,7 +106,8 @@ const vpart_info &string_id<vpart_info>::obj() const
 
 static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
                            std::vector<std::pair<requirement_id, int>> &reqs,
-                           std::map<skill_id, int> &skills, int &moves ) {
+                           std::map<skill_id, int> &skills, int &moves )
+{
 
     if( !obj.has_object( key ) ) {
         return;
@@ -118,7 +120,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
     }
     while( sk.has_more() ) {
         auto cur = sk.next_array();
-        skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        skills.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
     }
 
     assign( src, "time", moves );
@@ -179,15 +181,17 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
-    assign( jo, "tools", def.tools );
     assign( jo, "flags", def.flags );
 
     if( jo.has_member( "requirements" ) ) {
         auto reqs = jo.get_object( "requirements" );
 
-        parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills, def.install_moves );
-        parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills, def.removal_moves );
-        parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,  def.repair_moves  );
+        parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills,
+                       def.install_moves );
+        parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills,
+                       def.removal_moves );
+        parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,
+                       def.repair_moves );
 
         def.legacy = false;
     }
@@ -207,7 +211,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "breaks_into" ) ) {
-        JsonIn& stream = *jo.get_raw( "breaks_into" );
+        JsonIn &stream = *jo.get_raw( "breaks_into" );
         def.breaks_into_group = item_group::load_item_group( stream, "collection" );
     }
 
@@ -245,11 +249,9 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::finalize()
 {
-    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-        debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
-    }
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 
-    for( auto& e : vpart_info_all ) {
+    for( auto &e : vpart_info_all ) {
         // if part name specified ensure it is translated
         // otherwise the name of the base item will be used
         if( !e.second.name_.empty() ) {
@@ -260,14 +262,12 @@ void vpart_info::finalize()
             e.second.set_flag( "FOLDABLE" );
         }
 
-        for( const auto& f : e.second.flags ) {
+        for( const auto &f : e.second.flags ) {
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
                 e.second.bitflags.set( b->second );
-            }            
+            }
         }
-
-        e.second.power = hp_to_watt( e.second.power );
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
@@ -291,7 +291,7 @@ void vpart_info::finalize()
             // Should be hidden by frames
             e.second.z_order = 4;
             e.second.list_order = 8 ;
-        } else if( e.second.location == "on_battery_mount" ){
+        } else if( e.second.location == "on_battery_mount" ) {
             // Should be hidden by frames
             e.second.z_order = 3;
             e.second.list_order = 10;
@@ -321,12 +321,12 @@ void vpart_info::check()
         auto &part = vp.second;
 
         // handle legacy parts without requirement data
-        // @todo deprecate once requirements are entirely loaded from JSON
+        // @todo: deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
             part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
-            part.repair_skills.emplace ( skill_mechanics, std::min( part.difficulty + 1, MAX_SKILL ) );
+            part.repair_skills.emplace( skill_mechanics, std::min( part.difficulty + 1, MAX_SKILL ) );
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
@@ -362,7 +362,7 @@ void vpart_info::check()
         }
 
         // add the base item to the installation requirements
-        // @todo support multiple/alternative base items
+        // @todo: support multiple/alternative base items
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 
@@ -452,28 +452,44 @@ void vpart_info::check()
         if( !item::type_is_defined( part.item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
-
-        const itype *base = item::find_type( part.item );
-
-        if( part.has_flag( "TURRET" ) && !base->gun ) {
+        const itype &base_item_type = *item::find_type( part.item );
+        // Fuel type errors are serious and need fixing now
+        if( !item::type_is_defined( part.fuel_type ) ) {
+            debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
+            part.fuel_type = "null";
+        } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
+                   ( !base_item_type.container || !base_item_type.container->watertight ) ) {
+            // Tanks are allowed to specify non-fuel "fuel",
+            // because currently legacy blazemod uses it as a hack to restrict content types
+            debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
+                      part.id.c_str(), part.fuel_type.c_str() );
+            part.fuel_type = "null";
+        }
+        if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
-        if( part.has_flag( "ENGINE" ) && !base->engine ) {
-            debugmsg( "vehicle part %s has the ENGINE flag but base item is not an engine", part.id.c_str() );
-        }
-        if( part.has_flag( "REACTOR" ) && !( base->tool && base->tool->ammo_id != NULL_ID ) ) {
-            debugmsg( "vehicle part %s has the REACTOR flag but base item is not tool with ammo", part.id.c_str() );
-        }
-
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
             }
         }
-        for( const auto &e : part.tools ) {
-            if( !item::type_is_defined( e ) ) {
-                debugmsg( "vehicle part %s has undefined tool item %s", part.id.c_str(), e.c_str() );
+        if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0 ) {
+            debugmsg( "%s is set to drain epower, but has epower == 0", part.id.c_str() );
+        }
+        // Parts with non-zero epower must have a flag that affects epower usage
+        static const std::vector<std::string> handled = {{
+                "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
+                "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
+                "REACTOR"
             }
+        };
+        if( part.epower != 0 &&
+        std::none_of( handled.begin(), handled.end(), [&part]( const std::string & flag ) {
+        return part.has_flag( flag );
+        } ) ) {
+            std::string warnings_are_good_docs = enumerate_as_string( handled );
+            debugmsg( "%s has non-zero epower, but lacks a flag that would make it affect epower (one of %s)",
+                      part.id.c_str(), warnings_are_good_docs.c_str() );
         }
     }
 }
@@ -500,7 +516,7 @@ std::string vpart_info::name() const
 requirement_data vpart_info::install_requirements() const
 {
     return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data(),
-        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );
 }
@@ -508,7 +524,7 @@ requirement_data vpart_info::install_requirements() const
 requirement_data vpart_info::removal_requirements() const
 {
     return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data(),
-        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );
 }
@@ -516,35 +532,48 @@ requirement_data vpart_info::removal_requirements() const
 requirement_data vpart_info::repair_requirements() const
 {
     return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
-        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
+
+bool vpart_info::is_repairable() const
+{
+    return !repair_requirements().is_empty();
+}
+
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch )
+{
     if( sk.empty() ) {
         return mv;
     }
 
-    int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs, const std::pair<skill_id,int>& rhs ) {
-        return lhs + std::max( std::min( ch.get_skill_level( rhs.first ).level(), MAX_SKILL ) - rhs.second, 0 );
+    int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs,
+    const std::pair<skill_id, int> &rhs ) {
+        return lhs + std::max( std::min( ch.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
+                               0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0, 0.5 ) );
 }
 
-int vpart_info::install_time( const Character &ch ) const {
+int vpart_info::install_time( const Character &ch ) const
+{
     return scale_time( install_skills, install_moves, ch );
 }
 
-int vpart_info::removal_time( const Character &ch ) const {
+int vpart_info::removal_time( const Character &ch ) const
+{
     return scale_time( removal_skills, removal_moves, ch );
 }
 
-int vpart_info::repair_time( const Character &ch ) const {
+int vpart_info::repair_time( const Character &ch ) const
+{
     return scale_time( repair_skills, repair_moves, ch );
 }
 
+/** @relates string_id */
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const
 {
@@ -562,6 +591,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
     return iter->second;
 }
 
+/** @relates string_id */
 template<>
 bool string_id<vehicle_prototype>::is_valid() const
 {
@@ -571,12 +601,12 @@ bool string_id<vehicle_prototype>::is_valid() const
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
-void vehicle_prototype::load(JsonObject &jo)
+void vehicle_prototype::load( JsonObject &jo )
 {
     vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
     // If there are already parts defined, this vehicle prototype overrides an existing one.
     // If the json contains a name, it means a completely new prototype (replacing the
-    // original one), therefor the old data has to be cleared.
+    // original one), therefore the old data has to be cleared.
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
@@ -586,10 +616,10 @@ void vehicle_prototype::load(JsonObject &jo)
         vproto.name = jo.get_string( "name" );
     }
 
-    vgroups[vgroup_id(jo.get_string("id"))].add_vehicle(vproto_id(jo.get_string("id")), 100);
+    vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    JsonArray parts = jo.get_array("parts");
-    while (parts.has_more()) {
+    JsonArray parts = jo.get_array( "parts" );
+    while( parts.has_more() ) {
         JsonObject part = parts.next_object();
 
         part_def pt;
@@ -604,41 +634,43 @@ void vehicle_prototype::load(JsonObject &jo)
         vproto.parts.push_back( pt );
     }
 
-    JsonArray items = jo.get_array("items");
-    while(items.has_more()) {
+    JsonArray items = jo.get_array( "items" );
+    while( items.has_more() ) {
         JsonObject spawn_info = items.next_object();
         vehicle_item_spawn next_spawn;
-        next_spawn.pos.x = spawn_info.get_int("x");
-        next_spawn.pos.y = spawn_info.get_int("y");
+        next_spawn.pos.x = spawn_info.get_int( "x" );
+        next_spawn.pos.y = spawn_info.get_int( "y" );
 
-        next_spawn.chance = spawn_info.get_int("chance");
-        if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
-            debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                     vproto.name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance);
+        next_spawn.chance = spawn_info.get_int( "chance" );
+        if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
+            debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
+                      vproto.name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
         }
 
         // constrain both with_magazine and with_ammo to [0-100]
-        next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine", next_spawn.with_magazine ), 100 ), 0 );
-        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo", next_spawn.with_ammo ), 100 ), 0 );
+        next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine",
+                                             next_spawn.with_magazine ), 100 ), 0 );
+        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo", next_spawn.with_ammo ),
+                                         100 ), 0 );
 
-        if(spawn_info.has_array("items")) {
-            //Array of items that all spawn together (ie jack+tire)
-            JsonArray item_group = spawn_info.get_array("items");
-            while(item_group.has_more()) {
-                next_spawn.item_ids.push_back(item_group.next_string());
+        if( spawn_info.has_array( "items" ) ) {
+            //Array of items that all spawn together (i.e. jack+tire)
+            JsonArray item_group = spawn_info.get_array( "items" );
+            while( item_group.has_more() ) {
+                next_spawn.item_ids.push_back( item_group.next_string() );
             }
-        } else if(spawn_info.has_string("items")) {
+        } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back(spawn_info.get_string("items"));
+            next_spawn.item_ids.push_back( spawn_info.get_string( "items" ) );
         }
-        if(spawn_info.has_array("item_groups")) {
+        if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
-            JsonArray item_group_names = spawn_info.get_array("item_groups");
-            while(item_group_names.has_more()) {
-                next_spawn.item_groups.push_back(item_group_names.next_string());
+            JsonArray item_group_names = spawn_info.get_array( "item_groups" );
+            while( item_group_names.has_more() ) {
+                next_spawn.item_groups.push_back( item_group_names.next_string() );
             }
-        } else if(spawn_info.has_string("item_groups")) {
-            next_spawn.item_groups.push_back(spawn_info.get_string("item_groups"));
+        } else if( spawn_info.has_string( "item_groups" ) ) {
+            next_spawn.item_groups.push_back( spawn_info.get_string( "item_groups" ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }
@@ -665,13 +697,13 @@ void vehicle_prototype::finalize()
         proto.blueprint.reset( new vehicle() );
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
-        blueprint.name = _(proto.name.c_str());
+        blueprint.name = _( proto.name.c_str() );
 
         for( auto &pt : proto.parts ) {
             auto base = item::find_type( pt.part->item );
 
             if( !pt.part.is_valid() ) {
-                debugmsg("unknown vehicle part %s in %s", pt.part.c_str(), id.c_str());
+                debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );
                 continue;
             }
 
@@ -682,7 +714,7 @@ void vehicle_prototype::finalize()
             }
 
             if( !base->gun ) {
-                if( pt.with_ammo  ) {
+                if( pt.with_ammo ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(), id.c_str() );
                 }
                 if( !pt.ammo_types.empty() ) {
@@ -695,13 +727,13 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     auto ammo = item::find_type( e );
-                    if( !ammo->ammo || !ammo->ammo->type.count( base->gun->ammo ) ) {
+                    if( !ammo->ammo && ammo->ammo->type.count( base->gun->ammo ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
                 }
                 if( pt.ammo_types.empty() ) {
-                    pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
+                    pt.ammo_types.insert( base->gun->ammo->default_ammotype() );
                 }
             }
 
@@ -715,24 +747,24 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( pt.part.obj().has_flag("CARGO") ) {
+            if( pt.part.obj().has_flag( "CARGO" ) ) {
                 cargo_spots.insert( pt.pos );
             }
         }
 
-        for (auto &i : proto.item_spawns) {
+        for( auto &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {
-                debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                         proto.name.c_str(), i.pos.x, i.pos.y, i.chance);
+                debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
+                          proto.name.c_str(), i.pos.x, i.pos.y, i.chance );
             }
-            for (auto &j : i.item_ids) {
+            for( auto &j : i.item_ids ) {
                 if( !item::type_is_defined( j ) ) {
-                    debugmsg("unknown item %s in spawn list of %s", j.c_str(), id.c_str());
+                    debugmsg( "unknown item %s in spawn list of %s", j.c_str(), id.c_str() );
                 }
             }
-            for (auto &j : i.item_groups) {
-                if (!item_group::group_is_defined(j)) {
-                    debugmsg("unknown item group %s in spawn list of %s", j.c_str(), id.c_str());
+            for( auto &j : i.item_groups ) {
+                if( !item_group::group_is_defined( j ) ) {
+                    debugmsg( "unknown item group %s in spawn list of %s", j.c_str(), id.c_str() );
                 }
             }
         }
@@ -742,7 +774,7 @@ void vehicle_prototype::finalize()
 std::vector<vproto_id> vehicle_prototype::get_all()
 {
     std::vector<vproto_id> result;
-    for( auto & vp : vtypes ) {
+    for( auto &vp : vtypes ) {
         result.push_back( vp.first );
     }
     return result;

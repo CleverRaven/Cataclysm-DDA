@@ -1,14 +1,15 @@
+#pragma once
 #ifndef ITEM_ACTION_H
 #define ITEM_ACTION_H
 
 #include <map>
 #include <string>
 #include <vector>
-#include "json.h"
-#include "item.h"
 
 class item_action;
 class player;
+class item;
+class JsonObject;
 
 typedef std::string item_action_id;
 typedef std::map< item_action_id, item * > item_action_map;

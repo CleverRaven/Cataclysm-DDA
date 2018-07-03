@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAPSHARING_H
 #define MAPSHARING_H
 

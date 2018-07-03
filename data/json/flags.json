@@ -45,10 +45,10 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
-    "id": "COLD_START",
+    "id": "CBM",
     "type": "json_flag",
-    "context": [ "ENGINE" ],
-    "info": "This engine may be <bad>difficult to start</bad> in cold weather."
+    "context": [ "BIONIC_ITEM" ],
+    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> to safely install it into your body, or you may attempt to perform a <info>self-installation</info> with a higher risk of damaging yourself."
   },
   {
     "id": "COLLAR",
@@ -67,8 +67,15 @@
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
+    "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
     "inherit": false
+  },
+  {
+    "id": "DURABLE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
+    "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "ELECTRIC_IMMUNE",
@@ -77,12 +84,31 @@
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
   },
   {
+    "id": "ONLY_ONE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "You can wear <info>only one</info>."
+  },
+  {
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FILTHY",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.",
+    "info": "This piece of clothing is <bad>filthy</bad>."
+  },
+  {
+    "id": "FLASH_PROTECTION",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Used for eyes protection from flashbang."
   },
   {
     "id": "FLOTATION",
@@ -96,6 +122,19 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
     "conflicts": [ "STURDY" ]
+  },
+  {
+    "id": "FRAGILE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
+    "conflicts": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "GAS_PROOF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>completely protects</good> you from <info>any gas</info>."
   },
   {
     "id": "HOOD",
@@ -117,12 +156,6 @@
     "inherit": false
   },
   {
-    "id": "MANUAL_ENGINE",
-    "type": "json_flag",
-    "context": [ "ENGINE" ],
-    "info": "The power of this engine depends on <neutral>player strength</neutral>."
-  },
-  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -132,7 +165,7 @@
     "id": "NO_QUICKDRAW",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
+    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
   },
   {
     "id": "NO_REPAIR",
@@ -263,7 +296,7 @@
     "id": "WAIST",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Layer for belts other things worn on the waist.",
+    "description": "Layer for belts and other things worn on the waist.",
     "info": "This gear is worn on or around your <info>waist</info>.",
     "conflicts": [ "BELTED", "OUTER", "SKINTIGHT" ]
   },
@@ -271,7 +304,8 @@
     "id": "WATCH",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Acts as a watch and allows the player to see actual time."
+    "description": "Acts as a watch and allows the player to see actual time.",
+    "info": "This gear allows to see <info>actual time</info>."
   },
   {
     "id": "WATERPROOF",
@@ -312,7 +346,7 @@
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": " This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
+    "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
     "pseudo": true
   },
   {
@@ -320,6 +354,42 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
-    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>." 
+    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
+  },
+  {
+    "id": "BIONIC_FAULTY",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a <bad>faulty</bad> bionic."
+  },
+  {
+    "id": "BIONIC_POWER_SOURCE",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a power source bionic."
+  },
+  {
+    "id": "BIONIC_TOGGLED",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic only has a function when activated, else it causes it's effect every turn."
+  },
+  {
+    "id": "BIONIC_GUN",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects."
+  },
+  {
+    "id": "BIONIC_WEAPON",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects."
+  },
+  {
+    "id": "BIONIC_ARMOR_INTERFACE",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "description": "This bionic can provide power to powered armor."
   }
 ]

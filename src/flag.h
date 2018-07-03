@@ -1,9 +1,11 @@
+#pragma once
 #ifndef FLAG_H
 #define FLAG_H
 
-#include "json.h"
-
 #include <set>
+#include <string>
+
+class JsonObject;
 
 class json_flag
 {

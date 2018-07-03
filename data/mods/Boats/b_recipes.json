@@ -1,7 +1,7 @@
 [
   {
+    "type" : "recipe",
     "result": "boat_board",
-    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -9,9 +9,9 @@
     "time": 6000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_W", "level": 1 }
+    "qualities":[
+      {"id":"HAMMER","level":2},
+      {"id":"SAW_W","level":1}
     ],
     "components": [
       [ [ "2x4", 5 ] ],
@@ -19,8 +19,8 @@
     ]
   },
   {
+    "type" : "recipe",
     "result": "hand_paddles",
-    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -28,9 +28,9 @@
     "time": 500,
     "reversible": true,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_W", "level": 1 }
+    "qualities":[
+      {"id":"HAMMER","level":2},
+      {"id":"SAW_W","level":1}
     ],
     "components": [
       [ [ "2x4", 1 ] ],

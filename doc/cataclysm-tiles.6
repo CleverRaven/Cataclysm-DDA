@@ -1,0 +1,96 @@
+.Dd June 23, 2017
+.Dt CATACLYSM-TILES 6
+.Os
+.Sh NAME
+.Nm cataclysm-tiles
+.Nd a roguelike set in a post-apocalyptic world
+.Sh SYNOPSIS
+.Nm
+.Op Fl -seed Ar seedstring
+.Op Fl -jsonverify
+.Op Fl -check-mods Ar mods ...
+.Op Fl -dump-stats Ar what
+.Op Fl -world Ar worldname
+.Op Fl -basepath Ar basepath
+.Op Fl -datadir Ar datadir
+.Op Fl -autopickupfile Ar autopickupfile
+.Op Fl -motdfile Ar motdfile
+.Op Fl -shared
+.Op Fl -username Ar username
+.Op Fl -addadmin Ar username
+.Op Fl -adddebugger Ar username
+.Op Fl -competitive
+.Op Fl -worldmenu
+.Op Fl -userdir Ar userdir
+.Op Fl -savedir Ar savedir
+.Op Fl -configdir Ar configdir
+.Op Fl -memorialdir Ar memorialdir
+.Op Fl -optionfile Ar optionfile
+.Op Fl -keymapfile Ar keymapfile
+.Sh DESCRIPTION
+Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.
+While some have described it as a "zombie game", there is far more to Cataclysm than that.
+Struggle to survive in a harsh, persistent, procedurally generated world.
+.sp
+Graphical version.
+.Sh OPTIONS
+.Bl -tag -width "--autopickupfile autopickupfile"
+.It Fl -seed Ar seedstring
+Sets the random number generator's seed value.
+.It Fl -jsonverify
+Checks the
+.Nm
+json files.
+.It Fl -check-mods Ar mods ...
+Checks the json files belonging to
+.Nm
+mods.
+.It Fl -dump-stats Ar what
+Dumps item stats.
+.It Fl -world Ar worldname
+Load world.
+.It Fl -basepath Ar basepath
+Base path for all game data subdirectories.
+.It Fl -datadir Ar datadir
+Sub directory from which game data is loaded.
+.It Fl -autopickupfile Ar autopickupfile
+Name of the autopickup options file within the configdir.
+.It Fl -motdfile Ar motdfile
+Name of the message of the day file within the MOTD directory.
+.It Fl -shared
+Activates the map-sharing mode.
+.It Fl -username Ar username
+Instructs map-sharing code to use this name for your character.
+.It Fl -addadmin Ar username
+Instructs map-sharing code to use this name for your character and give you
+access to the cheat functions.
+.It Fl -adddebugger Ar username
+Informs map-sharing code that you're running inside a debugger.
+.It Fl -competitive
+Instructs map-sharing code to disable access to the in-game cheat functions.
+.It Fl -worldmenu
+Enables the world menu in the map-sharing code.
+.It Fl -userdir Ar userdir
+Base path for user-overrides to files from the ./data directory and named below.
+.It Fl -savedir Ar savedir
+Subdirectory for game saves.
+.It Fl -configdir Ar configdir
+Subdirectory for game configuration.
+.It Fl -memorialdir Ar memorialdir
+Subdirectory for memorials.
+.It Fl -optionfile Ar optionfile
+Name of the options file within the
+.Ar "configdir".
+.It Fl -keymapfile Ar keymapfile
+Name of the keymap file within the
+.Ar "configdir".
+.El
+.Sh BUGS
+Please submit bug reports to
+.Lk https://github.com/CleverRaven/Cataclysm-DDA/issues
+.Sh AUTHORS
+.An Kevin Granade Aq Mt kevin.granade@gmail.com
+.Sh SEE ALSO
+.Lk http://www.cataclysmdda.com/ Homepage
+.Lk https://discourse.cataclysmdda.org/ Forums
+.Lk https://github.com/CleverRaven/Cataclysm-DDA GitHub

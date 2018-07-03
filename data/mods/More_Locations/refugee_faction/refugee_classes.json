@@ -1,0 +1,124 @@
+[
+    {
+        "type" : "npc_class",
+        "id" : "NC_REFUGEE",
+        "name" : "Refugee",
+        "comment" : "Bad skills and traits. Normal people make poor followers.",
+        "job_description" : "I'm just trying to stay alive.",
+        "bonus_str" : { "rng" : [ -2, 2 ] },
+        "bonus_dex" : { "rng" : [ -2, 2 ] },
+        "bonus_int" : { "rng" : [ -2, 2 ] },
+        "bonus_per" : { "rng" : [ -2, 2 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "constant" : -4 }
+                    ]
+                }
+            },
+            { "skill": "bashing", "bonus" : { "rng" : [ 1, 3 ] } },
+            { "skill": "barter", "bonus" : { "rng" : [ 0, 2 ] } },
+            { "skill": "speech", "bonus" : { "rng" : [ 1, 3 ] } },
+            { "skill": "mechanics", "bonus" : { "rng" : [ 0, 2 ] } },
+            { "skill": "cooking", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "computer", "bonus" : { "rng" : [ 0, 1 ] } },
+            { "skill": "electronics", "bonus" : { "rng" : [ 0, 1 ] } }
+        ],
+        "traits": [
+            [ "PACIFIST", 100 ],
+            [ "GLASSJAW", 10 ],
+            [ "CLUMSY", 10 ],
+            [ "JITTERY", 10 ],
+            [ "BADKNEES", 10 ],
+            [ "SLOWRUNNER", 10 ],
+            [ "TRIGGERHAPPY", 10 ],
+            [ "FLIMSY", 10 ]
+        ],
+        "worn_override": "refugee_clothing",
+        "carry_override": "refugee_gear"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_TALENTED_REFUGEE",
+        "name" : "Refugee",
+        "job_description" : "I'm just trying to stay alive.... and it ain't as easy as it looks.",
+        "comment" : "OK skills and good traits. Good potential for followers. Not sure which muts really work for NPCs though.",
+        "bonus_str" : { "rng" : [ 0, 2 ] },
+        "bonus_dex" : { "rng" : [ 0, 2 ] },
+        "bonus_int" : { "rng" : [ 0, 2 ] },
+        "bonus_per" : { "rng" : [ 0, 2 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "rng" : [ 0, -4 ] }
+                    ]
+                }
+            },
+            { "skill": "bashing", "bonus" : { "rng" : [ 0, 4 ] } },
+            { "skill": "unarmed", "bonus" : { "rng" : [ 0, 2 ] } },
+            { "skill": "pistol", "bonus" : { "rng" : [ 0, 4 ] } },
+            { "skill": "rifle", "bonus" : { "rng" : [ 0, 4 ] } },
+            { "skill": "gun", "bonus" : { "rng" : [ 0, 1 ] } },
+            { "skill": "melee", "bonus" : { "rng" : [ 0, 1 ] } },
+            { "skill": "firstaid", "bonus" : { "rng" : [ 0, 3 ] } }
+        ],
+        "traits": [
+            [ "STRONGBACK", 100 ],
+            [ "PACKMULE", 100 ],
+            [ "FASTLEARNER", 50 ],
+            [ "LIGHTEATER", 50 ],
+            [ "WAKEFUL", 50 ],
+            [ "TOUGH", 10 ],
+            [ "FASTHEALER", 10 ],
+            [ "QUICK", 10 ],
+            [ "FLEET", 10 ],
+            [ "LIGHTSTEP", 10 ]
+        ],
+        "worn_override": "refugee_clothing",
+        "carry_override": "refugee_gear"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_MUTANT_REFUGEE",
+        "name" : "Refugee",
+        "comment" : "Random mutations. Mostly cosmetic.",
+        "job_description" : "I'm just trying to stay alive.",
+        "bonus_str" : { "rng" : [ -2, 3 ] },
+        "bonus_dex" : { "rng" : [ -2, 3 ] },
+        "bonus_int" : { "rng" : [ -2, 3 ] },
+        "bonus_per" : { "rng" : [ -2, 3 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "constant" : -4 }
+                    ]
+                }
+            },
+            { "skill": "barter", "bonus" : { "rng" : [ 0, 2 ] } },
+            { "skill": "speech", "bonus" : { "rng" : [ 1, 3 ] } },
+            { "skill": "mechanics", "bonus" : { "rng" : [ 0, 2 ] } },
+            { "skill": "cooking", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "computer", "bonus" : { "rng" : [ 0, 1 ] } },
+            { "skill": "electronics", "bonus" : { "rng" : [ 0, 1 ] } }
+        ],
+        "traits": [
+            [ "DEFORMED", 50 ],
+            [ "SKIN_ROUGH", 20 ],
+            [ "LIZ_EYE", 20 ],
+            [ "GILLS", 20 ],
+            [ "SPINES", 10 ],
+            [ "HORNS", 20 ],
+            [ "SPOTS", 20 ],
+            [ "ALBINO", 20 ],
+            [ "SLIMY", 20 ],
+            [ "FANGS", 20 ],
+            [ "CLAWS", 20 ]
+        ],
+        "worn_override": "refugee_clothing",
+        "carry_override": "refugee_gear"
+    }
+]

@@ -3,6 +3,11 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "wcwidth.h"
+#include "options.h"
+#if (defined _WIN32 || defined WINDOWS)
+#include "platform_win.h"
+#include "mmsystem.h"
+#endif
 
 //copied from SDL2_ttf code
 //except type changed from unsigned to uint32_t
@@ -111,12 +116,15 @@ std::string utf32_to_utf8(uint32_t ch)
     case 4:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
+        /* fallthrough */
     case 3:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
+        /* fallthrough */
     case 2:
         *--buf = (ch | 0x80) & 0xBF;
         ch >>= 6;
+        /* fallthrough */
     case 1:
         *--buf = ch | utf8FirstByte[utf8Bytes];
     }
@@ -124,7 +132,7 @@ std::string utf32_to_utf8(uint32_t ch)
     return out;
 }
 
-//Calculate width of a unicode string
+//Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
 int utf8_width(const char *s, const bool ignore_tags)
@@ -172,7 +180,9 @@ int utf8_width(const utf8_wrapper &str, const bool ignore_tags)
 int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
 {
     int dummy;
-    int i = 0, c = 0, *p = prevpos ? prevpos : &dummy;
+    int i = 0;
+    int c = 0;
+    int *p = prevpos ? prevpos : &dummy;
     *p = 0;
     while(c < cursorx) {
         const char *utf8str = line + i;
@@ -201,80 +211,6 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
     return i;
 }
 
-//Erase character by unicode char width.
-//Fill the characters with spaces.
-//returns length modified
-int erease_utf8_by_cw( char *t, int cw, int clen, int maxlen)
-{
-    static char buf[8000]; //LOL
-    int c = 0, i = 0;
-    while(c < cw) {
-        const char *utf8str = t + i;
-        int len = ANY_LENGTH;
-        uint32_t ch = UTF8_getch(&utf8str, &len);
-        int cw = mk_wcwidth(ch);
-        len = ANY_LENGTH - len;
-
-        if( len <= 0 ) {
-            len = 1;
-        }
-        if( maxlen < (i + len) ) {
-            break;
-        }
-        i += len;
-        if(cw <= 0) {
-            cw = 1;
-        }
-        c += cw;
-    }
-    if(cw == c && clen == i) {
-        memset(t, ' ', clen);
-        return 0;
-    } else {
-        int filled = clen + c - cw;
-        memcpy(buf, t + i, maxlen - i);
-        memset(t, ' ', filled);
-        memcpy(t + filled, buf, maxlen - filled);
-        return filled - i;
-    }
-
-}
-
-//cut ut8 string by character size
-//utf8_substr("正正正正", 1, 4) returns
-// " 正 "
-// Broken characters will be filled with space
-std::string utf8_substr(std::string s, int start, int size)
-{
-    static char buf[8000];
-    int len = strlen(s.c_str());
-    int pos;
-    strcpy(buf, s.c_str());
-    int begin = cursorx_to_position( buf, start, &pos, len );
-    if(begin != pos) {
-        const char *ts = buf + pos;
-        int l = ANY_LENGTH;
-        uint32_t tc = UTF8_getch(&ts, &l);
-        int tw = mk_wcwidth(tc);
-        erease_utf8_by_cw(buf + pos, tw, tw, len - pos - 1);
-    }
-
-    if(size > 0) {
-        int end = cursorx_to_position( buf, start + size - 1, &pos, len );
-        if(end != pos) {
-            const char *ts = buf + pos;
-            int l = ANY_LENGTH;
-            uint32_t tc = UTF8_getch(&ts, &l);
-            int tw = mk_wcwidth(tc);
-            erease_utf8_by_cw(buf + pos, tw, tw, len - pos - 1);
-            end = pos + tw - 1;
-        }
-        buf[end + 1] = '\0';
-    }
-
-    return std::string(buf + start);
-}
-
 std::string utf8_truncate(std::string s, size_t length)
 {
     int last_pos;
@@ -288,7 +224,7 @@ std::string utf8_truncate(std::string s, size_t length)
     return s.substr(0, last_pos);
 }
 
-static const char base64_encoding_table[] = {
+static const std::array<char, 64> base64_encoding_table = {{
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
     'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -297,10 +233,10 @@ static const char base64_encoding_table[] = {
     'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
     'w', 'x', 'y', 'z', '0', '1', '2', '3',
     '4', '5', '6', '7', '8', '9', '+', '-'
-};
+}};
 
-static char base64_decoding_table[256];
-static const  int mod_table[] = {0, 2, 1};
+static       std::array<char, 256> base64_decoding_table;
+static const std::array<int, 3> mod_table = {{0, 2, 1}};
 
 static void build_base64_decoding_table()
 {
@@ -401,6 +337,94 @@ std::string base64_decode(std::string str)
     }
 
     return decoded_data;
+}
+
+static void strip_trailing_nulls( std::wstring &str )
+{
+    while( !str.empty() && str.back() == '\0' ) {
+        str.pop_back();
+    }
+}
+
+static void strip_trailing_nulls( std::string &str )
+{
+    while( !str.empty() && str.back() == '\0' ) {
+        str.pop_back();
+    }
+}
+
+std::wstring utf8_to_wstr( const std::string &str )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring wstr( sz, '\0' );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
+    strip_trailing_nulls( wstr );
+    return wstr;
+#else
+    std::size_t sz = std::mbstowcs( NULL, str.c_str(), 0 ) + 1;
+    std::wstring wstr( sz, '\0' );
+    std::mbstowcs( &wstr[0], str.c_str(), sz );
+    strip_trailing_nulls( wstr );
+    return wstr;
+#endif
+}
+
+std::string wstr_to_utf8( const std::wstring &wstr )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
+    std::string str( sz, '\0' );
+    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
+    strip_trailing_nulls( str );
+    return str;
+#else
+    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), 0 ) + 1;
+    std::string str( sz, '\0' );
+    std::wcstombs( &str[0], wstr.c_str(), sz );
+    strip_trailing_nulls( str );
+    return str;
+#endif
+}
+
+std::string native_to_utf8( const std::string &str )
+{
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+        return str;
+    }
+#if defined(_WIN32) || defined(WINDOWS)
+    // native encoded string --> Unicode sequence --> UTF-8 string
+    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    std::string result( utf8_size, '\0' );
+    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, 0 );
+    strip_trailing_nulls( result );
+    return result;
+#else
+    return str;
+#endif
+}
+
+std::string utf8_to_native( const std::string &str )
+{
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+        return str;
+    }
+#if defined(_WIN32) || defined(WINDOWS)
+    // UTF-8 string --> Unicode sequence --> native encoded string
+    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    std::string result( native_size, '\0' );
+    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, 0 );
+    strip_trailing_nulls( result );
+    return result;
+#else
+    return str;
+#endif
 }
 
 int center_text_pos(const char *text, int start_pos, int end_pos)

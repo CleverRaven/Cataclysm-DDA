@@ -4,12 +4,7 @@
     "copy-from": "shot_bird",
     "type": "AMMO",
     "name": "reloaded birdshot",
-    "name_plural": "reloaded birdshot",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -18,12 +13,7 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "reloaded 00 shot",
-    "name_plural": "reloaded 00 shot",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -32,12 +22,7 @@
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": "reloaded flechette shell",
-    "name_plural": "reloaded flechette shell",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -46,12 +31,7 @@
     "copy-from": "shot_slug",
     "type": "AMMO",
     "name": "reloaded shotgun slug",
-    "name_plural": "reloaded shotgun slug",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -59,7 +39,6 @@
     "id": "shot_00",
     "type": "AMMO",
     "name": "00 shot",
-    "name_plural": "00 shot",
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "weight": 32,
     "volume": 1,
@@ -71,7 +50,7 @@
     "stack_size": 20,
     "ammo_type": "shot",
     "casing": "shot_hull",
-    "range": 6,
+    "range": 12,
     "damage": 50,
     "recoil": 2500,
     "loudness": 160,
@@ -82,15 +61,10 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "shotgun beanbag",
-    "name_plural": "shotgun beanbag",
     "description": "A beanbag round for shotguns, not deadly but designed to disable.",
     "price": 3500,
     "count": 10,
-    "proportional": {
-      "damage": 0.1,
-      "recoil": 0.4,
-      "loudness": 0.6
-    },
+    "proportional": { "damage": 0.1, "recoil": 0.4, "loudness": 0.6 },
     "extend": { "effects": [ "BEANBAG", "NOGIB" ] }
   },
   {
@@ -98,14 +72,9 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "birdshot",
-    "name_plural": "birdshot",
     "description": "Weak shotgun ammunition.  Designed for hunting birds and other small game, its applications in combat are very limited.",
     "price": 2400,
-    "proportional": {
-      "damage": 0.3,
-      "recoil": 0.6,
-      "loudness": 0.8
-    },
+    "proportional": { "damage": 0.3, "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
   },
   {
@@ -113,22 +82,18 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "flechette shell",
-    "name_plural": "flechette shell",
     "description": "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the spread makes it very accurate at short range.  Slices through most forms of armor with ease.",
     "price": 10000,
     "count": 10,
-    "relative": {
-      "damage": -6,
-      "pierce": 12
-    }
+    "relative": { "damage": -6, "pierce": 12 }
   },
   {
     "id": "shot_he",
     "copy-from": "shot_slug",
     "type": "AMMO",
     "name": "explosive slug",
-    "name_plural": "explosive slug",
     "//": "$30/shot thanks to tight regulation, one way or another.",
+    "description": "A shotgun shell shooting a small explosive.  Damaging, but rather inaccurate and short ranged.  Banned in several states.",
     "price": 15000,
     "count": 5,
     "damage": 10,
@@ -140,13 +105,8 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "makeshift shotgun shot",
-    "name_plural": "makeshift shotgun shot",
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
-    "proportional": {
-      "price": 0.4,
-      "damage": 0.6,
-      "dispersion": 1.2
-    },
+    "proportional": { "price": 0.4, "damage": 0.6, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -158,10 +118,7 @@
     "description": "A heavy metal slug used with shotguns to give them the range capabilities of a rifle.  Extremely damaging but rather inaccurate.",
     "price": 4500,
     "dispersion": 100,
-    "relative": {
-      "range": 6,
-      "pierce": 6
-    },
+    "relative": { "range": 12, "pierce": 6 },
     "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }

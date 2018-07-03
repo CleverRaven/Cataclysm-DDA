@@ -48,6 +48,7 @@
   {
    "id": "gunsword",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "I",
     "color": "light_gray",
     "name": "gunsword",
@@ -74,6 +75,7 @@
   {
    "id": "gunknife",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "i",
     "color": "light_gray",
     "name": "gunknife",
@@ -102,6 +104,7 @@
   {
     "id": "50pistol",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
     "name": "FiveO handcannon",
@@ -130,7 +133,7 @@
     "type": "GUN",
     "color": "dark_gray",
     "name": "M919",
-    "description": "Manufactured by Sarah and Suhl machine company of Portland, Maine, the M919 submachine gun is the most accurate 9mm submachine gun on the market.  Intended for police use, it is fitted with an integral grenade launcher.",
+    "description": "Manufactured by Sarah and Suhl machine company of Portland, Maine, the M919 submachine gun is the most accurate 9x19mm submachine gun on the market.  Intended for police use, it is fitted with an integral grenade launcher.",
     "weight": 3100,
     "volume": 5,
     "price": 430000,
@@ -188,8 +191,9 @@
     ]
   },
   {
-    "id": "ltcarb",
+    "id": "light_carb",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "L.T. carbine",
@@ -216,6 +220,7 @@
   {
     "id": "arccan",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "arc cannon",
@@ -243,7 +248,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "M1911 DS",
-    "description": "The m1911 Darkstalker is a very modified m1911, it has a fully integrated crossbow and added rails.  Professional looking with a ebony black finish, laced with lime green details.  Now they will know why they fear the night.  Bat hood sold separately.",
+    "description": "The M1911 Darkstalker is a very modified M1911, it has a fully integrated crossbow and added rails.  Professional looking with a ebony black finish, laced with lime green details.  Now they will know why they fear the night.  Bat hood sold separately.",
     "weight": 1135,
     "volume": 3,
     "price": 150000,

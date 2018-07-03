@@ -13,14 +13,14 @@
   },
   {
     "type" : "start_location",
-    "ident" : "mansion_s",
-    "name" : "Mansion",
-    "target" : "mansion"
+    "ident" : "mansion_e2_s",
+    "name" : "Mansion Entrance",
+    "target" : "mansion_e2"
   },
   {
     "type" : "start_location",
-    "ident" : "mansion_entrance_s",
-    "name" : "Mansion Entrance",
-    "target" : "mansion_entrance"
+    "ident" : "mansion_+2_s",
+    "name" : "Mansion",
+    "target" : "mansion_+2"
   }
 ]

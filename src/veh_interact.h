@@ -1,11 +1,12 @@
+#pragma once
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
 #include "inventory.h"
 #include "input.h"
-#include "color.h"
-#include "cursesdef.h" // WINDOW
+#include "cursesdef.h"
 #include "string_id.h"
+#include "color.h"
 #include "int_id.h"
 #include "requirements.h"
 #include "player_activity.h"
@@ -62,15 +63,15 @@ class veh_interact
         int cpart = -1;
         int page_size;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
-        WINDOW *w_grid;
-        WINDOW *w_mode;
-        WINDOW *w_msg;
-        WINDOW *w_disp;
-        WINDOW *w_parts;
-        WINDOW *w_stats;
-        WINDOW *w_list;
-        WINDOW *w_details;
-        WINDOW *w_name;
+        catacurses::window w_grid;
+        catacurses::window w_mode;
+        catacurses::window w_msg;
+        catacurses::window w_disp;
+        catacurses::window w_parts;
+        catacurses::window w_stats;
+        catacurses::window w_list;
+        catacurses::window w_details;
+        catacurses::window w_name;
 
         vehicle *veh;
         bool has_wrench;
@@ -84,7 +85,7 @@ class veh_interact
 
         player_activity serialize_activity();
 
-        void set_title( std::string msg, ... ) const;
+        void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
@@ -132,14 +133,17 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode();
-        void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
+        void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( WINDOW *w );
+        size_t display_esc( const catacurses::window &w );
 
         /**
-         * Display overview of parts
-         * @param enable used to determine if a part can be selected
-         * @param action callback when part is selected, should return true if redraw required
+         * Display overview of parts, optionally with interactive selection of one part
+         *
+         * @param enable used to determine parts of interest. If \p action also present, these
+                         parts are the ones that can be selected. Otherwise, these are the parts
+                         that will be highlighted
+         * @param action callback when part is selected, should return true if redraw required.
          * @return whether redraw is required (always false if no action was run)
          */
         bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
@@ -150,8 +154,13 @@ class veh_interact
         std::string totalDurabilityText;
         nc_color totalDurabilityColor;
 
-        /** Store the most damaged part's index, or -1 if they're all healthy. */
-        int mostDamagedPart = -1;
+        /** Returns the most damaged part's index, or -1 if they're all healthy. */
+        vehicle_part *get_most_damaged_part() const;
+
+        /** Returns the index of the part that needs repair the most.
+         * This may not be mostDamagedPart since not all parts can be repaired
+         * If there are no damaged parts this returns -1 */
+        vehicle_part *get_most_repariable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx );
@@ -193,7 +202,6 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
-        void deallocate_windows();
 };
 
 #endif

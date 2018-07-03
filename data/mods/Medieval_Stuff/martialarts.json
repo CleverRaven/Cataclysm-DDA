@@ -3,7 +3,7 @@
         "type" : "martial_art",
         "id" : "style_swordsmanship",
         "name" : "Medieval Swordsmanship",
-        "description": "The art of the longsword and other weapons, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques, plus familiarity with other weapon like polearms.",
+        "description": "The art of the longsword and other weapons, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques, plus familiarity with other weapons like polearms.",
         "arm_block" : 99,
         "leg_block" : 99,
         "onattack_buffs" : [
@@ -14,7 +14,9 @@
                 "buff_duration" : 3,
                 "melee_allowed" : true,
                 "bonus_dodges" : 2
-            },
+            }
+        ],
+        "ondodge_buffs" : [
             {
                 "id" : "swordsmanship_counter",
                 "name" : "Displacement",
@@ -37,10 +39,13 @@
             "sword_nail",
             "sword_crude",
             "zweihander",
+            "zweihander_inferior",
             "zweifire_off",
             "zweifire_on",
             "arming_sword",
+            "arming_sword_inferior",
             "longsword",
+            "longsword_inferior",
             "dusksword",
             "estoc",
             "q_staff",
@@ -48,6 +53,7 @@
             "makeshift_halberd",
             "glaive",
             "pike",
+            "spear_steel",
             "halberd"
         ]
     },{

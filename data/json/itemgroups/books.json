@@ -73,5 +73,16 @@
       [ "survival_book", 12 ],
       [ "textbook_survival", 17 ]
     ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "book_school",
+    "subtype": "collection",
+    "//" : "Books found in school library",
+    "items":[
+      { "group": "novels", "prob": 50 },
+      { "group": "manuals", "prob": 40 },
+      { "group": "textbooks", "prob": 30 }
+    ]
   }
 ]

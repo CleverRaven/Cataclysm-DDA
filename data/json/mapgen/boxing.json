@@ -58,10 +58,8 @@
     "name": "boxing gym",
     "sym": 94,
     "color": "yellow_cyan",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 3,
-    "sidewalk": true,
     "extras": "build",
     "mapgen": [
       {
@@ -96,7 +94,7 @@
             "  qqqqqqqqqqqqqqqqqqqq  "
           ],
           "terrain": {
-            " ": "t_null",
+            " ": "t_grass",
             "#": "t_floor",
             "$": "t_fence_rope",
             "'": "t_door_c",
@@ -141,9 +139,7 @@
             "^": "f_indoor_plant",
             "f": "f_trashcan"
           },
-          "toilets": {
-            "T": {}
-          },
+          "toilets": { "T": {  } },
           "place_items": [
             { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 3, 5 ] },
             { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 40, "repeat": [ 1, 2 ] },
@@ -153,6 +149,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

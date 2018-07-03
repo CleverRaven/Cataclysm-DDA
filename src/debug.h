@@ -1,7 +1,8 @@
+#pragma once
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#include "printf_check.h"
+#include "string_formatter.h"
 
 /**
  *      debugmsg(msg, ...)
@@ -31,7 +32,9 @@
  * Usually a single source contains only debug messages for a single debug class
  * (e.g. mapgen.cpp contains only messages for D_MAP_GEN, npcmove.cpp only D_NPC).
  * Those files contain a macro at top:
+@code
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+@endcode
  * It allows to call the debug system and just supply the debug level, the debug
  * class is automatically inserted as it is the same for the whole file. Also this
  * adds the file name and the line of the statement to the debug message.
@@ -64,8 +67,15 @@
 #define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
 
 // Don't use this, use debugmsg instead.
-void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
-                   ... ) PRINTF_LIKE( 4, 5 );
+void realDebugmsg( const char *filename, const char *line, const char *funcname,
+                   const std::string &mes );
+template<typename ...Args>
+inline void realDebugmsg( const char *const filename, const char *const line,
+                          const char *const funcname, const char *const mes, Args &&... args )
+{
+    return realDebugmsg( filename, line, funcname, string_format( mes,
+                         std::forward<Args>( args )... ) );
+}
 
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------
@@ -97,7 +107,7 @@ enum DebugClass {
     D_MAP_GEN = 1 << 3,
     /** Main game class */
     D_GAME    = 1 << 4,
-    /** ncps*.cpp */
+    /** npcs*.cpp */
     D_NPC     = 1 << 5,
     /** SDL & tiles & anything graphical */
     D_SDL     = 1 << 6,
@@ -110,7 +120,7 @@ void setupDebug();
 /** Opposite of setupDebug, shuts the debugging system down. */
 void deinitDebug();
 
-// Function Declatations                                            {{{1
+// Function Declarations                                            {{{1
 // ---------------------------------------------------------------------
 /**
  * Set debug levels that should be logged. bitmask is a OR-combined

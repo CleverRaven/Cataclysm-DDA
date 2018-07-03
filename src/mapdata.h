@@ -1,47 +1,37 @@
+#pragma once
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include "game_constants.h"
-#include "calendar.h"
-#include "enums.h"
-#include "iexamine.h"
 #include "int_id.h"
-#include "trap.h"
 #include "string_id.h"
-#include "weighted_list.h"
 #include "units.h"
-#include "rng.h"
+#include "color.h"
 
 #include <bitset>
 #include <vector>
-#include <list>
-#include <map>
+#include <set>
 #include <string>
 #include <array>
 
+class JsonObject;
 struct itype;
 struct trap;
 struct ter_t;
 struct furn_t;
 class harvest_list;
+class player;
+struct tripoint;
+using iexamine_function = void ( * )( player &, const tripoint & );
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
 
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
-
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
-
 using itype_id = std::string;
-
 using harvest_id = string_id<harvest_list>;
-
-// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -61,14 +51,10 @@ struct map_bash_info {
     std::string sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
-    // ids used for the special handling of tents (have to be ids of furniture)
-    std::vector<std::string> tent_centers;
-    map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
-                      str_min_supported(-1), str_max_supported(-1),
-                      explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      collapse_radius(1), destroy_only(false), bash_below(false),
-                      drop_group("EMPTY_GROUP"), ter_set(NULL_ID), furn_set(NULL_ID) {};
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    // ids used for the special handling of tents
+    std::vector<furn_str_id> tent_centers;
+    map_bash_info();
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -79,8 +65,8 @@ struct map_deconstruct_info {
     std::string drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID), furn_set(NULL_ID) {};
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    map_deconstruct_info();
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 
 /*
@@ -95,11 +81,11 @@ struct map_deconstruct_info {
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
- * SHARP - May do minor damage to players/monsters passing thruogh it
+ * SHARP - May do minor damage to players/monsters passing through it
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
- * MOUNTABLE - Player can fire mounted weapons from here (EG: M2 Browning)
+ * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
  * GOES_UP - Can use '<' to go up a level
@@ -118,6 +104,7 @@ struct map_deconstruct_info {
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
+ * EASY_DECONSTRUCT - Player can deconstruct this without tools
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -158,7 +145,6 @@ enum ter_bitflags : int {
     TFLAG_FLAMMABLE_ASH,
     TFLAG_DESTROY_ITEM,
     TFLAG_INDOORS,
-    TFLAG_PLANT,
     TFLAG_LIQUIDCONT,
     TFLAG_FIRE_CONTAINER,
     TFLAG_FLAMMABLE_HARD,
@@ -194,19 +180,28 @@ enum ter_connects : int {
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
     TERCONN_WATER,
+    TERCONN_PAVEMENT,
 };
 
 struct map_data_common_t {
-    std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
-
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
+    
+    public:
+        virtual ~map_data_common_t() = default;
+
+    protected:
+        friend furn_t null_furniture_t();
+        friend ter_t null_terrain_t();
+        // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
+        std::string name_;
 
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
 
 public:
+        std::string name() const;
 
     enum { SEASONS_PER_YEAR = 4 };
     /*
@@ -219,6 +214,8 @@ public:
     int movecost;   // The amount of movement points required to pass this terrain by default.
     units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
+    std::string description;
+
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
@@ -229,7 +226,7 @@ public:
      * Note: This excludes items that take extra tools to harvest.
      */
     std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
-        harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" )
+        harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()
     }};
 
     bool transparent;
@@ -264,6 +261,8 @@ public:
      */
     const std::set<std::string> &get_harvest_names() const;
 
+    std::string extended_description() const;
+
     virtual void load( JsonObject &jo, const std::string &src );
     virtual void check() const;
 };
@@ -283,12 +282,7 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
-    ter_t() :
-        open( NULL_ID ),
-        close( NULL_ID ),
-        transforms_into( NULL_ID ),
-        roof( NULL_ID ),
-        trap( tr_null ) {};
+    ter_t();
 
     static size_t count();
 
@@ -311,6 +305,7 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
 
@@ -319,9 +314,7 @@ struct furn_t : map_data_common_t {
     // May return NULL
     const itype *crafting_ammo_item_type() const;
 
-    furn_t() :
-        open( NULL_ID ),
-        close( NULL_ID ) {};
+    furn_t();
 
     static size_t count();
 
@@ -331,21 +324,6 @@ struct furn_t : map_data_common_t {
     void check() const override;
 };
 
-/*
-Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
-*/
-//Classic Extras is for when you have special zombies turned off.
-extern const std::set<std::string> classic_extras;
-
-struct map_extras {
- unsigned int chance;
- weighted_int_list<std::string> values;
-
- map_extras() : chance(0), values() {}
- map_extras(const unsigned int embellished) : chance(embellished), values() {}
-
-};
-
 void load_furniture( JsonObject &jo, const std::string &src );
 void load_terrain( JsonObject &jo, const std::string &src );
 
@@ -353,43 +331,24 @@ void verify_furniture();
 void verify_terrain();
 
 /*
- * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
- */
-template<typename T>
-struct id_or_id {
-   int chance;                  // 8
-   int_id<T> primary;
-   int_id<T> secondary;
-   id_or_id(const int_id<T> id1, const int i, const int_id<T> id2) : chance(i), primary(id1), secondary(id2) { }
-   bool match( const int_id<T> iid ) const {
-       if ( iid == primary || iid == secondary ) {
-           return true;
-       }
-       return false;
-   }
-   int_id<T> get() const {
-       return ( one_in(chance) ? secondary : primary );
-   }
-};
-
-/*
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
 ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
-the code that can use the perormance boost and refer to core terrain types), and they are -not-
-provided for terrains added by mods. A string equivalent is always present, ie;
+the code that can use the performance boost and refer to core terrain types), and they are -not-
+provided for terrains added by mods. A string equivalent is always present, i.e.;
 t_basalt
 "t_basalt"
 */
 extern ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
     // Ground
-    t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
+    t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
     t_rock_floor,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+    t_thconc_floor,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -410,6 +369,7 @@ extern ter_id t_null,
     t_reinforced_door_glass_o,
     t_reinforced_door_glass_c,
     t_bars,
+    t_reb_cage,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
@@ -431,9 +391,9 @@ extern ter_id t_null,
     t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_birch_harvested, t_tree_willow, t_tree_willow_harvested, t_tree_maple, t_tree_maple_tapped, t_tree_deadpine, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
-    t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
+    t_fence, t_chainfence, t_chainfence_posts,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-    t_railing_v, t_railing_h,
+    t_railing,
     // Nether
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
     t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
@@ -472,7 +432,8 @@ extern ter_id t_null,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
-    t_linoleum_white, t_linoleum_gray;
+    t_linoleum_white, t_linoleum_gray,
+    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
 
 
 /*
@@ -508,7 +469,8 @@ extern furn_id f_null,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm;
+    f_robotic_arm, f_vending_reinforced,
+    f_brazier;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
@@ -517,16 +479,5 @@ extern furn_id f_null,
 void check_furniture_and_terrain();
 
 void finalize_furniture_and_terrain();
-
-// TODO: move into mapgen headers, it's not needed during normal game play.
-/*
- * It's a terrain! No, it's a furniture! Wait it's both!
- */
-struct ter_furn_id {
-   ter_id ter;
-   furn_id furn;
-   ter_furn_id() : ter( t_null ), furn( f_null ) { }
-};
-
 
 #endif

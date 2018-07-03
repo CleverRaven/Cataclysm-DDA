@@ -1,16 +1,19 @@
-#include <algorithm>
-#include <string>
+#include "harvest.h"
+
 #include "assign.h"
 #include "debug.h"
-#include "harvest.h"
 #include "item.h"
 #include "output.h"
 
-template <>
-const harvest_id string_id<harvest_list>::NULL_ID( "null" );
+#include <algorithm>
+#include <cmath>
+#include <sstream>
+#include <string>
 
+// @todo: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
+/** @relates string_id */
 template<>
 const harvest_list &string_id<harvest_list>::obj() const
 {
@@ -23,9 +26,33 @@ const harvest_list &string_id<harvest_list>::obj() const
     return found->second;
 }
 
+/** @relates string_id */
+template<>
+bool string_id<harvest_list>::is_valid() const
+{
+    return harvest_all.count( *this ) > 0;
+}
+
+harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}
+
+const harvest_id &harvest_list::id() const
+{
+    return id_;
+}
+
+std::string harvest_list::message() const
+{
+    return message_;
+}
+
+bool harvest_list::is_null() const
+{
+    return id_ == harvest_id::NULL_ID();
+}
+
 harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
 {
-    const bool strict = src == "core";
+    const bool strict = src == "dda";
 
     harvest_entry ret;
     assign( jo, "drop", ret.drop, strict );
@@ -36,7 +63,8 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     return ret;
 }
 
-const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src, const std::string &id )
+const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
+                                      const std::string &id )
 {
     harvest_list ret;
     if( jo.has_string( "id" ) ) {
@@ -45,6 +73,10 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src, co
         ret.id_ = harvest_id( id );
     } else {
         jo.throw_error( "id was not specified for harvest" );
+    }
+
+    if( jo.has_string( "message" ) ) {
+        ret.message_ = jo.get_string( "message" );
     }
 
     JsonArray jo_entries = jo.get_array( "entries" );
@@ -61,7 +93,7 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src, co
 void harvest_list::finalize()
 {
     std::transform( entries_.begin(), entries_.end(), std::inserter( names_, names_.begin() ),
-    []( const harvest_entry &entry ) {
+    []( const harvest_entry & entry ) {
         return item::type_is_defined( entry.drop ) ? item::nname( entry.drop ) : "";
     } );
 }
@@ -83,7 +115,7 @@ void harvest_list::check_consistency()
     for( const auto &pr : harvest_all ) {
         const auto &hl = pr.second;
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
-        []( const harvest_entry &entry ) {
+        []( const harvest_entry & entry ) {
             return item::type_is_defined( entry.drop ) ? "" : entry.drop;
         } );
         if( !errors.empty() ) {
@@ -110,4 +142,46 @@ std::list<harvest_entry>::const_reverse_iterator harvest_list::rbegin() const
 std::list<harvest_entry>::const_reverse_iterator harvest_list::rend() const
 {
     return entries().rend();
+}
+
+std::string harvest_list::describe( int at_skill ) const
+{
+    if( empty() ) {
+        return "";
+    }
+
+    return enumerate_as_string( entries().begin(), entries().end(),
+    [at_skill]( const harvest_entry & en ) {
+        float min_f = en.base_num.first;
+        float max_f = en.base_num.second;
+        if( at_skill >= 0 ) {
+            min_f += en.scale_num.first * at_skill;
+            max_f += en.scale_num.second * at_skill;
+        } else {
+            max_f = en.max;
+        }
+        // @todo: Avoid repetition here by making a common harvest drop function
+        int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
+        int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
+        if( max_drops <= 0 ) {
+            return std::string();
+        }
+
+        std::stringstream ss;
+        ss << "<bold>" << item::nname( en.drop, max_drops ) << "</bold>";
+        // If the number is unspecified, just list the type
+        if( max_drops >= 1000 && min_drops <= 0 ) {
+            return ss.str();
+        }
+        ss << ": ";
+        if( min_drops == max_drops ) {
+            ss << "<stat>" << min_drops << "</stat>";
+        } else if( max_drops < 1000 ) {
+            ss << "<stat>" << min_drops << "-" << max_drops << "</stat>";
+        } else {
+            ss << "<stat>" << min_drops << "+" << "</stat>";
+        }
+
+        return ss.str();
+    } );
 }

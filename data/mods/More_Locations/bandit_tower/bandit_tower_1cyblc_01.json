@@ -1,0 +1,56 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": "bandit_tower_1cyblc",
+        "comment" : "courtyard or parking lot, bottom left corner",
+        "weight": 250,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_pavement",
+             "rows": [
+                "===#####PPPPPPPPPPP##===",
+                "=*######PPPPPPPPPPP####=",
+                "=#######PPPPPPPPPPP####=",
+                "########                ",
+                "########                ",
+                "#####          v        ",
+                "#####                   ",
+                "#####                   ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "PPP                     ",
+                "###                     ",
+                "###                     ",
+                "###                     ",
+                "###                 v   ",
+                "###                     ",
+                "=##                     ",
+                "=*#                     ",
+                "===                     "
+            ],
+            "rotation": 3,
+            "palettes": [
+                "tri_tower",
+                "ground_level",
+                "bandit_tower_stuff"
+                        ],
+            "terrain":{
+                "P": "t_pavement",
+                "y": "t_pavement_y",
+                "9": "t_card_reader_broken"
+            },
+            "vehicles": {
+                "v": { "vehicle": "military_vehicles", "chance": 80, "status": 0 }
+            },
+            "npcs": {
+                "v": { "class": "raider" },
+                "@": { "class": "thug" }
+            }
+        }
+    }
+]

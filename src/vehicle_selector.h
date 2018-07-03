@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VEHICLE_SELECTOR_H
 #define VEHICLE_SELECTOR_H
 
@@ -6,6 +7,7 @@
 #include "visitable.h"
 
 class vehicle;
+struct tripoint;
 
 class vehicle_cursor : public visitable<vehicle_cursor>
 {

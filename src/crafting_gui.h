@@ -1,7 +1,8 @@
+#pragma once
 #ifndef CRAFTING_GUI_H
 #define CRAFTING_GUI_H
 
-struct recipe;
+class recipe;
 class JsonObject;
 
 const recipe *select_crafting_recipe( int &batch_size );

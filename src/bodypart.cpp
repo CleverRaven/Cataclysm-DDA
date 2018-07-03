@@ -1,13 +1,52 @@
 #include "bodypart.h"
+#include "anatomy.h"
 #include "translations.h"
 #include "rng.h"
 #include "debug.h"
+#include "generic_factory.h"
 #include <map>
 #include <unordered_map>
 
+side opposite_side( side s )
+{
+    switch( s ) {
+        case side::BOTH:
+            return side::BOTH;
+        case side::LEFT:
+            return side::RIGHT;
+        case side::RIGHT:
+            return side::LEFT;
+    }
+
+    return s;
+}
+
+namespace io
+{
+
+static const std::map<std::string, side> side_map = {{
+        { "left", side::LEFT },
+        { "right", side::RIGHT },
+        { "both", side::BOTH }
+    }
+};
+
+template<>
+side string_to_enum<side>( const std::string &data )
+{
+    return string_to_enum_look_up( side_map, data );
+}
+
+}
+
 namespace
 {
-const std::unordered_map<std::string, body_part> &get_body_parts_map()
+
+generic_factory<body_part_struct> body_part_factory( "body part" );
+
+} // namespace
+
+body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {
         { "TORSO", bp_torso },
@@ -24,273 +63,209 @@ const std::unordered_map<std::string, body_part> &get_body_parts_map()
         { "FOOT_R", bp_foot_r },
         { "NUM_BP", num_bp },
     };
-    return body_parts;
+    const auto &iter = body_parts.find( legacy_id );
+    if( iter == body_parts.end() ) {
+        debugmsg( "Invalid body part legacy id %s", legacy_id.c_str() );
+        return num_bp;
+    }
+
+    return iter->second;
 }
-} // namespace
+
+template<>
+bool bodypart_ids::is_valid() const
+{
+    return body_part_factory.is_valid( *this );
+}
+
+template<>
+bool bodypart_id::is_valid() const
+{
+    return body_part_factory.is_valid( *this );
+}
+
+template<>
+const body_part_struct &bodypart_ids::obj() const
+{
+    return body_part_factory.obj( *this );
+}
+
+template<>
+const body_part_struct &bodypart_id::obj() const
+{
+    return body_part_factory.obj( *this );
+}
+
+template<>
+const bodypart_ids &bodypart_id::id() const
+{
+    return body_part_factory.convert( *this );
+}
+
+template<>
+bodypart_id bodypart_ids::id() const
+{
+    return body_part_factory.convert( *this, bodypart_id( 0 ) );
+}
 
 body_part get_body_part_token( const std::string &id )
 {
-    auto &map = get_body_parts_map();
-    const auto iter = map.find( id );
-    if( iter == map.end() ) {
-        debugmsg( "invalid body part id %s", id.c_str() );
-        return bp_torso;
+    return legacy_id_to_enum( id );
+}
+
+const bodypart_ids &convert_bp( body_part token )
+{
+    static const std::vector<bodypart_ids> body_parts = {
+        bodypart_ids( "torso" ),
+        bodypart_ids( "head" ),
+        bodypart_ids( "eyes" ),
+        bodypart_ids( "mouth" ),
+        bodypart_ids( "arm_l" ),
+        bodypart_ids( "arm_r" ),
+        bodypart_ids( "hand_l" ),
+        bodypart_ids( "hand_r" ),
+        bodypart_ids( "leg_l" ),
+        bodypart_ids( "leg_r" ),
+        bodypart_ids( "foot_l" ),
+        bodypart_ids( "foot_r" ),
+        bodypart_ids( "num_bp" ),
+    };
+    if( token > num_bp || token < bp_torso ) {
+        debugmsg( "Invalid body part token %d", token );
+        return body_parts[ num_bp ];
     }
-    return iter->second;
+
+    return body_parts[( size_t )token];
+}
+
+const body_part_struct &get_bp( body_part bp )
+{
+    return convert_bp( bp ).obj();
+}
+
+void body_part_struct::load_bp( JsonObject &jo, const std::string &src )
+{
+    body_part_factory.load( jo, src );
+}
+
+void body_part_struct::load( JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "heading_singular", name_as_heading_singular );
+    mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
+    optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
+    mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
+    mandatory( jo, was_loaded, "hit_size", hit_size );
+    mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
+    mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
+
+    mandatory( jo, was_loaded, "legacy_id", legacy_id );
+    token = legacy_id_to_enum( legacy_id );
+
+    mandatory( jo, was_loaded, "main_part", main_part );
+    mandatory( jo, was_loaded, "opposite_part", opposite_part );
+
+    part_side = jo.get_enum_value<side>( "side" );
+}
+
+void body_part_struct::reset()
+{
+    body_part_factory.reset();
+}
+
+void body_part_struct::finalize_all()
+{
+    body_part_factory.finalize();
+}
+
+void body_part_struct::finalize()
+{
+}
+
+void body_part_struct::check_consistency()
+{
+    for( const body_part bp : all_body_parts ) {
+        const auto &legacy_bp = convert_bp( bp );
+        if( !legacy_bp.is_valid() ) {
+            debugmsg( "Mandatory body part %s was not loaded", legacy_bp.c_str() );
+        }
+    }
+
+    body_part_factory.check();
+}
+
+void body_part_struct::check() const
+{
+    const auto &under_token = get_bp( token );
+    if( this != &under_token ) {
+        debugmsg( "Body part %s has duplicate token %d, mapped to %s", id.c_str(), token,
+                  under_token.id.c_str() );
+    }
+
+    if( !id.is_null() && main_part.is_null() ) {
+        debugmsg( "Body part %s has unset main part", id.c_str() );
+    }
+
+    if( !id.is_null() && opposite_part.is_null() ) {
+        debugmsg( "Body part %s has unset opposite part", id.c_str() );
+    }
+
+    if( !main_part.is_valid() ) {
+        debugmsg( "Body part %s has invalid main part %s.", id.c_str(), main_part.c_str() );
+    }
+
+    if( !opposite_part.is_valid() ) {
+        debugmsg( "Body part %s has invalid opposite part %s.", id.c_str(), opposite_part.c_str() );
+    }
 }
 
 std::string body_part_name( body_part bp )
 {
-    switch( bp ) {
-        case bp_head:
-            return _( "head" );
-        case bp_eyes:
-            return _( "eyes" );
-        case bp_mouth:
-            return _( "mouth" );
-        case bp_torso:
-            return _( "torso" );
-        case bp_arm_l:
-            return  _( "left arm" );
-        case bp_arm_r:
-            return  _( "right arm" );
-        case bp_hand_l:
-            return _( "left hand" );
-        case bp_hand_r:
-            return _( "right hand" );
-        case bp_leg_l:
-            return _( "left leg" );
-        case bp_leg_r:
-            return _( "right leg" );
-        case bp_foot_l:
-            return _( "left foot" );
-        case bp_foot_r:
-            return _( "right foot" );
-        default:
-            return _( "appendix" );
-    }
+    return _( get_bp( bp ).name.c_str() );
 }
 
 std::string body_part_name_accusative( body_part bp )
 {
-    switch( bp ) {
-        case bp_head:
-            return pgettext( "bodypart_accusative", "head" );
-        case bp_eyes:
-            return pgettext( "bodypart_accusative", "eyes" );
-        case bp_mouth:
-            return pgettext( "bodypart_accusative", "mouth" );
-        case bp_torso:
-            return pgettext( "bodypart_accusative", "torso" );
-        case bp_arm_l:
-            return pgettext( "bodypart_accusative", "left arm" );
-        case bp_arm_r:
-            return pgettext( "bodypart_accusative", "right arm" );
-        case bp_hand_l:
-            return pgettext( "bodypart_accusative", "left hand" );
-        case bp_hand_r:
-            return pgettext( "bodypart_accusative", "right hand" );
-        case bp_leg_l:
-            return pgettext( "bodypart_accusative", "left leg" );
-        case bp_leg_r:
-            return pgettext( "bodypart_accusative", "right leg" );
-        case bp_foot_l:
-            return pgettext( "bodypart_accusative", "left foot" );
-        case bp_foot_r:
-            return pgettext( "bodypart_accusative", "right foot" );
-        default:
-            return pgettext( "bodypart_accusative", "appendix" );
-    }
+    return pgettext( "bodypart_accusative", get_bp( bp ).name.c_str() );
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
-    switch( bp ) {
-        case bp_head:
-            return _( "Head" );
-        case bp_eyes:
-            return _( "Eyes" );
-        case bp_mouth:
-            return _( "Mouth" );
-        case bp_torso:
-            return _( "Torso" );
-        case bp_arm_l:
-            return ngettext( "L. Arm", "Arms", number );
-        case bp_arm_r:
-            return ngettext( "R. Arm", "Arms", number );
-        case bp_hand_l:
-            return ngettext( "L. Hand", "Hands", number );
-        case bp_hand_r:
-            return ngettext( "R. Hand", "Hands", number );
-        case bp_leg_l:
-            return ngettext( "L. Leg", "Legs", number );
-        case bp_leg_r:
-            return ngettext( "R. Leg", "Legs", number );
-        case bp_foot_l:
-            return ngettext( "L. Foot", "Feet", number );
-        case bp_foot_r:
-            return ngettext( "R. Foot", "Feet", number );
-        case num_bp:
-            debugmsg( "body_part_name_as_heading: Invalid body_part enum num_bp" );
-            return "";
-    }
+    const auto &bdy = get_bp( bp );
+    return ngettext( bdy.name_as_heading_singular.c_str(), bdy.name_as_heading_multiple.c_str(),
+                     number );
+}
 
-    debugmsg( "body_part_name_as_heading: Unexpected body_part enum value" );
-    return "";
+std::string body_part_hp_bar_ui_text( body_part bp )
+{
+    return _( get_bp( bp ).hp_bar_ui_text.c_str() );
 }
 
 std::string encumb_text( body_part bp )
 {
-    switch( bp ) {
-        case bp_head:
-            return "";
-        case bp_eyes:
-            return _( "Ranged combat is hampered." );
-        case bp_mouth:
-            return _( "Running is slowed." );
-        case bp_torso:
-            return _( "Dodging and melee is hampered." );
-        case bp_arm_l:
-        case bp_arm_r:
-            return _( "Melee and ranged combat is hampered." );
-        case bp_hand_l:
-        case bp_hand_r:
-            return _( "Manual tasks are slowed." );
-        case bp_leg_l:
-        case bp_leg_r:
-            return _( "Running and swimming are slowed." );
-        case bp_foot_l:
-        case bp_foot_r:
-            return _( "Running is slowed." );
-        default:
-            return _( "It's inflamed." );
-    }
+    const std::string &txt = get_bp( bp ).encumb_text;
+    return !txt.empty() ? _( txt.c_str() ) : txt;
 }
 
 body_part random_body_part( bool main_parts_only )
 {
-    int rn = rng( 0, 100 );
-    if( !main_parts_only ) {
-        if( rn == 0 ) {
-            return bp_eyes;
-        }
-        if( rn <= 1 ) {
-            return bp_mouth;
-        }
-        if( rn <= 7 ) {
-            return bp_head;
-        }
-        if( rn <= 16 ) {
-            return bp_leg_l;
-        }
-        if( rn <= 25 ) {
-            return bp_leg_r;
-        }
-        if( rn <= 28 ) {
-            return bp_foot_l;
-        }
-        if( rn <= 31 ) {
-            return bp_foot_r;
-        }
-        if( rn <= 40 ) {
-            return bp_arm_l;
-        }
-        if( rn <= 49 ) {
-            return bp_arm_r;
-        }
-        if( rn <= 52 ) {
-            return bp_hand_l;
-        }
-        if( rn <= 55 ) {
-            return bp_hand_r;
-        }
-        return bp_torso;
-    } else {
-        if( rn <= 7 ) {
-            return bp_head;
-        }
-        if( rn <= 19 ) {
-            return bp_leg_l;
-        }
-        if( rn <= 31 ) {
-            return bp_leg_r;
-        }
-        if( rn <= 43 ) {
-            return bp_arm_l;
-        }
-        if( rn <= 55 ) {
-            return bp_arm_r;
-        }
-        return bp_torso;
-    }
+    const auto &part = human_anatomy->random_body_part();
+    return main_parts_only ? part->main_part->token : part->token;
 }
 
 body_part mutate_to_main_part( body_part bp )
 {
-    switch( bp ) {
-        case bp_torso:
-            return bp_torso;
-
-        case bp_head:
-        case bp_eyes:
-        case bp_mouth:
-            return bp_head;
-
-        case bp_arm_l:
-        case bp_hand_l:
-            return bp_arm_l;
-
-        case bp_arm_r:
-        case bp_hand_r:
-            return bp_arm_r;
-
-        case bp_leg_l:
-        case bp_foot_l:
-            return bp_leg_l;
-
-        case bp_leg_r:
-        case bp_foot_r:
-            return bp_leg_r;
-
-        default:
-            return num_bp;
-    }
+    return get_bp( bp ).main_part->token;
 }
 
 body_part opposite_body_part( body_part bp )
 {
-    return static_cast<body_part>( bp_aiOther[bp] );
+    return get_bp( bp ).opposite_part->token;
 }
 
 std::string get_body_part_id( body_part bp )
 {
-    switch( bp ) {
-        case bp_head:
-            return "HEAD";
-        case bp_eyes:
-            return "EYES";
-        case bp_mouth:
-            return "MOUTH";
-        case bp_torso:
-            return "TORSO";
-        case bp_arm_l:
-            return "ARM_L";
-        case bp_arm_r:
-            return "ARM_R";
-        case bp_hand_l:
-            return "HAND_L";
-        case bp_hand_r:
-            return "HAND_R";
-        case bp_leg_l:
-            return "LEG_L";
-        case bp_leg_r:
-            return "LEG_R";
-        case bp_foot_l:
-            return "FOOT_L";
-        case bp_foot_r:
-            return "FOOT_R";
-        default:
-            debugmsg( "bad body part: %d", bp );
-            return "HEAD";
-    }
+    return get_bp( bp ).legacy_id;
 }

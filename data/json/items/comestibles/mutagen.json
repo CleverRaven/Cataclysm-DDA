@@ -14,7 +14,7 @@
         "addiction_potential" : 12,
         "use_action" : "MUT_IV",
         "tool" : "syringe",
-        "flags" : "MUTAGEN_STRONG"
+        "flags" : [ "MUTAGEN_ANY", "MUTAGEN_STRONG" ]
     },
     {
         "abstract" : "iv_mutagen_flavor",
@@ -232,7 +232,7 @@
         "addiction_potential" : 6,
         "addiction_type" : "mutagen",
         "use_action" : "MUTAGEN",
-        "flags" : [ "MUTAGEN_STRONG" ]
+        "flags" : [ "MUTAGEN_ANY", "MUTAGEN_STRONG" ]
     },
     {
         "abstract" : "mutagen_flavor",

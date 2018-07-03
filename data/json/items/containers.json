@@ -22,7 +22,7 @@
       "encumbrance": 4,
       "material_thickness": 2
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -47,6 +47,7 @@
     "type": "CONTAINER",
     "category": "other",
     "name": "steel drum (100L)",
+    "name_plural": "steel drums (100L)",
     "description": "A huge steel barrel with a resealable lid.",
     "weight": 12000,
     "volume": 400,
@@ -58,13 +59,15 @@
     "color": "dark_gray",
     "contains": 400,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "55gal_drum",
     "type": "CONTAINER",
     "category": "other",
     "name": "steel drum (200L)",
+    "name_plural": "steel drums (200L)",
     "description": "A massive steel barrel with a resealable lid.",
     "weight": 20000,
     "volume": 800,
@@ -76,7 +79,8 @@
     "color": "dark_gray",
     "contains": 800,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "bag_canvas",
@@ -270,7 +274,7 @@
     "category": "other",
     "name": "bucket",
     "name_plural": "buckets",
-    "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, french fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+    "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
     "weight": 725,
     "volume": 20,
     "price": 300,
@@ -278,7 +282,8 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": 20,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "camelbak",
@@ -300,11 +305,10 @@
     "armor_data": {
       "covers": [ "TORSO" ],
       "coverage": 15,
-      "encumbrance": 1,
       "storage": 4,
       "material_thickness": 1
     },
-    "flags": [ "BELTED", "VARSIZE" ]
+    "flags": [ "BELTED" ]
   },
   {
     "id": "can_drink",
@@ -388,7 +392,7 @@
       "encumbrance": 2,
       "material_thickness": 2
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "ceramic_bowl",
@@ -440,7 +444,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_hydria",
@@ -545,7 +549,8 @@
       "coverage": 2,
       "material_thickness": 1
     },
-    "flags": [ "WAIST" ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "glass",
@@ -677,7 +682,8 @@
     "color": "green",
     "contains": "20L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "jug_clay",
@@ -729,7 +735,8 @@
     "color": "light_cyan",
     "contains": 200,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "keg_steel",
@@ -747,7 +754,8 @@
     "color": "light_cyan",
     "contains": 200,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "large_stomach_sealed",
@@ -773,6 +781,7 @@
     "type": "CONTAINER",
     "category": "other",
     "name": "metal tank (60L)",
+    "name_plural": "metal tanks (60L)",
     "description": "A large metal tank for holding liquids.  Useful for crafting.",
     "weight": 5668,
     "volume": "60L",
@@ -784,13 +793,15 @@
     "color": "light_cyan",
     "contains": "60L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "metal_tank_little",
     "type": "CONTAINER",
     "category": "other",
     "name": "metal tank (2L)",
+    "name_plural": "metal tanks (2L)",
     "description": "A small metal tank for gas or liquids.  Useful for crafting.",
     "weight": 800,
     "volume": "2L",
@@ -802,7 +813,8 @@
     "color": "light_cyan",
     "contains": "2L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "stomach_sealed",
@@ -846,7 +858,7 @@
       "coverage": 5,
       "material_thickness": 2
     },
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -871,7 +883,7 @@
       "coverage": 10,
       "material_thickness": 2
     },
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -896,7 +908,7 @@
       "coverage": 15,
       "material_thickness": 2
     },
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "wooden_barrel",

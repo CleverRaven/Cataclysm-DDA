@@ -1,15 +1,19 @@
+#pragma once
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <utility>
 #include <climits>
-#include <cassert>
 #include <ostream>
 
-#include "json.h" // (de)serialization for points
+class JsonOut;
+class JsonIn;
 
-#ifndef sgn
-#define sgn(x) (((x) < 0) ? -1 : (((x)>0) ? 1 : 0))
-#endif
+template<typename T>
+constexpr inline int sgn( const T x )
+{
+    return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
+}
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
 // This is taken almost directly from the boost library code.
@@ -93,7 +97,7 @@ enum visibility_type {
   VIS_BOOMER_DARK
 };
 
-enum special_game_id {
+enum special_game_id : int {
     SGAME_NULL = 0,
     SGAME_TUTORIAL,
     SGAME_DEFENSE,
@@ -121,6 +125,7 @@ enum art_effect_passive : int {
     AEP_RESIST_ELECTRICITY, // Protection from electricity
     AEP_CARRY_MORE, // Increases carrying capacity by 200
     AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
+    AEP_FUN, // Slight passive morale
     // Splits good from bad
     AEP_SPLIT,
     // Bad
@@ -142,6 +147,7 @@ enum art_effect_passive : int {
     AEP_MOVEMENT_NOISE, // Makes noise when you move
     AEP_BAD_WEATHER, // More likely to experience bad weather
     AEP_SICK, // Decreases health over time
+    AEP_CLAIRVOYANCE_PLUS, // See through walls to a larger distance; not bad effect, placement to preserve old saves.
 
     NUM_AEPS
 };
@@ -190,31 +196,12 @@ enum object_type {
     NUM_OBJECTS,
 };
 
-struct point : public JsonSerializer, public JsonDeserializer {
+struct point {
     int x;
     int y;
     point() : x(0), y(0) {}
     point(int X, int Y) : x (X), y (Y) {}
-    point(point &&) = default;
-    point(const point &) = default;
-    point &operator=(point &&) = default;
-    point &operator=(const point &) = default;
-    ~point() override {}
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override
-    {
-        jsout.start_array();
-        jsout.write(x);
-        jsout.write(y);
-        jsout.end_array();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonArray ja = jsin.get_array();
-        x = ja.get_int(0);
-        y = ja.get_int(1);
-    }
+
     point operator+(const point &rhs) const
     {
         return point( x + rhs.x, y + rhs.y );
@@ -236,6 +223,9 @@ struct point : public JsonSerializer, public JsonDeserializer {
         return *this;
     }
 };
+
+void serialize( const point &p, JsonOut &jsout );
+void deserialize( point &p, JsonIn &jsin );
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
@@ -262,35 +252,14 @@ inline bool operator!=(const point &a, const point &b)
     return !(a == b);
 }
 
-struct tripoint : public JsonSerializer, public JsonDeserializer {
+struct tripoint {
     int x;
     int y;
     int z;
     tripoint() : x(0), y(0), z(0) {}
     tripoint(int X, int Y, int Z) : x (X), y (Y), z (Z) {}
-    tripoint(tripoint &&) = default;
-    tripoint(const tripoint &) = default;
-    tripoint &operator=(tripoint &&) = default;
-    tripoint &operator=(const tripoint &) = default;
     explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
-    ~tripoint() override {}
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override
-    {
-        jsout.start_array();
-        jsout.write(x);
-        jsout.write(y);
-        jsout.write(z);
-        jsout.end_array();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonArray ja = jsin.get_array();
-        x = ja.get_int(0);
-        y = ja.get_int(1);
-        z = ja.get_int(2);
-    }
+
     tripoint operator+(const tripoint &rhs) const
     {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -338,6 +307,9 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
         z -= rhs.z;
         return *this;
     }
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 inline std::ostream &operator<<( std::ostream &os, const tripoint &pos )
@@ -383,5 +355,15 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static const tripoint tripoint_zero { 0, 0, 0 };
+
+struct sphere
+{
+    int radius;
+    tripoint center;
+
+    sphere() : radius( 0 ), center() {}
+    explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
+    explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
+};
 
 #endif

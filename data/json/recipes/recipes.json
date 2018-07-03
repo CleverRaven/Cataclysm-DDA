@@ -10,6 +10,7 @@
       "CSC_WEAPON_RANGED",
       "CSC_WEAPON_EXPLOSIVE",
       "CSC_WEAPON_MODS",
+      "CSC_WEAPON_MAGAZINES",
       "CSC_WEAPON_OTHER"
     ]
   },{
@@ -38,6 +39,7 @@
       "CSC_FOOD_BREAD",
       "CSC_FOOD_PASTA",
       "CSC_FOOD_BREW",
+      "CSC_FOOD_SEEDS",
       "CSC_FOOD_OTHER"
     ]
   },{

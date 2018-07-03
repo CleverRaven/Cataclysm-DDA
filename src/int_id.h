@@ -1,3 +1,4 @@
+#pragma once
 #ifndef INT_ID_H
 #define INT_ID_H
 

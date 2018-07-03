@@ -1942,8 +1942,9 @@
           "fg": [ 526 , 527 ]
         },
         {
-          "id":["t_chainfence_v", "t_chainfence_h" ],
+          "id":[ "t_chainfence", "t_chainfence_v", "t_chainfence_h" ],
           "fg": [ 528 , 529 ],
+          "rotates": true,
           "multitile": true,
           "height_3d": 6,
           "additional_tiles": [
@@ -2191,10 +2192,11 @@
           "fg": 636
         },
         {
-          "id": ["t_fence_v", "t_fence_h", "t_wall_log_half" ],
+          "id": [ "t_fence", "t_fence_v", "t_fence_h", "t_wall_log_half" ],
           "fg": [ 640 , 641 ],
           "height_3d": 3,
           "bg": 13,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -2324,9 +2326,10 @@
           "fg": 687
         },
         {
-          "id": ["t_railing_v", "t_railing_h" ],
+          "id": [ "t_railing", "t_railing_v", "t_railing_h" ],
           "fg": [ 688 , 689 ],
           "bg": 13,
+          "rotates": true,
           "multitile": true,
           "height_3d": 2,
           "additional_tiles": [
@@ -4977,7 +4980,7 @@
           "fg": 1563
         },
         {
-          "id": ["phonebook", "poetry_book", "tall_tales", "fairy_tales", "plays_book", "essay_book", "philosophy_book", "story_book", "commune_prospectus", "guidebook", "mag_porn", "mag_news", "news_regional", "mag_gaming", "mag_comic", "novel_romance", "novel_spy", "novel_thriller", "novel_crime", "novel_scifi", "novel_drama", "novel_coa", "novel_buddy", "novel_road", "novel_adventure", "novel_experimental", "child_book", "novel_war", "novel_western", "novel_samurai", "novel_swash", "novel_sports", "novel_fantasy", "novel_mystery", "novel_horror", "novel_erotic", "novel_tragedy", "novel_pulp", "novel_satire" ],
+          "id": ["phonebook", "poetry_book", "tall_tales", "fairy_tales", "plays_book", "essay_book", "philosophy_book", "story_book", "commune_prospectus", "guidebook", "mag_porn", "mag_news", "news_regional", "mag_gaming", "mag_comic", "novel_romance", "novel_spy", "novel_thriller", "novel_crime", "novel_crime2", "novel_scifi", "novel_drama", "novel_coa", "novel_coa2", "novel_buddy", "novel_road", "novel_adventure", "novel_experimental", "child_book", "novel_war", "novel_war2", "novel_western", "novel_samurai", "novel_swash", "novel_sports", "novel_fantasy", "novel_mystery", "novel_horror", "novel_erotic", "novel_tragedy", "novel_pulp", "novel_satire" ],
           "//": "other noskill books (e.g. morale boosters)",
           "fg": 1564
         },
@@ -6336,7 +6339,7 @@
         },
         {
           "id": ["gunpowder", "incendiary", "lead", "small_charcoal", "fungal_seeds", "pepper", "material_cement", "material_limestone", "material_quicklime", "material_sand", "coal", "chem_black_powder" ],
-          "//": "powder dark grey/black",
+          "//": "powder dark gray/black",
           "fg": 1908
         },
         {
@@ -6346,7 +6349,7 @@
         },
         {
           "id": ["silver_small", "bismuth", "tin", "seed_cabbage", "sauerkraut_onions", "starch", "tallow_tainted", "mannwurstgravy", "sausagegravy", "can_sardine", "can_tuna", "can_clams", "oatmeal", "dry_beans", "beans_cooked", "rice_cooked", "beansnrice", "oatmeal_cooked", "oatmeal_deluxe", "heroin", "morphine", "quikclot", "material_rocksalt", "material_shrd_limestone", "silver" ],
-          "//": "powder light grey",
+          "//": "powder light gray",
           "fg": 1910
         },
         {
@@ -7500,7 +7503,7 @@
           "fg": 2205
         },
         {
-          "id": ["brazier", "tr_brazier" ],
+          "id": ["brazier", "f_brazier" ],
           "fg": 2206
         },
         {
@@ -8555,5 +8558,4 @@
       ]
     }
   ]
-}
 }

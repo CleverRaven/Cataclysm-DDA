@@ -1,35 +1,42 @@
+#pragma once
 #ifndef PLAYER_H
 #define PLAYER_H
 
 #include "character.h"
-#include "copyable_unique_ptr.h"
+#include "pimpl.h"
 #include "item.h"
 #include "player_activity.h"
-#include "recipe_dictionary.h"
 #include "weighted_list.h"
 #include "game_constants.h"
-#include "craft_command.h"
+#include "ret_val.h"
+#include "damage.h"
+#include "calendar.h"
 
 #include <unordered_set>
-#include <bitset>
 #include <memory>
 #include <array>
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
+class craft_command;
+class recipe_subset;
 enum action_id : int;
-
+struct bionic;
+class JsonObject;
+class JsonIn;
+class JsonOut;
+class dispersion_sources;
 class monster;
 class game;
 struct trap;
 class mission;
 class profession;
 nc_color encumb_color(int level);
-enum morale_type : int;
 enum game_message_type : int;
 class ma_technique;
 class martialart;
-struct recipe;
+class recipe;
+using recipe_id = string_id<recipe>;
 struct component;
 struct item_comp;
 struct tool_comp;
@@ -41,6 +48,9 @@ class start_location;
 using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
+struct targeting_data;
+class morale_type_data;
+using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
 {
@@ -64,10 +74,27 @@ enum edible_rating {
     CANNIBALISM,
     // Rotten or not rotten enough (for saprophages)
     ROTTEN,
+    // Can provoke vomiting if you already feel nauseous.
+    NAUSEA,
     // We can eat this, but we'll overeat
     TOO_FULL,
     // Some weird stuff that requires a tool we don't have
     NO_TOOL
+};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_success : public std::integral_constant<edible_rating, EDIBLE> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_failure : public std::integral_constant<edible_rating, INEDIBLE> {};
+
+enum class rechargeable_cbm {
+    none = 0,
+    battery,
+    reactor,
+    furnace
 };
 
 struct special_attack {
@@ -76,64 +103,33 @@ struct special_attack {
 };
 
 class player_morale;
-class player_morale_ptr : public std::unique_ptr<player_morale> {
-    public:
-        player_morale_ptr() = default;
-        player_morale_ptr( const player_morale_ptr &rhs );
-        player_morale_ptr( player_morale_ptr &&rhs );
-        player_morale_ptr &operator = ( const player_morale_ptr &rhs );
-        player_morale_ptr &operator = ( player_morale_ptr &&rhs );
 
-        ~player_morale_ptr();
-};
-
-// The minimum level recoil will reach without aiming.
-// Sets the floor for accuracy of a "snap" or "hip" shot.
-extern const double MIN_RECOIL;
+// The maximum level recoil will ever reach.
+// This corresponds to the level of accuracy of a "snap" or "hip" shot.
+extern const double MAX_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
-struct stats : public JsonSerializer, public JsonDeserializer {
-    int squares_walked;
-    int damage_taken;
-    int damage_healed;
-    int headshots;
+struct stats {
+    int squares_walked = 0;
+    int damage_taken = 0;
+    int damage_healed = 0;
+    int headshots = 0;
 
-    void reset()
-    {
-        squares_walked = 0;
-        damage_taken = 0;
-        damage_healed = 0;
-        headshots = 0;
-    }
-
-    stats()
-    {
-        reset();
-    }
-
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const override
-    {
-        json.start_object();
-        json.member("squares_walked", squares_walked);
-        json.member("damage_taken", damage_taken);
-        json.member("damage_healed", damage_healed);
-        json.member("headshots", headshots);
-        json.end_object();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonObject jo = jsin.get_object();
-        jo.read("squares_walked", squares_walked);
-        jo.read("damage_taken", damage_taken);
-        jo.read("damage_healed", damage_healed);
-        jo.read("headshots", headshots);
-    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
-class player : public Character, public JsonSerializer, public JsonDeserializer
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
+class player : public Character
 {
     public:
         player();
@@ -144,11 +140,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         player &operator=(player &&);
 
         // newcharacter.cpp
-        bool create(character_type type, std::string tempname = "");
-        void randomize( bool random_scenario, points_left &points );
+        bool create(character_type type, const std::string &tempname = "");
+        void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
-         *  normalizes HP and bodytemperature
+         *  normalizes HP and body temperature
          */
 
         void normalize() override;
@@ -162,9 +158,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        /** Handles human-specific effect application effects before calling Creature::add_eff_effects(). */
-        void add_eff_effects(effect e, bool reduced) override;
-        /** Processes human-specific effects effects before calling Creature::process_effects(). */
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects(effect &it);
@@ -182,26 +176,22 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Outputs a serialized json string for saving */
         virtual std::string save_info() const;
 
-        int print_info(WINDOW *w, int vStart, int vLines, int column) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
-        using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        virtual void deserialize( JsonIn &jsin );
 
-        using JsonSerializer::serialize;
         // by default save all contained info
-        void serialize(JsonOut &jsout) const override;
+        virtual void serialize( JsonOut &jsout ) const;
 
         /** Prints out the player's memorial file */
-        void memorial( std::ostream &memorial_file, std::string epitaph );
+        void memorial( std::ostream &memorial_file, const std::string &epitaph );
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Print the player's stamina bar. **/
-        void print_stamina_bar( WINDOW *w ) const;
         /** Generates the sidebar and it's data in-game */
-        void disp_status(WINDOW *w, WINDOW *w2);
+        void disp_status( const catacurses::window &w, const catacurses::window &w2 );
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -232,8 +222,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Updates all "biology" by one turn. Should be called once every turn. */
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
-        void update_body( int from, int to );
-        /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
+        void update_body( const time_point &from, const time_point &to );
+        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
 
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
@@ -254,13 +244,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */
-        bool has_conflicting_trait(const std::string &flag) const;
+        bool has_conflicting_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait(const std::string &flag) const;
+        bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait(const std::string &flag) const;
+        bool has_lower_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait(const std::string &flag) const;
+        bool has_higher_trait( const trait_id &flag ) const;
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
@@ -268,9 +258,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the entered trait may be purified away
          *  Defaults to true
          */
-        bool purifiable(const std::string &flag) const;
-        /** Modifies mutation_category_level[] based on the entered trait */
-        void set_cat_level_rec(const std::string &sMut);
+        bool purifiable( const trait_id &flag ) const;
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
         /** Returns the highest mutation category */
@@ -281,14 +269,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
 
+        /** Handles process of introducing patient into anesthesia through the autodoc */
+        void introduce_into_anesthesia( time_duration const &duration );
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic(std::string const &b);
+        void add_bionic(bionic_id const &b);
         /** Removes a bionic from my_bionics[] */
-        void remove_bionic(std::string const &b);
+        void remove_bionic(bionic_id const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(std::string const &b_id, int skill_level = -1);
+        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -310,23 +300,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( long ch );
-        /** Returns player lumination based on the brightest active item they are carrying */
+        /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
+        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const std::string &mut );
+        bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const std::string &mut );
+        void remove_mutation( const trait_id &mut );
         /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag( const std::string &mut ) const;
+        bool has_child_flag( const trait_id &mut ) const;
         /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const std::string &mut );
+        void remove_child_flag( const trait_id &mut );
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -343,24 +333,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool sight_impaired() const;
         /** Returns true if the player has two functioning arms */
         bool has_two_arms() const;
-        /** Returns true if the player is wielding something */
-        bool is_armed() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
-        bool handle_melee_wear( float wear_multiplier = 1.0f );
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
-        body_part get_random_body_part( bool main ) const override;
 
         /** Returns true if the player or their vehicle has an alarm clock */
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
-        using Creature::sees;
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
         // see Creature::sees
@@ -380,7 +364,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
          * As above, but includes all creatures the player can detect well enough to target
-         * with ranged weapons, e.g. with infared vision.
+         * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
@@ -459,9 +443,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_immune_effect( const efftype_id& ) const override;
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( const damage_type ) const override;
+        /** Returns true if the player is protected from radiation */
+        bool is_rad_immune() const;
 
         /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec() const;
+        bool has_miss_recovery_tec( const item &weap ) const;
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
         /** Returns true if the player has the leg block technique available */
@@ -474,28 +460,26 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // melee.cpp
         /** Returns the best item for blocking with */
         item &best_shield();
-        /** Returns true if the player has a weapon with a block technique */
-        bool can_weapon_block() const;
-        using Creature::melee_attack;
         /**
          * Sets up a melee attack and handles melee attack function calls
-         * @param t
+         * @param t Creature to attack
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
+         * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, bool allow_unarmed = true );
         /**
-         * Sets up a melee attack and handles melee attack function calls
-         * @param t
-         * @param allow_special whether non-forced martial art technique or mutation attack should be
-         *   possible with this attack.
-         * @param force_technique special technique to use in attack.
+         * Calls the to other melee_attack function with an empty technique id (meaning no specific
+         * technique should be used).
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
+        void melee_attack( Creature &t, bool allow_special );
 
-        /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion( const item &obj ) const;
+        /**
+         * Returns a weapon's modified dispersion value.
+         * @param obj Weapon to check dispersion on
+         */
+        dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
@@ -506,36 +490,24 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current total maximum recoil penalty from all sources */
         double recoil_total() const;
 
+        /** How many moves does it take to aim gun to the target accuracy. */
+        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
+
         /**
-         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
-         *  @param gun ranged weapon which must have sufficient ammo for at least one shot
-         *  @param penalty if set (non-negative) use this value instead of @ref recoil_total()
-         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
-         *  @param accuracy minimum accuracy required
+         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
+         *  @param target where the first shot is aimed at (may vary for later shots)
+         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
+         *  @return number of shots actually fired
          */
-        double gun_current_range( const item &gun, double penalty = -1,
-                                  unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
-        enum class engagement {
-            snapshot,   // 50% chance of good hit with no aiming
-            effective,  // 50% chance of good hit at maximum aim
-            maximum,    // 10% chance of any hit at maximum aim
-        };
-
-        /** Get engagement ranges for gun */
-        double gun_engagement_range( const item &gun, engagement opt ) const;
-
-        /** How many moves does it take to aim gun to maximum accuracy? */
-        int gun_engagement_moves( const item &gun ) const;
-
+        int fire_gun( const tripoint &target, int shots = 1 );
         /**
-         *  Fires a gun or axuiliary gunmod (ignoring any current mode)
+         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots = 1 );
         int fire_gun( const tripoint &target, int shots, item& gun );
 
         /** Handles reach melee attacks */
@@ -554,9 +526,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
          float bionic_armor_bonus( body_part bp, damage_type dt ) const;
         /**
-         * Check for relevant passive, non-clothing that can absorb damage, and reduce @ref du
-         * Only flat bonuses are checked here. Multiplicative ones are checked in player::absorb_hit
-         * @ref du.amount will never be reduced below 0
+         * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
+         * damage unit.  Only flat bonuses are checked here.  Multiplicative ones are checked in
+         * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
          * This is called from @ref player::absorb_hit
          */
          void passive_absorb_hit( body_part bp, damage_unit &du ) const;
@@ -576,10 +548,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll() const override;
-        /** Returns the chance to crit given a hit roll and target's dodge roll */
+        /** Returns the chance to critical given a hit roll and target's dodge roll */
         double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
-        bool scored_crit( float target_dodge = 0.0f ) const;
+        bool scored_crit( float target_dodge, const item &weap ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
         int attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
@@ -592,7 +564,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di ) const;
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total bash damage to the damage instance */
         void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
@@ -601,13 +572,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
-        std::vector<matec_id> get_all_techniques() const;
+        std::vector<matec_id> get_all_techniques( const item &weap ) const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique( const matec_id & tec ) const;
+        bool has_technique( const matec_id &tec, const item &weap ) const;
         /** Returns a random valid technique */
-        matec_id pick_technique(Creature &t,
-                                bool crit, bool dodge_counter, bool block_counter);
+        matec_id pick_technique( Creature &t, const item &weap,
+                                 bool crit, bool dodge_counter, bool block_counter );
         void perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks(Creature &t);
@@ -615,12 +586,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks(Creature &t) const;
         /** Handles combat effects, returns a string of any valid combat effect messages */
-        std::string melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec);
+        std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Returns Creature::get_dodge_base modified by the player's skill level */
         float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
         float get_dodge() const override;
-        /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
+        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
         float dodge_roll() override;
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/
@@ -633,13 +604,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param weight The weight used when choosing what reason to pick when the
          * player misses.
          */
-        void add_miss_reason(const char *reason, unsigned int weight);
+        void add_miss_reason( std::string reason, unsigned int weight);
         /** Clears the list of reasons for why the player would miss a melee attack. */
         void clear_miss_reasons();
         /**
          * Returns an explanation for why the player would miss a melee attack.
          */
-        const char *get_miss_reason();
+        std::string get_miss_reason();
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
@@ -657,8 +628,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // ranged.cpp
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
-        /** Returns the throwing attack dexterity mod */
-        int throw_dex_mod(bool return_stat_effect = true) const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */
@@ -671,8 +640,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int intimidation() const;
 
         /**
-         * Returns true if it is impossible for @ref dam to reduce the player's HP on his/her @ref bp
-         * @warning Only HP is accounted for- not damaged clothing, pain, status effects, etc.
+         * Check if a given body part is immune to a given damage type
+         *
+         * This function checks whether a given body part cannot be damaged by a given
+         * damage_unit.  Note that this refers only to reduction of hp on that part. It
+         * does not account for clothing damage, pain, status effects, etc.
+         *
+         * @param bp: Body part to perform the check on
+         * @param dam: Type of damage to check for
+         * @returns true if given damage can not reduce hp of given body part
          */
         bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
@@ -714,18 +690,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Deals falling/collision damage with terrain/creature at pos */
         int impact( int force, const tripoint &pos ) override;
 
-        /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp(body_part bp);
-        /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp(hp_part hpart);
-
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
         /** Handles the chance to be infected by random diseases */
         void get_sick();
-        /** Handles health fluctuations over time, redirects into Creature::update_health */
-        void update_health(int external_modifiers = 0) override;
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
 
@@ -750,7 +719,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void vomit();
 
         /** Drenches the player with water, saturation is the percent gotten wet */
-        void drench( int saturation, int flags, bool ignore_waterproof );
+        void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
@@ -763,52 +732,72 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
-        /**
-         * Consumes an item as medication.
-         * Can be used to heal others (using `pos` argument), if med type handles that.
-         * Will complain if the item isn't actually a med type.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @param pos Position to invoke the medicine on.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target, const tripoint &pos );
-
-        /** This block is to be moved to character.h */
-        bool is_allergic( const item &food ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
         morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
-        edible_rating can_eat( const item &food, bool interactive = false,
-                               bool force = false ) const;
+
+        /** Can the food be [theoretically] eaten no matter the consequences? */
+        ret_val<edible_rating> can_eat( const item &food ) const;
+        /**
+         * Same as @ref can_eat, but takes consequences into account.
+         * Asks about them if @param interactive is true, refuses otherwise.
+         */
+        ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+
+        // TODO: Move these methods out of the class.
+        rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
+        int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
+        int get_acquirable_energy( const item &it ) const;
 
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for( const itype *comest ) const;
+        int nutrition_for( const item &comest ) const;
+        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
+        std::pair<int, int> fun_for( const item &comest ) const;
+        /**
+         * Returns a reference to the item itself (if it's comestible),
+         * the first of its contents (if it's comestible) or null item otherwise.
+         */
+        item &get_comestible_from( item &it ) const;
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item& it ) const;
         std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        int vitamin_rate( const vitamin_id& vit ) const;
+        time_duration vitamin_rate( const vitamin_id& vit ) const;
 
         /**
          * Add or subtract vitamins from player storage pools
-         * @param qty amount by which to adjust @ref vit (negative values are permitted)
+         * @param vit ID of vitamin to modify
+         * @param qty amount by which to adjust vitamin (negative values are permitted)
          * @param capped if true prevent vitamins which can accumulate in excess from doing so
-         * @return adjusted level for the vitamin or zero if @ref vit does not exist
+         * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
         int vitamin_mod( const vitamin_id& vit, int qty, bool capped = true );
 
-        /** Returns current level for a vitamin (or zero if @ref vit) does not exist */
+        /**
+         * Check current level of a vitamin
+         *
+         * Accesses level of a given vitamin.  If the vitamin_id specified does not
+         * exist then this function simply returns 0.
+         *
+         * @param vit ID of vitamin to check level for.
+         * @returns current level for specified vitamin
+         */
         int vitamin_get( const vitamin_id& vit ) const;
 
         /**
-         * Sets level of a vitamin or returns false if @ref vit does not exist
+         * Sets level of a vitamin or returns false if id given in vit does not exist
+         *
          * @note status effects are still set for deficiency/excess
+         *
+         * @param[in] vit ID of vitamin to adjust quantity for
+         * @param[in] qty Quantity to set level to
+         * @returns false if given vitamin_id does not exist, otherwise true
          */
         bool vitamin_set( const vitamin_id& vit, int qty );
 
@@ -817,53 +806,73 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        void consume_effects( item &eaten, bool rotten = false );
+        void consume_effects( const item &eaten );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
 
         /**
          * Select suitable ammo with which to reload the item
+         * @param base Item to select ammo for
          * @param prompt force display of the menu even if only one choice
          */
         item::reload_option select_ammo( const item& base, bool prompt = false ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>
         bool can_lift( const T& obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
-            if( has_trait( "STRONGBACK" ) ) {
+            if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
-            } else if( has_trait( "BADBACK" ) ) {
+            } else if( has_trait( trait_id( "BADBACK" ) ) ) {
                 str /= 1.35;
             }
-            return get_str() >= obj.lift_strength();
+            return str >= obj.lift_strength();
         }
 
-        /** Check player capable of wearing an item.
-          * @param alert display reason for any failure */
-        bool can_wear( const item& it, bool alert = true ) const;
-
-        /** Check player capable of wielding an item.
-          * @param alert display reason for any failure */
-        bool can_wield( const item& it, bool alert = true ) const;
-        /** Check player capable of unwielding an item.
-          * @param alert display reason for any failure */
-        bool can_unwield( const item& it, bool alert = true ) const;
         /**
-         * Removes currently wielded item (if any) and replaces it with the target item
+         * Check player capable of wearing an item.
+         * @param it Thing to be worn
+         */
+        ret_val<bool> can_wear( const item& it ) const;
+
+        /**
+         * Check player capable of taking off an item.
+         * @param it Thing to be taken off
+         */
+        ret_val<bool> can_takeoff( const item& it, const std::list<item> *res = nullptr ) const;
+
+        /**
+         * Check player capable of wielding an item.
+         * @param it Thing to be wielded
+         */
+        ret_val<bool> can_wield( const item& it ) const;
+        /**
+         * Check player capable of unwielding an item.
+         * @param it Thing to be unwielded
+         */
+        ret_val<bool> can_unwield( const item& it ) const;
+        /** Check player's capability of consumption overall */
+        bool can_consume( const item &it ) const;
+
+        bool is_wielding( const item& target ) const;
+        /**
+         * Removes currently wielded item (if any) and replaces it with the target item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         virtual bool wield( item& target );
+        bool unwield();
+
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param it Thing to be reloaded
          * @param ammo if set also check item currently compatible with this specific ammo or magazine
          * @note items currently loaded with a detachable magazine are considered reloadable
          * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
@@ -880,30 +889,34 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Attempt to mend an item (fix any current faults)
+         * @param obj Object to mend
          * @param interactive if true prompts player when multiple faults, otherwise mends the first
          */
         void mend_item( item_location&& obj, bool interactive = true );
 
         /**
-         * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
-         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
-         * @param factor base move cost per unit volume before considering any other modifiers
-         * @param qty if specified limits maximum obtained charges
+         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
+         * @param it Item to calculate handling cost for
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST ) const;
+        int item_handling_cost( const item& it, bool penalties = true, int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
-         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
-         * @param factor base move cost per unit volume before considering any other modifiers
+         * @param it Item to calculate storage cost for
+         * @param container Container to store item in
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_store_cost( const item& it, const item& container, bool effects = true,
-                             int factor = VOLUME_MOVE_COST ) const;
+        int item_store_cost( const item& it, const item& container, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
+         * @param it Item to calculate reload cost for
          * @param ammo either ammo or magazine to use when reloading the item
          * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
          */
@@ -914,35 +927,44 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear( int pos, bool interactive = true );
+        bool wear( item& to_wear, bool interactive = true );
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
-        bool change_side( item *target, bool interactive = true );
+        bool change_side( item &it, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
 
         /** Returns all items that must be taken off before taking off this item */
         std::list<const item *> get_dependent_worn_items( const item &it ) const;
-        /** Takes off an item, returning false on fail. The taken off item is processed in the @param interact */
+        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
         bool takeoff( const item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
         /** Drops an item to the specified location */
         void drop( int pos, const tripoint &where = tripoint_min );
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
 
-        /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
-         *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay
-         *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
-        bool wield_contents( item *container, int pos = 0, int factor = VOLUME_MOVE_COST,
-                             bool effects = true );
-        /** Stores an item inside another consuming moves proportional to weapon skill and volume
-         *  @param factor scales moves cost and can be set to zero if item should be stored without any delay
-         *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
-        void store( item *container, item *put, int factor = VOLUME_MOVE_COST, bool effects = true );
+        /**
+         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         * @param container Container containing the item to be wielded
+         * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        bool wield_contents( item &container, int pos = 0, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY );
+        /**
+         * Stores an item inside another consuming moves proportional to weapon skill and volume
+         * @param container Container in which to store the item
+         * @param put Item to add to the container
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        void store( item &container, item &put, bool penalties = true,
+                    int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
-        void use(int pos);
+        void use( int pos );
         /** Uses the current wielded weapon */
         void use_wielded();
         /**
@@ -956,9 +978,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** As above two, but with position equal to current position */
         bool invoke_item( item* );
         bool invoke_item( item*, const std::string& );
+        /** Reassign letter. */
+        void reassign_item( item &it, long invlet );
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
-         *  @qty number of charges to consume which must be non-zero
+         *  @param used item consuming the charges
+         *  @param qty number of charges to consume which must be non-zero
          *  @return true if item was destroyed */
         bool consume_charges( item& used, long qty );
 
@@ -971,13 +996,17 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item& gun, const item& mod ) const;
 
+        /** Starts activity to install toolmod */
+        void toolmod_add( item_location tool, item_location mod );
+
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /**
          * Helper function for player::read.
          *
+         * @param book Book to read
          * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
-         * @ret nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
+         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
          * who can read and can read the fastest
          */
         const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
@@ -985,6 +1014,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
          *
+         * @param book The book being read
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
@@ -993,17 +1023,17 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles reading effects and returns true if activity started */
         bool read( int inventory_position, const bool continuous = false );
         /** Completes book reading action. **/
-        void do_read( item *book );
+        void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( std::string item_id ) const;
+        bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimms into account. */
+        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Adds "sleep" to the player */
-        void fall_asleep(int duration);
+        void fall_asleep( const time_duration &duration );
         /** Removes "sleep" and "lying_down" from the player */
         void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
@@ -1051,30 +1081,40 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
-        bool is_wearing_shoes(std::string side = "both") const;
+        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+        /** Returns true if the player is wearing something occupying the helmet slot */
+        bool is_wearing_helmet() const;
+        /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
+        int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
-        bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
+        bool is_wearing_power_armor(bool *hasHelmet = nullptr) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
+        /** Returns the effect of pain on stats */
+        stat_mod get_pain_penalty() const;
+        /** Returns the penalty to speed from hunger */
+        static int hunger_speed_penalty( int hunger );
+        /** Returns the penalty to speed from thirst */
+        static int thirst_speed_penalty( int thirst );
 
         int adjust_for_focus(int amount) const;
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         /** Legacy activity assignment, should not be used where resuming is important. */
-        void assign_activity( activity_id type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
-                             std::string name = "" );
+        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
+                             const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity( const activity_id type) const;
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
-                        int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+        void add_morale( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
+                        time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;
@@ -1107,6 +1147,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Remove charges from a specific item (given by a pointer to it).
          * Otherwise identical to @ref reduce_charges(int,long)
          * @param it A pointer to the item, it *must* exist.
+         * @param quantity How many charges to remove
          */
         item reduce_charges( item *it, long quantity );
         /** Return the item position of the item with given invlet, return INT_MIN if
@@ -1114,13 +1155,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Only use the invlet in the user interface, otherwise always use the item position. */
         int invlet_to_position( long invlet ) const;
 
+        /**
+        * Check whether player has a bionic power armor interface.
+        * @return true if player has an active bionic capable of powering armor, false otherwise.
+        */
+        bool can_interface_armor() const;
+
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
-        item  *pick_usb(); // Pick a usb drive, interactively if it matters
 
-        bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
-        bool is_waterproof( const std::bitset<num_bp> &parts ) const;
+        bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
+        bool is_waterproof( const body_part_set &parts ) const;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
@@ -1133,7 +1179,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
-        int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
+        int  leak_level( const std::string &flag ) const; // carried items may leak radiation or chemicals
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag ) const;
@@ -1166,21 +1212,43 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
+          * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
           */
         const recipe_subset get_available_recipes( const inventory &crafting_inv,
                                                    const std::vector<npc *> *helpers = nullptr ) const;
+        /**
+          * Returns the set of book types in crafting_inv that provide the
+          * given recipe.
+          * @param crafting_inv Current available items that may contain readable books
+          * @param r Recipe to search for in the available books
+          */
+        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+                                                       const recipe *r ) const;
 
         // crafting.cpp
+        float morale_crafting_speed_multiplier( const recipe & rec ) const;
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
+        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
+        /**
+         * Time to craft not including speed multiplier
+         */
+        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        /**
+         * Expected time to craft a recipe, with assumption that multipliers stay constant.
+         */
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        std::vector<const item *> get_eligible_containers_for_crafting() const;
+        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe * r, int batch_size = 1 ); // have components?
-        bool making_would_work( const std::string & id_to_make, int batch_size );
+        bool making_would_work( const recipe_id &id_to_make, int batch_size );
         void craft();
         void recraft();
         void long_craft();
-        void make_craft( const std::string & id, int batch_size );
-        void make_all_craft( const std::string & id, int batch_size );
+        void make_craft( const recipe_id &id, int batch_size );
+        void make_all_craft( const recipe_id &id, int batch_size );
+        std::list<item> consume_components_for_craft( const recipe *making, int batch_size );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
@@ -1188,11 +1256,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Check if the player can disassemble an item using the current crafting inventory
-         * @param alert if set display message about missing tools/charges.
+         * @param obj Object to check for disassembly
+         * @param inv current crafting inventory
          */
-        bool can_disassemble( const item &obj, const inventory &inv, bool alert = false ) const;
+        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
-        bool disassemble(int pos = INT_MAX);
+        bool disassemble();
+        bool disassemble( int pos );
         bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
@@ -1202,7 +1272,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // yet more crafting.cpp
         const inventory &crafting_inventory(); // includes nearby items
         void invalidate_crafting_inventory();
-        std::vector<item> get_eligible_containers_for_crafting();
         comp_selection<item_comp>
             select_item_component( const std::vector<item_comp> &components,
                                    int batch, inventory &map_inv, bool can_cancel = false );
@@ -1253,15 +1322,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         }
         inline void setx( int x )
         {
-            position.x = x;
+            setpos( tripoint( x, position.y, position.z ) );
         }
         inline void sety( int y )
         {
-            position.y = y;
+            setpos( tripoint( position.x, y, position.z ) );
         }
         inline void setz( int z )
         {
-            position.z = z;
+            setpos( tripoint( position.x, position.y, z ) );
         }
         inline void setpos( const tripoint &p ) override
         {
@@ -1283,17 +1352,22 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::map<std::string, int> mutation_category_level;
 
-        int next_climate_control_check;
+        time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
-        int power_level, max_power_level;
-        int tank_plut, reactor_plut, slow_rad;
+        int power_level;
+        int max_power_level;
+        int tank_plut;
+        int reactor_plut;
+        int slow_rad;
         int oxygen;
         int stamina;
-        double recoil = MIN_RECOIL;
+        double recoil = MAX_RECOIL;
         int scent;
-        int dodges_left, blocks_left;
-        int stim, radiation;
+        int dodges_left;
+        int blocks_left;
+        int stim;
+        int radiation;
         unsigned long cash;
         int movecounter;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
@@ -1318,30 +1392,31 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::vector <addiction> addictions;
 
-        void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
-        copyable_unique_ptr<craft_command> last_craft;
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
+        pimpl<craft_command> last_craft;
 
-        std::string lastrecipe;
+        recipe_id lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         int get_used_bionics_slots( const body_part bp ) const;
         int get_total_bionics_slots( const body_part bp ) const;
         int get_free_bionics_slots( const body_part bp ) const;
-        std::map<body_part, int> bionic_installation_issues( const std::string &bioid );
+        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
         //Log an event, to be later written to the memorial file
-        void add_memorial_log(const char *male_msg, const char *female_msg, ...) override PRINTF_LIKE( 3, 4 );
+        using Character::add_memorial_log;
+        void add_memorial_log( const std::string &male_msg, const std::string &female_msg ) override;
         //Loads the memorial log from a file
         void load_memorial_file(std::istream &fin);
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
 
         //Record of player stats, for posterity only
-        stats *lifetime_stats();
-        stats get_stats() const; // for serialization
+        stats lifetime_stats;
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID () const;
@@ -1357,31 +1432,38 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, const int volume ) const;
-        // Returns a multiplier indicating the keeness of a player's hearing.
+        // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
                         int stillness = 0 ) const; // just checks is_invisible for the moment
 
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
+        int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
+        int get_hp_max() const override;
         int get_stamina_max() const;
         void burn_move_stamina( int moves );
 
         //message related stuff
-        void add_msg_if_player(const char *msg, ...) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_if_player(game_message_type type, const char *msg, ...) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc(game_message_type type, const char *player_str,
-                                   const char *npc_str, ...) const override PRINTF_LIKE( 4, 5 );
-        void add_msg_player_or_say( const char *, const char *, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override PRINTF_LIKE( 4, 5 );
+        using Character::add_msg_if_player;
+        void add_msg_if_player( const std::string &msg ) const override;
+        void add_msg_if_player( game_message_type type, const std::string &msg ) const override;
+        using Character::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg, const std::string &npc_str ) const override;
+        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg, const std::string &npc_msg ) const override;
+        using Character::add_msg_player_or_say;
+        void add_msg_player_or_say( const std::string &player_msg, const std::string &npc_speech ) const override;
+        void add_msg_player_or_say( game_message_type type, const std::string &player_msg, const std::string &npc_speech ) const override;
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
+
+        //@todo make protected and move into Character
+        void do_skill_rust();
 
         // drawing related stuff
         /**
@@ -1403,31 +1485,31 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         mission *get_active_mission() const;
         /**
-         * Returns the target of the active mission or @ref overmap::invalid_point if there is
+         * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
         tripoint get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
-        void set_active_mission( mission &mission );
+        void set_active_mission( mission &cur_mission );
         /**
          * Called when a mission has been assigned to the player.
          */
         void on_mission_assignment( mission &new_mission );
         /**
          * Called when a mission has been completed or failed. Either way it's finished.
-         * Check @ref mission::failed to see which case it is.
+         * Check @ref mission::has_failed to see which case it is.
          */
-        void on_mission_finished( mission &mission );
+        void on_mission_finished( mission &cur_mission );
         /**
          * Called when a mutation is gained
          */
-        void on_mutation_gain( const std::string &mid ) override;
+        void on_mutation_gain( const trait_id &mid ) override;
         /**
          * Called when a mutation is lost
          */
-        void on_mutation_loss( const std::string &mid ) override;
+        void on_mutation_loss( const trait_id &mid ) override;
         /**
          * Called when a stat is changed
          */
@@ -1446,12 +1528,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
 
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
+        void print_encumbrance( const catacurses::window &win, int line = -1, item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
 
-        bool query_yn( const char *mes, ... ) const override PRINTF_LIKE( 2, 3 );
+        using Character::query_yn;
+        bool query_yn( const std::string &mes ) const override;
 
         /**
          * Has the item enough charges to invoke its use function?
@@ -1476,6 +1559,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void steal( npc &target );
 
+        /**
+         * Accessor method for weapon targeting data, used for interactive weapon aiming.
+         * @return a reference to the data pointed by player's tdata member.
+         */
+        const targeting_data &get_targeting_data();
+
+        /**
+         * Mutator method for weapon targeting data.
+         * @param td targeting data to be set.
+         */
+        void set_targeting_data( const targeting_data &td );
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1485,6 +1580,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
 
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &e, bool is_new ) override;
+
     private:
         friend class debug_menu::mission_debug;
 
@@ -1493,9 +1591,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<int> &mon_targets, std::vector<int> &npc_targets );
+                                  std::vector<Creature*> &targets );
         /**
          * Check whether the other creature is in range and can be seen by this creature.
+         * @param critter Creature to check for visibility
          * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
          * are included.
          */
@@ -1522,12 +1621,34 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int temp_corrected_by_climate_control( int temperature ) const;
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
+        /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
+        void build_mut_dependency_map( const trait_id &mut, std::unordered_map<trait_id, int> &dependency_map, int distance );
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const std::string &mutation );
-        void deactivate_mutation( const std::string &mut );
+        void activate_mutation( const trait_id &mutation );
+        void deactivate_mutation( const trait_id &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
+
+        /** Determine player's capability of recharging their CBMs. */
+        bool can_feed_battery_with( const item &it ) const;
+        bool can_feed_reactor_with( const item &it ) const;
+        bool can_feed_furnace_with( const item &it ) const;
+        /**
+         * Recharge CBMs whenever possible.
+         * @return true when recharging was successful.
+         */
+        bool feed_battery_with( item &it );
+        bool feed_reactor_with( item &it );
+        bool feed_furnace_with( item &it );
+        /** Check whether player can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
+        /**
+         * Consumes an item as medication.
+         * @param target Item consumed. Must be a medication or a container of medication.
+         * @return Whether the target was fully consumed.
+         */
+        bool consume_med( item &target );
 
         void react_to_felt_pain( int intensity );
 
@@ -1539,12 +1660,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         inventory cached_crafting_inventory;
         int cached_moves;
-        int cached_turn;
+        time_point cached_time;
         tripoint cached_position;
 
-        struct weighted_int_list<const char*> melee_miss_reasons;
+        struct weighted_int_list<std::string> melee_miss_reasons;
 
-        player_morale_ptr morale;
+        pimpl<player_morale> morale;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
@@ -1566,14 +1687,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         mission *active_mission;
 
+        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
+        std::shared_ptr<targeting_data> tdata;
+
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
-        mutable recipe_subset learned_recipes;
+        mutable pimpl<recipe_subset> learned_recipes;
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+
 };
 
 #endif

@@ -16,6 +16,7 @@
       [ "1st_aid", 10 ],
       [ "saline", 20 ],
       [ "vitamins", 15 ],
+      [ "calcium_tablet", 15 ],
       [ "nyquil", 5 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
@@ -77,7 +78,8 @@
       [ "1st_aid", 30 ],
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
-      [ "vaccine_shot", 15 ]
+      [ "vaccine_shot", 15 ],
+      [ "anesthesia", 20 ]
     ]
   },
   {
@@ -98,10 +100,8 @@
     "name": "veterinarian clinic",
     "sym": 94,
     "color": "i_pink",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
-    "sidewalk": true,
     "extras": "build",
     "mapgen": [
       {
@@ -222,6 +222,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

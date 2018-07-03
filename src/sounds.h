@@ -1,8 +1,8 @@
+#pragma once
 #ifndef SOUNDS_H
 #define SOUNDS_H
 
 #include "enums.h" // For point
-#include "cursesdef.h" // For WINDOW
 
 #include <vector>
 #include <string>
@@ -11,24 +11,29 @@ class monster;
 class player;
 class Creature;
 class item;
+class JsonObject;
 
 namespace sounds
 {
 // Methods for recording sound events.
 /**
  * Sound at (p) of intensity (vol)
+ *
+ * If the description parameter is a non-empty string, then a string message about the
+ * sound is generated for the player.
+ *
  * @param p position of sound.
  * @param vol Volume of sound.
- * @param description Description of the sound for the player,
- * if non-empty string a message is generated.
- * @param ambient If false, the sound interrupts player activities.
- * If true, activities continue.
+ * @param description Description of the sound for the player
+ * @param ambient Sound does not interrupt player activity if this is true
+ * @param id Id of sound effect
+ * @param variant Variant of sound effect given in id
  * @returns true if the player could hear the sound.
  */
 void sound( const tripoint &p, int vol, std::string description, bool ambient = false,
             const std::string &id = "", const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
-void ambient_sound( const tripoint &p, int vol, std::string description );
+void ambient_sound( const tripoint &p, int vol, const std::string &description );
 /** Creates a list of coordinates at which to draw footsteps. */
 void add_footstep( const tripoint &p, int volume, int distance, monster *source );
 
@@ -54,18 +59,20 @@ namespace sfx
 {
 void load_sound_effects( JsonObject &jsobj );
 void load_playlist( JsonObject &jsobj );
-void play_variant_sound( std::string id, std::string variant, int volume, int angle,
+void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                          float pitch_mix = 1.0, float pitch_max = 1.0 );
-void play_variant_sound( std::string id, std::string variant, int volume );
-void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
+void play_variant_sound( const std::string &id, const std::string &variant, int volume );
+void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
+                                 int channel,
                                  int duration );
 void generate_gun_sound( const player &source, const item &firing );
-void generate_melee_sound( const tripoint source, const tripoint target, bool hit,
-                           bool targ_mon = 0, std::string material = "flesh" );
+void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
+                           bool targ_mon = 0, const std::string &material = "flesh" );
 void do_hearing_loss( int turns );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
-int get_heard_volume( const tripoint source );
+int get_heard_volume( const tripoint &source );
+int get_heard_angle( const tripoint &source );
 void do_footstep();
 void do_danger_music();
 void do_ambient();
@@ -75,7 +82,6 @@ bool is_channel_playing( int channel );
 void stop_sound_effect_fade( int channel, int duration );
 void do_player_death_hurt( const player &target, bool death );
 void do_fatigue();
-int get_heard_angle( const tripoint source );
 void do_obstacle();
 }
 

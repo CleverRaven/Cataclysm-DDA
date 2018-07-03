@@ -76,12 +76,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "spare_parts"
   },
   {
@@ -217,19 +211,6 @@
     "weight": 10,
     "volume": 1,
     "to_hit": 1
-    },
-  {
-    "type": "GENERIC",
-    "id": "music_cd",
-    "symbol": "?",
-    "color": "white",
-    "name": "music CD",
-    "description": "A CD with many hit songs burned to it.",
-    "price": 250,
-    "material": "plastic",
-    "weight": 15,
-    "volume": 0,
-    "to_hit": -2
   },
   {
     "type" : "GUNMOD",
@@ -348,8 +329,6 @@
      "price" : 2000,
      "material" : ["cotton"],
      "volume" : 0,
-     "warmth" : 0,
-     "encumbrance" : 0,
      "coverage" : 12,
      "material_thickness" : 1
   },
@@ -503,7 +482,7 @@
     "id": "nail_bomb_act",
     "type": "TOOL",
     "name": "active nail bomb",
-    "description": "This is an active nail_bomb, likely to explode any second now.  Better throw it!",
+    "description": "This is an active nail bomb, likely to explode any second now.  Better throw it!",
     "category": "weapons",
     "weight": 290,
     "volume": 2,

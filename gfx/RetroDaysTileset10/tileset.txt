@@ -1,9 +1,0 @@
-#RETRO DAYS TILESET
-#Name of the tileset
-NAME: retrodays10
-#Viewing (Option) name of the tileset
-VIEW: RetroDays10px
-#JSON Path - Default of gfx/tile_config.json
-JSON: tile_config.json
-#Tileset Path - Default of gfx/tinytile.png
-TILESET: retrodaystiles10.png

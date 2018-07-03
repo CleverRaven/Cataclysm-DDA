@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BONUSES_H
 #define BONUSES_H
 
@@ -6,11 +7,11 @@
 
 enum damage_type : int;
 
-    class Character;
-    class JsonObject;
-    class JsonArray;
+class Character;
+class JsonObject;
+class JsonArray;
 
-    enum scaling_stat : int {
+enum scaling_stat : int {
     STAT_NULL = 0,
     STAT_STR,
     STAT_DEX,

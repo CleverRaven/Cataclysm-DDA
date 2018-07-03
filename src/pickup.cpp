@@ -11,13 +11,17 @@
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
+#include "vpart_position.h"
 #include "vehicle.h"
+#include "vpart_reference.h"
 #include "mapdata.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "vehicle_selector.h"
 #include "veh_interact.h"
 #include "item_search.h"
+#include "string_input_popup.h"
 
 #include <map>
 #include <vector>
@@ -41,7 +45,7 @@ static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpo
         int veh_root_part );
 
 static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                        int &moves_taken, int curmit );
+                                        int moves_taken, int curmit );
 static void show_pickup_message( const PickupMap &mapPickup );
 
 struct pickup_count {
@@ -78,13 +82,18 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
                                 ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
-    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
+    const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
+    const int washing_machine_part = veh->part_with_feature( veh_root_part, "WASHING_MACHINE" );
+    const bool has_washmachine = washing_machine_part >= 0;
+    bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
+                              veh->parts[washing_machine_part].enabled;
+
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE
     } options;
     uimenu selectmenu;
 
@@ -94,7 +103,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
 
-    if( from_vehicle ) {
+    if( has_washmachine ) {
+        selectmenu.addentry( USE_WASHMACHINE, true, 'W',
+                             washing_machine_on ? _( "Deactivate the washing machine" ) :
+                             _( "Activate the washing machine (1.5 hours)" ) );
+    }
+
+    if( from_vehicle && !washing_machine_on ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
@@ -155,7 +170,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         if( veh->fuel_left( "battery" ) < pseudo.ammo_required() ) {
             return false;
         }
-        auto qty = pseudo.ammo_capacity() - veh->discharge( pseudo.ammo_capacity() );
+        auto qty = pseudo.ammo_capacity() - veh->discharge_battery( pseudo.ammo_capacity() );
         pseudo.ammo_set( "battery", qty );
         g->u.invoke_item( &pseudo );
         veh->charge_battery( pseudo.ammo_remaining() );
@@ -167,6 +182,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         case USE_HOTPLATE:
             veh_tool( "hotplate" );
             return DONE;
+
+        case USE_WASHMACHINE: {
+            veh->use_washing_machine( washing_machine_part );
+            return DONE;
+        }
 
         case FILL_CONTAINER:
             g->u.siphon( *veh, "water_clean" );
@@ -189,7 +209,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
                     act.coords.push_back( pos );
-                    // Finally tell it it is the vehicle part with weldrig
+                    // Finally tell if it is the vehicle part with welding rig
                     act.values.resize( 2 );
                     act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
                 }
@@ -224,7 +244,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ),
                              veh->name.c_str(), tank.name().c_str() );
 
-                    veh->discharge( tank.ammo_remaining() * cost );
+                    veh->discharge_battery( tank.ammo_remaining() * cost );
                     tank.ammo_set( "water_clean", tank.ammo_remaining() );
                 }
             }
@@ -298,19 +318,23 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     }
                 }
 
-                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
+                //Auto Pickup all items with Volume <= AUTO_PICKUP_VOL_LIMIT * 50 and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if( !bPickup && get_option<int>( "AUTO_PICKUP_ZERO" ) ) {
-                    if( here[i].begin()->_item.volume() == 0 &&
-                        here[i].begin()->_item.weight() <= get_option<int>( "AUTO_PICKUP_ZERO" ) * 50 &&
-                        get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
-                        bPickup = true;
+                if( !bPickup ) {
+                    int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
+                    int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
+                    if( weight_limit && volume_limit ) {
+                        if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
+                            here[i].begin()->_item.weight() <= weight_limit * 50_gram &&
+                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                            bPickup = true;
+                        }
                     }
                 }
             }
 
             if( bPickup ) {
-                getitem[i].pick = bPickup;
+                getitem[i].pick = true;
                 bFoundSomething = true;
             }
         }
@@ -343,7 +367,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     amenu.text = explain;
 
     offered_swap = true;
-    // @todo Gray out if not enough hands
+    // @todo: Gray out if not enough hands
     if( u.is_armed() ) {
         amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name().c_str(),
@@ -352,7 +376,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name().c_str() );
     }
     if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
+        amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
     if( it.is_bucket_nonempty() ) {
         amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),
@@ -398,10 +422,21 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     }
 
     bool did_prompt = false;
-    if( newit.made_of( LIQUID ) ) {
+    newit.charges = u.i_add_to_container( newit, false );
+    if( newit.is_ammo() && newit.charges == 0 ) {
+        picked_up = true;
+        option = NUM_ANSWERS; //Skip the options part
+    } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
-        add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
+        if( !autopickup ) {
+            const std::string &explain = string_format( _( "The %s is too heavy!" ),
+                                         newit.display_name().c_str() );
+            option = handle_problematic_pickup( newit, offered_swap, explain );
+            did_prompt = true;
+        } else {
+            option = CANCEL;
+        }
     } else if( newit.is_bucket() && !newit.is_container_empty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
@@ -498,9 +533,10 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     PickupMap mapPickup;
 
     if( from_vehicle ) {
-        int veh_root_part = -1;
-        veh = g->m.veh_at( pickup_target, veh_root_part );
-        cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pickup_target ).part_with_feature( "CARGO",
+                false );
+        veh = &vp->vehicle();
+        cargo_part = vp->part_index();
     }
 
     bool problem = false;
@@ -549,20 +585,22 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
 // Pick up items at (pos).
 void Pickup::pick_up( const tripoint &pos, int min )
 {
-    int veh_root_part = 0;
     int cargo_part = -1;
 
-    vehicle *veh = g->m.veh_at( pos, veh_root_part );
+    const optional_vpart_position vp = g->m.veh_at( pos );
+    vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        switch( interact_with_vehicle( veh, pos, veh_root_part ) ) {
+        switch( interact_with_vehicle( veh, pos, vp ? vp->part_index() : -1 ) ) {
             case DONE:
                 return;
-            case ITEMS_FROM_CARGO:
-                cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
-                from_vehicle = cargo_part >= 0;
-                break;
+            case ITEMS_FROM_CARGO: {
+                const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+                cargo_part = carg ? carg->part_index() : -1;
+            }
+            from_vehicle = cargo_part >= 0;
+            break;
             case ITEMS_FROM_GROUND:
                 // Nothing to change, default is to pick from ground anyway.
                 if( g->m.has_flag( "SEALED", pos ) ) {
@@ -620,7 +658,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         }
 
         // Bail out if this square cannot be auto-picked-up
-        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
+        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), pos ) ) {
             return;
         } else if( g->m.has_flag( "SEALED", pos ) ) {
             return;
@@ -659,7 +697,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
     std::reverse( stacked_here.begin(), stacked_here.end() );
 
-    if( min != -1 ) { // don't bother if we're just autopickup-ing
+    if( min != -1 ) { // don't bother if we're just autopickuping
         g->temp_exit_fullscreen();
     }
     bool sideStyle = use_narrow_sidebar();
@@ -702,10 +740,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
         int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
         int itemsX = pickupX;
 
-        WINDOW *w_pickup    = newwin( pickupH, pickupW, pickupY, pickupX );
-        WINDOW *w_item_info = newwin( itemsH,  itemsW,  itemsY,  itemsX );
-        WINDOW_PTR w_pickupptr( w_pickup );
-        WINDOW_PTR w_item_infoptr( w_item_info );
+        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, pickupY, pickupX );
+        catacurses::window w_item_info = catacurses::newwin( itemsH,  itemsW,  itemsY,  itemsX );
 
         std::string action;
         long raw_input_char = ' ';
@@ -725,13 +761,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
 
-        int start = 0, cur_it;
+        int start = 0;
+        int cur_it = 0;
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
         int iScrollPos = 0;
 
         std::string filter;
+        std::string new_filter;
         std::vector<int> matches;//Indexes of items that match the filter
         bool filter_changed = true;
         if( g->was_fullscreen ) {
@@ -797,19 +835,28 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 } else if( selected >= start + maxitems ) {
                     start += maxitems;
                 }
-            } else if( selected >= 0 && (
-                           ( action == "RIGHT" && !getitem[selected].pick ) ||
-                           ( action == "LEFT" && getitem[selected].pick )
-                       ) ) {
+            } else if( selected >= 0 && selected < int( matches.size() ) &&
+                       ( ( action == "RIGHT" && !getitem[matches[selected]].pick ) ||
+                         ( action == "LEFT" && getitem[matches[selected]].pick ) ) ) {
                 idx = selected;
             } else if( action == "FILTER" ) {
-                filter = string_input_popup( "Set filter", 30, filter,
-                                             "",
-                                             _( "set filter" ) );
-                filter_changed = true;
+                new_filter = filter;
+                string_input_popup popup;
+                popup
+                .title( _( "Set filter" ) )
+                .width( 30 )
+                .edit( new_filter );
+                if( !popup.canceled() ) {
+                    filter_changed = true;
+                } else {
+                    wrefresh( g->w_terrain );
+                }
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
-                std::string ext = string_input_popup(
-                                      _( "Enter 2 letters (case sensitive):" ), 3, "", "", "", 2 );
+                std::string ext = string_input_popup()
+                                  .title( _( "Enter 2 letters (case sensitive):" ) )
+                                  .width( 3 )
+                                  .max_length( 2 )
+                                  .query_string();
                 if( ext.size() == 2 ) {
                     int p1 = pickup_chars.find( ext.at( 0 ) );
                     int p2 = pickup_chars.find( ext.at( 1 ) );
@@ -851,7 +898,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             if( filter_changed ) {
                 matches.clear();
                 while( matches.empty() ) {
-                    auto filter_func = item_filter_from_string( filter );
+                    auto filter_func = item_filter_from_string( new_filter );
                     for( size_t index = 0; index < stacked_here.size(); index++ ) {
                         if( filter_func( stacked_here[index].begin()->_item ) ) {
                             matches.push_back( index );
@@ -859,22 +906,36 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     if( matches.empty() ) {
                         popup( _( "Your filter returned no results" ) );
-                        // The filter must have results, or simply be emptied,
+                        wrefresh( g->w_terrain );
+                        // The filter must have results, or simply be emptied or canceled,
                         // as this screen can't be reached without there being
                         // items available
-                        filter = string_input_popup( "Set filter", 30, filter,
-                                                     "",
-                                                     _( "set filter" ) );
+                        string_input_popup popup;
+                        popup
+                        .title( _( "Set filter" ) )
+                        .width( 30 )
+                        .edit( new_filter );
+                        if( popup.canceled() ) {
+                            new_filter = filter;
+                            filter_changed = false;
+                        }
                     }
                 }
-                filter_changed = false;
-                selected = 0;
+                if( filter_changed ) {
+                    filter = new_filter;
+                    filter_changed = false;
+                    selected = 0;
+                    start = 0;
+                    iScrollPos = 0;
+                }
+                wrefresh( g->w_terrain );
             }
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
 
             werase( w_item_info );
             if( selected >= 0 && selected <= ( int )stacked_here.size() - 1 ) {
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 selected_item.info( true, vThisItem );
 
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
@@ -926,9 +987,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     if( getitem[true_it].pick ) {
                         if( getitem[true_it].count == 0 ) {
-                            wprintz( w_pickup, c_ltblue, " + " );
+                            wprintz( w_pickup, c_light_blue, " + " );
                         } else {
-                            wprintz( w_pickup, c_ltblue, " # " );
+                            wprintz( w_pickup, c_light_blue, " # " );
                         }
                     } else {
                         wprintw( w_pickup, " - " );
@@ -942,34 +1003,34 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                                    item_name.c_str() );
                     }
                     trim_and_print( w_pickup, 1 + ( cur_it % maxitems ), 6, pickupW - 4, icolor,
-                                    "%s", item_name.c_str() );
+                                    item_name );
                 }
             }
 
             mvwprintw( w_pickup, maxitems + 1, 0, _( "[%s] Unmark" ),
                        ctxt.get_desc( "LEFT", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 1, c_ltgray, _( "[%s] Help" ),
-                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 1, c_light_gray, string_format( _( "[%s] Help" ),
+                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() ) );
 
-            right_print( w_pickup, maxitems + 1, 0, c_ltgray, _( "[%s] Mark" ),
-                         ctxt.get_desc( "RIGHT", 1 ).c_str() );
+            right_print( w_pickup, maxitems + 1, 0, c_light_gray, string_format( _( "[%s] Mark" ),
+                         ctxt.get_desc( "RIGHT", 1 ).c_str() ) );
 
             mvwprintw( w_pickup, maxitems + 2, 0, _( "[%s] Prev" ),
                        ctxt.get_desc( "PREV_TAB", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 2, c_ltgray, _( "[%s] All" ),
-                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 2, c_light_gray, string_format( _( "[%s] All" ),
+                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() ) );
 
-            right_print( w_pickup, maxitems + 2, 0, c_ltgray, _( "[%s] Next" ),
-                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() );
+            right_print( w_pickup, maxitems + 2, 0, c_light_gray, string_format( _( "[%s] Next" ),
+                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() ) );
 
             if( update ) { // Update weight & volume information
                 update = false;
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                int weight_picked_up = 0;
+                units::mass weight_picked_up = 0;
                 units::volume volume_picked_up = 0;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
@@ -1015,8 +1076,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
         }
         if( action != "CONFIRM" || !item_selected ) {
-            w_pickupptr.reset();
-            w_item_infoptr.reset();
+            w_pickup = catacurses::window();
+            w_item_info = catacurses::window();
             add_msg( _( "Never mind." ) );
             g->reenter_fullscreen();
             g->refresh_all();
@@ -1034,19 +1095,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
     std::vector<std::pair<int, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
-        if( getitem[i].pick ) {
-            if( stacked_here[i].begin()->_item.count_by_charges() ) {
-                item_idx &it = *stacked_here[i].begin();
-                size_t count = getitem[i].count == 0 ? it._item.charges : getitem[i].count;
+        const auto &selection = getitem[i];
+        if( !selection.pick ) {
+            continue;
+        }
+
+        const auto &stack = stacked_here[i];
+        // Note: items can be both charged and stacked
+        // For robustness, let's assume they can be both in the same stack
+        bool pick_all = selection.count == 0;
+        size_t count = selection.count;
+        for( const item_idx &it : stack ) {
+            if( !pick_all && count == 0 ) {
+                break;
+            }
+
+            if( it._item.count_by_charges() ) {
                 size_t num_picked = std::min( ( size_t )it._item.charges, count );
-                pick_values.push_back( { it.idx, num_picked } );
+                pick_values.push_back( { static_cast<int>( it.idx ), static_cast<int>( num_picked ) } );
+                count -= num_picked;
             } else {
-                size_t count = getitem[i].count == 0 ? stacked_here[i].size() : getitem[i].count;
-                size_t num_picked = std::min( stacked_here[i].size(), count );
-                auto it = stacked_here[i].begin();
-                for( size_t j = 0; j < num_picked; j++, it++ ) {
-                    pick_values.push_back( { it->idx, 0 } );
-                }
+                size_t num_picked = 1;
+                pick_values.push_back( { static_cast<int>( it.idx ), 0 } );
+                count -= num_picked;
             }
         }
     }
@@ -1063,7 +1134,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
 //helper function for Pickup::pick_up (singular item)
 void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                 int &moves_taken, int curmit )
+                                 int moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );
@@ -1085,4 +1156,20 @@ void show_pickup_message( const PickupMap &mapPickup )
                      entry.second.first.display_name( entry.second.second ).c_str() );
         }
     }
+}
+
+int Pickup::cost_to_move_item( const Character &who, const item &it )
+{
+    // Do not involve inventory capacity, it's not like you put it in backpack
+    int ret = 50;
+    if( who.is_armed() ) {
+        // No free hand? That will cost you extra
+        ret += 20;
+    }
+
+    // Is it too heavy? It'll take 10 moves per kg over limit
+    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100_gram );
+
+    // Keep it sane - it's not a long activity
+    return std::min( 400, ret );
 }

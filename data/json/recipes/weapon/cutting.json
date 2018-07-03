@@ -1,0 +1,26 @@
+[
+  {
+    "result": "cavalry_sabre",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 420000,
+    "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "swage", -1 ] ]
+    ],
+    "components": [
+      [ [ "2x4", 1 ], [ "stick", 2 ] ],
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
+  }
+]

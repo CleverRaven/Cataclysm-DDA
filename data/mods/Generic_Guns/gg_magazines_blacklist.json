@@ -7,6 +7,7 @@
       "20x66_40_mag",
       "360_200_mag",
       "360_400_mag",
+      "5x50_50_mag",
       "5x50_100_mag",
       "8x40_100_mag",
       "8x40_10_mag",
@@ -71,6 +72,7 @@
       "tokarevmag",
       "ump45mag",
       "usp9mag",
+      "usp45mag",
       "uzimag"
     ]
   }

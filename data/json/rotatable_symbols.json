@@ -1,0 +1,18 @@
+[
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ 60, 94, 62, 118 ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ 4194410, 4194413, 4194412, 4194411 ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ 4194417, 4194424 ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ 4194420, 4194423, 4194421, 4194422 ]
+  }
+]

@@ -88,9 +88,7 @@
         "y": "f_indoor_plant_y",
         "}": "f_locker"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "fancyfurs", "x": 9, "y": 4, "chance": 60 },
         { "item": "fancyfurs", "x": 16, "y": 4, "chance": 60 },

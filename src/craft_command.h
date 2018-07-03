@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
@@ -11,7 +12,8 @@
 class inventory;
 class item;
 class player;
-struct recipe;
+class recipe;
+
 struct component;
 struct tool_comp;
 struct item_comp;

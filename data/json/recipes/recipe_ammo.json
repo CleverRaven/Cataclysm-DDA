@@ -160,34 +160,6 @@
       [ "solder_wire", 50 ]
       ]
     ]
-  },{
-  "type" : "recipe",
-  "result" : "bone_glue",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "survival",
-  "skills_required": [ "cooking", 2 ],
-  "difficulty" : 2,
-  "time" : 30000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ], ["textbook_survival", 1], ["survival_book", 1]],
-  "qualities":[
-    {"id":"COOK","level":2}
-  ],
-  "tools" : [
-    [
-      [ "fire", -1 ],
-      [ "hotplate", 3 ],
-      [ "toolset", 3]
-    ]
-  ],
-  "components" : [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ]
-    ]
 },{
   "type" : "recipe",
   "result" : "arrow_field_point_fletched",
@@ -205,11 +177,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "stick", 1 ],
@@ -255,11 +224,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "stick", 1 ],
@@ -310,11 +276,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 10 ],
-      [ "sinew", 10 ],
-      [ "plant_fibre", 10 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 10, "LIST" ]
     ],
     [
       [ "stick", 1 ],
@@ -386,11 +349,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "steel_chunk", 1 ],
@@ -431,11 +391,8 @@
     {"id":"SAW_M","level":1}
   ], "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 10 ],
-      [ "sinew", 10 ],
-      [ "plant_fibre", 10 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 10, "LIST" ]
     ],
     [
       [ "scrap", 6 ],
@@ -471,16 +428,13 @@
     ]
   ], "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 10 ],
-      [ "sinew", 10 ],
-      [ "plant_fibre", 10 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 10, "LIST" ]
     ],
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -512,16 +466,13 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -563,11 +514,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "steel_chunk", 1 ],
@@ -576,7 +524,7 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -608,11 +556,8 @@
     {"id":"SAW_M","level":1}
   ], "components" : [
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "scrap", 9 ],
@@ -636,8 +581,8 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
-  "difficulty" : 7,
+  "skills_required": [[ "archery", 4 ]],
+  "difficulty" : 4,
   "time" : 7000,
   "reversible" : true,
   "decomp_learn": 6,
@@ -667,38 +612,33 @@
   "subcategory": "CSC_AMMO_COMPONENTS",
   "skill_used" : "fabrication",
   "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
-  "difficulty" : 7,
+  "difficulty" : 6,
   "time" : 5000,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"SCREW","level":1}
-  ], "tools" : [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
+    {"id":"SAW_M","level":1}
   ],
   "components" : [
-    [
-      [ "scrap", 2 ]
-    ],
-    [
-      [ "superglue", 1 ],
-      [ "string_36", 1 ]
-    ],
     [
       [ "can_food_unsealed", 1 ],
       [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ],
     [
-      [ "nail", 20 ],
-      [ "bb", 40 ]
+      [ "superglue", 1 ],
+      [ "string_36", 1 ]
     ],
     [
-      [ "gunpowder", 60 ],
-      [ "chem_black_powder", 60 ]
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+    ],
+    [
+      [ "gunpowder", 20 ],
+      [ "chem_black_powder", 20 ]
     ]
   ]
 },{
@@ -707,7 +647,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": [ "archery", 1 ],
   "difficulty": 1,
   "time": 5000,
   "autolearn": true,
@@ -728,7 +667,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["archery", 3],
   "difficulty": 3,
   "time": 10000,
   "autolearn": true,
@@ -748,7 +686,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["archery", 5],
   "difficulty": 5,
   "time": 10000,
   "autolearn": true,
@@ -777,10 +714,11 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["archery", 3],
-  "difficulty": 4,
+  "skills_required": [[ "archery", 4 ], [ "mechanics", 3 ]],
+  "difficulty" : 5,
   "time": 10000,
   "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
+  "using": [ [ "soldering_standard", 10 ] ],
   "qualities":[
     {"id":"SAW_M","level":1}
   ], "components": [
@@ -789,14 +727,20 @@
         ["bolt_steel", 1]
     ],
     [
-      [ "superglue", 1 ]
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "canister_empty", 1 ]
     ],
     [
-        ["smpistol_primer", 1 ],
-        ["lgpistol_primer", 1],
-        ["smrifle_primer", 1],
-        ["lgrifle_primer", 1],
-        ["shotgun_primer", 1]
+      [ "superglue", 1 ],
+      [ "string_36", 1 ]
+    ],
+    [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
     ],
     [
       [ "gunpowder", 20 ],
@@ -843,1340 +787,6 @@
       ]
   ]
 },{
-   "type" : "recipe",
-  "result": "reloaded_9x18mm",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "9x18mm_casing", 50 ]
-    ],
-    [
-      [ "smpistol_primer", 50 ]
-    ],
-    [
-      [ "gunpowder", 150 ]
-    ],
-    [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_9x18mmP2",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "9x18mm_casing", 25 ]
-    ],
-    [
-      [ "smpistol_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 125 ]
-    ],
-    [
-      [ "lead", 100 ],
-      [ "gold_small", 100 ],
-      [ "silver_small", 100 ],
-      [ "tin", 100 ],
-      [ "bismuth", 100 ],
-      [ "solder_wire", 100 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_38_special",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "38_casing", 50 ]
-    ],
-    [
-      [ "smpistol_primer", 50 ]
-    ],
-    [
-      [ "gunpowder", 250 ], [ "chem_black_powder", 250 ]
-    ],
-    [
-      [ "lead", 250 ],
-      [ "gold_small", 250 ],
-      [ "silver_small", 250 ],
-      [ "tin", 250 ],
-      [ "bismuth", 250 ],
-      [ "solder_wire", 250 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_38_super",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 3 ],
-  "difficulty": 4,
-  "time": 12500,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "38_casing", 25 ]
-    ],
-    [
-      [ "smpistol_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 175 ]
-    ],
-    [
-      [ "lead", 125 ],
-      [ "gold_small", 125 ],
-      [ "silver_small", 125 ],
-      [ "tin", 125 ],
-      [ "bismuth", 125 ],
-      [ "solder_wire", 125 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_40sw",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 30000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "40_casing", 50 ]
-    ],
-    [
-      [ "smpistol_primer", 50 ]
-    ],
-    [
-      [ "gunpowder", 300 ]
-    ],
-    [
-      [ "lead", 300 ],
-      [ "gold_small", 300 ],
-      [ "silver_small", 300 ],
-      [ "tin", 300 ],
-      [ "bismuth", 300 ],
-      [ "solder_wire", 300 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_10mm",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "40_casing", 50 ]
-    ],
-    [
-      [ "lgpistol_primer", 50 ]
-    ],
-    [
-      [ "gunpowder", 400 ]
-    ],
-    [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_44magnum",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 3 ],
-  "difficulty": 4,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "44_casing", 20 ]
-    ],
-    [
-      [ "lgpistol_primer", 20 ]
-    ],
-    [
-      [ "gunpowder", 200 ]
-    ],
-    [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_45_acp",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "45_casing", 30 ]
-    ],
-    [
-      [ "lgpistol_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 300 ]
-    ],
-    [
-      [ "lead", 240 ],
-      [ "gold_small", 240 ],
-      [ "silver_small", 240 ],
-      [ "tin", 240 ],
-      [ "bismuth", 240 ],
-      [ "solder_wire", 240 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_45_super",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 5 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "45_casing", 10 ]
-    ],
-    [
-      [ "lgpistol_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 120 ]
-    ],
-    [
-      [ "lead", 100 ],
-      [ "gold_small", 100 ],
-      [ "silver_small", 100 ],
-      [ "tin", 100 ],
-      [ "bismuth", 100 ],
-      [ "solder_wire", 100 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_45_jhp",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "45_casing", 25 ]
-    ],
-    [
-      [ "lgpistol_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 250 ]
-    ],
-    [
-      [ "lead", 400 ],
-      [ "gold_small", 400],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
-    ],
-    [
-      [ "copper", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_454_Casull",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 7 ],
-  "difficulty": 7,
-  "time": 10000,
-  "book_learn": [["recipe_bullets" , 6 ] , [ "manual_pistol", 7 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "454_casing", 10 ]
-    ],
-    [
-      [ "smrifle_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 200 ]
-    ],
-    [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
-    ],
-    [
-      [ "copper", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_500_Magnum",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 7 ],
-  "difficulty": 9,
-  "time": 10000,
-  "book_learn": [["recipe_bullets" , 7 ] , [ "manual_pistol", 8 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "500_casing", 15 ]
-    ],
-    [
-      [ "lgrifle_primer", 15 ]
-    ],
-    [
-      [ "gunpowder", 360 ]
-    ],
-    [
-      [ "lead", 675 ],
-      [ "gold_small", 675 ],
-      [ "silver_small", 675 ],
-      [ "tin", 675 ],
-      [ "bismuth", 675 ],
-      [ "solder_wire", 675 ]
-    ],
-    [
-      [ "copper", 340 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_57mm",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 3 ],
-  "difficulty": 4,
-  "time": 50000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "57mm_casing", 40 ]
-    ],
-    [
-      [ "smrifle_primer", 40 ]
-    ],
-    [
-      [ "gunpowder", 160 ]
-    ],
-    [
-      [ "lead", 80 ],
-      [ "gold_small", 80 ],
-      [ "silver_small", 80 ],
-      [ "tin", 80 ],
-      [ "bismuth", 80 ],
-      [ "solder_wire", 80 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_46mm",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_PISTOL",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 3 ],
-  "difficulty": 4,
-  "time": 50000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "46mm_casing", 40 ]
-    ],
-    [
-      [ "smpistol_primer", 40 ]
-    ],
-    [
-      [ "gunpowder", 160 ]
-    ],
-    [
-      [ "lead", 80 ],
-      [ "gold_small", 80 ],
-      [ "silver_small", 80 ],
-      [ "tin", 80 ],
-      [ "bismuth", 80 ],
-      [ "solder_wire", 80 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_762_m43",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 40000,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "762_casing", 80 ]
-    ],
-    [
-      [ "lgrifle_primer", 80 ]
-    ],
-    [
-      [ "gunpowder", 560 ]
-    ],
-    [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ] ,
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
-    ],
-    [
-      [ "copper", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_762_m87",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 40000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "762_casing", 80 ]
-    ],
-    [
-      [ "lgrifle_primer", 80 ]
-    ],
-    [
-      [ "gunpowder", 640 ]
-    ],
-    [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
-    ],
-    [
-      [ "copper", 200 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
-  "result": "reloaded_545",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 2],
-  "difficulty": 3,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 2], [ "mag_rifle", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ],
-      [ "hotplate", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "545_casing", 30 ]
-    ],
-    [
-      [ "smrifle_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 150 ]
-    ],
-    [
-      [ "lead", 60 ],
-      [ "gold_small", 60 ],
-      [ "silver_small", 60 ],
-      [ "tin", 60 ],
-      [ "bismuth", 60 ],
-      [ "solder_wire", 60]
-    ],
-    [
-      [ "copper", 30 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
-  "result": "reloaded_545_ap",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 3],
-  "difficulty": 4,
-  "time": 28000,
-  "book_learn": [["recipe_bullets" , 2], [ "mag_rifle", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ],
-      [ "hotplate", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "545_casing", 30 ]
-    ],
-    [
-      [ "smrifle_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 150 ]
-    ],
-    [
-      [ "lead", 90 ],
-      [ "gold_small", 90 ],
-      [ "silver_small", 90 ],
-      [ "tin", 90 ],
-      [ "bismuth", 90 ],
-      [ "solder_wire", 90]
-    ],
-    [
-      [ "copper", 45 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "survivor223mag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 2,
-  "time": 20000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ],
-  "components": [
-    [
-      [ "sheet_metal", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ],
-    [
-      [ "duct_tape", 40 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "survivor9mm_mag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 2,
-  "time": 20000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SCREW_FINE","level":1}
-  ],
-  "components": [
-    [
-      [ "sheet_metal", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ],
-    [
-      [ "duct_tape", 40 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_223",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 20000,
-  "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 2 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "223_casing", 30 ]
-    ],
-    [
-      [ "smrifle_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 120 ]
-    ],
-    [
-      [ "22_casing", 30 ],
-      [ "copper", 30 ]
-    ],
-    [
-      [ "lead", 60 ],
-      [ "gold_small", 60 ] ,
-      [ "silver_small", 60 ],
-      [ "tin", 60 ],
-      [ "bismuth", 60 ],
-      [ "solder_wire", 60 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_556",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 20000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "223_casing", 30 ]
-    ],
-    [
-      [ "smrifle_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 180 ]
-    ],
-    [
-      [ "22_casing", 30 ],
-      [ "copper", 30 ]
-    ],
-    [
-      [ "lead", 60 ],
-      [ "gold_small", 60 ] ,
-      [ "silver_small", 60 ],
-      [ "tin", 60 ],
-      [ "bismuth", 60 ],
-      [ "solder_wire", 60 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_556_incendiary",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 6,
-  "time": 15000,
-  "book_learn": [["recipe_bullets" , 5 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "223_casing", 30 ]
-    ],
-    [
-      [ "smrifle_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 180 ]
-    ],
-    [
-      [ "22_casing", 30 ],
-      [ "copper", 30 ]
-    ],
-    [
-      [ "incendiary", 60 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_270",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 10000,
-  "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "3006_casing", 20 ]
-    ],
-    [
-      [ "lgrifle_primer", 20 ]
-    ],
-    [
-      [ "gunpowder", 200 ]
-    ],
-    [
-      [ "lead", 100 ],
-      [ "gold_small", 100 ],
-      [ "silver_small", 100 ],
-      [ "tin", 100 ],
-      [ "bismuth", 100 ],
-      [ "solder_wire", 100 ]
-    ],
-    [
-      [ "copper", 50 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "garandclip",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 2 ],
-  "difficulty": 3,
-  "time": 20000,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
-  "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [
-      [ "small_repairkit", 10 ],
-      [ "large_repairkit", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "steel_chunk", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_3006",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "3006_casing", 10 ]
-    ],
-    [
-      [ "lgrifle_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 120 ]
-    ],
-    [
-      [ "lead", 80 ],
-      [ "gold_small", 80 ] ,
-      [ "silver_small", 80 ],
-      [ "tin", 80 ],
-      [ "bismuth", 80 ],
-      [ "solder_wire", 80 ]
-    ],
-    [
-      [ "copper", 40 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_3006fmj",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "3006_casing", 10 ]
-    ],
-    [
-      [ "lgrifle_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 120 ]
-    ],
-    [
-      [ "lead", 80 ],
-      [ "gold_small", 80 ] ,
-      [ "silver_small", 80 ],
-      [ "tin", 80 ],
-      [ "bismuth", 80 ],
-      [ "solder_wire", 80 ]
-    ],
-    [
-      [ "copper", 40 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_50_incendiary",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 7 ],
-  "difficulty": 8,
-  "time": 9000,
-  "book_learn": [["recipe_bullets" , 8 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "50_casing", 10 ]
-    ],
-    [
-      [ "incendiary", 300 ]
-    ],
-   [
-      [ "lgrifle_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 1000 ]
-    ],
-    [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
-    ],
-    [
-      [ "copper", 100 ]
-    ]
-  ]
- },{
-  "type" : "recipe",
-  "result": "reloaded_50ss",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 7 ],
-  "difficulty": 8,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 7 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "50_casing", 10 ]
-    ],
-    [
-      [ "lgrifle_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 1000 ]
-    ],
-    [
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "copper", 10 ]
-    ]
-]
-  },{
-  "type" : "recipe",
-  "result": "reloaded_50bmg",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 7 ],
-  "difficulty": 8,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 6 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "50_casing", 30 ]
-    ],
-    [
-      [ "lgrifle_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 1000 ]
-    ],
-    [
-      [ "lead", 380 ],
-      [ "gold_small", 380 ],
-      [ "silver_small", 380 ],
-      [ "tin", 380 ],
-      [ "bismuth", 380 ],
-      [ "solder_wire", 380 ]
-    ],
-    [
-      [ "copper", 190 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_3006_incendiary",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 7 ],
-  "difficulty": 7,
-  "time": 2500,
-  "book_learn": [["recipe_bullets" , 2 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "3006_casing", 10 ]
-    ],
-    [
-      [ "lgrifle_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 120 ]
-    ],
-    [
-      [ "incendiary", 80 ]
-    ],
-    [
-      [ "copper", 40 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_308",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 10000,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "308_casing", 20 ]
-    ],
-    [
-      [ "lgrifle_primer", 20 ]
-    ],
-    [
-      [ "gunpowder", 160 ]
-    ],
-    [
-      [ "lead", 120 ],
-      [ "gold_small", 120 ],
-      [ "silver_small", 120 ],
-      [ "tin", 120 ],
-      [ "bismuth", 120 ],
-      [ "solder_wire", 120 ]
-    ],
-    [
-      [ "copper", 60 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_762_51",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 5,
-  "time": 10000,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "308_casing", 20 ]
-    ],
-    [
-      [ "lgrifle_primer", 20 ]
-    ],
-    [
-      [ "gunpowder", 200 ]
-    ],
-    [
-      [ "lead", 120 ],
-      [ "gold_small", 120 ],
-      [ "silver_small", 120 ],
-      [ "tin", 120 ],
-      [ "bismuth", 120 ],
-      [ "solder_wire", 120 ]
-    ],
-    [
-      [ "copper", 60 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_762_51_incendiary",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 6,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 5 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "308_casing", 20 ]
-    ],
-    [
-      [ "lgrifle_primer", 20 ]
-    ],
-    [
-      [ "gunpowder", 200 ]
-    ],
-    [
-      [ "incendiary", 120 ]
-    ],
-    [
-      [ "copper", 60 ]
-    ]
-  ]
-},{
   "type" : "recipe",
   "result": "blun_shot",
   "category": "CC_AMMO",
@@ -2190,13 +800,7 @@
   "qualities":[
     {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
+  "using": [ [ "surface_heat", 2 ] ],
   "components": [
     [
       [ "gunpowder", 16 ],
@@ -2226,15 +830,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],"components": [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components": [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]
@@ -2259,15 +858,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ], "components":  [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components":  [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]
@@ -2301,6 +895,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -2332,6 +927,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -2363,6 +959,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -2394,6 +991,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -2425,6 +1023,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -2468,9 +1067,7 @@
   ],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 15],
-      ["toolset", 15],
-      ["fire", -1]
+      [ "surface_heat", 15, "LIST" ]
     ]
   ],
   "components" : [
@@ -2516,14 +1113,12 @@
   "time": 100000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["crucible", -1],
@@ -2541,385 +1136,7 @@
      [ "scrap", 48 ]
      ]
     ]
-  },{
-    "type" : "recipe",
-    "result": "reloaded_9x18mmfmj",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 4 ],
-    "difficulty": 4,
-    "time": 30000,
-    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-    "tools": [
-      [
-        [ "press", -1 ]
-      ],
-      [
-        [ "fire", -1 ],
-        [ "toolset", 2 ],
-        [ "press", 2 ]
-          ]
-    ],
-    "components": [
-      [
-        [ "9x18mm_casing", 50 ]
-      ],
-      [
-        [ "smpistol_primer", 50 ]
-      ],
-      [
-        [ "gunpowder", 150 ]
-      ],
-      [
-        [ "lead", 150 ],
-        [ "gold_small", 150 ],
-        [ "silver_small", 150 ],
-        [ "tin", 150 ],
-        [ "bismuth", 150 ],
-        [ "solder_wire", 150 ]
-      ],
-      [
-        [ "copper", 75 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "reloaded_38_fmj",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 4 ],
-    "difficulty": 4,
-    "time": 30000,
-    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-    "tools": [
-      [
-        [ "press", -1 ]
-      ],
-      [
-        [ "fire", -1 ],
-        [ "toolset", 2 ],
-        [ "press", 2 ]
-      ]
-    ],
-    "components": [
-      [
-        [ "38_casing", 50 ]
-      ],
-      [
-        [ "smpistol_primer", 50 ]
-      ],
-      [
-        [ "gunpowder", 250 ], [ "chem_black_powder", 250 ]
-      ],
-      [
-        [ "lead", 200 ],
-        [ "gold_small", 200 ],
-        [ "silver_small", 200 ],
-        [ "tin", 200 ],
-        [ "bismuth", 200 ],
-        [ "solder_wire", 200 ]
-      ],
-      [
-        [ "copper", 100 ]
-      ]
-    ]
-   },{
-    "type" : "recipe",
-    "result": "reloaded_40fmj",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 4 ],
-    "difficulty": 4,
-    "time": 35000,
-    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-    "tools": [
-      [
-        [ "press", -1 ]
-      ],
-      [
-        [ "fire", -1 ],
-        [ "toolset", 2 ],
-        [ "press", 2 ]
-      ]
-    ],
-    "components": [
-      [
-        [ "40_casing", 50 ]
-      ],
-      [
-        [ "smpistol_primer", 50 ]
-      ],
-      [
-        [ "gunpowder", 300 ]
-      ],
-      [
-        [ "lead", 250 ],
-        [ "gold_small", 250 ],
-        [ "silver_small", 250 ],
-        [ "tin", 250 ],
-        [ "bismuth", 250 ],
-        [ "solder_wire", 250 ]
-      ],
-      [
-        [ "copper", 175 ]
-      ]
-    ]
-  },{
-  "type" : "recipe",
-  "result": "reloaded_5x50dart",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 6,
-  "time": 8000,
-  "book_learn": [["recipe_caseless" , 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "5x50_hull", 100 ]
-    ],
-    [
-      [ "plastic_chunk", 5 ]
-    ],
-    [
-      [ "smrifle_primer", 100 ]
-    ],
-    [
-      [ "gunpowder", 300 ]
-    ],
-    [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ],
-      [ "nail", 100 ]
-    ]
-  ]
-  },{
-    "type" : "recipe",
-    "result": "reloaded_44fmj",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 4 ],
-    "difficulty": 5,
-    "time": 25000,
-    "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
-    "tools": [
-      [
-        [ "press", -1 ]
-      ],
-      [
-        [ "fire", -1 ],
-        [ "toolset", 2 ],
-        [ "press", 2 ]
-      ]
-    ],
-    "components": [
-      [
-        [ "44_casing", 50 ]
-      ],
-      [
-        [ "lgpistol_primer", 50 ]
-      ],
-      [
-        [ "gunpowder", 500 ]
-      ],
-      [
-        [ "lead", 400 ],
-        [ "gold_small", 400 ],
-        [ "silver_small", 400 ],
-        [ "tin", 400 ],
-        [ "bismuth", 400 ],
-        [ "solder_wire", 400 ]
-      ],
-      [
-        [ "copper", 200 ]
-      ]
-    ]
-},{
-    "type": "recipe",
-    "result": "reloaded_300_winmag",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_RIFLE",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 5 ],
-    "difficulty": 5,
-    "time" : 15000,
-    "book_learn": [[ "recipe_bullets", 4 ], [ "mag_rifle", 5 ]],
-    "tools": [
-      [
-        [ "press", -1 ]
-      ],
-      [
-        [ "fire", -1 ],
-        [ "toolset", 2],
-        [ "press", 2]
-      ]
-    ],
-    "components": [
-      [
-        [ "300_casing", 10 ]
-      ],
-      [
-        [ "lgrifle_primer", 10 ]
-      ],
-      [
-        [ "gunpowder", 160 ]
-      ],
-      [
-        [ "lead", 80 ],
-        [ "gold_small", 80 ],
-        [ "silver_small", 80 ],
-        [ "tin", 80 ],
-        [ "bismuth", 80 ],
-        [ "solder_wire", 80 ]
-      ],
-      [
-        [ "copper", 40 ]
-      ]
-    ]
-  },{
-    "type": "recipe",
-    "result": "reloaded_32_acp",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 2,
-    "time": 5000,
-    "book_learn": [[ "recipe_bullets", 5 ]],
-    "tools": [
-      [
-        [ "press", -1 ]
-      ],
-      [
-        [ "fire", -1 ],
-        [ "toolset", 2 ],
-        [ "press", 2 ]
-      ]
-     ],
-    "components" : [
-      [
-        [ "32_casing", 50 ]
-      ],
-      [
-        [ "smpistol_primer", 50 ]
-      ],
-      [
-        [ "gunpowder", 80 ]
-      ],
-      [
-        [ "lead", 60 ],
-        [ "gold_small", 60 ],
-        [ "silver_small", 60 ],
-        [ "tin", 60 ],
-        [ "bismuth", 60 ],
-        [ "solder_wire", 60 ]
-      ]
-    ]
   },
-  {
-    "type": "recipe",
-    "result": "reloaded_762_54R",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_RIFLE",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 4 ],
-    "difficulty": 4,
-    "time" : 10000,
-    "book_learn": [[ "recipe_bullets", 3 ], [ "mag_rifle", 4 ]],
-    "tools": [
-      [
-        [ "press", -1 ]
-      ],
-      [
-        [ "fire", -1 ],
-        [ "toolset", 2],
-        [ "press", 2]
-      ]
-    ],
-    "components": [
-      [
-        [ "762R_casing", 20 ]
-      ],
-      [
-        [ "lgrifle_primer", 20 ]
-      ],
-      [
-        [ "gunpowder", 160 ], [ "chem_black_powder", 160 ]
-      ],
-      [
-        [ "lead", 60 ],
-        [ "gold_small", 60 ],
-        [ "silver_small", 60 ],
-        [ "tin", 60 ],
-        [ "bismuth", 60 ],
-        [ "solder_wire", 60 ]
-      ],
-      [
-        [ "copper", 30 ]
-      ]
-    ]
-  },
-{
-  "type" : "recipe",
-  "result": "reloaded_700nx",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 7 ],
-  "difficulty": 9,
-  "time": 5000,
-  "book_learn": [["recipe_bullets" , 7 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "700nx_casing", 30 ]
-    ],
-    [
-      [ "lgrifle_primer", 30 ]
-    ],
-    [
-      [ "gunpowder", 1150 ]
-    ],
-    [
-      [ "lead", 420 ],
-      [ "gold_small", 420 ],
-      [ "silver_small", 420 ],
-      [ "tin", 420 ],
-      [ "bismuth", 420 ],
-      [ "solder_wire", 420 ]
-    ],
-    [
-      [ "copper", 210 ]
-    ]
-  ]
-},
 {
   "type" : "recipe",
   "result": "combatnail",
@@ -2931,12 +1148,12 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
     [ ["tongs", -1]  ],
     [ ["swage", -1]  ],
-    [ ["anvil", -1]  ],
     [ ["forge", 50], [ "oxy_torch", 10] ]
            ],
   "components": [
@@ -2956,7 +1173,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
-  "tools": [ [ ["hotplate", 25], ["toolset", 25], ["fire", -1] ] ],
+  "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
   "components": [
     [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
     [ [ "plastic_chunk", 4 ] ],
@@ -3074,81 +1291,6 @@
 ]
 },{
    "type" : "recipe",
-  "result": "reloaded_22_lr",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "22_casing_new", 100 ]
-    ],
-    [
-      [ "gunpowder", 200 ], [ "chem_black_powder", 200 ]
-    ],
-    [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
-    ]
-  ]
-},{
-   "type" : "recipe",
-  "result": "reloaded_22_fmj",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_RIFLE",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 25000,
-  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "22_casing_new", 100 ]
-    ],
-    [
-      [ "gunpowder", 200 ], [ "chem_black_powder", 200 ]
-    ],
-    [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
-    ],
-    [
-      [ "copper", 100 ]
-    ]
-  ]
-},{
-   "type" : "recipe",
   "result": "gas_fungicidal",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -3161,9 +1303,7 @@
     {"id":"CHEM","level":1}
   ], "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 5 ],
-      [ "hotplate", 5 ]
+      [ "surface_heat", 5, "LIST" ]
     ]
   ],
   "components": [
@@ -3187,9 +1327,7 @@
   "qualities":[ {"id":"CHEM","level":1} ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 5 ],
-      [ "hotplate", 5 ]
+      [ "surface_heat", 5, "LIST" ]
     ]
   ],
   "components": [

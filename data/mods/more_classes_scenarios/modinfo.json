@@ -2,10 +2,10 @@
   {
     "type": "MOD_INFO",
     "ident": "more_classes_scenarios",
-    "name": "More Classes and Scenarios",
+    "name": "Classes and Scenarios Mod",
     "authors": [ "Noctifer-de-Mortem" ],
     "maintainers": [ "Noctifer-de-Mortem" ],
-    "description": "Adds classes and scenarios that are not balanced for the core game.",
+    "description": "Adds new classes and scenarios while rebalancing some existing ones.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }

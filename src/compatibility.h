@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_COMPATIBILITY_H
 #define CATA_COMPATIBILITY_H
 
@@ -32,6 +33,53 @@ inline std::string to_string( long const n )
     constexpr int size = std::numeric_limits<long>::digits10 + 2;
     char buffer[size];
     snprintf( buffer, size, "%ld", n );
+    return buffer;
+}
+
+inline std::string to_string( unsigned long const n )
+{
+    //- and \0
+    constexpr int size = std::numeric_limits<unsigned long>::digits10 + 2;
+    char buffer[size];
+    snprintf( buffer, size, "%lu", n );
+    return buffer;
+}
+
+inline std::string to_string( long long const n )
+{
+    //- and \0
+    constexpr int size = std::numeric_limits<long long>::digits10 + 2;
+    char buffer[size];
+    const char *format;
+#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
+    if( sizeof( signed long long int ) == 4 ) {
+        format = "%I32d";
+    } else {
+        format = "%I64d";
+    }
+#else
+    format = "%lld";
+#endif
+    snprintf( buffer, size, format, n );
+    return buffer;
+}
+
+inline std::string to_string( unsigned long long const n )
+{
+    //- and \0
+    constexpr int size = std::numeric_limits<unsigned long long>::digits10 + 2;
+    char buffer[size];
+    const char *format;
+#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
+    if( sizeof( signed long long int ) == 4 ) {
+        format = "%I32u";
+    } else {
+        format = "%I64u";
+    }
+#else
+    format = "%llu";
+#endif
+    snprintf( buffer, size, format, n );
     return buffer;
 }
 

@@ -17,6 +17,7 @@
       "8mm_jhp",
       "8mm_inc",
       "5x50dart",
+      "5x50heavy",
       "20x66_shot",
       "20x66_flechette",
       "20x66_slug",
@@ -30,6 +31,7 @@
       "20x66_bootleg_slug",
       "recipe_caseless",
       "reloaded_5x50dart",
+      "5x50_hull",
       "rm121aux",
       "rm802",
       "rm51_assault_rifle",
@@ -75,7 +77,8 @@
       "360_400_mag",
       "5x50_50_mag",
       "5x50_100_mag",
-      "l_lmg_223"
+      "l_lmg_223",
+      "lwfeed"
     ]
   }
 ]

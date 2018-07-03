@@ -1,0 +1,77 @@
+[
+    {
+        "type" : "npc_class",
+        "id" : "NC_CAPTIVE",
+        "name" : "Captive",
+        "job_description" : "I got captured by those jerks.",
+        "comment" : "OK followers since the player will prob escort them to safety.",
+        "bonus_str" : { "rng" : [ -1, 2 ] },
+        "bonus_dex" : { "rng" : [ -1, 2 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "rng" : [ 0, -4 ] }
+                    ]
+                }
+            },
+            { "skill": "bashing", "bonus" : { "rng" : [ 1, 2 ] } },
+            { "skill": "unarmed", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "gun", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "melee", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "firstaid", "bonus" : { "rng" : [ 1, 3 ] } }
+        ],
+        "traits": [
+            [ "STRONGBACK", 100 ],
+            [ "PACKMULE", 100 ],
+            [ "LIGHTEATER", 50 ],
+            [ "WAKEFUL", 50 ],
+            [ "FASTHEALER", 10 ],
+            [ "LIGHTSTEP", 10 ]
+        ],
+        "weapon_override": "EMPTY_GROUP",
+        "worn_override": "captive_clothing",
+        "carry_override": "captive_gear"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_MUTANT_CAPTIVE",
+        "name" : "Refugee",
+        "comment" : "Random mutations. Mostly visible.",
+        "job_description" : "I got locked up those yahoos.",
+        "bonus_str" : { "rng" : [ -2, 4 ] },
+        "bonus_dex" : { "rng" : [ -2, 4 ] },
+        "bonus_per" : { "rng" : [ -2, 4 ] },
+        "skills" : [
+            {
+                "skill" : "ALL", "level" : {
+                    "sum" : [
+                        { "dice" : [ 3, 2 ] },
+                        { "constant" : -4 }
+                    ]
+                }
+            },
+            { "skill": "bashing", "bonus" : { "rng" : [ 1, 2 ] } },
+            { "skill": "unarmed", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "gun", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "melee", "bonus" : { "rng" : [ 0, 3 ] } },
+            { "skill": "firstaid", "bonus" : { "rng" : [ 1, 3 ] } }
+        ],
+        "traits": [
+            [ "DEFORMED", 10 ],
+            [ "SKIN_ROUGH", 20 ],
+            [ "LIZ_EYE", 20 ],
+            [ "GILLS", 20 ],
+            [ "SPINES", 10 ],
+            [ "HORNS", 20 ],
+            [ "SPOTS", 20 ],
+            [ "ALBINO", 20 ],
+            [ "SLIMY", 20 ],
+            [ "FANGS", 20 ],
+            [ "CLAWS", 20 ]
+        ],
+        "weapon_override": "EMPTY_GROUP",
+        "worn_override": "captive_clothing",
+        "carry_override": "captive_gear"
+    }
+]

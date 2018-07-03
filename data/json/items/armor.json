@@ -39,7 +39,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "2byshin_guard",
@@ -61,7 +61,7 @@
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "aep_suit",
@@ -72,7 +72,6 @@
     "weight": 7200,
     "volume": 36,
     "price": 140000,
-    "to_hit": -8,
     "material": [ "kevlar", "plastic" ],
     "symbol": "[",
     "color": "light_red",
@@ -114,7 +113,6 @@
     "weight": 8700,
     "volume": 80,
     "price": 400000,
-    "to_hit": -8,
     "material": [ "kevlar", "plastic" ],
     "symbol": "[",
     "color": "light_red",
@@ -140,12 +138,12 @@
     "color": "brown",
     "covers": [ "TORSO", "LEGS" ],
     "coverage": 70,
-    "encumbrance": 10,
+    "encumbrance": 5,
     "storage": 8,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "BELTED" ]
+    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "arm_splint",
@@ -204,7 +202,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_chitin",
@@ -226,7 +224,18 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "armguard_acidchitin",
+    "copy-from": "armguard_chitin",
+    "type": "ARMOR",
+    "name": "pair of biosilicified chitin arm guards",
+    "name_plural": "pairs of biosilicified chitin arm guards",
+    "description": "A pair of arm guards crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "material_thickness": 1 }
   },
   {
     "id": "armguard_hard",
@@ -269,7 +278,7 @@
     "encumbrance": 16,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_lightplate",
@@ -312,7 +321,7 @@
     "encumbrance": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_paper",
@@ -419,6 +428,16 @@
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "STURDY" ]
+  },
+  {
+    "id": "armor_acidchitin",
+    "copy-from": "armor_chitin",
+    "type": "ARMOR",
+    "name": "biosilicified chitin armor",
+    "description": "Leg and body armor crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 2 }
   },
   {
     "id": "armor_farmor",
@@ -563,8 +582,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "TORSO", "LEGS", "ARMS", "HANDS" ],
-    "coverage": 75,
-    "encumbrance": 25,
+    "coverage": 85,
+    "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
@@ -596,21 +615,21 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "scrap suit",
-    "description": "A suit of armor forged from scraps of metal; provides decent protection, but the loose collection of plates jangles and clangs as you walk, attracting the attention of all nearby.",
+    "description": "A suit of armor made from scraps of metal secured by simple strings; provides decent protection, but the loose collection of plates doesn't make for the most convenient protection.",
     "weight": 9534,
     "volume": 62,
     "price": 70000,
     "to_hit": -5,
     "bashing": 6,
     "cutting": 8,
-    "material": [ "steel" ],
+    "material": [ "steel", "iron" ],
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 15,
+    "encumbrance": 18,
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "flags": [ "OUTER" ]
   },
   {
@@ -685,7 +704,7 @@
     "storage": 40,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "badge_cybercop",
@@ -789,7 +808,7 @@
       "draw_cost": 10,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bandana",
@@ -1003,7 +1022,7 @@
     "encumbrance": 40,
     "storage": 20,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "blanket",
@@ -1148,7 +1167,7 @@
       "draw_cost": 30,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
     "id": "bowhat",
@@ -1262,6 +1281,26 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "breeches",
+    "type": "ARMOR",
+    "name": "breeches",
+    "name_plural": "breeches",
+    "description": "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  Comfortable, but lacks pockets.",
+    "weight": 520,
+    "volume": 7,
+    "price": 4900,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 8,
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "FANCY" ]
+  },
+  {
     "id": "briefcase",
     "type": "ARMOR",
     "name": "briefcase",
@@ -1279,7 +1318,7 @@
     "encumbrance": 30,
     "storage": 24,
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "briefs",
@@ -1337,7 +1376,7 @@
       "draw_cost": 20,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bunker_coat",
@@ -1414,7 +1453,7 @@
     "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 90,
     "encumbrance": 10,
@@ -1457,7 +1496,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
     "id": "chainmail_legs",
@@ -1494,7 +1533,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
     "id": "chainmail_vest",
@@ -1613,7 +1652,6 @@
     "weight": 2100,
     "volume": 10,
     "price": 7700,
-    "to_hit": -8,
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
@@ -1924,11 +1962,46 @@
     "flags": [ "OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "crown_golden",
+    "type": "ARMOR",
+    "name": "golden crown",
+    "description": "A delicate golden crown featuring flowering trees.",
+    "weight": 1000,
+    "volume": 4,
+    "price": 30000,
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "HEAD" ],
+    "coverage": 30,
+    "encumbrance": 20,
+    "material_thickness": 2,
+    "flags": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "crown_golden_survivor",
+    "type": "ARMOR",
+    "name": "golden crown",
+    "description": "A golden crown for the monarch of survivors.",
+    "weight": 1000,
+    "volume": 4,
+    "price": 30000,
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "HEAD" ],
+    "coverage": 30,
+    "encumbrance": 20,
+    "material_thickness": 2,
+    "flags": [ "FANCY" ]
+  },
+  {
     "id": "cuirass_lightplate",
     "type": "ARMOR",
     "category": "armor",
     "name": "cuirass",
-    "description": "A steel breastplate, and a vital part of plate armor.  Even as full armor went into decline, curiasses remained in use among cavalry in Europe.",
+    "name_plural": "cuirasses",
+    "description": "A steel breastplate, and a vital part of plate armor.  Even as full armor went into decline, cuirasses remained in use among cavalry in Europe.",
     "weight": 4200,
     "volume": 24,
     "price": 20000,
@@ -1949,7 +2022,7 @@
     "category": "armor",
     "name": "salvaged power armor",
     "//": "These are much cheaper than powered suits, because they're extremely heavy and impractical.  The good stuff is gone!",
-    "description": "The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  This suit has had its servos and cooling system stripped out, meaning it no longer requires power, but also encumbers you greatly and doesn't provide internal thermal regulation.",
+    "description": "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  This suit has had its servos and cooling system stripped out, meaning it no longer requires power, but also encumbers you greatly and doesn't provide internal thermal regulation.",
     "weight": 12214,
     "volume": 100,
     "price": 70000,
@@ -1972,7 +2045,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "salvaged power armor helmet",
-    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk.  I.  Offers excellent protection from both attacks and environmental hazards.  This suit has had its internal computer and cooling system stripped out, meaning it no longer requires power, but it has no internal chronometer and doesn't provide internal thermal regulation.",
+    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  Offers excellent protection from both attacks and environmental hazards.  This suit has had its internal computer and cooling system stripped out, meaning it no longer requires power, but it has no internal chronometer and doesn't provide internal thermal regulation.",
     "weight": 2416,
     "volume": 20,
     "price": 30000,
@@ -2075,7 +2148,7 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "down_blanket",
@@ -2116,7 +2189,7 @@
     "encumbrance": 10,
     "warmth": 12,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "NO_REPAIR" ]
   },
   {
     "id": "dress",
@@ -2194,7 +2267,7 @@
     "storage": 120,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "dump_pouch",
@@ -2214,7 +2287,7 @@
     "coverage": 10,
     "storage": 8,
     "material_thickness": 1,
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "duster",
@@ -2341,7 +2414,7 @@
     "price": 7000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 60,
     "encumbrance": 10,
@@ -2375,7 +2448,6 @@
     "weight": 2900,
     "volume": 24,
     "price": 240500,
-    "to_hit": -8,
     "material": [ "nomex", "kevlar" ],
     "symbol": "[",
     "color": "light_gray",
@@ -2423,10 +2495,10 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 10,
-    "encumbrance": 5,
+    "encumbrance": 2,
     "storage": 6,
     "material_thickness": 1,
-    "flags": [ "WAIST", "VARSIZE" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "fencing_jacket",
@@ -2512,20 +2584,20 @@
     "category": "armor",
     "name": "firefighter helmet",
     "description": "A distinctive helmet worn by firefighters.  More than just a piece of firefighting equipment, they serve as a badge of honor and respect.",
-    "weight": 820,
+    "weight": 1500,
     "volume": 5,
     "price": 24000,
     "to_hit": 1,
     "bashing": 4,
-    "material": [ "steel" ],
+    "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "yellow",
     "covers": [ "HEAD" ],
     "coverage": 75,
     "encumbrance": 40,
     "warmth": 15,
-    "material_thickness": 2,
-    "environmental_protection": 1,
+    "material_thickness": 6,
+    "environmental_protection": 6,
     "flags": [ "VARSIZE", "WATERPROOF", "FANCY", "STURDY" ]
   },
   {
@@ -2551,7 +2623,7 @@
       "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
     },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW" ]
+    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "id": "fishing_waders",
@@ -2630,6 +2702,26 @@
     "encumbrance": 40,
     "warmth": 5,
     "material_thickness": 4,
+    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
+  },
+  {
+    "id": "flotation_vest_ms",
+    "type": "ARMOR",
+    "name": "makeshift flotation vest",
+    "description": "A flotation vest made of inflated animal skins.",
+    "weight": 451,
+    "volume": 36,
+    "price": 11000,
+    "to_hit": -3,
+    "bashing": 2,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 40,
+    "encumbrance": 50,
+    "warmth": 5,
+    "material_thickness": 2,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -2801,6 +2893,17 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "gauntlets_acidchitin",
+    "copy-from": "gauntlets_chitin",
+    "type": "ARMOR",
+    "name": "pair of biosilicified chitin gauntlets",
+    "name_plural": "pairs of biosilicified chitin gauntlets",
+    "description": "Gauntlets crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1 }
+  },
+  {
     "id": "gauntlets_larmor",
     "type": "ARMOR",
     "category": "armor",
@@ -2866,6 +2969,27 @@
     "environmental_protection": 4,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ]
+  },
+  {
+    "id": "eclipse_glasses",
+    "type": "ARMOR",
+    "name": "pair of eclipse glasses",
+    "name_plural": "pairs of eclipse glasses",
+    "description": "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped with a layer of aluminum coating.  They allow safely staring at extremely bright and harmful sources of light like the sun during a solar eclipse.",
+    "weight": 27,
+    "volume": 1,
+    "price": 2500,
+    "to_hit": -2,
+    "material": [ "paper" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "EYES" ],
+    "coverage": 80,
+    "encumbrance": 10,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "qualities": [ [ "GLARE", 3 ] ],
+    "flags": [ "SUN_GLASSES" ]
   },
   {
     "id": "glasses_bifocal",
@@ -2980,7 +3104,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER" ]
   },
   {
     "id": "glove_jackson",
@@ -3410,7 +3534,7 @@
     "coverage": 50,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wraps_fur",
@@ -3427,10 +3551,10 @@
     "color": "white",
     "covers": [ "HANDS" ],
     "coverage": 50,
-    "encumbrance": 10,
+    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wraps_leather",
@@ -3447,10 +3571,10 @@
     "color": "white",
     "covers": [ "HANDS" ],
     "coverage": 50,
-    "encumbrance": 10,
+    "encumbrance": 5,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wraps_wool",
@@ -3467,10 +3591,10 @@
     "color": "blue",
     "covers": [ "HANDS" ],
     "coverage": 50,
-    "encumbrance": 5,
+    "encumbrance": 2,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wsurvivor",
@@ -3533,7 +3657,7 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "goggles_ski",
@@ -3657,7 +3781,7 @@
     "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "gown",
@@ -3669,7 +3793,7 @@
     "price": 21000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "covers": [ "TORSO", "LEGS" ],
     "coverage": 75,
     "encumbrance": 14,
@@ -3729,7 +3853,6 @@
     "weight": 350,
     "volume": 4,
     "price": 2500,
-    "cutting": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -3830,7 +3953,7 @@
     "coverage": 65,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
     "id": "hat_fur",
@@ -3945,7 +4068,7 @@
   {
     "id": "hat_noise_cancelling",
     "type": "ARMOR",
-    "name": "noise cancelling headgear",
+    "name": "noise canceling headgear",
     "description": "Padding over your ears kept in place by some string.  Blocks incoming sounds.",
     "weight": 72,
     "volume": 2,
@@ -3988,7 +4111,6 @@
     "weight": 5000,
     "volume": 68,
     "price": 117500,
-    "to_hit": -8,
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "yellow",
@@ -4147,6 +4269,16 @@
     "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "helmet_acidchitin",
+    "copy-from": "helmet_chitin",
+    "type": "ARMOR",
+    "name": "biosilicified chitin helmet",
+    "description": "A helmet crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1 }
   },
   {
     "id": "helmet_football",
@@ -4730,7 +4862,7 @@
     "price": 200000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar", "steel" ],
+    "material": [ "kevlar", "steel", "leather" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
@@ -4738,7 +4870,7 @@
     "encumbrance": 35,
     "storage": 24,
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -5024,7 +5156,7 @@
       "seals": true,
       "watertight": true
     },
-    "flags": [ "OVERSIZE", "BELTED" ]
+    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "jersey",
@@ -5084,94 +5216,76 @@
     "flags": [ "VARSIZE" ]
   },
   {
-    "id": "judo_belt_black",
+    "abstract": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "black belt",
-    "description": "A belt worn by martial arts practitioners, advertising a master.",
+    "name": "judo belt template",
+    "description": "This is a template for judo belts. If found in a game it is a bug.",
     "weight": 200,
     "volume": 1,
     "price": 1000,
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 2,
+    "material_thickness": 5,
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "judo_belt_black",
+    "copy-from": "judo_belt_abstract",
+    "type": "ARMOR",
+    "name": "black belt",
+    "description": "A belt worn by martial arts practitioners, advertising a master.",
     "color": "dark_gray"
   },
   {
     "id": "judo_belt_blue",
+    "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "blue belt",
     "description": "A belt worn by martial arts practitioners, advertising a strong intermediate.",
-    "weight": 200,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": [ "cotton" ],
-    "symbol": "[",
     "color": "blue"
   },
   {
     "id": "judo_belt_brown",
+    "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "brown belt",
     "description": "A belt worn by martial arts practitioners, advertising a near-master.",
-    "weight": 200,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": [ "cotton" ],
-    "symbol": "[",
     "color": "brown"
   },
   {
     "id": "judo_belt_green",
+    "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "green belt",
     "description": "A belt worn by martial arts practitioners, advertising an intermediate.",
-    "weight": 200,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": [ "cotton" ],
-    "symbol": "[",
     "color": "green"
   },
   {
     "id": "judo_belt_orange",
+    "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "orange belt",
     "description": "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
-    "weight": 200,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": [ "cotton" ],
-    "symbol": "[",
     "color": "light_red"
   },
   {
     "id": "judo_belt_white",
+    "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "white belt",
     "description": "A belt worn by martial arts practitioners, advertising a novice.",
-    "weight": 200,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": [ "cotton" ],
-    "symbol": "[",
     "color": "white"
   },
   {
     "id": "judo_belt_yellow",
+    "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "yellow belt",
     "description": "A belt worn by martial arts practitioners, advertising a moderate novice.",
-    "weight": 200,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -1,
-    "material": [ "cotton" ],
-    "symbol": "[",
     "color": "yellow"
   },
   {
@@ -5182,7 +5296,6 @@
     "weight": 1000,
     "volume": 6,
     "price": 5000,
-    "cutting": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
@@ -5202,7 +5315,7 @@
     "volume": 14,
     "price": 8900,
     "to_hit": -3,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "cotton" ],
     "symbol": "[",
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
@@ -5222,7 +5335,7 @@
     "volume": 20,
     "price": 20000,
     "to_hit": -3,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "cotton" ],
     "symbol": "[",
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
@@ -5297,7 +5410,6 @@
     "weight": 250,
     "volume": 2,
     "price": 2500,
-    "cutting": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
@@ -5323,10 +5435,10 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 85,
-    "encumbrance": 10,
+    "encumbrance": 5,
     "warmth": 15,
-    "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ]
+    "material_thickness": 4,
+    "flags": [ "STURDY", "SKINTIGHT" ]
   },
   {
     "id": "kilt",
@@ -5343,6 +5455,24 @@
     "coverage": 50,
     "storage": 1,
     "warmth": 20,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "kilt_leather",
+    "type": "ARMOR",
+    "name": "leather kilt",
+    "description": "No true Scotsman would leave home without his kilt.",
+    "weight": 1814,
+    "volume": 6,
+    "price": 6500,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "LEGS" ],
+    "coverage": 50,
+    "storage": 1,
+    "warmth": 10,
     "material_thickness": 3,
     "flags": [ "VARSIZE" ]
   },
@@ -5364,7 +5494,7 @@
     "storage": 4,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "kippah",
@@ -5466,7 +5596,7 @@
       "draw_cost": 60,
       "flags": [ "BELT_CLIP" ]
     },
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "leather_cat_ears",
@@ -5528,7 +5658,7 @@
     "encumbrance": 3,
     "storage": 6,
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "leg_splint",
@@ -5651,7 +5781,7 @@
     "category": "armor",
     "name": "pair of steel leg guards",
     "name_plural": "pairs of steel leg guards",
-    "description": "A full assembly of medieval leg protection.  Cuisses, polyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "description": "A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "weight": 4080,
     "volume": 24,
     "price": 20000,
@@ -5685,7 +5815,7 @@
     "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "legguard_paper",
@@ -6049,7 +6179,7 @@
     "storage": 20,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "makeshift_sling",
@@ -6069,7 +6199,7 @@
     "storage": 30,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED" ]
+    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "mask_bal",
@@ -6110,106 +6240,6 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 2
-  },
-  {
-    "id": "mask_filter",
-    "type": "ARMOR",
-    "name": "filter mask",
-    "description": "A mask that straps over your mouth and nose and filters air.  Protects from smoke, dust, and other contaminants quite well.",
-    "weight": 260,
-    "volume": 2,
-    "price": 3500,
-    "to_hit": 1,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "MOUTH" ],
-    "coverage": 100,
-    "encumbrance": 20,
-    "warmth": 15,
-    "material_thickness": 2,
-    "environmental_protection": 7
-  },
-  {
-    "id": "mask_fsurvivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "survivor firemask",
-    "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It provides excellent protection from heat, smoke, teargas, and shrapnel.",
-    "weight": 708,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "nomex" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
-    "id": "mask_fsurvivorxl",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "XL survivor firemask",
-    "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from heat, smoke, teargas, and shrapnel.",
-    "weight": 1108,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "nomex" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 35,
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "mask_gas",
-    "type": "ARMOR",
-    "name": "gas mask",
-    "description": "A full gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and other contaminants.",
-    "weight": 897,
-    "volume": 4,
-    "price": 4900,
-    "to_hit": -3,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 16
-  },
-  {
-    "id": "mask_gas_xl",
-    "type": "ARMOR",
-    "name": "XL gas mask",
-    "description": "A rather roomy mask with filters attached, designed to accommodate exotic anatomy.  Provides excellent protection from smoke, teargas, and other contaminants.",
-    "weight": 1397,
-    "volume": 6,
-    "price": 25000,
-    "to_hit": -3,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 16,
-    "flags": [ "OVERSIZE" ]
   },
   {
     "id": "mask_guy_fawkes",
@@ -6255,50 +6285,6 @@
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
   {
-    "id": "mask_hsurvivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "heavy survivor mask",
-    "description": "A custom-built, steel reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.",
-    "weight": 858,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
-    "id": "mask_lsurvivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "light survivor mask",
-    "description": "A custom-built, reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.",
-    "weight": 466,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "cotton" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 20,
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
     "id": "mask_rioter",
     "type": "ARMOR",
     "name": "rioter mask",
@@ -6315,93 +6301,8 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "environmental_protection": 1
-  },
-  {
-    "id": "mask_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "survivor mask",
-    "description": "A custom-built, leather reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.",
-    "weight": 682,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 25,
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
-    "id": "mask_survivorxl",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "XL survivor mask",
-    "description": "A custom-built, reinforced gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, teargas, and shrapnel.",
-    "weight": 982,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "mask_wsurvivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "winter survivor mask",
-    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite warm, it still provides excellent protection from smoke, teargas, and shrapnel.",
-    "weight": 682,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "fur" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 75,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
-    "id": "mask_wsurvivorxl",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "XL winter survivor mask",
-    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  Quite warm, it still provides excellent protection from smoke, teargas, and shrapnel.",
-    "weight": 1062,
-    "volume": 5,
-    "price": 24000,
-    "to_hit": -3,
-    "material": [ "kevlar", "fur" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 35,
-    "warmth": 75,
-    "material_thickness": 3,
-    "environmental_protection": 15,
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "environmental_protection": 1,
+    "flags": [ "HELMET_COMPAT" ]
   },
   {
     "id": "mbag",
@@ -6422,7 +6323,7 @@
     "encumbrance": 5,
     "storage": 25,
     "material_thickness": 1,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "mittens",
@@ -6445,144 +6346,6 @@
     "flags": [ "OVERSIZE", "OUTER" ]
   },
   {
-    "id": "modularvest",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "MBR vest (empty)",
-    "name_plural": "MBR vests (empty)",
-    "description": "A Modular Bullet Resistant Vest.  It has pouches for extra armor inserts, but without them provides little more protection over a regular vest.",
-    "weight": 2860,
-    "volume": 24,
-    "price": 100000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 85,
-    "encumbrance": 15,
-    "storage": 10,
-    "warmth": 15,
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
-  },
-  {
-    "id": "modularvestceramic",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "MBR vest (ceramic plates)",
-    "name_plural": "MBR vests (ceramic plates)",
-    "description": "A Modular Bullet Resistant Vest.  Ceramic plates have been inserted to improve its protection.  The ceramic plates cannot be repaired, only replaced.",
-    "weight": 5721,
-    "volume": 24,
-    "price": 120000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar", "ceramic" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 85,
-    "encumbrance": 25,
-    "storage": 4,
-    "warmth": 15,
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
-  },
-  {
-    "id": "modularvesthard",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "MBR vest (hard plates)",
-    "name_plural": "MBR vests (hard plates)",
-    "description": "A Modular Bullet Resistant Vest.  Hardened steel plates have been inserted, greatly increasing its protection at the cost of a great deal of weight and loss of flexibility.",
-    "weight": 20850,
-    "volume": 24,
-    "price": 120000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar", "hardsteel" ],
-    "symbol": "[",
-    "color": "light_cyan",
-    "covers": [ "TORSO" ],
-    "coverage": 85,
-    "encumbrance": 55,
-    "storage": 4,
-    "warmth": 15,
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
-  },
-  {
-    "id": "modularvestkevlar",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "MBR vest (Kevlar plates)",
-    "name_plural": "MBR vests (Kevlar plates)",
-    "description": "A Modular Bullet Resistant Vest.  Kevlar plates have been inserted to improve its protection.",
-    "weight": 5721,
-    "volume": 24,
-    "price": 120000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 85,
-    "encumbrance": 17,
-    "storage": 4,
-    "warmth": 15,
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
-  },
-  {
-    "id": "modularveststeel",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "MBR vest (steel plating)",
-    "name_plural": "MBR vests (steel plating)",
-    "description": "A Modular Bullet Resistant Vest.  Its armor pouches have steel plates in them; this improves protection, but makes the vest much heavier and encumbering.",
-    "weight": 10250,
-    "volume": 24,
-    "price": 120000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "kevlar", "steel" ],
-    "symbol": "[",
-    "color": "light_cyan",
-    "covers": [ "TORSO" ],
-    "coverage": 85,
-    "encumbrance": 40,
-    "storage": 4,
-    "warmth": 15,
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
-  },
-  {
-    "id": "modularvestsuper",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "MBR vest (superalloy)",
-    "name_plural": "MBR vests (superalloy)",
-    "description": "A Modular Bullet Resistant Vest.  Its armor pouches have superalloy plating in them, giving it extra protection with marginal flexibility loss and additional weight.",
-    "weight": 8525,
-    "volume": 24,
-    "price": 180000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "kevlar", "superalloy" ],
-    "symbol": "[",
-    "color": "light_cyan",
-    "covers": [ "TORSO" ],
-    "coverage": 85,
-    "encumbrance": 25,
-    "storage": 4,
-    "warmth": 15,
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
-  },
-  {
     "id": "molle_pack",
     "type": "ARMOR",
     "name": "MOLLE pack",
@@ -6599,7 +6362,7 @@
     "storage": 48,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "WATERPROOF", "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "motorbike_armor",
@@ -7066,7 +6829,7 @@
     "encumbrance": 60,
     "storage": 20,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "polo_shirt",
@@ -7207,7 +6970,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "basic power armor",
-    "description": "The DoubleTech Power Armor, Mk.  I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 20339,
     "volume": 100,
     "price": 7000000,
@@ -7256,7 +7019,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "heavy power armor",
-    "description": "A suit of DoubleTech Power Armor, Mk.  II-H.  This model offers several improvements over the Mk.  I, most notably the improved environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A suit of DoubleTech Power Armor, Mk. II-H.  This model offers several improvements over the Mk. I, most notably the improved environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 29009,
     "volume": 120,
     "price": 11500000,
@@ -7284,7 +7047,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "basic power armor helmet",
-    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk.  I.  Offers excellent protection from both attacks and environmental hazards.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  Offers excellent protection from both attacks and environmental hazards.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 3628,
     "volume": 20,
     "price": 2500000,
@@ -7308,7 +7071,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "heavy power armor helmet",
-    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk.  II-H.  This improved design is heavier than the Mk.  I helmet, but cooler, and offers better environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-H.  This improved design is heavier than the Mk. I helmet, but cooler, and offers better environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 5442,
     "volume": 28,
     "price": 3750000,
@@ -7332,7 +7095,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "light power armor helmet",
-    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk.  II-L.  This improved design is lighter and cooler than the Mk.  I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L.  This improved design is lighter and cooler than the Mk. I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 1814,
     "volume": 16,
     "price": 3750000,
@@ -7356,7 +7119,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "light power armor",
-    "description": "A suit of DoubleTech Power Armor, Mk.  II-L.  This model offers several improvements over the Mk.  I, most notably the reduced weight.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
+    "description": "A suit of DoubleTech Power Armor, Mk. II-L.  This model offers several improvements over the Mk. I, most notably the reduced weight.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
     "weight": 7670,
     "volume": 60,
     "price": 11500000,
@@ -7397,7 +7160,7 @@
     "encumbrance": 7,
     "storage": 20,
     "material_thickness": 2,
-    "flags": [ "FANCY", "BELTED" ]
+    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver",
@@ -7413,15 +7176,15 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 5,
-    "encumbrance": 5,
+    "encumbrance": 2,
     "material_thickness": 1,
     "use_action": {
       "type": "bandolier",
       "capacity": 20,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
-    "flags": [ "WAIST", "VARSIZE", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_birchbark",
@@ -7443,9 +7206,9 @@
       "type": "bandolier",
       "capacity": 20,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
-    "flags": [ "WAIST", "VARSIZE", "OVERSIZE" ]
+    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_large",
@@ -7461,15 +7224,15 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 15,
-    "encumbrance": 7,
+    "encumbrance": 3,
     "material_thickness": 1,
     "use_action": {
       "type": "bandolier",
       "capacity": 60,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
-    "flags": [ "BELTED", "VARSIZE", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_large_birchbark",
@@ -7491,9 +7254,9 @@
       "type": "bandolier",
       "capacity": 60,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
-    "flags": [ "BELTED", "VARSIZE", "OVERSIZE" ]
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "rad_badge",
@@ -7528,7 +7291,7 @@
     "encumbrance": 10,
     "storage": 9,
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "ring",
@@ -7581,7 +7344,7 @@
     "storage": 80,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "runner_bag",
@@ -7601,7 +7364,7 @@
     "encumbrance": 3,
     "storage": 16,
     "material_thickness": 1,
-    "flags": [ "WATERPROOF", "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "scabbard",
@@ -7626,7 +7389,7 @@
       "max_volume": 8,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "sf_watch",
@@ -7644,7 +7407,7 @@
     "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "shark_suit",
@@ -7682,7 +7445,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "HELMET_COMPAT" ]
   },
   {
     "id": "sheath",
@@ -7707,7 +7470,7 @@
       "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "sheet",
@@ -8141,7 +7904,7 @@
     "storage": 32,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "small_relic",
@@ -8246,7 +8009,7 @@
     "covers": [ "FEET" ],
     "coverage": 80,
     "warmth": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ]
   },
   {
     "id": "socks_wool",
@@ -8376,7 +8139,7 @@
     "encumbrance": 30,
     "storage": 9,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "straw_hat",
@@ -8492,7 +8255,7 @@
     "encumbrance": 100,
     "storage": 80,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "suitcase_m",
@@ -8510,7 +8273,7 @@
     "encumbrance": 100,
     "storage": 40,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "sundress",
@@ -8571,6 +8334,7 @@
       "type": "holster",
       "holster_prompt": "Sheath blade",
       "holster_msg": "You sheath your %s",
+      "min_volume": 1,
       "max_volume": 4,
       "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
@@ -8709,7 +8473,7 @@
     "encumbrance": 100,
     "storage": 60,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "swat_armor",
@@ -8728,12 +8492,12 @@
     "color": "dark_gray",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 95,
-    "encumbrance": 35,
+    "encumbrance": 25,
     "storage": 20,
     "warmth": 35,
-    "material_thickness": 6,
+    "material_thickness": 7,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "POCKETS", "STURDY" ]
   },
   {
     "id": "sweater",
@@ -8866,7 +8630,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO" ],
-    "coverage": 60,
+    "coverage": 40,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -8903,7 +8667,7 @@
     "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "ltgray",
+    "color": "light_gray",
     "covers": [ "LEGS" ],
     "coverage": 95,
     "encumbrance": 5,
@@ -8924,7 +8688,7 @@
     "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "ltblue",
+    "color": "light_blue",
     "covers": [ "LEGS" ],
     "coverage": 95,
     "encumbrance": 5,
@@ -8962,7 +8726,7 @@
     "price": 1000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "ltgray",
+    "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 5,
@@ -8981,7 +8745,7 @@
     "price": 1000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "ltblue",
+    "color": "light_blue",
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 5,
@@ -9062,7 +8826,7 @@
     "id": "tool_belt",
     "type": "ARMOR",
     "name": "tool belt",
-    "description": "A common belt with pockets and a small belt loop.  Widely used by handymen and electricians.",
+    "description": "A common belt with pockets and four small belt loops.  Widely used by handymen and electricians.",
     "weight": 960,
     "volume": 7,
     "price": 4500,
@@ -9072,19 +8836,20 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 20,
-    "encumbrance": 5,
-    "storage": 8,
+    "storage": 4,
+    "encumbrance": 10,
     "material_thickness": 2,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Attach what to belt loop?",
       "holster_msg": "You clip your %s to your %s",
-      "max_volume": 2,
-      "max_weight": 750,
+      "multi": 4,
+      "max_volume": 4,
+      "max_weight": 1000,
       "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
     },
-    "flags": [ "WAIST", "VARSIZE", "NO_QUICKDRAW" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "id": "tophat",
@@ -9341,10 +9106,10 @@
     "color": "white",
     "covers": [ "HEAD" ],
     "coverage": 50,
-    "encumbrance": 10,
+    "encumbrance": 5,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "tux",
@@ -9413,7 +9178,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "TORSO" ],
-    "coverage": 40,
+    "coverage": 60,
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -9456,7 +9221,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED" ]
+    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "veil_wedding",
@@ -9773,7 +9538,7 @@
     "color": "dark_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "wsurvivor_suit",
@@ -9829,7 +9594,6 @@
     "weight": 250,
     "volume": 2,
     "price": 2500,
-    "cutting": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
@@ -9838,5 +9602,26 @@
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "case_violin",
+    "type": "ARMOR",
+    "name": "violin case",
+    "name_plural": "violin case",
+    "description": "Useful to carry your precious musical instrument around protected from any harm.",
+    "weight": 2800,
+    "volume": 20,
+    "price": 24000,
+    "to_hit": -4,
+    "bashing": 8,
+    "material": [ "plastic", "steel", "leather" ],
+    "symbol": "&",
+    "color": "dark_gray",
+    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 50,
+    "storage": 14,
+    "material_thickness": 5,
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   }
 ]

@@ -1,17 +1,20 @@
 #include "fault.h"
 
 #include "debug.h"
+#include "json.h"
 #include "translations.h"
 #include "requirements.h"
 
 static std::map<fault_id, fault> faults_all;
 
+/** @relates string_id */
 template<>
 bool string_id<fault>::is_valid() const
 {
     return faults_all.count( *this );
 }
 
+/** @relates string_id */
 template<>
 const fault &string_id<fault>::obj() const
 {
@@ -37,7 +40,7 @@ void fault::load_fault( JsonObject &jo )
     auto sk = jo.get_array( "skills" );
     while( sk.has_more() ) {
         auto cur = sk.next_array();
-        f.skills_.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        f.skills_.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
     }
 
     if( jo.has_string( "requirements" ) ) {
@@ -54,7 +57,6 @@ void fault::load_fault( JsonObject &jo )
         jo.throw_error( "parsed fault overwrites existing definition", "id" );
     } else {
         faults_all[ f.id_ ] = f;
-        DebugLog( D_INFO, DC_ALL ) << "Loaded fault: " << f.name_;
     }
 }
 

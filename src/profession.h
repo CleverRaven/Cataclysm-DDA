@@ -1,27 +1,34 @@
+#pragma once
 #ifndef PROFESSION_H
 #define PROFESSION_H
 
 #include "string_id.h"
-#include "item_group.h"
-#include "item.h"
 
 #include <string>
 #include <vector>
-#include <map>
 #include <set>
+#include <list>
 
 template<typename T>
 class generic_factory;
 class profession;
+using Group_tag = std::string;
+class item;
+using itype_id = std::string;
 class player;
 class JsonArray;
 class JsonObject;
 class addiction;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 enum add_type : int;
-    class Skill;
-    using skill_id = string_id<Skill>;
 
-    class profession
+class Skill;
+using skill_id = string_id<Skill>;
+
+class profession
 {
     public:
         typedef std::pair<skill_id, int> StartingSkill;
@@ -39,6 +46,7 @@ enum add_type : int;
         typedef std::vector<itypedec> itypedecvec;
         friend class string_id<profession>;
         friend class generic_factory<profession>;
+
     private:
         string_id<profession> id;
         bool was_loaded = false;
@@ -47,7 +55,6 @@ enum add_type : int;
         std::string _name_female;
         std::string _description_male;
         std::string _description_female;
-        std::string _gender_req;
         signed int _point_cost;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
@@ -57,10 +64,11 @@ enum add_type : int;
         Group_tag _starting_items = "EMPTY_GROUP";
         Group_tag _starting_items_male = "EMPTY_GROUP";
         Group_tag _starting_items_female = "EMPTY_GROUP";
+        itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;
-        std::vector<std::string> _starting_CBMs;
-        std::vector<std::string> _starting_traits;
+        std::vector<bionic_id> _starting_CBMs;
+        std::vector<trait_id> _starting_traits;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -73,15 +81,14 @@ enum add_type : int;
         profession();
 
         static void load_profession( JsonObject &obj, const std::string &src );
+        static void load_item_substitutions( JsonObject &jo );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
-        // return a random profession, weighted for use w/ random character creation or npcs
-        static const profession *weighted_random();
         static const std::vector<profession> &get_all();
 
         static bool has_initialized();
-        // clear profession map, every profession pointer becames invalid!
+        // clear profession map, every profession pointer becomes invalid!
         static void reset();
         /** calls @ref check_definition for each profession */
         static void check_definitions();
@@ -91,12 +98,10 @@ enum add_type : int;
         const string_id<profession> &ident() const;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
-        std::string gender_req() const;
         signed int point_cost() const;
-        std::vector<item> items( bool male ) const;
+        std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
-        std::vector<std::string> CBMs() const;
-        std::vector<std::string> traits() const;
+        std::vector<bionic_id> CBMs() const;
         const StartingSkillList skills() const;
 
         /**
@@ -104,7 +109,7 @@ enum add_type : int;
          *
          * Current flags: none
          */
-        bool has_flag( std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
 
         /**
          * Check if the given player can pick this job with the given amount
@@ -112,9 +117,9 @@ enum add_type : int;
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        bool can_pick( player *u, int points ) const;
-        bool locked_traits( const std::string &trait ) const;
-
+        bool can_pick( const player &u, int points ) const;
+        bool is_locked_trait( const trait_id &trait ) const;
+        std::vector<trait_id> get_locked_traits() const;
 };
 
 #endif

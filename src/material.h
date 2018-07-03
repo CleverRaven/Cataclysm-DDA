@@ -1,20 +1,24 @@
+#pragma once
 #ifndef MATERIALS_H
 #define MATERIALS_H
 
 #include <string>
 #include <array>
+#include <map>
+#include <vector>
 
 #include "game_constants.h"
-#include "damage.h" // damage_type
-#include "enums.h"
-#include "json.h"
 #include "string_id.h"
-#include "vitamin.h"
 #include "fire.h"
 
+enum damage_type : int;
 class material_type;
 using material_id = string_id<material_type>;
 using itype_id = std::string;
+class JsonObject;
+class vitamin;
+using vitamin_id = string_id<vitamin>;
+using mat_burn_products = std::vector<std::pair<itype_id, float>>;
 
 class material_type
 {
@@ -43,6 +47,9 @@ class material_type
         std::map<vitamin_id, double> _vitamins;
 
         std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
+
+        //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
+        mat_burn_products _burn_products;
 
     public:
         material_type();
@@ -75,6 +82,7 @@ class material_type
         }
 
         const mat_burn_data &burn_data( size_t intensity ) const;
+        const mat_burn_products &burn_products() const;
 };
 
 namespace materials

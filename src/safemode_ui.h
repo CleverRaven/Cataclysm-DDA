@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SEFEMODE_UI_H
 #define SEFEMODE_UI_H
 
@@ -6,11 +7,13 @@
 #include <vector>
 #include <locale>
 #include <algorithm>
-#include "json.h"
 #include "enums.h"
 #include "creature.h"
 
-class safemode : public JsonSerializer, public JsonDeserializer
+class JsonIn;
+class JsonOut;
+
+class safemode
 {
     private:
         enum Tabs : int {
@@ -95,9 +98,8 @@ class safemode : public JsonSerializer, public JsonDeserializer
 
         bool empty() const;
 
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-        void deserialize( JsonIn &jsin ) override;
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 safemode &get_safemode();

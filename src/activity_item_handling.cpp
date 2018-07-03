@@ -11,10 +11,16 @@
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
+#include "output.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 #include "veh_type.h"
 #include "player.h"
+#include "string_formatter.h"
 #include "debug.h"
+#include "pickup.h"
+#include "requirements.h"
 
 #include <list>
 #include <vector>
@@ -38,7 +44,7 @@ struct act_item {
           consumed_moves( consumed_moves ) {};
 };
 
-// @todo Deliberately unified with multidrop. Unify further.
+// @todo: Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
 bool same_type( const std::list<item> &items )
@@ -63,7 +69,8 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
             p.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name().c_str(), ter_name.c_str() );
+                it.display_name().c_str(), ter_name.c_str()
+            );
             g->m.add_item_or_charges( where, it );
             continue;
         }
@@ -82,11 +89,20 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
     if( same_type( items ) ) {
         const item &it = items.front();
         const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
-        add_msg( ngettext( "You put your %1$s in the %2$s's %3$s.",
-                           "You put your %1$s in the %2$s's %3$s.", dropcount ),
-                 it.tname( dropcount ).c_str(), veh.name.c_str(), part_name.c_str() );
+
+        p.add_msg_player_or_npc(
+            ngettext( "You put your %1$s in the %2$s's %3$s.",
+                      "You put your %1$s in the %2$s's %3$s.", dropcount ),
+            ngettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
+                      "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
+            it.tname( dropcount ).c_str(), veh.name.c_str(), part_name.c_str()
+        );
     } else {
-        add_msg( _( "You put several items in the %1$s's %2$s." ), veh.name.c_str(), part_name.c_str() );
+        p.add_msg_player_or_npc(
+            _( "You put several items in the %1$s's %2$s." ),
+            _( "<npcname> puts several items in the %1$s's %2$s." ),
+            veh.name.c_str(), part_name.c_str()
+        );
     }
 
     if( fallen_count > 0 ) {
@@ -98,7 +114,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
 {
     units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
                                      pet.inv.front().get_storage();
-    int remaining_weight = pet.weight_capacity();
+    units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
         remaining_volume -= it.volume();
@@ -106,7 +122,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 
     for( auto &it : items ) {
-        pet.add_effect( effect_controlled, 5 );
+        pet.add_effect( effect_controlled, 5_turns );
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
@@ -123,7 +139,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 }
 
-void drop_on_map( const std::list<item> &items, const tripoint &where )
+void drop_on_map( const player &p, const std::list<item> &items, const tripoint &where )
 {
     if( items.empty() ) {
         return;
@@ -137,17 +153,35 @@ void drop_on_map( const std::list<item> &items, const tripoint &where )
         const std::string it_name = it.tname( dropcount );
 
         if( can_move_there ) {
-            add_msg( ngettext( "You drop your %1$s on the %2$s.",
-                               "You drop your %1$s on the %2$s.", dropcount ), it_name.c_str(), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                ngettext( "You drop your %1$s on the %2$s.",
+                          "You drop your %1$s on the %2$s.", dropcount ),
+                ngettext( "<npcname> drops their %1$s on the %2$s.",
+                          "<npcname> drops their %1$s on the %2$s.", dropcount ),
+                it_name.c_str(), ter_name.c_str()
+            );
         } else {
-            add_msg( ngettext( "You put your %1$s in the %2$s.",
-                               "You put your %1$s in the %2$s.", dropcount ), it_name.c_str(), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                ngettext( "You put your %1$s in the %2$s.",
+                          "You put your %1$s in the %2$s.", dropcount ),
+                ngettext( "<npcname> puts their %1$s in the %2$s.",
+                          "<npcname> puts their %1$s in the %2$s.", dropcount ),
+                it_name.c_str(), ter_name.c_str()
+            );
         }
     } else {
         if( can_move_there ) {
-            add_msg( _( "You drop several items on the %s." ), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                _( "You drop several items on the %s." ),
+                _( "<npcname> drops several items on the %s." ),
+                ter_name.c_str()
+            );
         } else {
-            add_msg( _( "You put several items in the %s." ), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                _( "You put several items in the %s." ),
+                _( "<npcname> puts several items in the %s." ),
+                ter_name.c_str()
+            );
         }
     }
     for( const auto &it : items ) {
@@ -155,18 +189,14 @@ void drop_on_map( const std::list<item> &items, const tripoint &where )
     }
 }
 
-void put_into_vehicle_or_drop( player &p, const std::list<item> &items, const tripoint &where )
+void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
+                               const tripoint &where )
 {
-    int veh_part = 0;
-    vehicle *veh = g->m.veh_at( where, veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, "CARGO" );
-        if( veh_part >= 0 ) {
-            put_into_vehicle( p, items, *veh, veh_part );
-            return;
-        }
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( "CARGO" ) ) {
+        put_into_vehicle( p, items, vp->vehicle(), vp->part_index() );
+        return;
     }
-    drop_on_map( items, where );
+    drop_on_map( p, items, where );
 }
 
 drop_indexes convert_to_indexes( const player_activity &act )
@@ -220,10 +250,10 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
                 }
                 const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
                 obtained += qty;
-                res.emplace_back( &it, qty, 100 ); // @todo Use a calculated cost
+                res.emplace_back( &it, qty, 100 ); // @todo: Use a calculated cost
             }
         } else {
-            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo Use a calculated cost
+            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo: Use a calculated cost
         }
     }
 
@@ -253,7 +283,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
 
             if( iter == worn.end() ) {
                 worn.emplace_front( dit, dit->count_by_charges() ? dit->charges : 1,
-                                    100 ); // @todo Use a calculated cost
+                                    100 ); // @todo: Use a calculated cost
             }
         }
     }
@@ -294,7 +324,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     return res;
 }
 
-//@todo Display costs in the multidrop menu
+//@todo: Display costs in the multidrop menu
 void debug_drop_list( const std::list<act_item> &list )
 {
     if( !debug_mode ) {
@@ -362,11 +392,63 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
     put_into_vehicle_or_drop( *p, obtain_activity_items( *act, *p ), pos );
 }
 
+void activity_handlers::washing_finish( player_activity *act, player *p )
+{
+    auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
+
+    // Check again that we have enough water and soap incase the amount in our inventory changed somehow
+    // Consume the water and soap
+    int required_water = 0;
+    int required_cleanser = 0;
+
+    for( const act_item &filthy_item : items ) {
+        required_water += filthy_item.it->volume() / 125_ml;
+        required_cleanser += filthy_item.it->volume() / 1000_ml;
+    }
+    if( required_cleanser < 1 ) {
+        required_cleanser = 1;
+    }
+
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", required_water ) &&
+        !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                              required_water );
+        act->set_to_null();
+        return;
+    } else if( !crafting_inv.has_charges( "soap", required_cleanser ) &&
+               !crafting_inv.has_charges( "detergent", required_cleanser ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                              required_cleanser );
+        act->set_to_null();
+        return;
+    }
+
+    for( const auto &ait : items ) {
+        item *filthy_item = const_cast<item *>( ait.it );
+        filthy_item->item_tags.erase( "FILTHY" );
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "water", required_water ) );
+    comps.push_back( item_comp( "water_clean", required_water ) );
+    p->consume_items( comps );
+
+    std::vector<item_comp> comps1;
+    comps1.push_back( item_comp( "soap", required_cleanser ) );
+    comps1.push_back( item_comp( "detergent", required_cleanser ) );
+    p->consume_items( comps1 );
+
+    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+
+    act->set_to_null();
+}
+
 void activity_handlers::stash_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
 
-    monster *pet = dynamic_cast<monster *>( g->critter_at( pos ) );
+    monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( *act, *p ), *pet );
     } else {
@@ -416,7 +498,7 @@ void activity_on_turn_pickup()
         }
     }
 
-    // @todo Move this to advanced inventory instead of hacking it in here
+    // @todo: Move this to advanced inventory instead of hacking it in here
     if( !keep_going ) {
         cancel_aim_processing();
     }
@@ -431,22 +513,26 @@ static void move_items( const tripoint &src, bool from_vehicle,
     tripoint source = src + g->u.pos();
     tripoint destination = dest + g->u.pos();
 
-    int s_cargo, d_cargo;   // oui oui, mon frere
-    s_cargo = d_cargo = -1;
-    vehicle *s_veh, *d_veh; // 2diva4me
+    int s_cargo = -1;
+    int d_cargo = -1;
+    vehicle *s_veh, *d_veh;
     s_veh = d_veh = nullptr;
 
     // load vehicle information if requested
-    if( from_vehicle == true ) {
-        s_veh = g->m.veh_at( source, s_cargo );
-        assert( s_veh != nullptr );
-        s_cargo = s_veh->part_with_feature( s_cargo, "CARGO", false );
+    if( from_vehicle ) {
+        const cata::optional<vpart_reference> vp = g->m.veh_at( source ).part_with_feature( "CARGO",
+                false );
+        assert( vp );
+        s_veh = &vp->vehicle();
+        s_cargo = vp->part_index();
         assert( s_cargo >= 0 );
     }
-    if( to_vehicle == true ) {
-        d_veh = g->m.veh_at( destination, d_cargo );
-        assert( d_veh != nullptr );
-        d_cargo = d_veh->part_with_feature( d_cargo, "CARGO", false );
+    if( to_vehicle ) {
+        const cata::optional<vpart_reference> vp = g->m.veh_at( destination ).part_with_feature( "CARGO",
+                false );
+        assert( vp );
+        d_veh = &vp->vehicle();
+        d_cargo = vp->part_index();
         assert( d_cargo >= 0 );
     }
 
@@ -456,11 +542,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        item *temp_item = nullptr;
-
-        temp_item = ( from_vehicle == true ) ?
-                    g->m.item_from( s_veh, s_cargo, index ) :
-                    g->m.item_from( source, index );
+        item *temp_item = from_vehicle ? g->m.item_from( s_veh, s_cargo, index ) : g->m.item_from( source,
+                          index );
 
         if( temp_item == nullptr ) {
             continue; // No such item.
@@ -480,31 +563,18 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
         // Check that we can pick it up.
         if( !temp_item->made_of( LIQUID ) ) {
-            // Is it too bulky? We'll have to use our hands, then.
-            if( !g->u.can_pickVolume( *temp_item ) && g->u.is_armed() ) {
-                g->u.moves -= 20; // Pretend to be unwielding our gun.
-            }
-
-            // Is it too heavy? It'll take a while...
-            if( !g->u.can_pickWeight( *temp_item, true ) ) {
-                int overweight = temp_item->weight() - ( g->u.weight_capacity() - g->u.weight_carried() );
-
-                // ...like one move cost per 100 grams over your leftover carry capacity.
-                g->u.moves -= int( overweight / 100 );
-            }
-
+            g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
             } else {
-                drop_on_map( { *temp_item }, destination );
+                drop_on_map( g->u, { *temp_item }, destination );
             }
             // Remove from map or vehicle.
-            if( from_vehicle == true ) {
+            if( from_vehicle ) {
                 s_veh->remove_item( s_cargo, index );
             } else {
                 g->m.i_rem( source, index );
             }
-            g->u.mod_moves( -200 ); // I kept the logic. -100 from 'drop' and -100 was here.
         }
 
         // If we didn't pick up a whole stack, put the remainder back where it came from.
@@ -529,7 +599,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
  */
 void activity_on_turn_move_items()
 {
-    // Drop activity if we don't know destination coords.
+    // Drop activity if we don't know destination coordinates.
     if( g->u.activity.coords.empty() ) {
         g->u.activity = player_activity();
         return;

@@ -1,9 +1,10 @@
+#pragma once
 #ifndef WEATHER_GEN_H
 #define WEATHER_GEN_H
 
 struct point;
 struct tripoint;
-class calendar;
+class time_point;
 class JsonObject;
 enum weather_type : int;
 
@@ -30,8 +31,8 @@ class weather_generator
          * by the @ref map). You can use @ref map::getabs to get an absolute position from a
          * relative position (relative to the map you called getabs on).
          */
-        w_point get_weather( const tripoint &, const calendar &, unsigned ) const;
-        weather_type get_weather_conditions( const tripoint &, const calendar &, unsigned seed ) const;
+        w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
+        weather_type get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
         weather_type get_weather_conditions( const w_point & ) const;
         int get_water_temperature() const;
         void test_weather() const;

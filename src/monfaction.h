@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONFACTION_H
 #define MONFACTION_H
 

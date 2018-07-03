@@ -73,9 +73,6 @@
     "charges": 1,
     "using": [ [ "ammo_410", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [
-      [ [ "gunpowder", 3 ], [ "chem_black_powder", 3 ] ],
-      [ [ "nail", 5 ], [ "bb", 10 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 3 ], [ "chem_black_powder", 3 ] ], [ [ "nail", 5 ], [ "bb", 10 ] ] ]
   }
 ]

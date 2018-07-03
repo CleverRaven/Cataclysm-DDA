@@ -58,7 +58,7 @@
         "o": "f_crate_c"
       },
       "signs": {
-        "i": { "signage": "This was once a infromation map for the <city> area, but it has long since been eroded beyond usefullness.  There are small holders for tourist maps attached." }
+        "i": { "signage": "This was once an information map for the <city> area, but it has long since eroded beyond usefullness.  There are small holders for tourist maps attached." }
       },
       "toilets": {
         "7": {},

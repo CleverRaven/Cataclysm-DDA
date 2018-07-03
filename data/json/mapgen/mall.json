@@ -101,6 +101,7 @@
       [ "bandages", 25 ],
       [ "1st_aid", 20 ],
       [ "vitamins", 75 ],
+      [ "calcium_tablet", 75 ],
       [ "aspirin", 45 ],
       [ "caffeine", 50 ],
       [ "pills_sleep", 45 ],

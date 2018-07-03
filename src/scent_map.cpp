@@ -14,22 +14,22 @@ nc_color sev( const size_t level )
 {
     static const std::array<nc_color, 22> colors = { {
             c_cyan,
-            c_ltcyan,
-            c_ltblue,
+            c_light_cyan,
+            c_light_blue,
             c_blue,
-            c_ltgreen,
+            c_light_green,
             c_green,
             c_yellow,
             c_pink,
-            c_ltred,
+            c_light_red,
             c_red,
             c_magenta,
             c_brown,
             c_cyan_red,
-            c_ltcyan_red,
-            c_ltblue_red,
+            c_light_cyan_red,
+            c_light_blue_red,
             c_blue_red,
-            c_ltgreen_red,
+            c_light_green_red,
             c_green_red,
             c_yellow_red,
             c_pink_red,
@@ -37,7 +37,7 @@ nc_color sev( const size_t level )
             c_brown_red,
         }
     };
-    return level < colors.size() ? colors[level] : c_dkgray;
+    return level < colors.size() ? colors[level] : c_dark_gray;
 }
 
 void scent_map::reset()
@@ -58,7 +58,7 @@ void scent_map::decay()
     }
 }
 
-void scent_map::draw( WINDOW *const win, const int div, const tripoint &center ) const
+void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
 {
     assert( div != 0 );
     const int maxx = getmaxx( win );
@@ -121,7 +121,7 @@ void scent_map::update( const tripoint &center, map &m )
     if( center != player_last_position ) {
         player_last_position = center;
         player_last_moved = calendar::turn;
-    } else if( player_last_moved + 1000 < calendar::turn ) {
+    } else if( player_last_moved + 1000_turns < calendar::turn ) {
         return;
     }
 

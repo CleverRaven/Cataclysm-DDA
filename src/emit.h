@@ -1,9 +1,14 @@
+#pragma once
 #ifndef EMIT_H
 #define EMIT_H
 
-#include "json.h"
 #include "string_id.h"
 #include "field.h"
+
+#include <map>
+#include <string>
+
+class JsonObject;
 
 class emit;
 using emit_id = string_id<emit>;
@@ -11,16 +16,14 @@ using emit_id = string_id<emit>;
 class emit
 {
     public:
-        emit() : id_( NULL_ID ) {}
+        emit();
 
         const emit_id &id() const {
             return id_;
         }
 
         /** When null @ref field is always fd_null */
-        bool is_null() const {
-            return id_ == NULL_ID;
-        }
+        bool is_null() const;
 
         /** When valid @ref field is never fd_null */
         bool is_valid() const;

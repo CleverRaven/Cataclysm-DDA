@@ -1,3 +1,4 @@
+#pragma once
 /*
  * This is an implementation of wcwidth() and wcswidth() (defined in
  * IEEE Std 1002.1-2001) for Unicode.
@@ -208,7 +209,8 @@ int mk_wcwidth(uint32_t ucs)
 
 int mk_wcswidth(const uint32_t *pwcs, size_t n)
 {
-  int w, width = 0;
+  int w = 0;
+  int width = 0;
 
   for (;*pwcs && n-- > 0; pwcs++)
     if ((w = mk_wcwidth(*pwcs)) < 0)
@@ -226,7 +228,7 @@ int mk_wcswidth(const uint32_t *pwcs, size_t n)
  * Ambiguous (A) category as defined in Unicode Technical Report #11
  * have a column width of 2. This variant might be useful for users of
  * CJK legacy encodings who want to migrate to UCS without changing
- * the traditional terminal character-width behaviour. It is not
+ * the traditional terminal character-width behavior. It is not
  * otherwise recommended for general use.
  */
 int mk_wcwidth_cjk(uint32_t ucs)
@@ -299,7 +301,8 @@ int mk_wcwidth_cjk(uint32_t ucs)
 
 int mk_wcswidth_cjk(const uint32_t *pwcs, size_t n)
 {
-  int w, width = 0;
+  int w = 0;
+  int width = 0;
 
   for (;*pwcs && n-- > 0; pwcs++)
     if ((w = mk_wcwidth_cjk(*pwcs)) < 0)

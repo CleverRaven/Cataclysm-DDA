@@ -1,9 +1,17 @@
+#pragma once
 #ifndef H_GENERIC_FACTORY
 #define H_GENERIC_FACTORY
 
 #include "string_id.h"
 #include "int_id.h"
 #include "init.h"
+
+#include "debug.h"
+#include "json.h"
+#include "color.h"
+#include "translations.h"
+#include "units.h"
+#include "assign.h"
 
 #include <string>
 #include <unordered_map>
@@ -14,13 +22,6 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-
-#include "debug.h"
-#include "json.h"
-#include "color.h"
-#include "translations.h"
-#include "units.h"
-#include "assign.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -66,8 +67,7 @@ The functions can contain more code:
 Optional: implement the other functions used by the DynamicDataLoader: `finalize`,
 `check_consistency`. There is no implementation of them in the generic factory.
 
-`check_consistency` typically goes over all loaded items (@ref generic_factory::all) and checks
-them somehow.
+`check_consistency` typically goes over all loaded items and checks them somehow.
 
 `finalize` typically populates some other data (e.g. some cache) or sets up connection between
 loaded objects of different type.
@@ -117,6 +117,10 @@ class string_id_reader;
 template<typename T>
 class generic_factory
 {
+
+    public:
+        virtual ~generic_factory() = default;
+
     private:
         DynamicDataLoader::deferred_json deferred;
 
@@ -167,6 +171,8 @@ class generic_factory
          * for example "vehicle type".
          * @param id_member_name The name of the JSON member that contains the id of the
          * loaded object.
+         * @param alias_member_name Alternate names of the JSON member that contains the id of the
+         * loaded object.
          */
         generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
                          const std::string &alias_member_name = "" )
@@ -185,27 +191,26 @@ class generic_factory
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
         void load( JsonObject &jo, const std::string &src ) {
-            bool strict = src == "core";
+            bool strict = src == "dda";
 
             T def;
 
-            if( jo.has_string( "copy-from" ) ) {
-                if( jo.has_string( "edit-mode" ) ) {
-                    jo.throw_error( "cannot specify both copy-from and edit-mode" );
-                }
-
-                auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
-                auto ab = abstracts.find( jo.get_string( "copy-from" ) );
+            static const std::string copy_from( "copy-from" );
+            if( jo.has_string( copy_from ) ) {
+                const std::string source = jo.get_string( copy_from );
+                auto base = map.find( string_id<T>( source ) );
 
                 if( base != map.end() ) {
                     def = obj( base->second );
-
-                } else if( ab != abstracts.end() ) {
-                    def = ab->second;
-
                 } else {
-                    deferred.emplace_back( jo.str(), src );
-                    return;
+                    auto ab = abstracts.find( source );
+
+                    if( ab != abstracts.end() ) {
+                        def = ab->second;
+                    } else {
+                        deferred.emplace_back( jo.str(), src );
+                        return;
+                    }
                 }
 
                 def.was_loaded = true;
@@ -259,9 +264,7 @@ class generic_factory
 
         /** Finalize all entries (derived classes should chain to this method) */
         virtual void finalize() {
-            if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-                debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
-            }
+            DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
         }
 
@@ -316,7 +319,7 @@ class generic_factory
          */
         const T &obj( const int_id<T> &id ) const {
             if( !is_valid( id ) ) {
-                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id );
+                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id.to_i() );
                 return dummy_obj;
             }
             return list[id];
@@ -422,7 +425,6 @@ class Dummy2 {
     nc_color c;
     void load(JsonObject &jo) {
         mandatory(jo, was_loaded, "b", b); // uses JsonIn::read(int&)
-        mandatory(jo, was_loaded, "c", c, color_reader);
     }
 };
 \endcode
@@ -584,11 +586,11 @@ struct handler<std::bitset<N>> {
     }
     template<typename T>
     void insert( std::bitset<N> &container, const T &data ) const {
-        container.insert( data );
+        container.set( data );
     }
     template<typename T>
     void erase( std::bitset<N> &container, const T &data ) const {
-        container.erase( data );
+        container.reset( data );
     }
     static constexpr bool is_container = true;
 };
@@ -621,7 +623,7 @@ struct handler<std::vector<T>> {
 /**
  * Base class for reading generic objects from JSON.
  * It can load members being certain containers or being a single value.
- * @ref get_next needs to be implemented to read and convert the data from JSON.
+ * The function get_next() needs to be implemented to read and convert the data from JSON.
  * It uses the curiously recurring template pattern, you have to derive your new class
  * `MyReader` from `generic_typed_reader<MyReader>` and implement `get_next` and
  * optionally `erase_next`.
@@ -704,8 +706,8 @@ class generic_typed_reader
 
         /**
          * Implements the reader interface, handles members that are containers of flags.
-         * The functions forwards the actual changes to @ref assign, @ref insert
-         * and @ref erase, which are specialized for various container types.
+         * The functions forwards the actual changes to assign(), insert()
+         * and erase(), which are specialized for various container types.
          * The `enable_if` is here to prevent the compiler from considering it
          * when called on a simple data member, the other `operator()` will be used.
          */
@@ -750,18 +752,6 @@ class generic_typed_reader
             }
             member = derived.get_next( *jo.get_raw( member_name ) );
             return true;
-        }
-};
-
-/**
- * Converts the input string into a `nc_color`.
- */
-class color_reader : public generic_typed_reader<color_reader>
-{
-    public:
-        nc_color get_next( JsonIn &jin ) const {
-            // TODO: check for valid color name
-            return color_from_string( jin.get_string() );
         }
 };
 

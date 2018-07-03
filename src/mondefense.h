@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONDEFENSE_H
 #define MONDEFENSE_H
 

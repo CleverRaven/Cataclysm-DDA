@@ -12,14 +12,7 @@
     "color": "light_red",
     "location": "rail",
     "mod_targets": [ "shotgun", "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "bolt",
-      "skill": "archery",
-      "range": 8,
-      "dispersion": 180,
-      "durability": 10,
-      "clip_size": 1
-    },
+    "gun_data": { "ammo": "bolt", "skill": "rifle", "range": 8, "dispersion": 180, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "archery", 1 ] ],
     "flags": [ "STR_RELOAD" ]
@@ -52,7 +45,7 @@
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 360,
-    "aim_cost": 2,
+    "aim_speed": 8,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
