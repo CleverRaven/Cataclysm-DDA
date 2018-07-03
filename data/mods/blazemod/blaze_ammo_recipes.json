@@ -8,7 +8,7 @@
     "difficulty": 3,
     "time": 5000,
     "autolearn": true,
-    "using": [ [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
@@ -25,7 +25,7 @@
     "difficulty": 3,
     "time": 5000,
     "autolearn": true,
-    "using": [ [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 5 ], [ "can_drink_unsealed", 5 ], [ "canister_empty", 5 ], [ "clay_canister", 5 ] ],
@@ -43,7 +43,7 @@
     "skills_required": [ "mechanics", 1 ],
     "time": 5000,
     "autolearn": true,
-    "using": [ [ [ "soldering_standard", 5 ], [ "adhesive", 1 ] ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
@@ -61,7 +61,7 @@
     "skills_required": [ "cooking", 2 ],
     "time": 5000,
     "autolearn": true,
-    "using": [ [ [ "soldering_standard", 5 ], [ "adhesive", 1 ] ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "adhesive", 1 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "BOIL", "level": 1 }
@@ -84,7 +84,7 @@
     "difficulty": 3,
     "time": 5000,
     "autolearn": true,
-    "using": [ [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
