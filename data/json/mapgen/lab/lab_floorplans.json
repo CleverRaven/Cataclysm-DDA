@@ -286,8 +286,10 @@
       },
       "mapping": {
         "t": {
-          "items": [ { "item": "textbooks", "chance": 5 } ],
-          "items": [ { "item": "magazines", "chance": 3 } ]
+          "items": [
+            { "item": "textbooks", "chance": 5 },
+            { "item": "magazines", "chance": 3 }
+          ]
         }
       },
       "place_nested": [

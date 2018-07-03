@@ -579,4 +579,53 @@
       ]
     }
   }
-]
+,
+  {
+    "//": "kitchen and dining area",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        "  .......",
+        ".....hth.",
+        ".tt..hth.",
+        ".hh..hth.",
+        ".....hth.",
+        "-+--.hth.",
+        "c.C|.hth.",
+        "O.f|.hth.",
+        "S.C|....."
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "furniture": {
+        "C": "f_cupboard",
+        "O": "f_oven"
+      },
+      "place_vendingmachines": [
+        { "item_group": "vending_drink", "x": 0, "y": 0 },
+        { "item_group": "vending_food", "x": 1, "y": 0 }
+      ],
+      "mapping": {
+        "t": {
+          "items": [ { "item": "fridge", "chance": 10 } ]
+        },
+        "f": {
+          "items": [ { "item": "fridge", "chance": 80 } ]
+        },
+        "C": {
+          "items": [ { "item": "kitchen", "chance": 80 } ]
+        },
+        "c": {
+          "items": [ { "item": "kitchen", "chance": 50 } ]
+        },
+        "O": {
+          "items": [ { "item": "oven", "chance": 70 } ]
+        }
+      }
+    }
+  }]
