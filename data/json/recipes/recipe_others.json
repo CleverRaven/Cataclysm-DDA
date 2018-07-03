@@ -945,7 +945,7 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ "filament", 50, "LIST" ] ]
+    "components": [ [ [ "filament", 50, "LIST" ] ] ]
   },
   {
     "type": "recipe",
