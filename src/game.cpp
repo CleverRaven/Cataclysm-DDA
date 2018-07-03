@@ -13812,7 +13812,7 @@ void game::add_artifact_dreams( ) {
         const int selected = rng( 0, valid_arts.size()-1 );
         auto it = valid_arts[selected];
         auto msg = random_entry( valid_dreams[selected] );
-        const std::string& dream = string_format( msg , it->tname().c_str() );
+        const std::string& dream = string_format( _( msg.c_str() ) , it->tname().c_str() );
         add_msg( dream );
     }
     else{add_msg(m_debug,"Didn't have any dreams, sorry");}
