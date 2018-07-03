@@ -656,6 +656,7 @@ struct islot_artifact {
     int dream_freq_unmet;
     int dream_freq_met;
 };
+bool check_art_charge_req( item& it );
 
 struct itype {
     friend class Item_factory;

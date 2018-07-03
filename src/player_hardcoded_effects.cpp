@@ -1057,29 +1057,6 @@ void player::hardcoded_effects( effect &it )
                 }
             }
         }
-        //Get a dream from a carried artifact
-        if( calendar::once_every( 1_hours ) ) {
-            std::list<item *> art_items = player::get_artifact_items();
-            std::list<item *> arts_with_dream;
-            std::vector<std::string> valid_dreams;
-            //Pull the list of dreams
-            for( auto &it : art_items ) {
-                //Pick only the ones with an applicable dream
-                if( check_art_charge_req( it, g->u ) ) {
-                    if( it->dream_freq_met   > 0 && one_in( it->dream_freq_met   ) ) {
-                        valid_dreams.push_back( it->dream_msg_met );
-                    }
-                } else {
-                    if( it->dream_freq_unmet > 0 && one_in( it->dream_freq_unmet ) ) {
-                        valid_dreams.push_back( it->dream_msg_unmet );
-                    }
-                }
-            }
-            if( !valid_dreams.empty() ) {
-                const std::string& dream = random_entry( valid_dreams );
-                add_msg_if_player( dream );
-            }
-        }
 
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );

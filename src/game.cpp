@@ -1587,6 +1587,10 @@ bool game::do_turn()
     if( player_is_sleeping ) {
         if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
             draw();
+            //Putting this in here to save on checking
+            if( calendar::once_every( 1_hours ) ) {
+                add_artifact_dreams( );
+            }
         }
 
         if( calendar::once_every( 1_minutes ) ) {
@@ -13339,7 +13343,7 @@ void game::process_artifact( item &it, player &p )
         // Recharge it if necessary
         if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
             //Before incrementing charge, check that any extra requirements are met
-            if( check_art_charge_req( it, p ) ) {
+            if( check_art_charge_req( it ) ) {
                 switch( it.type->artifact->charge_type ) {
                 case ARTC_NULL:
                 case NUM_ARTCS:
@@ -13512,8 +13516,9 @@ void game::process_artifact( item &it, player &p )
     p.per_cur = p.get_per();
 }
 //Check if an artifact's extra charge requirements are currently met
-bool check_art_charge_req( item& it, player& p )
+bool check_art_charge_req( item& it )
 {
+    player& p = g->u;
     bool reqsmet = true;
     const bool worn = p.is_worn( it );
     const bool wielded = ( &it == &p.weapon );
@@ -13768,6 +13773,33 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
 
     if (net_speed != 0) {
         add_msg(m_info, _("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
+    }
+}
+
+void game::add_artifact_dreams( ) {
+    //If player is sleeping, get a dream from a carried artifact
+    if( calendar::once_every( 1_hours ) && u.has_effect( effect_sleep ) ) {
+        std::list<item *> art_items = g->u.get_artifact_items();
+        std::list<item *> arts_with_dream;
+        std::vector<std::string> valid_dreams;
+        //Pull the list of dreams
+        for( auto &it : art_items ) {
+            //Pick only the ones with an applicable dream
+            auto art = it->type->artifact;
+            if( check_art_charge_req( *it ) ) {
+                if( art->dream_freq_met   > 0 && one_in( art->dream_freq_met   ) ) {
+                    valid_dreams.push_back( art->dream_msg_met );
+                }
+            } else {
+                if( art->dream_freq_unmet > 0 && one_in( art->dream_freq_unmet ) ) {
+                    valid_dreams.push_back( art->dream_msg_unmet );
+                }
+            }
+        }
+        if( !valid_dreams.empty() ) {
+            const std::string& dream = random_entry( valid_dreams );
+            add_msg( dream );
+        }
     }
 }
 

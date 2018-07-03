@@ -148,8 +148,7 @@ struct artifact_property_datum {
 };
 
 struct artifact_dream_datum { 
-    //Used only when generating - stored as individual members of islot_artifact
-    //Otherwise would have had to define this in itype.h instead
+    //Used only when generating - stored as individual members of artifact
     std::string msg_unmet;
     std::string msg_met;
     // 1 in freq chance per hour while asleep (if nonzero)
@@ -1131,10 +1130,15 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
     artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
-    artifact->dream_msg_unmet  = jo.get_string("dream_unmet");
-    artifact->dream_msg_met    = jo.get_string("dream_met");
-    artifact->dream_freq_unmet = jo.get_int(   "dream_freq_unmet");
-    artifact->dream_freq_met   = jo.get_int(   "dream_freq_met");
+    //Generate any missing dream data (due to e.g. old save)
+    if( jo.has_string("dream_unmet") ) {      artifact->dream_msg_unmet  = jo.get_string( "dream_unmet" ); }
+    else{ artifact->dream_msg_unmet = artifact_dream_data[(int)(artifact->charge_req)].msg_unmet; }
+    if( jo.has_string("dream_met") ) {        artifact->dream_msg_met    = jo.get_string( "dream_met" ); }
+    else{ artifact->dream_msg_met   = artifact_dream_data[(int)(artifact->charge_req)].msg_met; }
+    if( jo.has_int(   "dream_freq_unmet") ) { artifact->dream_freq_unmet = jo.get_int(    "dream_freq_unmet" ); }
+    else{ artifact->dream_msg_met   = artifact_dream_data[(int)(artifact->charge_req)].freq_unmet; }
+    if( jo.has_int(   "dream_freq_met") ) {   artifact->dream_freq_met   = jo.get_int(    "dream_freq_met" ); }
+    else{ artifact->dream_msg_met   = artifact_dream_data[(int)(artifact->charge_req)].freq_met; }
 
     JsonArray ja = jo.get_array("effects_wielded");
     while (ja.has_more()) {
