@@ -1,10 +1,11 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
+#include "animation.h"
+#include "catacharset.h"
+#include "color.h"
 #include "cursesport.h"
 #include "cursesdef.h"
+#include "game_ui.h"
 #include "output.h"
-#include "color.h"
-#include "catacharset.h"
-#include "animation.h"
 
 #include <cstring> // strlen
 #include <stdexcept>
@@ -126,7 +127,8 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
         //@todo: log this
         return;
     }
-    int i, j;
+    int i = 0;
+    int j = 0;
     int oldx = win->cursorx; //methods below move the cursor, save the value!
     int oldy = win->cursory; //methods below move the cursor, save the value!
 
@@ -407,6 +409,12 @@ void catacurses::mvwprintw(const window &win, int y, int x, const std::string &p
         return;
     }
     return printstring(win.get<cata_cursesport::WINDOW>(), printbuf);
+}
+
+//Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
+void catacurses::resizeterm()
+{
+    game_ui::init_ui();
 }
 
 //erases a window of all text and attributes

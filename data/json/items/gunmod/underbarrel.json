@@ -13,11 +13,13 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow" ],
     "gun_data": {
+      "ammo": "flammable",
       "skill": "launcher",
       "dispersion": 300,
-      "durability": 10,
-      "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ]
+      "durability": 10
     },
+    "magazine_well": 1,
+    "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100" ]
@@ -55,7 +57,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 45, "durability": 10, "clip_size": 2 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
     "dispersion_modifier": 15,
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
   },
@@ -73,7 +75,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 180, "durability": 6, "clip_size": 2 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -90,7 +92,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "handling_modifier": 6,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
     "id": "inter_bayonet",
@@ -128,7 +131,7 @@
       "ammo": "shot",
       "skill": "shotgun",
       "ranged_damage": 3,
-      "dispersion": 45,
+      "dispersion": 345,
       "durability": 10,
       "clip_size": 7,
       "reload": 120
@@ -149,9 +152,10 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
-    "sight_dispersion": 300,
+    "sight_dispersion": 30,
     "aim_speed": 9,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
     "id": "lemat_revolver_shotgun",
@@ -171,7 +175,7 @@
       "skill": "shotgun",
       "range": -2,
       "ranged_damage": 2,
-      "dispersion": 300,
+      "dispersion": 600,
       "durability": 10,
       "clip_size": 1
     },
@@ -242,7 +246,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 30, "durability": 10, "clip_size": 4 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "dispersion_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -296,7 +300,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 100, "durability": 9, "reload": 125 },
+    "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 400, "durability": 9, "reload": 125 },
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "magazine_well": 1,
@@ -316,7 +320,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 75, "durability": 10, "clip_size": 2 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]

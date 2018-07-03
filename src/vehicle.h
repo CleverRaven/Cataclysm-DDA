@@ -184,7 +184,7 @@ struct vehicle_part
     void unset_crew();
 
     /** Reset the target for this part. */
-    void reset_target( tripoint pos );
+    void reset_target( const tripoint &pos );
 
     /**
      * @name Part capabilities
@@ -234,7 +234,7 @@ public:
     bool is_broken() const;
 
     int blood        = 0;         // how much blood covers part (in turns).
-    bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
+    bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vpart_position::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
     bool enabled     = true;      //
@@ -508,7 +508,7 @@ private:
     units::volume total_folded_volume() const;
 
     // Vehicle fuel indicator (by fuel)
-    void print_fuel_indicator ( const catacurses::window &w, int y, int x, itype_id fuelType, bool verbose = false, bool desc = false ) const;
+    void print_fuel_indicator ( const catacurses::window &w, int y, int x, const itype_id &fuelType, bool verbose = false, bool desc = false ) const;
 
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e ) const;
@@ -629,9 +629,6 @@ public:
      */
     void remove_remote_part(int part_num);
 
-    std::string const& get_label(int x, int y) const;
-    void set_label(int x, int y, std::string text);
-
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
     // returns the list of indices of parts at certain position (not accounting frame direction)
@@ -720,11 +717,6 @@ public:
     // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f) const;
     bool part_flag (int p, vpart_bitflags f) const;
-
-    // Returns the obstacle that shares location with this part (useful in some map code)
-    // Open doors don't count as obstacles, but closed do
-    // Broken parts are also never obstacles
-    int obstacle_at_part( int p ) const;
 
     // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
     point coord_translate (const point &p) const;
@@ -1040,8 +1032,6 @@ public:
 
     void refresh_insides ();
 
-    bool is_inside (int p) const;
-
     void unboard_all ();
 
     // Damage individual part. bash means damage
@@ -1238,7 +1228,9 @@ public:
      * is loaded into the map the values are directly set. The vehicles position does
      * not change therefor no call to set_submap_moved is required.
      */
-    int smx, smy, smz;
+    int smx;
+    int smy;
+    int smz;
 
     float alternator_load;
 

@@ -110,12 +110,12 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [

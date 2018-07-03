@@ -87,7 +87,7 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "#": [ "t_wall_wood" ],
-        "%": [ "t_shrub" ],
+        "$": [ "t_shrub" ],
         "&": [ "t_water_pump" ],
         "+": [ "t_door_c" ],
         ",": [ "t_dirt" ],
@@ -200,7 +200,7 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "#": [ "t_wall_wood" ],
-        "%": [ "t_shrub" ],
+        "$": [ "t_shrub" ],
         "&": [ "t_water_pump" ],
         "+": [ "t_door_c" ],
         ",": [ "t_dirt" ],

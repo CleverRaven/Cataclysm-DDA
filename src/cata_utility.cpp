@@ -42,6 +42,40 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return haystack.find( needle ) != std::string::npos;
 }
 
+bool match_include_exclude( const std::string &text, std::string filter )
+{
+    size_t iPos;
+    bool found = false;
+
+    if( filter.empty() ) {
+        return false;
+    }
+
+    do {
+        iPos = filter.find( "," );
+
+        std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
+        const bool exclude = term.substr( 0, 1 ) == "-";
+        if( exclude ) {
+            term = term.substr( 1 );
+        }
+
+        if( ( !found || exclude ) && lcmatch( text, term ) ) {
+            if( exclude ) {
+                return false;
+            }
+
+            found = true;
+        }
+
+        if( iPos != std::string::npos ) {
+            filter = filter.substr( iPos + 1, filter.size() );
+        }
+    } while( iPos != std::string::npos );
+
+    return found;
+}
+
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
                                    const std::pair<int, tripoint> &b ) const
 {

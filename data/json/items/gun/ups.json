@@ -2,6 +2,7 @@
   {
     "id": "emp_gun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "XM34 EMP projector",
     "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets.",
     "weight": 2950,
@@ -29,6 +30,7 @@
   {
     "id": "laser_cannon",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "handheld laser cannon",
     "description": "This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.",
     "weight": 5140,
@@ -54,6 +56,7 @@
   {
     "id": "laser_rifle",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "A7 laser rifle",
     "description": "A state of the art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
     "weight": 2950,
@@ -90,6 +93,7 @@
   {
     "id": "unbio_blaster_gun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "fusion blaster rifle",
     "description": "A cyborg's fusion blaster arm, cannibalized and converted into a rifle.  This improvised weapon is powered by a standard UPS connection.",
     "weight": 2680,
@@ -115,6 +119,7 @@
   {
     "id": "v29",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "V29 laser pistol",
     "description": "The V29 laser pistol was designed in the mid-21st century and was one of the first handheld laser weapons.  It is larger than most traditional handguns, but displays no recoil whatsoever.",
     "weight": 680,
@@ -150,6 +155,7 @@
   {
     "id": "v29_cheap",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "homemade laser pistol",
     "description": "This laser pistol was based on the V29 laser pistol designed in the mid-21st century.  While little more than duct tape and electronics, it runs on a standard UPS.",
     "weight": 540,

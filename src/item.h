@@ -21,6 +21,7 @@ class nc_color;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class iteminfo_query;
 template<typename T>
 class ret_val;
 namespace units
@@ -167,43 +168,6 @@ enum layer_level {
     BELTED_LAYER,
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
-};
-
-/**
- *  Contains metadata for one category of items
- *
- *  Every item belongs to a category (e.g. weapons, armor, food, etc).  This class
- *  contains the info about one such category.  Actual categories are normally added
- *  by class @ref Item_factory from definitions in the json data files.
- */
-class item_category
-{
-    public:
-        /** Unique ID of this category, used when loading from json. */
-        std::string id;
-        /** Name of category for displaying to the user (localized) */
-        std::string name;
-        /** Used to sort categories when displaying.  Lower values are shown first. */
-        int sort_rank;
-
-        item_category();
-        /**
-         *  @param id: Unique ID of this category
-         *  @param name: Localized string for displaying name of this category
-         *  @param sort_rank: Used to order a display list of categories
-         */
-        item_category(const std::string &id, const std::string &name, int sort_rank);
-
-        /**
-         *  Comparison operators
-         *
-         *  Used for sorting.  Will result in sorting by sort_rank, then by name, then by id.
-         */
-        /*@{*/
-        bool operator<(const item_category &rhs) const;
-        bool operator==(const item_category &rhs) const;
-        bool operator!=(const item_category &rhs) const;
-        /*@}*/
 };
 
 class item : public visitable<item>
@@ -383,6 +347,20 @@ class item : public visitable<item>
     * @param batch The batch crafting number to multiply data by
     */
     std::string info( bool showtext, std::vector<iteminfo> &dump, int batch ) const;
+
+    /**
+    * Return all the information about the item and its type, and dump to vector.
+    *
+    * This includes the different
+    * properties of the @ref itype (if they are visible to the player). The returned string
+    * is already translated and can be *very* long.
+    * @param parts controls which parts of the iteminfo to return.
+    * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+    * the vector can be used to compare them to properties of another item.
+    * @param batch The batch crafting number to multiply data by
+    */
+    std::string info(std::vector<iteminfo> &dump, const iteminfo_query *parts = nullptr, int batch = 1) const;
+
 
     /** Burns the item. Returns true if the item was destroyed. */
     bool burn( fire_data &bd, bool contained );
@@ -689,10 +667,9 @@ private:
     time_point last_rot_check = calendar::time_of_cataclysm;
 
 public:
-    int get_rot() const
-    {
-        return to_turns<int>( rot );
-    }
+        time_duration get_rot() const {
+            return rot;
+        }
 
     /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
     time_point fridge = calendar::before_time_starts;
@@ -813,7 +790,7 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /** How much damage has the item sustained? */
-    int damage() const { return fast_floor( damage_ ); }
+    int damage() const;
 
     /** Precise damage */
     double precise_damage() const { return damage_; }
@@ -823,6 +800,13 @@ public:
 
     /** Maximum amount of damage to an item (state before destroyed) */
     int max_damage() const;
+
+    /**
+     * Relative item health.
+     * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
+     * and values above 1 for reinforced ++items.
+     */
+    float get_relative_health() const;
 
     /**
      * Apply damage to item constrained by @ref min_damage and @ref max_damage
@@ -953,6 +937,8 @@ public:
 
     bool is_faulty() const;
     bool is_irremovable() const;
+
+    bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
@@ -1323,6 +1309,13 @@ public:
          * For non-armor it returns 0.
          */
         int get_env_resist() const;
+        /**
+         * Returns the resistance to environmental effects if an item (for example a gas mask)
+         * requires a gas filter to operate and this filter is installed. Used in iuse::gasmask to
+         * change protection of a gas mask if it has (or don't has) filters. For other applications
+         * use get_env_resist() above.
+         */
+        int get_env_resist_w_filter() const;
         /**
          * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
          * or similar.

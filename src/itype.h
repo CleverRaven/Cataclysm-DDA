@@ -43,6 +43,7 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
+enum art_charge_req : int;
 enum art_effect_passive : int;
 class material_type;
 using material_id = string_id<material_type>;
@@ -53,6 +54,8 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
 
@@ -166,6 +169,11 @@ struct islot_comestible
     int get_calories() const {
         return nutr * kcal_per_nutr;
     }
+    /** The monster group that is drawn from when the item rots away */
+    mongroup_id rot_spawn = mongroup_id::NULL_ID();
+
+    /** Chance the above monster group spawns*/
+    int rot_spawn_chance = 10;
 };
 
 struct islot_brewable {
@@ -227,6 +235,10 @@ struct islot_armor {
      * Resistance to environmental effects.
      */
     int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
     /**
      * How much warmth this item provides.
      */
@@ -409,7 +421,7 @@ struct islot_gun : common_ranged_data {
     int reload_noise_volume = 0;
 
     /** Maximum aim achievable using base weapon sights */
-    int sight_dispersion = 120;
+    int sight_dispersion = 30;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -633,6 +645,7 @@ struct islot_seed {
 
 struct islot_artifact {
     art_charge charge_type;
+    art_charge_req charge_req;
     std::vector<art_effect_passive> effects_wielded;
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
@@ -847,4 +860,3 @@ public:
 };
 
 #endif
-

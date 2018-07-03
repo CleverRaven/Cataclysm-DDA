@@ -754,7 +754,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
                             const std::string sItemName, const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
@@ -766,7 +767,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wrefresh( win );
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
+                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
+                                        padding );
     return result;
 }
 
@@ -910,7 +912,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if( vItemDisplay[i].is_int == true ) {
+                if( vItemDisplay[i].is_int ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
                     buffer << string_format( "%.2f", vItemDisplay[i].dValue );
@@ -933,7 +935,8 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
                             const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
@@ -943,7 +946,9 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
     if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
-    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+    for( unsigned int i = 0; i < padding; i++ ) {
+        buffer << " \n";    //This space is required, otherwise it won't make an empty line.
+    }
 
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
@@ -2107,6 +2112,8 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
+// We need to override these for Windows console resizing
+#if !(defined _WIN32 || defined __WIN32__)
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
@@ -2117,6 +2124,7 @@ int get_terminal_height()
 {
     return get_option<int>( "TERMINAL_Y" );
 }
+#endif
 
 bool is_draw_tiles_mode()
 {

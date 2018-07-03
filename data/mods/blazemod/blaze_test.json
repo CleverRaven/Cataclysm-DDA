@@ -45,18 +45,16 @@
     "reversible": false,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
@@ -77,18 +75,16 @@
     "time": 108000,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
@@ -109,12 +105,11 @@
     "skills_required": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
     "time": 144000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ] ],
     "components": [
       [ [ "cargo_rack", 1 ] ],
       [ [ "teleporter", 1 ] ],
@@ -132,11 +127,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 12 ] ],
@@ -157,11 +152,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 90000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "2x4", 12 ], [ "stick", 12 ] ],
@@ -183,11 +178,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -207,11 +202,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -231,11 +226,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 60000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 50 ], [ "toolset", 50 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 4 ] ],
@@ -253,11 +248,11 @@
     "difficulty": 10,
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
-    "tools": [ [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "charcoal", 50 ] ],
       [ [ "plasma", 10 ] ],
@@ -274,11 +269,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 90000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 10 ] ],
