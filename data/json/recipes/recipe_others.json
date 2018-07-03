@@ -3932,7 +3932,6 @@
     "difficulty": 1,
     "time": 10000,
     "autolearn": true,
-    "reversible": false,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
@@ -3950,7 +3949,6 @@
     "difficulty": 1,
     "time": 10000,
     "autolearn": true,
-    "reversible": false,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
@@ -3968,7 +3966,6 @@
     "difficulty": 1,
     "time": 10000,
     "autolearn": true,
-    "reversible": false,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
