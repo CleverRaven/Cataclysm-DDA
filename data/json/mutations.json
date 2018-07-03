@@ -317,7 +317,7 @@
         "points" : 1,
         "description" : "There's something about you that creatures find frightening, and they are more likely to try to flee.",
         "starting_trait" : true,
-        "category" : ["BEAST", "INSECT", "CHIMERA"]
+        "category" : ["BEAST", "INSECT", "CHIMERA"],
         "social_modifiers" : {
             "intimidate" : 15
         }
@@ -4502,7 +4502,7 @@
         "mixed_effect" : true,
         "description" : "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
         "changes_to" : ["SNARL"],
-        "category" : ["RAT", "URSINE", "LUPINE"]
+        "category" : ["RAT", "URSINE", "LUPINE"],
         "social_modifiers" : {
             "persuade" : -25,
             "intimidate" : 15
@@ -4515,7 +4515,7 @@
         "mixed_effect" : true,
         "description" : "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
-        "category" : ["BEAST", "CHIMERA", "FELINE"]
+        "category" : ["BEAST", "CHIMERA", "FELINE"],
         "social_modifiers" : {
             "persuade" : -60,
             "intimidate" : 30
@@ -4527,7 +4527,7 @@
         "mixed_effect" : true,
         "points": -1,
         "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
-        "category": ["LIZARD", "RAPTOR"]
+        "category": ["LIZARD", "RAPTOR"],
         "social_modifiers" : {
             "persuade" : -25,
             "intimidate" : 15

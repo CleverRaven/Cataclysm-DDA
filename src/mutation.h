@@ -325,4 +325,22 @@ bool mutation_category_is_valid( const std::string &cat );
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
+enum class mutagen_rejection {
+    accepted,
+    rejected,
+    destroyed
+};
+
+struct mutagen_attempt {
+    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c )
+    { }
+    bool allowed;
+    long charges_used;
+};
+
+mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+    const std::string &memorial_male, const std::string &memorial_female );
+
+void test_crossing_threshold( player &p, const mutation_category_trait &m_category );
+
 #endif
