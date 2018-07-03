@@ -3171,7 +3171,7 @@
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 8,
         "fake_per": 8,
-        "require_targeting_player": "false",
+        "require_targeting_player": false,
         "description": "The corrosive zombie spits a glob of acid!",
         "ranges": [ [ 2, 10, "DEFAULT" ] ]
       },
