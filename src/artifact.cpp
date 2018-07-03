@@ -1148,7 +1148,8 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     }
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
-    artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
+    if( jo.has_int( "charge_req" ) ) { artifact->charge_req = (art_charge_req)jo.get_int("charge_req"); }
+    else{ artifact->charge_req = ACR_NULL; }
 
     //Generate any missing dream data (due to e.g. old save)
     if( !jo.has_array("dream_unmet") ) { artifact->dream_msg_unmet = artifact_dream_data[(int)(artifact->charge_req)].msg_unmet; }
