@@ -3,7 +3,7 @@
     "id": "bio_adrenaline",
     "type": "bionic",
     "name": "Adrenaline Pump",
-    "description": "A stimulator system has been implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
+    "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 6 ] ],
     "act_cost": 50
   },
@@ -43,7 +43,7 @@
     "id": "bio_ankles",
     "type": "bionic",
     "name": "Squeaky Ankles",
-    "description": "In a cruel twist of fate, a poorly executed CBM installation has given you a pair of useless bionics which make squeaking noises when you walk.",
+    "description": "In a cruel twist of fate, a poorly executed CBM surgery has given you a pair of useless bionics which make squeaking noises when you walk.",
     "occupied_bodyparts": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -51,35 +51,35 @@
     "id": "bio_armor_arms",
     "type": "bionic",
     "name": "Alloy Plating - Arms",
-    "description": "The flesh on your arms has been replaced by a strong armor, protecting you greatly.",
+    "description": "The flesh on your arms has been surgically replaced by a strong armor, protecting you greatly.",
     "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ] ]
   },
   {
     "id": "bio_armor_eyes",
     "type": "bionic",
     "name": "Protective Lenses",
-    "description": "Your eye sockets have been sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
+    "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ]
   },
   {
     "id": "bio_armor_head",
     "type": "bionic",
     "name": "Alloy Plating - Head",
-    "description": "The flesh on your head has been replaced by a strong armor, protecting both your head and jaw regions.",
+    "description": "The flesh on your head has been surgically replaced by a strong armor, protecting both your head and jaw regions.",
     "occupied_bodyparts": [ [ "HEAD", 5 ] ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
     "name": "Alloy Plating - Legs",
-    "description": "The flesh on your legs has been replaced by a strong armor, protecting you greatly.",
+    "description": "The flesh on your legs has been surgically replaced by a strong armor, protecting you greatly.",
     "occupied_bodyparts": [ [ "LEG_L", 6 ], [ "LEG_R", 6 ] ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
     "name": "Alloy Plating - Torso",
-    "description": "The flesh on your torso has been replaced by a strong armor, protecting you greatly.",
+    "description": "The flesh on your torso has been surgically replaced by a strong armor, protecting you greatly.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ]
   },
   {
@@ -105,7 +105,7 @@
     "id": "bio_blaster",
     "type": "bionic",
     "name": "Fusion Blaster Arm",
-    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "occupied_bodyparts": [ [ "ARM_L", 20 ], [ "HAND_L", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
@@ -115,14 +115,14 @@
     "id": "bio_blindfold",
     "type": "bionic",
     "name": "Optical Dampers",
-    "description": "The lenses installed over your eyes can be tinted to block out incoming light.",
+    "description": "The lenses surgically installed over your eyes can be tinted to block out incoming light.",
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_blood_anal",
     "type": "bionic",
     "name": "Blood Analysis",
-    "description": "Small sensors have been implanted in your heart, allowing you to analyze your blood.  This will detect many illnesses, drugs, and other conditions.",
+    "description": "Small sensors have been surgically implanted in your heart, allowing you to analyze your blood.  This will detect many illnesses, drugs, and other conditions.",
     "occupied_bodyparts": [ [ "TORSO", 5 ] ],
     "act_cost": 25
   },
@@ -139,7 +139,7 @@
     "type": "bionic",
     "name": "Cable Charger System",
     "capacity": 10,
-    "description": "You have a complex port mounted above your hip.  While active, it will drain power through a jumper cable held on your person.",
+    "description": "You have a complex port surgically mounted above your hip.  While active, it will drain power through a jumper cable held on your person.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
@@ -175,7 +175,7 @@
     "id": "bio_claws",
     "type": "bionic",
     "name": "Bionic Claws",
-    "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
+    "description": "Vicious claws have been surgically installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
     "occupied_bodyparts": [ [ "HAND_L", 5 ], [ "HAND_R", 5 ] ],
     "act_cost": 100,
     "fake_item": "bio_claws_weapon",
@@ -229,7 +229,7 @@
     "id": "bio_cqb",
     "type": "bionic",
     "name": "Close Quarters Battle",
-    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills.",
+    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills.",
     "occupied_bodyparts": [ [ "HEAD", 4 ] ],
     "act_cost": 1,
     "react_cost": 1,
@@ -240,7 +240,7 @@
     "id": "bio_deformity",
     "type": "bionic",
     "name": "Bionic-Induced Deformity",
-    "description": "A combination of poor installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face.  People who mind that you look like a dime-store Frankenstein will react poorly to your appearance.",
+    "description": "A combination of poor surgical installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face.  People who mind that you look like a dime-store Frankenstein will react poorly to your appearance.",
     "occupied_bodyparts": [ [ "HEAD", 4 ], [ "MOUTH", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -302,7 +302,7 @@
     "id": "bio_emp",
     "type": "bionic",
     "name": "Directional EMP",
-    "description": "Mounted in the palm of your hand are small parabolic EMP field generators.  You may use power to fire a short-ranged blast which will disable electronics and robots.",
+    "description": "Surgically mounted in the palm of your hand are small parabolic EMP field generators.  You may use power to fire a short-ranged blast which will disable electronics and robots.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
     "act_cost": 100
   },
@@ -333,7 +333,7 @@
     "id": "bio_eye_optic",
     "type": "bionic",
     "name": "Telescopic Eyes",
-    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone.",
+    "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "EYES", 2 ] ],
     "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ]
   },
@@ -370,14 +370,14 @@
     "id": "bio_fingerhack",
     "type": "bionic",
     "name": "Fingerhack",
-    "description": "One of your fingers has an electrohack embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
+    "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
     "occupied_bodyparts": [ [ "HAND_R", 2 ] ]
   },
   {
     "id": "bio_flashbang",
     "type": "bionic",
     "name": "Flashbang Generator",
-    "description": "Light emitting diodes integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby.",
+    "description": "Light emitting diodes surgically integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby.",
     "occupied_bodyparts": [ [ "TORSO", 20 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "act_cost": 125
   },
@@ -385,7 +385,7 @@
     "id": "bio_flashlight",
     "type": "bionic",
     "name": "Cranial Flashlight",
-    "description": "Mounted between your eyes is a small but powerful LED flashlight.",
+    "description": "Surgically mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "act_cost": 1,
     "react_cost": 1,
@@ -404,7 +404,7 @@
     "id": "bio_geiger",
     "type": "bionic",
     "name": "Integrated Dosimeter",
-    "description": "Small radiation sensors have been implanted throughout your body, allowing you to analyze your level of absorbed radiation.  They will also alert you whenever exposed to environmental radiation.",
+    "description": "Small radiation sensors have been surgically implanted throughout your body, allowing you to analyze your level of absorbed radiation.  They will also alert you whenever exposed to environmental radiation.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "act_cost": 25
   },
@@ -450,7 +450,7 @@
     "id": "bio_heatsink",
     "type": "bionic",
     "name": "Thermal Dissipation",
-    "description": "Powerful heatsinks and supermaterials are woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees Fahrenheit.  Note that this does not affect your internal temperature.",
+    "description": "Powerful heatsinks and supermaterials are surgically woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees Fahrenheit.  Note that this does not affect your internal temperature.",
     "occupied_bodyparts": [
       [ "TORSO", 10 ],
       [ "HEAD", 2 ],
@@ -509,7 +509,7 @@
     "id": "bio_laser",
     "type": "bionic",
     "name": "Finger-Mounted Laser",
-    "description": "One of your fingers has a small high-powered laser embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
+    "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
     "act_cost": 50,
     "fake_item": "bio_laser_gun",
@@ -546,7 +546,7 @@
     "id": "bio_lockpick",
     "type": "bionic",
     "name": "Fingerpick",
-    "description": "One of your fingers has an electronic lockpick embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
+    "description": "One of your fingers has an electronic lockpick surgically embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
     "occupied_bodyparts": [ [ "HAND_R", 2 ] ],
     "act_cost": 25
   },
@@ -554,7 +554,7 @@
     "id": "bio_magnet",
     "type": "bionic",
     "name": "Electromagnetic Unit",
-    "description": "Embedded in your hand is a powerful electromagnet, allowing you to pull items made of iron over short distances.",
+    "description": "Surgically embedded in your hand is a powerful electromagnet, allowing you to pull items made of iron over short distances.",
     "occupied_bodyparts": [ [ "HAND_R", 3 ] ],
     "act_cost": 50
   },
@@ -612,7 +612,7 @@
     "id": "bio_night_vision",
     "type": "bionic",
     "name": "Implanted Night Vision",
-    "description": "Your eyes have been modified to amplify existing light, allowing you to see in the dark.",
+    "description": "Your eyes have been surgically modified to amplify existing light, allowing you to see in the dark.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
@@ -737,14 +737,14 @@
     "id": "bio_purifier",
     "type": "bionic",
     "name": "Air Filtration System",
-    "description": "Implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.  Reducing the toxic effects.",
+    "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.  Reducing the toxic effects.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ]
   },
   {
     "id": "bio_radscrubber",
     "type": "bionic",
     "name": "Radiation Scrubber System",
-    "description": "A system of advanced piezomechanical blood filters have been implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
+    "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 5 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "act_cost": 50
   },
@@ -859,7 +859,7 @@
     "id": "bio_solar",
     "type": "bionic",
     "name": "Solar Panels",
-    "description": "You have a few solar panels installed.  While in direct sunlight, your power level will slowly recharge.",
+    "description": "You have a few solar panels surgically installed.  While in direct sunlight, your power level will slowly recharge.",
     "occupied_bodyparts": [ [ "TORSO", 20 ] ],
     "flags": [ "BIONIC_POWER_SOURCE" ],
     "//": "Should be removed after 0.D."
@@ -868,7 +868,7 @@
     "id": "bio_spasm",
     "type": "bionic",
     "name": "Motor Control Overstimulator",
-    "description": "One piezoelectric solenoid installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short duration.",
+    "description": "One piezoelectric solenoid surgically installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short duration.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -901,21 +901,21 @@
     "id": "bio_storage",
     "type": "bionic",
     "name": "Internal Storage",
-    "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
+    "description": "Space inside your chest cavity has been surgically converted into a storage area.  You may carry an extra 2 liters of volume.",
     "occupied_bodyparts": [ [ "TORSO", 32 ] ]
   },
   {
     "id": "bio_str_enhancer",
     "type": "bionic",
     "name": "Muscle Augmentation",
-    "description": "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength.",
+    "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ]
   },
   {
     "id": "bio_sunglasses",
     "type": "bionic",
     "name": "Anti-Glare Compensators",
-    "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
+    "description": "Your eyes have quick-reacting transition lenses surgically installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],
     "fake_item": "fake_goggles"
@@ -924,7 +924,7 @@
     "id": "bio_targeting",
     "type": "bionic",
     "name": "Targeting System",
-    "description": "Your eyes are equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range.",
+    "description": "Your eyes are surgically equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range.",
     "occupied_bodyparts": [ [ "EYES", 1 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "HAND_L", 1 ], [ "HAND_R", 1 ] ]
   },
   {
@@ -966,7 +966,7 @@
     "id": "bio_tools",
     "type": "bionic",
     "name": "Integrated Toolset",
-    "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "fake_item": "toolset"
@@ -975,7 +975,7 @@
     "id": "bio_torsionratchet",
     "type": "bionic",
     "name": "Joint Torsion Ratchet",
-    "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move.",
+    "description": "Your joints have been surgically equipped with torsion ratchets that generate power slowly when you move.",
     "occupied_bodyparts": [ [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
     "flags": [ "BIONIC_POWER_SOURCE" ]
   },
@@ -1025,7 +1025,7 @@
     "id": "bio_water_extractor",
     "type": "bionic",
     "name": "Water Extraction Unit",
-    "description": "Nanotubes embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
+    "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
     "act_cost": 50
   }
