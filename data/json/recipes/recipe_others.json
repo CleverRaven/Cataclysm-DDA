@@ -1335,7 +1335,7 @@
     "time": 12000,
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
-    "using": [ [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ] ],
+    "using": [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
   },
   {
@@ -1349,7 +1349,7 @@
     "time": 12000,
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
-    "using": [ [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ] ],
+    "using": [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ],
     "components": [ [ [ "steel_lump", 24 ] ] ]
   },
   {
