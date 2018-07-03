@@ -217,7 +217,7 @@
     "time": 25000,
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "flashlight", 1 ] ],
       [ [ "amplifier", 1 ] ],
@@ -3037,7 +3037,6 @@
     "time": 10000,
     "autolearn": true,
     "using": [ [ "filament", 20 ], [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 2 ] ] ]
   },
   {
@@ -3050,7 +3049,6 @@
     "time": 50000,
     "autolearn": true,
     "using": [ [ "filament", 80 ], [ "cordage", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 12 ] ] ]
   },
   {

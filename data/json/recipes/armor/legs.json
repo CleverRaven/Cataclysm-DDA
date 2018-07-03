@@ -347,10 +347,6 @@
     "time": 60000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
     "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "rag", 15 ] ],
@@ -426,10 +422,6 @@
     "time": 70000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
     "components": [
       [ [ "pants_army", 1 ], [ "pants_cargo", 1 ], [ "shorts_cargo", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
@@ -473,10 +465,6 @@
     "time": 30000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
     "components": [ [ [ "pants_cargo", 1 ] ] ]
   },
   {
@@ -501,10 +489,6 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {
