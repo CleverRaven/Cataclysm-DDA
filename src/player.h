@@ -697,6 +697,8 @@ class player : public Character
         void get_sick();
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
+        /** Returns list of artifacts in player inventory. **/
+        std::list<item *> get_artifact_items();
 
         /** Adds an addiction to the player */
         void add_addiction(add_type type, int strength);

@@ -45,6 +45,7 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
+struct artifact_dream_datum;
 class material_type;
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
@@ -650,6 +651,10 @@ struct islot_artifact {
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
     std::vector<art_effect_passive> effects_worn;
+    std::string dream_msg_unmet;
+    std::string dream_msg_met;
+    int dream_freq_unmet;
+    int dream_freq_met;
 };
 
 struct itype {

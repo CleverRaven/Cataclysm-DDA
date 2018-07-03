@@ -13339,51 +13339,7 @@ void game::process_artifact( item &it, player &p )
         // Recharge it if necessary
         if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
             //Before incrementing charge, check that any extra requirements are met
-            const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
-            bool reqsmet = true;
-            switch( it.type->artifact->charge_req ) {
-            case(ACR_NULL):
-            case(NUM_ACRS):
-                break;
-            case(ACR_EQUIP):
-                //Generated artifacts won't both be wearable and have charges, but nice for mods
-                reqsmet = ( worn || heldweapon );
-                break;
-            case(ACR_SKIN):
-                //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
-                if( !worn && !heldweapon ){ reqsmet = false; break; }
-                for( const body_part bp : all_body_parts ) {
-                    if( it.covers(bp) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
-                        reqsmet = true;
-                        for ( auto &i : p.worn ) {
-                            if ( i.covers(bp) && ( &it != &i ) && i.get_coverage() > 50 ) {
-                                reqsmet = false; break; //This one's no good, check the next body part
-                            }
-                        }
-                        if(reqsmet){ break; } //Only need skin contact on one bodypart
-                    }
-                }
-                break;
-            case(ACR_SLEEP):
-                reqsmet = p.has_effect( effect_sleep );
-                break;
-            case(ACR_RAD):
-                reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
-                break;
-            case(ACR_WET):
-                reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
-                               []( const int w ) { return w != 0; } );
-                if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
-                    && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
-                   reqsmet = true;
-                }
-                break;
-            case(ACR_SKY):
-                reqsmet = ( p.posz() > 0 );
-                break;
-            }
-            //Proceed with actually recharging if all extra requirements met
-            if(reqsmet){
+            if( check_art_charge_req( it, p ) ) {
                 switch( it.type->artifact->charge_type ) {
                 case ARTC_NULL:
                 case NUM_ARTCS:
@@ -13554,6 +13510,56 @@ void game::process_artifact( item &it, player &p )
     p.int_cur = p.get_int();
     p.dex_cur = p.get_dex();
     p.per_cur = p.get_per();
+}
+//Check if an artifact's extra charge requirements are currently met
+bool check_art_charge_req( item& it, player& p )
+{
+    bool reqsmet = true;
+    const bool worn = p.is_worn( it );
+    const bool wielded = ( &it == &p.weapon );
+    const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
+    switch( it.type->artifact->charge_req ) {
+    case(ACR_NULL):
+    case(NUM_ACRS):
+        break;
+    case(ACR_EQUIP):
+        //Generated artifacts won't both be wearable and have charges, but nice for mods
+        reqsmet = ( worn || heldweapon );
+        break;
+    case(ACR_SKIN):
+        //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
+        if( !worn && !heldweapon ){ reqsmet = false; break; }
+        for( const body_part bp : all_body_parts ) {
+            if( it.covers(bp) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
+                reqsmet = true;
+                for ( auto &i : p.worn ) {
+                    if ( i.covers(bp) && ( &it != &i ) && i.get_coverage() > 50 ) {
+                        reqsmet = false; break; //This one's no good, check the next body part
+                    }
+                }
+                if(reqsmet){ break; } //Only need skin contact on one bodypart
+            }
+        }
+        break;
+    case(ACR_SLEEP):
+        reqsmet = p.has_effect( effect_sleep );
+        break;
+    case(ACR_RAD):
+        reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+        break;
+    case(ACR_WET):
+        reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
+                       []( const int w ) { return w != 0; } );
+        if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
+            && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
+           reqsmet = true;
+        }
+        break;
+    case(ACR_SKY):
+        reqsmet = ( p.posz() > 0 );
+        break;
+    }
+    return reqsmet;
 }
 
 void game::start_calendar()
