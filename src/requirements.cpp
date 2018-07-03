@@ -388,10 +388,6 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 
             already_nested.insert( req_id );
             const auto &req = req_id.obj();
-            if( !req.get_qualities().empty() ) {
-                debugmsg( "Tried to inline requirement %s with qualities set (not supported)", req_id.c_str() );
-                return;
-            }
 
             // The inlined requirement must have ONLY the type of component we are inlining
             // That is, tools or components, not both (nor neither)
