@@ -153,17 +153,15 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-CAR carbine",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes an integral laser sight, but like the rest of the family, doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a read-dot sight and an integral laser sight, but like the rest of the family, doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 5 ]
     ],
-    "relative": {
-      "weight": 400,
-      "range": -6
-    }
+    "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_stabilizer" ],
+	"valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ], [ "underbarrel", 1 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_dsr_223",
@@ -172,27 +170,21 @@
     "name": "L523-DSR rifle",
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The designated-shootist rifle incorporates a specially-designed extended barrel with integral bipod and foregrip, along with an integral 8x optic, and trades selective-fire for the Leadworks gyro-stabilization system.  Like the rest of the family, though, it doesn't accept third-party modifications.",
     "price": 580000,
-    "sight_dispersion": 0,
     "durability": 9,
     "barrel_length": 3,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ]
     ],
     "delete": { "modes": [ [ "AUTO", "auto", 3 ] ] },
-    "relative": {
-      "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
-      "weight": 1200,
-      "volume": 4,
-      "range": 3,
-      "ranged_damage": 3
-    }
+    "built_in_mods": [ "lead_rifle_scope", "lead_barrel_big", "lead_bipod", "lead_grip",  "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_lmg_223",
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-LMG",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates ACOG scope, a heavy-duty barrel, foregrip, bipods and as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
     "price": 620000,
     "durability": 9,
     "modes": [
@@ -200,25 +192,19 @@
       [ "AUTO", "high auto", 14 ]
     ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
-    "relative": {
-      "weight": 2000,
-      "volume": 7,
-      "ranged_damage": 2,
-      "dispersion": 60
-    }
+    "built_in_mods": [ "lead_acog_scope", "lead_barrel_heavy_duty", "lead_bipod", "lead_grip", "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_mbr_223",
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-MBR rifle",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with a foregrip available for greater control.  Like the rest of the family, though, it doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with Leadworks gyro-stabilization system system and foregrip available for greater control.  Like the rest of the family, though, it doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
-    "relative": {
-      "weight": 1200,
-      "volume": 2
-    }
+    "built_in_mods": [ "lead_acog_red_dot_scope", "lead_grip", "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "rail", 1 ] ]
   },
   {
     "id": "m249",

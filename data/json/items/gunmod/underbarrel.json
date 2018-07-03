@@ -324,5 +324,32 @@
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
+  },
+  {
+    "id": "lead_laser_sight",
+    "copy-from": "laser_sight",
+    "type": "GUNMOD",
+    "name": "Leadworks underbarrel laser sight",
+    "description": "A Leadworks built in visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.",
+    "price": 0,
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_grip",
+	"copy-from": "grip",
+    "type": "GUNMOD",
+    "name": "Leadworks forward grip",
+    "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",
+    "price": 0,
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_bipod",
+	"copy-from": "bipod",
+    "type": "GUNMOD",
+    "name": "Leadworks bipod",
+    "description": "Leadworks built in bipods designed to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are usable only on certain surfaces and are slow to equip.",
+    "price": 0,
+    "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   }
 ]

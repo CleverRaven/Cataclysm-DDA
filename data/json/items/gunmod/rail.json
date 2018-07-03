@@ -65,5 +65,14 @@
     "dispersion_modifier": -30,
     "handling_modifier": 6,
     "min_skills": [ [ "weapon", 6 ] ]
+  },
+  {
+    "id": "lead_stabilizer",
+    "copy-from": "stabilizer",
+    "type": "GUNMOD",
+    "name": "Leadworks gyroscopic stabilizer",
+    "description": "An advanced Leadworks built in gyroscopic stabilizer.",
+    "price": 0,
+	"flags": [ "IRREMOVABLE" ]
   }
 ]

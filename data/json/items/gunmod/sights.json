@@ -178,5 +178,42 @@
     "aim_speed": 1,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
+  },
+  {
+    "id": "lead_red_dot_sight",
+    "copy-from": "red_dot_sight",
+    "type": "GUNMOD",
+    "name": "Leadworks red dot sight",
+    "description": "Built in red-dot sight for the Leadworks weapon.",
+    "price": 0,
+    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_rifle_scope",
+    "copy-from": "rifle_scope",
+    "type": "GUNMOD",
+    "name": "Leadworks sniper scope",
+    "description": "Built in sniper scope for the Leadworks weapon.",
+    "price": 0,
+    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_acog_scope",
+    "copy-from": "acog_scope",
+    "type": "GUNMOD",
+    "name": "Leadworks ACOG scope",
+    "description": "An Leadworks built in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Increases weight but improves accuracy significantly.",
+    "price": 0,
+    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_acog_red_dot_scope",
+    "copy-from": "lead_acog_scope",
+    "type": "GUNMOD",
+    "name": "Leadworks ACOG and red dot combo scope",
+    "description": "An Leadworks built in (proprietary) combination optic & red-dot sights for quick and accurate targeting.",
+    "price": 0,
+    "aim_speed": 6,
+    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   }
 ]
