@@ -179,7 +179,7 @@ void mdeath::boomer( monster &z )
     }
 
     if( rl_dist( z.pos(), g->u.pos() ) == 1 ) {
-        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24 );
+        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
     }
 
     g->m.propagate_field( z.pos(), fd_bile, 15, 1 );
@@ -197,10 +197,10 @@ void mdeath::boomer_glow( monster &z )
             z->moves -= 250;
         }
         if( Creature * const critter = g->critter_at( dest ) ) {
-            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25 );
+            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, bp, 4, 40 );
+                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if (critter != nullptr && critter->has_effect( effect_glowing)){
                     break;
                 }
@@ -230,7 +230,7 @@ void mdeath::kill_vines( monster &z )
                 break;
             }
         }
-        if (!closer) {
+        if (!closer) { // @todo: closer variable is not being updated and is always false!
             vine->die( &z );
         }
     }
@@ -423,7 +423,7 @@ void mdeath::blobsplit( monster &z )
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name().c_str() );
         } else {
-            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ), z.name().c_str() );
+            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
         }
     }
     std::vector <tripoint> valid;
@@ -711,7 +711,7 @@ void mdeath::detonate( monster &z )
         }
     }
     // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1, num_bp, true );
+    z.add_effect( effect_no_ammo, 1_turns, num_bp, true );
 
     // First die normally
     mdeath::normal( z );
@@ -770,5 +770,17 @@ void mdeath::preg_roach( monster &z )
         if( num_roach == 0 ) {
             break;
         }
+    }
+}
+
+void mdeath::fireball( monster &z )
+{
+    if( one_in( 10 ) ) {
+        g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
+        std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ), z.name().c_str() );
+        sounds::sound( z.pos(), 24, explode );
+        add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
+    } else {
+        normal( z );
     }
 }

@@ -198,11 +198,11 @@ class unfold_vehicle_iuse : public iuse_actor
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data {
     efftype_id id;
-    int duration;
+    time_duration duration;
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, int dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
 };
 
@@ -836,7 +836,10 @@ class heal_actor : public iuse_actor
          * If the used item is a tool it, it will be turned into the used up item.
          * If it is not a tool a new item with this id will be created.
          */
-        std::string used_up_item;
+        std::string used_up_item_id;
+        int used_up_item_quantity = 1;
+        int used_up_item_charges = 1;
+        std::set<std::string> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const player &healer, hp_part healed ) const;

@@ -56,6 +56,8 @@ options_manager &get_options()
 
 options_manager::options_manager()
 {
+    mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
+
     enable_json("DEFAULT_REGION");
     // to allow class based init_data functions to add values to a 'string' type option, add:
     //   enable_json("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON");
@@ -753,7 +755,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  */
 static std::vector<std::pair<std::string, std::string>> build_resource_list(
     std::map<std::string, std::string> &resource_option, std::string operation_name,
-    std::string dirname_label, std::string filename_label ) {
+    const std::string &dirname_label, const std::string &filename_label ) {
     std::vector<std::pair<std::string, std::string>> resource_names;
 
     resource_option.clear();
@@ -849,7 +851,7 @@ void options_manager::init()
     mOptionsSort["general"]++;
 
     add( "AUTO_PICKUP", "general", translate_marker( "Auto pickup enabled" ),
-        translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager in the Help Menu ?3" ),
+        translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
         false
         );
 
@@ -988,20 +990,31 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
+        translate_marker( "If true, music and sound are enabled." ),
+        true, COPT_NO_SOUND_HIDE
+        );
+
     add( "SOUNDPACKS", "general", translate_marker( "Choose soundpack" ),
         translate_marker( "Choose the soundpack you want to use." ),
         build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
         ); // populate the options dynamically
+
+    get_option( "SOUNDPACKS" ).setPrerequisite( "SOUND_ENABLED" );
 
     add( "MUSIC_VOLUME", "general", translate_marker( "Music volume" ),
         translate_marker( "Adjust the volume of the music being played in the background." ),
         0, 200, 100, COPT_NO_SOUND_HIDE
         );
 
+    get_option( "MUSIC_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
+
     add( "SOUND_EFFECT_VOLUME", "general", translate_marker( "Sound effect volume" ),
         translate_marker( "Adjust the volume of sound effects being played by the game." ),
         0, 200, 100, COPT_NO_SOUND_HIDE
         );
+
+    get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
@@ -1409,9 +1422,11 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add( "DELETE_WORLD", "world_default", translate_marker( "Delete world" ),
-        translate_marker( "Delete the world when the last active character dies." ),
-        { { "no", translate_marker( "No" ) }, { "yes", translate_marker( "Yes" ) }, { "query", translate_marker( "Query" ) } }, "no"
+    add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
+        translate_marker( "Handling of game world when last character dies." ),
+        { { "keep", translate_marker( "Keep" ) }, { "reset", translate_marker( "Reset" ) },
+          { "delete", translate_marker( "Delete" ) },  { "query", translate_marker( "Query" ) }
+        }, "keep"
         );
 
     mOptionsSort["world_default"]++;
@@ -1429,6 +1444,11 @@ void options_manager::init()
     add( "SPAWN_DENSITY", "world_default", translate_marker( "Spawn rate scaling factor" ),
         translate_marker( "A scaling factor that determines density of monster spawns." ),
         0.0, 50.0, 1.0, 0.1
+        );
+
+    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
+        translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
+        0, 1000, 100, COPT_NO_HIDE, "%i%%"
         );
 
     add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
@@ -1614,7 +1634,7 @@ void options_manager::init()
         for (unsigned j = mPageItems[i].size() - 1; j > 0; --j) {
             bool bThisLineEmpty = mPageItems[i][j].empty();
 
-            if (bLastLineEmpty == true && bThisLineEmpty == true) {
+            if( bLastLineEmpty && bThisLineEmpty ) {
                 //delete empty lines in between
                 mPageItems[i].erase(mPageItems[i].begin() + j);
             }
@@ -1831,11 +1851,12 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
         if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X") {
-            int new_terminal_x, new_window_width;
+            int new_terminal_x = 0;
+            int new_window_width = 0;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_x;
-            new_window_width = projected_window_width(new_terminal_x);
+            new_window_width = projected_window_width();
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            ngettext("%s #%s -- The window will be %d pixel wide with the selected value.",
@@ -1845,11 +1866,12 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_width);
         } else if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y") {
-            int new_terminal_y, new_window_height;
+            int new_terminal_y = 0;
+            int new_window_height = 0;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_y;
-            new_window_height = projected_window_height(new_terminal_y);
+            new_window_height = projected_window_height();
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            ngettext("%s #%s -- The window will be %d pixel tall with the selected value.",
@@ -1975,6 +1997,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool sidebar_style_changed = false;
+    bool terminal_size_changed = true;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
@@ -1988,17 +2011,18 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
               || iter.first == "PIXEL_MINIMAP_RATIO"
               || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
-            }
 
-            if( iter.first == "SIDEBAR_STYLE" ) {
+            } else if( iter.first == "SIDEBAR_STYLE" ) {
                 sidebar_style_changed = true;
-            }
 
-            if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
                 used_tiles_changed = true;
 
             } else if ( iter.first == "USE_LANG" ) {
                 lang_changed = true;
+
+            } else if ( iter.first == "TERMINAL_X" || iter.first == "TERMINAL_Y" ) {
+                terminal_size_changed = true;
             }
         }
     }
@@ -2024,6 +2048,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             }
         }
     }
+
     if( lang_changed ) {
         set_language();
     }
@@ -2039,6 +2064,14 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
             g->init_ui();
         }
     }
+
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+    if ( terminal_size_changed ) {
+        handle_resize( projected_window_width(), projected_window_height() );
+    }
+#else
+    (void) terminal_size_changed;
+#endif
 
     refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
 
@@ -2086,12 +2119,29 @@ void options_manager::deserialize(JsonIn &jsin)
     while (!jsin.end_array()) {
         JsonObject joOptions = jsin.get_object();
 
-        const std::string name = joOptions.get_string("name");
-        const std::string value = joOptions.get_string("value");
+        const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
+        const std::string value = migrateOptionValue( joOptions.get_string( "name" ), joOptions.get_string( "value" ) );
 
         add_retry(name, value);
         options[ name ].setValue( value );
     }
+}
+
+std::string options_manager::migrateOptionName( const std::string &name ) const
+{
+    const auto iter = mMigrateOption.find( name );
+    return iter != mMigrateOption.end() ? iter->second.first : name;
+}
+
+std::string options_manager::migrateOptionValue( const std::string &name, const std::string &val ) const
+{
+    const auto iter = mMigrateOption.find( name );
+    if( iter == mMigrateOption.end() ) {
+        return val;
+    }
+
+    const auto iter_val = iter->second.second.find( val );
+    return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
 bool options_manager::save()
@@ -2144,9 +2194,10 @@ bool options_manager::load_legacy()
 
             if( !sLine.empty() && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
                 int iPos = sLine.find(' ');
-                const std::string loadedvar = sLine.substr(0, iPos);
-                const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
+                const std::string loadedvar = migrateOptionName( sLine.substr( 0, iPos ) );
+                const std::string loadedval = migrateOptionValue( sLine.substr( 0, iPos ), sLine.substr( iPos + 1, sLine.length() ) );
                 // option with values from post init() might get clobbered
+
                 add_retry(loadedvar, loadedval); // stash it until update();
 
                 options[ loadedvar ].setValue( loadedval );

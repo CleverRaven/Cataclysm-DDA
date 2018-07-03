@@ -16,12 +16,14 @@
 #include "translations.h"
 #include "veh_type.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "effect.h"
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"
+#include "vpart_reference.h"
 #include "sounds.h"
 #include "gates.h"
 #include "overmap_location.h"
@@ -476,7 +478,7 @@ void npc::execute_action( npc_action action )
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
-                    add_effect( effect_lying_down, 300, num_bp, false, 1 );
+                    add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
                     if( g->u.sees( *this ) ) {
                         add_msg( _( "%s lies down to sleep." ), name.c_str() );
                     }
@@ -618,21 +620,21 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_follow_embarked: {
-            int p1;
-            vehicle *veh = g->m.veh_at( g->u.pos(), p1 );
+            const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
 
-            if( veh == nullptr ) {
+            if( !vp ) {
                 debugmsg( "Following an embarked player with no vehicle at their location?" );
                 // TODO: change to wait? - for now pause
                 move_pause();
                 break;
             }
+            vehicle *const veh = &vp->vehicle();
 
             // Try to find the last destination
             // This is mount point, not actual position
             point last_dest( INT_MIN, INT_MIN );
-            if( !path.empty() && g->m.veh_at( path[path.size() - 1], p1 ) == veh && p1 >= 0 ) {
-                last_dest = veh->parts[p1].mount;
+            if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
+                last_dest = veh->parts[vp->part_index()].mount;
             }
 
             // Prioritize last found path, then seats
@@ -673,7 +675,7 @@ void npc::execute_action( npc_action action )
                     const npc *who = pt.crew();
                     priority = who && who->getID() == getID() ? 3 : 2;
 
-                } else if( veh->is_inside( p2 ) ) {
+                } else if( vpart_position( *veh, p2 ).is_inside() ) {
                     priority = 1;
                 }
 
@@ -1241,7 +1243,7 @@ npc_action npc::address_player()
             int intense = get_effect_int( effect_catch_up );
             if( intense < 10 ) {
                 say( "<keep_up>" );
-                add_effect( effect_catch_up, 5 );
+                add_effect( effect_catch_up, 5_turns );
                 return npc_pause;
             } else {
                 say( "<im_leaving_you>" );
@@ -1483,7 +1485,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 void npc::move_to( const tripoint &pt, bool no_bashing )
 {
     if( g->m.has_flag( "UNSTABLE", pt ) ) {
-        add_effect( effect_bouldering, 1, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -1561,14 +1563,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    int vpart;
-    vehicle *veh = g->m.veh_at( pos(), vpart );
-    if( veh != nullptr ) {
-        int other_part = -1;
-        const vehicle *oveh = g->m.veh_at( p, other_part );
-        if( abs( veh->velocity ) > 0 &&
-            ( oveh != veh ||
-              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) < 0 ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        const optional_vpart_position ovp = g->m.veh_at( p );
+        if( abs( vp->vehicle().velocity ) > 0 &&
+            ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
+              !ovp.part_with_feature( VPFLAG_BOARDABLE ) ) ) {
             move_pause();
             return;
         }
@@ -1625,9 +1624,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
             doors::close_door( g->m, *this, old_pos );
         }
 
-        int part;
-        vehicle *veh = g->m.veh_at( p, part );
-        if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+        if( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE ) ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1928,25 +1925,23 @@ void npc::find_item()
         // Allow terrain check without sight, because it would cost more CPU than it is worth
         consider_terrain( p );
 
-        int veh_part = -1;
-        const vehicle *veh = g->m.veh_at( p, veh_part );
-        if( veh == nullptr || veh->velocity != 0 || !sees( p ) ) {
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
             continue;
         }
-
-        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
-        if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) ) {
+        if( !cargo || cargo->vehicle().part_flag( cargo->part_index(), locked_string ) ) {
             continue;
         }
 
         static const std::string cargo_locking_string( "CARGO_LOCKING" );
-        if( veh->part_with_feature( veh_part, cargo_locking_string, true ) != -1 ) {
+        if( vp.part_with_feature( cargo_locking_string, true ) ) {
             continue;
         }
 
-        for( const item &it : veh->get_items( veh_part ) ) {
+        for( const item &it : cargo->vehicle().get_items( cargo->part_index() ) ) {
             consider_item( it, p );
         }
     }
@@ -1986,15 +1981,9 @@ void npc::pick_up_item()
         return;
     }
 
-    int veh_part = -1;
-    vehicle *veh = g->m.veh_at( wanted_item_pos, veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, false );
-    }
-
-    const bool has_cargo = veh != nullptr &&
-                           veh_part >= 0 &&
-                           !veh->part_flag( veh_part, "LOCKED" );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
+                VPFLAG_CARGO, false );
+    const bool has_cargo = vp && !vp->vehicle().part_flag( vp->part_index(), "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
@@ -2032,7 +2021,7 @@ void npc::pick_up_item()
 
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
-        picked_up = pick_up_item_vehicle( *veh, veh_part );
+        picked_up = pick_up_item_vehicle( vp->vehicle(), vp->part_index() );
     }
 
     if( picked_up.empty() ) {
@@ -2143,14 +2132,16 @@ void npc::drop_items( int weight, int volume )
              to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
              volume_capacity() / units::legacy_volume_factor );
 
-    int weight_dropped = 0, volume_dropped = 0;
+    int weight_dropped = 0;
+    int volume_dropped = 0;
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
     for( unsigned int i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
-        double wgt_ratio, vol_ratio;
+        double wgt_ratio = 0.0;
+        double vol_ratio = 0.0;
         if( value( it ) == 0 ) {
             wgt_ratio = 99999;
             vol_ratio = 99999;
@@ -2158,7 +2149,8 @@ void npc::drop_items( int weight, int volume )
             wgt_ratio = it.weight() / 1_gram / value( it );
             vol_ratio = it.volume() / units::legacy_volume_factor / value( it );
         }
-        bool added_wgt = false, added_vol = false;
+        bool added_wgt = false;
+        bool added_vol = false;
         for( size_t j = 0; j < rWgt.size() && !added_wgt; j++ ) {
             if( wgt_ratio > rWgt[j].ratio ) {
                 added_wgt = true;

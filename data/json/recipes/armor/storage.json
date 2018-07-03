@@ -36,6 +36,23 @@
     ]
   },
   {
+    "result": "magbandolier",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "gun", 2 ],
+    "time": 25000,
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "leather", 5 ], [ "rag", 5 ] ],
+      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ],
+      [ [ "filament", 40, "LIST" ], [ "cordage", 2, "LIST" ] ]
+    ]
+  },
+  {
     "result": "back_holster",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -260,8 +277,9 @@
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
-      [ [ "rag", 16 ] ],
+      [ [ "rag", 20 ] ],
       [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
+      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "magbandolier", 1 ] ],
       [ [ "plastic_chunk", 2 ] ]
     ]
   },
@@ -335,7 +353,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "fabrication", 1 ],
     "time": 1500,
     "autolearn": true,
     "using": [ [ "adhesive", 3 ] ],
@@ -405,6 +422,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "rag", 6 ] ],
+      [ [ "chestpouch", 2 ] ],
       [ [ "filament", 25, "LIST" ], [ "cordage_short", 2, "LIST" ] ]
     ]
   },
@@ -754,7 +772,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
-      [ [ "leather_pouch", 1 ] ]
+      [ [ "leather_pouch", 5 ] ]
     ]
   }
 ]

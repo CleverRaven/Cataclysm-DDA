@@ -28,11 +28,10 @@
     "id": "chainmail_standard",
     "type": "requirement",
     "//": "Construction of chainmail items",
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [
       [ [ "pliers", -1 ], [ "multitool", -1 ] ],
       [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "cordless_drill", 10 ] ]
     ]
   },
@@ -41,5 +40,11 @@
     "type": "requirement",
     "//": "Soldering metal items",
     "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ]
+  },
+  {
+    "id": "cutting_wire_standard",
+    "type": "requirement",
+    "//": "Cutting wires",
+    "tools": [ [ [ "hacksaw", -1 ], [ "multitool", -1 ], [ "boltcutters", -1 ], [ "toolset", -1 ] ] ]
   }
 ]

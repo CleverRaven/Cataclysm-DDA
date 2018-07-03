@@ -54,15 +54,15 @@ void weather_effect::glare()
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4_turns );
             } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
             }
         } else {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
             } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1 );
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1_turns );
             }
         }
     }
@@ -73,16 +73,16 @@ int get_hourly_rotpoints_at_temp( int temp );
 
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
 {
-    // Ensure food doesn't rot in ice labs, where the
-    // temperature is much less than the weather specifies.
-    tripoint const omt_pos = ms_to_omt_copy( location );
-    oter_id const & oter = overmap_buffer.ter( omt_pos );
-    // TODO: extract this into a property of the overmap terrain
-    if (is_ot_type("ice_lab", oter)) {
-        return 0;
-    }
-    // TODO: maybe have different rotting speed when underground?
+
     time_duration ret = 0;
+    // if underground it ignores weather, using strait underground temperature instead
+    if ( location.z < 0 ) {
+        for( time_point i = start; i < end; i += 1_hours ) {
+            ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( g->get_temperature( location ) ) * 1_turns;
+        }
+        return ret;
+    }
+    // if on- or above-ground it uses progressive weather-determined temperatures at location
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
@@ -497,6 +497,20 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
+static std::string to_string( const weekdays &d )
+{
+    static const std::array<std::string, 7> weekday_names = {{
+            translate_marker( "Sunday" ), translate_marker( "Monday" )
+            translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
+            translate_marker( "Thursday" ), translate_marker( "Friday" )
+            translate_marker( "Saturday" )
+        }
+    };
+    static_assert( static_cast<int>( weekdays::SUNDAY ) == 0,
+                   "weekday_names array is out of sync with weekdays enumeration values" );
+    return _( weekday_names[ static_cast<int>( d ) ].c_str() );
+}
+
 static std::string print_time_just_hour( const time_point &p )
 {
     const int hour = to_hours<int>( time_past_midnight( p ) );
@@ -587,9 +601,9 @@ std::string weather_forecast( point const &abs_sm_pos )
             started_at_night = false;
         }
         if(d > 0 && ((started_at_night && !(d % 2)) || (!started_at_night && d % 2))) {
-            day = string_format( pgettext( "Mon Night", "%s Night" ), c.day_of_week().c_str() );
+            day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
-            day = c.day_of_week();
+            day = to_string( day_of_week( c ) );
         }
         weather_report << string_format(
                            _("%s... %s. Highs of %s. Lows of %s. "),
@@ -714,7 +728,7 @@ int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 }
 
 bool warm_enough_to_plant() {
-    return g->get_temperature() >= 50; // semi-appropriate temperature for most plants
+    return g->get_temperature( g-> u.pos() ) >= 50; // semi-appropriate temperature for most plants
 }
 
 ///@}

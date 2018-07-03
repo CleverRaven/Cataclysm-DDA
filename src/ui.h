@@ -82,6 +82,9 @@ struct uimenu_entry {
 class ui_container
 {
     public:
+        virtual ~ui_container() = default;
+
+    public:
         int w_x;
         int w_y;
         int w_width;

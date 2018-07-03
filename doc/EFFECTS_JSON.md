@@ -129,7 +129,7 @@ Descriptions also have a second field that can act as a modifier:
 ```
 If "part_descs" == true then descriptions are preceded by "Your X", where X is the body part name, meaning
 the prior descriptions would appear as "Your left arm ABC".
- 
+
 Descriptions can also have a reduced form:
 ```C++
     "reduced_desc": ["XYZ"]
@@ -142,7 +142,7 @@ Descriptions can also have a reduced form:
 ```
 This is the description that will be used if an effect is reduced. By default this will use the normal description
 if it doesn't exist.
- 
+
 ### Rating
 ```C++
     "rating": "good"        - Defaults to "neutral" if missing

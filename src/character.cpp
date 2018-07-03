@@ -111,7 +111,11 @@ static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
-Character::Character() : Creature(), visitable<Character>()
+Character::Character() : Creature(), visitable<Character>(), hp_cur(
+{{
+        0
+    }
+} ), hp_max( {{0}} )
 {
     str_max = 0;
     dex_max = 0;
@@ -196,7 +200,7 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += encumb( bp_eyes );
+    dispersion += encumb( bp_eyes ) / 2;
 
     return std::max( dispersion, 0 );
 }
@@ -474,10 +478,10 @@ bool Character::move_effects(bool attacking)
     return true;
 }
 
-void Character::add_effect( const efftype_id &eff_id, int dur, body_part bp,
-                            bool permanent, int intensity, bool force )
+void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+                            bool permanent, int intensity, bool force, bool deferred )
 {
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 void Character::process_turn()
@@ -523,7 +527,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() ) {
+    if( is_blind() || in_sleep_state() ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
@@ -1050,7 +1054,7 @@ units::volume Character::volume_capacity() const
     return volume_capacity_reduced_by( 0 );
 }
 
-units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
+units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         return units::volume_max;
@@ -1442,12 +1446,13 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
 {
-    std::array<encumbrance_data, num_bp> ret;
 
-    item_encumb( ret, new_item );
-    mut_cbm_encumb( ret );
+    std::array<encumbrance_data, num_bp> enc;
 
-    return ret;
+    item_encumb( enc, new_item );
+    mut_cbm_encumb( enc );
+
+    return enc;
 }
 
 units::mass Character::get_weight() const
@@ -1475,10 +1480,12 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
     return calc_encumbrance( new_item );
 }
 
-using layer_data = std::array<int, MAX_CLOTHING_LAYER>;
+int Character::extraEncumbrance( const layer_level level, const int bp ) const
+{
+    return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+}
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 std::array<layer_data, num_bp> &layers,
                  const item &it, bool power_armor )
 {
     const auto item_layer = it.get_layer();
@@ -1494,11 +1501,9 @@ void layer_item( std::array<encumbrance_data, num_bp> &vals,
             continue;
         }
 
-        int &this_layer = layers[bp][item_layer];
-        this_layer = std::max( this_layer, layering_encumbrance );
+        vals[bp].layer( static_cast<layer_level>( item_layer ), layering_encumbrance );
 
         vals[bp].armor_encumbrance += armorenc;
-        vals[bp].layer_penalty += layering_encumbrance;
     }
 }
 
@@ -1510,6 +1515,26 @@ bool Character::is_wearing_active_power_armor() const
         }
     }
     return false;
+}
+
+void layer_details::reset() {
+    *this = layer_details();
+}
+
+// The stacking penalty applies by doubling the encumbrance of
+// each item except the highest encumbrance one.
+// So we add them together and then subtract out the highest.
+int layer_details::layer( const int encumbrance ) {
+    pieces.push_back( encumbrance );
+
+    int current = total;
+    if( encumbrance > max ) {
+        total += max;   // *now* the old max is counted, just ignore the new max
+        max = encumbrance;
+    } else {
+        total += encumbrance;
+    }
+    return total - current;
 }
 
 /*
@@ -1529,35 +1554,28 @@ bool Character::is_wearing_active_power_armor() const
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const
+void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
+                             const item &new_item ) const
 {
-    // The highest encumbrance of any one item on the layer.
-    std::array<layer_data, num_bp> layers = {{
-        {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}
-    }};
+
+    // reset all layer data
+    vals = std::array<encumbrance_data, num_bp>();
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto& w : worn ) {
-        layer_item( vals, layers, w, power_armored );
+        layer_item( vals, w, power_armored );
     }
 
     if( !new_item.is_null() ) {
-        layer_item( vals, layers, new_item, power_armored );
+        layer_item( vals, new_item, power_armored );
     }
 
-    // The stacking penalty applies by doubling the encumbrance of
-    // each item except the highest encumbrance one.
-    // So we add them together and then subtract out the highest.
+    // make sure values are sane
     for( const body_part bp : all_body_parts ) {
-        for( size_t j = 0; j < MAX_CLOTHING_LAYER; j++ ) {
-            vals[bp].layer_penalty -= std::max( 0, layers[bp][j] );
-        }
-    }
+        encumbrance_data &elem = vals[bp];
 
-    // Make sure the values are sane
-    for( auto &elem : vals ) {
         elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
-        elem.layer_penalty = std::max( 0, elem.layer_penalty );
+
         // Add armor and layering penalties for the final values
         elem.encumbrance += elem.armor_encumbrance + elem.layer_penalty;
     }
@@ -1688,13 +1706,13 @@ int Character::get_int_bonus() const
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
-    return std::max( ( 20.0 - get_dex() ) * 2.5, 0.0 );
+    return std::max( ( 20.0 - get_dex() ) * 0.5, 0.0 );
 }
 
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 2.0, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 1.0, 0.0 );
 }
 
 int Character::get_healthy() const
@@ -2532,6 +2550,16 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
+const social_modifiers Character::get_mutation_social_mods() const
+{
+    social_modifiers mods;
+    for( const mutation_branch *mut : cached_mutations ) {
+        mods += mut->social_mods;
+    }
+
+    return mods;
+}
+
 template <float mutation_branch::*member>
 float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
 {
@@ -2579,7 +2607,13 @@ float Character::mutation_value( const std::string &val ) const
 float Character::healing_rate( float at_rest_quality ) const
 {
     // @todo: Cache
-    float awake_rate = mutation_value( "healing_awake" );
+    float heal_rate;
+    if( !is_npc() ){
+        heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );
+    } else {
+        heal_rate = get_option< float >( "NPC_HEALING_RATE" );
+    }
+    float awake_rate = heal_rate * mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
@@ -2589,7 +2623,7 @@ float Character::healing_rate( float at_rest_quality ) const
     }
     float asleep_rate = 0.0f;
     if( at_rest_quality > 0.0f ) {
-        asleep_rate = at_rest_quality * ( 0.01f + mutation_value( "healing_resting" ) );
+        asleep_rate = at_rest_quality * heal_rate * ( 1.0f + mutation_value( "healing_resting" ) );
     }
     if( asleep_rate > 0.0f ) {
         final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );

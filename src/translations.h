@@ -34,16 +34,23 @@
 #include <libintl.h>
 #include <clocale>
 
+#if defined(__GNUC__)
+#  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
+#else
+#  define ATTRIBUTE_FORMAT_ARG(a)
+#endif
+
+const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 inline const char *_( const char *msg )
 {
     return ( msg[0] == '\0' ) ? msg : gettext( msg );
 }
 
-const char *pgettext( const char *context, const char *msgid );
+const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 // same as pgettext, but supports plural forms like ngettext
 const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
-                       unsigned long int n );
+                       unsigned long int n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 #else // !LOCALIZE
 

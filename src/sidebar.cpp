@@ -10,6 +10,7 @@
 #include "weather.h"
 #include "item.h"
 #include "translations.h"
+#include "vpart_position.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "martialarts.h"
@@ -158,8 +159,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             if( p.worn_with_flag( "SPLINT", bp ) ) {
                 static const efftype_id effect_mending( "mending" );
                 const auto &eff = p.get_effect( effect_mending, bp );
-                int mend_perc = static_cast<int>( eff.is_null() ? 0.0f :
-                                                  ( static_cast<float>( 100 * eff.get_duration() ) / eff.get_max_duration() ) );
+                const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 if( is_self_aware ) {
                     limb = string_format( "=%2d%%=", mend_perc );
@@ -302,7 +302,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     const auto style_color = is_armed() ? c_red : c_blue;
     const auto &cur_style = style_selected.obj();
     if( cur_style.force_unarmed || cur_style.weapon_valid( weapon ) ) {
-        style = cur_style.name;
+        style = _( cur_style.name.c_str() );
     } else if( is_armed() ) {
         style = _( "Normal" );
     } else {
@@ -335,7 +335,8 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    int current_bp_extreme = 0, conv_bp_extreme = 0;
+    int current_bp_extreme = 0;
+    int conv_bp_extreme = 0;
     for( int i = 0; i < num_bp ; i++ ) {
         if( abs( temp_cur[i] - BODYTEMP_NORM ) > abs( temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
             current_bp_extreme = i;
@@ -465,7 +466,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
-        veh = g->m.veh_at( pos() );
+        veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );

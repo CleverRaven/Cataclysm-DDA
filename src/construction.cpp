@@ -29,6 +29,7 @@
 #include "cata_utility.h"
 #include "uistate.h"
 #include "string_input_popup.h"
+#include "vpart_position.h"
 
 #include <algorithm>
 #include <map>
@@ -83,6 +84,10 @@ static bool player_can_build( player &p, const inventory &pinv, const std::strin
 static void place_construction( const std::string &desc );
 
 std::vector<construction> constructions;
+
+// Color standarization for string streams
+static const std::string color_title = "<color_c_light_red>"; //color for titles
+static const std::string color_data = "<color_c_cyan>"; //color for data parts
 
 void standardize_construction_times( int const time )
 {
@@ -399,25 +404,51 @@ void construction_menu()
                         std::vector<std::string> current_buffer;
                         std::ostringstream current_line;
 
-                        // display result only if more than one step.
+                        // display final product name only if more than one step.
                         // Assume single stage constructions should be clear
-                        // in their description what their result is.
+                        // in their title what their result is.
                         if( !current_con->post_terrain.empty() && options.size() > 1 ) {
                             //also print out stage number when multiple stages are available
-                            current_line << _( "Stage #" ) << stage_counter;
-                            current_buffer.push_back( current_line.str() );
-                            current_line.str( "" );
+                            current_line << _( "Stage/Variant #" ) << stage_counter << ": ";
 
+                            // print name of the result of each stage
                             std::string result_string;
                             if( current_con->post_is_furniture ) {
                                 result_string = furn_str_id( current_con->post_terrain ).obj().name();
                             } else {
                                 result_string = ter_str_id( current_con->post_terrain ).obj().name();
                             }
-                            current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
-                                             _( "Result: %s" ), result_string.c_str() ) << "</color>";
+                            current_line << color_title << result_string.c_str() << "</color>";
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
+                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
+                                                   folded_result_string.end() );
+                            
+                            // display description of the result for multi-stages
+                            current_line.str( "" );
+                            current_line << _( "Result: " ) << color_data;
+                            if( current_con->post_is_furniture ) {
+                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
+                            } else {
+                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
+                            }
+                            current_line << "</color>";
+                            folded_result_string = foldstring( current_line.str(), available_window_width );
+                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
+                                                   folded_result_string.end() );
+                            
+                        // display description of the result for single stages
+                        } else if( !current_con->post_terrain.empty() ) {
+                            current_line.str( "" );
+                            current_line << _( "Result: " ) << color_data;
+                            if( current_con->post_is_furniture ) {
+                                current_line << furn_str_id( current_con->post_terrain ).obj().description;
+                            } else {
+                                current_line << ter_str_id( current_con->post_terrain ).obj().description;
+                            }
+                            current_line << "</color>";
+                            std::vector<std::string> folded_result_string = foldstring( current_line.str(),
+                                available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
@@ -427,7 +458,7 @@ void construction_menu()
                         if( current_con->required_skills.empty() ) {
                             current_line << _( "N/A" );
                         } else {
-                            current_line <<
+                            current_line << _( "Required skills: " ) <<
                                 enumerate_as_string( current_con->required_skills.begin(),
                                                      current_con->required_skills.end(),
                                                      []( const std::pair<skill_id, int> &skill ) {
@@ -438,7 +469,7 @@ void construction_menu()
                                 } else if( s_lvl < skill.second * 1.25 ) {
                                     col = c_light_blue;
                                 } else {
-                                    col = c_white;
+                                    col = c_green;
                                 }
 
                                 std::string color_s = "<color_" + string_from_color( col ) + ">";
@@ -459,16 +490,19 @@ void construction_menu()
                             } else {
                                 require_string = ter_str_id( current_con->pre_terrain ).obj().name();
                             }
-                            current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
-                                             _( "Requires: %s" ), require_string.c_str() ) << "</color>";
+                            current_line << _( "Requires: " ) << color_data 
+                                << require_string.c_str() << "</color>";
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
                         if( !current_con->pre_note.empty() ) {
+                            current_line.str( "" ); 
+                            current_line << _( "Annotation: " ) << color_data 
+                                << _( current_con->pre_note.c_str() ) << "</color>";
                             std::vector<std::string> folded_result_string =
-                                foldstring( _( current_con->pre_note.c_str() ), available_window_width );
+                                foldstring( current_line.str(), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
@@ -817,7 +851,7 @@ bool construct::check_empty( const tripoint &p )
 {
     return ( g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
              g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
-             g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL );
+             g->m.i_at( p ).empty() && !g->m.veh_at( p ) );
 }
 
 inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
@@ -1298,27 +1332,10 @@ int construction::adjusted_time() const
 
 std::string construction::get_time_string() const
 {
-    const int turns = adjusted_time() / 100;
-    std::string text;
-    if( turns < MINUTES( 1 ) ) {
-        const int seconds = std::max( 1, turns * 6 );
-        text = string_format( ngettext( "%d second", "%d seconds", seconds ), seconds );
-    } else {
-        const int minutes = ( turns % HOURS( 1 ) ) / MINUTES( 1 );
-        const int hours = turns / HOURS( 1 );
-        if( hours == 0 ) {
-            text = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
-        } else if( minutes == 0 ) {
-            text = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
-        } else {
-            const std::string h = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
-            const std::string m = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
-            //~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
-            text = string_format( _( "%1$s and %2$s" ), h.c_str(), m.c_str() );
-        }
-    }
-    text = string_format( _( "Time to complete: %s" ), text.c_str() );
-    return text;
+    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
+    std::ostringstream time_text;
+    time_text << _( "Time to complete: " ) << color_data << to_string( turns ) << "</color>";
+    return time_text.str();
 }
 
 std::vector<std::string> construction::get_folded_time_string( int width ) const

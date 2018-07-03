@@ -10,11 +10,11 @@
 
 #include <string>
 
-void on_load_test( npc &who, calendar from, calendar to )
+void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = from;
+    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
     who.on_unload();
-    calendar::turn = to;
+    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + to );
     who.on_load();
 }
 
@@ -56,7 +56,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
         npc test_npc = model_npc;
         const int five_min_ticks = 2;
-        on_load_test( test_npc, 0, MINUTES( 5 * five_min_ticks ) );
+        on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
         const int margin = 2;
 
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
@@ -68,8 +68,8 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
     SECTION( "Awake for 2 days, gaining hunger/thirst/fatigue" ) {
         npc test_npc = model_npc;
-        const int five_min_ticks = HOURS( 2 * 24 ) / MINUTES( 5 );
-        on_load_test( test_npc, 0, MINUTES( 5 * five_min_ticks ) );
+        const auto five_min_ticks = 2_days / 5_minutes;
+        on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
 
         const int margin = 20;
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
@@ -81,16 +81,16 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
     SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
         npc test_npc = model_npc;
-        test_npc.add_effect( efftype_id( "sleep" ), HOURS( 6 ) );
+        test_npc.add_effect( efftype_id( "sleep" ), 6_hours );
         test_npc.set_fatigue( 1000 );
-        const int five_min_ticks = HOURS( 6 ) / MINUTES( 5 );
+        const auto five_min_ticks = 6_hours / 5_minutes;
         /*
         // Fatigue regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
         const int expected_fatigue_change =
-            ((1.0f + 2.0f) / 2.0f * HOURS(2) / MINUTES(5) ) +
-            (2.0f * HOURS(6 - 2) / MINUTES(5));
+            ((1.0f + 2.0f) / 2.0f * 2_hours / 5_minutes ) +
+            (2.0f * (6_hours - 2_hours) / 5_minutes);
         */
-        on_load_test( test_npc, 0, MINUTES( 5 * five_min_ticks ) );
+        on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
 
         const int margin = 10;
         const numeric_interval<int> hunger( five_min_ticks / 8, margin, margin );
@@ -109,9 +109,10 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         npc on_load_npc = model_npc;
         npc iterated_npc = model_npc;
         const int five_min_ticks = 2;
-        on_load_test( on_load_npc, 0, MINUTES( 5 * five_min_ticks ) );
-        for( int turn = 0; turn < MINUTES( 5 * five_min_ticks ); turn++ ) {
-            iterated_npc.update_body( turn, turn + 1 );
+        on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
+        for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
+            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
+                                      calendar::time_of_cataclysm + turn + 1_turns );
         }
 
         const int margin = 2;
@@ -125,10 +126,11 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
     SECTION( "Awake for 6 hours, gaining hunger/thirst/fatigue" ) {
         npc on_load_npc = model_npc;
         npc iterated_npc = model_npc;
-        const int five_min_ticks = HOURS( 6 ) / MINUTES( 5 );
-        on_load_test( on_load_npc, 0, MINUTES( 5 * five_min_ticks ) );
-        for( int turn = 0; turn < MINUTES( 5 * five_min_ticks ); turn++ ) {
-            iterated_npc.update_body( turn, turn + 1 );
+        const auto five_min_ticks = 6_hours / 5_minutes;
+        on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
+        for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
+            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
+                                      calendar::time_of_cataclysm + turn + 1_turns );
         }
 
         const int margin = 10;

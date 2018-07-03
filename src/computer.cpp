@@ -86,7 +86,7 @@ void computer::add_option( const computer_option &opt )
     options.emplace_back( opt );
 }
 
-void computer::add_option(std::string opt_name, computer_action action,
+void computer::add_option(const std::string &opt_name, computer_action action,
                           int Security)
 {
     add_option( computer_option( opt_name, action, Security ) );
@@ -749,7 +749,7 @@ INITIATING STANDARD TREMOR TEST..."));
     case COMPACT_AMIGARA_START:
         g->events.add( EVENT_AMIGARA, calendar::turn + 10_turns );
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
-            g->u.add_effect( effect_amigara, 20);
+            g->u.add_effect( effect_amigara, 2_minutes );
         }
         // Disable this action to prevent further amigara events, which would lead to
         // further amigara monster, which would lead to further artifacts.
@@ -758,7 +758,7 @@ INITIATING STANDARD TREMOR TEST..."));
 
     case COMPACT_STEMCELL_TREATMENT:
         g->u.moves -= 70;
-        g->u.add_effect( effect_stemcell_treatment, 120);
+        g->u.add_effect( effect_stemcell_treatment, 12_minutes );
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
@@ -831,10 +831,8 @@ of pureed bone & LSD."));
                     print_error(_("ERROR: Please place sample in centrifuge."));
                 } else if (g->m.i_at(dest).size() > 1) {
                     print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                } else if (g->m.i_at(dest)[0].typeId() != "vacutainer") {
-                    print_error(_("ERROR: Please use blood-contained samples."));
                 } else if (g->m.i_at(dest)[0].contents.empty()) {
-                    print_error(_("ERROR: Blood draw kit is empty."));
+                    print_error(_("ERROR: Please only use container with blood sample."));
                 } else if (g->m.i_at(dest)[0].contents.front().typeId() != "blood") {
                     print_error(_("ERROR: Please only use blood samples."));
                 } else { // Success!
@@ -1324,7 +1322,7 @@ void computer::activate_failure(computer_failure_type fail)
 
     case COMPFAIL_AMIGARA:
         g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
-        g->u.add_effect( effect_amigara, 20);
+        g->u.add_effect( effect_amigara, 2_minutes );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         remove_option( COMPACT_AMIGARA_START );

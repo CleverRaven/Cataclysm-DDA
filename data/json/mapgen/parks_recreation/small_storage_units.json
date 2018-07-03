@@ -85,10 +85,8 @@
         { "item": "jackets", "x": 2, "y": 11, "chance": 30 },
         { "item": "jackets", "x": 19, "y": 9, "chance": 10 },
         { "item": "shoes", "x": 20, "y": 21, "chance": 25 },
-        { "item": "shoes", "x": 1, "y": 19, "chance": 25 }
-      ],
-      "add": [
-        { "item": "holybook_bible1", "x": 22, "y": 11 }
+        { "item": "shoes", "x": 1, "y": 19, "chance": 25 },
+        { "item": "homebooks", "x": 22, "y": 11, "chance": 100 }
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 21, "y": 19, "chance": 6 },

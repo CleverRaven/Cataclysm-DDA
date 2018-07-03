@@ -50,7 +50,7 @@ bool string_id<Trait_group>::is_valid() const
 }
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                        std::string mod_type, bool active, std::string type_key)
+                        const std::string &mod_type, bool active, std::string type_key)
 {
     int val = j.get_int(mod_type, 0);
     if (val != 0) {
@@ -58,7 +58,7 @@ static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::s
     }
 }
 
-static void load_mutation_mods(JsonObject &jsobj, std::string member, std::unordered_map<std::pair<bool, std::string>, int> &mods)
+static void load_mutation_mods(JsonObject &jsobj, const std::string &member, std::unordered_map<std::pair<bool, std::string>, int> &mods)
 {
     if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);
@@ -183,6 +183,15 @@ static mut_attack load_mutation_attack( JsonObject &jo )
     return ret;
 }
 
+static social_modifiers load_mutation_social_mods( JsonObject &jo )
+{
+    social_modifiers ret;
+    jo.read( "lie", ret.lie );
+    jo.read( "persuade", ret.persuade );
+    jo.read( "intimidate", ret.intimidate );
+    return ret;
+}
+
 void mutation_branch::load( JsonObject &jsobj )
 {
     const trait_id id( jsobj.get_string( "id" ) );
@@ -228,7 +237,7 @@ void mutation_branch::load( JsonObject &jsobj )
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
         auto pair = vr.next_array();
-        new_mut.vitamin_rates[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        new_mut.vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ), time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
     new_mut.healing_awake = jsobj.get_float( "healing_awake", 0.0f );
@@ -243,6 +252,11 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.fatigue_regen_modifier = jsobj.get_float( "fatigue_regen_modifier", 0.0f );
 
     new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
+
+    if( jsobj.has_object( "social_modifiers" ) ) {
+        JsonObject jo = jsobj.get_object( "social_modifiers" );
+        new_mut.social_mods = load_mutation_social_mods( jo );
+    }
 
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state

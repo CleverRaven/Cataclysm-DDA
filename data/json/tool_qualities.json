@@ -160,5 +160,10 @@
     "type": "tool_quality",
     "id": "PULL",
     "name": "bullet pulling"
+  },
+  {
+    "type": "tool_quality",
+    "id": "ANVIL",
+    "name": "anvil"
   }
 ]

@@ -238,7 +238,7 @@ turret_data::status turret_data::query() const
 void turret_data::prepare_fire( player &p )
 {
     // prevent turrets from shooting their own vehicles
-    p.add_effect( effect_on_roof, 1 );
+    p.add_effect( effect_on_roof, 1_turns );
 
     // turrets are subject only to recoil_vehicle()
     cached_recoil = p.recoil;
@@ -512,6 +512,10 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     turret_data gun = turret_query( pt );
 
     int shots = 0;
+
+    if( gun.query() != turret_data::status::ready ) {
+        return shots;
+    }
 
     // The position of the vehicle part.
     tripoint pos = global_part_pos3( pt );
