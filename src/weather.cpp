@@ -73,16 +73,16 @@ int get_hourly_rotpoints_at_temp( int temp );
 
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
 {
-    // Ensure food doesn't rot in ice labs, where the
-    // temperature is much less than the weather specifies.
-    tripoint const omt_pos = ms_to_omt_copy( location );
-    oter_id const & oter = overmap_buffer.ter( omt_pos );
-    // TODO: extract this into a property of the overmap terrain
-    if (is_ot_type("ice_lab", oter)) {
-        return 0;
-    }
-    // TODO: maybe have different rotting speed when underground?
+
     time_duration ret = 0;
+    // if underground it ignores weather, using strait underground temperature instead
+    if ( location.z < 0 ) {
+        for( time_point i = start; i < end; i += 1_hours ) {
+            ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( g->get_temperature( location ) ) * 1_turns;
+        }
+        return ret;
+    }
+    // if on- or above-ground it uses progressive weather-determined temperatures at location
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
@@ -728,7 +728,7 @@ int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 }
 
 bool warm_enough_to_plant() {
-    return g->get_temperature() >= 50; // semi-appropriate temperature for most plants
+    return g->get_temperature( g-> u.pos() ) >= 50; // semi-appropriate temperature for most plants
 }
 
 ///@}

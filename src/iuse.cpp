@@ -2585,7 +2585,7 @@ static bool pry_nails( player &p, const ter_id &type, const int dirx, const int 
     int nails = 0;
     int boards = 0;
     ter_id newter;
-    if( type == t_fence_h || type == t_fence_v ) {
+    if( type == t_fence ) {
         nails = 6;
         boards = 3;
         newter = t_fence_post;
@@ -3510,7 +3510,7 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
         }
     } else {
         if( !t ) {
-            for( auto && pt : g->m.points_in_radius( pos, 1, 0 ) ) {
+            for( auto &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
                 const int density = 1 + one_in( 3 ) + one_in( 5 );
                 g->m.add_field( pt, fd_fire, density );
             }
@@ -3886,6 +3886,53 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::solarpack( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
+        p->add_msg_if_player(
+            _( "You have no cable charging system to plug it in, so you leave it alone." ) );
+        return 0;
+    } else if( !p->has_active_bionic( bionic_id( "bio_cable" ) ) ) {  // when OFF it takes no effect
+        p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
+    }
+
+    if( it->is_armor() && !( p->is_worn( *it ) ) ) {
+        p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before you can unfold it." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    // no doubled sources of power
+    if( p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" ) ) {
+        p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    p->add_msg_if_player( _( "You unfold solar array from the pack and plug it in." ) );
+
+    if( it->typeId() == "solarpack" ) {
+        it->convert( "solarpack_on" );
+    } else {
+        it->convert( "q_solarpack_on" );
+    }
+    return 0;
+}
+
+int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_worn( *it ) ) {  // folding when not worn
+        p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
+    } else {
+        p->add_msg_if_player( _( "You unplug and fold your portable solar array into the pack." ) );
+    }
+
+    if( it->typeId() == "solarpack_on" ) {
+        it->convert( "solarpack" );
+    } else {
+        it->convert( "q_solarpack" );
+    }
+    return 0;
+}
+
 int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
@@ -4042,8 +4089,13 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         return 0;
     } else {
         int time = 20000; // 20 minutes per
-        p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
-                              it->tname().c_str() );
+        if( it->ammo_remaining() > 0 ) {
+            p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
+                                  it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
+                                  it->tname().c_str() );
+        }
         p->assign_activity( activity_id( "ACT_VIBE" ), time, -1, p->get_item_position( it ),
                             "de-stressing" );
     }
@@ -4312,7 +4364,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         moves = 200;
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = 500;
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+    } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
                ter == t_window_bars || ter == t_reb_cage ) {
         moves = 1000;
@@ -4364,7 +4416,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint &pos )
         moves = 10000;
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = 30000;
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+    } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_reb_cage ) {
         moves = 60000;
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
@@ -4548,7 +4600,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint &pos )
         g->m.ter_set( dirx, diry, t_chaingate_c );
         sounds::sound( dirp, 5, _( "Gachunk!" ) );
         g->m.spawn_item( p->posx(), p->posy(), "scrap", 3 );
-    } else if( g->m.ter( dirx, diry ) == t_chainfence_v || g->m.ter( dirx, diry ) == t_chainfence_h ) {
+    } else if( g->m.ter( dirx, diry ) == t_chainfence ) {
         p->moves -= 500;
         g->m.ter_set( dirx, diry, t_chainfence_posts );
         sounds::sound( dirp, 5, _( "Snick, snick, gachunk!" ) );
@@ -4910,6 +4962,16 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 }
             }
             break;
+
+            case AEA_STAMINA_EMPTY:
+                p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
+                p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
+                break;
+
+            case AEA_FUN:
+                p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
+                p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
+                break;
 
             case AEA_SPLIT: // TODO
                 break;
@@ -7318,7 +7380,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         }
         const optional_vpart_position vp = g->m.veh_at( posp );
         auto ter = g->m.ter( posp );
-        if( !vp && ter != t_chainfence_h && ter != t_chainfence_v ) {
+        if( !vp && ter != t_chainfence ) {
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return 0;
         } else {
@@ -7447,10 +7509,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     if( it->has_flag( "THERMOMETER" ) ) {
         if( it->typeId() == "thermometer" ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                                  print_temperature( g->get_temperature() ).c_str() );
+                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( g->get_temperature() ).c_str() );
+                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {
@@ -7494,7 +7556,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                g->get_temperature() ).c_str() );
+                g->get_temperature( g->u.pos() ) ).c_str() );
     }
 
     return 0;

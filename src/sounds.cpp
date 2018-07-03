@@ -51,6 +51,7 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_deaf( "deaf" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
@@ -295,10 +296,11 @@ void sounds::process_sound_markers( player *p )
         bool slept_through = p->has_effect( effect_slept_through_alarm );
         // See if we need to wake someone up
         if( p->has_effect( effect_sleep ) ) {
-            if( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
+            if( ( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
                      p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                 ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
-                ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) {
+                ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
+                !p->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
@@ -959,8 +961,7 @@ void sfx::do_footstep()
             ter_str_id( "t_sewage" ),
         };
         static std::set<ter_str_id> const chain_fence = {
-            ter_str_id( "t_chainfence_h" ),
-            ter_str_id( "t_chainfence_v" ),
+            ter_str_id( "t_chainfence" ),
         };
         if( !g->u.wearing_something_on( bp_foot_l ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );

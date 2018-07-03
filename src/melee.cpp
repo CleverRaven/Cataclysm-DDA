@@ -137,16 +137,41 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     const float stat_factor = dex_cur / 2.0f
         + get_skill_level( skill_melee )
         + ( 64.0f / std::max( str_cur, 4 ) );
-    const float material_factor = shield.chip_resistance();
+
+    float material_factor;
+
+    itype_id weak_comp;
+    itype_id big_comp = "null";
+    // Fragile items that fall apart easily when used as a weapon due to poor construction quality
+    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
+        const float fragile_factor = 6;
+        int weak_chip = INT_MAX;
+
+        // Items that should have no bearing on durability
+        const std::set<itype_id> blacklist = { "rag",
+                                               "leather",
+                                               "fur" };
+
+        for( auto &comp : shield.components ) {
+            if( blacklist.count( comp.typeId() ) <= 0 ) {
+                if( weak_chip > comp.chip_resistance() ) {
+                    weak_chip = comp.chip_resistance();
+                    weak_comp = comp.typeId();
+                }
+            }
+            if( comp.volume() > item::find_type( big_comp )->volume ) {
+                big_comp = comp.typeId();
+            }
+        }
+        material_factor = ( weak_chip < INT_MAX ? weak_chip : shield.chip_resistance() ) / fragile_factor;
+    } else {
+        material_factor = shield.chip_resistance();
+    }
     int damage_chance = static_cast<int>( stat_factor * material_factor / wear_multiplier );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
     if( shield.has_flag( "DURABLE_MELEE" ) ) {
         damage_chance *= 4;
-    }
-    // FRAGILE_MELEE items are very fragile and likely start falling apart pretty quickly if used in combat
-    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
-        damage_chance = std::min( damage_chance / 4, 5 );
     }
 
     if( damage_chance > 0 && !one_in(damage_chance) ) {
@@ -162,10 +187,6 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
-                            _("<npcname>'s %s is destroyed by the blow!"),
-                            str.c_str());
-
     // Dump its contents on the ground
     // Destroy irremovable mods, if any
 
@@ -179,7 +200,36 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         g->m.add_item_or_charges( pos(), elem );
     }
 
+    // Preserve item temporarily for component breakdown
+    item temp = shield;
+
     remove_item( shield );
+
+    // Breakdown fragile weapons into components
+    if( temp.has_flag( "FRAGILE_MELEE" ) && !temp.components.empty() ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
+                                      _( "<npcname>'s %s breaks apart!" ),
+                                      str.c_str() );
+
+        for( auto &comp : temp.components ) {
+            int break_chance = comp.typeId() == weak_comp ? 2 : 8;
+
+            if( one_in( break_chance ) ) {
+                add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
+                continue;
+            }
+
+            if( comp.typeId() == big_comp && !is_armed() ) {
+                wield( comp );
+            } else {
+                g->m.add_item_or_charges( pos(), comp );
+            }
+        }
+    } else {
+        add_msg_player_or_npc( m_bad, _( "Your %s is destroyed by the blow!" ),
+                                      _( "<npcname>'s %s is destroyed by the blow!" ),
+                                      str.c_str() );
+    }
 
     return true;
 }
@@ -1204,7 +1254,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
             add_msg_if_player(m_good, _("You have learned %s from extensive practice with the CQB Bionic."),
-                       style_selected.obj().name.c_str());
+                       _(style_selected.obj().name.c_str()));
         }
     }
 }

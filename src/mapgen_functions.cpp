@@ -1325,42 +1325,36 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     switch ( num_dirs ) {
         case 4: // 4-way intersection
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-^-x--x-.########.-x--x-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-^-x^...######...^x-^-^\n\
-^-^X^-............-^X^-^\n\
-XxX^................^XxX\n\
-^-^..................^-^\n\
+.DD^^DD^.######.^DD^^DD.\n\
+DD^^DD^..######..^DD^^DD\n\
+D^^DD^....####....^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
+D^....................^D\n\
 ........................\n\
-###......######......###\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-###......######......###\n\
 ........................\n\
-^-^..................^-^\n\
-XxX^................^XxX\n\
-^-^X^-............-^X^-^\n\
-^-^-x^...######...^x-^-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-x--x-.########.-x--x-^\n\
-.^X^^X^.########.^X^^X^.",
-                    mapf::ter_bind( ". # ^ - X x |",
+##........####........##\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+##........####........##\n\
+........................\n\
+........................\n\
+D^....................^D\n\
+DD^..................^DD\n\
+^DD^................^DD^\n\
+^^DD^..............^DD^^\n\
+D^^DD^....####....^DD^^D\n\
+DD^^DD^..######..^DD^^DD\n\
+.DD^^DD^.######.^DD^^DD.",
+                    mapf::ter_bind( ". # ^ D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_tie,
-                        t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
-                        f_null,
-                        f_null,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ D",
                         f_null,
                         f_null,
                         f_null,
@@ -1368,39 +1362,41 @@ Xx-^^X^.########.^X^^-xX\n\
             break;
         case 3: // tee
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-^-x--x-.########.-x--x-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-^-x^...######...^x-^-^\n\
-^-^X^-............-^X^-^\n\
-XxX^................^XxX\n\
-^-^..................^-^\n\
+.DD^^DD^.######.^DD^^DD.\n\
+DD^^DD^..######..^DD^^DD\n\
+D^^DD^....####....^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
+D^....................^D\n\
 ........................\n\
-###......######......###\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-###......######......###\n\
 ........................\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
+##........####........##\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+##........####........##\n\
+........................\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
 XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
 XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
 ........................",
-                    mapf::ter_bind( ". # ^ - X x |",
+                    mapf::ter_bind( ". # ^ | X x / D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
+                        t_railroad_tie_d,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ | X x / D",
+                        f_null,
                         f_null,
                         f_null,
                         f_null,
@@ -1412,82 +1408,74 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                     mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-^\n\
-.^X^^X^.########.^X^^-xX\n\
-.^X^^X^..######...^x-^-^\n\
-.-x--x-...........-^X^-^\n\
-.^X^^X^.............^XxX\n\
-.^X^^X^..............^-^\n\
-.-x--x-.................\n\
-.^X^^X^..######......###\n\
-.^X^^X^.########....####\n\
-.-x--x-.########....####\n\
-.^X^^X^.########....####\n\
-.^X^^X^.########....####\n\
-.-x--x-.########....####\n\
-.^X^^X^.########....####\n\
-.^X^^X^..######......###\n\
-.-X--X-.................\n\
-..^X^^X-^^-^^-^^-^^-^^-^\n\
-##.^X^-xXXxXXxXXxXXxXXxX\n\
-###.-x^-^^-^^-^^-^^-^^-^\n\
-####.^X-^^-^^-^^-^^-^^-^\n\
-#####.^XXXxXXxXXxXXxXXxX\n\
-######.-^^-^^-^^-^^-^^-^\n\
-######..................",
-                    mapf::ter_bind( ". # ^ - X x |",
+.^DD^^DD^.......^DD^^DD^\n\
+#.^DD^^DD^.......^DD^^DD\n\
+##.^DD^^DD^.......^DD^^D\n\
+###.^DD^^DD^.......^DD^^\n\
+####.^DD^^DD^.......^DD^\n\
+#####.^DD^^DD^.......^DD\n\
+######.^DD^^DD^.......^D\n\
+#######.^DD^^DD^.......^\n\
+########.^DD^^DD^.......\n\
+#########.^DD^^DD^......\n\
+##########.^DD^^DD^.....\n\
+###########.^DD^^DD^....\n\
+############.^DD^^DD^...\n\
+#############.^DD^^DD^..\n\
+##############.^DD^^DD^.\n\
+###############.^DD^^DD^\n\
+################.^DD^^DD\n\
+#################.^DD^^D\n\
+##################.^DD^^\n\
+###################.^DD^\n\
+####################.^DD\n\
+#####################.^D\n\
+######################.^\n\
+#######################.",
+                    mapf::ter_bind( ". # ^ D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_tie,
-                        t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
-                        f_null,
-                        f_null,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ D",
                         f_null,
                         f_null,
                         f_null,
                         f_null ) );
             } else { // normal subway drawing
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^..######..^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..........^X^^X^.\n\
-.^X^^X^..........^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..######..^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^..######..^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..........^X^^X^.\n\
-.^X^^X^..........^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..######..^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.",
-                    mapf::ter_bind( ". # ^ - X x |",
+.^X^^^X^.######.^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^.######.^X^^^X^.",
+                    mapf::ter_bind( ". # ^ - X x",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
+                        t_railroad_track_on_tie ),
+                    mapf::furn_bind( ". # ^ - X x",
                         f_null,
                         f_null,
                         f_null,
@@ -1498,22 +1486,22 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             break;
         case 1:  // dead end
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^..######..^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..........^X^^X^.\n\
-.^X^^X^..........^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..######..^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-........########........\n\
-........########........\n\
-........########........\n\
-#......##########......#\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.........######.........\n\
+.........######.........\n\
+.........######.........\n\
+#.......########.......#\n\
 ########################\n\
 ########################\n\
 ########################\n\
@@ -1522,16 +1510,14 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 ########################\n\
 ########################\n\
 ########################",
-                    mapf::ter_bind( ". # ^ - X x |",
+                    mapf::ter_bind( ". # ^ - X x",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
+                        t_railroad_track_on_tie ),
+                    mapf::furn_bind( ". # ^ - X x",
                         f_null,
                         f_null,
                         f_null,
@@ -1680,7 +1666,7 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, const time_poi
             if (i < 3 || i >= SEEX * 2 - 3) {
                 m->ter_set(i, j, dat.groundcover());
             } else if (i == 3 || i == SEEX * 2 - 4) {
-                m->ter_set(i, j, t_railing_v);
+                m->ter_set(i, j, t_railing);
             } else {
                 if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0) {
                     m->ter_set(i, j, t_pavement_y);
@@ -1956,10 +1942,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         m->furn_set(x1 + 2, y1 + 1, f_table);
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
-                if ((i == x1) || (i == x2)) {
-                    m->ter_set(i, j, t_fence_v);
-                } else if (j == y2) {
-                    m->ter_set(i, j, t_fence_h);
+                if ((i == x1) || (i == x2 || (j == y2))) {
+                    m->ter_set(i, j, t_fence);
                 } else {
                     m->ter_set( i, j, t_grass);
                     if (one_in(35) && !m->has_furn(i ,j)) {
@@ -2641,11 +2625,10 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     //////
     if (rng(2, 7) < tw) { // Big front yard has a chance for a fence
         for (int i = lw; i <= rw; i++) {
-            m->ter_set(i, 0, t_fence_h);
+            m->ter_set(i, 0, t_fence);
         }
         for (int i = 1; i < tw; i++) {
-            m->ter_set(lw, i, t_fence_v);
-            m->ter_set(rw, i, t_fence_v);
+            m->ter_set(lw, i, t_fence);
         }
         int hole = rng(SEEX - 3, SEEX + 2);
         m->ter_set(hole, 0, t_dirt);

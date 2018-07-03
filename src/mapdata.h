@@ -181,6 +181,7 @@ enum ter_connects : int {
     TERCONN_RAILING,
     TERCONN_WATER,
     TERCONN_PAVEMENT,
+    TERCONN_RAIL,
 };
 
 struct map_data_common_t {
@@ -391,9 +392,9 @@ extern ter_id t_null,
     t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_birch_harvested, t_tree_willow, t_tree_willow_harvested, t_tree_maple, t_tree_maple_tapped, t_tree_deadpine, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
-    t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
+    t_fence, t_chainfence, t_chainfence_posts,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-    t_railing_v, t_railing_h,
+    t_railing,
     // Nether
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
     t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
@@ -433,7 +434,11 @@ extern ter_id t_null,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     t_linoleum_white, t_linoleum_gray,
-    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
+    // Railroad and subway
+    t_railroad_rubble,
+    t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
+    t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d1, t_railroad_track_d2,
+    t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
 
 
 /*

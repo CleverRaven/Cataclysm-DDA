@@ -548,7 +548,7 @@ void vehicle::smash() {
         }
 
         //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
-        if( mod_hp( part, 0 - ( rng_float( 0.1f, 1.2f ) * part.info().durability ) ), DT_BASH ) {
+        if( mod_hp( part, 0 - ( rng_float( 0.1f, 1.2f ) * part.info().durability ), DT_BASH ) ) {
             part.ammo_unset();
         }
     }
@@ -1128,7 +1128,7 @@ double vehicle::engine_cold_factor( const int e ) const
 {
     if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
 
-    int eff_temp = g->get_temperature();
+    int eff_temp = g->get_temperature( g->u.pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
