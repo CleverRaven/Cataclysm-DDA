@@ -147,14 +147,14 @@ struct artifact_property_datum {
     std::array<art_effect_active, 4> active_bad;
 };
 
-struct artifact_dream_datum { 
-    //Used only when generating - stored as individual members of artifact
-    std::string msg_unmet;
-    std::string msg_met;
-    // 1 in freq chance per hour while asleep (if nonzero)
-    // then one is picked from artifacts that passed that chance
-    int freq_unmet; //1 if no reqs, since should never be unmet in that case
-    int freq_met;   //0 if no reqs
+struct artifact_dream_datum {     //Used only when generating - stored as individual members of each artifact
+    std::vector<std::string> msg_unmet;
+    std::vector<std::string> msg_met;
+    // Once per hour while sleeping, makes a list of each artifact that passes a (freq) in 100 check
+    // One item is picked from artifacts that passed that chance, and the appropriate msg is shown
+    // If multiple met/unmet messages are specified for the item, one is picked at random
+    int freq_unmet; // 100 if no reqs, since should never be unmet in that case
+    int freq_met;   //   0 if no reqs
 };
 
 enum artifact_weapon_type {
@@ -556,27 +556,28 @@ static const std::array<std::string, 20> artifact_noun = { {
 std::string artifact_name( const std::string &type );
 //Dreams for each charge req
 static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { {
-    {   translate_marker( "The %s is somehow vaguely dissatisfied even though it doesn't want anything. Seeing this is a bug!" ),
-        translate_marker( "The %s is satisfied, as it should be because it has no standards. Seeing this is a bug" ),
-        1,0
-    },{ translate_marker( "Your %s feels needy, like it wants to be held." ),
-        translate_marker( "You snuggle your %s closer." ),
-        2,3
-    },{ translate_marker( "Your %s feels needy, like it wants to be touched." ),
-        translate_marker( "You press your %s against your skin." ),
-        2,3
-    },{ translate_marker( "The %s is confused to find you dreaming while awake. Seeing this is a bug!" ),
-        translate_marker( "Your %s sleeps soundly." ),
-        1,3
-    },{ translate_marker( "Your %s longs for the glow." ),
-        translate_marker( "Your %s basks in the glow." ),
-        4,2
-    },{ translate_marker( "You dream of angels' tears falling on your %s." ),
-        translate_marker( "You dream of playing in the rain with your %s." ),
-        2,2
-    },{ translate_marker( "You dream that your %s is being buried alive." ),
-        translate_marker( "You dream of your %s dancing in the wide-open sky." ),
-        2,2
+    //@todo Removed translate_marker()s here for the moment due to errors involving capturing lambdas
+    {   {"The %s is somehow vaguely dissatisfied even though it doesn't want anything. Seeing this is a bug!"},
+        {"The %s is satisfied, as it should be because it has no standards. Seeing this is a bug"},
+        100,  0
+    },{ {"Your %s feels needy, like it wants to be held."},
+        {"You snuggle your %s closer."},
+        50,  35
+    },{ {"Your %s feels needy, like it wants to be touched."},
+        {"You press your %s against your skin."},
+        50,  35
+    },{ {"The %s is confused to find you dreaming while awake. Seeing this is a bug!"},
+        {"Your %s sleeps soundly."},
+        100, 33
+    },{ {"Your %s longs for the glow."},
+        {"Your %s basks in the glow."},
+        25,  75
+    },{ {"You dream of angels' tears falling on your %s."},
+        {"You dream of playing in the rain with your %s."},
+        50,  60
+    },{ {"You dream that your %s is being buried alive."},
+        {"You dream of your %s dancing in a blue void."},
+        50,  50
     }
 } };
 
@@ -590,7 +591,7 @@ it_artifact_tool::it_artifact_tool() : itype()
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
     artifact->charge_req = ACR_NULL;
-    artifact->dream_msg_unmet  = artifact_dream_data[(int)ACR_NULL].msg_unmet;  //Probably overkill
+    artifact->dream_msg_unmet  = artifact_dream_data[(int)ACR_NULL].msg_unmet;
     artifact->dream_msg_met    = artifact_dream_data[(int)ACR_NULL].msg_met;
     artifact->dream_freq_unmet = artifact_dream_data[(int)ACR_NULL].freq_unmet;
     artifact->dream_freq_met   = artifact_dream_data[(int)ACR_NULL].freq_met;
@@ -1127,25 +1128,8 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     tool->turns_per_charge = jo.get_int("turns_per_charge");
     tool->ammo_id = ammotype( jo.get_string("ammo") );
     tool->revert_to = jo.get_string("revert_to");
-
-    artifact->charge_type = (art_charge)jo.get_int("charge_type");
-    artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
-    //Generate any missing dream data (due to e.g. old save)
-    if( jo.has_string("dream_unmet") ) {      artifact->dream_msg_unmet  = jo.get_string( "dream_unmet" ); }
-    else{ artifact->dream_msg_unmet = artifact_dream_data[(int)(artifact->charge_req)].msg_unmet; }
-    if( jo.has_string("dream_met") ) {        artifact->dream_msg_met    = jo.get_string( "dream_met" ); }
-    else{ artifact->dream_msg_met   = artifact_dream_data[(int)(artifact->charge_req)].msg_met; }
-    if( jo.has_int(   "dream_freq_unmet") ) { artifact->dream_freq_unmet = jo.get_int(    "dream_freq_unmet" ); }
-    else{ artifact->dream_msg_met   = artifact_dream_data[(int)(artifact->charge_req)].freq_unmet; }
-    if( jo.has_int(   "dream_freq_met") ) {   artifact->dream_freq_met   = jo.get_int(    "dream_freq_met" ); }
-    else{ artifact->dream_msg_met   = artifact_dream_data[(int)(artifact->charge_req)].freq_met; }
-
-    JsonArray ja = jo.get_array("effects_wielded");
-    while (ja.has_more()) {
-        artifact->effects_wielded.push_back((art_effect_passive)ja.next_int());
-    }
-
-    ja = jo.get_array("effects_activated");
+    
+    JsonArray ja = jo.get_array("effects_activated");
     while (ja.has_more()) {
         artifact->effects_activated.push_back((art_effect_active)ja.next_int());
     }
@@ -1154,6 +1138,31 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     while (ja.has_more()) {
         artifact->effects_carried.push_back((art_effect_passive)ja.next_int());
     }
+    
+    ja = jo.get_array("effects_wielded");
+    while (ja.has_more()) {
+        artifact->effects_wielded.push_back((art_effect_passive)ja.next_int());
+    }
+
+    artifact->charge_type = (art_charge)jo.get_int("charge_type");
+    artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
+    
+    //Generate any missing dream data (due to e.g. old save)
+    if( !jo.has_array("dream_unmet") ) { artifact->dream_msg_unmet = artifact_dream_data[(int)(artifact->charge_req)].msg_unmet; }
+    else {
+        ja = jo.get_array("dream_unmet");
+        while (ja.has_more()) { artifact->dream_msg_unmet.push_back( ja.next_string() ); }
+    }
+    if( !jo.has_array("dream_met") ) {   artifact->dream_msg_met   = artifact_dream_data[(int)(artifact->charge_req)].msg_met; }
+    else {
+        ja = jo.get_array("dream_met");
+        while (ja.has_more()) { artifact->dream_msg_met.push_back(   ja.next_string() ); }
+    }
+    if( jo.has_int(   "dream_freq_unmet") ) { artifact->dream_freq_unmet = jo.get_int(    "dream_freq_unmet" ); }
+    else{ artifact->dream_freq_unmet = artifact_dream_data[(int)(artifact->charge_req)].freq_unmet; }
+    if( jo.has_int(   "dream_freq_met") ) {   artifact->dream_freq_met   = jo.get_int(    "dream_freq_met" ); }
+    else{ artifact->dream_freq_met   = artifact_dream_data[(int)(artifact->charge_req)].freq_met; }
+
 }
 
 void it_artifact_armor::deserialize(JsonObject &jo)

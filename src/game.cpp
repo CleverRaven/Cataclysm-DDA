@@ -13778,47 +13778,44 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
 
 void game::add_artifact_dreams( ) {
     //If player is sleeping, get a dream from a carried artifact
-    //if( calendar::once_every( 1_hours ) && u.has_effect( effect_sleep ) ) { //Checked before calling
-        std::list<item *> art_items = g->u.get_artifact_items();
-        std::list<item *> arts_with_dream;
-        std::vector<item *>      valid_arts;
-        std::vector<std::string> valid_dreams;
-        //Pull the list of dreams
-        add_msg(m_info, string_format("Checking %s carried artifacts", art_items.size() ) );
-        for( auto &it : art_items ) {
-            //Pick only the ones with an applicable dream
-            auto art = it->type->artifact;
-            if(art->charge_req != ACR_NULL) {
-                add_msg(m_info, string_format("Checking artifact %s", it->tname().c_str() ) );
-                if( check_art_charge_req( *it ) ) {
-                    add_msg(m_info, string_format("   Has freq %s-%s, msg %s", art->dream_freq_met,art->dream_freq_unmet, art->dream_msg_met ) );
-                    if( art->dream_freq_met   > 0 && one_in( art->dream_freq_met   ) ) {
-                        add_msg(m_good, string_format("Adding met dream from %s", it->tname().c_str() ) );
-                        valid_arts.push_back( it );
-                        valid_dreams.push_back( art->dream_msg_met );
-                    }
-                } else {
-                    add_msg(m_info, string_format("   Has freq %s-%s, msg %s", art->dream_freq_met,art->dream_freq_unmet, art->dream_msg_unmet ) );
-                    if( art->dream_freq_unmet > 0 && one_in( art->dream_freq_unmet ) ) {
-                        add_msg(m_good, string_format("Adding unmet dream from %s", it->tname().c_str() ) );
-                        valid_arts.push_back( it );
-                        valid_dreams.push_back( art->dream_msg_unmet );
-                    }
+    //Don't need to check that player is sleeping here, that's done before calling
+    std::list<item *> art_items = g->u.get_artifact_items();
+    std::list<item *> arts_with_dream;
+    std::vector<item *>      valid_arts;    
+    std::vector<std::vector<std::string>> valid_dreams; // Tracking separately so we only need to check its req once
+    //Pull the list of dreams
+    add_msg(m_debug, string_format("Checking %s carried artifacts", art_items.size() ) );
+    for( auto &it : art_items ) {
+        //Pick only the ones with an applicable dream
+        auto art = it->type->artifact;
+        if(art->charge_req != ACR_NULL) {
+            add_msg(m_debug, string_format("Checking artifact %s", it->tname().c_str() ) );
+            if( check_art_charge_req( *it ) ) {
+                add_msg(m_debug, string_format("   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet ) );
+                if( art->dream_freq_met   > 0 && x_in_y( art->dream_freq_met,   100 ) ) {
+                    add_msg(m_debug, string_format("Adding met dream from %s", it->tname().c_str() ) );
+                    valid_arts.push_back( it );
+                    valid_dreams.push_back( art->dream_msg_met );
+                }
+            } else {
+                add_msg(m_debug, string_format("   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet ) );
+                if( art->dream_freq_unmet > 0 && x_in_y( art->dream_freq_unmet, 100 ) ) {
+                    add_msg(m_debug, string_format("Adding unmet dream from %s", it->tname().c_str() ) );
+                    valid_arts.push_back( it );
+                    valid_dreams.push_back( art->dream_msg_unmet );
                 }
             }
         }
-        add_msg(m_info,"Done getting dreams");
-        if( !valid_dreams.empty() ) {
-            add_msg(m_good, string_format("Found %s valid artifact dreams", valid_dreams.size() ) );
-            // const std::string& dream = string_format( random_entry( valid_dreams ), it->tname().c_str() );
-            const int selected = rng( 0, valid_arts.size()-1 );
-            auto it = valid_arts[selected];
-            auto msg = valid_dreams[selected];
-            const std::string& dream = string_format( msg , it->tname().c_str() );
-            add_msg( dream );
-        }
-        else{add_msg(m_bad,"Didn't have any dreams, sorry");}
-    //}
+    }
+    if( !valid_dreams.empty() ) {
+        add_msg(m_debug, string_format("Found %s valid artifact dreams", valid_dreams.size() ) );
+        const int selected = rng( 0, valid_arts.size()-1 );
+        auto it = valid_arts[selected];
+        auto msg = random_entry( valid_dreams[selected] );
+        const std::string& dream = string_format( msg , it->tname().c_str() );
+        add_msg( dream );
+    }
+    else{add_msg(m_debug,"Didn't have any dreams, sorry");}
 }
 
 int game::get_levx() const

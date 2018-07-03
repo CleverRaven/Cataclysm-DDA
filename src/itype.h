@@ -651,8 +651,8 @@ struct islot_artifact {
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
     std::vector<art_effect_passive> effects_worn;
-    std::string dream_msg_unmet;
-    std::string dream_msg_met;
+    std::vector<std::string> dream_msg_unmet;
+    std::vector<std::string> dream_msg_met;
     int dream_freq_unmet;
     int dream_freq_met;
 };
