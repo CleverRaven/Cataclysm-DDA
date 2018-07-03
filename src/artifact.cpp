@@ -556,27 +556,26 @@ static const std::array<std::string, 20> artifact_noun = { {
 std::string artifact_name( const std::string &type );
 //Dreams for each charge req
 static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { {
-    //@todo Removed translate_marker()s here for the moment due to errors involving capturing lambdas
-    {   {"The %s is somehow vaguely dissatisfied even though it doesn't want anything. Seeing this is a bug!"},
-        {"The %s is satisfied, as it should be because it has no standards. Seeing this is a bug"},
+    {   {translate_marker("The %s is somehow vaguely dissatisfied even though it doesn't want anything. Seeing this is a bug!")},
+        {translate_marker("The %s is satisfied, as it should be because it has no standards. Seeing this is a bug!")},
         100,  0
-    },{ {"Your %s feels needy, like it wants to be held."},
-        {"You snuggle your %s closer."},
+    },{ {translate_marker("Your %s feels needy, like it wants to be held.")},
+        {translate_marker("You snuggle your %s closer.")},
         50,  35
-    },{ {"Your %s feels needy, like it wants to be touched."},
-        {"You press your %s against your skin."},
+    },{ {translate_marker("Your %s feels needy, like it wants to be touched.")},
+        {translate_marker("You press your %s against your skin.")},
         50,  35
-    },{ {"The %s is confused to find you dreaming while awake. Seeing this is a bug!"},
-        {"Your %s sleeps soundly."},
+    },{ {translate_marker("The %s is confused to find you dreaming while awake. Seeing this is a bug!")},
+        {translate_marker("Your %s sleeps soundly.")},
         100, 33
-    },{ {"Your %s longs for the glow."},
-        {"Your %s basks in the glow."},
+    },{ {translate_marker("Your %s longs for the glow.")},
+        {translate_marker("Your %s basks in the glow.")},
         25,  75
-    },{ {"You dream of angels' tears falling on your %s."},
-        {"You dream of playing in the rain with your %s."},
+    },{ {translate_marker("You dream of angels' tears falling on your %s.")},
+        {translate_marker("You dream of playing in the rain with your %s.")},
         50,  60
-    },{ {"You dream that your %s is being buried alive."},
-        {"You dream of your %s dancing in a blue void."},
+    },{ {translate_marker("You dream that your %s is being buried alive.")},
+        {translate_marker("You dream of your %s dancing in a blue void.")},
         50,  50
     }
 } };
