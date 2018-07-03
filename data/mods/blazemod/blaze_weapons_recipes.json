@@ -78,7 +78,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 40000,
     "autolearn": true,
-    "using": [ [ [ "adhesive", 2 ], [ "welding_standard", 10 ] ] ],
+    "using": [ [ "adhesive", 2 ], [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 }
