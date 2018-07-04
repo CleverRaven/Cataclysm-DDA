@@ -72,7 +72,8 @@
     "type": "GUNMOD",
     "name": "Leadworks gyroscopic stabilizer",
     "description": "An advanced Leadworks built in gyroscopic stabilizer.",
-    "price": 0,
+    "weight": 0,
+	"price": 0,
     "flags": [ "IRREMOVABLE" ]
   }
 ]

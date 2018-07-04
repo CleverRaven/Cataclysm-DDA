@@ -331,7 +331,8 @@
     "type": "GUNMOD",
     "name": "Leadworks underbarrel laser sight",
     "description": "A Leadworks built in visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.",
-    "price": 0,
+    "weight": 0,
+	"price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
   {
@@ -340,7 +341,8 @@
     "type": "GUNMOD",
     "name": "Leadworks forward grip",
     "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",
-    "price": 0,
+    "weight": 0,
+	"price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
   {
@@ -349,7 +351,8 @@
     "type": "GUNMOD",
     "name": "Leadworks bipod",
     "description": "Leadworks built in bipod designed to provide a forward rest and reduce motion.  Although it greatly improve handling of recoil it is usable only on certain surfaces and are slow to equip.",
-    "price": 0,
+    "weight": 0,
+	"price": 0,
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   },
   {
@@ -358,7 +361,8 @@
     "type": "GUNMOD",
     "name": "Leadwoks retractable bayonet",
     "description": "This is Leadworks proprietary retractable bayonet integrated in weapon hull.  Can be easily retracted when are not used so it does not affect weapon size.",
-    "volume": 0,
+    "weight": 0,
+	"volume": 0,
     "price": 0,
     "to_hit": 0,
     "dispersion_modifier": 0,
