@@ -351,5 +351,17 @@
     "description": "Leadworks built in bipod designed to provide a forward rest and reduce motion.  Although it greatly improve handling of recoil it is usable only on certain surfaces and are slow to equip.",
     "price": 0,
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
-  }
+  },
+  {
+    "id": "lead_retr_bayonet",
+    "copy-from": "inter_bayonet",
+    "type": "GUNMOD",
+    "name": "Leadwoks retractable bayonet.",
+    "description": "This is Leadworks proprietary retractable bayonet integrated in weapon hull.  Can be easily retracted when are not used so it does not affect weapon size.",
+    "volume": 0,
+    "price": 0,
+    "to_hit": 0,
+    "material": [ "steel", "plastic" ],
+    "flags": [ "IRREMOVABLE", "STAB" ]
+  },
 ]
