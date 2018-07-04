@@ -21,6 +21,7 @@
 #include "line.h"
 #include "requirements.h"
 #include "weather_gen.h"
+#include "omdata.h"
 
 #ifdef LUA
 #include "ui.h"
@@ -52,6 +53,7 @@ using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
 using mass = units::mass;
 using npc_template_id = string_id<npc_template>;
+using overmap_direction = om_direction::type;
 
 lua_State *lua_state = nullptr;
 
