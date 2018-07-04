@@ -188,7 +188,7 @@
         "C": "t_centrifuge"
       },
       "mapping": {
-        "A": {
+        "X": {
           "items": [
             { "item": "softdrugs", "chance": 40 },
             { "item": "harddrugs", "chance": 30}
