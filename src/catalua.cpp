@@ -953,6 +953,10 @@ static void add_msg_wrapper(const std::string &text) {
     add_msg( text );
 }
 
+static bool query_yn_wrapper(const std::string &text) {
+    return query_yn( text );
+}
+
 // items = game.items_at(x, y)
 static int game_items_at(lua_State *L)
 {
