@@ -1,5 +1,11 @@
 #if (defined TILES)
+#include "game.h"
+#include "cata_utility.h"
+#include "color_loader.h"
 #include "cursesport.h"
+#include "font_loader.h"
+#include "game_ui.h"
+#include "loading_ui.h"
 #include "options.h"
 #include "output.h"
 #include "input.h"
@@ -9,6 +15,15 @@
 #include "debug.h"
 #include "player.h"
 #include "translations.h"
+#include "cata_tiles.h"
+#include "get_version.h"
+#include "init.h"
+#include "path_info.h"
+#include "string_formatter.h"
+#include "filesystem.h"
+#include "lightmap.h"
+#include "rng.h"
+#include <algorithm>
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -17,20 +32,6 @@
 #include <memory>
 #include <stdexcept>
 #include <limits>
-#include "cata_tiles.h"
-#include "get_version.h"
-#include "init.h"
-#include "path_info.h"
-#include "string_formatter.h"
-#include "filesystem.h"
-#include "game.h"
-#include "lightmap.h"
-#include "rng.h"
-#include <algorithm>
-#include "cata_utility.h"
-#include "color_loader.h"
-#include "font_loader.h"
-#include "loading_ui.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
@@ -133,13 +134,13 @@ using TTF_Font_Ptr = std::unique_ptr<TTF_Font, TTF_Font_deleter>;
 class Font {
 public:
     Font(int w, int h) : fontwidth(w), fontheight(h) { }
-    virtual ~Font() { }
+    virtual ~Font() = default;
     /**
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS) = 0;
+    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const;
     bool draw_window( const catacurses::window &win );
     bool draw_window( const catacurses::window &win, int offsetx, int offsety );
 
@@ -157,22 +158,24 @@ public:
 class CachedTTFFont : public Font {
 public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
-    virtual ~CachedTTFFont();
+    ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS) override;
 protected:
-    SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
+    TTF_Font *get_font(cata_cursesport::font_style FS);
+    SDL_Texture_Ptr create_glyph( const std::string &ch, int color, cata_cursesport::font_style FS );
 
-    TTF_Font_Ptr font;
+    std::map<cata_cursesport::font_style, TTF_Font_Ptr> font_map;
     // Maps (character code, color) to SDL_Texture*
 
     struct key_t {
         std::string   codepoints;
         unsigned char color;
+        cata_cursesport::font_style FS;
 
         // Operator overload required to use in std::map.
         bool operator<(key_t const &rhs) const noexcept {
-            return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
+            return (FS.to_ulong() == rhs.FS.to_ulong()) ? ((color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color) : FS.to_ulong() < rhs.FS.to_ulong();
         }
     };
 
@@ -184,6 +187,9 @@ protected:
     std::map<key_t, cached_t> glyph_cache_map;
 
     const bool fontblending;
+    std::string typeface;
+    int fontsize;
+    int faceIndex;
 };
 
 /**
@@ -193,11 +199,11 @@ protected:
 class BitmapFont : public Font {
 public:
     BitmapFont( int w, int h, const std::string &path );
-    virtual ~BitmapFont();
+    ~BitmapFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS) override;
     void OutputChar(long t, int x, int y, unsigned char color);
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
+  virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const override;
 protected:
     std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
@@ -222,14 +228,15 @@ static input_event last_input;
 static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
 static Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
-static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
-static bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
+static Uint32 dpad_delay = 100;   // Delay in milliseconds between registering a d-pad event and processing it.
+static bool dpad_continuous = false;  // Whether we're currently moving continuously with the dpad.
 static int lastdpad = ERR;      // Keeps track of the last dpad press.
 static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
+bool fullscreen;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -323,9 +330,9 @@ bool WinCreate()
     int window_flags = 0;
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
+    window_flags |= SDL_WINDOW_RESIZABLE;
 
     if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        window_flags |= SDL_WINDOW_RESIZABLE;
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
@@ -333,6 +340,7 @@ bool WinCreate()
         window_flags |= SDL_WINDOW_FULLSCREEN;
     } else if (get_option<std::string>( "FULLSCREEN" ) == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        fullscreen = true;
         SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
     }
 
@@ -407,6 +415,8 @@ bool WinCreate()
             return false;
         }
     }
+
+    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * 80, fontheight * 24 );
 
     ClearScreen();
 
@@ -524,10 +534,11 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 }
 
 
-SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
+SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color, cata_cursesport::font_style FS )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
+    TTF_Font *_font = get_font(FS);
+    SDL_Surface_Ptr sglyph( function( _font, ch.c_str(), windowsPalette[color] ) );
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return NULL;
@@ -546,7 +557,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     static const Uint32 amask = 0xff000000;
 #endif
     const int wf = utf8_wrapper( ch ).display_width();
-    // Note: bits per pixel must be 8 to be synchron with the surface
+    // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
     SDL_Surface_Ptr surface( SDL_CreateRGBSurface( 0, fontwidth * wf, fontheight, 32,
                                                    rmask, gmask, bmask, amask ) );
@@ -580,14 +591,14 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
 }
 
-void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
+void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color, cata_cursesport::font_style FS)
 {
-    key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
+    key_t key {std::move(ch), static_cast<unsigned char>(color & 0xf), FS};
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
         cached_t new_entry {
-            create_glyph( key.codepoints, key.color ),
+            create_glyph( key.codepoints, key.color, FS ),
             static_cast<int>( fontwidth * utf8_wrapper( key.codepoints ).display_width() )
         };
         it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
@@ -604,8 +615,9 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
     }
 }
 
-void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS)
 {
+    (void) FS; // unused
     int len = ch.length();
     const char *s = ch.c_str();
     const long t = UTF8_getch(&s, &len);
@@ -639,7 +651,6 @@ void refresh_display()
     if( SDL_SetRenderTarget( renderer.get(), NULL ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
-    SDL_RenderSetLogicalSize( renderer.get(), WindowWidth, WindowHeight );
     if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
@@ -659,6 +670,8 @@ static void try_sdl_update()
         needupdate = true;
     }
 }
+
+
 
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
@@ -686,8 +699,9 @@ void find_videodisplays() {
 
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
-void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
+void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const
 {
+    (void) FS; // unused
     switch (line_id) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
             HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
@@ -964,7 +978,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         }
     }
 
-    // @todo Get this from UTF system to make sure it is exactly the kind of space we need
+    // @todo: Get this from UTF system to make sure it is exactly the kind of space we need
     static const std::string space_string = " ";
 
     bool update = false;
@@ -1013,6 +1027,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
             const int codepoint = UTF8_getch( &utf8str, &len );
             const catacurses::base_color FG = cell.FG;
             const catacurses::base_color BG = cell.BG;
+            const cata_cursesport::font_style FS = cell.FS;
             if( codepoint != UNKNOWN_UNICODE ) {
                 const int cw = utf8_width( cell.ch );
                 if( cw < 1 ) {
@@ -1020,10 +1035,10 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
                     continue;
                 }
                 FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
-                OutputChar( cell.ch, drawx, drawy, FG );
+                OutputChar( cell.ch, drawx, drawy, FG, FS );
             } else {
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
-                draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG );
+                draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG, FS );
             }
 
         }
@@ -1107,7 +1122,7 @@ int HandleDPad()
                 lastdpad = lc;
                 queued_dpad = ERR;
 
-                if(dpad_continuous == false) {
+                if( !dpad_continuous ) {
                     delaydpad = SDL_GetTicks() + 200;
                     dpad_continuous = true;
                 } else {
@@ -1137,12 +1152,42 @@ int HandleDPad()
  * allows the input_manager to only consider those.
  * @return 0 if the input can not be translated (unknown key?),
  * -1 when a ALT+number sequence has been started,
- * or somthing that a call to ncurses getch would return.
+ * or something that a call to ncurses getch would return.
  */
-long sdl_keysym_to_curses(SDL_Keysym keysym)
+long sdl_keysym_to_curses( SDL_Keysym keysym )
 {
+
+    if( get_option<bool>( "DIAG_MOVE_WITH_MODIFIERS" ) ) {
+        //Shift + Cursor Arrow (diagonal clockwise)
+        if( keysym.mod & KMOD_SHIFT ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+            }
+        }
+        //Ctrl + Cursor Arrow (diagonal counter-clockwise)
+        if( keysym.mod & KMOD_CTRL ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
+
     switch (keysym.sym) {
-        // This is special: allow entering a unicode character with ALT+number
+        // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
         case SDLK_LALT:
             begin_alt_code();
@@ -1160,7 +1205,7 @@ long sdl_keysym_to_curses(SDL_Keysym keysym)
         case SDLK_ESCAPE:
             return KEY_ESCAPE;
         case SDLK_TAB:
-            if (keysym.mod & KMOD_SHIFT) {
+            if( keysym.mod & KMOD_SHIFT ) {
                 return KEY_BTAB;
             }
             return '\t';
@@ -1180,26 +1225,85 @@ long sdl_keysym_to_curses(SDL_Keysym keysym)
             return KEY_HOME;
         case SDLK_END:
             return KEY_END;
-        case SDLK_F1: return KEY_F(1);
-        case SDLK_F2: return KEY_F(2);
-        case SDLK_F3: return KEY_F(3);
-        case SDLK_F4: return KEY_F(4);
-        case SDLK_F5: return KEY_F(5);
-        case SDLK_F6: return KEY_F(6);
-        case SDLK_F7: return KEY_F(7);
-        case SDLK_F8: return KEY_F(8);
-        case SDLK_F9: return KEY_F(9);
-        case SDLK_F10: return KEY_F(10);
-        case SDLK_F11: return KEY_F(11);
-        case SDLK_F12: return KEY_F(12);
-        case SDLK_F13: return KEY_F(13);
-        case SDLK_F14: return KEY_F(14);
-        case SDLK_F15: return KEY_F(15);
+        case SDLK_F1:
+            return KEY_F( 1 );
+        case SDLK_F2:
+            return KEY_F( 2 );
+        case SDLK_F3:
+            return KEY_F( 3 );
+        case SDLK_F4:
+            return KEY_F( 4 );
+        case SDLK_F5:
+            return KEY_F( 5 );
+        case SDLK_F6:
+            return KEY_F( 6 );
+        case SDLK_F7:
+            return KEY_F( 7 );
+        case SDLK_F8:
+            return KEY_F( 8 );
+        case SDLK_F9:
+            return KEY_F( 9 );
+        case SDLK_F10:
+            return KEY_F( 10 );
+        case SDLK_F11:
+            return KEY_F( 11 );
+        case SDLK_F12:
+            return KEY_F( 12 );
+        case SDLK_F13:
+            return KEY_F( 13 );
+        case SDLK_F14:
+            return KEY_F( 14 );
+        case SDLK_F15:
+            return KEY_F( 15 );
         // Every other key is ignored as there is no curses constant for it.
         // TODO: add more if you find more.
         default:
             return 0;
     }
+}
+
+bool handle_resize(int w, int h)
+{
+    if( ( w != WindowWidth ) || ( h != WindowHeight ) ) {
+        WindowWidth = w;
+        WindowHeight = h;
+        TERMINAL_WIDTH = WindowWidth / fontwidth;
+        TERMINAL_HEIGHT = WindowHeight / fontheight;
+        SetupRenderTarget();
+        game_ui::init_ui();
+        tilecontext->reinit_minimap();
+
+        return true;
+    }
+    return false;
+}
+
+void toggle_fullscreen_window()
+{
+    static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth;
+    static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight;
+
+    if ( fullscreen ) {
+        if( SDL_SetWindowFullscreen( window.get(), 0 ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+            return;
+        }
+        SDL_RestoreWindow( window.get() );
+        SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
+        SDL_SetWindowMinimumSize( window.get(), fontwidth * 80, fontheight * 24 );
+    } else {
+        restore_win_w = WindowWidth;
+        restore_win_h = WindowHeight;
+        if( SDL_SetWindowFullscreen( window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetWinodwFullscreen failed: " << SDL_GetError();
+            return;
+        }
+    }
+    int nw = 0;
+    int nh = 0;
+    SDL_GetWindowSize( window.get(), &nw, &nh );
+    handle_resize( nw, nh );
+    fullscreen = !fullscreen;
 }
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -1222,6 +1326,9 @@ void CheckMessages()
                 case SDL_WINDOWEVENT_RESTORED:
                     needupdate = true;
                     break;
+                case SDL_WINDOWEVENT_RESIZED:
+                    needupdate = handle_resize( ev.window.data1, ev.window.data2 );
+                    break;
                 default:
                     break;
                 }
@@ -1231,13 +1338,6 @@ void CheckMessages()
                 //hide mouse cursor on keyboard input
                 if(get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor(-1)) {
                     SDL_ShowCursor(SDL_DISABLE);
-                }
-                const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-                // manually handle Alt+F4 for older SDL lib, no big deal
-                if( ev.key.keysym.sym == SDLK_F4
-                && (keystate[SDL_SCANCODE_RALT] || keystate[SDL_SCANCODE_LALT]) ) {
-                    quit = true;
-                    break;
                 }
                 const long lc = sdl_keysym_to_curses(ev.key.keysym);
                 if( lc <= 0 ) {
@@ -1347,10 +1447,10 @@ static bool ends_with(const std::string &text, const std::string &suffix) {
 }
 
 //***********************************
-//Psuedo-Curses Functions           *
+//Pseudo-Curses Functions           *
 //***********************************
 
-static void font_folder_list(std::ofstream& fout, std::string path, std::set<std::string> &bitmap_fonts)
+static void font_folder_list(std::ofstream& fout, const std::string &path, std::set<std::string> &bitmap_fonts)
 {
     for( const auto &f : get_files_from_path( "", path, true, false ) ) {
             TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
@@ -1445,7 +1545,7 @@ static void save_font_list()
 #endif
 }
 
-static std::string find_system_font(std::string name, int& faceIndex)
+static std::string find_system_font( const std::string &name, int& faceIndex )
 {
     const std::string fontlist_path = FILENAMES["fontlist"];
     std::ifstream fin(fontlist_path.c_str());
@@ -1481,9 +1581,9 @@ static std::string find_system_font(std::string name, int& faceIndex)
     return "";
 }
 
-// bitmap font font size test
+// bitmap font size test
 // return face index that has this size or below
-static int test_face_size(std::string f, int size, int faceIndex)
+static int test_face_size( const std::string &f, int size, int faceIndex )
 {
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
@@ -1507,14 +1607,14 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
-// Calculates the new width of the window, given the number of columns.
-int projected_window_width(int)
+// Calculates the new width of the window
+int projected_window_width()
 {
     return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
-// Calculates the new height of the window, given the number of rows.
-int projected_window_height(int)
+// Calculates the new height of the window
+int projected_window_height()
 {
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
@@ -1540,7 +1640,7 @@ void catacurses::init_interface()
     TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
     if(!WinCreate()) {
-        throw std::runtime_error( "WinCreate failed" ); //@todo throw from WinCreate
+        throw std::runtime_error( "WinCreate failed" ); //@todo: throw from WinCreate
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
@@ -1620,7 +1720,7 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     result.b=b;    //Blue
     result.g=g;    //Green
     result.r=r;    //Red
-    //result.a=0;//The Alpha, isnt used, so just set it to 0
+    //result.a=0;//The Alpha, is not used, so just set it to 0
     return result;
 }
 
@@ -1688,8 +1788,7 @@ bool gamepad_available() {
 
 void rescale_tileset(int size) {
     tilecontext->set_draw_scale(size);
-    g->init_ui();
-    ClearScreen();
+    game_ui::init_ui();
 }
 
 bool input_context::get_coordinates( const catacurses::window &capture_win_, int& x, int& y) {
@@ -1714,7 +1813,7 @@ bool input_context::get_coordinates( const catacurses::window &capture_win_, int
         fh = map_font->fontheight;
     }
 
-    // Translate mouse coords to map coords based on tile size,
+    // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
     const int win_left = capture_win->x * fontwidth;
     const int win_top = capture_win->y * fontheight;
@@ -1755,8 +1854,6 @@ int get_terminal_width() {
 int get_terminal_height() {
     return TERMINAL_HEIGHT;
 }
-
-BitmapFont::~BitmapFont() = default;
 
 BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
 : Font( w, h )
@@ -1801,8 +1898,9 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
     }
 }
 
-void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
+void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const
 {
+    (void) FS; // unused
     BitmapFont *t = const_cast<BitmapFont*>(this);
     switch (line_id) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -1845,13 +1943,13 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
 
 
 
-CachedTTFFont::~CachedTTFFont() = default;
-
-CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize, const bool fontblending )
+CachedTTFFont::CachedTTFFont( const int w, const int h, std::string _typeface, int _fontsize, const bool _fontblending )
 : Font( w, h )
-, fontblending( fontblending )
+, fontblending( _fontblending )
+, typeface( _typeface )
+, fontsize( _fontsize )
+, faceIndex( 0 )
 {
-    int faceIndex = 0;
     const std::string sysfnt = find_system_font(typeface, faceIndex);
     if (!sysfnt.empty()) {
         typeface = sysfnt;
@@ -1878,11 +1976,64 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
         strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0 ) {
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
     }
-    font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );
-    if( !font ) {
-        throw std::runtime_error(TTF_GetError());
+
+    // Preload normal styled font to force exception here
+    TTF_Font *font = get_font(cata_cursesport::font_style());
+    (void) font;
+}
+
+TTF_Font *CachedTTFFont::get_font(cata_cursesport::font_style FS)
+{
+    auto it = font_map.find(FS);
+    TTF_Font *_font = NULL;
+    if (it != font_map.end()) {
+        _font = it->second.get();
+        return _font;
     }
-    TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
+
+    int style = TTF_STYLE_NORMAL;
+    int shrink_to_fit_style = TTF_STYLE_NORMAL;
+    if ( FS[cata_cursesport::FS_BOLD] ) {
+        style |= TTF_STYLE_BOLD;
+        shrink_to_fit_style |= TTF_STYLE_BOLD;
+    }
+    if ( FS[cata_cursesport::FS_ITALIC] ) {
+        style |= TTF_STYLE_ITALIC;
+    }
+    if ( FS[cata_cursesport::FS_STRIKETHROUGH] ) {
+        style |= TTF_STYLE_STRIKETHROUGH;
+        shrink_to_fit_style |= TTF_STYLE_STRIKETHROUGH;
+    }
+    if ( FS[cata_cursesport::FS_UNDERLINE] ) {
+        style |= TTF_STYLE_UNDERLINE;
+        shrink_to_fit_style |= TTF_STYLE_UNDERLINE;
+    }
+
+    int _fontsize = fontsize;
+    while ( _fontsize > 0 ) {
+        _font = TTF_OpenFontIndex( typeface.c_str(), _fontsize, faceIndex );
+        if( !_font ) {
+            throw std::runtime_error(TTF_GetError());
+        }
+        TTF_SetFontStyle( _font, shrink_to_fit_style );
+        int width = 0;
+        int height = 0;
+        // @todo: Check all to get maximum?
+        TTF_SizeText( _font, "#", &width, &height );
+        if ( width <= fontwidth && height <= fontheight ) {
+            break;
+        }
+        TTF_CloseFont( _font );
+        _font = NULL;
+        _fontsize--;
+    }
+    if (!_font) {
+        throw std::runtime_error("No font size that satisfies the requirements found");
+    }
+    TTF_SetFontStyle( _font, style );
+    font_map.emplace( FS, TTF_Font_Ptr( _font ) );
+
+    return _font;
 }
 
 int map_font_width() {
@@ -1943,14 +2094,14 @@ SDL_Color cursesColorToSDL( const nc_color &color ) {
 
 void musicFinished();
 
-void play_music_file(std::string filename, int volume) {
+void play_music_file( const std::string &filename, int volume ) {
     const std::string path = ( current_soundpack_path + "/" + filename );
     current_music = Mix_LoadMUS(path.c_str());
     if( current_music == nullptr ) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
         return;
     }
-    Mix_VolumeMusic(volume * get_option<int>( "MUSIC_VOLUME" ) / 100);
+    Mix_VolumeMusic(get_option<bool>( "SOUND_ENABLED" ) ? volume * get_option<int>( "MUSIC_VOLUME" ) / 100 : 0);
     if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
         dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
@@ -2023,7 +2174,7 @@ void play_music(std::string playlist) {
 
 void update_music_volume() {
 #ifdef SDL_SOUND
-    Mix_VolumeMusic( get_option<int>( "MUSIC_VOLUME" ) );
+    Mix_VolumeMusic( get_option<bool>( "SOUND_ENABLED" ) ? get_option<int>( "MUSIC_VOLUME" ) : 0 );
 #endif
 }
 
@@ -2078,11 +2229,7 @@ const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
     if( iter == sound_effects_p.end() ) {
         return nullptr;
     }
-    const auto &vector = iter->second;
-    if( vector.empty() ) {
-        return nullptr;
-    }
-    return &vector[rng( 0, vector.size() - 1 )];
+    return &random_entry_ref( iter->second );
 }
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
 const sound_effect* find_random_effect( const std::string &id, const std::string& variant )
@@ -2151,7 +2298,7 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     return result;
 }
 
-void sfx::play_variant_sound( std::string id, std::string variant, int volume ) {
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume ) {
     if( volume == 0 ) {
         return;
     }
@@ -2166,12 +2313,12 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume ) 
     const sound_effect& selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
-    Mix_VolumeChunk( effect_to_play,
+    Mix_VolumeChunk( effect_to_play, !get_option<bool>( "SOUND_ENABLED" ) ? 0 :
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     Mix_PlayChannel( -1, effect_to_play, 0 );
 }
 
-void sfx::play_variant_sound( std::string id, std::string variant, int volume, int angle,
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                               float pitch_min, float pitch_max ) {
     if( volume == 0 ) {
         return;
@@ -2187,13 +2334,13 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
-    Mix_VolumeChunk( shifted_effect,
+    Mix_VolumeChunk( shifted_effect, !get_option<bool>( "SOUND_ENABLED" ) ? 0 :
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
     Mix_SetPosition( channel, angle, 1 );
 }
 
-void sfx::play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
+void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume, int channel,
                                       int duration ) {
     if( volume == 0 ) {
         return;
@@ -2206,7 +2353,7 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
     const sound_effect& selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
-    Mix_VolumeChunk( effect_to_play,
+    Mix_VolumeChunk( effect_to_play, !get_option<bool>( "SOUND_ENABLED" ) ? 0 :
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
@@ -2221,7 +2368,7 @@ void load_soundset() {
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;
 
-    // Get curent soundpack and it's directory path.
+    // Get current soundpack and it's directory path.
     if (current_soundpack.empty()) {
         dbg( D_ERROR ) << "Soundpack not set in options or empty.";
         soundpack_path = default_path;

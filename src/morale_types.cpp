@@ -143,6 +143,7 @@ const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
+const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 
 namespace
 {
@@ -190,7 +191,7 @@ void morale_type_data::load( JsonObject &jo, const std::string & )
 void morale_type_data::check() const
 {
     if( needs_item != ( text.find( "%s" ) != std::string::npos ) ) {
-        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%s'" );
+        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%%s'", id.c_str() );
     }
 }
 

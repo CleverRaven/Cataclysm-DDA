@@ -31,5 +31,44 @@
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 7 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ]
+  },
+  {
+    "id": "crane_tiny",
+    "type": "vehicle_part",
+    "name": "pallet lifter",
+    "item": "pallet_lifter",
+    "location": "center",
+    "symbol": "=",
+    "broken_symbol": "*",
+    "color": "light_gray",
+    "broken_color": "light_blue",
+    "difficulty": 2,
+    "durability": 100,
+    "folded_volume": 12,
+    "breaks_into": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
+    "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
+    "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ]
+  },
+  {
+    "id": "forklift_fork",
+    "type": "vehicle_part",
+    "name": "forklift arm",
+    "item": "frame",
+    "location": "structure",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "difficulty": 2,
+    "damage_modifier": 200,
+    "durability": 300,
+    "size": 50,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ],
+    "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
+    "flags": [ "CARGO", "PROTRUSION" ]
   }
 ]

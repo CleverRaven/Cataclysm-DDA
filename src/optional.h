@@ -13,7 +13,7 @@ namespace cata
 class bad_optional_access : public std::logic_error
 {
     public:
-        bad_optional_access() : logic_error( "cata::optinal: no value contained" ) { }
+        bad_optional_access() : logic_error( "cata::optional: no value contained" ) { }
 };
 
 struct nullopt_t {
@@ -130,6 +130,11 @@ class optional
                 throw bad_optional_access();
             }
             return get();
+        }
+
+        template<typename O>
+        T value_or( O &&other ) const {
+            return full ? get() : static_cast<T>( other );
         }
 
         template<class... Args>

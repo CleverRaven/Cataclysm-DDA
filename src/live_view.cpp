@@ -50,7 +50,7 @@ int live_view::draw( const catacurses::window &win, int const max_height )
     // status bar. This hack allows the border around the live view box to
     // be drawn only as big as it needs to be, while still leaving the
     // window tall enough. Won't work for ncurses in Linux, but that doesn't
-    // currently support the mouse. If and when it does, there'll need to
+    // currently support the mouse. If and when it does, there will need to
     // be a different code path here that works for ncurses.
     const int original_height = win.get<cata_cursesport::WINDOW>()->height;
     win.get<cata_cursesport::WINDOW>()->height = live_view_box_height;

@@ -1,10 +1,11 @@
 #include "mondefense.h"
 
 #include "ballistics.h"
+#include "damage.h"
 #include "dispersion.h"
+#include "gun_mode.h"
 #include "monster.h"
 #include "creature.h"
-#include "damage.h"
 #include "game.h"
 #include "output.h"
 #include "projectile.h"
@@ -25,17 +26,20 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 }
 
 void mdefense::zapback( monster &m, Creature *const source,
-                        dealt_projectile_attack const *const proj )
+                        dealt_projectile_attack const *projectile )
 {
-    player const *const foe = dynamic_cast<player *>( source );
-
-    // Players/NPCs can avoid the shock by using non-conductive weapons
-    if( foe != nullptr && !foe->weapon.conductive() && !foe->unarmed_attack() ) {
+    if( source == nullptr ) {
+        return;
+    }
+    // If we have a projectile, we're a ranged attack, no zapback.
+    if( projectile != nullptr ) {
         return;
     }
 
-    // Reach melee attack or attacker lucked out
-    if( source == nullptr || ( proj != nullptr && !foe->weapon.has_flag( "REACH_ATTACK" ) ) ) {
+    player const *const foe = dynamic_cast<player *>( source );
+
+    // Players/NPCs can avoid the shock by using non-conductive weapons
+    if( foe != nullptr && foe->is_armed() && !foe->weapon.conductive() ) {
         return;
     }
 

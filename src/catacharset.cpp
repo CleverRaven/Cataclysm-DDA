@@ -132,7 +132,7 @@ std::string utf32_to_utf8(uint32_t ch)
     return out;
 }
 
-//Calculate width of a unicode string
+//Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
 int utf8_width(const char *s, const bool ignore_tags)
@@ -180,7 +180,9 @@ int utf8_width(const utf8_wrapper &str, const bool ignore_tags)
 int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
 {
     int dummy;
-    int i = 0, c = 0, *p = prevpos ? prevpos : &dummy;
+    int i = 0;
+    int c = 0;
+    int *p = prevpos ? prevpos : &dummy;
     *p = 0;
     while(c < cursorx) {
         const char *utf8str = line + i;

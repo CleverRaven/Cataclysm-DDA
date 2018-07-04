@@ -121,6 +121,24 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     return res;
 }
 
+bool recipe_subset::empty_category( const std::string &cat,
+                                    const std::string &subcat ) const
+{
+    auto iter = category.find( cat );
+    if( iter != category.end() ) {
+        if( subcat.empty() ) {
+            return false;
+        } else {
+            for( auto &e : iter->second ) {
+                if( e->subcategory == subcat ) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
         const std::string &subcat ) const
 {
@@ -246,7 +264,7 @@ void recipe_dictionary::finalize()
         const itype_id id = e->get_id();
         const recipe_id rid = recipe_id( id );
 
-        // books that don't alreay have an uncrafting recipe
+        // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0 ) {
             int pages = e->volume / units::from_milliliter( 12.5 );
             auto &bk = recipe_dict.uncraft[rid];
@@ -254,7 +272,7 @@ void recipe_dictionary::finalize()
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
-            bk.time = pages * 10; // @todo allow specifying time in requirement_data
+            bk.time = pages * 10; // @todo: allow specifying time in requirement_data
         }
     }
 

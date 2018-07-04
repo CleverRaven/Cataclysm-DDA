@@ -1,0 +1,59 @@
+version: '{branch}.{build}'
+os: Windows
+clone_folder: C:\Projects\Cataclysm-DDA
+shallow_clone: true
+matrix:
+    fast_finish: false 
+pull_requests:
+    do_not_increment_build_number: false
+image:
+    # - Visual Studio 2017
+    - Visual Studio 2015
+configuration:
+    - Release
+    # - Debug
+platform:
+    - x64
+    # - x86
+environment:
+    matrix:
+        - TOOLCHAIN: msvc14
+install:
+    # Set TEMP folder
+    - cmd: set TEMP_FOLDER=C:\Temp
+    - cmd: mkdir "%TEMP_FOLDER%"
+    
+    # Create WINDEPEND folder
+    - cmd: mkdir "%APPVEYOR_BUILD_FOLDER%\WinDepend"
+
+    # Add WINDEPEND folder to PATH (for LUA binary)
+    - cmd: set PATH=%APPVEYOR_BUILD_FOLDER%\WinDepend;%PATH%
+
+    # Download WINDEPEND archive
+    - ps : |
+        [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
+        Start-FileDownload "http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z" -FileName "$($env:TEMP_FOLDER)\WinDepend-MSVC.7z"
+
+    # Unpack WINDEPEND archive to WINDEPEND folder
+    - cmd: 7z x -y "%TEMP_FOLDER%\WinDepend-MSVC.7z" -o"%APPVEYOR_BUILD_FOLDER%"
+    
+    # Download LUA archive
+    - ps : |
+        [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
+        Start-FileDownload "https://www.dropbox.com/s/49vexob83bi5nrf/lua.zip?dl=1" -FileName "$($env:TEMP_FOLDER)\lua.zip"
+
+    # Unpack LUA archive to WINDEPEND folder
+    - cmd: 7z x -y "%TEMP_FOLDER%\lua.zip" -o"%APPVEYOR_BUILD_FOLDER%\WinDepend"
+   
+    # Report LUA binary version
+    - cmd: lua.exe -v
+
+    # Report debug info
+    #- cmd: echo %APPVEYOR_BUILD_FOLDER%
+    #- cmd: path
+    #- cmd: dir "%APPVEYOR_BUILD_FOLDER%\src\lua"
+  
+build:
+  project: /msvc-full-features/Cataclysm.sln
+  parallel: true
+  verbosity: minimal

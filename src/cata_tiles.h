@@ -225,11 +225,10 @@ struct minimap_submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     minimap_submap_cache( minimap_shared_texture_pool &pool );
+    minimap_submap_cache( minimap_submap_cache && );
     //handle the release of the borrowed texture
     ~minimap_submap_cache();
 };
-
-using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 
 class tileset
 {
@@ -344,7 +343,7 @@ class tileset_loader
          * <B>config</B>. That array should contain all the tile definition that
          * should be taken from an tileset image.
          * Because the function only loads tile definitions for a single tileset
-         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
+         * image, only tile indices (tile_type::fg tile_type::bg) in the interval
          * [0,size].
          * The <B>offset</B> is automatically added to the tile index.
          * sprite offset dictates where each sprite should render in its tile
@@ -364,9 +363,7 @@ class tileset_loader
 class cata_tiles
 {
     public:
-        /** Default constructor */
         cata_tiles( SDL_Renderer *render );
-        /** Default destructor */
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -526,11 +523,14 @@ class cata_tiles
         SDL_Renderer *renderer;
         std::unique_ptr<tileset> tileset_ptr;
 
-        int tile_height = 0, tile_width = 0;
+        int tile_height = 0;
+        int tile_width = 0;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
-        int screentile_width, screentile_height;
-        float tile_ratiox, tile_ratioy;
+        int screentile_width = 0;
+        int screentile_height = 0;
+        float tile_ratiox = 0.0;
+        float tile_ratioy = 0.0;
 
         bool in_animation;
 
@@ -567,12 +567,15 @@ class cata_tiles
         tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
-        int o_x, o_y;
+        int o_x = 0;
+        int o_y = 0;
         // offset for drawing, in pixels.
-        int op_x, op_y;
+        int op_x = 0;
+        int op_y = 0;
 
     private:
-        int last_pos_x, last_pos_y;
+        int last_pos_x = 0;
+        int last_pos_y = 0;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
@@ -588,7 +591,7 @@ class cata_tiles
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         minimap_shared_texture_pool tex_pool;
-        std::map< tripoint, minimap_cache_ptr> minimap_cache;
+        std::map<tripoint, minimap_submap_cache> minimap_cache;
 
         //persistent tiled minimap values
         void init_minimap( int destx, int desty, int width, int height );

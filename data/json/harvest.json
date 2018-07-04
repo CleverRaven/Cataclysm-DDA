@@ -13,5 +13,80 @@
       { "drop": "stomach" },
       { "drop": "bone", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.5 ], "max": 4 }
     ]
+  },
+  {
+    "id": "fish_large",
+    "type": "harvest",
+    "message": "You gut and fillet the fish",
+    "entries": [
+      { "drop": "fish", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 14 },
+      { "drop": "offal", "base_num": [ 1, 2 ], "scale_num": [ 0.7, 0.9 ], "max": 3 },
+      { "drop": "bone", "base_num": [ 2, 4 ], "scale_num": [ 0.5, 0.7 ], "max": 4 }
+    ]
+  },
+  {
+    "id": "mon_broken_cyborg",
+    "type": "harvest",
+    "message": "You search for any salvageable bionic hardware in what's left of this failed experiment",
+    "entries": [
+      { "drop": "bio_power_storage", "base_num": [ 0, 0 ], "scale_num": [ 0.05, 0.2 ], "max": 1 },
+      { "drop": "burnt_out_bionic", "scale_num": [ 0.1, 0.3 ], "max": 1 },
+      { "drop": "sinew", "base_num": [ 5, 15 ], "scale_num": [ 0.6, 0.9 ], "max": 20 },
+      { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8 },
+      { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10 },
+      { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12 }
+    ]
+  },
+  {
+    "id": "animal_large",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "base_num": [ 30, 50 ], "scale_num": [ 0.8, 0.9 ], "max": 60 },
+      { "drop": "offal", "base_num": [ 3, 6 ], "scale_num": [ 0.5, 0.7 ], "max": 7 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "bone", "base_num": [ 10, 30 ], "scale_num": [ 0.8, 0.9 ], "max": 40 },
+      { "drop": "sinew", "base_num": [ 50, 100 ], "scale_num": [ 0.6, 0.9 ], "max": 120 },
+      { "drop": "raw_fur", "base_num": [ 2, 4 ], "scale_num": [ 0.6, 0.8 ], "max": 5 },
+      { "drop": "fat", "base_num": [ 20, 40 ], "scale_num": [ 0.8, 0.9 ], "max": 50 }
+    ]
+  },
+  {
+    "id": "acidant_med",
+    "type": "harvest",
+    "message": "You carefully carve open the carapace, avoiding the acrid corrosion.",
+    "entries": [
+      { "drop": "meat_tainted", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 8 },
+      { "drop": "acidchitin_piece", "base_num": [ 1, 4 ], "scale_num": [ 0.2, 0.5 ], "max": 6 }
+    ]
+  },
+  {
+    "id": "acidant_larva",
+    "type": "harvest",
+    "message": "You delicately cut open the soft tissue, avoiding the corroding fluids.",
+    "entries": [
+      { "drop": "meat_tainted", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.5 ], "max": 4 },
+      { "drop": "acidchitin_piece", "base_num": [ 0, 1 ], "scale_num": [ 0.2, 0.5 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "acidant_queen",
+    "type": "harvest",
+    "message": "You laboriously dissect the colossal insect.",
+    "entries": [
+      { "drop": "meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80 },
+      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10 },
+      { "drop": "fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18 }
+    ]
+  },
+  {
+    "id": "fungaloid_mass",
+    "type": "harvest",
+    "message": "You laboriously hack and dig through the remains of the fungal mass.",
+    "entries": [
+      { "drop": "veggy", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 20 },
+      { "drop": "veggy_tainted", "base_num": [ 16, 25 ], "scale_num": [ 0.6, 0.8 ], "max": 50 },
+      { "drop": "plant_sac", "base_num": [ 3, 6 ], "scale_num": [ 0.7, 0.9 ], "max": 10 },
+      { "drop": "plant_fibre", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10 }
+    ]
   }
 ]

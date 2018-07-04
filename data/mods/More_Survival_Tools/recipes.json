@@ -401,51 +401,6 @@
      ]
   ]
 },{
-    "result": "1st_aid_survivor",
-    "type" : "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MEDICAL",
-    "skill_used": "firstaid",
-    "time": 50000,
-    "autolearn": true,
-    "qualities": [
-      { "id":"CUT","level":1 },
-      { "id":"BOIL","level":1 }
-    ],
-    "tools" : [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [
-      [
-        [ "rag", 3 ],
-        [ "felt_patch", 3 ],
-        [ "leather", 3 ],
-        [ "fur", 3 ]
-      ],
-      [
-        [ "thread", 300 ],
-        [ "sinew", 300 ],
-        [ "plant_fibre", 300 ],
-        [ "cordage", 1, "LIST" ],
-        [ "superglue", 1 ],
-        [ "resin_cord", 2 ]
-      ],
-      [
-        [ "moonshine", 14 ],
-        [ "vodka", 14 ],
-        [ "whiskey", 14 ],
-        [ "single_malt_whiskey", 14 ],
-        [ "brandy", 14 ],
-        [ "rum", 14 ],
-        [ "gin", 14 ],
-        [ "tequila", 14 ],
-        [ "mixed_alcohol_strong", 14 ],
-        [ "garlic", 3 ],
-        [ "wild_herbs", 100 ],
-        [ "thyme_oil", 1 ],
-        [ "honey_glassed", 3 ],
-        [ "honey_bottled", 6 ]
-      ]
-    ]
-},{
   "type" : "recipe",
   "result": "leg_warmers_f",
   "category": "CC_ARMOR",
@@ -712,6 +667,7 @@
   "difficulty": 3,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"SAW_W","level":2}
@@ -727,18 +683,9 @@
       [ "2x4", 2 ]
     ],
     [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "duct_tape", 20 ]
-    ],
-    [
       [ "wire", 1 ],
       [ "scrap", 2 ],
       [ "copper", 20 ]
-    ],
-    [
-      [ "wax", 1 ],
-      [ "pine_bough", 2 ]
     ],
     [
       [ "rag", 2 ],
@@ -956,46 +903,35 @@
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
   "components": [ [ [ "fur", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "bolt_bone",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used": "fabrication",
-  "skills_required": [[ "archery", 1 ], [ "survival", 1]],
-  "difficulty": 2,
-  "time": 12500,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "superglue", 1 ],
-      [ "bone_glue", 1 ],
-      [ "thread", 20 ],
-      [ "sinew", 20 ],
-      [ "plant_fibre", 20 ],
-      [ "yarn", 20 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ]
-    ],
-    [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_bone",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 2,
+    "time": 12500,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "bone", 5 ], [ "bone_human", 5 ], [ "bone_tainted", 10 ] ],
+      [
+        [ "feather", 10 ],
+        [ "duct_tape", 40 ],
+        [ "paper", 40 ],
+        [ "bag_plastic", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "box_small", 1 ],
+        [ "plastic_chunk", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "cash_card", 2 ]
+      ]
     ]
-  ]
-},{
+  },
+  {
   "type" : "recipe",
   "result": "snare_trigger",
   "override": true,

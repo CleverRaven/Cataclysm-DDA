@@ -73,6 +73,9 @@
         "id" : "HALLUCINATION"
     },{
         "type" : "SPECIES",
+        "id" : "HUMAN"
+    },{
+        "type" : "SPECIES",
         "id" : "UNKNOWN"
     }
 ]

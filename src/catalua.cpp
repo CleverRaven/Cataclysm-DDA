@@ -21,6 +21,8 @@
 #include "line.h"
 #include "requirements.h"
 #include "weather_gen.h"
+#include "omdata.h"
+#include "overmap.h"
 
 #ifdef LUA
 #include "ui.h"
@@ -29,6 +31,7 @@
 #include "morale_types.h"
 #include "trap.h"
 #include "overmap.h"
+#include "gun_mode.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
@@ -51,6 +54,7 @@ using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
 using mass = units::mass;
 using npc_template_id = string_id<npc_template>;
+using overmap_direction = om_direction::type;
 
 lua_State *lua_state = nullptr;
 
@@ -60,6 +64,20 @@ std::string lua_file_path = "";
 
 std::stringstream lua_output_stream;
 std::stringstream lua_error_stream;
+
+// Not used in the C++ code, but implicitly required by the Lua bindings.
+// Gun modes need to be created via an actual item.
+template<>
+const gun_mode &string_id<gun_mode>::obj() const
+{
+    static const gun_mode dummy{};
+    return dummy;
+}
+template<>
+bool string_id<gun_mode>::is_valid() const
+{
+    return false;
+}
 
 #if LUA_VERSION_NUM < 502
 // Compatibility, for before Lua 5.2, which does not have luaL_setfuncs
@@ -179,7 +197,7 @@ bool lua_report_error( lua_State *L, int err, const char *path, bool simple = fa
  * thefoo.something(); // do something with it, not that myfoo and thefoo are different objects
  * \endcode
  *
- * @param T is the type of object that should be managed. It must be copy-constructable.
+ * @param T is the type of object that should be managed. It must be copy-constructible.
  */
 template<typename T>
 class LuaValue {
@@ -271,7 +289,7 @@ private:
      */
     static int index( lua_State * const L )
     {
-        // -2 is the userdata, -1 is the key (funtion to call)
+        // -2 is the userdata, -1 is the key (function to call)
         const char * const key = lua_tostring( L, -1 );
         if( key == nullptr ) {
             luaL_error( L, "Invalid input to __index: key is not a string." );
@@ -377,7 +395,7 @@ public:
         T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
         // Push metatable,
         get_metatable( L );
-        // -1 would the the metatable, -2 is the uservalue, the table is popped
+        // -1 is the metatable, -2 is the uservalue, the table is popped
         lua_setmetatable( L, -2 );
         // This is where the copy happens:
         new (value_in_lua) T( std::forward<Args>( args )... );
@@ -624,7 +642,7 @@ template<typename T>
 struct LuaType<LuaReference<T>> : public LuaReference<T> {
 };
 
-/** This basically transforms a string (therefor inheriting from LuaType<string>) into a C++
+/** This basically transforms a string (therefore inheriting from LuaType<string>) into a C++
  * enumeration value. It simply contains a table of string-to-enum-values. */
 template<typename E>
 class LuaEnum : private LuaType<std::string> {
@@ -658,7 +676,7 @@ private:
     }
     static int index( lua_State * const L )
     {
-        // -1 is the key (funtion to call)
+        // -1 is the key (function to call)
         const char * const key = lua_tostring( L, -1 );
         if( key == nullptr ) {
             luaL_error( L, "Invalid input to __index: key is not a string." );
@@ -814,7 +832,7 @@ void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
 }
 
 // Call the given string directly, used in the lua debug command.
-int call_lua(std::string tocall)
+int call_lua( const std::string &tocall )
 {
     lua_State *L = lua_state;
 
@@ -830,7 +848,7 @@ void lua_callback(const char *callback_name)
 }
 
 //
-int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, float, const std::string &scr)
+int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, const time_point &t, float, const std::string &scr)
 {
     if( lua_state == nullptr ) {
         return 0;
@@ -843,18 +861,18 @@ int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, f
     if( lua_report_error( L, err, scr.c_str() ) ) {
         return err;
     }
-    //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
+    //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // @todo; make use of this
     //    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
 
     lua_pushstring(L, terrain_type.id().c_str());
     lua_setglobal(L, "tertype");
-    lua_pushinteger(L, t);
+    lua_pushinteger( L, to_turn<int>( t ) );
     lua_setglobal(L, "turn");
 
     err = lua_pcall(L, 0 , LUA_MULTRET, 0);
     lua_report_error( L, err, scr.c_str() );
 
-    //    luah_remove_from_registry(L, function_index); // todo: make use of this
+    //    luah_remove_from_registry(L, function_index); // @todo: make use of this
 
     return err;
 }
@@ -877,7 +895,22 @@ static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
 }
 
-static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {
+static time_duration get_time_duration_wrapper( const int t )
+{
+    return time_duration::from_turns( t );
+}
+
+static std::string get_omt_id( const overmap &om, const tripoint &p )
+{
+    return om.get_ter( p ).id().str();
+}
+
+static overmap_direction get_omt_dir( const overmap &om, const tripoint &p )
+{
+   return om.get_ter( p ).obj().get_dir();
+}
+
+static std::string string_input_popup_wrapper( const std::string &title, int width, const std::string &desc ) {
     return string_input_popup().title(title).width(width).description(desc).query_string();
 }
 
@@ -931,6 +964,10 @@ static void popup_wrapper(const std::string &text) {
 
 static void add_msg_wrapper(const std::string &text) {
     add_msg( text );
+}
+
+static bool query_yn_wrapper(const std::string &text) {
+    return query_yn( text );
 }
 
 // items = game.items_at(x, y)
@@ -1053,13 +1090,13 @@ static int game_register_iuse(lua_State *L)
 #include "lua/catabindings.cpp"
 
 // Load the main file of a mod
-void lua_loadmod(std::string base_path, std::string main_file_name)
+void lua_loadmod(const std::string &base_path, const std::string &main_file_name)
 {
     std::string full_path = base_path + "/" + main_file_name;
     if( file_exist( full_path ) ) {
         lua_file_path = base_path;
         lua_dofile( lua_state, full_path.c_str() );
-        lua_file_path = "";
+        lua_file_path.clear();
     }
     // debugmsg("Loading from %s", full_path.c_str());
 }
@@ -1241,7 +1278,7 @@ int call_lua( std::string ) {
 void lua_callback( const char * )
 {
 }
-void lua_loadmod( std::string, std::string )
+void lua_loadmod( const std::string &, const std::string & )
 {
 }
 void game::init_lua()

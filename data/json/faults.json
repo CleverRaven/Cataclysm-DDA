@@ -38,7 +38,7 @@
     "id": "fault_engine_pump_diesel",
     "type": "fault",
     "name": "diesel pump",
-    "description": "Required to pump and pressurise diesel from a vehicles tank.",
+    "description": "Required to pump and pressurize diesel from a vehicles tank.",
     "time": 240000,
     "skills": [ [ "mechanics", 4 ] ],
     "requirements": {

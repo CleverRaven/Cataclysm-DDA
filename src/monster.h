@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
+#include "calendar.h"
 
 #include <vector>
 #include <map>
@@ -81,6 +82,8 @@ class monster : public Creature
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade( bool pin_time );
+        void try_reproduce();
+        void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         int get_hp( hp_part ) const override;
@@ -157,7 +160,7 @@ class monster : public Creature
          * This will cause the monster to slowly move towards the destination,
          * unless there is an overriding smell or plan.
          *
-         * @param p Destination of monster's wonderings
+         * @param p Destination of monster's wanderings
          * @param f The priority of the destination, as well as how long we should
          *          wander towards there.
          */
@@ -253,10 +256,9 @@ class monster : public Creature
 
         void absorb_hit( body_part bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
-        using Creature::melee_attack;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique ) override;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique,
-                           int hitspread ) override;
+        void melee_attack( Creature &p );
+        void melee_attack( Creature &p, float accuracy );
+        void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
@@ -276,15 +278,15 @@ class monster : public Creature
          */
         void set_hp( int hp );
 
-        /** Processes monster-specific effects effects before calling Creature::process_effects(). */
+        /** Processes monster-specific effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
-                         int intensity = 0, bool force = false ) override;
+                         int intensity = 0, bool force = false, bool defererd = false ) override;
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
@@ -347,7 +349,7 @@ class monster : public Creature
         bool make_fungus();
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
-        void make_ally( monster *z );
+        void make_ally( const monster &z );
         void add_item( item it );   // Add an item to inventory
 
         /**
@@ -380,7 +382,8 @@ class monster : public Creature
 
         // DEFINING VALUES
         int friendly;
-        int anger, morale;
+        int anger = 0;
+        int morale = 0;
         mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         const mtype *type;
@@ -424,7 +427,10 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        int last_updated;
+        time_point last_updated = calendar::time_of_cataclysm;
+        int last_baby;
+        int last_biosig;
+
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -449,6 +455,10 @@ class monster : public Creature
         int next_upgrade_time();
         bool upgrades;
         int upgrade_time;
+        bool reproduces;
+        int baby_timer;
+        bool biosignatures;
+        int biosig_timer;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;

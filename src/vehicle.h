@@ -55,7 +55,7 @@ struct veh_collision {
     veh_coll_type type        = veh_coll_nothing;
     int           imp         = 0; // impulse
     void         *target      = nullptr;  //vehicle
-    int           target_part = 0; //veh partnum
+    int           target_part = 0; //vehicle partnum
     std::string   target_name;
 
     veh_collision() = default;
@@ -175,7 +175,7 @@ struct vehicle_part
      */
     npc *crew() const;
 
-    /** Set crew member for this part (seat, truret etc) who must be a player ally)
+    /** Set crew member for this part (seat, turret etc) who must be a player ally)
      *  @return true if part can have crew members and passed npc was suitable
      */
     bool set_crew( const npc &who );
@@ -184,7 +184,7 @@ struct vehicle_part
     void unset_crew();
 
     /** Reset the target for this part. */
-    void reset_target( tripoint pos );
+    void reset_target( const tripoint &pos );
 
     /**
      * @name Part capabilities
@@ -234,7 +234,7 @@ public:
     bool is_broken() const;
 
     int blood        = 0;         // how much blood covers part (in turns).
-    bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
+    bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vpart_position::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
     bool enabled     = true;      //
@@ -245,7 +245,7 @@ public:
     int direction = 0;            // direction the part is facing
 
     // Coordinates for some kind of target; jumper cables and turrets use this
-    // Two coord pairs are stored: actual target point, and target vehicle center.
+    // Two coordinate pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
     std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
@@ -253,7 +253,7 @@ private:
     /** What type of part is this? */
     vpart_id id;
 
-    /** As a performance optimisation we cache the part information here on first lookup */
+    /** As a performance optimization we cache the part information here on first lookup */
     mutable const vpart_info *info_cache = nullptr;
 
     item base;
@@ -415,20 +415,20 @@ struct label {
  *   vpart_list array -- that is accessible through `part_info()` method.
  *   The second part is variable info, see `vehicle_part` structure.
  * - Parts are mounted at some point relative to vehicle position (or starting part)
- *   (`0, 0` in mount coords). There can be more than one part at
- *   given mount coords, and they are mounted in different slots.
+ *   (`0, 0` in mount coordinates). There can be more than one part at
+ *   given mount coordinates, and they are mounted in different slots.
  *   Check tileray.h file to see a picture of coordinate axes.
  * - Vehicle can be rotated to arbitrary degree. This means that
- *   mount coords are rotated to match vehicle's face direction before
+ *   mount coordinates are rotated to match vehicle's face direction before
  *   their actual positions are known. For optimization purposes
- *   mount coords are precalculated for current vehicle face direction
- *   and stored in `precalc[0]`. `precalc[1]` stores mount coords for
+ *   mount coordinates are precalculated for current vehicle face direction
+ *   and stored in `precalc[0]`. `precalc[1]` stores mount coordinates for
  *   next move (vehicle can move and turn). Method `map::displace_vehicle()`
  *   assigns `precalc[1]` to `precalc[0]`. At any time (except
- *   `map::vehmove()` innermost cycle) you can get actual part coords
+ *   `map::vehmove()` innermost cycle) you can get actual part coordinates
  *   relative to vehicle's position by reading `precalc[0]`.
  *   Vehicles rotate around a (possibly changing) pivot point, and
- *   the precalc coordinates always put the pivot point at (0,0).
+ *   the precalculated coordinates always put the pivot point at (0,0).
  * - Vehicle keeps track of 3 directions:
  *     Direction | Meaning
  *     --------- | -------
@@ -457,7 +457,7 @@ struct label {
  *       orthogonal dir right (+Y)
  *
  *   When adding parts, function checks possibility to install part at given
- *   coords. If it shows debug messages that it can't add parts, when you start
+ *   coordinates. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
  *   There are a few rules:
  *   1. Every mount point (tile) must begin with a part in the 'structure'
@@ -507,8 +507,8 @@ private:
 
     units::volume total_folded_volume() const;
 
-    // Vehical fuel indicator (by fuel)
-    void print_fuel_indicator ( const catacurses::window &w, int y, int x, itype_id fuelType, bool verbose = false, bool desc = false ) const;
+    // Vehicle fuel indicator (by fuel)
+    void print_fuel_indicator ( const catacurses::window &w, int y, int x, const itype_id &fuelType, bool verbose = false, bool desc = false ) const;
 
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e ) const;
@@ -629,12 +629,9 @@ public:
      */
     void remove_remote_part(int part_num);
 
-    std::string const& get_label(int x, int y) const;
-    void set_label(int x, int y, std::string text);
-
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
-    // returns the list of indeces of parts at certain position (not accounting frame direction)
+    // returns the list of indices of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy, bool use_cache = true) const;
 
     // returns index of part, inner to given, with certain flag, or -1
@@ -721,18 +718,13 @@ public:
     bool part_flag (int p, const std::string &f) const;
     bool part_flag (int p, vpart_bitflags f) const;
 
-    // Returns the obstacle that shares location with this part (useful in some map code)
-    // Open doors don't count as obstacles, but closed do
-    // Broken parts are also never obstacles
-    int obstacle_at_part( int p ) const;
-
-    // Translate mount coords "p" using current pivot direction and anchor and return tile coords
+    // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
     point coord_translate (const point &p) const;
 
-    // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
+    // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
     void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
 
-    // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
+    // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
     int part_at( int dx, int dy ) const;
     int global_part_at( int x, int y ) const;
     int global_part_at( const tripoint &p ) const;
@@ -758,10 +750,10 @@ public:
     // Vehicle fuel indicators (all of them)
     void print_fuel_indicators( const catacurses::window &win, int y, int x, int startIndex = 0, bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
-    // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
+    // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
 
-    // get a list of part indeces where is a passenger inside
+    // get a list of part indices where is a passenger inside
     std::vector<int> boarded_parts() const;
 
     // get passenger at part p
@@ -791,7 +783,7 @@ public:
     tripoint real_global_pos3() const;
     /**
      * All the fuels that are in all the tanks in the vehicle, nicely summed up.
-     * Note that empty tanks don't count at all. The value is the amout as it would be
+     * Note that empty tanks don't count at all. The value is the amount as it would be
      * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
      */
     std::map<itype_id, long> fuels_left() const;
@@ -811,7 +803,7 @@ public:
      */
     float drain_energy( const itype_id &ftype, float energy );
 
-    // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
+    // fuel consumption of vehicle engines of given type, in one-hundredth of fuel
     int basic_consumption (const itype_id &ftype) const;
 
     void consume_fuel( double load );
@@ -926,7 +918,7 @@ public:
      * Roughly proportional to vehicle's mass divided by wheel area, times constant.
      * 
      * Affects safe velocity (moderately), acceleration (heavily).
-     * Also affects braking (including handbraking) and velocity drop during coasting.
+     * Also affects braking (including hand-braking) and velocity drop during coasting.
      */
     float k_mass() const;
 
@@ -980,7 +972,7 @@ public:
     // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    // Returns if any collision occured
+    // Returns if any collision occurred
     bool collision( std::vector<veh_collision> &colls,
                     const tripoint &dp,
                     bool just_detect, bool bash_floor = false );
@@ -1040,12 +1032,10 @@ public:
 
     void refresh_insides ();
 
-    bool is_inside (int p) const;
-
     void unboard_all ();
 
     // Damage individual part. bash means damage
-    // must exceed certain threshold to be substracted from hp
+    // must exceed certain threshold to be subtracted from hp
     // (a lot light collisions will not destroy parts)
     // Returns damage bypassed
     int damage (int p, int dmg, damage_type type = DT_BASH, bool aimed = true);
@@ -1210,7 +1200,7 @@ public:
     vproto_id type;
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
-    std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
+    std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used a lot (to put it mildly)
     std::set<label> labels;            // stores labels
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> engines;          // List of engine indices
@@ -1238,7 +1228,9 @@ public:
      * is loaded into the map the values are directly set. The vehicles position does
      * not change therefor no call to set_submap_moved is required.
      */
-    int smx, smy, smz;
+    int smx;
+    int smy;
+    int smz;
 
     float alternator_load;
 
@@ -1250,7 +1242,7 @@ public:
     // Turn the vehicle was last processed
     time_point last_update = calendar::before_time_starts;
     // Retroactively pass time spent outside bubble
-    // Funnels, solars
+    // Funnels, solar panels
     void update_time( const time_point &update_to );
 
     // save values
@@ -1275,7 +1267,7 @@ public:
 
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
-    float of_turn_carry;// leftover from prev. turn
+    float of_turn_carry;// leftover from previous turn
 
     int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
     int alarm_epower        = 0;

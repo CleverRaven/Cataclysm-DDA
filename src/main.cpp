@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--jsonverify", nullptr,
-                "Checks the cdda json files",
+                "Checks the CDDA json files",
                 section_default,
                 [&verifyexit](int, const char **) -> int {
                     verifyexit = true;
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
             },
             {
                 "--check-mods", "[mods...]",
-                "Checks the json files belonging to cdda mods",
+                "Checks the json files belonging to CDDA mods",
                 section_default,
                 [&check_mods,&opts]( int n, const char *params[] ) -> int {
                     check_mods = true;
@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
                     break;
                 }
             }
-            // Ingore unknown options.
+            // Ignore unknown options.
             if (!arg_handled) {
                 --saved_argc;
                 ++saved_argv;
@@ -398,7 +398,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+    if (!assure_dir_exist(FILENAMES["user_dir"])) {
         printf("Can't open or create %s. Check permissions.\n",
                FILENAMES["user_dir"].c_str());
         exit(1);
@@ -438,7 +438,7 @@ int main(int argc, char *argv[])
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
         try {
-			catacurses::init_interface();
+            catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
             std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
@@ -464,7 +464,8 @@ int main(int argc, char *argv[])
         if( check_mods ) {
             init_colors();
             loading_ui ui( false );
-            exit( g->check_mod_data( opts, ui ) && !test_dirty ? 0 : 1 );
+            const std::vector<mod_id> mods( opts.begin(), opts.end() );
+            exit( g->check_mod_data( mods, ui ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

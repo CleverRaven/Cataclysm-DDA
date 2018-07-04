@@ -42,8 +42,6 @@ void tileray::init( int adx, int ady )
 
 void tileray::init( int adir )
 {
-    deltax = 0;
-    deltay = 0;
     leftover = 0;
     // Clamp adir to the range [0, 359]
     direction = ( adir < 0 ? 360 - ( ( -adir ) % 360 ) : adir % 360 );
@@ -105,7 +103,7 @@ long tileray::dir_symbol( long sym ) const
         // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross
         case 'j': // vertical line
             return "h\\j/h\\j/"[dir8()];
-        case 'h': // horizonal line
+        case 'h': // horizontal line
             return "jhjh"[dir4()];
         case 'y': // top left corner
             return "unby"[dir4()];

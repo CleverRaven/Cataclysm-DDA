@@ -43,6 +43,8 @@ struct damage_unit {
 
     damage_unit( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f ) :
         type( dt ), amount( a ), res_pen( rp ), res_mult( rm ), damage_multiplier( mul ) { }
+
+    bool operator==( const damage_unit &other ) const;
 };
 
 
@@ -59,6 +61,13 @@ struct damage_instance {
     void clear();
     bool empty() const;
 
+    std::vector<damage_unit>::iterator begin();
+    std::vector<damage_unit>::const_iterator begin() const;
+    std::vector<damage_unit>::iterator end();
+    std::vector<damage_unit>::const_iterator end() const;
+
+    bool operator==( const damage_instance &other ) const;
+
     /**
      * Adds damage to the instance.
      * If the damage type already exists in the instance, the old and new instance are normalized.
@@ -69,6 +78,8 @@ struct damage_instance {
     void add( const damage_instance &b );
     void add( const damage_unit &b );
     /*@}*/
+
+    void deserialize( JsonIn & );
 };
 
 struct dealt_damage_instance {

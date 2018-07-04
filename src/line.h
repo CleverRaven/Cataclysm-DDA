@@ -24,8 +24,8 @@ constexpr double ARCMIN( double v )
 
 /**
  * Calculate base of an isosceles triangle
- * @param distance one of the the equal lengths
- * @param vertex the unequal angle expresed in MoA
+ * @param distance one of the equal lengths
+ * @param vertex the unequal angle expressed in MoA
  * @returns base in equivalent units to distance
  */
 inline double iso_tangent( double distance, double vertex )
@@ -34,8 +34,8 @@ inline double iso_tangent( double distance, double vertex )
     return sqrt( 2 * pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
 }
 
-//! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
-//! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
+//! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
+//! to allow simple runtime and compile-time mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
@@ -89,11 +89,11 @@ point direction_XY( direction dir );
 std::string const &direction_name( direction dir );
 std::string const &direction_name_short( direction dir );
 
-/* Get suffix describing vector from p to q (eg. 1NW, 2SE) or empty string if p == q */
+/* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint &p, const tripoint &q );
 
 /**
- * The actual bresenham algorithm in 2D and 3D, everything else should call these
+ * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
@@ -117,7 +117,6 @@ int square_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( int x1, int y1, int x2, int y2 );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( const point &a, const point &b );
-std::pair<std::pair<double, double>, double> slope_of( const std::vector<tripoint> &line );
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
@@ -133,23 +132,25 @@ struct rl_vec2d {
     float y;
 
     // vec2d(){}
-    rl_vec2d( float X = 0, float Y = 0 ) : x( X ), y( Y ) {}
-    rl_vec2d( const rl_vec2d &v ) : x( v.x ), y( v.y ) {}
-    ~rl_vec2d() {}
+    explicit rl_vec2d( float x = 0, float y = 0 ) : x( x ), y( y ) {}
+    explicit rl_vec2d( const point &p ) : x( p.x ), y( p.y ) {}
 
-    float norm();
-    rl_vec2d normalized();
-    rl_vec2d get_vertical();
-    float dot_product( rl_vec2d &v );
-    bool is_null();
+    float magnitude() const;
+    rl_vec2d normalized() const;
+    rl_vec2d rotated( float angle ) const;
+    float dot_product( const rl_vec2d &v ) const;
+    bool is_null() const;
+
+    point as_point() const;
+
     // scale.
-    rl_vec2d operator* ( float rhs );
-    rl_vec2d operator/ ( float rhs );
+    rl_vec2d operator* ( float rhs ) const;
+    rl_vec2d operator/ ( float rhs ) const;
     // subtract
-    rl_vec2d operator- ( const rl_vec2d &rhs );
+    rl_vec2d operator- ( const rl_vec2d &rhs ) const;
     // unary negation
-    rl_vec2d operator- ();
-    rl_vec2d operator+ ( const rl_vec2d &rhs );
+    rl_vec2d operator- () const;
+    rl_vec2d operator+ ( const rl_vec2d &rhs ) const;
 };
 
 struct rl_vec3d {
@@ -157,23 +158,25 @@ struct rl_vec3d {
     float y;
     float z;
 
-    rl_vec3d( float X = 0, float Y = 0, float Z = 0 ) : x( X ), y( Y ), z( Z ) {}
-    rl_vec3d( const rl_vec3d &v ) : x( v.x ), y( v.y ), z( v.z ) {}
-    ~rl_vec3d() {}
+    explicit rl_vec3d( float x = 0, float y = 0, float z = 0 ) : x( x ), y( y ), z( z ) {}
+    explicit rl_vec3d( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
 
-    float norm();
-    rl_vec3d normalized();
-    rl_vec3d get_vertical();
-    float dot_product( rl_vec3d &v );
-    bool is_null();
+    float magnitude() const;
+    rl_vec3d normalized() const;
+    rl_vec3d rotated( float angle ) const;
+    float dot_product( const rl_vec3d &v ) const;
+    bool is_null() const;
+
+    tripoint as_point() const;
+
     // scale.
-    rl_vec3d operator* ( float rhs );
-    rl_vec3d operator/ ( float rhs );
+    rl_vec3d operator* ( float rhs ) const;
+    rl_vec3d operator/ ( float rhs ) const;
     // subtract
-    rl_vec3d operator- ( const rl_vec3d &rhs );
+    rl_vec3d operator- ( const rl_vec3d &rhs ) const;
     // unary negation
-    rl_vec3d operator- ();
-    rl_vec3d operator+ ( const rl_vec3d &rhs );
+    rl_vec3d operator- () const;
+    rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
 };
 
 #endif

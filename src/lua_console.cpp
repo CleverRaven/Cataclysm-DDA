@@ -10,29 +10,38 @@
 lua_console::lua_console() : cWin( catacurses::newwin( lines, width, 0, 0 ) ),
     iWin( catacurses::newwin( 1, width, lines, 0 ) )
 {
+#ifndef LUA
+    text_stack.push_back( {_( "This build does not support Lua." ), c_red} );
+#else
+    text_stack.push_back( {_( "Welcome to the Lua console! Here you can enter Lua code." ), c_green} );
+#endif
+    text_stack.push_back( {_( "Press [Esc] to close the Lua console." ), c_blue} );
 }
 
 lua_console::~lua_console() = default;
 
 std::string lua_console::get_input()
 {
-    std::map<long, std::function<void()>> callbacks {
+    std::map<long, std::function<bool()>> callbacks {
         {
             KEY_ESCAPE, [this]()
             {
                 this->quit();
+                return false;
             }
         },
         {
             KEY_NPAGE, [this]()
             {
                 this->scroll_up();
+                return false;
             }
         },
         {
             KEY_PPAGE, [this]()
             {
                 this->scroll_down();
+                return false;
             }
         } };
     string_input_popup popup;
@@ -100,7 +109,8 @@ void lua_console::run()
         read_stream( lua_output_stream, c_white );
         read_stream( lua_error_stream, c_red );
 #else
-        text_stack.push_back( {"This build does not support lua.", c_red} );
+        text_stack.push_back( {_( "This build does not support Lua." ), c_red} );
+        text_stack.push_back( {_( "Press [Esc] to close the Lua console." ), c_blue} );
 #endif // LUA
     }
 }

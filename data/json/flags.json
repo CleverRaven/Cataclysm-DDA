@@ -45,6 +45,12 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
+    "id": "CBM",
+    "type": "json_flag",
+    "context": [ "BIONIC_ITEM" ],
+    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> to safely install it into your body, or you may attempt to perform a <info>self-installation</info> with a higher risk of damaging yourself."
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -61,14 +67,27 @@
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
+    "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
     "inherit": false
+  },
+  {
+    "id": "DURABLE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
+    "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
+  },
+  {
+    "id": "ONLY_ONE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "You can wear <info>only one</info>."
   },
   {
     "id": "FANCY",
@@ -105,6 +124,13 @@
     "conflicts": [ "STURDY" ]
   },
   {
+    "id": "FRAGILE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
+    "conflicts": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "GAS_PROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -139,7 +165,7 @@
     "id": "NO_QUICKDRAW",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
+    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
   },
   {
     "id": "NO_REPAIR",
@@ -270,7 +296,7 @@
     "id": "WAIST",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Layer for belts other things worn on the waist.",
+    "description": "Layer for belts and other things worn on the waist.",
     "info": "This gear is worn on or around your <info>waist</info>.",
     "conflicts": [ "BELTED", "OUTER", "SKINTIGHT" ]
   },

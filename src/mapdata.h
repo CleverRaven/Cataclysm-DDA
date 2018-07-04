@@ -54,7 +54,7 @@ struct map_bash_info {
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -66,7 +66,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 
 /*
@@ -81,11 +81,11 @@ struct map_deconstruct_info {
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
- * SHARP - May do minor damage to players/monsters passing thruogh it
+ * SHARP - May do minor damage to players/monsters passing through it
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
- * MOUNTABLE - Player can fire mounted weapons from here (EG: M2 Browning)
+ * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
  * GOES_UP - Can use '<' to go up a level
@@ -180,11 +180,16 @@ enum ter_connects : int {
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
     TERCONN_WATER,
+    TERCONN_PAVEMENT,
+    TERCONN_RAIL,
 };
 
 struct map_data_common_t {
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
+    
+    public:
+        virtual ~map_data_common_t() = default;
 
     protected:
         friend furn_t null_furniture_t();
@@ -194,7 +199,7 @@ struct map_data_common_t {
 
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
 
 public:
         std::string name() const;
@@ -301,6 +306,7 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
 
@@ -329,8 +335,8 @@ void verify_terrain();
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
 ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
-the code that can use the perormance boost and refer to core terrain types), and they are -not-
-provided for terrains added by mods. A string equivalent is always present, ie;
+the code that can use the performance boost and refer to core terrain types), and they are -not-
+provided for terrains added by mods. A string equivalent is always present, i.e.;
 t_basalt
 "t_basalt"
 */
@@ -386,9 +392,9 @@ extern ter_id t_null,
     t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_birch_harvested, t_tree_willow, t_tree_willow_harvested, t_tree_maple, t_tree_maple_tapped, t_tree_deadpine, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
-    t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
+    t_fence, t_chainfence, t_chainfence_posts,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-    t_railing_v, t_railing_h,
+    t_railing,
     // Nether
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
     t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
@@ -428,7 +434,11 @@ extern ter_id t_null,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     t_linoleum_white, t_linoleum_gray,
-    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
+    // Railroad and subway
+    t_railroad_rubble,
+    t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
+    t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d1, t_railroad_track_d2,
+    t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
 
 
 /*
