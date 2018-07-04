@@ -107,7 +107,7 @@
     "name": "L2037 Backup",
     "name_plural": "L2037 Backups",
     "//": "Most real-life autorevolvers use 6-7.5 inch barrel, but this one's mentioned to be particularly massive.",
-    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result. It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder. Holographics and laser sights built in for additonal accuracy. Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result.  It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder. Holographics and laser sights built in for additonal accuracy. Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 2370,
     "volume": 3,
     "price": 267000,
@@ -162,7 +162,7 @@
       [ "AUTO", "auto", 5 ]
     ],
     "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_stabilizer" ],
-	"valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ], [ "underbarrel", 1 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ], [ "underbarrel", 1 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_dsr_223",
@@ -185,7 +185,7 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-LMG",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates ACOG scope, a heavy-duty barrel, foregrip, bipods and as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates ACOG scope, a heavy-duty barrel, foregrip, bipod and as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
     "price": 620000,
     "durability": 9,
     "modes": [

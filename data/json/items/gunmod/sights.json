@@ -211,9 +211,9 @@
     "copy-from": "lead_acog_scope",
     "type": "GUNMOD",
     "name": "Leadworks ACOG and red dot combo scope",
-    "description": "An Leadworks built in (proprietary) combination optic & red-dot sights for quick and accurate targeting.",
+    "description": "An Leadworks built in (proprietary) combination of optic & red-dot sights for quick and accurate targeting.",
     "price": 0,
-    "aim_speed": 6,
+    "aim_speed": 5,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {

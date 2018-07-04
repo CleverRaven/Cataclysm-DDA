@@ -348,7 +348,7 @@
     "copy-from": "bipod",
     "type": "GUNMOD",
     "name": "Leadworks bipod",
-    "description": "Leadworks built in bipods designed to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are usable only on certain surfaces and are slow to equip.",
+    "description": "Leadworks built in bipod designed to provide a forward rest and reduce motion.  Although it greatly improve handling of recoil it is usable only on certain surfaces and are slow to equip.",
     "price": 0,
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   }
