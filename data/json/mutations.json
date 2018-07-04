@@ -81,11 +81,11 @@
         "points" : 2,
         "description" : "You heal faster when sleeping and will even recover small amount of HP when not sleeping.",
         "starting_trait" : true,
-        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3", "MET_RAT"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
         "category" : ["MUTCAT_MEDICAL"],
-        "healing_awake" : 0.002,
-        "healing_resting" : 0.005
+        "healing_awake" : 0.2,
+        "healing_resting" : 0.5
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
@@ -114,6 +114,7 @@
         "description" : "You have a high tolerance for pain.",
         "starting_trait" : true,
         "valid" : false,
+        "cancels" : ["MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3"],
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -316,7 +317,10 @@
         "points" : 1,
         "description" : "There's something about you that creatures find frightening, and they are more likely to try to flee.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_CHIMERA"],
+        "social_modifiers" : {
+            "intimidate" : 15
+        }
     },{
         "type" : "mutation",
         "id" : "DISRESISTANT",
@@ -486,7 +490,10 @@
         "points" : 1,
         "description" : "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
         "starting_trait" : true,
-        "cancels" : ["TRUTHTELLER"]
+        "cancels" : ["TRUTHTELLER"],
+        "social_modifiers" : {
+            "lie" : 40
+        }
     },{
         "type" : "mutation",
         "id" : "PRETTY",
@@ -532,8 +539,30 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER"],
-        "healing_resting" : -0.0025
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER2", "SLOWHEALER3"],
+        "healing_resting" : -0.25
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER2",
+        "name" : "Poor Healer",
+        "points" : -4,
+        "description" : "Your health recovery through sleeping is severely impaired and causes you to recover only a third of usual HP over time.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER3"],
+        "healing_resting" : -0.66
+    },{
+        "type" : "mutation",
+        "id" : "SLOWHEALER3",
+        "name" : "Imperceptive Healer",
+        "points" : -8,
+        "description" : "You recover barely any health through sleeping - it will heal only one tenth of usual HP over time.",
+        "starting_trait" : true,
+        "valid": false,
+        "purifiable": false,
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER2"],
+        "healing_resting" : -0.9
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -869,7 +898,10 @@
         "points" : -1,
         "description" : "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
         "starting_trait" : true,
-        "cancels" : ["LIAR"]
+        "cancels" : ["LIAR"],
+        "social_modifiers" : {
+            "lie" : -40
+        }
     },{
         "type" : "mutation",
         "id" : "UGLY",
@@ -989,7 +1021,12 @@
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
         "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "social_modifiers" : {
+            "lie" : 10,
+            "persuade" : 20,
+            "intimidate" : 10
+        }
     },{
         "type" : "mutation",
         "id" : "ELFA_NV",
@@ -1091,12 +1128,12 @@
         "name" : "Very Fast Healer",
         "points" : 4,
         "description" : "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
-        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3"],
         "prereqs" : ["FASTHEALER"],
         "changes_to" : ["REGEN"],
         "category" : ["MUTCAT_PLANT"],
-        "healing_awake" : 0.0066,
-        "healing_resting" : 0.005
+        "healing_awake" : 0.66,
+        "healing_resting" : 0.5
     },{
         "type" : "mutation",
         "id" : "REGEN",
@@ -1106,8 +1143,8 @@
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"],
-        "healing_awake" : 0.02,
-        "healing_resting" : 0.015
+        "healing_awake" : 2.0,
+        "healing_resting" : 1.5
     },{
         "type" : "mutation",
         "id" : "REGEN_LIZ",
@@ -1702,7 +1739,7 @@
         "points" : 5,
         "visibility" : 10,
         "ugliness" : 3,
-        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to bashing and cutting damage and minor protection from fire.  Greatly reduces wet effects.",
+        "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
         "prereqs" : ["PLANTSKIN"],
         "category" : ["MUTCAT_PLANT"],
         "wet_protection" : [
@@ -1753,7 +1790,10 @@
         "prereqs2" : ["LEAVES"],
         "cancels" : ["SMELLY", "SMELLY2"],
         "threshreq" : ["THRESH_PLANT"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "social_modifiers" : {
+            "lie" : 10
+        }
     },{
         "type" : "mutation",
         "id" : "M_SPORES",
@@ -2332,6 +2372,9 @@
         "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"],
         "restricts_gear" : [ "MOUTH" ],
         "destroys_gear" : true,
+        "social_modifiers" : {
+            "intimidate" : 15
+        },
         "attacks" : {
             "attack_text_u" : "You tear into %s with your saber teeth",
             "attack_text_npc" : "%1$s tears into %2$s with their saber teeth",
@@ -2563,7 +2606,11 @@
         "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
-        "allow_soft_gear" : true
+        "allow_soft_gear" : true,
+        "social_modifiers" : {
+            "lie": -20 ,
+            "persuade": 10
+        }
     },{
         "type" : "mutation",
         "id" : "TAIL_STING",
@@ -2716,9 +2763,37 @@
         "purifiable" : false,
         "prereqs" : ["MASOCHIST", "PAINRESIST"],
         "prereqs2" : ["PAINREC3"],
+        "cancels" : ["MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3"],
         "threshreq" : ["THRESH_MEDICAL"],
         "//" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "MORE_PAIN",
+        "name" : "Pain Sensitive",
+        "points" : -2,
+        "description" : "For some reason things always seem to hurt you more.  Pain dealt to you is increased by 25%.",
+        "starting_trait" : true,
+        "//" : "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
+        "cancels" : ["PAINRESIST", "NOPAIN"],
+        "changes_to" : ["MORE_PAIN2"]
+    },{
+        "type" : "mutation",
+        "id" : "MORE_PAIN2",
+        "name" : "Hyperalgesia",
+        "points" : -3,
+        "description" : "Your body experiences pain out of proportion to the physical causes.  Pain dealt to you is increased by 50%.",
+        "prereqs" : ["MORE_PAIN"],
+        "cancels" : ["PAINRESIST", "NOPAIN"],
+        "changes_to" : ["MORE_PAIN3"]
+    },{
+        "type" : "mutation",
+        "id" : "MORE_PAIN3",
+        "name" : "Extreme Hyperalgesia",
+        "points" : -5,
+        "description" : "Your body reacts cripplingly to any source of pain.  Pain dealt to you is doubled.",
+        "prereqs" : ["MORE_PAIN2"],
+        "cancels" : ["PAINRESIST", "NOPAIN"]
     },{
         "type" : "mutation",
         "id" : "PRED1",
@@ -2736,7 +2811,7 @@
         "id" : "PRED2",
         "name" : "Hunter",
         "points" : 3,
-        "description" : "Your brain has a lot more in common with predatory animal than a human, making it easer to control misplaced reactions to death of your prey.  Additionally, combat skills, which you use to hunt, are easer to learn and maintain.",
+        "description" : "Your brain has a lot more in common with predatory animal than a human, making it easier to control misplaced reactions to death of your prey.  Additionally, combat skills, which you use to hunt, are easier to learn and maintain.",
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED1"],
@@ -2749,7 +2824,7 @@
         "id" : "PRED3",
         "name" : "Predator",
         "points" : 3,
-        "description" : "You consider yourself something other than human and no longer empathise with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
+        "description" : "You consider yourself something other than human and no longer empathize with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
@@ -2857,7 +2932,7 @@
         "description" : "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear.  Slightly reduces wet effects.",
         "prereqs" : ["MOUTH_FLAPS"],
         "changes_to" : ["FANGS_SPIDER"],
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES", "SABER_TEETH"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
@@ -2879,7 +2954,7 @@
         "points" : 2,
         "visibility" : 6,
         "ugliness" : 6,
-        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Activate to extend or retract your fangs.",
+        "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
         "prereqs" : ["MANDIBLES"],
         "prereqs2" : ["POISONOUS", "POISONOUS2"],
@@ -3491,7 +3566,12 @@
         "threshreq" : ["THRESH_INSECT"],
         "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BAT"],
         "category" : ["MUTCAT_INSECT"],
-        "restricts_gear" : [ "TORSO" ]
+        "restricts_gear" : [ "TORSO" ],
+        "social_modifiers" : {
+            "lie" : 10,
+            "persuade" : 15,
+            "intimidate" : -20
+        }
     },{
         "type" : "mutation",
         "id" : "PALE",
@@ -3613,7 +3693,10 @@
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_CATTLE"],
-        "restricts_gear" : [ "MOUTH" ]
+        "restricts_gear" : [ "MOUTH" ],
+        "social_modifiers" : {
+            "intimidate" : 15
+        }
     },{
         "type" : "mutation",
         "id" : "MUZZLE",
@@ -3627,6 +3710,9 @@
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"],
         "restricts_gear" : [ "MOUTH" ],
+        "social_modifiers" : {
+            "intimidate" : 6
+        },
         "attacks" : {
             "attack_text_u" : "You nip at %s",
             "attack_text_npc" : "%1$s nips and harries %2$s",
@@ -3681,6 +3767,9 @@
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"],
         "restricts_gear" : [ "MOUTH" ],
+        "social_modifiers" : {
+            "intimidate" : 20
+        },
         "attacks" : {
             "attack_text_u" : "You bite a chunk out of %s",
             "attack_text_npc" : "%1$s bites a chunk out of %2$s",
@@ -3757,8 +3846,8 @@
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
         "category" : ["MUTCAT_RAT"],
-        "healing_awake" : 0.002,
-        "healing_resting" : 0.005,
+        "healing_awake" : 0.2,
+        "healing_resting" : 0.5,
         "fatigue_modifier": 0.5,
         "fatigue_regen_modifier": 0.333,
         "metabolism_modifier": 0.333
@@ -3843,8 +3932,8 @@
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "changes_to" : ["ROT2"],
         "category" : ["MUTCAT_ELFA"],
-        "healing_awake" : -0.00002,
-        "healing_resting" : -0.0025
+        "healing_awake" : -0.002,
+        "healing_resting" : -0.25
     },{
         "type" : "mutation",
         "id" : "ROT2",
@@ -3856,7 +3945,7 @@
         "prereqs" : ["ROT1"],
         "changes_to" : ["ROT3"],
         "category" : ["MUTCAT_CHIMERA"],
-        "healing_awake" : -0.0002
+        "healing_awake" : -0.02
     },{
         "type" : "mutation",
         "id" : "ROT3",
@@ -3867,7 +3956,7 @@
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT2"],
         "category": ["MUTCAT_ALPHA"],
-        "healing_awake" : -0.0008
+        "healing_awake" : -0.08
     },{
         "type" : "mutation",
         "id" : "SUNBURN",
@@ -4412,7 +4501,11 @@
         "mixed_effect" : true,
         "description" : "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
         "changes_to" : ["SNARL"],
-        "category" : ["MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_LUPINE"],
+        "social_modifiers" : {
+            "persuade" : -25,
+            "intimidate" : 15
+        }
     },{
         "type" : "mutation",
         "id" : "SNARL",
@@ -4421,7 +4514,11 @@
         "mixed_effect" : true,
         "description" : "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA", "MUTCAT_FELINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA", "MUTCAT_FELINE"],
+        "social_modifiers" : {
+            "persuade" : -60,
+            "intimidate" : 30
+        }
     },{
         "type" : "mutation",
         "id" : "HISS",
@@ -4429,7 +4526,11 @@
         "mixed_effect" : true,
         "points": -1,
         "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
-        "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"],
+        "social_modifiers" : {
+            "persuade" : -25,
+            "intimidate" : 15
+        }
     },{
         "type" : "mutation",
         "id" : "SHOUT1",

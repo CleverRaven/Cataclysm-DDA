@@ -42,6 +42,40 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return haystack.find( needle ) != std::string::npos;
 }
 
+bool match_include_exclude( const std::string &text, std::string filter )
+{
+    size_t iPos;
+    bool found = false;
+
+    if( filter.empty() ) {
+        return false;
+    }
+
+    do {
+        iPos = filter.find( "," );
+
+        std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
+        const bool exclude = term.substr( 0, 1 ) == "-";
+        if( exclude ) {
+            term = term.substr( 1 );
+        }
+
+        if( ( !found || exclude ) && lcmatch( text, term ) ) {
+            if( exclude ) {
+                return false;
+            }
+
+            found = true;
+        }
+
+        if( iPos != std::string::npos ) {
+            filter = filter.substr( iPos + 1, filter.size() );
+        }
+    } while( iPos != std::string::npos );
+
+    return found;
+}
+
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
                                    const std::pair<int, tripoint> &b ) const
 {
@@ -219,7 +253,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
     }
     if( value >= std::pow( 10.0, width ) ) {
         // above the maximum number we can fit in the width without decimal
-        // show the bigest number we can without decimal
+        // show the biggest number we can without decimal
         // flag as truncated
         value = std::pow( 10.0, width ) - 1.0;
         scale = 0;
@@ -423,12 +457,12 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char( void )> f )
+std::string obscure_message( const std::string &str, std::function<char()> f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
-    //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
     std::string gibberish_wide =
+        //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
         _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
@@ -446,7 +480,7 @@ std::string obscure_message( const std::string &str, std::function<char( void )>
                 w_str[i] = random_entry( w_gibberish_wide );
             }
         } else {
-            // Only support the case eg. replace current character to symbols like # or ?
+            // Only support the case e.g. replace current character to symbols like # or ?
             if( utf8_width( transformation ) != 1 ) {
                 debugmsg( "target character isn't narrow" );
             }

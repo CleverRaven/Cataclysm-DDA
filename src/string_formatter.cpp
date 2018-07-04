@@ -3,8 +3,6 @@
 #include <stdexcept>
 #include <cstdarg>
 
-std::string vstring_format( const char *pattern, va_list argptr );
-
 char cata::string_formatter::consume_next_input()
 {
     return current_index_in_format < format.size() ? format[current_index_in_format++] : '\0';
@@ -62,7 +60,7 @@ int cata::string_formatter::parse_integer( )
 {
     int result = 0;
     while( has_digit() ) {
-        //@todo Check for overflow
+        //@todo: Check for overflow
         result = result * 10 + ( consume_next_input() - '0' );
     }
     return result;
@@ -113,15 +111,6 @@ std::string cata::handle_string_format_error()
     } catch( const std::exception &err ) {
         return err.what();
     }
-}
-
-std::string cata::string_formatter::raw_string_format( const char *const pattern, ... )
-{
-    va_list ap;
-    va_start( ap, pattern );
-    std::string result = vstring_format( pattern, ap );
-    va_end( ap );
-    return result;
 }
 
 void cata::string_formatter::add_long_long_length_modifier()

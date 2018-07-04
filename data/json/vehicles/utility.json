@@ -234,5 +234,46 @@
       { "x": 2, "y": 2, "part": "roller_drum" }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 5, "items": [ "hat_hard" ] } ]
+  },
+  {
+    "type": "vehicle",
+    "id": "forklift",
+    "name": "Forklift",
+    "blueprint": [
+      [ "o#o-" ],
+      [ "o|o-" ]
+    ],
+    "parts": [
+      { "x": -1, "y": 0, "part": "frame_sw" },
+      { "x": -1, "y": 0, "part": "halfboard_sw" },
+      { "x": -1, "y": 0, "part": "wheel_small_steerable" },
+      { "x": -1, "y": 1, "part": "frame_se" },
+      { "x": -1, "y": 1, "part": "halfboard_se" },
+      { "x": -1, "y": 1, "part": "wheel_small_steerable" },
+      { "x": 0, "y": 0, "part": "frame_horizontal" },
+      { "x": 0, "y": 0, "part": "seat" },
+      { "x": 0, "y": 0, "part": "roof" },
+      { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 1, "part": "frame_horizontal" },
+      { "x": 0, "y": 1, "part": "engine_electric" },
+      { "x": 0, "y": 1, "part": "roof" },
+      { "x": 0, "y": 1, "part": "halfboard_vertical" },
+      { "x": 0, "y": 1, "part": "storage_battery" },
+      { "x": 1, "y": 0, "part": "frame_nw" },
+      { "x": 1, "y": 0, "part": "halfboard_nw" },
+      { "x": 1, "y": 0, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 1, "part": "frame_ne" },
+      { "x": 1, "y": 1, "part": "halfboard_ne" },
+      { "x": 1, "y": 1, "part": "wheel_small_steerable" },
+      { "x": 2, "y": 0, "part": "forklift_fork" },
+      { "x": 2, "y": 1, "part": "forklift_fork" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 5, "items": [ "hat_hard" ] },
+      { "x": 2, "y": 0, "chance": 10, "items": [ "2x4" ] },
+      { "x": 2, "y": 1, "chance": 10, "items": [ "2x4" ] }
+    ]
   }
 ]
+
+

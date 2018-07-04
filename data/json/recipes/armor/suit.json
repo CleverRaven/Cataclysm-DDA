@@ -93,6 +93,23 @@
     "components": [ [ [ "chitin_piece", 15 ] ] ]
   },
   {
+    "result": "armor_acidchitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
+    "time": 200000,
+    "autolearn": true,
+    "using": [ [ "cordage", 2 ] ],
+    "qualities": [
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [ [ [ "acidchitin_piece", 15 ] ] ]
+  },
+  {
     "result": "armor_farmor",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -135,12 +152,12 @@
     "time": 560000,
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 400 ], [ "oxy_torch", 80 ] ]
     ],
@@ -216,12 +233,12 @@
     "time": 600000,
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
     ],
@@ -240,12 +257,12 @@
     "time": 560000,
     "book_learn": [ [ "textbook_armeast", 8 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
     ],
@@ -285,13 +302,14 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 7,
+    "difficulty": 3,
     "time": 100000,
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "recipe_melee", 6 ] ],
+    "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "scrap", 15 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 190 ] ] ]
   },
   {
     "result": "chainmail_suit",

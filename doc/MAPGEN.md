@@ -73,7 +73,7 @@
 Note: You may wish to read over JSON_INFO.md beforehand.
 
 ## 0.0 How buildings and terrain are generated
-Cataclysm creates builings and terrain on discovery via 'mapgen'; functions specific to an overmap terrain (the tiles you see in [m]ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in overmap_terrain.json.
+Cataclysm creates buildings and terrain on discovery via 'mapgen'; functions specific to an overmap terrain (the tiles you see in [m]ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in overmap_terrain.json.
 
 By default, an oter has a single builtin mapgen function which matches the '"id"' in it's json entry (examples: "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as a house, the game chooses semi-randomly from a list of functions for "house", picks one, and runs it, laying down walls and adding items, monsters, rubber chickens and whatnot. This is all done in a fraction of a second (something to keep in mind for later).
 
@@ -207,7 +207,7 @@ Default: 1000
 
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
-* "extras" - applies rare, random scenes after mapgen; helicoptor crashes, etc
+* "extras" - applies rare, random scenes after mapgen; helicopter crashes, etc
 * "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json) or *map:place_monster(..)* (lua)
 
 ## 1.4 Limitations / TODO
@@ -602,7 +602,7 @@ Places a vehicle. Values:
 - "vehicle": (required, string) type of the vehicle or id of a vehicle group.
 - "chance": (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
 - "rotation": (optional, integer) the direction the vehicle faces.
-- "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 
+- "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
 - "status": (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
 ### 2.6.9 "item"

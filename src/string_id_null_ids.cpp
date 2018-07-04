@@ -2,7 +2,7 @@
 
 // These are centralized in this file because they must appear in one and only one compilation unit,
 // and it's problematic to define them in the respective cpp files for each class.
-// Very repititious, so define them with a macro.
+// Very repetitious, so define them with a macro.
 #define MAKE_NULL_ID( type, ... ) \
     class type; \
     template<> const string_id<type> &string_id<type>::NULL_ID() { \

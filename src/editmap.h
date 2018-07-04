@@ -35,13 +35,14 @@ struct editmap_hilight {
                   )
                 );
     };
-    void draw( editmap *em, bool update = false );
+    void draw( editmap &em, bool update = false );
 };
 
 class editmap
 {
     public:
-        void uphelp( std::string txt1 = "", std::string txt2 = "", std::string title = "" );
+        void uphelp( const std::string &txt1 = "", const std::string &txt2 = "",
+                     const std::string &title = "" );
         tripoint pos2screen( const tripoint &p );
         tripoint screen2pos( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
@@ -61,8 +62,8 @@ class editmap
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uimenu *fmenu, field *field, field_id idx );
-        void setup_fmenu( uimenu *fmenu );
+        void update_fmenu_entry( uimenu &fmenu, field &field, field_id idx );
+        void setup_fmenu( uimenu &fmenu );
         bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         catacurses::window w_info;
         catacurses::window w_help;

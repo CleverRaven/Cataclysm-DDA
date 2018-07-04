@@ -26,7 +26,7 @@
  * if(the class is an input archive) or @ref std::false_type (it's an output archive). This can be
  * used to do additional things only after loading the data, but not after storing it.
  *
- * Usage: implement a tempted function `io` in the clas that is to be serialized and add a typedef
+ * Usage: implement a tempted function `io` in the class that is to be serialized and add a typedef
  *
  *     class MySerializeableType {
  *         ...
@@ -296,7 +296,7 @@ public:
      * later stored in the JSON.
      * @param required If `true`, an error will be raised if the requested member does not exist
      * in the JSON data.
-     * JsonOutputArchive, so it can be used when the the archive type is a template parameter.
+     * JsonOutputArchive, so it can be used when the archive type is a template parameter.
      */
     template<typename T>
     bool io( const std::string& name, T* & pointer, const std::function<void(const std::string&)>& load,
@@ -434,7 +434,7 @@ public:
      * the id of the pointed to object or similar). The returned string is stored in the archive.
      *
      * The function signature is compatible with the similar function in the
-     * @ref JsonObjectInputArchive, so it can be used when the the archive type is a template parameter.
+     * @ref JsonObjectInputArchive, so it can be used when the archive type is a template parameter.
      */
     template<typename T>
     bool io( const std::string& name, const T* pointer, const std::function<void(const std::string&)>&,

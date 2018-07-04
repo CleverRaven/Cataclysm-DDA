@@ -212,9 +212,9 @@ void player::sort_armor()
     */
 
     int req_right_h = 3 + 1 + 2 + 12 + 1;
-    for( int cover = 0; cover < num_bp; cover++ ) {
-        for( auto &elem : worn ) {
-            if( elem.covers( static_cast<body_part>( cover ) ) ) {
+    for( const body_part cover : all_body_parts ) {
+        for( const item &elem : worn ) {
+            if( elem.covers( cover ) ) {
                 req_right_h++;
             }
         }
@@ -292,6 +292,7 @@ void player::sort_armor()
             if( g->u.moves < 0 ) {
                 g->u.assign_activity( activity_id( "ACT_ARMOR_LAYERS" ), 0 );
                 g->u.activity.auto_resume = true;
+                g->u.activity.moves_left = INT_MAX;
                 return;
             }
         } else {
@@ -357,12 +358,12 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( leftListSize > ( int )tmp_worn.size() ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
                        c_light_blue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ),
                        c_light_blue, _( "<empty>" ) );
         }
@@ -392,7 +393,7 @@ void player::sort_armor()
             }
             if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                 mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
-                           "%s:", body_part_name_as_heading( bp_aBodyPart[cover], combined ? 2 : 1 ).c_str() );
+                           "%s:", body_part_name_as_heading( all_body_parts[cover], combined ? 2 : 1 ).c_str() );
                 pos++;
             }
             rightListSize++;
@@ -414,7 +415,7 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            // @todo replace it by right_print()
+            // @todo: replace it by right_print()
             mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_light_blue,
                        _( "<more>" ) );
         }
@@ -515,14 +516,12 @@ void player::sort_armor()
             }
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
-            // NOTE: This is from player's inventory, even for NPCs!
-            // @todo Allow making NPCs equip their own stuff
-            item_location loc = game_menus::inv::wear( g->u );
+            item_location loc = game_menus::inv::wear( *this );
 
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                if( wear( g->u.i_at( loc.obtain( g->u ) ) ) ) {
+                if( wear( this->i_at( loc.obtain( *this ) ) ) ) {
                     // reorder `worn` vector to place new item at cursor
                     auto iter = worn.end();
                     item new_equip  = *( --iter );
@@ -534,7 +533,7 @@ void player::sort_armor()
                     // inserts at position before iter (no b0f, phew)
                     worn.insert( iter, new_equip );
                 } else if( is_npc() ) {
-                    // @todo Pass the reason here
+                    // @todo: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
             }
@@ -553,7 +552,7 @@ void player::sort_armor()
                 }
             }
         } else if( action == "ASSIGN_INVLETS" ) {
-            // prompt first before doing this (yes yes, more popups...)
+            // prompt first before doing this (yes, yes, more popups...)
             if( query_yn( _( "Reassign invlets for armor?" ) ) ) {
                 // Start with last armor (the most unimportant one?)
                 auto iiter = inv_chars.rbegin();
@@ -584,7 +583,7 @@ Press [%s] to remove selected armor from oneself.\n\
  \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
-The second number is an additional encumbrance penalty caused by wearing multiple items on one of the bodypart's four layers.\n\
+The second number is an additional encumbrance penalty caused by wearing multiple items on one of the bodypart's layers.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart." ),
                           ctxt.get_desc( "MOVE_ARMOR" ).c_str(),
                           ctxt.get_desc( "PREV_TAB" ).c_str(),

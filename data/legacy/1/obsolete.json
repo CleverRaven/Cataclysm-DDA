@@ -482,7 +482,7 @@
     "id": "nail_bomb_act",
     "type": "TOOL",
     "name": "active nail bomb",
-    "description": "This is an active nail_bomb, likely to explode any second now.  Better throw it!",
+    "description": "This is an active nail bomb, likely to explode any second now.  Better throw it!",
     "category": "weapons",
     "weight": 290,
     "volume": 2,

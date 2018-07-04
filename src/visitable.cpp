@@ -552,7 +552,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
                 // The non-first items of a stack may have different invlets, the code
                 // in inventory only ever checks the invlet of the first item. This
                 // ensures that the first item of a stack always has the same invlet, even
-                // after the orignal first item was removed.
+                // after the original first item was removed.
                 if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
                     istack_iter->invlet = original_invlet;
                 }
@@ -637,7 +637,8 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     }
 
     // fetch the appropriate item stack
-    int x, y;
+    int x = 0;
+    int y = 0;
     submap *sub = g->m.get_submap_at( *cur, x, y );
 
     for( auto iter = sub->itm[ x ][ y ].begin(); iter != sub->itm[ x ][ y ].end(); ) {

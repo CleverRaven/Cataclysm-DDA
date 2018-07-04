@@ -19,11 +19,7 @@
         "Skeletons are too delicate to smash through doors or windows.  They also can't smell you, unlike zombies, so if you turn your light off at night you can sneak right past.",
         "Don't try to take on a skeleton with a bladed weapon... you'll just leave scratch marks.  You've got to shatter those bones with a hammer or something.",
         "It's a good idea to butcher corpses if you have the time, even if you don't plan on eating them.  I've seen these weird zombies bring their friends back from the dead!",
-        "Triffids are tough.  They've got natural armor, and it takes a lot to bring them down.  I don't recommend getting into a fight with them.",
-        "Triffids can't see!  They figure out where you are by your smell, but if you mask it with smoke or something, you're as good as invisible.",
-        "I figured out how to take care of those triffids!  Let me just say this: they're made of wood, and wood and fire don't mix.",
-        "Have you heard about those queen triffids?  You gotta keep your distance from them, unless you like having a tree grow right through your chest.",
-        "I have a buddy who was sleeping in this cabin way out in the woods, when he suddenly woke up to trees and vines growing right up through the floor and walls!  He said it was some kind of huge triffid making it happen...",
+        "I have a buddy who was sleeping in this cabin way out in the woods, when he suddenly woke up to trees and vines growing right up through the floor and walls!  He said it was some kind of huge tree beast...",
         "Oh man, have you gone down into the old subway systems?  I'd be careful... there's these things down there that are like zombies, but tougher.",
         "There's snakes down in most of the old sewer systems.  They're slow on land, but boy, those suckers can swim fast!",
         "If you're planning on wandering around the sewers--not that you'd have a reason too--watch out for those fish.  Those suckers are fast, and vicious too!",
@@ -93,6 +89,7 @@
         "I've thought about raiding an ant hill before, but I realized it wasn't worth the risk.  I doubt they have any loot beyond some scraps of food, you know?",
         "This guy I know was walking through the subway when he came across a giant rift in the earth, with lava far below.  Weird, huh?",
         "In a lot of places, there's little hallways connecting the subways with the sewers, with heavy metal doors on both ends.  It's a perfect place to sleep!",
-        "Be careful of drinking water from rivers and stuff, it's a good way to get sick.  But if you have a water purifier, it'll make it safe."
+        "Be careful of drinking water from rivers and stuff, it's a good way to get sick.  But if you have a water purifier, it'll make it safe.",
+        "Autodocs are probably your best bet to install bionics - if you can find one!  However, I heard they won't work if you don't bring anesthetics to put you in a sleep."
     ]
 }

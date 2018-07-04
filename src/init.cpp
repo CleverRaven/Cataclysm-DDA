@@ -158,6 +158,8 @@ void DynamicDataLoader::initialize()
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
+    add( "WORLD_OPTION", &load_world_option );
+    add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
@@ -241,14 +243,13 @@ void DynamicDataLoader::initialize()
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
     add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
-    add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
     add( "colordef", &load_ignored_type );
     // mod information, ignored, handled by the mod manager
     add( "MOD_INFO", &load_ignored_type );
 
-    add( "faction", &faction::load_faction );
+    add( "faction", &faction_template::load );
     add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
@@ -372,6 +373,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     recipe_dictionary::reset();
+    faction_template::reset();
     quality::reset();
     trap::reset();
     reset_constructions();
@@ -404,7 +406,7 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything
-    // @todo Make it print to stdout?
+    // @todo: Make it print to stdout?
     loading_ui ui( false );
     finalize_loaded_data( ui );
 }

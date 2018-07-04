@@ -19,44 +19,6 @@
     "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
-    "id": "gas_tank_little",
-    "type": "vehicle_part",
-    "name": "gasoline tank (little)",
-    "item": "metal_tank_little",
-    "location": "fuel_source",
-    "fuel_type": "gasoline",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "light_red",
-    "broken_color": "red",
-    "difficulty": 1,
-    "durability": 75,
-    "size": 1000,
-    "damage_modifier": 80,
-    "folded_volume": 5,
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FOLDABLE" ]
-  },
-  {
-    "id": "diesel_tank_little",
-    "type": "vehicle_part",
-    "name": "diesel tank (little)",
-    "item": "metal_tank_little",
-    "location": "fuel_source",
-    "fuel_type": "diesel",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "green",
-    "broken_color": "red",
-    "difficulty": 1,
-    "durability": 75,
-    "size": 1000,
-    "damage_modifier": 80,
-    "folded_volume": 5,
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FOLDABLE" ]
-  },
-  {
     "id": "engine_1cyl_small",
     "type": "vehicle_part",
     "name": "1-cylinder engine",
@@ -124,32 +86,18 @@
   },
   {
     "id": "pebble",
+    "copy-from": "pebble",
     "type": "AMMO",
     "name": "pebble",
     "description": "A handful of pebbles, useful as ammunition for slings or slingshots.",
-    "weight": 5,
-    "volume": 1,
-    "price": 100,
-    "to_hit": 0,
     "bashing": 1,
-    "material": "stone",
-    "symbol": "=",
-    "color": "light_gray",
-    "count": 25,
-    "ammo_type": "pebble",
-    "range": 10,
-    "damage": 2,
-    "pierce": 0,
-    "dispersion": 14,
-    "loudness": 0,
-    "effects": [ "NEVER_MISFIRES" ]
+    "count": 25
   },
   {
     "id": "flamethrower",
     "type": "vehicle_part",
     "name": "manual flamethrower",
     "item": "flamethrower",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "dark_gray",
@@ -166,7 +114,6 @@
     "type": "vehicle_part",
     "name": "BAR turret",
     "item": "m1918",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "brown",
@@ -184,7 +131,6 @@
     "type": "vehicle_part",
     "name": "M249 turret",
     "item": "m249",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "cyan",
@@ -202,7 +148,6 @@
     "type": "vehicle_part",
     "name": "plasma turret",
     "item": "plasma_rifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "light_blue",
@@ -219,7 +164,6 @@
     "type": "vehicle_part",
     "name": "fusion turret",
     "item": "ftk93",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "magenta",
@@ -237,7 +181,6 @@
     "type": "vehicle_part",
     "name": "M2 Browning turret",
     "item": "m2browning",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "green",
@@ -255,7 +198,6 @@
     "type": "vehicle_part",
     "name": "M240 turret",
     "item": "m240",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "cyan",
@@ -273,7 +215,6 @@
     "type": "vehicle_part",
     "name": "M60 turret",
     "item": "m60",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "cyan",
@@ -291,7 +232,6 @@
     "type": "vehicle_part",
     "name": "auto-shotgun turret",
     "item": "abzats",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "green",
@@ -309,7 +249,6 @@
     "type": "vehicle_part",
     "name": "M134D-H Minigun turret",
     "item": "m134",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "green",
@@ -327,7 +266,6 @@
     "type": "vehicle_part",
     "name": "Mark 19 turret",
     "item": "mark19",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "green",
@@ -345,7 +283,6 @@
     "type": "vehicle_part",
     "name": "RM614 turret",
     "item": "rm614_lmg",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -363,7 +300,6 @@
     "type": "vehicle_part",
     "name": "RM298 turret",
     "item": "rm298",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -381,7 +317,6 @@
     "type": "vehicle_part",
     "name": "water cannon turret",
     "item": "watercannon",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "blue",
@@ -392,5 +327,136 @@
     "damage_modifier": 80,
     "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
     "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT" ]
+  },
+  {
+    "id": "pool_ball",
+    "copy-from": "pool_ball",
+    "type": "AMMO",
+    "name": "pool ball",
+    "count": 1,
+    "ammo_type": "h_projectile",
+    "range": 6,
+    "damage": 23,
+    "dispersion": 30,
+    "effects": [ "RECOVER_10", "BEANBAG" ]
+  },
+  {
+    "id": "rock",
+    "copy-from": "rock",
+    "type": "AMMO",
+    "name": "rock",
+    "count": 1,
+    "ammo_type": "h_projectile",
+    "damage": 15,
+    "dispersion": 45,
+    "effects": [ "RECOVER_10", "BEANBAG" ]
+  },
+  {
+    "id": "flamethrower",
+    "copy-from": "flamethrower",
+    "type": "GUN",
+    "name": "flamethrower",
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "flamethrower_crude",
+    "copy-from": "flamethrower_crude",
+    "type": "GUN",
+    "name": "spraycan flamethrower",
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "flamethrower_simple",
+    "copy-from": "flamethrower_simple",
+    "type": "GUN",
+    "name": "simple flamethrower",
+    "range": 2,
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "gasoline",
+    "copy-from": "gasoline",
+    "type": "AMMO",
+    "category": "fuel",
+    "name": "gasoline",
+    "name_plural": "gasoline",
+    "explosion": {
+      "power": 10,
+      "distance_factor": 0.01,
+      "shrapnel": {
+        "count": 25,
+        "mass": 1,
+        "drop": "gasoline",
+        "recovery": 100
+      }
+    }
+  },
+  {
+    "id": "rm451_flamethrower",
+    "copy-from": "rm451_flamethrower",
+    "type": "GUN",
+    "name": "RM451 flamethrower",
+    "extend": {
+      "ammo_effects": [ "STREAM" ],
+      "flags": [ "FIRE_20" ]
+    },
+    "delete": { "flags": [ "FIRE_100" ] }
+  },
+  {
+    "id": "water",
+    "copy-from": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": "water",
+    "name_plural": "water",
+    "ammo_data": { "ammo_type": "water" },
+    "explosion": {
+      "power": 30,
+      "distance_factor": 0.5,
+      "shrapnel": {
+        "count": 100,
+        "mass": 3,
+        "drop": "water",
+        "recovery": 100
+      }
+    },
+    "flags": [ "EATEN_COLD" ]
+  },
+  {
+    "id": "1cyl_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "1-cylinder engine",
+    "description": "A single-cylinder 4-stroke combustion engine.",
+    "weight": 20000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 85,
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
+    "id": "1cyl_combustion_small",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "small 1-cylinder engine",
+    "description": "A small single-cylinder 2-stroke combustion engine.",
+    "weight": 10000,
+    "volume": 3,
+    "price": 6000,
+    "displacement": 60,
+    "faults": [  ]
   }
 ]

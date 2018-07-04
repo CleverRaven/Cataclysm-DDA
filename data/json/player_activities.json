@@ -32,13 +32,13 @@
     "id": "ACT_CRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "speed"
+    "based_on": "neither"
   },
   {
     "id": "ACT_LONGCRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "speed"
+    "based_on": "neither"
   },
   {
     "id": "ACT_DISASSEMBLE",
@@ -313,6 +313,18 @@
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "stop_phrase": "Stop chopping down?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHOP_LOGS",
+    "type": "activity_type",
+    "stop_phrase": "Stop chopping down?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_JACKHAMMER",
+    "type": "activity_type",
+    "stop_phrase": "Stop drilling?",
     "based_on": "speed"
   }
 ]

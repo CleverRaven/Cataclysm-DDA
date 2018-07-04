@@ -57,7 +57,7 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
 
 /**
  * Cancels ongoing move all action.
- * @todo Make this not needed.
+ * @todo: Make this not needed.
  */
 void cancel_aim_processing();
 
@@ -289,7 +289,7 @@ class advanced_inventory_pane
         /**
          * Same as the other, but checks the real item.
          */
-        bool is_filtered( const item *it ) const;
+        bool is_filtered( const item &it ) const;
         /**
          * Scroll @ref index, by given offset, set redraw to true,
          * @param offset Must not be 0.
@@ -408,7 +408,7 @@ class advanced_inventory
         void recalc_pane( side p );
         void redraw_pane( side p );
         // Returns the x coordinate where the header started. The header is
-        // displayed right right of it, everything left of it is till free.
+        // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
         /**
@@ -470,7 +470,7 @@ class advanced_inventory
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, long &amount );
 
-        void menu_square( uimenu *menu );
+        void menu_square( uimenu &menu );
 
         static char get_location_key( aim_location area );
         static char get_direction_key( aim_location area );

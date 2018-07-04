@@ -54,7 +54,7 @@ void PATH_INFO::init_user_dir(const char *ud)
     FILENAMES["user_dir"] = dir;
 }
 
-void PATH_INFO::update_pathname(std::string name, std::string path)
+void PATH_INFO::update_pathname( const std::string &name, const std::string &path)
 {
     std::map<std::string, std::string>::iterator iter;
 
@@ -115,7 +115,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
 }
 
-void PATH_INFO::set_standard_filenames(void)
+void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {

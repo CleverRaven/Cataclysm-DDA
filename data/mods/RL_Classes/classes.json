@@ -429,7 +429,7 @@
                 "pine_wine"
                 ],
                 "entries": [
-                    { "item": "kris", "container-item": "sheath" },
+                    { "item": "kris", "container-item": "scabbard" },
                     { "item": "dry_mushroom", "count": 8 }
                 ]
             },

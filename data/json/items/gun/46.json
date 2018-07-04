@@ -2,6 +2,7 @@
   {
     "id": "hk_mp7",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "H&K MP7",
     "description": "Designed as a personal defense weapon, the MP7 fires the high powered 4.6x30mm round while being lightweight, compact in size, and practically recoil free.",
     "weight": 1780,
@@ -35,6 +36,7 @@
   {
     "id": "hk_ucp",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "H&K UCP",
     "description": "Designed to work with H&K's proprietary 4.6x30mm round, the UCP is a small pistol with a very high capacity, best used against armored opponents.",
     "weight": 730,

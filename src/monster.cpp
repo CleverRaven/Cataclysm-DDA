@@ -18,6 +18,7 @@
 #include <numeric>
 #include "cursesdef.h"
 #include "effect.h"
+#include "melee.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
@@ -32,9 +33,6 @@
 #include "field.h"
 #include "sounds.h"
 #include "npc.h"
-
-#define SGN(a) (((a)<0) ? -1 : 1)
-#define SQR(a) ((a)*(a))
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
@@ -69,6 +67,7 @@ const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
 const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
 const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
 const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
 const mtype_id mon_zombie_master( "mon_zombie_master" );
 const mtype_id mon_zombie_necro( "mon_zombie_necro" );
@@ -83,6 +82,13 @@ const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
 const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
 const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
+const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
+const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
+const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
+const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
+const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
+const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
@@ -159,12 +165,15 @@ monster::monster()
     no_extra_death_drops = false;
     dead = false;
     made_footstep = false;
-    unique_name = "";
     hallucination = false;
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
+    baby_timer = -1;
+    last_baby = 0;
+    biosig_timer = -1;
+    last_biosig = 0;
 }
 
 monster::monster( const mtype_id& id ) : monster()
@@ -181,7 +190,9 @@ monster::monster( const mtype_id& id ) : monster()
     morale = type->morale;
     faction = type->default_faction;
     ammo = type->starting_ammo;
-    upgrades = type->upgrades;
+    upgrades = type->upgrades && (type->half_life || type->age_grow);
+    reproduces = type->reproduces && type->baby_timer;
+    biosignatures = type->biosignatures;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
@@ -231,6 +242,8 @@ void monster::poly( const mtype_id& id )
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
+    reproduces = type->reproduces;
+    biosignatures = type->biosignatures;
 }
 
 bool monster::can_upgrade() {
@@ -239,13 +252,13 @@ bool monster::can_upgrade() {
 
 // For master special attack.
 void monster::hasten_upgrade() {
-    if (!can_upgrade() || upgrade_time < 1) {
+    if( !can_upgrade() || upgrade_time < 1 ) {
         return;
     }
 
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    upgrade_time -= rng(1, scaled_half_life);
-    if (upgrade_time < 0) {
+    upgrade_time -= rng( 1, scaled_half_life );
+    if( upgrade_time < 0 ) {
         upgrade_time = 0;
     }
 }
@@ -253,11 +266,14 @@ void monster::hasten_upgrade() {
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
+    if( type->age_grow > 0 ){
+        return type->age_grow;
+    }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
-    for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
-        if (one_in(2)) {
-            day += rng(0, scaled_half_life);
+    for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
+        if( one_in( 2 ) ) {
+            day += rng( 0, scaled_half_life );
             return day;
         } else {
             day += scaled_half_life;
@@ -269,23 +285,23 @@ int monster::next_upgrade_time() {
 }
 
 void monster::try_upgrade(bool pin_time) {
-    if (!can_upgrade()) {
+    if( !can_upgrade() ) {
         return;
     }
 
-    const int current_day = calendar::turn.get_turn() / DAYS(1);
-
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    //This should only occur when a monster is created or upgraded to a new form
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
         if (upgrade_time < 0) {
             return;
         }
-        if (pin_time) {
-            // offset by today
+        if( pin_time || type->age_grow > 0 ) {
+            // offset by today, always true for growing creatures
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start / DAYS(1);
+            upgrade_time += to_days<int>( calendar::time_of_cataclysm - calendar::start );
         }
     }
 
@@ -301,15 +317,14 @@ void monster::try_upgrade(bool pin_time) {
         if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
-            const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            const mtype_id &new_type = random_entry( monsters );
+            const mtype_id &new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             if( new_type ) {
                 poly( new_type );
             }
         }
 
         if (!upgrades) {
-            // upgraded into a non-upgradable monster
+            // upgraded into a non-upgradeable monster
             return;
         }
 
@@ -319,6 +334,89 @@ void monster::try_upgrade(bool pin_time) {
             return;
         }
         upgrade_time += next_upgrade;
+    }
+}
+
+void monster::try_reproduce() {
+    if( !reproduces ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    if( baby_timer < 0 ) {
+        baby_timer = type->baby_timer;
+        if( baby_timer < 0 ) {
+            return;
+        }
+        baby_timer += current_day;
+    }
+
+    bool season_spawn = false;
+    bool season_match = true;
+    for( auto &elem : type->baby_flags ) {
+        if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
+            season_spawn = true;
+        }
+    }
+
+    while( true ) {
+        if( baby_timer > current_day ) {
+            return;
+        }
+
+        if( season_spawn ){
+            season_match = false;
+            for( auto &elem : type->baby_flags ) {
+                if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( DAYS( baby_timer ) ) == AUTUMN && elem == "AUTUMN" ) ) {
+                    season_match = true;
+                }
+            }
+        }
+
+        if( season_match ){
+            if( type->baby_monster ) {
+                g->m.add_spawn( type->baby_monster, type->baby_count, pos().x, pos().y );
+            } else {
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), type->baby_count ), true );
+            }
+        }
+
+        const int next_baby = type->baby_timer;
+        if( next_baby < 0 ) {
+            return;
+        }
+        baby_timer += next_baby;
+    }
+}
+
+void monster::try_biosignature() {
+    if( !biosignatures ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    if( biosig_timer < 0 ) {
+        biosig_timer = type->biosig_timer;
+        if( biosig_timer < 0 ) {
+            return;
+        }
+        biosig_timer += current_day;
+    }
+
+    while( true ) {
+        if( biosig_timer > current_day ) {
+            return;
+        }
+
+        g->m.add_item_or_charges( pos(), item( type->biosig_item, DAYS( biosig_timer ), 1 ), true );
+        const int next_biosig = type->biosig_timer;
+        if( next_biosig < 0 ) {
+            return;
+        }
+        biosig_timer += next_biosig;
     }
 }
 
@@ -339,7 +437,7 @@ std::string monster::name(unsigned int quantity) const
   debugmsg ("monster::name empty type!");
   return std::string();
  }
- if (unique_name != "")
+ if( !unique_name.empty() )
   return string_format("%s: %s",
                        (type->nname(quantity).c_str()), unique_name.c_str());
  return type->nname(quantity);
@@ -350,14 +448,16 @@ std::string monster::name_with_armor() const
 {
     std::string ret;
     if( type->in_species( INSECT ) ) {
-        ret = string_format(_("carapace"));
+        ret = string_format( _( "carapace" ) );
     } else if( made_of( material_id( "veggy" ) ) ) {
-        ret = string_format(_("thick bark"));
+        ret = string_format( _( "thick bark" ) );
+    } else if( made_of( material_id( "bone" ) ) ) {
+        ret = string_format( _( "exoskeleton" ) );
     } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
                made_of( material_id( "iflesh" ) ) ) {
-        ret = string_format(_("thick hide"));
-    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) )) {
-        ret = string_format(_("armor plating"));
+        ret = string_format( _( "thick hide" ) );
+    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
+        ret = string_format( _( "armor plating" ) );
     }
     return ret;
 }
@@ -520,7 +620,7 @@ std::string monster::extended_description() const
     } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
-        ss << _( "It has head." ) << std::endl;
+        ss << _( "It has a head." ) << std::endl;
     }
 
     return replace_colors( ss.str() );
@@ -734,7 +834,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         const npc *np = dynamic_cast< const npc * >( u );
-        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
+        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
     }
@@ -782,7 +882,7 @@ monster_attitude monster::attitude( const Character *u ) const
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
-                    effective_morale += 5;
+                    effective_morale += 55;
                 }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
@@ -803,7 +903,11 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        return MATT_IGNORE;
+        if( get_hp() != get_hp_max() ) {
+            return MATT_FLEE;
+        } else {
+            return MATT_IGNORE;
+        }
     }
 
     if( effective_anger < 10 ) {
@@ -844,7 +948,7 @@ void monster::process_triggers()
     anger  = std::min( 100, std::max( -100, anger  ) );
 }
 
-// This Adjustes anger/morale levels given a single trigger.
+// This adjusts anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
     if (type->has_anger_trigger(trig)){
@@ -862,7 +966,9 @@ void monster::process_trigger(monster_trigger trig, int amount)
 int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
     int ret = 0;
-    bool check_terrain = false, check_meat = false, check_fire = false;
+    bool check_terrain = false;
+    bool check_meat = false;
+    bool check_fire = false;
     for( const auto &trigger : triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
@@ -874,7 +980,7 @@ int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
             case MTRIG_MEAT:
                 // Disable meat checking for now
                 // It's hard to ever see it in action
-                // and even harder to balance it without making it exploity
+                // and even harder to balance it without making it exploitable
 
                 // check_terrain = true;
                 // check_meat = true;
@@ -1002,14 +1108,14 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack( Creature &target, bool allow_special, const matec_id& force_technique )
+void monster::melee_attack( Creature &target )
 {
-    int hitspread = target.deal_melee_attack(this, hit_roll());
-    melee_attack( target, allow_special, force_technique, hitspread );
+    melee_attack( target, get_hit() );
 }
 
-void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspread )
+void monster::melee_attack( Creature &target, float accuracy )
 {
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
@@ -1024,11 +1130,11 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
         // Make us a valid target for a few turns
-        add_effect( effect_hit_by_player, 3 );
+        add_effect( effect_hit_by_player, 3_turns );
     }
 
     if( has_flag( MF_HIT_AND_RUN ) ) {
-        add_effect( effect_run, 4 );
+        add_effect( effect_run, 4_turns );
     }
 
     const bool u_see_me = g->u.sees( *this );
@@ -1050,7 +1156,7 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
         // Miss
-        if( u_see_me ) {
+        if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
                     add_msg( _("You dodge %s."), disp_name().c_str() );
             } else if( target.is_npc() ) {
@@ -1137,7 +1243,7 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
-            target.add_effect( eff.id, eff.duration, affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
 
@@ -1145,22 +1251,22 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
 
     if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
         target.add_msg_if_player( m_bad, _("You're poisoned!") );
-        target.add_effect( effect_poison, 30 );
+        target.add_effect( effect_poison, 3_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
-        target.add_effect( effect_badpoison, 40 );
+        target.add_effect( effect_badpoison, 4_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
         target.add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-        target.add_effect( effect_paralyzepoison, 100 );
+        target.add_effect( effect_paralyzepoison, 10_minutes );
     }
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 60, bp_hit );
+        target.add_effect( effect_bleed, 6_minutes, bp_hit );
     }
 }
 
@@ -1171,7 +1277,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
-        add_effect( effect_run, rng(3, 5));
+        add_effect( effect_run, rng( 3_turns, 5_turns ) );
     }
 
     if( missed_by > 1.0 ) {
@@ -1179,17 +1285,6 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         return;
     }
 
-    const bool u_see_mon = g->u.sees(*this);
-    // Maxes out at 50% chance with perfect hit
-    if( has_flag(MF_HARDTOSHOOT) &&
-        !one_in(10 - 10 * (.8 - missed_by)) &&
-        !effects.count( "WIDE" ) ) {
-        if( u_see_mon ) {
-            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
-        }
-        return;
-    }
-    // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
     if( missed_by < accuracy_headshot && has_flag( MF_NOHEAD ) ) {
         missed_by = accuracy_headshot;
@@ -1379,11 +1474,11 @@ bool monster::move_effects(bool)
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
-                          bool permanent, int intensity, bool force )
+void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+                          bool permanent, int intensity, bool force, bool deferred )
 {
     bp = num_bp;
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
@@ -1461,7 +1556,7 @@ float monster::hit_roll() const {
         hit /= 4;
     }
 
-    return normal_roll( hit * 5, 25.0f );
+    return melee::melee_hit_range( hit );
 }
 
 bool monster::has_grab_break_tec() const
@@ -1564,7 +1659,7 @@ int monster::impact( const int force, const tripoint &p )
     apply_damage( nullptr, bp_torso, bash_damage );
     total_dealt += force * mod;
 
-    add_effect( effect_downed, rng( 0, mod * 3 + 1 ) );
+    add_effect( effect_downed, time_duration::from_turns( rng( 0, mod * 3 + 1 ) ) );
 
     return total_dealt;
 }
@@ -1673,7 +1768,7 @@ void monster::die(Creature* nkiller)
     if( !is_hallucination() && ch != nullptr ) {
         if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( trait_PACIFIST ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
-            mdeath::guilt(this);
+            mdeath::guilt( *this );
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
@@ -1731,17 +1826,18 @@ void monster::die(Creature* nkiller)
     // Also, perform our death function
     if(is_hallucination()) {
         //Hallucinations always just disappear
-        mdeath::disappear(this);
+        mdeath::disappear( *this );
         return;
     }
 
     //Not a hallucination, go process the death effects.
     for (auto const &deathfunction : type->dies) {
-        deathfunction(this);
+        deathfunction( *this );
     }
 
     // If our species fears seeing one of our own die, process that
-    int anger_adjust = 0, morale_adjust = 0;
+    int anger_adjust = 0;
+    int morale_adjust = 0;
     if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust += 15;
     }
@@ -1917,7 +2013,7 @@ bool monster::make_fungus()
     } else if (tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
       tid == mon_zombie_spitter || tid == mon_zombie_brute ||
       tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_zombie_child||
+      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_hulk ||
       tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
       tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
       tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
@@ -1933,6 +2029,10 @@ bool monster::make_fungus()
         polypick = 3;
     } else if (tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen) {
         polypick = 4;
+    } else if( tid == mon_zombie_anklebiter || tid == mon_zombie_child || tid == mon_zombie_creepy ||
+      tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
+      tid == mon_zombie_waif ) {
+        polypick = 5;
     }
 
     const std::string old_name = name();
@@ -1948,6 +2048,9 @@ bool monster::make_fungus()
             break;
         case 4:
             poly( mon_fungaloid );
+            break;
+        case 5:
+            poly( mon_zombie_child_fungus );
             break;
         default:
             return false;
@@ -1967,9 +2070,10 @@ void monster::make_friendly()
     friendly = rng(5, 30) + rng(0, 20);
 }
 
-void monster::make_ally(monster *z) {
-    friendly = z->friendly;
-    faction = z->faction;
+void monster::make_ally( const monster &z )
+{
+    friendly = z.friendly;
+    faction = z.faction;
 }
 
 void monster::add_item(item it)
@@ -2217,7 +2321,7 @@ void monster::on_unload()
 void monster::on_load()
 {
     // Possible TODO: Integrate monster upgrade
-    const int dt = calendar::turn - last_updated;
+    const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0 ) {
         return;
@@ -2235,7 +2339,7 @@ void monster::on_load()
         regen = 0.25f / HOURS(1);
     }
 
-    const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
+    const int heal_amount = divide_roll_remainder( regen * to_turns<int>( dt ), 1.0 );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {
@@ -2245,7 +2349,7 @@ void monster::on_load()
     }
 
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
-             name().c_str(), dt, healed, healed_speed );
+             name().c_str(), to_turns<int>( dt ), healed, healed_speed );
 }
 
 const pathfinding_settings &monster::get_pathfinding_settings() const

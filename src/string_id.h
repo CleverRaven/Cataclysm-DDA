@@ -173,7 +173,7 @@ class string_id
             return !is_null();
         }
 
-        // @todo Exposed for now. Hide these and make them accessible to the generic_factory only
+        // @todo: Exposed for now. Hide these and make them accessible to the generic_factory only
 
         /**
          * Assigns a new value for the cached int id.

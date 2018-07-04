@@ -98,7 +98,6 @@ void mvwvline( const window &win, int y, int x, chtype ch, int n );
 void wrefresh( const window &win );
 void refresh();
 void wredrawln( const window &win, int beg_line, int num_lines );
-
 void mvwprintw( const window &win, int y, int x, const std::string &text );
 template<typename ...Args>
 inline void mvwprintw( const window &win, const int y, const int x, const char *const fmt,
@@ -114,6 +113,7 @@ inline void wprintw( const window &win, const char *const fmt, Args &&... args )
     return wprintw( win, string_format( fmt, std::forward<Args>( args )... ) );
 }
 
+void resizeterm();
 void werase( const window &win );
 void init_pair( short pair, base_color f, base_color b );
 void wmove( const window &win, int y, int x );

@@ -3,8 +3,8 @@
 #define MESSAGES_H
 
 #include "string_formatter.h"
+#include "pimpl.h"
 
-#include <memory>
 #include <string>
 #include <vector>
 #include <utility>
@@ -28,6 +28,7 @@ class Messages
         static void add_msg( std::string msg );
         static void add_msg( game_message_type type, std::string msg );
         static void clear_messages();
+        static void deactivate();
         static size_t size();
         static bool has_undisplayed_messages();
         static void display_messages();
@@ -37,7 +38,7 @@ class Messages
         static void deserialize( JsonObject &json );
     private:
         class impl_t;
-        std::unique_ptr<impl_t> impl_;
+        pimpl<impl_t> impl_;
 };
 
 void add_msg( std::string msg );

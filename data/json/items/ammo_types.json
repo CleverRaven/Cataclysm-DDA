@@ -68,8 +68,14 @@
     {
         "type" : "ammunition_type",
         "id" : "9mm",
-        "name" : "9mm",
+        "name" : "9x19mm",
         "default" : "9mm"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "357sig",
+        "name": ".357 SIG",
+        "default": "357sig_jhp"
     },
     {
         "type" : "ammunition_type",
@@ -364,6 +370,24 @@
         "id" : "rebreather_filter",
         "name" : "rebreather filter",
         "default" : "rebreather_filter"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "gasfilter_s",
+        "name": "filter mask cartridge",
+        "default": "gasfilter_s"
+   },
+   {
+        "type": "ammunition_type",
+        "id": "gasfilter_m",
+        "name": "gas mask cartridge",
+        "default": "gasfilter_m"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "gasfilter_l",
+        "name": "hazmat mask cartridge",
+        "default": "gasfilter_l"
     },
     {
         "type" : "ammunition_type",

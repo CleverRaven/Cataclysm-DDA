@@ -36,7 +36,7 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, out ) ) {
         err = jo.get_object( "relative" );
@@ -80,10 +80,6 @@ inline bool assign( JsonObject &jo, const std::string &name, bool &val, bool str
 
     if( !jo.read( name, out ) ) {
         return false;
-    }
-
-    if( out != true && out != false ) {
-        err.throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
@@ -206,7 +202,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
             } else if( suffix == "L" ) {
                 out = units::from_milliliter( tmp * 1000 );
             } else {
-                obj.throw_error( "unrecognised volumetric unit", name );
+                obj.throw_error( "unrecognized volumetric unit", name );
             }
             return true;
         }
@@ -219,7 +215,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).has_member( name ) ) {
         units::volume tmp;
@@ -304,7 +300,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
 
-    // dont require strict parsing for relative and proportional values as rules
+    // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, tmp ) ) {
         err = jo.get_object( "relative" );

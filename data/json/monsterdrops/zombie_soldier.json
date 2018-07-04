@@ -34,7 +34,7 @@
       { "group": "drugs_soldier", "prob": 20 },
       { "group": "mil_food", "prob": 15 },
       { "item": "id_military", "prob": 5 },
-      { "item": "cash_card" },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 },
       { "group": "misc_smoking", "prob": 30 }
     ]
   }

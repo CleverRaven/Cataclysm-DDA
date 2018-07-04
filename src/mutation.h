@@ -2,9 +2,11 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include "character.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "damage.h"
+#include "calendar.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -45,7 +47,6 @@ struct dream {
     int strength; // The category strength required for the dream
 
     dream() {
-        category = "";
         strength = 0;
     }
 };
@@ -84,7 +85,7 @@ struct mutation_branch {
     bool threshold;
     // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
     bool profession;
-    // Wheather it has positive as well as negative effects.
+    // Whether it has positive as well as negative effects.
     bool mixed_effect  = false;
     bool startingtrait = false;
     bool activated     = false;
@@ -103,7 +104,7 @@ struct mutation_branch {
     int visibility = 0;
     int ugliness   = 0;
     int cost       = 0;
-    // costs are consumed consumed every cooldown turns,
+    // costs are consumed every cooldown turns,
     int cooldown   = 0;
     // bodytemp elements:
     int bodytemp_min = 0;
@@ -130,6 +131,9 @@ struct mutation_branch {
     // Modifier for the rate at which stamina regenerates.
     float stamina_regen_modifier = 0.0f;
 
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
+
     /** The item, if any, spawned by the mutation */
     itype_id spawn_item;
     std::string spawn_item_message;
@@ -138,7 +142,7 @@ struct mutation_branch {
     std::vector<mut_attack> attacks_granted;
 
     /** Mutations may adjust one or more of the default vitamin usage rates */
-    std::map<vitamin_id, int> vitamin_rates;
+    std::map<vitamin_id, time_duration> vitamin_rates;
 
     std::vector<trait_id> prereqs; // Prerequisites; Only one is required
     std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
@@ -252,7 +256,7 @@ struct mutation_branch {
      *      "entries": [ x, y, z ]
      * }
      * \endcode
-     * Note that each entrie in the array has to be a JSON object. The other function above
+     * Note that each entry in the array has to be a JSON object. The other function above
      * can also load data from arrays of strings, where the strings are item or group ids.
      */
     static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
@@ -280,11 +284,11 @@ struct mutation_branch {
 struct mutation_category_trait {
     std::string name;
     std::string id;
-    // Mutation catagory i.e "BIRD", "CHIMERA"
+    // Mutation category i.e "BIRD", "CHIMERA"
     std::string category;
     // For some reason most code uses "MUTCAT_category" instead of just "category"
     // This exists only to prevent ugly string hacks
-    // @todo Make this not exist
+    // @todo: Make this not exist
     std::string category_full;
     // The trait that you gain when you break the threshold for this category
     trait_id threshold_mut;

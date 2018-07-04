@@ -9,9 +9,11 @@
 class JsonOut;
 class JsonIn;
 
-#ifndef sgn
-#define sgn(x) (((x) < 0) ? -1 : (((x)>0) ? 1 : 0))
-#endif
+template<typename T>
+constexpr inline int sgn( const T x )
+{
+    return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
+}
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
 // This is taken almost directly from the boost library code.
@@ -123,6 +125,7 @@ enum art_effect_passive : int {
     AEP_RESIST_ELECTRICITY, // Protection from electricity
     AEP_CARRY_MORE, // Increases carrying capacity by 200
     AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
+    AEP_FUN, // Slight passive morale
     // Splits good from bad
     AEP_SPLIT,
     // Bad
@@ -352,5 +355,15 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static const tripoint tripoint_zero { 0, 0, 0 };
+
+struct sphere
+{
+    int radius;
+    tripoint center;
+
+    sphere() : radius( 0 ), center() {}
+    explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
+    explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
+};
 
 #endif

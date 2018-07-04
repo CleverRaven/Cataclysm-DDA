@@ -1,5 +1,25 @@
 [
   {
+    "id": "model_10_revolver",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": "Model 10 revolver",
+    "name_plural": "Model 10 revolver",
+    "description": "A six-shot revolver.  It has a swing-out cylinder for ease of reloading.",
+    "weight": 975,
+    "volume": 2,
+    "price": 42400,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "ammo": "38",
+    "dispersion": 360,
+    "durability": 8,
+    "clip_size": 6,
+    "magazines": [ [ "38", [ "38_speedloader" ] ] ]
+  },
+  {
     "id": "cop_38",
     "copy-from": "cop_38",
     "type": "GUN",
@@ -17,7 +37,8 @@
     "name": "S&W 619",
     "name_plural": "S&W 619",
     "description": "A seven-round .357 Magnum revolver sold by Smith & Wesson.  It features a fixed rear sight and a reinforced frame.",
-    "ammo": "357_mag"
+    "ammo": "357_mag",
+    "magazines": [ [ "357_mag", [ "357_mag_speedloader" ] ] ]
   },
   {
     "id": "sw_610",
@@ -51,6 +72,7 @@
   {
     "id": "m6_asw",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "M6 Aircrew Survival Weapon",
     "name_plural": "M6 Aircrew Survival Weapons",
     "description": "A lightweight combination rifle, combining a .22 rimfire barrel with .410 shotgun barrel, and designed to fold for compact storage.  Produced for military aircraft pilots who might be stranded after a crash, later produced commercially by various companies.",
@@ -102,7 +124,7 @@
     "name": "Colt Lightning .45",
     "name_plural": "Colt Lightning .45",
     "//": "Reproduction as Colt did not make these in .45 Colt, price based off of MSRP of Uberti Lightning.",
-    "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Long Colt, complimenting the Single Action Army as a Cowboy Action Shooting firearm.",
+    "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Long Colt, complementing the Single Action Army as a Cowboy Action Shooting firearm.",
     "weight": 2722,
     "volume": 10,
     "price": 132000,
@@ -122,6 +144,7 @@
   {
     "id": "bond_410",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Bond Arms Derringer",
     "name_plural": "Bond Arms Derringers",
     "description": "The Bond Arms Derringer is a series of double-barrel, compact pistols.  Most commonly chambered for .45 Long Colt, with chambers long enough to accept .410 shotgun shells.",
@@ -146,7 +169,7 @@
     "copy-from": "shotgun_s",
     "type": "GUN",
     "name": ".410 youth shotgun",
-    "description": "An old break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 guage, it is light and simple in manufacture.",
+    "description": "An old break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge, it is light and simple in manufacture.",
     "weight": 2267,
     "volume": 8,
     "price": 20000,
@@ -154,7 +177,7 @@
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "ammo": "410",
-    "dispersion": 105,
+    "dispersion": 405,
     "durability": 9,
     "clip_size": 1,
     "barrel_length": 4,
@@ -174,7 +197,7 @@
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "ammo": "410",
-    "dispersion": 555,
+    "dispersion": 855,
     "durability": 6,
     "clip_size": 1,
     "reload": 200,

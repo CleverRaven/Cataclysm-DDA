@@ -26,7 +26,7 @@ void mission_end::leave( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
         return;
     }
-    p->attitude = NPCATT_NULL;
+    p->set_attitude( NPCATT_NULL );
 }
 
 void mission_end::thankful( mission *miss )
@@ -36,9 +36,9 @@ void mission_end::thankful( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
         return;
     }
-    if( p->attitude == NPCATT_MUG || p->attitude == NPCATT_WAIT_FOR_LEAVE ||
-        p->attitude == NPCATT_FLEE || p->attitude == NPCATT_KILL ) {
-        p->attitude = NPCATT_NULL;
+    if( p->get_attitude() == NPCATT_MUG || p->get_attitude() == NPCATT_WAIT_FOR_LEAVE ||
+        p->get_attitude() == NPCATT_FLEE || p->get_attitude() == NPCATT_KILL ) {
+        p->set_attitude( NPCATT_NULL );
     }
     if( p->chatbin.first_topic != "TALK_FRIEND" ) {
         p->chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
@@ -53,7 +53,7 @@ void mission_end::deposit_box( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
         return;
     }
-    p->attitude = NPCATT_NULL;//npc leaves your party
+    p->set_attitude( NPCATT_NULL );//npc leaves your party
     std::string itemName = "deagle_44";
     if( one_in( 4 ) ) {
         itemName = "katana";

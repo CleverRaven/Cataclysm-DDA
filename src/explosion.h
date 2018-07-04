@@ -26,6 +26,8 @@ struct explosion_data {
     float expected_range( float ratio ) const;
     /** Returns the expected power at a given distance from epicenter. */
     float power_at_range( float dist ) const;
+    /** Returns the distance at which the power drops below 1. */
+    int safe_range() const;
 };
 
 shrapnel_data load_shrapnel_data( JsonObject &jo );

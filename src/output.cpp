@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -163,7 +164,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
             }
 
             sText += sColor + sTempText;
-            if( sColor != "" ) {
+            if( !sColor.empty() ) {
                 sText += "</color>";
             }
 
@@ -232,9 +233,9 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
         if( line_num >= begin_line ) {
             wmove( w, line_num + begin_y - begin_line, begin_x );
         }
-        // split into colourable sections
+        // split into colorable sections
         std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
-        // for each section, get the colour, and print it
+        // for each section, get the color, and print it
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
             if( !it->empty() && it->at( 0 ) == '<' ) {
@@ -271,10 +272,10 @@ void multipage( const catacurses::window &w, std::vector<std::string> text, std:
         solution:  split this paragraph in two pieces;
     */
     for( int i = 0; i < ( int )text.size(); i++ ) {
-        if( begin_y == 0 && caption != "" ) {
+        if( begin_y == 0 && !caption.empty() ) {
             begin_y = fold_and_print( w, 0, 1, width - 2, c_white, caption ) + 1;
         }
-        std::vector<std::string> next_paragraph = foldstring( text[i].c_str(), width - 2 );
+        std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
         if( begin_y + ( int )next_paragraph.size() > height - ( ( i + 1 ) < ( int )text.size() ? 1 : 0 ) ) {
             // Next page
             i--;
@@ -753,7 +754,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
                             const std::string sItemName, const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
@@ -765,7 +767,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wrefresh( win );
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
+                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
+                                        padding );
     return result;
 }
 
@@ -872,7 +875,6 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
             std::string sPlus = vItemDisplay[i].sPlus;
             std::string sFmt = vItemDisplay[i].sFmt;
-            std::string sNum = " ";
             std::string sPost = "";
 
             //A bit tricky, find %d and split the string
@@ -910,7 +912,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if( vItemDisplay[i].is_int == true ) {
+                if( vItemDisplay[i].is_int ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
                     buffer << string_format( "%.2f", vItemDisplay[i].dValue );
@@ -933,17 +935,20 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
                             const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
-    if( sItemName != "" ) {
+    if( !sItemName.empty() ) {
         buffer << sItemName << "\n";
     }
-    if( sItemName != sTypeName && sTypeName != "" ) {
+    if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
-    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+    for( unsigned int i = 0; i < padding; i++ ) {
+        buffer << " \n";    //This space is required, otherwise it won't make an empty line.
+    }
 
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
@@ -1204,15 +1209,24 @@ void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, boo
 }
 
 void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
-                  bool bDecorate )
+                  bool bDecorate, bool bDisabled )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
-    mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
+    if( ! bDisabled ) {
+        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
+    } else {
+        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray.italic() : c_dark_gray.italic(), sText );
+    }
 
     if( bSelected ) {
-        mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
-        mvwputch( w, 0, iOffsetXRight + bDecorate, h_light_gray, '>' );
+        if( ! bDisabled ) {
+            mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
+            mvwputch( w, 0, iOffsetXRight + bDecorate, h_light_gray, '>' );
+        } else {
+            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray.italic(), '<' );
+            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray.italic(), '>' );
+        }
 
         for( int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++ ) {
             mvwputch( w, 1, i, c_black, ' ' );
@@ -1318,15 +1332,22 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
 }
 
 #if defined(_MSC_VER)
-std::string vstring_format( char const *const format, va_list args )
+std::string cata::string_formatter::raw_string_format( char const *const format, ... )
 {
-    int const result = _vscprintf_p( format, args );
+    va_list args;
+    va_start( args, format );
+
+    va_list args_copy;
+    va_copy( args_copy, args );
+    int const result = _vscprintf_p( format, args_copy );
+    va_end( args_copy );
     if( result == -1 ) {
-        return std::string( "Bad format string for printf." );
+        throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
     }
 
     std::string buffer( result, '\0' );
     _vsprintf_p( &buffer[0], result + 1, format, args ); //+1 for string's null
+    va_end( args );
 
     return buffer;
 }
@@ -1364,7 +1385,7 @@ std::string rewrite_vsnprintf( const char *msg )
         }
 
 
-        // Write porition of the string that was before %
+        // Write portion of the string that was before %
         rewritten_msg << std::string( msg, ptr );
         rewritten_msg_optimised << std::string( msg, ptr );
 
@@ -1436,8 +1457,11 @@ std::string rewrite_vsnprintf( const char *msg )
     return rewritten_msg.str();
 }
 
-std::string vstring_format( char const *format, va_list args )
+std::string cata::string_formatter::raw_string_format( char const *const format, ... )
 {
+    va_list args;
+    va_start( args, format );
+
     errno = 0; // Clear errno before trying
     std::vector<char> buffer( 1024, '\0' );
 
@@ -1463,13 +1487,14 @@ std::string vstring_format( char const *format, va_list args )
         // Some non-standard versions return -1 to indicate a bigger buffer is needed.
         // Some of the latter set errno to ERANGE at the same time.
         if( result < 0 && errno && errno != ERANGE ) {
-            return std::string( "Bad format string for printf." );
+            throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
         }
 
         // Looks like we need to grow... bigger, definitely bigger.
         buffer.resize( buffer_size * 2 );
     }
 
+    va_end( args );
     return std::string( &buffer[0] );
 }
 #endif
@@ -1651,11 +1676,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
-    const int title_length = utf8_width( title );
     for( ;; ) {
         werase( w );
-        draw_border( w );
-        mvwprintz( w, 1, ( width - title_length ) / 2, c_white, title );
+        draw_border( w, BORDER_COLOR, title, c_white );
         for( int i = 0; i < rows * columns; i++ ) {
             if( i + offset * columns >= ( int )data.size() ) {
                 break;
@@ -1761,7 +1784,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
         }
 
         // in tiles, SCT that scroll downwards are inserted at the beginning of the vector to prevent
-        // oversize ascii tiles overdrawing messages below them.
+        // oversize ASCII tiles overdrawing messages below them.
         if( tiled && ( p_oDir == SOUTHWEST || p_oDir == SOUTH ||
                        p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
 
@@ -1937,7 +1960,7 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
  * Match text containing wildcards (*)
  * @param text_in Text to check
  * @param pattern_in Pattern to check text_in against
- * Case insenitive search
+ * Case insensitive search
  * Possible patterns:
  * *
  * wooD
@@ -1952,7 +1975,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
 {
     std::string text = text_in;
 
-    if( text == "" ) {
+    if( text.empty() ) {
         return false;
     } else if( text == "*" ) {
         return true;
@@ -2055,9 +2078,9 @@ std::string format_volume( const units::volume &volume )
 
 /**
 * Convert, clamp, round up and format a volume,
-* taking into account the specified width (0 for inlimited space),
+* taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
-* optionally returning the formated value as double.
+* optionally returning the formatted value as double.
 */
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value )
@@ -2089,6 +2112,8 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
+// We need to override these for Windows console resizing
+#if !(defined _WIN32 || defined __WIN32__)
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
@@ -2099,6 +2124,7 @@ int get_terminal_height()
 {
     return get_option<int>( "TERMINAL_Y" );
 }
+#endif
 
 bool is_draw_tiles_mode()
 {
