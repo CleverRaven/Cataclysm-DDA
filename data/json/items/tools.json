@@ -8330,6 +8330,7 @@
     "volume": 1,
     "price": 1500,
     "bashing": 1,
+    "cutting": 12,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
