@@ -186,7 +186,7 @@
     "name": "Leadworks red dot sight",
     "description": "Built in red-dot sight for the Leadworks weapon.",
     "weight": 0,
-	"price": 0,
+    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
@@ -196,7 +196,7 @@
     "name": "Leadworks sniper scope",
     "description": "Built in sniper scope for the Leadworks weapon.",
     "weight": 0,
-	"price": 0,
+    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
@@ -206,7 +206,7 @@
     "name": "Leadworks ACOG scope",
     "description": "An Leadworks built in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Increases weight but improves accuracy significantly.",
     "weight": 0,
-	"price": 0,
+    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
@@ -215,8 +215,7 @@
     "type": "GUNMOD",
     "name": "Leadworks ACOG and red dot combo scope",
     "description": "An Leadworks built in (proprietary) combination of optic & red-dot sights for quick and accurate targeting.",
-    "weight": 0,
-	"price": 0,
+    "price": 0,
     "aim_speed": 5,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
@@ -227,7 +226,7 @@
     "name": "Leadworks holographic sight",
     "description": "Built in Leadworks holographic sight.",
     "weight": 0,
-	"price": 0,
+    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   }
 ]

@@ -332,7 +332,7 @@
     "name": "Leadworks underbarrel laser sight",
     "description": "A Leadworks built in visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.",
     "weight": 0,
-	"price": 0,
+    "price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
   {
@@ -342,7 +342,7 @@
     "name": "Leadworks forward grip",
     "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",
     "weight": 0,
-	"price": 0,
+    "price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
   {
@@ -352,7 +352,7 @@
     "name": "Leadworks bipod",
     "description": "Leadworks built in bipod designed to provide a forward rest and reduce motion.  Although it greatly improve handling of recoil it is usable only on certain surfaces and are slow to equip.",
     "weight": 0,
-	"price": 0,
+    "price": 0,
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   },
   {
