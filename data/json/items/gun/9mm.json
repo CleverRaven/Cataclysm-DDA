@@ -207,7 +207,7 @@
     "type": "GUN",
     "name": "L39B",
     "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
-    "description": "A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Come with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 95000,
     "burst": 3,
     "relative": {
