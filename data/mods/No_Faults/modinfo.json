@@ -11,7 +11,10 @@
     "obsolete": true
   },
   {
-    "type": "WORLD_OPTION",
-    "options": [ "NO_FAULTS" ]
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_FAULTS",
+    "info": "Disables vehicle part faults.  If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement.",
+    "stype": "bool",
+    "value": true
   }
 ]

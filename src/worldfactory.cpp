@@ -274,7 +274,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 
             for( auto &elem : world->WORLD_OPTIONS ) {
                 // Skip hidden option because it is set by mod and should not be saved
-                if( elem.second.getDefaultText() != "" && !elem.second.is_hidden() ) {
+                if( elem.second.getDefaultText() != "" ) {
                     jout.start_object();
 
                     jout.member( "info", elem.second.getTooltip() );
