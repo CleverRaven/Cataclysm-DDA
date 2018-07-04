@@ -1,6 +1,13 @@
 [
   {
     "type": "EXTERNAL_OPTION",
+    "name": "DISPERSION_PER_GUN_DAMAGE",
+    "info": "Value that adds to weapon dispersion per weapon damage value.",
+    "stype": "int",
+    "value": 30
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "PLAYER_MAX_STAMINA",
     "info": "Sets max stamina value of the player.",
     "stype": "int",
@@ -40,5 +47,40 @@
     "info": "Set base NPC healing rate per turn. Default: 0.01",
     "stype": "float",
     "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_FAULTS",
+    "info": "Disables vehicle part faults.  If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FILTHY_MORALE",
+    "info": "Morale penalty for filthy clothing.  If true, wearing filthy clothing will cause morale penalties.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FILTHY_WOUNDS",
+    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_NPC_FOOD",
+    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_VITAMINS",
+    "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
+    "stype": "bool",
+    "value": false
   }
 ]

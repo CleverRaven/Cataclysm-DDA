@@ -43,6 +43,7 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
+enum art_charge_req : int;
 enum art_effect_passive : int;
 class material_type;
 using material_id = string_id<material_type>;
@@ -644,6 +645,7 @@ struct islot_seed {
 
 struct islot_artifact {
     art_charge charge_type;
+    art_charge_req charge_req;
     std::vector<art_effect_passive> effects_wielded;
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;

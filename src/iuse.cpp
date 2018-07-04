@@ -3886,6 +3886,53 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::solarpack( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
+        p->add_msg_if_player(
+            _( "You have no cable charging system to plug it in, so you leave it alone." ) );
+        return 0;
+    } else if( !p->has_active_bionic( bionic_id( "bio_cable" ) ) ) {  // when OFF it takes no effect
+        p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
+    }
+
+    if( it->is_armor() && !( p->is_worn( *it ) ) ) {
+        p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before you can unfold it." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    // no doubled sources of power
+    if( p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" ) ) {
+        p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    p->add_msg_if_player( _( "You unfold solar array from the pack and plug it in." ) );
+
+    if( it->typeId() == "solarpack" ) {
+        it->convert( "solarpack_on" );
+    } else {
+        it->convert( "q_solarpack_on" );
+    }
+    return 0;
+}
+
+int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_worn( *it ) ) {  // folding when not worn
+        p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
+    } else {
+        p->add_msg_if_player( _( "You unplug and fold your portable solar array into the pack." ) );
+    }
+
+    if( it->typeId() == "solarpack_on" ) {
+        it->convert( "solarpack" );
+    } else {
+        it->convert( "q_solarpack" );
+    }
+    return 0;
+}
+
 int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
@@ -4915,6 +4962,16 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 }
             }
             break;
+
+            case AEA_STAMINA_EMPTY:
+                p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
+                p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
+                break;
+
+            case AEA_FUN:
+                p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
+                p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
+                break;
 
             case AEA_SPLIT: // TODO
                 break;

@@ -13337,40 +13337,95 @@ void game::process_artifact( item &it, player &p )
     }
     if( it.is_tool() ) {
         // Recharge it if necessary
-        if( it.ammo_remaining() < it.ammo_capacity() ) {
-            switch( it.type->artifact->charge_type ) {
-            case ARTC_NULL:
-            case NUM_ARTCS:
-                break; // dummy entries
-            case ARTC_TIME:
-                // Once per hour
-                if( calendar::once_every( 1_hours ) ) {
-                    it.charges++;
+        if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
+            //Before incrementing charge, check that any extra requirements are met
+            const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
+            bool reqsmet = true;
+            switch( it.type->artifact->charge_req ) {
+            case(ACR_NULL):
+            case(NUM_ACRS):
+                break;
+            case(ACR_EQUIP):
+                //Generated artifacts won't both be wearable and have charges, but nice for mods
+                reqsmet = ( worn || heldweapon );
+                break;
+            case(ACR_SKIN):
+                //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
+                if( !worn && !heldweapon ){ reqsmet = false; break; }
+                for( const body_part bp : all_body_parts ) {
+                    if( it.covers(bp) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
+                        reqsmet = true;
+                        for ( auto &i : p.worn ) {
+                            if ( i.covers(bp) && ( &it != &i ) && i.get_coverage() > 50 ) {
+                                reqsmet = false; break; //This one's no good, check the next body part
+                            }
+                        }
+                        if(reqsmet){ break; } //Only need skin contact on one bodypart
+                    }
                 }
                 break;
-            case ARTC_SOLAR:
-                if( calendar::once_every( 10_minutes ) &&
-                    is_in_sunlight( p.pos() ) ) {
-                    it.charges++;
+            case(ACR_SLEEP):
+                reqsmet = p.has_effect( effect_sleep );
+                break;
+            case(ACR_RAD):
+                reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+                break;
+            case(ACR_WET):
+                reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
+                               []( const int w ) { return w != 0; } );
+                if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
+                    && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
+                   reqsmet = true;
                 }
                 break;
-            // Artifacts can inflict pain even on Deadened folks.
-            // Some weird Lovecraftian thing.  ;P
-            // (So DON'T route them through mod_pain!)
-            case ARTC_PAIN:
-                if( calendar::once_every( 1_minutes ) ) {
-                    add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p.mod_pain_noresist( 3 * rng( 1, 3 ) );
-                    it.charges++;
-                }
+            case(ACR_SKY):
+                reqsmet = ( p.posz() > 0 );
                 break;
-            case ARTC_HP:
-                if( calendar::once_every( 1_minutes ) ) {
-                    add_msg(m_bad, _("You feel your body decaying."));
-                    p.hurtall( 1, nullptr );
-                    it.charges++;
+            }
+            //Proceed with actually recharging if all extra requirements met
+            if(reqsmet){
+                switch( it.type->artifact->charge_type ) {
+                case ARTC_NULL:
+                case NUM_ARTCS:
+                    break; // dummy entries
+                case ARTC_TIME:
+                    // Once per hour
+                    if( calendar::once_every( 1_hours ) ) {
+                        it.charges++;
+                    }
+                    break;
+                case ARTC_SOLAR:
+                    if( calendar::once_every( 10_minutes ) &&
+                        is_in_sunlight( p.pos() ) ) {
+                        it.charges++;
+                    }
+                    break;
+                // Artifacts can inflict pain even on Deadened folks.
+                // Some weird Lovecraftian thing.  ;P
+                // (So DON'T route them through mod_pain!)
+                case ARTC_PAIN:
+                    if( calendar::once_every( 1_minutes ) ) {
+                        add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
+                        p.mod_pain_noresist( 3 * rng( 1, 3 ) );
+                        it.charges++;
+                    }
+                    break;
+                case ARTC_HP:
+                    if( calendar::once_every( 1_minutes ) ) {
+                        add_msg(m_bad, _("You feel your body decaying."));
+                        p.hurtall( 1, nullptr );
+                        it.charges++;
+                    }
+                    break;
+                case ARTC_FATIGUE:
+                    if( calendar::once_every( 1_minutes ) ) {
+                        add_msg(m_bad, _("You feel fatigue seeping into your body."));
+                        u.mod_fatigue( 3 * rng( 1, 3 ) );
+                        u.mod_stat("stamina", -9 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                        it.charges++;
+                    }
+                    break;
                 }
-                break;
             }
         }
     }
@@ -13420,6 +13475,11 @@ void game::process_artifact( item &it, player &p )
             for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
                 m.adjust_field_age( dest, fd_fire, -1_turns );
             }
+            break;
+
+        case AEP_FUN:
+            //Bonus fluctuates, wavering between 0 and 30-ish - usually around 12
+            p.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
             break;
 
         case AEP_HUNGER:
@@ -13618,6 +13678,10 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
 
         case AEP_CARRY_MORE:
             add_msg(m_good, _("Your back feels strengthened."));
+            break;
+
+        case AEP_FUN:
+            add_msg(m_good, _("You feel a pleasant tingle."));
             break;
 
         case AEP_HUNGER:

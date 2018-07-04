@@ -319,7 +319,7 @@
         "starting_trait" : true,
         "category" : ["MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_CHIMERA"],
         "social_modifiers" : {
-            "intimidate" : 15 
+            "intimidate" : 15
         }
     },{
         "type" : "mutation",
@@ -1025,7 +1025,7 @@
         "social_modifiers" : {
             "lie" : 10,
             "persuade" : 20,
-            "intimidate" : 10 
+            "intimidate" : 10
         }
     },{
         "type" : "mutation",
@@ -1792,7 +1792,7 @@
         "threshreq" : ["THRESH_PLANT"],
         "category" : ["MUTCAT_PLANT"],
         "social_modifiers" : {
-            "lie" : 10 
+            "lie" : 10
         }
     },{
         "type" : "mutation",
@@ -2373,7 +2373,7 @@
         "restricts_gear" : [ "MOUTH" ],
         "destroys_gear" : true,
         "social_modifiers" : {
-            "intimidate" : 15 
+            "intimidate" : 15
         },
         "attacks" : {
             "attack_text_u" : "You tear into %s with your saber teeth",
@@ -2609,7 +2609,7 @@
         "allow_soft_gear" : true,
         "social_modifiers" : {
             "lie": -20 ,
-            "persuade": 10 
+            "persuade": 10
         }
     },{
         "type" : "mutation",
@@ -2932,7 +2932,7 @@
         "description" : "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear.  Slightly reduces wet effects.",
         "prereqs" : ["MOUTH_FLAPS"],
         "changes_to" : ["FANGS_SPIDER"],
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES", "SABER_TEETH"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
@@ -3570,7 +3570,7 @@
         "social_modifiers" : {
             "lie" : 10,
             "persuade" : 15,
-            "intimidate" : -20 
+            "intimidate" : -20
         }
     },{
         "type" : "mutation",
@@ -3695,7 +3695,7 @@
         "category" : ["MUTCAT_CATTLE"],
         "restricts_gear" : [ "MOUTH" ],
         "social_modifiers" : {
-            "intimidate" : 15 
+            "intimidate" : 15
         }
     },{
         "type" : "mutation",
@@ -3711,7 +3711,7 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"],
         "restricts_gear" : [ "MOUTH" ],
         "social_modifiers" : {
-            "intimidate" : 6 
+            "intimidate" : 6
         },
         "attacks" : {
             "attack_text_u" : "You nip at %s",
@@ -3768,7 +3768,7 @@
         "category" : ["MUTCAT_LIZARD"],
         "restricts_gear" : [ "MOUTH" ],
         "social_modifiers" : {
-            "intimidate" : 20 
+            "intimidate" : 20
         },
         "attacks" : {
             "attack_text_u" : "You bite a chunk out of %s",
@@ -4504,7 +4504,7 @@
         "category" : ["MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_LUPINE"],
         "social_modifiers" : {
             "persuade" : -25,
-            "intimidate" : 15 
+            "intimidate" : 15
         }
     },{
         "type" : "mutation",
@@ -4517,7 +4517,7 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA", "MUTCAT_FELINE"],
         "social_modifiers" : {
             "persuade" : -60,
-            "intimidate" : 30 
+            "intimidate" : 30
         }
     },{
         "type" : "mutation",
@@ -4529,7 +4529,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"],
         "social_modifiers" : {
             "persuade" : -25,
-            "intimidate" : 15 
+            "intimidate" : 15
         }
     },{
         "type" : "mutation",

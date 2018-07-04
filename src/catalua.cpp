@@ -903,6 +903,10 @@ static overmap_direction get_omt_dir( const overmap &om, const tripoint &p )
 {
    return om.get_ter( p ).obj().get_dir();
 }
+static time_duration get_time_duration_wrapper( const int t )
+{
+    return time_duration::from_turns( t );
+}
 
 static std::string string_input_popup_wrapper( const std::string &title, int width, const std::string &desc ) {
     return string_input_popup().title(title).width(width).description(desc).query_string();

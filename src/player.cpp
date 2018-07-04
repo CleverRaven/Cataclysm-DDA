@@ -4289,6 +4289,14 @@ void player::update_needs( int rate_multiplier )
         charge_power( rate_multiplier * 25 );
     }
 
+    if( is_wearing( "solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
+        charge_power( rate_multiplier * 25 );
+    }
+    
+    if( is_wearing( "q_solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
+        charge_power( rate_multiplier * 50 );
+    }
+
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && (has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK )) ) {
         // TODO: Make NPCs complain
@@ -7125,6 +7133,12 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
+    
+    for( auto &i : worn ) {
+        if( i.has_flag( "ONLY_ONE" ) && i.typeId() == it.typeId() ) {
+            return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname().c_str() );
+        }
+    }
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
@@ -7391,7 +7405,7 @@ bool player::pick_style() // Style selection menu
         if( selectable_styles[i] == style_selected ) {
             kmenu.selected = i + STYLE_OFFSET;
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, style.name, style.description );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, _( style.name.c_str() ), _( style.description.c_str() ) );
     }
 
     kmenu.query();

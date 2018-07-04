@@ -1815,7 +1815,7 @@
         "pre_special" : "check_empty",
         "post_terrain" : "f_standing_tank"
     },
-	{
+    {
         "type" : "construction",
         "description" : "Place Forge",
         "category" : "FURN",

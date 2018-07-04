@@ -69,7 +69,7 @@
     "skills_required": [ "gun", 1 ],
     "time": 1500,
     "batch_time_factors": [ 50, 10 ],
-    "autolearn": "true",
+    "autolearn": true,
     "charges": 1,
     "using": [ [ "ammo_410", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
