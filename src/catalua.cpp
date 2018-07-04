@@ -892,9 +892,9 @@ static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
 }
 
-static time_duration get_time_duration_wrapper( const int &tdv )
+static time_duration get_time_duration_wrapper( const int t )
 {
-    return time_duration::from_turns( tdv );
+    return time_duration::from_turns( t );
 }
 
 static std::string string_input_popup_wrapper( const std::string &title, int width, const std::string &desc ) {
