@@ -361,6 +361,7 @@
     "volume": 0,
     "price": 0,
     "to_hit": 0,
+    "dispersion_modifier": 0,
     "material": [ "steel", "plastic" ],
     "flags": [ "IRREMOVABLE", "STAB" ]
   }
