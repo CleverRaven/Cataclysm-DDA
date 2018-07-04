@@ -3083,7 +3083,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         rotate(1);
                     }
                 } // end hardcoded_1side_map
-                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_rock_floor || has_furn( p ); };
+                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; };
                 const auto range = points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } );
                 if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
                     if( const auto p = random_point( range, predicate ) ) {
