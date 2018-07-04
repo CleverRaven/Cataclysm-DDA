@@ -2180,6 +2180,21 @@ global_functions = {
         args = { "int" },
         rval = "time_duration",
         desc = "Constructs `time_duration` with given `int` value (which is number of turns). You can also use TURNS(n), MINUTES(n), HOURS(n) and DAYS(n) wrapper functions from `autoexec.lua`."
+    },
+	-- Returns id of overmap terrain on given overmap with given tripoint in global overmap terrain coordinates.
+	-- Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return id of overmap terrain of current player location.
+    get_omt_id = {
+        cpp_name = "get_omt_id",
+        args = { "overmap", "tripoint" },
+        rval = "string"
+    },
+	-- Returns enum, indicating direction of overmap terrain on given overmap with given tripoint in global overmap terrain coordinates.
+	-- Possible return values are in `overmap_direction` in `enums` section above.
+	-- Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return direction of overmap terrain of current player location.
+    get_omt_dir = {
+        cpp_name = "get_omt_dir",
+        args = { "overmap", "tripoint" },
+        rval = "overmap_direction"
     }
 }
 
