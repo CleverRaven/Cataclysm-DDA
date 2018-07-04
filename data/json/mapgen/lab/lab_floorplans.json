@@ -173,11 +173,11 @@
         "lab_palette"
       ],
       "place_monster": [
-        { "monster": "mon_zombie_shrieker", "x": [ 19, 23 ], "y": [ 20, 22 ] },
+        { "monster": "mon_zombie_shrieker", "x": [ 19, 22 ], "y": [ 20, 22 ] },
         { "monster": "mon_zombie_brute", "x": [ 12, 15 ], "y": [ 20, 22 ] },
         { "monster": "mon_zombie_child", "x": [ 7, 10 ], "y": [ 20, 22 ] },
         { "monster": "mon_zombie_grabber", "x": [ 1, 5 ], "y": [ 12, 15 ] },
-        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 6, 10 ] },
+        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 6, 10 ], "chance": 60 },
         { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 6, 10 ], "chance": 40 }
       ],
       "furniture": {
