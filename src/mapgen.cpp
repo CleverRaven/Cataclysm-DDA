@@ -3559,7 +3559,7 @@ ff.......|....|WWWWWWWW|\n\
                     }
                     break;
                 default:
-                    const std::string function_key = "lab_4side"; // terrain_type->get_mapgen_id();
+                    const std::string function_key = "lab_4side";
                     const auto fmapit = oter_mapgen.find( function_key );
 
                     if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
@@ -3569,8 +3569,33 @@ ff.......|....|WWWWWWWW|\n\
                         const int fidx = weightit->second.lower_bound( roll )->second;
 
                         fmapit->second[fidx]->generate(this, terrain_type, dat, when, density);
+
+                        // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
+                        // borders and have to be caught in code. We determine if a border isn't handled by checking
+                        // the east-facing border space where the door normally is -- it should not be a floor.
+                        if( ter(tripoint(23, 11, abs_sub.z)) == t_rock_floor ) {
+                            for( int i = 0; i <= 23; i++ ) {
+                                ter_set( 23, i, t_concrete_wall );
+                                ter_set( i, 23, t_concrete_wall );
+                                if( lw == 2 ) {
+                                    ter_set( 0, i, t_concrete_wall );
+                                }
+                                if( tw == 2 ) {
+                                    ter_set( i, 0, t_concrete_wall );
+                                }
+                                if( rw != 2 ) {
+                                    ter_set( 23, 11, t_door_metal_c );
+                                    ter_set( 23, 12, t_door_metal_c );
+                                }
+                                if( bw != 2 ) {
+                                    ter_set( 11, 23, t_door_metal_c );
+                                    ter_set( 12, 23, t_door_metal_c );
+                                }
+                            }
+                        }
                     } else {
                         debugmsg("Error: Tried to generate 4-sided lab but no lab_4side json exists.");
+                        break;
                     }
                     if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
                         if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
