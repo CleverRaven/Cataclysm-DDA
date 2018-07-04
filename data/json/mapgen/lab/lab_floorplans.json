@@ -4,7 +4,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
-    "weight": 100,
+    "weight": 50,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -49,11 +49,11 @@
     }
   },
   {
-    "//": "military bunker, smashed by a hulk. TODO: make hulk smash a variant, add weight, remove hardcoded version.",
+    "//": "military bunker with 1-in-7 chance of the doors being smashed in by a hulk.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
-    "weight": 50,
+    "weight": 400,
     "object": {
       "fill_ter": "t_floor_blue",
       "rows": [
@@ -61,7 +61,7 @@
         "|bb|bb|bb|....|,,|l,,,b|",
         "|,,|,,|,,|...6|,,+,,,,b|",
         "|l,|l,|l,|....|,,|-----|",
-        "|-+|-+|-+|-^D-|,,|l,,,b|",
+        "|-+|-+|-+|-DD-|,,|l,,,b|",
         "|,,,,,,,,,,,,x,,,+,,,,b|",
         "|,,,,,,,,,,,,,,,,|-----|",
         "|--+-|,,,,,,,,,,,|l,,,b|",
@@ -70,7 +70,7 @@
         "|,,,,|,,cg,,,,,,,|,,,,l|",
         "|+|+-|,h7g,,,,,,,+,h,,b|",
         "|T|,T|,,cg,,,,,,,|ddd,b|",
-        "|-|--|+--|-D^----|-----|",
+        "|-|--|+--|-DD----|-----|",
         "|,rrr,,,,,,,,,,rrrrrr,,|",
         "|,,,,,,,,,,,,,,,,,,,,,,|",
         "|,,,,,,,,,,,,,,,,,,,,,,|",
@@ -88,20 +88,11 @@
       "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_monster": [
         { "monster": "mon_zombie_bio_op", "x": [ 1, 22 ], "y": [ 1, 16 ], "chance": 25 },
-        { "monster": "mon_zombie_grenadier", "x": [ 1, 22 ], "y": [ 1, 16 ], "chance": 25 },
-        { "monster": "mon_zombie_hulk", "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
+        { "monster": "mon_zombie_grenadier", "x": [ 1, 22 ], "y": [ 1, 16 ], "chance": 25 }
       ],
-      "furniture": {
-        "^": "f_rubble"
-      },
-      "terrain": {
-        "^": "t_floor_blue",
+     "terrain": {
         "7": "t_console"
       },
-      "place_items": [
-        { "item": "building_rubble", "x": 11, "y": 4, "chance": 100 },
-        { "item": "building_rubble", "x": 12, "y": 13, "chance": 100 }
-      ],
       "mapping": {
         "l": {
           "items": [
@@ -115,9 +106,6 @@
         },
         "d": {
           "items": [ { "item": "office", "chance": 50 } ]
-        },
-        "^": {
-          "items": [ { "item": "building_rubble", "chance": 100, "repeat": 2 } ]
         },
         "r": {
           "items": [
@@ -141,7 +129,124 @@
             { "action": "shutdown" }
           ]
         }
-      }
+      },
+      "place_nested": [
+        { "chunks": [ "null", "null", "null", "null", "null", "null", "lab_hulk_smash" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "prisoner containment with 1-in-7 chance of the doors being smashed in by a hulk.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 400,
+    "object": {
+      "fill_ter": "t_floor_blue",
+      "rows": [
+        "|--------|-..-|--------|",
+        "|,,Ccxc,,|....|,,,,,,,,|",
+        "|,,,,,,,,|....|r,,,,dh,|",
+        "|c,,,,,,l|6...|r,,,,ddd|",
+        "|S,,,,,,l|-DD-|r,,,,,,,|",
+        "|c,,,,,,,|x,,,|,,,,,,,,|",
+        "|-gggg+g-|,,,,+,,,,,dh,|",
+        "|,,,,,,,,,,,,,|,,,,,ddd|",
+        "|,,,,,,,,,,,,,|-gg+ggg-|",
+        "|,,,,,,,,,,,,,|,,,,,,,^|",
+        "|,,,,,,,,,,,,,g,,,,,,,,|",
+        "|-ggg-|-ggDgg-|,,c.hc,,|",
+        "|,,,,,|,,,,,,,g,,c7cc,,|",
+        "|T,,,,g,,,,,,,|-gggggg-|",
+        "|,,,,,g,,,,,,,,,,,,,,,,|",
+        "|bb,,,|,,,,,,,,,,,,,,,,|",
+        "|--D--|,,,,,,,,,,,,,,,,|",
+        "|,,,,,+,,,,,,,,,,,,,,,,|",
+        "|-D-|,|-gg-|-gg-|+|-gg-|",
+        "|,,l|,|,,,,|,,,,|,|,,,,|",
+        "|,,,|,|,,,,|,,,,|,|,,,,|",
+        "|X,,|,D,,,b|b,,,D,D,,,b|",
+        "|X,X|,|,T,b|b,T,|,|,T,b|",
+        "|---|-|----|----|-|----|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_monster": [
+        { "monster": "mon_zombie_shrieker", "x": [ 19, 23 ], "y": [ 20, 22 ] },
+        { "monster": "mon_zombie_brute", "x": [ 12, 15 ], "y": [ 20, 22 ] },
+        { "monster": "mon_zombie_child", "x": [ 7, 10 ], "y": [ 20, 22 ] },
+        { "monster": "mon_zombie_grabber", "x": [ 1, 5 ], "y": [ 12, 15 ] },
+        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 6, 10 ] },
+        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 6, 10 ], "chance": 40 }
+      ],
+      "furniture": {
+        "^": "f_indoor_plant"
+      },
+     "terrain": {
+        "7": "t_console",
+        "C": "t_centrifuge"
+      },
+      "mapping": {
+        "A": {
+          "items": [
+            { "item": "softdrugs", "chance": 40 },
+            { "item": "harddrugs", "chance": 30}
+          ]
+        },
+        "r": {
+          "items": [
+            { "item": "softdrugs", "chance": 40 },
+            { "item": "harddrugs", "chance": 30}
+          ]
+        },
+        "b": {
+          "items": [ { "item": "bed", "chance": 50 } ]
+        },
+        "l": {
+          "items": [ { "item": "science", "chance": 60 } ]
+        },
+        "d": {
+          "items": [ { "item": "office", "chance": 60 } ]
+        },
+        "c": {
+          "items": [ { "item": "office", "chance": 40 } ]
+        }
+      },
+      "computers": {
+        "6": {
+          "name": "Prisoner Containment Entrance", "security": 4, "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 4 } ], "failures": [
+            { "action": "damage" },
+            { "action": "shutdown" }
+          ]
+        },
+        "7": {
+          "name": "Containment Control", "security": 4, "options": [ { "name": "EMERGENCY CONTAINMENT RELEASE", "action": "open", "security": 5 } ], "failures": [
+            { "action": "damage" },
+            { "action": "shutdown" }
+          ]
+        }
+      },
+      "place_nested": [
+        { "chunks": [ "null", "null", "null", "null", "null", "null", "lab_hulk_smash" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "Adds a hulk and smashes to rubble the doors for barracks and human containment.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_hulk_smash",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_rubble": [
+        { "x": 11, "y": 4, "items": true },
+        { "x": 13, "y": 11, "items": true },
+        { "x": 12, "y": 13, "items": true }
+      ],
+      "place_monster": [
+        { "monster": "mon_zombie_hulk", "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
+      ]
     }
   },
   {
