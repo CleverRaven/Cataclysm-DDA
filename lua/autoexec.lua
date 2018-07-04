@@ -37,6 +37,7 @@ function function_exists(name)
     return type(resolve_name(name)) == 'function'
 end
 
+-- Constructs `time_duration` with given `int` value (which is number of turns). 
 function TURNS(turns)
     if( function_exists( "game.get_time_duration" ) ) then
         return game.get_time_duration( turns )
