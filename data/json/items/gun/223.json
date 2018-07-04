@@ -140,7 +140,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": "-1",
-    "dispersion": 90,
+    "dispersion": 120,
     "durability": 3,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
@@ -192,6 +192,9 @@
       [ "DEFAULT", "low auto", 3 ],
       [ "AUTO", "high auto", 14 ]
     ],
+    "relative": {
+      "dispersion": 60
+    },
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
     "built_in_mods": [ "lead_acog_scope", "lead_barrel_heavy_duty", "lead_bipod", "lead_grip", "lead_stabilizer" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
