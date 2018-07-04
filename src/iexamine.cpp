@@ -2201,9 +2201,9 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
+    const std::string booze_name = g->m.i_at( examp ).front().tname();
     if( g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
-        const std::string booze_name = g->m.i_at( examp ).front().tname();
         add_msg(_("You squeeze the last drops of %s from the vat."), booze_name.c_str());
     }
 }

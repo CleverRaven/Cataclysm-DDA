@@ -3279,8 +3279,8 @@ void npc::do_reload( item &it )
                                        it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
     // @todo: Consider printing this info to player too
+    const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
-        const std::string ammo_name = usable_ammo->tname();
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
                   it.tname().c_str(), qty, ammo_name.c_str() );
         return;
