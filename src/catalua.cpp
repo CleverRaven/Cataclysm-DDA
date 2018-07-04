@@ -21,6 +21,8 @@
 #include "line.h"
 #include "requirements.h"
 #include "weather_gen.h"
+#include "overmap.h"
+#include "omdata.h"
 
 #ifdef LUA
 #include "ui.h"
@@ -892,6 +894,15 @@ static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
 }
 
+static std::string get_omt_id( const overmap &om, const tripoint &p )
+{
+    return om.get_ter( p ).id().str();
+}
+
+static overmap_direction get_omt_dir( const overmap &om, const tripoint &p )
+{
+   return om.get_ter( p ).obj().get_dir();
+}
 static time_duration get_time_duration_wrapper( const int t )
 {
     return time_duration::from_turns( t );

@@ -1200,7 +1200,7 @@ private:
             std::array<std::set<oter_str_id>, om_direction::size> neighbors;
         public:
             neighborhood_check( JsonObject jsi ) {
-                for( om_direction::type dir : om_direction::all ) {
+                for( overmap_direction dir : om_direction::all ) {
                     int index = static_cast<int>( dir );
                     neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
                     has_any |= !neighbors[index].empty();
@@ -1212,7 +1212,7 @@ private:
                     return true;
                 }
 
-                for( om_direction::type dir : om_direction::all ) {
+                for( overmap_direction dir : om_direction::all ) {
                     int index = static_cast<int>( dir );
                     const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
                     if( !allowed_neighbors.empty() && allowed_neighbors.count( dat.neighbor_at( dir ).id() ) == 0 ) {

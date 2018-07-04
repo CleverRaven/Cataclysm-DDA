@@ -178,6 +178,15 @@ enum phase_id : int {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
 
+enum overmap_direction : int {
+    invalid = -1,
+    none,
+    north = none,
+    east,
+    south,
+    west,
+};
+
 // Return the class an in-world object uses to interact with the world.
 //   ex; if ( player.grab_type == OBJECT_VEHICLE ) { ...
 //   or; if ( baseactor_just_shot_at.object_type() == OBJECT_NPC ) { ...

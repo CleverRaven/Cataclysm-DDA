@@ -121,19 +121,19 @@ const std::array<type, 1 + om_direction::bits> all = {{
 const size_t size = all.size();
 const size_t invalid = 0;
 
-constexpr size_t rotate( size_t line, om_direction::type dir )
+constexpr size_t rotate( size_t line, overmap_direction dir )
 {
     // Bitwise rotation to the left.
     return ( ( ( line << static_cast<size_t>( dir ) ) |
                ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
 }
 
-constexpr size_t set_segment( size_t line, om_direction::type dir )
+constexpr size_t set_segment( size_t line, overmap_direction dir )
 {
     return line | 1 << static_cast<int>( dir );
 }
 
-constexpr bool has_segment( size_t line, om_direction::type dir )
+constexpr bool has_segment( size_t line, overmap_direction dir )
 {
     return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
 }
@@ -148,16 +148,16 @@ constexpr bool is_straight( size_t line )
         || line == 10;
 }
 
-size_t from_dir( om_direction::type dir )
+size_t from_dir( overmap_direction dir )
 {
     switch( dir ) {
-        case om_direction::type::north:
-        case om_direction::type::south:
+        case overmap_direction::north:
+        case overmap_direction::south:
             return 5;  // ns;
-        case om_direction::type::east:
-        case om_direction::type::west:
+        case overmap_direction::east:
+        case overmap_direction::west:
             return 10; // ew
-        case om_direction::type::invalid:
+        case overmap_direction::invalid:
             debugmsg( "Can't retrieve a line from the invalid direction." );
     }
 
@@ -504,12 +504,12 @@ oter_id oter_type_t::get_first() const
     return directional_peers.front();
 }
 
-oter_id oter_type_t::get_rotated( om_direction::type dir ) const
+oter_id oter_type_t::get_rotated( overmap_direction dir ) const
 {
-    if( dir == om_direction::type::invalid ) {
+    if( dir == overmap_direction::invalid ) {
         debugmsg( "Invalid rotation was asked from overmap terrain \"%s\".", id.c_str() );
         return ot_null;
-    } else if( dir == om_direction::type::none || !is_rotatable() ) {
+    } else if( dir == overmap_direction::none || !is_rotatable() ) {
         return directional_peers.front();
     }
     assert( directional_peers.size() == om_direction::size );
@@ -537,7 +537,7 @@ oter_t::oter_t( const oter_type_t &type ) :
     id( type.id.str() ),
     sym( type.sym ) {}
 
-oter_t::oter_t( const oter_type_t &type, om_direction::type dir ) :
+oter_t::oter_t( const oter_type_t &type, overmap_direction dir ) :
     type( &type ),
     id( type.id.str() + "_" + om_direction::id( dir ) ),
     dir( dir ),
@@ -557,7 +557,7 @@ std::string oter_t::get_mapgen_id() const
         : type->id.str();
 }
 
-oter_id oter_t::get_rotated( om_direction::type dir ) const
+oter_id oter_t::get_rotated( overmap_direction dir ) const
 {
     return type->has_flag( line_drawing )
         ? type->get_linear( om_lines::rotate( this->line, dir ) )
@@ -574,7 +574,7 @@ bool oter_t::type_is( const oter_type_t &type ) const
     return this->type == &type;
 }
 
-bool oter_t::has_connection( om_direction::type dir ) const
+bool oter_t::has_connection( overmap_direction dir ) const
 {
     // @todo: It's a DAMN UGLY hack. Remove it as soon as possible.
     static const oter_str_id road_manhole( "road_nesw_manhole" );
@@ -2858,7 +2858,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 // @todo: Unify these things.
                 const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() : uistate.place_special->rotatable;
 
-                uistate.omedit_rotation = om_direction::type::none;
+                uistate.omedit_rotation = overmap_direction::none;
                 // If user chose an already rotated submap, figure out its direction
                 if( terrain && can_rotate ) {
                     for( auto r : om_direction::all ) {
@@ -3446,10 +3446,10 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     }
 }
 
-void overmap::place_building( const tripoint &p, om_direction::type dir, const city &town )
+void overmap::place_building( const tripoint &p, overmap_direction dir, const city &town )
 {
     const tripoint building_pos = p + om_direction::displace( dir );
-    const om_direction::type building_dir = om_direction::opposite( dir );
+    const overmap_direction building_dir = om_direction::opposite( dir );
 
     const int town_dist = trig_dist( building_pos.x, building_pos.y, town.x, town.y ) / std::max( town.s, 1 );
 
@@ -3463,12 +3463,12 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     }
 }
 
-void overmap::build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town )
+void overmap::build_city_street( const overmap_connection &connection, const point &p, int cs, overmap_direction dir, const city &town )
 {
     int c = cs;
     int croad = cs;
 
-    if( dir == om_direction::type::invalid ) {
+    if( dir == overmap_direction::invalid ) {
         debugmsg( "Invalid road direction." );
         return;
     }
@@ -3642,7 +3642,7 @@ void overmap::build_anthill(int x, int y, int z, int s)
     }
 }
 
-void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
+void overmap::build_tunnel( int x, int y, int z, int s, overmap_direction dir )
 {
     if (s <= 0) {
         return;
@@ -3655,7 +3655,7 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
 
     ter( x, y, z ) = oter_id( root_id );
 
-    std::vector<om_direction::type> valid;
+    std::vector<overmap_direction> valid;
     valid.reserve( om_direction::size );
     for( auto r : om_direction::all ) {
         const point p = point( x, y ) + om_direction::displace( r );
@@ -3800,7 +3800,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         }
 
         const bool existing = connection.has( id );
-        if( existing && id->is_rotatable() && !om_direction::are_parallel( id->get_dir(), static_cast<om_direction::type>( cur.dir ) ) ) {
+        if( existing && id->is_rotatable() && !om_direction::are_parallel( id->get_dir(), static_cast<overmap_direction>( cur.dir ) ) ) {
             return pf::rejected; // Can't intersect.
         }
 
@@ -3824,7 +3824,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
     return pf::find_path( source, dest, OMAPX, OMAPY, estimate );
 }
 
-pf::path overmap::lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir, size_t len ) const
+pf::path overmap::lay_out_street( const overmap_connection &connection, const point &source, overmap_direction dir, size_t len ) const
 {
     const tripoint from( source, 0 );
     // See if we need to make another one "step" further.
@@ -3860,13 +3860,13 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
 
 void overmap::build_connection( const overmap_connection &connection, const pf::path &path, int z )
 {
-    om_direction::type prev_dir = om_direction::type::invalid;
+    overmap_direction prev_dir = overmap_direction::invalid;
 
     for( const auto &node : path.nodes ) {
         const tripoint pos( node.x, node.y, z );
         auto &ter_id( ter( pos ) );
         // @todo: Make 'node' support 'om_direction'.
-        const om_direction::type new_dir( static_cast<om_direction::type>( node.dir ) );
+        const overmap_direction new_dir( static_cast<overmap_direction>( node.dir ) );
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( ter_id );
 
         if( !subtype ) {
@@ -3877,11 +3877,11 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
         if( subtype->terrain->is_linear() ) {
             size_t new_line = connection.has( ter_id ) ? ter_id->get_line() : 0;
 
-            if( new_dir != om_direction::type::invalid ) {
+            if( new_dir != overmap_direction::invalid ) {
                 new_line = om_lines::set_segment( new_line, new_dir );
             }
 
-            if( prev_dir != om_direction::type::invalid ) {
+            if( prev_dir != overmap_direction::invalid ) {
                 new_line = om_lines::set_segment( new_line, om_direction::opposite( prev_dir ) );
             }
 
@@ -3917,7 +3917,7 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
             }
 
             ter_id = subtype->terrain->get_linear( new_line );
-        } else if( new_dir != om_direction::type::invalid ) {
+        } else if( new_dir != overmap_direction::invalid ) {
             ter_id = subtype->terrain->get_rotated( new_dir );
         }
 
@@ -4083,18 +4083,18 @@ void overmap::good_river(int x, int y, int z)
     }
 }
 
-const std::string &om_direction::id( type dir )
+const std::string &om_direction::id( overmap_direction dir )
 {
     static const std::array<std::string, size + 1> ids = {{
        "", "north", "east", "south", "west"
     }};
-    if( dir == type::invalid ) {
+    if( dir == overmap_direction::invalid ) {
         debugmsg( "Invalid direction cannot have an id." );
     }
     return ids[static_cast<size_t>( dir ) + 1];
 }
 
-const std::string &om_direction::name( type dir )
+const std::string &om_direction::name( overmap_direction dir )
 {
     static const std::array<std::string, size + 1> names = {{
        _( "invalid" ), _( "north" ), _( "east" ), _( "south" ), _( "west" )
@@ -4114,43 +4114,43 @@ const std::string &om_direction::name( type dir )
     (0,2)(1,2)(2,2)    (-2,0)(-2,1)(-2,2)    (-2,2)(-1,2)(0,2)
 */
 
-point om_direction::rotate( const point &p, type dir )
+point om_direction::rotate( const point &p, overmap_direction dir )
 {
     switch( dir ) {
-        case type::invalid:
-            debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
+        case overmap_direction::invalid:
+            debugmsg( "Invalid overmap rotation (%d).", dir );
             // Intentional fallthrough.
-        case type::north:
+        case overmap_direction::north:
             break;  // No need to do anything.
-        case type::east:
+        case overmap_direction::east:
             return point( -p.y, p.x );
-        case type::south:
+        case overmap_direction::south:
             return point( -p.x, -p.y );
-        case type::west:
+        case overmap_direction::west:
             return point( p.y, -p.x );
     }
     return p;
 }
 
-tripoint om_direction::rotate( const tripoint &p, type dir )
+tripoint om_direction::rotate( const tripoint &p, overmap_direction dir )
 {
     return tripoint( rotate( { p.x, p.y }, dir ), p.z );
 }
 
-long om_direction::rotate_symbol( long sym, type dir )
+long om_direction::rotate_symbol( long sym, overmap_direction dir )
 {
     return rotatable_symbols::get( sym, static_cast<int>( dir ) );
 }
 
-point om_direction::displace( type dir, int dist )
+point om_direction::displace( overmap_direction dir, int dist )
 {
     return rotate( { 0, -dist }, dir );
 }
 
-inline om_direction::type rotate_internal( om_direction::type dir, int step )
+inline overmap_direction rotate_internal( overmap_direction dir, int step )
 {
     using namespace om_direction;
-    if( dir == type::invalid ) {
+    if( dir == overmap_direction::invalid ) {
         debugmsg( "Can't rotate an invalid overmap rotation." );
         return dir;
     }
@@ -4158,47 +4158,47 @@ inline om_direction::type rotate_internal( om_direction::type dir, int step )
     if( step < 0 ) {
         step += size;
     }
-    return static_cast<type>( ( static_cast<int>( dir ) + step ) % size );
+    return static_cast<overmap_direction>( ( static_cast<int>( dir ) + step ) % size );
 }
 
-om_direction::type om_direction::add( type dir1, type dir2 )
+overmap_direction om_direction::add( overmap_direction dir1, overmap_direction dir2 )
 {
     return rotate_internal( dir1, static_cast<int>( dir2 ) );
 }
 
-om_direction::type om_direction::turn_left( type dir )
+overmap_direction om_direction::turn_left( overmap_direction dir )
 {
     return rotate_internal( dir, -int( size ) / 4 );
 }
 
-om_direction::type om_direction::turn_right( type dir )
+overmap_direction om_direction::turn_right( overmap_direction dir )
 {
     return rotate_internal( dir, int( size ) / 4 );
 }
 
-om_direction::type om_direction::turn_random( type dir )
+overmap_direction om_direction::turn_random( overmap_direction dir )
 {
     return rng( 0, 1 ) ? turn_left( dir ) : turn_right( dir );
 }
 
-om_direction::type om_direction::opposite( type dir )
+overmap_direction om_direction::opposite( overmap_direction dir )
 {
     return rotate_internal( dir, int( size ) / 2 );
 }
 
-om_direction::type om_direction::random()
+overmap_direction om_direction::random()
 {
-    return static_cast<type>( rng( 0, size - 1 ) );
+    return static_cast<overmap_direction>( rng( 0, size - 1 ) );
 }
 
-bool om_direction::are_parallel( type dir1, type dir2 )
+bool om_direction::are_parallel( overmap_direction dir1, overmap_direction dir2 )
 {
     return dir1 == dir2 || dir1 == opposite( dir2 );
 }
 
-om_direction::type overmap::random_special_rotation( const overmap_special &special, const tripoint &p ) const
+overmap_direction overmap::random_special_rotation( const overmap_special &special, const tripoint &p ) const
 {
-    std::vector<om_direction::type> rotations( om_direction::size );
+    std::vector<overmap_direction> rotations( om_direction::size );
     const auto first = rotations.begin();
     auto last = first;
 
@@ -4235,17 +4235,17 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
     }
     // Pick first valid rotation at random.
     std::random_shuffle( first, last );
-    const auto rotation = std::find_if( first, last, [&]( om_direction::type elem ) {
+    const auto rotation = std::find_if( first, last, [&]( overmap_direction elem ) {
         return can_place_special( special, p, elem );
     } );
 
-    return rotation != last ? *rotation : om_direction::type::invalid;
+    return rotation != last ? *rotation : overmap_direction::invalid;
 }
 
-bool overmap::can_place_special( const overmap_special &special, const tripoint &p, om_direction::type dir ) const
+bool overmap::can_place_special( const overmap_special &special, const tripoint &p, overmap_direction dir ) const
 {
     assert( p != invalid_tripoint );
-    assert( dir != om_direction::type::invalid );
+    assert( dir != overmap_direction::invalid );
 
     if( !special.id ) {
         return false;
@@ -4269,10 +4269,10 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
 }
 
 // checks around the selected point to see if the special can be placed there
-void overmap::place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit )
+void overmap::place_special( const overmap_special &special, const tripoint &p, overmap_direction dir, const city &cit )
 {
     assert( p != invalid_tripoint );
-    assert( dir != om_direction::type::invalid );
+    assert( dir != overmap_direction::invalid );
     assert( can_place_special( special, p, dir ) );
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
@@ -4356,7 +4356,7 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
         }
         // See if we can actually place the special there.
         const auto rotation = random_special_rotation( special, p );
-        if( rotation == om_direction::type::invalid ) {
+        if( rotation == overmap_direction::invalid ) {
             continue;
         }
 

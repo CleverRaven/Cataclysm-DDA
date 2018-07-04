@@ -619,7 +619,7 @@ classes = {
             { name = "invoke_item", rval = "bool", args = { "item" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string", "tripoint" } },
-            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },            
+            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },
             { name = "is_armed", rval = "bool", args = { } },
             { name = "is_dead_state", rval = "bool", args = { } },
             { name = "is_deaf", rval = "bool", args = { } },
@@ -1832,6 +1832,9 @@ classes = {
             { name = "set_interest", rval = nil, args = { "int" } },
         }
     },
+--[[
+You can get reference to current overmap with `g:get_cur_om()`.
+--]]
     overmap = {
         attributes = {
         },
@@ -1969,6 +1972,14 @@ classes = {
 }
 
 enums = {
+    overmap_direction = {
+        "invalid",
+        "none",
+        "north",
+        "east",
+        "south",
+        "west",
+    },
     body_part = {
         "bp_torso",
         "bp_head",
@@ -2105,6 +2116,12 @@ global_functions = {
         rval = nil,
         desc = "Write a message to the game's standard message window."
     },
+    query_yn = {
+        cpp_name = "query_yn",
+        args     = { "string" },
+        argnames = { "message" },
+        rval = "bool"
+    },
     popup = {
         cpp_name = "popup_wrapper",
         args = { "string" },
@@ -2160,6 +2177,24 @@ global_functions = {
         cpp_name = "get_calendar_turn_wrapper",
         args = {},
         rval = "calendar&"
+    },
+--[[
+Returns id of overmap terrain.
+Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return id of overmap terrain of current player location.
+--]]
+    get_omt_id = {
+        cpp_name = "get_omt_id",
+        args = { "overmap", "tripoint" },
+        rval = "string"
+    },
+--[[
+Returns enum, indicating direction of overmap terrain. Possible values are in `overmap_direction` in `enums` section above.
+Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return direction of overmap terrain of current player location.
+--]]
+    get_omt_dir = {
+        cpp_name = "get_omt_dir",
+        args = { "overmap", "tripoint" },
+        rval = "overmap_direction"
     },
     get_time_duration = {
         cpp_name = "get_time_duration_wrapper",

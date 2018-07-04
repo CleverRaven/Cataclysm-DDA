@@ -31,58 +31,49 @@ using overmap_special_id = string_id<overmap_special>;
 /** Direction on the overmap. */
 namespace om_direction
 {
-/** Basic enum for directions. */
-enum class type : int {
-    invalid = -1,
-    none,
-    north = none,
-    east,
-    south,
-    west,
-};
 
 /** For the purposes of iteration. */
-const std::array<type, 4> all = {{ type::north, type::east, type::south, type::west }};
+const std::array<overmap_direction, 4> all = {{ overmap_direction::north, overmap_direction::east, overmap_direction::south, overmap_direction::west }};
 const size_t size = all.size();
 
 /** Number of bits needed to store directions. */
 const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
 /** Identifier for serialization purposes. */
-const std::string &id( type dir );
+const std::string &id( overmap_direction dir );
 
 /** Get Human readable name of a direction */
-const std::string &name( type dir );
+const std::string &name( overmap_direction dir );
 
 /** Various rotations. */
-point rotate( const point &p, type dir );
-tripoint rotate( const tripoint &p, type dir );
-long rotate_symbol( long sym, type dir );
+point rotate( const point &p, overmap_direction dir );
+tripoint rotate( const tripoint &p, overmap_direction dir );
+long rotate_symbol( long sym, overmap_direction dir );
 
 /** Returns point(0, 0) displaced in specified direction by a specified distance
  * @param dir Direction of displacement
  * @param dist Distance of displacement
  */
-point displace( type dir, int dist = 1 );
+point displace( overmap_direction dir, int dist = 1 );
 
 /** Returns a sum of two numbers
  *  @param dir1 first number
  *  @param dir2 second number */
-type add( type dir1, type dir2 );
+overmap_direction add( overmap_direction dir1, overmap_direction dir2 );
 
 /** Turn by 90 degrees to the left, to the right, or randomly (either left or right). */
-type turn_left( type dir );
-type turn_right( type dir );
-type turn_random( type dir );
+overmap_direction turn_left( overmap_direction dir );
+overmap_direction turn_right( overmap_direction dir );
+overmap_direction turn_random( overmap_direction dir );
 
 /** Returns an opposite direction. */
-type opposite( type dir );
+overmap_direction opposite( overmap_direction dir );
 
 /** Returns a random direction. */
-type random();
+overmap_direction random();
 
 /** Whether these directions are parallel. */
-bool are_parallel( type dir1, type dir2 );
+bool are_parallel( overmap_direction dir1, overmap_direction dir2 );
 
 };
 
@@ -153,7 +144,7 @@ struct oter_type_t {
         oter_type_t() {}
 
         oter_id get_first() const;
-        oter_id get_rotated( om_direction::type dir ) const;
+        oter_id get_rotated( overmap_direction dir ) const;
         oter_id get_linear( size_t n ) const;
 
         bool has_flag( oter_flags flag ) const {
@@ -192,7 +183,7 @@ struct oter_t {
 
         oter_t();
         oter_t( const oter_type_t &type );
-        oter_t( const oter_type_t &type, om_direction::type dir );
+        oter_t( const oter_type_t &type, overmap_direction dir );
         oter_t( const oter_type_t &type, size_t line );
 
         const string_id<oter_type_t> &get_type_id() const {
@@ -200,7 +191,7 @@ struct oter_t {
         }
 
         std::string get_mapgen_id() const;
-        oter_id get_rotated( om_direction::type dir ) const;
+        oter_id get_rotated( overmap_direction dir ) const;
 
         const std::string get_name() const {
             return _( type->name.c_str() );
@@ -214,7 +205,7 @@ struct oter_t {
             return type->color;
         }
 
-        om_direction::type get_dir() const {
+        overmap_direction get_dir() const {
             return dir;
         }
 
@@ -241,7 +232,7 @@ struct oter_t {
         bool type_is( const int_id<oter_type_t> &type_id ) const;
         bool type_is( const oter_type_t &type ) const;
 
-        bool has_connection( om_direction::type dir ) const;
+        bool has_connection( overmap_direction dir ) const;
 
         bool has_flag( oter_flags flag ) const {
             return type->has_flag( flag );
@@ -262,7 +253,7 @@ struct oter_t {
         }
 
     private:
-        om_direction::type dir = om_direction::type::none;
+        overmap_direction dir = overmap_direction::none;
         long sym = '\0';         // This is a long, so we can support curses line drawing.
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };

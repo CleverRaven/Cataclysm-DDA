@@ -244,7 +244,7 @@ public:
      */
     tripoint find_closest(const tripoint& origin, const std::string& type, int radius, bool must_be_seen);
 
-    /* These 4 functions return the overmap that contains the given
+    /* These 6 functions return the overmap that contains the given
      * overmap terrain coordinate.
      * get_existing_om_global will not create a new overmap and
      * instead return NULL, if the requested overmap does not yet exist.

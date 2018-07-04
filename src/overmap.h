@@ -503,20 +503,20 @@ public:
   overmap_special_id pick_random_building_to_place( int town_dist ) const;
 
   void place_cities();
-  void place_building( const tripoint &p, om_direction::type dir, const city &town );
+  void place_building( const tripoint &p, overmap_direction dir, const city &town );
 
-  void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
+  void build_city_street( const overmap_connection &connection, const point &p, int cs, overmap_direction dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);
   void build_acid_anthill(int x, int y, int z, int s);
-  void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
+  void build_tunnel( int x, int y, int z, int s, overmap_direction dir );
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
 
     // Connection laying
     pf::path lay_out_connection( const overmap_connection &connection, const point &source, const point &dest, int z ) const;
-    pf::path lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir, size_t len ) const;
+    pf::path lay_out_street( const overmap_connection &connection, const point &source, overmap_direction dir, size_t len ) const;
 
     void build_connection( const overmap_connection &connection, const pf::path &path, int z );
     void build_connection( const point &source, const point &dest, int z, const overmap_connection &connection );
@@ -533,11 +533,11 @@ public:
   // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
   std::vector<point> get_sectors() const;
 
-    om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+    overmap_direction random_special_rotation( const overmap_special &special, const tripoint &p ) const;
 
-    bool can_place_special( const overmap_special &special, const tripoint &p, om_direction::type dir ) const;
+    bool can_place_special( const overmap_special &special, const tripoint &p, overmap_direction dir ) const;
 
-    void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
+    void place_special( const overmap_special &special, const tripoint &p, overmap_direction dir, const city &cit );
     /**
      * Iterate over the overmap and place the quota of specials.
      * If the stated minimums are not reached, it will spawn a new nearby overmap
