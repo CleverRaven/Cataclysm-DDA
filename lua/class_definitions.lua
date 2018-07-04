@@ -1869,9 +1869,9 @@ classes = {
         },
     },
     time_duration = {
-        by_value_and_reference = true,
+        by_value = true,
+        has_equal = true,
         new = {
-            --{ "int" }, --private
             { "time_duration" },
         },
         attributes = {
@@ -1880,7 +1880,8 @@ classes = {
         },
     },
     time_point = {
-        by_value_and_reference = true,
+        by_value = true,
+        has_equal = true,
         new = {
             { "calendar" },
             { "int" },
