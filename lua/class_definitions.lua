@@ -1832,17 +1832,25 @@ classes = {
             { name = "set_interest", rval = nil, args = { "int" } },
         }
     },
+    -- You can get reference to current overmap using `g:get_cur_om()` or return value of overmap with given coordinates using `overmap(x, y)`.
     overmap = {
+        by_value_and_reference = true,
+        new = {
+            { "int", "int" },
+        },
         attributes = {
         },
         functions = {
-            { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
-            { name = "clear_mon_groups", rval = nil, args = { } },
-            { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
+            { name = "pos", rval = "point", args = { } },
             { name = "find_random_omt", rval = "tripoint", args = { "string" } },
-            { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_explored", rval = "bool", args = { "int", "int", "int" } },
+            { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "note", rval = "string", args = { "int", "int", "int" } },
+            { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
+            { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
+            { name = "display_notes", rval = "point", args = { "int" } },
+            { name = "global_base_point", rval = "point", args = { } },
+            { name = "clear_mon_groups", rval = nil, args = { } },
         }
     },
     volume = {
