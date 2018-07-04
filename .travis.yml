@@ -27,6 +27,8 @@ addons:
   apt:
     sources: &apt_sources
       - ubuntu-toolchain-r-test
+    config:
+      retries: true
 
 compiler: gcc
 os: linux
@@ -43,8 +45,6 @@ matrix:
         apt:
           packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # coverage
     - env: COMPILER=g++-4.8 CODE_COVERAGE=true
@@ -53,8 +53,6 @@ matrix:
         apt:
           packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # GCC 4.9
     - env: COMPILER=g++-4.9
@@ -63,8 +61,6 @@ matrix:
         apt:
           packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # GCC 5
     - env: COMPILER=g++-5
@@ -73,8 +69,6 @@ matrix:
         apt:
           packages: ["g++-5",   "g++-5-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # GCC 6
     - env: COMPILER=g++-6
@@ -83,8 +77,6 @@ matrix:
         apt:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # GCC 7
     - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough'
@@ -93,8 +85,6 @@ matrix:
         apt:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # GCC 8
     - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough'
@@ -103,8 +93,6 @@ matrix:
         apt:
           packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # GCC MinGW
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
@@ -113,8 +101,6 @@ matrix:
       addons: &gcc
         apt:
           packages: ["wine"]
-          config:
-            retries: true
 
     # Clang 3.8
     - env: CLANG=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
@@ -123,8 +109,6 @@ matrix:
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # Clang 3.9
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
@@ -133,8 +117,6 @@ matrix:
         apt:
           packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
-          config:
-            retries: true
 
     # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
@@ -144,8 +126,7 @@ matrix:
         apt:
           packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: [*apt_sources, llvm-toolchain-trusty-4.0]
-          config:
-            retries: true
+
     # Clang 5.0
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       dist: trusty
@@ -154,8 +135,6 @@ matrix:
         apt:
           packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
-          config:
-            retries: true
           
     # Clang 6.0
     - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument
@@ -165,8 +144,23 @@ matrix:
         apt:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: [*apt_sources, llvm-toolchain-trusty-6.0]
-          config:
-            retries: true
+
+    # Windows Tiles
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
+      compiler: gcc
+      sudo: required
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
+    # Linux Tiles
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
+
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version

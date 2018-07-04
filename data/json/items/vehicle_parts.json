@@ -99,7 +99,7 @@
         "type":"GENERIC",
         "id" : "bike_basket",
         "name" : "bike basket",
-        "description" : "A simple bike basket. It is small and foldable.",
+        "description" : "A simple bike basket.  It is small and foldable.",
         "weight" : 1200,
         "to_hit" : -5,
         "color" : "cyan",

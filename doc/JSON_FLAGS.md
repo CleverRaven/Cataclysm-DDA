@@ -231,7 +231,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
 - ```DOGFOOD``` Becomes friendly / tamed with dog food.
-- ```DRIPS_NAPALM``` Ocassionally drips napalm on move.
+- ```DRIPS_NAPALM``` Occasionally drips napalm on move.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
@@ -247,7 +247,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT``` You feel guilty for killing it.
-- ```HARDTOSHOOT``` Some shots are actually misses.
+- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then MS_TINY 
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.

@@ -67,7 +67,7 @@
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
+    "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
     "inherit": false
   },
   {

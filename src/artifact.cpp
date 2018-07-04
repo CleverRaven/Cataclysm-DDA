@@ -554,6 +554,7 @@ it_artifact_tool::it_artifact_tool() : itype()
     price = 0;
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
+    artifact->charge_req = ACR_NULL;
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
@@ -717,6 +718,10 @@ std::string new_artifact()
         }
         if (one_in(8) && num_bad + num_good >= 4) {
             def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
+        }
+        //Maybe pick an extra recharge requirement
+        if (one_in( std::max(1, 8-num_good) ) && def.artifact->charge_type!=ARTC_NULL ) {
+            def.artifact->charge_req = art_charge_req( rng(ACR_NULL + 1, NUM_ACRS - 1) );
         }
         item_controller->add_item_type( static_cast<itype &>( def ) );
         return def.get_id();
@@ -927,6 +932,10 @@ std::string new_natural_artifact(artifact_natural_property prop)
     if (!def.artifact->effects_activated.empty()) {
         def.tool->def_charges = def.tool->max_charges = rng( 1, 4 );
         def.artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
+        //Maybe pick an extra recharge requirement
+        if (one_in(8)) {
+            def.artifact->charge_req = art_charge_req( rng(ACR_NULL + 1, NUM_ACRS - 1) );
+        }
     }
     item_controller->add_item_type( static_cast<itype &>( def ) );
     return def.get_id();
@@ -1072,6 +1081,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
+    artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
 
     JsonArray ja = jo.get_array("effects_wielded");
     while (ja.has_more()) {
@@ -1214,6 +1224,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
 
     // artifact data
     json.member("charge_type", artifact->charge_type);
+    json.member("charge_req", artifact->charge_req);
     serialize_enum_vector_as_int( json, "effects_wielded", artifact->effects_wielded );
     serialize_enum_vector_as_int( json, "effects_activated", artifact->effects_activated );
     serialize_enum_vector_as_int( json, "effects_carried", artifact->effects_carried );
@@ -1355,6 +1366,15 @@ static const std::unordered_map<std::string, art_charge> art_charge_values = { {
     PAIR( ARTC_HP ),
     PAIR( ARTC_FATIGUE ),
 } };
+static const std::unordered_map<std::string, art_charge_req> art_charge_req_values = { {
+    PAIR( ACR_NULL ),
+    PAIR( ACR_EQUIP ),
+    PAIR( ACR_SKIN ),
+    PAIR( ACR_SLEEP ),
+    PAIR( ACR_RAD ),
+    PAIR( ACR_WET ),
+    PAIR( ACR_SKY ),
+} };
 #undef PAIR
 
 template<>
@@ -1373,5 +1393,11 @@ template<>
 art_charge string_to_enum<art_charge>( const std::string &data )
 {
     return string_to_enum_look_up( art_charge_values, data );
+}
+
+template<>
+art_charge_req string_to_enum<art_charge_req>( const std::string &data )
+{
+    return string_to_enum_look_up( art_charge_req_values, data );
 }
 } // namespace io
