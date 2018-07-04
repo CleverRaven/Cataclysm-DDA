@@ -1,17 +1,17 @@
 # Translators:
 # Mickaël Falck <lastmikoi+github@lastmikoi.net>, 2018
-# Julien Maitre <julienm86230@hotmail.fr>, 2018
-# Brett Dong <brett.browning.dong@gmail.com>, 2018
-# Argasm Voragz <argasm@gmail.com>, 2018
 # Jazz <jazzzz@gmail.com>, 2018
 # _hickop, 2018
+# Brett Dong <brett.browning.dong@gmail.com>, 2018
+# Argasm Voragz <argasm@gmail.com>, 2018
+# Julien Maitre <julienm86230@hotmail.fr>, 2018
 # 0a12861a88fd8e19ef9d434658b16f47, 2018
 # master zu, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:51+0800\n"
+"POT-Creation-Date: 2018-06-23 22:54+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: master zu, 2018\n"
 "Language-Team: French (https://www.transifex.com/cataclysm-dda-translators/teams/2217/fr/)\n"
@@ -2238,8 +2238,8 @@ msgstr "plume"
 
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
-msgid "Feathers from a bird.  Useful for fletching arrows"
-msgstr "Plume provenant d'un oiseau. Utile pour l'empennage des flèches."
+msgid "Feathers from a bird.  Useful for fletching arrows."
+msgstr "Des plumes d'oiseau. Utiles pour empenner une flèche."
 
 #: lang/json/AMMO_from_json.py
 msgid "down feather"
@@ -2561,6 +2561,33 @@ msgstr "cartouche filtre pour recycleur d'air"
 #: lang/json/AMMO_from_json.py
 msgid "A replacement filter cartridge for a rebreather."
 msgstr "Une cartouche de rechange pour un recycleur d'air."
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "filter mask cartridge"
+msgstr "cartouche pour masque filtrant"
+
+#. ~ Description for filter mask cartridge
+#: lang/json/AMMO_from_json.py
+msgid "Small replacement filter cartridge for air filtration masks."
+msgstr "Petite cartouche de remplacement pour masque filtrants"
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "gas mask cartridge"
+msgstr "cartouche de masque a gaz"
+
+#. ~ Description for gas mask cartridge
+#: lang/json/AMMO_from_json.py
+msgid "Medium replacement filter cartridge for air filtration masks."
+msgstr "Cartouche de remplacement moyenne pour masque filtrant"
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "hazmat mask cartridge"
+msgstr "cartouche de maque Hazmat"
+
+#. ~ Description for hazmat mask cartridge
+#: lang/json/AMMO_from_json.py
+msgid "Heavy replacement filter cartridge for air filtration masks."
+msgstr "Grosse cartouche de remplacement pour masque filtrant."
 
 #: lang/json/AMMO_from_json.py
 msgid "nicotine liquid"
@@ -7172,7 +7199,7 @@ msgstr ""
 "Un grand drapeau américain conçu pour flotter dans le vent même dans les "
 "pires conditions."
 
-#: lang/json/ARMOR_from_json.py
+#: lang/json/ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
 msgid "ANBC suit"
 msgid_plural "ANBC suits"
 msgstr[0] "combinaison NBC renforcée"
@@ -10087,12 +10114,12 @@ msgstr ""
 "journaux. Assez chaude."
 
 #: lang/json/ARMOR_from_json.py
-msgid "noise cancelling headgear"
-msgid_plural "noise cancelling headgears"
-msgstr[0] "casque anti-bruits"
-msgstr[1] "casques anti-bruits"
+msgid "noise canceling headgear"
+msgid_plural "noise canceling headgears"
+msgstr[0] "casques anti-bruits"
+msgstr[1] "casque anti-bruit"
 
-#. ~ Description for noise cancelling headgear
+#. ~ Description for noise canceling headgear
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Padding over your ears kept in place by some string.  Blocks incoming "
@@ -10116,7 +10143,7 @@ msgstr ""
 "Le grande rebord vous protège les yeux du soleil, un fin lacet s'accroche "
 "sous votre menton."
 
-#: lang/json/ARMOR_from_json.py
+#: lang/json/ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
 msgid "hazmat suit"
 msgid_plural "hazmat suits"
 msgstr[0] "combinaison hazmat"
@@ -11754,86 +11781,6 @@ msgstr ""
 " l'air."
 
 #: lang/json/ARMOR_from_json.py
-msgid "filter mask"
-msgid_plural "filter masks"
-msgstr[0] "masque de protection"
-msgstr[1] "masques de protection"
-
-#. ~ Description for filter mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A mask that straps over your mouth and nose and filters air.  Protects from "
-"smoke, dust, and other contaminants quite well."
-msgstr ""
-"Un masque qui s'attache autour de la bouche et le nez. Il filtre l'air, "
-"protégeant efficacement de la fumée, la poussière et d'autres contaminants."
-
-#: lang/json/ARMOR_from_json.py
-msgid "survivor firemask"
-msgid_plural "survivor firemasks"
-msgstr[0] "Masque de pompier de survivant"
-msgstr[1] "Masques de pompier de survivant"
-
-#. ~ Description for survivor firemask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It "
-"provides excellent protection from heat, smoke, teargas, and shrapnel."
-msgstr ""
-"Masque couvrant le visage et les yeux isolé au Nomex. Procure une excellente"
-" protection contre la chaleur, la fumée, les lacrymogènes et les shrapnels."
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL survivor firemask"
-msgid_plural "XL survivor firemasks"
-msgstr[0] "Masque de pompier de survivant XL"
-msgstr[1] "Masques de pompier de survivant XL"
-
-#. ~ Description for XL survivor firemask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, Nomex-insulated gas mask that covers the face and eyes "
-"regardless of your state of mutation.  It provides excellent protection from"
-" heat, smoke, teargas, and shrapnel."
-msgstr ""
-"Masque couvrant le visage et les yeux quel que soit votre état de mutation "
-"isolé au Nomex . Procure une excellente protection contre la chaleur, la "
-"fumée, les lacrymogènes et les shrapnels."
-
-#: lang/json/ARMOR_from_json.py
-msgid "gas mask"
-msgid_plural "gas masks"
-msgstr[0] "masque à gaz"
-msgstr[1] "masques à gaz"
-
-#. ~ Description for gas mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A full gas mask that covers the face and eyes.  Provides excellent "
-"protection from smoke, teargas, and other contaminants."
-msgstr ""
-"Un masque à gaz complet qui couvre le visage et les yeux. Il fournit une "
-"protection excellente contre la fumée, le gaz lacrymogène et d'autres "
-"contaminants."
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL gas mask"
-msgid_plural "XL gas masks"
-msgstr[0] "masque à gaz XL"
-msgstr[1] "masques à gaz XL"
-
-#. ~ Description for XL gas mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A rather roomy mask with filters attached, designed to accommodate exotic "
-"anatomy.  Provides excellent protection from smoke, teargas, and other "
-"contaminants."
-msgstr ""
-"Masque plutôt spacieux  pour accommoder les anatomies exotiques avec des "
-"filtres attachés. Fournit une protection excellente contre la fumée, le gaz "
-"lacrymogène et d'autres contaminants. "
-
-#: lang/json/ARMOR_from_json.py
 msgid "Guy Fawkes mask"
 msgid_plural "Guy Fawkes masks"
 msgstr[0] "masque de Guy Fawkes"
@@ -11860,38 +11807,6 @@ msgstr ""
 "gardiens de but de hockey."
 
 #: lang/json/ARMOR_from_json.py
-msgid "heavy survivor mask"
-msgid_plural "heavy survivor masks"
-msgstr[0] "masque lourd du survivant"
-msgstr[1] "masques lourds du survivant"
-
-#. ~ Description for heavy survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, steel reinforced gas mask that covers the face and eyes.  "
-"Provides excellent protection from smoke, teargas, and shrapnel."
-msgstr ""
-"Un masque à gaz en acier renforcé, fait sur mesure, qui couvre le visage et "
-"les yeux. Il fournit une excellente protection contre la fumée, les "
-"lacrymogènes et le shrapnel."
-
-#: lang/json/ARMOR_from_json.py
-msgid "light survivor mask"
-msgid_plural "light survivor masks"
-msgstr[0] "masque léger du survivant"
-msgstr[1] "masques légers du survivant"
-
-#. ~ Description for light survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, reinforced gas mask that covers the face and eyes.  Provides"
-" excellent protection from smoke, teargas, and shrapnel."
-msgstr ""
-"Un masque à gaz renforcé, fait sur mesure, qui couvre le visage et les yeux."
-" Il fournit une excellente protection contre la fumée, les lacrymogènes et "
-"le shrapnel."
-
-#: lang/json/ARMOR_from_json.py
 msgid "rioter mask"
 msgid_plural "rioter masks"
 msgstr[0] "masque d'émeutier"
@@ -11905,73 +11820,6 @@ msgid ""
 msgstr ""
 "Un t-shirt avec les manches attachées derrière. Souvent utilisé par les "
 "émeutiers pour cacher leur identité."
-
-#: lang/json/ARMOR_from_json.py
-msgid "survivor mask"
-msgid_plural "survivor masks"
-msgstr[0] "masque du survivant"
-msgstr[1] "masques du survivant"
-
-#. ~ Description for survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, leather reinforced gas mask that covers the face and eyes.  "
-"Provides excellent protection from smoke, teargas, and shrapnel."
-msgstr ""
-"Un masque à gaz en cuir renforcé, fait sur mesure, qui couvre le visage et "
-"les yeux. Il fournit une excellente protection contre la fumée, les "
-"lacrymogènes et le shrapnel."
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL survivor mask"
-msgid_plural "XL survivor masks"
-msgstr[0] "masque du survivant XL"
-msgstr[1] "masques du survivant XL"
-
-#. ~ Description for XL survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, reinforced gas mask that covers the face and eyes regardless"
-" of your state of mutation.  Provides excellent protection from smoke, "
-"teargas, and shrapnel."
-msgstr ""
-"Un masque à gaz renforcé, fait sur mesure, qui couvre le visage et les yeux "
-"sans se soucier de votre état de mutation. Il fournit une excellente "
-"protection contre la fumée, les lacrymogènes et le shrapnel."
-
-#: lang/json/ARMOR_from_json.py
-msgid "winter survivor mask"
-msgid_plural "winter survivor masks"
-msgstr[0] "masque d'hiver du survivant"
-msgstr[1] "masques d'hiver du survivant"
-
-#. ~ Description for winter survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite "
-"warm, it still provides excellent protection from smoke, teargas, and "
-"shrapnel."
-msgstr ""
-"Un masque à gaz fait maison garni de fourrure, fait sur mesure, qui couvre "
-"le visage et les yeux. Il fournit une excellente protection contre la fumée,"
-" les lacrymogènes et le shrapnel."
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL winter survivor mask"
-msgid_plural "XL winter survivor masks"
-msgstr[0] "masque d'hiver XL du survivant"
-msgstr[1] "masques d'hiver XL du survivant"
-
-#. ~ Description for XL winter survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, fur-trimmed gas mask that covers the face and eyes "
-"regardless of your state of mutation.  Quite warm, it still provides "
-"excellent protection from smoke, teargas, and shrapnel."
-msgstr ""
-"Un masque à gaz garni de fourrure, fait sur mesure, qui couvre le visage et "
-"les yeux sans se soucier de votre état de mutation. Il fournit une "
-"excellente protection contre la fumée, les lacrymogènes et le shrapnel."
 
 #: lang/json/ARMOR_from_json.py
 msgid "messenger bag"
@@ -20633,6 +20481,46 @@ msgstr ""
 " plus sûr d'en boire une fois purifiée."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "bird litter"
+msgstr "Litière d'oiseau"
+
+#. ~ Description for bird litter
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Bird dropping, feathers, and soiled bits of rubbish."
+msgstr "Déjections d'oiseau, plumes, et camelote crasseuse"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cow pie"
+msgstr "bouse de vache"
+
+#. ~ Description for cow pie
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fresh cow pie, could probably be used to make some great fertilizer."
+msgstr ""
+"Une bouse de vache fraiche, pourrait certainement être utilisée pour faire "
+"un bon engrais."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "manure"
+msgstr "fumier"
+
+#. ~ Description for manure
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Common manure, could probably be used to make some great fertilizer."
+msgstr ""
+"fumier commun, pourrait certainement être utilisée pour faire un bon "
+"engrais. "
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "roach dirt"
+msgstr ""
+
+#. ~ Description for roach dirt
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Large black pellets of rotting material."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "bleach"
 msgid_plural "bleach"
 msgstr[0] "eau de Javel"
@@ -23969,37 +23857,6 @@ msgstr ""
 " probablement des mutations."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "ant egg"
-msgstr "oeuf de fourmi"
-
-#. ~ Description for ant egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"A large white ant egg, the size of a softball.  Extremely nutritious, but "
-"incredibly gross."
-msgstr ""
-"Un gros oeuf blanc de fourmi, de la taille d'une softball. Extrêmement "
-"nourrissant mais incroyablement dégoûtant."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "spider egg"
-msgstr "oeuf d'araignée"
-
-#. ~ Description for spider egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A fist sized egg from from a giant spider.  Incredibly gross."
-msgstr "Un oeuf d'araignée géante de la taille du poing. Répugnant."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "razorclaw roe"
-msgstr "œufs de griffe-rasoir"
-
-#. ~ Description for razorclaw roe
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A clump of razorclaw eggs.  A post-cataclysm delicacy."
-msgstr "Un amas d'oeufs de griffe-rasoir. Une délicatesse post-cataclysme."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "marloss berry"
 msgid_plural "marloss berries"
 msgstr[0] "baie de marloss"
@@ -26478,26 +26335,6 @@ msgstr ""
 " sans risque de dépendance."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "bird egg"
-msgstr "oeuf d'oiseau"
-
-#. ~ Description for bird egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Nutritious egg laid by a bird."
-msgstr "Un oeuf nutritif pondu par un oiseau."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "reptile egg"
-msgstr "oeuf de reptile"
-
-#. ~ Description for reptile egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid "An egg belonging to one of reptile species found in New England."
-msgstr ""
-"Un oeuf appartenant à l'une des espèces reptilienne trouvée en Nouvelle "
-"Angleterre."
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "vegetable salad"
 msgstr "salade de légumes"
 
@@ -27692,6 +27529,84 @@ msgid "Fancy mineral water, so fancy it makes you feel fancy just holding it."
 msgstr ""
 "Eau minérale fantaisie, si fantaisie que vous vous sentez fantaisiste rien "
 "qu'en la tenant."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "bird egg"
+msgstr "oeuf d'oiseau"
+
+#. ~ Description for bird egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Nutritious egg laid by a bird."
+msgstr "Un oeuf nutritif pondu par un oiseau."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "reptile egg"
+msgstr "oeuf de reptile"
+
+#. ~ Description for reptile egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "An egg belonging to one of reptile species found in New England."
+msgstr ""
+"Un oeuf appartenant à l'une des espèces reptilienne trouvée en Nouvelle "
+"Angleterre."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "ant egg"
+msgstr "oeuf de fourmi"
+
+#. ~ Description for ant egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A large white ant egg, the size of a softball.  Extremely nutritious, but "
+"incredibly gross."
+msgstr ""
+"Un gros oeuf blanc de fourmi, de la taille d'une softball. Extrêmement "
+"nourrissant mais incroyablement dégoûtant."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "spider egg"
+msgstr "oeuf d'araignée"
+
+#. ~ Description for spider egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fist-sized egg from from a giant spider.  Incredibly gross."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "roach egg"
+msgstr ""
+
+#. ~ Description for roach egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fist-sized egg from from a giant roach.  Incredibly gross."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "insect egg"
+msgstr ""
+
+#. ~ Description for insect egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fist-sized egg from from a locust."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "razorclaw roe"
+msgstr "œufs de griffe-rasoir"
+
+#. ~ Description for razorclaw roe
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A clump of razorclaw eggs.  A post-cataclysm delicacy."
+msgstr "Un amas d'oeufs de griffe-rasoir. Une délicatesse post-cataclysme."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "roe"
+msgstr ""
+
+#. ~ Description for roe
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Common roe from an unknown fish."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "first aid kit"
@@ -35570,6 +35485,17 @@ msgstr ""
 "Un grand panier grillagé provenant d'un caddie de supermarché. Modifié pour "
 "pouvoir le plier."
 
+#: lang/json/GENERIC_from_json.py
+msgid "bike basket"
+msgid_plural "bike baskets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bike basket
+#: lang/json/GENERIC_from_json.py
+msgid "A simple bike basket. It is small and foldable."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "wooden frame"
 msgid_plural "wooden frames"
@@ -39859,6 +39785,17 @@ msgid ""
 "compatible revolver."
 msgstr ""
 
+#: lang/json/MAGAZINE_from_json.py
+msgid ".38 Special speedloader"
+msgstr ""
+
+#. ~ Description for .38 Special speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 6 rounds of .38 Special and quickly reload a "
+"compatible revolver."
+msgstr ""
+
 #: lang/json/MOD_INFO_from_json.py src/color.cpp src/color.cpp
 msgid "default"
 msgstr "par défaut"
@@ -40454,110 +40391,6 @@ msgstr ""
 "visage est étiré et ses membres déformés par des excroissances."
 
 #: lang/json/MONSTER_from_json.py
-msgid "giant ant"
-msgstr "fourmi géante"
-
-#. ~ Description for giant ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An enormous red ant covered in chitinous plates.  It possesses a pair of "
-"wriggling antennae and vicious-looking mandibles."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant acidic ant"
-msgstr ""
-
-#. ~ Description for giant acidic ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
-"at the tip.  Glistening liquid seems to drip out periodically."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "acidic ant larva"
-msgstr ""
-
-#. ~ Description for acidic ant larva
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A squirming yellow grub that seems to be oozing liquid from both ends of its"
-" body.  It appears its chitin hasn't developed enough to resist acid."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "acidic queen ant"
-msgstr ""
-
-#. ~ Description for acidic queen ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
-"seems developed only for egg-laying rather than spraying acid like the rest "
-"of the colony, but it doesn't seem affected by the acrid liquid either."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "acidic soldier ant"
-msgstr ""
-
-#. ~ Description for acidic soldier ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A massive woolly brown ant that towers over the worker ants with a giant "
-"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
-"the end of its bloated abdomen."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "fungal ant"
-msgstr "fourmi fongique"
-
-#. ~ Description for fungal ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely "
-"held together by coils of fungus erupting from every joint in its body."
-msgstr ""
-"L'exosquelette d'une pâleur grise maladive et fendu de cette fourmi géante "
-"est à peine maintenu en un morceau par des fonges qui jaillissent des "
-"articulations de l'animal."
-
-#: lang/json/MONSTER_from_json.py
-msgid "ant larva"
-msgstr "larve de fourmi"
-
-#. ~ Description for ant larva
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A pulsating sausage of glistening white flesh, the size of a large cat.  On "
-"one end is a set of squirming mouth parts."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "queen ant"
-msgstr "reine des fourmis"
-
-#. ~ Description for queen ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A colossal red ant with a bulging, bloated thorax.  It moves slowly and "
-"deliberately, tending to nearby eggs and continually laying more."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "soldier ant"
-msgstr "fourmi soldat"
-
-#. ~ Description for soldier ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A huge and hairy red ant almost twice the size of other giant ants.  Bulging"
-" pincers extend from its jaws."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "bat"
 msgstr "chauve-souris"
 
@@ -40574,22 +40407,6 @@ msgstr ""
 "environnement accidenté."
 
 #: lang/json/MONSTER_from_json.py
-msgid "bear"
-msgstr "ours"
-
-#. ~ Description for bear
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The American black bear.  A large omnivorous scavenger, it has powerful "
-"claws and jaws, and is an effective ambush hunter.  It can pose a "
-"considerable threat, although most individuals are shy around humans."
-msgstr ""
-"L'ours noir d'Amérique. Un imposant charognard omnivore; il a une mâchoire "
-"et des griffes puissantes et est un chasseur efficace en embuscade. Il peut "
-"représenter une menace importante mais la plupart d'entre eux évitent les "
-"humains."
-
-#: lang/json/MONSTER_from_json.py
 msgid "Smoky bear"
 msgstr ""
 
@@ -40601,36 +40418,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "beaver"
-msgstr "castor"
-
-#. ~ Description for beaver
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The North American beaver, the continent's largest rodent.  Its paddle-"
-"shaped tail helps ferry it through the water, and its prominent teeth can "
-"chew through wood, which it uses to build dam-like nests in lakes and "
-"streams."
-msgstr ""
-"Le castor du Canada, le plus gros rongeur du continent. Sa queue en forme de"
-" pagaie l'aide à nager; ses dents peuvent couper du bois qu'il utilise pour "
-"fabriquer des nids en forme de barrages sur les lacs et cours d'eau."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant bee"
-msgstr "abeille géante"
-
-#. ~ Description for giant bee
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"With a stinger the size of a kitchen knife, this dog-sized insect's black "
-"and yellow markings warn you to leave it undisturbed."
-msgstr ""
-"Avec un dard de la taille d'un couteau de cuisine, cet insecte grand comme "
-"un chien, présente des marques jaunes vous prévenant de le laisser "
-"tranquille."
-
-#: lang/json/MONSTER_from_json.py
 msgid "scarred zombie"
 msgstr "zombie balafré"
 
@@ -40640,32 +40427,6 @@ msgid ""
 "A deformed human body, its skin has been transformed into one thick, "
 "calloused envelope of scar tissue."
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "biollante"
-msgstr ""
-
-#. ~ Description for biollante
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A drooped, quivering plant with a thick stalk adorned by a purple flower.  "
-"Its petals are closed, and pulsate ominously."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "black rat"
-msgstr "rat"
-
-#. ~ Description for black rat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The black rat, an omnivorous rodent with sheer black fur and a long, rough "
-"tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm "
-"over the dead or dying."
-msgstr ""
-"Le rat noir, un rongeur omnivore avec une fine fourrure noir et une longue "
-"queue rêche. Signe avant-coureur de la peste, de la famine et de la gale, "
-"les rats déferlent parfois en groupe sur les cadavres ou les mourants."
 
 #: lang/json/MONSTER_from_json.py
 msgid "blank body"
@@ -40741,20 +40502,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "bobcat"
-msgstr "lynx"
-
-#. ~ Description for bobcat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A spotted wild cat living across much of North America.  It is not a serious"
-" threat to humans, but it can be aggressive if not left alone."
-msgstr ""
-"Un chat sauvage tacheté qui occupe une grande partie de l'Amérique du nord. "
-"Ce n'est pas une menace sérieuse pour les humains, mais il peut être "
-"agressif si on ne le laisse pas tranquille."
-
-#: lang/json/MONSTER_from_json.py
 msgid "boomer"
 msgstr "boomer"
 
@@ -40820,34 +40567,6 @@ msgstr ""
 "pourris. Ce cyborg se déplace difficilement et semble désorienté."
 
 #: lang/json/MONSTER_from_json.py
-msgid "cat"
-msgstr "chat"
-
-#. ~ Description for cat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small domesticated predator gone feral in the absence of human "
-"stewardship.  Harried by the elements and the rigors of survival, it is "
-"scruffy and skittish."
-msgstr ""
-"Un petit prédateur domestique redevenu sauvage en l'absence de ses maîtres "
-"humains. Oppressé par les éléments et la difficulté de la survie, il est "
-"hirsute et agité."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant centipede"
-msgstr "mille-pattes géant"
-
-#. ~ Description for giant centipede
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A meter-long centipede with a menacing pair of pincers, moving swiftly on "
-"dozens of spindly legs."
-msgstr ""
-"Un centipède d'un mètre de long aux pinces menaçantes, bougeant rapidement "
-"de ses douzaines de pattes grêles."
-
-#: lang/json/MONSTER_from_json.py
 msgid "charred nightmare"
 msgstr ""
 
@@ -40856,19 +40575,6 @@ msgstr ""
 msgid ""
 "Intense radiation has spurred a unique form of necrosis and regeneration, it"
 " is impossible to tell if this creature was ever human."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "chicken"
-msgstr "poule"
-
-#. ~ Description for chicken
-#. ~ Description for chicken chick
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A domesticated descendant of junglefowl, it may still be the most numerous "
-"bird in the world.  Before the Cataclysm, it was raised by humans as a "
-"source of meat, eggs, and early morning wakeup calls."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -40883,18 +40589,6 @@ msgid ""
 "launcher, 5.56 anti-personnel gun, and the ability to electrify itself "
 "against attackers, it is an effective automated sentry, though production "
 "was limited due to a legal dispute."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "chipmunk"
-msgstr "tamia"
-
-#. ~ Description for chipmunk
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped"
-" coat.  It spends much of the day patrolling its elaborate burrow and the "
-"precious stores of foraged food within."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -40922,57 +40616,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "cougar"
-msgstr "puma"
-
-#. ~ Description for cougar
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Eastern cougar, a large feline predator.  Once thought extinct in this "
-"region, conservation efforts were successful in restoring a thriving "
-"population."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "cow"
-msgstr "vache"
-
-#. ~ Description for cow
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, "
-"and the males can have a violent streak to accompany their nasty-looking "
-"horns."
-msgstr ""
-"Une vache domestique. Elle est plutôt musclée, les mâles portent des cornes "
-"et peuvent vous charger."
-
-#: lang/json/MONSTER_from_json.py
-msgid "coyote"
-msgstr "coyote"
-
-#. ~ Description for coyote
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Eastern coyote, also called the tweed wolf, is a territorial canine "
-"descended from the offspring of gray wolves and true coyotes.  It is "
-"intimidated by humans and other predators, but will fight if threatened."
-msgstr ""
-"Un coyote de l'est, un descendant du loup gris et du vrai coyote. Il est "
-"intimidé par les humains et les autres prédateurs, mais se battra s'il se "
-"sent menacé."
-
-#. ~ Description for coyote
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Northeastern coyote, a widespread canine pack hunter.  More timid than a"
-" wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker "
-"prey."
-msgstr ""
-"Un coyote du nord-est, une race canine qui chasse en groupe. Plus timide que"
-" le loup, il préfère chasser des proies plus petites et plus faibles."
-
-#: lang/json/MONSTER_from_json.py
 msgid "crawler"
 msgstr ""
 
@@ -40982,39 +40625,6 @@ msgid ""
 "A conglomeration of human parts fused together in a horrible mishmash of "
 "function, slowly dragging its eldritch body across the ground."
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "creeper hub"
-msgstr ""
-
-#. ~ Description for creeper hub
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A thick stalk, rooted to the ground.  It rapidly sprouts thorny vines in all"
-" directions."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "creeper vine"
-msgstr ""
-
-#. ~ Description for creeper vine
-#: lang/json/MONSTER_from_json.py
-msgid "A thorny vine, twisting wildly as it grows with incredible speed."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "crow"
-msgstr "corbeau"
-
-#. ~ Description for crow
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, elegant black bird, famous for its distinctive call.  An "
-"intelligent bird, there is a glitter of mischief behind its eyes."
-msgstr ""
-"Un imposant oiseau noir, célèbre de par son cri particulier. Un oiseau "
-"intelligent, ses yeux semblent emplis de malice."
 
 #: lang/json/MONSTER_from_json.py
 msgid "dark wyrm"
@@ -41042,19 +40652,6 @@ msgstr ""
 "se démarquent de ce qui semble être sa tête."
 
 #: lang/json/MONSTER_from_json.py
-msgid "deer"
-msgstr "cerf"
-
-#. ~ Description for deer
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The northern woodland white-tailed deer, a quick and strong grazing animal."
-"  Favored prey of coyotes, wolves, and giant spider mutants."
-msgstr ""
-"Un cerf des bois du nord. Fort et rapide. Il est la proie favorite des "
-"coyotes et des araignées mutantes géantes."
-
-#: lang/json/MONSTER_from_json.py
 msgid "dementia"
 msgstr ""
 
@@ -41066,41 +40663,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "dermatik"
-msgstr ""
-
-#. ~ Description for dermatik
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding "
-"from the abdomen."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "dermatik larva"
-msgstr ""
-
-#. ~ Description for dermatik larva
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A fat white grub as big as a squirrel, with a pair of large, spadelike "
-"mandibles."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "dog"
-msgstr "chien"
-
-#. ~ Description for dog
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"With mangy fur and hungry eyes, it's clear that this once domesticated dog "
-"has gone feral."
-msgstr ""
-"Avec sa peau galeuse et ses yeux affamés, il est clair que cet animal "
-"anciennement domestique est devenu sauvage."
-
-#: lang/json/MONSTER_from_json.py
 msgid "skeletal dog"
 msgstr "squelette chien"
 
@@ -41110,6 +40672,10 @@ msgid ""
 "This canines see-through thin, black veined and scab riddled skin, is "
 "tightly compressed around its skeletal frame."
 msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "dog"
+msgstr "chien"
 
 #. ~ Description for dog
 #: lang/json/MONSTER_from_json.py
@@ -41143,30 +40709,6 @@ msgid ""
 msgstr ""
 "Ce chien dégage une odeur âcre. C'est un rottweiler zombifié couvert de "
 "kystes et d'ulcers purulents."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant dragonfly"
-msgid_plural "giant dragonflies"
-msgstr[0] "libellule géante"
-msgstr[1] "libellules géantes"
-
-#. ~ Description for giant dragonfly
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A ferocious mutant dragonfly as big as a cat, darting through the air with a"
-" cluster of fangs for a mouth."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "duck"
-msgstr "canard"
-
-#. ~ Description for duck
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mallard duck, often seen around rivers and other bodies of water.  It "
-"feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps."
-msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "eyebot"
@@ -41218,21 +40760,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "giant fly"
-msgid_plural "giant flies"
-msgstr[0] "mouche géante"
-msgstr[1] "mouches géantes"
-
-#. ~ Description for giant fly
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A tremendous housefly the size of a small dog, predictably accompanied by a "
-"loud, incessant buzzing sound."
-msgstr ""
-"Une mouche de la taille d'un chien, évidemment accompagnée d'un "
-"bourdonnement incessant."
-
-#: lang/json/MONSTER_from_json.py
 msgid "flying polyp"
 msgstr ""
 
@@ -41244,43 +40771,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "fox"
-msgid_plural "foxes"
-msgstr[0] "renard"
-msgstr[1] "renards"
-
-#. ~ Description for fox
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small omnivorous canine with an almost cat-like manner.  It is a solitary "
-"hunter, and one of the only canids able to climb trees."
-msgstr ""
-"Un petit canidé omnivore qui a presque un comportement de chat. C'est un "
-"chasseur solitaire et l'un des rares canidés à grimper aux arbres."
-
-#. ~ Description for fox
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The red fox, an omnivorous canine and largest of the true foxes, it is a "
-"wily hunter with a combative, suspicious temperament."
-msgstr ""
-"Le renard roux, un canidé omnivore et le plus gros du genre Vulpes. C'est un"
-" chasseur rusé doté d'un tempérament combatif et suspicieux."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant frog"
-msgstr "grenouille géante"
-
-#. ~ Description for giant frog
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutated bullfrog taller than you are.  It stares with amber eyes as it "
-"considers the easiest way to swallow you whole."
-msgstr ""
-"Une grenouille mutante plus grande que vous. Ces yeux globuleux semblent "
-"jauger la meilleure façon de vous gober entier."
-
-#: lang/json/MONSTER_from_json.py
 msgid "fungal blossom"
 msgstr "fleur fongique"
 
@@ -41289,18 +40779,6 @@ msgstr "fleur fongique"
 msgid ""
 "A broad fungus, looking much like a glowing blue sunflower.  It appears to "
 "emit finer spores than the typical fungal emission."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "fungal fighter"
-msgstr "guerrier fongique"
-
-#. ~ Description for fungal fighter
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A stout woody plant that can dig through the ground and flick spines from "
-"its branches.  The thorns carry a fungicidal compound with paralytic "
-"effects."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41405,19 +40883,6 @@ msgstr ""
 "aussi vite que les fongoïdes plus gros."
 
 #: lang/json/MONSTER_from_json.py
-msgid "sewer gator"
-msgstr ""
-
-#. ~ Description for sewer gator
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"In the late 20th century there was an urban legend about pet alligators "
-"getting flushed down the toilet and growing to adulthood in sewers.  This "
-"large specimen doesn't look like it is used to humans as anything other than"
-" a meal."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "amoebic mold"
 msgstr "moisissure amibienne"
 
@@ -41440,24 +40905,6 @@ msgid ""
 "Your precious generator, noisily humming away.  Defend it at all costs!"
 msgstr ""
 "Votre précieux générateur, vibrant bruyamment. Défendez le a tout prix."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant cockroach"
-msgstr "cafard géant"
-
-#. ~ Description for giant cockroach
-#: lang/json/MONSTER_from_json.py
-msgid "A mutant cockroach the size of a small dog."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant cockroach nymph"
-msgstr ""
-
-#. ~ Description for giant cockroach nymph
-#: lang/json/MONSTER_from_json.py
-msgid "A baby mutant cockroach about the size of a rat."
-msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant crayfish"
@@ -41512,19 +40959,6 @@ msgstr ""
 "bougent si vite qu'on a l'impression qu'elles ne sont que des illusions."
 
 #: lang/json/MONSTER_from_json.py
-msgid "groundhog"
-msgstr "marmotte"
-
-#. ~ Description for groundhog
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"Also known as the woodchuck, this ground squirrel has no actual talent for "
-"chucking wood."
-msgstr ""
-"Également appelé siffleux, cet écureuil vit sur la terre ferme et siffle "
-"pour prévenir ses congénères d'un danger."
-
-#: lang/json/MONSTER_from_json.py
 msgid "half worm"
 msgstr "demi ver"
 
@@ -41550,19 +40984,6 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid "The multi-cooker's got a mind of its own!  Look out!"
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "jackrabbit"
-msgstr "lièvre"
-
-#. ~ Description for jackrabbit
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The snowshoe hare, a small grass-eater with a brown fur coat that changes to"
-" white in the wintertime."
-msgstr ""
-"Le lièvre d'Amérique, ou lièvre à raquettes, se nourrit de plantes herbacées"
-" et sa fourrure brune devient blanche en hiver."
 
 #: lang/json/MONSTER_from_json.py
 msgid "cleaner bot"
@@ -41607,19 +41028,6 @@ msgid ""
 "A pale hairless man with an impressive athletic physique.  Its lidless eyes "
 "are totally black, and seeping with blood."
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "horse"
-msgstr "cheval"
-
-#. ~ Description for horse
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-"
-"looking muscles."
-msgstr ""
-"Un mammifère à sabots qui se nourrit de pâturage; il donne de grands "
-"mouvements avec sa queue et ses muscles sont puissants."
 
 #: lang/json/MONSTER_from_json.py
 msgid "human snail"
@@ -41685,22 +41093,6 @@ msgstr ""
 "son cou distendu. Il gambade en haletant et grognant."
 
 #: lang/json/MONSTER_from_json.py
-msgid "lemming"
-msgstr "lemming"
-
-#. ~ Description for lemming
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Northern bog lemming, a small, predominantly vegetarian rodent that "
-"spends its life in the murk of swamps and other wetlands.  Contrary to "
-"popular belief, these creatures are not particularly hapless or suicidal, "
-"but they can eat themselves into scarcity within a few generations."
-msgstr ""
-"Un petit rongeur végétarien qui passe sa vie dans les marais et la toundra. "
-"Contrairement aux légendes urbaines, ils ne sont pas suicidaires, mais "
-"peuvent se manger entre eux dans les grandes périodes de sécheresse."
-
-#: lang/json/MONSTER_from_json.py
 msgid "mi-go"
 msgstr "mi-go"
 
@@ -41717,22 +41109,6 @@ msgstr ""
 "terrifiante."
 
 #: lang/json/MONSTER_from_json.py
-msgid "mink"
-msgstr "vison"
-
-#. ~ Description for mink
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The American mink, a partially-aquatic weasel, once factory-farmed for its "
-"fur.  It is a capable fisher, but the presence of otters in these parts "
-"makes it rely more on food from the land."
-msgstr ""
-"Le vison américain, une belette qui vit près des rivières, a autrefois été "
-"élevé intensément pour sa fourrure. C'est un pêcheur compétent mais la "
-"présence de loutres dans ces régions le fait se nourrir principalement sur "
-"la terre."
-
-#: lang/json/MONSTER_from_json.py
 msgid "miner bot"
 msgstr "robot mineur"
 
@@ -41741,59 +41117,6 @@ msgstr "robot mineur"
 msgid ""
 "A snake-like, segmented robot built to tunnel into the ground and detonate "
 "landmines."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "moose"
-msgstr "élan"
-
-#. ~ Description for moose
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Eastern moose, the largest living species of deer.  The bulls are quite "
-"ill-tempered, especially in the rutting season."
-msgstr ""
-"L'orignal de l'est, la plus grande espèce vivante de cerfs. Les mâles ont "
-"assez mauvais caractère, en particulier en période de rut."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant mosquito"
-msgstr "moustique géant"
-
-#. ~ Description for giant mosquito
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An enormous mutant mosquito, fluttering erratically.  Its face is dominated "
-"by a long, spear-tipped proboscis."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "muskrat"
-msgstr ""
-
-#. ~ Description for muskrat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A large omnivorous rodent with a thick furry pelt, found in wetlands across "
-"the northern hemisphere.  It marks its territory with a musky odor for which"
-" it is named."
-msgstr ""
-"Un gros rongeur omnivore avec une épaisse fourrure; on le trouve dans les "
-"zones humides de l'hémisphère nord. il marque son territoire avec son odeur "
-"musquée, qui lui a donné son nom."
-
-#: lang/json/MONSTER_from_json.py
-msgid "gigantic naked mole-rat"
-msgstr ""
-
-#. ~ Description for gigantic naked mole-rat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
-"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
-" as a pair of incisors the size of an industrial excavator's buckets gnash "
-"constantly and several car-length whiskers twitch at the air.  It regularly "
-"makes high-pitched chirps as it roams around."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41808,47 +41131,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "opossum"
-msgstr "opossum"
-
-#. ~ Description for opossum
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Virginia opossum, a small omnivorous marsupial native to North America."
-"  About the size of a cat, it is hardy and adaptive, and a fairly common "
-"sight in urban areas."
-msgstr ""
-"L'opossum de Virginie, un petit marsupial omnivore natif d'Amérique du nord."
-" Mesurant à peu près la taille d'un chat, il est résistant et s'adapte; on "
-"le croise souvent dans les zones urbaines."
-
-#: lang/json/MONSTER_from_json.py
-msgid "otter"
-msgstr "loutre"
-
-#. ~ Description for otter
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The North American river otter is a shy water dwelling relative of the "
-"weasel living in large families along the banks of streams.  It is an "
-"excellent fisher and a resourceful survivor, using the abandoned dens of "
-"beavers and other animals to raise its own young."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "pig"
-msgstr "cochon"
-
-#. ~ Description for pig
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A domesticated omnivore descended from the wild boar, intelligent and "
-"inquisitive.  Left to its own devices, it has gone feral."
-msgstr ""
-"Un omnivore domestique issu des sangliers sauvages; il est curieux et "
-"intelligent. Abandonné de ses maîtres, il est devenu sauvage."
-
-#: lang/json/MONSTER_from_json.py
 msgid "slimespring"
 msgstr ""
 
@@ -41856,82 +41138,6 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid "A familiar-looking blob of goo.  It sprouts the occasional eyestalk."
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "pregnant giant cockroach"
-msgstr "cafard géant enceinte"
-
-#. ~ Description for pregnant giant cockroach
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutant cockroach the size of a small dog.  It's abdomen is heavily "
-"swollen."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "rabbit"
-msgstr "lapin"
-
-#. ~ Description for rabbit
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small mammal with a cute wiggling nose, cotton tail, and made of delicious"
-" flesh."
-msgstr ""
-"Un petit mammifère avec un mignon nez qui remue, une queue en coton, et une "
-"chair délicieuse."
-
-#: lang/json/MONSTER_from_json.py
-msgid "raccoon"
-msgstr "raton laveur"
-
-#. ~ Description for raccoon
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small mammal native to North America, distinctive for its dexterous paws "
-"and facial markings.  It is resourceful and agile enough to open sealed "
-"containers with its paws."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "rat king"
-msgstr "roi des rats"
-
-#. ~ Description for rat king
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A towering swarm of mutated rats, their tails knotted together in a filthy "
-"mass.  A fetid stench flows from its filthy presence."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "rattlesnake"
-msgstr "crotale"
-
-#. ~ Description for rattlesnake
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The timber rattlesnake is the most venomous viper native to New England.  "
-"Climatic changes have extended its range far into the north."
-msgstr ""
-"Le crotale des bois est la vipère la plus venimeuse native de Nouvelle "
-"Angleterre. Les changements climatiques ont étendu son habitat beaucoup plus"
-" au nord."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant rattlesnake"
-msgstr "crotale géant"
-
-#. ~ Description for giant rattlesnake
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutated timber rattlesnake, about three times as large as the norm.  While"
-" it isn't big enough to regard humans as potential prey, it is more "
-"aggresive and dangerous compared to a normal rattler."
-msgstr ""
-"Un crotale des bois mutant, environ trois fois plus grand que la normale. "
-"Bien qu'il ne soit pas assez grand pour voir les humains comme des proies "
-"potentielles, il est plus agressif et dangereux qu'un crotale normal."
 
 #: lang/json/MONSTER_from_json.py
 msgid "razorclaw"
@@ -41963,45 +41169,6 @@ msgstr ""
 "et des menottes."
 
 #: lang/json/MONSTER_from_json.py
-msgid "seweranha"
-msgstr ""
-
-#. ~ Description for seweranha
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A large mutant variety of carp.  It has shimmering green scales and a mouth "
-"lined with three jagged rows of razor-sharp teeth."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "sewer rat"
-msgstr "rat d'égout"
-
-#. ~ Description for sewer rat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks "
-"makes it sound...  hungry."
-msgstr ""
-"Un rongeur à la longue queue, aux longues moustaches et aux yeux perçants. "
-"Son couinement donne l'impression qu'il est... affamé."
-
-#: lang/json/MONSTER_from_json.py
-msgid "sewer snake"
-msgstr "serpent des égouts"
-
-#. ~ Description for sewer snake
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An aggressive mutant variety of the worm snake, turned pale yellow from its "
-"underground life.  It swarms beneath the ground and is named for its habit "
-"of infesting sewer lines."
-msgstr ""
-"Une variété mutante agressive du serpent vers, devenu jaune pâle à force de "
-"vivre sous terre. Il grouille sous le sol et son nom est dû au fait qu'on le"
-" rencontre souvent dans les égouts."
-
-#: lang/json/MONSTER_from_json.py
 msgid "shadow"
 msgstr "ombre"
 
@@ -42018,23 +41185,6 @@ msgstr "ombre de serpent"
 #: lang/json/MONSTER_from_json.py
 msgid "A translucent black snake, long and fearsome looking."
 msgstr "Un serpent sombre translucide, long et terrifiant."
-
-#: lang/json/MONSTER_from_json.py
-msgid "sheep"
-msgid_plural "sheep"
-msgstr[0] "mouton"
-msgstr[1] "moutons"
-
-#. ~ Description for sheep
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A timid, hooved grazing mammal, and one of the first animals ever "
-"domesticated, its body is covered in a thick layer of wool, and the males "
-"have long, spiralling horns."
-msgstr ""
-"Un mammifère timide à sabots, qui se nourrit de pâturage. C'est l'un des "
-"premiers animaux domestiqués par l'homme. Son corps est couvert d'une "
-"épaisse couche de laine et les mâles ont de longues cornes en spirale."
 
 #: lang/json/MONSTER_from_json.py
 msgid "Shia LaBeouf"
@@ -42123,110 +41273,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "giant cellar spider"
-msgstr ""
-
-#. ~ Description for giant cellar spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A twitchy mutant brown spider, with a relatively small body and spindly long"
-" legs.  Its smaller brethren are known for being agile, and for preying upon"
-" other spiders."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "immature giant cellar spider"
-msgstr ""
-
-#. ~ Description for immature giant cellar spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A newly-hatched giant cellar spider.  Too small to possess much venom, but "
-"still quick and agile like an adult."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant jumping spider"
-msgstr "araignée sauteuse géante"
-
-#. ~ Description for giant jumping spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A giant spider with big forelegs and two pairs of inquisitive-looking eyes."
-"  It can leap quite quickly, even into the treetops."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant trapdoor spider"
-msgstr ""
-
-#. ~ Description for giant trapdoor spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A gigantic spider with a bulbous thorax.  It digs a deep underground burrow "
-"that serves as a pit to trap unwary prey."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant web spider"
-msgstr "araignée tisseuse géante"
-
-#. ~ Description for giant web spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A giant mutated grass spider, it waits for prey to become ensnared in the "
-"vast webs that it weaves between the trees."
-msgstr ""
-"Une araignée géante mutante, elle attend que sa proie se laisse appâter dans"
-" les vastes toiles qu'elle tisse entre les arbres."
-
-#: lang/json/MONSTER_from_json.py
-msgid "immature giant web spider"
-msgstr "jeune araignée tisseuse géante"
-
-#. ~ Description for immature giant web spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A still immature giant grass spider.  Too young to be venomous, or to walk "
-"proficiently for that matter"
-msgstr ""
-"Une araignée tisseuse géante non mature. Trop jeune pour être venimeuse, ou "
-"même pour avancer correctement."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant black widow"
-msgstr "araignée veuve noire géante"
-
-#. ~ Description for giant black widow
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A giant mutated black widow spider.  A highly venomous nightmare come to "
-"life."
-msgstr "Une veuve noire géante. Un cauchemar hautement venimeux."
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant black widow spiderling"
-msgstr ""
-
-#. ~ Description for giant black widow spiderling
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The horrid spawn of a giant black widow spider.  Even as a newborn, this "
-"foul creature knows only how to kill."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant wolf spider"
-msgstr "araignée-loup géante"
-
-#. ~ Description for giant wolf spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A wolf spider mutated to about thirty times its normal size, it moves "
-"quickly and aggressively to catch and consume prey."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "spore cloud"
 msgstr "nuage de spores"
 
@@ -42234,26 +41280,6 @@ msgstr "nuage de spores"
 #: lang/json/MONSTER_from_json.py
 msgid "A mass of spores the size of a balled fist, wafting around in the air."
 msgstr "Un amas de spores de la taille d'un poing, se baladant dans l'air."
-
-#: lang/json/MONSTER_from_json.py
-msgid "squirrel"
-msgstr "écureuil"
-
-#. ~ Description for squirrel
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small granivorous rodent with a long bushy tail, often seen darting amid "
-"the branches of trees.  A skittish varmint with an expression of unwavering "
-"austerity, it is the mortal enemy of cat and dog alike."
-msgstr ""
-
-#. ~ Description for squirrel
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A tiny opportunistic rodent with a long bushy tail.  The pine squirrel is "
-"clever and cute, and hunted by nearly everything in the woods with a taste "
-"for meat."
-msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "tank drone"
@@ -42286,52 +41312,6 @@ msgstr ""
 "Une créature noire amorphe qui crache des tentacules sans interruption."
 
 #: lang/json/MONSTER_from_json.py
-msgid "triffid"
-msgstr "triffide"
-
-#. ~ Description for triffid
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A creeping animate plant, growing as tall as a moose.  It has a single bark-"
-"covered stalk supporting a flowery head with a paralyzing sting concealed "
-"within."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py lang/json/overmap_terrain_from_json.py
-msgid "triffid heart"
-msgstr "coeur de triffide"
-
-#. ~ Description for triffid heart
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A knot of tubular roots, flowing with sap and beating like a heart.  Strands"
-" of vascular tissue reach out to the surrounding root walls."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "triffid queen"
-msgstr "reine triffide"
-
-#. ~ Description for triffid queen
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A ponderous and particularly arborescent triffid.  It has enormous red "
-"petals surrounded by a haze of spores, and two thick barbed vines stick out "
-"from the stems like wary harpoons."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "triffid sprout"
-msgstr "pousse de triffide"
-
-#. ~ Description for triffid sprout
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small triffid, only a few feet tall.  It has not yet developed bark, but "
-"its sting is still sharp and deadly."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "tribot"
 msgstr "tribot"
 
@@ -42342,19 +41322,6 @@ msgid ""
 "it has a trio of spiked retractable cables and a flamethrower mounted on its"
 " head."
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "turkey"
-msgstr "dinde"
-
-#. ~ Description for turkey
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A large and colorful game bird native to the forests of North America.  Its "
-"head and beak are covered in fleshy protuberances."
-msgstr ""
-"Un grand gibier à plume coloré originaire des forêts d'Amérique du Nord. Sa "
-"tête et son bec sont couverts de protubérances charnues"
 
 #: lang/json/MONSTER_from_json.py
 msgid "milspec searchlight"
@@ -42383,18 +41350,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "vine beast"
-msgstr "plante rampante"
-
-#. ~ Description for vine beast
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An animated mass of roots and vines, creeping along the ground with alarming"
-" speed.  The tangle is thick enough that the center from which they grow is "
-"concealed."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "vortex"
 msgid_plural "vortexes"
 msgstr[0] ""
@@ -42405,48 +41360,6 @@ msgstr[1] ""
 msgid ""
 "A twisting spot in the air, with some kind of morphing mass at its center."
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant wasp"
-msgstr "guêpe géante"
-
-#. ~ Description for giant wasp
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A gigantic slender-bodied wasp with an evil-looking stinger protruding from "
-"its abdomen.  Its exoskeleton glowers with ominous red markings."
-msgstr ""
-"Une guêpe géante au corps élancé avec un dard saillant sortant de son "
-"abdomen. Des marques rouges menaçantes reluisent sur son exosquelette."
-
-#: lang/json/MONSTER_from_json.py
-msgid "weasel"
-msgstr "belette"
-
-#. ~ Description for weasel
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The long-tailed weasel, a small but ubiquitous predator whose range extends "
-"across the continent.  It forms its den in small burrows, preferring to "
-"occupy the nesting holes of its prey."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "wolf"
-msgid_plural "wolves"
-msgstr[0] "loup"
-msgstr[1] "loups"
-
-#. ~ Description for wolf
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A cunning pack predator, once extinct in the New England area, the wolf was "
-"successfully reintroduced and their numbers reached record highs in the "
-"decade before the cataclysm.  Lucky you."
-msgstr ""
-"Un prédateur rusé qui chasse en meute; il avait disparu de la Nouvelle-"
-"Angleterre mais a été réintroduit avec succès et sa population a atteint des"
-" records lors de la décade précédent le cataclysme. Quelle chance pour vous."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant worm"
@@ -43130,47 +42043,130 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "skittering plague"
-msgstr ""
+msgid "chicken"
+msgstr "poule"
 
-#. ~ Description for skittering plague
-#: lang/json/MONSTER_from_json.py
-msgid "A giant infected roach, it has been feeding on the undead."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "plague nymph"
-msgstr ""
-
-#. ~ Description for plague nymph
-#: lang/json/MONSTER_from_json.py
-msgid "An infected mutant cockroach about the size of a rat."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "plague vector"
-msgstr ""
-
-#. ~ Description for plague vector
+#. ~ Description for chicken
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"This infected roach has been feeding on the undead and started to mutate "
-"chaotically.  Extra limbs and growths sprout from its thorax."
+"A domesticated descendant of junglefowl, it may still be the most numerous "
+"bird in the world.  Before the Cataclysm, it was raised by humans as a "
+"source of meat, eggs, and early morning wakeup calls."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "triffid sprig"
+msgid "grouse"
 msgstr ""
 
-#. ~ Description for triffid sprig
+#. ~ Description for grouse
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A teeny-tiny triffid that has recently germinated.  Like a house cat, you "
-"know it wants to eat you but it just can't figure out how."
+"A very common game bird, these creatures remind you of what a wild chicken "
+"must have been like."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "chicken chick"
+msgid "crow"
+msgstr "corbeau"
+
+#. ~ Description for crow
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small, elegant black bird, famous for its distinctive call.  An "
+"intelligent bird, there is a glitter of mischief behind its eyes."
+msgstr ""
+"Un imposant oiseau noir, célèbre de par son cri particulier. Un oiseau "
+"intelligent, ses yeux semblent emplis de malice."
+
+#: lang/json/MONSTER_from_json.py
+msgid "duck"
+msgstr "canard"
+
+#. ~ Description for duck
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mallard duck, often seen around rivers and other bodies of water.  It "
+"feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "goose"
+msgstr ""
+
+#. ~ Description for goose
+#: lang/json/MONSTER_from_json.py
+msgid "A canadian goose, a common waterfowl that regrets leaving Canada."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "turkey"
+msgstr "dinde"
+
+#. ~ Description for turkey
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large and colorful game bird native to the forests of North America.  Its "
+"head and beak are covered in fleshy protuberances."
+msgstr ""
+"Un grand gibier à plume coloré originaire des forêts d'Amérique du Nord. Sa "
+"tête et son bec sont couverts de protubérances charnues"
+
+#: lang/json/MONSTER_from_json.py
+msgid "pheasant"
+msgstr ""
+
+#. ~ Description for pheasant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A medium sized game bird that can have bright feathers depending on the sex "
+"and species."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "cockatrice"
+msgstr ""
+
+#. ~ Description for cockatrice
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This strange mutant bird gains its name from its odd appearance.  Although "
+"its features seem to be becoming more reptilian, it doesn't appear "
+"dangerous."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "yellow chick"
+msgstr ""
+
+#. ~ Description for yellow chick
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tiny yellow and brown chick, it could be from a number of different "
+"species."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "brown chick"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "strange chick"
+msgstr ""
+
+#. ~ Description for strange chick
+#: lang/json/MONSTER_from_json.py
+msgid "A strange tiny chick, it could be from a number of different species."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "waterfowl chick"
+msgstr ""
+
+#. ~ Description for waterfowl chick
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tiny yellow and brown waterfowl chick, it could be from a number of "
+"different species."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -43552,6 +42548,886 @@ msgstr ""
 "et quelques épices..."
 
 #: lang/json/MONSTER_from_json.py
+msgid "seweranha"
+msgstr ""
+
+#. ~ Description for seweranha
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large mutant variety of carp.  It has shimmering green scales and a mouth "
+"lined with three jagged rows of razor-sharp teeth."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "skittering plague"
+msgstr ""
+
+#. ~ Description for skittering plague
+#: lang/json/MONSTER_from_json.py
+msgid "A giant infected roach, it has been feeding on the undead."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague nymph"
+msgstr ""
+
+#. ~ Description for plague nymph
+#: lang/json/MONSTER_from_json.py
+msgid "An infected mutant cockroach about the size of a rat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague vector"
+msgstr ""
+
+#. ~ Description for plague vector
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This infected roach has been feeding on the undead and started to mutate "
+"chaotically.  Extra limbs and growths sprout from its thorax."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant cockroach"
+msgstr "cafard géant"
+
+#. ~ Description for giant cockroach
+#: lang/json/MONSTER_from_json.py
+msgid "A mutant cockroach the size of a small dog."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant cockroach nymph"
+msgstr ""
+
+#. ~ Description for giant cockroach nymph
+#: lang/json/MONSTER_from_json.py
+msgid "A baby mutant cockroach about the size of a rat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "pregnant giant cockroach"
+msgstr "cafard géant enceinte"
+
+#. ~ Description for pregnant giant cockroach
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutant cockroach the size of a small dog.  It's abdomen is heavily "
+"swollen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant bee"
+msgstr "abeille géante"
+
+#. ~ Description for giant bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"With a stinger the size of a kitchen knife, this dog-sized insect's black "
+"and yellow markings warn you to leave it undisturbed."
+msgstr ""
+"Avec un dard de la taille d'un couteau de cuisine, cet insecte grand comme "
+"un chien, présente des marques jaunes vous prévenant de le laisser "
+"tranquille."
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant centipede"
+msgstr "mille-pattes géant"
+
+#. ~ Description for giant centipede
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A meter-long centipede with a menacing pair of pincers, moving swiftly on "
+"dozens of spindly legs."
+msgstr ""
+"Un centipède d'un mètre de long aux pinces menaçantes, bougeant rapidement "
+"de ses douzaines de pattes grêles."
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant dragonfly"
+msgid_plural "giant dragonflies"
+msgstr[0] "libellule géante"
+msgstr[1] "libellules géantes"
+
+#. ~ Description for giant dragonfly
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A ferocious mutant dragonfly as big as a cat, darting through the air with a"
+" cluster of fangs for a mouth."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant fly"
+msgid_plural "giant flies"
+msgstr[0] "mouche géante"
+msgstr[1] "mouches géantes"
+
+#. ~ Description for giant fly
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tremendous housefly the size of a small dog, predictably accompanied by a "
+"loud, incessant buzzing sound."
+msgstr ""
+"Une mouche de la taille d'un chien, évidemment accompagnée d'un "
+"bourdonnement incessant."
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant mosquito"
+msgstr "moustique géant"
+
+#. ~ Description for giant mosquito
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous mutant mosquito, fluttering erratically.  Its face is dominated "
+"by a long, spear-tipped proboscis."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant cellar spider"
+msgstr ""
+
+#. ~ Description for giant cellar spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A twitchy mutant brown spider, with a relatively small body and spindly long"
+" legs.  Its smaller brethren are known for being agile, and for preying upon"
+" other spiders."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "immature giant cellar spider"
+msgstr ""
+
+#. ~ Description for immature giant cellar spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A newly-hatched giant cellar spider.  Too small to possess much venom, but "
+"still quick and agile like an adult."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant jumping spider"
+msgstr "araignée sauteuse géante"
+
+#. ~ Description for giant jumping spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A giant spider with big forelegs and two pairs of inquisitive-looking eyes."
+"  It can leap quite quickly, even into the treetops."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant trapdoor spider"
+msgstr ""
+
+#. ~ Description for giant trapdoor spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A gigantic spider with a bulbous thorax.  It digs a deep underground burrow "
+"that serves as a pit to trap unwary prey."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant web spider"
+msgstr "araignée tisseuse géante"
+
+#. ~ Description for giant web spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A giant mutated grass spider, it waits for prey to become ensnared in the "
+"vast webs that it weaves between the trees."
+msgstr ""
+"Une araignée géante mutante, elle attend que sa proie se laisse appâter dans"
+" les vastes toiles qu'elle tisse entre les arbres."
+
+#: lang/json/MONSTER_from_json.py
+msgid "immature giant web spider"
+msgstr "jeune araignée tisseuse géante"
+
+#. ~ Description for immature giant web spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A still immature giant grass spider.  Too young to be venomous, or to walk "
+"proficiently for that matter"
+msgstr ""
+"Une araignée tisseuse géante non mature. Trop jeune pour être venimeuse, ou "
+"même pour avancer correctement."
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant black widow"
+msgstr "araignée veuve noire géante"
+
+#. ~ Description for giant black widow
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A giant mutated black widow spider.  A highly venomous nightmare come to "
+"life."
+msgstr "Une veuve noire géante. Un cauchemar hautement venimeux."
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant black widow spiderling"
+msgstr ""
+
+#. ~ Description for giant black widow spiderling
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The horrid spawn of a giant black widow spider.  Even as a newborn, this "
+"foul creature knows only how to kill."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant wolf spider"
+msgstr "araignée-loup géante"
+
+#. ~ Description for giant wolf spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A wolf spider mutated to about thirty times its normal size, it moves "
+"quickly and aggressively to catch and consume prey."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant wasp"
+msgstr "guêpe géante"
+
+#. ~ Description for giant wasp
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A gigantic slender-bodied wasp with an evil-looking stinger protruding from "
+"its abdomen.  Its exoskeleton glowers with ominous red markings."
+msgstr ""
+"Une guêpe géante au corps élancé avec un dard saillant sortant de son "
+"abdomen. Des marques rouges menaçantes reluisent sur son exosquelette."
+
+#: lang/json/MONSTER_from_json.py
+msgid "dermatik"
+msgstr ""
+
+#. ~ Description for dermatik
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding "
+"from the abdomen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "dermatik larva"
+msgstr ""
+
+#. ~ Description for dermatik larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A fat white grub as big as a squirrel, with a pair of large, spadelike "
+"mandibles."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant ant"
+msgstr "fourmi géante"
+
+#. ~ Description for giant ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous red ant covered in chitinous plates.  It possesses a pair of "
+"wriggling antennae and vicious-looking mandibles."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant acidic ant"
+msgstr ""
+
+#. ~ Description for giant acidic ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
+"at the tip.  Glistening liquid seems to drip out periodically."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acidic ant larva"
+msgstr ""
+
+#. ~ Description for acidic ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A squirming yellow grub that seems to be oozing liquid from both ends of its"
+" body.  It appears its chitin hasn't developed enough to resist acid."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acidic queen ant"
+msgstr ""
+
+#. ~ Description for acidic queen ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
+"seems developed only for egg-laying rather than spraying acid like the rest "
+"of the colony, but it doesn't seem affected by the acrid liquid either."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acidic soldier ant"
+msgstr ""
+
+#. ~ Description for acidic soldier ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A massive woolly brown ant that towers over the worker ants with a giant "
+"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
+"the end of its bloated abdomen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal ant"
+msgstr "fourmi fongique"
+
+#. ~ Description for fungal ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely "
+"held together by coils of fungus erupting from every joint in its body."
+msgstr ""
+"L'exosquelette d'une pâleur grise maladive et fendu de cette fourmi géante "
+"est à peine maintenu en un morceau par des fonges qui jaillissent des "
+"articulations de l'animal."
+
+#: lang/json/MONSTER_from_json.py
+msgid "ant larva"
+msgstr "larve de fourmi"
+
+#. ~ Description for ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a large cat.  On "
+"one end is a set of squirming mouth parts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "queen ant"
+msgstr "reine des fourmis"
+
+#. ~ Description for queen ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A colossal red ant with a bulging, bloated thorax.  It moves slowly and "
+"deliberately, tending to nearby eggs and continually laying more."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "soldier ant"
+msgstr "fourmi soldat"
+
+#. ~ Description for soldier ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge and hairy red ant almost twice the size of other giant ants.  Bulging"
+" pincers extend from its jaws."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant locust"
+msgstr ""
+
+#. ~ Description for giant locust
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An overgrown locust.  You don't think it'll eat you but it could cause "
+"massive damage to nearby plants."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "locust nymph"
+msgstr ""
+
+#. ~ Description for locust nymph
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A locust the size of a rabbit.  You’d hate to think what a swarm of these "
+"could do."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "bear cub"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "bear"
+msgstr "ours"
+
+#. ~ Description for bear
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The American black bear.  A large omnivorous scavenger, it has powerful "
+"claws and jaws, and is an effective ambush hunter.  It can pose a "
+"considerable threat, although most individuals are shy around humans."
+msgstr ""
+"L'ours noir d'Amérique. Un imposant charognard omnivore; il a une mâchoire "
+"et des griffes puissantes et est un chasseur efficace en embuscade. Il peut "
+"représenter une menace importante mais la plupart d'entre eux évitent les "
+"humains."
+
+#: lang/json/MONSTER_from_json.py
+msgid "beaver"
+msgstr "castor"
+
+#. ~ Description for beaver
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The North American beaver, the continent's largest rodent.  Its paddle-"
+"shaped tail helps ferry it through the water, and its prominent teeth can "
+"chew through wood, which it uses to build dam-like nests in lakes and "
+"streams."
+msgstr ""
+"Le castor du Canada, le plus gros rongeur du continent. Sa queue en forme de"
+" pagaie l'aide à nager; ses dents peuvent couper du bois qu'il utilise pour "
+"fabriquer des nids en forme de barrages sur les lacs et cours d'eau."
+
+#: lang/json/MONSTER_from_json.py
+msgid "black rat"
+msgstr "rat"
+
+#. ~ Description for black rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The black rat, an omnivorous rodent with sheer black fur and a long, rough "
+"tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm "
+"over the dead or dying."
+msgstr ""
+"Le rat noir, un rongeur omnivore avec une fine fourrure noir et une longue "
+"queue rêche. Signe avant-coureur de la peste, de la famine et de la gale, "
+"les rats déferlent parfois en groupe sur les cadavres ou les mourants."
+
+#: lang/json/MONSTER_from_json.py
+msgid "bobcat"
+msgstr "lynx"
+
+#. ~ Description for bobcat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A spotted wild cat living across much of North America.  It is not a serious"
+" threat to humans, but it can be aggressive if not left alone."
+msgstr ""
+"Un chat sauvage tacheté qui occupe une grande partie de l'Amérique du nord. "
+"Ce n'est pas une menace sérieuse pour les humains, mais il peut être "
+"agressif si on ne le laisse pas tranquille."
+
+#: lang/json/MONSTER_from_json.py
+msgid "cat"
+msgstr "chat"
+
+#. ~ Description for cat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small domesticated predator gone feral in the absence of human "
+"stewardship.  Harried by the elements and the rigors of survival, it is "
+"scruffy and skittish."
+msgstr ""
+"Un petit prédateur domestique redevenu sauvage en l'absence de ses maîtres "
+"humains. Oppressé par les éléments et la difficulté de la survie, il est "
+"hirsute et agité."
+
+#: lang/json/MONSTER_from_json.py
+msgid "chipmunk"
+msgstr "tamia"
+
+#. ~ Description for chipmunk
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped"
+" coat.  It spends much of the day patrolling its elaborate burrow and the "
+"precious stores of foraged food within."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "cougar"
+msgstr "puma"
+
+#. ~ Description for cougar
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern cougar, a large feline predator.  Once thought extinct in this "
+"region, conservation efforts were successful in restoring a thriving "
+"population."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "calf"
+msgstr ""
+
+#. ~ Description for calf
+#. ~ Description for cow
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, "
+"and the males can have a violent streak to accompany their nasty-looking "
+"horns."
+msgstr ""
+"Une vache domestique. Elle est plutôt musclée, les mâles portent des cornes "
+"et peuvent vous charger."
+
+#: lang/json/MONSTER_from_json.py
+msgid "cow"
+msgstr "vache"
+
+#: lang/json/MONSTER_from_json.py
+msgid "coyote"
+msgstr "coyote"
+
+#. ~ Description for coyote
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern coyote, also called the tweed wolf, is a territorial canine "
+"descended from the offspring of gray wolves and true coyotes.  It is "
+"intimidated by humans and other predators, but will fight if threatened."
+msgstr ""
+"Un coyote de l'est, un descendant du loup gris et du vrai coyote. Il est "
+"intimidé par les humains et les autres prédateurs, mais se battra s'il se "
+"sent menacé."
+
+#. ~ Description for coyote
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Northeastern coyote, a widespread canine pack hunter.  More timid than a"
+" wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker "
+"prey."
+msgstr ""
+"Un coyote du nord-est, une race canine qui chasse en groupe. Plus timide que"
+" le loup, il préfère chasser des proies plus petites et plus faibles."
+
+#: lang/json/MONSTER_from_json.py
+msgid "fawn"
+msgstr ""
+
+#. ~ Description for fawn
+#. ~ Description for deer
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The northern woodland white-tailed deer, a quick and strong grazing animal."
+"  Favored prey of coyotes, wolves, and giant spider mutants."
+msgstr ""
+"Un cerf des bois du nord. Fort et rapide. Il est la proie favorite des "
+"coyotes et des araignées mutantes géantes."
+
+#: lang/json/MONSTER_from_json.py
+msgid "deer"
+msgstr "cerf"
+
+#. ~ Description for dog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"With mangy fur and hungry eyes, it's clear that this once domesticated dog "
+"has gone feral."
+msgstr ""
+"Avec sa peau galeuse et ses yeux affamés, il est clair que cet animal "
+"anciennement domestique est devenu sauvage."
+
+#: lang/json/MONSTER_from_json.py
+msgid "fox"
+msgid_plural "foxes"
+msgstr[0] "renard"
+msgstr[1] "renards"
+
+#. ~ Description for fox
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small omnivorous canine with an almost cat-like manner.  It is a solitary "
+"hunter, and one of the only canids able to climb trees."
+msgstr ""
+"Un petit canidé omnivore qui a presque un comportement de chat. C'est un "
+"chasseur solitaire et l'un des rares canidés à grimper aux arbres."
+
+#. ~ Description for fox
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The red fox, an omnivorous canine and largest of the true foxes, it is a "
+"wily hunter with a combative, suspicious temperament."
+msgstr ""
+"Le renard roux, un canidé omnivore et le plus gros du genre Vulpes. C'est un"
+" chasseur rusé doté d'un tempérament combatif et suspicieux."
+
+#: lang/json/MONSTER_from_json.py
+msgid "groundhog"
+msgstr "marmotte"
+
+#. ~ Description for groundhog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Also known as the woodchuck, this ground squirrel has no actual talent for "
+"chucking wood."
+msgstr ""
+"Également appelé siffleux, cet écureuil vit sur la terre ferme et siffle "
+"pour prévenir ses congénères d'un danger."
+
+#: lang/json/MONSTER_from_json.py
+msgid "jackrabbit"
+msgstr "lièvre"
+
+#. ~ Description for jackrabbit
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The snowshoe hare, a small grass-eater with a brown fur coat that changes to"
+" white in the wintertime."
+msgstr ""
+"Le lièvre d'Amérique, ou lièvre à raquettes, se nourrit de plantes herbacées"
+" et sa fourrure brune devient blanche en hiver."
+
+#: lang/json/MONSTER_from_json.py
+msgid "horse"
+msgstr "cheval"
+
+#. ~ Description for horse
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-"
+"looking muscles."
+msgstr ""
+"Un mammifère à sabots qui se nourrit de pâturage; il donne de grands "
+"mouvements avec sa queue et ses muscles sont puissants."
+
+#: lang/json/MONSTER_from_json.py
+msgid "lemming"
+msgstr "lemming"
+
+#. ~ Description for lemming
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Northern bog lemming, a small, predominantly vegetarian rodent that "
+"spends its life in the murk of swamps and other wetlands.  Contrary to "
+"popular belief, these creatures are not particularly hapless or suicidal, "
+"but they can eat themselves into scarcity within a few generations."
+msgstr ""
+"Un petit rongeur végétarien qui passe sa vie dans les marais et la toundra. "
+"Contrairement aux légendes urbaines, ils ne sont pas suicidaires, mais "
+"peuvent se manger entre eux dans les grandes périodes de sécheresse."
+
+#: lang/json/MONSTER_from_json.py
+msgid "mink"
+msgstr "vison"
+
+#. ~ Description for mink
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The American mink, a partially-aquatic weasel, once factory-farmed for its "
+"fur.  It is a capable fisher, but the presence of otters in these parts "
+"makes it rely more on food from the land."
+msgstr ""
+"Le vison américain, une belette qui vit près des rivières, a autrefois été "
+"élevé intensément pour sa fourrure. C'est un pêcheur compétent mais la "
+"présence de loutres dans ces régions le fait se nourrir principalement sur "
+"la terre."
+
+#: lang/json/MONSTER_from_json.py
+msgid "moose"
+msgstr "élan"
+
+#. ~ Description for moose
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern moose, the largest living species of deer.  The bulls are quite "
+"ill-tempered, especially in the rutting season."
+msgstr ""
+"L'orignal de l'est, la plus grande espèce vivante de cerfs. Les mâles ont "
+"assez mauvais caractère, en particulier en période de rut."
+
+#: lang/json/MONSTER_from_json.py
+msgid "muskrat"
+msgstr ""
+
+#. ~ Description for muskrat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large omnivorous rodent with a thick furry pelt, found in wetlands across "
+"the northern hemisphere.  It marks its territory with a musky odor for which"
+" it is named."
+msgstr ""
+"Un gros rongeur omnivore avec une épaisse fourrure; on le trouve dans les "
+"zones humides de l'hémisphère nord. il marque son territoire avec son odeur "
+"musquée, qui lui a donné son nom."
+
+#: lang/json/MONSTER_from_json.py
+msgid "gigantic naked mole-rat"
+msgstr ""
+
+#. ~ Description for gigantic naked mole-rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
+"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
+" as a pair of incisors the size of an industrial excavator's buckets gnash "
+"constantly and several car-length whiskers twitch at the air.  It regularly "
+"makes high-pitched chirps as it roams around."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "opossum"
+msgstr "opossum"
+
+#. ~ Description for opossum
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Virginia opossum, a small omnivorous marsupial native to North America."
+"  About the size of a cat, it is hardy and adaptive, and a fairly common "
+"sight in urban areas."
+msgstr ""
+"L'opossum de Virginie, un petit marsupial omnivore natif d'Amérique du nord."
+" Mesurant à peu près la taille d'un chat, il est résistant et s'adapte; on "
+"le croise souvent dans les zones urbaines."
+
+#: lang/json/MONSTER_from_json.py
+msgid "otter"
+msgstr "loutre"
+
+#. ~ Description for otter
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The North American river otter is a shy water dwelling relative of the "
+"weasel living in large families along the banks of streams.  It is an "
+"excellent fisher and a resourceful survivor, using the abandoned dens of "
+"beavers and other animals to raise its own young."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "piglet"
+msgstr ""
+
+#. ~ Description for piglet
+#. ~ Description for pig
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A domesticated omnivore descended from the wild boar, intelligent and "
+"inquisitive.  Left to its own devices, it has gone feral."
+msgstr ""
+"Un omnivore domestique issu des sangliers sauvages; il est curieux et "
+"intelligent. Abandonné de ses maîtres, il est devenu sauvage."
+
+#: lang/json/MONSTER_from_json.py
+msgid "pig"
+msgstr "cochon"
+
+#: lang/json/MONSTER_from_json.py
+msgid "rabbit"
+msgstr "lapin"
+
+#. ~ Description for rabbit
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small mammal with a cute wiggling nose, cotton tail, and made of delicious"
+" flesh."
+msgstr ""
+"Un petit mammifère avec un mignon nez qui remue, une queue en coton, et une "
+"chair délicieuse."
+
+#: lang/json/MONSTER_from_json.py
+msgid "raccoon"
+msgstr "raton laveur"
+
+#. ~ Description for raccoon
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small mammal native to North America, distinctive for its dexterous paws "
+"and facial markings.  It is resourceful and agile enough to open sealed "
+"containers with its paws."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "rat king"
+msgstr "roi des rats"
+
+#. ~ Description for rat king
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A towering swarm of mutated rats, their tails knotted together in a filthy "
+"mass.  A fetid stench flows from its filthy presence."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "sewer rat"
+msgstr "rat d'égout"
+
+#. ~ Description for sewer rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks "
+"makes it sound...  hungry."
+msgstr ""
+"Un rongeur à la longue queue, aux longues moustaches et aux yeux perçants. "
+"Son couinement donne l'impression qu'il est... affamé."
+
+#: lang/json/MONSTER_from_json.py
+msgid "lamb"
+msgid_plural "lambs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for lamb
+#. ~ Description for sheep
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A timid, hooved grazing mammal, and one of the first animals ever "
+"domesticated, its body is covered in a thick layer of wool, and the males "
+"have long, spiralling horns."
+msgstr ""
+"Un mammifère timide à sabots, qui se nourrit de pâturage. C'est l'un des "
+"premiers animaux domestiqués par l'homme. Son corps est couvert d'une "
+"épaisse couche de laine et les mâles ont de longues cornes en spirale."
+
+#: lang/json/MONSTER_from_json.py
+msgid "sheep"
+msgid_plural "sheep"
+msgstr[0] "mouton"
+msgstr[1] "moutons"
+
+#: lang/json/MONSTER_from_json.py
+msgid "squirrel"
+msgstr "écureuil"
+
+#. ~ Description for squirrel
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small granivorous rodent with a long bushy tail, often seen darting amid "
+"the branches of trees.  A skittish varmint with an expression of unwavering "
+"austerity, it is the mortal enemy of cat and dog alike."
+msgstr ""
+
+#. ~ Description for squirrel
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tiny opportunistic rodent with a long bushy tail.  The pine squirrel is "
+"clever and cute, and hunted by nearly everything in the woods with a taste "
+"for meat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "weasel"
+msgstr "belette"
+
+#. ~ Description for weasel
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The long-tailed weasel, a small but ubiquitous predator whose range extends "
+"across the continent.  It forms its den in small burrows, preferring to "
+"occupy the nesting holes of its prey."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "wolf"
+msgid_plural "wolves"
+msgstr[0] "loup"
+msgstr[1] "loups"
+
+#. ~ Description for wolf
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A cunning pack predator, once extinct in the New England area, the wolf was "
+"successfully reintroduced and their numbers reached record highs in the "
+"decade before the cataclysm.  Lucky you."
+msgstr ""
+"Un prédateur rusé qui chasse en meute; il avait disparu de la Nouvelle-"
+"Angleterre mais a été réintroduit avec succès et sa population a atteint des"
+" records lors de la décade précédent le cataclysme. Quelle chance pour vous."
+
+#: lang/json/MONSTER_from_json.py
 msgid "laser turret"
 msgstr "tourelle laser"
 
@@ -43731,6 +43607,208 @@ msgstr "guêpe"
 msgid ""
 "A slender-bodied flying insect, with a painful sting.  They can be somewhat "
 "aggressive if disturbed."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant frog"
+msgstr "grenouille géante"
+
+#. ~ Description for giant frog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutated bullfrog taller than you are.  It stares with amber eyes as it "
+"considers the easiest way to swallow you whole."
+msgstr ""
+"Une grenouille mutante plus grande que vous. Ces yeux globuleux semblent "
+"jauger la meilleure façon de vous gober entier."
+
+#: lang/json/MONSTER_from_json.py
+msgid "sewer gator"
+msgstr ""
+
+#. ~ Description for sewer gator
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"In the late 20th century there was an urban legend about pet alligators "
+"getting flushed down the toilet and growing to adulthood in sewers.  This "
+"large specimen doesn't look like it is used to humans as anything other than"
+" a meal."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "rattlesnake"
+msgstr "crotale"
+
+#. ~ Description for rattlesnake
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The timber rattlesnake is the most venomous viper native to New England.  "
+"Climatic changes have extended its range far into the north."
+msgstr ""
+"Le crotale des bois est la vipère la plus venimeuse native de Nouvelle "
+"Angleterre. Les changements climatiques ont étendu son habitat beaucoup plus"
+" au nord."
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant rattlesnake"
+msgstr "crotale géant"
+
+#. ~ Description for giant rattlesnake
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutated timber rattlesnake, about three times as large as the norm.  While"
+" it isn't big enough to regard humans as potential prey, it is more "
+"aggresive and dangerous compared to a normal rattler."
+msgstr ""
+"Un crotale des bois mutant, environ trois fois plus grand que la normale. "
+"Bien qu'il ne soit pas assez grand pour voir les humains comme des proies "
+"potentielles, il est plus agressif et dangereux qu'un crotale normal."
+
+#: lang/json/MONSTER_from_json.py
+msgid "sewer snake"
+msgstr "serpent des égouts"
+
+#. ~ Description for sewer snake
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An aggressive mutant variety of the worm snake, turned pale yellow from its "
+"underground life.  It swarms beneath the ground and is named for its habit "
+"of infesting sewer lines."
+msgstr ""
+"Une variété mutante agressive du serpent vers, devenu jaune pâle à force de "
+"vivre sous terre. Il grouille sous le sol et son nom est dû au fait qu'on le"
+" rencontre souvent dans les égouts."
+
+#: lang/json/MONSTER_from_json.py
+msgid "biollante sprig"
+msgstr ""
+
+#. ~ Description for biollante sprig
+#: lang/json/MONSTER_from_json.py
+msgid "A short fat stalk with broad leaves and tiny flower buds."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "biollante sprout"
+msgstr ""
+
+#. ~ Description for biollante sprout
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A thick stalk that rises five feet from the ground and has heavy broad "
+"leaves at its base.  Purple flower buds adorn the top."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "biollante"
+msgstr ""
+
+#. ~ Description for biollante
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A drooped, quivering plant with a thick stalk adorned by a purple flower.  "
+"Its petals are closed, and pulsate ominously."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "creeper hub"
+msgstr ""
+
+#. ~ Description for creeper hub
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A thick stalk, rooted to the ground.  It rapidly sprouts thorny vines in all"
+" directions."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "creeper vine"
+msgstr ""
+
+#. ~ Description for creeper vine
+#: lang/json/MONSTER_from_json.py
+msgid "A thorny vine, twisting wildly as it grows with incredible speed."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid sprig"
+msgstr ""
+
+#. ~ Description for triffid sprig
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A teeny-tiny triffid that has recently germinated.  Like a house cat, you "
+"know it wants to eat you but it just can't figure out how."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid sprout"
+msgstr "pousse de triffide"
+
+#. ~ Description for triffid sprout
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small triffid, only a few feet tall.  It has not yet developed bark, but "
+"its sting is still sharp and deadly."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid"
+msgstr "triffide"
+
+#. ~ Description for triffid
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A creeping animate plant, growing as tall as a moose.  It has a single bark-"
+"covered stalk supporting a flowery head with a paralyzing sting concealed "
+"within."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid queen"
+msgstr "reine triffide"
+
+#. ~ Description for triffid queen
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A ponderous and particularly arborescent triffid.  It has enormous red "
+"petals surrounded by a haze of spores, and two thick barbed vines stick out "
+"from the stems like wary harpoons."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "vine beast"
+msgstr "plante rampante"
+
+#. ~ Description for vine beast
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An animated mass of roots and vines, creeping along the ground with alarming"
+" speed.  The tangle is thick enough that the center from which they grow is "
+"concealed."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal fighter"
+msgstr "guerrier fongique"
+
+#. ~ Description for fungal fighter
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A stout woody plant that can dig through the ground and flick spines from "
+"its branches.  The thorns carry a fungicidal compound with paralytic "
+"effects."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py lang/json/overmap_terrain_from_json.py
+msgid "triffid heart"
+msgstr "coeur de triffide"
+
+#. ~ Description for triffid heart
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A knot of tubular roots, flowing with sap and beating like a heart.  Strands"
+" of vascular tissue reach out to the surrounding root walls."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -44510,7 +44588,6 @@ msgstr[1] "casques de mineur (on)"
 #. ~ Use action menu_text for thermal electric balaclava (on).
 #. ~ Use action menu_text for head torch (on).
 #. ~ Use action menu_text for survivor head torch (on).
-#. ~ Use action menu_text for firefighter PBA mask (on).
 #. ~ Use action menu_text for rebreather mask (on).
 #. ~ Use action menu_text for XL rebreather mask (on).
 #. ~ Use action menu_text for pair of light amp goggles (on).
@@ -44528,8 +44605,8 @@ msgstr[1] "casques de mineur (on)"
 #. ~ Use action menu_text for flashlight (on).
 #. ~ Use action menu_text for heavy duty flashlight (on).
 #. ~ Use action menu_text for acetylene lamp (on).
-#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py lang/json/item_action_from_json.py
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
+#: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
 #: src/iuse.cpp
 msgid "Turn off"
@@ -44611,7 +44688,6 @@ msgstr[1] "chaussettes thermiques électriques"
 #. ~ Use action msg for thermal electric suit.
 #. ~ Use action msg for pair of thermal electric gloves.
 #. ~ Use action msg for thermal electric balaclava.
-#. ~ Use action msg for firefighter PBA mask.
 #. ~ Use action msg for rebreather mask.
 #. ~ Use action msg for XL rebreather mask.
 #. ~ Use action msg for pair of light amp goggles.
@@ -44619,8 +44695,8 @@ msgstr[1] "chaussettes thermiques électriques"
 #. ~ Use action msg for survivor divemask.
 #. ~ Use action msg for XL survivor divemask.
 #. ~ Use action msg for thermal electric outfit.
-#: lang/json/TOOL_ARMOR_from_json.py src/bionics.cpp src/iuse_actor.cpp
-#: src/mutation_ui.cpp
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
+#: src/bionics.cpp src/iuse_actor.cpp src/mutation_ui.cpp
 #, c-format, no-python-format
 msgid "You activate your %s."
 msgstr "Vous activez votre %s."
@@ -44629,11 +44705,11 @@ msgstr "Vous activez votre %s."
 #. ~ Use action need_charges_msg for thermal electric suit.
 #. ~ Use action need_charges_msg for pair of thermal electric gloves.
 #. ~ Use action need_charges_msg for thermal electric balaclava.
-#. ~ Use action need_charges_msg for firefighter PBA mask.
 #. ~ Use action need_charges_msg for pair of light amp goggles.
 #. ~ Use action need_charges_msg for pair of infrared goggles.
 #. ~ Use action need_charges_msg for thermal electric outfit.
-#: lang/json/TOOL_ARMOR_from_json.py src/iuse.cpp
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
+#: src/iuse.cpp src/iuse.cpp
 #, c-format, no-python-format
 msgid "The %s's batteries are dead."
 msgstr "Les piles du/de la %s sont épuisées."
@@ -44657,7 +44733,6 @@ msgstr[1] "chaussettes thermiques électriques (on)"
 #. ~ Use action msg for thermal electric suit (on).
 #. ~ Use action msg for pair of thermal electric gloves (on).
 #. ~ Use action msg for thermal electric balaclava (on).
-#. ~ Use action msg for firefighter PBA mask (on).
 #. ~ Use action msg for rebreather mask (on).
 #. ~ Use action msg for XL rebreather mask (on).
 #. ~ Use action msg for pair of light amp goggles (on).
@@ -44867,41 +44942,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
-msgid "firefighter PBA mask"
-msgid_plural "firefighter PBA masks"
-msgstr[0] "masque PBA de pompier"
-msgstr[1] "masques PBA de pompier"
-
-#. ~ Description for firefighter PBA mask
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid ""
-"A full-face mask commonly used by firefighters.  The battery-powered "
-"protective breathing apparatus provides excellent protection from smoke, "
-"flame, and other dangers.  Use it to turn it on."
-msgstr ""
-"Un masque intégral utilisé par les pompiers. L'appareil respiratoire est "
-"alimenté par des piles et procure une excellente protection à la fumée, aux "
-"flammes et autre dangers. Utilisez le pour l'activer."
-
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "firefighter PBA mask (on)"
-msgid_plural "firefighter PBA masks (on)"
-msgstr[0] "masque PBA de pompier (on)"
-msgstr[1] "masques PBA de pompier (on)"
-
-#. ~ Description for firefighter PBA mask (on)
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid ""
-"A full-face mask commonly used by firefighters.  The battery-powered "
-"protective breathing apparatus provides excellent protection from smoke, "
-"flame, and other dangers.  It is turned on, and continually draining "
-"batteries.  Use it to turn it off."
-msgstr ""
-"Un masque intégral utilisé par les pompiers. L'appareil respiratoire est "
-"alimenté par des piles et procure une excellente protection à la fumée, aux "
-"flammes et autre dangers. Il est actif. Utilisez le pour l'éteindre."
-
-#: lang/json/TOOL_ARMOR_from_json.py
 msgid "RM13 combat armor"
 msgid_plural "RM13 combat armors"
 msgstr[0] "armure de combat RM13"
@@ -45016,6 +45056,192 @@ msgstr ""
 " l'air expiré pour pouvoir le respirer à nouveau quand vous êtes sous l'eau."
 " Ce modèle est suffisamment grand pour les morphologies mutés. Il est actif "
 "et consomme son filtre. Utilisez le pour l'éteindre."
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "filter mask"
+msgid_plural "filter masks"
+msgstr[0] "masque de protection"
+msgstr[1] "masques de protection"
+
+#. ~ Description for filter mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A mask that straps over your mouth and nose and filters air.  Protects from "
+"smoke, dust, and other contaminants quite well.  It must be prepared before "
+"use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "gas mask"
+msgid_plural "gas masks"
+msgstr[0] "masque à gaz"
+msgstr[1] "masques à gaz"
+
+#. ~ Description for gas mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A full gas mask that covers the face and eyes.  Provides excellent "
+"protection from smoke, teargas, and other contaminants.  It must be prepared"
+" before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL gas mask"
+msgid_plural "XL gas masks"
+msgstr[0] "masque à gaz XL"
+msgstr[1] "masques à gaz XL"
+
+#. ~ Description for XL gas mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A rather roomy mask with filters attached, designed to accommodate exotic "
+"anatomy.  Provides excellent protection from smoke, teargas, and other "
+"contaminants.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "survivor firemask"
+msgid_plural "survivor firemasks"
+msgstr[0] "Masque de pompier de survivant"
+msgstr[1] "Masques de pompier de survivant"
+
+#. ~ Description for survivor firemask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It "
+"provides excellent protection from heat, smoke, teargas, and shrapnel.  It "
+"must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL survivor firemask"
+msgid_plural "XL survivor firemasks"
+msgstr[0] "Masque de pompier de survivant XL"
+msgstr[1] "Masques de pompier de survivant XL"
+
+#. ~ Description for XL survivor firemask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, Nomex-insulated gas mask that covers the face and eyes "
+"regardless of your state of mutation.  It provides excellent protection from"
+" heat, smoke, teargas, and shrapnel.   It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "firefighter PBA mask"
+msgid_plural "firefighter PBA masks"
+msgstr[0] "masque PBA de pompier"
+msgstr[1] "masques PBA de pompier"
+
+#. ~ Description for firefighter PBA mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A full-face mask commonly used by firefighters.  The protective breathing "
+"apparatus provides excellent protection from smoke, flame, and other "
+"dangers.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "heavy survivor mask"
+msgid_plural "heavy survivor masks"
+msgstr[0] "masque lourd du survivant"
+msgstr[1] "masques lourds du survivant"
+
+#. ~ Description for heavy survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, steel reinforced gas mask that covers the face and eyes.  "
+"Provides excellent protection from smoke, teargas, and shrapnel.  It must be"
+" prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "light survivor mask"
+msgid_plural "light survivor masks"
+msgstr[0] "masque léger du survivant"
+msgstr[1] "masques légers du survivant"
+
+#. ~ Description for light survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, reinforced gas mask that covers the face and eyes.  Provides"
+" excellent protection from smoke, teargas, and shrapnel.  It must be "
+"prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "survivor mask"
+msgid_plural "survivor masks"
+msgstr[0] "masque du survivant"
+msgstr[1] "masques du survivant"
+
+#. ~ Description for survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, leather reinforced gas mask that covers the face and eyes.  "
+"Provides excellent protection from smoke, teargas, and shrapnel.  It must be"
+" prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL survivor mask"
+msgid_plural "XL survivor masks"
+msgstr[0] "masque du survivant XL"
+msgstr[1] "masques du survivant XL"
+
+#. ~ Description for XL survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, reinforced gas mask that covers the face and eyes regardless"
+" of your state of mutation.  Provides excellent protection from smoke, "
+"teargas, and shrapnel.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "winter survivor mask"
+msgid_plural "winter survivor masks"
+msgstr[0] "masque d'hiver du survivant"
+msgstr[1] "masques d'hiver du survivant"
+
+#. ~ Description for winter survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite "
+"warm, it still provides excellent protection from smoke, teargas, and "
+"shrapnel.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL winter survivor mask"
+msgid_plural "XL winter survivor masks"
+msgstr[0] "masque d'hiver XL du survivant"
+msgstr[1] "masques d'hiver XL du survivant"
+
+#. ~ Description for XL winter survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, fur-trimmed gas mask that covers the face and eyes "
+"regardless of your state of mutation.  Quite warm, it still provides "
+"excellent protection from smoke, teargas, and shrapnel.  It must be prepared"
+" before use."
+msgstr ""
+
+#. ~ Description for hazmat suit
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"An impermeable whole-body garment worn as protection against hazardous "
+"materials.  Though very restrictive and fragile, wearing it will provide "
+"complete protection against ambient radiation.  It must be prepared before "
+"use."
+msgstr ""
+
+#. ~ Description for ANBC suit
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"An armored, impermeable full-body suit that functions as body armor, as well"
+" as protecting from nuclear, biological, and chemical hazards.  It must be "
+"prepared before use."
+msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "pair of light amp goggles"
@@ -64447,6 +64673,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+msgid "Model 10 revolver"
+msgid_plural "Model 10 revolver"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"A six-shot revolver.  It has a swing-out cylinder for ease of reloading."
+msgstr ""
+
+#: lang/json/gun_from_json.py
 msgid "COP .357"
 msgid_plural "COP .357"
 msgstr[0] ""
@@ -65763,6 +66000,10 @@ msgstr ""
 msgid "You laboriously dissect the colossal insect."
 msgstr ""
 
+#: lang/json/harvest_from_json.py
+msgid "You laboriously hack and dig through the remains of the fungal mass."
+msgstr ""
+
 #: lang/json/item_action_from_json.py
 msgid "Repair cotton/leather/wool/Nomex/fur"
 msgstr "Réparer coton/cuir/laine/Nomex/fourrure"
@@ -66015,6 +66256,10 @@ msgid "Mop"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
+msgid "Prepare to use"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
 msgid "Cook"
 msgstr "Cuisiner"
 
@@ -66220,6 +66465,13 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
+"As a weapon, this item is <good>well-made</good> and will <info>withstand "
+"the punishment of combat</info>."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
 "This gear <good>completely protects</good> you from <info>electric "
 "discharges</info>."
 msgstr ""
@@ -66265,6 +66517,13 @@ msgid ""
 msgstr ""
 "Cet équipement est <bad>fragile</bad> et <info>ne vous protégera pas "
 "longtemps</info>."
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
+"As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in "
+"combat</info> before breaking apart."
+msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -67978,7 +68237,7 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Aikido'
 #: lang/json/martial_art_from_json.py
-msgid "Half damage to enemies"
+msgid "Half damage to enemies."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -68033,7 +68292,7 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Judo'
 #: lang/json/martial_art_from_json.py
-msgid "Immune to throws and knockdowns"
+msgid "Immune to throws and knockdowns."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -68103,7 +68362,7 @@ msgstr "Krav Maga mains"
 
 #. ~ Description of buff 'Krav Maga Hand-to-Hand' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased unarmed power"
+msgid "Increased unarmed power."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -68112,7 +68371,7 @@ msgstr "Krav Maga lames"
 
 #. ~ Description of buff 'Krav Maga Edged' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased stabbing damage"
+msgid "Increased stabbing damage."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -68132,7 +68391,7 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Muay Thai'
 #: lang/json/martial_art_from_json.py
-msgid "Attacks scale better with strength"
+msgid "Attacks scale better with strength."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -68149,8 +68408,8 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Ninjutsu'
 #: lang/json/martial_art_from_json.py
-msgid "Silent melee attacks"
-msgstr "Attaques mêlée silencieuses"
+msgid "Silent melee attacks."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Momentum shift"
@@ -68176,8 +68435,8 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Taekwondo'
 #: lang/json/martial_art_from_json.py
-msgid "Strength decreases damage when blocking"
-msgstr "La force diminue les dommages en cas de blocage"
+msgid "Strength decreases damage when blocking."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Bionic Combatives"
@@ -68364,8 +68623,8 @@ msgstr ""
 
 #. ~ Description of buff 'Eskrima Bashing' for martial art 'Eskrima'
 #: lang/json/martial_art_from_json.py
-msgid "Increased bashing damage"
-msgstr "Dommages contondants augmentés"
+msgid "Increased bashing damage."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Crane Kung Fu"
@@ -69010,6 +69269,22 @@ msgstr "en éclats"
 #: lang/json/material_from_json.py
 msgid "Wool"
 msgstr "Laine"
+
+#: lang/json/material_from_json.py
+msgid "Feces"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "squashed"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "mashed"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "mushed"
+msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Bronze"
@@ -78192,6 +78467,10 @@ msgid "city building"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "basement"
+msgstr "sous-sol"
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "mansion"
 msgstr "manoir"
 
@@ -78586,10 +78865,6 @@ msgstr "bois de triffide"
 #: lang/json/overmap_terrain_from_json.py
 msgid "triffid roots"
 msgstr "racines de triffide"
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "basement"
-msgstr "sous-sol"
 
 #: lang/json/overmap_terrain_from_json.py lang/json/terrain_from_json.py
 msgid "solid rock"
@@ -85280,6 +85555,36 @@ msgstr ""
 msgctxt "start_name"
 msgid "Out of City"
 msgstr "Hors de la ville"
+
+#. ~ Name for scenario 'High tech, low life' for a male character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_male"
+msgid "High tech, low life"
+msgstr ""
+
+#. ~ Name for scenario 'High tech, low life' for a female character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_female"
+msgid "High tech, low life"
+msgstr ""
+
+#. ~ Description for scenario 'High tech, low life' for a male character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_male"
+msgid "Advanced technology, dystopian society, and trenchcoats."
+msgstr ""
+
+#. ~ Description for scenario 'High tech, low life' for a female character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_female"
+msgid "Advanced technology, dystopian society, and trenchcoats."
+msgstr ""
+
+#. ~ Starting location for scenario 'High tech, low life'.
+#: lang/json/scenario_from_json.py
+msgctxt "start_name"
+msgid "Somewhere in town"
+msgstr ""
 
 #. ~ Name for scenario 'Challenge-FEMA Death Camp' for a male character
 #: lang/json/scenario_from_json.py
@@ -92606,6 +92911,10 @@ msgstr "Église"
 #: lang/json/start_location_from_json.py
 msgid "Religious Cemetery"
 msgstr "Cimetière religieux"
+
+#: lang/json/start_location_from_json.py
+msgid "Shady Basement"
+msgstr ""
 
 #: lang/json/start_location_from_json.py
 msgid "Swamp"
@@ -101243,6 +101552,10 @@ msgid "There are no items to be moved!"
 msgstr "Il n'y a pas d'objets à déplacer!"
 
 #: src/advanced_inv.cpp
+msgid "There isn't enough room, do you really want to move all?"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "Really move everything from your inventory?"
 msgstr ""
 
@@ -105142,10 +105455,9 @@ msgid_plural "You need a %s with %d charges."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp
-#: src/iexamine.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp
-#: src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp
+#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
 msgstr "Pas la peine."
@@ -115067,18 +115379,6 @@ msgid "You may have problems climbing back up. Climb down?"
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Autodoc Mk. XI.  Status: Online.  Please choose operation."
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "Choose Compact Bionic Module to install."
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "Do nothing."
-msgstr ""
-
-#: src/iexamine.cpp
 msgid "No connected couches found.  Operation impossible.  Exiting."
 msgstr ""
 
@@ -115089,7 +115389,27 @@ msgid ""
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "Autodoc Mk. XI.  Status: Online.  Please choose operation."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose Compact Bionic Module to install."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose installed bionic to uninstall."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Do nothing."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Choose CBM to install"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You don't have any CBMs to install."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -115100,6 +115420,19 @@ msgstr ""
 msgid ""
 "Autodoc injected you with anesthesia, and while you were sleeping conducted "
 "a medical operation on you."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You don't have any bionics installed."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose bionic to uninstall"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"You type data into the console, configuring Autodoc to uninstall a CBM."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -117103,7 +117436,6 @@ msgstr ""
 msgid "You chew your %s."
 msgstr "Vous mâchez votre %s."
 
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time?  uh-uh.  You're not drinking that "
@@ -117178,12 +117510,12 @@ msgid "Suffered a toxic marloss/mutagen reaction."
 msgstr ""
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
+msgctxt "memorial_male"
 msgid "Consumed mutagen."
 msgstr "A consommé du mutagène."
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
+msgctxt "memorial_female"
 msgid "Consumed mutagen."
 msgstr "A consommé du mutagène."
 
@@ -117222,12 +117554,12 @@ msgid "Images of your past life flash before you."
 msgstr ""
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
+msgctxt "memorial_male"
 msgid "Injected mutagen."
 msgstr ""
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
+msgctxt "memorial_female"
 msgid "Injected mutagen."
 msgstr ""
 
@@ -117240,22 +117572,22 @@ msgid "You feel a slight itching inside, but it passes."
 msgstr ""
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
-msgid "Consumed purifier."
-msgstr ""
-
-#: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Consumed purifier."
 msgstr ""
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
+msgid "Consumed purifier."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
 msgid "Injected purifier."
 msgstr ""
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
+msgctxt "memorial_female"
 msgid "Injected purifier."
 msgstr ""
 
@@ -117328,7 +117660,6 @@ msgid ""
 "it grew there for you."
 msgstr ""
 
-#. ~ Beginning to hear the Mycus while conscious: that's it speaking
 #: src/iuse.cpp
 msgid ""
 "unity.  together we have reached the door.  we provide the final key.  now "
@@ -117339,7 +117670,6 @@ msgstr ""
 msgid "You feel a strange warmth spreading throughout your body..."
 msgstr "Vous sentez une étrange chaleur se répandre dans votre corps..."
 
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time?  uh-uh.  You're not eating that alien "
@@ -117413,11 +117743,6 @@ msgid ""
 "haze..."
 msgstr ""
 
-#. ~ The Mycus does not use the term (or encourage the concept of) "you".  The
-#. PC is a local/native organism, but is now the Mycus.
-#. ~ It still understands the concept, but uninitelligent fungaloids and mind-
-#. bent symbiotes should not need it.
-#. ~ We are the Mycus.
 #: src/iuse.cpp
 msgid "We welcome into us.  We have endured long in this forbidding world."
 msgstr ""
@@ -117566,20 +117891,20 @@ msgid "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)"
 msgstr "%s (Contondant/Coupant: %d/%d->%d/%d, Encombrement: %d->%d)"
 
 #: src/iuse.cpp
-msgid "Destroy leather padding"
-msgstr "Retirer le renfort en cuir"
-
-#: src/iuse.cpp
 msgid "Pad with leather"
 msgstr "Renforcer avec du cuir"
 
 #: src/iuse.cpp
-msgid "Destroy Kevlar padding"
-msgstr "Retirer le renfort en Kevlar"
+msgid "Destroy leather padding"
+msgstr "Retirer le renfort en cuir"
 
 #: src/iuse.cpp
 msgid "Pad with Kevlar"
 msgstr "Renforcer avec du Kevlar"
+
+#: src/iuse.cpp
+msgid "Destroy Kevlar padding"
+msgstr "Retirer le renfort en Kevlar"
 
 #: src/iuse.cpp
 msgid "Are you sure?  You will not gain any materials back."
@@ -118426,6 +118751,25 @@ msgstr "Vous écoutez %s"
 #: src/iuse.cpp
 msgid "The mp3 player turns off."
 msgstr "Le lecteur mp3 s'éteint."
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s requires new filter!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "<npcname> needs new gas mask filter!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s don't have a filter."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You prepared your %s."
+msgstr ""
 
 #: src/iuse.cpp src/player.cpp
 msgid "You're illiterate!"
@@ -129721,6 +130065,14 @@ msgid "Autosave"
 msgstr "Sauvegarde automatique"
 
 #: src/options.cpp
+msgid "Sound Enabled"
+msgstr ""
+
+#: src/options.cpp
+msgid "If true, music and sound are enabled."
+msgstr ""
+
+#: src/options.cpp
 msgid "Music volume"
 msgstr "Volume de la musique"
 
@@ -131398,6 +131750,10 @@ msgstr ""
 #: src/player.cpp
 msgid "You have an asthma attack!"
 msgstr "Vous avez une crise d'asthme!"
+
+#: src/player.cpp
+msgid "You use your inhaler and go back to sleep."
+msgstr ""
 
 #: src/player.cpp
 msgid "You use your last inhaler charge."

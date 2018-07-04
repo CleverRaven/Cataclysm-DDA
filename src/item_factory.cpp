@@ -654,6 +654,8 @@ void Item_factory::init()
     add_iuse( "SIPHON", &iuse::siphon );
     add_iuse( "SLEEP", &iuse::sleep );
     add_iuse( "SMOKING", &iuse::smoking );
+    add_iuse( "SOLARPACK", &iuse::solarpack );
+    add_iuse( "SOLARPACK_OFF", &iuse::solarpack_off );
     add_iuse( "SPRAY_CAN", &iuse::spray_can );
     add_iuse( "STIMPACK", &iuse::stimpack );
     add_iuse( "TAZER", &iuse::tazer );
@@ -1156,6 +1158,7 @@ bool Item_factory::load_definition( JsonObject& jo, const std::string &src, ityp
 void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string & )
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
+    slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
