@@ -37,25 +37,55 @@ install:
     - cmd: set LUA_PATH=%WINDEPEND_PATH%
     # Add WINDEPEND_PATH to PATH (for LUA binary)
     - cmd: set PATH=%WINDEPEND_PATH%;%PATH%
+    # Add SRC_CACHE_PATH
+    - cmd: set SRC_CACHE_PATH=%APPVEYOR_BUILD_FOLDER%\src
+    # Add OBJECT_CACHE_PATH
+    - cmd: set OBJECT_CACHE_PATH=%APPVEYOR_BUILD_FOLDER%\%PROJECT_NAME%\%PLATFORM%\%CONFIGURATION%
     # Download non-cached dependencies
     - ps : |
             If( -not( Test-Path -Path "$($env:TEMP_FOLDER)" ) )
             {
+                Write-Host "$($env:TEMP_FOLDER) is missing. Creating it!" -BackgroundColor "Red" -ForegroundColor "White";
                 New-Item -ItemType Directory -Force -Path "$($env:TEMP_FOLDER)" | Out-Null;
+            }
+            Else
+            {
+                Write-Host "$($env:TEMP_FOLDER) already exists" -BackgroundColor "Green" -ForegroundColor "White";
             }
             If( -not( Test-Path -Path "$($env:WINDEPEND_PATH)" ) )
             {
+                Write-Host "$($env:WINDEPEND_PATH) is missing. Creating it!" -BackgroundColor "Red" -ForegroundColor "White";
                 New-Item -ItemType Directory -Force -Path "$($env:WINDEPEND_PATH)" | Out-Null;
                 [Net.ServicePointManager]::SecurityProtocol = "Ssl3, Tls, Tls11, Tls12"
                     Start-FileDownload "$($env:WINDEPEND_URL)" -FileName "$($env:TEMP_FOLDER)\$($env:WINDEPEND_FILENAME)";
                 7z x -y "$($env:TEMP_FOLDER)\$($env:WINDEPEND_FILENAME)" -o"$($env:APPVEYOR_BUILD_FOLDER)"
                 [Net.ServicePointManager]::SecurityProtocol = "Ssl3, Tls, Tls11, Tls12"
-                    Start-FileDownload "$($env:LUA_URL)" -FileName "$($env:TEMP_FOLDER)\$($env:LUA_FILENAME)"
+                    Start-FileDownload "$($env:LUA_URL)" -FileName "$($env:TEMP_FOLDER)\$($env:LUA_FILENAME)";
                 7z x -y "$($env:TEMP_FOLDER)\$($env:LUA_FILENAME)" -o"$($env:LUA_PATH)"
+            }
+            Else
+            {
+                Write-Host "$($env:WINDEPEND_PATH) already exists!" -BackgroundColor "Green" -ForegroundColor "White";
+            }
+            If( -not( Test-Path -Path "$($env:SRC_CACHE_PATH)" ) )
+            {
+                Write-Host "$($env:SRC_CACHE_PATH) does not exist!" -BackgroundColor "Red" -ForegroundColor "White";
+            }
+            Else
+            {
+                Write-Host "$($env:SRC_CACHE_PATH) already exists!" -BackgroundColor "Green" -ForegroundColor "White";
+            }
+            If( -not( Test-Path -Path "$($env:OBJECT_CACHE_PATH)" ) )
+            {
+                Write-Host "$($env:OBJECT_CACHE_PATH) does not exist!" -BackgroundColor "Red" -ForegroundColor "White";
+            }
+            Else
+            {
+                Write-Host "$($env:OBJECT_CACHE_PATH) already exists!" -BackgroundColor "Green" -ForegroundColor "White";
             }
     # Report LUA binary version
     - cmd: lua.exe -v
 build:
   project: /%PROJECT_NAME%/%SOLUTION_FILENAME%
   parallel: true
-  verbosity: minimal
+  verbosity: detailed
