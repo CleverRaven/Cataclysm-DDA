@@ -363,7 +363,7 @@
     "copy-from": "inter_bayonet",
     "type": "GUNMOD",
     "name": "Leadwoks retractable bayonet",
-    "description": "This is Leadworks proprietary retractable bayonet integrated in weapon hull.  Can be easily retracted when are not used so it does not affect weapon size.",
+    "description": "This is Leadworks proprietary long foldable bayonet integrated in weapon hull.  Can be easily folded to surprisingly small size when is not used so it does not affect weapon size.",
     "weight": 0,
 	"volume": 0,
     "price": 0,
