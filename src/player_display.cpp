@@ -256,11 +256,11 @@ void player::disp_info()
         effect_text.push_back( pain_text.str() );
     }
 
-    if( get_starvation() + 400 >= 500 ) {
+    int starvation_base_penalty = get_starvation() + 400;
+
+    if( starvation_base_penalty > 100 ) {
         effect_name.push_back( _( "Malnourished" ) );
         std::stringstream starvation_text;
-
-        int starvation_base_penalty = -( get_starvation() + 400 );
 
         if( starvation_base_penalty > 500 ) {
             starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
@@ -274,7 +274,7 @@ void player::disp_info()
 
         int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() ) );
 
-        if( starvation_speed_penalty >= 1 ) {
+        if( starvation_speed_penalty >= 100 ) {
             starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
         }
 
