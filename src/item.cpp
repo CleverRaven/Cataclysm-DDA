@@ -3114,10 +3114,6 @@ void item::calc_rot(const tripoint &location)
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             rot += get_rot_since( since, until, location );
-            // negative rot value protection, as rot can get negative from initial variation
-            //if( rot < 0 ) {
-            //    rot = 0;
-            //}
         }
         last_rot_check = now;
 
