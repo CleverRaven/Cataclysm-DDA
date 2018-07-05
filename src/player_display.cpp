@@ -258,7 +258,7 @@ void player::disp_info()
 
     int starvation_base_penalty = get_starvation() + 400;
 
-    if( starvation_base_penalty > 100 ) {
+    if( starvation_base_penalty > 400 ) {
         effect_name.push_back( _( "Malnourished" ) );
         std::stringstream starvation_text;
 
@@ -272,9 +272,9 @@ void player::disp_info()
             starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
         }
 
-        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() ) );
+        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
 
-        if( starvation_speed_penalty >= 100 ) {
+        if( starvation_speed_penalty > 0 ) {
             starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
         }
 
@@ -622,15 +622,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( get_hunger() > 100 ) {
-        pen = abs( hunger_speed_penalty( get_hunger() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Hunger              -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
-        line++;
-    }
-    if( get_starvation() > 100 ) {
-        pen = abs( hunger_speed_penalty( get_starvation() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Malnourished        -%s%d%%" ),
+    if( get_hunger() + get_starvation() > 100 ) {
+        pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
+        mvwprintz( w_speed, line, 1, c_red, _( "Inanition           -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
