@@ -85,6 +85,7 @@ install:
             }
     # Report LUA binary version
     - cmd: lua.exe -v
+    - cmd: echo %PATH%
 build:
   project: /%PROJECT_NAME%/%SOLUTION_FILENAME%
   parallel: true
