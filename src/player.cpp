@@ -4101,8 +4101,8 @@ void player::check_needs_extremes()
     }
 
     // Check if we're starving or have starved
-    if( is_player() && get_starvation() >= 2600 ) {
-        if (get_hunger() >= 400 && get_starvation() >= 5600) {
+    if( is_player() && get_hunger() >= 400 && get_starvation() >= 2600 ) {
+        if (get_starvation() >= 5600) {
             add_msg_if_player(m_bad, _("You have starved to death."));
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
