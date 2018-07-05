@@ -29,7 +29,7 @@ environment:
           APPVEYOR_SAVE_CACHE_ON_ERROR: true
 cache:
     - '%APPVEYOR_BUILD_FOLDER%\WinDepend'                                 # Cache downloaded dependencies
-    - '%APPVEYOR_BUILD_FOLDER%\src'                                       # Cache checked-out source files
+    # - '%APPVEYOR_BUILD_FOLDER%\src'                                     # Cache checked-out source files
     - '%APPVEYOR_BUILD_FOLDER%\%PROJECT_NAME%\%PLATFORM%\%CONFIGURATION%' # Cache object files
 install:
     # Add WINDEPEND_PATH
