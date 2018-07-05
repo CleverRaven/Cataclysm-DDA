@@ -338,7 +338,7 @@ void player::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
+    if ((mdata.hunger && get_hunger() + get_starvation() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
       (mdata.fatigue && get_fatigue() >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
@@ -353,7 +353,13 @@ void player::activate_mutation( const trait_id &mut )
             tdata.charge = mdata.cooldown - 1;
         }
         if (mdata.hunger){
-            mod_hunger(cost);
+            if (cost + get_hunger() > 400) {
+                // in this case starvation is directly updated
+                mod_starvation(cost - (400 - get_hunger()));
+                set_hunger(400);
+            } else {
+                mod_hunger(cost);
+            }
         }
         if (mdata.thirst){
             mod_thirst(cost);

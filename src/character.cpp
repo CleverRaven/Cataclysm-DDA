@@ -132,6 +132,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur(
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
+    starvation = 0;
     thirst = 0;
     fatigue = 0;
     stomach_food = 0;
@@ -190,6 +191,8 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_healthy( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
+    } else if( stat == "starvation" ) {
+        mod_starvation( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -1822,8 +1825,27 @@ void Character::mod_hunger(int nhunger)
 void Character::set_hunger(int nhunger)
 {
     if( hunger != nhunger ) {
-        hunger = nhunger;
+        // cap hunger at 400, just below famished
+        hunger = std::min(400, nhunger);
         on_stat_change( "hunger", hunger );
+    }
+}
+
+int Character::get_starvation() const
+{
+    return starvation;
+}
+
+void Character::mod_starvation(int nstarvation)
+{
+    set_starvation( starvation + nstarvation );
+}
+
+void Character::set_starvation(int nstarvation)
+{
+    if( starvation != nstarvation ) {
+        starvation = nstarvation;
+        on_stat_change( "starvation", starvation );
     }
 }
 
