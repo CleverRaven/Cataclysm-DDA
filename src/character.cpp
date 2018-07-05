@@ -1844,7 +1844,7 @@ void Character::mod_starvation(int nstarvation)
 void Character::set_starvation(int nstarvation)
 {
     if( starvation != nstarvation ) {
-        starvation = nstarvation;
+        starvation = std::max(0, nstarvation);
         on_stat_change( "starvation", starvation );
     }
 }
