@@ -370,6 +370,19 @@
     "to_hit": 0,
     "dispersion_modifier": 0,
     "material": [ "steel", "plastic" ],
-    "flags": [ "IRREMOVABLE", "STAB" ]
+    "flags": [ "STAB", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_glm",
+    "copy-from": "m320_mod",
+    "type": "GUNMOD",
+    "name": "Leadworks GLM",
+    "name_plural": "Leadworks GLM",
+    "description": "The Leadworks Grenade Launcher Module offers the functionality of larger launchers in a very small package.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "dispersion_modifier": 0,
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
   }
 ]
