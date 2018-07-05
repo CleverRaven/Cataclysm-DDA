@@ -1737,8 +1737,11 @@ void player::recalc_speed_bonus()
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
-    if( ( get_hunger() + get_starvation() ) > 100 ) {
-        mod_speed_bonus( hunger_speed_penalty( get_hunger() + get_starvation() ) );
+    if(  get_hunger() > 100 ) {
+        mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
+    }
+    if( get_starvation() > 100 ) {
+        mod_speed_bonus( hunger_speed_penalty(  get_starvation() ) );
     }
 
     for( auto maps : *effects ) {
@@ -4228,7 +4231,7 @@ void player::update_needs( int rate_multiplier )
         if (get_hunger() >= 400) {
             mod_starvation( rolled_hunger );
         } else {
-            mod_starvation( -1 );
+            mod_starvation( rolled_hunger );
         }
     }
 
