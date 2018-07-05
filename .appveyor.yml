@@ -58,4 +58,4 @@ install:
 build:
   project: /%PROJECT_NAME%/%SOLUTION_FILENAME%
   parallel: true
-  verbosity: detailed
+  verbosity: minimal
