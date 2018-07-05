@@ -445,7 +445,14 @@
     "autolearn": false,
     "time": 7200000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 92 ] ], [ [ "stick", 48 ] ], [ [ "2x4", 252 ] ], [ [ "nail", 16 ] ], [ [ "rock", 40 ] ] ]
+    "components": [
+      [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
+      [ [ "log", 92 ] ],
+      [ [ "stick", 48 ] ],
+      [ [ "2x4", 252 ] ],
+      [ [ "nail", 16 ] ],
+      [ [ "rock", 40 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -458,7 +465,14 @@
     "autolearn": false,
     "time": 3600000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 56 ] ], [ [ "stick", 84 ] ], [ [ "2x4", 67 ] ], [ [ "nail", 114 ] ], [ [ "glass_sheet", 1 ] ] ]
+    "components": [
+      [ [ "makeshift_knife", 1 ], [ "knife_steak", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
+      [ [ "log", 56 ] ],
+      [ [ "stick", 84 ] ],
+      [ [ "2x4", 67 ] ],
+      [ [ "nail", 114 ] ],
+      [ [ "glass_sheet", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -496,7 +510,14 @@
     "autolearn": false,
     "time": 9360000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 122 ] ], [ [ "stick", 108 ] ], [ [ "2x4", 239 ] ], [ [ "nail", 102 ] ], [ [ "glass_sheet", 1 ] ] ]
+    "components": [
+      [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
+      [ [ "log", 122 ] ],
+      [ [ "stick", 108 ] ],
+      [ [ "2x4", 239 ] ],
+      [ [ "nail", 102 ] ],
+      [ [ "glass_sheet", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -529,6 +550,7 @@
     "time": 1440000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
+      [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
       [ [ "rock", 40 ] ],
       [ [ "pipe", 42 ] ],
       [ [ "2x4", 4 ] ],
@@ -566,7 +588,7 @@
   {
     "type": "recipe",
     "result": "faction_wall_level_N_0",
-    "description": "A trench that may detour movement but is meant to be the foundation of a picket or palisade.",
+    "description": "A trench that may deter movement but is meant to be the foundation of a picket or palisade.  Requirements are for 1/2 an over map tile.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -575,5 +597,18 @@
     "time": 510000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "stick", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_wall_level_N_1",
+    "description": "A deep trench filled with spikes, requires a trench.  Requirements are for 1/2 an over map tile.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": false,
+    "time": 1530000,
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 68 ] ] ]
   }
 ]
