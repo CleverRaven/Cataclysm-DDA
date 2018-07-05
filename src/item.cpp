@@ -3105,9 +3105,7 @@ void item::calc_rot(const tripoint &location)
             if( food && food->goes_bad() ) {
             float factor = to_turns<float>( food->type->comestible->spoils ) * 0.2f;
             time_duration spoil = time_duration::from_turns( int( factor ) );
-            //ADD DEBUG PUSHBACK
             spoil = time_duration::from_turns( rng( -to_turns<int>( spoil ), to_turns<int>( spoil ) ) );
-            //ADD DEBUG PUSHBACK
             rot += spoil;
             }
 
