@@ -256,6 +256,31 @@ void player::disp_info()
         effect_text.push_back( pain_text.str() );
     }
 
+    if( get_starvation() + 400 >= 500 ) {
+        effect_name.push_back( _( "Malnourished" ) );
+        std::stringstream starvation_text;
+
+        int starvation_base_penalty = -( get_starvation() + 400 );
+
+        if( starvation_base_penalty > 500 ) {
+            starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
+        }
+        if( starvation_base_penalty > 1000 ) {
+            starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+        }
+        if( starvation_base_penalty > 1000 ) {
+            starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+        }
+
+        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() ) );
+
+        if( starvation_speed_penalty >= 1 ) {
+            starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
+        }
+
+        effect_text.push_back( starvation_text.str() );
+    }
+
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather == WEATHER_SUNNY ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
@@ -600,6 +625,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     if( get_hunger() > 100 ) {
         pen = abs( hunger_speed_penalty( get_hunger() ) );
         mvwprintz( w_speed, line, 1, c_red, _( "Hunger              -%s%d%%" ),
+                   ( pen < 10 ? " " : "" ), pen );
+        line++;
+    }
+    if( get_starvation() > 100 ) {
+        pen = abs( hunger_speed_penalty( get_starvation() ) );
+        mvwprintz( w_speed, line, 1, c_red, _( "Malnourished        -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
