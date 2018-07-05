@@ -1960,7 +1960,6 @@ void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int
     }
 
     objects.apply( dat, offset_x, offset_y, density );
-
 }
 
 /*
@@ -1990,7 +1989,6 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y, 
         const auto &what = *obj.second;
         const int repeat = where.repeat.get();
         for( int i = 0; i < repeat; i++ ) {
-            // TODO(BrianLefler): Pass rotation into apply.
             what.apply( dat, where.x, where.y, density );
         }
     }
@@ -3163,7 +3161,8 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set( *p, t_stairs_down );
                         }
                     }
-                    break; 
+                    break;
+
                 }
         }
         // Ants will totally wreck up the place
