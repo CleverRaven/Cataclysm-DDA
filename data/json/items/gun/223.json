@@ -204,7 +204,7 @@
     "relative": {
       "weight": 2000,
       "volume": 7,
-      "dispersion": 60
+      "dispersion": 45
     },
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
     "built_in_mods": [ "lead_acog_scope", "lead_barrel_heavy_duty", "lead_bipod", "lead_grip", "lead_stabilizer" ],
