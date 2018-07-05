@@ -2624,6 +2624,7 @@ void talk_function::field_harvest( npc &p, std::string place )
     }
 
 }
+
 bool talk_function::scavenging_patrol_return( npc &p )
 {
     npc *comp = companion_choose_return( p, "_scavenging_patrol", calendar::turn - 10_hours );
@@ -2950,7 +2951,6 @@ std::string talk_function::om_gathering_description( npc &p, std::string bldg ){
 }
 
 std::string talk_function::om_next_upgrade( std::string bldg ){
-
     std::string comp = "";
     int phase = bldg.find_last_of("_");
     comp = bldg.substr(phase+1);
@@ -2964,18 +2964,24 @@ std::string talk_function::om_next_upgrade( std::string bldg ){
 }
 
 bool talk_function::om_min_level( std::string target, std::string bldg ){
+    return (om_over_level( target, bldg ) >= 0);
+}
+
+int talk_function::om_over_level( std::string target, std::string bldg ){
     std::string comp = "";
+    int diff = 0;
     int phase_target = target.find_last_of("_");
     int phase_bldg = bldg.find_last_of("_");
     //comparing two different buildings
     if( target.substr(0,phase_target+1) != bldg.substr(0,phase_bldg+1)){
-        return false;
+        return -1;
     }
+    diff = atoi(bldg.substr(phase_bldg+1).c_str()) - atoi(target.substr(phase_target+1).c_str());
     //not high enough level
-    if( atoi(target.substr(phase_target+1).c_str()) > atoi(bldg.substr(phase_bldg+1).c_str()) ) {
-        return false;
+    if( diff < 0 ) {
+        return -1;
     }
-    return true;
+    return diff;
 }
 
 bool talk_function::upgrade_return( npc &p, point omt_pos, std::string miss  )
@@ -3126,7 +3132,7 @@ bool talk_function::camp_garage_chop_start( npc &p, std::string task )
     omt_ref = oter_id( omt_ref.id().c_str() );
     editmap edit;
     vehicle *car = edit.mapgen_veh_query( omt_trg );
-    if (car == NULL){
+    if (car == nullptr){
         return false;
     }
 
@@ -3319,7 +3325,6 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
         }
     }
 
-
     int need_food = time_to_food( work );
     if( camp_food_supply() < need_food ){
         popup( _("Your companion seems disappointed that your pantry is empty...") );
@@ -3334,7 +3339,7 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
 
 bool talk_function::camp_menial_return( npc &p )
 {
-    npc *comp = companion_choose_return( p, "_faction_camp_menial", calendar::turn - 3_hours );
+    npc *comp = companion_choose_return( p, "_faction_camp_menial", calendar::before_time_starts );
     if (comp == NULL){
         return false;
     }
@@ -3412,7 +3417,7 @@ bool talk_function::camp_menial_return( npc &p )
 
 bool talk_function::camp_expansion_select( npc &p )
 {
-    npc *comp = companion_choose_return( p, "_faction_camp_expansion", calendar::turn - 3_hours );
+    npc *comp = companion_choose_return( p, "_faction_camp_expansion", calendar::before_time_starts );
     if (comp == NULL){
         return false;
     }
@@ -3541,6 +3546,9 @@ std::string talk_function::om_simple_dir( point omt_pos, tripoint omt_tar )
         dr += "E";
     }
     dr += "]";
+    if( omt_tar.x == omt_pos.x && omt_tar.y == omt_pos.y ){
+        return "[B]";
+    }
     return dr;
 }
 
@@ -3648,7 +3656,7 @@ std::string talk_function::camp_direction ( std::string line )
     return line.substr( line.find_last_of("["), line.find_last_of("]") - line.find_last_of("[") +1 );
 }
 
-int talk_function::camp_food_supply( int change )
+int talk_function::camp_food_supply( int change, bool return_days )
 {
     faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     yours->food_supply += change;
@@ -3657,6 +3665,10 @@ int talk_function::camp_food_supply( int change )
         yours->respects_u += yours->food_supply / 100;
         yours->food_supply = 0;
     }
+    if( return_days ){
+        return 10 * yours->food_supply /2600;
+    }
+
     return yours->food_supply;
 }
 
@@ -3672,6 +3684,19 @@ int talk_function::time_to_food( time_duration work )
     return (260/24.0) * to_hours<float>( work );
 }
 
+int talk_function::camp_discipline( int change )
+{
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    yours->respects_u += change;
+    return yours->respects_u;
+}
+
+int talk_function::camp_morale( int change )
+{
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    yours->likes_u += change;
+    return yours->likes_u;
+}
 
 bool talk_function::carpenter_return( npc &p )
 {
@@ -3826,6 +3851,139 @@ bool talk_function::forage_return( npc &p )
     return true;
 }
 
+bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>> group, tripoint om_tgt, bool try_engage){
+    if( overmap_buffer.is_safe( om_tgt ) ){
+        //Should work but is_safe is always returning true regardless of what is there.
+        //return true;
+    }
+
+    //If the map isn't generated we need to do that...
+    if( MAPBUFFER.lookup_submap( om_to_sm_copy(om_tgt) ) == NULL ){
+        //Fill with monsters, neither of these work since they are dependent on the player's location
+        //This doesn't gen monsters...
+        //tinymap tmpmap;
+        //tmpmap.generate( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, calendar::turn );
+        //tmpmap.save();
+    }
+
+    overmap &om = overmap_buffer.get( om_tgt.x, om_tgt.y );
+    tinymap target_bay;
+    target_bay.load( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, false );
+    std::vector< monster * > monsters_around;
+    for( int x = 0; x < 2; x++ ) {
+        for( int y = 0; y < 2; y++ ) {
+
+            point sm( (om_tgt.x * 2) + x, (om_tgt.x * 2) + y );
+            const point omp = sm_to_om_remain( sm );
+            overmap &omi = overmap_buffer.get( omp.x, omp.y );
+
+            const tripoint current_submap_loc( om_tgt.x * 2 + x, om_tgt.y * 2 + y, om_tgt.z );
+            auto monster_bucket = omi.monster_map.equal_range( current_submap_loc );
+            std::for_each( monster_bucket.first, monster_bucket.second, [&](std::pair<const tripoint, monster> &monster_entry ) {
+                monster &this_monster = monster_entry.second;
+                //debugmsg( " yup %s", this_monster.name() );
+                monsters_around.push_back( &this_monster );
+            } );
+        }
+    }
+    float avg_survival = 0;
+    for( auto guy : group ){
+        avg_survival += guy->get_skill_level( skill_survival );
+    }
+    avg_survival = avg_survival / group.size();
+
+    monster mon;
+
+    std::vector< monster * > monsters_fighting;
+    for( auto mons : monsters_around ){
+        if( mons->get_hp() <= 0 ){
+            continue;
+        }
+        int d_modifier = avg_survival - mons->type->difficulty;
+        int roll = rng( 1, 20 ) + d_modifier;
+        if( roll > 10 ){
+            if( try_engage ){
+                mons->death_drops = false;
+                monsters_fighting.push_back( mons );
+            }
+        } else {
+            mons->death_drops = false;
+            monsters_fighting.push_back( mons );
+        }
+    }
+
+    if( !monsters_fighting.empty() ){
+        bool outcome = force_on_force( group, "Patrol", monsters_fighting, "attacking monsters", rng( -1, 2 ) );
+        for( auto mons : monsters_fighting ){
+            mons->death_drops = true;
+        }
+        return outcome;
+    }
+    return true;
+}
+
+bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
+    std::vector< monster * > monsters_fighting, std::string att_desc, int advantage )
+{
+    std::string adv = "";
+    if (advantage < 0){
+        adv = ", attacker advantage";
+    } else if (advantage > 0){
+        adv = ", defender advantage";
+    }
+    //Find out why your followers don't have your faction...
+    popup(_("Engagement between %d members of %s %s and %d %s%s!"),
+        defender.size(), g->faction_manager_ptr->get( faction_id( "your_followers" ) )->name.c_str(), def_desc.c_str(),
+        monsters_fighting.size(), att_desc.c_str(), adv.c_str());
+    int defense, attack;
+    int att_init, def_init;
+    while (true){
+        std::vector< monster * > remaining_mon;
+        for( const auto &elem : monsters_fighting ) {
+            if (elem->get_hp() > 0){
+                remaining_mon.push_back(elem);
+            }
+        }
+        std::vector<std::shared_ptr<npc>> remaining_def;
+        for( const auto &elem : defender ) {
+            if( !elem->is_dead() && elem->hp_cur[hp_torso] >= 0 && elem->hp_cur[hp_head] >= 0 ){
+                remaining_def.push_back(elem);
+            }
+        }
+
+        defense = combat_score(remaining_def);
+        attack = combat_score(remaining_mon);
+        if (attack > defense*3){
+            attack_random( remaining_mon, remaining_def);
+            if (defense == 0 || (remaining_def.size() == 1 && remaining_def[0]->is_dead() )){
+                //Here too...
+                popup(_("%s forces are destroyed!"), g->faction_manager_ptr->get( faction_id( "your_followers" ) )->name.c_str() );
+            } else {
+                //Again, no faction for your followers
+                popup(_("%s forces retreat from combat!"), g->faction_manager_ptr->get( faction_id( "your_followers" ) )->name.c_str() );
+            }
+            return false;
+        } else if (attack*3 < defense) {
+            attack_random( remaining_def, remaining_mon);
+            if (attack == 0 || (remaining_mon.size() == 1 && remaining_mon[0]->get_hp() == 0 )){
+                popup(_("The monsters are destroyed!") );
+            } else {
+                popup(_("The monsters disengage!") );
+            }
+            return true;
+        } else {
+            def_init = rng( 1, 6 ) + advantage;
+            att_init = rng( 1, 6 );
+            if (def_init >= att_init) {
+                attack_random( remaining_mon, remaining_def);
+            }
+            if (def_init <= att_init) {
+                attack_random( remaining_def, remaining_mon);
+            }
+        }
+    }
+}
+
 void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
     std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage )
 {
@@ -3897,6 +4055,7 @@ void talk_function::companion_return( npc &comp ){
         }
     }
     comp.companion_mission_inv.clear();
+    comp.companion_mission_points.clear();
     // npc *may* be active, or not if outside the reality bubble
     g->reload_npcs();
 }
@@ -3905,12 +4064,13 @@ std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p, c
 {
     std::vector<std::shared_ptr<npc>> available;
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    std::string mission_format = string_format( "%s(%d,%d,%d)%s", p.companion_mission_role_id, omt_pos.x, omt_pos.y, p.posz(), id );
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
-        if( elem->get_companion_mission() == p.name + id || elem->get_companion_mission() == mission_format ) {
+        npc_companion_mission c_mission = elem->get_companion_mission();
+        if( c_mission.position == tripoint( omt_pos.x, omt_pos.y, p.posz() ) &&
+           c_mission.mission_id == id && c_mission.role_id == p.companion_mission_role_id ){
+
             available.push_back( elem );
-        } else if( contains && (elem->get_companion_mission().find(p.name + id) != std::string::npos ||
-                  (elem->get_companion_mission().find(mission_format) != std::string::npos ) ) ){
+        } else if( contains && c_mission.mission_id.find( id ) != std::string::npos ){
             available.push_back( elem );
         }
     }
@@ -3921,8 +4081,8 @@ bool companion_sort_compare( npc* first, npc* second ){
     std::vector<npc *> comp_list;
     comp_list.push_back(first);
     comp_list.push_back(second);
-    std::vector<tripoint> scores = talk_function::companion_rank( comp_list );
-    if( scores[0].x > scores[1].x ){
+    std::vector<comp_rank> scores = talk_function::companion_rank( comp_list );
+    if( scores[0].combat > scores[1].combat ){
         return true;
     }
     return false;
@@ -3932,30 +4092,29 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available, 
 {
     if( skill_tested.empty() ){
         std::sort (available.begin(), available.end(), companion_sort_compare);
-    } else {
-
-        struct companion_sort_skill {
-            companion_sort_skill(std::string skill_tested) { this->skill_tested = skill_tested; }
-            //bool operator () (int i, int j) { ... }
-
-            bool operator()( npc* first, npc* second ){
-                if( first->get_skill_level( skill_id(skill_tested) ) > second->get_skill_level( skill_id(skill_tested) ) ){
-                        return true;
-                }
-                return false;
-            }
-
-
-            std::string skill_tested;
-        };
-        std::sort (available.begin(), available.end(), companion_sort_skill(skill_tested) );
+        return available;
     }
+
+    struct companion_sort_skill {
+        companion_sort_skill(std::string skill_tested) { this->skill_tested = skill_tested; }
+
+        bool operator()( npc* first, npc* second ){
+            if( first->get_skill_level( skill_id(skill_tested) ) > second->get_skill_level( skill_id(skill_tested) ) ){
+                    return true;
+            }
+            return false;
+        }
+
+        std::string skill_tested;
+    };
+    std::sort (available.begin(), available.end(), companion_sort_skill(skill_tested) );
+
     return available;
 }
 
-std::vector<tripoint> talk_function::companion_rank( std::vector<npc *> available, bool adj )
+std::vector<comp_rank> talk_function::companion_rank( std::vector<npc *> available, bool adj )
 {
-    std::vector<tripoint> raw;
+    std::vector<comp_rank> raw;
     int max_combat = 0;
     int max_survival = 0;
     int max_industry = 0;
@@ -3987,7 +4146,11 @@ std::vector<tripoint> talk_function::companion_rank( std::vector<npc *> availabl
                 e->get_skill_level( skill_id( "tailor" ) ) +
                 e->get_skill_level( skill_id( "cooking" ) );
         industry *= e->get_int() / 8.0 ;
-        raw.push_back( tripoint( combat, survival, industry ) );
+        comp_rank r;
+        r.combat = combat;
+        r.survival = survival;
+        r.industry = industry;
+        raw.push_back( r );
         if( combat > max_combat ){
             max_combat = combat;
         }
@@ -4003,9 +4166,13 @@ std::vector<tripoint> talk_function::companion_rank( std::vector<npc *> availabl
         return raw;
     }
 
-    std::vector<tripoint> adjusted;
+    std::vector<comp_rank> adjusted;
     for( auto entry : raw ){
-            adjusted.push_back( tripoint( 100.0 * entry.x / max_combat, 100.0 * entry.y / max_survival , 100.0 * entry.z / max_industry) );
+            comp_rank r;
+            r.combat = 100.0 * entry.combat / max_combat;
+            r.survival = 100.0 * entry.survival / max_survival;
+            r.industry = 100.0 * entry.industry / max_industry;
+            adjusted.push_back( r );
     }
     return adjusted;
 }
@@ -4022,7 +4189,7 @@ npc *talk_function::companion_choose( std::string skill_tested, int skill_level 
     }
     std::vector<std::string> npcs;
     available = companion_sort( available, skill_tested );
-    std::vector<tripoint> rankings = companion_rank( available );
+    std::vector<comp_rank> rankings = companion_rank( available );
 
     int x = 0;
     for( auto &elem : available ) {
@@ -4038,7 +4205,7 @@ npc *talk_function::companion_choose( std::string skill_tested, int skill_level 
         while( npc_entry.length() < 51 ){
             npc_entry += " ";
         }
-        npc_entry = string_format("%s [ %4d : %4d : %4d ]", npc_entry, rankings[x].x, rankings[x].y, rankings[x].z );
+        npc_entry = string_format("%s [ %4d : %4d : %4d ]", npc_entry, rankings[x].combat, rankings[x].survival, rankings[x].industry );
         x++;
         npcs.push_back( npc_entry );
     }
@@ -4060,18 +4227,23 @@ npc *talk_function::companion_choose_return( npc &p, std::string id, time_point 
 {
     std::vector<npc *> available;
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    std::string mission_format = string_format( "%s(%d,%d,%d)%s", p.companion_mission_role_id, omt_pos.x, omt_pos.y, p.posz(), id );
-    //old format was using npc quest giver name + mission id, new system is quest giver's role + location + mission id
     for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {
-        if( ( guy->get_companion_mission() == p.name + id || guy->get_companion_mission() == mission_format )
-                    && deadline == calendar::before_time_starts ){
+        npc_companion_mission c_mission = guy->get_companion_mission();
+        if( c_mission.position != tripoint( omt_pos.x, omt_pos.y, p.posz() ) ||
+           c_mission.mission_id != id || c_mission.role_id != p.companion_mission_role_id ){
 
+            continue;
+        }
+
+        if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ){
+            available.push_back( guy.get() );
+        }
+
+        if( deadline == calendar::before_time_starts ){
             if( guy->companion_mission_time_ret <= calendar::turn ){
                 available.push_back( guy.get() );
             }
-        } else if( ( guy->get_companion_mission() == p.name + id || guy->get_companion_mission() == mission_format )
-                  && ( guy->companion_mission_time <= deadline || g->u.has_trait( trait_id( "DEBUG_HS" ) )) ) {
-
+        } else if( guy->companion_mission_time <= deadline ){
             available.push_back( guy.get() );
         }
     }
@@ -4186,7 +4358,7 @@ void talk_function::mission_key_push( std::vector<std::vector<std::string>> &key
     if( !possible ){
         key_vectors[10].push_back(id);
     }
-    if( dir == "" ){
+    if( dir == "" || dir == "[B]" ){
         key_vectors[1].push_back(id);
     }
     if( dir == "[N]" ){
@@ -4294,29 +4466,35 @@ std::string talk_function::name_mission_tabs( npc &p, std::string id, std::strin
 
 std::map<std::string,std::string> talk_function::camp_recipe_deck( std::string om_cur ){
     std::map<std::string,std::string> cooking_recipes;
-    if( om_min_level( "faction_base_kitchen_1", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_1", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_0.begin(), COOK_SKILL_0.end());
     }
-    if( om_min_level( "faction_base_kitchen_2", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_2", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_1.begin(), COOK_SKILL_1.end());
     }
-    if( om_min_level( "faction_base_kitchen_3", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_3", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_2.begin(), COOK_SKILL_2.end());
     }
-    if( om_min_level( "faction_base_kitchen_4", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_4", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_3.begin(), COOK_SKILL_3.end());
     }
-    if( om_min_level( "faction_base_kitchen_5", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_5", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_4.begin(), COOK_SKILL_4.end());
     }
-    if( om_min_level( "faction_base_kitchen_6", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_6", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_5.begin(), COOK_SKILL_5.end());
     }
-    if( om_min_level( "faction_base_kitchen_7", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_7", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_6.begin(), COOK_SKILL_6.end());
     }
-    if( om_min_level( "faction_base_kitchen_8", om_cur ) || om_cur == "ALL" ){
+    if( om_min_level( "faction_base_kitchen_8", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
         cooking_recipes.insert(COOK_SKILL_7.begin(), COOK_SKILL_7.end());
+    }
+    if( om_min_level( "faction_base_camp_9", om_cur ) || om_cur == "ALL" || om_cur == "BASE" ){
+        cooking_recipes.insert(CAMP_SKILL_9.begin(), CAMP_SKILL_9.end());
+    }
+    if( om_min_level( "faction_base_farm_4", om_cur ) || om_cur == "ALL" || om_cur == "FARM" ){
+        cooking_recipes.insert(FARM_SKILL_4.begin(), FARM_SKILL_4.end());
     }
     return cooking_recipes;
 }
@@ -4325,99 +4503,78 @@ int talk_function::camp_recipe_batch_max( const recipe making, inventory total_i
     int max_batch = 0;
     int max_checks = 9;
     int iter = 0;
-    while( iter < max_checks ) {
-        if( making.requirements().can_make_with_inventory( total_inv, max_batch + 1000 ) &&
-           camp_food_supply() > (max_batch + 1000) * time_to_food ( time_duration::from_turns( making.time / 100 ) ) ){
-            max_batch += 1000;
+    size_t batch_size = 1000;
+    while( batch_size > 0 ) {
+        while( iter < max_checks ) {
+            if( making.requirements().can_make_with_inventory( total_inv, max_batch + batch_size ) &&
+               (size_t)camp_food_supply() > (max_batch + batch_size) * time_to_food ( time_duration::from_turns( making.time / 100 ) ) ){
+                max_batch += batch_size;
+            }
+            iter++;
         }
-        iter++;
-    }
-    iter = 0;
-    while( iter < max_checks ) {
-        if( making.requirements().can_make_with_inventory( total_inv, max_batch + 100 ) &&
-           camp_food_supply() > (max_batch + 100) * time_to_food ( time_duration::from_turns( making.time / 100 ) ) ){
-            max_batch += 100;
-        }
-        iter++;
-    }
-    iter = 0;
-    while( iter < max_checks ) {
-        if( making.requirements().can_make_with_inventory( total_inv, max_batch + 10 ) &&
-           camp_food_supply() > (max_batch + 10) * time_to_food ( time_duration::from_turns( making.time / 100 ) ) ){
-            max_batch += 10;
-        }
-        iter++;
-    }
-    iter = 0;
-    while( iter < max_checks ) {
-        if( making.requirements().can_make_with_inventory( total_inv, max_batch + 1 ) &&
-           camp_food_supply() > (max_batch + 1) * time_to_food ( time_duration::from_turns( making.time / 100 ) ) ){
-            max_batch += 1;
-        }
-        iter++;
+        iter = 0;
+        batch_size /= 10;
     }
     return max_batch;
 }
 
 int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested, time_duration time_worked, int difficulty ){
-    difficulty = ((difficulty <= 0) ? difficulty : 1);
+    difficulty = std::max( 1, difficulty );
     float checks = to_minutes<int>( time_worked )/10.0;
     int total = difficulty * checks;
     int i = 0;
-    int y = 0;
+
     if( skill_tested == "" || skill_tested == "gathering" ){
+        weighted_int_list<skill_id> gathering_practice;
+        gathering_practice.add( skill_survival, 80 );
+        gathering_practice.add( skill_traps, 5 );
+        gathering_practice.add( skill_fabrication, 5 );
+        gathering_practice.add( skill_archery, 5 );
+        gathering_practice.add( skill_melee, 5 );
         while( i < checks ){
-            y = rng( 0, 100 );
-            if (y < 80){
-                comp.practice( skill_survival, difficulty);
-            } else if (y < 85){
-                comp.practice( skill_traps, difficulty);
-            } else if (y < 90){
-                comp.practice( skill_fabrication, difficulty);
-            } else if (y < 95){
-                comp.practice( skill_archery, difficulty);
-            } else{
-                comp.practice( skill_melee, 5);
-            }
+            comp.practice( *gathering_practice.pick(), difficulty );
             i++;
         }
         return total;
     }
 
     if( skill_tested == "menial" ){
+        weighted_int_list<skill_id> menial_practice;
+        menial_practice.add( skill_fabrication, 60 );
+        menial_practice.add( skill_survival, 10 );
+        menial_practice.add( skill_speech, 15 );
+        menial_practice.add( skill_tailor, 5 );
+        menial_practice.add( skill_cooking, 10 );
         while( i < checks ){
-            y = rng( 0, 100 );
-            if (y < 60){
-                comp.practice( skill_fabrication, difficulty);
-            } else if (y < 70){
-                comp.practice( skill_survival, difficulty);
-            } else if (y < 85){
-                comp.practice( skill_speech, difficulty);
-            } else if (y < 90){
-                comp.practice( skill_tailor, difficulty);
-            } else{
-                comp.practice( skill_cooking, difficulty);
-            }
+            comp.practice( *menial_practice.pick(), difficulty );
             i++;
         }
         return total;
     }
 
     if( skill_tested == "construction" ){
+        weighted_int_list<skill_id> construction_practice;
+        construction_practice.add( skill_fabrication, 80 );
+        construction_practice.add( skill_survival, 10 );
+        construction_practice.add( skill_mechanics, 10 );
         while( i < checks ){
-            y = rng( 0, 100 );
-            if (y < 80){
-                comp.practice( skill_fabrication, difficulty);
-            } else if (y < 90){
-                comp.practice( skill_survival, difficulty);
-            } else {
-                comp.practice( skill_mechanics, difficulty);
-            }
+            comp.practice( *construction_practice.pick(), difficulty );
             i++;
         }
         return total;
     }
 
+    if( skill_tested == "recruiting" ){
+        weighted_int_list<skill_id> construction_practice;
+        construction_practice.add( skill_speech, 70 );
+        construction_practice.add( skill_survival, 25 );
+        construction_practice.add( skill_melee, 5 );
+        while( i < checks ){
+            comp.practice( *construction_practice.pick(), difficulty );
+            i++;
+        }
+        return total;
+    }
     comp.practice( skill_id(skill_tested), total );
     return total;
 }
@@ -4441,7 +4598,7 @@ int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float c
     int total = 0;
     for( int x = 0; x < 23; x++ ){
         for( int y = 0; y < 23; y++ ){
-            if( target_bay.furn(x,y) == f && rng( 0, 100) < chance * 100 ){
+            if( target_bay.furn(x,y) == f && x_in_y( chance, 1.0 ) ){
                 if( force_bash || comp.str_cur > furn_tgt.bash.str_min + rng( -2, 2) ){
                     for( auto itm : item_group::items_from( furn_tgt.bash.drop_group, calendar::turn ) ) {
                         comp.companion_mission_inv.push_back(itm);
@@ -4460,7 +4617,6 @@ int talk_function::om_harvest_furn( npc &comp, point omt_tgt, furn_id f, float c
     return harvested;
 }
 
-
 int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float chance, bool force_bash )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
@@ -4472,7 +4628,7 @@ int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float cha
     int total = 0;
     for( int x = 0; x < 23; x++ ){
         for( int y = 0; y < 23; y++ ){
-            if( target_bay.ter(x,y) == t && rng( 0, 100) < chance * 100 ){
+            if( target_bay.ter(x,y) == t && x_in_y( chance, 1.0 ) ){
                 if( force_bash ){
                     for( auto itm : item_group::items_from( ter_tgt.bash.drop_group, calendar::turn ) ) {
                         comp.companion_mission_inv.push_back(itm);
@@ -4482,7 +4638,6 @@ int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float cha
                 }
                 total++;
             }
-
         }
     }
     target_bay.save();
@@ -4521,7 +4676,7 @@ int talk_function::om_harvest_trees( npc &comp, tripoint omt_tgt, float chance, 
     //even if we cut down the tree we roll again for all of the trunks to see which we cut
     for( int x = 0; x < 23; x++ ){
         for( int y = 0; y < 23; y++ ){
-            if( target_bay.ter(x,y) == ter_id( "t_trunk" ) && rng( 0, 100) < chance * 100 ){
+            if( target_bay.ter(x,y) == ter_id( "t_trunk" ) && x_in_y( chance, 1.0 ) ){
                 if( force_cut_trunk ){
                     target_bay.ter_set( x, y, t_dirt );
                     target_bay.spawn_item( x, y, "log", rng( 2, 3 ), 0, calendar::turn );
@@ -4551,7 +4706,7 @@ int talk_function::om_harvest_itm( npc &comp, point omt_tgt, float chance, bool 
         for( int y = 0; y < 23; y++ ){
             for( item i : target_bay.i_at( x, y) ){
                 total++;
-                if( rng( 0, 100) < chance * 100 ){
+                if( x_in_y( chance, 1.0 ) ){
                     comp.companion_mission_inv.push_back(i);
                     harvested++;
                 }
@@ -4567,18 +4722,25 @@ int talk_function::om_harvest_itm( npc &comp, point omt_tgt, float chance, bool 
 }
 
 tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int range, std::vector<std::string> possible_om_types, bool must_see,
-                                       bool popup_notice, tripoint source ){
+                                       bool popup_notice, tripoint source, bool bounce ){
     bool errors = false;
     if( popup_notice ){
             popup( _("Select a location between  %d and  %d tiles away."), min_range, range );
     }
 
+    std::vector<std::string> bounce_locations = { "faction_hide_site_0" };
+
     tripoint where;
+    om_range_mark( omt_pos, range );
+    om_range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
     if( source == tripoint(-999,-999,-999) ){
         where = overmap::draw_overmap();
     } else {
         where = overmap::draw_overmap( source );
     }
+    om_range_mark( omt_pos, range, false );
+    om_range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );
+
     if( where == overmap::invalid_tripoint ) {
         return tripoint(-999, -999, -999);
     }
@@ -4599,6 +4761,17 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
     }
 
     if( !errors ){
+        for( auto pos_om : bounce_locations ){
+            if( bounce && omt_ref.id().c_str() == pos_om && range > 5 ){
+                if( query_yn( _("Do you want to bounce off this location to extend range?") ) ){
+                    om_line_mark( omt_pos, omt_tgt);
+                    tripoint dest = om_target_tile( omt_tgt, 2, range * .75, possible_om_types, true, false, omt_tgt, true );
+                    om_line_mark( omt_pos, omt_tgt, false);
+                    return dest;
+                }
+            }
+        }
+
         if( possible_om_types.empty() ) {
             return omt_tgt;
         }
@@ -4613,10 +4786,63 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
     return om_target_tile( omt_pos, min_range, range, possible_om_types );
 }
 
+void talk_function::om_range_mark( tripoint origin, int range, bool add_notes,  std::string message ){
+    std::vector<tripoint> note_pts;
+    //North Limit
+    for( int x = origin.x - range - 1; x < origin.x + range + 2; x++ ){
+        note_pts.push_back( tripoint( x, origin.y - range - 1, origin.z) );
+    }
+    //South
+    for( int x = origin.x - range - 1; x < origin.x + range + 2; x++ ){
+        note_pts.push_back( tripoint( x, origin.y + range + 1, origin.z) );
+    }
+    //West
+    for( int y = origin.y - range - 1; y < origin.y + range + 2; y++ ){
+        note_pts.push_back( tripoint( origin.x - range - 1, y, origin.z) );
+    }
+    //East
+    for( int y = origin.y - range - 1; y < origin.y + range + 2; y++ ){
+        note_pts.push_back( tripoint( origin.x + range + 1, y, origin.z) );
+    }
+
+    for( auto pt : note_pts ){
+        if( add_notes ){
+            if( !overmap_buffer.has_note(pt) ){
+                overmap_buffer.add_note( pt.x, pt.y, pt.z, message);
+            }
+        } else {
+            if( overmap_buffer.has_note(pt) && overmap_buffer.note( pt.x, pt.y, pt.z ) == message ){
+                overmap_buffer.delete_note( pt.x, pt.y, pt.z );
+            }
+        }
+    }
+
+}
+
+void talk_function::om_line_mark( tripoint origin, tripoint dest, bool add_notes, std::string message ){
+    std::vector<tripoint> note_pts = line_to( origin, dest );
+
+    for( auto pt : note_pts ){
+        if( add_notes ){
+            if( !overmap_buffer.has_note(pt) ){
+                overmap_buffer.add_note( pt.x, pt.y, pt.z, message);
+            }
+        } else {
+            if( overmap_buffer.has_note(pt) && overmap_buffer.note( pt.x, pt.y, pt.z ) == message ){
+                overmap_buffer.delete_note( pt.x, pt.y, pt.z );
+            }
+        }
+    }
+}
+
 time_duration talk_function::companion_travel_time_calc( tripoint omt_pos, tripoint omt_tgt, time_duration work, int trips ){
+    std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
+    return companion_travel_time_calc( journey, work, trips );
+}
+
+time_duration talk_function::companion_travel_time_calc( std::vector<tripoint> journey, time_duration work, int trips ){
     //path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
     int one_way = 0;
-    std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
     for( auto &om : journey ) {
         oter_id &omt_ref = overmap_buffer.ter( om.x, om.y, g->u.posz() );
         std::string om_id = omt_ref.id().c_str();
@@ -4629,6 +4855,8 @@ time_duration talk_function::companion_travel_time_calc( tripoint omt_pos, tripo
             one_way += 5;
         }else if( om_id == "forest_water" ){
             one_way += 6;
+        }else if( is_river(omt_ref) ){
+            one_way += 20;
         } else {
             one_way += 4;
         }
@@ -4664,7 +4892,6 @@ std::string talk_function::camp_trip_description( time_duration total_time, time
     return entry;
 }
 
-
 int talk_function::om_carry_weight_to_trips( npc &comp, std::vector<item *> itms )
 {
     int trips = 0;
@@ -4687,13 +4914,17 @@ int talk_function::om_carry_weight_to_trips( npc &comp, std::vector<item *> itms
     return ( trips > trips_v ) ?  trips : trips_v;
 }
 
-bool talk_function::om_set_hide_site( npc &comp, tripoint omt_tgt, std::vector<item *> itms )
+bool talk_function::om_set_hide_site( npc &comp, tripoint omt_tgt, std::vector<item *> itms, std::vector<item *> itms_rem )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, comp.posz() );
     omt_ref = oter_id( omt_ref.id().c_str() );
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, comp.posz(), false );
-    target_bay.ter_set( 11, 10, ter_id( "t_improvised_shelter" ) );
+    target_bay.ter_set( 11, 10, t_improvised_shelter );
+    for( auto i : itms_rem ){
+        comp.companion_mission_inv.add_item(*i);
+        target_bay.i_rem( 11, 10, i );
+    }
     for( auto i : itms ){
         target_bay.add_item_or_charges( 11, 10, *i );
         g->u.use_amount( i->typeId(), 1 );
@@ -4844,3 +5075,265 @@ void talk_function::faction_camp_tutorial(){
         faction_camp_tutorial();
     }
 }
+
+void talk_function::camp_craft_construction( npc &p, std::string cur_key, std::map<std::string,std::string> recipes, std::string miss_id,
+                                            tripoint omt_pos, std::vector<std::pair<std::string, tripoint>> om_expansions  )
+{
+    for( std::map<std::string,std::string>::const_iterator it = recipes.begin(); it != recipes.end(); ++it ) {
+        if ( cur_key.find("]" + it->first ) != std::string::npos ){
+            const recipe *making = &recipe_id( it->second ).obj();
+            inventory total_inv = g->u.crafting_inventory();
+
+            if( ! making->requirements().can_make_with_inventory( total_inv, 1 ) ){
+                popup(_("You don't have the materials to craft that") );
+                continue;
+            }
+
+            int batch_size = 1;
+            string_input_popup popup_input;
+            popup_input
+                .title( string_format( "Batch crafting %s [MAX: %d]: ", making->result_name(), camp_recipe_batch_max( *making, total_inv ) ) )
+                .edit( batch_size );
+
+            if( popup_input.canceled() || batch_size <= 0 ){
+                continue;
+            }
+            if( batch_size > camp_recipe_batch_max( *making, total_inv) ){
+                popup( _("Your batch is too large!") );
+                continue;
+            }
+            int need_food = batch_size * time_to_food ( time_duration::from_turns( making->time / 100 ) );
+            std::string dir = camp_direction(cur_key);
+            for( const auto &e : om_expansions ){
+                if( om_simple_dir( point( omt_pos.x, omt_pos.y), e.second ) == dir ) {
+                    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, miss_id+dir );
+                    if( !npc_list.empty() ) {
+                        popup( _("You already have someone working in that expansion.") );
+                        continue;
+                    }
+                    npc* comp = individual_mission(p, _("begins to work..."), miss_id+dir, false, {},
+                                   making->skill_used.obj().name(), making->difficulty );
+                    if ( comp != NULL ){
+                        g->u.consume_components_for_craft(making, batch_size);
+                        g->u.invalidate_crafting_inventory();
+                        for ( auto results : making->create_results( batch_size ) ) {
+                            comp->companion_mission_inv.add_item( results );
+                        }
+                        comp->companion_mission_time_ret = calendar::turn + (time_duration::from_turns( making->time / 100 ) * batch_size );
+                        camp_food_supply( -need_food);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+std::string talk_function::camp_recruit_evaluation( npc &p, std::string base, std::vector<std::pair<std::string, tripoint>> om_expansions,
+                                                   bool raw_score ){
+    int sbase = om_over_level( "faction_base_camp_11", base ) * 5;
+    int sexpansions = om_expansions.size() * 2;
+    for( auto expan : om_expansions ){
+        //The expansion is max upgraded
+        if( om_next_upgrade(expan.first) == "null" ){
+            sexpansions += 2;
+        }
+    }
+    int sfaction = std::min( camp_food_supply() / 10000, 10 );
+    sfaction += std::min( camp_discipline() / 10, 5 );
+    sfaction += std::min( camp_morale() / 10, 5);
+
+    //Secret or Hidden Bonus
+    //Please avoid openly discussing so that there is some mystery to the system
+    int sbonus = 0;
+    //How could we ever starve?
+    //More than 5 farms at recruiting base
+    int farm = 0;
+    for( auto expan : om_expansions ){
+        if( om_min_level( "faction_base_farm_1", expan.first ) ){
+            farm++;
+        }
+    }
+    if( farm >= 5 ){
+        sbonus += 10;
+    }
+    //More machine than man
+    //Bionics count > 10, respect > 75
+    if( g->u.my_bionics->size() > 10 && camp_discipline() > 75 ){
+        sbonus += 10;
+    }
+    //Survival of the fittest
+    if( g->get_npc_kill().size() > 10 ){
+        sbonus += 10;
+    }
+
+    int total = sbase + sexpansions + sfaction + sbonus;
+    std::string desc = string_format( "Notes:\n"
+            "Recruiting additional followers is very dangerous and expensive.  The outcome is heavily dependent on the skill of the "
+            "companion you send and the appeal of your base.\n \n"
+            "Skill used: speech\n"
+            "Difficulty: 2 \n"
+            "Base Score:                   +%3d%%\n"
+            "> Expansion Bonus:            +%3d%%\n"
+            "> Faction Bonus:              +%3d%%\n"
+            "> Special Bonus:              +%3d%%\n \n"
+            "Total: Skill                  +%3d%%\n \n"
+            "Risk: High\n"
+            "Time: 4 Days\n"
+            "Positions: %d/1\n", sbase, sexpansions, sfaction, sbonus, total, companion_list( p, "_faction_camp_firewood" ).size()
+            );
+    if( raw_score ){
+        return to_string( total );
+    }
+    return desc;
+}
+
+void talk_function::camp_recruit_return( npc &p, std::string task, int score )
+{
+    npc *comp = companion_choose_return( p, task, calendar::turn - 4_days );
+    if (comp == NULL){
+        return;
+    }
+    std::string skill_group = "recruiting";
+    companion_skill_trainer( *comp, skill_group, 4_days, 2 );
+    popup(_("%s returns from searching for recruits with a bit more experience..."), comp->name.c_str());
+    companion_return( *comp );
+
+    std::shared_ptr<npc> recruit;
+    //Success of finding an NPC to recruit, based on survival/tracking
+    int skill = comp->get_skill_level( skill_survival );
+    int dice = rng( 1, 20);
+    dice += skill - 2;
+    if ( dice > 15 ){
+        recruit = std::make_shared<npc>();
+        recruit->normalize();
+        recruit->randomize();
+        popup(_("%s encountered %s..."), comp->name.c_str(), recruit->name.c_str() );
+    } else {
+        popup(_("%s didn't find anyone to recruit..."), comp->name.c_str());
+        return;
+    }
+    //Chance of convencing them to come back
+    skill = comp->get_skill_level( skill_speech );
+    skill = skill * ( 1 + (score / 100.0) );
+    dice = rng( 1, 20);
+    dice += skill - 4;
+    if ( dice > 15 ){
+        popup(_("%s convinced %s to hear a recruitment offer from you..."), comp->name.c_str(), recruit->name.c_str() );
+    } else {
+        popup(_("%s wasn't interested in anything %s had to offer..."), recruit->name.c_str(), comp->name.c_str());
+        return;
+    }
+    //Stat window
+    int rec_m = 0;
+    int appeal = rng( -5, 3 );
+    appeal += std::min( skill / 3 , 3);
+    int food_desire = rng( 0, 5 );
+    while( rec_m >= 0 ){
+        std::string description = string_format( "NPC Overview:\n \n" );
+        description += string_format( "Name:  %20s\n \n", recruit->name.c_str() );
+        description += string_format( "Strength:        %10d\n", recruit->str_max );
+        description += string_format( "Dexterity:       %10d\n", recruit->dex_max );
+        description += string_format( "Intelligence:    %10d\n", recruit->int_max );
+        description += string_format( "Perception:      %10d\n \n", recruit->per_max );
+        description += string_format( "Top 3 Skills:\n" );
+
+        const auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
+            int const level_a = recruit->get_skill_level_object( a.ident() ).exercised_level();
+            int const level_b = recruit->get_skill_level_object( b.ident() ).exercised_level();
+            return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
+        } );
+
+        description += string_format( "%12s:          %4d\n", skillslist[0]->ident().c_str(),
+                                     recruit->get_skill_level_object( skillslist[0]->ident() ).level() );
+        description += string_format( "%12s:          %4d\n", skillslist[1]->ident().c_str(),
+                                     recruit->get_skill_level_object( skillslist[1]->ident() ).level() );
+        description += string_format( "%12s:          %4d\n \n", skillslist[2]->ident().c_str(),
+                                     recruit->get_skill_level_object( skillslist[2]->ident() ).level() );
+
+        description += string_format( "Asking for:\n" );
+        description += string_format( "> Food:     %10d days\n \n", food_desire );
+        description += string_format( "Faction Food:%9d days\n \n", camp_food_supply( 0, true ) );
+        description += string_format( "Recruit Chance: %10d%%\n \n", std::min( (int)( (10.0 + appeal) / 20.0 * 100), 100 ) );
+        description += _("Select an option:");
+
+        std::vector<std::string> rec_options;
+        rec_options.push_back( _("Increase Food") );
+        rec_options.push_back( _("Decrease Food") );
+        rec_options.push_back( _("Make Offer") );
+        rec_options.push_back( _("Not Interested") );
+
+        rec_m = menu_vec(true, description.c_str(), rec_options) - 1;
+        int sz = rec_options.size();
+        if (rec_m < 0 || rec_m >= sz) {
+            popup("You decide you aren't interested...");
+            return;
+        }
+
+        if ( rec_m == 0 && food_desire + 1 <= camp_food_supply( 0, true ) ) {
+            food_desire++;
+            appeal++;
+        }
+        if ( rec_m == 1 ) {
+            if( food_desire > 0 ){
+                food_desire--;
+                appeal--;
+            }
+        }
+        if ( rec_m == 2 ) {
+            break;
+        }
+    }
+    //Roll for recruitment
+    dice = rng( 1, 20);
+    if ( dice + appeal >= 10 ){
+        popup( _("%s has been convinced to join!"), recruit->name.c_str() );
+    } else {
+        popup(_("%s wasn't interested..."), recruit->name.c_str() );
+        return;// nullptr;
+    }
+    camp_food_supply( 1_days * food_desire );
+    recruit->spawn_at_precise( { g->get_levx(), g->get_levy() }, g->u.pos() + point( -4, -4 ) );
+    overmap_buffer.insert_npc( recruit );
+    recruit->form_opinion( g->u );
+    recruit->mission = NPC_MISSION_NULL;
+    recruit->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, recruit->global_omt_location(),
+                           recruit->getID() ) );
+    recruit->set_attitude( NPCATT_FOLLOW );
+    g->load_npcs();
+}
+
+std::vector<tripoint> talk_function::om_companion_path( tripoint start, int range_start, bool bounce ){
+    std::vector<tripoint> scout_points;
+    tripoint spt;
+    tripoint last = start;
+    int range = range_start;
+    int def_range = range_start;
+    while( range > 3 ){
+        spt = om_target_tile( last, 0, range, {}, false, true, last, false );
+        if( spt == tripoint( -999, -999, -999 ) ){
+            scout_points.clear();
+            return scout_points;
+        }
+        if( last == spt ){
+            break;
+        }
+        std::vector<tripoint> note_pts = line_to( last, spt );
+        scout_points.insert( scout_points.end(), note_pts.begin(), note_pts.end() );
+        om_line_mark( last, spt );
+        range -= rl_dist( spt.x, spt.y, last.x, last.y );
+        last = spt;
+
+        oter_id &omt_ref = overmap_buffer.ter( last.x, last.y, g->u.posz() );
+
+        if( bounce && omt_ref.id() == "faction_hide_site_0" ){
+            range = def_range * .75;
+            def_range = range;
+        }
+    }
+    for( auto pt : scout_points ){
+        om_line_mark( pt, pt, false );
+    }
+    return scout_points;
+}
+
