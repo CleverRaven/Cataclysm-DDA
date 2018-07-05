@@ -2311,7 +2311,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
     } else if( topic == "TALK_CAMP_OVERSEER" ) {
         p->companion_mission_role_id = "FACTION_CAMP";
-        add_response( _( "What needs to be done" ), "TALK_CAMP_OVERSEER", &talk_function::companion_mission );
+        add_response( _( "What needs to be done?" ), "TALK_CAMP_OVERSEER", &talk_function::companion_mission );
         add_response_done( _( "See you around." ) );
 
     } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
