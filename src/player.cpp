@@ -2187,7 +2187,7 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << eol;
 
     //Misc
-    memorial_file << string_format( _( "Cash on hand: $%d" ), cash ) << eol;
+    memorial_file << string_format( _( "Cash on hand: %s" ), format_money( cash ) ) << eol;
     memorial_file << eol;
 
     //HP
