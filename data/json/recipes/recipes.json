@@ -90,7 +90,6 @@
       "CSC_OTHER_PARTS",
       "CSC_OTHER_TRAPS",
       "CSC_OTHER_VEHICLE",
-      "CSC_OTHER_BUILDINGS",
       "CSC_OTHER_OTHER"
     ]
   },
@@ -100,4 +99,3 @@
     "recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ]
   }
 ]
-
