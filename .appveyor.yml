@@ -1,7 +1,8 @@
 version: '{branch}.{build}'
 os: Windows
 clone_folder: C:\Projects\Cataclysm-DDA
-shallow_clone: true
+#shallow_clone: true
+clone_depth: 5
 matrix:
     fast_finish: false 
 pull_requests:
