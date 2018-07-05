@@ -180,7 +180,9 @@
       [ "DEFAULT", "semi-auto", 1 ]
     ],
     "relative": {
-      "weight": 1200
+      "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
+      "weight": 1200,
+      "volume": 4
     },
     "delete": { "modes": [ [ "AUTO", "auto", 3 ] ] },
     "built_in_mods": [ "lead_rifle_scope", "lead_barrel_big", "lead_bipod", "lead_grip",  "lead_stabilizer" ],
@@ -200,6 +202,7 @@
     ],
     "relative": {
       "weight": 2000,
+      "volume": 7,
       "dispersion": 60
     },
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
@@ -215,7 +218,8 @@
     "price": 520000,
     "durability": 9,
     "relative": {
-      "weight": 1200
+      "weight": 1200,
+      "volume": 2
     },
     "built_in_mods": [ "lead_acog_red_dot_scope", "lead_grip", "lead_stabilizer" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "rail", 1 ] ]
