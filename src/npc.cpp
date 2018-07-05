@@ -99,6 +99,7 @@ npc::npc()
     my_fac = NULL;
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
+    death_drops = true;
     dead = false;
     hit_by_player = false;
     moves = 100;
@@ -2391,22 +2392,26 @@ std::string npc::extended_description() const
 void npc::set_companion_mission( npc &p, const std::string &id )
 {
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    companion_mission = string_format( "%s(%d,%d,%d)%s", p.companion_mission_role_id, omt_pos.x, omt_pos.y, p.posz(), id );
+    comp_mission.position = tripoint(  omt_pos.x, omt_pos.y, p.posz() );
+    comp_mission.mission_id =  id;
+    comp_mission.role_id = p.companion_mission_role_id;
 }
 
 void npc::reset_companion_mission()
 {
-    companion_mission.clear();
+    comp_mission.position = tripoint( -999, -999, -999 );
+    comp_mission.mission_id.clear();
+    comp_mission.role_id.clear();
 }
 
 bool npc::has_companion_mission() const
 {
-    return !companion_mission.empty();
+    return !comp_mission.mission_id.empty();
 }
 
-std::string npc::get_companion_mission() const
+npc_companion_mission npc::get_companion_mission() const
 {
-    return companion_mission;
+    return comp_mission;
 }
 
 attitude_group get_attitude_group( npc_attitude att )
