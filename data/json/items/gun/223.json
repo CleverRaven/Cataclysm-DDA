@@ -165,7 +165,7 @@
     "relative": {
       "weight": 400
     },
-    "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_retr_bayonet", "lead_stabilizer" ],
+    "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_bayonet", "lead_stabilizer" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {

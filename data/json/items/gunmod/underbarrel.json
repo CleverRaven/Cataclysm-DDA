@@ -359,7 +359,7 @@
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   },
   {
-    "id": "lead_retr_bayonet",
+    "id": "lead_bayonet",
     "copy-from": "inter_bayonet",
     "type": "GUNMOD",
     "name": "Leadwoks retractable bayonet",
