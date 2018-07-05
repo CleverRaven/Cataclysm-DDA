@@ -1922,7 +1922,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
                                destsm->frn[sx][sy] = srcsm->frn[sx][sy];
                        }
                     destsm->fld[sx][sy] = srcsm->fld[sx][sy];
-                    destsm->cosmetics[sx][sy].swap( srcsm->cosmetics[sx][sy] );
+                    destsm->cosmetics[sx][sy] = srcsm->cosmetics[sx][sy];
                 }
             }
 
@@ -1967,7 +1967,7 @@ vehicle* editmap::mapgen_veh_query( tripoint omt_tgt, vehicle* car_target, bool 
             if( destroy && target_pos != -1 ){
                 destsm->vehicles.erase(destsm->vehicles.begin() + target_pos);
                 g->m.update_vehicle_list( destsm, target.z );
-                return NULL;
+                return nullptr;
             }
 
         }
