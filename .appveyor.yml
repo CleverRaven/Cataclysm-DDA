@@ -16,44 +16,46 @@ platform:
     - x64
     # - x86
 environment:
+    PROJECT_NAME: msvc-full-features
+    SOLUTION_FILENAME: Cataclysm.sln
+    TEMP_FOLDER: C:\Temp
+    WINDEPEND_URL: http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z
+    WINDEPEND_FILENAME: WinDepend-MSVC.7z
+    LUA_URL: https://www.dropbox.com/s/49vexob83bi5nrf/lua.zip?dl=1
+    LUA_FILENAME: lua.zip
     matrix:
         - TOOLCHAIN: msvc14
+          APPVEYOR_SAVE_CACHE_ON_ERROR: true
+cache:
+    - '%APPVEYOR_BUILD_FOLDER%\WinDepend'                                 # Cache downloaded dependencies
+    - '%APPVEYOR_BUILD_FOLDER%\src'                                       # Cache checked-out source files
+    - '%APPVEYOR_BUILD_FOLDER%\%PROJECT_NAME%\%PLATFORM%\%CONFIGURATION%' # Cache object files
 install:
-    # Set TEMP folder
-    - cmd: set TEMP_FOLDER=C:\Temp
-    - cmd: mkdir "%TEMP_FOLDER%"
-    
-    # Create WINDEPEND folder
-    - cmd: mkdir "%APPVEYOR_BUILD_FOLDER%\WinDepend"
-
-    # Add WINDEPEND folder to PATH (for LUA binary)
-    - cmd: set PATH=%APPVEYOR_BUILD_FOLDER%\WinDepend;%PATH%
-
-    # Download WINDEPEND archive
+    # Add WINDEPEND_PATH
+    - cmd: set WINDEPEND_PATH=%APPVEYOR_BUILD_FOLDER%\WinDepend
+    # Add LUA_PATH
+    - cmd: set LUA_PATH=%WINDEPEND_PATH%
+    # Add WINDEPEND_PATH to PATH (for LUA binary)
+    - cmd: set PATH=%WINDEPEND_PATH%;%PATH%
+    # Download non-cached dependencies
     - ps : |
-        [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
-        Start-FileDownload "http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z" -FileName "$($env:TEMP_FOLDER)\WinDepend-MSVC.7z"
-
-    # Unpack WINDEPEND archive to WINDEPEND folder
-    - cmd: 7z x -y "%TEMP_FOLDER%\WinDepend-MSVC.7z" -o"%APPVEYOR_BUILD_FOLDER%"
-    
-    # Download LUA archive
-    - ps : |
-        [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
-        Start-FileDownload "https://www.dropbox.com/s/49vexob83bi5nrf/lua.zip?dl=1" -FileName "$($env:TEMP_FOLDER)\lua.zip"
-
-    # Unpack LUA archive to WINDEPEND folder
-    - cmd: 7z x -y "%TEMP_FOLDER%\lua.zip" -o"%APPVEYOR_BUILD_FOLDER%\WinDepend"
-   
+            If( -not( Test-Path -Path "$($env:TEMP_FOLDER)" ) )
+            {
+                New-Item -ItemType Directory -Force -Path "$($env:TEMP_FOLDER)" | Out-Null;
+            }
+            If( -not( Test-Path -Path "$($env:WINDEPEND_PATH)" ) )
+            {
+                New-Item -ItemType Directory -Force -Path "$($env:WINDEPEND_PATH)" | Out-Null;
+                [Net.ServicePointManager]::SecurityProtocol = "Ssl3, Tls, Tls11, Tls12"
+                    Start-FileDownload "$($env:WINDEPEND_URL)" -FileName "$($env:TEMP_FOLDER)\$($env:WINDEPEND_FILENAME)";
+                7z x -y "$($env:TEMP_FOLDER)\$($env:WINDEPEND_FILENAME)" -o"$($env:APPVEYOR_BUILD_FOLDER)"
+                [Net.ServicePointManager]::SecurityProtocol = "Ssl3, Tls, Tls11, Tls12"
+                    Start-FileDownload "$($env:LUA_URL)" -FileName "$($env:TEMP_FOLDER)\$($env:LUA_FILENAME)"
+                7z x -y "$($env:TEMP_FOLDER)\$($env:LUA_FILENAME)" -o"$($env:LUA_PATH)"
+            }
     # Report LUA binary version
     - cmd: lua.exe -v
-
-    # Report debug info
-    #- cmd: echo %APPVEYOR_BUILD_FOLDER%
-    #- cmd: path
-    #- cmd: dir "%APPVEYOR_BUILD_FOLDER%\src\lua"
-  
 build:
-  project: /msvc-full-features/Cataclysm.sln
+  project: /%PROJECT_NAME%/%SOLUTION_FILENAME%
   parallel: true
-  verbosity: minimal
+  verbosity: detailed
