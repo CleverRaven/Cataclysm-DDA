@@ -14,6 +14,7 @@ class time_point;
 class npc;
 class item;
 struct tripoint;
+struct comp_rank;
 class player;
 class npc_template;
 template<typename T>
@@ -105,7 +106,8 @@ bool outpost_missions( npc &p, std::string id, std::string title );
 npc* individual_mission( npc &p, std::string desc, std::string miss_id, bool group = false,
                         std::vector<item *> equipment = {}, std::string skill_tested = "", int skill_level = 0);
 ///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
-std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment );
+std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
+                                        std::string message = _("Do you wish to give your companion additional items?") );
 /**
  * Adds the id's to the correct vectors (ie tabs) in the UI.
  * @param id is string displayed
@@ -147,7 +149,7 @@ int om_harvest_itm( npc &comp, point omt_tgt, float chance = 1.0, bool take = tr
 /// Counts or cuts trees into trunks and trunks into logs, if both are false it returns the total of the two combined
 int om_harvest_trees( npc &comp, tripoint omt_tgt, float chance = 1.0, bool force_cut = true, bool force_cut_trunk = true );
 /// Creates an improvised shelter at @ref omt_tgt and dumps the @ref itms into the building
-bool om_set_hide_site( npc &comp, tripoint omt_tgt, std::vector<item *> itms );
+bool om_set_hide_site( npc &comp, tripoint omt_tgt, std::vector<item *> itms, std::vector<item *> itms_rem = {} );
 /**
  * Opens the overmap so that you can select points for missions or constructions.
  * @param omt_pos, where your camp is, used for calculating travel distances
@@ -159,7 +161,11 @@ bool om_set_hide_site( npc &comp, tripoint omt_tgt, std::vector<item *> itms );
  * @param source, if you are selecting multiple points this is where the OM is centered to start
  */
 tripoint om_target_tile( tripoint omt_pos, int min_range = 1, int range = 1, std::vector<std::string> possible_om_types = {},
-                        bool must_see = true, bool popup_notice = true, tripoint source = tripoint(-999,-999,-999) );
+                        bool must_see = true, bool popup_notice = true, tripoint source = tripoint(-999,-999,-999),
+                        bool bounce = false );
+void om_range_mark( tripoint origin, int range, bool add_notes = true, std::string message = "Y;X: MAX RANGE" );
+void om_line_mark( tripoint origin, tripoint dest, bool add_notes = true, std::string message = "R;X: PATH" );
+std::vector<tripoint> om_companion_path( tripoint start, int range = 90, bool bounce = true );
 /**
  * Can be used to calculate total trip time for an NPC mission or just the traveling portion.  Doesn't use the pathing
  * algorithms yet.
@@ -169,6 +175,7 @@ tripoint om_target_tile( tripoint omt_pos, int min_range = 1, int range = 1, std
  * @param trips, how many trips back and forth the NPC will make
  */
 time_duration companion_travel_time_calc( tripoint omt_pos, tripoint omt_tgt, time_duration work, int trips = 1 );
+time_duration companion_travel_time_calc( std::vector<tripoint> journey, time_duration work, int trips = 1 );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
 std::string camp_trip_description( time_duration total_time, time_duration working_time, time_duration travel_time,
                                   int distance, int trips, int need_food );
@@ -187,12 +194,20 @@ std::string om_gathering_description( npc &p, std::string bldg );
 std::string om_next_upgrade( std::string bldg );
 /// Is the @ref bldg of the same type as the @ref target and does the level of bldg meet or exceed the target level
 bool om_min_level( std::string target, std::string bldg );
+/// Is the @ref bldg of the same type as the @ref target and how many levels greater is it, -1 for no match, 0 for same
+int om_over_level( std::string target, std::string bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
 bool upgrade_return( npc &p, point omt_pos, std::string miss );
 /// Popups to explain what is going on for anyone who is unsure, called only on the first camp designation for a character
 void faction_camp_tutorial();
 /// Called when a companion completes a gathering @ref task mission
 bool camp_gathering_return( npc &p, std::string task );
+/// Called on completion of recruiting, returns the new NPC.
+void camp_recruit_return( npc &p, std::string task, int score );
+void camp_craft_construction( npc &p, std::string cur_key, std::map<std::string,std::string> recipes, std::string miss_id,
+                             tripoint omt_pos, std::vector<std::pair<std::string, tripoint>> om_expansions  );
+std::string camp_recruit_evaluation( npc &p, std::string base, std::vector<std::pair<std::string, tripoint>> om_expansions,
+                                    bool raw_score = false );
 /// Called when a companion completes a chop shop @ref task mission
 bool camp_garage_chop_start( npc &p, std::string task );
 /**
@@ -225,11 +240,16 @@ std::string camp_car_description( vehicle *car );
 /// Takes a mission line and gets the camp's direction from it "[NW]"
 std::string camp_direction( std::string line);
 /// Changes the faction food supply by @ref change, 0 returns total food supply, a negative total food supply hurts morale
-int camp_food_supply( int change = 0 );
+int camp_food_supply( int change = 0, bool return_days = false );
 /// Same as above but takes a time_duration and consumes from faction food supply for that duration of work
 int camp_food_supply( time_duration work );
 /// Returns the total charges of food time_duration @ref work costs
 int time_to_food( time_duration work );
+/// Changes the faction respect for you by @ref change, returns repect
+int camp_discipline( int change = 0 );
+/// Changes the faction opinion for you by @ref change, returns opinion
+int camp_morale( int change = 0 );
+
 void draw_camp_tabs( const catacurses::window &win, camp_tab_mode cur_tab, std::vector<std::vector<std::string>> &key_vectors );
 std::string name_mission_tabs( npc &p, std::string id, std::string cur_title, camp_tab_mode cur_tab );
 
@@ -242,18 +262,26 @@ int companion_skill_trainer( npc &comp, std::string skill_tested = "", time_dura
 int companion_skill_trainer( npc &comp, skill_id skill_tested, time_duration time_worked = 1_hours, int difficulty = 1 );
 
 //Combat functions
+bool companion_om_combat_check( std::vector<std::shared_ptr<npc>> group, tripoint om_tgt, bool try_engage = false);
 void force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
                      std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage );
+bool force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
+                     std::vector< monster * > monsters_fighting, std::string att_desc, int advantage );
 int combat_score( const std::vector<std::shared_ptr<npc>> &group );    //Used to determine retreat
+int combat_score( const std::vector< monster * > &group );
 void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
                     const std::vector<std::shared_ptr<npc>> &defender );
+void attack_random( const std::vector< monster * > &group,
+                    const std::vector<std::shared_ptr<npc>> &defender );
+void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
+                    const std::vector< monster * > &group );
 std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
 
 //Utility functions
 /// Returns npcs that have the given companion mission.
 std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id, bool contains = false );
 std::vector<npc *> companion_sort( std::vector<npc *> available, std::string skill_tested = "" );
-std::vector<tripoint> companion_rank( std::vector<npc *> available, bool adj = true );
+std::vector<comp_rank> companion_rank( std::vector<npc *> available, bool adj = true );
 npc *companion_choose( std::string skill_tested = "", int skill_level = 0 );
 npc *companion_choose_return( npc &p, std::string id, time_point deadline );
 void companion_return( npc &comp );               //Return NPC to your party
