@@ -78,7 +78,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
     // if underground it ignores weather, using strait underground temperature instead
     if ( location.z < 0 ) {
         for( time_point i = start; i < end; i += 1_hours ) {
-            ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( g->get_temperature( location ) ) * 1_turns;
+            ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( g->get_temperature( g->m.getlocal( location ) ) ) * 1_turns;
         }
         return ret;
     }
