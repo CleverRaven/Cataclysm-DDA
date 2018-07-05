@@ -140,14 +140,15 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": "-1",
-    "dispersion": 120,
+    "dispersion": 150,
     "durability": 3,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 3 ]
     ],
     "valid_mod_locations": [ [ "accessories", 2 ] ],
-    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ]
+    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "l_car_223",
