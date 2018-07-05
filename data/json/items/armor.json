@@ -2148,7 +2148,7 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "down_blanket",
@@ -2439,25 +2439,6 @@
     "coverage": 30,
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
-  },
-  {
-    "id": "entry_suit",
-    "type": "ARMOR",
-    "name": "entry suit",
-    "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  Though very restrictive, wearing it will provide excellent protection against fire and smoke.",
-    "weight": 2900,
-    "volume": 24,
-    "price": 240500,
-    "material": [ "nomex", "kevlar" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "coverage": 100,
-    "encumbrance": 50,
-    "warmth": 30,
-    "material_thickness": 5,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "fancy_sunglasses",
@@ -3781,7 +3762,7 @@
     "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "gown",
@@ -5494,7 +5475,7 @@
     "storage": 4,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "kippah",
@@ -7407,7 +7388,7 @@
     "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "shark_suit",
@@ -9538,7 +9519,7 @@
     "color": "dark_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "wsurvivor_suit",

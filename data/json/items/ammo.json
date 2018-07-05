@@ -766,7 +766,7 @@
     {
         "type": "AMMO",
         "id": "gasfilter_m",
-        "category": "spare_parts",  
+        "category": "spare_parts",
         "price": 2500,
         "name": "gas mask cartridge",
         "symbol": "=",

@@ -45,6 +45,12 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
+    "id": "CBM",
+    "type": "json_flag",
+    "context": [ "BIONIC_ITEM" ],
+    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> to safely install it into your body, or you may attempt to perform a <info>self-installation</info> with a higher risk of damaging yourself."
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -61,7 +67,7 @@
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
+    "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
     "inherit": false
   },
   {
@@ -76,6 +82,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
+  },
+  {
+    "id": "ONLY_ONE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "You can wear <info>only one</info>."
   },
   {
     "id": "FANCY",

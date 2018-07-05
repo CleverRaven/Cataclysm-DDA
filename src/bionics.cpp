@@ -540,6 +540,13 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
         }
+        if( g->u.is_wearing( "solarpack_on" ) || g->u.is_wearing( "q_solarpack_on" ) ) {
+            add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
+                                          " your system." ) );
+        } else if( g->u.is_wearing( "solarpack" ) || g->u.is_wearing( "q_solarpack" ) ) {
+            add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
+                                          " system, if you unfold it." ) );
+        }
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
@@ -1333,13 +1340,13 @@ void reset_bionics()
 static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const std::string &flag,
                               const bool fallback, const std::string &flags_node = "flags" )
 {
-    const std::set<std::string> flags = jsobj.get_tags( flags_node );
     bool value = fallback;
     if( jsobj.has_bool( name ) ) {
         value = jsobj.get_bool( name, fallback );
         debugmsg( "JsonObject contains legacy node `" + name + "`.  Consider replacing it with `" +
                   flag + "` flag in `" + flags_node + "` node." );
     } else {
+        const std::set<std::string> flags = jsobj.get_tags( flags_node );
         value = flags.count( flag );
     }
     return value;
@@ -1480,7 +1487,7 @@ void bionic::deserialize( JsonIn &jsin )
 void player::introduce_into_anesthesia( time_duration const &duration )
 {
     add_msg_if_player( m_info,
-                       _( "You type data into the console, configuring Autodoc to uninstall a CBM." ) );
+                       _( "You type data into the console, configuring Autodoc to work with a CBM." ) );
     add_effect( effect_narcosis, duration );
     fall_asleep( duration );
     add_msg_if_player( m_info,

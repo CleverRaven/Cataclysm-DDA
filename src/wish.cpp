@@ -38,7 +38,7 @@ class wish_mutate_callback: public uimenu_callback
             return c_light_gray;
         }
 
-        wish_mutate_callback() : msg( "" ) {
+        wish_mutate_callback() : msg() {
             lastlen = 0;
             started = false;
             vTraits.clear();
@@ -274,7 +274,7 @@ class wish_monster_callback: public uimenu_callback
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
-            : msg( "" ), padding( "" ), mtypes( mtypes ) {
+            : msg(), padding(), mtypes( mtypes ) {
             started = false;
             friendly = false;
             hallucination = false;
@@ -412,7 +412,7 @@ class wish_item_callback: public uimenu_callback
         std::string msg;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
-            incontainer( false ), msg( "" ), standard_itype_ids( ids ) {
+            incontainer( false ), msg(), standard_itype_ids( ids ) {
         }
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uimenu * /*menu*/ ) override {
@@ -457,7 +457,8 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     }
     const auto opts = item_controller->all();
 
-    int prev_amount, amount = 1;
+    int prev_amount = 1;
+    int amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;

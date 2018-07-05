@@ -8,6 +8,8 @@ class Creature;
 namespace mattack
 {
 bool none( monster *z );
+bool eat_crop( monster *z );
+bool eat_food( monster *z );
 bool antqueen( monster *z );
 bool shriek( monster *z );
 bool shriek_alert( monster *z );

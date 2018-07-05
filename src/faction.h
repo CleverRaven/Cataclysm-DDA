@@ -137,7 +137,8 @@ class faction : public faction_template
         faction_job job2 = FACJOB_NULL;
         std::vector<int> opinion_of;
         /** Global submap coordinates where the center of influence is */
-        int mapx = 0, mapy = 0;
+        int mapx = 0;
+        int mapy = 0;
 };
 
 class faction_manager

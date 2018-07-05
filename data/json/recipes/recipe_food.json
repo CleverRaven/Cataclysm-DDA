@@ -7670,8 +7670,8 @@
     ],
     [
       [ "vinegar", 1 ]
-	],
-	[
+    ],
+    [
       [ "saline", 5 ],
       [ "salt", 10 ]
     ],
@@ -7680,6 +7680,37 @@
     ],
     [
       ["cucumber", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "eggs_ferment",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 30000,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":3}
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "vinegar", 1 ]
+  ],
+  [
+      [ "saline", 5 ],
+      [ "salt", 10 ]
+    ],
+    [
+      [ "jar_glass", 1 ]
+    ],
+    [
+      ["boiled_egg", 6]
     ]
   ]
 },{

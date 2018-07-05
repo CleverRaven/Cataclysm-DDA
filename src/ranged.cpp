@@ -72,6 +72,20 @@ static double occupied_tile_fraction( m_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    if( has_flag( MF_HARDTOSHOOT ) ) {
+        switch( get_size() ) {
+            case MS_TINY:
+                return occupied_tile_fraction( MS_TINY );
+            case MS_SMALL:
+                return occupied_tile_fraction( MS_TINY );
+            case MS_MEDIUM:
+                return occupied_tile_fraction( MS_SMALL );
+            case MS_LARGE:
+                return occupied_tile_fraction( MS_MEDIUM );
+            case MS_HUGE:
+                return occupied_tile_fraction( MS_LARGE );
+        }
+    }
     return occupied_tile_fraction( get_size() );
 }
 
@@ -644,7 +658,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     return line_number;
 }
 
-static double confidence_estimate( int range, double target_size, dispersion_sources dispersion )
+static double confidence_estimate( int range, double target_size, const dispersion_sources &dispersion )
 {
     // This is a rough estimate of accuracy based on a linear distribution across min and max
     // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
@@ -665,7 +679,7 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, dispersion_sources dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
+static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );

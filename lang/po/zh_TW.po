@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:51+0800\n"
+"POT-Creation-Date: 2018-06-23 22:54+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Meat <zero330xd@gmail.com>, 2018\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/cataclysm-dda-translators/teams/2217/zh_TW/)\n"
@@ -1995,8 +1995,8 @@ msgstr "羽毛"
 
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
-msgid "Feathers from a bird.  Useful for fletching arrows"
-msgstr "從鳥身上取得的羽毛。相當適合拿來當做弓箭箭羽。"
+msgid "Feathers from a bird.  Useful for fletching arrows."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "down feather"
@@ -2278,6 +2278,33 @@ msgstr "呼吸器濾芯"
 #: lang/json/AMMO_from_json.py
 msgid "A replacement filter cartridge for a rebreather."
 msgstr "一個呼吸器面罩使用的濾芯。"
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "filter mask cartridge"
+msgstr ""
+
+#. ~ Description for filter mask cartridge
+#: lang/json/AMMO_from_json.py
+msgid "Small replacement filter cartridge for air filtration masks."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "gas mask cartridge"
+msgstr ""
+
+#. ~ Description for gas mask cartridge
+#: lang/json/AMMO_from_json.py
+msgid "Medium replacement filter cartridge for air filtration masks."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "hazmat mask cartridge"
+msgstr ""
+
+#. ~ Description for hazmat mask cartridge
+#: lang/json/AMMO_from_json.py
+msgid "Heavy replacement filter cartridge for air filtration masks."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "nicotine liquid"
@@ -6100,7 +6127,7 @@ msgstr[0] "美國國旗"
 msgid "A large American flag made to fly in even the worst conditions."
 msgstr "一幅美國大國旗，就算是在最糟的狀況仍然能夠飄揚。"
 
-#: lang/json/ARMOR_from_json.py
+#: lang/json/ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
 msgid "ANBC suit"
 msgid_plural "ANBC suits"
 msgstr[0] "ANBC 裝"
@@ -8500,11 +8527,11 @@ msgid ""
 msgstr "一頂軟趴趴的毛線帽有著短短的帽沿，戴起來很暖和。基於傳統，送報生帽和送報生總是有著某種關係。"
 
 #: lang/json/ARMOR_from_json.py
-msgid "noise cancelling headgear"
-msgid_plural "noise cancelling headgears"
-msgstr[0] "消音耳罩"
+msgid "noise canceling headgear"
+msgid_plural "noise canceling headgears"
+msgstr[0] ""
 
-#. ~ Description for noise cancelling headgear
+#. ~ Description for noise canceling headgear
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Padding over your ears kept in place by some string.  Blocks incoming "
@@ -8524,7 +8551,7 @@ msgid ""
 "your chin."
 msgstr "毛氈橙色草帽帶有傳統白色與黃色的手縫線。帽子的寬邊讓你的眼睛不受陽光直射，並圍繞你的下巴有一條細長鉤帶。"
 
-#: lang/json/ARMOR_from_json.py
+#: lang/json/ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
 msgid "hazmat suit"
 msgid_plural "hazmat suits"
 msgstr[0] "防護衣"
@@ -9855,68 +9882,6 @@ msgid ""
 msgstr "一片由棉花製成的帶子覆蓋住嘴巴。能夠阻擋少量的粉塵及空氣傳播的病毒。"
 
 #: lang/json/ARMOR_from_json.py
-msgid "filter mask"
-msgid_plural "filter masks"
-msgstr[0] "過濾面罩"
-
-#. ~ Description for filter mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A mask that straps over your mouth and nose and filters air.  Protects from "
-"smoke, dust, and other contaminants quite well."
-msgstr "穿戴在你口鼻的面罩，能夠過濾空氣。阻擋煙塵，以及一些污染。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "survivor firemask"
-msgid_plural "survivor firemasks"
-msgstr[0] "生存者防火面具"
-
-#. ~ Description for survivor firemask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It "
-"provides excellent protection from heat, smoke, teargas, and shrapnel."
-msgstr "一件手工製的強化防毒面具，由諾梅克斯阻燃布料製成，保護臉部與眼睛。能夠很好的抵禦高溫、煙塵、催淚瓦斯，以及彈碎片。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL survivor firemask"
-msgid_plural "XL survivor firemasks"
-msgstr[0] "XL 生存者防火面具"
-
-#. ~ Description for XL survivor firemask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, Nomex-insulated gas mask that covers the face and eyes "
-"regardless of your state of mutation.  It provides excellent protection from"
-" heat, smoke, teargas, and shrapnel."
-msgstr "一件手工製的強化防毒面具，由諾梅克斯阻燃布料製成，保護你畸形的臉部與眼睛。能夠很好的抵禦高溫、煙塵、催淚瓦斯、以及彈碎片。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "gas mask"
-msgid_plural "gas masks"
-msgstr[0] "防毒面具"
-
-#. ~ Description for gas mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A full gas mask that covers the face and eyes.  Provides excellent "
-"protection from smoke, teargas, and other contaminants."
-msgstr "一個完整覆蓋臉部的防毒面具。能夠完整的阻擋煙塵、催淚瓦斯，以及其他的污染。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL gas mask"
-msgid_plural "XL gas masks"
-msgstr[0] "XL 防毒面具"
-
-#. ~ Description for XL gas mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A rather roomy mask with filters attached, designed to accommodate exotic "
-"anatomy.  Provides excellent protection from smoke, teargas, and other "
-"contaminants."
-msgstr "一個連接著過濾器的寬敞面具，設計用來貼合你變異的肢體。提供了對於煙塵、催淚瓦斯，與其他污染的絕佳保護。"
-
-#: lang/json/ARMOR_from_json.py
 msgid "Guy Fawkes mask"
 msgid_plural "Guy Fawkes masks"
 msgstr[0] "蓋伊·福克斯面具"
@@ -9941,30 +9906,6 @@ msgid ""
 msgstr "由厚塑膠製成的面罩。常戴在曲棍球守門員臉上，有時候也會出現在電影連續殺人狂的臉上。"
 
 #: lang/json/ARMOR_from_json.py
-msgid "heavy survivor mask"
-msgid_plural "heavy survivor masks"
-msgstr[0] "重型生存者面具"
-
-#. ~ Description for heavy survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, steel reinforced gas mask that covers the face and eyes.  "
-"Provides excellent protection from smoke, teargas, and shrapnel."
-msgstr "一件手工製的鋼製強化防毒面具，就算你是突變者也能夠穿戴上，保護臉部與眼睛。能夠很好的抵禦煙塵、催淚瓦斯、以及彈碎片。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "light survivor mask"
-msgid_plural "light survivor masks"
-msgstr[0] "輕型生存者面具"
-
-#. ~ Description for light survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, reinforced gas mask that covers the face and eyes.  Provides"
-" excellent protection from smoke, teargas, and shrapnel."
-msgstr "一件手工製的強化防毒面具，就算你是突變者也能夠穿戴上，保護臉部與眼睛。能夠很好的抵禦煙塵、催淚瓦斯、以及彈碎片。"
-
-#: lang/json/ARMOR_from_json.py
 msgid "rioter mask"
 msgid_plural "rioter masks"
 msgstr[0] "暴徒面具"
@@ -9975,57 +9916,6 @@ msgid ""
 "This is a t-shirt with sleeves tied on the back.  These are usually worn by "
 "rioters to hide their identity."
 msgstr "這是一件用袖子綁在臉上的T卹，通常是由暴徒穿著隱藏自己的身份。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "survivor mask"
-msgid_plural "survivor masks"
-msgstr[0] "生存者面具"
-
-#. ~ Description for survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, leather reinforced gas mask that covers the face and eyes.  "
-"Provides excellent protection from smoke, teargas, and shrapnel."
-msgstr "一件手工製的皮製強化防毒面具，就算你是突變者也能夠穿戴上，保護臉部與眼睛。能夠很好的抵禦煙塵、催淚瓦斯、以及彈碎片。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL survivor mask"
-msgid_plural "XL survivor masks"
-msgstr[0] "XL 生存者面具"
-
-#. ~ Description for XL survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, reinforced gas mask that covers the face and eyes regardless"
-" of your state of mutation.  Provides excellent protection from smoke, "
-"teargas, and shrapnel."
-msgstr "一件手工製的強化防毒面具，就算你是突變者也能夠穿戴上，保護臉部與眼睛。能夠很好的抵禦煙塵、催淚瓦斯、以及彈碎片。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "winter survivor mask"
-msgid_plural "winter survivor masks"
-msgstr[0] "冬季生存者面具"
-
-#. ~ Description for winter survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite "
-"warm, it still provides excellent protection from smoke, teargas, and "
-"shrapnel."
-msgstr "一件手工毛皮製的強化防毒面具，能夠保護臉部與眼睛。能夠很好的抵禦煙塵、催淚瓦斯、以及彈碎片。"
-
-#: lang/json/ARMOR_from_json.py
-msgid "XL winter survivor mask"
-msgid_plural "XL winter survivor masks"
-msgstr[0] "XL 冬季生存者面具"
-
-#. ~ Description for XL winter survivor mask
-#: lang/json/ARMOR_from_json.py
-msgid ""
-"A custom-built, fur-trimmed gas mask that covers the face and eyes "
-"regardless of your state of mutation.  Quite warm, it still provides "
-"excellent protection from smoke, teargas, and shrapnel."
-msgstr "一件手工毛皮製的強化防毒面具，能夠保護你畸形的臉部與眼睛。能夠很好的抵禦煙塵、催淚瓦斯、以及彈碎片。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "messenger bag"
@@ -16971,6 +16861,42 @@ msgid ""
 msgstr "水，生命之所需，最佳解渴靈藥。過濾後飲用會更安全。"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "bird litter"
+msgstr ""
+
+#. ~ Description for bird litter
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Bird dropping, feathers, and soiled bits of rubbish."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cow pie"
+msgstr ""
+
+#. ~ Description for cow pie
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fresh cow pie, could probably be used to make some great fertilizer."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "manure"
+msgstr ""
+
+#. ~ Description for manure
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Common manure, could probably be used to make some great fertilizer."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "roach dirt"
+msgstr ""
+
+#. ~ Description for roach dirt
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Large black pellets of rotting material."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "bleach"
 msgid_plural "bleach"
 msgstr[0] "漂白水"
@@ -19862,35 +19788,6 @@ msgid ""
 msgstr "一隻畸形的人類大腿，吃下這個會非常反胃，並且可能會造成你產生突變。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "ant egg"
-msgstr "蟻卵"
-
-#. ~ Description for ant egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"A large white ant egg, the size of a softball.  Extremely nutritious, but "
-"incredibly gross."
-msgstr "一顆跟壘球一樣大的白色螞蟻蛋。含有豐富的營養，但是很噁。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "spider egg"
-msgstr "蜘蛛卵"
-
-#. ~ Description for spider egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A fist sized egg from from a giant spider.  Incredibly gross."
-msgstr "一個拳頭大小的蛋，由巨大蜘蛛所生，長滿了難以置信的毛。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "razorclaw roe"
-msgstr "利爪怪魚子"
-
-#. ~ Description for razorclaw roe
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A clump of razorclaw eggs.  A post-cataclysm delicacy."
-msgstr "一叢利爪怪的卵。大災變後的美味佳餚。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "marloss berry"
 msgid_plural "marloss berries"
 msgstr[0] "馬洛斯莓"
@@ -22023,24 +21920,6 @@ msgid ""
 msgstr "做成香菸狀的糖果，至少比煙草來的健康，當然沒有成癮性。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "bird egg"
-msgstr "鳥蛋"
-
-#. ~ Description for bird egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Nutritious egg laid by a bird."
-msgstr "由鳥生下的蛋，很營養。"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "reptile egg"
-msgstr "爬蟲蛋"
-
-#. ~ Description for reptile egg
-#: lang/json/COMESTIBLE_from_json.py
-msgid "An egg belonging to one of reptile species found in New England."
-msgstr "築巢在新英格蘭地區的某種爬行動物的蛋。"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "vegetable salad"
 msgstr "蔬菜沙拉"
 
@@ -23070,6 +22949,80 @@ msgstr[0] "礦泉水"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fancy mineral water, so fancy it makes you feel fancy just holding it."
 msgstr "優質的礦泉水，太優質了讓你連拿著瓶子都覺得優質。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "bird egg"
+msgstr "鳥蛋"
+
+#. ~ Description for bird egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Nutritious egg laid by a bird."
+msgstr "由鳥生下的蛋，很營養。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "reptile egg"
+msgstr "爬蟲蛋"
+
+#. ~ Description for reptile egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "An egg belonging to one of reptile species found in New England."
+msgstr "築巢在新英格蘭地區的某種爬行動物的蛋。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "ant egg"
+msgstr "蟻卵"
+
+#. ~ Description for ant egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A large white ant egg, the size of a softball.  Extremely nutritious, but "
+"incredibly gross."
+msgstr "一顆跟壘球一樣大的白色螞蟻蛋。含有豐富的營養，但是很噁。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "spider egg"
+msgstr "蜘蛛卵"
+
+#. ~ Description for spider egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fist-sized egg from from a giant spider.  Incredibly gross."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "roach egg"
+msgstr ""
+
+#. ~ Description for roach egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fist-sized egg from from a giant roach.  Incredibly gross."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "insect egg"
+msgstr ""
+
+#. ~ Description for insect egg
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A fist-sized egg from from a locust."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "razorclaw roe"
+msgstr "利爪怪魚子"
+
+#. ~ Description for razorclaw roe
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A clump of razorclaw eggs.  A post-cataclysm delicacy."
+msgstr "一叢利爪怪的卵。大災變後的美味佳餚。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "roe"
+msgstr ""
+
+#. ~ Description for roe
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Common roe from an unknown fish."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "first aid kit"
@@ -29673,6 +29626,16 @@ msgstr[0] "折疊網籃"
 msgid "A large wire basket from a shopping cart, modified to be foldable."
 msgstr "一個從購物車拆下來的大型網籃，被改造成可折疊式。"
 
+#: lang/json/GENERIC_from_json.py
+msgid "bike basket"
+msgid_plural "bike baskets"
+msgstr[0] ""
+
+#. ~ Description for bike basket
+#: lang/json/GENERIC_from_json.py
+msgid "A simple bike basket. It is small and foldable."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "wooden frame"
 msgid_plural "wooden frames"
@@ -33660,6 +33623,17 @@ msgid ""
 "compatible revolver."
 msgstr ""
 
+#: lang/json/MAGAZINE_from_json.py
+msgid ".38 Special speedloader"
+msgstr ""
+
+#. ~ Description for .38 Special speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 6 rounds of .38 Special and quickly reload a "
+"compatible revolver."
+msgstr ""
+
 #: lang/json/MOD_INFO_from_json.py src/color.cpp src/color.cpp
 msgid "default"
 msgstr "預設"
@@ -34241,107 +34215,6 @@ msgid ""
 msgstr "地獄般的的恐怖人形怪物。約兩層樓高，它的臉部扭曲的延伸出去，四肢變形，面目全非。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "giant ant"
-msgstr "巨蟻"
-
-#. ~ Description for giant ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An enormous red ant covered in chitinous plates.  It possesses a pair of "
-"wriggling antennae and vicious-looking mandibles."
-msgstr "一隻全身甲殼的紅色螞蟻。牠有一對扭動的觸角與有毒的下顎。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant acidic ant"
-msgstr ""
-
-#. ~ Description for giant acidic ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
-"at the tip.  Glistening liquid seems to drip out periodically."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "acidic ant larva"
-msgstr ""
-
-#. ~ Description for acidic ant larva
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A squirming yellow grub that seems to be oozing liquid from both ends of its"
-" body.  It appears its chitin hasn't developed enough to resist acid."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "acidic queen ant"
-msgstr ""
-
-#. ~ Description for acidic queen ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
-"seems developed only for egg-laying rather than spraying acid like the rest "
-"of the colony, but it doesn't seem affected by the acrid liquid either."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "acidic soldier ant"
-msgstr ""
-
-#. ~ Description for acidic soldier ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A massive woolly brown ant that towers over the worker ants with a giant "
-"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
-"the end of its bloated abdomen."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "fungal ant"
-msgstr "真菌蟻"
-
-#. ~ Description for fungal ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely "
-"held together by coils of fungus erupting from every joint in its body."
-msgstr "這個巨蟻呈現蒼白的灰色，其全身甲殼是由寄生的真菌所撐著的。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "ant larva"
-msgstr "螞蟻幼蟲"
-
-#. ~ Description for ant larva
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A pulsating sausage of glistening white flesh, the size of a large cat.  On "
-"one end is a set of squirming mouth parts."
-msgstr "一條有脈動的白色血肉，大小與大貓的尺寸相仿。在一端有著蠕動的口器。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "queen ant"
-msgstr "蟻后"
-
-#. ~ Description for queen ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A colossal red ant with a bulging, bloated thorax.  It moves slowly and "
-"deliberately, tending to nearby eggs and continually laying more."
-msgstr "這種螞蟻有一個長而臃腫的胸腔。移動很緩慢並且會產下許多的卵。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "soldier ant"
-msgstr "兵蟻"
-
-#. ~ Description for soldier ant
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A huge and hairy red ant almost twice the size of other giant ants.  Bulging"
-" pincers extend from its jaws."
-msgstr "體型幾乎是其他巨蟻兩倍大的毛茸茸紅蟻。從它的下顎伸出了粗壯的鉗子。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "bat"
 msgstr "蝙蝠"
 
@@ -34352,18 +34225,6 @@ msgid ""
 " in caves and other hollows, and uses a form of echolocation to aerially "
 "navigate through tricky terrain at rapid speeds."
 msgstr "夜行蝙蝠的一種，一種群居性的吃昆蟲的有翅哺乳類。其棲息於洞窟或凹地，利用超音波來進行定位，同時夠在錯綜複雜的地形快速的飛行。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "bear"
-msgstr "熊"
-
-#. ~ Description for bear
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The American black bear.  A large omnivorous scavenger, it has powerful "
-"claws and jaws, and is an effective ambush hunter.  It can pose a "
-"considerable threat, although most individuals are shy around humans."
-msgstr "美國黑熊。大型的雜食性動物，擁有強力的爪子與下顎，是個有效率的伏擊狩獵者。雖然可能是個威脅，但實際上大部分的個體都不太會主動靠近人類。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "Smoky bear"
@@ -34377,30 +34238,6 @@ msgid ""
 msgstr "這隻曾經驕傲的熊只剩下煙霧外表。它的黑眼注視著你...帶著惡意和飢餓。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "beaver"
-msgstr "河狸"
-
-#. ~ Description for beaver
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The North American beaver, the continent's largest rodent.  Its paddle-"
-"shaped tail helps ferry it through the water, and its prominent teeth can "
-"chew through wood, which it uses to build dam-like nests in lakes and "
-"streams."
-msgstr "北美的河狸，陸地上最大的囓齒動物。其槳形的尾巴，能在水中擺動前進，突出的牙齒能夠咬斷木頭，並且能夠用來在水流中建造類似水壩的巢。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant bee"
-msgstr "巨蜂"
-
-#. ~ Description for giant bee
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"With a stinger the size of a kitchen knife, this dog-sized insect's black "
-"and yellow markings warn you to leave it undisturbed."
-msgstr "帶著菜刀大小的刺針，這隻跟狗一樣大的昆蟲有著黑黃相間的條紋警告你別靠近。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "scarred zombie"
 msgstr "疤面殭屍"
 
@@ -34410,29 +34247,6 @@ msgid ""
 "A deformed human body, its skin has been transformed into one thick, "
 "calloused envelope of scar tissue."
 msgstr "一個畸形的人類身體，其皮膚已經轉變成類似於傷疤的厚厚組織。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "biollante"
-msgstr "植物獸"
-
-#. ~ Description for biollante
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A drooped, quivering plant with a thick stalk adorned by a purple flower.  "
-"Its petals are closed, and pulsate ominously."
-msgstr "厚實的莖上有紫色的花。花瓣是閉合的，並且有令人不安的搏動。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "black rat"
-msgstr "黑鼠"
-
-#. ~ Description for black rat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The black rat, an omnivorous rodent with sheer black fur and a long, rough "
-"tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm "
-"over the dead or dying."
-msgstr "這隻黑鼠是一種雜食性動物，有著黑色毛皮與長長粗粗的尾巴。瘟疫、饑荒的帶原者，有時候會對著屍體或瀕死之人蜂擁而上。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "blank body"
@@ -34503,17 +34317,6 @@ msgid ""
 msgstr "這個可憐的受害者在不久前被折磨至死。並且被鐵鍊拴著，皮膚破爛斑駁的被扒下，漂浮在血泊之中。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "bobcat"
-msgstr "山貓"
-
-#. ~ Description for bobcat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A spotted wild cat living across much of North America.  It is not a serious"
-" threat to humans, but it can be aggressive if not left alone."
-msgstr "大部分棲息於北美洲的斑點野貓。雖然對人類不太構成威脅，但是可能會群體攻擊。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "boomer"
 msgstr "嘔吐者"
 
@@ -34571,29 +34374,6 @@ msgstr ""
 "身體是機器，大腦卻是人類的。各種電線和裝置被植入了那顆大腦，它的人工皮膚不是損壞就是爛掉了，它漫無目的的行者著，從眼神中看得出來它已經發瘋了。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "cat"
-msgstr "貓"
-
-#. ~ Description for cat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small domesticated predator gone feral in the absence of human "
-"stewardship.  Harried by the elements and the rigors of survival, it is "
-"scruffy and skittish."
-msgstr "恢復野性的小型食肉獵食動物。受到了生存的嚴重考驗後，變得邋遢且膽怯。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant centipede"
-msgstr "巨大蜈蚣"
-
-#. ~ Description for giant centipede
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A meter-long centipede with a menacing pair of pincers, moving swiftly on "
-"dozens of spindly legs."
-msgstr "一米長的蜈蚣，能利用數隻小腳迅速移動，一對毒鉗連接在它的頭部。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "charred nightmare"
 msgstr "焦黑夢魘"
 
@@ -34603,19 +34383,6 @@ msgid ""
 "Intense radiation has spurred a unique form of necrosis and regeneration, it"
 " is impossible to tell if this creature was ever human."
 msgstr "強烈的輻射產生的壞疽與復原的痕跡賦予這個生物特殊的外表，這個生物是不是曾經是人類，很難說。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "chicken"
-msgstr "雞"
-
-#. ~ Description for chicken
-#. ~ Description for chicken chick
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A domesticated descendant of junglefowl, it may still be the most numerous "
-"bird in the world.  Before the Cataclysm, it was raised by humans as a "
-"source of meat, eggs, and early morning wakeup calls."
-msgstr "一個被馴化的原雞，可能仍然是世界上數量最多的鳥類了。在災變前，是人類飼養的肉類、蛋、與每天早上的鬧鐘。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "chicken walker"
@@ -34632,18 +34399,6 @@ msgid ""
 msgstr ""
 "Northrup "
 "ATSV是大型、重裝甲、有一對膝蓋後彎雙腳的武裝機器人，配備一組40mm的反車輛榴彈砲、5.56mm的人員殺傷機槍，並能讓自己通電來對付攻擊者，它是一個效率極高的自動化哨兵，但因為它有合法性的爭議，製造的數量並不多。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "chipmunk"
-msgstr "花栗鼠"
-
-#. ~ Description for chipmunk
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped"
-" coat.  It spends much of the day patrolling its elaborate burrow and the "
-"precious stores of foraged food within."
-msgstr "生活在美國和加拿大的東部的花栗鼠，這個小型的雜食性囓齒動物具有特別的條紋。他的習性會整天巡邏其精心製作的洞穴以及小心的存放食物。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "C.H.U.D."
@@ -34673,50 +34428,6 @@ msgstr ""
 "許多型號的其中一種裝甲執法機器人，在文明崩潰前不久才採用的。就像其他許多的機器人一樣是使用太陽能驅動的，它保持了執法的程序，並且利用三輪移動。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "cougar"
-msgstr "美洲獅"
-
-#. ~ Description for cougar
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Eastern cougar, a large feline predator.  Once thought extinct in this "
-"region, conservation efforts were successful in restoring a thriving "
-"population."
-msgstr "棲息於東部的美洲獅，是一種大型的食肉目貓科動物。一度被認為在本地已經滅絕，經過了保育的工作已經成功的恢復成蓬勃發展的群體。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "cow"
-msgstr "牛"
-
-#. ~ Description for cow
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, "
-"and the males can have a violent streak to accompany their nasty-looking "
-"horns."
-msgstr "美洲野牛，一種壞脾氣的反芻動物。其肌肉相當發達，雄性個體有著可怕的角搭配著條紋。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "coyote"
-msgstr "郊狼"
-
-#. ~ Description for coyote
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Eastern coyote, also called the tweed wolf, is a territorial canine "
-"descended from the offspring of gray wolves and true coyotes.  It is "
-"intimidated by humans and other predators, but will fight if threatened."
-msgstr "東方郊狼，也被稱為花呢狼，是狼與真正的郊狼產生的犬科後裔，很容易被人類或其它掠食者嚇到，但受到威脅時則不同了。"
-
-#. ~ Description for coyote
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Northeastern coyote, a widespread canine pack hunter.  More timid than a"
-" wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker "
-"prey."
-msgstr "東北郊狼，廣泛分布的犬科獵手，比狼更膽小，偏好伺機狩獵弱小的獵物。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "crawler"
 msgstr "爬行怪"
 
@@ -34726,37 +34437,6 @@ msgid ""
 "A conglomeration of human parts fused together in a horrible mishmash of "
 "function, slowly dragging its eldritch body across the ground."
 msgstr "由許多人體組織交雜融合在一起的噁心形體，緩慢的在地面拖行著他們的厚皮與猙獰的軀體。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "creeper hub"
-msgstr "變種藤蔓中樞"
-
-#. ~ Description for creeper hub
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A thick stalk, rooted to the ground.  It rapidly sprouts thorny vines in all"
-" directions."
-msgstr "厚實的植物莖紮根到地面。有棘刺的藤蔓往四面八方迅速生長。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "creeper vine"
-msgstr "變種藤蔓莖"
-
-#. ~ Description for creeper vine
-#: lang/json/MONSTER_from_json.py
-msgid "A thorny vine, twisting wildly as it grows with incredible speed."
-msgstr "厚實的植物莖。因為生長的速度快，而瘋狂的扭曲纏繞。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "crow"
-msgstr "烏鴉"
-
-#. ~ Description for crow
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small, elegant black bird, famous for its distinctive call.  An "
-"intelligent bird, there is a glitter of mischief behind its eyes."
-msgstr "優雅的小黑鳥，叫聲奇特、聰明伶俐，眼神透露出想惡作劇的淘氣感。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "dark wyrm"
@@ -34782,17 +34462,6 @@ msgid ""
 msgstr "一個巨大的陰影，毫無規則的變換形狀與體積，從陰影中透出兩道光，大概就是他的頭吧。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "deer"
-msgstr "鹿"
-
-#. ~ Description for deer
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The northern woodland white-tailed deer, a quick and strong grazing animal."
-"  Favored prey of coyotes, wolves, and giant spider mutants."
-msgstr "棲息在北方森林的白尾鹿，靈敏健壯的草食動物，是郊狼、狼群、巨大蜘蛛變異體喜愛的獵物。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "dementia"
 msgstr "瘋狂者"
 
@@ -34804,39 +34473,6 @@ msgid ""
 msgstr "一個瘋狂的人，他們剃光頭的兩側有許多血洞。已被進行某種形式的前腦葉白質切除術。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "dermatik"
-msgstr "變異蜂"
-
-#. ~ Description for dermatik
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding "
-"from the abdomen."
-msgstr "一隻變種的黃蜂，大約貓的大小。其蜂刺中帶有產卵器。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "dermatik larva"
-msgstr "變異蜂幼蟲"
-
-#. ~ Description for dermatik larva
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A fat white grub as big as a squirrel, with a pair of large, spadelike "
-"mandibles."
-msgstr "大約松鼠大小的肥胖蟲子，有著一對大如鏟子的下顎。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "dog"
-msgstr "狗"
-
-#. ~ Description for dog
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"With mangy fur and hungry eyes, it's clear that this once domesticated dog "
-"has gone feral."
-msgstr "伴隨著汙穢的毛皮與飢餓的眼神，很明顯，這隻曾被馴養的狗兒已經恢復了野性。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "skeletal dog"
 msgstr "骷髏犬"
 
@@ -34846,6 +34482,10 @@ msgid ""
 "This canines see-through thin, black veined and scab riddled skin, is "
 "tightly compressed around its skeletal frame."
 msgstr "這個犬科動物瘦到能看穿身體，上面滿是滲出黑色液體的傷疤，皮膚緊緊的貼著骨頭。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "dog"
+msgstr "狗"
 
 #. ~ Description for dog
 #: lang/json/MONSTER_from_json.py
@@ -34875,29 +34515,6 @@ msgid ""
 "Acrid smell accompanies this corpse of canine.  Its whole body is covered in"
 " chains of pulsing cysts and slime dribbling ulcers."
 msgstr "刺鼻的氣味籠罩著這具犬類腐屍。它全身都佈滿了脈動的囊腫，從中滴下粘稠的潰瘍膿汁。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant dragonfly"
-msgid_plural "giant dragonflies"
-msgstr[0] "巨大蜻蜓"
-
-#. ~ Description for giant dragonfly
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A ferocious mutant dragonfly as big as a cat, darting through the air with a"
-" cluster of fangs for a mouth."
-msgstr "兇猛的空降捕食者，能在空中快速飛行，嘴巴是一組銳利的獠牙。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "duck"
-msgstr "鴨子"
-
-#. ~ Description for duck
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mallard duck, often seen around rivers and other bodies of water.  It "
-"feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps."
-msgstr "一隻綠頭鴨，於河流或其他水體附近很常見。主要以昆蟲，種子，植物的根為食，在災變之前還有麵包屑。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "eyebot"
@@ -34947,18 +34564,6 @@ msgid ""
 msgstr "一個巨大、修長而可怕的人，沒有任何皮膚在其肌肉上。從他的背後長出肉質的翅膀，並且在額頭上有著第三隻眼。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "giant fly"
-msgid_plural "giant flies"
-msgstr[0] "巨蠅"
-
-#. ~ Description for giant fly
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A tremendous housefly the size of a small dog, predictably accompanied by a "
-"loud, incessant buzzing sound."
-msgstr "一支蒼蠅有著小狗的大小。嗡嗡作響的不停飛舞。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "flying polyp"
 msgstr "飛天水螅"
 
@@ -34970,36 +34575,6 @@ msgid ""
 msgstr "一個不定形的黑色扭曲肉塊，在空中快速的飛行。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "fox"
-msgid_plural "foxes"
-msgstr[0] "狐狸"
-
-#. ~ Description for fox
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small omnivorous canine with an almost cat-like manner.  It is a solitary "
-"hunter, and one of the only canids able to climb trees."
-msgstr "一隻小型的雜食性犬科動物，長得像貓。是個孤獨的狩獵者，並且也是唯一一種能夠爬樹的犬科動物。"
-
-#. ~ Description for fox
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The red fox, an omnivorous canine and largest of the true foxes, it is a "
-"wily hunter with a combative, suspicious temperament."
-msgstr "紅狐狸，一種犬科動物，並且是狐狸中最大型的。牠是一個狡猾且好鬥的狩獵者。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant frog"
-msgstr "巨大青蛙"
-
-#. ~ Description for giant frog
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutated bullfrog taller than you are.  It stares with amber eyes as it "
-"considers the easiest way to swallow you whole."
-msgstr "一隻綠色厚皮的青蛙。它把你當做蟲子，能夠簡單的把你吞下。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "fungal blossom"
 msgstr "真菌蓋"
 
@@ -35009,18 +34584,6 @@ msgid ""
 "A broad fungus, looking much like a glowing blue sunflower.  It appears to "
 "emit finer spores than the typical fungal emission."
 msgstr "一個巨大的真菌生態，看起來比較像是發出藍光的向日葵，它所散發出的胞子似乎比普通的真菌更多。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "fungal fighter"
-msgstr "真菌鬥士"
-
-#. ~ Description for fungal fighter
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A stout woody plant that can dig through the ground and flick spines from "
-"its branches.  The thorns carry a fungicidal compound with paralytic "
-"effects."
-msgstr "一個粗壯的木本植物，能夠挖穿地面並且從它的樹枝射出尖刺。荊棘附帶了具麻痺效果的殺菌化合物。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal hedgerow"
@@ -35116,19 +34679,6 @@ msgid ""
 msgstr "長達幾英尺高的真菌莖。從主幹堅韌的皮長出了一對可怕的卷鬚，移動速度比大型的食人蕈快。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "sewer gator"
-msgstr "水道短吻鱷"
-
-#. ~ Description for sewer gator
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"In the late 20th century there was an urban legend about pet alligators "
-"getting flushed down the toilet and growing to adulthood in sewers.  This "
-"large specimen doesn't look like it is used to humans as anything other than"
-" a meal."
-msgstr "在二十世紀後期曾經有一個關於短吻鱷被馬桶沖走並於下水道成長至成年期的都巿傳說。人類在這個大傢伙眼中看來像是食物。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "amoebic mold"
 msgstr "阿米巴黏菌"
 
@@ -35148,24 +34698,6 @@ msgstr "發電機"
 msgid ""
 "Your precious generator, noisily humming away.  Defend it at all costs!"
 msgstr "你最珍惜的發電機，發出嗡嗡的噪音。不惜代價保護它！"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant cockroach"
-msgstr "巨型蟑螂"
-
-#. ~ Description for giant cockroach
-#: lang/json/MONSTER_from_json.py
-msgid "A mutant cockroach the size of a small dog."
-msgstr "跟小狗一樣大的異變蟑螂。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant cockroach nymph"
-msgstr "巨型蟑螂的蛹"
-
-#. ~ Description for giant cockroach nymph
-#: lang/json/MONSTER_from_json.py
-msgid "A baby mutant cockroach about the size of a rat."
-msgstr "跟老鼠一樣大的異變蟑螂嬰兒。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant crayfish"
@@ -35213,17 +34745,6 @@ msgid ""
 msgstr "一個怪異的生物，一直隨機變換，其手掌抽搐的速度快到讓你看不見實體。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "groundhog"
-msgstr "土撥鼠"
-
-#. ~ Description for groundhog
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"Also known as the woodchuck, this ground squirrel has no actual talent for "
-"chucking wood."
-msgstr "同時也稱作旱獺，這種平地的松鼠科動物並沒有跟樹木關係密切。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "half worm"
 msgstr "半蟲"
 
@@ -35249,17 +34770,6 @@ msgstr "邪惡的大同電鍋"
 #: lang/json/MONSTER_from_json.py
 msgid "The multi-cooker's got a mind of its own!  Look out!"
 msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "jackrabbit"
-msgstr "野兔"
-
-#. ~ Description for jackrabbit
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The snowshoe hare, a small grass-eater with a brown fur coat that changes to"
-" white in the wintertime."
-msgstr "這種兔子，是一種有著棕色皮毛的草食動物，並且會在冬天時換毛成白色。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "cleaner bot"
@@ -35303,17 +34813,6 @@ msgid ""
 "A pale hairless man with an impressive athletic physique.  Its lidless eyes "
 "are totally black, and seeping with blood."
 msgstr "一個完美身形的純白色人體。它的眼睛是完全黑色，並且有血液的眼淚從中流出。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "horse"
-msgstr "馬"
-
-#. ~ Description for horse
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-"
-"looking muscles."
-msgstr "一隻有蹄的哺乳動物，額、頸上有長鬃，尾有長毛，四肢強健。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "human snail"
@@ -35373,20 +34872,6 @@ msgid ""
 msgstr "一個小型機器人，尺寸像狗一樣，纏繞著紅色的血肉與漲大的脖子。它會在地上到處跑，喘氣，發出呼嚕聲。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "lemming"
-msgstr "旅鼠"
-
-#. ~ Description for lemming
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Northern bog lemming, a small, predominantly vegetarian rodent that "
-"spends its life in the murk of swamps and other wetlands.  Contrary to "
-"popular belief, these creatures are not particularly hapless or suicidal, "
-"but they can eat themselves into scarcity within a few generations."
-msgstr ""
-"在北美活動的沼澤旅鼠，是一種群居的草食性小型囓齒動物，終其一生在沼澤和其他濕地生活。出乎意料的，這種生物在近代並不會自殺，卻反而會在食物匱乏時自相殘殺。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "mi-go"
 msgstr "米戈"
 
@@ -35397,18 +34882,6 @@ msgid ""
 " clawed tentacles, and star-shaped growths, with a head like the insides of "
 "a fish but for its dire utterance."
 msgstr "一個長得像巨型螃蟹的扭曲怪物，有著無數的附肢爪，像魚內臟的頭部長了許多觸角，並且會發出可怕的話語。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "mink"
-msgstr "貂"
-
-#. ~ Description for mink
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The American mink, a partially-aquatic weasel, once factory-farmed for its "
-"fur.  It is a capable fisher, but the presence of otters in these parts "
-"makes it rely more on food from the land."
-msgstr "美洲貂，一種半水棲的鼬鼠，曾經有工廠為了其毛皮進行培育。牠是個捕魚好手，但是水獺的存在迫使牠們必須更常從陸地上捕食。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "miner bot"
@@ -35422,55 +34895,6 @@ msgid ""
 msgstr "一個似蛇的機器人，設計用來鑽入地底引爆地雷的用途。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "moose"
-msgstr "駝鹿"
-
-#. ~ Description for moose
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Eastern moose, the largest living species of deer.  The bulls are quite "
-"ill-tempered, especially in the rutting season."
-msgstr "東部駝鹿，是世界上最大的鹿科動物。大部分脾氣都不好，特別是發情期。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant mosquito"
-msgstr "巨大蚊子"
-
-#. ~ Description for giant mosquito
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An enormous mutant mosquito, fluttering erratically.  Its face is dominated "
-"by a long, spear-tipped proboscis."
-msgstr "一隻飛舞的巨大突變蚊子，臉上有一根長矛狀的口器。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "muskrat"
-msgstr "麝香鼠"
-
-#. ~ Description for muskrat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A large omnivorous rodent with a thick furry pelt, found in wetlands across "
-"the northern hemisphere.  It marks its territory with a musky odor for which"
-" it is named."
-msgstr "有著厚實的毛茸茸皮毛的大型雜食性囓齒動物，能在北半球的溼地發現。會利用其麝香氣味劃分地盤而聞名。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "gigantic naked mole-rat"
-msgstr "巨大原生鼴形鼠"
-
-#. ~ Description for gigantic naked mole-rat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
-"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
-" as a pair of incisors the size of an industrial excavator's buckets gnash "
-"constantly and several car-length whiskers twitch at the air.  It regularly "
-"makes high-pitched chirps as it roams around."
-msgstr ""
-"一頭巨大，打鬧的巨大異變皺紋堆，近乎透明的皮膚因不斷挖掘地道而變得堅韌。牠的毛皮長滿疥癬，一對大得像工業用挖掘機的鏟斗的門牙不斷地撕咬，幾條像車般長的鬍鬚在半空抽動。牠在徘徊時會有規律地發出高音的啁啾聲。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "cyclopean"
 msgstr "獨眼巨人"
 
@@ -35482,42 +34906,6 @@ msgid ""
 msgstr "一個突變種人形，有著紫色的毛髮與有如柚子大佈滿血絲的獨眼。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "opossum"
-msgstr "負鼠"
-
-#. ~ Description for opossum
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Virginia opossum, a small omnivorous marsupial native to North America."
-"  About the size of a cat, it is hardy and adaptive, and a fairly common "
-"sight in urban areas."
-msgstr "維吉尼亞負鼠，一種小型的雜食性有袋動物，原產於北美。體型約貓的大小，耐寒，適應性高，在城市地區相當常見。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "otter"
-msgstr "水獺"
-
-#. ~ Description for otter
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The North American river otter is a shy water dwelling relative of the "
-"weasel living in large families along the banks of streams.  It is an "
-"excellent fisher and a resourceful survivor, using the abandoned dens of "
-"beavers and other animals to raise its own young."
-msgstr "北美水獺是一個害羞的水棲鼬鼠群聚生活在溪流的沿岸。是一個捕魚好手也是聰明的生存者，會利用河狸的廢棄水壩或其他動物來扶養自己的小孩。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "pig"
-msgstr "豬"
-
-#. ~ Description for pig
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A domesticated omnivore descended from the wild boar, intelligent and "
-"inquisitive.  Left to its own devices, it has gone feral."
-msgstr "一個被訓養的雜食性動物，野豬的後代，聰明又好奇。自從無人餵食後，已經野性化了。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "slimespring"
 msgstr "黏液蛞蝓"
 
@@ -35525,74 +34913,6 @@ msgstr "黏液蛞蝓"
 #: lang/json/MONSTER_from_json.py
 msgid "A familiar-looking blob of goo.  It sprouts the occasional eyestalk."
 msgstr "看起來有點像是黏液球，上面加了一隻像蝸牛一樣的眼睛。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "pregnant giant cockroach"
-msgstr "懷孕的巨型蟑螂"
-
-#. ~ Description for pregnant giant cockroach
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutant cockroach the size of a small dog.  It's abdomen is heavily "
-"swollen."
-msgstr "跟小狗一樣大的異變蟑螂。它的腹部非常腫脹。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "rabbit"
-msgstr "兔子"
-
-#. ~ Description for rabbit
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small mammal with a cute wiggling nose, cotton tail, and made of delicious"
-" flesh."
-msgstr "一個擺動鼻子，棉花尾巴的可愛生物，同時肉也很好吃。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "raccoon"
-msgstr "浣熊"
-
-#. ~ Description for raccoon
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small mammal native to North America, distinctive for its dexterous paws "
-"and facial markings.  It is resourceful and agile enough to open sealed "
-"containers with its paws."
-msgstr "原產於北美洲的一種小型哺乳動物，其特點為靈巧的爪子和臉部斑紋。相當聰明靈活，能用它的爪子打開密封的容器。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "rat king"
-msgstr "鼠王"
-
-#. ~ Description for rat king
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A towering swarm of mutated rats, their tails knotted together in a filthy "
-"mass.  A fetid stench flows from its filthy presence."
-msgstr "一群變異老鼠，尾巴揉結在一起形成一個骯髒的肉團。散發出強烈的惡臭。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "rattlesnake"
-msgstr "響尾蛇"
-
-#. ~ Description for rattlesnake
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The timber rattlesnake is the most venomous viper native to New England.  "
-"Climatic changes have extended its range far into the north."
-msgstr "源自新英格蘭的木紋響尾蛇是一種最毒的毒蛇。由於氣候的變遷，在北方也可以看到牠的足跡。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant rattlesnake"
-msgstr "巨大響尾蛇"
-
-#. ~ Description for giant rattlesnake
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A mutated timber rattlesnake, about three times as large as the norm.  While"
-" it isn't big enough to regard humans as potential prey, it is more "
-"aggresive and dangerous compared to a normal rattler."
-msgstr "突變的森林響尾蛇，約為標準的三倍大小。雖然它還未大到足以把人類當成獵物，它比普通響尾蛇更具侵略性和危險。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "razorclaw"
@@ -35621,40 +34941,6 @@ msgstr ""
 "不使用暴力的機器人，當初是設計用來弭平暴動，並且逮捕滋事者，雖然它最著名的武器是「放鬆氣體」，但它還是攜帶了閃光彈與低殺傷力的電擊槍以保護自己，此外它還配備了電子手銬。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "seweranha"
-msgstr "水道食人魚"
-
-#. ~ Description for seweranha
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A large mutant variety of carp.  It has shimmering green scales and a mouth "
-"lined with three jagged rows of razor-sharp teeth."
-msgstr "一隻綠色且巨大的變種魚，嘴裡長了三排鋒利的牙齒。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "sewer rat"
-msgstr "溝鼠"
-
-#. ~ Description for sewer rat
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks "
-"makes it sound...  hungry."
-msgstr "有著像蟲一般尾巴與長鬍鬚小眼睛的囓齒動物。牠急促的吱吱聲聽起來...餓了。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "sewer snake"
-msgstr "水道蛇"
-
-#. ~ Description for sewer snake
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An aggressive mutant variety of the worm snake, turned pale yellow from its "
-"underground life.  It swarms beneath the ground and is named for its habit "
-"of infesting sewer lines."
-msgstr "一個攻擊性強的突變蛇，因地下生活而呈現淡黃色。它的名稱由來是因為它盤據在地底的習性。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "shadow"
 msgstr "暗影怪"
 
@@ -35671,19 +34957,6 @@ msgstr "暗影蛇"
 #: lang/json/MONSTER_from_json.py
 msgid "A translucent black snake, long and fearsome looking."
 msgstr "一條巨大的蛇，呈現半透明的黑色。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "sheep"
-msgid_plural "sheep"
-msgstr[0] "綿羊"
-
-#. ~ Description for sheep
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A timid, hooved grazing mammal, and one of the first animals ever "
-"domesticated, its body is covered in a thick layer of wool, and the males "
-"have long, spiralling horns."
-msgstr "一個膽小的有蹄哺乳動物，是一種先被訓養的動物之一，其身體覆蓋了一層厚厚的羊毛，雄性還有螺旋狀的長角。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "Shia LaBeouf"
@@ -35765,106 +35038,6 @@ msgid ""
 msgstr "一隻變種的豹紋蛞蝓，大約像高爾夫球車寬。它的毒牙滴下毒液，緩慢的前進，沿路留下了黏液痕。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "giant cellar spider"
-msgstr "巨大地窖蜘蛛"
-
-#. ~ Description for giant cellar spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A twitchy mutant brown spider, with a relatively small body and spindly long"
-" legs.  Its smaller brethren are known for being agile, and for preying upon"
-" other spiders."
-msgstr "一隻突然異變的棕色遁蛛，有一個相對較小的身體和細長的腳。異變前的品種是因靈敏，並會獵食其他蜘蛛而聞名。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "immature giant cellar spider"
-msgstr "幼年期巨大地窖蜘蛛"
-
-#. ~ Description for immature giant cellar spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A newly-hatched giant cellar spider.  Too small to possess much venom, but "
-"still quick and agile like an adult."
-msgstr "一隻剛孵化的巨大地窖蜘蛛。太小隻沒有多少毒液，但已經和成蟲一樣快速敏捷。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant jumping spider"
-msgstr "巨大跳蛛"
-
-#. ~ Description for giant jumping spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A giant spider with big forelegs and two pairs of inquisitive-looking eyes."
-"  It can leap quite quickly, even into the treetops."
-msgstr "有著粗大前肢的巨大蜘蛛，有著兩對好奇的眼睛。能夠快速的跳躍，甚至直接跳到樹上。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant trapdoor spider"
-msgstr "巨大暗門蜘蛛"
-
-#. ~ Description for giant trapdoor spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A gigantic spider with a bulbous thorax.  It digs a deep underground burrow "
-"that serves as a pit to trap unwary prey."
-msgstr "一個有著球形腹部的巨大蜘蛛。它會挖出很深的地下洞穴等著粗心的獵物掉進來。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant web spider"
-msgstr "巨大網蛛"
-
-#. ~ Description for giant web spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A giant mutated grass spider, it waits for prey to become ensnared in the "
-"vast webs that it weaves between the trees."
-msgstr "一個變種的巨大蜘蛛，它會在樹林間織網，靜待獵物上門。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "immature giant web spider"
-msgstr "幼年期巨大網蛛"
-
-#. ~ Description for immature giant web spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A still immature giant grass spider.  Too young to be venomous, or to walk "
-"proficiently for that matter"
-msgstr "一隻靜止不動的大蜘蛛，因為尚未發育完全，所以還沒有毒液，也無法很熟練的移動。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant black widow"
-msgstr "巨大黑寡婦蜘蛛"
-
-#. ~ Description for giant black widow
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A giant mutated black widow spider.  A highly venomous nightmare come to "
-"life."
-msgstr "一個巨大的變種黑寡婦蜘蛛。劇毒的噩夢來襲了。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant black widow spiderling"
-msgstr "巨大黑寡婦幼蛛"
-
-#. ~ Description for giant black widow spiderling
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The horrid spawn of a giant black widow spider.  Even as a newborn, this "
-"foul creature knows only how to kill."
-msgstr "由可怕的巨大黑寡婦蜘蛛所生。雖然剛出生不久，這隻邪惡的生物什麼都不知道，只知道殺戮。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant wolf spider"
-msgstr "巨大狼蛛"
-
-#. ~ Description for giant wolf spider
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A wolf spider mutated to about thirty times its normal size, it moves "
-"quickly and aggressively to catch and consume prey."
-msgstr "突變狼蛛，為普通狼蛛的三十倍大小，移動迅速且富有攻擊性。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "spore cloud"
 msgstr "孢子霧"
 
@@ -35872,26 +35045,6 @@ msgstr "孢子霧"
 #: lang/json/MONSTER_from_json.py
 msgid "A mass of spores the size of a balled fist, wafting around in the air."
 msgstr "一團孢子聚集成拳頭大的霧氣，飄蕩在空中。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "squirrel"
-msgstr "松鼠"
-
-#. ~ Description for squirrel
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small granivorous rodent with a long bushy tail, often seen darting amid "
-"the branches of trees.  A skittish varmint with an expression of unwavering "
-"austerity, it is the mortal enemy of cat and dog alike."
-msgstr "一隻有著長長像毛刷尾巴的囓齒類動物，常常會見到牠們在樹林間穿梭。一個冰雪聰明的可愛小壞蛋，跟貓狗是死對頭。"
-
-#. ~ Description for squirrel
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A tiny opportunistic rodent with a long bushy tail.  The pine squirrel is "
-"clever and cute, and hunted by nearly everything in the woods with a taste "
-"for meat."
-msgstr "一隻有著長長像毛刷尾巴的囓齒類動物，松鼠聰明又可愛，幾乎會被森林中的所有生物所獵食。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "tank drone"
@@ -35919,52 +35072,6 @@ msgid ""
 msgstr "一種無定形的黑色生物，其伸出的觸手迅速的扭動著。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "triffid"
-msgstr "食人樹"
-
-#. ~ Description for triffid
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A creeping animate plant, growing as tall as a moose.  It has a single bark-"
-"covered stalk supporting a flowery head with a paralyzing sting concealed "
-"within."
-msgstr "一株植物與你的身高差不多，有著厚實，齒狀的莖，頂部有著花狀的頭部以及尖刺。"
-
-#: lang/json/MONSTER_from_json.py lang/json/overmap_terrain_from_json.py
-msgid "triffid heart"
-msgstr "食人樹心臟"
-
-#. ~ Description for triffid heart
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A knot of tubular roots, flowing with sap and beating like a heart.  Strands"
-" of vascular tissue reach out to the surrounding root walls."
-msgstr "一個看起來很詭異的心臟樣貌的東西。它緩慢的搏動，並供給能量給予圍繞在其上的植根牆。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "triffid queen"
-msgstr "食人樹王后"
-
-#. ~ Description for triffid queen
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A ponderous and particularly arborescent triffid.  It has enormous red "
-"petals surrounded by a haze of spores, and two thick barbed vines stick out "
-"from the stems like wary harpoons."
-msgstr "一棵笨重且樹枝特化的食人樹。擁有圍繞著孢子霧的巨大紅色花朵，以及伸出一對像魚叉一樣粗壯的刺藤莖。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "triffid sprout"
-msgstr "食人樹幼苗"
-
-#. ~ Description for triffid sprout
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A small triffid, only a few feet tall.  It has not yet developed bark, but "
-"its sting is still sharp and deadly."
-msgstr "一株小型的食人樹，只有幾呎高。莖齒的部份還沒發育完全，但是很刺且鋒利，被咬到還是很致命。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "tribot"
 msgstr "三腳機器人"
 
@@ -35975,17 +35082,6 @@ msgid ""
 "it has a trio of spiked retractable cables and a flamethrower mounted on its"
 " head."
 msgstr "本田王國出產的高大機器人，利用三支像蜘蛛的腿進行移動。作為武器，它擁有尖刺的伸縮電纜，在頭上也安裝了火焰噴射器。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "turkey"
-msgstr "火雞"
-
-#. ~ Description for turkey
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A large and colorful game bird native to the forests of North America.  Its "
-"head and beak are covered in fleshy protuberances."
-msgstr "一種大而多彩的鳥，原產於北美洲的森林。它的頭部和嘴披覆著肉質。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "milspec searchlight"
@@ -36011,18 +35107,6 @@ msgid ""
 msgstr "有著人的身體，但是四肢、頸部，以及頭髮卻不可思議地扭曲著。它四處攀爬、動作流暢，發出令人難以忍受的刺耳聲音。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "vine beast"
-msgstr "藤蔓獸"
-
-#. ~ Description for vine beast
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"An animated mass of roots and vines, creeping along the ground with alarming"
-" speed.  The tangle is thick enough that the center from which they grow is "
-"concealed."
-msgstr "以驚人的速度移動的籐蔓，因為籐蔓厚重而糾結，讓你看不出中心有什麼。"
-
-#: lang/json/MONSTER_from_json.py
 msgid "vortex"
 msgid_plural "vortexes"
 msgstr[0] "渦流怪"
@@ -36032,42 +35116,6 @@ msgstr[0] "渦流怪"
 msgid ""
 "A twisting spot in the air, with some kind of morphing mass at its center."
 msgstr "空氣中的一個氣流扭曲點，有某種東西在其中心點。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "giant wasp"
-msgstr "巨黃蜂"
-
-#. ~ Description for giant wasp
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A gigantic slender-bodied wasp with an evil-looking stinger protruding from "
-"its abdomen.  Its exoskeleton glowers with ominous red markings."
-msgstr "一支巨大的昆蟲有著修長的腹部帶著可怕的毒針為其特色。其外骨骼上有著兇狠的紅色標記。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "weasel"
-msgstr "黃鼠狼"
-
-#. ~ Description for weasel
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The long-tailed weasel, a small but ubiquitous predator whose range extends "
-"across the continent.  It forms its den in small burrows, preferring to "
-"occupy the nesting holes of its prey."
-msgstr "長尾巴的黃鼠狼，是一種體型小的獵食者，分布範圍橫跨整個大陸。其身形柔軟，能夠鑽到小洞穴中進行捕食。"
-
-#: lang/json/MONSTER_from_json.py
-msgid "wolf"
-msgid_plural "wolves"
-msgstr[0] "狼"
-
-#. ~ Description for wolf
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A cunning pack predator, once extinct in the New England area, the wolf was "
-"successfully reintroduced and their numbers reached record highs in the "
-"decade before the cataclysm.  Lucky you."
-msgstr "一種狡猾的群聚獵食者，一度在新英格蘭滅絕，在災變前已經成功復育並且數量達到新高。祝你好運。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant worm"
@@ -36677,47 +35725,126 @@ msgid ""
 msgstr "一隻看起來普通的美洲獅，但是它的後腳腫脹，並且從眼睛流出黑色的黏液。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "skittering plague"
-msgstr ""
+msgid "chicken"
+msgstr "雞"
 
-#. ~ Description for skittering plague
-#: lang/json/MONSTER_from_json.py
-msgid "A giant infected roach, it has been feeding on the undead."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "plague nymph"
-msgstr ""
-
-#. ~ Description for plague nymph
-#: lang/json/MONSTER_from_json.py
-msgid "An infected mutant cockroach about the size of a rat."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "plague vector"
-msgstr ""
-
-#. ~ Description for plague vector
+#. ~ Description for chicken
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"This infected roach has been feeding on the undead and started to mutate "
-"chaotically.  Extra limbs and growths sprout from its thorax."
-msgstr ""
+"A domesticated descendant of junglefowl, it may still be the most numerous "
+"bird in the world.  Before the Cataclysm, it was raised by humans as a "
+"source of meat, eggs, and early morning wakeup calls."
+msgstr "一個被馴化的原雞，可能仍然是世界上數量最多的鳥類了。在災變前，是人類飼養的肉類、蛋、與每天早上的鬧鐘。"
 
 #: lang/json/MONSTER_from_json.py
-msgid "triffid sprig"
+msgid "grouse"
 msgstr ""
 
-#. ~ Description for triffid sprig
+#. ~ Description for grouse
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A teeny-tiny triffid that has recently germinated.  Like a house cat, you "
-"know it wants to eat you but it just can't figure out how."
+"A very common game bird, these creatures remind you of what a wild chicken "
+"must have been like."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "chicken chick"
+msgid "crow"
+msgstr "烏鴉"
+
+#. ~ Description for crow
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small, elegant black bird, famous for its distinctive call.  An "
+"intelligent bird, there is a glitter of mischief behind its eyes."
+msgstr "優雅的小黑鳥，叫聲奇特、聰明伶俐，眼神透露出想惡作劇的淘氣感。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "duck"
+msgstr "鴨子"
+
+#. ~ Description for duck
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mallard duck, often seen around rivers and other bodies of water.  It "
+"feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps."
+msgstr "一隻綠頭鴨，於河流或其他水體附近很常見。主要以昆蟲，種子，植物的根為食，在災變之前還有麵包屑。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "goose"
+msgstr ""
+
+#. ~ Description for goose
+#: lang/json/MONSTER_from_json.py
+msgid "A canadian goose, a common waterfowl that regrets leaving Canada."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "turkey"
+msgstr "火雞"
+
+#. ~ Description for turkey
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large and colorful game bird native to the forests of North America.  Its "
+"head and beak are covered in fleshy protuberances."
+msgstr "一種大而多彩的鳥，原產於北美洲的森林。它的頭部和嘴披覆著肉質。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "pheasant"
+msgstr ""
+
+#. ~ Description for pheasant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A medium sized game bird that can have bright feathers depending on the sex "
+"and species."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "cockatrice"
+msgstr ""
+
+#. ~ Description for cockatrice
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This strange mutant bird gains its name from its odd appearance.  Although "
+"its features seem to be becoming more reptilian, it doesn't appear "
+"dangerous."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "yellow chick"
+msgstr ""
+
+#. ~ Description for yellow chick
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tiny yellow and brown chick, it could be from a number of different "
+"species."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "brown chick"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "strange chick"
+msgstr ""
+
+#. ~ Description for strange chick
+#: lang/json/MONSTER_from_json.py
+msgid "A strange tiny chick, it could be from a number of different species."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "waterfowl chick"
+msgstr ""
+
+#. ~ Description for waterfowl chick
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tiny yellow and brown waterfowl chick, it could be from a number of "
+"different species."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -37057,6 +36184,802 @@ msgid ""
 msgstr "如果你可以抓一堆這東西，準備一大鍋煮沸的開水，再配上一些辛辣的調味料......"
 
 #: lang/json/MONSTER_from_json.py
+msgid "seweranha"
+msgstr "水道食人魚"
+
+#. ~ Description for seweranha
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large mutant variety of carp.  It has shimmering green scales and a mouth "
+"lined with three jagged rows of razor-sharp teeth."
+msgstr "一隻綠色且巨大的變種魚，嘴裡長了三排鋒利的牙齒。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "skittering plague"
+msgstr ""
+
+#. ~ Description for skittering plague
+#: lang/json/MONSTER_from_json.py
+msgid "A giant infected roach, it has been feeding on the undead."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague nymph"
+msgstr ""
+
+#. ~ Description for plague nymph
+#: lang/json/MONSTER_from_json.py
+msgid "An infected mutant cockroach about the size of a rat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "plague vector"
+msgstr ""
+
+#. ~ Description for plague vector
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This infected roach has been feeding on the undead and started to mutate "
+"chaotically.  Extra limbs and growths sprout from its thorax."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant cockroach"
+msgstr "巨型蟑螂"
+
+#. ~ Description for giant cockroach
+#: lang/json/MONSTER_from_json.py
+msgid "A mutant cockroach the size of a small dog."
+msgstr "跟小狗一樣大的異變蟑螂。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant cockroach nymph"
+msgstr "巨型蟑螂的蛹"
+
+#. ~ Description for giant cockroach nymph
+#: lang/json/MONSTER_from_json.py
+msgid "A baby mutant cockroach about the size of a rat."
+msgstr "跟老鼠一樣大的異變蟑螂嬰兒。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "pregnant giant cockroach"
+msgstr "懷孕的巨型蟑螂"
+
+#. ~ Description for pregnant giant cockroach
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutant cockroach the size of a small dog.  It's abdomen is heavily "
+"swollen."
+msgstr "跟小狗一樣大的異變蟑螂。它的腹部非常腫脹。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant bee"
+msgstr "巨蜂"
+
+#. ~ Description for giant bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"With a stinger the size of a kitchen knife, this dog-sized insect's black "
+"and yellow markings warn you to leave it undisturbed."
+msgstr "帶著菜刀大小的刺針，這隻跟狗一樣大的昆蟲有著黑黃相間的條紋警告你別靠近。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant centipede"
+msgstr "巨大蜈蚣"
+
+#. ~ Description for giant centipede
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A meter-long centipede with a menacing pair of pincers, moving swiftly on "
+"dozens of spindly legs."
+msgstr "一米長的蜈蚣，能利用數隻小腳迅速移動，一對毒鉗連接在它的頭部。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant dragonfly"
+msgid_plural "giant dragonflies"
+msgstr[0] "巨大蜻蜓"
+
+#. ~ Description for giant dragonfly
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A ferocious mutant dragonfly as big as a cat, darting through the air with a"
+" cluster of fangs for a mouth."
+msgstr "兇猛的空降捕食者，能在空中快速飛行，嘴巴是一組銳利的獠牙。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant fly"
+msgid_plural "giant flies"
+msgstr[0] "巨蠅"
+
+#. ~ Description for giant fly
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tremendous housefly the size of a small dog, predictably accompanied by a "
+"loud, incessant buzzing sound."
+msgstr "一支蒼蠅有著小狗的大小。嗡嗡作響的不停飛舞。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant mosquito"
+msgstr "巨大蚊子"
+
+#. ~ Description for giant mosquito
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous mutant mosquito, fluttering erratically.  Its face is dominated "
+"by a long, spear-tipped proboscis."
+msgstr "一隻飛舞的巨大突變蚊子，臉上有一根長矛狀的口器。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant cellar spider"
+msgstr "巨大地窖蜘蛛"
+
+#. ~ Description for giant cellar spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A twitchy mutant brown spider, with a relatively small body and spindly long"
+" legs.  Its smaller brethren are known for being agile, and for preying upon"
+" other spiders."
+msgstr "一隻突然異變的棕色遁蛛，有一個相對較小的身體和細長的腳。異變前的品種是因靈敏，並會獵食其他蜘蛛而聞名。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "immature giant cellar spider"
+msgstr "幼年期巨大地窖蜘蛛"
+
+#. ~ Description for immature giant cellar spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A newly-hatched giant cellar spider.  Too small to possess much venom, but "
+"still quick and agile like an adult."
+msgstr "一隻剛孵化的巨大地窖蜘蛛。太小隻沒有多少毒液，但已經和成蟲一樣快速敏捷。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant jumping spider"
+msgstr "巨大跳蛛"
+
+#. ~ Description for giant jumping spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A giant spider with big forelegs and two pairs of inquisitive-looking eyes."
+"  It can leap quite quickly, even into the treetops."
+msgstr "有著粗大前肢的巨大蜘蛛，有著兩對好奇的眼睛。能夠快速的跳躍，甚至直接跳到樹上。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant trapdoor spider"
+msgstr "巨大暗門蜘蛛"
+
+#. ~ Description for giant trapdoor spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A gigantic spider with a bulbous thorax.  It digs a deep underground burrow "
+"that serves as a pit to trap unwary prey."
+msgstr "一個有著球形腹部的巨大蜘蛛。它會挖出很深的地下洞穴等著粗心的獵物掉進來。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant web spider"
+msgstr "巨大網蛛"
+
+#. ~ Description for giant web spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A giant mutated grass spider, it waits for prey to become ensnared in the "
+"vast webs that it weaves between the trees."
+msgstr "一個變種的巨大蜘蛛，它會在樹林間織網，靜待獵物上門。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "immature giant web spider"
+msgstr "幼年期巨大網蛛"
+
+#. ~ Description for immature giant web spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A still immature giant grass spider.  Too young to be venomous, or to walk "
+"proficiently for that matter"
+msgstr "一隻靜止不動的大蜘蛛，因為尚未發育完全，所以還沒有毒液，也無法很熟練的移動。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant black widow"
+msgstr "巨大黑寡婦蜘蛛"
+
+#. ~ Description for giant black widow
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A giant mutated black widow spider.  A highly venomous nightmare come to "
+"life."
+msgstr "一個巨大的變種黑寡婦蜘蛛。劇毒的噩夢來襲了。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant black widow spiderling"
+msgstr "巨大黑寡婦幼蛛"
+
+#. ~ Description for giant black widow spiderling
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The horrid spawn of a giant black widow spider.  Even as a newborn, this "
+"foul creature knows only how to kill."
+msgstr "由可怕的巨大黑寡婦蜘蛛所生。雖然剛出生不久，這隻邪惡的生物什麼都不知道，只知道殺戮。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant wolf spider"
+msgstr "巨大狼蛛"
+
+#. ~ Description for giant wolf spider
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A wolf spider mutated to about thirty times its normal size, it moves "
+"quickly and aggressively to catch and consume prey."
+msgstr "突變狼蛛，為普通狼蛛的三十倍大小，移動迅速且富有攻擊性。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant wasp"
+msgstr "巨黃蜂"
+
+#. ~ Description for giant wasp
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A gigantic slender-bodied wasp with an evil-looking stinger protruding from "
+"its abdomen.  Its exoskeleton glowers with ominous red markings."
+msgstr "一支巨大的昆蟲有著修長的腹部帶著可怕的毒針為其特色。其外骨骼上有著兇狠的紅色標記。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "dermatik"
+msgstr "變異蜂"
+
+#. ~ Description for dermatik
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding "
+"from the abdomen."
+msgstr "一隻變種的黃蜂，大約貓的大小。其蜂刺中帶有產卵器。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "dermatik larva"
+msgstr "變異蜂幼蟲"
+
+#. ~ Description for dermatik larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A fat white grub as big as a squirrel, with a pair of large, spadelike "
+"mandibles."
+msgstr "大約松鼠大小的肥胖蟲子，有著一對大如鏟子的下顎。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant ant"
+msgstr "巨蟻"
+
+#. ~ Description for giant ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous red ant covered in chitinous plates.  It possesses a pair of "
+"wriggling antennae and vicious-looking mandibles."
+msgstr "一隻全身甲殼的紅色螞蟻。牠有一對扭動的觸角與有毒的下顎。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant acidic ant"
+msgstr ""
+
+#. ~ Description for giant acidic ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A monstrous red ant with a swollen abdomen, that ends with a small orifice "
+"at the tip.  Glistening liquid seems to drip out periodically."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acidic ant larva"
+msgstr ""
+
+#. ~ Description for acidic ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A squirming yellow grub that seems to be oozing liquid from both ends of its"
+" body.  It appears its chitin hasn't developed enough to resist acid."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acidic queen ant"
+msgstr ""
+
+#. ~ Description for acidic queen ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous brown ant with an elongated, pulsating abdomen.  Its orifice "
+"seems developed only for egg-laying rather than spraying acid like the rest "
+"of the colony, but it doesn't seem affected by the acrid liquid either."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "acidic soldier ant"
+msgstr ""
+
+#. ~ Description for acidic soldier ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A massive woolly brown ant that towers over the worker ants with a giant "
+"head crest.  Along with its huge mandibles, a corrosive liquid seeps from "
+"the end of its bloated abdomen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal ant"
+msgstr "真菌蟻"
+
+#. ~ Description for fungal ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely "
+"held together by coils of fungus erupting from every joint in its body."
+msgstr "這個巨蟻呈現蒼白的灰色，其全身甲殼是由寄生的真菌所撐著的。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "ant larva"
+msgstr "螞蟻幼蟲"
+
+#. ~ Description for ant larva
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a large cat.  On "
+"one end is a set of squirming mouth parts."
+msgstr "一條有脈動的白色血肉，大小與大貓的尺寸相仿。在一端有著蠕動的口器。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "queen ant"
+msgstr "蟻后"
+
+#. ~ Description for queen ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A colossal red ant with a bulging, bloated thorax.  It moves slowly and "
+"deliberately, tending to nearby eggs and continually laying more."
+msgstr "這種螞蟻有一個長而臃腫的胸腔。移動很緩慢並且會產下許多的卵。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "soldier ant"
+msgstr "兵蟻"
+
+#. ~ Description for soldier ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge and hairy red ant almost twice the size of other giant ants.  Bulging"
+" pincers extend from its jaws."
+msgstr "體型幾乎是其他巨蟻兩倍大的毛茸茸紅蟻。從它的下顎伸出了粗壯的鉗子。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant locust"
+msgstr ""
+
+#. ~ Description for giant locust
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An overgrown locust.  You don't think it'll eat you but it could cause "
+"massive damage to nearby plants."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "locust nymph"
+msgstr ""
+
+#. ~ Description for locust nymph
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A locust the size of a rabbit.  You’d hate to think what a swarm of these "
+"could do."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "bear cub"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "bear"
+msgstr "熊"
+
+#. ~ Description for bear
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The American black bear.  A large omnivorous scavenger, it has powerful "
+"claws and jaws, and is an effective ambush hunter.  It can pose a "
+"considerable threat, although most individuals are shy around humans."
+msgstr "美國黑熊。大型的雜食性動物，擁有強力的爪子與下顎，是個有效率的伏擊狩獵者。雖然可能是個威脅，但實際上大部分的個體都不太會主動靠近人類。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "beaver"
+msgstr "河狸"
+
+#. ~ Description for beaver
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The North American beaver, the continent's largest rodent.  Its paddle-"
+"shaped tail helps ferry it through the water, and its prominent teeth can "
+"chew through wood, which it uses to build dam-like nests in lakes and "
+"streams."
+msgstr "北美的河狸，陸地上最大的囓齒動物。其槳形的尾巴，能在水中擺動前進，突出的牙齒能夠咬斷木頭，並且能夠用來在水流中建造類似水壩的巢。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "black rat"
+msgstr "黑鼠"
+
+#. ~ Description for black rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The black rat, an omnivorous rodent with sheer black fur and a long, rough "
+"tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm "
+"over the dead or dying."
+msgstr "這隻黑鼠是一種雜食性動物，有著黑色毛皮與長長粗粗的尾巴。瘟疫、饑荒的帶原者，有時候會對著屍體或瀕死之人蜂擁而上。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "bobcat"
+msgstr "山貓"
+
+#. ~ Description for bobcat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A spotted wild cat living across much of North America.  It is not a serious"
+" threat to humans, but it can be aggressive if not left alone."
+msgstr "大部分棲息於北美洲的斑點野貓。雖然對人類不太構成威脅，但是可能會群體攻擊。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "cat"
+msgstr "貓"
+
+#. ~ Description for cat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small domesticated predator gone feral in the absence of human "
+"stewardship.  Harried by the elements and the rigors of survival, it is "
+"scruffy and skittish."
+msgstr "恢復野性的小型食肉獵食動物。受到了生存的嚴重考驗後，變得邋遢且膽怯。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "chipmunk"
+msgstr "花栗鼠"
+
+#. ~ Description for chipmunk
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped"
+" coat.  It spends much of the day patrolling its elaborate burrow and the "
+"precious stores of foraged food within."
+msgstr "生活在美國和加拿大的東部的花栗鼠，這個小型的雜食性囓齒動物具有特別的條紋。他的習性會整天巡邏其精心製作的洞穴以及小心的存放食物。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "cougar"
+msgstr "美洲獅"
+
+#. ~ Description for cougar
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern cougar, a large feline predator.  Once thought extinct in this "
+"region, conservation efforts were successful in restoring a thriving "
+"population."
+msgstr "棲息於東部的美洲獅，是一種大型的食肉目貓科動物。一度被認為在本地已經滅絕，經過了保育的工作已經成功的恢復成蓬勃發展的群體。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "calf"
+msgstr ""
+
+#. ~ Description for calf
+#. ~ Description for cow
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, "
+"and the males can have a violent streak to accompany their nasty-looking "
+"horns."
+msgstr "美洲野牛，一種壞脾氣的反芻動物。其肌肉相當發達，雄性個體有著可怕的角搭配著條紋。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "cow"
+msgstr "牛"
+
+#: lang/json/MONSTER_from_json.py
+msgid "coyote"
+msgstr "郊狼"
+
+#. ~ Description for coyote
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern coyote, also called the tweed wolf, is a territorial canine "
+"descended from the offspring of gray wolves and true coyotes.  It is "
+"intimidated by humans and other predators, but will fight if threatened."
+msgstr "東方郊狼，也被稱為花呢狼，是狼與真正的郊狼產生的犬科後裔，很容易被人類或其它掠食者嚇到，但受到威脅時則不同了。"
+
+#. ~ Description for coyote
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Northeastern coyote, a widespread canine pack hunter.  More timid than a"
+" wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker "
+"prey."
+msgstr "東北郊狼，廣泛分布的犬科獵手，比狼更膽小，偏好伺機狩獵弱小的獵物。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "fawn"
+msgstr ""
+
+#. ~ Description for fawn
+#. ~ Description for deer
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The northern woodland white-tailed deer, a quick and strong grazing animal."
+"  Favored prey of coyotes, wolves, and giant spider mutants."
+msgstr "棲息在北方森林的白尾鹿，靈敏健壯的草食動物，是郊狼、狼群、巨大蜘蛛變異體喜愛的獵物。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "deer"
+msgstr "鹿"
+
+#. ~ Description for dog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"With mangy fur and hungry eyes, it's clear that this once domesticated dog "
+"has gone feral."
+msgstr "伴隨著汙穢的毛皮與飢餓的眼神，很明顯，這隻曾被馴養的狗兒已經恢復了野性。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "fox"
+msgid_plural "foxes"
+msgstr[0] "狐狸"
+
+#. ~ Description for fox
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small omnivorous canine with an almost cat-like manner.  It is a solitary "
+"hunter, and one of the only canids able to climb trees."
+msgstr "一隻小型的雜食性犬科動物，長得像貓。是個孤獨的狩獵者，並且也是唯一一種能夠爬樹的犬科動物。"
+
+#. ~ Description for fox
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The red fox, an omnivorous canine and largest of the true foxes, it is a "
+"wily hunter with a combative, suspicious temperament."
+msgstr "紅狐狸，一種犬科動物，並且是狐狸中最大型的。牠是一個狡猾且好鬥的狩獵者。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "groundhog"
+msgstr "土撥鼠"
+
+#. ~ Description for groundhog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Also known as the woodchuck, this ground squirrel has no actual talent for "
+"chucking wood."
+msgstr "同時也稱作旱獺，這種平地的松鼠科動物並沒有跟樹木關係密切。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "jackrabbit"
+msgstr "野兔"
+
+#. ~ Description for jackrabbit
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The snowshoe hare, a small grass-eater with a brown fur coat that changes to"
+" white in the wintertime."
+msgstr "這種兔子，是一種有著棕色皮毛的草食動物，並且會在冬天時換毛成白色。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "horse"
+msgstr "馬"
+
+#. ~ Description for horse
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-"
+"looking muscles."
+msgstr "一隻有蹄的哺乳動物，額、頸上有長鬃，尾有長毛，四肢強健。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "lemming"
+msgstr "旅鼠"
+
+#. ~ Description for lemming
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Northern bog lemming, a small, predominantly vegetarian rodent that "
+"spends its life in the murk of swamps and other wetlands.  Contrary to "
+"popular belief, these creatures are not particularly hapless or suicidal, "
+"but they can eat themselves into scarcity within a few generations."
+msgstr ""
+"在北美活動的沼澤旅鼠，是一種群居的草食性小型囓齒動物，終其一生在沼澤和其他濕地生活。出乎意料的，這種生物在近代並不會自殺，卻反而會在食物匱乏時自相殘殺。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "mink"
+msgstr "貂"
+
+#. ~ Description for mink
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The American mink, a partially-aquatic weasel, once factory-farmed for its "
+"fur.  It is a capable fisher, but the presence of otters in these parts "
+"makes it rely more on food from the land."
+msgstr "美洲貂，一種半水棲的鼬鼠，曾經有工廠為了其毛皮進行培育。牠是個捕魚好手，但是水獺的存在迫使牠們必須更常從陸地上捕食。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "moose"
+msgstr "駝鹿"
+
+#. ~ Description for moose
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern moose, the largest living species of deer.  The bulls are quite "
+"ill-tempered, especially in the rutting season."
+msgstr "東部駝鹿，是世界上最大的鹿科動物。大部分脾氣都不好，特別是發情期。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "muskrat"
+msgstr "麝香鼠"
+
+#. ~ Description for muskrat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large omnivorous rodent with a thick furry pelt, found in wetlands across "
+"the northern hemisphere.  It marks its territory with a musky odor for which"
+" it is named."
+msgstr "有著厚實的毛茸茸皮毛的大型雜食性囓齒動物，能在北半球的溼地發現。會利用其麝香氣味劃分地盤而聞名。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "gigantic naked mole-rat"
+msgstr "巨大原生鼴形鼠"
+
+#. ~ Description for gigantic naked mole-rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has "
+"been toughened by constant tunneling.  Its hide is riddled with giant scabs,"
+" as a pair of incisors the size of an industrial excavator's buckets gnash "
+"constantly and several car-length whiskers twitch at the air.  It regularly "
+"makes high-pitched chirps as it roams around."
+msgstr ""
+"一頭巨大，打鬧的巨大異變皺紋堆，近乎透明的皮膚因不斷挖掘地道而變得堅韌。牠的毛皮長滿疥癬，一對大得像工業用挖掘機的鏟斗的門牙不斷地撕咬，幾條像車般長的鬍鬚在半空抽動。牠在徘徊時會有規律地發出高音的啁啾聲。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "opossum"
+msgstr "負鼠"
+
+#. ~ Description for opossum
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Virginia opossum, a small omnivorous marsupial native to North America."
+"  About the size of a cat, it is hardy and adaptive, and a fairly common "
+"sight in urban areas."
+msgstr "維吉尼亞負鼠，一種小型的雜食性有袋動物，原產於北美。體型約貓的大小，耐寒，適應性高，在城市地區相當常見。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "otter"
+msgstr "水獺"
+
+#. ~ Description for otter
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The North American river otter is a shy water dwelling relative of the "
+"weasel living in large families along the banks of streams.  It is an "
+"excellent fisher and a resourceful survivor, using the abandoned dens of "
+"beavers and other animals to raise its own young."
+msgstr "北美水獺是一個害羞的水棲鼬鼠群聚生活在溪流的沿岸。是一個捕魚好手也是聰明的生存者，會利用河狸的廢棄水壩或其他動物來扶養自己的小孩。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "piglet"
+msgstr ""
+
+#. ~ Description for piglet
+#. ~ Description for pig
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A domesticated omnivore descended from the wild boar, intelligent and "
+"inquisitive.  Left to its own devices, it has gone feral."
+msgstr "一個被訓養的雜食性動物，野豬的後代，聰明又好奇。自從無人餵食後，已經野性化了。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "pig"
+msgstr "豬"
+
+#: lang/json/MONSTER_from_json.py
+msgid "rabbit"
+msgstr "兔子"
+
+#. ~ Description for rabbit
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small mammal with a cute wiggling nose, cotton tail, and made of delicious"
+" flesh."
+msgstr "一個擺動鼻子，棉花尾巴的可愛生物，同時肉也很好吃。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "raccoon"
+msgstr "浣熊"
+
+#. ~ Description for raccoon
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small mammal native to North America, distinctive for its dexterous paws "
+"and facial markings.  It is resourceful and agile enough to open sealed "
+"containers with its paws."
+msgstr "原產於北美洲的一種小型哺乳動物，其特點為靈巧的爪子和臉部斑紋。相當聰明靈活，能用它的爪子打開密封的容器。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "rat king"
+msgstr "鼠王"
+
+#. ~ Description for rat king
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A towering swarm of mutated rats, their tails knotted together in a filthy "
+"mass.  A fetid stench flows from its filthy presence."
+msgstr "一群變異老鼠，尾巴揉結在一起形成一個骯髒的肉團。散發出強烈的惡臭。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "sewer rat"
+msgstr "溝鼠"
+
+#. ~ Description for sewer rat
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks "
+"makes it sound...  hungry."
+msgstr "有著像蟲一般尾巴與長鬍鬚小眼睛的囓齒動物。牠急促的吱吱聲聽起來...餓了。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "lamb"
+msgid_plural "lambs"
+msgstr[0] ""
+
+#. ~ Description for lamb
+#. ~ Description for sheep
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A timid, hooved grazing mammal, and one of the first animals ever "
+"domesticated, its body is covered in a thick layer of wool, and the males "
+"have long, spiralling horns."
+msgstr "一個膽小的有蹄哺乳動物，是一種先被訓養的動物之一，其身體覆蓋了一層厚厚的羊毛，雄性還有螺旋狀的長角。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "sheep"
+msgid_plural "sheep"
+msgstr[0] "綿羊"
+
+#: lang/json/MONSTER_from_json.py
+msgid "squirrel"
+msgstr "松鼠"
+
+#. ~ Description for squirrel
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small granivorous rodent with a long bushy tail, often seen darting amid "
+"the branches of trees.  A skittish varmint with an expression of unwavering "
+"austerity, it is the mortal enemy of cat and dog alike."
+msgstr "一隻有著長長像毛刷尾巴的囓齒類動物，常常會見到牠們在樹林間穿梭。一個冰雪聰明的可愛小壞蛋，跟貓狗是死對頭。"
+
+#. ~ Description for squirrel
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A tiny opportunistic rodent with a long bushy tail.  The pine squirrel is "
+"clever and cute, and hunted by nearly everything in the woods with a taste "
+"for meat."
+msgstr "一隻有著長長像毛刷尾巴的囓齒類動物，松鼠聰明又可愛，幾乎會被森林中的所有生物所獵食。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "weasel"
+msgstr "黃鼠狼"
+
+#. ~ Description for weasel
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The long-tailed weasel, a small but ubiquitous predator whose range extends "
+"across the continent.  It forms its den in small burrows, preferring to "
+"occupy the nesting holes of its prey."
+msgstr "長尾巴的黃鼠狼，是一種體型小的獵食者，分布範圍橫跨整個大陸。其身形柔軟，能夠鑽到小洞穴中進行捕食。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "wolf"
+msgid_plural "wolves"
+msgstr[0] "狼"
+
+#. ~ Description for wolf
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A cunning pack predator, once extinct in the New England area, the wolf was "
+"successfully reintroduced and their numbers reached record highs in the "
+"decade before the cataclysm.  Lucky you."
+msgstr "一種狡猾的群聚獵食者，一度在新英格蘭滅絕，在災變前已經成功復育並且數量達到新高。祝你好運。"
+
+#: lang/json/MONSTER_from_json.py
 msgid "laser turret"
 msgstr "雷射槍塔"
 
@@ -37229,6 +37152,197 @@ msgid ""
 "A slender-bodied flying insect, with a painful sting.  They can be somewhat "
 "aggressive if disturbed."
 msgstr "一種細長身形的飛蟲，具有令人痛楚的刺針。當它感到不安時會發動攻擊。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant frog"
+msgstr "巨大青蛙"
+
+#. ~ Description for giant frog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutated bullfrog taller than you are.  It stares with amber eyes as it "
+"considers the easiest way to swallow you whole."
+msgstr "一隻綠色厚皮的青蛙。它把你當做蟲子，能夠簡單的把你吞下。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "sewer gator"
+msgstr "水道短吻鱷"
+
+#. ~ Description for sewer gator
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"In the late 20th century there was an urban legend about pet alligators "
+"getting flushed down the toilet and growing to adulthood in sewers.  This "
+"large specimen doesn't look like it is used to humans as anything other than"
+" a meal."
+msgstr "在二十世紀後期曾經有一個關於短吻鱷被馬桶沖走並於下水道成長至成年期的都巿傳說。人類在這個大傢伙眼中看來像是食物。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "rattlesnake"
+msgstr "響尾蛇"
+
+#. ~ Description for rattlesnake
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The timber rattlesnake is the most venomous viper native to New England.  "
+"Climatic changes have extended its range far into the north."
+msgstr "源自新英格蘭的木紋響尾蛇是一種最毒的毒蛇。由於氣候的變遷，在北方也可以看到牠的足跡。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant rattlesnake"
+msgstr "巨大響尾蛇"
+
+#. ~ Description for giant rattlesnake
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutated timber rattlesnake, about three times as large as the norm.  While"
+" it isn't big enough to regard humans as potential prey, it is more "
+"aggresive and dangerous compared to a normal rattler."
+msgstr "突變的森林響尾蛇，約為標準的三倍大小。雖然它還未大到足以把人類當成獵物，它比普通響尾蛇更具侵略性和危險。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "sewer snake"
+msgstr "水道蛇"
+
+#. ~ Description for sewer snake
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An aggressive mutant variety of the worm snake, turned pale yellow from its "
+"underground life.  It swarms beneath the ground and is named for its habit "
+"of infesting sewer lines."
+msgstr "一個攻擊性強的突變蛇，因地下生活而呈現淡黃色。它的名稱由來是因為它盤據在地底的習性。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "biollante sprig"
+msgstr ""
+
+#. ~ Description for biollante sprig
+#: lang/json/MONSTER_from_json.py
+msgid "A short fat stalk with broad leaves and tiny flower buds."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "biollante sprout"
+msgstr ""
+
+#. ~ Description for biollante sprout
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A thick stalk that rises five feet from the ground and has heavy broad "
+"leaves at its base.  Purple flower buds adorn the top."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "biollante"
+msgstr "植物獸"
+
+#. ~ Description for biollante
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A drooped, quivering plant with a thick stalk adorned by a purple flower.  "
+"Its petals are closed, and pulsate ominously."
+msgstr "厚實的莖上有紫色的花。花瓣是閉合的，並且有令人不安的搏動。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "creeper hub"
+msgstr "變種藤蔓中樞"
+
+#. ~ Description for creeper hub
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A thick stalk, rooted to the ground.  It rapidly sprouts thorny vines in all"
+" directions."
+msgstr "厚實的植物莖紮根到地面。有棘刺的藤蔓往四面八方迅速生長。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "creeper vine"
+msgstr "變種藤蔓莖"
+
+#. ~ Description for creeper vine
+#: lang/json/MONSTER_from_json.py
+msgid "A thorny vine, twisting wildly as it grows with incredible speed."
+msgstr "厚實的植物莖。因為生長的速度快，而瘋狂的扭曲纏繞。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid sprig"
+msgstr ""
+
+#. ~ Description for triffid sprig
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A teeny-tiny triffid that has recently germinated.  Like a house cat, you "
+"know it wants to eat you but it just can't figure out how."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid sprout"
+msgstr "食人樹幼苗"
+
+#. ~ Description for triffid sprout
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small triffid, only a few feet tall.  It has not yet developed bark, but "
+"its sting is still sharp and deadly."
+msgstr "一株小型的食人樹，只有幾呎高。莖齒的部份還沒發育完全，但是很刺且鋒利，被咬到還是很致命。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid"
+msgstr "食人樹"
+
+#. ~ Description for triffid
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A creeping animate plant, growing as tall as a moose.  It has a single bark-"
+"covered stalk supporting a flowery head with a paralyzing sting concealed "
+"within."
+msgstr "一株植物與你的身高差不多，有著厚實，齒狀的莖，頂部有著花狀的頭部以及尖刺。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "triffid queen"
+msgstr "食人樹王后"
+
+#. ~ Description for triffid queen
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A ponderous and particularly arborescent triffid.  It has enormous red "
+"petals surrounded by a haze of spores, and two thick barbed vines stick out "
+"from the stems like wary harpoons."
+msgstr "一棵笨重且樹枝特化的食人樹。擁有圍繞著孢子霧的巨大紅色花朵，以及伸出一對像魚叉一樣粗壯的刺藤莖。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "vine beast"
+msgstr "藤蔓獸"
+
+#. ~ Description for vine beast
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An animated mass of roots and vines, creeping along the ground with alarming"
+" speed.  The tangle is thick enough that the center from which they grow is "
+"concealed."
+msgstr "以驚人的速度移動的籐蔓，因為籐蔓厚重而糾結，讓你看不出中心有什麼。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "fungal fighter"
+msgstr "真菌鬥士"
+
+#. ~ Description for fungal fighter
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A stout woody plant that can dig through the ground and flick spines from "
+"its branches.  The thorns carry a fungicidal compound with paralytic "
+"effects."
+msgstr "一個粗壯的木本植物，能夠挖穿地面並且從它的樹枝射出尖刺。荊棘附帶了具麻痺效果的殺菌化合物。"
+
+#: lang/json/MONSTER_from_json.py lang/json/overmap_terrain_from_json.py
+msgid "triffid heart"
+msgstr "食人樹心臟"
+
+#. ~ Description for triffid heart
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A knot of tubular roots, flowing with sap and beating like a heart.  Strands"
+" of vascular tissue reach out to the surrounding root walls."
+msgstr "一個看起來很詭異的心臟樣貌的東西。它緩慢的搏動，並供給能量給予圍繞在其上的植根牆。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "anklebiter"
@@ -37985,7 +38099,6 @@ msgstr[0] "採礦頭盔（啟動）"
 #. ~ Use action menu_text for thermal electric balaclava (on).
 #. ~ Use action menu_text for head torch (on).
 #. ~ Use action menu_text for survivor head torch (on).
-#. ~ Use action menu_text for firefighter PBA mask (on).
 #. ~ Use action menu_text for rebreather mask (on).
 #. ~ Use action menu_text for XL rebreather mask (on).
 #. ~ Use action menu_text for pair of light amp goggles (on).
@@ -38003,8 +38116,8 @@ msgstr[0] "採礦頭盔（啟動）"
 #. ~ Use action menu_text for flashlight (on).
 #. ~ Use action menu_text for heavy duty flashlight (on).
 #. ~ Use action menu_text for acetylene lamp (on).
-#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py lang/json/item_action_from_json.py
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
+#: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
 #: src/iuse.cpp
 msgid "Turn off"
@@ -38078,7 +38191,6 @@ msgstr[0] "電熱襪"
 #. ~ Use action msg for thermal electric suit.
 #. ~ Use action msg for pair of thermal electric gloves.
 #. ~ Use action msg for thermal electric balaclava.
-#. ~ Use action msg for firefighter PBA mask.
 #. ~ Use action msg for rebreather mask.
 #. ~ Use action msg for XL rebreather mask.
 #. ~ Use action msg for pair of light amp goggles.
@@ -38086,8 +38198,8 @@ msgstr[0] "電熱襪"
 #. ~ Use action msg for survivor divemask.
 #. ~ Use action msg for XL survivor divemask.
 #. ~ Use action msg for thermal electric outfit.
-#: lang/json/TOOL_ARMOR_from_json.py src/bionics.cpp src/iuse_actor.cpp
-#: src/mutation_ui.cpp
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
+#: src/bionics.cpp src/iuse_actor.cpp src/mutation_ui.cpp
 #, c-format, no-python-format
 msgid "You activate your %s."
 msgstr "你啟動了你的 %s。"
@@ -38096,11 +38208,11 @@ msgstr "你啟動了你的 %s。"
 #. ~ Use action need_charges_msg for thermal electric suit.
 #. ~ Use action need_charges_msg for pair of thermal electric gloves.
 #. ~ Use action need_charges_msg for thermal electric balaclava.
-#. ~ Use action need_charges_msg for firefighter PBA mask.
 #. ~ Use action need_charges_msg for pair of light amp goggles.
 #. ~ Use action need_charges_msg for pair of infrared goggles.
 #. ~ Use action need_charges_msg for thermal electric outfit.
-#: lang/json/TOOL_ARMOR_from_json.py src/iuse.cpp
+#: lang/json/TOOL_ARMOR_from_json.py lang/json/TOOL_ARMOR_from_json.py
+#: src/iuse.cpp src/iuse.cpp
 #, c-format, no-python-format
 msgid "The %s's batteries are dead."
 msgstr "%s的電池耗光了。"
@@ -38121,7 +38233,6 @@ msgstr[0] "電熱襪（啟動）"
 #. ~ Use action msg for thermal electric suit (on).
 #. ~ Use action msg for pair of thermal electric gloves (on).
 #. ~ Use action msg for thermal electric balaclava (on).
-#. ~ Use action msg for firefighter PBA mask (on).
 #. ~ Use action msg for rebreather mask (on).
 #. ~ Use action msg for XL rebreather mask (on).
 #. ~ Use action msg for pair of light amp goggles (on).
@@ -38310,33 +38421,6 @@ msgstr ""
 "頭燈，它經過強化比一般型號更耐用、更光亮、耗能更低，也能容納更多的電池。頭燈上的帶子可以調整，讓你可以把它穿在頭上或者繫在頭盔上。它現在已經啟動並且不斷的消耗電力。使用它來關閉。"
 
 #: lang/json/TOOL_ARMOR_from_json.py
-msgid "firefighter PBA mask"
-msgid_plural "firefighter PBA masks"
-msgstr[0] "消防面具"
-
-#. ~ Description for firefighter PBA mask
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid ""
-"A full-face mask commonly used by firefighters.  The battery-powered "
-"protective breathing apparatus provides excellent protection from smoke, "
-"flame, and other dangers.  Use it to turn it on."
-msgstr "一個消防員用的全臉式面具。內有電池供電的呼吸裝置，能夠防護並隔絕煙塵、火焰、以及其他危險。"
-
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "firefighter PBA mask (on)"
-msgid_plural "firefighter PBA masks (on)"
-msgstr[0] "消防面具（啟動）"
-
-#. ~ Description for firefighter PBA mask (on)
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid ""
-"A full-face mask commonly used by firefighters.  The battery-powered "
-"protective breathing apparatus provides excellent protection from smoke, "
-"flame, and other dangers.  It is turned on, and continually draining "
-"batteries.  Use it to turn it off."
-msgstr "一個消防員用的全臉式面具。內有電池供電的呼吸裝置，能夠防護並隔絕煙塵、火焰、以及其他危險。電源已啟動並持續消耗電池的電力。使用它來關閉。"
-
-#: lang/json/TOOL_ARMOR_from_json.py
 msgid "RM13 combat armor"
 msgid_plural "RM13 combat armors"
 msgstr[0] "RM13戰鬥裝甲"
@@ -38429,6 +38513,180 @@ msgid ""
 "turned on, and continually consuming its filter.  Use it to turn it off."
 msgstr ""
 "一個能覆蓋你嘴巴的面具，如果有安裝上正確的濾芯，它能把你吐出的二氧化碳經由化學反應還原成氧氣讓你再利用。這個版本的面罩被加大，可以被臉更大的人戴上，它現在已經啟動，並不斷的消耗濾芯，你現在可以把它關閉。"
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "filter mask"
+msgid_plural "filter masks"
+msgstr[0] "過濾面罩"
+
+#. ~ Description for filter mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A mask that straps over your mouth and nose and filters air.  Protects from "
+"smoke, dust, and other contaminants quite well.  It must be prepared before "
+"use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "gas mask"
+msgid_plural "gas masks"
+msgstr[0] "防毒面具"
+
+#. ~ Description for gas mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A full gas mask that covers the face and eyes.  Provides excellent "
+"protection from smoke, teargas, and other contaminants.  It must be prepared"
+" before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL gas mask"
+msgid_plural "XL gas masks"
+msgstr[0] "XL 防毒面具"
+
+#. ~ Description for XL gas mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A rather roomy mask with filters attached, designed to accommodate exotic "
+"anatomy.  Provides excellent protection from smoke, teargas, and other "
+"contaminants.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "survivor firemask"
+msgid_plural "survivor firemasks"
+msgstr[0] "生存者防火面具"
+
+#. ~ Description for survivor firemask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It "
+"provides excellent protection from heat, smoke, teargas, and shrapnel.  It "
+"must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL survivor firemask"
+msgid_plural "XL survivor firemasks"
+msgstr[0] "XL 生存者防火面具"
+
+#. ~ Description for XL survivor firemask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, Nomex-insulated gas mask that covers the face and eyes "
+"regardless of your state of mutation.  It provides excellent protection from"
+" heat, smoke, teargas, and shrapnel.   It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "firefighter PBA mask"
+msgid_plural "firefighter PBA masks"
+msgstr[0] "消防面具"
+
+#. ~ Description for firefighter PBA mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A full-face mask commonly used by firefighters.  The protective breathing "
+"apparatus provides excellent protection from smoke, flame, and other "
+"dangers.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "heavy survivor mask"
+msgid_plural "heavy survivor masks"
+msgstr[0] "重型生存者面具"
+
+#. ~ Description for heavy survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, steel reinforced gas mask that covers the face and eyes.  "
+"Provides excellent protection from smoke, teargas, and shrapnel.  It must be"
+" prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "light survivor mask"
+msgid_plural "light survivor masks"
+msgstr[0] "輕型生存者面具"
+
+#. ~ Description for light survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, reinforced gas mask that covers the face and eyes.  Provides"
+" excellent protection from smoke, teargas, and shrapnel.  It must be "
+"prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "survivor mask"
+msgid_plural "survivor masks"
+msgstr[0] "生存者面具"
+
+#. ~ Description for survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, leather reinforced gas mask that covers the face and eyes.  "
+"Provides excellent protection from smoke, teargas, and shrapnel.  It must be"
+" prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL survivor mask"
+msgid_plural "XL survivor masks"
+msgstr[0] "XL 生存者面具"
+
+#. ~ Description for XL survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, reinforced gas mask that covers the face and eyes regardless"
+" of your state of mutation.  Provides excellent protection from smoke, "
+"teargas, and shrapnel.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "winter survivor mask"
+msgid_plural "winter survivor masks"
+msgstr[0] "冬季生存者面具"
+
+#. ~ Description for winter survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite "
+"warm, it still provides excellent protection from smoke, teargas, and "
+"shrapnel.  It must be prepared before use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "XL winter survivor mask"
+msgid_plural "XL winter survivor masks"
+msgstr[0] "XL 冬季生存者面具"
+
+#. ~ Description for XL winter survivor mask
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A custom-built, fur-trimmed gas mask that covers the face and eyes "
+"regardless of your state of mutation.  Quite warm, it still provides "
+"excellent protection from smoke, teargas, and shrapnel.  It must be prepared"
+" before use."
+msgstr ""
+
+#. ~ Description for hazmat suit
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"An impermeable whole-body garment worn as protection against hazardous "
+"materials.  Though very restrictive and fragile, wearing it will provide "
+"complete protection against ambient radiation.  It must be prepared before "
+"use."
+msgstr ""
+
+#. ~ Description for ANBC suit
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"An armored, impermeable full-body suit that functions as body armor, as well"
+" as protecting from nuclear, biological, and chemical hazards.  It must be "
+"prepared before use."
+msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "pair of light amp goggles"
@@ -56273,6 +56531,16 @@ msgid ""
 msgstr "這把氣動突擊步槍被顯著的強化過，拋射物品的速度更快、射擊速率更高。然而，這些功能使它極其笨重，必須先安裝在支撐平台上方可射擊。"
 
 #: lang/json/gun_from_json.py
+msgid "Model 10 revolver"
+msgid_plural "Model 10 revolver"
+msgstr[0] ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"A six-shot revolver.  It has a swing-out cylinder for ease of reloading."
+msgstr ""
+
+#: lang/json/gun_from_json.py
 msgid "COP .357"
 msgid_plural "COP .357"
 msgstr[0] "COP .357"
@@ -57454,6 +57722,10 @@ msgstr ""
 msgid "You laboriously dissect the colossal insect."
 msgstr ""
 
+#: lang/json/harvest_from_json.py
+msgid "You laboriously hack and dig through the remains of the fungal mass."
+msgstr ""
+
 #: lang/json/item_action_from_json.py
 msgid "Repair cotton/leather/wool/Nomex/fur"
 msgstr "修復 棉/皮革/羊毛/諾梅克斯/毛皮製品"
@@ -57706,6 +57978,10 @@ msgid "Mop"
 msgstr "抹掉"
 
 #: lang/json/item_action_from_json.py
+msgid "Prepare to use"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
 msgid "Cook"
 msgstr "烹飪"
 
@@ -57903,6 +58179,13 @@ msgstr "這件物品具有<good>鑽石塗層</good>，能加強其<info>砍劈�
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
+"As a weapon, this item is <good>well-made</good> and will <info>withstand "
+"the punishment of combat</info>."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
 "This gear <good>completely protects</good> you from <info>electric "
 "discharges</info>."
 msgstr "這件裝備能<good>完全保護</good>你<info>不受放電影響</info>。"
@@ -57944,6 +58227,13 @@ msgstr "這件衣物<info>防止你沉入水中</info>，令你<good>不會溺�
 msgid ""
 "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>."
 msgstr "這件裝備相當<bad>脆弱</bad>，<info>無法長久保護你</info>。"
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
+"As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in "
+"combat</info> before breaking apart."
+msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -59626,8 +59916,8 @@ msgstr "合氣道是日本一種重視自我防衛的武術，同時也減少對
 
 #. ~ Description of buff for martial art 'Aikido'
 #: lang/json/martial_art_from_json.py
-msgid "Half damage to enemies"
-msgstr "對敵人傷害減半"
+msgid "Half damage to enemies."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Boxing"
@@ -59677,8 +59967,8 @@ msgstr "柔道是一項重視擒拿與投擲的武術，攻守兼備。當使用
 
 #. ~ Description of buff for martial art 'Judo'
 #: lang/json/martial_art_from_json.py
-msgid "Immune to throws and knockdowns"
-msgstr "對投擲與擊倒免疫"
+msgid "Immune to throws and knockdowns."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Tai Chi"
@@ -59748,8 +60038,8 @@ msgstr "以色列徒手格鬥"
 
 #. ~ Description of buff 'Krav Maga Hand-to-Hand' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased unarmed power"
-msgstr "增加徒手傷害"
+msgid "Increased unarmed power."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Krav Maga Edged"
@@ -59757,7 +60047,7 @@ msgstr "以色列刀術"
 
 #. ~ Description of buff 'Krav Maga Edged' for martial art 'Krav Maga'
 #: lang/json/martial_art_from_json.py
-msgid "Increased stabbing damage"
+msgid "Increased stabbing damage."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -59777,8 +60067,8 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Muay Thai'
 #: lang/json/martial_art_from_json.py
-msgid "Attacks scale better with strength"
-msgstr "攻擊能力與力量成正比"
+msgid "Attacks scale better with strength."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Ninjutsu"
@@ -59795,8 +60085,8 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Ninjutsu'
 #: lang/json/martial_art_from_json.py
-msgid "Silent melee attacks"
-msgstr "無聲近戰攻擊"
+msgid "Silent melee attacks."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Momentum shift"
@@ -59823,8 +60113,8 @@ msgstr ""
 
 #. ~ Description of buff for martial art 'Taekwondo'
 #: lang/json/martial_art_from_json.py
-msgid "Strength decreases damage when blocking"
-msgstr "格擋時依力量減少傷害"
+msgid "Strength decreases damage when blocking."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Bionic Combatives"
@@ -59997,8 +60287,8 @@ msgstr "菲律賓棍術猛擊"
 
 #. ~ Description of buff 'Eskrima Bashing' for martial art 'Eskrima'
 #: lang/json/martial_art_from_json.py
-msgid "Increased bashing damage"
-msgstr "增加鈍擊傷害"
+msgid "Increased bashing damage."
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Crane Kung Fu"
@@ -60629,6 +60919,22 @@ msgstr "分裂的"
 #: lang/json/material_from_json.py
 msgid "Wool"
 msgstr "羊毛"
+
+#: lang/json/material_from_json.py
+msgid "Feces"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "squashed"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "mashed"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "mushed"
+msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Bronze"
@@ -69423,6 +69729,10 @@ msgid "city building"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "basement"
+msgstr "地下室"
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "mansion"
 msgstr "豪宅"
 
@@ -69817,10 +70127,6 @@ msgstr "食人樹森林"
 #: lang/json/overmap_terrain_from_json.py
 msgid "triffid roots"
 msgstr "食人樹根"
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "basement"
-msgstr "地下室"
 
 #: lang/json/overmap_terrain_from_json.py lang/json/terrain_from_json.py
 msgid "solid rock"
@@ -75865,6 +76171,36 @@ msgstr ""
 #: lang/json/scenario_from_json.py
 msgctxt "start_name"
 msgid "Out of City"
+msgstr ""
+
+#. ~ Name for scenario 'High tech, low life' for a male character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_male"
+msgid "High tech, low life"
+msgstr ""
+
+#. ~ Name for scenario 'High tech, low life' for a female character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_female"
+msgid "High tech, low life"
+msgstr ""
+
+#. ~ Description for scenario 'High tech, low life' for a male character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_male"
+msgid "Advanced technology, dystopian society, and trenchcoats."
+msgstr ""
+
+#. ~ Description for scenario 'High tech, low life' for a female character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_female"
+msgid "Advanced technology, dystopian society, and trenchcoats."
+msgstr ""
+
+#. ~ Starting location for scenario 'High tech, low life'.
+#: lang/json/scenario_from_json.py
+msgctxt "start_name"
+msgid "Somewhere in town"
 msgstr ""
 
 #. ~ Name for scenario 'Challenge-FEMA Death Camp' for a male character
@@ -82898,6 +83234,10 @@ msgstr "教會"
 #: lang/json/start_location_from_json.py
 msgid "Religious Cemetery"
 msgstr "宗教墓地"
+
+#: lang/json/start_location_from_json.py
+msgid "Shady Basement"
+msgstr ""
 
 #: lang/json/start_location_from_json.py
 msgid "Swamp"
@@ -91416,6 +91756,10 @@ msgid "There are no items to be moved!"
 msgstr "這裡沒有物品可以移動！"
 
 #: src/advanced_inv.cpp
+msgid "There isn't enough room, do you really want to move all?"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "Really move everything from your inventory?"
 msgstr "確定要移動你物品欄中的所有東西？"
 
@@ -95275,10 +95619,9 @@ msgid "You need a %s with %d charge."
 msgid_plural "You need a %s with %d charges."
 msgstr[0] "你需要 %s 並有著 %d 電量。"
 
-#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp
-#: src/iexamine.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp
-#: src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp
+#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
 msgstr "沒事。"
@@ -104888,18 +105231,6 @@ msgid "You may have problems climbing back up. Climb down?"
 msgstr "你要爬上來也許不容易。要爬下去嗎？"
 
 #: src/iexamine.cpp
-msgid "Autodoc Mk. XI.  Status: Online.  Please choose operation."
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "Choose Compact Bionic Module to install."
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "Do nothing."
-msgstr ""
-
-#: src/iexamine.cpp
 msgid "No connected couches found.  Operation impossible.  Exiting."
 msgstr ""
 
@@ -104910,7 +105241,27 @@ msgid ""
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "Autodoc Mk. XI.  Status: Online.  Please choose operation."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose Compact Bionic Module to install."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose installed bionic to uninstall."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Do nothing."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Choose CBM to install"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You don't have any CBMs to install."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -104921,6 +105272,19 @@ msgstr ""
 msgid ""
 "Autodoc injected you with anesthesia, and while you were sleeping conducted "
 "a medical operation on you."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You don't have any bionics installed."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Choose bionic to uninstall"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"You type data into the console, configuring Autodoc to uninstall a CBM."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -106896,7 +107260,6 @@ msgstr "奇怪的事，這嚐起來並不糟。"
 msgid "You chew your %s."
 msgstr "你咀嚼你的 %s。"
 
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time?  uh-uh.  You're not drinking that "
@@ -106971,12 +107334,12 @@ msgid "Suffered a toxic marloss/mutagen reaction."
 msgstr "馬洛斯莓/突變劑 中毒。"
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
+msgctxt "memorial_male"
 msgid "Consumed mutagen."
 msgstr "已服下誘變劑。"
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
+msgctxt "memorial_female"
 msgid "Consumed mutagen."
 msgstr "已服下誘變劑。"
 
@@ -107015,12 +107378,12 @@ msgid "Images of your past life flash before you."
 msgstr "你過往的生活片段在你眼前閃過。"
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
+msgctxt "memorial_male"
 msgid "Injected mutagen."
 msgstr "注入誘變劑。"
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
+msgctxt "memorial_female"
 msgid "Injected mutagen."
 msgstr "注入誘變劑。"
 
@@ -107033,22 +107396,22 @@ msgid "You feel a slight itching inside, but it passes."
 msgstr "你覺得體內有點癢，但它很快消失了。"
 
 #: src/iuse.cpp
-msgctxt "memorial_female"
-msgid "Consumed purifier."
-msgstr "服用了淨化劑。"
-
-#: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Consumed purifier."
 msgstr "服用了淨化劑。"
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
+msgid "Consumed purifier."
+msgstr "服用了淨化劑。"
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
 msgid "Injected purifier."
 msgstr "注射了淨化劑。"
 
 #: src/iuse.cpp
-msgctxt "memorial_male"
+msgctxt "memorial_female"
 msgid "Injected purifier."
 msgstr "注射了淨化劑。"
 
@@ -107121,7 +107484,6 @@ msgid ""
 "it grew there for you."
 msgstr "你從馬洛斯灌木中醒來。你幾乎被包在裡面，事實上，就像是圍繞著你而長出來的。"
 
-#. ~ Beginning to hear the Mycus while conscious: that's it speaking
 #: src/iuse.cpp
 msgid ""
 "unity.  together we have reached the door.  we provide the final key.  now "
@@ -107132,7 +107494,6 @@ msgstr "團結。團結一致讓我們到達了大門。我們有最後的關鍵
 msgid "You feel a strange warmth spreading throughout your body..."
 msgstr "你感覺有一股奇妙的暖流從你的身體流出..."
 
-#. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time?  uh-uh.  You're not eating that alien "
@@ -107206,11 +107567,6 @@ msgid ""
 "haze..."
 msgstr "你開始翻白眼，所有的東西都化成一片令人感到喜悅的朦朧。"
 
-#. ~ The Mycus does not use the term (or encourage the concept of) "you".  The
-#. PC is a local/native organism, but is now the Mycus.
-#. ~ It still understands the concept, but uninitelligent fungaloids and mind-
-#. bent symbiotes should not need it.
-#. ~ We are the Mycus.
 #: src/iuse.cpp
 msgid "We welcome into us.  We have endured long in this forbidding world."
 msgstr "我們歡迎你的加入。我們在這禁斷的世界忍受已久。"
@@ -107355,20 +107711,20 @@ msgid "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)"
 msgstr "%s (鈍擊/砍劈: %d/%d->%d/%d, 累贅: %d->%d)"
 
 #: src/iuse.cpp
-msgid "Destroy leather padding"
-msgstr "拆走皮革墊"
-
-#: src/iuse.cpp
 msgid "Pad with leather"
 msgstr "墊上皮革"
 
 #: src/iuse.cpp
-msgid "Destroy Kevlar padding"
-msgstr "拆走凱夫勒"
+msgid "Destroy leather padding"
+msgstr "拆走皮革墊"
 
 #: src/iuse.cpp
 msgid "Pad with Kevlar"
 msgstr "縫上凱夫勒"
+
+#: src/iuse.cpp
+msgid "Destroy Kevlar padding"
+msgstr "拆走凱夫勒"
 
 #: src/iuse.cpp
 msgid "Are you sure?  You will not gain any materials back."
@@ -108209,6 +108565,25 @@ msgstr "你聽了%s"
 #: src/iuse.cpp
 msgid "The mp3 player turns off."
 msgstr "MP3播放器關閉了。"
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s requires new filter!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "<npcname> needs new gas mask filter!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s don't have a filter."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You prepared your %s."
+msgstr ""
 
 #: src/iuse.cpp src/player.cpp
 msgid "You're illiterate!"
@@ -119542,6 +119917,14 @@ msgid "Autosave"
 msgstr "自動保存"
 
 #: src/options.cpp
+msgid "Sound Enabled"
+msgstr ""
+
+#: src/options.cpp
+msgid "If true, music and sound are enabled."
+msgstr ""
+
+#: src/options.cpp
 msgid "Music volume"
 msgstr "音樂音量"
 
@@ -121206,6 +121589,10 @@ msgstr "啊啊啊啊啊啊啊！"
 #: src/player.cpp
 msgid "You have an asthma attack!"
 msgstr "你的氣喘發作了！"
+
+#: src/player.cpp
+msgid "You use your inhaler and go back to sleep."
+msgstr ""
 
 #: src/player.cpp
 msgid "You use your last inhaler charge."

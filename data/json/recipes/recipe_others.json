@@ -1141,7 +1141,7 @@
     "time": 8000,
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "stick", 1 ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
