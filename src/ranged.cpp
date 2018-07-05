@@ -724,7 +724,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                     // @todo: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                     int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                     last_chance += chance;
-                    return string_format( "%s: %3d%%", config.label.c_str(), chance );
+                    return string_format( "%s: %3d%%", _( config.label.c_str() ), chance );
                 }, false );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                                 c_white, confidence_s );
@@ -767,9 +767,9 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-        { accuracy_critical, '*', _( "Great" ) },
-        { accuracy_standard, '+', _( "Normal" ) },
-        { accuracy_grazing, '|', _( "Graze" ) }
+        { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
+        { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
+        { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
     }};
 
     const double range = rl_dist( p.pos(), target.pos() );
@@ -810,12 +810,12 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
     static const std::vector<confidence_rating> confidence_config_critter = {{
-        { accuracy_critical, '*', _( "Great" ) },
-        { accuracy_standard, '+', _( "Normal" ) },
-        { accuracy_grazing, '|', _( "Graze" ) }
+        { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
+        { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
+        { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
     }};
     static const std::vector<confidence_rating> confidence_config_object = {{
-        { accuracy_grazing, '*', _( "Hit" ) }
+        { accuracy_grazing, '*', translate_marker_context( "aim_confidence", "Hit" ) }
     }};
     const auto &confidence_config = target != nullptr ?
       confidence_config_critter : confidence_config_object;
