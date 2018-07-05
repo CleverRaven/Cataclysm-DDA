@@ -214,7 +214,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 20, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
