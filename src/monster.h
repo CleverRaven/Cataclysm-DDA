@@ -388,6 +388,7 @@ class monster : public Creature
         const mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
         bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
+        bool death_drops = true; // Turned to false for simulating monsters during distant missions so they don't drop in sight
         bool is_dead() const;
         bool made_footstep;
         std::string unique_name; // If we're unique
