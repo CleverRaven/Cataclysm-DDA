@@ -3095,9 +3095,31 @@ void item::calc_rot(const tripoint &location)
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
         const time_point until = fridge != calendar::before_time_starts ? fridge : now;
+
+        // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
+        // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
+        // positive = food was produced some time before calendar::time_of_cataclysm and/or bad storage
+        // negative = food was stored in good condiitons before calendar::time_of_cataclysm
+        if( last_rot_check == calendar::time_of_cataclysm ) {
+            const item *food = this;
+            if( food && food->goes_bad() ) {
+            float factor = to_turns<float>( food->type->comestible->spoils ) * 0.2f;
+            time_duration spoil = time_duration::from_turns( int( factor ) );
+            //ADD DEBUG PUSHBACK
+            spoil = time_duration::from_turns( rng( -to_turns<int>( spoil ), to_turns<int>( spoil ) ) );
+            //ADD DEBUG PUSHBACK
+            rot += spoil;
+            }
+
+        }
+
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             rot += get_rot_since( since, until, location );
+            // negative rot value protection, as rot can get negative from initial variation
+            //if( rot < 0 ) {
+            //    rot = 0;
+            //}
         }
         last_rot_check = now;
 
