@@ -1030,7 +1030,9 @@ void npc::load(JsonObject &data)
     int classtmp = 0;
     int atttmp = 0;
     std::string facID;
-    std::string comp_miss;
+    std::string comp_miss_id;
+    std::string comp_miss_role;
+    tripoint comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
     time_point companion_mission_t = 0;
@@ -1118,8 +1120,16 @@ void npc::load(JsonObject &data)
         }
     }
 
-    if ( data.read( "companion_mission", comp_miss) ) {
-        companion_mission = comp_miss;
+    if ( data.read( "comp_mission_id", comp_miss_id) ) {
+        comp_mission.mission_id = comp_miss_id;
+    }
+
+    if ( data.read( "comp_mission_pt", comp_miss_pt) ) {
+        comp_mission.position = comp_miss_pt;
+    }
+
+    if ( data.read( "comp_mission_role", comp_miss_role) ) {
+        comp_mission.role_id = comp_miss_role;
     }
 
     if ( data.read( "companion_mission_role_id", companion_mission_role ) ) {
@@ -1235,7 +1245,9 @@ void npc::store(JsonOut &json) const
     json.member("chatbin", chatbin);
     json.member("rules", rules);
 
-    json.member("companion_mission", companion_mission);
+    json.member("comp_mission_id", comp_mission.mission_id);
+    json.member("comp_mission_pt", comp_mission.position);
+    json.member("comp_mission_role", comp_mission.role_id);
     json.member("companion_mission_role_id", companion_mission_role_id);
     json.member("companion_mission_points", companion_mission_points);
     json.member("companion_mission_time", companion_mission_time);
