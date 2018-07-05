@@ -140,7 +140,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": "-1",
-    "dispersion": 150,
+    "dispersion": 140,
     "durability": 3,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
