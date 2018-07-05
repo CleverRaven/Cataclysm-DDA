@@ -291,8 +291,9 @@ void character_edit_menu()
             uimenu smenu;
             smenu.return_invalid = true;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-            smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-            smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
+            smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
+            smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -311,12 +312,18 @@ void character_edit_menu()
                     break;
 
                 case 1:
+                    if( query_int( value, _( "Set starvation to? Currently: %d" ), p.get_starvation() ) ) {
+                        p.set_starvation( value );
+                    }
+                    break;
+
+                case 2:
                     if( query_int( value, _( "Set thirst to? Currently: %d" ), p.get_thirst() ) ) {
                         p.set_thirst( value );
                     }
                     break;
 
-                case 2:
+                case 3:
                     if( query_int( value, _( "Set fatigue to? Currently: %d" ), p.get_fatigue() ) ) {
                         p.set_fatigue( value );
                     }
