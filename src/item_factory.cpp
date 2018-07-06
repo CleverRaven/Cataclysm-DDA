@@ -1445,7 +1445,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
-    assign( jo, "stamina_penalty", slot.stamina_penalty, strict );
+    assign( jo, "stamina_pool_recovery", slot.stamina_pool_recovery, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
