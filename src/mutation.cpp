@@ -353,13 +353,7 @@ void player::activate_mutation( const trait_id &mut )
             tdata.charge = mdata.cooldown - 1;
         }
         if (mdata.hunger){
-            if (cost + get_hunger() > 400) {
-                // in this case starvation is directly updated
-                mod_starvation(cost - (400 - get_hunger()));
-                set_hunger(400);
-            } else {
-                mod_hunger(cost);
-            }
+            mod_hunger(cost);
         }
         if (mdata.thirst){
             mod_thirst(cost);
