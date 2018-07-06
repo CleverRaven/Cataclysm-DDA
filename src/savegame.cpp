@@ -146,7 +146,8 @@ void chkversion(std::istream & fin) {
    if ( fin.peek() == '#' ) {
        std::string vline;
        getline(fin, vline);
-       std::string tmphash, tmpver;
+       std::string tmphash;
+       std::string tmpver;
        int savedver=-1;
        std::stringstream vliness(vline);
        vliness >> tmphash >> tmpver >> savedver;
@@ -164,7 +165,8 @@ void game::unserialize(std::istream & fin)
     if ( fin.peek() == '#' ) {
         std::string vline;
         getline(fin, vline);
-        std::string tmphash, tmpver;
+        std::string tmphash;
+        std::string tmpver;
         int savedver=-1;
         std::stringstream vliness(vline);
         vliness >> tmphash >> tmpver >> savedver;
@@ -174,7 +176,16 @@ void game::unserialize(std::istream & fin)
     }
     std::string linebuf;
 
-    int tmpturn, tmpcalstart = 0, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
+    int tmpturn = 0;
+    int tmpcalstart = 0;
+    int tmprun = 0;
+    int tmptar = 0;
+    int tmptartyp = 0;
+    int levx = 0;
+    int levy = 0;
+    int levz = 0;
+    int comx = 0;
+    int comy = 0;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -270,7 +281,8 @@ void game::load_weather(std::istream & fin) {
    if ( fin.peek() == '#' ) {
        std::string vline;
        getline(fin, vline);
-       std::string tmphash, tmpver;
+       std::string tmphash;
+       std::string tmpver;
        int savedver=-1;
        std::stringstream vliness(vline);
        vliness >> tmphash >> tmpver >> savedver;
@@ -288,7 +300,8 @@ void game::load_weather(std::istream & fin) {
        lightning_active = false;
    }
     if (fin.peek() == 's') {
-        std::string line, label;
+        std::string line;
+        std::string label;
         getline(fin, line);
         std::stringstream liness(line);
         liness >> label >> seed;
@@ -736,7 +749,8 @@ void overmap::unserialize( std::istream &fin ) {
         static int overmap_legacy_save_version = 24;
         std::string vline;
         getline(fin, vline);
-        std::string tmphash, tmpver;
+        std::string tmphash;
+        std::string tmpver;
         int savedver = -1;
         std::stringstream vliness(vline);
         vliness >> tmphash >> tmpver >> savedver;
@@ -952,7 +966,8 @@ void overmap::unserialize_view(std::istream &fin)
         static int overmap_legacy_save_version = 24;
         std::string vline;
         getline(fin, vline);
-        std::string tmphash, tmpver;
+        std::string tmphash;
+        std::string tmpver;
         int savedver = -1;
         std::stringstream vliness(vline);
         vliness >> tmphash >> tmpver >> savedver;

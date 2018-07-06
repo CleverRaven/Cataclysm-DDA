@@ -320,7 +320,7 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
         }
 
         // If explosion drops shrapnel...
-        if( shr.count > 0 && shr.recovery > 0 && shr.drop != "null" ) {
+        if( shr.recovery > 0 && shr.drop != "null" ) {
 
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;

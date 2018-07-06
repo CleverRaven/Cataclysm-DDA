@@ -466,7 +466,7 @@ field_id field_from_ident(const std::string &field_ident)
 void map::create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass ) {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
-        return; 
+        return;
     }
     //Items that are multiple materials are assumed to be equal parts each.
     units::mass by_weight = burned_mass / all_mats.size();
@@ -1467,13 +1467,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur.setFieldDensity(3);
                             int num_bolts = rng(3, 6);
                             for (int i = 0; i < num_bolts; i++) {
-                                int xdir = 0, ydir = 0;
+                                int xdir = 0;
+                                int ydir = 0;
                                 while (xdir == 0 && ydir == 0) {
                                     xdir = rng(-1, 1);
                                     ydir = rng(-1, 1);
                                 }
                                 int dist = rng(4, 12);
-                                int boltx = p.x, bolty = p.y;
+                                int boltx = p.x;
+                                int bolty = p.y;
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;
@@ -2081,7 +2083,7 @@ void map::player_in_field( player &u )
                     break;
                 }
                 // Full body suits protect you from the effects of the gas.
-                if( u.worn_with_flag("GAS_PROOF") ) {
+                if( u.worn_with_flag( "GAS_PROOF" ) && u.get_env_resist( bp_mouth ) >= 15 && u.get_env_resist( bp_eyes ) >= 15 ) {
                     break;
                 }
                 bool inhaled = false;

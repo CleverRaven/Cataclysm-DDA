@@ -30,6 +30,7 @@
     "upgrades": { "age_grow": 7, "into": "mon_plague_vector" },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS", "POISON", "STUMBLES" ]
   },
   {
@@ -57,6 +58,7 @@
     "vision_night": 3,
     "upgrades": { "age_grow": 7, "into": "mon_skittering_plague" },
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS", "POISON", "LARVA", "STUMBLES" ]
   },
   {
@@ -66,7 +68,7 @@
     "description": "This infected roach has been feeding on the undead and started to mutate chaotically.  Extra limbs and growths sprout from its thorax.",
     "default_faction": "roach",
     "species": [ "INSECT" ],
-    "diff": 712,
+    "diff": 12,
     "size": "SMALL",
     "hp": 70,
     "speed": 100,
@@ -89,6 +91,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS", "POISON", "STUMBLES" ]
   },
   {
@@ -121,6 +124,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "upgrades": { "age_grow": 7, "into": "mon_pregnant_giant_cockroach" },
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
   },
   {
@@ -147,6 +151,7 @@
     "vision_night": 3,
     "upgrades": { "age_grow": 7, "into": "mon_giant_cockroach" },
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
   },
   {
@@ -178,6 +183,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "death_function": [ "NORMAL", "PREG_ROACH" ],
+    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
   },
   {
@@ -692,6 +698,7 @@
     "upgrades": { "age_grow": 14, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
   },
   {
@@ -719,7 +726,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "into": "mon_ant_acid_soldier", "half_life": 0 },
-    "special_attacks": [ [ "ACID", 23 ] ],
+    "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "acidant_med",
@@ -946,7 +953,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8 } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8 }, [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS", "STUMBLES" ]
   },
   {
@@ -973,7 +980,7 @@
     "vision_day": 10,
     "upgrades": { "age_grow": 10, "into": "mon_locust" },
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4 } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4 }, [ "EAT_CROP", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS", "LARVA", "STUMBLES" ]
   }
 ]

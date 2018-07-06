@@ -42,7 +42,7 @@
     "reload_noise_volume": 10,
     "name": "Calico M960",
     "name_plural": "Calico M960",
-	"//": "Automatic variant.  Cyclic fire rate: 750 rpm",
+    "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
     "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
     "weight": 1680,
     "volume": 4,

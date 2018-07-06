@@ -28,9 +28,20 @@
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "^": "t_railroad_rubble",
-      "-": "t_railroad_tie",
+      "t": "t_railroad_tie",
+      "-": "t_railroad_tie_h",
+      "|": "t_railroad_tie_v",
+      "/": "t_railroad_tie_d",
       "X": "t_railroad_track",
-      "x": "t_railroad_track_on_tie"
+      "H": "t_railroad_track_h",
+      "V": "t_railroad_track_v",
+      "D": "t_railroad_track_d",
+      "E": "t_railroad_track_d1",
+      "F": "t_railroad_track_d2",
+      "x": "t_railroad_track_on_tie",
+      "h": "t_railroad_track_h_on_tie",
+      "v": "t_railroad_track_v_on_tie",
+      "d": "t_railroad_track_d_on_tie"
     },
     "furniture": { "&": "f_trashcan", "b": "f_bench" }
   }

@@ -693,7 +693,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool pl = false, mp = false;
+        bool pl = false;
+        bool mp = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             if( has_charges( type, count ) ) {

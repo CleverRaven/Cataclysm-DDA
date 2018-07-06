@@ -2,6 +2,7 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include "character.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "damage.h"
@@ -129,6 +130,9 @@ struct mutation_branch {
     float fatigue_regen_modifier = 0.0f;
     // Modifier for the rate at which stamina regenerates.
     float stamina_regen_modifier = 0.0f;
+
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
 
     /** The item, if any, spawned by the mutation */
     itype_id spawn_item;

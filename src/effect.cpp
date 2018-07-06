@@ -160,7 +160,7 @@ void weed_msg( player &p ) {
 }
 
 static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
-                            std::string mod_type, std::string data_key, std::string type_key, std::string arg_key)
+                            const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key)
 {
     double val = 0;
     double reduced_val = 0;
@@ -183,7 +183,7 @@ static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::st
     }
 }
 
-bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
+bool effect_type::load_mod_data( JsonObject &jsobj, const std::string &member ) {
     if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);
 
@@ -398,7 +398,7 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
+bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
 {
     if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
@@ -410,7 +410,7 @@ bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
     }
     return false;
 }
-bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
+bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
 {
     if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
@@ -883,7 +883,7 @@ int effect::get_max_val(std::string arg, bool reduced) const
     return int(ret);
 }
 
-bool effect::get_sizing(std::string arg) const
+bool effect::get_sizing( const std::string &arg ) const
 {
     if (arg == "PAIN") {
         return eff_type->pain_sizing;

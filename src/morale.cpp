@@ -129,7 +129,7 @@ bool player_morale::morale_point::is_permanent() const
     return ( duration == 0_turns );
 }
 
-bool player_morale::morale_point::matches( morale_type _type, const itype *_item_type ) const
+bool player_morale::morale_point::matches( const morale_type &_type, const itype *_item_type ) const
 {
     return ( _type == type ) && ( _item_type == nullptr || _item_type == item_type );
 }
@@ -273,12 +273,12 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
     }
 }
 
-void player_morale::set_permanent( morale_type type, int bonus, const itype *item_type )
+void player_morale::set_permanent( const morale_type &type, int bonus, const itype *item_type )
 {
     add( type, bonus, bonus, 0_turns, 0_turns, true, item_type );
 }
 
-int player_morale::has( morale_type type, const itype *item_type ) const
+int player_morale::has( const morale_type &type, const itype *item_type ) const
 {
     for( auto &m : points ) {
         if( m.matches( type, item_type ) ) {
@@ -298,7 +298,7 @@ void player_morale::remove_if( const std::function<bool( const morale_point & )>
     }
 }
 
-void player_morale::remove( morale_type type, const itype *item_type )
+void player_morale::remove( const morale_type &type, const itype *item_type )
 {
     remove_if( [ type, item_type ]( const morale_point & m ) -> bool {
         return m.matches( type, item_type );

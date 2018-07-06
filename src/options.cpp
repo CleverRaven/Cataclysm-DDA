@@ -755,7 +755,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  */
 static std::vector<std::pair<std::string, std::string>> build_resource_list(
     std::map<std::string, std::string> &resource_option, std::string operation_name,
-    std::string dirname_label, std::string filename_label ) {
+    const std::string &dirname_label, const std::string &filename_label ) {
     std::vector<std::pair<std::string, std::string>> resource_names;
 
     resource_option.clear();
@@ -1569,41 +1569,6 @@ void options_manager::init()
         { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } }, "any"
         );
 
-    mOptionsSort["world_default"]++;
-
-    add( "NO_FAULTS", "world_default", translate_marker( "Disables vehicle part faults." ),
-        translate_marker( "If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "FILTHY_MORALE", "world_default", translate_marker( "Morale penalty for filthy clothing." ),
-        translate_marker( "If true, wearing filthy clothing will cause morale penalties." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "FILTHY_WOUNDS", "world_default", translate_marker( "Infected wounds from filthy clothing." ),
-        translate_marker( "If true, getting hit in a body part covered in filthy clothing may cause infections." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "NO_VITAMINS", "world_default", translate_marker( "Disables tracking vitamins in food items." ),
-        translate_marker( "If true, disables vitamin tracking and vitamin disorders." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "NO_NPC_FOOD", "world_default", translate_marker( "Disables tracking food, thirst and ( partially ) fatigue for NPCs." ),
-        translate_marker( "If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
@@ -1851,7 +1816,8 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
         if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X") {
-            int new_terminal_x, new_window_width;
+            int new_terminal_x = 0;
+            int new_window_width = 0;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_x;
@@ -1865,7 +1831,8 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_width);
         } else if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y") {
-            int new_terminal_y, new_window_height;
+            int new_terminal_y = 0;
+            int new_window_height = 0;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_terminal_y;
@@ -2092,10 +2059,7 @@ void options_manager::serialize(JsonOut &json) const
             const auto iter = options.find( elem );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
-                //Skip hidden option because it is set by mod and should not be saved
-                if ( opt.hide == COPT_ALWAYS_HIDE ) {
-                    continue;
-                }
+
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );

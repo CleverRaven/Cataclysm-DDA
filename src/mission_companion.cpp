@@ -185,12 +185,13 @@ void talk_function::companion_mission(npc &p)
  talk_function::outpost_missions( p, id, title );
 }
 
-bool talk_function::outpost_missions( npc &p, std::string id, std::string title )
+bool talk_function::outpost_missions( npc &p, const std::string &id, const std::string &title )
 {
     std::vector<std::string> keys;
     std::map<std::string, std::string> col_missions;
     std::vector<std::shared_ptr<npc>> npc_list;
-    std::string entry, entry_aux;
+    std::string entry;
+    std::string entry_aux;
 
     if (id == "SCAVENGER"){
         col_missions["Assign Scavenging Patrol"] = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
@@ -482,7 +483,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
     return true;
 }
 
-void talk_function::individual_mission( npc &p, std::string desc, std::string id, bool group )
+void talk_function::individual_mission( npc &p, const std::string &desc, const std::string &id, bool group )
 {
     npc *comp = companion_choose();
     if (comp == NULL){
@@ -499,7 +500,7 @@ void talk_function::individual_mission( npc &p, std::string desc, std::string id
     assert( !comp->is_active() );
 }
 
-void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
+void talk_function::caravan_depart( npc &p, const std::string &dest, const std::string &id )
 {
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     int distance = caravan_dist(dest);
@@ -516,14 +517,14 @@ void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
 }
 
 //Could be expanded to actually path to the site, just returns the distance
-int talk_function::caravan_dist(std::string dest)
+int talk_function::caravan_dist( const std::string &dest )
 {
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), dest, 0, false );
     int distance = rl_dist( g->u.pos(), site );
     return distance;
 }
 
-void talk_function::caravan_return( npc &p, std::string dest, std::string id )
+void talk_function::caravan_return( npc &p, const std::string &dest, const std::string &id )
 {
     npc *comp = companion_choose_return( p.name + id, calendar::turn );
     if (comp == NULL){
@@ -537,7 +538,8 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
     //So we have chosen to return an individual or party who went on the mission
     //Everyone who was on the mission will have the same companion_mission_time
     //and will simulate the mission and return together
-    std::vector<std::shared_ptr<npc>> caravan_party, bandit_party;
+    std::vector<std::shared_ptr<npc>> caravan_party;
+    std::vector<std::shared_ptr<npc>> bandit_party;
     std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     for (int i = 0; i < rng(1,3); i++){
         caravan_party.push_back(temp_npc(string_id<npc_template>( "commune_guard" )));
@@ -571,7 +573,8 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
         }
     }
 
-    int y,i;
+    int y = 0;
+    int i = 0;
     int money = 0;
     for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
@@ -705,10 +708,10 @@ void talk_function::field_build_2( npc &p )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
     bay.load(site.x * 2, site.y * 2, site.z, false);
-    bay.draw_square_ter(t_fence_h, 4, 3, 16, 3);
-    bay.draw_square_ter(t_fence_h, 4, 15, 16, 15);
-    bay.draw_square_ter(t_fence_v, 4, 3, 4, 15);
-    bay.draw_square_ter(t_fence_v, 16, 3, 16, 15);
+    bay.draw_square_ter(t_fence, 4, 3, 16, 3);
+    bay.draw_square_ter(t_fence, 4, 15, 16, 15);
+    bay.draw_square_ter(t_fence, 4, 3, 4, 15);
+    bay.draw_square_ter(t_fence, 16, 3, 16, 15);
     bay.draw_square_ter(t_fencegate_c, 10, 3, 10, 3);
     bay.draw_square_ter(t_fencegate_c, 10, 15, 10, 15);
     bay.draw_square_ter(t_fencegate_c, 4, 9, 4, 9);
@@ -716,9 +719,9 @@ void talk_function::field_build_2( npc &p )
     popup( _( "After counting your money %s directs a nearby laborer to begin constructing a fence around your plot..." ), p.name.c_str() );
 }
 
-void talk_function::field_plant( npc &p, std::string place )
+void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if (g->get_temperature() < 50) {
+    if (g->get_temperature( g->u.pos() ) < 50) {
         popup(_("It is too cold to plant anything now."));
         return;
     }
@@ -811,12 +814,12 @@ void talk_function::field_plant( npc &p, std::string place )
             }
         }
     }
-    bay.draw_square_ter(t_fence_h, 4, 3, 16, 3);
+    bay.draw_square_ter(t_fence, 4, 3, 16, 3);
     bay.save();
     popup( _( "After counting your money and collecting your seeds, %s calls forth a labor party to plant your field." ), p.name.c_str() );
 }
 
-void talk_function::field_harvest( npc &p, std::string place )
+void talk_function::field_harvest( npc &p, const std::string &place )
 {
     //First we need a list of plants that can be harvested...
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20, false );
@@ -988,7 +991,8 @@ bool talk_function::scavenging_patrol_return( npc &p )
     int money = rng( 25, 450 );
     g->u.cash += money*100;
 
-    int y, i = 0;
+    int y = 0;
+    int i = 0;
     while (i < experience){
         y = rng( 0, 100 );
         if( y < 40 ){
@@ -1084,7 +1088,8 @@ bool talk_function::scavenging_raid_return( npc &p )
     int money = rng( 200, 900 );
     g->u.cash += money * 100;
 
-    int y,i=0;
+    int y = 0;
+    int i = 0;
     while (i < experience){
         y = rng( 0, 100 );
         if (y < 40){
@@ -1146,7 +1151,8 @@ bool talk_function::labor_return( npc &p )
     g->u.cash += money*100;
 
     int exp = turns;
-    int y,i = 0;
+    int y = 0;
+    int i = 0;
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 50){
@@ -1214,7 +1220,8 @@ bool talk_function::carpenter_return( npc &p )
     g->u.cash += money*100;
 
     int exp = turns;
-    int y,i = 0;
+    int y = 0;
+    int i = 0;
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 70){
@@ -1301,7 +1308,8 @@ bool talk_function::forage_return( npc &p )
     g->u.cash += money*100;
 
     int exp = turns;
-    int y,i = 0;
+    int y = 0;
+    int i = 0;
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 60){
@@ -1356,8 +1364,8 @@ bool talk_function::forage_return( npc &p )
     return true;
 }
 
-void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
-    std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage )
+void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, const std::string &def_desc,
+    std::vector<std::shared_ptr<npc>> attacker, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if (advantage < 0){
@@ -1369,8 +1377,10 @@ void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, 
         defender.size(), defender[0]->my_fac->name.c_str(), def_desc.c_str(),
         attacker.size(), attacker[0]->my_fac->name.c_str(), att_desc.c_str(),
         adv.c_str());
-    int defense, attack;
-    int att_init, def_init;
+    int defense = 0;
+    int attack = 0;
+    int att_init = 0;
+    int def_init = 0;
     while (true){
         std::vector<std::shared_ptr<npc>> remaining_att;
         for( const auto &elem : attacker ) {
@@ -1459,7 +1469,7 @@ npc *talk_function::companion_choose(){
     return NULL;
 }
 
-npc *talk_function::companion_choose_return( std::string id, const time_point &deadline )
+npc *talk_function::companion_choose_return( const std::string &id, const time_point &deadline )
 {
     std::vector<npc *> available;
     for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {

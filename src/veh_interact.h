@@ -133,7 +133,7 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode();
-        void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
+        void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
         void display_details( const vpart_info *part );
         size_t display_esc( const catacurses::window &w );
 
