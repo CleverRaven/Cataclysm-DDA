@@ -68,7 +68,7 @@
     "description": "This infected roach has been feeding on the undead and started to mutate chaotically.  Extra limbs and growths sprout from its thorax.",
     "default_faction": "roach",
     "species": [ "INSECT" ],
-    "diff": 712,
+    "diff": 12,
     "size": "SMALL",
     "hp": 70,
     "speed": 100,
