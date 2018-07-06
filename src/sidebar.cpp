@@ -315,11 +315,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     wmove( w, sideStyle ? 1 : 2, 0 );
-    if( get_hunger() >= 400 and get_starvation() > 2400 ) {
+    if( get_hunger() >= 300 && get_starvation() > 2300 ) {
         wprintz( w, c_red,    _( "Starving!" ) );
-    } else if( get_hunger() >= 400 and get_starvation() > 1000 ) {
+    } else if( get_hunger() >= 300 && get_starvation() > 900 ) {
         wprintz( w, c_light_red,  _( "Near starving" ) );
-    } else if( get_hunger() > 300 ) {
+    } else if( get_hunger() > 250 ) {
         wprintz( w, c_light_red,  _( "Famished" ) );
     } else if( get_hunger() > 100 ) {
         wprintz( w, c_yellow, _( "Very hungry" ) );

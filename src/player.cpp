@@ -648,13 +648,13 @@ void player::reset_stats()
     set_fake_effect_dur( effect_depressants, 1_turns * -stim );
     set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
     // Starvation
-    if( get_starvation() >= 100 ) {
+    if( get_starvation() >= 200 ) {
         // We die at 6000
-        const int dex_mod = -( get_starvation() + 400 ) / 1000;
+        const int dex_mod = -( get_starvation() + 300 ) / 1000;
         add_miss_reason( _( "You're weak from hunger." ), unsigned( -dex_mod ) );
-        mod_str_bonus( -( get_starvation() + 400 ) / 500 );
+        mod_str_bonus( -( get_starvation() + 300 ) / 500 );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -( get_starvation() + 400 ) / 1000 );
+        mod_int_bonus( -( get_starvation() + 300 ) / 1000 );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -4101,15 +4101,15 @@ void player::check_needs_extremes()
     }
 
     // Check if we're starving or have starved
-    if( is_player() && get_hunger() >= 400 && get_starvation() >= 2600 ) {
-        if (get_starvation() >= 5600) {
+    if( is_player() && get_hunger() >= 300 && get_starvation() >= 2700 ) {
+        if (get_starvation() >= 5700) {
             add_msg_if_player(m_bad, _("You have starved to death."));
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
             hp_cur[hp_torso] = 0;
-        } else if( get_starvation() >= 4600 && calendar::once_every( 1_hours ) ) {
+        } else if( get_starvation() >= 4700 && calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("Food..."));
-        } else if( get_starvation() >= 3600 && calendar::once_every( 1_hours ) ) {
+        } else if( get_starvation() >= 3700 && calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("You are STARVING!"));
         } else if( calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
@@ -4225,7 +4225,7 @@ void player::update_needs( int rate_multiplier )
         mod_hunger( rolled_hunger );
 
         // if the playing is famished, starvation increases
-        if (get_hunger() >= 400) {
+        if (get_hunger() >= 300) {
             mod_starvation( rolled_hunger );
         } else {
             mod_starvation( -rolled_hunger );

@@ -1825,8 +1825,8 @@ void Character::mod_hunger(int nhunger)
 void Character::set_hunger(int nhunger)
 {
     if( hunger != nhunger ) {
-        // cap hunger at 400, just below famished
-        hunger = std::min(400, nhunger);
+        // cap hunger at 300, just below famished
+        hunger = std::min(300, nhunger);
         on_stat_change( "hunger", hunger );
     }
 }

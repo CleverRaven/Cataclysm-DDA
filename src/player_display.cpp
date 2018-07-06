@@ -256,9 +256,9 @@ void player::disp_info()
         effect_text.push_back( pain_text.str() );
     }
 
-    int starvation_base_penalty = get_starvation() + 400;
+    int starvation_base_penalty = get_starvation() + 300;
 
-    if( starvation_base_penalty > 400 ) {
+    if( starvation_base_penalty > 300 ) {
         std::stringstream starvation_text;
 
         if( starvation_base_penalty > 1400 ) {
@@ -282,7 +282,7 @@ void player::disp_info()
 
         int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
 
-        if( starvation_speed_penalty > 0 ) {
+        if( get_hunger() + get_starvation() > 100 ) {
             starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
         }
 
