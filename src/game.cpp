@@ -3047,10 +3047,10 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE_BURST: {
-            gun_mode_id mode = u.weapon.gun_get_mode_id();
+            gun_mode_id original_mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                 plfire( u.weapon );
-                u.weapon.gun_set_mode( mode );
+                u.weapon.gun_set_mode( original_mode );
             }
             break;
         }
