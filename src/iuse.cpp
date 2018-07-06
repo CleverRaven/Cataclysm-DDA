@@ -1665,8 +1665,22 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
 enum Petfood {
     DOGFOOD,
     CATFOOD,
-    CATTLEFODDER
+    CATTLEFODDER,
+    CHICKENFEED
 };
+
+int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
+{
+    if( mon.has_flag( food_flag ) ) {
+        p.add_msg_if_player( m_good, message, mon.get_name().c_str() );
+        mon.friendly = -1;
+        mon.add_effect( effect_pet, 1_turns, num_bp, true );
+        return 1;
+    } else {
+        p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name().c_str() );
+        return 0;
+    }
+}
 
 int petfood( player &p, const item &it, Petfood animal_food_type )
 {
@@ -1711,42 +1725,21 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                         return 1;
                     }
-                } else if( mon.has_flag( MF_DOGFOOD ) ) {
-                    p.add_msg_if_player( m_good,
-                                         _( "The %s seems to like you!  It lets you pat its head and seems friendly." ),
-                                         mon.get_name().c_str() );
-                    mon.friendly = -1;
-                    mon.add_effect( effect_pet, 1_turns, num_bp, true );
-                    return 1;
-                } else {
-                    p.add_msg_if_player( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
+                } else
+                    return feedpet( p, mon, MF_DOGFOOD,
+                                    _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
                 break;
             case CATFOOD:
-                if( mon.has_flag( MF_CATFOOD ) ) {
-                    p.add_msg_if_player( m_good,
-                                         _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ),
-                                         mon.get_name().c_str() );
-                    mon.friendly = -1;
-                    return 1;
-                } else {
-                    p.add_msg_if_player( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
+                return feedpet( p, mon, MF_CATFOOD,
+                                _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
                 break;
             case CATTLEFODDER:
-                if( mon.has_flag( MF_CATTLEFODDER ) ) {
-                    p.add_msg_if_player( m_good,
-                                         _( "The %s seems to like you!  It lets you pat its head and seems friendly." ),
-                                         mon.get_name().c_str() );
-                    mon.friendly = -1;
-                    mon.add_effect( effect_pet, 1_turns, num_bp, true );
-                    return 1;
-                } else {
-                    p.add_msg_if_player( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
+                return feedpet( p, mon, MF_CATTLEFODDER,
+                                _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
+                break;
+            case CHICKENFEED:
+                return feedpet( p, mon, MF_CHICKENFEED,
+                                _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
                 break;
         }
 
@@ -1772,6 +1765,11 @@ int iuse::catfood( player *p, item *it, bool, const tripoint & )
 int iuse::feedcattle( player *p, item *it, bool, const tripoint & )
 {
     return petfood( *p, *it, CATTLEFODDER );
+}
+
+int iuse::feedchicken( player *p, item *it, bool, const tripoint & )
+{
+    return petfood( *p, *it, CHICKENFEED );
 }
 
 int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )

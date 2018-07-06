@@ -160,6 +160,7 @@ enum m_flag : int {
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
+    MF_CHICKENFEED,         // This monster will become friendly when fed chicken feed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.

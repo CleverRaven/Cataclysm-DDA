@@ -759,6 +759,11 @@
     },
     {
         "type" : "item_action",
+        "id" : "CHICKENFEED",
+        "name" : "Place"
+    },
+    {
+        "type" : "item_action",
         "id" : "install_bionic",
         "name" : "Install bionic"
     },

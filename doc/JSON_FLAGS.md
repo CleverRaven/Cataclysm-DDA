@@ -226,6 +226,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_SUBS``` May produce a CBM or two from bionics_subs and a power CBM when butchered.
 - ```CBM_SCI``` May produce a CBM from 'bionics_sci' item group when butchered.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
+- ```CHICKENFEED``` Becomes friendly / tamed with chicken feed.
 - ```CHITIN``` May produce chitin when butchered.
 - ```CLIMBS``` Can climb.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
@@ -757,6 +758,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
+- ```CHICKENFEED``` Makes a small bird friendly.
 - ```CIG``` Alleviates nicotine cravings. Adds disease `cig`.
 - ```COKE``` Decreases hunger. Adds disease `high`.
 - ```CRACK``` Decreases hunger. Adds disease `high`.
