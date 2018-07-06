@@ -1342,7 +1342,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->rem_addiction( ADD_MARLOSS_R );
         p->rem_addiction( ADD_MARLOSS_B );
         p->rem_addiction( ADD_MARLOSS_Y );
-    } else if (p->has_trait( trait_THRESH_MYCUS ) &&
+    } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
             p->mutate_category( "MYCUS" );

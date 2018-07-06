@@ -2529,7 +2529,8 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
     }
 
     if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id & mat ) {
-    return mat.obj().repaired_with() == fix.typeId();
+    return mat.obj()
+               .repaired_with() == fix.typeId();
     } ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "This can be used to repair other items, not itself." ) );
@@ -3503,36 +3504,38 @@ void mutagen_actor::load( JsonObject &obj )
 long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Consumed mutagen." ), pgettext( "memorial_female",
-                                     "Consumed mutagen." ) );
-    if ( !checks.allowed ) {
+                             pgettext( "memorial_male", "Consumed mutagen." ),
+                             pgettext( "memorial_female", "Consumed mutagen." ) );
+
+    if( !checks.allowed ) {
         return checks.charges_used;
     }
 
-    if ( is_weak && !one_in( 3 ) ) {
+    if( is_weak && !one_in( 3 ) ) {
         // Nothing! Mutagenic flesh often just fails to work.
         return it.type->charges_to_use();
     }
 
-    const mutation_category_trait &m_category = mutation_category_trait::get_category( mutation_category );
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                mutation_category );
 
-    if ( p.has_trait( trait_MUT_JUNKIE ) ) {
+    if( p.has_trait( trait_MUT_JUNKIE ) ) {
         p.add_msg_if_player( m_good, _( "You quiver with anticipation..." ) );
         p.add_morale( MORALE_MUTAGEN, 5, 50 );
     }
 
     p.add_msg_if_player( m_category.mutagen_message.c_str() );
 
-    if ( one_in( 6 ) ) {
+    if( one_in( 6 ) ) {
         p.add_msg_player_or_npc( m_bad,
-          _( "You suddenly feel dizzy, and collapse to the ground." ),
-          _( "<npcname> suddenly collapses to the ground!" ) );
+                                 _( "You suddenly feel dizzy, and collapse to the ground." ),
+                                 _( "<npcname> suddenly collapses to the ground!" ) );
         p.add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
     }
 
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
 
-    for ( int i = 0; i < mut_count; i++ ) {
+    for( int i = 0; i < mut_count; i++ ) {
         p.mutate_category( m_category.id );
         p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
     }
@@ -3557,16 +3560,17 @@ void mutagen_iv_actor::load( JsonObject &obj )
 long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Injected mutagen." ), pgettext( "memorial_female",
-                                     "Injected mutagen." ) );
+                             pgettext( "memorial_male", "Injected mutagen." ),
+                             pgettext( "memorial_female", "Injected mutagen." ) );
 
-    if ( !checks.allowed ) {
+    if( !checks.allowed ) {
         return checks.charges_used;
     }
 
-    const mutation_category_trait &m_category = mutation_category_trait::get_category( mutation_category );
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                mutation_category );
 
-    if ( p.has_trait( trait_MUT_JUNKIE ) ) {
+    if( p.has_trait( trait_MUT_JUNKIE ) ) {
         p.add_msg_if_player( m_category.junkie_message.c_str() );
     } else {
         p.add_msg_if_player( m_category.iv_message.c_str() );
@@ -3576,20 +3580,20 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_player" part, implement NPC screams
-    if ( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message );
     }
 
     int mut_count = m_category.iv_min_mutations;
-    for ( int i = 0; i < m_category.iv_additional_mutations; ++i ) {
-        if ( !one_in( m_category.iv_additional_mutations_chance ) ) {
+    for( int i = 0; i < m_category.iv_additional_mutations; ++i ) {
+        if( !one_in( m_category.iv_additional_mutations_chance ) ) {
             ++mut_count;
         }
     }
 
-    for ( int i = 0; i < mut_count; i++ ) {
+    for( int i = 0; i < mut_count; i++ ) {
         p.mutate_category( m_category.id );
         p.mod_pain( m_category.iv_pain  * rng( 1, 5 ) );
     }
@@ -3602,12 +3606,12 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
     } else if( m_category.id == "ELFA" ) {
         p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.iv_morale > 0 ){
+    } else if( m_category.iv_morale > 0 ) {
         p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
     }
 
     if( m_category.iv_sleep && !one_in( 3 ) ) {
-        p.add_msg_if_player( m_bad, m_category.iv_sleep_message.c_str());
+        p.add_msg_if_player( m_bad, m_category.iv_sleep_message.c_str() );
         /** @EFFECT_INT reduces sleep duration when using IV mutagen */
         p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p.int_cur * 5 ) );
     }

@@ -332,14 +332,13 @@ enum class mutagen_rejection {
 };
 
 struct mutagen_attempt {
-    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c )
-    { }
+    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c ) {}
     bool allowed;
     long charges_used;
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
-    const std::string &memorial_male, const std::string &memorial_female );
+                                       const std::string &memorial_male, const std::string &memorial_female );
 
 void test_crossing_threshold( player &p, const mutation_category_trait &m_category );
 
