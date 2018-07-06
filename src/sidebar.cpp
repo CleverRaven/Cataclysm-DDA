@@ -315,9 +315,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     wmove( w, sideStyle ? 1 : 2, 0 );
-    if( get_hunger() >= 300 && get_starvation() > 2300 ) {
+    if( get_hunger() >= 300 && get_starvation() > 2500 ) {
         wprintz( w, c_red,    _( "Starving!" ) );
-    } else if( get_hunger() >= 300 && get_starvation() > 900 ) {
+    } else if( get_hunger() >= 300 && get_starvation() > 1100 ) {
         wprintz( w, c_light_red,  _( "Near starving" ) );
     } else if( get_hunger() > 250 ) {
         wprintz( w, c_light_red,  _( "Famished" ) );
@@ -370,7 +370,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         temp_message = _( " (Falling!!)" );
     }
 
-    // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
+    // printCur the hottest/coldest bodypart, and   if it is rising or falling in temperature
     wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
     if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
         wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
