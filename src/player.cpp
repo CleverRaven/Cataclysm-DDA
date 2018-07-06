@@ -4301,7 +4301,7 @@ void player::update_needs( int rate_multiplier )
     if( is_wearing( "solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 25 );
     }
-    
+
     if( is_wearing( "q_solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 50 );
     }
@@ -4346,10 +4346,11 @@ void player::regen( int rate_multiplier )
     }
 
     // regenerate max stamina
-    if( rest > 0 ){
+    if( rest > 0 ) {
         float stamina_max_regen_rate = get_option< float >( "PLAYER_MAX_STAMINA_REGENERATE" );
-        float stamina_regen_mutations = 1 + mutation_value( "stamina_regen_modifier" ) + mutation_value( "fatigue_regen_modifier" );
-        float stamina_max_regen = rest * stamina_max_regen_rate * MINUTES(5) * stamina_regen_mutations;
+        float stamina_regen_mutations = 1 + mutation_value( "stamina_regen_modifier" ) +
+                                        mutation_value( "fatigue_regen_modifier" );
+        float stamina_max_regen = rest * stamina_max_regen_rate * MINUTES( 5 ) * stamina_regen_mutations;
         mod_stamina_max_penalty( -stamina_max_regen );
     }
 }
@@ -4390,27 +4391,30 @@ void player::update_stamina( int turns )
     }
 
     // Decrease stamina regeneration if tired
-    float fatigue_mod = std::max( ( 1 + get_fatigue() / 1000.0f ), 0.1f );
+    float fatigue_mod = std::max( ( 1 - get_fatigue() / 500.0f ), 0.1f );
     stamina_recovery *= fatigue_mod;
 
-    stamina = roll_remainder( stamina + stamina_recovery * turns );
-
-    // Cap at max
+    // Calculate stamina change and cap at max
     const int max_stam_penalty = get_stamina_max() - get_stamina_max_penalty();
-    stamina = std::min( std::max( stamina, 0 ), max_stam_penalty );
+    int stamina_change = std::min( roll_remainder( stamina_recovery * turns ),
+                                   max_stam_penalty - stamina );
+    stamina += stamina_change;
 
     // Add winded effect
-    if( ( stamina < ( get_stamina_max() / 10 ) ) && !has_effect( effect_winded ) ){
-        add_effect( effect_winded, 10_turns );
+    if( stamina < ( get_stamina_max() / 10 ) ) {
+        add_effect( effect_winded, 1_turns, num_bp, true );
+    } else {
+        remove_effect( effect_winded );
     }
 
     // Increase needs with stamina recovery
     // Sleeping character will recover stamina pool, thus regenerate stamina
     // This regeneration should not increase needs
-    if( !has_effect( effect_sleep ) ){
+    if( !has_effect( effect_sleep ) ) {
         int StaminaIncreaseHunger = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER" );
         float mutation_hunger = 1.0f + mutation_value( "metabolism_modifier" );
-        float AddHunger = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseHunger * mutation_hunger );
+        float AddHunger = roll_remainder( stamina_change / 10000.0f * StaminaIncreaseHunger *
+                                          mutation_hunger );
         if( is_npc() ) {
             AddHunger *= 0.25f;
         }
@@ -4418,28 +4422,31 @@ void player::update_stamina( int turns )
 
         int StaminaIncreaseThirst = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_THIRST" );
         float mutation_thirst = 1.0f + mutation_value( "thirst_modifier" );
-        float AddThirst = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseThirst * mutation_thirst );
+        float AddThirst = roll_remainder( stamina_change / 10000.0f * StaminaIncreaseThirst *
+                                          mutation_thirst );
         if( is_npc() ) {
             AddThirst *= 0.25f;
         }
         mod_stat( "thirst", AddThirst );
 
         int StaminaIncreaseFatigue = get_option< int >( "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE" );
-        float mutation_fatugue = 1.0f + mutation_value( "fatigue_modifier" );
-        float AddFatigue = roll_remainder( stamina_recovery * turns / 10000.0f * StaminaIncreaseFatigue * mutation_fatugue );
+        float mutation_fatigue = 1.0f + mutation_value( "fatigue_modifier" );
+        float AddFatigue = roll_remainder( stamina_change / 10000.0f * StaminaIncreaseFatigue *
+                                           mutation_fatigue );
         if( is_npc() ) {
             AddFatigue *= 0.25f;
         }
         mod_stat( "fatigue", AddFatigue );
     }
 
+    // add info effect
     float relative_stamina = ( float )stamina_max_penalty / get_stamina_max();
-    if ( relative_stamina > 0.5 ){
-        add_effect( effect_stamina_penalty, 1_turns, bp_torso, false, 3 );
-    } else if( relative_stamina > 0.25 ){
-        add_effect( effect_stamina_penalty, 1_turns, bp_torso, false, 2 );
-    } else if( relative_stamina > 0.1 ){
-        add_effect( effect_stamina_penalty, 1_turns, bp_torso, false, 1);
+    if( relative_stamina > 0.5 ) {
+        add_effect( effect_stamina_penalty, 1_turns, num_bp, false, 3 );
+    } else if( relative_stamina > 0.25 ) {
+        add_effect( effect_stamina_penalty, 1_turns, num_bp, false, 2 );
+    } else if( relative_stamina > 0.1 ) {
+        add_effect( effect_stamina_penalty, 1_turns, num_bp, false, 1 );
     }
 }
 
@@ -7196,7 +7203,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
-    
+
     for( auto &i : worn ) {
         if( i.has_flag( "ONLY_ONE" ) && i.typeId() == it.typeId() ) {
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname().c_str() );
