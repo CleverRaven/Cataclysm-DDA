@@ -752,7 +752,7 @@
         "container" : "bag_plastic",
         "quench" : -2,
         "stim" : 20,
-        "stamina_penalty": -100,
+        "stamina_pool_recovery": 1000,
         "healthy" : -7,
         "fun" : 30,
         "addiction_potential" : 50,
