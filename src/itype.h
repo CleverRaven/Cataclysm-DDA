@@ -155,7 +155,7 @@ struct islot_comestible
     int stim = 0;
 
     /** change stamina penalty */
-    int stamina_penalty = 0;
+    int stamina_pool_recovery = 0;
 
     /** @todo: add documentation */
     int healthy = 0;
