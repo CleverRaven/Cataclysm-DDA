@@ -3859,7 +3859,6 @@ bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>>
 
     //If the map isn't generated we need to do that...
     if( MAPBUFFER.lookup_submap( om_to_sm_copy(om_tgt) ) == NULL ){
-        //Fill with monsters, neither of these work since they are dependent on the player's location
         //This doesn't gen monsters...
         //tinymap tmpmap;
         //tmpmap.generate( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, calendar::turn );
@@ -3881,7 +3880,6 @@ bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>>
             auto monster_bucket = omi.monster_map.equal_range( current_submap_loc );
             std::for_each( monster_bucket.first, monster_bucket.second, [&](std::pair<const tripoint, monster> &monster_entry ) {
                 monster &this_monster = monster_entry.second;
-                //debugmsg( " yup %s", this_monster.name() );
                 monsters_around.push_back( &this_monster );
             } );
         }
@@ -4237,9 +4235,7 @@ npc *talk_function::companion_choose_return( npc &p, std::string id, time_point 
 
         if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ){
             available.push_back( guy.get() );
-        }
-
-        if( deadline == calendar::before_time_starts ){
+        } else if( deadline == calendar::before_time_starts ){
             if( guy->companion_mission_time_ret <= calendar::turn ){
                 available.push_back( guy.get() );
             }
