@@ -184,13 +184,13 @@
             "str_mod": [-4, -1],
             "speed_mod": [-20],
             "pain_min": [1],
-            "pain_chance": [1, 30],
+            "pain_chance": [30],
             "fatigue_min": [1],
-            "fatigue_chance": [1, 4],
+            "fatigue_chance": [4],
             "hunger_min": [1],
-            "hunger_chance": [1, 6],
+            "hunger_chance": [6],
             "thirst_min": [1],
-            "thirst_chance": [1, 4]
+            "thirst_chance": [4]
         }
     },
     {
