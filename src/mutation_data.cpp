@@ -116,7 +116,7 @@ const std::map<std::string, mutation_category_trait> &mutation_category_trait::g
 
 const mutation_category_trait &mutation_category_trait::get_category( std::string category_id )
 {
-    return mutation_category_traits[category_id];
+    return mutation_category_traits.find( category_id )->second;
 }
 
 void mutation_category_trait::reset()
