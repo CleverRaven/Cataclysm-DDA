@@ -330,8 +330,8 @@ void character_edit_menu()
                     break;
 
                 default:
-                    if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 3 );
+                    if( smenu.ret > 3 && smenu.ret < static_cast<int>( vits.size() + 4 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 4 );
                         if( query_int( value, _( "Set %s to? Currently: %d" ),
                                        iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
