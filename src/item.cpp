@@ -53,6 +53,7 @@
 #include "units.h"
 #include "ret_val.h"
 #include "iteminfo_query.h"
+#include "game_constants.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -3102,7 +3103,7 @@ void item::calc_rot(const tripoint &location)
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
-        const time_point until = fridge != calendar::before_time_starts ? fridge : now;
+        time_point until = fridge != calendar::before_time_starts ? fridge : now;
         until = freezer != calendar::before_time_starts ? freezer : now;
         if ( since < until ) {
             // rot (outside of fridge/freezer) from bday/last_rot_check until fridge/freezer/now
@@ -3119,7 +3120,7 @@ void item::calc_rot(const tripoint &location)
             freezer = calendar::before_time_starts;
         }
         if( fridge != calendar::before_time_starts ) {
-            rot += ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
+            rot += ( now - fridge ) / 1_hours * g->m.get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
             fridge = calendar::before_time_starts;
         }
         // item stays active to let the item counter work
@@ -5693,7 +5694,7 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     } else if( item_tags.count( "FROZEN" ) > 0 ) {
         if( item_counter == 0 ) {
             item_tags.erase( "FROZEN" );
-            if this.has_flag( "EATEN_COLD" ) {
+            if( has_flag( "EATEN_COLD" ) ) {
                 item_tags.insert( "COLD" );
                 item_counter = 600;
             }
@@ -5701,10 +5702,10 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     }
     // environment temperature applies COLD/FROZEN flags to food
     if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE
-        && g->get_temperature( pos ) > FREEZE_TEMPERATURE ) {
-        apply_in_fridge( *this, false);
-    } else if( g->get_temperature( pos ) <= FREEZE_TEMPERATURE ) {
-        apply_in_fridge( *this, true);
+        && g->get_temperature( pos ) > FREEZING_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, false);
+    } else if( g->get_temperature( pos ) <= FREEZING_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, true);
     }
     return false;
 }

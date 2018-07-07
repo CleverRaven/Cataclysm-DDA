@@ -893,6 +893,20 @@ class map
         void make_active( item_location &loc );
 
         /**
+         * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
+         * and sets item's fridge/freezer status variables.
+         * @param it Item processed.
+         * @param freezer If true its a freezer if false its a fridge, for temperature calculation.
+         * It can also be applied to discern above/below freezing temperatures.
+         */
+        void apply_in_fridge( item &it, bool freezer );
+
+        /**
+         * Calculates rot per hour at given temperature
+         */
+        int get_hourly_rotpoints_at_temp( int temp );
+
+        /**
          * @name Consume items on the map
          *
          * The functions here consume accessible items / item charges on the map or in vehicles
