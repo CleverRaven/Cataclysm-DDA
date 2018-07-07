@@ -1,17 +1,17 @@
 # Translators:
 # Mickaël Falck <lastmikoi+github@lastmikoi.net>, 2018
-# Jazz <jazzzz@gmail.com>, 2018
-# _hickop, 2018
+# Julien Maitre <julienm86230@hotmail.fr>, 2018
 # Brett Dong <brett.browning.dong@gmail.com>, 2018
 # Argasm Voragz <argasm@gmail.com>, 2018
-# Julien Maitre <julienm86230@hotmail.fr>, 2018
+# Jazz <jazzzz@gmail.com>, 2018
+# _hickop, 2018
 # 0a12861a88fd8e19ef9d434658b16f47, 2018
 # master zu, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-23 22:54+0800\n"
+"POT-Creation-Date: 2018-06-29 12:30+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: master zu, 2018\n"
 "Language-Team: French (https://www.transifex.com/cataclysm-dda-translators/teams/2217/fr/)\n"
@@ -22921,8 +22921,8 @@ msgstr[1] "Saucisses italienne douces"
 
 #. ~ Description for sweet sausage
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A sweet and delicious sausage."
-msgstr "Une  douce et délicieuse saucisse."
+msgid "A sweet and delicious sausage.  Better eat it fresh."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mushroom"
@@ -27438,10 +27438,9 @@ msgstr[1] "viandes séchées"
 
 #. ~ Description for meat jerky
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salty dried meat that never goes bad, but will make you thirsty."
+msgid ""
+"Salty dried meat that lasts for a long time, but will make you thirsty."
 msgstr ""
-"De la viande séchée et salée qui se conservera toujours mais vous donnera "
-"soif."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "salted fish"
@@ -27451,9 +27450,9 @@ msgstr[1] "poissons salés"
 
 #. ~ Description for salted fish
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salty dried fish that never goes bad, but will make you thirsty."
+msgid ""
+"Salty dried fish that lasts for a long time, but will make you thirsty."
 msgstr ""
-"Du poisson salé et séché qui ne pourrira jamais mais vous donnera soif."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "jerk jerky"
@@ -32936,6 +32935,21 @@ msgid "A rather outdated light bulb used in all sorts of light equipment."
 msgstr ""
 "Une ampoule plutôt vieillotte utilisée dans toute sorte d'appareils "
 "lumineux."
+
+#: lang/json/GENERIC_from_json.py
+msgid "anesthetic kit"
+msgid_plural "anesthetic kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for anesthetic kit
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A kit for inducing anesthesia for surgery, containing specialized canisters "
+"with a variety of powerful hypnotic, analgetic, and stimulative drugs. It's "
+"intended for use in specialized medical equipment, and can't be administered"
+" manually."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "canister grenade"
@@ -55373,10 +55387,6 @@ msgid "Build Fence"
 msgstr "Construire une clôture"
 
 #: lang/json/construction_from_json.py
-msgid "Realign Fence"
-msgstr "Réaligner une clôture"
-
-#: lang/json/construction_from_json.py
 msgid "Build Fence Gate"
 msgstr "Construire un portail de clôture"
 
@@ -55394,10 +55404,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Chainlink Fence"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Realign Chainlink Fence"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -67780,10 +67786,6 @@ msgstr "Lister objets et monstres"
 msgid "Reassign invlet"
 msgstr "Réattribuer raccourci inventaire"
 
-#: lang/json/keybinding_from_json.py
-msgid "Remove bionic"
-msgstr ""
-
 #: lang/json/keybinding_from_json.py src/construction.cpp src/faction.cpp
 #: src/game.cpp src/mission_companion.cpp
 msgid "Move cursor up"
@@ -73518,25 +73520,25 @@ msgstr ""
 "de points de vie perdus."
 
 #: lang/json/mutation_from_json.py
-msgid "Very Slow Sleep Healing"
+msgid "Poor Healer"
 msgstr ""
 
-#. ~ Description for Very Slow Sleep Healing
+#. ~ Description for Poor Healer
 #: lang/json/mutation_from_json.py
 msgid ""
-"You heal much slower than most; sleeping will heal only one third HP "
-"compared to the average person."
+"Your health recovery through sleeping is severely impaired and causes you to"
+" recover only a third of usual HP over time."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Extremely Slow Sleep Healing"
+msgid "Imperceptive Healer"
 msgstr ""
 
-#. ~ Description for Extremely Slow Sleep Healing
+#. ~ Description for Imperceptive Healer
 #: lang/json/mutation_from_json.py
 msgid ""
-"You almost cannot recover lost health by sleeping; sleeping will heal only "
-"one tenth HP compared to the average person."
+"You recover barely any health through sleeping - it will heal only one tenth"
+" of usual HP over time."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -102945,11 +102947,6 @@ msgid "You don't have this bionic installed."
 msgstr "Ce bionique n'est pas installé."
 
 #: src/bionics.cpp
-#, c-format
-msgid "Removing bionics requires a tool with %s quality, and a first aid kit."
-msgstr ""
-
-#: src/bionics.cpp
 msgid "Removing your Fusion Blaster Arm would leave you with a useless stump."
 msgstr ""
 "Retirer votre bras blaster à fusion vous laissera avec un moignon inutile."
@@ -103027,48 +103024,6 @@ msgstr ""
 #: src/bionics.cpp
 #, c-format
 msgid "Not enough space for bionic installation!%s"
-msgstr ""
-
-#: src/bionics.cpp
-msgid "You need to take painkillers to make installing bionics tolerable."
-msgstr ""
-
-#: src/bionics.cpp
-msgid ""
-"You need to be a lot more numb to tolerate installing bionics.  Note that "
-"painkillers you've already taken could take up to an hour to achieve full "
-"effect."
-msgstr ""
-
-#: src/bionics.cpp
-#, c-format
-msgid ""
-"Intensity of painkillers you've already taken is less than half of the "
-"threshold that will allow you to install bionics.  It will take %i minutes "
-"for painkillers you've already taken to achieve maximum effect."
-msgstr ""
-
-#: src/bionics.cpp
-#, c-format
-msgid ""
-"Intensity of painkillers you've already taken is %i percent of the threshold"
-" that will allow you to install bionics.  It will take %i minutes for "
-"painkillers you've already taken to achieve maximum effect."
-msgstr ""
-
-#: src/bionics.cpp
-msgid ""
-"You aren't quite numb enough to tolerate installing bionics.  Note that "
-"painkillers you've already taken could take up to an hour to achieve full "
-"effect."
-msgstr ""
-
-#: src/bionics.cpp
-#, c-format
-msgid ""
-"Intensity of painkillers you've already taken is more than half of the "
-"threshold that will allow you to install bionics.  It will take %i minutes "
-"for painkillers you've already taken to achieve maximum effect."
 msgstr ""
 
 #: src/bionics.cpp
@@ -103199,6 +103154,17 @@ msgstr ""
 msgid "Your %s fails, and is destroyed!"
 msgstr ""
 
+#: src/bionics.cpp
+msgid ""
+"You type data into the console, configuring Autodoc to uninstall a CBM."
+msgstr ""
+
+#: src/bionics.cpp
+msgid ""
+"Autodoc injected you with anesthesia, and while you were sleeping conducted "
+"a medical operation on you."
+msgstr ""
+
 #: src/bionics_ui.cpp
 #, c-format
 msgid "Power: %i/%i"
@@ -103215,28 +103181,15 @@ msgstr ""
 #: src/bionics_ui.cpp
 msgid ""
 "<color_green>Activating</color>  <color_yellow>!</color> to examine, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
-"<color_yellow>TAB</color> to switch tabs."
+"<color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch "
+"tabs."
 msgstr ""
-"<color_green>Activer</color>  <color_yellow>!</color> pour examiner, "
-"<color_yellow>-</color> pour retirer, <color_yellow>=</color> pour "
-"réattribuer, <color_yellow>TAB</color> pour changer d'onglet."
-
-#: src/bionics_ui.cpp
-msgid ""
-"<color_red>Removing</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
-"<color_yellow>TAB</color> to switch tabs."
-msgstr ""
-"<color_green>Retirer</color>  <color_yellow>!</color> pour activer, "
-"<color_yellow>-</color> pour retirer, <color_yellow>=</color> pour "
-"réattribuer, <color_yellow>TAB</color> pour changer d'onglet."
 
 #: src/bionics_ui.cpp
 msgid ""
 "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
-"<color_yellow>TAB</color> to switch tabs."
+"<color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch "
+"tabs."
 msgstr ""
 
 #: src/bionics_ui.cpp
@@ -115412,14 +115365,20 @@ msgstr ""
 msgid "You don't have any CBMs to install."
 msgstr ""
 
+#: src/iexamine.cpp src/iuse_actor.cpp
+msgid "You have already installed this bionic."
+msgstr "Vous avez déja installé ce bionique."
+
 #: src/iexamine.cpp
-msgid "You type data into the console, configuring Autodoc to install a CBM."
+msgid "You have no base version of this bionic to upgrade."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid ""
-"Autodoc injected you with anesthesia, and while you were sleeping conducted "
-"a medical operation on you."
+msgid "You have already installed a superior version of this bionic."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need an anesthesia kit for autodoc to perform any operation."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -115428,11 +115387,6 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Choose bionic to uninstall"
-msgstr ""
-
-#: src/iexamine.cpp
-msgid ""
-"You type data into the console, configuring Autodoc to uninstall a CBM."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -115946,6 +115900,39 @@ msgid ""
 msgstr ""
 "* Cette nourriture est <neutral>périssable</neutral>, il lui faut "
 "<info>%s</info> pour pourrir à température ambiante."
+
+#: src/item.cpp
+msgid "* This food looks as <good>fresh</good> as it can be."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This food looks <good>still quite fresh</good>. It's far from becoming "
+"old."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This food looks like it is reaching its <neutral>midlife</neutral>. It has"
+" some time ahead before spoiling."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This food looks like it has <neutral>passed its midlife</neutral>. Edible,"
+" but will go old sooner rather then later."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This food looks like it <bad>will be old soon</bad>. It's now or never, if"
+" you plan to use it."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This food looks <bad>old</bad>. It's on a brink of becoming inedible."
+msgstr ""
 
 #: src/item.cpp
 msgid ""
@@ -118818,6 +118805,11 @@ msgid "You fire up your %s and start getting the tension out."
 msgstr ""
 
 #: src/iuse.cpp
+#, c-format
+msgid "You whip out your %s and start getting the tension out."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Air swirls around you for a moment."
 msgstr ""
 
@@ -121067,10 +121059,6 @@ msgid "Can't saw off modified barrels."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "You have already installed this bionic."
-msgstr "Vous avez déja installé ce bionique."
-
-#: src/iuse_actor.cpp
 msgid "There is nothing to upgrade."
 msgstr ""
 
@@ -122989,6 +122977,21 @@ msgstr "Votre %s est endommagé(e) par la force du coup!"
 #, c-format
 msgid "<npcname>'s %s is damaged by the force of the blow!"
 msgstr "%s de <npcname> est endommagé(e) par la force du coup!"
+
+#: src/melee.cpp
+#, c-format
+msgid "Your %s breaks apart!"
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "<npcname>'s %s breaks apart!"
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "The %s is destroyed!"
+msgstr ""
 
 #: src/melee.cpp
 #, c-format
