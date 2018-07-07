@@ -7,6 +7,7 @@
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
     "autolearn": false,
+    "never_learn": true,
     "time": 180000,
     "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ] ]
   },
@@ -19,6 +20,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "autolearn": false,
+    "never_learn": true,
     "time": 180000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "2x4", 8 ] ], [ [ "straw_pile", 16 ] ] ]
@@ -32,6 +34,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 180000,
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "2x4", 32 ] ], [ [ "nail", 96 ] ] ]
@@ -45,6 +48,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 240000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 48 ] ], [ [ "sheet_metal", 4 ] ], [ [ "pipe", 12 ] ], [ [ "straw_pile", 16 ] ] ]
@@ -58,6 +62,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -78,6 +83,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "comment": "2hrs*14wall + 1 hr crates + 2*28roof + 4hrs pits = 89 hrs (12hrs on/off) 8 days total",
     "time": 11520000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -92,6 +98,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -112,6 +119,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "autolearn": false,
+    "never_learn": true,
     "comment": "2hrs*4wall + .5 hr*2tables + .5hr*4benches+ 1hrs pits = 12 hrs (12hrs on/off) 1 days total",
     "time": 1440000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -133,6 +141,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -153,6 +162,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "comment": "2hrs*6wall + 1 hr trash + 2*20roof + 4hrs pits = 53 hrs (12hrs on/off) 4.5 days total",
     "time": 6480000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -167,6 +177,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "comment": "2hrs*5wall + 1.5 hr*2door + 2hrs pits = 15 hrs (12hrs on/off) 1 days total",
     "time": 1440000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -181,6 +192,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "comment": "11.5 hrs (12hrs on/off) 1 days total",
     "time": 1440000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -195,6 +207,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "comment": "2hrs*30palisade + .2hrs * 72pits = 75 hrs (12hrs on/off) 6.5 days total",
     "time": 9360000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -209,6 +222,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "comment": "2hrs*56palisade + .2hrs * 14pits = 115 hrs (12hrs on/off) 10 days total",
     "time": 14400000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -223,6 +237,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -243,6 +258,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "autolearn": false,
+    "never_learn": true,
     "comment": "1hr stove+ .5 hr*2tables + .5hr*4benches+ .5hrs 2counter = 5 hrs ",
     "time": 370000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -257,6 +273,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "autolearn": false,
+    "never_learn": true,
     "comment": "3*7doors = 21 hrs so 2 days-ish ",
     "time": 2880000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
@@ -271,6 +288,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 720000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -290,6 +308,7 @@
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
     "autolearn": false,
+    "never_learn": true,
     "time": 540000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
@@ -302,6 +321,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 3600000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 54 ] ], [ [ "stick", 90 ] ] ]
@@ -315,6 +335,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 2160000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 24 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 36 ] ] ]
@@ -328,6 +349,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 10080000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 130 ] ], [ [ "stick", 126 ] ], [ [ "2x4", 287 ] ], [ [ "nail", 144 ] ], [ [ "glass_sheet", 2 ] ] ]
@@ -341,6 +363,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 5040000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
@@ -363,6 +386,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 4320000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 68 ] ], [ [ "stick", 60 ] ], [ [ "2x4", 112 ] ] ]
@@ -376,6 +400,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 10080000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 112 ] ], [ [ "2x4", 448 ] ] ]
@@ -389,6 +414,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 4320000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 65 ] ], [ [ "stick", 96 ] ] ]
@@ -402,6 +428,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "autolearn": false,
+    "never_learn": true,
     "time": 11520000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
@@ -422,6 +449,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 2880000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
@@ -443,6 +471,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 7200000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -463,6 +492,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 3600000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -483,6 +513,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 3600000,
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
@@ -508,6 +539,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 9360000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -528,6 +560,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 360000,
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
@@ -547,6 +580,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "autolearn": false,
+    "never_learn": true,
     "time": 1440000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -568,6 +602,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "autolearn": false,
+    "never_learn": true,
     "time": 180000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "2x4", 20 ] ], [ [ "metal_tank", 2 ] ], [ [ "nail", 18 ] ] ]
@@ -581,6 +616,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "autolearn": false,
+    "never_learn": true,
     "time": 3600000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 40 ] ], [ [ "stick", 30 ] ], [ [ "2x4", 135 ] ], [ [ "nail", 150 ] ], [ [ "glass_sheet", 1 ] ] ]
@@ -594,6 +630,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "autolearn": false,
+    "never_learn": true,
     "time": 510000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "stick", 3 ] ] ]
@@ -607,6 +644,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "autolearn": false,
+    "never_learn": true,
     "time": 1530000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 68 ] ] ]
