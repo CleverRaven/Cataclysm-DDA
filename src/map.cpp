@@ -4565,7 +4565,7 @@ void map::make_active( item_location &loc )
 
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
-void apply_in_fridge( item &it, bool freezer )
+void map::apply_in_fridge( item &it, bool freezer )
 {
     if( it.is_food() ) {
         if( !freezer ) {
@@ -4644,14 +4644,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            apply_in_fridge( n, false);
+            g->m.apply_in_fridge( n, false);
         }
     }
 
     const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
     if( freezer_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            apply_in_fridge( n, true );
+            g->m.apply_in_fridge( n, true );
         }
     }
 

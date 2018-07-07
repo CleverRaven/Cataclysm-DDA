@@ -902,11 +902,6 @@ class map
         void apply_in_fridge( item &it, bool freezer );
 
         /**
-         * Calculates rot per hour at given temperature
-         */
-        int get_hourly_rotpoints_at_temp( int temp );
-
-        /**
          * @name Consume items on the map
          *
          * The functions here consume accessible items / item charges on the map or in vehicles

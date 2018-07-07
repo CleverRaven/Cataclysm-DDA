@@ -3120,7 +3120,7 @@ void item::calc_rot(const tripoint &location)
             freezer = calendar::before_time_starts;
         }
         if( fridge != calendar::before_time_starts ) {
-            rot += ( now - fridge ) / 1_hours * g->m.get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
+            rot += ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
             fridge = calendar::before_time_starts;
         }
         // item stays active to let the item counter work
