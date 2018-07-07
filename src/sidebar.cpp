@@ -370,7 +370,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         temp_message = _( " (Falling!!)" );
     }
 
-    // printCur the hottest/coldest bodypart, and   if it is rising or falling in temperature
+    // printCur the hottest/coldest bodypart, and  if it is rising or falling in temperature
     wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
     if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
         wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
