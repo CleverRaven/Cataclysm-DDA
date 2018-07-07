@@ -542,11 +542,11 @@ int iuse::eyedrops( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You're out of %s." ), it->tname().c_str() );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You use your %s." ), it->tname().c_str() );
     p->moves -= 150;
@@ -615,7 +615,7 @@ int iuse::antifungal( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You take some antifungal medication." ) );
     if( p->has_effect( effect_fungus ) ) {
@@ -635,7 +635,7 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You take some antiparasitic medication." ) );
     if( p->has_effect( effect_dermatik ) ) {
@@ -4169,7 +4169,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     item blood( "blood", calendar::turn );
-    item acid( "acid", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
@@ -4198,6 +4197,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     if( acid_blood ) {
+        item acid( "acid", calendar::turn );
         it->put_in( acid );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
@@ -4223,8 +4223,6 @@ void iuse::cut_log_into_planks( player &p )
 {
     p.moves -= 300;
     p.add_msg_if_player( _( "You cut the log into planks." ) );
-    item plank( "2x4", calendar::turn );
-    item scrap( "splinter", calendar::turn );
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
     int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );
@@ -4232,10 +4230,12 @@ void iuse::cut_log_into_planks( player &p )
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
     if( planks > 0 ) {
+        item plank( "2x4", calendar::turn );
         p.i_add_or_drop( plank, planks );
         p.add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
     if( scraps > 0 ) {
+        item scrap( "splinter", calendar::turn );
         p.i_add_or_drop( scrap, scraps );
         p.add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
@@ -7130,7 +7130,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( p->is_underwater() ) {
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return false;
+            return 0;
         }
 
         if( p->has_trait( trait_ILLITERATE ) ) {
@@ -7301,7 +7301,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             if( !p->has_morale_to_craft() ) {
                 add_msg( m_info, _( "Your morale is too low to craft..." ) );
-                return false;
+                return 0;
             }
 
             bool has_tools = true;

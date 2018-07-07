@@ -1081,7 +1081,13 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
-    artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
+
+    // Artifacts in older saves do not have charge_req
+    if (jo.has_int("charge_req")) {
+        artifact->charge_req  = (art_charge_req)jo.get_int("charge_req");
+    } else {
+        artifact->charge_req = ACR_NULL;
+    }
 
     JsonArray ja = jo.get_array("effects_wielded");
     while (ja.has_more()) {

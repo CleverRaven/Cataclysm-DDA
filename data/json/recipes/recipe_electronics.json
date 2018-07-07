@@ -2030,5 +2030,21 @@
     [ [ "amplifier", 1 ] ],
     [ [ "cable", 2 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "electrolysis_kit",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "using": [ [ "soldering_standard", 10 ] ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities" : [ {"id":"CUT","level":1} ],
+  "components": [
+    [ [ "cable", 50 ], [ "jumper_cable", 1 ] ],
+    [ [ "scrap", 2 ] ]
+  ]
 }
 ]

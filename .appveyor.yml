@@ -32,17 +32,17 @@ install:
     # Download WINDEPEND archive
     - ps : |
         [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
-        Start-FileDownload "http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip" -FileName "$($env:TEMP_FOLDER)\WinDepend-MSVC.zip"
+        Start-FileDownload "http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z" -FileName "$($env:TEMP_FOLDER)\WinDepend-MSVC.7z"
 
-    # Unzip WINDEPEND archive to WINDEPEND folder
-    - cmd: 7z x -y "%TEMP_FOLDER%\WinDepend-MSVC.zip" -o"%APPVEYOR_BUILD_FOLDER%"
+    # Unpack WINDEPEND archive to WINDEPEND folder
+    - cmd: 7z x -y "%TEMP_FOLDER%\WinDepend-MSVC.7z" -o"%APPVEYOR_BUILD_FOLDER%"
     
     # Download LUA archive
     - ps : |
         [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
         Start-FileDownload "https://www.dropbox.com/s/49vexob83bi5nrf/lua.zip?dl=1" -FileName "$($env:TEMP_FOLDER)\lua.zip"
 
-    # Unzip LUA archive to WINDEPEND folder
+    # Unpack LUA archive to WINDEPEND folder
     - cmd: 7z x -y "%TEMP_FOLDER%\lua.zip" -o"%APPVEYOR_BUILD_FOLDER%\WinDepend"
    
     # Report LUA binary version

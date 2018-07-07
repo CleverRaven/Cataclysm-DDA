@@ -1274,8 +1274,8 @@ void inventory_selector::set_filter()
     do {
         mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );
         mvwprintz( w_inv, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4, c_cyan, " >" );
-        std::string new_filter = spopup.query_string( false );
 
+        std::string new_filter = spopup.query_string( false );
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
             filter.clear();
         } else {

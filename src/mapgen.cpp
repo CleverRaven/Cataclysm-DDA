@@ -719,8 +719,6 @@ public:
         dat.m.furn_set( rx, ry, f_null );
         dat.m.furn_set( rx, ry, furn_str_id( "f_sign" ) );
 
-        tripoint abs_sub = dat.m.get_abs_sub();
-
         std::string signtext;
 
         if( !snippet.empty() ) {
@@ -734,6 +732,7 @@ public:
             signtext = _( signtext.c_str() );
 
             std::string cityname = "illegible city name";
+            tripoint abs_sub = dat.m.get_abs_sub();
             const city* c = overmap_buffer.closest_city(abs_sub).city;
             if (c != nullptr) {
                 cityname = c->name;
@@ -806,7 +805,7 @@ public:
     jmapgen_int amount;
     std::string fuel;
     jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-    , amount( jsi, "amount", 0, 0 ), fuel("")
+    , amount( jsi, "amount", 0, 0 ), fuel()
     {
         if (jsi.has_string("fuel")){
             fuel = jsi.get_string("fuel");
