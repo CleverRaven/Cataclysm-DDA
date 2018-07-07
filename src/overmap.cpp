@@ -4297,9 +4297,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     // Make connections.
     if( cit ) {
         for( const auto &elem : special.connections ) {
-            const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-
             if( elem.connection ) {
+                const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
                 build_connection( point( cit.x, cit.y ), point( rp.x, rp.y ), elem.p.z, *elem.connection );
             }
         }
@@ -4810,9 +4809,9 @@ void building_bin::add( const overmap_special_id &building, int weight )
 
 overmap_special_id building_bin::pick() const
 {
-    overmap_special_id null_special( "null" );
     if( !finalized ) {
         debugmsg( "Tried to pick a special out of a non-finalized bin" );
+        overmap_special_id null_special( "null" );
         return null_special;
     }
 

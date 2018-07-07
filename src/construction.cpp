@@ -344,7 +344,6 @@ void construction_menu()
                 mvwhline( w_con, i, pos_x, ' ', available_window_width );
             }
 
-            nc_color color_stage = c_white;
             std::vector<std::string> notes;
             notes.push_back( string_format( _( "Press %s or %s to tab." ),
                                             ctxt.get_desc( "LEFT" ).c_str(), ctxt.get_desc( "RIGHT" ).c_str() ) );
@@ -365,6 +364,7 @@ void construction_menu()
             }
 
             if( !constructs.empty() ) {
+                nc_color color_stage = c_white;
                 if( select >= ( int ) constructs.size() ) {
                     select = 0;
                 }

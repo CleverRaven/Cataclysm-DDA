@@ -284,12 +284,12 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         units::volume maxcontains = 0;
-        auto items = g->m.i_at( loc );
         if (one_in(turns_per_charge)) { // @todo: fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
+            auto items = g->m.i_at(loc);
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
                  ++candidate_container ) {

@@ -2716,11 +2716,11 @@ void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_i
     if (rubble_type == f_wreckage) {
         item chunk("steel_chunk", calendar::turn);
         item scrap("scrap", calendar::turn);
-        item pipe("pipe", calendar::turn);
-        item wire("wire", calendar::turn);
         add_item_or_charges(p, chunk);
         add_item_or_charges(p, scrap);
         if (one_in(5)) {
+            item pipe("pipe", calendar::turn);
+            item wire("wire", calendar::turn);
             add_item_or_charges(p, pipe);
             add_item_or_charges(p, wire);
         }

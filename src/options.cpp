@@ -1569,41 +1569,6 @@ void options_manager::init()
         { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } }, "any"
         );
 
-    mOptionsSort["world_default"]++;
-
-    add( "NO_FAULTS", "world_default", translate_marker( "Disables vehicle part faults." ),
-        translate_marker( "If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "FILTHY_MORALE", "world_default", translate_marker( "Morale penalty for filthy clothing." ),
-        translate_marker( "If true, wearing filthy clothing will cause morale penalties." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "FILTHY_WOUNDS", "world_default", translate_marker( "Infected wounds from filthy clothing." ),
-        translate_marker( "If true, getting hit in a body part covered in filthy clothing may cause infections." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "NO_VITAMINS", "world_default", translate_marker( "Disables tracking vitamins in food items." ),
-        translate_marker( "If true, disables vitamin tracking and vitamin disorders." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
-    add( "NO_NPC_FOOD", "world_default", translate_marker( "Disables tracking food, thirst and ( partially ) fatigue for NPCs." ),
-        translate_marker( "If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties." ),
-        false, COPT_ALWAYS_HIDE
-        );
-
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
@@ -2094,10 +2059,7 @@ void options_manager::serialize(JsonOut &json) const
             const auto iter = options.find( elem );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
-                //Skip hidden option because it is set by mod and should not be saved
-                if ( opt.hide == COPT_ALWAYS_HIDE ) {
-                    continue;
-                }
+
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );
