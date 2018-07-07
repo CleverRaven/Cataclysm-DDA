@@ -2206,10 +2206,10 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
-            } else if (blink && los && overmap_buffer.get_horde_size(omx, omy, z) >= 3) {
+            } else if (blink && los && overmap_buffer.get_horde_size(omx, omy, z) >= HORDE_VISIBILITY_SIZE) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
-                ter_sym   = overmap_buffer.get_horde_size(omx, omy, z) >= 10 ? 'Z' : 'z';
+                ter_sym   = overmap_buffer.get_horde_size(omx, omy, z) > HORDE_VISIBILITY_SIZE*2 ? 'Z' : 'z';
             } else if (blink && overmap_buffer.has_vehicle(omx, omy, z)) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
