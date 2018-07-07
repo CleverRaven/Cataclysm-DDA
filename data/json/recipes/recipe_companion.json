@@ -6,7 +6,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
-    "time": 15000,
+    "time": 18750,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "meat", 1 ] ], [ [ "charcoal", 7 ], [ "lamp_oil", 7 ], [ "splinter", 5 ] ] ]
@@ -18,7 +18,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
-    "time": 15000,
+    "time": 18750,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "fish", 1 ] ], [ [ "charcoal", 7 ], [ "lamp_oil", 7 ], [ "splinter", 5 ] ] ]
@@ -30,7 +30,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "time": 4000,
+    "time": 5000,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "veggy", 1 ] ], [ [ "charcoal", 5 ], [ "lamp_oil", 5 ], [ "splinter", 4 ] ] ]
@@ -42,7 +42,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
-    "time": 18000,
+    "time": 22500,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "offal", 1 ] ], [ [ "charcoal", 7 ], [ "lamp_oil", 7 ], [ "splinter", 5 ] ] ]
@@ -55,7 +55,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": 10000,
+    "time": 12500,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -72,7 +72,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": 20000,
+    "time": 25000,
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -86,7 +86,7 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": 15000,
+    "time": 18750,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -102,7 +102,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "time": 4000,
+    "time": 5000,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "veggy_wild", 1 ] ], [ [ "charcoal", 5 ], [ "lamp_oil", 5 ], [ "splinter", 4 ] ] ]
@@ -114,7 +114,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "time": 90000,
+    "time": 112500,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "salt_water", 10 ], [ "saline", 50 ] ], [ [ "charcoal", 10 ], [ "lamp_oil", 10 ], [ "splinter", 7 ] ] ]
@@ -127,7 +127,7 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 20000,
+    "time": 25000,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -145,7 +145,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": 18000,
+    "time": 22500,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -170,7 +170,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 60000,
+    "time": 75000,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -194,7 +194,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "time": 15000,
+    "time": 18750,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "mushroom", 1 ] ], [ [ "charcoal", 7 ], [ "lamp_oil", 7 ], [ "splinter", 5 ] ] ]
@@ -208,7 +208,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 10000,
+    "time": 12500,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "fat", 2 ] ], [ [ "charcoal", 7 ], [ "lamp_oil", 7 ], [ "splinter", 5 ] ] ]
@@ -221,7 +221,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 45000,
+    "time": 56250,
     "autolearn": false,
     "never_learn": true,
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
@@ -235,7 +235,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 25000,
+    "time": 31250,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -264,7 +264,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 60000,
+    "time": 75000,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "meat", 3 ] ], [ [ "charcoal", 15 ] ] ]
@@ -277,7 +277,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 25000,
+    "time": 31250,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -322,7 +322,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 60000,
+    "time": 75000,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "fish", 6 ] ], [ [ "charcoal", 15 ] ] ]
@@ -334,7 +334,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "time": 90000,
+    "time": 112500,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "sweet_water", 10 ] ], [ [ "charcoal", 10 ], [ "lamp_oil", 10 ], [ "splinter", 7 ] ] ]
@@ -347,7 +347,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": 22500,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "mushroom", 4 ], [ "mushroom_morel", 4 ] ], [ [ "charcoal", 25 ] ] ]
@@ -360,7 +360,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": 22500,
     "autolearn": false,
     "never_learn": true,
     "components": [ [ [ "sweet_fruit", 2, "LIST" ], [ "coconut", 2 ], [ "can_coconut", 2 ] ], [ [ "charcoal", 25 ] ] ]
@@ -373,7 +373,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 60000,
+    "time": 75000,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -398,7 +398,7 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 90000,
+    "time": 112500,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -416,7 +416,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 70000,
+    "time": 87500,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -443,7 +443,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 5,
-    "time": 30000,
+    "time": 37500,
     "result_mult": 2,
     "autolearn": false,
     "never_learn": true,
@@ -487,7 +487,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "skills_required": [ "survival", 4 ],
-    "time": 60000,
+    "time": 75000,
     "autolearn": false,
     "never_learn": true,
     "tools": [ [ [ "rag", -1 ] ] ],
@@ -505,7 +505,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 5,
-    "time": 45000,
+    "time": 56250,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -548,7 +548,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "//": "Gelatin from bones is just boiling them long enough.  Gelatin from pectin is harder.  Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
-    "time": 40000,
+    "time": 50000,
     "autolearn": false,
     "never_learn": true,
     "components": [
@@ -594,7 +594,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 30000,
+    "time": 37500,
     "result_mult": 2,
     "autolearn": false,
     "never_learn": true,
@@ -613,7 +613,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 40000,
+    "time": 50000,
     "autolearn": false,
     "never_learn": true,
     "components": [
