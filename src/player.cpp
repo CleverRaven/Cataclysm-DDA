@@ -4102,7 +4102,7 @@ void player::check_needs_extremes()
 
     // Check if we're starving or have starved
     if( is_player() && get_hunger() >= 300 && get_starvation() >= 2700 ) {
-        if (get_starvation() >= 5700) {
+        if( get_starvation() >= 5700 ) {
             add_msg_if_player(m_bad, _("You have starved to death."));
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
@@ -4225,7 +4225,7 @@ void player::update_needs( int rate_multiplier )
         mod_hunger( rolled_hunger );
 
         // if the playing is famished, starvation increases
-        if (get_hunger() >= 300) {
+        if( get_hunger() >= 300 ) {
             mod_starvation( rolled_hunger );
         } else {
             mod_starvation( -rolled_hunger );
@@ -4663,7 +4663,7 @@ void player::process_one_effect( effect &it, bool is_new )
 
     // Handle starvation
     val = get_effect("STARVATION", reduced);
-    if (val != 0) {
+    if(val != 0) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "STARVATION", val, reduced, mod ) ) {
             mod_starvation(bound_mod_to_vals(get_starvation(), val, it.get_max_val("STARVATION", reduced),

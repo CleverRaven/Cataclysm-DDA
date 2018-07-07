@@ -1164,7 +1164,7 @@ int iuse::mutagen( player *p, item *it, bool, const tripoint & )
             p->mod_thirst( m_category.mutagen_thirst );
             p->mod_fatigue( m_category.mutagen_fatigue );
 
-            if ( m_category.mutagen_hunger + p->get_hunger() > 300 ) {
+            if( m_category.mutagen_hunger + p->get_hunger() > 300 ) {
                 // in this case starvation is directly updated
                 p->mod_starvation( m_category.mutagen_hunger - ( 300 - p->get_hunger() ) );
                 p->set_hunger(300);
