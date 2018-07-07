@@ -10244,6 +10244,9 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
 
 void player::learn_recipe( const recipe * const rec )
 {
+    if( rec->never_learn ){
+        return;
+    }
     learned_recipes->include( rec );
 }
 
