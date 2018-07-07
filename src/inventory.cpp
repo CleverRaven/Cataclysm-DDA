@@ -795,7 +795,7 @@ void inventory::rust_iron_items()
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF" ) && 
                 elem_stack_iter.damage() < elem_stack_iter.max_damage()/2 && //Passivation layer prevents further rusting
-                one_in( 500 ) &&
+                one_in( 7500 ) &&
                 g->m.water_from(g->u.pos()).typeId() == "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
             }
