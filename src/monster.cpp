@@ -2329,6 +2329,11 @@ monster_horde_attraction monster::get_horde_attraction()
     return horde_attraction;
 }
 
+void monster::set_horde_attraction( monster_horde_attraction mha)
+{
+    horde_attraction = mha;
+}
+
 bool monster::will_join_horde(int size)
 {
     const monster_horde_attraction mha = get_horde_attraction();

@@ -316,6 +316,7 @@ class monster : public Creature
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
         monster_horde_attraction get_horde_attraction();
+        void set_horde_attraction( monster_horde_attraction mha);
         bool will_join_horde(int size);
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
