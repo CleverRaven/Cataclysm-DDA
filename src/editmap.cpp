@@ -1984,7 +1984,7 @@ vehicle* editmap::mapgen_veh_query( tripoint omt_tgt, vehicle* car_target, bool 
     }
     if( possible_vehicles.empty() ){
         popup( _("Your mechanic could not find a vehicle at the garage.") );
-        return NULL;
+        return nullptr;
     }
 
     std::vector<std::string> car_titles;
@@ -2002,7 +2002,7 @@ vehicle* editmap::mapgen_veh_query( tripoint omt_tgt, vehicle* car_target, bool 
         return possible_vehicles[choice];
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
