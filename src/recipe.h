@@ -58,6 +58,9 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
+        /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
+        bool never_learn = false;
+
         /** If recipe can be used for disassembly fetch the combined requirements */
         requirement_data disassembly_requirements() const {
             return reversible ? requirements().disassembly_requirements() : requirement_data();
