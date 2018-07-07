@@ -58,7 +58,7 @@ class item_location::impl
         class item_on_vehicle;
 
         impl() = default;
-        impl( std::list<item> *what ) : whatstart( what ), what( &what->front() ) {}
+        impl( std::list<item> *what ) :  what( &what->front() ), whatstart( what ) {}
         impl( item *what ) : what( what ) {}
         impl( int idx ) : idx( idx ) {}
 
@@ -104,11 +104,11 @@ class item_location::impl
             return what;
         }
 
-		// Add up the total charges of a stack of items
+        // Add up the total charges of a stack of items
         long charges_in_stack( unsigned int countOnly ) const {
             long sum = 0L;
             unsigned int c = countOnly;
-			// If the list points to a nullpointer, then the target pointer must be valid
+            // If the list points to a nullpointer, then the target pointer must be valid
             if( whatstart == nullptr ) {
                 return target()->charges;
             }
@@ -121,8 +121,9 @@ class item_location::impl
     private:
         mutable item *what = nullptr;
         mutable int idx = -1;
-		//Only used for stacked cash card currently, needed to be able to process a stack of different items
-		mutable std::list<item> *whatstart = nullptr; };
+        //Only used for stacked cash card currently, needed to be able to process a stack of different items
+        mutable std::list<item> *whatstart = nullptr;
+};
 
 class item_location::impl::nowhere : public item_location::impl
 {
