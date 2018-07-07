@@ -1389,7 +1389,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1409,7 +1409,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1429,7 +1429,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1449,7 +1449,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1469,7 +1469,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1490,7 +1490,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1511,7 +1511,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1560,6 +1560,95 @@
       [ [ "sugar", 15 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
+    ]
+  },
+    {
+    "result": "rice_milk",
+	"byproducts": [ [ "starch" ] ],
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 21250,
+    "autolearn": true,
+    "batch_time_factors":[83, 3],
+	"result_mult": 2,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [
+	[ [ "dry_rice", 1 ] ],
+	[ [ "water", 2 ], [ "water_clean", 2 ] ]
+	]
+  },
+    {
+    "result": "coconut_water",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 21250,
+    "autolearn": true,
+    "batch_time_factors":[83, 3],
+	"result_mult": 2,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [
+	[ [ "coconut", 1 ] ],
+	[ [ "water", 1 ], [ "water_clean", 1 ] ]
+	]
+  },
+  {
+    "result": "jar_cream_coconut",
+    "type": "recipe",
+    "id_suffix": "jarred",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 20000,
+    "batch_time_factors": [ 83, 5 ],
+    "autolearn": true,
+    "container": "jar_glass_sealed",
+    "result_mult": 1,
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "jar_glass", 1 ] ],
+      [ [ "coconut", 1 ] ]
+    ]
+  },
+  {
+    "result": "can_coconut",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": 24000,
+    "batch_time_factors": [ 83, 5 ],
+    "autolearn": true,
+    "contained": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [
+    [ [ "surface_heat", 10, "LIST" ] ],
+      [ [ "can_sealer", -1 ] ]
+    ],
+    "components": [
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "coconut", 1 ] ]
     ]
   }
 ]
