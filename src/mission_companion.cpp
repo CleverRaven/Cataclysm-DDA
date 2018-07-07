@@ -1338,7 +1338,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         for( const auto &e : om_expansions ){
             if( dir == om_simple_dir( omt_pos, e.second ) ) {
                 npc *comp = companion_choose_return( p, "_faction_exp_chop_shop_" + dir, calendar::turn - 5_days );
-                if (comp != NULL){
+                if (comp != nullptr){
                     popup(_("%s returns from your garage..."), comp->name.c_str());
                     companion_return( *comp );
                 }
@@ -1353,7 +1353,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             if( dir == om_simple_dir( omt_pos, e.second ) ) {
 
                 npc *comp = companion_choose_return( p, "_faction_exp_kitchen_cooking_" + dir, calendar::before_time_starts );
-                if (comp != NULL){
+                if (comp != nullptr){
                     popup(_("%s returns from your kitchen with something..."), comp->name.c_str());
                     companion_return( *comp );
                 }
@@ -1398,7 +1398,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             if( dir == om_simple_dir( omt_pos, e.second ) ) {
 
                 npc *comp = companion_choose_return( p, "_faction_exp_farm_crafting_" + dir, calendar::before_time_starts );
-                if (comp != NULL){
+                if (comp != nullptr){
                     popup(_("%s returns from your farm with something..."), comp->name.c_str());
                     companion_return( *comp );
                 }
@@ -1407,7 +1407,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
         }
         if( dir == "[B]" ){
             npc *comp = companion_choose_return( p, "_faction_camp_crafting_" + dir, calendar::before_time_starts );
-            if (comp != NULL){
+            if (comp != nullptr){
                 popup(_("%s returns to you with something..."), comp->name.c_str());
                 companion_return( *comp );
             }
@@ -1503,7 +1503,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
                     }
                     if (npc_list.empty() ) {
                         if (individual_mission(p, _("begins to upgrade the expansion..."), "_faction_upgrade_exp_"+dir, false, {},
-                                       making->skill_used.obj().name(), making->difficulty ) != NULL ){
+                                       making->skill_used.obj().name(), making->difficulty ) != nullptr ){
                             g->u.consume_components_for_craft(making, 1);
                             g->u.invalidate_crafting_inventory();
                             camp_food_supply( -need_food);
@@ -1546,7 +1546,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
                 g->draw_ter();
                 //wrefresh( g->w_terrain );
                 npc* comp = individual_mission(p, _("departs to cut logs..."), "_faction_camp_cut_log", false, {}, "fabrication", 2 );
-                if ( comp != NULL ){
+                if ( comp != nullptr ){
                     om_harvest_trees( *comp, forest, .50, true, true);
                     om_harvest_ter( *comp, point( forest.x, forest.y ), ter_id("t_tree_young"), .50, true );
                     om_harvest_itm( *comp, point( forest.x, forest.y ), .75, true);
@@ -1571,7 +1571,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 
     if (cur_key == "Recover Log Cutter"){
         npc *comp = companion_choose_return( p, "_faction_camp_cut_log", calendar::before_time_starts );
-        if (comp != NULL){
+        if (comp != nullptr){
             popup(_("%s returns from working in the woods..."), comp->name.c_str());
             companion_return( *comp );
         }
@@ -1605,7 +1605,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 
                     npc* comp = individual_mission( p, _("departs to build a hide site..."), "_faction_camp_hide_site", false,
                                        {}, "survival", 3 );
-                    if ( comp != NULL ){
+                    if ( comp != nullptr ){
                         comp->companion_mission_time_ret = calendar::turn + work_time;
                         om_set_hide_site( *comp, forest, losing_equipment );
                         camp_food_supply( -need_food );
@@ -1621,7 +1621,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 
     if (cur_key == "Recover Hide Setup"){
         npc *comp = companion_choose_return( p, "_faction_camp_hide_site", calendar::before_time_starts );
-        if (comp != NULL){
+        if( comp != nullptr ){
             popup(_("%s returns from working on the hide site..."), comp->name.c_str());
             companion_return( *comp );
         }
@@ -1675,7 +1675,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 
                     npc* comp = individual_mission( p, _("departs for the hide site..."), "_faction_camp_hide_site", false,
                                        {}, "survival", 3 );
-                    if ( comp != NULL ){
+                    if ( comp != nullptr ){
                         comp->companion_mission_time_ret = calendar::turn + work_time;
                         om_set_hide_site( *comp, forest, losing_equipment, gaining_equipment );
 
@@ -1694,7 +1694,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 
      if (cur_key == "Recover Hide Transport"){
         npc *comp = companion_choose_return( p, "_faction_camp_hide_trans", calendar::before_time_starts );
-        if (comp != NULL){
+        if (comp != nullptr){
             popup(_("%s returns from shuttling gear between the hide site..."), comp->name.c_str());
             companion_return( *comp );
         }
@@ -1771,7 +1771,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             } else {
                 npc* comp = individual_mission(p, _("begins constructing fortifications..."), "_faction_camp_om_fortifications", false, {},
                                        making->skill_used.obj().name(), making->difficulty );
-                if ( comp != NULL ){
+                if( comp != nullptr ){
                     g->u.consume_components_for_craft( making, (fortify_om.size() * 2) - 2 );
                     g->u.invalidate_crafting_inventory();
                     camp_food_supply( -need_food );
@@ -1788,17 +1788,14 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 
     if (cur_key == "Finish Map Fortifications"){
         npc *comp = companion_choose_return( p, "_faction_camp_om_fortifications", calendar::before_time_starts );
-        if (comp != NULL){
+        if( comp != nullptr ){
             popup(_("%s returns from constructing fortifications..."), comp->name.c_str());
             companion_return( *comp );
             editmap edit;
             bool build_dir_NS = ( comp->companion_mission_points[0].y != comp->companion_mission_points[1].y );
-            //Ensure all tiles are generated before putting fences down...
+            //Ensure all tiles are generated before putting fences/trenches down...
             for( auto pt : comp->companion_mission_points ){
                 if( MAPBUFFER.lookup_submap( om_to_sm_copy(pt) ) == NULL ){
-                    //I just want to gen the sm that hasn't bee visited before,
-                    //g->m.load( pt.x*2, pt.y*2, pt.z, false ); changes character position
-                    //MAPBUFFER.lookup_submap( pt.x * 2, pt.y * 2, pt.z ); returns NULL instead of generating a new one
                     oter_id &omt_test = overmap_buffer.ter( pt.x, pt.y, pt.z );
                     std::string om_i = omt_test.id().c_str();
                     //The thick forests will gen harsh boundries since it won't recognize these tiles when they become fortifications
@@ -1855,7 +1852,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             popup( _("You don't have enough food stored to feed your companion.") );
         } else if (npc_list.empty() ) {
             npc* comp = individual_mission(p, _("departs to search for recruits..."), "_faction_camp_recruit_0", false, {}, "speech", 2);
-            if ( comp != NULL ){
+            if ( comp != nullptr ){
                 comp->companion_mission_time_ret = calendar::turn + 4_days;
                 camp_food_supply( -need_food);
             }
@@ -1893,7 +1890,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             popup( _("You don't have enough food stored to feed your companion.") );
         } else if ( npc_list.size() < 3 ) {
             npc* comp = individual_mission(p, _("departs on patrol..."), mission_t, false, {}, "survival", 3 );
-            if ( comp != NULL ){
+            if ( comp != nullptr ){
                 comp->companion_mission_points = scout_points;
                 comp->companion_mission_time_ret = calendar::turn + travel_time;
                 camp_food_supply( -need_food);
@@ -1909,7 +1906,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             miss = "_faction_camp_combat_0";
         }
         npc *comp = companion_choose_return( p, miss, calendar::before_time_starts );
-        if (comp != NULL){
+        if (comp != nullptr){
             std::vector<std::shared_ptr<npc>> patrol;
             std::shared_ptr<npc> guy = overmap_buffer.find_npc( comp->getID() );
             patrol.push_back( guy );
@@ -1955,7 +1952,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 
     if (cur_key == "Recover Combat Patrol"){
         npc *comp = companion_choose_return( p, "_faction_camp_combat_0", calendar::before_time_starts );
-        if (comp != NULL){
+        if (comp != nullptr){
             popup(_("%s returns from patrol..."), comp->name.c_str());
             for( auto pt : comp->companion_mission_points ){
                 oter_id &omt_ref = overmap_buffer.ter( pt.x, pt.y, pt.z );
@@ -2087,7 +2084,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 npc* talk_function::individual_mission( npc &p, std::string desc, std::string miss_id, bool group, std::vector<item *> equipment, std::string skill_tested, int skill_level )
 {
     npc *comp = companion_choose( skill_tested, skill_level );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return comp;
     }
 
@@ -2171,7 +2168,7 @@ int talk_function::caravan_dist(std::string dest)
 void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 {
     npc *comp = companion_choose_return( p, id, calendar::turn );
-    if (comp == NULL){
+    if (comp == nullptr){
         return;
     }
     if( comp->companion_mission_time == calendar::before_time_starts ) {
@@ -2628,7 +2625,7 @@ void talk_function::field_harvest( npc &p, std::string place )
 bool talk_function::scavenging_patrol_return( npc &p )
 {
     npc *comp = companion_choose_return( p, "_scavenging_patrol", calendar::turn - 10_hours );
-    if (comp == NULL){
+    if (comp == nullptr){
         return false;
     }
     int experience = rng( 5, 20 );
@@ -2719,7 +2716,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
 bool talk_function::scavenging_raid_return( npc &p )
 {
     npc *comp = companion_choose_return( p, "_scavenging_raid", calendar::turn - 10_hours );
-    if (comp == NULL){
+    if (comp == nullptr){
         return false;
     }
     int experience = rng(10,20);
@@ -2821,7 +2818,7 @@ bool talk_function::scavenging_raid_return( npc &p )
 bool talk_function::labor_return( npc &p )
 {
     npc *comp = companion_choose_return( p, "_labor", calendar::turn - 1_hours );
-    if (comp == NULL){
+    if (comp == nullptr){
         return false;
     }
 
@@ -2997,7 +2994,7 @@ bool talk_function::upgrade_return( npc &p, point omt_pos, std::string miss  )
 
     npc *comp = companion_choose_return( p, miss, calendar::turn - time_duration::from_turns( making->time / 100 ) );
 
-    if (comp == NULL || !om_camp_upgrade( p, omt_pos ) ){
+    if (comp == nullptr || !om_camp_upgrade( p, omt_pos ) ){
         return false;
     }
     companion_skill_trainer( *comp, "construction", time_duration::from_turns( making->time / 100 ), making->difficulty );
@@ -3009,7 +3006,7 @@ bool talk_function::upgrade_return( npc &p, point omt_pos, std::string miss  )
 bool talk_function::camp_gathering_return( npc &p, std::string task )
 {
     npc *comp = companion_choose_return( p, task, calendar::turn - 3_hours );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return false;
     }
 
@@ -3142,7 +3139,7 @@ bool talk_function::camp_garage_chop_start( npc &p, std::string task )
 
     npc* comp = individual_mission(p, _("begins working in the garage..."),
                                    "_faction_exp_chop_shop_"+dir, false, {}, "mechanics", 2 );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return false;
     }
 
@@ -3247,7 +3244,7 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
     }
 
     npc *comp = companion_choose_return( p, task, calendar::turn - work );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return false;
     }
 
@@ -3340,7 +3337,7 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
 bool talk_function::camp_menial_return( npc &p )
 {
     npc *comp = companion_choose_return( p, "_faction_camp_menial", calendar::before_time_starts );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return false;
     }
 
@@ -3418,7 +3415,7 @@ bool talk_function::camp_menial_return( npc &p )
 bool talk_function::camp_expansion_select( npc &p )
 {
     npc *comp = companion_choose_return( p, "_faction_camp_expansion", calendar::before_time_starts );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return false;
     }
     std::vector<std::string> pos_expansions;
@@ -3701,7 +3698,7 @@ int talk_function::camp_morale( int change )
 bool talk_function::carpenter_return( npc &p )
 {
     npc *comp = companion_choose_return( p, "_carpenter", calendar::turn - 1_hours );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return false;
     }
 
@@ -3748,7 +3745,7 @@ bool talk_function::carpenter_return( npc &p )
 bool talk_function::forage_return( npc &p )
 {
     npc *comp = companion_choose_return( p, "_forage", calendar::turn - 4_hours );
-    if (comp == NULL){
+    if( comp == nullptr ){
         return false;
     }
 
@@ -4183,7 +4180,7 @@ npc *talk_function::companion_choose( std::string skill_tested, int skill_level 
 
     if (available.empty()) {
         popup(_("You don't have any companions to send out..."));
-        return NULL;
+        return nullptr;
     }
     std::vector<std::string> npcs;
     available = companion_sort( available, skill_tested );
@@ -4211,12 +4208,12 @@ npc *talk_function::companion_choose( std::string skill_tested, int skill_level 
     int npc_choice = menu_vec(true, _("Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]"), npcs) - 1;
     if (npc_choice < 0 || npc_choice >= (int)available.size() ) {
         popup("You choose to send no one...");
-        return NULL;
+        return nullptr;
     }
 
     if ( !skill_tested.empty() && available[npc_choice]->get_skill_level( skill_id(skill_tested) ) < skill_level ) {
         popup("The companion you selected doesn't have the skills!");
-        return NULL;
+        return nullptr;
     }
     return available[npc_choice];
 }
@@ -4246,7 +4243,7 @@ npc *talk_function::companion_choose_return( npc &p, std::string id, time_point 
 
     if( available.empty() ) {
         popup(_("You don't have any companions ready to return..."));
-        return NULL;
+        return nullptr;
     }
 
     if( available.size() == (size_t)1 ) {
@@ -4263,7 +4260,7 @@ npc *talk_function::companion_choose_return( npc &p, std::string id, time_point 
         return available[npc_choice];
     }
     popup(_("No one returns to your party..."));
-    return NULL;
+    return nullptr;
 }
 
 //Smash stuff, steal valuables, and change map maker
@@ -5109,7 +5106,7 @@ void talk_function::camp_craft_construction( npc &p, std::string cur_key, std::m
                     }
                     npc* comp = individual_mission(p, _("begins to work..."), miss_id+dir, false, {},
                                    making->skill_used.obj().name(), making->difficulty );
-                    if ( comp != NULL ){
+                    if ( comp != nullptr ){
                         g->u.consume_components_for_craft(making, batch_size);
                         g->u.invalidate_crafting_inventory();
                         for ( auto results : making->create_results( batch_size ) ) {
@@ -5187,7 +5184,7 @@ std::string talk_function::camp_recruit_evaluation( npc &p, std::string base, st
 void talk_function::camp_recruit_return( npc &p, std::string task, int score )
 {
     npc *comp = companion_choose_return( p, task, calendar::turn - 4_days );
-    if (comp == NULL){
+    if (comp == nullptr){
         return;
     }
     std::string skill_group = "recruiting";
