@@ -321,6 +321,21 @@ bool overmapbuffer::has_horde(int const x, int const y, int const z) {
     return false;
 }
 
+int overmapbuffer::get_horde_size(int const x, int const y, int const z) {
+    int horde_size = 0;
+    for (auto const &m : overmap_buffer.monsters_at(x, y, z)) {
+        if (m->horde) {
+            if(m->monsters.size() > 0) {
+                horde_size += m->monsters.size();
+            } else {
+                horde_size += m->population;
+            }
+        }
+    }
+
+    return horde_size;
+}
+
 bool overmapbuffer::has_vehicle( int x, int y, int z )
 {
     if (z) {

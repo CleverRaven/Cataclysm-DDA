@@ -5091,11 +5091,13 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             tripoint const cur_pos {omx, omy, get_levz()};
-            if( overmap_buffer.has_horde( omx, omy, get_levz() )
-                && ( omx != targ.x || omy != targ.y )
-                && overmap_buffer.seen( omx, omy, get_levz() )
-                && g->u.overmap_los( cur_pos, sight_points ) ) {
-                mvwputch( w_minimap, j + 3, i + 3, c_green, 'Z' );
+            if (overmap_buffer.get_horde_size(omx, omy, get_levz() ) >= 3) {
+                tripoint const cur_pos {omx, omy, get_levz()};
+                if (overmap_buffer.seen(omx, omy, get_levz())
+                        && g->u.overmap_los( cur_pos, sight_points ) ) {
+                    mvwputch( w_minimap, j + 3, i + 3, c_green,
+                        overmap_buffer.get_horde_size(omx, omy, get_levz()) >= 10 ? 'Z' : 'z' );
+                }
             }
         }
     }
