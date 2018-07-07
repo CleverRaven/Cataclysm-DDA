@@ -332,6 +332,14 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             }
         }
     }
+    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EATEN_FROZEN" ) ) {
+        if( edible ) {
+        return ret_val<edible_rating>::make_failure( _( "It's frozen solid.  You must defrost it before you can eat it." ) );
+        }
+        if ( drinkable ) {
+        return ret_val<edible_rating>::make_failure( _( "You can't drink it while it's frozen." ) );
+        }
+    }
 
     if( comest->tool != "null" ) {
         const bool has = item::count_by_charges( comest->tool )

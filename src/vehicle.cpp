@@ -371,6 +371,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             e->enabled = true;
         }
 
+        for( auto e : get_parts( "FREEZER" ) ) {
+            e->enabled = true;
+        }
+
         for( auto e : get_parts( "WATER_PURIFIER" ) ) {
             e->enabled = true;
         }
@@ -933,6 +937,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
         add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
         add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+        add_toggle( _( "freezer" ), keybind( "TOGGLE_FREEZER" ), "FREEZER" );
         add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
         add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
         add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
@@ -1885,6 +1890,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "STEREO",
             "CHIMES",
             "FRIDGE",
+            "FREEZER",
             "RECHARGE",
             "PLOW",
             "REAPER",

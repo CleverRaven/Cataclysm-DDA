@@ -67,6 +67,12 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
+/** Temperature inside an active fridge in Fahrenheit  */
+#define FRIDGE_TEMPERATURE 37
+
+/** Temperature in which water freezes in Fahrenheit  */
+#define FREEZING_TEMPERATURE 32
+
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 

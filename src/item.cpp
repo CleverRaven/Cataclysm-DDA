@@ -865,6 +865,8 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                               to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
                                               to_turn<int>( food->fridge ), true, "", true, true ) );
+                    info.push_back( iteminfo( "BASE", space + _( "freezer: " ), "",
+                                              to_turn<int>( food->freezer ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
                                               to_turn<int>( food->last_rot_check ), true, "", true, true ) );
                 }
@@ -961,7 +963,9 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                          "It's on a brink of becoming inedible." ) );
                 }
             }
-
+            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() ) {
+                info.emplace_back( "DESCRIPTION", _( "* This food <neutral>spoils when frozen</neutral>." ) );
+            }
             if( food_item->rotten() ) {
                 if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
@@ -2464,6 +2468,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( has_flag( "COLD" ) ) {
             ret << _( " (cold)" );
         }
+        if( has_flag( "FROZEN" ) ) {
+            ret << _( " (frozen)" );
+        }
     }
 
     if( has_flag( "FIT" ) ) {
@@ -3055,6 +3062,7 @@ void item::set_relative_rot( double val )
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
         fridge = calendar::before_time_starts;
+        freezer = calendar::before_time_starts;
         active = !rotten();
     }
 }
@@ -3095,15 +3103,23 @@ void item::calc_rot(const tripoint &location)
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
         const time_point until = fridge != calendar::before_time_starts ? fridge : now;
+        until = freezer != calendar::before_time_starts ? freezer : now;
         if ( since < until ) {
-            // rot (outside of fridge) from bday/last_rot_check until fridge/now
+            // rot (outside of fridge/freezer) from bday/last_rot_check until fridge/freezer/now
             rot += get_rot_since( since, until, location );
         }
         last_rot_check = now;
 
+        if( freezer != calendar::before_time_starts ) {
+            // Frozen food do not rot, so no change to rot variable
+            // but some food don't like to be freezed at all, insta-rot
+            if ( goes_bad() && has_flag( "NO_FREEZE" ) && !rotten() ) {
+            rot = type->comestible->spoils;
+            }
+            freezer = calendar::before_time_starts;
+        }
         if( fridge != calendar::before_time_starts ) {
-            // Flat 20%, rot from time of putting it into fridge up to now
-            rot += ( now - fridge ) * 0.2;
+            rot += ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
             fridge = calendar::before_time_starts;
         }
         // item stays active to let the item counter work
@@ -5651,7 +5667,7 @@ bool item::needs_processing() const
 
 int item::processing_speed() const
 {
-    if( is_food() && !( item_tags.count("HOT") || item_tags.count("COLD") ) ) {
+    if( is_food() && !( item_tags.count( "HOT" ) || item_tags.count( "COLD" ) || item_tags.count( "FROZEN" ) ) ) {
         // Hot and cold food need turn-by-turn updates.
         // If they ever become a performance problem, update process_food to handle them occasionally.
         return 600;
@@ -5674,6 +5690,21 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
         if( item_counter == 0 ) {
             item_tags.erase( "COLD" );
         }
+    } else if( item_tags.count( "FROZEN" ) > 0 ) {
+        if( item_counter == 0 ) {
+            item_tags.erase( "FROZEN" );
+            if this.has_flag( "EATEN_COLD" ) {
+                item_tags.insert( "COLD" );
+                item_counter = 600;
+            }
+        }
+    }
+    // environment temperature applies COLD/FROZEN flags to food
+    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE
+        && g->get_temperature( pos ) > FREEZE_TEMPERATURE ) {
+        apply_in_fridge( *this, false);
+    } else if( g->get_temperature( pos ) <= FREEZE_TEMPERATURE ) {
+        apply_in_fridge( *this, true);
     }
     return false;
 }

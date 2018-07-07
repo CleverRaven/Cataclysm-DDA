@@ -5047,8 +5047,9 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix 
 static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
-        return ( itm.is_food() && itm.has_flag( "EATEN_HOT" ) ) ||
-               ( itm.is_food_container() && itm.contents.front().has_flag( "EATEN_HOT" ) );
+        return ( ( itm.is_food() && ( itm.has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) ||
+               ( itm.is_food_container() && 
+               ( itm.contents.front().has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5059,9 +5060,16 @@ static bool heat_item( player &p )
     item &target = heat->is_food_container() ? heat->contents.front() : *heat;
     p.mod_moves( -300 );
     add_msg( _( "You heat up the food." ) );
-    target.item_tags.insert( "HOT" );
-    target.active = true;
-    target.item_counter = 600; // sets the hot food flag for 60 minutes
+    if( target.item_tags.count( "FROZEN" ) ) {
+        target.item_tags.erase( "FROZEN" );
+        target.item_tags.insert( "HOT" );
+        target.active = true;
+        target.item_counter = 100; // prevents insta-freeze afterwards
+    } else {
+        target.item_tags.insert( "HOT" );
+        target.active = true;
+        target.item_counter = 600; // sets the hot food flag for 60 minutes
+    }
     return true;
 }
 

@@ -4563,30 +4563,51 @@ void map::make_active( item_location &loc )
     current_submap->active_items.add( iter, point(lx, ly) );
 }
 
-// Check if it's in a fridge and is food, set the fridge
+// Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
-static void apply_in_fridge(item &it)
+static void apply_in_fridge(item &it, bool freezer)
 {
-    if (it.is_food()) {
-        if( it.fridge == calendar::before_time_starts ) {
-            it.fridge = calendar::turn;
+    if( it.is_food() ) {
+        if( !freezer ) {
+            if( it.fridge == calendar::before_time_starts ) {
+                it.fridge = calendar::turn;
+            }
+        } else {
+            if( it.freezer == calendar::before_time_starts ) {
+                it.freezer = calendar::turn;
+            }
         }
         // cool down of the HOT flag, is unsigned, don't go below 1
-        if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
+        if( it.has_flag ( "HOT" ) && it.item_counter > 10) {
             it.item_counter -= 10;
         }
         // This sets the COLD flag, and doesn't go above 600
-        if ((it.has_flag("EATEN_COLD")) && (!it.has_flag("COLD"))) {
-            it.item_tags.insert("COLD");
+        if( it.has_flag( "EATEN_COLD" ) && !it.has_flag( "COLD" ) && ( !it.has_flag( "FROZEN" ) ) {
+            it.item_tags.insert( "COLD" );
             it.active = true;
         }
-        if ((it.has_flag("COLD")) && (it.item_counter <= 590)) {
+        if( it.has_flag( "COLD" ) && it.item_counter <= 590 ) {
+            it.item_counter += 10;
+        }
+        // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
+        if ( freezer && it.has_flag( "COLD" ) && it.item_counter = 600 ) {
+            it.item_tags.erase( "COLD" );
+            it.item_tags.insert( "FROZEN" );
+            it.active = true;
+            it.item_counter = 0;
+        }
+        // items that don't use COLD flag can go FROZEN bypassing COLD state
+        if( !it.has_flag( "EATEN_COLD" ) && !it.has_flag( "FROZEN" ) {
+            it.item_tags.insert( "FROZEN" );
+            it.active = true;
+        }
+        if ( freezer && it.has_flag( "FROZEN" ) && it.item_counter <= 590) {
             it.item_counter += 10;
         }
     }
-    if (it.is_container()) {
+    if( it.is_container() ) {
         for( auto &elem : it.contents ) {
-            apply_in_fridge( elem );
+            apply_in_fridge( elem, freezer );
         }
     }
 }
@@ -4623,7 +4644,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            apply_in_fridge(n);
+            apply_in_fridge( n, false);
+        }
+    }
+
+    const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
+    if( freezer_here ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            apply_in_fridge( n, true );
         }
     }
 
