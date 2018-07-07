@@ -132,6 +132,11 @@ void recipe::load( JsonObject &jo, const std::string &src )
         }
     }
 
+    // Never let the player have a debug or NPC recipe
+    if( jo.has_bool( "never_learn" ) ) {
+        assign( jo, "never_learn", never_learn );
+    }
+
     if( jo.has_member( "decomp_learn" ) ) {
         learn_by_disassembly.clear();
 
