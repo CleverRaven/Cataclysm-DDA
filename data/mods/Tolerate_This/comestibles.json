@@ -836,7 +836,7 @@
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "gflfwaffles",
     "name": "lactose free waffle",
@@ -931,9 +931,9 @@
     "description": "Sweeter than real cows milk, almost tastes like vanilla icecream. Spoils rapidly.",
     "price": 48,
     "//": "I am assuming it costs more than cows milk. TB",
-    "material": "veggy",
+    "material": "junk",
     "volume": 1,
-    "phase": "junk",
+    "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -956,7 +956,7 @@
     "//": "More expensive than regular milk. Sometimes about twice the price. TB",
     "material": "veggy",
     "volume": 1,
-    "phase": "junk",
+    "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
