@@ -1911,16 +1911,26 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
                         destsm->itm[sx][sy].push_back(elem);
                     }
                     //Don't cover existing crops, for farm upgrades
-                    //Don't destroy terrain to place grass/dirt
                     if( change_sensitive && destsm->frn[sx][sy] != furn_str_id( "f_plant_seed" ) &&
                         destsm->frn[sx][sy] != furn_str_id( "f_plant_seedling" ) &&
                         destsm->frn[sx][sy] != furn_str_id( "f_plant_mature" ) &&
-                        destsm->frn[sx][sy] != furn_str_id( "f_plant_harvest" ) &&
-                        srcsm->ter[sx][sy] != ter_str_id( "t_grass" ) &&
-                        srcsm->ter[sx][sy] != ter_str_id( "t_dirt" ) ) {
-                               destsm->ter[sx][sy] = srcsm->ter[sx][sy];
-                               destsm->frn[sx][sy] = srcsm->frn[sx][sy];
-                       }
+                        destsm->frn[sx][sy] != furn_str_id( "f_plant_harvest" ) ) {
+
+                       //Don't destroy terrain to place grass/dirt if you don't also have furniture being added
+                        if( ( srcsm->ter[sx][sy] == ter_str_id( "t_grass" ) ||
+                            srcsm->ter[sx][sy] == ter_str_id( "t_dirt" ) ) &&
+                            srcsm->frn[sx][sy] == furn_str_id( "f_null" ) ) {
+                            //Easier to define when not to do it than when to...
+                        } else {
+                           destsm->ter[sx][sy] = srcsm->ter[sx][sy];
+                           destsm->frn[sx][sy] = srcsm->frn[sx][sy];
+                        }
+                    }
+                    //Write over any terrain or furniture that might be there
+                    if( !change_sensitive ){
+                        destsm->ter[sx][sy] = srcsm->ter[sx][sy];
+                        destsm->frn[sx][sy] = srcsm->frn[sx][sy];
+                    }
                     destsm->fld[sx][sy] = srcsm->fld[sx][sy];
                     destsm->cosmetics[sx][sy] = srcsm->cosmetics[sx][sy];
                 }
