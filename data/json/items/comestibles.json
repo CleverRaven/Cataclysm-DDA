@@ -4501,8 +4501,36 @@
     "material": "veggy",
     "volume": 1,
     "fun": -18,
-    "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?"
+    "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?",
+    "use_action": {
+      "target": "garlic_clove",
+      "msg": "You split the bulb into cloves.",
+      "target_charges": 6,
+      "menu_text": "Split",
+      "type": "transform"
+    }
   },
+  {
+    "type": "COMESTIBLE",
+    "id": "garlic_clove",
+    "name": "garlic clove",
+    "name_plural": "garlic cloves",
+    "weight": 3,
+    "color": "white",
+    "spoils_in": 8640,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -3,
+    "healthy": 1,
+    "nutrition": 3,
+    "description": "Cloves of garlic.  Useful as a seasoning.",
+    "price": 50,
+    "charges": 6,
+    "stack_size": 6,
+    "material": "veggy",
+    "volume": 1,
+    "fun": -3
+      },
   {
     "type": "COMESTIBLE",
     "id": "carrot",
