@@ -1390,6 +1390,8 @@ void monster::load(JsonObject &data)
     biosignatures = data.get_bool("biosignatures", type->biosignatures);
     biosig_timer = data.get_int("biosig_timer", -1);
 
+    horde_attraction = static_cast<monster_horde_attraction>(data.get_int("horde_attraction", 0));
+
     data.read("inv", inv);
     if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
@@ -1456,6 +1458,9 @@ void monster::store(JsonOut &json) const
     json.member("biosignatures", biosignatures);
     json.member("biosig_timer", biosig_timer);
     json.member("last_biosig", last_biosig);
+    if (horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION) {
+        json.member("horde_attraction", horde_attraction);
+    }
 
     json.member( "inv", inv );
 

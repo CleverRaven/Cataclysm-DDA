@@ -61,6 +61,16 @@ enum monster_effect_cache_fields {
     NUM_MEFF
 };
 
+enum monster_horde_attraction {
+    MHA_NULL = 0,
+    MHA_ALWAYS,
+    MHA_LARGE,
+    MHA_OUTDOORS,
+    MHA_OUTDOORS_AND_LARGE,
+    MHA_NEVER,
+    NUM_MONSTER_HORDE_ATTRACTION
+};
+
 class monster : public Creature
 {
         friend class editmap;
@@ -305,6 +315,9 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
+        monster_horde_attraction get_horde_attraction();
+        bool will_join_horde(int size);
+
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
@@ -459,6 +472,7 @@ class monster : public Creature
         int baby_timer;
         bool biosignatures;
         int biosig_timer;
+        monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
