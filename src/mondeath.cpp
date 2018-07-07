@@ -115,9 +115,9 @@ void mdeath::normal( monster &z )
     }
 
     const int num_chunks = z.type->get_meat_chunks_count();
-    const itype_id meat = z.type->get_meat_itype();
 
     if( pulverized && gibbable ) {
+        const itype_id meat = z.type->get_meat_itype();
         const item chunk( meat );
         for( int i = 0; i < num_chunks; i++ ) {
             tripoint tarp( z.pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );

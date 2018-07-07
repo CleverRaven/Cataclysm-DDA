@@ -54,7 +54,7 @@ struct map_bash_info {
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -66,7 +66,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 
 /*
@@ -181,6 +181,7 @@ enum ter_connects : int {
     TERCONN_RAILING,
     TERCONN_WATER,
     TERCONN_PAVEMENT,
+    TERCONN_RAIL,
 };
 
 struct map_data_common_t {
@@ -433,7 +434,11 @@ extern ter_id t_null,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     t_linoleum_white, t_linoleum_gray,
-    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
+    // Railroad and subway
+    t_railroad_rubble,
+    t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
+    t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d1, t_railroad_track_d2,
+    t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
 
 
 /*

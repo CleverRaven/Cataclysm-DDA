@@ -5647,13 +5647,13 @@
           "id": "t_fence_v",
           "fg": 732,
           "bg": 368,
-          "rotates": false
+          "rotates": true
         },
         {
-          "id": "t_fence_h",
+          "id": [ "t_fence", "t_fence_h" ],
           "fg": 1523,
           "bg": 368,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "t_chainfence_posts",
@@ -20035,7 +20035,7 @@
         {
           "id": "t_chainfence_v",
           "fg": 1464,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -20065,9 +20065,9 @@
           ]
         },
         {
-          "id": "t_chainfence_h",
+          "id": [ "t_chainfence", "t_chainfence_h" ],
           "fg": 1464,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -22159,14 +22159,14 @@
           "rotates": false
         },
         {
-          "id": "t_railing_h",
+          "id": [ "t_railing", "t_railing_h" ],
           "fg": 1609,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "t_railing_v",
           "fg": 1610,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "t_guardrail_bg_dp",

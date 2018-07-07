@@ -299,10 +299,9 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
 
     // Print currently used style or weapon mode.
     std::string style;
-    const auto style_color = is_armed() ? c_red : c_blue;
     const auto &cur_style = style_selected.obj();
     if( cur_style.force_unarmed || cur_style.weapon_valid( weapon ) ) {
-        style = cur_style.name;
+        style = _( cur_style.name.c_str() );
     } else if( is_armed() ) {
         style = _( "Normal" );
     } else {
@@ -310,6 +309,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     if( !style.empty() ) {
+        const auto style_color = is_armed() ? c_red : c_blue;
         const int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
         mvwprintz( weapwin, 1, x, style_color, style );
     }

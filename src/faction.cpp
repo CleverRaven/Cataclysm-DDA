@@ -378,9 +378,9 @@ bool faction::matches_us(faction_value v) const
 
 std::string faction::describe() const
 {
-    std::string ret;
-    ret = desc + "\n \n" + string_format( _("%1$s have the ultimate goal of %2$s."), name.c_str(),
-                                          _( facgoal_data[goal].name.c_str() ) );
+    std::string ret = _( desc.c_str() );
+    ret = ret + "\n\n" + string_format( _( "%1$s have the ultimate goal of %2$s." ), _( name.c_str() ),
+                                        _( facgoal_data[goal].name.c_str() ) );
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), _( facjob_data[job1].name.c_str()));
     } else {
@@ -1008,7 +1008,7 @@ void faction_manager::display() const
             mvwprintz( w_list, 1, 1, c_white, _( "FACTIONS:" ) );
             for( size_t i = 0; i < valfac.size(); i++ ) {
                 nc_color col = ( i == sel ? h_white : c_white );
-                mvwprintz( w_list, i + 2, 1, col, valfac[i]->name );
+                mvwprintz( w_list, i + 2, 1, col, _( valfac[i]->name.c_str() ) );
             }
             wrefresh( w_list );
             werase( w_info );

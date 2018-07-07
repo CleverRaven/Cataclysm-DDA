@@ -61,7 +61,7 @@ bool inbounds( const int x, const int y, const int z )
            z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-std::vector<std::string> fld_string( std::string str, int width )
+std::vector<std::string> fld_string( const std::string &str, int width )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -323,7 +323,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 /*
  * update the help text, which hijacks w_info's bottom border
  */
-void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
+void editmap::uphelp( const std::string &txt1, const std::string &txt2, const std::string &title )
 {
 
     if( !txt1.empty() ) {
@@ -467,7 +467,6 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            nc_color col = c_dark_gray;
             long sym = ( game_map ? '%' : ' ' );
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
@@ -489,7 +488,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                 }
             } else {
-                mvwputch( w, sy, sx, col, sym );
+                mvwputch( w, sy, sx, c_dark_gray, sym );
             }
         }
     }

@@ -74,7 +74,7 @@ static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
 
-void player_hit_message(player* attacker, std::string message,
+void player_hit_message(player* attacker, const std::string &message,
                         Creature &t, int dam, bool crit = false);
 int  stumble( player &u, const item &weap );
 std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
@@ -1254,7 +1254,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
             add_msg_if_player(m_good, _("You have learned %s from extensive practice with the CQB Bionic."),
-                       style_selected.obj().name.c_str());
+                       _(style_selected.obj().name.c_str()));
         }
     }
 }
@@ -1811,7 +1811,7 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
 }
 
 // display the hit message for an attack
-void player_hit_message( player* attacker, std::string message,
+void player_hit_message( player* attacker, const std::string &message,
                         Creature &t, int dam, bool crit )
 {
     std::string msg;

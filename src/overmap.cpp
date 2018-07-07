@@ -1399,7 +1399,7 @@ std::vector<point> overmap::find_notes(int const z, std::string const &text)
     std::vector<point> note_locations;
     map_layer &this_layer = layer[z + OVERMAP_DEPTH];
     for( auto note : this_layer.notes ) {
-        if( lcmatch( note.text, text ) ) {
+        if( match_include_exclude( note.text, text ) ) {
             note_locations.push_back( global_base_point() + point( note.x, note.y ) );
         }
     }
@@ -2074,6 +2074,8 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
                              100;
+    // Whether showing hordes is currently enabled
+    const bool showhordes = uistate.overmap_show_hordes;
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
@@ -2206,7 +2208,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
-            } else if (blink && los && overmap_buffer.get_horde_size(omx, omy, z) >= HORDE_VISIBILITY_SIZE) {
+            } else if (blink && showhordes && los && overmap_buffer.get_horde_size(omx, omy, z) >= HORDE_VISIBILITY_SIZE) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
                 ter_sym   = overmap_buffer.get_horde_size(omx, omy, z) > HORDE_VISIBILITY_SIZE*2 ? 'Z' : 'z';
@@ -2489,6 +2491,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
         print_hint( "TOGGLE_BLINKING" );
         print_hint( "TOGGLE_OVERLAYS" );
         print_hint( "TOGGLE_CITY_LABELS" );
+        print_hint( "TOGGLE_HORDES" );
         print_hint( "TOGGLE_EXPLORED" );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
@@ -2636,6 +2639,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     ictxt.register_action("LIST_NOTES");
     ictxt.register_action("TOGGLE_BLINKING");
     ictxt.register_action("TOGGLE_OVERLAYS");
+    ictxt.register_action("TOGGLE_HORDES");
     ictxt.register_action("TOGGLE_CITY_LABELS");
     ictxt.register_action("TOGGLE_EXPLORED");
     if( data.debug_editor ) {
@@ -2711,16 +2715,20 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 show_explored = !show_explored;
             }
+        } else if (action == "TOGGLE_HORDES") {
+            uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs.x, curs.y, curs.z );
         } else if( action == "SEARCH" ) {
-            std::string term = string_input_popup().title( _( "Search term:" ) ).query_string();
+            std::string term = string_input_popup()
+            .title( _( "Search term:" ) )
+            .description( _( "Multiple entries separated with , Excludes starting with -" ) )
+            .query_string();
             if( term.empty() ) {
                 continue;
             }
-            std::transform( term.begin(), term.end(), term.begin(), tolower );
 
             std::vector<point> locations;
             std::vector<point> overmap_checked;
@@ -2746,7 +2754,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                         }
 
                         if( om->seen( om_relative_x, om_relative_y, curs.z ) &&
-                            lcmatch( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
+                            match_include_exclude( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
                             locations.push_back( om->global_base_point() + point( om_relative_x, om_relative_y ) );
                         }
                     }
@@ -4300,9 +4308,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     // Make connections.
     if( cit ) {
         for( const auto &elem : special.connections ) {
-            const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-
             if( elem.connection ) {
+                const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
                 build_connection( point( cit.x, cit.y ), point( rp.x, rp.y ), elem.p.z, *elem.connection );
             }
         }
@@ -4813,9 +4820,9 @@ void building_bin::add( const overmap_special_id &building, int weight )
 
 overmap_special_id building_bin::pick() const
 {
-    overmap_special_id null_special( "null" );
     if( !finalized ) {
         debugmsg( "Tried to pick a special out of a non-finalized bin" );
+        overmap_special_id null_special( "null" );
         return null_special;
     }
 

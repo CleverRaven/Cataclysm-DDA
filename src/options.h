@@ -41,7 +41,7 @@ class options_manager
             COPT_POSIX_CURSES_HIDE,
             /** Hide this option in builds without sound support */
             COPT_NO_SOUND_HIDE,
-            /** Hide this option always, it is set as a mod. **/
+            /** Hide this option always, it should not be changed by user directly through UI. **/
             COPT_ALWAYS_HIDE
         };
 

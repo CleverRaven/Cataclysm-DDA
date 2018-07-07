@@ -2146,6 +2146,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
 
     g->m.ter_set( pos, t_dirt );
     g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+    g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );

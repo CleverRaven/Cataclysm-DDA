@@ -214,7 +214,8 @@ bool check_litcig( player &u )
     return false;
 }
 
-static bool item_inscription( player &/*p*/, item &cut, std::string verb, std::string gerund,
+static bool item_inscription( player &/*p*/, item &cut, const std::string &verb,
+                              const std::string &gerund,
                               bool carveable )
 {
     if( !cut.made_of( SOLID ) ) {
@@ -265,7 +266,8 @@ static bool item_inscription( player &/*p*/, item &cut, std::string verb, std::s
 
 // Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
 
-static bool inscribe_item( player &p, std::string verb, std::string gerund, bool carveable )
+static bool inscribe_item( player &p, const std::string &verb, const std::string &gerund,
+                           bool carveable )
 {
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
@@ -540,11 +542,11 @@ int iuse::eyedrops( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You're out of %s." ), it->tname().c_str() );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You use your %s." ), it->tname().c_str() );
     p->moves -= 150;
@@ -613,7 +615,7 @@ int iuse::antifungal( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You take some antifungal medication." ) );
     if( p->has_effect( effect_fungus ) ) {
@@ -633,7 +635,7 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You take some antiparasitic medication." ) );
     if( p->has_effect( effect_dermatik ) ) {
@@ -3884,6 +3886,53 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::solarpack( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
+        p->add_msg_if_player(
+            _( "You have no cable charging system to plug it in, so you leave it alone." ) );
+        return 0;
+    } else if( !p->has_active_bionic( bionic_id( "bio_cable" ) ) ) {  // when OFF it takes no effect
+        p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
+    }
+
+    if( it->is_armor() && !( p->is_worn( *it ) ) ) {
+        p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before you can unfold it." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    // no doubled sources of power
+    if( p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" ) ) {
+        p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    p->add_msg_if_player( _( "You unfold solar array from the pack and plug it in." ) );
+
+    if( it->typeId() == "solarpack" ) {
+        it->convert( "solarpack_on" );
+    } else {
+        it->convert( "q_solarpack_on" );
+    }
+    return 0;
+}
+
+int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_worn( *it ) ) {  // folding when not worn
+        p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
+    } else {
+        p->add_msg_if_player( _( "You unplug and fold your portable solar array into the pack." ) );
+    }
+
+    if( it->typeId() == "solarpack_on" ) {
+        it->convert( "solarpack" );
+    } else {
+        it->convert( "q_solarpack" );
+    }
+    return 0;
+}
+
 int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
@@ -4120,7 +4169,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     item blood( "blood", calendar::turn );
-    item acid( "acid", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
@@ -4149,6 +4197,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     if( acid_blood ) {
+        item acid( "acid", calendar::turn );
         it->put_in( acid );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
@@ -4174,8 +4223,6 @@ void iuse::cut_log_into_planks( player &p )
 {
     p.moves -= 300;
     p.add_msg_if_player( _( "You cut the log into planks." ) );
-    item plank( "2x4", calendar::turn );
-    item scrap( "splinter", calendar::turn );
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
     int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );
@@ -4183,10 +4230,12 @@ void iuse::cut_log_into_planks( player &p )
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
     if( planks > 0 ) {
+        item plank( "2x4", calendar::turn );
         p.i_add_or_drop( plank, planks );
         p.add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
     if( scraps > 0 ) {
+        item scrap( "splinter", calendar::turn );
         p.i_add_or_drop( scrap, scraps );
         p.add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
@@ -4913,6 +4962,16 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 }
             }
             break;
+
+            case AEA_STAMINA_EMPTY:
+                p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
+                p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
+                break;
+
+            case AEA_FUN:
+                p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
+                p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
+                break;
 
             case AEA_SPLIT: // TODO
                 break;
@@ -7071,7 +7130,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( p->is_underwater() ) {
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return false;
+            return 0;
         }
 
         if( p->has_trait( trait_ILLITERATE ) ) {
@@ -7242,7 +7301,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             if( !p->has_morale_to_craft() ) {
                 add_msg( m_info, _( "Your morale is too low to craft..." ) );
-                return false;
+                return 0;
             }
 
             bool has_tools = true;

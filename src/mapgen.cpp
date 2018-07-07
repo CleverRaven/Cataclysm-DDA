@@ -719,8 +719,6 @@ public:
         dat.m.furn_set( rx, ry, f_null );
         dat.m.furn_set( rx, ry, furn_str_id( "f_sign" ) );
 
-        tripoint abs_sub = dat.m.get_abs_sub();
-
         std::string signtext;
 
         if( !snippet.empty() ) {
@@ -734,6 +732,7 @@ public:
             signtext = _( signtext.c_str() );
 
             std::string cityname = "illegible city name";
+            tripoint abs_sub = dat.m.get_abs_sub();
             const city* c = overmap_buffer.closest_city(abs_sub).city;
             if (c != nullptr) {
                 cityname = c->name;
@@ -806,7 +805,7 @@ public:
     jmapgen_int amount;
     std::string fuel;
     jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-    , amount( jsi, "amount", 0, 0 ), fuel("")
+    , amount( jsi, "amount", 0, 0 ), fuel()
     {
         if (jsi.has_string("fuel")){
             fuel = jsi.get_string("fuel");
@@ -3570,6 +3569,16 @@ ff.......|....|WWWWWWWW|\n\
             }
         }
 
+        // Chance of adding occasional lighting through the area.
+        if (one_in(2)) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && one_in(150)) {
+                        ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
+        }
 
     } else if (terrain_type == "lab_finale" ||
                terrain_type == "ice_lab_finale") {
@@ -3603,7 +3612,7 @@ ff.......|....|WWWWWWWW|\n\
                 } else if (j < tw || j > SEEY * 2 - 1 - bw) {
                     ter_set(i, j, t_concrete_wall);
                 } else {
-                    ter_set(i, j, t_floor);
+                    ter_set(i, j, t_rock_floor);
                 }
             }
         }
@@ -3779,6 +3788,17 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX   , SEEY - 2, t_cvdmachine);
             spawn_item( SEEX, SEEY - 3, "id_science" );
             break;
+        }
+
+        // Chance of adding occasional lighting through the finale room.
+        if (one_in(2)) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && one_in(200)) {
+                        ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
         }
 
     } else if (terrain_type == "outpost") {
@@ -6664,7 +6684,7 @@ void map::place_gas_pump(int x, int y, int charges)
     }
 }
 
-void map::place_gas_pump(int x, int y, int charges, std::string fuel_type)
+void map::place_gas_pump(int x, int y, int charges, const std::string &fuel_type)
 {
     item fuel(fuel_type, 0);
     fuel.charges = charges;
@@ -6684,7 +6704,7 @@ void map::place_toilet(int x, int y, int charges)
     furn_set(x, y, f_toilet);
 }
 
-void map::place_vending(int x, int y, std::string type, bool reinforced)
+void map::place_vending(int x, int y, const std::string &type, bool reinforced)
 {
     if ( reinforced ) {
         furn_set( x, y, f_vending_reinforced );
@@ -6786,7 +6806,7 @@ std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p
 }
 
 void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly,
-                    int faction_id, int mission_id, std::string name)
+                    int faction_id, int mission_id, const std::string &name)
 {
     if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
         debugmsg("Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y);
@@ -7001,7 +7021,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     return veh.release();
 }
 
-computer *map::add_computer( const tripoint &p, std::string name, int security )
+computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
     ter_set( p, t_console ); // TODO: Turn this off?
     submap *place_on_submap = get_submap_at( p );

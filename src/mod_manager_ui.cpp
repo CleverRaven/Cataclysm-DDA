@@ -212,7 +212,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up( long selection, std::vector<mod_id> active_list )
+bool mod_ui::can_shift_up( long selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {
@@ -249,7 +249,7 @@ bool mod_ui::can_shift_up( long selection, std::vector<mod_id> active_list )
     }
 }
 
-bool mod_ui::can_shift_down( long selection, std::vector<mod_id> active_list )
+bool mod_ui::can_shift_down( long selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {

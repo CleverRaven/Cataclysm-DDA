@@ -50,7 +50,7 @@ bool string_id<Trait_group>::is_valid() const
 }
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                        std::string mod_type, bool active, std::string type_key)
+                        const std::string &mod_type, bool active, std::string type_key)
 {
     int val = j.get_int(mod_type, 0);
     if (val != 0) {
@@ -58,7 +58,7 @@ static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::s
     }
 }
 
-static void load_mutation_mods(JsonObject &jsobj, std::string member, std::unordered_map<std::pair<bool, std::string>, int> &mods)
+static void load_mutation_mods(JsonObject &jsobj, const std::string &member, std::unordered_map<std::pair<bool, std::string>, int> &mods)
 {
     if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);

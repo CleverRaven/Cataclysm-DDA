@@ -115,7 +115,7 @@ static size_t blood_trail_len( int damage )
     return 0;
 }
 
-projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range,
+projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersion, double range,
         double target_size )
 {
     projectile_attack_aim aim;
@@ -143,7 +143,7 @@ projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, dou
 }
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
-        const tripoint &target_arg, dispersion_sources dispersion,
+        const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin, const vehicle *in_veh )
 {
     const bool do_animation = get_option<bool>( "ANIMATIONS" );

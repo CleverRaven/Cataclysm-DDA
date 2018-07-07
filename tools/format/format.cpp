@@ -11,6 +11,17 @@
 
 static void format( JsonIn &jsin, JsonOut &jsout, int depth = -1 );
 
+#ifdef MSYS2
+static void erase_char( std::string &s, const char &c )
+{
+    size_t pos = std::string::npos;
+    while( ( pos  = s.find( c ) ) != std::string::npos )
+    {
+        s.erase( pos, 1 );
+    }
+}
+#endif
+
 static void write_array( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
     jsout.start_array( force_wrap );
@@ -167,7 +178,11 @@ int main( int argc, char *argv[] )
         std::cout << header;
         std::cout << out.str() << std::endl;
     } else {
-        if( in.str() == out.str() ) {
+        std::string in_str = in.str();
+#ifdef MSYS2
+        erase_char( in_str, '\r' );
+#endif
+        if( in_str == out.str() ) {
             std::cout << "Unformatted " << filename << std::endl;
             exit( EXIT_SUCCESS );
         } else {

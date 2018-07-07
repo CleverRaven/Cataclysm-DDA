@@ -30,6 +30,20 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 3 ] ] ]
   },
+   {
+    "result": "boy_shorts",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "using": [ [ "filament", 15 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 3 ] ] ]
+  },
   {
     "result": "boxer_briefs",
     "type": "recipe",
