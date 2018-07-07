@@ -202,6 +202,7 @@
     "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
     "quench": -3,
     "nutrition": 3,
+    "spoils_in": 8640,
     "weight": 3,
     "charges": 6,
     "stack_size": 6,
