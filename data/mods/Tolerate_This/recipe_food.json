@@ -526,7 +526,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
@@ -547,7 +547,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
@@ -568,7 +568,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
@@ -588,7 +588,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "cinnamon", 20 ] ],
       [ [ "cornbread", 2 ] ]
@@ -606,7 +606,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "cinnamon", 20 ] ],
       [ [ "cornmeal", 2 ] ]
@@ -644,7 +644,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "cornmeal", 2 ] ],
-      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
+      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ], [ "rice_milk", 1 ] ]
     ]
   },
   {
@@ -1429,7 +1429,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1449,7 +1449,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1490,7 +1490,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "can_coconut", 1 ] ],
+      [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
@@ -1532,7 +1532,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "cornmeal", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
@@ -1553,7 +1553,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
