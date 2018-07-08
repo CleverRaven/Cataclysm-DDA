@@ -267,7 +267,7 @@ private:
     //! print a bank statement for @p print = true;
     void finish_interaction(bool const print = true) {
         if (print) {
-            add_msg(m_info, "Your account now holds %s.", format_money(u.cash));
+            add_msg(m_info, _("Your account now holds %s."), format_money(u.cash));
         }
 
         u.moves -= 100;
@@ -3355,7 +3355,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         cashcard->charges -= liters * pricePerUnit;
 
-        add_msg( m_info, "Your cash card now holds %s.", format_money( cashcard->charges ) );
+        add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
         p.moves -= 100;
         return;
     }
@@ -3404,7 +3404,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, "Your cash card now holds %s.", format_money( cashcard->charges ) );
+            add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
             p.moves -= 100;
             return;
         } else {
