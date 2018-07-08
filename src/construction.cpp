@@ -46,6 +46,8 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
 
+const trap_str_id tr_firewood_source( "tr_firewood_source" );
+
 // Construction functions.
 namespace construct
 {
@@ -59,6 +61,7 @@ bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
 bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
+bool check_no_trap( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
@@ -72,6 +75,7 @@ void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
 void done_extract_sand( const tripoint & );
 void done_extract_clay( const tripoint & );
+void done_mark_firewood( const tripoint & );
 
 void failure_standard( const tripoint & );
 };
@@ -900,6 +904,10 @@ bool construct::check_down_OK( const tripoint & )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
+bool construct::check_no_trap( const tripoint &p )
+{
+    return g->m.tr_at( p ).is_null();
+}
 
 void construct::done_trunk_plank( const tripoint &p )
 {
@@ -1133,6 +1141,11 @@ void construct::done_extract_clay( const tripoint &p )
     g->u.add_msg_if_player( _( "You gather some clay." ) );
 }
 
+void construct::done_mark_firewood( const tripoint &p )
+{
+    g->m.trap_set( p, tr_firewood_source );
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1214,6 +1227,7 @@ void load_construction( JsonObject &jo )
             { "check_deconstruct", construct::check_deconstruct },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
+            { "check_no_trap", construct::check_no_trap }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
@@ -1227,6 +1241,7 @@ void load_construction( JsonObject &jo )
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_sand", construct::done_extract_sand },
             { "done_extract_clay", construct::done_extract_clay },
+            { "done_mark_firewood", construct::done_mark_firewood }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map = {{

@@ -2385,8 +2385,7 @@
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 2 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 2 }
     ],
     "components": [
       [ [ "power_supply", 2 ] ],
@@ -2408,8 +2407,7 @@
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 2 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 2 }
     ],
     "components": [
       [ [ "power_supply", 2 ] ],
