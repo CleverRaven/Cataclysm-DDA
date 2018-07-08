@@ -870,6 +870,18 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                               to_turn<int>( food->freezer ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
                                               to_turn<int>( food->last_rot_check ), true, "", true, true ) );
+                    if( food->item_tags.count( "HOT" ) ) {
+                        info.push_back( iteminfo( "BASE", _( "HOT: " ), "",
+                                                  food->item_counter, true, "", true, true ) );                      
+                    }
+                    if( food->item_tags.count( "COLD" ) ) {
+                        info.push_back( iteminfo( "BASE", _( "COLD: " ), "",
+                                                  food->item_counter, true, "", true, true ) );                      
+                    }
+                    if( food->item_tags.count( "FROZEN" ) ) {
+                        info.push_back( iteminfo( "BASE", _( "FROZEN: " ), "",
+                                                  food->item_counter, true, "", true, true ) );                      
+                    }
                 }
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );

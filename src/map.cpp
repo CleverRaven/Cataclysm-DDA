@@ -4578,16 +4578,16 @@ void map::apply_in_fridge( item &it, bool freezer )
             }
         }
         // cool down of the HOT flag, is unsigned, don't go below 1
-        if( it.has_flag ( "HOT" ) && it.item_counter > 10 ) {
-            it.item_counter -= 10;
+        if( it.has_flag ( "HOT" ) && it.item_counter > 5 ) {
+            it.item_counter -= 5;
         }
         // This sets the COLD flag, and doesn't go above 600
         if( it.has_flag( "EATEN_COLD" ) && !it.has_flag( "COLD" ) && ( !it.has_flag( "FROZEN" ) ) ) {
             it.item_tags.insert( "COLD" );
             it.active = true;
         }
-        if( it.has_flag( "COLD" ) && it.item_counter <= 590 ) {
-            it.item_counter += 10;
+        if( it.has_flag( "COLD" ) && it.item_counter <= 598 ) {
+            it.item_counter += 2;
         }
         // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
         if ( freezer && it.has_flag( "COLD" ) && it.item_counter == 600 ) {
@@ -4601,8 +4601,8 @@ void map::apply_in_fridge( item &it, bool freezer )
             it.item_tags.insert( "FROZEN" );
             it.active = true;
         }
-        if ( freezer && it.has_flag( "FROZEN" ) && it.item_counter <= 590 ) {
-            it.item_counter += 10;
+        if ( freezer && it.has_flag( "FROZEN" ) && it.item_counter <= 598 ) {
+            it.item_counter += 2;
         }
     }
     if( it.is_container() ) {
