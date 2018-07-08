@@ -965,23 +965,44 @@ public:
  */
 class jmapgen_monster : public jmapgen_piece {
 public:
-    mtype_id id;
+    weighted_int_list<mtype_id> ids;
     bool friendly;
     std::string name;
     jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
-    , id( jsi.get_string( "monster" ) )
     , friendly( jsi.get_bool( "friendly", false ) )
     , name( jsi.get_string( "name", "NONE" ) )
     {
-        if( !id.is_valid() ) {
-            jsi.throw_error( "no such monster", "monster" );
+        if( jsi.has_array( "monster" ) ) {
+            JsonArray jarr = jsi.get_array("monster");
+            while( jarr.has_more() ) {
+                mtype_id id;
+                int weight = 100;
+                if( jarr.test_array() ) {
+                    JsonArray inner = jarr.next_array();
+                    id = mtype_id( inner.get_string( 0 ) );
+                    weight = inner.get_int( 1 );
+                } else {
+                    id = mtype_id( jarr.next_string() );
+                }
+                if( !id.is_valid() ) {
+                    jsi.throw_error( "no such monster", "monster" );
+                }
+                ids.add(id, weight);
+            }
+        } else {
+            mtype_id id = mtype_id( jsi.get_string( "monster" ) );
+            if( !id.is_valid() ) {
+                jsi.throw_error( "no such monster", "monster" );
+            }
+            ids.add(id, 100);
         }
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        dat.m.add_spawn( id, 1, x.get(), y.get(), friendly, -1, -1, name );
+        dat.m.add_spawn( *(ids.pick()), 1, x.get(), y.get(), friendly, -1, -1, name );
     }
 };
+
 /**
  * Place a vehicle.
  * "vehicle": id of the vehicle.

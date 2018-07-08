@@ -3937,7 +3937,7 @@ void overmap::connect_closest_points( const std::vector<point> &points, int z, c
     }
     for( size_t i = 0; i < points.size(); ++i ) {
         int closest = -1;
-        int k;
+        int k = 0;
         for( size_t j = i + 1; j < points.size(); j++ ) {
             const int distance = trig_dist( points[i].x, points[i].y, points[j].x, points[j].y );
             if( distance < closest || closest < 0) {

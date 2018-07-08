@@ -896,7 +896,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
 
-                            fire_data frd{ cur.getFieldDensity(), 0.0f, 0.0f };
+                            fire_data frd( cur.getFieldDensity(), !can_spread );
                             // The highest # of items this fire can remove in one turn
                             int max_consume = cur.getFieldDensity() * 2;
 
@@ -905,7 +905,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // destroyed by the fire, this changes the item weight, but may not actually
                                 // destroy it. We need to spawn products anyway.
                                 const units::mass old_weight = fuel->weight( false );
-                                bool destroyed = fuel->burn( frd, can_spread);
+                                bool destroyed = fuel->burn( frd );
                                 // If the item is considered destroyed, it may have negative charge count,
                                 // see `item::burn?. This in turn means `item::weight` returns a negative value,
                                 // which we can not use, so only call `weight` when it's still an existing item.

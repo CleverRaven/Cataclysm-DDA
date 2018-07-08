@@ -2187,7 +2187,7 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << eol;
 
     //Misc
-    memorial_file << string_format( _( "Cash on hand: $%d" ), cash ) << eol;
+    memorial_file << string_format( _( "Cash on hand: %s" ), format_money( cash ) ) << eol;
     memorial_file << eol;
 
     //HP
@@ -6900,6 +6900,12 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     // This is the entry that has out default
     int default_to = 0;
 
+    // If last_key is RETURN, don't use that to override hotkey
+    if ( last_key == '\n' ) {
+        last_key_bound = true;
+        default_to = -1;
+    }
+
     for( auto i = 0; i < ( int )opts.size(); ++i ) {
         const item& ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.front() : *opts[ i ].ammo;
 
@@ -6957,8 +6963,7 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
 
             bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
                 auto cur_key = event.get_first_input();
-                //Prevent double RETURN '\n' to default to the first entry
-                if( default_to != -1 && cur_key == last_key && cur_key != '\n' ) {
+                if( default_to != -1 && cur_key == last_key ) {
                     // Select the first entry on the list
                     menu->ret = default_to;
                     return true;
@@ -9933,8 +9938,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             // Even though it doesn't cause direct physical damage to it
             if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
                 // @todo: Different fire intensity values based on damage
-                fire_data frd{ 2, 0.0f, 0.0f };
-                destroy = armor.burn( frd, true );
+                fire_data frd{ 2 };
+                destroy = armor.burn( frd );
                 int fuel = roll_remainder( frd.fuel_produced );
                 if( fuel > 0 ) {
                     add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false, true );
