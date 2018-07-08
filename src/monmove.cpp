@@ -459,7 +459,7 @@ void monster::move()
 
     // The monster is in a deep water tile and has a chance to drown
     if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ) {
-        if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in(10) ) {
+        if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
             die( nullptr );
             if( g->u.sees( pos() ) ) {
                 add_msg( _( "The %s drowns!" ), name().c_str() );
