@@ -408,6 +408,12 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     return oter_str.str()[compare_size] == '_';
 }
 
+bool is_ot_subtype(const char* otype, const oter_id &oter)
+{
+    // Checks for any partial match.
+    return strstr(oter.id().c_str(), otype);
+}
+
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
@@ -1811,7 +1817,7 @@ bool overmap::generate_sub(int const z)
                 ter(i, j, z) = oter_id( "cavern" );
                 chip_rock( i, j, z );
             } else if (oter_above == "lab_core" ||
-                       strstr(oter_above.id().c_str(), "hidden_lab_stairs") ||
+                       is_ot_subtype("hidden_lab_stairs", oter_above) ||
                        (z == -1 && oter_above == "lab_stairs")) {
                 lab_points.push_back(city(i, j, rng(1, 5 + z)));
             } else if (oter_above == "lab_stairs") {
@@ -3571,7 +3577,7 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
         // Use a check for "_stairs" to catch the hidden_lab_stairs tiles.
-        if( strstr(ter( elem.x, elem.y, z + 1 ).id().c_str(), "_stairs" )) {
+        if( is_ot_subtype("_stairs", ter( elem.x, elem.y, z + 1 ))) {
             generate_stairs = false;
         }
     }

@@ -2801,11 +2801,6 @@ ___DEEE|.R.|...,,...|sss\n",
                 rotate(3);
             }
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
-            // @todo: This checks if id contains the word "lab", in a hard-coded way. Get rid of the hardcode.
-            const auto is_lab = []( const oter_id &id ) {
-                return strstr(id.id().c_str(), "lab");
-            };
-
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     ter_set(i, j, t_rock_floor);
@@ -2813,7 +2808,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2)) {
                         ter_set(i, j, t_sewage);
                     }
-                    if( ( i == 0 && is_lab( t_east ) ) || i == SEEX * 2 - 1 ) {
+                    if( ( i == 0 && is_ot_subtype( "lab", t_east ) ) || i == SEEX * 2 - 1 ) {
                         if (ter(i, j) == t_sewage) {
                             ter_set(i, j, t_bars);
                         } else if (j == SEEY - 1 || j == SEEY) {
@@ -2821,7 +2816,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         } else {
                             ter_set(i, j, t_concrete_wall);
                         }
-                    } else if( ( j == 0 && is_lab( t_north ) ) || j == SEEY * 2 - 1 ) {
+                    } else if( ( j == 0 && is_ot_subtype( "lab", t_north ) ) || j == SEEY * 2 - 1 ) {
                         if (ter(i, j) == t_sewage) {
                             ter_set(i, j, t_bars);
                         } else if (i == SEEX - 1 || i == SEEX) {
@@ -2834,10 +2829,10 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            tw = strstr(t_north.id().c_str(), "lab") ? 0 : 2;
-            rw = strstr(t_east.id().c_str(), "lab") ? 1 : 2;
-            bw = strstr(t_south.id().c_str(), "lab") ? 1 : 2;
-            lw = strstr(t_west.id().c_str(), "lab") ? 0 : 2;
+            tw = is_ot_subtype( "lab", t_north) ? 0 : 2;
+            rw = is_ot_subtype( "lab", t_east) ? 1 : 2;
+            bw = is_ot_subtype( "lab", t_south) ? 1 : 2;
+            lw = is_ot_subtype( "lab", t_west) ? 0 : 2;
 
             int boarders = 0;
             if (tw == 0 ) {
@@ -3029,14 +3024,14 @@ ___DEEE|.R.|...,,...|sss\n",
                 }
                 const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_rock_floor || has_furn( p ); };
                 const auto range = points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } );
-                if (strstr(t_above.id().c_str(), "stairs")) {
+                if (is_ot_subtype("stairs", t_above)) {
                     if( const auto p = random_point( range, predicate ) ) {
                         remove_trap( *p );
                         ter_set( *p, t_stairs_up );
                     }
                 }
 
-                if (strstr(terrain_type.id().c_str(), "stairs")) {
+                if (is_ot_subtype("stairs", terrain_type)) {
                     if( const auto p = random_point( range, predicate ) ) {
                         remove_trap( *p );
                         ter_set( *p, t_stairs_down );
@@ -3057,7 +3052,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             }
                         }
                     }
-                    if (strstr(t_above.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", t_above)) {
                         ter_set(rng(SEEX - 1, SEEX), rng(SEEY - 1, SEEY), t_stairs_up);
                     }
                     // Top left
@@ -3102,7 +3097,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
                         ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                     }
-                    if (strstr(terrain_type.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", terrain_type)) {
                         std::vector<point> stair_points;
                         if (tw != 0) {
                             stair_points.push_back(point(SEEX - 1, 2));
@@ -3154,7 +3149,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             }
                         }
                     }
-                    if (strstr(t_above.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", t_above)) {
                         ter_set(SEEX - 1, SEEY - 1, t_stairs_up);
                         ter_set(SEEX    , SEEY - 1, t_stairs_up);
                         ter_set(SEEX - 1, SEEY    , t_stairs_up);
@@ -3189,7 +3184,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
                         ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                     }
-                    if (strstr(terrain_type.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", terrain_type)) {
                         ter_set(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1), t_stairs_down);
                     }
                     break;
@@ -3208,7 +3203,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     }
                     science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                  zlevel, rng(0, 3));
-                    if (strstr(t_above.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", t_above)) {
                         if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                             ter_set( *p, t_stairs_up );
                         }
@@ -3221,7 +3216,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
                         ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                     }
-                    if (strstr(terrain_type.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", terrain_type)) {
                         if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                             ter_set( *p, t_stairs_down );
                         }
@@ -3491,12 +3486,12 @@ ff.......|....|WWWWWWWW|\n\
                             }
                         }
                     }
-                    if (strstr(t_above.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", t_above)) {
                         if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                             ter_set( *p, t_stairs_up );
                         }
                     }
-                    if (strstr(terrain_type.id().c_str(), "stairs")) {
+                    if (is_ot_subtype("stairs", terrain_type)) {
                         if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                             ter_set( *p, t_stairs_down );
                         }
@@ -3598,10 +3593,10 @@ ff.......|....|WWWWWWWW|\n\
             set_temperature(x, y, temperature);
         }
 
-        tw = strstr(t_north.id().c_str(), "lab") ? 0 : 2;
-        rw = strstr(t_east.id().c_str(), "lab") ? 1 : 2;
-        bw = strstr(t_south.id().c_str(), "lab") ? 1 : 2;
-        lw = strstr(t_west.id().c_str(), "lab") ? 0 : 2;
+        tw = is_ot_subtype( "lab", t_north) ? 0 : 2;
+        rw = is_ot_subtype( "lab", t_east) ? 1 : 2;
+        bw = is_ot_subtype( "lab", t_south) ? 1 : 2;
+        lw = is_ot_subtype( "lab", t_west) ? 0 : 2;
 
         // Start by setting up a large, empty room.
         for (int i = 0; i < SEEX * 2; i++) {
