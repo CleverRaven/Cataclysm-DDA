@@ -979,5 +979,24 @@
     "volume": 1,
     "phase": "liquid",
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rice_flour",
+    "name": "rice flour",
+    "name_plural": "rice flour",
+    "weight": 45,
+    "color": "white",
+    "container": "box_small",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "nutrition": 1,
+    "description": "This rice flour is useful for baking.",
+    "price": 450,
+    "material": [ "powder" ],
+    "volume": 1,
+    "charges": 10,
+    "fun": -5
   }
 ]
