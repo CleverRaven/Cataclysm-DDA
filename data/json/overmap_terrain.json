@@ -1934,7 +1934,7 @@
         "copy-from" : "generic_city_house_basement"
     },{
         "type" : "overmap_terrain",
-        "id" : "basement_lab_stairs",
+        "id" : "basement_hidden_lab_stairs",
         "copy-from" : "generic_city_house_basement"
     },{
         "type" : "overmap_terrain",

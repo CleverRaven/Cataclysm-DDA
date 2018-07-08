@@ -8,7 +8,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement_lab_stairs" ],
+    "om_terrain": [ "basement_hidden_lab_stairs" ],
     "weight": 250,
     "object": {
       "rotation": [ 0, 3 ],
