@@ -263,10 +263,12 @@ void player::disp_info()
 
         if( starvation_base_penalty > 1400 ) {
             effect_name.push_back( _( "Severely Malnourished" ) );
-            starvation_text << "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n";
+            starvation_text <<
+                            "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n";
         } else {
             effect_name.push_back( _( "Malnourished" ) );
-            starvation_text << "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n";
+            starvation_text <<
+                            "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n";
         }
 
 
