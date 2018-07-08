@@ -1934,6 +1934,10 @@
         "copy-from" : "generic_city_house_basement"
     },{
         "type" : "overmap_terrain",
+        "id" : "basement_lab_stairs",
+        "copy-from" : "generic_city_house_basement"
+    },{
+        "type" : "overmap_terrain",
         "id" : "cavern",
         "name" : "cavern",
         "sym" : 48,

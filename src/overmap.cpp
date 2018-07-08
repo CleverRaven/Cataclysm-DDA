@@ -1811,7 +1811,8 @@ bool overmap::generate_sub(int const z)
                 ter(i, j, z) = oter_id( "cavern" );
                 chip_rock( i, j, z );
             } else if (oter_above == "lab_core" ||
-                       (z == -1 && oter_above == "lab_stairs")) {
+                       (z == -1 && oter_above == "lab_stairs") ||
+                       (z == -2 && oter_above == "basement_lab_stairs")) {
                 lab_points.push_back(city(i, j, rng(1, 5 + z)));
             } else if (oter_above == "lab_stairs") {
                 ter(i, j, z) = oter_id( "lab" );
@@ -3569,7 +3570,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
 
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == labt_stairs ) {
+        // Use a check for "_stairs" to catch the basement_lab_stairs tile. 
+        if( strstr(ter( elem.x, elem.y, z + 1 ).id().c_str(), "stairs" )) {
             generate_stairs = false;
         }
     }
