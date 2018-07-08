@@ -39,6 +39,7 @@ void activity_type::load( JsonObject &jo )
     result.stop_phrase_ = _( jo.get_string( "stop_phrase" ).c_str() );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
+    assign( jo, "refuel_fires", result.refuel_fires, false );
 
     result.based_on_ = io::string_to_enum_look_up( based_on_type_values, jo.get_string( "based_on" ) );
 
