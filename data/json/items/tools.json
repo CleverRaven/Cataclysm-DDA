@@ -5580,7 +5580,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -8361,6 +8361,23 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "knife_folding",
+    "type": "TOOL",
+    "name": "folding knife",
+    "name_plural": "folding knives",
+    "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
+    "weight": 256,
+    "volume": 1,
+    "price": 1500,
+    "bashing": 1,
+    "cutting": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
     "id": "electrolysis_kit",

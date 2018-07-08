@@ -331,6 +331,30 @@
     ]
   },
   {
+    "result": "hide_bag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "survival",
+    "time": 600,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "raw_leather", 1 ], [ "raw_hleather", 1 ], [ "raw_fur", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "hide_tainted_bag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "survival",
+    "time": 600,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "raw_tainted_leather", 1 ], [ "raw_tainted_fur", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "holster",
     "type": "recipe",
     "category": "CC_ARMOR",

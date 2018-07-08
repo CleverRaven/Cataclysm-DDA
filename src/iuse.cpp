@@ -2696,12 +2696,12 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     } else if( type == t_door_c ) {
         p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
         g->m.ter_set( dirx, diry, t_door_o );
-        p->mod_moves( 100 );
+        p->mod_moves( -100 );
         return 0;
     } else if( type == t_door_c_peep ) {
         p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
         g->m.ter_set( dirx, diry, t_door_o_peep );
-        p->mod_moves( 100 );
+        p->mod_moves( -100 );
         return 0;
     } else if( type == t_door_bar_locked ) {
         succ_action = _( "You pry open the door." );

@@ -581,7 +581,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             has_tool_in_set = has_tool_in_set || tool.available == a_true;
         }
         if( !has_tool_in_set ) {
-            return false;
+            retval = false;
         }
         if( UPS_charges_used != std::numeric_limits<int>::max() ) {
             total_UPS_charges_used += UPS_charges_used;

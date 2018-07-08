@@ -226,8 +226,8 @@ private:
         amenu.selected = uistate.iexamine_atm_selected;
         amenu.return_invalid = true;
         amenu.text = string_format(_("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
-                                     "Your current balance is: $%ld.%02ld"),
-                                     u.cash / 100, u.cash % 100);
+                                     "Your current balance is: %s"),
+                                     format_money( u.cash ) );
 
         if (u.cash >= 100) {
             add_choice(purchase_card, _("Purchase cash card?"));
@@ -267,8 +267,7 @@ private:
     //! print a bank statement for @p print = true;
     void finish_interaction(bool const print = true) {
         if (print) {
-            add_msg(m_info, ngettext("Your account now holds %d cent.",
-                                     "Your account now holds %d cents.", u.cash), u.cash);
+            add_msg(m_info, _("Your account now holds %s."), format_money(u.cash));
         }
 
         u.moves -= 100;
@@ -531,7 +530,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
 
         trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
-                        _( "Money left: $%.2f" ), ( double )card->charges / 100 );
+                        _( "Money left: %s" ), format_money( card->charges ) );
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -3256,7 +3255,6 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     std::string discountName = getGasDiscountName( discount );
 
     long pricePerUnit = getGasPricePerLiter( discount );
-    std::string unitPriceStr = string_format( _( "$%0.2f" ), pricePerUnit / 100.0f );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
                       ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
@@ -3276,7 +3274,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your price per gasoline unit: " ) ) +
-                    unitPriceStr );
+                    format_money( pricePerUnit ) );
 
     if( can_hack ) {
         amenu.addentry( hack, true, 'h', _( "Hack console." ) );
@@ -3357,9 +3355,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         cashcard->charges -= liters * pricePerUnit;
 
-        add_msg( m_info, ngettext( "Your cash card now holds %d cent.",
-                                   "Your cash card now holds %d cents.",
-                                   cashcard->charges ), cashcard->charges );
+        add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
         p.moves -= 100;
         return;
     }
@@ -3408,9 +3404,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, ngettext( "Your cash card now holds %d cent.",
-                                       "Your cash card now holds %d cents.",
-                                       cashcard->charges ), cashcard->charges );
+            add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
             p.moves -= 100;
             return;
         } else {
