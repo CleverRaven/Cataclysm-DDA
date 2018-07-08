@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-23 22:54+0800\n"
+"POT-Creation-Date: 2018-06-29 12:30+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Meat <zero330xd@gmail.com>, 2018\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/cataclysm-dda-translators/teams/2217/zh_TW/)\n"
@@ -18966,8 +18966,8 @@ msgstr[0] "甜香腸"
 
 #. ~ Description for sweet sausage
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A sweet and delicious sausage."
-msgstr "香甜可口的香腸。"
+msgid "A sweet and delicious sausage.  Better eat it fresh."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mushroom"
@@ -22876,8 +22876,9 @@ msgstr[0] "醃肉"
 
 #. ~ Description for meat jerky
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salty dried meat that never goes bad, but will make you thirsty."
-msgstr "鹽漬的肉乾不會腐壞，只是讓你吃的時候口更渴。"
+msgid ""
+"Salty dried meat that lasts for a long time, but will make you thirsty."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "salted fish"
@@ -22886,8 +22887,9 @@ msgstr[0] "鹽漬魚肉"
 
 #. ~ Description for salted fish
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salty dried fish that never goes bad, but will make you thirsty."
-msgstr "鹽漬的魚肉乾不會腐壞，只是讓你吃的時候口更渴。"
+msgid ""
+"Salty dried fish that lasts for a long time, but will make you thirsty."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "jerk jerky"
@@ -27475,6 +27477,20 @@ msgstr[0] "電燈泡"
 #: lang/json/GENERIC_from_json.py
 msgid "A rather outdated light bulb used in all sorts of light equipment."
 msgstr "一個有點過時的燈泡，出現於各式燈光設備。"
+
+#: lang/json/GENERIC_from_json.py
+msgid "anesthetic kit"
+msgid_plural "anesthetic kits"
+msgstr[0] ""
+
+#. ~ Description for anesthetic kit
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A kit for inducing anesthesia for surgery, containing specialized canisters "
+"with a variety of powerful hypnotic, analgetic, and stimulative drugs. It's "
+"intended for use in specialized medical equipment, and can't be administered"
+" manually."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "canister grenade"
@@ -47742,10 +47758,6 @@ msgid "Build Fence"
 msgstr "建造護欄"
 
 #: lang/json/construction_from_json.py
-msgid "Realign Fence"
-msgstr "重新調整護欄"
-
-#: lang/json/construction_from_json.py
 msgid "Build Fence Gate"
 msgstr "建設護欄門"
 
@@ -47763,10 +47775,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Chainlink Fence"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Realign Chainlink Fence"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -59468,10 +59476,6 @@ msgstr "列出物品及怪物"
 msgid "Reassign invlet"
 msgstr "重新指定穿著層次"
 
-#: lang/json/keybinding_from_json.py
-msgid "Remove bionic"
-msgstr "移除生化插件"
-
 #: lang/json/keybinding_from_json.py src/construction.cpp src/faction.cpp
 #: src/game.cpp src/mission_companion.cpp
 msgid "Move cursor up"
@@ -64989,25 +64993,25 @@ msgid "You heal a little slower than most; sleeping will heal less lost HP."
 msgstr "你的復原能力比一般人差了點；睡眠時回復的HP比較少。"
 
 #: lang/json/mutation_from_json.py
-msgid "Very Slow Sleep Healing"
+msgid "Poor Healer"
 msgstr ""
 
-#. ~ Description for Very Slow Sleep Healing
+#. ~ Description for Poor Healer
 #: lang/json/mutation_from_json.py
 msgid ""
-"You heal much slower than most; sleeping will heal only one third HP "
-"compared to the average person."
+"Your health recovery through sleeping is severely impaired and causes you to"
+" recover only a third of usual HP over time."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Extremely Slow Sleep Healing"
+msgid "Imperceptive Healer"
 msgstr ""
 
-#. ~ Description for Extremely Slow Sleep Healing
+#. ~ Description for Imperceptive Healer
 #: lang/json/mutation_from_json.py
 msgid ""
-"You almost cannot recover lost health by sleeping; sleeping will heal only "
-"one tenth HP compared to the average person."
+"You recover barely any health through sleeping - it will heal only one tenth"
+" of usual HP over time."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -93143,11 +93147,6 @@ msgid "You don't have this bionic installed."
 msgstr "你並沒有安裝這個生化插件。"
 
 #: src/bionics.cpp
-#, c-format
-msgid "Removing bionics requires a tool with %s quality, and a first aid kit."
-msgstr "移除生化插件需準備一件 %s 屬性的工具和一個急救包。"
-
-#: src/bionics.cpp
 msgid "Removing your Fusion Blaster Arm would leave you with a useless stump."
 msgstr "移除手臂核融合砲後只會讓你留下一個沒用的殘肢。"
 
@@ -93221,48 +93220,6 @@ msgstr ""
 #, c-format
 msgid "Not enough space for bionic installation!%s"
 msgstr "沒有足夠的空間用於安裝生化插件！%s"
-
-#: src/bionics.cpp
-msgid "You need to take painkillers to make installing bionics tolerable."
-msgstr "你需要使用鎮痛劑才能安裝生化插件。"
-
-#: src/bionics.cpp
-msgid ""
-"You need to be a lot more numb to tolerate installing bionics.  Note that "
-"painkillers you've already taken could take up to an hour to achieve full "
-"effect."
-msgstr ""
-
-#: src/bionics.cpp
-#, c-format
-msgid ""
-"Intensity of painkillers you've already taken is less than half of the "
-"threshold that will allow you to install bionics.  It will take %i minutes "
-"for painkillers you've already taken to achieve maximum effect."
-msgstr ""
-
-#: src/bionics.cpp
-#, c-format
-msgid ""
-"Intensity of painkillers you've already taken is %i percent of the threshold"
-" that will allow you to install bionics.  It will take %i minutes for "
-"painkillers you've already taken to achieve maximum effect."
-msgstr "你所服用的鎮痛劑的效果已經到達安裝生化插件的需求量的百分之 %i 。鎮痛劑會在 %i 分鐘之後發揮所有的藥效。"
-
-#: src/bionics.cpp
-msgid ""
-"You aren't quite numb enough to tolerate installing bionics.  Note that "
-"painkillers you've already taken could take up to an hour to achieve full "
-"effect."
-msgstr ""
-
-#: src/bionics.cpp
-#, c-format
-msgid ""
-"Intensity of painkillers you've already taken is more than half of the "
-"threshold that will allow you to install bionics.  It will take %i minutes "
-"for painkillers you've already taken to achieve maximum effect."
-msgstr ""
 
 #: src/bionics.cpp
 #, c-format
@@ -93390,6 +93347,17 @@ msgstr "增加了 %i 的容量。"
 msgid "Your %s fails, and is destroyed!"
 msgstr "你的 %s 因為故障完全損毀了！"
 
+#: src/bionics.cpp
+msgid ""
+"You type data into the console, configuring Autodoc to uninstall a CBM."
+msgstr ""
+
+#: src/bionics.cpp
+msgid ""
+"Autodoc injected you with anesthesia, and while you were sleeping conducted "
+"a medical operation on you."
+msgstr ""
+
 #: src/bionics_ui.cpp
 #, c-format
 msgid "Power: %i/%i"
@@ -93406,31 +93374,16 @@ msgstr ""
 #: src/bionics_ui.cpp
 msgid ""
 "<color_green>Activating</color>  <color_yellow>!</color> to examine, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
-"<color_yellow>TAB</color> to switch tabs."
+"<color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch "
+"tabs."
 msgstr ""
-"<color_green>啟動中</color>  <color_yellow>!</color> 來檢視, "
-"<color_yellow>-</color> 來移除, <color_yellow>=</color> 來重新指派按鍵, "
-"<color_yellow>TAB</color> 來切換分頁。"
-
-#: src/bionics_ui.cpp
-msgid ""
-"<color_red>Removing</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
-"<color_yellow>TAB</color> to switch tabs."
-msgstr ""
-"<color_red>移除中</color>  <color_yellow>!</color> 來啟動, <color_yellow>-</color>"
-" 來移除, <color_yellow>=</color> 來重新指派按鍵, <color_yellow>TAB</color> 來切換分頁。"
 
 #: src/bionics_ui.cpp
 msgid ""
 "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
-"<color_yellow>TAB</color> to switch tabs."
+"<color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch "
+"tabs."
 msgstr ""
-"<color_light_blue>檢視中</color>  <color_yellow>!</color> 來啟動, "
-"<color_yellow>-</color> 來移除, <color_yellow>=</color> 來重新指派按鍵, "
-"<color_yellow>TAB</color> 來切換分頁。"
 
 #: src/bionics_ui.cpp
 #, c-format
@@ -102015,7 +101968,7 @@ msgstr "才下去了一半，結果路都堵住了。"
 
 #: src/game.cpp
 msgid "There is a sheer drop halfway down. Web-descend?"
-msgstr "才爬了一半繩子就不夠了，使用蛛網垂降嗎？"
+msgstr "這是一個陡坡，使用蛛網垂降嗎？"
 
 #: src/game.cpp
 msgid ""
@@ -102050,15 +102003,15 @@ msgstr "你輕鬆著陸，並且留了一部份的藤蔓來備用。"
 
 #: src/game.cpp
 msgid "There is a sheer drop halfway down. Climb your grappling hook down?"
-msgstr "才爬了一半繩子就不夠了，要使用抓鉤垂降嗎？"
+msgstr "這是一個陡坡，要使用抓鉤垂降嗎？"
 
 #: src/game.cpp
 msgid "There is a sheer drop halfway down. Climb your rope down?"
-msgstr "才爬了一半繩子就不夠了，要回頭嘛？"
+msgstr "這是一個陡坡，要使用繩索垂降嗎？"
 
 #: src/game.cpp
 msgid "There is a sheer drop halfway down.  Jump?"
-msgstr "才爬了一半繩子就不夠了，往下跳嘛？"
+msgstr "這是一個陡坡，往下跳嘛？"
 
 #: src/game.cpp
 msgid "AUTO: goes down"
@@ -105264,14 +105217,20 @@ msgstr ""
 msgid "You don't have any CBMs to install."
 msgstr ""
 
+#: src/iexamine.cpp src/iuse_actor.cpp
+msgid "You have already installed this bionic."
+msgstr "你已經安裝過了這個生化插件。"
+
 #: src/iexamine.cpp
-msgid "You type data into the console, configuring Autodoc to install a CBM."
+msgid "You have no base version of this bionic to upgrade."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid ""
-"Autodoc injected you with anesthesia, and while you were sleeping conducted "
-"a medical operation on you."
+msgid "You have already installed a superior version of this bionic."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need an anesthesia kit for autodoc to perform any operation."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -105280,11 +105239,6 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Choose bionic to uninstall"
-msgstr ""
-
-#: src/iexamine.cpp
-msgid ""
-"You type data into the console, configuring Autodoc to uninstall a CBM."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -105790,6 +105744,39 @@ msgid ""
 "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to "
 "rot from full freshness, at room temperature."
 msgstr "* 這個食物<neutral>容易變質</neutral>，在室溫下經過<info>%s</info>就會從完好狀態腐壞至不宜食用。"
+
+#: src/item.cpp
+msgid "* This food looks as <good>fresh</good> as it can be."
+msgstr "* 這食物看起來<good>非常新鮮</good>。"
+
+#: src/item.cpp
+msgid ""
+"* This food looks <good>still quite fresh</good>. It's far from becoming "
+"old."
+msgstr "* 這食物看起來<good>依然新鮮</good>，距離腐爛還有很長時間。"
+
+#: src/item.cpp
+msgid ""
+"* This food looks like it is reaching its <neutral>midlife</neutral>. It has"
+" some time ahead before spoiling."
+msgstr "* 這食物看起來快剩下<neutral>一半的鮮度</neutral>，距離腐爛還有一段時間。"
+
+#: src/item.cpp
+msgid ""
+"* This food looks like it has <neutral>passed its midlife</neutral>. Edible,"
+" but will go old sooner rather then later."
+msgstr "* 這物看起來已剩下<neutral>不足一半的鮮度</neutral>，仍然能吃，但很快就會腐爛。"
+
+#: src/item.cpp
+msgid ""
+"* This food looks like it <bad>will be old soon</bad>. It's now or never, if"
+" you plan to use it."
+msgstr "* 這食物看起來<bad>很快就會腐爛</bad>，一不做二不休，如果你打算吃它的話。"
+
+#: src/item.cpp
+msgid ""
+"* This food looks <bad>old</bad>. It's on a brink of becoming inedible."
+msgstr "* 這食物看起來<bad>即將腐爛</bad>，似乎一眨眼就會變得不能吃。"
 
 #: src/item.cpp
 msgid ""
@@ -108632,6 +108619,11 @@ msgid "You fire up your %s and start getting the tension out."
 msgstr "你打開 %s 並且準備開始放鬆。"
 
 #: src/iuse.cpp
+#, c-format
+msgid "You whip out your %s and start getting the tension out."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Air swirls around you for a moment."
 msgstr "空氣在你周圍形成了一陣漩渦"
 
@@ -110847,10 +110839,6 @@ msgid "Can't saw off modified barrels."
 msgstr "不能鋸開修改過的槍管。"
 
 #: src/iuse_actor.cpp
-msgid "You have already installed this bionic."
-msgstr "你已經安裝過了這個生化插件。"
-
-#: src/iuse_actor.cpp
 msgid "There is nothing to upgrade."
 msgstr "這裡沒有可以升級的元件。"
 
@@ -112761,6 +112749,21 @@ msgstr "你的 %s 受到攻擊損壞！"
 #, c-format
 msgid "<npcname>'s %s is damaged by the force of the blow!"
 msgstr "<npcname> 的 %s 受到攻擊損壞！"
+
+#: src/melee.cpp
+#, c-format
+msgid "Your %s breaks apart!"
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "<npcname>'s %s breaks apart!"
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "The %s is destroyed!"
+msgstr ""
 
 #: src/melee.cpp
 #, c-format
