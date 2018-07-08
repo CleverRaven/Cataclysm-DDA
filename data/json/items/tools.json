@@ -985,6 +985,22 @@
     "max_charges": 1000
   },
   {
+    "id": "kiln",
+    "type": "TOOL",
+    "name": "electric kiln",
+    "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
+    "weight": 12000,
+    "volume": 30,
+    "price": 50000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "max_charges": 1000
+  },
+  {
     "id": "broadfire_off",
     "type": "TOOL",
     "category": "weapons",

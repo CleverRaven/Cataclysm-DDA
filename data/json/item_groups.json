@@ -1792,6 +1792,7 @@
       ["concrete", 20],
       ["metal_smoother", 10],
       ["brick_kiln", 5],
+      ["kiln", 2],
       ["brick", 20],
       ["bucket", 5],
       ["con_mix", 5],
