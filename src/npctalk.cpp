@@ -2326,6 +2326,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                                  3 * p->op_of_u.anger;
                 TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
                 SUCCESS( "TALK_TRAIN" );
+                SUCCESS_ACTION( []( npc &p ) { p.chatbin.mission_selected = nullptr; } );
                 FAILURE( "TALK_DENY_PERSONAL" );
                 FAILURE_ACTION( &talk_function::deny_train );
             }
