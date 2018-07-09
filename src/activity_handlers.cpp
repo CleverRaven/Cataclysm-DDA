@@ -74,7 +74,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
-    { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn }
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
+    { activity_id( "ACT_DIG" ), dig_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -119,7 +120,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
     { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
-    { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish }
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
+    { activity_id( "ACT_DIG" ), dig_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p ) {
@@ -2173,6 +2175,31 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p ) {
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
+
+    act->set_to_null();
+}
+
+void activity_handlers::dig_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( act->placement, 15, _( "hsh!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::dig_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    if( g->m.ter( pos ) == t_pit_shallow ) {
+        g->m.ter_set( pos, t_pit );
+    } else {
+        g->m.ter_set( pos, t_pit_shallow );
+    }
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish digging." ) );
 
     act->set_to_null();
 }
