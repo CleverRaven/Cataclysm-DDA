@@ -82,7 +82,7 @@
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
-    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Leadworks Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach while using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.  Comes with built in holographic sight.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Leadworks Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach while using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 4175,
     "volume": 13,
     "price": 90000,
