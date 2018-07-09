@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 
 #include <queue>
+#include <algorithm>
 
 const species_id FUNGUS( "FUNGUS" );
 
