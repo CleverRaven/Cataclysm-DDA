@@ -2790,12 +2790,26 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::makemound( player *p, item *it, bool, const tripoint & )
+int iuse::makemound( player *p, item *it, bool t, const tripoint &pos )
 {
-    if( g->m.has_flag( "DIGGABLE", p->pos() ) && !g->m.has_flag( "PLANT", p->pos() ) ) {
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Till soil where?" ), dirp ) ) {
+        return 0;
+    }
+
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "You think about jumping on a shovel, but then change up your mind." ) );
+        return 0;
+    }
+
+    if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) ) {
         p->add_msg_if_player( _( "You churn up the earth here." ) );
         p->moves = -300;
-        g->m.ter_set( p->pos(), t_dirtmound );
+        g->m.ter_set( dirp, t_dirtmound );
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
