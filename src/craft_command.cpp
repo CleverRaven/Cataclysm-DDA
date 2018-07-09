@@ -57,10 +57,9 @@ void craft_command::execute()
         }
     }
 
-    const auto needs = rec->requirements();
-
     if( need_selections ) {
         item_selections.clear();
+        const auto needs = rec->requirements();
         for( const auto &it : needs.get_components() ) {
             comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {

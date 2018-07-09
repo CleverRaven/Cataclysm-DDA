@@ -196,6 +196,53 @@ bool mattack::none(monster *)
     return true;
 }
 
+bool mattack::eat_crop( monster *z )
+{
+    for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
+            g->m.ter_set( p, t_dirt );
+            g->m.furn_set( p, f_null );
+
+            auto items = g->m.i_at( p );
+            for( auto i = items.begin(); i != items.end(); ) {
+                if( i->is_seed() ) {
+                    g->m.i_rem( p, i );
+                    return true;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+bool mattack::eat_food( monster *z )
+{
+    for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+        //Protect crop seeds from carnivores, give omnivores eat_crop special also
+        if( g->m.has_flag( "PLANT", p ) ){
+            continue;
+        }
+        auto items = g->m.i_at( p );
+        for( auto i = items.begin(); i != items.end(); i++) {
+            //Fun limit prevents scavengers from eating feces
+            if( !i->is_food() || i->type->comestible->fun < -20 ) {
+                continue;
+            }
+            //Don't eat own eggs
+            if( z->type->baby_egg != i->type->get_id()) {
+                long consumed = 1;
+                if( i->count_by_charges() ) {
+                    g->m.use_charges( p, 0, i->type->get_id(), consumed );
+                } else {
+                    g->m.use_amount( p, 0, i->type->get_id(), consumed );
+                }
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
 bool mattack::antqueen( monster *z )
 {
     std::vector<tripoint> egg_points;

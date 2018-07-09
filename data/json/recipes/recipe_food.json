@@ -2641,8 +2641,7 @@
       [ "seasoning_salt", 15 ],
       [ "soysauce", 2 ],
       [ "pepper", 20 ],
-      [ "seed_garlic", 6 ],
-      [ "garlic", 1 ],
+      [ "garlic_clove", 6 ],
       [ "salt_water", 2 ],
       [ "salt", 15 ]
     ]
@@ -3834,7 +3833,7 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "seed_garlic", 3 ],
+      [ "garlic_clove", 3 ],
       [ "pepper", 10 ]
     ],
     [
@@ -3872,7 +3871,7 @@
       ["mushroom_cooked", 1 ],
       ["rehydrated_veggy", 1 ],
       ["veggy_wild", 1],
-      [ "can_tomato", 1 ],
+      ["can_tomato", 1 ],
       ["tomato", 1],
       ["irradiated_tomato", 1],
       ["pumpkin", 1],
@@ -3900,7 +3899,7 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "seed_garlic", 3 ],
+      [ "garlic_clove", 3 ],
       [ "pepper", 10 ]
     ],
     [
@@ -4751,8 +4750,7 @@
       [ "cinnamon", 20 ],
       [ "chilly-p", 20 ],
       [ "curry_powder", 20 ],
-      [ "seed_garlic", 6 ],
-      [ "garlic", 1 ],
+      [ "garlic_clove", 6 ],
       [ "rehydrated_veggy", 1 ],
       [ "dry_mushroom", 1 ],
       [ "dry_veggy", 1 ]
@@ -4777,8 +4775,7 @@
       [ "salt", 20 ]
     ],
     [
-      [ "garlic", 1 ],
-      [ "seed_garlic", 6 ]
+      [ "garlic_clove", 6 ]
     ],
     [
       [ "thyme", 2 ]
@@ -6063,8 +6060,7 @@
       [ "seasoning_salt", 30 ],
       [ "soysauce", 4 ],
       [ "pepper", 40 ],
-      [ "seed_garlic", 12 ],
-      [ "garlic", 2 ],
+      [ "garlic_clove", 12 ],
       [ "salt_water", 2 ],
       [ "salt", 30 ]
     ]
@@ -7608,8 +7604,7 @@
       ["irradiated_corn", 2],
       ["onion", 2],
       ["irradiated_onion", 2],
-      ["garlic", 2],
-      ["seed_garlic", 12],
+      ["garlic_clove", 12],
       ["irradiated_carrot", 12],
       ["carrot", 12]
     ],
@@ -8017,7 +8012,7 @@
       [ "seasoning_salt", 10],
       [ "soysauce", 1 ],
       [ "pepper", 10],
-      [ "seed_garlic", 3],
+      [ "garlic_clove", 3],
       [ "vinegar", 1],
       [ "seasoning_italian", 10]
     ]

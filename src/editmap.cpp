@@ -467,7 +467,6 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            nc_color col = c_dark_gray;
             long sym = ( game_map ? '%' : ' ' );
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
@@ -489,7 +488,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                 }
             } else {
-                mvwputch( w, sy, sx, col, sym );
+                mvwputch( w, sy, sx, c_dark_gray, sym );
             }
         }
     }

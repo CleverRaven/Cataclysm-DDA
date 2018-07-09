@@ -1102,7 +1102,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if (parts->test(iteminfo_parts::GUN_AIMING_STATS)) {
             info.emplace_back("GUN", _("Base aim speed: "), "<num>", g->u.aim_per_move(*mod, MAX_RECOIL), true, "", true, true);
-            for (const aim_type type : g->u.get_aim_types(*mod)) {
+            for (const aim_type& type : g->u.get_aim_types(*mod)) {
                 // Nameless aim levels don't get an entry.
                 if (type.name.empty()) {
                     continue;
@@ -2569,7 +2569,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     if( amount || show_amt ) {
         if( ammo_type() == "money" ) {
-            amt = string_format( " ($%.2f)", ( double ) amount / 100 );
+            amt = string_format( " (%s)", format_money( amount ) );
         } else {
             amt = string_format( " (%i)", amount );
         }
@@ -3095,6 +3095,22 @@ void item::calc_rot(const tripoint &location)
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
         const time_point until = fridge != calendar::before_time_starts ? fridge : now;
+
+        // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
+        // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
+        // positive = food was produced some time before calendar::time_of_cataclysm and/or bad storage
+        // negative = food was stored in good condiitons before calendar::time_of_cataclysm
+        if( last_rot_check == calendar::time_of_cataclysm ) {
+            const item *food = this;
+            if( food && food->goes_bad() ) {
+            float factor = to_turns<float>( food->type->comestible->spoils ) * 0.2f;
+            time_duration spoil = time_duration::from_turns( int( factor ) );
+            spoil = time_duration::from_turns( rng( -to_turns<int>( spoil ), to_turns<int>( spoil ) ) );
+            rot += spoil;
+            }
+
+        }
+
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             rot += get_rot_since( since, until, location );
@@ -5079,36 +5095,37 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn( fire_data &frd, bool contained)
+float item::simulate_burn( fire_data &frd ) const
 {
     const auto &mats = made_of();
     float smoke_added = 0.0f;
     float time_added = 0.0f;
     float burn_added = 0.0f;
-    const int vol = base_volume() / units::legacy_volume_factor;
+    const units::volume vol = base_volume();
+    const int effective_intensity = frd.contained ? 3 : frd.fire_intensity;
     for( const auto &m : mats ) {
-        const auto &bd = m.obj().burn_data( frd.fire_intensity );
+        const auto &bd = m.obj().burn_data( effective_intensity );
         if( bd.immune ) {
             // Made to protect from fire
             return false;
         }
 
-        // If fire is contained, burn all of it continuously
-        if( bd.chance_in_volume == 0 ||  !contained ) {
+        // If fire is contained, burn rate is independent of volume
+        if( frd.contained || bd.volume_per_turn == 0_ml ) {
             time_added += bd.fuel;
             smoke_added += bd.smoke;
             burn_added += bd.burn;
-
-        } else if( bd.chance_in_volume >= vol || x_in_y( bd.chance_in_volume, vol ) ){
-            time_added += bd.fuel;
-            smoke_added += bd.smoke;
-            burn_added += bd.burn;
+        } else {
+            double volume_burn_rate = to_liter( bd.volume_per_turn ) / to_liter( vol );
+            time_added += bd.fuel * volume_burn_rate;
+            smoke_added += bd.smoke * volume_burn_rate;
+            burn_added += bd.burn * volume_burn_rate;
         }
     }
 
     // Liquids that don't burn well smother fire well instead
     if( made_of( LIQUID ) && time_added < 200 ) {
-        time_added -= rng( 100 * vol, 300 * vol );
+        time_added -= rng( 400.0 * to_liter( vol ), 1200.0 * to_liter( vol ) );
     } else if( mats.size() > 1 ) {
         // Average the materials
         time_added /= mats.size();
@@ -5121,6 +5138,12 @@ bool item::burn( fire_data &frd, bool contained)
 
     frd.fuel_produced += time_added;
     frd.smoke_produced += smoke_added;
+    return burn_added;
+}
+
+bool item::burn( fire_data &frd )
+{
+    float burn_added = simulate_burn( frd );
 
     if( burn_added <= 0 ) {
         return false;
@@ -5152,6 +5175,7 @@ bool item::burn( fire_data &frd, bool contained)
 
     burnt += roll_remainder( burn_added );
 
+    const int vol = base_volume() / units::legacy_volume_factor;
     return burnt >= vol * 3;
 }
 
@@ -5164,7 +5188,7 @@ bool item::flammable( int threshold ) const
     }
 
     int flammability = 0;
-    int chance = 0;
+    units::volume volume_per_turn = 0;
     for( const auto &m : mats ) {
         const auto &bd = m->burn_data( 1 );
         if( bd.immune ) {
@@ -5173,20 +5197,20 @@ bool item::flammable( int threshold ) const
         }
 
         flammability += bd.fuel;
-        chance += bd.chance_in_volume;
+        volume_per_turn += bd.volume_per_turn;
     }
 
     if( threshold == 0 || flammability <= 0 ) {
         return flammability > 0;
     }
 
-    chance /= mats.size();
-    int vol = base_volume() / units::legacy_volume_factor;
-    if( chance > 0 && chance < vol ) {
-        flammability = flammability * chance / vol;
+    volume_per_turn /= mats.size();
+    units::volume vol = base_volume();
+    if( volume_per_turn > 0 && volume_per_turn < vol ) {
+        flammability = flammability * volume_per_turn / vol;
     } else {
         // If it burns well, it provides a bonus here
-        flammability *= vol;
+        flammability *= vol / units::legacy_volume_factor;
     }
 
     return flammability > threshold;
