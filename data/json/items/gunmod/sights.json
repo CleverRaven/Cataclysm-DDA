@@ -213,16 +213,6 @@
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
-    "id": "lead_acog_red_dot_scope",
-    "copy-from": "lead_acog_scope",
-    "type": "GUNMOD",
-    "name": "LW ACOG and red dot combo scope",
-    "description": "Leadworks built in (proprietary) combination of optic & red-dot sights for quick and accurate targeting.",
-    "price": 0,
-    "aim_speed": 5,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
-  },
-  {
     "id": "lead_holo_sight",
     "copy-from": "holo_sight",
     "type": "GUNMOD",

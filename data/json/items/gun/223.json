@@ -222,8 +222,8 @@
       "weight": 1200,
       "volume": 2
     },
-    "built_in_mods": [ "lead_acog_red_dot_scope", "lead_grip", "lead_glm", "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "built_in_mods": [ "lead_acog_scope", "lead_red_dot_sight", "lead_grip", "lead_glm", "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 2 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "m249",
