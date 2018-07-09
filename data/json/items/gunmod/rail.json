@@ -70,7 +70,7 @@
     "id": "lead_stabilizer",
     "copy-from": "stabilizer",
     "type": "GUNMOD",
-    "name": "Leadworks gyroscopic stabilizer",
+    "name": "LW gyroscopic stabilizer",
     "description": "An advanced Leadworks built in gyroscopic stabilizer.",
     "weight": 0,
     "volume": 0,
