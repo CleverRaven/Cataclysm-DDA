@@ -199,7 +199,7 @@
     "price": 50,
     "name": "garlic seeds",
     "name_plural": "garlic seeds",
-    "description": "Some onion seeds.",
+    "description": "Some garlic seeds.",
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": 65 }
   },
   {
@@ -215,7 +215,7 @@
     "quench": -3,
     "healthy": 1,
     "nutrition": 3,
-    "description": "Cloves of garlic.  Useful as a seasoning.",
+    "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
     "price": 50,
     "charges": 6,
     "stack_size": 6,
