@@ -2326,6 +2326,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                                  3 * p->op_of_u.anger;
                 TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
                 SUCCESS( "TALK_TRAIN" );
+                SUCCESS_ACTION( []( npc &p ) { p.chatbin.mission_selected = nullptr; } );
                 FAILURE( "TALK_DENY_PERSONAL" );
                 FAILURE_ACTION( &talk_function::deny_train );
             }
@@ -2864,8 +2865,8 @@ std::string bulk_trade_inquire( const npc &, const itype_id &it )
     int item_cost = tmp.price( true );
     tmp.charges = you_have;
     int total_cost = tmp.price( true );
-    return string_format( _( "I'm willing to pay $%.2f per batch for a total of $%.2f" ),
-                          item_cost / 100.0, total_cost / 100.0 );
+    return string_format( _( "I'm willing to pay %s per batch for a total of %s" ),
+                          format_money( item_cost ), format_money( total_cost ) );
 }
 
 void bulk_trade_accept( npc &, const itype_id &it )
@@ -3814,12 +3815,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        format_volume( volume_left ).c_str(), volume_units_abbr(),
                        convert_weight( weight_left ), weight_units() );
 
-            std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit $%.2f" ) :
-                                      _( "Cost $%.2f" ) );
+            std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit %s" ) :
+                                      _( "Cost %s" ) );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
                        ( cash < 0 && ( int )g->u.cash >= cash * -1 ) || ( cash >= 0 &&
                                ( int )p.cash  >= cash ) ? c_green : c_red,
-                       cost_string.c_str(), ( double )std::abs( cash ) / 100 );
+                       cost_string.c_str(), format_money( std::abs( cash ) ) );
 
             if( !deal.empty() ) {
                 mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green,
@@ -3829,9 +3830,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
             mvwprintz( w_them, 0, 2, ( cash < 0 || ( int )p.cash >= cash ? c_green : c_red ),
-                       _( "%s: $%.2f" ), p.name.c_str(), ( double )p.cash / 100 );
+                       _( "%s: %s" ), p.name.c_str(), format_money( p.cash ) );
             mvwprintz( w_you,  0, 2, ( cash > 0 || ( int )g->u.cash >= cash * -1 ? c_green : c_red ),
-                       _( "You: $%.2f" ), ( double )g->u.cash / 100 );
+                       _( "You: %s" ), format_money( g->u.cash ) );
             // Draw lists of items, starting from offset
             for( size_t whose = 0; whose <= 1; whose++ ) {
                 const bool they = whose == 0;
@@ -3919,8 +3920,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '\n': // Check if we have enough cash...
                 // The player must pay cash, and it should not put the player negative.
                 if( cash < 0 && ( int )g->u.cash < cash * -1 ) {
-                    popup( _( "Not enough cash!  You have $%.2f, price is $%.2f." ), ( double )g->u.cash / 100,
-                           -( double )cash / 100 );
+                    popup( _( "Not enough cash!  You have %s, price is %s." ), format_money( g->u.cash ),
+                           format_money( -cash ) );
                     update = true;
                     ch = ' ';
                 } else if( volume_left < 0 || weight_left < 0 ) {

@@ -1340,13 +1340,13 @@ void reset_bionics()
 static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const std::string &flag,
                               const bool fallback, const std::string &flags_node = "flags" )
 {
-    const std::set<std::string> flags = jsobj.get_tags( flags_node );
     bool value = fallback;
     if( jsobj.has_bool( name ) ) {
         value = jsobj.get_bool( name, fallback );
         debugmsg( "JsonObject contains legacy node `" + name + "`.  Consider replacing it with `" +
                   flag + "` flag in `" + flags_node + "` node." );
     } else {
+        const std::set<std::string> flags = jsobj.get_tags( flags_node );
         value = flags.count( flag );
     }
     return value;

@@ -149,13 +149,11 @@ class calendar
         calendar( int turn );
 
         /**
-         * Alternative accessor for current turn_number.
+         * Accessor for current turn_number.
          *
-         * @deprecated Use get_turn() instead
-         *
-         * @returns same value as @ref get_turn()
+         * @returns Current turn number (`get_turn()` function for `calendar` class in Lua bindings.)
          */
-        operator int() const; // Returns get_turn() for backwards compatibility
+        operator int() const;
 
         // Basic calendar operators. Usually modifies or checks the turn_number of the calendar
         calendar &operator = ( const calendar &rhs ) = default;

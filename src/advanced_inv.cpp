@@ -1435,10 +1435,10 @@ void advanced_inventory::display()
             do_return_entry();
             return;
         }
-        dest = ( src == left ? right : left );
+        dest = ( src == advanced_inventory::side::left ? advanced_inventory::side::right : advanced_inventory::side::left );
 
-        redraw_pane( left );
-        redraw_pane( right );
+        redraw_pane( advanced_inventory::side::left );
+        redraw_pane( advanced_inventory::side::right );
 
         if( redraw && !is_processing()) {
             werase( head );
@@ -1723,7 +1723,7 @@ void advanced_inventory::display()
             }
             int ret = 0;
             const int info_width = w_width / 2;
-            const int info_startx = colstart + ( src == left ? info_width : 0 );
+            const int info_startx = colstart + ( src == advanced_inventory::side::left ? info_width : 0 );
             if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
                 int idx = ( spane.get_area() == AIM_INVENTORY ) ?
                           sitem->idx : player::worn_position_to_index( sitem->idx );
@@ -1736,7 +1736,7 @@ void advanced_inventory::display()
                 do_return_entry();
                 assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
                 ret = g->inventory_item_menu( idx, info_startx, info_width,
-                                              src == left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
+                                              src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
                 if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
                     exit = true;
                 } else {

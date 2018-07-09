@@ -158,6 +158,8 @@ void DynamicDataLoader::initialize()
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
+    add( "WORLD_OPTION", &load_world_option );
+    add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
@@ -241,8 +243,6 @@ void DynamicDataLoader::initialize()
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
     add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
-    add( "WORLD_OPTION", &load_world_option );
-    add( "EXTERNAL_OPTION", &load_external_option );
 
     // loaded earlier.
     add( "colordef", &load_ignored_type );
