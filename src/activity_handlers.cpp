@@ -2184,7 +2184,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p ) {
 void activity_handlers::dig_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 15, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2209,7 +2209,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p ) {
 void activity_handlers::fill_pit_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 15, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
