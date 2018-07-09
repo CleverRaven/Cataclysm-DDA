@@ -175,8 +175,9 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         return;
     }
 
-    size_t newsel;
-    size_t oldsel;
+    // eliminates 'uninitialized variable' warning
+    size_t newsel = 0;
+    size_t oldsel = 0;
     mod_id selstring;
     mod_id modstring;
     int selshift = 0;

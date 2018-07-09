@@ -11,7 +11,7 @@
       { "item": "wild_herbs", "prob": 10 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "garlic", "prob": 1 },
-      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 2 },
       { "item": "seed_canola", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },

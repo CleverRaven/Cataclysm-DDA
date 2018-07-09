@@ -123,7 +123,6 @@
     "book_learn": [ [ "manual_pistol", 3 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [
-      { "id": "GLARE", "level": 2 },
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 }
