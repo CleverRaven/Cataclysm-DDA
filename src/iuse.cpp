@@ -2858,6 +2858,42 @@ int iuse::dig( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::fill_pit( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Fill which pit or mound?" ), dirp ) ) {
+        return 0;
+    }
+
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "You decide not to bury yourself that early." ) );
+        return 0;
+    }
+
+    int moves;
+
+    if( g->m.ter( dirp ) == t_pit || g->m.ter( dirp ) == t_pit_spiked ||
+        g->m.ter( dirp ) == t_pit_glass || g->m.ter( dirp ) == t_pit_corpsed ) {
+        moves = MINUTES( 15 ) * 100;
+    } else if( g->m.ter( dirp ) == t_pit_shallow ) {
+        moves = MINUTES( 10 ) * 100;
+    } else if( g->m.ter( dirp ) == t_dirtmound ) {
+        moves = MINUTES( 5 ) * 100;
+    } else {
+        p->add_msg_if_player( _( "There is nothing to fill." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
+    return it->type->charges_to_use();
+}
+
 /**
  * Explanation of ACT_CLEAR_RUBBLE activity values:
  *
