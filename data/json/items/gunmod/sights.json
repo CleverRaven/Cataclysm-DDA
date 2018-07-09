@@ -188,7 +188,7 @@
     "weight": 0,
     "volume": 0,
     "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
+    "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   },
   {
     "id": "lead_rifle_scope",
