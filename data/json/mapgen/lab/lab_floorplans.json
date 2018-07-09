@@ -628,7 +628,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
-    "weight": 1000,
+    "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock_floor",
