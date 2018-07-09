@@ -1227,6 +1227,27 @@
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
+        "id" : "prison_1_b_7_hidden",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_8_hidden_lab_stairs",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_9_hidden",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
         "id" : "hotel_tower_1_1",
         "name" : "hotel parking",
         "sym" : 104,
