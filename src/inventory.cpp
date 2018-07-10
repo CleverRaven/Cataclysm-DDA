@@ -795,7 +795,9 @@ void inventory::rust_iron_items()
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF" ) && 
                 elem_stack_iter.damage() < elem_stack_iter.max_damage()/2 && //Passivation layer prevents further rusting
-                one_in( 7500 ) &&
+                one_in( 14400 ) && //~once per day
+                one_in( std::max( 2, (int)std::cbrt(  0.5 * elem_stack_iter.base_volume().value()/250 ) ) ) && //More volume = slower, see #24204
+                //                ^14/5 (5/season)    ^14/5*0.75/3.14 (from volume of sphere)
                 g->m.water_from(g->u.pos()).typeId() == "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
             }
