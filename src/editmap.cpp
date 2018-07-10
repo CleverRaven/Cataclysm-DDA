@@ -1833,7 +1833,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
- * Display mapgen results over selected target position, and optionally regenerate / apply / abort
+ * Write over an existing om tile with one from json
  */
 bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool change_sensitive)
 {
@@ -1955,31 +1955,18 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
     return true;
 }
 
-vehicle* editmap::mapgen_veh_query( tripoint omt_tgt, vehicle* car_target, bool destroy)
+vehicle* editmap::mapgen_veh_query( tripoint omt_tgt )
 {
     tinymap target_bay;
     target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
 
     std::vector<vehicle *> possible_vehicles;
-    std::vector<vehicle *> sub_possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( x, y, target.z );
-            int target_pos = -1;
             for( size_t z = 0; z < destsm->vehicles.size(); z++ ){
                 possible_vehicles.push_back(destsm->vehicles[z]);
-                if( destsm->vehicles[z] == car_target && destroy){
-                    target_pos = z;
-                    auto &ch = g->m.access_cache( destsm->vehicles[z]->smz );
-                    ch.vehicle_list.erase( destsm->vehicles[z] );
-                }
             }
-            if( destroy && target_pos != -1 ){
-                destsm->vehicles.erase(destsm->vehicles.begin() + target_pos);
-                g->m.update_vehicle_list( destsm, target.z );
-                return nullptr;
-            }
-
         }
     }
     if( possible_vehicles.empty() ){
@@ -1988,21 +1975,42 @@ vehicle* editmap::mapgen_veh_query( tripoint omt_tgt, vehicle* car_target, bool 
     }
 
     std::vector<std::string> car_titles;
-
     for( auto &elem : possible_vehicles ) {
         car_titles.push_back( elem->name );
     }
-
-    if( car_titles.size() == 1){
+    if( car_titles.size() == 1 ){
         return possible_vehicles[0];
     }
     car_titles.push_back(_("Cancel"));
     int choice = menu_vec(true, _("Select the Vehicle"), car_titles) - 1;
-    if (choice >= 0 && size_t(choice) < possible_vehicles.size()) {
+    if (choice >= 0 && size_t(choice) < possible_vehicles.size() ) {
         return possible_vehicles[choice];
     }
-
     return nullptr;
+}
+
+
+bool editmap::mapgen_veh_destroy( tripoint omt_tgt, vehicle* car_target )
+{
+    tinymap target_bay;
+    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    for( int x = 0; x < 2; x++ ) {
+        for( int y = 0; y < 2; y++ ) {
+            submap *destsm = target_bay.get_submap_at_grid( x, y, target.z );
+            for( size_t z = 0; z < destsm->vehicles.size(); z++ ){
+                if( destsm->vehicles[z] == car_target ){
+                    auto veh = destsm->vehicles[z];
+                    std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( veh );
+                    g->m.clear_vehicle_cache( omt_tgt.z );
+                    g->m.reset_vehicle_cache( omt_tgt.z );
+                    g->m.clear_vehicle_list( omt_tgt.z );
+                    //Rebuild vehicle_list?
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 /*
