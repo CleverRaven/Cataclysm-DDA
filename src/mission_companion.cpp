@@ -609,7 +609,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         mission_key_push( key_vectors, title_e, dr );
                     }
 
-                    if( companion_list( p, "_faction_exp_plant_"+dr ).empty() && g->get_temperature() > 50 ){
+                    if( companion_list( p, "_faction_exp_plant_"+dr ).empty() && g->get_temperature( g-> u.pos() ) > 50 ){
                         std::string title_e = dr+" Plant Fields";
                         col_missions[title_e] = _( "Notes:\n"
                             "Plant designated seeds in the spaces that have already been tilled.\n \n") +
@@ -3921,7 +3921,7 @@ bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>>
     }
     return true;
 }
-          
+
 bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, const std::string &def_desc,
     std::vector< monster * > monsters_fighting, const std::string &att_desc, int advantage )
 {
