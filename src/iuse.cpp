@@ -1666,7 +1666,7 @@ enum Petfood {
     DOGFOOD,
     CATFOOD,
     CATTLEFODDER,
-    CHICKENFEED
+    BIRDFOOD
 };
 
 int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
@@ -1737,8 +1737,8 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                 return feedpet( p, mon, MF_CATTLEFODDER,
                                 _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
                 break;
-            case CHICKENFEED:
-                return feedpet( p, mon, MF_CHICKENFEED,
+            case BIRDFOOD:
+                return feedpet( p, mon, MF_BIRDFOOD,
                                 _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
                 break;
         }
@@ -1767,9 +1767,9 @@ int iuse::feedcattle( player *p, item *it, bool, const tripoint & )
     return petfood( *p, *it, CATTLEFODDER );
 }
 
-int iuse::feedchicken( player *p, item *it, bool, const tripoint & )
+int iuse::feedbird( player *p, item *it, bool, const tripoint & )
 {
-    return petfood( *p, *it, CHICKENFEED );
+    return petfood( *p, *it, BIRDFOOD );
 }
 
 int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )

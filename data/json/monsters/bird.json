@@ -25,19 +25,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "FLIES",
-      "BONES",
-      "FEATHER",
-      "FAT",
-      "CHICKENFEED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT", "BIRDFOOD" ]
   },
   {
     "id": "mon_grouse",
@@ -214,7 +202,7 @@
     "dodge": 1,
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CHICKENFEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD" ]
   },
   {
     "id": "mon_grouse_chick",
@@ -229,23 +217,21 @@
     "copy-from": "mon_chicken_chick",
     "name": "brown chick",
     "upgrades": { "age_grow": 12, "into": "mon_crow" },
-    "extend": { "flags": [ "CHICKENFEED" ] }
+    "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_turkey_chick",
     "type": "MONSTER",
     "copy-from": "mon_chicken_chick",
     "name": "brown chick",
-    "upgrades": { "age_grow": 18, "into": "mon_turkey" },
-    "extend": { "flags": [ "CHICKENFEED" ] }
+    "upgrades": { "age_grow": 18, "into": "mon_turkey" }
   },
   {
     "id": "mon_pheasant_chick",
     "type": "MONSTER",
     "copy-from": "mon_chicken_chick",
     "name": "brown chick",
-    "upgrades": { "age_grow": 14, "into": "mon_pheasant" },
-    "extend": { "flags": [ "CHICKENFEED" ] }
+    "upgrades": { "age_grow": 14, "into": "mon_pheasant" }
   },
   {
     "id": "mon_cockatrice_chick",
@@ -262,7 +248,7 @@
     "name": "waterfowl chick",
     "description": "A tiny yellow and brown waterfowl chick, it could be from a number of different species.",
     "upgrades": { "age_grow": 12, "into": "mon_duck" },
-    "extend": { "flags": [ "CHICKENFEED" ] }
+    "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_goose_canadian_chick",

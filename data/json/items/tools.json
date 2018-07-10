@@ -8349,11 +8349,11 @@
     "use_action": "CATTLEFODDER"
   },
   {
-    "id": "chickenfeed",
+    "id": "birdfood",
     "type": "TOOL",
-    "name": "chicken feed",
-    "name_plural": "chicken feed",
-    "description": "What chicken eat.  Mainly made of seeds, silages or legumes.  It's perfect for small birds.",
+    "name": "bird food",
+    "name_plural": "bird food",
+    "description": "What birds eat.  Mainly made of seeds, silages or legumes.  It's perfect for small birds.",
     "weight": 60,
     "volume": 1,
     "price": 20,
@@ -8361,7 +8361,7 @@
     "material": "veggy",
     "symbol": ";",
     "color": "brown",
-    "use_action": "CHICKENFEED"
+    "use_action": "BIRDFOOD"
   },
   {
     "id": "link_sheet",

@@ -759,7 +759,7 @@
     },
     {
         "type" : "item_action",
-        "id" : "CHICKENFEED",
+        "id" : "BIRDFOOD",
         "name" : "Place"
     },
     {
