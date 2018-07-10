@@ -3884,7 +3884,7 @@ bool item::is_container() const
 
 bool item::is_watertight_container() const
 {
-    return type->container && type->container->watertight && type->container->seals;
+    return type->container && type->container->watertight;
 }
 
 bool item::is_non_resealable_container() const
