@@ -2105,9 +2105,12 @@
   {
     "result": "stick_long",
     "type": "uncraft",
-    "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 2] ] ]
+    "time": 100,
+    "components": [ 
+      [ [ "stick", 2] ],
+      [ [ "splinter", 1] ]  
+    ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "straw_basket",
