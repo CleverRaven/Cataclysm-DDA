@@ -566,44 +566,49 @@ int vehicle::lift_strength() const
     return std::max( mass / 10000_gram, 1 );
 }
 
-void vehicle::control_doors() {
+void vehicle::control_doors()
+{
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
     std::vector< tripoint > locations; // Locations used to display the doors
-    doors_with_motors.reserve( door_motors.size() * 2); // it is possible to have one door to open and one to close for single motor
-    locations.reserve( door_motors.size() * 2);
+    // it is possible to have one door to open and one to close for single motor
+    doors_with_motors.reserve( door_motors.size() * 2 );
+    locations.reserve( door_motors.size() * 2 );
     if( door_motors.empty() ) {
         debugmsg( "vehicle::control_doors called but no door motors found" );
         return;
     }
 
     uimenu pmenu;
-    pmenu.title = _("Select door to toggle");
+    pmenu.title = _( "Select door to toggle" );
     int doors[2]; // one door to open and one to close
     for( int p : door_motors ) {
-        doors[0] = next_part_to_open(p);
-        doors[1] = next_part_to_close(p);
-        for (int door : doors) {
-            if (door == -1)
+        doors[0] = next_part_to_open( p );
+        doors[1] = next_part_to_close( p );
+        for( int door : doors ) {
+            if( door == -1 ) {
                 continue;
+            }
 
             int val = doors_with_motors.size();
-            doors_with_motors.push_back(door);
-            locations.push_back(tripoint(global_pos() + parts[p].precalc[0], smz));
-            const char *actname = parts[door].open ? _("Close") : _("Open");
-            pmenu.addentry(val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
+            doors_with_motors.push_back( door );
+            locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
+            const char *actname = parts[door].open ? _( "Close" ) : _( "Open" );
+            pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
         }
     }
 
-    pmenu.addentry( doors_with_motors.size(), true, 'q', _("Cancel") );
+    pmenu.addentry( doors_with_motors.size(), true, 'q', _( "Cancel" ) );
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
     pmenu.query();
 
-    if( pmenu.ret >= 0 && pmenu.ret < (int)doors_with_motors.size() ) {
-        int part = doors_with_motors[pmenu.ret];
-        open_or_close( part, !(parts[part].open) );
+    if( pmenu.ret >= 0 ) {
+        if( pmenu.ret < ( int )doors_with_motors.size() ) {
+            int part = doors_with_motors[pmenu.ret];
+            open_or_close( part, !( parts[part].open ) );
+        }
     }
 }
 
