@@ -2365,8 +2365,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "Wait at this base." ), "TALK_DONE", &talk_function::assign_base );
         }
         if( p->is_following() ) {
-            add_response( _( "I want you to build a camp here." ), "TALK_DONE", &talk_function::become_overseer );
-
             RESPONSE( _( "Guard this position." ) );
             SUCCESS( "TALK_FRIEND_GUARD" );
             SUCCESS_ACTION( &talk_function::assign_guard );
@@ -2381,6 +2379,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
             add_response( _( "I'm going to go my own way for a while." ), "TALK_LEAVE" );
             add_response_done( _( "Let's go." ) );
+
+            add_response( _( "I want you to build a camp here." ), "TALK_DONE", &talk_function::become_overseer );
         }
 
         if( !p->is_following() ) {
@@ -3017,8 +3017,8 @@ void talk_function::become_overseer( npc &p )
 
     std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( p, 1 );
     for( const auto &om_near : om_region ){
-        if ( om_near.first != "field" && om_near.first != "forest" && om_near.first != "forest_water" &&
-                om_near.first.find("river_") == std::string::npos ){
+        if ( om_near.first != "field" && om_near.first != "forest" && om_near.first != "forest_thick" &&
+                om_near.first != "forest_water" && om_near.first.find("river_") == std::string::npos ){
             popup( _("You need more room for camp expansions!") );
             return;
         }
@@ -3029,17 +3029,17 @@ void talk_function::become_overseer( npc &p )
     int swamps = 0;
     int fields = 0;
     for( const auto &om_near : om_region_extended ){
-        if (om_near.first.find("faction_base_camp") != std::string::npos ){
+        if( om_near.first.find("faction_base_camp") != std::string::npos ){
             popup( _("You are too close to another camp!") );
             return;
         }
-        if (om_near.first == "forest" ){
+        if( om_near.first == "forest" || om_near.first == "forest_thick" ){
             forests++;
-        } else if (om_near.first.find("river_") != std::string::npos ){
+        } else if( om_near.first.find("river_") != std::string::npos ){
             waters++;
-        } else if (om_near.first == "swamp" ){
+        } else if( om_near.first == "forest_water" ){
             swamps++;
-        } else if (om_near.first == "field" ){
+        } else if( om_near.first == "field" ){
             fields++;
         }
     }
