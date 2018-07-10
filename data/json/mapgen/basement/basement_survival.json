@@ -97,9 +97,9 @@
       "toilets": {
         "t": {}
       },
-	  "place_liquids": [
-	    { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 }
-	  ],
+      "place_liquids": [
+        { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 }
+      ],
       "place_loot": [
         { "group": "basement_survival_last_stand_casing", "x": 2, "y": 6, "chance": 20, "repeat": [ 1, 10 ] },
         { "group": "basement_survival_last_stand_casing", "x": 3, "y": 6, "chance": 20, "repeat": [ 1, 10 ] },

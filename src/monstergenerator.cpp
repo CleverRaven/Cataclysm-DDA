@@ -266,6 +266,8 @@ void MonsterGenerator::init_death()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
+    add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
@@ -719,7 +721,7 @@ mtype_id MonsterGenerator::get_valid_hallucination() const
     return random_entry( hallucination_monsters );
 }
 
-m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
+m_flag MonsterGenerator::m_flag_from_string( const std::string &flag ) const
 {
     return flag_map.find( flag )->second;
 }

@@ -906,7 +906,7 @@ struct epilogue {
     static epilogue_map _all_epilogue;
 
     static void load_epilogue( JsonObject &jsobj );
-    epilogue *find_epilogue( std::string ident );
+    epilogue *find_epilogue( const std::string &ident );
     void random_by_group( std::string group );
 };
 

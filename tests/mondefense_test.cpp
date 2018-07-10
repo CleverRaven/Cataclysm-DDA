@@ -62,6 +62,13 @@ TEST_CASE( "zapback_npc_ranged_weapon", "[mondefense]" )
     test_zapback( attacker, false, &attack );
 }
 
+TEST_CASE( "zapback_npc_thrown_weapon", "[mondefense]" )
+{
+    standard_npc attacker( "Attacker" );
+    dealt_projectile_attack attack;
+    test_zapback( attacker, false, &attack );
+}
+
 TEST_CASE( "zapback_npc_firing_ranged_reach_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
@@ -77,8 +84,7 @@ TEST_CASE( "zapback_npc_meleeattack_ranged_reach_weapon", "[mondefense]" )
     item ranged_reach_weapon( "reach_bow" );
     REQUIRE( ranged_reach_weapon.gun_set_mode( gun_mode_id( "MELEE" ) ) );
     attacker.wield( ranged_reach_weapon );
-    dealt_projectile_attack attack;
-    test_zapback( attacker, true, &attack );
+    test_zapback( attacker, true );
 }
 
 TEST_CASE( "zapback_npc_electricity_immune", "[mondefense]" )

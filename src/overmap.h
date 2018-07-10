@@ -53,12 +53,18 @@ class building_bin {
 struct city_settings {
     int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
     int park_radius = 130; // in theory, adjusting these can make a town with a few shops and a lot of parks + houses......by increasing shop_radius
+    int house_basement_chance = 5; // one_in(n) chance a house has a basement
     building_bin houses;
+    building_bin basements;
     building_bin shops;
     building_bin parks;
 
     overmap_special_id pick_house() const {
         return houses.pick()->id;
+    }
+
+    overmap_special_id pick_basement() const {
+        return basements.pick()->id;
     }
 
     overmap_special_id pick_shop() const {
@@ -124,7 +130,6 @@ struct regional_settings {
     int num_forests           = 250;  // amount of forest groupings per overmap
     int forest_size_min       = 15;   // size range of a forest group
     int forest_size_max       = 40;   // size range of a forest group
-    int house_basement_chance = 2;    // (one in) Varies by region due to watertable
     int swamp_maxsize         = 4;    // SWAMPINESS: Affects the size of a swamp
     int swamp_river_influence = 5;    // voodoo number limiting spread of river through swamp
     int swamp_spread_chance   = 8500; // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest

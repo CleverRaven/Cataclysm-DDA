@@ -61,21 +61,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_ELFAEYES( "ELFAEYES" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_GROWL( "GROWL" );
-static const trait_id trait_HISS( "HISS" );
-static const trait_id trait_LIAR( "LIAR" );
-static const trait_id trait_MINOTAUR( "MINOTAUR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-static const trait_id trait_SNARL( "SNARL" );
-static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
-static const trait_id trait_TERRIFYING( "TERRIFYING" );
-static const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id trait_FACTION_CAMP_TUTORIAL( "FACTION_CAMP_TUTORIAL" );
 
 struct dialogue;
@@ -2186,7 +2172,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
-                                                    style.name.c_str(), cost / 100 );
+                                                    _( style.name.c_str() ), cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
         for( auto &trained : trainable ) {
@@ -2356,6 +2342,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                                  3 * p->op_of_u.anger;
                 TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
                 SUCCESS( "TALK_TRAIN" );
+                SUCCESS_ACTION( []( npc &p ) { p.chatbin.mission_selected = nullptr; } );
                 FAILURE( "TALK_DENY_PERSONAL" );
                 FAILURE_ACTION( &talk_function::deny_train );
             }
@@ -2643,6 +2630,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
+    const social_modifiers &u_mods = u.get_mutation_social_mods();
 
     npc &p = *d.beta;
     int chance = difficulty;
@@ -2653,20 +2641,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
-            if( u.has_trait( trait_TRUTHTELLER ) ) {
-                chance -= 40;
-            }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance -= 20;
-            } else if( u.has_trait( trait_LIAR ) ) {
-                chance += 40;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( ( u.has_trait( trait_WINGS_BUTTERFLY ) ) || ( u.has_trait( trait_FLOWERS ) ) ) {
-                chance += 10;
-            }
+            chance += u_mods.lie;
+
             if( u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
                 chance += 10;
             }
@@ -2677,26 +2653,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_PERSUADE:
             chance += u.talk_skill() - int( p.talk_skill() / 2 ) +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_TAIL_FLUFFY ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance += 15; // Flutter your wings at 'em
-            }
+            chance += u_mods.persuade;
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance -= 25;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance -= 60;
             }
             if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
                 chance -= 50;
@@ -2708,36 +2668,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_INTIMIDATE:
             chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                       p.personality.bravery * 2;
-            if( u.has_trait( trait_MINOTAUR ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_MUZZLE ) ) {
-                chance += 6;
-            }
-            if( u.has_trait( trait_MUZZLE_LONG ) ) {
-                chance += 20;
-            }
-            if( u.has_trait( trait_SABER_TEETH ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_TERRIFYING ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_ELFAEYES ) ) {
-                chance += 10;
-            }
-            if( u.has_trait( trait_GROWL ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_HISS ) ) {
-                chance += 15;
-            }
-            if( u.has_trait( trait_SNARL ) ) {
-                chance += 30;
-            }
-            if( u.has_trait( trait_WINGS_BUTTERFLY ) ) {
-                chance -= 20; // Butterflies are not terribly threatening.  :-(
-            }
+            chance += u_mods.intimidate;
+
             if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
                 chance += 10;
             }
@@ -2951,8 +2883,8 @@ std::string bulk_trade_inquire( const npc &, const itype_id &it )
     int item_cost = tmp.price( true );
     tmp.charges = you_have;
     int total_cost = tmp.price( true );
-    return string_format( _( "I'm willing to pay $%.2f per batch for a total of $%.2f" ),
-                          item_cost / 100.0, total_cost / 100.0 );
+    return string_format( _( "I'm willing to pay %s per batch for a total of %s" ),
+                          format_money( item_cost ), format_money( total_cost ) );
 }
 
 void bulk_trade_accept( npc &, const itype_id &it )
@@ -3984,12 +3916,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        format_volume( volume_left ).c_str(), volume_units_abbr(),
                        convert_weight( weight_left ), weight_units() );
 
-            std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit $%.2f" ) :
-                                      _( "Cost $%.2f" ) );
+            std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit %s" ) :
+                                      _( "Cost %s" ) );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
                        ( cash < 0 && ( int )g->u.cash >= cash * -1 ) || ( cash >= 0 &&
                                ( int )p.cash  >= cash ) ? c_green : c_red,
-                       cost_string.c_str(), ( double )std::abs( cash ) / 100 );
+                       cost_string.c_str(), format_money( std::abs( cash ) ) );
 
             if( !deal.empty() ) {
                 mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green,
@@ -3999,9 +3931,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
             mvwprintz( w_them, 0, 2, ( cash < 0 || ( int )p.cash >= cash ? c_green : c_red ),
-                       _( "%s: $%.2f" ), p.name.c_str(), ( double )p.cash / 100 );
+                       _( "%s: %s" ), p.name.c_str(), format_money( p.cash ) );
             mvwprintz( w_you,  0, 2, ( cash > 0 || ( int )g->u.cash >= cash * -1 ? c_green : c_red ),
-                       _( "You: $%.2f" ), ( double )g->u.cash / 100 );
+                       _( "You: %s" ), format_money( g->u.cash ) );
             // Draw lists of items, starting from offset
             for( size_t whose = 0; whose <= 1; whose++ ) {
                 const bool they = whose == 0;
@@ -4089,8 +4021,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '\n': // Check if we have enough cash...
                 // The player must pay cash, and it should not put the player negative.
                 if( cash < 0 && ( int )g->u.cash < cash * -1 ) {
-                    popup( _( "Not enough cash!  You have $%.2f, price is $%.2f." ), ( double )g->u.cash / 100,
-                           -( double )cash / 100 );
+                    popup( _( "Not enough cash!  You have %s, price is %s." ), format_money( g->u.cash ),
+                           format_money( -cash ) );
                     update = true;
                     ch = ' ';
                 } else if( volume_left < 0 || weight_left < 0 ) {

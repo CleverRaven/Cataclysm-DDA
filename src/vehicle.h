@@ -184,7 +184,7 @@ struct vehicle_part
     void unset_crew();
 
     /** Reset the target for this part. */
-    void reset_target( tripoint pos );
+    void reset_target( const tripoint &pos );
 
     /**
      * @name Part capabilities
@@ -508,7 +508,7 @@ private:
     units::volume total_folded_volume() const;
 
     // Vehicle fuel indicator (by fuel)
-    void print_fuel_indicator ( const catacurses::window &w, int y, int x, itype_id fuelType, bool verbose = false, bool desc = false ) const;
+    void print_fuel_indicator ( const catacurses::window &w, int y, int x, const itype_id &fuelType, bool verbose = false, bool desc = false ) const;
 
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e ) const;
@@ -1228,7 +1228,9 @@ public:
      * is loaded into the map the values are directly set. The vehicles position does
      * not change therefor no call to set_submap_moved is required.
      */
-    int smx, smy, smz;
+    int smx;
+    int smy;
+    int smz;
 
     float alternator_load;
 

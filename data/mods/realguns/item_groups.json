@@ -57,6 +57,13 @@
     ]
   },
   {
+    "id": "guns_pistol_common",
+    "type": "item_group",
+    "items": [
+      [ "model_10_revolver", 20 ]
+    ]
+  },
+  {
     "id": "guns_pistol_rare",
     "type": "item_group",
     "items": [

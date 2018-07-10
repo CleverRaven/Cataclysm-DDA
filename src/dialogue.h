@@ -91,7 +91,7 @@ void wake_up( npc & );
 //Identifies which mission set the NPC draws from
 void companion_mission( npc & );
 //Primary Loop
-bool outpost_missions( npc &p, std::string id, std::string title );
+bool outpost_missions( npc &p, const std::string &id, const std::string &title );
 /**
  * Send a companion on an individual mission or attaches them to a group to depart later
  * Set @ref submap_coords and @ref pos.
@@ -103,7 +103,7 @@ bool outpost_missions( npc &p, std::string id, std::string title );
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
-npc* individual_mission( npc &p, std::string desc, std::string miss_id, bool group = false,
+npc* individual_mission( npc &p, const std::string &desc, const std::string &id, bool group = false,
                         std::vector<item *> equipment = {}, std::string skill_tested = "", int skill_level = 0);
 ///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
 std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
@@ -119,13 +119,14 @@ void mission_key_push( std::vector<std::vector<std::string>> &key_vectors, std::
                       std::string dir = "", bool priority = false, bool possible = true );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
-void caravan_return( npc &p, std::string dest, std::string id );
-void caravan_depart( npc &p, std::string dest, std::string id );
-int caravan_dist( std::string dest );
+void caravan_return( npc &p, const std::string &dest, const std::string &id );
+void caravan_depart( npc &p, const std::string &dest, const std::string &id );
+int caravan_dist( const std::string &dest );
+
 void field_build_1( npc &p );
 void field_build_2( npc &p );
-void field_plant( npc &p, std::string place );
-void field_harvest( npc &p, std::string place );
+void field_plant( npc &p, const std::string &place );
+void field_harvest( npc &p, const std::string &place );
 bool scavenging_patrol_return( npc &p );
 bool scavenging_raid_return( npc &p );
 bool labor_return( npc &p );
@@ -263,10 +264,10 @@ int companion_skill_trainer( npc &comp, skill_id skill_tested, time_duration tim
 
 //Combat functions
 bool companion_om_combat_check( std::vector<std::shared_ptr<npc>> group, tripoint om_tgt, bool try_engage = false);
-void force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
-                     std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage );
-bool force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
-                     std::vector< monster * > monsters_fighting, std::string att_desc, int advantage );
+void force_on_force( std::vector<std::shared_ptr<npc>> defender, const std::string &def_desc,
+                     std::vector<std::shared_ptr<npc>> attacker, const std::string &att_desc, int advantage );
+bool force_on_force( std::vector<std::shared_ptr<npc>> defender, const std::string &def_desc,
+                     std::vector< monster * > monsters_fighting, const std::string &att_desc, int advantage );
 int combat_score( const std::vector<std::shared_ptr<npc>> &group );    //Used to determine retreat
 int combat_score( const std::vector< monster * > &group );
 void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
@@ -283,7 +284,7 @@ std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::strin
 std::vector<npc *> companion_sort( std::vector<npc *> available, std::string skill_tested = "" );
 std::vector<comp_rank> companion_rank( std::vector<npc *> available, bool adj = true );
 npc *companion_choose( std::string skill_tested = "", int skill_level = 0 );
-npc *companion_choose_return( npc &p, std::string id, time_point deadline );
+npc *companion_choose_return( npc &p, const std::string &id, const time_point &deadline );
 void companion_return( npc &comp );               //Return NPC to your party
 std::vector<item *> loot_building( const tripoint site ); //Smash stuff, steal valuables, and change map maker
 };

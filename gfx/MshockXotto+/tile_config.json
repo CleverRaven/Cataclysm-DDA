@@ -17528,10 +17528,10 @@
           ]
         },
         {
-          "id": "t_chainfence_h",
+          "id": [ "t_chainfence", "t_chainfence_h" ],
           "fg": 2987,
           "bg": 985,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -17570,7 +17570,7 @@
           "id": "t_chainfence_v",
           "fg": 2987,
           "bg": 985,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -18346,7 +18346,7 @@
           "bg": 992
         },
         {
-          "id": "t_fence_h_season_winter",
+          "id": [ "t_fence_season_winter", "t_fence_h_season_winter" ],
           "fg": 3052,
           "bg": 992
         },
@@ -18619,10 +18619,10 @@
           ]
         },
         {
-          "id": "t_railing_h",
+          "id": [ "t_railing", "t_railing_h" ],
           "fg": 3168,
           "bg": 993,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -18661,7 +18661,7 @@
           "id": "t_railing_v",
           "fg": 3168,
           "bg": 993,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -20015,10 +20015,10 @@
           "rotates": false
         },
         {
-          "id": "t_fence_h",
+          "id": [ "t_fence", "t_fence_h" ],
           "fg": 3052,
           "bg": 1012,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "t_fence_wire",
