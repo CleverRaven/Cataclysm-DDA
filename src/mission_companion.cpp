@@ -3186,7 +3186,7 @@ bool talk_function::camp_garage_chop_start( npc &p, std::string task )
         p_all.erase( p_all.begin() + 0 );
     }
     companion_skill_trainer( *comp, skill_mechanics, 5_days, 2 );
-    edit.mapgen_veh_query( omt_trg, car, true );
+    edit.mapgen_veh_destroy( omt_trg, car );
     return true;
 }
 
@@ -5329,4 +5329,3 @@ std::vector<tripoint> talk_function::om_companion_path( tripoint start, int rang
     }
     return scout_points;
 }
-
