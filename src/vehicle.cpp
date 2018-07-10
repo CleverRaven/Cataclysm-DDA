@@ -566,6 +566,14 @@ int vehicle::lift_strength() const
     return std::max( mass / 10000_gram, 1 );
 }
 
+enum change_types : int {
+    OPENCURTAINS = 0,
+    OPENBOTH,
+    CLOSEDOORS,
+    CLOSEBOTH,
+    CANCEL
+};
+
 void vehicle::control_doors()
 {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
@@ -598,7 +606,16 @@ void vehicle::control_doors()
         }
     }
 
-    pmenu.addentry( doors_with_motors.size(), true, 'q', _( "Cancel" ) );
+    pmenu.addentry( doors_with_motors.size() + OPENCURTAINS, true, MENU_AUTOASSIGN,
+                    _( "Open all curtains" ) );
+    pmenu.addentry( doors_with_motors.size() + OPENBOTH, true, MENU_AUTOASSIGN,
+                    _( "Open all curtains and doors" ) );
+    pmenu.addentry( doors_with_motors.size() + CLOSEDOORS, true, MENU_AUTOASSIGN,
+                    _( "Close all doors" ) );
+    pmenu.addentry( doors_with_motors.size() + CLOSEBOTH, true, MENU_AUTOASSIGN,
+                    _( "Close all curtains and doors" ) );
+
+    pmenu.addentry( doors_with_motors.size() + CANCEL, true, 'q', _( "Cancel" ) );
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
@@ -608,6 +625,41 @@ void vehicle::control_doors()
         if( pmenu.ret < ( int )doors_with_motors.size() ) {
             int part = doors_with_motors[pmenu.ret];
             open_or_close( part, !( parts[part].open ) );
+        } else if( pmenu.ret < ( ( int )doors_with_motors.size() + CANCEL ) ) {
+            int option = pmenu.ret - ( int )doors_with_motors.size();
+            bool open = option == OPENBOTH || option == OPENCURTAINS;
+            for( int motor : door_motors ) {
+                int next_part = -1;
+                if( open ) {
+                    int part = next_part_to_open( motor );
+                    if( part != -1 ) {
+                        if( ! part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
+                            continue;
+                        }
+                        open_or_close( part, open );
+                        if( option == OPENBOTH ) {
+                            next_part = next_part_to_open( motor );
+                        }
+                        if( next_part != -1) {
+                            open_or_close( next_part, open );
+                        }
+                    }
+                } else {
+                    int part = next_part_to_close( motor );
+                    if( part != -1) {
+                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                            continue;
+                        }
+                        open_or_close( part, open );
+                        if( option == CLOSEBOTH ) {
+                            next_part = next_part_to_close( motor );
+                        }
+                        if( next_part != -1) {
+                            open_or_close( next_part, open );
+                        }
+                    }
+                }
+            }
         }
     }
 }
