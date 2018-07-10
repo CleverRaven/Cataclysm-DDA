@@ -23,7 +23,7 @@
     "never_learn": true,
     "time": 180000,
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "straw_pile", 16 ] ] ]
+    "components": [ [ [ "2x4", 8 ] ], [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -51,7 +51,13 @@
     "never_learn": true,
     "time": 240000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 48 ] ], [ [ "sheet_metal", 4 ] ], [ [ "pipe", 12 ] ], [ [ "straw_pile", 16 ] ] ]
+    "components": [
+      [ [ "2x4", 24 ] ],
+      [ [ "nail", 48 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "pipe", 12 ] ],
+      [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -68,7 +74,7 @@
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
-      [ [ "straw_pile", 32 ] ],
+      [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
@@ -104,7 +110,7 @@
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
-      [ [ "straw_pile", 32 ] ],
+      [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
@@ -147,7 +153,7 @@
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
-      [ [ "straw_pile", 32 ] ],
+      [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
@@ -243,7 +249,7 @@
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
-      [ [ "straw_pile", 32 ] ],
+      [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
@@ -294,7 +300,7 @@
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "shelter_kit", 4 ] ],
       [ [ "2x4", 24 ] ],
-      [ [ "straw_pile", 32 ] ],
+      [ [ "straw_pile", 32 ], [ "pine_bough", 40 ] ],
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
@@ -459,7 +465,7 @@
       [ [ "nail", 72 ] ],
       [ [ "pipe", 12 ] ],
       [ [ "sheet_metal", 2 ] ],
-      [ [ "straw_pile", 16 ] ]
+      [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ]
     ]
   },
   {
