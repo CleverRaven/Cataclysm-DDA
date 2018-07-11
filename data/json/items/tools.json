@@ -3649,7 +3649,7 @@
     "id": "hoe",
     "type": "TOOL",
     "name": "hoe",
-    "description": "This is a farming implement.  Use it to turn tillable land into a slow-to-cross pile of dirt.",
+    "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": 1088,
     "volume": 14,
     "price": 2000,
@@ -3659,6 +3659,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
+    "qualities": [ [ "DIG", 1 ] ]
     "use_action": "MAKEMOUND"
   },
   {
