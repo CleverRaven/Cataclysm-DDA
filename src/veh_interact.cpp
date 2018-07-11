@@ -992,7 +992,7 @@ bool veh_interact::do_refill( std::string &msg )
         auto validate = [&]( const item &obj ) {
             if( pt.is_tank() ) {
                 // cannot refill using active liquids (those that rot) due to #18570
-                if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
+                if( obj.is_watertight_resealable_container() && !obj.contents.empty() && !obj.contents.front().active ) {
                     return pt.can_reload( obj.contents.front().typeId() );
                 }
             } else if( pt.is_reactor() ) {
@@ -2426,7 +2426,7 @@ void veh_interact::complete_vehicle()
         auto &src = g->u.activity.targets.front();
 
         auto &pt = veh->parts[ vehicle_part ];
-        if( pt.is_tank() && src->is_watertight_container() && !src->contents.empty() ) {
+        if( pt.is_tank() && src->is_watertight_resealable_container() && !src->contents.empty() ) {
 
             pt.base.fill_with( src->contents.front() );
 

@@ -10281,7 +10281,7 @@ void game::reload( item_location &loc, bool prompt )
                     return;
                 }
             }
-            if( it->is_watertight_container() && it->is_container_full() ) {
+            if( it->is_watertight_resealable_container() && it->is_container_full() ) {
                 add_msg( m_info, _( "The %s is already full!" ), it->tname().c_str() );
                 return;
             }

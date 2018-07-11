@@ -2245,7 +2245,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
                 it = get_container(from_vehicle);
             }
             if( it != nullptr ) {
-                canputitems = it->is_watertight_container();
+                canputitems = it->is_watertight_resealable_container();
             }
             break;
         default:

@@ -2519,7 +2519,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
     auto items = g->m.i_at( examp );
     for( auto &it : items ) {
-        if( it.is_bucket() || it.is_watertight_container() ) {
+        if( it.is_bucket() || it.is_watertight_resealable_container() ) {
             has_container = true;
 
             if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
@@ -2587,7 +2587,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
         case HARVEST_SAP:
             for( auto &it : items ) {
-                if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
+                if( ( it.is_bucket() || it.is_watertight_resealable_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
                     if( liquid.typeId() == "maple_sap" ) {
                         g->handle_liquid_from_container( it, PICKUP_RANGE );

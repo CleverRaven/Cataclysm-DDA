@@ -260,7 +260,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
 bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() || ( allow_bucket && cont.is_bucket() ) ) {
+    if( cont.is_watertight_resealable_container() || ( allow_bucket && cont.is_bucket() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
 
