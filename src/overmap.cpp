@@ -4823,6 +4823,7 @@ void building_bin::clear()
     finalized = false;
     buildings.clear();
     unfinalized_buildings.clear();
+    all.clear();
 }
 
 void building_bin::finalize()
@@ -4845,6 +4846,8 @@ void building_bin::finalize()
             if( !converted_id.is_valid() ) {
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type", pr.first.c_str() );
                 continue;
+            } else {
+                all.emplace_back( pr.first.str() );
             }
             current_id = overmap_specials::create_building_from( converted_id );
         }
