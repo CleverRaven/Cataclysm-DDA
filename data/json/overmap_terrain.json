@@ -1625,31 +1625,66 @@
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_entrance",
-        "name" : "central science lab",
-        "sym" : 76,
-        "color" : "light_blue",
-        "see_cost" : 5,
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 3,
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_shaft",
-        "name" : "central science lab",
+        "name" : "mysterious shaft",
         "sym" : 76,
         "color" : "light_blue",
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "central_lab_terminal",
-        "name" : "central science lab",
+        "abstract" : "generic_central_lab",
+        "name" : "central lab",
         "sym" : 76,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "flags" : [ "NO_ROTATE" ]
+        "color" : "cyan",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_1",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_2",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_3",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_4",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_5",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_6",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_7",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_8",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_9",
+        "copy-from" : "generic_central_lab"
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_base",
-        "name" : "central science lab",
+        "name" : "central lab",
         "sym" : 76,
         "color" : "light_blue",
         "see_cost" : 5,

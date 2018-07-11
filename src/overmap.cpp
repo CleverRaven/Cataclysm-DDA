@@ -1889,7 +1889,6 @@ bool overmap::generate_sub(int const z)
     bool is_first_in_pair = true;
     for( auto &i : lab_train_points ) {
         if (is_first_in_pair) {
-            debugmsg("subway terrain was: %s", ter(i.x, i.y, z).id().c_str());
             ter( i.x, i.y, z ) = oter_id( "lab_train_depot" );
         }
         is_first_in_pair = !is_first_in_pair;
