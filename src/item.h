@@ -545,6 +545,8 @@ class item : public visitable<item>
     bool is_container() const;
     /** Whether this is a container which can be used to store liquids. */
     bool is_watertight_container() const;
+    /** Wheter container is both watertight and resealable. */
+    bool is_watertight_resealable_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
     /** Whether removing this item's contents will permanently alter it. */
