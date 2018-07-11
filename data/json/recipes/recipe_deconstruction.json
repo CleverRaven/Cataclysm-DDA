@@ -2105,9 +2105,12 @@
   {
     "result": "stick_long",
     "type": "uncraft",
-    "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 2] ] ]
+    "time": 100,
+    "components": [ 
+      [ [ "stick", 2] ],
+      [ [ "splinter", 1] ]  
+    ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "straw_basket",
@@ -2385,8 +2388,7 @@
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 2 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 2 }
     ],
     "components": [
       [ [ "power_supply", 2 ] ],
@@ -2408,8 +2410,7 @@
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 2 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 2 }
     ],
     "components": [
       [ [ "power_supply", 2 ] ],

@@ -907,12 +907,13 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
         return 0;
     }
 
-    if( g->m.has_furn( pos ) ) {
+    if( g->m.has_furn( dir ) ) {
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return 0;
     }
 
     g->m.furn_set( dir, furn_type );
+    p.mod_moves( -200 );
     return 1;
 }
 
@@ -3252,7 +3253,7 @@ long place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
             if( !is_allowed( p, t, it.tname() ) ) {
                 p.add_msg_if_player( m_info,
                                      _( "That trap needs a 3x3 space to be clear, centered two tiles from you." ) );
-                return false;
+                return 0;
             }
         }
     }
