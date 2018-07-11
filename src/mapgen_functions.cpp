@@ -44,9 +44,10 @@ const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, int z, const regional_settings &rsettings, map &mp )
+                        oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp )
     : t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
     , t_above( up )
+    , t_below( down )
     , zlevel( z )
     , region( rsettings )
     , m( mp )
@@ -275,6 +276,14 @@ bool mapgendata::is_groundcover( const ter_id iid ) const {
     return false;
 }
 
+bool mapgendata::has_basement() const
+{
+    const std::vector<std::string> &all_basements = region.city_spec.basements.all;
+    return std::any_of( all_basements.begin(), all_basements.end(), [this]( const std::string & b ) {
+        return t_below == oter_id( b );
+    } );
+}
+
 ter_id mapgendata::groundcover() {
     const ter_id *tid = default_groundcover.pick();
     return tid != nullptr ? *tid : t_null;
@@ -429,7 +438,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, const t
     }
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            int forest_chance = 0, num = 0;
+            int forest_chance = 0;
+            int num = 0;
             if (j < dat.n_fac) {
                 forest_chance += dat.n_fac - j;
                 num++;
@@ -778,7 +788,8 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, const time_point &turn, 
     }
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            int forest_chance = 0, num = 0;
+            int forest_chance = 0;
+            int num = 0;
             if (j < dat.n_fac) {
                 forest_chance += dat.n_fac - j;
                 num++;
@@ -1096,7 +1107,10 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
                 if( sidewalks_neswx[ ( dir + 3 ) % 4     ] ||  // has_sidewalk west?
                     sidewalks_neswx[ ( dir + 3 ) % 4 + 4 ] ||  // has_sidewalk northwest?
                     sidewalks_neswx[   dir               ] ) { // has_sidewalk north?
-                    int x1 = 0, y1 = 0, x2 = 3, y2 = SEEY - 1 + dead_end_extension;
+                    int x1 = 0;
+                    int y1 = 0;
+                    int x2 = 3;
+                    int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
                     square( m, t_sidewalk, x1, y1, x2, y2 );
@@ -1105,7 +1119,10 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
                 if( sidewalks_neswx[ ( dir + 1 ) % 4 ] ||  // has_sidewalk east?
                     sidewalks_neswx[   dir + 4       ] ||  // has_sidewalk northeast?
                     sidewalks_neswx[   dir           ] ) { // has_sidewalk north?
-                    int x1 = SEEX * 2 - 5, y1 = 0, x2 = SEEX * 2 - 1, y2 = SEEY - 1 + dead_end_extension;
+                    int x1 = SEEX * 2 - 5;
+                    int y1 = 0;
+                    int x2 = SEEX * 2 - 1;
+                    int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
                     square( m, t_sidewalk, x1, y1, x2, y2 );
@@ -1122,7 +1139,10 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
         // also corner pieces to curve towards diagonal neighbors
         for( int dir = 0; dir < 4; dir++ ) {
             if( roads_nesw[dir] ) {
-                int x1 = 4, y1 = 0, x2 = SEEX * 2 - 1 - 4, y2 = SEEY - 1 + dead_end_extension;
+                int x1 = 4;
+                int y1 = 0;
+                int x2 = SEEX * 2 - 1 - 4;
+                int y2 = SEEY - 1 + dead_end_extension;
                 coord_rotate_cw( x1, y1, dir );
                 coord_rotate_cw( x2, y2, dir );
                 square( m, t_pavement, x1, y1, x2, y2 );
@@ -1148,7 +1168,8 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
                     for( int y = 0; y < max_y; y++ ) {
                         if( ( y + ( ( dir + rot ) / 2 % 2 ) ) % 4 ) {
-                            int xn = x, yn = y;
+                            int xn = x;
+                            int yn = y;
                             coord_rotate_cw( xn, yn, dir );
                             m->ter_set( xn, yn, t_pavement_y );
                         }
@@ -1313,42 +1334,36 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     switch ( num_dirs ) {
         case 4: // 4-way intersection
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-^-x--x-.########.-x--x-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-^-x^...######...^x-^-^\n\
-^-^X^-............-^X^-^\n\
-XxX^................^XxX\n\
-^-^..................^-^\n\
+.DD^^DD^.######.^DD^^DD.\n\
+DD^^DD^..######..^DD^^DD\n\
+D^^DD^....####....^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
+D^....................^D\n\
 ........................\n\
-###......######......###\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-###......######......###\n\
 ........................\n\
-^-^..................^-^\n\
-XxX^................^XxX\n\
-^-^X^-............-^X^-^\n\
-^-^-x^...######...^x-^-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-x--x-.########.-x--x-^\n\
-.^X^^X^.########.^X^^X^.",
-                    mapf::ter_bind( ". # ^ - X x |",
+##........####........##\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+##........####........##\n\
+........................\n\
+........................\n\
+D^....................^D\n\
+DD^..................^DD\n\
+^DD^................^DD^\n\
+^^DD^..............^DD^^\n\
+D^^DD^....####....^DD^^D\n\
+DD^^DD^..######..^DD^^DD\n\
+.DD^^DD^.######.^DD^^DD.",
+                    mapf::ter_bind( ". # ^ D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_tie,
-                        t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
-                        f_null,
-                        f_null,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ D",
                         f_null,
                         f_null,
                         f_null,
@@ -1356,39 +1371,41 @@ Xx-^^X^.########.^X^^-xX\n\
             break;
         case 3: // tee
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-^-x--x-.########.-x--x-^\n\
-Xx-^^X^.########.^X^^-xX\n\
-^-^-x^...######...^x-^-^\n\
-^-^X^-............-^X^-^\n\
-XxX^................^XxX\n\
-^-^..................^-^\n\
+.DD^^DD^.######.^DD^^DD.\n\
+DD^^DD^..######..^DD^^DD\n\
+D^^DD^....####....^DD^^D\n\
+^^DD^..............^DD^^\n\
+^DD^................^DD^\n\
+DD^..................^DD\n\
+D^....................^D\n\
 ........................\n\
-###......######......###\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-####....########....####\n\
-###......######......###\n\
 ........................\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
+##........####........##\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+###......######......###\n\
+##........####........##\n\
+........................\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
 XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
 XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^-^^-^^-^^-^^-^^-^^-^^-^\n\
+^|^^|^^|^^|^^|^^|^^|^^|^\n\
 ........................",
-                    mapf::ter_bind( ". # ^ - X x |",
+                    mapf::ter_bind( ". # ^ | X x / D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
                         t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
+                        t_railroad_tie_d,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ | X x / D",
+                        f_null,
                         f_null,
                         f_null,
                         f_null,
@@ -1400,82 +1417,74 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                     mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-^\n\
-.^X^^X^.########.^X^^-xX\n\
-.^X^^X^..######...^x-^-^\n\
-.-x--x-...........-^X^-^\n\
-.^X^^X^.............^XxX\n\
-.^X^^X^..............^-^\n\
-.-x--x-.................\n\
-.^X^^X^..######......###\n\
-.^X^^X^.########....####\n\
-.-x--x-.########....####\n\
-.^X^^X^.########....####\n\
-.^X^^X^.########....####\n\
-.-x--x-.########....####\n\
-.^X^^X^.########....####\n\
-.^X^^X^..######......###\n\
-.-X--X-.................\n\
-..^X^^X-^^-^^-^^-^^-^^-^\n\
-##.^X^-xXXxXXxXXxXXxXXxX\n\
-###.-x^-^^-^^-^^-^^-^^-^\n\
-####.^X-^^-^^-^^-^^-^^-^\n\
-#####.^XXXxXXxXXxXXxXXxX\n\
-######.-^^-^^-^^-^^-^^-^\n\
-######..................",
-                    mapf::ter_bind( ". # ^ - X x |",
+.^DD^^DD^.......^DD^^DD^\n\
+#.^DD^^DD^.......^DD^^DD\n\
+##.^DD^^DD^.......^DD^^D\n\
+###.^DD^^DD^.......^DD^^\n\
+####.^DD^^DD^.......^DD^\n\
+#####.^DD^^DD^.......^DD\n\
+######.^DD^^DD^.......^D\n\
+#######.^DD^^DD^.......^\n\
+########.^DD^^DD^.......\n\
+#########.^DD^^DD^......\n\
+##########.^DD^^DD^.....\n\
+###########.^DD^^DD^....\n\
+############.^DD^^DD^...\n\
+#############.^DD^^DD^..\n\
+##############.^DD^^DD^.\n\
+###############.^DD^^DD^\n\
+################.^DD^^DD\n\
+#################.^DD^^D\n\
+##################.^DD^^\n\
+###################.^DD^\n\
+####################.^DD\n\
+#####################.^D\n\
+######################.^\n\
+#######################.",
+                    mapf::ter_bind( ". # ^ D",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
-                        t_railroad_tie,
-                        t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
-                        f_null,
-                        f_null,
+                        t_railroad_track_d ),
+                    mapf::furn_bind( ". # ^ D",
                         f_null,
                         f_null,
                         f_null,
                         f_null ) );
             } else { // normal subway drawing
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^..######..^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..........^X^^X^.\n\
-.^X^^X^..........^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..######..^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^..######..^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..........^X^^X^.\n\
-.^X^^X^..........^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..######..^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.",
-                    mapf::ter_bind( ". # ^ - X x |",
+.^X^^^X^.######.^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^.######.^X^^^X^.",
+                    mapf::ter_bind( ". # ^ - X x",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v ),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
+                        t_railroad_track_on_tie ),
+                    mapf::furn_bind( ". # ^ - X x",
                         f_null,
                         f_null,
                         f_null,
@@ -1486,22 +1495,22 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             break;
         case 1:  // dead end
                 mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-.^X^^X^..######..^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..........^X^^X^.\n\
-.^X^^X^..........^X^^X^.\n\
-.-x--x-..........-x--x-.\n\
-.^X^^X^..######..^X^^X^.\n\
-.^X^^X^.########.^X^^X^.\n\
-.-x--x-.########.-x--x-.\n\
-.^X^^X^.########.^X^^X^.\n\
-........########........\n\
-........########........\n\
-........########........\n\
-#......##########......#\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^........^X^^^X^.\n\
+.-x---x-........-x---x-.\n\
+.^X^^^X^........^X^^^X^.\n\
+.^X^^^X^..####..^X^^^X^.\n\
+.-x---x-.######.-x---x-.\n\
+.^X^^^X^.######.^X^^^X^.\n\
+.........######.........\n\
+.........######.........\n\
+.........######.........\n\
+#.......########.......#\n\
 ########################\n\
 ########################\n\
 ########################\n\
@@ -1510,16 +1519,14 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 ########################\n\
 ########################\n\
 ########################",
-                    mapf::ter_bind( ". # ^ - X x |",
+                    mapf::ter_bind( ". # ^ - X x",
                         t_rock_floor,
                         t_rock,
                         t_railroad_rubble,
                         t_railroad_tie,
                         t_railroad_track,
-                        t_railroad_track_on_tie,
-                        t_railing_v),
-                    mapf::furn_bind( ". # ^ - X x |",
-                        f_null,
+                        t_railroad_track_on_tie ),
+                    mapf::furn_bind( ". # ^ - X x",
                         f_null,
                         f_null,
                         f_null,
@@ -1668,7 +1675,7 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, const time_poi
             if (i < 3 || i >= SEEX * 2 - 3) {
                 m->ter_set(i, j, dat.groundcover());
             } else if (i == 3 || i == SEEX * 2 - 4) {
-                m->ter_set(i, j, t_railing_v);
+                m->ter_set(i, j, t_railing);
             } else {
                 if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0) {
                     m->ter_set(i, j, t_pavement_y);
@@ -1944,10 +1951,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         m->furn_set(x1 + 2, y1 + 1, f_table);
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
-                if ((i == x1) || (i == x2)) {
-                    m->ter_set(i, j, t_fence_v);
-                } else if (j == y2) {
-                    m->ter_set(i, j, t_fence_h);
+                if ((i == x1) || (i == x2 || (j == y2))) {
+                    m->ter_set(i, j, t_fence);
                 } else {
                     m->ter_set( i, j, t_grass);
                     if (one_in(35) && !m->has_furn(i ,j)) {
@@ -1985,7 +1990,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
     }
 
     items_location placed = "none";
-    int chance = 0, rn;
+    int chance = 0;
+    int rn = 0;
     switch (type) {
     case room_study:
         placed = "livingroom";
@@ -2077,7 +2083,10 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         chance = 75;
         m->place_items("cleaning",  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, turn);
         m->place_items("home_hw",   40, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, turn);
-        int oven_x = -1, oven_y = -1, cupboard_x = -1, cupboard_y = -1;
+        int oven_x = -1;
+        int oven_y = -1;
+        int cupboard_x = -1;
+        int cupboard_y = -1;
 
         switch (rng(1, 4)) { //fridge, sink, oven and some cupboards near them
         case 1:
@@ -2625,11 +2634,10 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     //////
     if (rng(2, 7) < tw) { // Big front yard has a chance for a fence
         for (int i = lw; i <= rw; i++) {
-            m->ter_set(i, 0, t_fence_h);
+            m->ter_set(i, 0, t_fence);
         }
         for (int i = 1; i < tw; i++) {
-            m->ter_set(lw, i, t_fence_v);
-            m->ter_set(rw, i, t_fence_v);
+            m->ter_set(lw, i, t_fence);
         }
         int hole = rng(SEEX - 3, SEEX + 2);
         m->ter_set(hole, 0, t_dirt);
@@ -2640,70 +2648,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
         }
     }
 
-    // For rotation
-    if( one_in( dat.region.city_spec.house_basement_chance ) ) {
-        const bool force = get_option<bool>( "ALIGN_STAIRS" );
-        // Find the basement's stairs first
-        const tripoint abs_sub_here = m->get_abs_sub();
-        tinymap basement;
-        basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
-        std::vector<tripoint> upstairs;
-        const tripoint from( 0, 0, abs_sub_here.z - 1 );
-        const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
-        for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
-            if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
-                upstairs.emplace_back( p );
-            }
-        }
-
-        bool placed_any = false;
-        for( const tripoint &p : upstairs ) {
-            static const tripoint up = tripoint( 0, 0, 1 );
-            const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
-            // @todo: Less ugly check
-            // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
-            const ter_t &ter_here = m->ter( here ).obj();
-            if( ( force && ter_here.movecost > 0 ) ||
-                ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
-                m->ter_set( here, t_stairs_down );
-                placed_any = true;
-            }
-
-            // Try to push away furniture
-            const furn_id furn_here = m->furn( here );
-            if( furn_here != f_null ) {
-                for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
-                    if( m->furn( push_point ) == f_null ) {
-                        m->furn_set( push_point, furn_here );
-                        break;
-                    }
-                }
-
-                m->furn_set( here, f_null );
-            }
-        }
-
-        // If not forcing alignment and didn't place any stairs, allow legacy stair placement
-        // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
-        if( !placed_any && !force ) {
-            // Legacy stair spawning code - allows teleports
-            int attempts = 100;
-            int stairs_height = actual_house_height - 1;
-            do {
-                rn = rng( lw + 1, rw - 1 );
-                // After 50 failed attempts, relax the placement limitations a bit
-                // Otherwise it will most likely fail the next 50 too
-                if( attempts < 50 ) {
-                    stairs_height = rng( 1, SEEY );
-                }
-                attempts--;
-                if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
-                    m->ter_set( rn, stairs_height, t_stairs_down );
-                    break;
-                }
-            } while( attempts > 0 );
-        }
-    }
+    place_stairs( m, terrain_type, dat, actual_house_height, lw, rw );
 
     if (one_in(100)) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
@@ -2721,8 +2666,10 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
         }
         int num_pods = rng(8, 12);
         for (int i = 0; i < num_pods; i++) {
-            int podx = rng(1, SEEX * 2 - 2), pody = rng(1, SEEY * 2 - 2);
-            int nonx = 0, nony = 0;
+            int podx = rng(1, SEEX * 2 - 2);
+            int pody = rng(1, SEEY * 2 - 2);
+            int nonx = 0;
+            int nony = 0;
             while (nonx == 0 && nony == 0) {
                 nonx = rng(-1, 1);
                 nony = rng(-1, 1);
@@ -3445,7 +3392,8 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, const time_point &turn, float 
             mapgen_forest_general(m, oter_str_id("forest").id(), dat, turn, density);
             // Clear the center with some rocks
             square(m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
-            int pathx, pathy;
+            int pathx = 0;
+            int pathy = 0;
             if (one_in(2)) {
                 pathx = rng(SEEX - 6, SEEX + 5);
                 pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
@@ -3490,7 +3438,8 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, const time_point &turn, fl
             m->add_spawn(mon_rat_king, 1, SEEX, SEEY);
             m->place_items("rare", 75, SEEX - 4, SEEY - 4, SEEX + 4, SEEY + 4, true, turn);
         } else { // Level 1
-            int cavex = SEEX, cavey = SEEY * 2 - 3;
+            int cavex = SEEX;
+            int cavey = SEEY * 2 - 3;
             int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
             int centerx = 0;
             do {
@@ -3605,7 +3554,8 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, const time_point &turn, floa
     }
     m->place_items("cavern", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     if (one_in(6)) { // Miner remains
-        int x, y;
+        int x = 0;
+        int y = 0;
         do {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
@@ -4166,4 +4116,72 @@ void madd_field( map *m, int x, int y, field_id t, int density )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
     m->add_field( actual_location, t, density, 0 );
+}
+
+void place_stairs( map *m, oter_id terrain_type, mapgendata dat,
+                   const int actual_house_height, const int lw, const int rw )
+{
+    if( !dat.has_basement() ) {
+        return;
+    }
+
+    const bool force = get_option<bool>( "ALIGN_STAIRS" );
+    // Find the basement's stairs first
+    const tripoint abs_sub_here = m->get_abs_sub();
+    tinymap basement;
+    basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
+    std::vector<tripoint> upstairs;
+    const tripoint from( 0, 0, abs_sub_here.z - 1 );
+    const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
+    for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
+        if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
+            upstairs.emplace_back( p );
+        }
+    }
+
+    bool placed_any = false;
+    for( const tripoint &p : upstairs ) {
+        static const tripoint up = tripoint( 0, 0, 1 );
+        const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
+        // @todo: Less ugly check
+        // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
+        const ter_t &ter_here = m->ter( here ).obj();
+        if( ( force && ter_here.movecost > 0 ) ||
+            ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
+            m->ter_set( here, t_stairs_down );
+            placed_any = true;
+        }
+        // Try to push away furniture
+        const furn_id furn_here = m->furn( here );
+        if( furn_here != f_null ) {
+            for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
+                if( m->furn( push_point ) == f_null ) {
+                    m->furn_set( push_point, furn_here );
+                    break;
+                }
+            }
+            m->furn_set( here, f_null );
+        }
+    }
+
+    // If not forcing alignment and didn't place any stairs, allow legacy stair placement
+    // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
+    if( !placed_any && !force ) {
+        // Legacy stair spawning code - allows teleports
+        int attempts = 100;
+        int stairs_height = actual_house_height - 1;
+        do {
+            int rn = rng( lw + 1, rw - 1 );
+            // After 50 failed attempts, relax the placement limitations a bit
+            // Otherwise it will most likely fail the next 50 too
+            if( attempts < 50 ) {
+                stairs_height = rng( 1, SEEY );
+            }
+            attempts--;
+            if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
+                m->ter_set( rn, stairs_height, t_stairs_down );
+                break;
+            }
+        } while( attempts > 0 );
+    }
 }

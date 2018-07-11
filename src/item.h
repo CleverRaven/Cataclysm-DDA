@@ -21,6 +21,7 @@ class nc_color;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class iteminfo_query;
 template<typename T>
 class ret_val;
 namespace units
@@ -347,8 +348,28 @@ class item : public visitable<item>
     */
     std::string info( bool showtext, std::vector<iteminfo> &dump, int batch ) const;
 
-    /** Burns the item. Returns true if the item was destroyed. */
-    bool burn( fire_data &bd, bool contained );
+    /**
+    * Return all the information about the item and its type, and dump to vector.
+    *
+    * This includes the different
+    * properties of the @ref itype (if they are visible to the player). The returned string
+    * is already translated and can be *very* long.
+    * @param parts controls which parts of the iteminfo to return.
+    * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+    * the vector can be used to compare them to properties of another item.
+    * @param batch The batch crafting number to multiply data by
+    */
+    std::string info(std::vector<iteminfo> &dump, const iteminfo_query *parts = nullptr, int batch = 1) const;
+
+
+        /**
+         * Calculate all burning calculations, but don't actually apply them to item.
+         * DO apply them to @ref fire_data argument, though.
+         * @return Amount of "burn" that would be applied to the item.
+         */
+        float simulate_burn( fire_data &bd ) const;
+        /** Burns the item. Returns true if the item was destroyed. */
+        bool burn( fire_data &bd );
 
     // Returns the category of this item.
     const item_category &get_category() const;

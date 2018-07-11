@@ -76,8 +76,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         out.clear();
         // limb, and possible color highlighting
         // @todo: utf8 aware printf would be nice... this works well enough for now
-        out = body_part_name_as_heading( all_body_parts[bp],
-                                         combine ? 2 : 1 ).c_str();
+        out = body_part_name_as_heading( all_body_parts[bp], combine ? 2 : 1 );
 
         int len = 7 - utf8_width( out );
         switch( sgn( len ) ) {

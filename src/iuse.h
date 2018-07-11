@@ -193,6 +193,9 @@ class iuse
         int weather_tool( player *, item *, bool, const tripoint & );
         int ladder( player *, item *, bool, const tripoint & );
         int washclothes( player *, item *, bool, const tripoint & );
+        int solarpack( player *, item *, bool, const tripoint & );
+        int solarpack_off( player *, item *, bool, const tripoint & );
+        int break_stick( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

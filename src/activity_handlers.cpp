@@ -1524,8 +1524,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
         g->m.spawn_item( p->pos(), "steel_chunk", rng(2, 6) );
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
         g->m.spawn_item( pos, "pipe", rng(1, 4) );
         g->m.spawn_item( pos, "wire", rng(4, 16) );
@@ -2064,8 +2063,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
         g->m.furn_set( pos, f_null );
         g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
         g->m.spawn_item( pos, "steel_chunk" );
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
         g->m.spawn_item( pos, "pipe", 6 );
         g->m.spawn_item( pos, "wire", 20 );
@@ -2148,6 +2146,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
 
     g->m.ter_set( pos, t_dirt );
     g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+    g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );

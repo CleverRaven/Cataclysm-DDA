@@ -28,8 +28,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "clay_lump", 2 ] ],
-      [ [ "leather", 2 ], [ "fur", 2 ] ],
-      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 200 ] ]
+      [ [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {

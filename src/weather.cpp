@@ -77,9 +77,16 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
 {
     // if underground it ignores weather, using strait underground temperature instead
     // root cellars are considered as underground storage, ignores weather, constant temperature
-    if( location.z < 0 || g->m.ter( location ) == t_rootcellar ) {
+    if( g->m.ter( location ) == t_rootcellar ) {
         return ( end - start ) / 1_hours * get_hourly_rotpoints_at_temp( AVERAGE_ANNUAL_TEMPERATURE ) *
               1_turns;
+    }
+
+    if ( location.z < 0 ) {
+        for( time_point i = start; i < end; i += 1_hours ) {
+            ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( g->get_temperature( g->m.getlocal( location ) ) ) * 1_turns;
+        }
+        return ret;
     }
 
     time_duration ret = 0;
@@ -287,12 +294,12 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         units::volume maxcontains = 0;
-        auto items = g->m.i_at( loc );
         if (one_in(turns_per_charge)) { // @todo: fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
+            auto items = g->m.i_at(loc);
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
                  ++candidate_container ) {

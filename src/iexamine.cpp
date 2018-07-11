@@ -73,7 +73,7 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
+static void pick_plant( player &p, const tripoint &examp, const std::string &itemType, ter_id new_ter,
                         bool seeds = false );
 
 /**
@@ -91,7 +91,7 @@ void iexamine::none(player &p, const tripoint &examp)
 void iexamine::cvdmachine( player &p, const tripoint & ) {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item &e ) {
-        return e.is_melee( DT_CUT ) && e.made_of( material_id( "steel" ) ) &&
+        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_id( "steel" ) ) &&
                !e.has_flag( "DIAMOND" ) && !e.has_flag( "NO_CVD" );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
@@ -101,7 +101,9 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
 
     // Require materials proportional to selected item volume
     auto qty = loc->volume() / units::legacy_volume_factor;
+    qty = std::max( 1, qty );
     auto reqs = *requirement_id( "cvd_diamond" ) * qty;
+
     if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
@@ -224,8 +226,8 @@ private:
         amenu.selected = uistate.iexamine_atm_selected;
         amenu.return_invalid = true;
         amenu.text = string_format(_("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
-                                     "Your current balance is: $%ld.%02ld"),
-                                     u.cash / 100, u.cash % 100);
+                                     "Your current balance is: %s"),
+                                     format_money( u.cash ) );
 
         if (u.cash >= 100) {
             add_choice(purchase_card, _("Purchase cash card?"));
@@ -265,8 +267,7 @@ private:
     //! print a bank statement for @p print = true;
     void finish_interaction(bool const print = true) {
         if (print) {
-            add_msg(m_info, ngettext("Your account now holds %d cent.",
-                                     "Your account now holds %d cents.", u.cash), u.cash);
+            add_msg(m_info, _("Your account now holds %s."), format_money(u.cash));
         }
 
         u.moves -= 100;
@@ -529,7 +530,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
 
         trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
-                        _( "Money left: $%.2f" ), ( double )card->charges / 100 );
+                        _( "Money left: %s" ), format_money( card->charges ) );
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -1457,7 +1458,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item(examp, "poppy_bud");
+    g->m.spawn_item( examp, "poppy_bud", 1, 0, calendar::turn );
 }
 
 /**
@@ -1502,7 +1503,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item(examp, "dahlia_root");
+    g->m.spawn_item( examp, "dahlia_root", 1, 0, calendar::turn );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1605,7 +1606,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
         return;
     }
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item(examp, "marloss_seed", 1, 3);
+    g->m.spawn_item( examp, "marloss_seed", 1, 3, calendar::turn );
 }
 
 /**
@@ -1624,7 +1625,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         none( p, examp );
         return;
     }
-    g->m.spawn_item( examp, "spider_egg", rng( 1, 4 ) );
+    g->m.spawn_item( examp, "spider_egg", rng( 1, 4 ), 0, calendar::turn );
     g->m.furn_set( examp, f_egg_sacke );
     if( one_in( 2 ) ) {
         int monster_count = 0;
@@ -2418,7 +2419,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 }
 
 void pick_plant(player &p, const tripoint &examp,
-                std::string itemType, ter_id new_ter, bool seeds)
+                const std::string &itemType, ter_id new_ter, bool seeds)
 {
     if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
@@ -2433,11 +2434,11 @@ void pick_plant(player &p, const tripoint &examp,
     int plantCount = rng(plantBase, plantBase + survival / 2);
     plantCount = std::min( plantCount, 12 );
 
-    g->m.spawn_item( p.pos(), itemType, plantCount, 0, calendar::turn);
+    g->m.spawn_item( p.pos(), itemType, plantCount, 0, calendar::turn );
 
     if (seeds) {
         g->m.spawn_item( p.pos(), "seed_" + itemType, 1,
-                         rng( plantCount / 4, plantCount / 2 ) );
+                         rng( plantCount / 4, plantCount / 2 ), calendar::turn );
     }
 
     g->m.ter_set(examp, new_ter);
@@ -2457,7 +2458,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     }
 
     ///\EFFECT_SURVIVAL increases hickory root number per tree
-    g->m.spawn_item(p.pos(), "hickory_root", rng( 1, 3 + p.get_skill_level( skill_survival ) ) );
+    g->m.spawn_item(p.pos(), "hickory_root", rng( 1, 3 + p.get_skill_level( skill_survival ) ), 0, calendar::turn );
     g->m.ter_set(examp, t_tree_hickory_dead);
     ///\EFFECT_SURVIVAL speeds up hickory root digging
     p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
@@ -2615,7 +2616,7 @@ void iexamine::shrub_marloss(player &p, const tripoint &examp)
     if (p.has_trait(trait_THRESH_MYCUS)) {
         pick_plant(p, examp, "mycus_fruit", t_shrub_fungal);
     } else if (p.has_trait(trait_THRESH_MARLOSS)) {
-        g->m.spawn_item( examp, "mycus_fruit" );
+        g->m.spawn_item( examp, "mycus_fruit", 1, 0, calendar::turn );
         g->m.ter_set(examp, t_fungus);
         add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
     } else {
@@ -2634,7 +2635,7 @@ void iexamine::tree_marloss(player &p, const tripoint &examp)
             g->m.ter_set(examp, t_marloss_tree);
         }
     } else if (p.has_trait(trait_THRESH_MARLOSS)) {
-        g->m.spawn_item( p.pos(), "mycus_fruit" );
+        g->m.spawn_item( p.pos(), "mycus_fruit", 1, 0, calendar::turn );
         g->m.ter_set(examp, t_tree_fungal);
         add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
     } else {
@@ -2804,19 +2805,19 @@ void iexamine::recycler(player &p, const tripoint &examp)
     }
 
     for (int i = 0; i < num_lumps; i++) {
-        g->m.spawn_item(p.pos(), "steel_lump");
+        g->m.spawn_item( p.pos(), "steel_lump", 1, 0, calendar::turn );
     }
 
     for (int i = 0; i < num_sheets; i++) {
-        g->m.spawn_item(p.pos(), "sheet_metal");
+        g->m.spawn_item( p.pos(), "sheet_metal", 1, 0, calendar::turn );
     }
 
     for (int i = 0; i < num_chunks; i++) {
-        g->m.spawn_item(p.pos(), "steel_chunk");
+        g->m.spawn_item( p.pos(), "steel_chunk", 1, 0, calendar::turn );
     }
 
     for (int i = 0; i < num_scraps; i++) {
-        g->m.spawn_item(p.pos(), "scrap");
+        g->m.spawn_item( p.pos(), "scrap", 1, 0, calendar::turn );
     }
 }
 
@@ -2950,10 +2951,10 @@ void iexamine::curtains(player &p, const tripoint &examp)
     } else if( choice == 2 ) {
         // Mr. Gorbachev, tear down those curtains!
         g->m.ter_set( examp, t_window_no_curtains );
-        g->m.spawn_item( p.pos(), "nail", 1, 4 );
-        g->m.spawn_item( p.pos(), "sheet", 2 );
-        g->m.spawn_item( p.pos(), "stick" );
-        g->m.spawn_item( p.pos(), "string_36" );
+        g->m.spawn_item( p.pos(), "nail", 1, 4, calendar::turn );
+        g->m.spawn_item( p.pos(), "sheet", 2, 0, calendar::turn );
+        g->m.spawn_item( p.pos(), "stick", 1, 0, calendar::turn );
+        g->m.spawn_item( p.pos(), "string_36", 1, 0, calendar::turn );
         p.moves -= 200;
         p.add_msg_if_player( _("You tear the curtains and curtain rod off the windowframe.") );
     } else {
@@ -3050,7 +3051,7 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
     return tank_loc;
 }
 
-static int getGasDiscountCardQuality(item it)
+static int getGasDiscountCardQuality( const item &it )
 {
     std::set<std::string> tags = it.type->item_tags;
 
@@ -3254,7 +3255,6 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     std::string discountName = getGasDiscountName( discount );
 
     long pricePerUnit = getGasPricePerLiter( discount );
-    std::string unitPriceStr = string_format( _( "$%0.2f" ), pricePerUnit / 100.0f );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
                       ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
@@ -3274,7 +3274,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your price per gasoline unit: " ) ) +
-                    unitPriceStr );
+                    format_money( pricePerUnit ) );
 
     if( can_hack ) {
         amenu.addentry( hack, true, 'h', _( "Hack console." ) );
@@ -3355,9 +3355,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         cashcard->charges -= liters * pricePerUnit;
 
-        add_msg( m_info, ngettext( "Your cash card now holds %d cent.",
-                                   "Your cash card now holds %d cents.",
-                                   cashcard->charges ), cashcard->charges );
+        add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
         p.moves -= 100;
         return;
     }
@@ -3406,9 +3404,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, ngettext( "Your cash card now holds %d cent.",
-                                       "Your cash card now holds %d cents.",
-                                       cashcard->charges ), cashcard->charges );
+            add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
             p.moves -= 100;
             return;
         } else {
@@ -3530,21 +3526,36 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
+            const item *it = bionic.get_item();
+            const itype *itemtype = it->type;
+            const bionic_id &bid = itemtype->bionic->id;
+
+            if( p.has_bionic( bid ) ) {
+                popup( _( "You have already installed this bionic."  ) );
+                return;
+            } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
+                popup( _( "You have no base version of this bionic to upgrade." ) );
+                return;
+            } else {
+                const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
+                                                    std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                if( downgrade ) {
+                    popup( _( "You have already installed a superior version of this bionic." ) );
+                    return;
+                }
+            }
+
             if( !has_anesthesia ) {
                 popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
                 return;
             }
 
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( p.install_bionics( *itemtype ) ) {
                 p.introduce_into_anesthesia( duration );
-                if( p.has_item( *it ) ) {
-                    p.i_rem( it );
-                } else {
-                    g->m.i_rem( bionic.position(), it );
-                }
+                std::vector<item_comp> comps;
+                comps.push_back( item_comp( it->typeId(), 1 ) );
+                p.consume_items( comps );
             }
             break;
         }
