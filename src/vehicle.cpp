@@ -852,6 +852,11 @@ void vehicle::use_controls( const tripoint &pos )
         return;
     }
 
+    // exit early if you can't control the vehicle
+    if( !interact_vehicle_locked() ) {
+        return;
+    }
+
     if( has_part( "ENGINE" ) ) {
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
@@ -953,6 +958,22 @@ void vehicle::use_controls( const tripoint &pos )
             add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
             refresh();
         } );
+        if( camera_on ||
+            ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ), keybind( "TOGGLE_CAMERA") );
+            actions.push_back( [&]{
+                if( camera_on ) {
+                    camera_on = false;
+                    add_msg( _("Camera system disabled") );
+                } else if( fuel_left(fuel_type_battery, true) ) {
+                    camera_on = true;
+                    add_msg( _("Camera system enabled") );
+                } else {
+                    add_msg( _("Camera system won't turn on") );
+                }
+                refresh();
+            } );
+        }
     }
 
     options.emplace_back( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
@@ -1013,26 +1034,6 @@ void vehicle::use_controls( const tripoint &pos )
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
         actions.push_back( [&]{ turrets_aim_single(); refresh(); } );
-    }
-
-    if( has_electronic_controls && (camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) ) {
-        options.emplace_back( camera_on ? _( "Turn off camera system" ) : _( "Turn on camera system" ), keybind( "TOGGLE_CAMERA") );
-        actions.push_back( [&]{
-            if( camera_on ) {
-                camera_on = false;
-                add_msg( _("Camera system disabled") );
-            } else if( fuel_left(fuel_type_battery, true) ) {
-                camera_on = true;
-                add_msg( _("Camera system enabled") );
-            } else {
-                add_msg( _("Camera system won't turn on") );
-            }
-            refresh();
-        } );
-    }
-
-    if( !interact_vehicle_locked() ) {
-        return;
     }
 
     uimenu menu;
