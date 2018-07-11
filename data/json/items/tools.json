@@ -3659,7 +3659,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 1 ] ]
+    "qualities": [ [ "DIG", 1 ] ],
     "use_action": "MAKEMOUND"
   },
   {
