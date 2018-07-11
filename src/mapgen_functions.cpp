@@ -2275,21 +2275,17 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     int rn = 0;
     int lw = 0;
     int rw = 0;
-    int mw = 0;
     int tw = 0;
     int bw = 0;
-    int cw = 0;
     int actual_house_height = 0;
     int bw_old = 0;
 
     int x = 0;
     int y = 0;
     lw = rng(0, 4);  // West external wall
-    mw = lw + rng(7, 10);  // Middle wall between bedroom & kitchen/bath
     rw = SEEX * 2 - rng(1, 5); // East external wall
     tw = rng(1, 6);  // North external wall
     bw = SEEX * 2 - rng(2, 5); // South external wall
-    cw = tw + rng(4, 7);  // Middle wall between living room & kitchen/bed
     actual_house_height = bw - rng(4,
                                    6); //reserving some space for backyard. Actual south external wall.
     bw_old = bw;
