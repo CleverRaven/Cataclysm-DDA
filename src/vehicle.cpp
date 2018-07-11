@@ -607,6 +607,49 @@ void vehicle::control_doors() {
     }
 }
 
+char keybind( std::string const &opt )
+{
+    auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
+    return keys.empty() ? ' ' : keys.front();
+}
+
+void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector<std::function<void()>> &actions, const std::string &name, char key, const std::string &flag )
+{
+    // fetch matching parts and abort early if none found
+    auto found = get_parts( flag );
+    if( found.empty() ) {
+        return;
+    }
+
+    // can this menu option be selected by the user?
+    bool allow = true;
+
+    // determine target state - currently parts of similar type are all switched concurrently
+    bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part *e ) {
+        return e->enabled;
+    } );
+
+    // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
+    if( state ) {
+        allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
+            return can_enable( *e );
+       } );
+    }
+
+    auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
+    options.emplace_back( -1, allow, key, msg );
+
+    actions.push_back( [=]{
+        for( vehicle_part *e : found ) {
+            if( e->enabled != state ) {
+                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
+                e->enabled = state;
+            }
+        }
+        refresh();
+    } );
+}
+
 void vehicle::control_engines() {
     int e_toggle = 0;
     bool dirty = false;
@@ -816,11 +859,6 @@ void vehicle::use_controls( const tripoint &pos )
     std::vector<uimenu_entry> options;
     std::vector<std::function<void()>> actions;
 
-    auto const keybind = [&]( std::string const &opt ) {
-        auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
-        return keys.empty() ? ' ' : keys.front();
-    };
-
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
 
@@ -892,39 +930,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     auto add_toggle = [&]( const std::string &name, char key, const std::string &flag ) {
-        // fetch matching parts and abort early if none found
-        auto found = get_parts( flag );
-        if( found.empty() ) {
-            return;
-        }
-
-        // can this menu option be selected by the user?
-        bool allow = true;
-
-        // determine target state - currently parts of similar type are all switched concurrently
-        bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part *e ) {
-            return e->enabled;
-        } );
-
-        // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
-        if( state ) {
-            allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
-                return can_enable( *e );
-            } );
-        }
-
-        auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
-        options.emplace_back( -1, allow, key, msg );
-
-        actions.push_back( [=]{
-            for( vehicle_part *e : found ) {
-                if( e->enabled != state ) {
-                    add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
-                    e->enabled = state;
-                }
-            }
-            refresh();
-        } );
+	add_toggle_to_opts( options, actions, name, key, flag );
     };
 
     add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
