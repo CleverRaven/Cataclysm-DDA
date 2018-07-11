@@ -6815,17 +6815,41 @@ void map::grow_plant( const tripoint &p )
         return;
     }
     const time_duration plantEpoch = seed.get_plant_epoch();
-
-    if( seed.age() >= plantEpoch ) {
-        rotten_item_spawn( seed, p);
+    furn_id cur_furn = this->furn(p).id();
+    if( seed.age() >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ){
         if( seed.age() < plantEpoch * 2 ) {
-                i_rem(p, 1);
-                furn_set(p, furn_str_id( "f_plant_seedling" ) );
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+                return;
+            }
+            i_rem( p, 1 );
+            rotten_item_spawn( seed, p );
+            furn_set(p, furn_str_id( "f_plant_seedling" ) );
         } else if( seed.age() < plantEpoch * 3 ) {
-                i_rem(p, 1);
-                furn_set(p, furn_str_id( "f_plant_mature" ) );
+            if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+                return;
+            }
+            i_rem(p, 1);
+            rotten_item_spawn( seed, p );
+            //You've skipped the seedling stage so roll monsters twice
+            if( cur_furn != furn_str_id( "f_plant_seedling" ) ){
+                rotten_item_spawn( seed, p );
+            }
+            furn_set( p, furn_str_id( "f_plant_mature" ) );
         } else {
-                furn_set(p, furn_str_id( "f_plant_harvest" ) );
+            //You've skipped two stages so roll monsters two times
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+            //One stage change
+            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+                rotten_item_spawn( seed, p );
+            //Goes from seed to harvest in one check
+            } else {
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+            }
+            furn_set(p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }

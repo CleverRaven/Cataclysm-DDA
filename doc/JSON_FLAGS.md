@@ -1037,6 +1037,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TURRET``` Activate a turret.
 - ```WASHCLOTHES``` Wash clothes with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
+- ```BREAK_STICK``` Breaks long stick into two.
 
 ## Generic
 
