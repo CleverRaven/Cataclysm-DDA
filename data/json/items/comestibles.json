@@ -3319,7 +3319,7 @@
     "nutrition": 10,
     "description": "Plain and unseasoned popcorn.  Not as tasty as other kinds, but healthier as a result.",
     "price": 115,
-    "material": "junk",
+    "material": "veggy",
     "volume": 1,
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
