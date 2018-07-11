@@ -5058,17 +5058,26 @@ static bool heat_item( player &p )
         return false;
     }
     item &target = heat->is_food_container() ? heat->contents.front() : *heat;
-    p.mod_moves( -300 );
-    add_msg( _( "You heat up the food." ) );
+    p.mod_moves( -300 ); //initial preparations
     if( target.item_tags.count( "FROZEN" ) ) {
+        add_msg( _( "You defrost the food." ) );
+        // simulates heat capacity of food, more weight = longer heating time
+        // this is x2 to simulate larger delta temperature of frozen food in relation to
+        // heating non-frozen food (x1); no real life physics here, only aproximations
+        p.mod_moves( -target.weight() * 2 ); 
         target.item_tags.erase( "FROZEN" );
         target.item_tags.insert( "HOT" );
         target.active = true;
-        target.item_counter = 100; // prevents insta-freeze afterwards
+        target.item_counter = 100; // prevents insta-freeze after defrosting
     } else {
+        add_msg( _( "You heat up the food." ) );
         target.item_tags.insert( "HOT" );
+        p.mod_moves( -target.weight() ); // simulates heat capacity of food
         target.active = true;
-        target.item_counter = 600; // sets the hot food flag for 60 minutes
+        // links time of food's HOT-ness with weight, as smaller items lose temperature faster
+        // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
+        const int hcapacity = target.weight() < 100 ? 100 : target->weight();
+        target.item_counter = hcapacity > 600 ? 600 : hcapacity; 
     }
     return true;
 }
