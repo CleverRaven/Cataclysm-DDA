@@ -3884,6 +3884,10 @@ bool item::is_container() const
 
 bool item::is_watertight_container() const
 {
+    return type->container && type->container->watertight;
+}
+bool item::is_watertight_resealable_container() const
+{
     return type->container && type->container->watertight && type->container->seals;
 }
 
@@ -3984,7 +3988,7 @@ bool item::is_reloadable_helper( const itype_id& ammo, bool now ) const
 {
     if( !is_reloadable() ) {
         return false;
-    } else if( is_watertight_container() ) {
+    } else if( is_watertight_resealable_container() ) {
         return ( now ? !is_container_full() : true ) &&
             ( ammo.empty() || is_container_empty() || contents.front().typeId() == ammo );
     } else if( magazine_integral() ) {
@@ -4919,7 +4923,7 @@ int item::reload_option::moves() const
 void item::reload_option::qty( long val )
 {
     bool ammo_in_container = ammo->is_ammo_container();
-    bool ammo_in_liquid_container = ammo->is_watertight_container();
+    bool ammo_in_liquid_container = ammo->is_watertight_resealable_container();
     item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
         ammo->contents.front() : *ammo;
 
@@ -4931,7 +4935,7 @@ void item::reload_option::qty( long val )
 
     // Checking ammo capacity implicitly limits guns with removable magazines to capacity 0.
     // This gets rounded up to 1 later.
-    long remaining_capacity = target->is_watertight_container() ?
+    long remaining_capacity = target->is_watertight_resealable_container() ?
         target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
         target->ammo_capacity() - target->ammo_remaining();
     if( target->has_flag( "RELOAD_ONE" ) && !ammo->has_flag( "SPEEDLOADER" ) ) {
@@ -4998,7 +5002,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     item *container = nullptr;
-    if ( ammo->is_ammo_container() || ammo->is_watertight_container() || ammo->is_non_resealable_container() ) {
+    if ( ammo->is_ammo_container() || ammo->is_watertight_resealable_container() || ammo->is_non_resealable_container() ) {
         container = ammo;
         ammo = &ammo->contents.front();
     }
@@ -5008,7 +5012,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     // limit quantity of ammo loaded to remaining capacity
-    long limit = is_watertight_container()
+    long limit = is_watertight_resealable_container()
         ? get_remaining_capacity_for_liquid( *ammo )
         : ammo_capacity() - ammo_remaining();
 
@@ -5035,7 +5039,7 @@ bool item::reload( player &u, item_location loc, long qty )
         contents.back().charges = qty;
         ammo->charges -= qty;
 
-    } else if ( is_watertight_container() ) {
+    } else if ( is_watertight_resealable_container() ) {
         if( !ammo->made_of( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;

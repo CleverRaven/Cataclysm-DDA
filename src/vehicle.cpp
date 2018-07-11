@@ -6214,7 +6214,7 @@ long vehicle_part::ammo_capacity() const
         return base.ammo_capacity();
     }
 
-    if( base.is_watertight_container() ) {
+    if( base.is_watertight_resealable_container() ) {
         return base.get_container_capacity() / std::max( item::find_type( ammo_current() )->volume, units::from_milliliter( 1 ) );
     }
 
@@ -6227,7 +6227,7 @@ long vehicle_part::ammo_remaining() const
         return base.ammo_remaining();
     }
 
-    if( base.is_watertight_container() ) {
+    if( base.is_watertight_resealable_container() ) {
         return base.contents.empty() ? 0 : base.contents.back().charges;
     }
 
@@ -6274,7 +6274,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 
     int res = std::min( ammo_remaining(), qty );
 
-    if( base.is_watertight_container() && !base.contents.empty() ) {
+    if( base.is_watertight_resealable_container() && !base.contents.empty() ) {
         item& liquid = base.contents.back();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
@@ -6287,7 +6287,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 
 float vehicle_part::consume_energy( const itype_id &ftype, float energy )
 {
-    if( base.contents.empty() || ( !is_battery() && !is_reactor() && !base.is_watertight_container() ) ) {
+    if( base.contents.empty() || ( !is_battery() && !is_reactor() && !base.is_watertight_resealable_container() ) ) {
         return 0.0f;
     }
 
@@ -6445,7 +6445,7 @@ bool vehicle_part::is_light() const
 
 bool vehicle_part::is_tank() const
 {
-    return base.is_watertight_container();
+    return base.is_watertight_resealable_container();
 }
 
 bool vehicle_part::is_battery() const

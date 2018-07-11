@@ -906,7 +906,7 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 
 template <typename T, typename Output>
 void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nested ) {
-    if( obj.is_watertight_container() ) {
+    if( obj.is_watertight_resealable_container() ) {
         if (!obj.is_container_empty()) {
             auto contents_id = obj.contents.front().typeId();
 
