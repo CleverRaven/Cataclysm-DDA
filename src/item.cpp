@@ -2560,8 +2560,9 @@ std::string item::display_name( unsigned int quantity ) const
         amount = get_remaining_chapters( g->u );
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
+        // but excluding bows etc., which have ammo, but can't be reloaded
         amount = ammo_remaining();
-        show_amt = true;
+        show_amt = !has_flag( "RELOAD_AND_SHOOT" );
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
