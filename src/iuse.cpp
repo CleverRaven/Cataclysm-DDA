@@ -7808,7 +7808,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
 
     return 0;
 }
-int iuse::break_stick( player *p, item *it, bool, const tripoint &pos )
+int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= 200;
     p->mod_stat( "stamina", -50.0f * p->stamina / p->get_stamina_max() );
@@ -7821,13 +7821,9 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint &pos )
             _( "You use all your strength, but the stick won't break.  Perhaps try again?" ) );
         return 0;
     }
-
-    if( !p->has_item( *it ) ) {
-        g->m.i_rem( pos, it );
-    } else {
-        p->i_rem( it );
-    }
-
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( it->typeId(), 1 ) );
+    p->consume_items( comps );
     int chance = rng( 0, 100 );
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
