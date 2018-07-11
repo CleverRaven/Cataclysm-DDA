@@ -1754,6 +1754,7 @@ bool overmap::generate_sub(int const z)
     std::vector<city> goo_points;
     std::vector<city> lab_points;
     std::vector<city> ice_lab_points;
+    std::vector<point> lab_train_points;
     std::vector<point> shaft_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
@@ -1859,7 +1860,24 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
+    for (auto &i : lab_points) {
+        bool lab = build_lab(i.x, i.y, z, i.s, &lab_train_points);
+        requires_sub |= lab;
+        if (!lab && ter(i.x, i.y, z) == "lab_core") {
+            ter(i.x, i.y, z) = oter_id( "lab" );
+        }
+    }
+    for (auto &i : ice_lab_points) {
+        bool ice_lab = build_lab(i.x, i.y, z, i.s, &lab_train_points, true);
+        requires_sub |= ice_lab;
+        if (!ice_lab && ter(i.x, i.y, z) == "ice_lab_core") {
+            ter(i.x, i.y, z) = oter_id( "ice_lab" );
+        }
+    }
+
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
+
+    subway_points.insert( subway_points.end(), lab_train_points.begin(), lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
 
     for( auto &i : subway_points ) {
@@ -1868,19 +1886,13 @@ bool overmap::generate_sub(int const z)
         }
     }
 
-    for (auto &i : lab_points) {
-        bool lab = build_lab(i.x, i.y, z, i.s);
-        requires_sub |= lab;
-        if (!lab && ter(i.x, i.y, z) == "lab_core") {
-            ter(i.x, i.y, z) = oter_id( "lab" );
+    bool is_first_in_pair = true;
+    for( auto &i : lab_train_points ) {
+        if (is_first_in_pair) {
+            debugmsg("subway terrain was: %s", ter(i.x, i.y, z).id().c_str());
+            ter( i.x, i.y, z ) = oter_id( "lab_train_depot" );
         }
-    }
-    for (auto &i : ice_lab_points) {
-        bool ice_lab = build_lab(i.x, i.y, z, i.s, true);
-        requires_sub |= ice_lab;
-        if (!ice_lab && ter(i.x, i.y, z) == "ice_lab_core") {
-            ter(i.x, i.y, z) = oter_id( "ice_lab" );
-        }
+        is_first_in_pair = !is_first_in_pair;
     }
 
     for( auto &i : ant_points ) {
@@ -3532,7 +3544,7 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     }
 }
 
-bool overmap::build_lab( int x, int y, int z, int s, bool ice )
+bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points, bool ice )
 {
     std::vector<point> generated_lab;
     const oter_id labt( ice ? "ice_lab" : "lab" );
@@ -3615,6 +3627,43 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
         } while( tries < 15 && ter( finalex, finaley, z ) != labt
                   && ter( finalex, finaley, z ) != labt_core );
         ter( finalex, finaley, z ) = labt_finale;
+    }
+
+    // z = 2, where subways run, there's a small chance of each lab to the subway.
+    // z = 4, every lab gets a train (until central lab implemented, then conditional on that).
+    if (z == -4 || (z == -2 && one_in(5))) {
+        int trainx = 0;
+        int trainy = 0;
+        int tries = 0;
+        int adjacent_labs = 0;
+
+        do {
+            trainx = rng( x - s*1.5, x + s*1.5 );
+            trainy = rng( y - s*1.5, y + s*1.5 );
+            tries++;
+
+            adjacent_labs = (is_ot_subtype( "lab", ter( trainx, trainy - 1, z )) ? 1 : 0) +
+                            (is_ot_subtype( "lab", ter( trainx - 1, trainy, z )) ? 1 : 0) +
+                            (is_ot_subtype( "lab", ter( trainx , trainy + 1, z )) ? 1 : 0) +
+                            (is_ot_subtype( "lab", ter( trainx + 1, trainy, z )) ? 1 : 0);
+        } while( tries < 50 && (
+                  ter( trainx, trainy, z ) == labt ||
+                  ter( trainx, trainy, z ) == labt_core ||
+                  ter( trainx, trainy, z ) == labt_stairs ||
+                  ter( trainx, trainy, z ) == labt_finale ||
+                  adjacent_labs != 1 ) );
+        if ( tries < 50 ) {
+            lab_train_points->push_back( point( trainx, trainy ) );
+            if (is_ot_subtype( "lab", ter( trainx, trainy - 1, z ))) {
+                lab_train_points->push_back( point( trainx, trainy + 1) );
+            } else if (is_ot_subtype( "lab", ter( trainx, trainy + 1, z ))) {
+                lab_train_points->push_back( point( trainx, trainy - 1) );
+            } else if (is_ot_subtype( "lab", ter( trainx + 1, trainy, z ))) {
+                lab_train_points->push_back( point( trainx - 1, trainy) );
+            } else if (is_ot_subtype( "lab", ter( trainx - 1, trainy, z ))) {
+                lab_train_points->push_back( point( trainx + 1, trainy) );
+            }
+        }
     }
 
     return numstairs > 0;
