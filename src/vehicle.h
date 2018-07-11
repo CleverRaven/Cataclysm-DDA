@@ -1141,6 +1141,8 @@ public:
     void operate_reaper();
     void operate_plow();
     void add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector<std::function<void()>> &actions, const std::string &name, char key, const std::string &flag );
+    //main method for the control of multiple electronics
+    void control_electronics();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
