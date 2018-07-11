@@ -3887,6 +3887,11 @@ bool item::is_watertight_container() const
     return type->container && type->container->watertight;
 }
 
+bool item::is_watertight_resealable_container() const
+{
+    return type->container && type->container->watertight && type->container->seals;
+}
+
 bool item::is_non_resealable_container() const
 {
     return type->container && !type->container->seals && type->container->unseals_into != "null";
@@ -4998,7 +5003,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     item *container = nullptr;
-    if ( ammo->is_ammo_container() || ammo->is_watertight_container() || ammo->is_non_resealable_container() ) {
+    if ( ammo->is_ammo_container() || ammo->is_watertight_container() ) {
         container = ammo;
         ammo = &ammo->contents.front();
     }
