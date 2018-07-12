@@ -140,6 +140,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
     oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
     oter_id t_above = overmap_buffer.ter( overx    , overy    , z + 1 );
+    oter_id t_below = overmap_buffer.ter( overx    , overy    , z - 1 );
     oter_id t_north = overmap_buffer.ter( overx    , overy - 1, z );
     oter_id t_neast = overmap_buffer.ter( overx + 1, overy - 1, z );
     oter_id t_east  = overmap_buffer.ter( overx + 1, overy    , z );
@@ -160,7 +161,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     density = density / 100;
 
     draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest,
-             t_above, when, density, z, rsettings);
+             t_above, t_below, when, density, z, rsettings);
 
     // At some point, we should add region information so we can grab the appropriate extras
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -965,23 +966,44 @@ public:
  */
 class jmapgen_monster : public jmapgen_piece {
 public:
-    mtype_id id;
+    weighted_int_list<mtype_id> ids;
     bool friendly;
     std::string name;
     jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
-    , id( jsi.get_string( "monster" ) )
     , friendly( jsi.get_bool( "friendly", false ) )
     , name( jsi.get_string( "name", "NONE" ) )
     {
-        if( !id.is_valid() ) {
-            jsi.throw_error( "no such monster", "monster" );
+        if( jsi.has_array( "monster" ) ) {
+            JsonArray jarr = jsi.get_array("monster");
+            while( jarr.has_more() ) {
+                mtype_id id;
+                int weight = 100;
+                if( jarr.test_array() ) {
+                    JsonArray inner = jarr.next_array();
+                    id = mtype_id( inner.get_string( 0 ) );
+                    weight = inner.get_int( 1 );
+                } else {
+                    id = mtype_id( jarr.next_string() );
+                }
+                if( !id.is_valid() ) {
+                    jsi.throw_error( "no such monster", "monster" );
+                }
+                ids.add(id, weight);
+            }
+        } else {
+            mtype_id id = mtype_id( jsi.get_string( "monster" ) );
+            if( !id.is_valid() ) {
+                jsi.throw_error( "no such monster", "monster" );
+            }
+            ids.add(id, 100);
         }
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        dat.m.add_spawn( id, 1, x.get(), y.get(), friendly, -1, -1, name );
+        dat.m.add_spawn( *(ids.pick()), 1, x.get(), y.get(), friendly, -1, -1, name );
     }
 };
+
 /**
  * Place a vehicle.
  * "vehicle": id of the vehicle.
@@ -1927,6 +1949,8 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
         lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
+    place_stairs( m, terrain_type, md );
+
     objects.apply( md, 0, 0, d );
 
     m->rotate( rotation.get() );
@@ -2020,7 +2044,7 @@ void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const m
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                    const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                   const oter_id t_above, const time_point &when, const float density,
+                   const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
                    const int zlevel, const regional_settings * rsettings)
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -2062,7 +2086,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int &s_fac = nesw_fac[2];
     int &w_fac = nesw_fac[3];
 
-    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, *rsettings, *this );
+    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, t_below, zlevel, *rsettings, *this );
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;

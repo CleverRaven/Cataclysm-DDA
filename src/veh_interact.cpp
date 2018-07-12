@@ -35,13 +35,6 @@
 #include <numeric>
 #include <cassert>
 
-#ifdef _MSC_VER
-#include <math.h>
-#define ISNAN _isnan
-#else
-#define ISNAN std::isnan
-#endif
-
 static inline const char * status_color( bool status )
 {
     static const char *good = "green";

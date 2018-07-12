@@ -1005,6 +1005,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
         add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
         add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+        add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
         add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
         add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
         add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
@@ -1958,7 +1959,8 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "REAPER",
             "PLANTER",
             "SCOOP",
-            "WATER_PURIFIER"
+            "WATER_PURIFIER",
+            "ROCKWHEEL"
         }};
 
         for( const std::string &flag : enable_like ) {
@@ -3979,6 +3981,9 @@ void vehicle::on_move(){
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
+    if( has_part( "ROCKWHEEL", true ) ) {
+        operate_rockwheel();
+    }
 
     occupied_cache_time = calendar::before_time_starts;
 }
@@ -3993,6 +3998,20 @@ void vehicle::operate_plow(){
             const int v_damage = rng( 3, speed );
             damage( plow_id, v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, _("Clanggggg!") );
+        }
+    }
+}
+
+void vehicle::operate_rockwheel() {
+    for( const int rockwheel_id : all_parts_with_feature( "ROCKWHEEL" ) ) {
+        const tripoint start_dig = global_pos3() + parts[rockwheel_id].precalc[0];
+        if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
+            g->m.ter_set( start_dig, t_pit_shallow );
+        } else {
+            const int speed = velocity;
+            const int v_damage = rng( 3, speed );
+            damage( rockwheel_id, v_damage, DT_BASH, false );
+            sounds::sound( start_dig, v_damage, _("Clanggggg!") );
         }
     }
 }
@@ -5263,6 +5282,9 @@ void vehicle::refresh()
         }
         if( parts[ p ].enabled ) {
             if( vpi.has_flag( "PLOW" ) ) {
+                extra_drag += vpi.power;
+            }
+            if( vpi.has_flag( "ROCKWHEEL" ) ) {
                 extra_drag += vpi.power;
             }
             if( vpi.has_flag( "PLANTER" ) ) {

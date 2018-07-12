@@ -1100,11 +1100,11 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 popup( _( "You can't afford those items!" ) );
             } else if( ( items[0].empty() && query_yn( _( "Really buy nothing?" ) ) ) ||
                        ( !items[0].empty() &&
-                         query_yn( ngettext( "Buy %d item, leaving you with $%.2f?",
-                                             "Buy %d items, leaving you with $%.2f?",
+                         query_yn( ngettext( "Buy %d item, leaving you with %s?",
+                                             "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   ( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) / 100.0 ) ) ) {
+                                   format_money( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) ) ) ) {
                 done = true;
             }
             if( !done ) { // We canceled, so redraw everything
@@ -1299,10 +1299,10 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     for( int i = 1; i <= 10; i++ ) {
         mvwprintz( w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
-    mvwprintz( w, 1, 1, c_white, _( "Your Cash: $%6.2f" ), cash / 100.0 );
+    mvwprintz( w, 1, 1, c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
-    wprintz( w, ( total_price > cash ? c_red : c_green ), "$%.2f",
-             ( static_cast<long>( cash ) - static_cast<long>( total_price ) ) / 100.0 );
+    wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
+             format_money( static_cast<long>( cash ) - static_cast<long>( total_price ) ) );
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ )
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
@@ -1337,7 +1337,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         if( ( *counts )[i] > 0 ) {
             unsigned long price = caravan_price( g->u, item( ( *items )[i],
                                                  0 ).price( false ) * ( *counts )[i] );
-            wprintz( w, ( price > g->u.cash ? c_red : c_green ), " ($%6.2f)", price / 100.0 );
+            wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }
     wrefresh( w );

@@ -170,7 +170,8 @@ class wish_mutate_callback: public uimenu_callback
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg = padding;
             input_context ctxt( "UIMENU" );
-            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[%s] find, [%s] quit" ),
+            mvwprintw( menu->window, menu->w_height - 2, startx,
+                       _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
         };

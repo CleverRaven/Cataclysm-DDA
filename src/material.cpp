@@ -43,7 +43,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
     assign( jsobj, "immune", bd.immune );
-    assign( jsobj, "chance", bd.chance_in_volume );
+    assign( jsobj, "volume_penalty", bd.volume_per_turn );
     jsobj.read( "fuel", bd.fuel );
     jsobj.read( "smoke", bd.smoke );
     jsobj.read( "burn", bd.burn );
