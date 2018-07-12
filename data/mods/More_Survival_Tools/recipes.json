@@ -487,6 +487,7 @@
   "tools": [
   [
     [ "brick_kiln", 10 ],
+    [ "kiln", 10 ],
     [ "surface_heat", 10, "LIST" ]
   ]
   ],
