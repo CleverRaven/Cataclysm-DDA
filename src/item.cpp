@@ -2560,8 +2560,9 @@ std::string item::display_name( unsigned int quantity ) const
         amount = get_remaining_chapters( g->u );
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
+        // but excluding bows etc., which have ammo, but can't be reloaded
         amount = ammo_remaining();
-        show_amt = true;
+        show_amt = !has_flag( "RELOAD_AND_SHOOT" );
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
@@ -3100,15 +3101,9 @@ void item::calc_rot(const tripoint &location)
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
         // positive = food was produced some time before calendar::time_of_cataclysm and/or bad storage
         // negative = food was stored in good condiitons before calendar::time_of_cataclysm
-        if( last_rot_check == calendar::time_of_cataclysm ) {
-            const item *food = this;
-            if( food && food->goes_bad() ) {
-            float factor = to_turns<float>( food->type->comestible->spoils ) * 0.2f;
-            time_duration spoil = time_duration::from_turns( int( factor ) );
-            spoil = time_duration::from_turns( rng( -to_turns<int>( spoil ), to_turns<int>( spoil ) ) );
-            rot += spoil;
-            }
-
+        if( since == calendar::time_of_cataclysm && goes_bad() ) {
+            time_duration spoil_variation = type->comestible->spoils * 0.2f;
+            rot += rng( -spoil_variation, spoil_variation );
         }
 
         if ( since < until ) {

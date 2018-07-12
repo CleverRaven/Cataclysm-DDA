@@ -5027,6 +5027,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
@@ -5102,6 +5103,23 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 
             item tmp(type, 0); //TODO add a sane birthday arg
             tmp.charges = forgepart->vehicle().drain( ftype, quantity );
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if( kilnpart ) { // we have a veh_kiln, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "kiln") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back(tmp);
 

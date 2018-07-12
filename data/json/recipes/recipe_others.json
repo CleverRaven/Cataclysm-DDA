@@ -2075,7 +2075,7 @@
     "difficulty": 2,
     "time": 45000,
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 90 ] ] ],
+    "tools": [ [ [ "brick_kiln", 90 ], [ "kiln", 90 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -2615,6 +2615,34 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [ [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "pipe", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "kiln",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 180000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
+    "using": [ [ "welding_standard", 15 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ],
+      [ [ "element", 8 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "pipe", 8 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -3572,7 +3600,7 @@
     "difficulty": 2,
     "time": 45000,
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 90 ] ] ],
+    "tools": [ [ [ "brick_kiln", 90 ], [ "kiln", 90 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -3585,7 +3613,7 @@
     "difficulty": 2,
     "time": 50000,
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 100 ] ] ],
+    "tools": [ [ [ "brick_kiln", 100 ], [ "kiln", 100 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
   {
@@ -3598,7 +3626,7 @@
     "difficulty": 2,
     "time": 20000,
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 40 ] ] ],
+    "tools": [ [ [ "brick_kiln", 40 ], [ "kiln", 40 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
   {
@@ -3610,7 +3638,7 @@
     "difficulty": 2,
     "time": 40000,
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 60 ] ] ],
+    "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {

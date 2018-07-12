@@ -52,6 +52,7 @@
       [ "pet_carrier", 30 ],
       [ "dogfood", 30 ],
       [ "catfood", 30 ],
+      [ "birdfood", 10 ],
       [ "towel", 20 ],
       [ "soap", 10 ],
       [ "gloves_medical", 20 ],
