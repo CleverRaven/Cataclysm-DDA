@@ -10798,15 +10798,18 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         return false;
     }
 
-    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
-    if (!msg_ignore.empty()) {
-        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    std::string msg_ignore = press_x( ACTION_IGNORE_ENEMY );
+    if ( !msg_ignore.empty() ) {
+        std::wstring msg_ignore_wide = utf8_to_wstr( msg_ignore );
+        // Operate on a wide-char basis to prevent corrupted multi-byte string
+        msg_ignore_wide[0] = towlower( msg_ignore_wide[0] );
+        msg_ignore = wstr_to_utf8( msg_ignore_wide );
     }
 
-    if (u.has_effect( effect_laserlocked)) {
+    if ( u.has_effect( effect_laserlocked ) ) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
-                msg_ignore.c_str());
+        add_msg( m_warning, _( "You are being laser-targeted, %s to ignore." ),
+                 msg_ignore.c_str() );
         safe_mode_warning_logged = true;
         return false;
     }
@@ -10830,13 +10833,15 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     std::string whitelist;
     if ( !get_safemode().empty() ) {
-        whitelist = string_format( _( " or %s to whitelist the monster" ), press_x( ACTION_WHITELIST_ENEMY ).c_str() );
+        whitelist = string_format( _( " or %s to whitelist the monster" ),
+                                   press_x( ACTION_WHITELIST_ENEMY ).c_str() );
     }
 
-    std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
+    std::string const msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( m_warning,
-             _( "Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)" ),
-             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str(), whitelist.c_str() );
+             _( "Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
+             spotted_creature_name.c_str(), msg_safe_mode.c_str(),
+             msg_ignore.c_str(), whitelist.c_str() );
     safe_mode_warning_logged = true;
     return false;
 }
