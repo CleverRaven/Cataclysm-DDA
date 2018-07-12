@@ -109,7 +109,7 @@
     "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
     "result": "meal_chitin_piece",
     "id_suffix": "mortar",
     "category": "CC_OTHER",
@@ -119,7 +119,7 @@
     "difficulty": 2,
     "time": 90000,
     "autolearn": true,
-    "batch_time_factors":[ 83, 3 ],
+    "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chitin_piece", 1 ] ] ]
   },
