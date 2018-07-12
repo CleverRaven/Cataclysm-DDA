@@ -37,5 +37,18 @@
     "material": "steel",
     "symbol": "&",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_rockwheel_item",
+    "symbol": "&",
+    "name": "rockwheel",
+    "color": "dark_gray",
+    "description": "A large and heavy jagged metal disc to dig trenches.",
+    "weight": 62000,
+    "material": "steel",
+    "category": "veh_parts",
+    "price": 8500,
+    "volume": 29
   }
 ]
