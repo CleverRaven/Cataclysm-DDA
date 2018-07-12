@@ -1139,6 +1139,7 @@ public:
     void operate_scoop();
     void operate_reaper();
     void operate_plow();
+    void operate_rockwheel();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine

@@ -3929,6 +3929,20 @@ void vehicle::operate_plow(){
     }
 }
 
+void vehicle::operate_rockwheel() {
+    for( const int rockwheel_id : all_parts_with_feature( "ROCKWHEEL" ) ) {
+        const tripoint start_dig = global_pos3() + parts[rockwheel_id].precalc[0];
+        if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
+            g->m.ter_set( start_dig, t_pit_shallow );
+        } else {
+            const int speed = velocity;
+            const int v_damage = rng( 3, speed );
+            damage( rockwheel_id, v_damage, DT_BASH, false );
+            sounds::sound( start_dig, v_damage, _("Clanggggg!") );
+        }
+    }
+}
+
 void vehicle::operate_reaper(){
     const tripoint &veh_start = global_pos3();
     for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
