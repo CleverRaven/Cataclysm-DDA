@@ -6011,9 +6011,13 @@ void game::use_computer( const tripoint &p )
     computer *used = m.computer_at( p );
 
     if (used == nullptr) {
-        dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
-            p.x << ", " << p.y << ", " << p.z << ") - none there";
-        debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+        if( m.has_flag( "CONSOLE", p ) ) { //Console without map data
+            add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
+        } else {
+            dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
+                p.x << ", " << p.y << ", " << p.z << ") - none there";
+            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+        }
         return;
     }
 
