@@ -481,7 +481,7 @@
     "id": "mon_dog",
     "type": "MONSTER",
     "name": "dog",
-    "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
+    "description": "This once average mixed breed dog has clearly gone feral. You can almost imagine petting it until you see the look of hunger in its eyes. You have no doubt it would kill you if given the chance",
     "default_faction": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
