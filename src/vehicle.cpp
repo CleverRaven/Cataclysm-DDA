@@ -566,45 +566,204 @@ int vehicle::lift_strength() const
     return std::max( mass / 10000_gram, 1 );
 }
 
-void vehicle::control_doors() {
+enum change_types : int {
+    OPENCURTAINS = 0,
+    OPENBOTH,
+    CLOSEDOORS,
+    CLOSEBOTH,
+    CANCEL
+};
+
+void vehicle::control_doors()
+{
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
     std::vector< tripoint > locations; // Locations used to display the doors
-    doors_with_motors.reserve( door_motors.size() * 2); // it is possible to have one door to open and one to close for single motor
-    locations.reserve( door_motors.size() * 2);
+    // it is possible to have one door to open and one to close for single motor
+    doors_with_motors.reserve( door_motors.size() * 2 );
+    locations.reserve( door_motors.size() * 2 );
     if( door_motors.empty() ) {
         debugmsg( "vehicle::control_doors called but no door motors found" );
         return;
     }
 
     uimenu pmenu;
-    pmenu.title = _("Select door to toggle");
+    pmenu.title = _( "Select door to toggle" );
     int doors[2]; // one door to open and one to close
     for( int p : door_motors ) {
-        doors[0] = next_part_to_open(p);
-        doors[1] = next_part_to_close(p);
-        for (int door : doors) {
-            if (door == -1)
+        doors[0] = next_part_to_open( p );
+        doors[1] = next_part_to_close( p );
+        for( int door : doors ) {
+            if( door == -1 ) {
                 continue;
+            }
 
             int val = doors_with_motors.size();
-            doors_with_motors.push_back(door);
-            locations.push_back(tripoint(global_pos() + parts[p].precalc[0], smz));
-            const char *actname = parts[door].open ? _("Close") : _("Open");
-            pmenu.addentry(val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
+            doors_with_motors.push_back( door );
+            locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
+            const char *actname = parts[door].open ? _( "Close" ) : _( "Open" );
+            pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
         }
     }
 
-    pmenu.addentry( doors_with_motors.size(), true, 'q', _("Cancel") );
+    pmenu.addentry( doors_with_motors.size() + OPENCURTAINS, true, MENU_AUTOASSIGN,
+                    _( "Open all curtains" ) );
+    pmenu.addentry( doors_with_motors.size() + OPENBOTH, true, MENU_AUTOASSIGN,
+                    _( "Open all curtains and doors" ) );
+    pmenu.addentry( doors_with_motors.size() + CLOSEDOORS, true, MENU_AUTOASSIGN,
+                    _( "Close all doors" ) );
+    pmenu.addentry( doors_with_motors.size() + CLOSEBOTH, true, MENU_AUTOASSIGN,
+                    _( "Close all curtains and doors" ) );
+
+    pmenu.addentry( doors_with_motors.size() + CANCEL, true, 'q', _( "Cancel" ) );
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
     pmenu.query();
 
-    if( pmenu.ret >= 0 && pmenu.ret < (int)doors_with_motors.size() ) {
-        int part = doors_with_motors[pmenu.ret];
-        open_or_close( part, !(parts[part].open) );
+    if( pmenu.ret >= 0 ) {
+        if( pmenu.ret < ( int )doors_with_motors.size() ) {
+            int part = doors_with_motors[pmenu.ret];
+            open_or_close( part, !( parts[part].open ) );
+        } else if( pmenu.ret < ( ( int )doors_with_motors.size() + CANCEL ) ) {
+            int option = pmenu.ret - ( int )doors_with_motors.size();
+            bool open = option == OPENBOTH || option == OPENCURTAINS;
+            for( int motor : door_motors ) {
+                int next_part = -1;
+                if( open ) {
+                    int part = next_part_to_open( motor );
+                    if( part != -1 ) {
+                        if( ! part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
+                            continue;
+                        }
+                        open_or_close( part, open );
+                        if( option == OPENBOTH ) {
+                            next_part = next_part_to_open( motor );
+                        }
+                        if( next_part != -1) {
+                            open_or_close( next_part, open );
+                        }
+                    }
+                } else {
+                    int part = next_part_to_close( motor );
+                    if( part != -1) {
+                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                            continue;
+                        }
+                        open_or_close( part, open );
+                        if( option == CLOSEBOTH ) {
+                            next_part = next_part_to_close( motor );
+                        }
+                        if( next_part != -1) {
+                            open_or_close( next_part, open );
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+
+char keybind( std::string const &opt )
+{
+    auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
+    return keys.empty() ? ' ' : keys.front();
+}
+
+void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector<std::function<void()>> &actions, const std::string &name, char key, const std::string &flag )
+{
+    // fetch matching parts and abort early if none found
+    auto found = get_parts( flag );
+    if( found.empty() ) {
+        return;
+    }
+
+    // can this menu option be selected by the user?
+    bool allow = true;
+
+    // determine target state - currently parts of similar type are all switched concurrently
+    bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part *e ) {
+        return e->enabled;
+    } );
+
+    // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
+    if( state ) {
+        allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
+            return can_enable( *e );
+       } );
+    }
+
+    auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
+    options.emplace_back( -1, allow, key, msg );
+
+    actions.push_back( [=]{
+        for( vehicle_part *e : found ) {
+            if( e->enabled != state ) {
+                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
+                e->enabled = state;
+            }
+        }
+        refresh();
+    } );
+}
+
+void vehicle::control_electronics()
+{
+    bool valid_option = false;
+    do {
+        std::vector<uimenu_entry> options;
+        std::vector<std::function<void()>> actions;
+        auto add_toggle = [&]( const std::string &name, char key, const std::string &flag ) {
+            add_toggle_to_opts( options, actions, name, key, flag );
+	};
+        add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
+        add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
+        add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
+        add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+        add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
+        add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
+        add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
+        add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+        add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+        add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+        add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
+        add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+        add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+
+        if( has_part( "DOOR_MOTOR" ) ) {
+            options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
+            actions.push_back( [&]{ control_doors(); refresh(); } );
+        }
+
+        if( camera_on ||
+            ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ), keybind( "TOGGLE_CAMERA") );
+            actions.push_back( [&]{
+                if( camera_on ) {
+                    camera_on = false;
+                    add_msg( _("Camera system disabled") );
+                } else if( fuel_left(fuel_type_battery, true) ) {
+                    camera_on = true;
+                    add_msg( _("Camera system enabled") );
+                } else {
+                    add_msg( _("Camera system won't turn on") );
+                }
+                refresh();
+            } );
+        }
+        options.emplace_back( _( "Quit controlling electronics" ), "q" );
+
+        uimenu menu;
+        menu.return_invalid = true;
+        menu.text = _( "Electronics controls" );
+        menu.entries = options;
+        menu.query();
+        valid_option = menu.ret >= 0 && menu.ret < (int)actions.size();
+        if( valid_option ) {
+            actions[menu.ret]();
+        }
+    } while( valid_option );
 }
 
 void vehicle::control_engines() {
@@ -816,11 +975,6 @@ void vehicle::use_controls( const tripoint &pos )
     std::vector<uimenu_entry> options;
     std::vector<std::function<void()>> actions;
 
-    auto const keybind = [&]( std::string const &opt ) {
-        auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
-        return keys.empty() ? ' ' : keys.front();
-    };
-
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
 
@@ -849,6 +1003,11 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( get_parts( pos, "CONTROLS" ).empty() && !has_electronic_controls ) {
         add_msg( m_info, _( "No controls there" ) );
+        return;
+    }
+
+    // exit early if you can't control the vehicle
+    if( !interact_vehicle_locked() ) {
         return;
     }
 
@@ -887,39 +1046,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     auto add_toggle = [&]( const std::string &name, char key, const std::string &flag ) {
-        // fetch matching parts and abort early if none found
-        auto found = get_parts( flag );
-        if( found.empty() ) {
-            return;
-        }
-
-        // can this menu option be selected by the user?
-        bool allow = true;
-
-        // determine target state - currently parts of similar type are all switched concurrently
-        bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part *e ) {
-            return e->enabled;
-        } );
-
-        // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
-        if( state ) {
-            allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
-                return can_enable( *e );
-            } );
-        }
-
-        auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
-        options.emplace_back( -1, allow, key, msg );
-
-        actions.push_back( [=]{
-            for( vehicle_part *e : found ) {
-                if( e->enabled != state ) {
-                    add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
-                    e->enabled = state;
-                }
-            }
-            refresh();
-        } );
+	add_toggle_to_opts( options, actions, name, key, flag );
     };
 
     add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
@@ -935,6 +1062,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
         add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
         add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+        add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
         add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
         add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
         add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
@@ -953,6 +1081,24 @@ void vehicle::use_controls( const tripoint &pos )
             add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
             refresh();
         } );
+        if( camera_on ||
+            ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ), keybind( "TOGGLE_CAMERA") );
+            actions.push_back( [&]{
+                if( camera_on ) {
+                    camera_on = false;
+                    add_msg( _("Camera system disabled") );
+                } else if( fuel_left(fuel_type_battery, true) ) {
+                    camera_on = true;
+                    add_msg( _("Camera system enabled") );
+                } else {
+                    add_msg( _("Camera system won't turn on") );
+                }
+                refresh();
+            } );
+        }
+        options.emplace_back( _( "Control multiple electronics" ), keybind( "CONTROL_MANY_ELECTRONICS" ) );
+        actions.push_back( [&]{ control_electronics(); refresh(); } );
     }
 
     options.emplace_back( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
@@ -1013,26 +1159,6 @@ void vehicle::use_controls( const tripoint &pos )
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
         actions.push_back( [&]{ turrets_aim_single(); refresh(); } );
-    }
-
-    if( has_electronic_controls && (camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) ) {
-        options.emplace_back( camera_on ? _( "Turn off camera system" ) : _( "Turn on camera system" ), keybind( "TOGGLE_CAMERA") );
-        actions.push_back( [&]{
-            if( camera_on ) {
-                camera_on = false;
-                add_msg( _("Camera system disabled") );
-            } else if( fuel_left(fuel_type_battery, true) ) {
-                camera_on = true;
-                add_msg( _("Camera system enabled") );
-            } else {
-                add_msg( _("Camera system won't turn on") );
-            }
-            refresh();
-        } );
-    }
-
-    if( !interact_vehicle_locked() ) {
-        return;
     }
 
     uimenu menu;
@@ -1890,7 +2016,8 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "REAPER",
             "PLANTER",
             "SCOOP",
-            "WATER_PURIFIER"
+            "WATER_PURIFIER",
+            "ROCKWHEEL"
         }};
 
         for( const std::string &flag : enable_like ) {
@@ -3911,6 +4038,9 @@ void vehicle::on_move(){
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
+    if( has_part( "ROCKWHEEL", true ) ) {
+        operate_rockwheel();
+    }
 
     occupied_cache_time = calendar::before_time_starts;
 }
@@ -3925,6 +4055,20 @@ void vehicle::operate_plow(){
             const int v_damage = rng( 3, speed );
             damage( plow_id, v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, _("Clanggggg!") );
+        }
+    }
+}
+
+void vehicle::operate_rockwheel() {
+    for( const int rockwheel_id : all_parts_with_feature( "ROCKWHEEL" ) ) {
+        const tripoint start_dig = global_pos3() + parts[rockwheel_id].precalc[0];
+        if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
+            g->m.ter_set( start_dig, t_pit_shallow );
+        } else {
+            const int speed = velocity;
+            const int v_damage = rng( 3, speed );
+            damage( rockwheel_id, v_damage, DT_BASH, false );
+            sounds::sound( start_dig, v_damage, _("Clanggggg!") );
         }
     }
 }
@@ -5195,6 +5339,9 @@ void vehicle::refresh()
         }
         if( parts[ p ].enabled ) {
             if( vpi.has_flag( "PLOW" ) ) {
+                extra_drag += vpi.power;
+            }
+            if( vpi.has_flag( "ROCKWHEEL" ) ) {
                 extra_drag += vpi.power;
             }
             if( vpi.has_flag( "PLANTER" ) ) {

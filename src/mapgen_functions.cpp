@@ -125,7 +125,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "basement_spiders", &mapgen_basement_spiders },
     { "police", &mapgen_police },
     { "pawn", &mapgen_pawn },
-    { "mil_surplus", &mapgen_mil_surplus },
     { "cave", &mapgen_cave },
     { "cave_rat", &mapgen_cave_rat },
     { "cavern", &mapgen_cavern },
@@ -3263,59 +3262,6 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, const time_point 
         }
         autorotate(false);
 
-}
-
-
-void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float)
-{
-
-//    } else if (is_ot_type("mil_surplus", terrain_type)) {
-
-        // Init to plain grass/dirt
-        dat.fill_groundcover();
-        int lw = rng(0, 2);
-        int rw = SEEX * 2 - rng(1, 3);
-        int tw = rng(0, 4);
-        int bw = SEEY * 2 - rng(3, 8);
-        square(m, t_floor, lw, tw, rw, bw);
-        line(m, t_wall, lw, tw, rw, tw);
-        line(m, t_wall, lw, bw, rw, bw);
-        line(m, t_wall, lw, tw + 1, lw, bw - 1);
-        line(m, t_wall, rw, tw + 1, rw, bw - 1);
-        int rn = rng(4, 7);
-        line(m, t_window, lw + 2, tw, lw + rn, tw);
-        line(m, t_window, rw - rn, tw, rw - 2, tw);
-        line(m, t_door_c, SEEX, tw, SEEX + 1, tw);
-        if (one_in(2)) { // counter on left
-            line_furn(m, f_counter, lw + 2, tw + 1, lw + 2, tw + rng(3, 4));
-        } else { // counter on right
-            line_furn(m, f_counter, rw - 2, tw + 1, rw - 2, tw + rng(3, 4));
-        }
-        for (int i = lw + 1; i <= SEEX; i += 2) {
-            line_furn(m, f_rack, i, tw + 5, i, bw - 2);
-            items_location loc;
-            if (one_in(3)) {
-                loc = "mil_armor";
-            } else if (one_in(3)) {
-                loc = "mil_surplus";
-            } else {
-                loc = "mil_food_nodrugs";
-            }
-            m->place_items(loc, 70, i, tw + 5, i, bw - 2, false, turn);
-        }
-        for (int i = rw - 1; i >= SEEX + 1; i -= 2) {
-            line_furn(m, f_rack, i, tw + 5, i, bw - 2);
-            items_location loc;
-            if (one_in(3)) {
-                loc = "mil_armor";
-            } else if (one_in(3)) {
-                loc = "mil_surplus";
-            } else {
-                loc = "mil_food_nodrugs";
-            }
-            m->place_items(loc, 70, i, tw + 5, i, bw - 2, false, turn);
-        }
-        autorotate(false);
 }
 
 void mapgen_cave(map *m, oter_id, mapgendata dat, const time_point &turn, float density)

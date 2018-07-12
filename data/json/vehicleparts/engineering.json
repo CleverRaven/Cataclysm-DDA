@@ -70,5 +70,27 @@
     ],
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
     "flags": [ "CARGO", "PROTRUSION" ]
+  },
+  {
+    "id": "rockwheel",
+    "type": "vehicle_part",
+    "name": "rockwheel",
+    "item": "v_rockwheel_item",
+    "location": "structure",
+    "symbol": "&",
+    "broken_symbol": "x",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "difficulty": 5,
+    "damage_modifier": 100,
+    "durability": 300,
+    "folded_volume": 12,
+    "power": -200,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ],
+    "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL" ]
   }
 ]
