@@ -78,9 +78,7 @@
         "........................"
       ],
       "palettes": [ "mil_surplus" ],
-      "items": {
-        "R": { "item": "mil_armor", "chance": 50 }
-      },
+      "items": { "R": { "item": "mil_armor", "chance": 50 } },
       "place_loot": [
         { "group": "mil_armor", "x": 8, "y": [ 7, 11 ], "chance": 70 },
         { "group": "mil_armor", "x": 11, "y": [ 7, 11 ], "chance": 70 },
