@@ -1373,6 +1373,25 @@
   ]
 },{
   "type" : "recipe",
+  "result": "kilnrig",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",4],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
+  "using": [ [ "soldering_standard", 10 ] ],
+  "qualities" : [ {"id":"SCREW","level":1} ],
+  "components": [
+    [ [ "power_supply", 2 ] ],
+    [ [ "kiln", 1 ] ],
+    [ [ "cable", 5] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "weldrig",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",

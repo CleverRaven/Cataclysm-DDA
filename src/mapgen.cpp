@@ -5107,67 +5107,6 @@ ff.......|....|WWWWWWWW|\n\
             place_items("spiral", 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0);
         }
 
-    } else if (is_ot_type("station_radio", terrain_type)) {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        //Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.
-        mapf::formatted_set_simple(this, 0, 0,
-                                   "\
-                        \n\
-        FffffffffffffF  \n\
-        F____________F  \n\
-   |----|______&&&&__F  \n\
-   |....=______&&&&__F  \n\
-   |x.ll|______&&&&__F  \n\
-   |----|______&&&&__F  \n\
-        F____________F  \n\
- |--------|__________G  \n\
- |tS|eSc.r|__________F  \n\
- w..+.....=__________F  \n\
- |-----|..|----------|  \n\
- |..doo|..|..dW..h...|  \n\
- w..h..|..D.hxW.c6c..|  \n\
- |a....|..|...+......|  \n\
- |--+--|..|-----WWW--|  \n\
- |.+.................|  \n\
- |l|..............ch.|  \n\
- |-|+--|--+--|....c..|  \n\
- |o....|....o|--==-w-|  \n\
- |o.d..|..d.o|  ss      \n\
- |o.h..|..h..|  ss      \n\
- |-www-|-www-|  ss      \n\
-                ss      \n",
-                                   mapf::ter_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", t_floor, t_wall, t_wall,
-                                           t_console, t_floor,    t_floor,    t_door_c, t_door_locked_alarm, t_door_locked, t_window,
-                                           t_window_alarm, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
-                                           t_console_broken, t_floor,  t_chainfence, t_chainfence, t_pavement, t_radio_tower,
-                                           t_chaingate_l, t_sidewalk),
-                                   mapf::furn_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", f_null,  f_null,   f_null,
-                                           f_null,    f_armchair, f_trashcan, f_null,   f_null,              f_null,        f_null,   f_null,
-                                           f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_null,           f_locker,
-                                           f_null,         f_null,         f_null,     f_null,        f_null,        f_null));
-        tmpcomp = add_computer( tripoint( 17,  13, abs_sub.z ), _("Broadcasting Control"), 0);
-        tmpcomp->add_option(_("ERROR:  SIGNAL DISCONNECT"), COMPACT_TOWER_UNRESPONSIVE, 0);
-        tmpcomp->add_option(_("Install Repeater Mod"), COMPACT_REPEATER_MOD, 0);
-        spawn_item(18, 13, "record_weather");
-        place_items("novels", 70,  5,  12, 6,  12, false, 0);
-        place_items("novels", 70,  2,  21, 2,  19, false, 0);
-        place_items("novels", 70,  12,  19, 12,  20, false, 0);
-        place_items("fridge", 70,  5,  9, 7,  9, false, 0);
-        place_items("fridge", 20,  5,  9, 7,  9, false, 0);
-        place_items("fridge", 10,  5,  9, 7,  9, false, 0);
-        place_items("cleaning", 70,  2,  16, 2,  17, false, 0);
-        place_items("electronics", 80,  6,  5, 7,  5, false, 0);
-        if (terrain_type == "station_radio_east") {
-            rotate(3);
-        }
-        if (terrain_type == "station_radio_north") {
-            rotate(2);
-        }
-        if (terrain_type == "station_radio_west") {
-            rotate(1);
-        }
 
     } else if (terrain_type == "toxic_dump") {
 

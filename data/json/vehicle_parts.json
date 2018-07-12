@@ -1335,6 +1335,27 @@
   },
   {
     "type": "vehicle_part",
+    "id": "veh_kiln",
+    "name": "mounted electric kiln",
+    "symbol": "&",
+    "color": "red",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 10,
+    "durability": 80,
+    "size": 200,
+    "item": "kilnrig",
+    "difficulty": 3,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "KILN", "TOOL_WRENCH" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 5 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "plating_wood",
     "name": "wooden armor",
     "symbol": ")",

@@ -86,7 +86,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
-        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( w.temperature ) * 1_turns;
+        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( w.temperature + g->m.temperature( g->m.getlocal( location ) ) ) * 1_turns;
     }
     return ret;
 }
