@@ -1480,7 +1480,7 @@
     "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM", "LEATHER", "FAT" ]
   },
   {
-    "id": "mon_gracken",
+    "id": "mon_gracke",
     "type": "MONSTER",
     "name": "gracken",
     "description": "This appears to be some form of eldritch monstrosity; an uncouth black being with smooth, oily, skin and unpleasant horns that curve inward toward each other. Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws. Gazing upon its disturbing form fills you with an unspeakable terror.",
