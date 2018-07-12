@@ -10839,7 +10839,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     std::string const msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( m_warning,
-             _( "Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)" ),
+             _( "Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(),
              msg_ignore.c_str(), whitelist.c_str() );
     safe_mode_warning_logged = true;
