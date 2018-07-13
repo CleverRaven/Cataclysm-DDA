@@ -10331,7 +10331,11 @@ void game::reload( item_location &loc, bool prompt )
 
 void game::reload()
 {
-    if( !u.is_armed() || !u.can_reload( u.weapon ) ) {
+    // general reload item menu will popup if:
+    // - user is unarmed;
+    // - weapon wielded can't be reloaded (bows can, they just reload before shooting automatically)
+    // - weapon wielded reloads before shooting (like bows)
+    if( !u.is_armed() || !u.can_reload( u.weapon ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
         turret_data turret;
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
@@ -10345,7 +10349,7 @@ void game::reload()
         }
 
         item_location item_loc = inv_map_splice( [&]( const item &it ) {
-            return u.rate_action_reload( it ) == HINT_GOOD;
+            return ( u.rate_action_reload( it ) == HINT_GOOD && !it.has_flag( "RELOAD_AND_SHOOT" ) );
         }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
         if( !item_loc ) {
