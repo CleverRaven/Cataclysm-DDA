@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-07 19:37+0800\n"
+"POT-Creation-Date: 2018-07-13 12:29+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17680,6 +17680,28 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "hide bag"
+msgstr ""
+
+#. ~ Description for hide bag
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The raw skin of an animal, quickly turned into a makeshift bag for storage. "
+"It will still rot and needs to be cured and tanned."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "tainted hide bag"
+msgstr ""
+
+#. ~ Description for tainted hide bag
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The raw skin of a monster, quickly turned into a makeshift bag for storage. "
+"It will still rot and needs to be cured and tanned."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "bird litter"
 msgstr ""
 
@@ -20215,6 +20237,16 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "garlic bulb"
+msgstr ""
+
+#. ~ Use action menu_text for garlic bulb.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Split"
+msgstr ""
+
+#. ~ Use action msg for garlic bulb.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You split the bulb into cloves."
 msgstr ""
 
 #. ~ Description for garlic bulb
@@ -25520,6 +25552,21 @@ msgid "Some onion seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "garlic seeds"
+msgid_plural "garlic seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for garlic seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some garlic seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "garlic clove"
 msgid_plural "garlic cloves"
 msgstr[0] ""
@@ -25528,10 +25575,6 @@ msgstr[1] ""
 #. ~ Description for garlic clove
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -27252,6 +27295,42 @@ msgstr[1] ""
 msgid ""
 "A lump of exoskeleton that has undergone biosilicification.  It is acid-"
 "resistant and remarkably sturdy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "bundle of rags"
+msgid_plural "bundle of ragss"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bundle of rags
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Cotton rags, bundled tightly together for storage. Disassemble to unpack."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "bundle of leather"
+msgid_plural "bundle of leathers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bundle of leather
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Leather patches, bundled tightly together for storage. Disassemble to unpack."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "bundle of felt"
+msgid_plural "bundle of felts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bundle of felt
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Felt patches, bundled tightly together for storage. Disassemble to unpack."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32952,6 +33031,18 @@ msgid ""
 "up to 0.5 metric tonnes."
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
+msgid "rockwheel"
+msgid_plural "rockwheels"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rockwheel
+#: lang/json/GENERIC_from_json.py
+msgid "A large and heavy jagged metal disc to dig trenches."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle crafting rig"
 msgid_plural "vehicle crafting rigs"
@@ -33006,6 +33097,17 @@ msgstr[1] ""
 msgid ""
 "A forge rig made to run off a vehicle's storage battery with integrated tool "
 "storage for metalworking equipment."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "vehicle kiln"
+msgid_plural "vehicle kilns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vehicle kiln
+#: lang/json/GENERIC_from_json.py
+msgid "An electric kiln made to run off a vehicle's storage battery."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -42199,6 +42301,21 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "electric kiln"
+msgid_plural "electric kilns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for electric kiln
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a portable electric kiln, powered by batteries.  It is designed for "
+"firing bricks, but you could use it to fire anything made of clay.  With a "
+"little mechanical know-how, you could probably even convert it to run "
+"directly off a vehicle's power system."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "firebrand (off)"
 msgid_plural "firebrands (off)"
 msgstr[0] ""
@@ -44863,6 +44980,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "mortar and pestle"
+msgid_plural "sets of mortar and pestle"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mortar and pestle
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a simple combination of a small grindstone and a bowl-shaped stone.  "
+"Used for grinding grain, but time-consuming compared to more complex methods."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "mp3 player (off)"
 msgid_plural "mp3 players (off)"
 msgstr[0] ""
@@ -47018,6 +47148,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "bird food"
+msgid_plural "bird food"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bird food
+#: lang/json/TOOL_from_json.py
+msgid ""
+"What birds eat.  Mainly made of seeds, silages or legumes.  It's perfect for "
+"small birds."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "chainmail sheet"
 msgid_plural "chainmail sheets"
 msgstr[0] ""
@@ -47028,6 +47171,19 @@ msgstr[1] ""
 msgid ""
 "This is a sheet of riveted chainmail.  With some skill, several of these "
 "sheets could be connected to make effective armor."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "folding knife"
+msgid_plural "folding knives"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for folding knife
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a small folding knife, with a locking blade and a pocket clip.  Not "
+"as good a weapon as a solid fixed-blade knife, but better than a penknife."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -47814,19 +47970,6 @@ msgstr[1] ""
 msgid ""
 "A cheap gadget combining a whistle, thermometer, magnifying glass, and "
 "compass."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "mortar and pestle"
-msgid_plural "sets of mortar and pestle"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mortar and pestle
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a simple combination of a small grindstone and a bowl-shaped stone.  "
-"Used for grinding grain, but time-consuming compared to more complex methods."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -50618,6 +50761,10 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Reinforced Glass Window"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Mark firewood source"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -54845,6 +54992,10 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "wardrobe"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "piano"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -61140,6 +61291,10 @@ msgstr ""
 msgid "Chop a Tree Trunk into logs"
 msgstr ""
 
+#: lang/json/item_action_from_json.py
+msgid "Break stick"
+msgstr ""
+
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This gear has an <info>alarm clock</info> feature."
@@ -62694,6 +62849,10 @@ msgid "Load color template"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Control multiple electronics"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Control individual engines"
 msgstr ""
 
@@ -62738,6 +62897,7 @@ msgid "Toggle dome lights"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "Toggle doors"
 msgstr ""
 
@@ -65156,7 +65316,6 @@ msgid "We are good to go!  The last of the gear is powering up now."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-#: lang/json/mission_def_from_json.py src/mapgen.cpp
 msgid "Install Repeater Mod"
 msgstr ""
 
@@ -82323,6 +82482,11 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"\"Got my mortar and pestle.  Now if I could just find some avocados...\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "LABS BOMBED: In further invasion proof (discounting earlier suggestion of a "
 "riot drug) most of New England's scientific labs were bombed simultaneously "
 "yesterday.  No word yet from the military about who the aggressors are."
@@ -84259,11 +84423,6 @@ msgstr ""
 msgid ""
 "\"Shoot elfy mutants.  Carve more bolts outta their bones.  Rinse and repeat."
 "\""
-msgstr ""
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"\"Got my mortar and pestle.  Now if I could just find some avocados...\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -90880,6 +91039,10 @@ msgid "ledge"
 msgstr ""
 
 #: lang/json/trap_from_json.py
+msgid "firewood source"
+msgstr ""
+
+#: lang/json/trap_from_json.py
 msgid "raincatcher"
 msgstr ""
 
@@ -91450,6 +91613,10 @@ msgid "Forklift"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
+msgid "Trencher"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Armored Car"
 msgstr ""
 
@@ -91734,6 +91901,10 @@ msgid "mounted electric forge"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "mounted electric kiln"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "wooden armor"
 msgstr ""
 
@@ -91774,6 +91945,7 @@ msgid "inboard mirror"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "chimes"
 msgstr ""
 
@@ -91822,6 +91994,7 @@ msgid "robot controls"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "scoop"
 msgstr ""
 
@@ -91903,6 +92076,7 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "aisle lights"
 msgstr ""
 
@@ -99189,8 +99363,8 @@ msgstr ""
 
 #: src/defense.cpp
 #, c-format
-msgid "Buy %d item, leaving you with $%.2f?"
-msgid_plural "Buy %d items, leaving you with $%.2f?"
+msgid "Buy %d item, leaving you with %s?"
+msgid_plural "Buy %d items, leaving you with %s?"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -99228,7 +99402,7 @@ msgstr ""
 
 #: src/defense.cpp
 #, c-format
-msgid "Your Cash: $%6.2f"
+msgid "Your Cash: %s"
 msgstr ""
 
 #: src/defense.cpp
@@ -103103,6 +103277,10 @@ msgid "You'll need to put on reading glasses before you can see the screen."
 msgstr ""
 
 #: src/game.cpp
+msgid "The console doesn't display anything coherent."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "The %s sparks and begins searching for a target!"
 msgstr ""
@@ -104116,7 +104294,8 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid ""
-"Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)"
+"Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster"
+"%4$s)"
 msgstr ""
 
 #: src/game.cpp
@@ -106607,7 +106786,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
-"Your current balance is: $%ld.%02ld"
+"Your current balance is: %s"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -106656,10 +106835,8 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Your account now holds %d cent."
-msgid_plural "Your account now holds %d cents."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Your account now holds %s."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "This will automatically deduct $1.00 from your bank account. Continue?"
@@ -106728,7 +106905,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Money left: $%.2f"
+msgid "Money left: %s"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -107615,11 +107792,6 @@ msgid "This station is out of fuel.  We apologize for the inconvenience."
 msgstr ""
 
 #: src/iexamine.cpp
-#, c-format
-msgid "$%0.2f"
-msgstr ""
-
-#: src/iexamine.cpp
 msgid "Welcome to AutoGas!"
 msgstr ""
 
@@ -107682,10 +107854,8 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Your cash card now holds %d cent."
-msgid_plural "Your cash card now holds %d cents."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Your cash card now holds %s."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You hack the terminal and route all available fuel to your pump!"
@@ -110128,6 +110298,11 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
+msgid "The %s doesn't want that kind of food."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "Put the %s where?"
 msgstr ""
 
@@ -110166,14 +110341,19 @@ msgid "The %s seems to like you!  It lets you pat its head and seems friendly."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "There is nothing to be fed here."
-msgstr ""
-
-#: src/iuse.cpp
 #, c-format
 msgid ""
 "The %s seems to like you!  Or maybe it just tolerates your presence better.  "
 "It's hard to tell with felines."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s seems to like you!  It runs around your legs and seems friendly."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "There is nothing to be fed here."
 msgstr ""
 
 #: src/iuse.cpp
@@ -112643,6 +112823,27 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You have nothing to clean."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You are too weak to even try."
+msgstr ""
+
+#: src/iuse.cpp
+msgid ""
+"You use all your strength, but the stick won't break.  Perhaps try again?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You try to break the stick in two, but it shatters into splinters."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "The stick breaks clean into two parts."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You break the stick, but one half shatters into splinters."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -115171,14 +115372,6 @@ msgstr ""
 
 #: src/mapgen.cpp
 msgid "Initiate Tremors"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Broadcasting Control"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "ERROR:  SIGNAL DISCONNECT"
 msgstr ""
 
 #: src/mapgen.cpp
@@ -121984,7 +122177,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "I'm willing to pay $%.2f per batch for a total of $%.2f"
+msgid "I'm willing to pay %s per batch for a total of %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122164,22 +122357,22 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Profit $%.2f"
+msgid "Profit %s"
 msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Cost $%.2f"
+msgid "Cost %s"
 msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s: $%.2f"
+msgid "%s: %s"
 msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "You: $%.2f"
+msgid "You: %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122196,7 +122389,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Not enough cash!  You have $%.2f, price is $%.2f."
+msgid "Not enough cash!  You have %s, price is %s."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122701,6 +122894,11 @@ msgstr ""
 
 #: src/output.h
 msgid ", "
+msgstr ""
+
+#: src/output.h
+#, c-format
+msgid "$%.2f"
 msgstr ""
 
 #: src/overmap.cpp
@@ -123308,7 +123506,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Cash on hand: $%d"
+msgid "Cash on hand: %s"
 msgstr ""
 
 #: src/player.cpp
@@ -128006,6 +128204,102 @@ msgid "Open"
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "Open all curtains"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Open all curtains and doors"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Close all doors"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Close all curtains and doors"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turn off %s"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turn on %s"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turned off %s."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turned on %s"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "headlights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "overhead lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "dome lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "atomic lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "stereo"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "fridge"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "recharger"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "planter"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn off camera system"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn on camera system"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system disabled"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system enabled"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system won't turn on"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Quit controlling electronics"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Electronics controls"
+msgstr ""
+
+#: src/vehicle.cpp
 #, c-format
 msgid "You turn off the %s's engines to change their configurations."
 msgstr ""
@@ -128107,58 +128401,6 @@ msgid "Honk horn"
 msgstr ""
 
 #: src/vehicle.cpp
-#, c-format
-msgid "Turn off %s"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "Turn on %s"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "Turned off %s."
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "Turned on %s"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "headlights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "overhead lights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "dome lights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "atomic lights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "stereo"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "fridge"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "recharger"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "planter"
-msgstr ""
-
-#: src/vehicle.cpp
 msgid "Disable cruise control"
 msgstr ""
 
@@ -128205,26 +128447,6 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "You trigger the alarm"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Turn off camera system"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Turn on camera system"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Camera system disabled"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Camera system enabled"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Camera system won't turn on"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -128833,7 +129055,7 @@ msgstr ""
 
 #: src/wish.cpp
 #, c-format
-msgid "[%s] find, [%s] quit"
+msgid "[%s] find, [%s] quit, [t] toggle base trait"
 msgstr ""
 
 #: src/wish.cpp
