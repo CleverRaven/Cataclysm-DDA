@@ -1615,7 +1615,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "lab_train_depot",
-        "name" : "science lab train depot",
+        "name" : "science train depot",
         "sym" : 76,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -1633,9 +1633,9 @@
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_shaft",
-        "name" : "mysterious shaft",
-        "sym" : 76,
-        "color" : "light_blue",
+        "name" : "access shaft",
+        "sym" : 48,
+        "color" : "light_gray",
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ]
     },{
@@ -1644,7 +1644,8 @@
         "name" : "central lab",
         "sym" : 76,
         "color" : "cyan",
-        "see_cost" : 5
+        "see_cost" : 5,
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_hq_1",
@@ -1683,12 +1684,40 @@
         "copy-from" : "generic_central_lab"
     },{
         "type" : "overmap_terrain",
-        "id" : "central_lab_base",
+        "id" : "central_lab",
         "name" : "central lab",
         "sym" : 76,
         "color" : "light_blue",
         "see_cost" : 5,
-        "flags" : [ "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_stairs",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "blue",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_core",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_finale",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
     },{
         "type" : "overmap_terrain",
         "id" : "bunker",

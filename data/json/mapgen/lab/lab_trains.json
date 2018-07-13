@@ -34,14 +34,14 @@
       ],
       "palettes": [ "lab_palette" ],
       "place_nested": [
-        { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": ["subway_end_east", "subway_nesw", "subway_esw", "subway_nsw", "subway_new", "subway_nw", "subway_sw", "subway_ew"] } },
+        { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": ["subway_end_east", "subway_nesw", "subway_esw", "subway_nsw", "subway_new", "subway_wn", "subway_sw", "subway_ew"] } },
         { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "neighbors": { "west": ["subway_end_west", "subway_nesw", "subway_esw", "subway_new", "subway_nes", "subway_ne", "subway_es", "subway_ew"] } },
         { "chunks": [ "lab_train_subway_north" ], "x": 0, "y": 0, "neighbors": { "north": ["subway_end_north", "subway_nesw", "subway_esw", "subway_nsw", "subway_nes", "subway_ns", "subway_es", "subway_sw"] } },
-        { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "neighbors": { "south": ["subway_end_south", "subway_nesw", "subway_new", "subway_nsw", "subway_nes", "subway_ns", "subway_ne", "subway_nw"] } },
-        { "chunks": [ "lab_train_entrance_north" ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale"] } },
-        { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale"] } },
-        { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale"] } },
-        { "chunks": [ "lab_train_entrance_west" ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale"] } }
+        { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "neighbors": { "south": ["subway_end_south", "subway_nesw", "subway_new", "subway_nsw", "subway_nes", "subway_ns", "subway_ne", "subway_wn"] } },
+        { "chunks": [ "lab_train_entrance_north" ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale", "central_lab", "central_ice_lab", "central_lab_stairs"] } },
+        { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale", "central_lab", "central_ice_lab", "central_lab_stairs"] } },
+        { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale", "central_lab", "central_ice_lab", "central_lab_stairs"] } },
+        { "chunks": [ "lab_train_entrance_west" ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "ice_lab", "lab_stairs", "ice_lab_stairs", "lab_finale", "ice_lab_finale", "central_lab", "central_ice_lab", "central_lab_stairs"] } }
       ]
     }
   },
