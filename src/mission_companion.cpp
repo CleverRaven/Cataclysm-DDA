@@ -1209,7 +1209,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     tab_mode = TAB_MAIN;
                     cur_key_list = key_vectors[0];
                     for( auto k : key_vectors[1] ){
-                        cur_key_list.push_back(k);
+                        if( std::find(cur_key_list.begin(), cur_key_list.end(), k) == cur_key_list.end() ) {
+                            cur_key_list.push_back(k);
+                        }
                     }
                     break;
                 } else if( cur == tab_mode ){
@@ -1233,7 +1235,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     if( tab_mode == TAB_MAIN ) {
                         cur_key_list = key_vectors[0];
                         for( auto k : key_vectors[1] ){
-                            cur_key_list.push_back(k);
+                            if( std::find(cur_key_list.begin(), cur_key_list.end(), k) == cur_key_list.end() ) {
+                                cur_key_list.push_back(k);
+                            }
                         }
                     } else {
                         cur_key_list = key_vectors[ tab_num ];
@@ -1333,7 +1337,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 break;
             }
         }
-
     }
 
     if ( cur_key.find("] (Finish) Chop Shop") != std::string::npos ){
@@ -3867,7 +3870,6 @@ bool talk_function::companion_om_combat_check( std::vector<std::shared_ptr<npc>>
         //tmpmap.save();
     }
 
-    overmap &om = overmap_buffer.get( om_tgt.x, om_tgt.y );
     tinymap target_bay;
     target_bay.load( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, false );
     std::vector< monster * > monsters_around;
@@ -3935,8 +3937,10 @@ bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, 
     popup(_("Engagement between %d members of %s %s and %d %s%s!"),
         defender.size(), g->faction_manager_ptr->get( faction_id( "your_followers" ) )->name.c_str(), def_desc.c_str(),
         monsters_fighting.size(), att_desc.c_str(), adv.c_str());
-    int defense, attack;
-    int att_init, def_init;
+    int defense = 0;
+    int attack = 0;
+    int att_init = 0;
+    int def_init = 0;
     while (true){
         std::vector< monster * > remaining_mon;
         for( const auto &elem : monsters_fighting ) {
@@ -3985,7 +3989,7 @@ bool talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, 
 }
 
 void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, const std::string &def_desc,
-    std::vector<std::shared_ptr<npc>> attacker,const std::string &att_desc, int advantage )
+    std::vector<std::shared_ptr<npc>> attacker, const std::string &att_desc, int advantage )
 {
     std::string adv = "";
     if (advantage < 0){
@@ -4084,10 +4088,7 @@ bool companion_sort_compare( npc* first, npc* second ){
     comp_list.push_back(first);
     comp_list.push_back(second);
     std::vector<comp_rank> scores = talk_function::companion_rank( comp_list );
-    if( scores[0].combat > scores[1].combat ){
-        return true;
-    }
-    return false;
+    return scores[0].combat > scores[1].combat;
 }
 
 std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available, std::string skill_tested )
@@ -5043,27 +5044,27 @@ void talk_function::faction_camp_tutorial(){
                                    );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
-                       "FOOD:  Food is required for or produced during every mission.  Missions that are for a fixed amount of time will "
+                       "<color_light_green>FOOD:</color>  Food is required for or produced during every mission.  Missions that are for a fixed amount of time will "
                        "require you to pay in advance while repeating missions, like gathering firewood, are paid upon completion.  "
                        "Not having the food needed to pay a companion will result in a loss of reputation across the faction.  Which "
                        "can lead to VERY bad things if it gets too low.\n \n"
                         );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
-                        "SELECTING A SITE:  For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it. "
+                        "<color_light_green>SELECTING A SITE:</color>  For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it. "
                         "Forests are your primary source of construction materials in the early game while fields can be used for farming.  You "
                         "don't have to be too picky, you can build as many camps as you want but each will require an NPC camp manager.\n \n"
                         );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
-                        "UPGRADING:  After you pick a site you will need to find or make materials to upgrade the camp further to access new "
+                        "<color_light_green>UPGRADING:</color>  After you pick a site you will need to find or make materials to upgrade the camp further to access new "
                         "missions.  The first new missions are focused on gathering materials to upgrade the camp so you don't have to. "
-                        "After two or three upgrades you will have access to the [Menial Labor] mission which will allow you to task companions "
+                        "After two or three upgrades you will have access to the <color_yellow>[Menial Labor]</color> mission which will allow you to task companions "
                         "with sorting all of the items around your camp into categories.\n \n"
                         );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
-                        "EXPANSIONS:  When you upgrade your first tent all the way you will unlock the ability to construct expansions. Expansions "
+                        "<color_light_green>EXPANSIONS:</color>  When you upgrade your first tent all the way you will unlock the ability to construct expansions. Expansions "
                         "allow you to specialize each camp you build by focusing on the industries that you need.  A farm is recommended for "
                         "players that want to pursue a large faction while a kitchen is better for players that just want the quality of life "
                         "improvement of having an NPC do all of their cooking.  A garage is useful for chop shop type missions that let you "
