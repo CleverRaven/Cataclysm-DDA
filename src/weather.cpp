@@ -91,6 +91,33 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
     return ret;
 }
 
+time_duration get_crops_grow_since( const time_point &start, const time_point &end,
+                                    const tripoint &location )
+{
+    time_duration eff_grow_time = 0;
+    if( location.z < 0 ) {
+        return 0;
+    }
+    const auto &wgen = g->get_cur_weather_gen();
+    for( time_point i = start; i < end; i += 1_hours ) {
+        w_point w = wgen.get_weather( location, i, g->get_seed() );
+        int temperature = w.temperature;
+        float temperature_coeff = 0.0f;
+        if( temperature > 70 ) {
+            temperature_coeff = 1.0f;
+        } else if( temperature > 32 ) {
+            temperature_coeff = ( temperature - 32 ) / 38.0f;
+        } else {
+            // Freezing can kill the plants
+            if( one_in( 20 ) ) {
+                return -1_turns;
+            }
+        }
+        eff_grow_time += 1_hours * temperature_coeff;
+    }
+    return eff_grow_time;
+}
+
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
@@ -538,13 +565,13 @@ static std::string print_time_just_hour( const time_point &p )
 // MONDAY...MOSTLY SUNNY. HIGHS IN THE LOWER 60S. NORTHEAST WINDS 10 TO 15 MPH.
 // MONDAY NIGHT...PARTLY CLOUDY. LOWS AROUND 40. NORTHEAST WINDS 5 TO 10 MPH.
 
-// 0% â€“ No mention of precipitation
-// 10% â€“ No mention of precipitation, or isolated/slight chance
-// 20% â€“ Isolated/slight chance
-// 30% â€“ (Widely) scattered/chance
-// 40% or 50% â€“ Scattered/chance
-// 60% or 70% â€“ Numerous/likely
-// 80%, 90% or 100% â€“ No additional modifiers (i.e. "showers and thunderstorms")
+// 0% – No mention of precipitation
+// 10% – No mention of precipitation, or isolated/slight chance
+// 20% – Isolated/slight chance
+// 30% – (Widely) scattered/chance
+// 40% or 50% – Scattered/chance
+// 60% or 70% – Numerous/likely
+// 80%, 90% or 100% – No additional modifiers (i.e. "showers and thunderstorms")
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
@@ -728,7 +755,8 @@ int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 }
 
 bool warm_enough_to_plant() {
-    return g->get_temperature( g-> u.pos() ) >= 50; // semi-appropriate temperature for most plants
+    // It is possible but not recommended to plant at the temperature of the ice melting
+    return g->get_temperature( g-> u.pos() ) >= 32;
 }
 
 ///@}
