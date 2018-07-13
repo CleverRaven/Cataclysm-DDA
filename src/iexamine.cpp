@@ -1445,7 +1445,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
 
     auto recentWeather = sum_conditions( calendar::turn-10_minutes, calendar::turn, p.pos() );
 
-    // If it has been raining recently, then this event is twice less likely. 
+    // If it has been raining recently, then this event is twice less likely.
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
@@ -1720,7 +1720,11 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     // Don't use y/n prompt, stick with one kind of menu
     uimenu smenu;
     smenu.return_invalid = true;
-    smenu.text = _("Use which seed?");
+    std::string planing_text = "Use which seed?";
+    if( !warm_enough_to_safe_plant() ) {
+        planing_text = "Use which seed?. Plants can be damaged by cold weather.";
+    }
+    smenu.text = _( planing_text );
     int count = 0;
     for( const auto &entry : seed_entries ) {
         smenu.addentry( count++, true, MENU_AUTOASSIGN, _("%s (%d)"),
@@ -2017,10 +2021,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
-        } else {                
+        } else {
             add_msg( _("It should take about %d minutes to finish burning."), minutes );
-        } 
-        return;                
+        }
+        return;
     }
 
     units::volume total_volume = 0;
