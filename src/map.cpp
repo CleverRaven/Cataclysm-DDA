@@ -6832,17 +6832,33 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
+
     const time_duration plantEpoch = seed.get_plant_epoch();
+    const time_point since = seed.birthday();
+    const time_point until = calendar::turn;
+    const time_duration seed_age = get_crops_grow_since( since, until, p );
     furn_id cur_furn = this->furn(p).id();
-    if( seed.age() >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ){
-        if( seed.age() < plantEpoch * 2 ) {
+
+    // The plant have died
+    if( seed_age < 0 ) {
+        i_clear( p );
+        furn_set( p, f_null );
+        if( rng( 0, 1 ) > 0 ) {
+            spawn_item( p, "withered" );
+        }
+        return;
+    }
+
+    // Normal grow
+    if( seed_age >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ){
+        if( seed_age < plantEpoch * 2 ) {
             if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
                 return;
             }
             i_rem( p, 1 );
             rotten_item_spawn( seed, p );
             furn_set(p, furn_str_id( "f_plant_seedling" ) );
-        } else if( seed.age() < plantEpoch * 3 ) {
+        } else if( seed_age < plantEpoch * 3 ) {
             if( cur_furn == furn_str_id( "f_plant_mature" ) ){
                 return;
             }
