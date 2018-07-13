@@ -167,6 +167,13 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
 /**
+ * Get effective grow time based on the temperature, similar to get_rot_since() above.
+ * Return negative value if the plant was frozen to death.
+ */
+time_duration get_crops_grow_since( const time_point &start, const time_point &end,
+                                    const tripoint &pos );
+
+/**
  * Is it warm enough to plant seeds?
  */
 bool warm_enough_to_plant();
