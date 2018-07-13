@@ -1263,6 +1263,30 @@
     "components": [ [ [ "glass_shard", 12 ] ] ]
   },
   {
+    "result": "glasses_eye",
+    "type": "uncraft",
+	"time": 100,
+	"components": [ 
+		[ [ "lens", 2 ] ],
+		[ [ "plastic_chunk", 1 ] ]
+	]
+  },
+  {
+    "result": "glasses_monocle",
+    "type": "uncraft",
+	"time": 50,
+	"components": [ [ [ "lens", 1 ] ] ]
+  },
+  {
+    "result": "glasses_reading",
+    "type": "uncraft",
+	"time": 100,
+	"components": [ 
+		[ [ "lens", 2 ] ],
+		[ [ "plastic_chunk", 1 ] ]
+	]
+  },
+  {
     "result": "gobag",
     "type": "uncraft",
     "time": 2000,
