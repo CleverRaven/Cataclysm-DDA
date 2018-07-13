@@ -178,4 +178,9 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
  */
 bool warm_enough_to_plant();
 
+/**
+ * Is it (mostly) safe from night frost? Just a placeholder for now.
+ */
+bool warm_enough_to_safe_plant();
+
 #endif

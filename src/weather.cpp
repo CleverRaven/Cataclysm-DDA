@@ -759,4 +759,8 @@ bool warm_enough_to_plant() {
     return g->get_temperature( g-> u.pos() ) >= 32;
 }
 
+bool warm_enough_to_safe_plant() {
+    return g->get_temperature( g-> u.pos() ) >= 50;
+}
+
 ///@}
