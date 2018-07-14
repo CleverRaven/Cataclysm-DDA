@@ -9,7 +9,7 @@
     "color": "yellow",
     "broken_color": "red",
     "durability": 120,
-    "description": "A battery for storing electrical power, and discharing it to power electrical devices built into the vehicle.",
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "folded_volume": 25,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 9 ] },
