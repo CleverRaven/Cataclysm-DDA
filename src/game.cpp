@@ -938,7 +938,7 @@ bool game::start_game()
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
                        u.name.c_str());
-   lua_callback("on_new_player_created");
+    lua_callback( "on_new_player_created" );
 
     return true;
 }
@@ -1451,15 +1451,24 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-    if( calendar::once_every( 1_days ) ) { // Midnight!
+
+    if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
-        lua_callback("on_day_passed");
+        if( calendar::turn.day_of_year() == 0 ) {
+            lua_callback( "on_year_passed" );
+        }
+        lua_callback( "on_day_passed" );
     }
 
-    // Run a LUA callback once per minute
+    if( calendar::once_every( 1_hours ) ) {
+        lua_callback( "on_hour_passed" );
+    }
+ 
     if( calendar::once_every( 1_minutes ) ) {
         lua_callback("on_minute_passed");
     }
+
+    lua_callback( "on_turn_passed" );
 
     // Move hordes every 5 min
     if( calendar::once_every( 5_minutes ) ) {
@@ -3717,6 +3726,8 @@ void game::load( const save_t &name )
 
     u.reset();
     draw();
+
+    lua_callback( "on_savegame_loaded" );
 }
 
 void game::load_world_modfiles( loading_ui &ui )
@@ -6011,9 +6022,13 @@ void game::use_computer( const tripoint &p )
     computer *used = m.computer_at( p );
 
     if (used == nullptr) {
-        dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
-            p.x << ", " << p.y << ", " << p.z << ") - none there";
-        debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+        if( m.has_flag( "CONSOLE", p ) ) { //Console without map data
+            add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
+        } else {
+            dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
+                p.x << ", " << p.y << ", " << p.z << ") - none there";
+            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+        }
         return;
     }
 
@@ -10316,7 +10331,11 @@ void game::reload( item_location &loc, bool prompt )
 
 void game::reload()
 {
-    if( !u.is_armed() || !u.can_reload( u.weapon ) ) {
+    // general reload item menu will popup if:
+    // - user is unarmed;
+    // - weapon wielded can't be reloaded (bows can, they just reload before shooting automatically)
+    // - weapon wielded reloads before shooting (like bows)
+    if( !u.is_armed() || !u.can_reload( u.weapon ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
         turret_data turret;
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
@@ -10330,7 +10349,7 @@ void game::reload()
         }
 
         item_location item_loc = inv_map_splice( [&]( const item &it ) {
-            return u.rate_action_reload( it ) == HINT_GOOD;
+            return ( u.rate_action_reload( it ) == HINT_GOOD && !it.has_flag( "RELOAD_AND_SHOOT" ) );
         }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
         if( !item_loc ) {
@@ -10798,15 +10817,18 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         return false;
     }
 
-    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
-    if (!msg_ignore.empty()) {
-        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    std::string msg_ignore = press_x( ACTION_IGNORE_ENEMY );
+    if ( !msg_ignore.empty() ) {
+        std::wstring msg_ignore_wide = utf8_to_wstr( msg_ignore );
+        // Operate on a wide-char basis to prevent corrupted multi-byte string
+        msg_ignore_wide[0] = towlower( msg_ignore_wide[0] );
+        msg_ignore = wstr_to_utf8( msg_ignore_wide );
     }
 
-    if (u.has_effect( effect_laserlocked)) {
+    if ( u.has_effect( effect_laserlocked ) ) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
-                msg_ignore.c_str());
+        add_msg( m_warning, _( "You are being laser-targeted, %s to ignore." ),
+                 msg_ignore.c_str() );
         safe_mode_warning_logged = true;
         return false;
     }
@@ -10830,13 +10852,15 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     std::string whitelist;
     if ( !get_safemode().empty() ) {
-        whitelist = string_format( _( " or %s to whitelist the monster" ), press_x( ACTION_WHITELIST_ENEMY ).c_str() );
+        whitelist = string_format( _( " or %s to whitelist the monster" ),
+                                   press_x( ACTION_WHITELIST_ENEMY ).c_str() );
     }
 
-    std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
+    std::string const msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( m_warning,
-             _( "Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)" ),
-             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str(), whitelist.c_str() );
+             _( "Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
+             spotted_creature_name.c_str(), msg_safe_mode.c_str(),
+             msg_ignore.c_str(), whitelist.c_str() );
     safe_mode_warning_logged = true;
     return false;
 }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef H_ASSIGN
-#define H_ASSIGN
+#ifndef ASSIGN_H
+#define ASSIGN_H
 
 #include <string>
 #include <vector>

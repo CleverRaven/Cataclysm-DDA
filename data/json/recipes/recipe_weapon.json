@@ -759,13 +759,12 @@
     "difficulty": 7,
     "time": 14000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
@@ -925,14 +924,13 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_mechanics", 4 ], [ "recipe_melee", 5 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 20 ], [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ] ],
     "components": [ [ [ "chainsaw_off", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
@@ -1491,8 +1489,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1506,8 +1503,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "broadsword", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1521,8 +1517,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "katana", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1536,8 +1531,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "zweihander", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1550,13 +1544,12 @@
     "difficulty": 6,
     "time": 160000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 15 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 30 ], [ "welder", 150 ], [ "welder_crude", 225 ], [ "toolset", 225 ] ] ],
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
@@ -1575,14 +1568,13 @@
     "difficulty": 7,
     "time": 17000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ] ] ],
     "components": [
       [ [ "xlframe", 1 ] ],
       [ [ "foot_crank", 1 ] ],
@@ -1602,13 +1594,12 @@
     "difficulty": 8,
     "time": 180000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
     "components": [
       [ [ "pipe", 8 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
@@ -1627,13 +1618,12 @@
     "difficulty": 8,
     "time": 240000,
     "book_learn": [ [ "recipe_mininuke_launch", 5 ] ],
+    "using": [ [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ] ] ],
     "components": [
       [ [ "pipe", 2 ], [ "rebar", 2 ] ],
       [ [ "duct_tape", 200 ] ],
@@ -3945,18 +3935,11 @@
 "difficulty": 6,
 "time": 210000,
 "book_learn": [[ "manual_launcher", 7 ]],
+    "using": [ [ "welding_standard", 3 ] ],
 "qualities":[
 {"id":"HAMMER","level":3},
-{"id":"SAW_M","level":1},
-{ "id" : "GLARE", "level" : 2 }
-], "tools": [
-[
-[ "oxy_torch", 6 ],
-[ "welder", 30 ],
-[ "welder_crude", 45 ],
-[ "toolset", 45 ]
-]
-],
+{"id":"SAW_M","level":1}
+], 
 "components":
 [
 [
@@ -3992,7 +3975,6 @@
       {"id":"SCREW_FINE","level":1},
       {"id":"WRENCH_FINE","level":1},
       {"id":"HAMMER","level":3},
-      { "id" : "GLARE", "level" : 2 },
       { "id": "CHISEL", "level": 3 }
     ],
   "tools":
@@ -4106,20 +4088,11 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
+    "using": [ [ "welding_standard", 40 ] ],
   "qualities":[
     {"id":"SAW_M_FINE","level":1},
     {"id":"SCREW_FINE","level":1},
-    {"id":"HAMMER","level":2},
-    { "id" : "GLARE", "level" : 2 }
-  ],
-  "tools":
-  [
-    [
-      ["oxy_torch", 80],
-      ["welder", 400],
-      ["welder_crude", 600],
-      ["toolset", 600]
-    ]
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [

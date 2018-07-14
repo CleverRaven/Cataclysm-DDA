@@ -74,6 +74,7 @@ class iuse
         int dogfood( player *, item *, bool, const tripoint & );
         int catfood( player *, item *, bool, const tripoint & );
         int feedcattle( player *, item *, bool, const tripoint & );
+        int feedbird( player *, item *, bool, const tripoint & );
         // TOOLS
         int sew_advanced( player *, item *, bool, const tripoint & );
         int scissors( player *, item *, bool, const tripoint & );
@@ -195,6 +196,7 @@ class iuse
         int washclothes( player *, item *, bool, const tripoint & );
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
+        int break_stick( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
