@@ -229,7 +229,7 @@
   {
     "type": "scenario",
     "ident": "cyberpunk",
-    "name": "High tech, low life",
+    "name": "High Tech, Low Life",
     "description": "Advanced technology, dystopian society, and trenchcoats.",
     "flags": [ "CITY_START" ],
     "points" : -4,

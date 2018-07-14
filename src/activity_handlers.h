@@ -14,6 +14,7 @@ void activity_on_turn_drop();
 void activity_on_turn_move_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
+void try_refuel_fire( player &p );
 
 // advanced_inv.cpp
 void advanced_inv();
