@@ -182,5 +182,24 @@
       [ [ "steel_chunk", 4 ] ],
       [ [ "steel_lump", 2 ] ]
     ]
+  },
+  {
+    "type" : "recipe",
+    "result": "mortar_pestle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ ["survival", 1], ["cooking", 2] ],
+    "difficulty": 1,
+    "time": 6000,
+    "autolearn": true,
+    "book_learn": [["atomic_survival", 0] , ["textbook_survival", 0]],
+    "qualities":[{"id":"HAMMER","level":2}],
+    "components": [
+      [
+        [ "rock", 3 ],
+        [ "ceramic_shard", 3 ]
+      ]
+    ]
   }
 ]

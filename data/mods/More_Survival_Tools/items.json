@@ -600,21 +600,6 @@
     "flags": [ "THERMOMETER" ]
   },
   {
-    "id": "mortar_pestle",
-    "type": "TOOL",
-    "name": "mortar and pestle",
-    "name_plural": "sets of mortar and pestle",
-    "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
-    "weight": 1632,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -4,
-    "bashing": 3,
-    "material": "stone",
-    "symbol": ":",
-    "color": "light_gray"
-  },
-  {
     "id": "crossbow_makeshift",
     "type": "GUN",
     "name": "makeshift crossbow",

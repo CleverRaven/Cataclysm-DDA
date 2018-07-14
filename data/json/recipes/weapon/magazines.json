@@ -141,8 +141,8 @@
     "skills_required": [ "mechanics", 3 ],
     "time": 40000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "metal_tank_little", 1 ] ] ]
   }
 ]
