@@ -522,18 +522,27 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
         } else {
             p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
 
-            item chunk( meat, age );
+            item chunk( meat, age, 1 );
             chunk.set_mtype( corpse );
+
+            item parts( "offal", age, 0 );
+            parts.set_mtype( corpse );
 
             // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
             bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
                               !chunk.made_of ( material_id ( "veggy" ) );
-            item parts( make_offal ? "offal" : meat, age );
-            parts.set_mtype( corpse );
+
+            for ( int i = 1; i < pieces; ++i ) {
+                if ( make_offal && one_in( 3 ) ) {
+                    parts.charges++;
+                } else {
+                    chunk.charges++;
+                }
+            }
 
             g->m.add_item_or_charges( p->pos(), chunk );
-            for( int i = 1; i <= pieces; ++i ) {
-                g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
+            if ( parts.charges > 0 ) {
+                g->m.add_item_or_charges( p->pos(), parts );
             }
         }
     }

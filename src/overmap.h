@@ -46,6 +46,7 @@ class building_bin {
         building_bin() {};
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
+        std::vector<std::string> all;
         void clear();
         void finalize();
 };
