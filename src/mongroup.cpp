@@ -317,7 +317,24 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     MonsterGroup g;
 
     g.name = mongroup_id( jo.get_string( "name" ) );
-    g.defaultMonster = mtype_id( jo.get_string( "default" ) );
+    bool extending = false;  //If already a group with that name, add to it instead of overwriting it
+    if( monsterGroupMap.count( g.name ) != 0 && !( jo.has_bool( "override" ) && jo.get_bool( "override" ) == true ) ) {
+        g = monsterGroupMap[g.name];
+        extending = true;
+    }
+    if( !extending || jo.has_string("default") ) { //Not mandatory to specify default if extending existing group
+        g.defaultMonster = mtype_id( jo.get_string( "default" ) );
+    }
+    if( extending && jo.has_int( "make_room" ) ) {
+        //Scale existing entries' freq by N/1000 to make room, since only 1000 total spaces to fill
+        //Can be thought of as the number of spaces to squash the original 1000 into (leaving (approx.) 1000-N open)
+        const double scale = jo.get_int( "make_room" );
+        for( MonsterGroupEntry mon : g.monsters ) {
+            //This looks a bit confusing, but it's just making sure it doesn't reduce an entry to zero
+            //unless it was already zero, in which case leave it there
+            mon.frequency = std::max( static_cast<int>( mon.frequency * scale ), std::min(1, mon.frequency) );
+        }
+    }
     if( jo.has_array( "monsters" ) ) {
         JsonArray monarr = jo.get_array( "monsters" );
 
