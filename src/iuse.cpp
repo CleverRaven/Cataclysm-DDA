@@ -5062,7 +5062,7 @@ static bool heat_item( player &p )
         // simulates heat capacity of food, more weight = longer heating time
         // this is x2 to simulate larger delta temperature of frozen food in relation to
         // heating non-frozen food (x1); no real life physics here, only aproximations
-        p.mod_moves( -to_gram( target.weight() ) * 2 ); 
+        p.mod_moves( -to_gram( target.weight() ) * 2 );
         target.item_tags.erase( "FROZEN" );
         target.item_tags.insert( "HOT" );
         target.active = true;
@@ -5081,7 +5081,7 @@ static bool heat_item( player &p )
         // links time of food's HOT-ness with weight, as smaller items lose temperature faster
         // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
         const int hcapacity = to_gram( target.weight() ) < 100 ? 100 : to_gram( target.weight() );
-        target.item_counter = hcapacity > 600 ? 600 : hcapacity; 
+        target.item_counter = hcapacity > 600 ? 600 : hcapacity;
     }
     return true;
 }

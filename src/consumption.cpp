@@ -135,8 +135,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
 
     // As float to avoid rounding too many times
     float fun = comest.type->comestible->fun;
-    if( comest.has_flag( flag_MUSHY ) and fun > -5 )
-    {
+    if( comest.has_flag( flag_MUSHY ) and fun > -5 ) {
         fun = -5; // defrosted MUSHY food is practicaly tastless or tastes off
     }
     // Rotten food should be pretty disgusting
@@ -642,7 +641,7 @@ bool player::eat( item &food, bool force )
     // Mushy has no extra effects here as they are applied in fun_for() calculation
     if( food.has_flag( "MUSHY" ) ) {
         add_msg_if_player( m_bad,
-                               _( "You try to ignore it's mushy texture, but it leaves you with an awful aftertaste." ) );
+                           _( "You try to ignore it's mushy texture, but it leaves you with an awful aftertaste." ) );
     }
 
     // Allergy check
@@ -684,7 +683,8 @@ bool player::eat( item &food, bool force )
 
     // chance to become parasitised
     if( !( has_bionic( bio_digestion ) || has_trait( trait_id( "PARAIMMUNE" ) ) ) ) {
-        if( food.type->comestible->parasites > 0 && !food.has_flag( "NO_PARASITES" ) && one_in( food.type->comestible->parasites ) ) {
+        if( food.type->comestible->parasites > 0 && !food.has_flag( "NO_PARASITES" ) &&
+            one_in( food.type->comestible->parasites ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !has_trait( trait_id( "EATHEALTH" ) ) ) {
