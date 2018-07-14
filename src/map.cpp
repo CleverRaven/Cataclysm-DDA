@@ -4502,7 +4502,7 @@ item &map::add_item_at( const tripoint &p,
 
     current_submap->update_lum_add(new_item, lx, ly);
     const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
-    if( g->get_temperature( p ) <= FRIDGE_TEMPERATURE and new_item.is_food() ) {
+    if( g->get_temperature( p ) <= FRIDGE_TEMPERATURE && new_item.is_food() ) {
         new_item.active = true;
     }
     if( new_item.needs_processing() ) {
