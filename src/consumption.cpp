@@ -135,7 +135,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
 
     // As float to avoid rounding too many times
     float fun = comest.type->comestible->fun;
-    if( comest.has_flag( flag_MUSHY ) and fun > -5.0f ) {
+    if( comest.has_flag( flag_MUSHY ) && fun > -5.0f ) {
         fun = -5.0f; // defrosted MUSHY food is practicaly tastless or tastes off
     }
     // Rotten food should be pretty disgusting
