@@ -1722,7 +1722,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     smenu.return_invalid = true;
     std::string planing_text = "Use which seed?";
     if( !warm_enough_to_safe_plant() ) {
-        planing_text = "Use which seed?.  Plants can be damaged by cold weather.";
+        planing_text = "Use which seed?  Plants can be damaged by cold weather.";
     }
     smenu.text = _( planing_text );
     int count = 0;
