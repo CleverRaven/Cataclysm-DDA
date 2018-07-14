@@ -4474,7 +4474,7 @@ item &map::add_item(const tripoint &p, item new_item)
 
     // Process foods when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( new_item.needs_processing() && new_item.is_food() ) {
+    if( /*new_item.needs_processing() &&*/ new_item.is_food() ) {
         new_item.process( nullptr, p, false );
     }
     return add_item_at(p, current_submap->itm[lx][ly].end(), new_item);
@@ -4502,6 +4502,9 @@ item &map::add_item_at( const tripoint &p,
 
     current_submap->update_lum_add(new_item, lx, ly);
     const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
+    if( g->get_temperature( p ) <= FRIDGE_TEMPERATURE and new_item.is_food() ) {
+        new_item.active = true;
+    }
     if( new_item.needs_processing() ) {
         current_submap->active_items.add( new_pos, point(lx, ly) );
     }
@@ -4578,19 +4581,22 @@ void map::apply_in_fridge( item &it, bool freezer )
             }
         }
         // cool down of the HOT flag, is unsigned, don't go below 1
-        if( it.has_flag ( "HOT" ) && it.item_counter > 5 ) {
+        if( it.item_tags.count( "HOT" ) && it.item_counter > 5 ) {
             it.item_counter -= 5;
         }
         // This sets the COLD flag, and doesn't go above 600
-        if( it.has_flag( "EATEN_COLD" ) && !it.has_flag( "COLD" ) && ( !it.has_flag( "FROZEN" ) ) ) {
+        if( it.has_flag( "EATEN_COLD" ) && !( it.item_tags.count( "COLD" ) || it.item_tags.count( "FROZEN" ) ) ) {
+            add_msg( m_info, "Debug 1 true: %s", it.tname(1).c_str() );
             it.item_tags.insert( "COLD" );
             it.active = true;
+        } else {
+            add_msg( m_info, "Debug 1 false: %s", it.tname(1).c_str() );
         }
-        if( it.has_flag( "COLD" ) && it.item_counter <= 598 ) {
+        if( it.item_tags.count( "COLD" ) && it.item_counter <= 598 ) {
             it.item_counter += 2;
         }
         // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
-        if ( freezer && it.has_flag( "COLD" ) && it.item_counter == 600 ) {
+        if ( freezer && it.item_tags.count( "COLD" ) && it.item_counter == 600 ) {
             it.item_tags.erase( "COLD" );
             it.item_tags.insert( "FROZEN" );
             it.active = true;
@@ -4601,7 +4607,7 @@ void map::apply_in_fridge( item &it, bool freezer )
             it.item_tags.insert( "FROZEN" );
             it.active = true;
         }
-        if ( freezer && it.has_flag( "FROZEN" ) && it.item_counter <= 598 ) {
+        if ( freezer && it.item_tags.count( "FROZEN" ) && it.item_counter <= 598 ) {
             it.item_counter += 2;
         }
     }

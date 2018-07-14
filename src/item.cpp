@@ -870,19 +870,20 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                               to_turn<int>( food->freezer ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
                                               to_turn<int>( food->last_rot_check ), true, "", true, true ) );
-                    if( food->item_tags.count( "HOT" ) ) {
-                        info.push_back( iteminfo( "BASE", _( "HOT: " ), "",
-                                                  food->item_counter, true, "", true, true ) );                      
-                    }
-                    if( food->item_tags.count( "COLD" ) ) {
-                        info.push_back( iteminfo( "BASE", _( "COLD: " ), "",
-                                                  food->item_counter, true, "", true, true ) );                      
-                    }
-                    if( food->item_tags.count( "FROZEN" ) ) {
-                        info.push_back( iteminfo( "BASE", _( "FROZEN: " ), "",
-                                                  food->item_counter, true, "", true, true ) );                      
-                    }
                 }
+                if( food->item_tags.count( "HOT" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "HOT: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }
+                if( food->item_tags.count( "COLD" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "COLD: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }
+                if( food->item_tags.count( "FROZEN" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "FROZEN: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }                      
+                    
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
         }
@@ -977,7 +978,13 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
             }
             if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() ) {
-                info.emplace_back( "DESCRIPTION", _( "* This food <neutral>spoils when frozen</neutral>." ) );
+                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's <neutral>frozen.</neutral>." ) );
+            }
+            if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
+                info.emplace_back( "DESCRIPTION", _( "* It was frozen once and bacame <bad>mushy and tasteless</bad>." ) );
+            }
+            if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
+                info.emplace_back( "DESCRIPTION", _( "* It seems that deep freezing <good>killed all parasites</good>." ) );
             }
             if( food_item->rotten() ) {
                 if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
@@ -3125,10 +3132,6 @@ void item::calc_rot(const tripoint &location)
 
         if( freezer != calendar::before_time_starts ) {
             // Frozen food do not rot, so no change to rot variable
-            // but some food don't like to be freezed at all, insta-rot
-            if ( goes_bad() && has_flag( "NO_FREEZE" ) && !rotten() ) {
-            rot = type->comestible->spoils;
-            }
             freezer = calendar::before_time_starts;
         }
         if( fridge != calendar::before_time_starts ) {
@@ -5675,7 +5678,8 @@ bool item::needs_processing() const
 {
     return active || has_flag("RADIO_ACTIVATION") ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact();
+           is_artifact(); //||
+           //( is_food() && g->get_temperature( this*->item_location() ) <= FRIDGE_TEMPERATURE );
 }
 
 int item::processing_speed() const
@@ -5706,18 +5710,30 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     } else if( item_tags.count( "FROZEN" ) > 0 ) {
         if( item_counter == 0 ) {
             item_tags.erase( "FROZEN" );
+            if( has_flag( "NO_FREEZE" ) && !rotten() ) {
+                item_tags.insert( "MUSHY" );
+            } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
+                rot < type->comestible->spoils ) {
+                rot = type->comestible->spoils;
+            }
             if( has_flag( "EATEN_COLD" ) ) {
                 item_tags.insert( "COLD" );
                 item_counter = 600;
             }
         }
     }
+    // deep freezing kills parasites but not instantly
+    if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
+        item_tags.insert( "NO_PARASITES" );
+    }
     // environment temperature applies COLD/FROZEN flags to food
     if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE
         && g->get_temperature( pos ) > FREEZING_TEMPERATURE ) {
         g->m.apply_in_fridge( *this, false);
+        add_msg( m_info, "Debug 2.1: %s", this->tname(1).c_str() );
     } else if( g->get_temperature( pos ) <= FREEZING_TEMPERATURE ) {
         g->m.apply_in_fridge( *this, true);
+        add_msg( m_info, "Debug 2.2: %s", this->tname(1).c_str() );
     }
     return false;
 }
