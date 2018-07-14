@@ -3123,11 +3123,9 @@ void item::calc_rot(const tripoint &location)
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
-<<<<<<< HEAD
+
         time_point until = fridge != calendar::before_time_starts ? fridge : now;
         until = freezer != calendar::before_time_starts ? freezer : now;
-=======
-        const time_point until = fridge != calendar::before_time_starts ? fridge : now;
 
         // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
@@ -3138,7 +3136,6 @@ void item::calc_rot(const tripoint &location)
             rot += rng( -spoil_variation, spoil_variation );
         }
 
->>>>>>> upstream/master
         if ( since < until ) {
             // rot (outside of fridge/freezer) from bday/last_rot_check until fridge/freezer/now
             rot += get_rot_since( since, until, location );
