@@ -4567,7 +4567,6 @@
     "category": "clothing",
     "name": "hide bag",
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
-
     "symbol": "[",
     "color": "pink",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
@@ -4576,7 +4575,6 @@
     "storage": 60,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-
   },
   {
     "id": "hide_tainted_bag",
@@ -4593,7 +4591,6 @@
     "storage": 60,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-
   },
   {
     "id": "holy_symbol",
