@@ -73,8 +73,8 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     const mongroup_id &group_name, int *quantity )
 {
-    int spawn_chance = rng( 1, 1000 );
     auto &group = GetUpgradedMonsterGroup( group_name );
+    int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1 );
 
@@ -318,22 +318,12 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
 
     g.name = mongroup_id( jo.get_string( "name" ) );
     bool extending = false;  //If already a group with that name, add to it instead of overwriting it
-    if( monsterGroupMap.count( g.name ) != 0 && !( jo.has_bool( "override" ) && jo.get_bool( "override" ) == true ) ) {
+    if( monsterGroupMap.count( g.name ) != 0 && !jo.get_bool( "override", false) ) {
         g = monsterGroupMap[g.name];
         extending = true;
     }
     if( !extending || jo.has_string("default") ) { //Not mandatory to specify default if extending existing group
         g.defaultMonster = mtype_id( jo.get_string( "default" ) );
-    }
-    if( extending && jo.has_int( "make_room" ) ) {
-        //Scale existing entries' freq by N/1000 to make room, since only 1000 total spaces to fill
-        //Can be thought of as the number of spaces to squash the original 1000 into (leaving (approx.) 1000-N open)
-        const double scale = jo.get_int( "make_room" );
-        for( MonsterGroupEntry mon : g.monsters ) {
-            //This looks a bit confusing, but it's just making sure it doesn't reduce an entry to zero
-            //unless it was already zero, in which case leave it there
-            mon.frequency = std::max( static_cast<int>( mon.frequency * scale ), std::min(1, mon.frequency) );
-        }
     }
     if( jo.has_array( "monsters" ) ) {
         JsonArray monarr = jo.get_array( "monsters" );
@@ -389,6 +379,15 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
     g.is_safe = jo.get_bool( "is_safe", false );
 
+    g.freq_total = jo.get_int( "freq_total", (extending ? g.freq_total : 1000 ) );
+    if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
+        int total = 0;
+        for( MonsterGroupEntry &mon : g.monsters ) {
+            total += mon.frequency;
+        }
+        g.freq_total = total;
+    }
+
     monsterGroupMap[g.name] = g;
 }
 
@@ -421,8 +420,8 @@ void MonsterGroupManager::check_group_definitions()
 
 const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
 {
-    int spawn_chance = rng( 1, 1000 );
     const auto &group = group_name.obj();
+    int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
     for( auto it = group.monsters.begin(); it != group.monsters.end(); ++it ) {
         if( it->frequency >= spawn_chance ) {
             return it->name;
