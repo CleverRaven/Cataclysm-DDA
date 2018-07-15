@@ -830,6 +830,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
+- ```SMOKED``` Not accepted by smoking rack (product of smoking).
+- ```SMOKEABLE``` Accepted by smoking rack.
 
 ## Melee
 

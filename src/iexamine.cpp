@@ -3611,6 +3611,224 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 }
 
+void smoker_activate(player &p, const tripoint &examp)
+{
+    furn_id cur_smoker_type = g->m.furn( examp );
+    furn_id next_smoker_type = f_null;
+    if( cur_smoker_type == f_smoking_rack ) {
+        next_smoker_type = f_smoking_rack_active;
+    } else {
+        debugmsg( "Examined furniture has action smoker_activate, but is of type %s", g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    bool food_present = false;
+    auto items = g->m.i_at( examp );
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &it = items[i];
+        if( it.has_flag( "SMOKED" ) ) {
+            add_msg( _("This rack already contains smoked food.") );
+            add_msg( _("Remove it before firing the smoking rack again.") );
+            return;
+        } else if( it.has_flag( "SMOKEABLE" ) ) {
+            food_present = true;
+        } else if( it.typeId() != "charcoal" ) {
+            add_msg( m_bad, _("This rack contains %s, which can't be smoked!"), it.tname( 1, false ).c_str() );
+            add_msg( _("You remove %s from the rack."), it.tname().c_str() );
+            g->m.add_item_or_charges( p.pos(), it );
+            g->m.i_rem( examp, i );
+            i--;
+            return;
+        }
+    }
+
+    if( !food_present ) {
+        add_msg( _("This rack is empty.  Fill it with raw meat, fish or sausages and try again.") );
+        return;
+    }
+
+    units::volume food_volume = 0;
+    item *charcoal;
+    for( auto i : items ) {
+        if( i.typeId() != "charcoal" ) {
+            food_volume += i.volume();
+        } else {
+            charcoal = &i;
+        }
+    }
+    if( food_volume > units::from_liter( 20 ) ) {
+        add_msg( _("This rack is overloaded whith food, that blocks the flow of smoke.  Remove some and try again.") );
+        return;
+    }
+
+    int char_charges = 100 * units::to_liter( food_volume );
+    if( charcoal->charges <= char_charges ) {
+        add_msg( _("There is not enough charcoal in the rack to smoke this much food.") );
+        return;
+    }
+
+    if( !p.has_charges( "fire" , 1 ) ) {
+        add_msg( _("This smoking rack is ready to be fired, but you have no fire source.") );
+        return;
+    } else if( !query_yn( _("Fire the smoking rack?") ) ) {
+        return;
+    }
+
+    p.use_charges( "fire", 1 );
+    // g->m.i_clear( examp );
+    g->m.furn_set( examp, next_smoker_type );
+    charcoal->charges -= char_charges;
+    charcoal->set_age( 0 );
+    add_msg( _("You fire the smocking rack.") );
+}
+
+void smoker_full(player &, const tripoint &examp)
+{
+    furn_id cur_smoker_type = g->m.furn( examp );
+    furn_id next_smoker_type = f_null;
+    if ( cur_smoker_type == f_smoking_rack_active ) {
+        next_smoker_type = f_smoking_rack;
+    } else {
+        debugmsg( "Examined furniture has action smoker_full, but is of type %s", g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    auto items = g->m.i_at( examp );
+    if( items.empty() ) {
+        add_msg( _("This smoker is empty...") );
+        g->m.furn_set(examp, next_smoker_type);
+        return;
+    }
+    item *charcoal;
+    for( auto i : items ) {
+        if( i.typeId() == "charcoal" ) {
+            charcoal = &i;
+        }
+    }
+
+    add_msg( _("There's a smoking rack there.") );
+    const time_duration smoking_time = 6_hours;
+    const time_duration time_left = smoking_time - charcoal->age();
+    if( time_left > 0 ) {
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( minutes > 60 ) {
+            add_msg( ngettext( "It will finish smoking in about %d hour.",
+                               "It will finish smoking in about %d hours.",
+                               hours ), hours );
+        } else if( minutes > 30 ) {
+            add_msg( _( "It will finish smoking in less than an hour." ) );
+        } else {                
+            add_msg( _("It should take about %d minutes to finish smoking."), minutes );
+        } 
+        return;                
+    }
+        std::string product = "";
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( item_it->typeId() == "meat" ) {
+            product = "meat_smoked";
+        } else if( item_it->typeId() == "fish" ) { 
+            product = "fish_smoked";
+        } else if( item_it->typeId() == "sausage_wasteland_raw" ) { 
+            product = "sausage_wasteland";
+        } else if( item_it->typeId() == "sausage_raw" ) { 
+            product = "sausage";
+        } else if( item_it->typeId() == "mannwurst_raw" ) { 
+            product = "mannwurst";
+        } else if( item_it->typeId() == "human_flesh" ) { 
+            product = "human_smoked";
+        } else {
+            product = "";
+            item_it++;
+        }
+        if( product != "" ) {
+            item result( product, calendar::turn );
+            result.charges = item_it->charges;
+            g->m.add_item( examp, result );
+            item_it = items.erase( item_it );
+        }
+    }
+    g->m.furn_set( examp, next_smoker_type);
+}
+
+void iexamine::smoker_options( player &p, const tripoint &examp )
+{
+    bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ? true : false;
+    auto items_here = g->m.i_at( examp );
+    if( items_here.empty() && active ) {
+        debugmsg( "f_smoking_rack_active was empty!" );
+        g->m.furn_set( examp, f_smoking_rack );
+        return;
+    }
+
+    uimenu smenu;
+    smenu.text = _( "What to do with the smoking rack:" );
+    smenu.return_invalid = true;
+    smenu.addentry( 0, true, 'l', "%s", _( "Light up and smoke food" ) );
+    smenu.addentry( 1, true, 'i', "%s", _( "Insert food for smoking" ) );
+    smenu.addentry( 2, true, 'r', "%s", _( "Reload with charcoal" ) );
+
+    if( items_here.size() == 0 ) {
+        smenu.addentry( 3, false, 'e', "%s", _( "Remove food from rack (none inside)" ) );
+        smenu.addentry( 4, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
+    }
+    for( size_t i = 0; i < items_here.size(); i++ ) {
+        auto &it = items_here[i];
+
+        if( it.is_food() ) {
+            smenu.addentry( 3, true, 'e', "%s", _( "Remove food from rack" ) );
+        } else {
+            smenu.addentry( 3, false, 'e', "%s", _( "Remove food from rack (none inside)" ) );
+        }
+        if( it.typeId() == "charcoal" ) {
+            smenu.addentry( 4, true, 'c', "%s", _( "Remove charcoal from rack; has: " ) + std::to_string( count_charges_in_list( it.type, items_here ) ) );
+        } else {
+            smenu.addentry( 4, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
+
+        }
+    }
+    smenu.addentry( 5, true, 'x', "%s", _( "Cancel" ) );
+    smenu.query();
+    bool rem_opt = false;
+    switch( smenu.ret ) {
+        case 0: //activate
+            if ( active ) {
+            add_msg( m_info, _( "It is already lit and smoking." ) );
+            break;
+            } else {
+            smoker_activate( p, examp );
+            break;
+            }
+        case 1: // load food
+            break;
+        case 2: // load charcoal
+            reload_furniture( p, examp );
+            break;
+        case 3: // remove food
+            rem_opt = true;
+        case 4: //remove charcoal
+            {
+                for( size_t i = 0; i < items_here.size(); i++ ) {
+                    auto &it = items_here[i];
+                    if( ( rem_opt && it.is_food() ) || ( !rem_opt && ( it.typeId() == "charcoal" ) ) ) {
+                        add_msg( _("You remove %s from the rack."), it.tname().c_str() );
+                        g->m.add_item_or_charges( p.pos(), it );
+                        g->m.i_rem( examp, i );
+                        i--;
+                    }
+                }
+            }
+            if ( active ) {
+                g->m.furn_set( examp, f_smoking_rack );
+                add_msg( m_info, _( "You stop the smoking process." ) );
+            }
+            break;
+        case 5:
+            add_msg( m_info, _( "Never mind." ) );
+            break;
+    };
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3683,7 +3901,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
         { "climb_down", &iexamine::climb_down },
-        { "autodoc", &iexamine::autodoc }
+        { "autodoc", &iexamine::autodoc },
+        { "smoker_options", &iexamine::smoker_options }
     }};
 
     auto iter = function_map.find( function_name );
