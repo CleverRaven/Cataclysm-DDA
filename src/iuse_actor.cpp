@@ -2664,7 +2664,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     const int current_skill_level = pl.get_skill_level( used_skill );
     const auto action = default_action( fix, current_skill_level );
     const auto chance = repair_chance( pl, fix, action );
-    const int practice_amount = repair_recipe_difficulty( pl, fix, true );
+    int practice_amount = repair_recipe_difficulty( pl, fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -2686,9 +2686,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     // If not for this if, it would spam a lot
-    if( current_skill_level <= trains_skill_to ) {
-        pl.practice( used_skill, practice_amount / 2 + 1, trains_skill_to );
+    if( current_skill_level > trains_skill_to ) {
+        practice_amount = 0;
     }
+    pl.practice( used_skill, practice_amount, trains_skill_to );
 
     if( roll == FAILURE ) {
         return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
