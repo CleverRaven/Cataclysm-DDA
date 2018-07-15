@@ -4293,9 +4293,6 @@ void map::i_clear(const tripoint &p)
 item &map::spawn_an_item(const tripoint &p, item new_item,
                         const long charges, const int damlevel)
 {
-    if( new_item.components.empty() ) {
-        new_item.generate_components();
-    }
     if( charges && new_item.charges > 0 ) {
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
@@ -4319,9 +4316,6 @@ std::vector<item*> map::spawn_items(const tripoint &p, const std::vector<item> &
     }
     const bool swimmable = has_flag("SWIMMABLE", p);
     for( auto new_item : new_items ) {
-        if( new_item.components.empty() ) {
-            new_item.generate_components();
-        }
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
         }
@@ -4364,9 +4358,6 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
     item new_item(type_id, birthday );
     if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
         new_item.item_tags.insert( "FIT" );
-    }
-    if( new_item.components.empty() ) {
-        new_item.generate_components();
     }
 
     spawn_an_item(p, new_item, charges, damlevel);
@@ -4424,6 +4415,9 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                     return e;
                 }
             }
+        }
+        if( obj.components.empty() ) {
+            obj.generate_components();
         }
 
         support_dirty( tile );

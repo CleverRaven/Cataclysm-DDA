@@ -10415,6 +10415,9 @@ void game::mend( int pos )
 
 bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
 {
+    if( it.components.empty() ) {
+        it.generate_components();
+    }
     if( it.made_of( LIQUID ) ) {
         g->consume_liquid( it, 1 );
         return it.charges <= 0;

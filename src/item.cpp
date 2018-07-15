@@ -6072,6 +6072,10 @@ bool item::generate_components() {
     recipe it_recipe = recipe_dict.get_recipe( typeId() );
     requirement_data it_req = it_recipe.requirements();
 
+    for( auto contained : contents ) {
+        contained.generate_components();
+    }
+
     if( has_flag( "GENERIC" ) || it_req.is_empty() ) {
         return false;
     }

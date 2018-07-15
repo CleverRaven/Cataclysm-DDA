@@ -38,7 +38,8 @@ class recipe_dictionary
         static const recipe &get_uncraft( const itype_id &id );
 
         /* Returns recipe 
-        ** If @param def == true, search for recipe tag "default" first
+        ** @param id itype to retrieve recipe for
+        ** @param def If true, search for recipe tag "default" first
         */
         static const recipe &get_recipe( const itype_id &id, const bool &def = true );
 
