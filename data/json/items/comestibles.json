@@ -5503,7 +5503,6 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-    "flags": ["MYCUS_OK"],
     "fun": 30
   },
   {
@@ -5546,6 +5545,7 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
+    "flags": ["MYCUS_OK"],
      "fun": 30
   },
   {
