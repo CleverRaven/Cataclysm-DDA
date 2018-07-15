@@ -4231,7 +4231,7 @@
     "nutrition": 5,
     "description": "Tasty crunchy nuts from a pinecone.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
     "charges": 2,
     "fun": 2
@@ -4251,7 +4251,7 @@
     "nutrition": 15,
     "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
     "price": 0,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1
   },
   {
@@ -4269,7 +4269,7 @@
     "nutrition": 15,
     "description": "A handful roasted nuts from a hickory tree.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 2
@@ -4288,7 +4288,7 @@
     "nutrition": 15,
     "description": "Delicious hickory nut ambrosia.  A drink worthy of the gods.",
     "price": 100,
-    "material": [ "veggy", "milk" ],
+    "material": [ "nut", "milk" ],
     "volume": 1,
     "phase": "liquid",
     "charges": 4,
@@ -4404,7 +4404,7 @@
     "nutrition": 18,
     "description": "Juicy red tomato.  It gained popularity in Italy after being brought back from the New World.",
     "price": 90,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -4498,7 +4498,7 @@
     "nutrition": 18,
     "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.",
     "price": 600,
-    "material": "veggy",
+    "material": "garlic",
     "volume": 1,
     "fun": -18,
     "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?",
@@ -5043,7 +5043,7 @@
     "nutrition": 48,
     "description": "A spicy stew containing chili peppers, meat, tomatoes and beans.",
     "price": 290,
-    "material": [ "flesh", "veggy" ],
+    "material": [ "flesh", "veggy", "bean" ],
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -5065,7 +5065,7 @@
     "nutrition": 48,
     "description": "A spicy stew containing chili peppers, human flesh, tomatoes and beans.",
     "price": 2500,
-    "material": [ "hflesh", "veggy" ],
+    "material": [ "hflesh", "veggy", "bean" ],
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -5086,7 +5086,7 @@
     "nutrition": 18,
     "description": "Olive oil, basil, garlic, pine nuts.  Simple and delicious.",
     "price": 230,
-    "material": "veggy",
+    "material": [ "veggy", "nut", "garlic" ],
     "volume": 1,
     "phase": "liquid",
     "fun": 4
@@ -5106,7 +5106,7 @@
     "nutrition": 40,
     "description": "Canned beans.  A staple among canned goods, these are reputedly good for one's coronary health.",
     "price": 150,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "rot_spawn": "GROUP_CARRION"
@@ -5126,7 +5126,7 @@
     "nutrition": 50,
     "description": "Greasy Prospector improved pork and beans with hickory smoked pig fat chunks.",
     "price": 200,
-    "material": [ "flesh", "veggy" ],
+    "material": [ "flesh", "bean" ],
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
@@ -5503,7 +5503,7 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-    "flags": ["MYCUS_OK"],
+    "flags": [ "MYCUS_OK" ],
     "fun": 30
   },
   {
@@ -5546,7 +5546,7 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-     "fun": 30
+    "fun": 30
   },
   {
     "type": "COMESTIBLE",
@@ -5640,7 +5640,7 @@
     "nutrition": 1,
     "description": "Dehydrated great northern beans.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": 300,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "charges": 8,
     "fun": -6
@@ -5660,7 +5660,7 @@
     "nutrition": 50,
     "description": "A hearty serving of cooked great northern beans.",
     "price": 100,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
@@ -5679,7 +5679,7 @@
     "nutrition": 44,
     "description": "Slow-cooked beans with meat.  Tasty and very filling.",
     "price": 700,
-    "material": [ "veggy", "flesh" ],
+    "material": [ "bean", "flesh" ],
     "volume": 1,
     "charges": 4,
     "//": "One beans + one protein/veg = 2 servings",
@@ -5701,7 +5701,7 @@
     "nutrition": 39,
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": 700,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
     "//": "One beans + one protein/veg = 2 servings",
@@ -5805,7 +5805,7 @@
     "nutrition": 26,
     "description": "A serving of beans and rice that has been cooked together.  Delicious and healthy!",
     "price": 500,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -5826,7 +5826,7 @@
     "nutrition": 36,
     "description": "Slow-cooked beans and rice with meat and seasonings.  Tasty and very filling.",
     "price": 750,
-    "material": [ "veggy", "flesh" ],
+    "material": [ "veggy", "bean", "flesh" ],
     "volume": 1,
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
@@ -5847,7 +5847,7 @@
     "nutrition": 33,
     "description": "Slow-cooked beans and rice with vegetables and seasonings.  Tasty and very filling.",
     "price": 750,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
@@ -6054,7 +6054,7 @@
     "nutrition": 6,
     "description": "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
     "price": 0,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
     "charges": 2,
     "fun": -20
@@ -6073,7 +6073,7 @@
     "nutrition": 42,
     "description": "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1
   },
   {
@@ -7421,7 +7421,7 @@
     "nutrition": 50,
     "description": "Spaghetti, with a generous helping of pesto on top.  Yum!",
     "price": 1000,
-    "material": [ "wheat", "veggy" ],
+    "material": [ "wheat", "veggy", "nut" ],
     "volume": 7,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -10842,3 +10842,4 @@
     "flags": [ "EATEN_HOT" ]
   }
 ]
+
