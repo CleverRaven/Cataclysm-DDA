@@ -81,7 +81,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
 
         //Use weather if above ground, use map temp if below
         double temperature = location.z >= 0 ? w.temperature
-                                             : g->m.temperature( g->m.getlocal( location ) );
+                                             : g->get_temperature( g->m.getlocal( location ) );
 
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
     }
