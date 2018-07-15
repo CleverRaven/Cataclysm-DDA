@@ -5503,7 +5503,10 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
+<<<<<<< HEAD
     "flags": [ "MYCUS_OK" ],
+=======
+>>>>>>> upstream/master
     "fun": 30
   },
   {
@@ -5546,7 +5549,12 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
+<<<<<<< HEAD
     "fun": 30
+=======
+    "flags": ["MYCUS_OK"],
+     "fun": 30
+>>>>>>> upstream/master
   },
   {
     "type": "COMESTIBLE",
