@@ -684,7 +684,7 @@
     "nutrition": 20,
     "description": "A mushy, gray semi-liquid soup made from mushrooms.",
     "price": 450,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "phase": "liquid",
     "charges": 4,
@@ -2684,7 +2684,7 @@
     "nutrition": 38,
     "description": "Biscuits, human flesh, and delicious mushroom soup all crammed together into a wonderfully greasy and tasteful mush.",
     "price": 9000,
-    "material": [ "hflesh", "wheat" ],
+    "material": [ "hflesh", "wheat", "mushroom" ],
     "volume": 3,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -2706,7 +2706,7 @@
     "nutrition": 38,
     "description": "Biscuits, meat, and delicious mushroom soup all crammed together into a wonderfully greasy and tasteful mush.",
     "price": 1000,
-    "material": [ "flesh", "wheat" ],
+    "material": [ "flesh", "wheat", "mushroom" ],
     "volume": 3,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -3903,7 +3903,7 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": -3,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -3922,7 +3922,7 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "flags": [ "HIDDEN_POISON", "TRADER_AVOID" ],
     "fun": -3
@@ -3941,7 +3941,7 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "flags": "HIDDEN_HALLU",
     "fun": -3
@@ -3959,7 +3959,7 @@
     "nutrition": 18,
     "description": "A tasty cooked wild mushroom.",
     "price": 150,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -3978,7 +3978,7 @@
     "nutrition": 12,
     "description": "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must be cooked before they are safe to eat.",
     "price": 2000,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -3995,7 +3995,7 @@
     "nutrition": 18,
     "description": "A tasty cooked morel mushroom.",
     "price": 1500,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 4,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -4012,7 +4012,7 @@
     "nutrition": 16,
     "description": "A delicious serving of fried morsels of morel mushroom.",
     "price": 1500,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "charges": 2,
     "fun": 12,
@@ -4033,7 +4033,7 @@
     "nutrition": 8,
     "description": "Dried mushrooms are a tasty and healthy addition to many meals.",
     "price": 180,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "charges": 4,
     "fun": 1
@@ -4052,7 +4052,7 @@
     "nutrition": 8,
     "description": "A hallucinogenic mushroom which has been dehydrated for storage.  Will still cause hallucinations if eaten.",
     "price": 180,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "charges": 4,
     "fun": 1
@@ -5503,10 +5503,7 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-<<<<<<< HEAD
     "flags": [ "MYCUS_OK" ],
-=======
->>>>>>> upstream/master
     "fun": 30
   },
   {
@@ -5549,12 +5546,8 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-<<<<<<< HEAD
+    "flags": [ "MYCUS_OK" ],
     "fun": 30
-=======
-    "flags": ["MYCUS_OK"],
-     "fun": 30
->>>>>>> upstream/master
   },
   {
     "type": "COMESTIBLE",

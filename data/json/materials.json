@@ -890,6 +890,28 @@
   },
   {
     "type": "material",
+    "ident": "mushroom",
+    "name": "Mushroom",
+    "density": 4,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 2,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "cut",
+    "vitamins": [ [ "calcium", 0.4 ], [ "iron", 4 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
     "ident": "water",
     "name": "Water",
     "density": 1,
