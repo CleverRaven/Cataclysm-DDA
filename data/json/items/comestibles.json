@@ -6109,6 +6109,7 @@
     "name_plural": "cooked acorn meal",
     "weight": 212,
     "color": "brown",
+    "spoils_in": 8640,
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,

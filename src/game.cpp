@@ -938,7 +938,7 @@ bool game::start_game()
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
                        u.name.c_str());
-   lua_callback("on_new_player_created");
+    lua_callback( "on_new_player_created" );
 
     return true;
 }
@@ -1451,15 +1451,24 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-    if( calendar::once_every( 1_days ) ) { // Midnight!
+
+    if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
-        lua_callback("on_day_passed");
+        if( calendar::turn.day_of_year() == 0 ) {
+            lua_callback( "on_year_passed" );
+        }
+        lua_callback( "on_day_passed" );
     }
 
-    // Run a LUA callback once per minute
+    if( calendar::once_every( 1_hours ) ) {
+        lua_callback( "on_hour_passed" );
+    }
+ 
     if( calendar::once_every( 1_minutes ) ) {
         lua_callback("on_minute_passed");
     }
+
+    lua_callback( "on_turn_passed" );
 
     // Move hordes every 5 min
     if( calendar::once_every( 5_minutes ) ) {
@@ -3717,6 +3726,8 @@ void game::load( const save_t &name )
 
     u.reset();
     draw();
+
+    lua_callback( "on_savegame_loaded" );
 }
 
 void game::load_world_modfiles( loading_ui &ui )
@@ -10320,7 +10331,11 @@ void game::reload( item_location &loc, bool prompt )
 
 void game::reload()
 {
-    if( !u.is_armed() || !u.can_reload( u.weapon ) ) {
+    // general reload item menu will popup if:
+    // - user is unarmed;
+    // - weapon wielded can't be reloaded (bows can, they just reload before shooting automatically)
+    // - weapon wielded reloads before shooting (like bows)
+    if( !u.is_armed() || !u.can_reload( u.weapon ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
         turret_data turret;
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
@@ -10334,7 +10349,7 @@ void game::reload()
         }
 
         item_location item_loc = inv_map_splice( [&]( const item &it ) {
-            return u.rate_action_reload( it ) == HINT_GOOD;
+            return ( u.rate_action_reload( it ) == HINT_GOOD && !it.has_flag( "RELOAD_AND_SHOOT" ) );
         }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
         if( !item_loc ) {
