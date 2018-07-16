@@ -349,7 +349,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "Effects:\n"
             "> Increases your faction's food supply value which in turn is used to pay laborers for their time\n \n"
             "Must have enjoyability >= -6\n"
-            "Perishible food liquidated at penalty depending on upgrades and rot time:\n"
+            "Perishable food liquidated at penalty depending on upgrades and rot time:\n"
             "> Rotten: 0%%\n"
             "> Rots in < 2 days: 60%%\n"
             "> Rots in < 5 days: 80%%\n \n"
@@ -449,7 +449,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "Effects:\n"
             "> Good for setting up resupply or contingency points.\n"
             "> Gear is left unattended and could be stolen.\n"
-            "> Time dependant on weight of equipment being sent forward.\n \n"
+            "> Time dependent on weight of equipment being sent forward.\n \n"
             "Risk: Medium\n"
             "Time: 6 Hour Construction + Travel\n"
             "Positions: %d/1\n", companion_list( p, "_faction_camp_hide_site" ).size()
@@ -466,7 +466,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "Effects:\n"
             "> Good for returning equipment you left in the hide site shelter.\n"
             "> Gear is left unattended and could be stolen.\n"
-            "> Time dependant on weight of equipment being sent forward or back.\n \n"
+            "> Time dependent on weight of equipment being sent forward or back.\n \n"
             "Risk: Medium\n"
             "Time: 1 Hour Base + Travel\n"
             "Positions: %d/1\n", companion_list( p, "_faction_camp_hide_trans" ).size()
@@ -5068,7 +5068,7 @@ void talk_function::faction_camp_tutorial(){
                         "allow you to specialize each camp you build by focusing on the industries that you need.  A farm is recommended for "
                         "players that want to pursue a large faction while a kitchen is better for players that just want the quality of life "
                         "improvement of having an NPC do all of their cooking.  A garage is useful for chop shop type missions that let you "
-                        "trade vehicles for large amounts of parts and resources.  You can build an an additional expansion every other level "
+                        "trade vehicles for large amounts of parts and resources.  You can build an additional expansion every other level "
                         "after the first is unlocked.\n \n"
                         );
     popup( "%s", slide_overview );
