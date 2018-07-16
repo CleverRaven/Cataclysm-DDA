@@ -5749,6 +5749,16 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     return false;
 }
 
+bool item::process_fake_smoke( player *carrier, const tripoint &pos )
+{
+    if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
+        item_counter = 0;
+        return true; //destroy fake smoke
+    }
+
+    return false;
+}
+
 bool item::process_litcig( player *carrier, const tripoint &pos )
 {
     field_id smoke_type;
@@ -5981,6 +5991,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         g->m.emit_field( pos, e );
     }
 
+    if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
+        return true;
+    }
     if( is_food() &&  process_food( carrier, pos ) ) {
         return true;
     }

@@ -3679,6 +3679,10 @@ void smoker_activate(player &p, const tripoint &examp)
     g->m.furn_set( examp, next_smoker_type );
     charcoal->charges -= char_charges;
     charcoal->set_age( 0 );
+    item result( "fake_smoke_plume", calendar::turn );
+    result.item_counter = 3600; // = 6 hours 
+    result.activate();
+    g->m.add_item( examp, result );
     add_msg( _("You fire the smocking rack.") );
 }
 
@@ -3758,6 +3762,12 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     if( items_here.empty() && active ) {
         debugmsg( "f_smoking_rack_active was empty!" );
         g->m.furn_set( examp, f_smoking_rack );
+        return;
+    }
+    if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
+        debugmsg( "f_smoking_rack_active was empty, and had fake_smoke_plume!" );
+        g->m.furn_set( examp, f_smoking_rack );
+        items_here.erase( items_here.begin() );
         return;
     }
 
