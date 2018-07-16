@@ -73,7 +73,7 @@
       "toilets": { "&": {  } },
       "items": { "O": { "item": "allsporting", "chance": 50 } },
       "place_loot": [
-        { "group": "clothing_sport", "x": [ 5, 6 ] , "y": 6, "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "clothing_sport", "x": [ 5, 6 ], "y": 6, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "clothing_sport", "x": [ 17, 18 ], "y": 6, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "camping", "x": 2, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "camping", "x": 5, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
