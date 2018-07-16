@@ -322,7 +322,8 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
         g = monsterGroupMap[g.name];
         extending = true;
     }
-    if( !extending || jo.has_string( "default" ) ) { //Not mandatory to specify default if extending existing group
+    if( !extending
+        || jo.has_string( "default" ) ) { //Not mandatory to specify default if extending existing group
         g.defaultMonster = mtype_id( jo.get_string( "default" ) );
     }
     if( jo.has_array( "monsters" ) ) {
@@ -379,7 +380,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
     g.is_safe = jo.get_bool( "is_safe", false );
 
-    g.freq_total = jo.get_int( "freq_total", (extending ? g.freq_total : 1000 ) );
+    g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 1000 ) );
     if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
         int total = 0;
         for( MonsterGroupEntry &mon : g.monsters ) {
