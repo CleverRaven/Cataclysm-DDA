@@ -2392,7 +2392,7 @@ std::string npc::extended_description() const
 void npc::set_companion_mission( npc &p, const std::string &id )
 {
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    comp_mission.position = tripoint(  omt_pos.x, omt_pos.y, p.posz() );
+    comp_mission.position = tripoint( omt_pos.x, omt_pos.y, p.posz() );
     comp_mission.mission_id =  id;
     comp_mission.role_id = p.companion_mission_role_id;
 }

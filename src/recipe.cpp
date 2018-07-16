@@ -245,7 +245,7 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING") {
+    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING" ) {
         return "defines invalid result";
     }
 

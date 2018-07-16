@@ -1926,7 +1926,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     }
                     break;
                 }
-                bool outcome;
+                bool outcome = false;
                 comp->death_drops = false;
                 if( cur_key == "Recover Scout" ){
                     outcome = companion_om_combat_check( patrol, pt, false );
