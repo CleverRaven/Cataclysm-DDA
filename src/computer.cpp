@@ -177,9 +177,9 @@ void computer::use()
         //reset_terminal();
         size_t options_size = options.size();
         print_newline();
-        print_line("%s - %s", name.c_str(), _("Root Menu"));
+        print_line("%s - %s", _(name.c_str()), _("Root Menu"));
         for (size_t i = 0; i < options_size; i++) {
-            print_line("%d - %s", i + 1, options[i].name.c_str());
+            print_line("%d - %s", i + 1, _(options[i].name.c_str()));
         }
         print_line("Q - %s", _("Quit and shut down"));
         print_newline();
@@ -1516,7 +1516,7 @@ void computer::print_newline()
 
 computer_option computer_option::from_json( JsonObject &jo )
 {
-    std::string name = _( jo.get_string( "name" ).c_str() );
+    std::string name = jo.get_string( "name" );
     computer_action action = computer_action_from_string( jo.get_string( "action" ) );
     int sec = jo.get_int( "security", 0 );
     return computer_option( name, action, sec );

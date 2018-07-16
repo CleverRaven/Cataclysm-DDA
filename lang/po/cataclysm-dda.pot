@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-07 19:37+0800\n"
+"POT-Creation-Date: 2018-07-15 11:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17680,6 +17680,28 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "hide bag"
+msgstr ""
+
+#. ~ Description for hide bag
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The raw skin of an animal, quickly turned into a makeshift bag for storage. "
+"It will still rot and needs to be cured and tanned."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "tainted hide bag"
+msgstr ""
+
+#. ~ Description for tainted hide bag
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The raw skin of a monster, quickly turned into a makeshift bag for storage. "
+"It will still rot and needs to be cured and tanned."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "bird litter"
 msgstr ""
 
@@ -20215,6 +20237,16 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "garlic bulb"
+msgstr ""
+
+#. ~ Use action menu_text for garlic bulb.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Split"
+msgstr ""
+
+#. ~ Use action msg for garlic bulb.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You split the bulb into cloves."
 msgstr ""
 
 #. ~ Description for garlic bulb
@@ -25520,6 +25552,21 @@ msgid "Some onion seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "garlic seeds"
+msgid_plural "garlic seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for garlic seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some garlic seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "garlic"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "garlic clove"
 msgid_plural "garlic cloves"
 msgstr[0] ""
@@ -25528,10 +25575,6 @@ msgstr[1] ""
 #. ~ Description for garlic clove
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Cloves of garlic.  Useful as a seasoning, or for planting."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "garlic"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -27252,6 +27295,43 @@ msgstr[1] ""
 msgid ""
 "A lump of exoskeleton that has undergone biosilicification.  It is acid-"
 "resistant and remarkably sturdy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "bundle of rags"
+msgid_plural "bundle of ragss"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bundle of rags
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Cotton rags, bundled tightly together for storage.  Disassemble to unpack."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "bundle of leather"
+msgid_plural "bundle of leathers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bundle of leather
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Leather patches, bundled tightly together for storage.  Disassemble to "
+"unpack."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "bundle of felt"
+msgid_plural "bundle of felts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bundle of felt
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Felt patches, bundled tightly together for storage.  Disassemble to unpack."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32952,6 +33032,18 @@ msgid ""
 "up to 0.5 metric tonnes."
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
+msgid "rockwheel"
+msgid_plural "rockwheels"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rockwheel
+#: lang/json/GENERIC_from_json.py
+msgid "A large and heavy jagged metal disc to dig trenches."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle crafting rig"
 msgid_plural "vehicle crafting rigs"
@@ -33006,6 +33098,17 @@ msgstr[1] ""
 msgid ""
 "A forge rig made to run off a vehicle's storage battery with integrated tool "
 "storage for metalworking equipment."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "vehicle kiln"
+msgid_plural "vehicle kilns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vehicle kiln
+#: lang/json/GENERIC_from_json.py
+msgid "An electric kiln made to run off a vehicle's storage battery."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -36294,7 +36397,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "This once-canine has shed all its skin revealing a carapace of fused bones "
-"and ribs. This bone armour devoid of external flesh seems to be propelled by "
+"and ribs.  This bone armor devoid of external flesh seems to be propelled by "
 "a net of sickly black veins and sinews glistening with black goo."
 msgstr ""
 
@@ -36807,7 +36910,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A monstrous overgrowth of ossified tissue has replaced this zombie's rotting "
-"skin with an organic armor of dense bone. Large clumps of black goo seep "
+"skin with an organic armor of dense bone.  Large clumps of black goo seep "
 "from its joints, as it makes sickening cracks while it moves unfazed."
 msgstr ""
 
@@ -37531,7 +37634,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "By growing more and more bone plates over its withered tissues, this monster "
-"tried to achieve the impossible: huge size and slender armored body. Now it "
+"tried to achieve the impossible: huge size and slender armored body.  Now it "
 "drags around it's pointy elongated limbs like a heavy burden."
 msgstr ""
 
@@ -42199,6 +42302,21 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "electric kiln"
+msgid_plural "electric kilns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for electric kiln
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a portable electric kiln, powered by batteries.  It is designed for "
+"firing bricks, but you could use it to fire anything made of clay.  With a "
+"little mechanical know-how, you could probably even convert it to run "
+"directly off a vehicle's power system."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "firebrand (off)"
 msgid_plural "firebrands (off)"
 msgstr[0] ""
@@ -44863,6 +44981,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "mortar and pestle"
+msgid_plural "sets of mortar and pestle"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mortar and pestle
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a simple combination of a small grindstone and a bowl-shaped stone.  "
+"Used for grinding grain, but time-consuming compared to more complex methods."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "mp3 player (off)"
 msgid_plural "mp3 players (off)"
 msgstr[0] ""
@@ -47018,6 +47149,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "bird food"
+msgid_plural "bird food"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bird food
+#: lang/json/TOOL_from_json.py
+msgid ""
+"What birds eat.  Mainly made of seeds, silages or legumes.  It's perfect for "
+"small birds."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "chainmail sheet"
 msgid_plural "chainmail sheets"
 msgstr[0] ""
@@ -47028,6 +47172,19 @@ msgstr[1] ""
 msgid ""
 "This is a sheet of riveted chainmail.  With some skill, several of these "
 "sheets could be connected to make effective armor."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "folding knife"
+msgid_plural "folding knives"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for folding knife
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a small folding knife, with a locking blade and a pocket clip.  Not "
+"as good a weapon as a solid fixed-blade knife, but better than a penknife."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -47814,19 +47971,6 @@ msgstr[1] ""
 msgid ""
 "A cheap gadget combining a whistle, thermometer, magnifying glass, and "
 "compass."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "mortar and pestle"
-msgid_plural "sets of mortar and pestle"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mortar and pestle
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a simple combination of a small grindstone and a bowl-shaped stone.  "
-"Used for grinding grain, but time-consuming compared to more complex methods."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -50618,6 +50762,10 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Reinforced Glass Window"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Mark firewood source"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -54845,6 +54993,10 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "wardrobe"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "piano"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -61140,6 +61292,10 @@ msgstr ""
 msgid "Chop a Tree Trunk into logs"
 msgstr ""
 
+#: lang/json/item_action_from_json.py
+msgid "Break stick"
+msgstr ""
+
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This gear has an <info>alarm clock</info> feature."
@@ -62694,6 +62850,10 @@ msgid "Load color template"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Control multiple electronics"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Control individual engines"
 msgstr ""
 
@@ -62738,6 +62898,7 @@ msgid "Toggle dome lights"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "Toggle doors"
 msgstr ""
 
@@ -62819,6 +62980,16 @@ msgstr ""
 msgid "Danger!  Do not smoke!  Risk of explosion!"
 msgstr ""
 
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Consolidated Computerized Bank of the Treasury"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Open Vault"
+msgstr ""
+
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "Closed at sunset."
@@ -62827,6 +62998,26 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "Maintained by the <city> church."
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Church Bells 1.2"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Gathering Toll"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Wedding Toll"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Funeral Toll"
 msgstr ""
 
 #. ~ Sign
@@ -62852,6 +63043,21 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "it works."
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Medical Supply Access"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Unlock Door"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Lock Door"
 msgstr ""
 
 #. ~ Sign
@@ -62887,9 +63093,65 @@ msgid ""
 "attached."
 msgstr ""
 
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Evac shelter computer"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Emergency Message"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py lang/json/mission_def_from_json.py
+msgid "Disable External Power"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Contact Us"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Broadcasting Control"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "ERROR:  SIGNAL DISCONNECT"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py lang/json/mission_def_from_json.py
+#: lang/json/mission_def_from_json.py
+msgid "Install Repeater Mod"
+msgstr ""
+
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "The Red Dragon Tea Shop"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Centrifuge"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Analyze blood"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Mr. Stem Cell"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Stem Cell Treatment"
 msgstr ""
 
 #. ~ Sign
@@ -65125,10 +65387,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Disable External Power"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
 msgid ""
 "I guess I could use your skills once again.  There are small transmitters "
 "located in the nearby evacuation shelters; if we don't separate them from "
@@ -65153,11 +65411,6 @@ msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid "We are good to go!  The last of the gear is powering up now."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-#: lang/json/mission_def_from_json.py src/mapgen.cpp
-msgid "Install Repeater Mod"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -79025,31 +79278,31 @@ msgctxt "start_name"
 msgid "Out of City"
 msgstr ""
 
-#. ~ Name for scenario 'High tech, low life' for a male character
+#. ~ Name for scenario 'High Tech, Low Life' for a male character
 #: lang/json/scenario_from_json.py
 msgctxt "scenario_male"
-msgid "High tech, low life"
+msgid "High Tech, Low Life"
 msgstr ""
 
-#. ~ Name for scenario 'High tech, low life' for a female character
+#. ~ Name for scenario 'High Tech, Low Life' for a female character
 #: lang/json/scenario_from_json.py
 msgctxt "scenario_female"
-msgid "High tech, low life"
+msgid "High Tech, Low Life"
 msgstr ""
 
-#. ~ Description for scenario 'High tech, low life' for a male character.
+#. ~ Description for scenario 'High Tech, Low Life' for a male character.
 #: lang/json/scenario_from_json.py
 msgctxt "scen_desc_male"
 msgid "Advanced technology, dystopian society, and trenchcoats."
 msgstr ""
 
-#. ~ Description for scenario 'High tech, low life' for a female character.
+#. ~ Description for scenario 'High Tech, Low Life' for a female character.
 #: lang/json/scenario_from_json.py
 msgctxt "scen_desc_female"
 msgid "Advanced technology, dystopian society, and trenchcoats."
 msgstr ""
 
-#. ~ Starting location for scenario 'High tech, low life'.
+#. ~ Starting location for scenario 'High Tech, Low Life'.
 #: lang/json/scenario_from_json.py
 msgctxt "start_name"
 msgid "Somewhere in town"
@@ -82323,6 +82576,11 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"\"Got my mortar and pestle.  Now if I could just find some avocados...\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "LABS BOMBED: In further invasion proof (discounting earlier suggestion of a "
 "riot drug) most of New England's scientific labs were bombed simultaneously "
 "yesterday.  No word yet from the military about who the aggressors are."
@@ -84259,11 +84517,6 @@ msgstr ""
 msgid ""
 "\"Shoot elfy mutants.  Carve more bolts outta their bones.  Rinse and repeat."
 "\""
-msgstr ""
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"\"Got my mortar and pestle.  Now if I could just find some avocados...\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -90880,6 +91133,10 @@ msgid "ledge"
 msgstr ""
 
 #: lang/json/trap_from_json.py
+msgid "firewood source"
+msgstr ""
+
+#: lang/json/trap_from_json.py
 msgid "raincatcher"
 msgstr ""
 
@@ -91450,6 +91707,10 @@ msgid "Forklift"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
+msgid "Trencher"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Armored Car"
 msgstr ""
 
@@ -91561,20 +91822,65 @@ msgstr ""
 msgid "null part"
 msgstr ""
 
+#. ~ Description for seat
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A place to sit, or sleep if you're desperate.  You need a seat or saddle to "
+"operate vehicle controls."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "reclining seat"
+msgstr ""
+
+#. ~ Description for reclining seat
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A place to sit, and the backrest reclines to make it an uncomfortable bed.  "
+"You need a seat or saddle to operate vehicle controls."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "tracking device"
 msgstr ""
 
+#. ~ Description for tracking device
+#: lang/json/vehicle_part_from_json.py
+msgid "A small transmitter that lets you locate the vehicle on the map."
+msgstr ""
+
+#. ~ Description for saddle
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A padded wedge that you straddle, like a bicycle or motorcycle.  You need a "
+"seat or saddle to operate vehicle controls."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "foldable seat"
 msgstr ""
 
+#. ~ Description for foldable seat
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A crude seat, too uncomfortable to sleep in.  You need a seat or saddle to "
+"operate vehicle controls."
+msgstr ""
+
+#. ~ Description for bed
+#: lang/json/vehicle_part_from_json.py
+msgid "A small but comfortable bed."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "handle"
+msgstr ""
+
+#. ~ Description for handle
+#. ~ Description for wooden handle
+#. ~ Description for light wooden handle
+#: lang/json/vehicle_part_from_json.py
+msgid "A pair of handles.  You can mount other items on top of it."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91589,6 +91895,12 @@ msgstr ""
 msgid "aisle"
 msgstr ""
 
+#. ~ Description for aisle
+#. ~ Description for wooden aisle
+#: lang/json/vehicle_part_from_json.py
+msgid "An aisle, to let you move inside the vehicle quickly."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden aisle"
 msgstr ""
@@ -91597,40 +91909,116 @@ msgstr ""
 msgid "floor trunk"
 msgstr ""
 
+#. ~ Description for floor trunk
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An aisle, to let you move inside the vehicle quickly.  A hatch lets you "
+"access a cargo space beneath it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "cloth roof"
+msgstr ""
+
+#. ~ Description for cloth roof
+#: lang/json/vehicle_part_from_json.py
+msgid "A cloth roof.  Keeps the rain out of the interior of the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "roof"
 msgstr ""
 
+#. ~ Description for roof
+#: lang/json/vehicle_part_from_json.py
+msgid "A metal roof.  Keeps the rain out of the interior of the vehicle."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty roof"
+msgstr ""
+
+#. ~ Description for heavy duty roof
+#: lang/json/vehicle_part_from_json.py
+msgid "A thick metal roof.  Keeps the rain out of the interior of the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "door"
 msgstr ""
 
+#. ~ Description for door
+#. ~ Description for wooden door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A door.  When open, it lets you move from inside the vehicle to outside or "
+"vice versa.  When closed, it prevents people from entering or leaving the "
+"vehicle.  Has a window so you can see out of it, even when closed."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "opaque door"
+msgstr ""
+
+#. ~ Description for opaque door
+#. ~ Description for opaque wooden door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A door.  When open, it lets you move from inside the vehicle to outside or "
+"vice versa.  When closed, it prevents people from entering or leaving the "
+"vehicle.  Solid construction means you can't see through it when closed."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty door"
 msgstr ""
 
+#. ~ Description for heavy duty door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A strong door.  When open, it lets you move from inside the vehicle to "
+"outside or vice versa.  When closed, it prevents people from entering or "
+"leaving the vehicle.  Has a window so you can see out of it, even when "
+"closed."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty opaque door"
+msgstr ""
+
+#. ~ Description for heavy duty opaque door
+#. ~ Description for opaque hatch
+#. ~ Description for shutter door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A strong door.  When open, it lets you move from inside the vehicle to "
+"outside or vice versa.  When closed, it prevents people from entering or "
+"leaving the vehicle.  Solid construction means you can't see through it when "
+"closed."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "internal door"
 msgstr ""
 
+#. ~ Description for internal door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An interior door.  When open, it lets you move from one part of the vehicle "
+"to another.  When closed, it prevents people from moving through it.  Solid "
+"construction means you can't see through it when closed."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "hatch"
+msgstr ""
+
+#. ~ Description for hatch
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A strong door.  When open, it lets you move from inside the vehicle to "
+"outside or vice versa.  When closed, it prevents people from entering or "
+"leaving the vehicle.  A windows lets you see through it when closed."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91641,20 +92029,98 @@ msgstr ""
 msgid "heavy duty hatch"
 msgstr ""
 
+#. ~ Description for heavy duty hatch
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A very strong door.  When open, it lets you move from inside the vehicle to "
+"outside or vice versa.  When closed, it prevents people from entering or "
+"leaving the vehicle.  A windows lets you see through it when closed."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "opaque heavy duty hatch"
+msgstr ""
+
+#. ~ Description for opaque heavy duty hatch
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A very strong door.  When open, it lets you move from inside the vehicle to "
+"outside or vice versa.  When closed, it prevents people from entering or "
+"leaving the vehicle.  Solid construction means you can't see through it when "
+"closed."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "windshield"
 msgstr ""
 
+#. ~ Description for windshield
+#: lang/json/vehicle_part_from_json.py
+msgid "A sheet of glass that lets you see outside the vehicle."
+msgstr ""
+
+#. ~ Description for blade
+#: lang/json/vehicle_part_from_json.py
+msgid "A blade, welded to the vehicle, for cutting up zombies."
+msgstr ""
+
+#. ~ Description for spike
+#. ~ Description for wooden spike
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A metal spike, welded to the vehicle, to increase injury when crashing into "
+"things."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "swappable storage battery case"
 msgstr ""
 
+#. ~ Description for swappable storage battery case
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A battery case for storage batteries.  Allows quick removal or addition of a "
+"storage battery, if you can lift the battery."
+msgstr ""
+
+#. ~ Description for minireactor
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small nuclear reactor.  When loaded with plutonium cells and turned on, "
+"will generate a lot of electrical power."
+msgstr ""
+
+#. ~ Description for minifridge
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small fridge.  When turned on, it will cool the food inside, extended the "
+"time until the food spoils.  Drains electric power."
+msgstr ""
+
+#. ~ Description for washing machine
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small washing machine.  With detergent or soap, water, and some electrical "
+"power, you could clean a lot of clothes."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "trunk"
+msgstr ""
+
+#. ~ Description for trunk
+#. ~ Description for box
+#. ~ Description for travois
+#. ~ Description for wood box
+#. ~ Description for folding wood box
+#. ~ Description for storage bag
+#. ~ Description for wire bike basket
+#. ~ Description for shopping cart basket
+#. ~ Description for folding shopping cart basket
+#. ~ Description for table
+#. ~ Description for wood table
+#: lang/json/vehicle_part_from_json.py
+msgid "Storage space."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91697,44 +92163,212 @@ msgstr ""
 msgid "controls"
 msgstr ""
 
+#. ~ Description for controls
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A steering wheel and accelerator and brake pedals.  With a seat or saddle, "
+"you drive from here."
+msgstr ""
+
+#. ~ Description for dashboard
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A frame containing some lights and controls.  You could control the "
+"vehicle's electrical systems from here."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "electronic control unit"
+msgstr ""
+
+#. ~ Description for electronic control unit
+#: lang/json/vehicle_part_from_json.py
+msgid "Some switches and knobs to control the vehicle's electrical systems."
+msgstr ""
+
+#. ~ Description for muffler
+#: lang/json/vehicle_part_from_json.py
+msgid "A metal pipe that reduces some of noise of the engine."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "seatbelt"
 msgstr ""
 
+#. ~ Description for seatbelt
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A belt, attached to a seat.  Helps keep you in the seat if the vehicle "
+"collides with something."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "security system"
+msgstr ""
+
+#. ~ Description for security system
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A bunch of electronics that make it difficult to start the vehicle without "
+"the proper key, and that will sound an alarm if you try.  The alarm can be "
+"disabled."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "5-point harness"
 msgstr ""
 
+#. ~ Description for 5-point harness
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A series of straps attached to the seat, intended to fasten together after "
+"going over your shoulders and hips and between your legs.  Will keep you "
+"securely in your seat in all but the worst of collisions."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "curtain"
+msgstr ""
+
+#. ~ Description for curtain
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A sheet over a window.  Closed, it prevents people from seeing through the "
+"window.  A door motor allows you to remotely open or close it from the "
+"vehicle controls."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "aisle curtain"
 msgstr ""
 
+#. ~ Description for aisle curtain
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A sheet across on aisle.  Closed, it prevents people from seeing through the "
+"aisle."
+msgstr ""
+
+#. ~ Description for solar panel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A solar panel.  Will slowly recharge the vehicle's electrical power when "
+"exposed to the sun.  Clouds will slow the recharge speed even more."
+msgstr ""
+
+#. ~ Description for reinforced solar panel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A solar panel.  Will slowly recharge the vehicle's electrical power when "
+"exposed to the sun.  Clouds will slow the recharge speed even more.  "
+"Reinforced with armored glass to make it more resistant to damage."
+msgstr ""
+
+#. ~ Description for upgraded solar panel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A high performance solar panel.  Will slowly recharge the vehicle's "
+"electrical power when exposed to the sun.  Clouds will slow the recharge "
+"speed even more."
+msgstr ""
+
+#. ~ Description for upgraded reinforced solar panel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A high performance solar panel.  Will slowly recharge the vehicle's "
+"electrical power when exposed to the sun.  Clouds will slow the recharge "
+"speed even more.  Reinforced with armored glass to make it more resistant to "
+"damage."
+msgstr ""
+
+#. ~ Description for quantum solar panel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An extremely high performance solar panel.  Will recharge the vehicle's "
+"electrical power when exposed to the sun.  Clouds will slow the recharge "
+"speed.  Extremely fragile and cannot be armored."
+msgstr ""
+
+#. ~ Description for water faucet
+#: lang/json/vehicle_part_from_json.py
+msgid "A water faucet.  Lets you access any water in the vehicle's tanks."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "kitchen unit"
+msgstr ""
+
+#. ~ Description for kitchen unit
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small but complete kitchen unit, powered from the vehicle's batteries.  "
+"Also includes a water faucet."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "welding rig"
 msgstr ""
 
+#. ~ Description for welding rig
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A welding rig mounted in the vehicle, that draws power from the vehicle's "
+"batteries.  You still need glare protection."
+msgstr ""
+
+#. ~ Description for FOODCO kitchen buddy
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A multi-function crafting station, with a water purifier, food dehydrator, "
+"vacuum sealer, and hand press for making ammo.  Draws power from the "
+"vehicle's batteries.  Also includes a water faucet."
+msgstr ""
+
+#. ~ Description for onboard chemistry lab
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small chemistry station, including a hotplate powered by the vehicle's "
+"batteries.  Also includes a water faucet."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted electric forge"
 msgstr ""
 
+#. ~ Description for mounted electric forge
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A electric forge for metalworking, powered by the vehicle's batteries.  With "
+"a hammer and other tools, you could use this for metalworking."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted electric kiln"
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden armor"
+msgstr ""
+
+#. ~ Description for wooden armor
+#. ~ Description for steel plating
+#. ~ Description for superalloy plating
+#. ~ Description for hard plating
+#. ~ Description for military composite armor plating
+#. ~ Description for chitin plating
+#. ~ Description for bone plating
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"Armor plate.  Will partially protect other components on the same frame from "
+"damage."
+msgstr ""
+
+#. ~ Description for spiked plating
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"Armor plate.  Will partially protect other components on the same frame from "
+"damage.  Will also increase the damage delivered to someone else in "
+"collisions."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91745,12 +92379,57 @@ msgstr ""
 msgid "reinforced windshield"
 msgstr ""
 
+#. ~ Description for reinforced windshield
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A sheet of glass that lets you see outside the vehicle.  Reinforced with "
+"wire to make it harder to break than normal glass."
+msgstr ""
+
+#. ~ Description for bicycle horn
+#: lang/json/vehicle_part_from_json.py
+msgid "A small bicycle horn.  Honk it to make noise."
+msgstr ""
+
+#. ~ Description for car horn
+#: lang/json/vehicle_part_from_json.py
+msgid "A horn.  Honk it to make noise."
+msgstr ""
+
+#. ~ Description for truck horn
+#: lang/json/vehicle_part_from_json.py
+msgid "A powerful truck horn.  Honk it to make noise."
+msgstr ""
+
+#. ~ Description for back-up beeper
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An electronic noise maker.  It will automatically make noise when you drive "
+"in reverse, alerting things behind you to move out of the way."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "trunk door"
 msgstr ""
 
+#. ~ Description for trunk door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A short door.  When open, it lets you move from inside the vehicle to "
+"outside or vice versa.  When closed, it prevents people from entering or "
+"leaving the vehicle.  You can always see over it, open or closed."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty trunk door"
+msgstr ""
+
+#. ~ Description for heavy duty trunk door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A strong, short door.  When open, it lets you move from inside the vehicle "
+"to outside or vice versa.  When closed, it prevents people from entering or "
+"leaving the vehicle.  You can always see over it, open or closed."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91761,24 +92440,94 @@ msgstr ""
 msgid "sliding door"
 msgstr ""
 
+#. ~ Description for sliding door
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A door.  When open, it lets you move from inside the vehicle to outside or "
+"vice versa.  When closed, it prevents people from entering or leaving the "
+"vehicle.  A window lets you see through it when closed."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "cargo space"
+msgstr ""
+
+#. ~ Description for cargo space
+#: lang/json/vehicle_part_from_json.py
+msgid "Cargo space."
+msgstr ""
+
+#. ~ Description for UPS-compatible recharging station
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A recharger for UPS devices.  When turned on, drains power from the "
+"vehicle's batteries and transfers it to any UPS devices in the cargo space."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wing mirror"
 msgstr ""
 
+#. ~ Description for wing mirror
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small mirror, mounted outside the vehicle.  If you see the mirror, your "
+"vision is expanded as though you were standing where the mirror is."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "inboard mirror"
 msgstr ""
 
+#. ~ Description for inboard mirror
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small mirror, mounted inside the vehicle.  If you see the mirror, your "
+"vision is expanded as though you were standing where the mirror is."
+msgstr ""
+
+#. ~ Description for stereo system
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A stereo system.  When turned on, it draws power from the vehicle's battery "
+"and plays music, improving your mood."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "chimes"
+msgstr ""
+
+#. ~ Description for chimes
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A collection of electronic bells.  When turned on, it draws power from the "
+"vehicle's battery and makes noise, attracting neighborhood children."
+msgstr ""
+
+#. ~ Description for jumper cable
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"Thick, copper cable with leads on either end.  Attach one end to one vehicle "
+"and the other to another, and you can transfer electrical power between the "
+"two."
+msgstr ""
+
+#. ~ Description for heavy-duty cable
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"Very thick, copper cable with leads on either end.  Attach one end to one "
+"vehicle and the other to another, and you can transfer electrical power "
+"between the two."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden seat"
+msgstr ""
+
+#. ~ Description for wooden seat
+#: lang/json/vehicle_part_from_json.py
+msgid "A place to sit.  You need a seat or saddle to operate vehicle controls."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91797,6 +92546,11 @@ msgstr ""
 msgid "wooden roof"
 msgstr ""
 
+#. ~ Description for wooden roof
+#: lang/json/vehicle_part_from_json.py
+msgid "A wooden roof.  Keeps the rain out of the interior of the vehicle."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "chitin plating"
 msgstr ""
@@ -91813,20 +92567,149 @@ msgstr ""
 msgid "door motor"
 msgstr ""
 
+#. ~ Description for door motor
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small electric motor.  Installed on the same frame as a door or curtain, "
+"it will allow you to remotely open the door or curtain from the vehicle "
+"controls."
+msgstr ""
+
+#. ~ Description for drive by wire controls
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A sophisticated set of electronic controls that allow you to control the "
+"vehicle from a vehicle remote while you are not in it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "camera control system"
+msgstr ""
+
+#. ~ Description for camera control system
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An LCD display attached to one or more cameras.  When turned on, it lets you "
+"see from the cameras, but drains power from the vehicle's batteries."
+msgstr ""
+
+#. ~ Description for security camera
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small camera.  Will relay what it can see to a camera control station."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "robot controls"
 msgstr ""
 
+#. ~ Description for robot controls
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A set of controls to allow a vehicle to drive itself, or you to drive it "
+"remotely using a controller."
+msgstr ""
+
+#. ~ Description for clock
+#: lang/json/vehicle_part_from_json.py
+msgid "A clock, so you know what time it is."
+msgstr ""
+
+#. ~ Description for leather funnel
+#. ~ Description for makeshift funnel
+#. ~ Description for funnel
+#. ~ Description for metal funnel
+#: lang/json/vehicle_part_from_json.py
+msgid "A funnel that will collect rainwater into the tank beneath it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "scoop"
+msgstr ""
+
+#. ~ Description for scoop
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A scoop.  When turned on, it drains power from the vehicle's battery and "
+"will scoop up any loose items that it travels over, putting them into the "
+"vehicle's storage."
+msgstr ""
+
+#. ~ Description for water purifier
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A water purifier, powered by the vehicle's batteries.  You can use it to "
+"purify water in a container or in the vehicle's tanks."
+msgstr ""
+
+#. ~ Description for plow
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A plow.  It can be turned on, and it will stop the vehicle unless it has a "
+"strong engine.  When turned on, it will create a furrow in any dirt it "
+"travels over, making it suitable for planting seeds.  It should be placed in "
+"front of any seed drills on the vehicle."
+msgstr ""
+
+#. ~ Description for seed drill
+#. ~ Description for advanced seed drill
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A seed drill.  It can be turned on, and it will stop the vehicle unless it "
+"has a strong engine.  You can load it with seeds by examining it.  When "
+"turned on, it will drop seeds as the vehicle moves, or plant them in "
+"furrowed dirt.  It should be placed behind any plows on the vehicle, and any "
+"wheels should be placed so they won't run over the plants."
+msgstr ""
+
+#. ~ Description for reaper
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An automatic reaper.  It can be turned on, and it will stop the vehicle "
+"unless it has a strong engine.  When on, it will cut down plants that it "
+"travels over.  It should be placed in front of any plows in the vehicle for "
+"efficient operation."
+msgstr ""
+
+#. ~ Description for advanced reaper
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An automatic reaper.  It can be turned on, and it will stop the vehicle "
+"unless it has a strong engine.  When on, it will cut down plants and store "
+"them in the vehicle's cargo.  It should be placed in front of any plows in "
+"the vehicle for efficient operation."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "cargo lock"
+msgstr ""
+
+#. ~ Description for cargo lock
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A set of locks.  Attached to a suitable cargo space, it will prevent other "
+"people from accessing the cargo and taking your stuff."
+msgstr ""
+
+#. ~ Description for turret mount
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A rotating, universal mount for a weapon.  If your hands are empty, you can "
+"stand next to a turret mount and fire the weapon."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An alternator.  When mounted on a gasoline or diesel engine and the engine "
+"is on, will produce electrical power that can be stored in a battery."
+msgstr ""
+
+#. ~ Description for car battery
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A battery for storing electrical power, and discharging it to power "
+"electrical devices built into the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91837,20 +92720,55 @@ msgstr ""
 msgid "board"
 msgstr ""
 
+#. ~ Description for board
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A metal wall.  Keeps zombies outside the vehicle and prevents people from "
+"seeing through it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "cloth board"
+msgstr ""
+
+#. ~ Description for cloth board
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A cloth wall.  Keeps zombies outside the vehicle and prevents people from "
+"seeing through it."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "cloth quarterpanel"
 msgstr ""
 
+#. ~ Description for cloth quarterpanel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A half-height cloth wall.  Keeps zombies outside the vehicle but allows "
+"people to see over it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "quarterpanel"
 msgstr ""
 
+#. ~ Description for quarterpanel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A half-height metal wall.  Keeps zombies outside the vehicle but allows "
+"people to see over it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "stow board"
+msgstr ""
+
+#. ~ Description for stow board
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A metal wall with a storage locker.  Keeps zombies outside the vehicle and "
+"prevents people from seeing through it.  Can also be used to store items."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91861,53 +92779,241 @@ msgstr ""
 msgid "heavy duty board"
 msgstr ""
 
+#. ~ Description for heavy duty board
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A strong metal wall.  Keeps zombies outside the vehicle and prevents people "
+"from seeing through it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty quarterpanel"
+msgstr ""
+
+#. ~ Description for heavy duty quarterpanel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A half-height strong metal wall.  Keeps zombies outside the vehicle but "
+"allows people to see over it."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden board"
 msgstr ""
 
+#. ~ Description for wooden board
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A wooden wall.  Keeps zombies outside the vehicle and prevents people from "
+"seeing through it."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden quarterpanel"
+msgstr ""
+
+#. ~ Description for wooden quarterpanel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A half-height wooden wall.  Keeps zombies outside the vehicle but allows "
+"people to see over it."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "extra light quarterpanel"
 msgstr ""
 
+#. ~ Description for extra light quarterpanel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A half-height thin metal wall.  Keeps zombies outside the vehicle but allows "
+"people to see over it."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A diesel engine.  Burns diesel from a tank in the vehicle to move the "
+"vehicle if the vehicle has sufficient wheels.  Requires controls to turn "
+"on.  Requires a charged battery to start.  An alternator attached to the "
+"engine will generate electrical power while the engine is on."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A gasoline engine.  Burns gasoline from a tank in the vehicle to move the "
+"vehicle if the vehicle has sufficient wheels.  Requires controls to turn "
+"on.  Requires a charged battery to start.  An alternator attached to the "
+"engine will generate electrical power while the engine is on."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "boom crane"
+msgstr ""
+
+#. ~ Description for boom crane
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A rigid steel boom crane.  Can be used to jack up another vehicle to change "
+"the other vehicle's wheels, or lift a heavy component like an engine from "
+"another vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "telescopic crane"
 msgstr ""
 
+#. ~ Description for telescopic crane
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An extendable, cantilever crane.  Can be used to jack up another vehicle to "
+"change the other vehicle's wheels, or lift a heavy component like an engine "
+"from another vehicle."
+msgstr ""
+
+#. ~ Description for pallet lifter
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small pallet lifter.  Can be used to jack up another vehicle to change the "
+"other vehicle's wheels, or lift a heavy component like an engine from "
+"another vehicle."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "forklift arm"
+msgstr ""
+
+#. ~ Description for forklift arm
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A pair of forklift arms.  Can be used to jack up another vehicle to change "
+"the other vehicle's wheels, or lift a heavy component like an engine from "
+"another vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "foldable light frame"
 msgstr ""
 
+#. ~ Description for foldable light frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A light metal framework, designed to fold.  Other vehicle components can be "
+"mounted on it.  If all the frames and components of a vehicle are foldable, "
+"the vehicle can be folding into a small package and picked up as a normal "
+"item."
+msgstr ""
+
+#. ~ Description for foldable wooden frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A light wooden framework, designed to fold.  Other vehicle components can be "
+"mounted on it.  If all the frames and components of a vehicle are foldable, "
+"the vehicle can be folding into a small package and picked up as a normal "
+"item."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "frame"
+msgstr ""
+
+#. ~ Description for frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A metal framework.  Other vehicle components can be mounted on it, and it "
+"can be attached to other frames to increase the vehicle's size."
+msgstr ""
+
+#. ~ Description for wooden frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A wooden framework.  Other vehicle components can be mounted on it, and it "
+"can be attached to other frames to increase the vehicle's size.  Wood and "
+"nail construction means it can be constructed and added to the vehicle "
+"without welding tools."
+msgstr ""
+
+#. ~ Description for light wooden frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A light wooden framework.  Other vehicle components can be mounted on it, "
+"and it can be attached to other frames to increase the vehicle's size.  Wood "
+"and rope constructions means it can be constructed and added to the vehicle "
+"without welding tools or nails."
+msgstr ""
+
+#. ~ Description for heavy duty frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A heavy metal framework.  Other vehicle components can be mounted on it, and "
+"it can be attached to other frames to increase the vehicle's size.  "
+"Increased mass makes it more resistant to damage in collisions."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "extra light frame"
 msgstr ""
 
+#. ~ Description for extra light frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A light metal framework.  Other vehicle components can be mounted on it, and "
+"it can be attached to other frames to increase the vehicle's size."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py src/vehicle.cpp
+#: src/vehicle.cpp
 msgid "aisle lights"
+msgstr ""
+
+#. ~ Description for aisle lights
+#. ~ Description for aisle with lights
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A bright light that draws power from the vehicle's battery when turned on "
+"and illuminates several squares inside the vehicle."
+msgstr ""
+
+#. ~ Description for atomic lamp
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A bright light, self-powered by an atomic decay reaction that never stops.  "
+"When turned on, it illuminates several squares inside the vehicle."
+msgstr ""
+
+#. ~ Description for atomic nightlight
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A dim light, self-powered by an atomic decay reaction that never stops.  "
+"When turned on, it illuminates a square inside the vehicle."
+msgstr ""
+
+#. ~ Description for floodlight
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A very bright, wide-angle light that illuminates the area outside the "
+"vehicle when turned on.  Draws a lot of power from the vehicle batteries."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "headlight"
+msgstr ""
+
+#. ~ Description for headlight
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A bright light that illuminates a narrow cone outside the vehicle when "
+"turned on.  Draws power from the vehicle batteries.  During installation, "
+"you can choose what direction to point the light, so multiple headlights can "
+"illuminate the sides or rear, as well as the front."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"Emergency lights, like a police car's or ambulance's, mounted on the "
+"vehicle's roof.  Flashes between red and blue when turned on, drawing power "
+"from the vehicle's battery and attracting attention without illuminating the "
+"area."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91926,12 +93032,49 @@ msgstr ""
 msgid "foot pedals"
 msgstr ""
 
+#. ~ Description for foot pedals
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A set of bicycle style foot pedals.  If mounted on the same tile as seat, "
+"they allow you to move the vehicle at the cost of your stamina, if the "
+"vehicle has sufficient wheels."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "hand rims"
 msgstr ""
 
+#. ~ Description for hand rims
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A set of wheelchair style wheels.  If mounted on the same tile as seat, they "
+"allow you to move the vehicle at the cost of your stamina, if the vehicle "
+"has sufficient wheels."
+msgstr ""
+
+#. ~ Description for electric motor
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An electric motor.  When turned on, it consumes power from the vehicle's "
+"battery and moves the vehicle, if the vehicle has sufficient wheels."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "vehicle tank (2L)"
+msgstr ""
+
+#. ~ Description for vehicle tank (2L)
+#. ~ Description for vehicle tank (10L)
+#. ~ Description for vehicle tank (20L)
+#. ~ Description for vehicle tank (60L)
+#. ~ Description for barrel (100L)
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A storage space for holding liquids.  If filled with the appropriate fuel "
+"for the vehicle's engine, the engine will automatically draw fuel from the "
+"tank when the engine is on.  If filled with water, you can access the water "
+"from a water faucet, if one is installed in the vehicle.  You can also use a "
+"rubber hose to siphon liquids out of a tank."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91950,12 +93093,27 @@ msgstr ""
 msgid "external tank (100L)"
 msgstr ""
 
+#. ~ Description for external tank (100L)
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A storage space for holding liquids, mounted outside the vehicle's walls and "
+"armor.  If filled with the appropriate fuel for the vehicle's engine, the "
+"engine will automatically draw fuel from the tank when the engine is on.  If "
+"filled with water, you can access the water from a water faucet, if one is "
+"installed in the vehicle.  You can also use a rubber hose to siphon liquids "
+"out of a tank."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "external tank (200L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "barrel (100L)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "A weapon mounted in a turret."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92014,16 +93172,60 @@ msgstr ""
 msgid "mounted plasma gun"
 msgstr ""
 
+#. ~ Description for metal wheel
+#. ~ Description for roller drum
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A strong metal wheel.  If the center of balance of your vehicle is between "
+"all the wheels, the vehicle will be able to move, provided it has an active "
+"engine or motor with enough power to move the vehicle."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "roller drum"
+msgstr ""
+
+#. ~ Description for wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A wheel.  If the center of balance of your vehicle is between all the "
+"wheels, the vehicle will be able to move, provided it has an active engine "
+"or motor with enough power to move the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wheel (steerable)"
 msgstr ""
 
+#. ~ Description for armored wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A very strong, armored metal wheel.  If the center of balance of your "
+"vehicle is between all the wheels, the vehicle will be able to move, "
+"provided it has an active engine or motor with enough power to move the "
+"vehicle."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "armored wheel (steerable)"
+msgstr ""
+
+#. ~ Description for wheelbarrow wheel
+#. ~ Description for small wheel
+#. ~ Description for unicycle wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small wheel.  If the center of balance of your vehicle is between all the "
+"wheels, the vehicle will be able to move, provided it has an active engine "
+"or motor with enough power to move the vehicle."
+msgstr ""
+
+#. ~ Description for bicycle wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A thin bicycle wheel.  If the center of balance of your vehicle is between "
+"all the wheels, the vehicle will be able to move, provided it has an active "
+"engine or motor with enough power to move the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92032,6 +93234,23 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "casters"
+msgstr ""
+
+#. ~ Description for casters
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A set of small wheels, mounted on pivots, like the ones on a rolling office "
+"chair or grocery cart.  If the center of balance of your vehicle is between "
+"all the wheels, the vehicle will be able to move, provided it has an active "
+"engine or motor with enough power to move the vehicle."
+msgstr ""
+
+#. ~ Description for motorbike wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small wheel from a motorcycle.  If the center of balance of your vehicle "
+"is between all the wheels, the vehicle will be able to move, provided it has "
+"an active engine or motor with enough power to move the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92050,8 +93269,33 @@ msgstr ""
 msgid "wheelchair wheel"
 msgstr ""
 
+#. ~ Description for wheelchair wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A pair of wheelchair wheels.  If the center of balance of your vehicle is "
+"between all the wheels, the vehicle will be able to move, provided it has an "
+"active engine or motor with enough power to move the vehicle."
+msgstr ""
+
+#. ~ Description for wide wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A wide wheel that provides more traction and better off-road performance.  "
+"If the center of balance of your vehicle is between all the wheels, the "
+"vehicle will be able to move, provided it has an active engine or motor with "
+"enough power to move the vehicle."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "wide wheel (steerable)"
+msgstr ""
+
+#. ~ Description for wooden cart wheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A wooden wheel.  If the center of balance of your vehicle is between all the "
+"wheels, the vehicle will be able to move, provided it has an active engine "
+"or motor with enough power to move the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -99189,8 +100433,8 @@ msgstr ""
 
 #: src/defense.cpp
 #, c-format
-msgid "Buy %d item, leaving you with $%.2f?"
-msgid_plural "Buy %d items, leaving you with $%.2f?"
+msgid "Buy %d item, leaving you with %s?"
+msgid_plural "Buy %d items, leaving you with %s?"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -99228,7 +100472,7 @@ msgstr ""
 
 #: src/defense.cpp
 #, c-format
-msgid "Your Cash: $%6.2f"
+msgid "Your Cash: %s"
 msgstr ""
 
 #: src/defense.cpp
@@ -103103,6 +104347,10 @@ msgid "You'll need to put on reading glasses before you can see the screen."
 msgstr ""
 
 #: src/game.cpp
+msgid "The console doesn't display anything coherent."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "The %s sparks and begins searching for a target!"
 msgstr ""
@@ -104116,7 +105364,8 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid ""
-"Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)"
+"Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster"
+"%4$s)"
 msgstr ""
 
 #: src/game.cpp
@@ -106607,7 +107856,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
-"Your current balance is: $%ld.%02ld"
+"Your current balance is: %s"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -106656,10 +107905,8 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Your account now holds %d cent."
-msgid_plural "Your account now holds %d cents."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Your account now holds %s."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "This will automatically deduct $1.00 from your bank account. Continue?"
@@ -106728,7 +107975,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Money left: $%.2f"
+msgid "Money left: %s"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -107615,11 +108862,6 @@ msgid "This station is out of fuel.  We apologize for the inconvenience."
 msgstr ""
 
 #: src/iexamine.cpp
-#, c-format
-msgid "$%0.2f"
-msgstr ""
-
-#: src/iexamine.cpp
 msgid "Welcome to AutoGas!"
 msgstr ""
 
@@ -107682,10 +108924,8 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Your cash card now holds %d cent."
-msgid_plural "Your cash card now holds %d cents."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Your cash card now holds %s."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You hack the terminal and route all available fuel to your pump!"
@@ -110128,6 +111368,11 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
+msgid "The %s doesn't want that kind of food."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "Put the %s where?"
 msgstr ""
 
@@ -110166,14 +111411,19 @@ msgid "The %s seems to like you!  It lets you pat its head and seems friendly."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "There is nothing to be fed here."
-msgstr ""
-
-#: src/iuse.cpp
 #, c-format
 msgid ""
 "The %s seems to like you!  Or maybe it just tolerates your presence better.  "
 "It's hard to tell with felines."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s seems to like you!  It runs around your legs and seems friendly."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "There is nothing to be fed here."
 msgstr ""
 
 #: src/iuse.cpp
@@ -112643,6 +113893,27 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You have nothing to clean."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You are too weak to even try."
+msgstr ""
+
+#: src/iuse.cpp
+msgid ""
+"You use all your strength, but the stick won't break.  Perhaps try again?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You try to break the stick in two, but it shatters into splinters."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "The stick breaks clean into two parts."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You break the stick, but one half shatters into splinters."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -115171,14 +116442,6 @@ msgstr ""
 
 #: src/mapgen.cpp
 msgid "Initiate Tremors"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Broadcasting Control"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "ERROR:  SIGNAL DISCONNECT"
 msgstr ""
 
 #: src/mapgen.cpp
@@ -121984,7 +123247,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "I'm willing to pay $%.2f per batch for a total of $%.2f"
+msgid "I'm willing to pay %s per batch for a total of %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122164,22 +123427,22 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Profit $%.2f"
+msgid "Profit %s"
 msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Cost $%.2f"
+msgid "Cost %s"
 msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s: $%.2f"
+msgid "%s: %s"
 msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "You: $%.2f"
+msgid "You: %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122196,7 +123459,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Not enough cash!  You have $%.2f, price is $%.2f."
+msgid "Not enough cash!  You have %s, price is %s."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122701,6 +123964,11 @@ msgstr ""
 
 #: src/output.h
 msgid ", "
+msgstr ""
+
+#: src/output.h
+#, c-format
+msgid "$%.2f"
 msgstr ""
 
 #: src/overmap.cpp
@@ -123308,7 +124576,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Cash on hand: $%d"
+msgid "Cash on hand: %s"
 msgstr ""
 
 #: src/player.cpp
@@ -128006,6 +129274,102 @@ msgid "Open"
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "Open all curtains"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Open all curtains and doors"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Close all doors"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Close all curtains and doors"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turn off %s"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turn on %s"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turned off %s."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turned on %s"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "headlights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "overhead lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "dome lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "atomic lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "stereo"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "fridge"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "recharger"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "planter"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn off camera system"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn on camera system"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system disabled"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system enabled"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Camera system won't turn on"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Quit controlling electronics"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Electronics controls"
+msgstr ""
+
+#: src/vehicle.cpp
 #, c-format
 msgid "You turn off the %s's engines to change their configurations."
 msgstr ""
@@ -128107,58 +129471,6 @@ msgid "Honk horn"
 msgstr ""
 
 #: src/vehicle.cpp
-#, c-format
-msgid "Turn off %s"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "Turn on %s"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "Turned off %s."
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "Turned on %s"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "headlights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "overhead lights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "dome lights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "atomic lights"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "stereo"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "fridge"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "recharger"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "planter"
-msgstr ""
-
-#: src/vehicle.cpp
 msgid "Disable cruise control"
 msgstr ""
 
@@ -128205,26 +129517,6 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "You trigger the alarm"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Turn off camera system"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Turn on camera system"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Camera system disabled"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Camera system enabled"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Camera system won't turn on"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -128833,7 +130125,7 @@ msgstr ""
 
 #: src/wish.cpp
 #, c-format
-msgid "[%s] find, [%s] quit"
+msgid "[%s] find, [%s] quit, [t] toggle base trait"
 msgstr ""
 
 #: src/wish.cpp
