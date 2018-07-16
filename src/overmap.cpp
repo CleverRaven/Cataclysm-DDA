@@ -1925,7 +1925,7 @@ bool overmap::generate_sub(int const z)
                 is_ot_subtype("subway", ter( i.x, i.y - 1, z))) {
                 ter( i.x, i.y, z ) = oter_id( "lab_train_depot" );
             } else {
-                ter( i.x, i.y, z ) = oter_id ( "t_empty_rock");
+                ter( i.x, i.y, z ) = oter_id ( "empty_rock");
             }
         }
         is_first_in_pair = !is_first_in_pair;
