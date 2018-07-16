@@ -218,6 +218,9 @@ point draw_notes( int z )
 
     mvwprintz( w_notes, 1, 1, c_light_gray, title.c_str() );
     do {
+#ifdef __ANDROID__
+        input_context ctxt( "DRAW_NOTES" );
+#endif
         if( redraw ) {
             for( int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
                 for( int j = 1; j < FULL_SCREEN_WIDTH - 1; j++ ) {
