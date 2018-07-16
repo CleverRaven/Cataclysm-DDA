@@ -610,6 +610,23 @@ bool veh_interact::can_install_part() {
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
 
+    msg << _( "<color_white>Description</color>\n" );
+    std::string install_color = string_format( "<color_%1$s>",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
+    msg << install_color <<  sel_vpart_info->description << "</color>\n";
+
+    // borrowed from item.cpp and adjusted
+    const quality_id quality_jack( "JACK" );
+    const quality_id quality_lift( "LIFT" );
+    for (const auto& qual : sel_vpart_info->qualities) {
+        msg << install_color << "  Has level " << qual.second << " ";
+        msg << qual.first.obj().name.c_str();
+        if( qual.first == quality_jack || qual.first == quality_lift ) {
+            msg << " and is rated at ";
+            msg << (int)convert_weight( qual.second * TOOL_LIFT_FACTOR ) << " " << weight_units();
+        }
+        msg << ".</color>\n";
+    }
+
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
     wrefresh( w_msg );
