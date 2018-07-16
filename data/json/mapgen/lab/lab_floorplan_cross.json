@@ -1,0 +1,497 @@
+[
+  {
+    "//": "Variation of the cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..+         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "-----+----|..|---------|",
+        ".......................+",
+        ".......................+",
+        "----------|..|----+----|",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          +..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 1 },
+        { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": 1 },
+        { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 14 },
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14 },
+        { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "Fill in quarters of each lab map with rocks, based on its neighboring tiles.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_border_rock_quadrants",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "north": "empty_rock" } },
+        { "chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "west": "empty_rock" } },
+        { "chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "north": "empty_rock" } },
+        { "chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "east": "empty_rock" } },
+        { "chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "south": "empty_rock" } },
+        { "chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": "empty_rock" } },
+        { "chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": "empty_rock" } },
+        { "chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": "empty_rock" } },
+        { "chunks": [ "lab_n_rock", "lab_n_rock", "lab_n_rock", "lab_n_vault" ], "x": 0, "y": 0, "neighbors": { "north": "empty_rock" } },
+        { "chunks": [ "lab_w_rock", "lab_w_rock", "lab_w_rock", "lab_w_vault" ], "x": 0, "y": 0, "neighbors": { "west": "empty_rock" } },
+        { "chunks": [ "lab_s_rock", "lab_s_rock", "lab_s_rock", "lab_s_vault" ], "x": 0, "y": 0, "neighbors": { "south": "empty_rock" } },
+        { "chunks": [ "lab_e_rock", "lab_e_rock", "lab_e_rock", "lab_e_vault" ], "x": 0, "y": 0, "neighbors": { "east": "empty_rock" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_rock_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_terrain": [
+        { "ter": "t_rock", "x": 0, "y": 0 },
+        { "ter": "t_rock", "x": 1, "y": 0 },
+        { "ter": "t_rock", "x": 2, "y": 0 },
+        { "ter": "t_rock", "x": 0, "y": 1 },
+        { "ter": "t_rock", "x": 1, "y": 1 },
+        { "ter": "t_rock", "x": 2, "y": 1 },
+        { "ter": "t_rock", "x": 0, "y": 2 },
+        { "ter": "t_rock", "x": 1, "y": 2 },
+        { "ter": "t_rock", "x": 2, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_rock_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [
+        { "chunks": [ "lab_rock_3x3" ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 0, "y": 3 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 0, "y": 6 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 3, "y": 0 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 3, "y": 3 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 3, "y": 6 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 6, "y": 0 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 6, "y": 3 },
+        { "chunks": [ "lab_rock_3x3" ], "x": 6, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_nw_rock",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "set": [
+        { "line": "terrain", "id": "t_rock", "x": 0, "x2": 9, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_rock", "x": 0, "x2": 0, "y": 9, "y2": 0 },
+        { "line": "terrain", "id": "t_concrete_wall", "x": 10, "x2": 10, "y": 0, "y2": 10 },
+        { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 10, "y": 10, "y2": 10 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_ne_rock",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "set": [
+        { "line": "terrain", "id": "t_rock", "x": 0, "x2": 9, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 0, "y": 9, "y2": 0 },
+        { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 9, "y": 10, "y2": 10 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_sw_rock",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "set": [
+        { "line": "terrain", "id": "t_rock", "x": 0, "x2": 0, "y": 1, "y2": 9 },
+        { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 10, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_concrete_wall", "x": 10, "x2": 10, "y": 0, "y2": 9 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_se_rock",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "set": [
+        { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 9, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 0, "y": 1, "y2": 9 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_n_rock",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ----          ",
+        "           --           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "lab_palette"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_w_rock",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "#########|              ",
+        "#########||             ",
+        "#########||             ",
+        "#########|              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "lab_palette"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_s_rock",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           --           ",
+        "          ----          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "          ####          ",
+        "########################"
+      ],
+      "palettes": [
+        "lab_palette"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_e_rock",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "              |#########",
+        "             ||#########",
+        "             ||#########",
+        "              |#########",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #"
+      ],
+      "palettes": [
+        "lab_palette"
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_loot_bionic_vault",
+    "mapping": {
+      "c": {
+        "items": [
+          { "item": "bionics_common", "chance": 50 },
+          { "item": "bionics", "chance": 10 }        ]
+      }
+    },
+    "terrain": {
+      "c": "t_floor_blue"
+    },
+    "computers": {
+        "6": {
+          "name": "Bionic Vault", "security": 6,
+          "options": [
+            { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
+            { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 7 }
+          ],
+          "failures": [
+              { "action": "damage" },
+              { "action": "secubots" },
+              { "action": "shutdown" }
+           ]
+        }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_n_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "          ####          ",
+        "         ------         ",
+        "         |c,,c|         ",
+        "         |c,,c|         ",
+        "         |c,,c|         ",
+        "         |c,,c|         ",
+        "         |-,,-|         ",
+        "          |,,|          ",
+        "          |,,|          ",
+        "         --DD--         ",
+        "         |...6|         ",
+        "                        ",
+        "                        ",
+        "          -  -          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_bionic_vault"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_w_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ------  --             ",
+        "#|cccc|--|6  -          ",
+        "#|,,,,,,,D.             ",
+        "#|,,,,,,,D.             ",
+        "#|cccc|--|.  -          ",
+        " ------  --             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_bionic_vault"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_s_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          -  -          ",
+        "                        ",
+        "                        ",
+        "         |6...|         ",
+        "         --DD--         ",
+        "          |,,|          ",
+        "          |,,|          ",
+        "         |-,,-|         ",
+        "         |c,,c|         ",
+        "         |c,,c|         ",
+        "         |c,,c|         ",
+        "         |c,,c|         ",
+        "         ------         ",
+        "####################### "
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_bionic_vault"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_e_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "             --  ------#",
+        "          -  .|--|cccc|#",
+        "             .D,,,,,,,|#",
+        "             .D,,,,,,,|#",
+        "          -  6|--|cccc|#",
+        "             --  ------#",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                        "
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_bionic_vault"
+      ]
+    }
+  }
+]
