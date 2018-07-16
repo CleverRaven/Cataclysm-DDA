@@ -270,6 +270,9 @@ void Character::load(JsonObject &data)
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
 
+    data.read( "damage_bandaged", damage_bandaged );
+    data.read( "damage_disinfected", damage_disinfected );
+
     JsonArray parray;
 
     data.read("underwater", underwater);
@@ -546,6 +549,8 @@ void player::store(JsonOut &json) const
     // @todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
+    json.member( "damage_bandaged", damage_bandaged );
+    json.member( "damage_disinfected", damage_disinfected );
 
     // npc; unimplemented
     json.member( "power_level", power_level );

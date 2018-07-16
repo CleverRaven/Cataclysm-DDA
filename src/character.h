@@ -344,7 +344,7 @@ class Character : public Creature, public visitable<Character>
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             bool bleed, bool bite, bool infect ) const;
+                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
@@ -629,6 +629,10 @@ class Character : public Creature, public visitable<Character>
          * Average hit points healed per turn.
          */
         float healing_rate( float at_rest_quality ) const;
+        /**
+         * Average hit points healed per turn from healing effects.
+         */
+        float healing_rate_medicine( float at_rest_quality, const body_part bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name
@@ -667,7 +671,7 @@ class Character : public Creature, public visitable<Character>
         bool male;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> hp_cur, hp_max;
+        std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached;
 
         inventory inv;

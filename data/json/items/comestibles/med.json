@@ -15,12 +15,10 @@
         "color" : "red",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 14,
-            "head_power" : 10,
-            "torso_power" : 18,
+            "bandages_power" : 8,
+            "disinfectant_power" : 8,
             "bleed" : 0.95,
             "bite" : 0.99,
-            "infect" : 0.95,
             "move_cost" : 6000,
             "long_action" : true,
             "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
@@ -41,8 +39,8 @@
         "color" : "dark_gray",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 8,
-            "limb_scaling" : 1,
+            "bandages_power" : 6,
+            "disinfectant_power" : 6,
             "bleed" : 1.0,
             "move_cost" : 50000,
             "long_action" : true
@@ -172,12 +170,34 @@
         "stack_size" : 9,
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
+            "bandages_power" : 4,
             "bleed" : 0.9,
             "move_cost" : 300
         }
+    },
+    {
+        "id": "bandages_makeshift",
+        "type": "COMESTIBLE",
+        "name": "makeshift bandage",
+        "copy-from": "bandages",
+        "description": "Simple cloth bandages.  Better than nothing.",
+        "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
+    },
+    {
+        "id": "bandages_makeshift_bleached",
+        "type": "COMESTIBLE",
+        "name": "bleached makeshift bandage",
+        "copy-from": "bandages",
+        "description": "Simple cloth bandages.  It is white, as real bandages should be.",
+        "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
+    },
+    {
+        "id": "bandages_makeshift_boiled",
+        "type": "COMESTIBLE",
+        "name": "boiled makeshift bandage",
+        "copy-from": "bandages",
+        "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
+        "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
     },
     {
         "id" : "bfipowder",
@@ -197,9 +217,7 @@
         "container" : "bottle_plastic_small",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 100
         }
@@ -280,9 +298,7 @@
         "container" : "bottle_glass",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 100
         }
@@ -340,8 +356,7 @@
         "symbol" : "!",
         "color" : "red",
         "use_action" : {
-            "type" : "heal",
-            "limb_power" : 1,
+            "type" : "consume_drug",
             "move_cost" : 100,
             "effects" : [
                 {
@@ -438,7 +453,7 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
+            "bandages_power" : 2,
             "bleed" : 0.9,
             "move_cost" : 300
         }
@@ -508,9 +523,7 @@
         "container" : "bottle_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 100
         }
@@ -729,7 +742,7 @@
         "color" : "white",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 0,
+            "bandages_power" : 2,
             "bleed" : 0.5,
             "move_cost" : 200
         }
@@ -1006,9 +1019,7 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
+            "disinfectant_power" : 2,
             "bleed" : 90,
             "move_cost" : 100
         }
@@ -1062,9 +1073,7 @@
         "spoils_in" : 672,
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
+            "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 100
         }
@@ -1306,9 +1315,7 @@
         "color": "white",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 1,
-            "head_power" : 1,
-            "torso_power" : 1,
+            "disinfectant_power" : 2,
             "bite" : 0.75,
             "move_cost" : 200,
             "used_up_item" : { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
@@ -1325,9 +1332,7 @@
         "price" : 1000,
         "use_action" : {
             "type" : "heal",
-            "head_power" : 1,
-            "torso_power" : 1,
-            "limb_power" : 1,
+            "disinfectant_power" : 2,
             "bite" : 0.95,
             "move_cost" : 300,
             "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }

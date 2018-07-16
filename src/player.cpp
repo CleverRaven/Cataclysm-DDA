@@ -102,6 +102,7 @@ const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_blisters( "blisters" );
@@ -120,6 +121,7 @@ const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
+const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_earphones( "earphones" );
@@ -3592,6 +3594,26 @@ void player::react_to_felt_pain( int intensity )
     }
 }
 
+int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt ){
+    effect &e = get_effect( eff_id, hurt );
+    int intensity = e.get_intensity();
+    if( remove_med < intensity ) {
+        if( eff_id == effect_bandaged ){
+            add_msg_if_player( m_bad, _( "Bandages on your %s was damaged!" ), body_part_name( hurt ) );
+        } else  if( eff_id == effect_disinfected ){
+            add_msg_if_player( m_bad, _( "You got some filth on you disinfected %s!" ), body_part_name( hurt ) );
+        }
+    } else {
+        if( eff_id == effect_bandaged ){
+            add_msg_if_player( m_bad, _( "Bandages on your %s was destroyed!" ), body_part_name( hurt ) );
+        } else  if( eff_id == effect_disinfected ){
+            add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
+        }
+    }
+    e.mod_duration( - time_duration::from_hours( 6 * remove_med ) );
+    return intensity;
+}
+
 /*
     Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
@@ -3618,14 +3640,26 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
 
-    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() )) {
-        remove_effect( effect_mending, hurt );
-        add_effect( effect_disabled, 1_turns, hurt, true );
+    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
+        if( has_effect( effect_mending, hurt ) ) {
+            effect &e = get_effect( effect_mending, hurt );
+            float remove_mend = dam / 20.0f;
+            e.mod_duration( -e.get_max_duration() * remove_mend );
+        }
     }
 
     lifetime_stats.damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
+    }
+
+    // remove healing effects if damaged
+    int remove_med = roll_remainder( dam / 5.0f );
+    if( remove_med > 0 && has_effect( effect_bandaged, hurt ) ) {
+        remove_med -= reduce_healing_effect( effect_bandaged , remove_med, hurt );
+    }
+    if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
+        remove_med -= reduce_healing_effect( effect_disinfected , remove_med, hurt );
     }
 }
 
@@ -4329,6 +4363,43 @@ void player::regen( int rate_multiplier )
         // Has to be in loop because some effects depend on rounding
         while( rot_rate-- > 0 ) {
             hurtall( 1, nullptr, false );
+        }
+    }
+
+    // include healing effects
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        float healing = healing_rate_medicine( rest, bp ) * MINUTES( 5 ) ;
+
+        int healing_apply = roll_remainder( healing );
+        heal( bp, healing_apply );
+        if( damage_bandaged[i] > 0 ) {
+            damage_bandaged[i] -= healing_apply;
+            if( damage_bandaged[i] <= 0 ) {
+                damage_bandaged[i] = 0;
+                remove_effect( effect_bandaged, bp );
+                add_msg_if_player( _( "Bandaged wounds on your %s was healed." ), body_part_name( bp ) );
+            }
+        }
+        if( damage_disinfected[i] > 0 ) {
+            damage_disinfected[i] -= healing_apply;
+            if( damage_disinfected[i] <= 0 ) {
+                damage_disinfected[i] = 0;
+                remove_effect( effect_disinfected, bp );
+                add_msg_if_player( _( "Disinfected wounds on your %s was healed." ), body_part_name( bp ) );
+            }
+        }
+
+        // remove effects if the limb was healed by other way
+        if( has_effect( effect_bandaged, bp ) && ( hp_cur[i] == hp_max[i] ) ) {
+            damage_bandaged[i] = 0;
+            remove_effect( effect_bandaged, bp );
+            add_msg_if_player( _( "Bandaged wounds on your %s was healed." ), body_part_name( bp ) );
+        }
+        if( has_effect( effect_disinfected, bp ) && ( hp_cur[i] == hp_max[i] ) ) {
+            damage_disinfected[i] = 0;
+            remove_effect( effect_disinfected, bp );
+            add_msg_if_player( _( "Disinfected wounds on your %s was healed." ), body_part_name( bp ) );
         }
     }
 
