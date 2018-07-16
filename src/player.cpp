@@ -3599,13 +3599,13 @@ int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, bod
     int intensity = e.get_intensity();
     if( remove_med < intensity ) {
         if( eff_id == effect_bandaged ){
-            add_msg_if_player( m_bad, _( "Bandages on your %s was damaged!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt ) );
         } else  if( eff_id == effect_disinfected ){
-            add_msg_if_player( m_bad, _( "You got some filth on you disinfected %s!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "You got some filth on your disinfected %s!" ), body_part_name( hurt ) );
         }
     } else {
         if( eff_id == effect_bandaged ){
-            add_msg_if_player( m_bad, _( "Bandages on your %s was destroyed!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ), body_part_name( hurt ) );
         } else  if( eff_id == effect_disinfected ){
             add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
         }
