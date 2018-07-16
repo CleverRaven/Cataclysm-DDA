@@ -325,6 +325,19 @@
         "category" : "veh_parts",
         "price" : 2000
     },
+	{
+        "type":"GENERIC",
+        "id" : "motor_tiny",
+        "name" : "tiny electric motor",
+        "description" : "A tiny electric motor.  Useful for crafting.",
+        "weight" : 250,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel"],
+        "volume" : 1,
+        "category" : "veh_parts",
+        "price" : 2000
+    },
     {
         "type":"GENERIC",
         "id" : "foot_crank",
