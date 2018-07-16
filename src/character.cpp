@@ -2658,7 +2658,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     const effect &e_disinfected = get_effect( effect_disinfected, bp );
 
     if( !e_bandaged.is_null() ) {
-        bandaged_rate += e_bandaged.get_amount( "HEAL_RATE", 0 ) / HOURS( 24 );
+        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
         if( bp == bp_head ) {
             bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD_MULT", 0 ) / 100.0f;
         }
@@ -2668,7 +2668,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     }
 
     if( !e_disinfected.is_null() ) {
-        disinfected_rate += e_disinfected.get_amount( "HEAL_RATE", 0 ) / HOURS( 24 );
+        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
         if( bp == bp_head ) {
             disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
         }
