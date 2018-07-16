@@ -10272,10 +10272,10 @@ void player::practice( const skill_id &id, int amount, int cap )
 
 
 
-    if (get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
+    if (amount > 0 && get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
-        int curLevel = get_skill_level( id );
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
+            int curLevel = get_skill_level( id );
             add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
                     skill.name().c_str(), curLevel);
         }
