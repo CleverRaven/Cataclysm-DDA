@@ -318,11 +318,11 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
 
     g.name = mongroup_id( jo.get_string( "name" ) );
     bool extending = false;  //If already a group with that name, add to it instead of overwriting it
-    if( monsterGroupMap.count( g.name ) != 0 && !jo.get_bool( "override", false) ) {
+    if( monsterGroupMap.count( g.name ) != 0 && !jo.get_bool( "override", false ) ) {
         g = monsterGroupMap[g.name];
         extending = true;
     }
-    if( !extending || jo.has_string("default") ) { //Not mandatory to specify default if extending existing group
+    if( !extending || jo.has_string( "default" ) ) { //Not mandatory to specify default if extending existing group
         g.defaultMonster = mtype_id( jo.get_string( "default" ) );
     }
     if( jo.has_array( "monsters" ) ) {
