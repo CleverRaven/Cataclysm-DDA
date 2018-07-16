@@ -2560,6 +2560,11 @@ tripoint overmap::draw_overmap()
     return draw_overmap(g->u.global_omt_location(), draw_data_t());
 }
 
+tripoint overmap::draw_overmap( tripoint origin )
+{
+    return draw_overmap( origin, draw_data_t());
+}
+
 tripoint overmap::draw_overmap(int z)
 {
     tripoint loc = g->u.global_omt_location();

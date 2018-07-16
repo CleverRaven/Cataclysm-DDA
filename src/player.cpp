@@ -496,6 +496,7 @@ player::player() : Character()
     last_batch = 0;
     lastconsumed = itype_id( "null" );
     next_expected_position = tripoint_min;
+    death_drops = true;
 
     empty_traits();
 
@@ -10349,6 +10350,9 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
 
 void player::learn_recipe( const recipe * const rec )
 {
+    if( rec->never_learn ){
+        return;
+    }
     learned_recipes->include( rec );
 }
 
@@ -11097,6 +11101,10 @@ std::vector<Creature *> player::get_hostile_creatures( int range ) const
 
 void player::place_corpse()
 {
+    //If the character/NPC is on a distant mission, don't drop their their gear when they die since they still have a local pos
+    if( !death_drops ){
+        return;
+    }
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     for( auto itm : tmp ) {
@@ -11117,6 +11125,45 @@ void player::place_corpse()
         body.emplace_back( "bio_power_storage_mkII" );
     }
     g->m.add_item_or_charges( pos(), body );
+}
+
+void player::place_corpse( tripoint om_target )
+{
+    tinymap bay;
+    bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
+    int finX = rng( 1, 22);
+    int finY = rng( 1, 22);
+    if( bay.furn( finX, finY) != furn_str_id( "f_null" ) ){
+        for (int x = 0; x < 23; x++){
+            for (int y = 0; y < 23; y++){
+                if ( bay.furn(x,y) == furn_str_id( "f_null" ) ){
+                    finX = x;
+                    finY = y;
+                }
+            }
+        }
+    }
+
+    std::vector<item *> tmp = inv_dump();
+    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    for( auto itm : tmp ) {
+        bay.add_item_or_charges( finX, finY, *itm );
+    }
+    for( auto & bio : *my_bionics ) {
+        if( item::type_is_defined( bio.id.str() ) ) {
+            body.put_in( item( bio.id.str(), calendar::turn ) );
+        }
+    }
+
+    // Restore amount of installed pseudo-modules of Power Storage Units
+    std::pair<int, int> storage_modules = amount_of_storage_bionics();
+    for (int i = 0; i < storage_modules.first; ++i) {
+        body.emplace_back( "bio_power_storage" );
+    }
+    for (int i = 0; i < storage_modules.second; ++i) {
+        body.emplace_back( "bio_power_storage_mkII" );
+    }
+    bay.add_item_or_charges( finX, finY, body );
 }
 
 bool player::sees_with_infrared( const Creature &critter ) const

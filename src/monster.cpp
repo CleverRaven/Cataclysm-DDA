@@ -164,6 +164,7 @@ monster::monster()
     mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
+    death_drops = true;
     made_footstep = false;
     hallucination = false;
     ignoring = 0;
@@ -1760,6 +1761,9 @@ void monster::die(Creature* nkiller)
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
+    if( !death_drops ){
+        return;
+    }
     if (!no_extra_death_drops) {
         drop_items_on_death();
     }

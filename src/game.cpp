@@ -1829,6 +1829,11 @@ void game::record_npc_kill( const npc &p )
    npc_kills.push_back( p.get_name() );
 }
 
+std::list<std::string> game::get_npc_kill()
+{
+   return npc_kills;
+}
+
 void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
