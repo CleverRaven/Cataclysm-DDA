@@ -1174,6 +1174,13 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
     slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
+    // No dreams unless specified for artifacts embedded in items.
+    // If specifying dreams, message should be set too,
+    // since the array with the defaults isn't accessible from here.
+    slot.dream_freq_unmet = jo.get_int(    "dream_freq_unmet", 0 );
+    slot.dream_freq_met   = jo.get_int(    "dream_freq_met",   0 );
+    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" ); //@todo Make sure it doesn't cause problems if this is empty
+    slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );

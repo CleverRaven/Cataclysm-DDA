@@ -529,6 +529,7 @@ class game
 
         void process_artifact( item &it, player &p );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
+        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );
