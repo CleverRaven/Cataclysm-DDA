@@ -186,14 +186,31 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // food to which the player is allergic to never contains any vitamins
-    if( allergy_type( it ) != MORALE_NULL ) {
-        return res;
-    }
+    if( !it.components.empty() && !it.has_flag( "UNIQUE_VITAMINS" ) ) {
+        int num_comp = 0;
+        for( auto &comp : it.components ) {
+            num_comp += comp.charges;
+            //Don't give vitamins from components the player is allergic to
+            if( allergy_type( comp ) == MORALE_NULL ) {
+                std::map<vitamin_id, int> comp_v = vitamins_from( comp );
+                for( auto &v : comp_v ) {
+                    if( !res.count( v.first ) ) {
+                        res.emplace( v );
+                    } else {
+                        res.find( v.first )->second += v.second / num_comp;
+                    }
 
-    // @todo: bionics and mutations can affect vitamin absorption
-    for( const auto &e : it.type->comestible->vitamins ) {
-        res.emplace( e.first, e.second );
+                }
+            }
+        }
+    } else {
+        // food to which the player is allergic to never contains any vitamins
+        if( allergy_type( it ) != MORALE_NULL ) {
+            return res;
+        }
+        for( const auto &e : it.type->comestible->vitamins ) {
+            res.emplace( e );
+        }
     }
 
     return res;
@@ -300,9 +317,17 @@ morale_type player::allergy_type( const item &food ) const
     };
 
     for( const auto &tp : allergy_tuples ) {
-        if( has_trait( std::get<0>( tp ) ) &&
-            food.has_flag( std::get<1>( tp ) ) ) {
-            return std::get<2>( tp );
+        if( food.components.empty() ) {
+            if( has_trait( std::get<0>( tp ) ) &&
+                food.has_flag( std::get<1>( tp ) ) ) {
+                return std::get<2>( tp );
+            }
+        }
+        for( auto comp : food.components ) {
+            if( has_trait( std::get<0>( tp ) ) &&
+                comp.has_flag( std::get<1>( tp ) ) ) {
+                return std::get<2>( tp );
+            }
         }
     }
 

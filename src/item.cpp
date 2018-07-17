@@ -574,6 +574,18 @@ bool item::stacks_with( const item &rhs ) const
     if( contents.size() != rhs.contents.size() ) {
         return false;
     }
+
+    // Check if items are made from the same components
+    std::pair<std::vector<item>, std::vector<item>> comps ( components, rhs.components );
+    if( comps.first.size() != comps.second.size() ) {
+        return false;
+    }
+    for( int i = 0; comps.first.size(); i++ ) {
+        if( comps.first.at( i ).type != comps.second.at( i ).type ) {
+            return false;
+        }
+    }
+
     return std::equal( contents.begin(), contents.end(), rhs.contents.begin(), []( const item& a, const item& b ) {
         return a.charges == b.charges && a.stacks_with( b );
     } );

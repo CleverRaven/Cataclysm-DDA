@@ -607,15 +607,11 @@ void player::complete_craft()
             }
         }
 
-        // Don't store components for things made by charges,
-        // don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making->result() ) && !newit.count_by_charges() ) {
-            // Setting this for items counted by charges gives only problems:
-            // those items are automatically merged everywhere (map/vehicle/inventory),
-            // which would either loose this information or merge it somehow.
+        if( !newit.has_flag( "ALWAYS_STACKS" ) ) {
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         }
+
         finalize_crafted_item( newit, used_age_tally, used_age_count );
         set_item_inventory( newit );
     }
