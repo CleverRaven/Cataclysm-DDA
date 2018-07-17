@@ -135,6 +135,8 @@ bool forage_return( npc &p );
 
 ///Changes an NPC follower to a camp manager, displays camp warnings, and sets the current OM tile to a camp survey
 void become_overseer( npc & );
+///Changes an NPC camp manager to a follower
+void remove_overseer( npc & );
 /**
  * Counts or destroys and drops the bash items of all furniture that matches @ref furn_id f in the map tile
  * @param omt_tgt, the targeted OM tile
