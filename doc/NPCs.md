@@ -57,13 +57,13 @@ This example adds the "I'm going now!" response to all the listed topics.
 ```
 
 ### dynamic_line
-This is the line spoken by the NPC. See the chapter for dynamic_line below. It is optional, if it's not defined and this topic has the same id as a built in topic, the `dynamic_line` from that built in topic will be used. Otherwise the NPC will say nothing.
+The `dynamic_line` is the line spoken by the NPC. It is optional. If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used. Otherwise the NPC will say nothing. See the chapter about dynamic_line below for more details.
 
 ### response
-An array with possible responses, it must not be empty. Each entry must be a response object, see below.
+The `responses` entry is an array with possible responses. It must not be empty. Each entry must be a response object. See the chapter about Responses below for more details.
 
 ### replace_built_in_responses
-A boolean (optional, default is `false`) that defines whether to dismiss the build in responses for that topic. If there are no built in responses, this won't do anything. If `true`, the built in responses are ignored and only those from this definition in json are used. If `false`, the responses from json are used *and* the built in responses (if any).
+`replace_built_in_responses` is an optional boolean that defines whether to dismiss the built-in responses for that topic (default is `false`). If there are no built-in responses, this won't do anything. If `true`, the built-in responses are ignored and only those from this definition in the current json are used. If `false`, the responses from the current json are used along with the built-in responses (if any).
 
 ---
 
