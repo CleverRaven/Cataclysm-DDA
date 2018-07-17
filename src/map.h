@@ -1276,7 +1276,7 @@ class map
         /**
          * Whether the item has to be removed as it has rotten away completely.
          * @param itm Item to check for rotting
-         * @param pnt The *local* position of the item in the world (on this map!),
+         * @param pnt The *absolute* position of the item in the world (not just on this map!),
          * used for rot calculation.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
