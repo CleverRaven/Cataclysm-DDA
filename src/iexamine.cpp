@@ -3648,7 +3648,7 @@ void smoker_activate(player &p, const tripoint &examp)
     }
 
     units::volume food_volume = 0;
-    item *charcoal;
+    item *charcoal = nullptr;
     for( auto i : items ) {
         if( i.typeId() != "charcoal" ) {
             food_volume += i.volume();
@@ -3662,7 +3662,7 @@ void smoker_activate(player &p, const tripoint &examp)
     }
 
     int char_charges = 100 * units::to_liter( food_volume );
-    if( charcoal->charges <= char_charges ) {
+    if( charcoal->is_null() || charcoal->charges <= char_charges ) {
         add_msg( _("There is not enough charcoal in the rack to smoke this much food.") );
         return;
     }
@@ -3703,7 +3703,7 @@ void smoker_full(player &, const tripoint &examp)
         g->m.furn_set(examp, next_smoker_type);
         return;
     }
-    item *charcoal;
+    item *charcoal = nullptr;
     for( auto i : items ) {
         if( i.typeId() == "charcoal" ) {
             charcoal = &i;
@@ -3711,8 +3711,10 @@ void smoker_full(player &, const tripoint &examp)
     }
 
     add_msg( _("There's a smoking rack there.") );
-    const time_duration smoking_time = 6_hours;
-    const time_duration time_left = smoking_time - charcoal->age();
+    time_duration time_left = 0;
+    if( !charcoal->is_null() ) {
+        time_left = 6_hours - charcoal->age();
+    }
     if( time_left > 0 ) {
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;

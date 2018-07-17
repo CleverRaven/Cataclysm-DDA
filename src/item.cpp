@@ -5749,7 +5749,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_smoke( player *carrier, const tripoint &pos )
+bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
     if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
         item_counter = 0;
