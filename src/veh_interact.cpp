@@ -612,17 +612,24 @@ bool veh_interact::can_install_part() {
 
     msg << _( "<color_white>Description</color>\n" );
     std::string install_color = string_format( "<color_%1$s>",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
-    msg << install_color <<  sel_vpart_info->description << "</color>\n";
+    msg << "> " << install_color;
+
+    const auto wrap_descrip = foldstring( sel_vpart_info->description, getmaxx( w_msg ) - 4 );
+    msg << wrap_descrip[0];
+    for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
+        msg << "\n  " << wrap_descrip[i];
+    }
+    msg << "</color>\n";
 
     // borrowed from item.cpp and adjusted
     const quality_id quality_jack( "JACK" );
     const quality_id quality_lift( "LIFT" );
     for (const auto& qual : sel_vpart_info->qualities) {
-        msg << install_color << "  Has level " << qual.second << " ";
-        msg << qual.first.obj().name.c_str();
+        msg << "> " << install_color << string_format( _( "Has level %1$d %2$s quality" ),
+                                                 qual.second, qual.first.obj().name.c_str() );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
-            msg << " and is rated at ";
-            msg << (int)convert_weight( qual.second * TOOL_LIFT_FACTOR ) << " " << weight_units();
+            msg << string_format( _( " and is rated at %1$d %2$s" ),
+                                 (int)convert_weight( qual.second * TOOL_LIFT_FACTOR ), weight_units() );
         }
         msg << ".</color>\n";
     }
