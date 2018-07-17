@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "options.h"
+#include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -1060,6 +1061,18 @@ const itype * Item_factory::find_template( const itype_id& id ) const
         return rt->second.get();
     }
 
+    //If we didn't find the item maybe it is a building instead!
+    if( oter_str_id( id.c_str() ).is_valid()){
+        itype *def = new itype();
+        def->id = id;
+        def->name = string_format( "DEBUG: %s", id.c_str() );
+        def->name_plural = string_format( "%s", id.c_str() );
+        const recipe *making = &recipe_id( id.c_str() ).obj();
+        def->description = string_format( making->description );
+        m_runtimes[ id ].reset( def );
+        return def;
+    }    
+    
     debugmsg( "Missing item definition: %s", id.c_str() );
 
     itype *def = new itype();
@@ -1161,6 +1174,13 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
     slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
+    // No dreams unless specified for artifacts embedded in items.
+    // If specifying dreams, message should be set too,
+    // since the array with the defaults isn't accessible from here.
+    slot.dream_freq_unmet = jo.get_int(    "dream_freq_unmet", 0 );
+    slot.dream_freq_met   = jo.get_int(    "dream_freq_met",   0 );
+    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" ); //@todo Make sure it doesn't cause problems if this is empty
+    slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
