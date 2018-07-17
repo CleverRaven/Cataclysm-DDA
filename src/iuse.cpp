@@ -542,11 +542,11 @@ int iuse::eyedrops( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You're out of %s." ), it->tname().c_str() );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You use your %s." ), it->tname().c_str() );
     p->moves -= 150;
@@ -615,7 +615,7 @@ int iuse::antifungal( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You take some antifungal medication." ) );
     if( p->has_effect( effect_fungus ) ) {
@@ -635,7 +635,7 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return 0;
     }
     p->add_msg_if_player( _( "You take some antiparasitic medication." ) );
     if( p->has_effect( effect_dermatik ) ) {
@@ -1665,8 +1665,22 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
 enum Petfood {
     DOGFOOD,
     CATFOOD,
-    CATTLEFODDER
+    CATTLEFODDER,
+    BIRDFOOD
 };
+
+int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
+{
+    if( mon.has_flag( food_flag ) ) {
+        p.add_msg_if_player( m_good, message, mon.get_name().c_str() );
+        mon.friendly = -1;
+        mon.add_effect( effect_pet, 1_turns, num_bp, true );
+        return 1;
+    } else {
+        p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name().c_str() );
+        return 0;
+    }
+}
 
 int petfood( player &p, const item &it, Petfood animal_food_type )
 {
@@ -1711,42 +1725,21 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                         return 1;
                     }
-                } else if( mon.has_flag( MF_DOGFOOD ) ) {
-                    p.add_msg_if_player( m_good,
-                                         _( "The %s seems to like you!  It lets you pat its head and seems friendly." ),
-                                         mon.get_name().c_str() );
-                    mon.friendly = -1;
-                    mon.add_effect( effect_pet, 1_turns, num_bp, true );
-                    return 1;
-                } else {
-                    p.add_msg_if_player( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
+                } else
+                    return feedpet( p, mon, MF_DOGFOOD,
+                                    _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
                 break;
             case CATFOOD:
-                if( mon.has_flag( MF_CATFOOD ) ) {
-                    p.add_msg_if_player( m_good,
-                                         _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ),
-                                         mon.get_name().c_str() );
-                    mon.friendly = -1;
-                    return 1;
-                } else {
-                    p.add_msg_if_player( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
+                return feedpet( p, mon, MF_CATFOOD,
+                                _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
                 break;
             case CATTLEFODDER:
-                if( mon.has_flag( MF_CATTLEFODDER ) ) {
-                    p.add_msg_if_player( m_good,
-                                         _( "The %s seems to like you!  It lets you pat its head and seems friendly." ),
-                                         mon.get_name().c_str() );
-                    mon.friendly = -1;
-                    mon.add_effect( effect_pet, 1_turns, num_bp, true );
-                    return 1;
-                } else {
-                    p.add_msg_if_player( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
+                return feedpet( p, mon, MF_CATTLEFODDER,
+                                _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
+                break;
+            case BIRDFOOD:
+                return feedpet( p, mon, MF_BIRDFOOD,
+                                _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
                 break;
         }
 
@@ -1772,6 +1765,11 @@ int iuse::catfood( player *p, item *it, bool, const tripoint & )
 int iuse::feedcattle( player *p, item *it, bool, const tripoint & )
 {
     return petfood( *p, *it, CATTLEFODDER );
+}
+
+int iuse::feedbird( player *p, item *it, bool, const tripoint & )
+{
+    return petfood( *p, *it, BIRDFOOD );
 }
 
 int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
@@ -2696,12 +2694,12 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     } else if( type == t_door_c ) {
         p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
         g->m.ter_set( dirx, diry, t_door_o );
-        p->mod_moves( 100 );
+        p->mod_moves( -100 );
         return 0;
     } else if( type == t_door_c_peep ) {
         p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
         g->m.ter_set( dirx, diry, t_door_o_peep );
-        p->mod_moves( 100 );
+        p->mod_moves( -100 );
         return 0;
     } else if( type == t_door_bar_locked ) {
         succ_action = _( "You pry open the door." );
@@ -4169,7 +4167,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     item blood( "blood", calendar::turn );
-    item acid( "acid", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
@@ -4198,6 +4195,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     if( acid_blood ) {
+        item acid( "acid", calendar::turn );
         it->put_in( acid );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
@@ -4223,8 +4221,6 @@ void iuse::cut_log_into_planks( player &p )
 {
     p.moves -= 300;
     p.add_msg_if_player( _( "You cut the log into planks." ) );
-    item plank( "2x4", calendar::turn );
-    item scrap( "splinter", calendar::turn );
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
     int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );
@@ -4232,10 +4228,12 @@ void iuse::cut_log_into_planks( player &p )
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
     if( planks > 0 ) {
+        item plank( "2x4", calendar::turn );
         p.i_add_or_drop( plank, planks );
         p.add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
     if( scraps > 0 ) {
+        item scrap( "splinter", calendar::turn );
         p.i_add_or_drop( scrap, scraps );
         p.add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
@@ -7130,7 +7128,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( p->is_underwater() ) {
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return false;
+            return 0;
         }
 
         if( p->has_trait( trait_ILLITERATE ) ) {
@@ -7301,7 +7299,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             if( !p->has_morale_to_craft() ) {
                 add_msg( m_info, _( "Your morale is too low to craft..." ) );
-                return false;
+                return 0;
             }
 
             bool has_tools = true;
@@ -7806,5 +7804,38 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
         p->activity.values.push_back( pair.second );
     }
 
+    return 0;
+}
+int iuse::break_stick( player *p, item *it, bool, const tripoint & )
+{
+    p->moves -= 200;
+    p->mod_stat( "stamina", -50.0f * p->stamina / p->get_stamina_max() );
+
+    if( p->get_str() < 5 ) {
+        p->add_msg_if_player( _( "You are too weak to even try." ) );
+        return 0;
+    } else if( p->get_str() <= rng( 5, 11 ) ) {
+        p->add_msg_if_player(
+            _( "You use all your strength, but the stick won't break.  Perhaps try again?" ) );
+        return 0;
+    }
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( it->typeId(), 1 ) );
+    p->consume_items( comps );
+    int chance = rng( 0, 100 );
+    if( chance <= 20 ) {
+        p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
+        g->m.spawn_item( p->pos(), "splinter", 2 );
+        return 1;
+    } else if( chance <= 40 ) {
+        p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
+        g->m.spawn_item( p->pos(), "stick", 2 );
+        return 1;
+    } else if( chance <= 100 ) {
+        p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
+        g->m.spawn_item( p->pos(), "stick", 1 );
+        g->m.spawn_item( p->pos(), "splinter", 1 );
+        return 1;
+    }
     return 0;
 }

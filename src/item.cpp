@@ -1106,7 +1106,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if (parts->test(iteminfo_parts::GUN_AIMING_STATS)) {
             info.emplace_back("GUN", _("Base aim speed: "), "<num>", g->u.aim_per_move(*mod, MAX_RECOIL), true, "", true, true);
-            for (const aim_type type : g->u.get_aim_types(*mod)) {
+            for (const aim_type& type : g->u.get_aim_types(*mod)) {
                 // Nameless aim levels don't get an entry.
                 if (type.name.empty()) {
                     continue;
@@ -2534,9 +2534,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 }
 
-std::string item::display_money(unsigned int quantity, unsigned long charge) const {
-	//~ This is a string to display the total ammount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the ammount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
-    return string_format( _("%s ($%.2f)"), tname(quantity), (double)charge / 100);
+std::string item::display_money(unsigned int quantity, unsigned long amount) const {
+	//~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
+    return string_format( "%s %s", tname(quantity).c_str(), format_money(amount));
 }
 
 std::string item::display_name( unsigned int quantity ) const
@@ -2568,8 +2568,9 @@ std::string item::display_name( unsigned int quantity ) const
         amount = get_remaining_chapters( g->u );
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
+        // but excluding bows etc., which have ammo, but can't be reloaded
         amount = ammo_remaining();
-        show_amt = true;
+        show_amt = !has_flag( "RELOAD_AND_SHOOT" );
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
@@ -3099,6 +3100,16 @@ void item::calc_rot(const tripoint &location)
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
         const time_point until = fridge != calendar::before_time_starts ? fridge : now;
+
+        // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
+        // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
+        // positive = food was produced some time before calendar::time_of_cataclysm and/or bad storage
+        // negative = food was stored in good condiitons before calendar::time_of_cataclysm
+        if( since == calendar::time_of_cataclysm && goes_bad() ) {
+            time_duration spoil_variation = type->comestible->spoils * 0.2f;
+            rot += rng( -spoil_variation, spoil_variation );
+        }
+
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             rot += get_rot_since( since, until, location );
@@ -4684,7 +4695,7 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
-    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( pistol_gun_type ) ) {
+    } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
         return ret_val<bool>::make_failure( _("isn't big enough to use that mod") );
 
     } else if( mod.type->gunmod->location.str() == "underbarrel" && !mod.has_flag( "PUMP_RAIL_COMPATIBLE" ) && has_flag( "PUMP_ACTION" ) ) {
@@ -5083,36 +5094,37 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn( fire_data &frd, bool contained)
+float item::simulate_burn( fire_data &frd ) const
 {
     const auto &mats = made_of();
     float smoke_added = 0.0f;
     float time_added = 0.0f;
     float burn_added = 0.0f;
-    const int vol = base_volume() / units::legacy_volume_factor;
+    const units::volume vol = base_volume();
+    const int effective_intensity = frd.contained ? 3 : frd.fire_intensity;
     for( const auto &m : mats ) {
-        const auto &bd = m.obj().burn_data( frd.fire_intensity );
+        const auto &bd = m.obj().burn_data( effective_intensity );
         if( bd.immune ) {
             // Made to protect from fire
             return false;
         }
 
-        // If fire is contained, burn all of it continuously
-        if( bd.chance_in_volume == 0 ||  !contained ) {
+        // If fire is contained, burn rate is independent of volume
+        if( frd.contained || bd.volume_per_turn == 0_ml ) {
             time_added += bd.fuel;
             smoke_added += bd.smoke;
             burn_added += bd.burn;
-
-        } else if( bd.chance_in_volume >= vol || x_in_y( bd.chance_in_volume, vol ) ){
-            time_added += bd.fuel;
-            smoke_added += bd.smoke;
-            burn_added += bd.burn;
+        } else {
+            double volume_burn_rate = to_liter( bd.volume_per_turn ) / to_liter( vol );
+            time_added += bd.fuel * volume_burn_rate;
+            smoke_added += bd.smoke * volume_burn_rate;
+            burn_added += bd.burn * volume_burn_rate;
         }
     }
 
     // Liquids that don't burn well smother fire well instead
     if( made_of( LIQUID ) && time_added < 200 ) {
-        time_added -= rng( 100 * vol, 300 * vol );
+        time_added -= rng( 400.0 * to_liter( vol ), 1200.0 * to_liter( vol ) );
     } else if( mats.size() > 1 ) {
         // Average the materials
         time_added /= mats.size();
@@ -5125,6 +5137,12 @@ bool item::burn( fire_data &frd, bool contained)
 
     frd.fuel_produced += time_added;
     frd.smoke_produced += smoke_added;
+    return burn_added;
+}
+
+bool item::burn( fire_data &frd )
+{
+    float burn_added = simulate_burn( frd );
 
     if( burn_added <= 0 ) {
         return false;
@@ -5156,6 +5174,7 @@ bool item::burn( fire_data &frd, bool contained)
 
     burnt += roll_remainder( burn_added );
 
+    const int vol = base_volume() / units::legacy_volume_factor;
     return burnt >= vol * 3;
 }
 
@@ -5168,7 +5187,7 @@ bool item::flammable( int threshold ) const
     }
 
     int flammability = 0;
-    int chance = 0;
+    units::volume volume_per_turn = 0;
     for( const auto &m : mats ) {
         const auto &bd = m->burn_data( 1 );
         if( bd.immune ) {
@@ -5177,20 +5196,20 @@ bool item::flammable( int threshold ) const
         }
 
         flammability += bd.fuel;
-        chance += bd.chance_in_volume;
+        volume_per_turn += bd.volume_per_turn;
     }
 
     if( threshold == 0 || flammability <= 0 ) {
         return flammability > 0;
     }
 
-    chance /= mats.size();
-    int vol = base_volume() / units::legacy_volume_factor;
-    if( chance > 0 && chance < vol ) {
-        flammability = flammability * chance / vol;
+    volume_per_turn /= mats.size();
+    units::volume vol = base_volume();
+    if( volume_per_turn > 0 && volume_per_turn < vol ) {
+        flammability = flammability * volume_per_turn / vol;
     } else {
         // If it burns well, it provides a bonus here
-        flammability *= vol;
+        flammability *= vol / units::legacy_volume_factor;
     }
 
     return flammability > threshold;

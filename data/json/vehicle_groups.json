@@ -211,7 +211,8 @@
             [ "flatbed_truck", 40 ],
             [ "pickup", 20 ],
             [ "road_roller", 80 ],
-            [ "tatra_truck", 20]
+            [ "tatra_truck", 20 ],
+            [ "trencher", 40 ]
         ]
     },
     {

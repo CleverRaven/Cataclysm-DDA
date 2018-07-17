@@ -759,6 +759,11 @@
     },
     {
         "type" : "item_action",
+        "id" : "BIRDFOOD",
+        "name" : "Place"
+    },
+    {
+        "type" : "item_action",
         "id" : "install_bionic",
         "name" : "Install bionic"
     },
@@ -771,5 +776,10 @@
         "type" : "item_action",
         "id" : "CHOP_LOGS",
         "name" : "Chop a Tree Trunk into logs"
+    },
+    {
+        "type" : "item_action",
+        "id" : "BREAK_STICK",
+        "name" : "Break stick"
     }
 ]

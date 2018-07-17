@@ -83,7 +83,7 @@ enum m_flag : int {
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
-    MF_HARDTOSHOOT,         // Some shots are actually misses
+    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then MS_TINY
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
@@ -160,6 +160,7 @@ enum m_flag : int {
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
+    MF_BIRDFOOD,         // This monster will become friendly when fed bird food.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.

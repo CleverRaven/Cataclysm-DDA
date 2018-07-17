@@ -16,7 +16,7 @@ The source can either be downloaded as [an archive](https://github.com/CleverRav
 
 ## Compile
 
-Please read [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. We also have an "unofficial" guide on building with `cmake` at [COMPILING-CMAKE.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-CMAKE.md). See [doc/COMPILER_SUPPORT.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in `doc/`.
+Please read [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. We also have an "unofficial" guide on building with `cmake` at [COMPILING-CMAKE.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-CMAKE.md) and guide on building on Windows with `MSYS2` at [COMPILING-MSYS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-MSYS.md). See [doc/COMPILER_SUPPORT.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in `doc/`.
 
 ## Contribute
 

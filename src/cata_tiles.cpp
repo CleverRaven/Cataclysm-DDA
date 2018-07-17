@@ -88,7 +88,7 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
 
 namespace
 {
-void printErrorIf( const bool condition, const std::string message )
+void printErrorIf( const bool condition, const std::string &message )
 {
     if( !condition ) {
         return;
@@ -96,7 +96,7 @@ void printErrorIf( const bool condition, const std::string message )
     dbg( D_ERROR ) << message << ": " << SDL_GetError();
 }
 
-void throwErrorIf( const bool condition, const std::string message )
+void throwErrorIf( const bool condition, const std::string &message )
 {
     if( !condition ) {
         return;
@@ -1821,7 +1821,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
 
     int ret = 0;
     // blit foreground based on rotation
-    int rotate_sprite = 0;
+    bool rotate_sprite = false;
     int sprite_num = 0;
     if( !rota_fg && spritelist.size() == 1 ) {
         // don't rotate, a background tile without manual rotations

@@ -67,6 +67,7 @@ const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
 const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
 const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
 const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
 const mtype_id mon_zombie_master( "mon_zombie_master" );
 const mtype_id mon_zombie_necro( "mon_zombie_necro" );
@@ -163,6 +164,7 @@ monster::monster()
     mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
+    death_drops = true;
     made_footstep = false;
     hallucination = false;
     ignoring = 0;
@@ -447,14 +449,16 @@ std::string monster::name_with_armor() const
 {
     std::string ret;
     if( type->in_species( INSECT ) ) {
-        ret = string_format(_("carapace"));
+        ret = string_format( _( "carapace" ) );
     } else if( made_of( material_id( "veggy" ) ) ) {
-        ret = string_format(_("thick bark"));
+        ret = string_format( _( "thick bark" ) );
+    } else if( made_of( material_id( "bone" ) ) ) {
+        ret = string_format( _( "exoskeleton" ) );
     } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
                made_of( material_id( "iflesh" ) ) ) {
-        ret = string_format(_("thick hide"));
-    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) )) {
-        ret = string_format(_("armor plating"));
+        ret = string_format( _( "thick hide" ) );
+    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
+        ret = string_format( _( "armor plating" ) );
     }
     return ret;
 }
@@ -1282,17 +1286,6 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         return;
     }
 
-    const bool u_see_mon = g->u.sees(*this);
-    // Maxes out at 50% chance with perfect hit
-    if( has_flag( MF_HARDTOSHOOT ) &&
-        !one_in( 10 - 10 * ( .8 - missed_by ) ) &&
-        !effects.count( "WIDE" ) ) {
-        if( u_see_mon ) {
-            add_msg( _( "The shot passes through %s without hitting." ), disp_name().c_str() );
-        }
-        return;
-    }
-    // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
     if( missed_by < accuracy_headshot && has_flag( MF_NOHEAD ) ) {
         missed_by = accuracy_headshot;
@@ -1768,6 +1761,9 @@ void monster::die(Creature* nkiller)
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
+    if( !death_drops ){
+        return;
+    }
     if (!no_extra_death_drops) {
         drop_items_on_death();
     }
@@ -2021,7 +2017,7 @@ bool monster::make_fungus()
     } else if (tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
       tid == mon_zombie_spitter || tid == mon_zombie_brute ||
       tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-      tid == mon_zombie_scientist || tid == mon_zombie_hunter ||
+      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_hulk ||
       tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
       tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
       tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||

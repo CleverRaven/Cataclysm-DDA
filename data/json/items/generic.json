@@ -234,6 +234,45 @@
         "relative": { "bashing": 2 }
     },
     {
+        "id": "bundle_rag",
+        "type": "GENERIC",
+        "category": "spare_parts",
+        "name": "bundle of rags",
+        "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
+        "weight": 800,
+        "volume": 3,
+        "price": 0,
+        "material": "cotton",
+        "symbol": ",",
+        "color": "white"
+    },
+    {
+        "id": "bundle_leather",
+        "type": "GENERIC",
+        "category": "spare_parts",
+        "name": "bundle of leather",
+        "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
+        "weight": 1000,
+        "volume": 4,
+        "price": 20000,
+        "material": "leather",
+        "symbol": ",",
+        "color": "brown"
+    },
+    {
+        "id": "bundle_wool",
+        "type": "GENERIC",
+        "category": "spare_parts",
+        "name": "bundle of felt",
+        "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
+        "weight": 1000,
+        "volume": 4,
+        "price": 20000,
+        "material": "wool",
+        "symbol": ",",
+        "color": "white"
+    },
+    {
         "type":"GENERIC",
         "id": "biollante_bud",
         "symbol": ",",

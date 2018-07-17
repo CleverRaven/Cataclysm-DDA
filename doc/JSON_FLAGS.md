@@ -213,6 +213,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ATTACKMON``` Attacks other monsters.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
+- ```BIRDFOOD``` Becomes friendly / tamed with bird food.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BLEED``` Causes the player to bleed.
 - ```BONES``` May produce bones and sinews when butchered.
@@ -247,7 +248,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT``` You feel guilty for killing it.
-- ```HARDTOSHOOT``` Some shots are actually misses.
+- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then MS_TINY 
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
@@ -752,6 +753,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
 - ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
 - ```BANDAGE``` Stop bleeding.
+- ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
@@ -1037,6 +1039,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TURRET``` Activate a turret.
 - ```WASHCLOTHES``` Wash clothes with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
+- ```BREAK_STICK``` Breaks long stick into two.
 
 ## Generic
 

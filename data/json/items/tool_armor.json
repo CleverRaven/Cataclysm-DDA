@@ -1047,7 +1047,7 @@
         "material_thickness": 2,
         "environmental_protection": 1,
         "environmental_protection_with_filter": 20,
-        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
     },
     {
         "id": "anbc_suit",
@@ -1072,7 +1072,31 @@
         "material_thickness": 3,
         "environmental_protection": 1,
         "environmental_protection_with_filter": 20,
-        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+    },
+    {
+        "id": "entry_suit",
+        "type": "TOOL_ARMOR",
+        "name": "entry suit",
+        "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  Though very restrictive, wearing it will provide excellent protection against fire and smoke.",
+        "weight": 2900,
+        "volume": 24,
+        "price": 240500,
+        "max_charges": 100,
+        "initial_charges": 100,
+        "ammo": "gasfilter_l",
+        "use_action": "GASMASK",
+        "material": [ "nomex", "kevlar" ],
+        "symbol": "[",
+        "color": "light_gray",
+        "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+        "coverage": 100,
+        "encumbrance": 50,
+        "warmth": 30,
+        "material_thickness": 5,
+        "environmental_protection": 1,
+        "environmental_protection_with_filter": 20,
+        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "goggles_nv",

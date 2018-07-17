@@ -41,7 +41,8 @@
         "weight": 3400,
         "volume": 10,
         "bashing": 18,
-        "to_hit": -1
+        "to_hit": -1,
+        "use_action": "BREAK_STICK"
     },
     {
         "type":"GENERIC",

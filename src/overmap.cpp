@@ -2560,6 +2560,11 @@ tripoint overmap::draw_overmap()
     return draw_overmap(g->u.global_omt_location(), draw_data_t());
 }
 
+tripoint overmap::draw_overmap( tripoint origin )
+{
+    return draw_overmap( origin, draw_data_t());
+}
+
 tripoint overmap::draw_overmap(int z)
 {
     tripoint loc = g->u.global_omt_location();
@@ -3937,7 +3942,7 @@ void overmap::connect_closest_points( const std::vector<point> &points, int z, c
     }
     for( size_t i = 0; i < points.size(); ++i ) {
         int closest = -1;
-        int k;
+        int k = 0;
         for( size_t j = i + 1; j < points.size(); j++ ) {
             const int distance = trig_dist( points[i].x, points[i].y, points[j].x, points[j].y );
             if( distance < closest || closest < 0) {
@@ -4297,9 +4302,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     // Make connections.
     if( cit ) {
         for( const auto &elem : special.connections ) {
-            const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-
             if( elem.connection ) {
+                const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
                 build_connection( point( cit.x, cit.y ), point( rp.x, rp.y ), elem.p.z, *elem.connection );
             }
         }
@@ -4810,9 +4814,9 @@ void building_bin::add( const overmap_special_id &building, int weight )
 
 overmap_special_id building_bin::pick() const
 {
-    overmap_special_id null_special( "null" );
     if( !finalized ) {
         debugmsg( "Tried to pick a special out of a non-finalized bin" );
+        overmap_special_id null_special( "null" );
         return null_special;
     }
 
@@ -4824,6 +4828,7 @@ void building_bin::clear()
     finalized = false;
     buildings.clear();
     unfinalized_buildings.clear();
+    all.clear();
 }
 
 void building_bin::finalize()
@@ -4846,6 +4851,8 @@ void building_bin::finalize()
             if( !converted_id.is_valid() ) {
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type", pr.first.c_str() );
                 continue;
+            } else {
+                all.emplace_back( pr.first.str() );
             }
             current_id = overmap_specials::create_building_from( converted_id );
         }
