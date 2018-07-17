@@ -48,7 +48,7 @@
     "id": "CBM",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
-    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> to safely install it into your body, or you may attempt to perform a <info>self-installation</info> with a higher risk of damaging yourself."
+    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> or <info>ask a surgeon</info> to install it into your body."
   },
   {
     "id": "COLLAR",
