@@ -77,11 +77,8 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
 {
     time_duration ret = 0;
     const auto &wgen = g->get_cur_weather_gen();
-    const tripoint abs_loc = g->m.getabs( location );
     for( time_point i = start; i < end; i += 1_hours ) {
-
         w_point w = wgen.get_weather( location, i, g->get_seed() );
-
         //Use weather if above ground, use map temp if below
         double temperature = location.z >= 0 ? w.temperature : g->get_temperature( location );
         if( g->m.ter( location ) == t_rootcellar ) {
