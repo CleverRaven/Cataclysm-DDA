@@ -2438,7 +2438,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         return;
     }
     add_msg( m_debug, "%s changes attitude from %s to %s",
-             npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
+             name.c_str(), npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() ) {
