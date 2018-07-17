@@ -67,6 +67,9 @@
         { "item": "clothing_work_gloves", "x": 15, "y": 9, "chance": 30 },
         { "item": "hardware_trash", "x": 22, "y": 4, "chance": 15 },
         { "item": "hardware_trash", "x": 6, "y": 1, "chance": 15 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "small_utility_vehicles", "x": 11, "y": 22, "chance": 50, "fuel": 20, "status": 0 }
       ]
     }
   },
@@ -136,6 +139,9 @@
         { "item": "tools_construction", "x": 12, "y": 14, "chance": 20 },
         { "item": "tools_construction", "x": 11, "y": 12, "chance": 20 },
         { "item": "hardware_trash", "x": 22, "y": [ 18, 19 ], "chance": 35 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "small_utility_vehicles", "x": 12, "y": 2, "chance": 50, "fuel": 20, "status": 0, "rotation": 270 }
       ]
     }
   },
@@ -213,6 +219,9 @@
         { "item": "2x4", "x": 9, "y": 16 },
         { "item": "2x4", "x": 10, "y": 16 },
         { "item": "2x4", "x": 11, "y": 16 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "small_utility_vehicles", "x": 14, "y": 2, "chance": 50, "fuel": 20, "status": 0 }
       ]
     }
   },
@@ -290,6 +299,9 @@
         { "item": "tools_carpentry", "x": 10, "y": 7, "chance": 80 },
         { "item": "clothing_work_hat", "x": 21, "y": 13, "chance": 25 },
         { "item": "hardware_trash", "x": 10, "y": 14, "chance": 45 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "small_utility_vehicles", "x": 17, "y": 2, "chance": 50, "fuel": 20, "status": 0, "rotation": 270 }
       ]
     }
   },
@@ -434,7 +446,21 @@
         { "item": "trash", "x": [ 9, 10 ], "y": 11, "chance": 45 },
         { "item": "tools_construction", "x": 9, "y": 20, "chance": 25 },
         { "item": "tools_carpentry", "x": 9, "y": 19, "chance": 25 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "small_utility_vehicles", "x": 16, "y": 2, "chance": 50, "fuel": 20, "status": 0, "rotation": 270 }
       ]
     }
+  },
+  {
+    "id": "small_utility_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [
+        [ "excavator", 100 ],
+        [ "trencher", 80 ],
+        [ "engine_crane", 60 ],
+        [ "welding_cart", 40 ],
+        [ "portable_generator", 20 ]
+    ]
   }
 ]

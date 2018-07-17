@@ -494,6 +494,8 @@ class game
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
+        /** Return list of killed NPC */
+        std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = NULL, bool add_teleglow = true );
@@ -527,6 +529,7 @@ class game
 
         void process_artifact( item &it, player &p );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
+        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );

@@ -1307,14 +1307,17 @@
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
   ],
-  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1], [ "food_processor", 20 ] ]
+  ],
   "components": [
     [
       [ "acorns", 1 ]
     ],
     [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -9846,5 +9849,134 @@
     "qualities" : [ {"id":"CUT","level":1}, {"id":"COOK","level":1}],
     "tools" : [ [ [ "char_smoker", 10 ] ] ],
     "components": [ [ [ "offal", 4 ] ], [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt_water", 4 ], [ "saline", 20 ], [ "salt", 20 ], [ "soysauce", 4 ], [ "seasoning_salt", 20 ], [ "pepper", 40 ], [ "chem_saltpetre", 8 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "oatmeal",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ ["survival", 1] ],
+    "difficulty": 2,
+    "time": 67500,
+    "autolearn": true,
+    "batch_time_factors": [83, 3],
+    "tools": [
+      [
+        [ "surface_heat", 5, "LIST" ]
+      ],
+      [ [ "mortar_pestle", -1 ] ]
+    ],
+    "components": [ [ ["oats", 2] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "flour",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ ["survival", 1] ],
+    "difficulty": 2,
+    "time": 67500,
+    "autolearn": true,
+    "batch_time_factors": [83, 3],
+    "tools": [ [ ["mortar_pestle", -1] ] ],
+    "components": [
+      [
+        ["wheat", 2],
+        ["buckwheat", 2],
+        ["barley", 2],
+        ["acorns_cooked", 2],
+        ["oats", 2],
+        ["starch", 2],
+        ["dry_rice", 6]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "cornmeal",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ ["survival", 1] ],
+    "difficulty": 2,
+    "time": 67500,
+    "autolearn": true,
+    "batch_time_factors":[83, 3],
+    "tools": [
+      [
+        [ "surface_heat", 5, "LIST" ]
+      ],
+      [ [ "mortar_pestle", -1 ] ]
+    ],
+    "components": [
+      [
+        ["corn", 2],
+        ["irradiated_corn", 2]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "meal_bone",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ ["survival", 1] ],
+    "difficulty": 2,
+    "time": 90000,
+    "autolearn": true,
+    "batch_time_factors":[83, 3],
+    "tools": [ [ ["mortar_pestle", -1] ] ],
+    "components": [ [ ["bone", 1], ["bone_human", 1] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "meal_bone_tainted",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ ["survival", 1] ],
+    "difficulty": 2,
+    "time": 90000,
+    "autolearn": true,
+    "batch_time_factors":[83, 3],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "bone_tainted", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "acorns_cooked",
+    "id_suffix": "mortar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
+    "time": 67500,
+    "autolearn": true,
+    "qualities":[
+      {"id":"COOK","level":2},
+      {"id":"CUT","level":1}
+    ],
+    "tools": [
+      [ [ "surface_heat", 5, "LIST" ] ],
+      [ ["mortar_pestle", -1] ]
+    ],
+    "components": [
+      [
+        [ "acorns", 1 ]
+      ],
+      [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+      ]
+    ]
   }
 ]

@@ -9,6 +9,7 @@
     "broken_color": "red",
     "difficulty": 1,
     "durability": 75,
+    "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 2000,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ]
@@ -23,6 +24,7 @@
     "broken_color": "red",
     "difficulty": 1,
     "durability": 100,
+    "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 10000,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ]
@@ -37,6 +39,7 @@
     "broken_color": "red",
     "difficulty": 1,
     "durability": 120,
+    "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 20000,
     "damage_modifier": 80,
     "breaks_into": [
@@ -55,6 +58,7 @@
     "broken_color": "red",
     "difficulty": 1,
     "durability": 150,
+    "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 60000,
     "damage_modifier": 80,
     "breaks_into": [
@@ -73,6 +77,7 @@
     "broken_color": "red",
     "difficulty": 1,
     "durability": 160,
+    "description": "A storage space for holding liquids, mounted outside the vehicle's walls and armor.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 100000,
     "damage_modifier": 80,
     "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
@@ -95,6 +100,7 @@
     "color": "brown",
     "broken_color": "brown",
     "durability": 120,
+    "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 400,
     "damage_modifier": 80,
     "breaks_into": [

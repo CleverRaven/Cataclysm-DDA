@@ -23,6 +23,7 @@ class npc_class;
 class auto_pickup;
 class monfaction;
 struct mission_type;
+struct npc_companion_mission;
 struct overmap_location;
 
 enum game_message_type : int;
@@ -87,7 +88,11 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
 };
 
-//std::string npc_mission_name(npc_mission);
+struct npc_companion_mission {
+    std::string mission_id;
+    tripoint position;
+    std::string role_id;
+};
 
 std::string npc_class_name( const npc_class_id & );
 std::string npc_class_name_str( const npc_class_id & );
@@ -818,7 +823,14 @@ class npc : public player
         // Personality & other defining characteristics
         string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac;
-        time_point companion_mission_time;
+
+        std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
+        std::vector<tripoint>
+        companion_mission_points; //Mission leader use to determine item sorting, patrols use for points
+        time_point companion_mission_time; //When you left for ongoing/repeating missions
+        time_point
+        companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
+        inventory companion_mission_inv; //Inventory that is added and dropped on mission
         npc_mission mission;
         npc_personality personality;
         npc_opinion op_of_u;
@@ -847,7 +859,7 @@ class npc : public player
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         bool has_companion_mission() const;
-        std::string get_companion_mission() const;
+        npc_companion_mission get_companion_mission() const;
 
     protected:
         void store( JsonOut &jsout ) const;
@@ -862,7 +874,7 @@ class npc : public player
 
         std::vector<sphere> find_dangerous_explosives() const;
 
-        std::string companion_mission;
+        npc_companion_mission comp_mission;
 };
 
 /** An NPC with standard stats */

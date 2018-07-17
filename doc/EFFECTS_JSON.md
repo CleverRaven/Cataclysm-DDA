@@ -79,6 +79,8 @@ all of the listed effects to the player. The effects are added one after another
 ### Max intensity
 ```C++
     "max_intensity": 3          - Used for many later fields, defaults to 1
+    "max_effective_intensity"   - How many intensity levels will apply effects.
+                                  Other intensity levels will only increase duration.
 ```
 
 ### Name
@@ -405,6 +407,11 @@ Valid arguments:
 "vomit_chance"
 "vomit_chance_bot"
 "vomit_tick"
+
+"healing_rate"      - Healed rate per day
+"healing_head"      - Percentage of healing value for head
+"healing_torso"     - Percentage of healing value for torso
+
 ```
 Basic definitions:
 ```C++

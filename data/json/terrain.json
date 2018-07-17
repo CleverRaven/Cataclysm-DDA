@@ -3912,7 +3912,6 @@
         }
     },{
         "type" : "terrain",
-
         "id" : "t_chainfence",
         "aliases" : [
             "t_chainfence_h",
