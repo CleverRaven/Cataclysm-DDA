@@ -62,7 +62,6 @@ const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
-static const trait_id trait_FACTION_CAMP_TUTORIAL( "FACTION_CAMP_TUTORIAL" );
 
 struct dialogue;
 
