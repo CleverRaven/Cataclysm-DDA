@@ -831,7 +831,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
-- ```SMOKEABLE``` Accepted by smoking rack.
+- ```SMOKABLE``` Accepted by smoking rack.
 
 ## Melee
 

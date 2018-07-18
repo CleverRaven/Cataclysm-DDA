@@ -22,7 +22,7 @@
     "volume": 1,
     "price": 500,
     "spoils_in": 12,
-    "flags": [ "SMOKEABLE" ],
+    "flags": [ "SMOKABLE" ],
     "calories": 200
   },
   {
@@ -61,7 +61,7 @@
     "name_plural": "human fleshes",
     "description": "Freshly butchered from a human body.",
     "material": "hflesh",
-    "flags": [ "SMOKEABLE" ]
+    "flags": [ "SMOKABLE" ]
   },
   {
     "id": "human_cooked",
@@ -89,7 +89,7 @@
     "calories": 250,
     "healthy": -1,
     "fun": -10,
-    "flags": [ "SMOKEABLE" ]
+    "flags": [ "SMOKABLE" ]
   },
   {
     "id": "meat_cooked",
