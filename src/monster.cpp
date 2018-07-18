@@ -2317,6 +2317,36 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 }
 
+monster_horde_attraction monster::get_horde_attraction()
+{
+    if( horde_attraction == MHA_NULL ) {
+        horde_attraction = static_cast<monster_horde_attraction>( rng( 1, 5 ) );
+    }
+    return horde_attraction;
+}
+
+void monster::set_horde_attraction( monster_horde_attraction mha)
+{
+    horde_attraction = mha;
+}
+
+bool monster::will_join_horde(int size)
+{
+    const monster_horde_attraction mha = get_horde_attraction();
+    if( mha == MHA_NEVER ) {
+        return false;
+    } else if ( mha == MHA_ALWAYS ) {
+        return true;
+    } else if ( g->m.has_flag(TFLAG_INDOORS, pos() ) && ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    } else if ( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
 void monster::on_unload()
 {
     last_updated = calendar::turn;
