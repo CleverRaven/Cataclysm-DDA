@@ -2990,6 +2990,13 @@ int talk_function::om_over_level( std::string target, std::string bldg ){
 
 bool talk_function::upgrade_return( npc &p, point omt_pos, std::string miss  )
 {
+    //Ensure there are no vehicles before we update
+    editmap edit;
+    if( edit.mapgen_veh_has( tripoint( omt_pos.x, omt_pos.y, p.posz() ) ) ){
+        popup( _("Engine cannot support merging vehicles from two overmaps, please remove them from the OM tile.") );
+        return false;
+    }
+
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
     std::string bldg = omt_ref.id().c_str();
     if( bldg == "field" ){
