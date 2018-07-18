@@ -58,7 +58,7 @@
     "name": "L2031 Enforcer",
     "name_plural": "L2031 Enforcer",
     "//": "Real-life Autorevolvers tended to vary between 6-7.5 inch barrels, so we'll err on the side of a +1 here.",
-    "description": "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-action of a semi-auto with the ease-of-reloading and style of a revolver.  It achieved overnight stardom when it appeared in \"Treasure Trail\", a popular space-Western series running from 2030 through 2037.",
+    "description": "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-action of a semi-auto with the ease-of-reloading and style of a revolver.  It achieved overnight stardom when it appeared in \"Treasure Trail\", a popular space-Western series.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 1370,
     "volume": 2,
     "price": 83000,
@@ -71,7 +71,9 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 8,
-    "clip_size": 6
+    "clip_size": 6,
+    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight"],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "l_long_45",
@@ -80,7 +82,7 @@
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
-    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach while using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.",
+    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Leadworks Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach while using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 4175,
     "volume": 13,
     "price": 90000,
@@ -97,7 +99,8 @@
     "durability": 9,
     "clip_size": 7,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight"],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -105,7 +108,7 @@
     "copy-from": "l_mp_9mm",
     "type": "GUN",
     "name": "L39B-45",
-    "description": "After the success of the 9x19mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "After the success of the 9x19mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.  Come with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "45"
   },
   {
@@ -113,7 +116,7 @@
     "copy-from": "l_sp_9mm",
     "type": "GUN",
     "name": "L39-45",
-    "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.  Comes with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "45"
   },
   {

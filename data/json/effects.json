@@ -689,8 +689,8 @@
         "max_duration": 57600,
         "base_mods": {
             "healing_rate": [2],
-            "healing_head_mult": [50],
-            "healing_torso_mult": [150]
+            "healing_head": [50],
+            "healing_torso": [150]
         },
         "scaling_mods": {
             "healing_rate": [2]
