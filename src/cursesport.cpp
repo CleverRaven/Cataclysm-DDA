@@ -127,7 +127,8 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
         //@todo: log this
         return;
     }
-    int i, j;
+    int i = 0;
+    int j = 0;
     int oldx = win->cursorx; //methods below move the cursor, save the value!
     int oldy = win->cursory; //methods below move the cursor, save the value!
 

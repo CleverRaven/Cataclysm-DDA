@@ -56,6 +56,10 @@ static bool crafting_allowed( const player &p, const recipe &rec )
         return false;
     }
 
+    if( rec.category == "CC_BUILDING" ) {
+        add_msg( m_info, _( "Overmap terrain building recipies are not implemented yet!" ) );
+        return false;
+    }
     return true;
 }
 
@@ -403,13 +407,14 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
     }
 }
 
-std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size )
+std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size,
+        bool ignore_last )
 {
     std::list<item> used;
     if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
         return used;
     }
-    if( last_craft->has_cached_selections() ) {
+    if( last_craft->has_cached_selections() && !ignore_last ) {
         used = last_craft->consume_components();
     } else {
         // This should fail and return, but currently crafting_command isn't saved
@@ -693,7 +698,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool pl = false, mp = false;
+        bool pl = false;
+        bool mp = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             if( has_charges( type, count ) ) {

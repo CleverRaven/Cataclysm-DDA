@@ -2,8 +2,7 @@
 
 ## How to give effects in-game?
 ### Comestibles
-The first way to give a player an effect in-game is through the drug system. To do this your item
-must have a use_action of type "consume_drug".
+The first way to give a player an effect in-game is through the drug system. To do this your item must have a use_action of type "consume_drug".
 ```C++
     "use_action" : {
         "type" : "consume_drug",
@@ -44,7 +43,7 @@ Valid "bp" entries are (no entry means the effect is untargeted):
 ```
 
 ### Creature attacks
-Creatures have a field that is almost identical to the one used in the "consume_drug" entry.
+Creatures have an effect field similar to the "consume_drug" entry for items. You can make a creature's attacks apply effects by adding an "attack_effs" entry for the creature.
 ```C++
     "attack_effs": [
         {
@@ -62,13 +61,12 @@ Creatures have a field that is almost identical to the one used in the "consume_
         }
     ],
 ```
-The entries in each effect function identically to the ones for "consume_drug" except creatures
-also have an additional field:
+The fields for "attack_effs" function identically to the ones for "consume_drug". However, creatures have an additional field:
 ```C++
 "chance" - The percentage chance of the effect being applied on a good hit, defaults to 100%
 ```
 If a creature successfully damages the player and their chance roll succeeds they will apply
-all of the listed effects to the player one after another.
+all of the listed effects to the player. The effects are added one after another.
 
 ## Required fields
 ```C++
@@ -81,6 +79,8 @@ all of the listed effects to the player one after another.
 ### Max intensity
 ```C++
     "max_intensity": 3          - Used for many later fields, defaults to 1
+    "max_effective_intensity"   - How many intensity levels will apply effects.
+                                  Other intensity levels will only increase duration.
 ```
 
 ### Name
@@ -118,7 +118,7 @@ appear in the list of modifiers on the players speed (though the effect might st
         "123"
     ]
 ```
-Descriptions operate identical to the name field for picking which one to use. In general descriptions
+Descriptions operate identically to the name field when picking which one to use. In general, descriptions
 should be only 1 line. Stats and effects do not need to be included, and will be automatically generated
 from the other effect data. Should a description line be the empty string ("") it will only display the
 stat changes in the effect description.
@@ -129,7 +129,7 @@ Descriptions also have a second field that can act as a modifier:
 ```
 If "part_descs" == true then descriptions are preceded by "Your X", where X is the body part name, meaning
 the prior descriptions would appear as "Your left arm ABC".
- 
+
 Descriptions can also have a reduced form:
 ```C++
     "reduced_desc": ["XYZ"]
@@ -142,7 +142,7 @@ Descriptions can also have a reduced form:
 ```
 This is the description that will be used if an effect is reduced. By default this will use the normal description
 if it doesn't exist.
- 
+
 ### Rating
 ```C++
     "rating": "good"        - Defaults to "neutral" if missing
@@ -407,6 +407,11 @@ Valid arguments:
 "vomit_chance"
 "vomit_chance_bot"
 "vomit_tick"
+
+"healing_rate"      - Healed rate per day
+"healing_head"      - Percentage of healing value for head
+"healing_torso"     - Percentage of healing value for torso
+
 ```
 Basic definitions:
 ```C++

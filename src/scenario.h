@@ -101,7 +101,7 @@ class scenario
         std::string prof_count_str() const;
 
         /** Such as a seasonal start, fiery start, surrounded start, etc. */
-        bool has_flag( std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
 
         /**
          *

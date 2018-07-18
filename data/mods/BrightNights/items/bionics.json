@@ -1,9 +1,25 @@
-{
-  "id": "bn_bio_solar",
-  "copy-from": "bionic_general",
-  "type": "BIONIC_ITEM",
-  "name": "Solar Panels CBM",
-  "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
-  "price": 350000,
-  "difficulty": 4
-}
+[
+  {
+    "abstract": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "category": "bionics",
+    "name": "abstract bionic module",
+    "weight": 2041,
+    "volume": 10,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ":",
+    "color": "yellow",
+    "use_action": "install_bionic",
+    "flags": [ "CBM" ]
+  },
+  {
+    "id": "bn_bio_solar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Solar Panels CBM",
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  }
+]

@@ -109,7 +109,7 @@ class profession
          *
          * Current flags: none
          */
-        bool has_flag( std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
 
         /**
          * Check if the given player can pick this job with the given amount

@@ -321,6 +321,25 @@ bool overmapbuffer::has_horde(int const x, int const y, int const z) {
     return false;
 }
 
+int overmapbuffer::get_horde_size(int const x, int const y, int const z) {
+    int horde_size = 0;
+    for (auto const &m : overmap_buffer.monsters_at(x, y, z)) {
+        if (m->horde) {
+            if(m->monsters.size() > 0) {
+                horde_size += m->monsters.size();
+            } else {
+                // We don't know how large this will actually be, because
+                // population "1" can still result in a zombie pack.
+                // So we double the population as an estimate to make
+                // hordes more likely to be visible on the overmap.
+                horde_size += m->population * 2;
+            }
+        }
+    }
+
+    return horde_size;
+}
+
 bool overmapbuffer::has_vehicle( int x, int y, int z )
 {
     if (z) {
@@ -395,7 +414,8 @@ std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 {
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
     // but monster groups are defined with submap coordinates.
-    std::vector<mongroup *> result, tmp;
+    std::vector<mongroup *> result;
+    std::vector<mongroup *> tmp;
     tmp = groups_at( x * 2, y * 2 , z );
     result.insert( result.end(), tmp.begin(), tmp.end() );
     tmp = groups_at( x * 2, y * 2 + 1, z );

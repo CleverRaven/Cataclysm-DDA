@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "options.h"
+#include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -545,9 +546,11 @@ void Item_factory::init()
     add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
+    add_iuse( "BIRDFOOD", &iuse::feedbird );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
+    add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
@@ -568,6 +571,7 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
+    add_iuse( "FILL_PIT", &iuse::fill_pit );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
@@ -654,6 +658,8 @@ void Item_factory::init()
     add_iuse( "SIPHON", &iuse::siphon );
     add_iuse( "SLEEP", &iuse::sleep );
     add_iuse( "SMOKING", &iuse::smoking );
+    add_iuse( "SOLARPACK", &iuse::solarpack );
+    add_iuse( "SOLARPACK_OFF", &iuse::solarpack_off );
     add_iuse( "SPRAY_CAN", &iuse::spray_can );
     add_iuse( "STIMPACK", &iuse::stimpack );
     add_iuse( "TAZER", &iuse::tazer );
@@ -676,6 +682,7 @@ void Item_factory::init()
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
+    add_iuse( "BREAK_STICK", &iuse::break_stick );
 
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );
@@ -1056,6 +1063,18 @@ const itype * Item_factory::find_template( const itype_id& id ) const
         return rt->second.get();
     }
 
+    //If we didn't find the item maybe it is a building instead!
+    if( oter_str_id( id.c_str() ).is_valid()){
+        itype *def = new itype();
+        def->id = id;
+        def->name = string_format( "DEBUG: %s", id.c_str() );
+        def->name_plural = string_format( "%s", id.c_str() );
+        const recipe *making = &recipe_id( id.c_str() ).obj();
+        def->description = string_format( making->description );
+        m_runtimes[ id ].reset( def );
+        return def;
+    }    
+    
     debugmsg( "Missing item definition: %s", id.c_str() );
 
     itype *def = new itype();
@@ -1156,6 +1175,14 @@ bool Item_factory::load_definition( JsonObject& jo, const std::string &src, ityp
 void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string & )
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
+    slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
+    // No dreams unless specified for artifacts embedded in items.
+    // If specifying dreams, message should be set too,
+    // since the array with the defaults isn't accessible from here.
+    slot.dream_freq_unmet = jo.get_int(    "dream_freq_unmet", 0 );
+    slot.dream_freq_met   = jo.get_int(    "dream_freq_met",   0 );
+    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" ); //@todo Make sure it doesn't cause problems if this is empty
+    slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
@@ -2276,7 +2303,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     }
 }
 
-void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member,
+void Item_factory::set_use_methods_from_json( JsonObject &jo, const std::string &member,
                                               std::map<std::string, use_function> &use_methods )
 {
     if( !jo.has_member( member ) ) {

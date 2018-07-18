@@ -398,6 +398,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
@@ -466,6 +467,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             forge.charges = veh->fuel_left("battery", true);
             forge.item_tags.insert("PSEUDO");
             add_item(forge);
+        }
+        if( kilnpart ) {
+            item kiln("kiln", 0);
+            kiln.charges = veh->fuel_left("battery", true);
+            kiln.item_tags.insert("PSEUDO");
+            add_item(kiln);
         }
         if( chempart ) {
             item hotplate("hotplate", 0);
@@ -623,7 +630,7 @@ int inventory::position_by_item( const item *it ) const
     return INT_MIN;
 }
 
-int inventory::position_by_type(itype_id type)
+int inventory::position_by_type(const itype_id &type)
 {
     int i = 0;
     for( auto &elem : items ) {
@@ -660,17 +667,17 @@ std::list<item> inventory::use_amount(itype_id it, int _quantity)
     return ret;
 }
 
-bool inventory::has_tools(itype_id it, int quantity) const
+bool inventory::has_tools(const itype_id &it, int quantity) const
 {
     return has_amount(it, quantity, true);
 }
 
-bool inventory::has_components(itype_id it, int quantity) const
+bool inventory::has_components(const itype_id &it, int quantity) const
 {
     return has_amount(it, quantity, false);
 }
 
-bool inventory::has_charges(itype_id it, long quantity) const
+bool inventory::has_charges(const itype_id &it, long quantity) const
 {
     return (charges_of(it) >= quantity);
 }

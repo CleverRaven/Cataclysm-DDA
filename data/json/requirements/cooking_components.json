@@ -19,6 +19,24 @@
     ]
   },
   {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "//": "All of the different bird eggs",
+    "components": [
+      [
+        [ "egg_bird", 1 ],
+        [ "egg_chicken", 1 ],
+        [ "egg_grouse", 1 ],
+        [ "egg_crow", 1 ],
+        [ "egg_duck", 1 ],
+        [ "egg_goose_canadian", 1 ],
+        [ "egg_turkey", 1 ],
+        [ "egg_pheasant", 1 ],
+        [ "egg_cockatrice", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "hard_liquor",
     "type": "requirement",
     "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
@@ -40,7 +58,7 @@
     "id": "hard_liquor_chem",
     "type": "requirement",
     "//": "Hard liquor and ethanol - Must be diluted. Added for ease of use",
-    "components": [ [ [ "hard_liquor", 1, "LIST" ], [ "chem_ethanol", 125 ] ] ]
+    "components": [ [ [ "hard_liquor", 7, "LIST" ], [ "chem_ethanol", 125 ] ] ]
   },
   {
     "id": "hard_liquor_toxic",
