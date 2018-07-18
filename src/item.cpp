@@ -4012,7 +4012,7 @@ bool item::is_salvageable() const
 
 bool item::is_funnel_container(units::volume &bigger_than) const
 {
-    if ( ! is_watertight_container() ) {
+    if ( !is_bucket() && !is_watertight_container() ) {
         return false;
     }
     // @todo; consider linking funnel to item or -making- it an active item
