@@ -1795,7 +1795,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         npc *comp = companion_choose_return( p, "_faction_camp_om_fortifications", calendar::before_time_starts );
         if( comp != nullptr ){
             popup(_("%s returns from constructing fortifications..."), comp->name.c_str());
-            companion_return( *comp );
             editmap edit;
             bool build_dir_NS = ( comp->companion_mission_points[0].y != comp->companion_mission_points[1].y );
             //Ensure all tiles are generated before putting fences/trenches down...
@@ -1844,8 +1843,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         edit.mapgen_set( build_w, build_point[pt] );
                 }
             }
-            comp->companion_mission_points.clear();
             comp->companion_mission_role_id.clear();
+            companion_return( *comp );
         }
     }
 
@@ -4755,8 +4754,7 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
 
-    auto &cur_om = g->get_cur_om();
-    if( must_see && cur_om.seen( omt_tgt.x, omt_tgt.y, 0 ) == false ){
+    if( must_see && overmap_buffer.seen( omt_tgt.x, omt_tgt.y, 0 ) == false ){
         errors = true;
         popup( _("You must be able to see the target that you select.") );
     }
