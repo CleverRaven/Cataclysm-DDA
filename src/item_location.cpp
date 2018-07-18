@@ -108,7 +108,7 @@ class item_location::impl
         long charges_in_stack( unsigned int countOnly ) const {
             long sum = 0L;
             unsigned int c = countOnly;
-            // If the list points to a nullpointer, then the target pointer must be valid
+            // If the list points to a nullpointer, then the target pointer must still be valid
             if( whatstart == nullptr ) {
                 return target()->charges;
             }
@@ -142,6 +142,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+        item_on_map( const map_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -344,6 +345,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
@@ -443,6 +445,9 @@ const item_location item_location::nowhere;
 item_location::item_location()
     : ptr( new impl::nowhere() ) {}
 
+item_location::item_location(const map_cursor &mc, std::list<item> *which)
+    : ptr( new impl::item_on_map(mc, which) ) {}
+
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new impl::item_on_map( mc, which ) ) {}
 
@@ -451,6 +456,9 @@ item_location::item_location( Character &ch, std::list<item> *which )
 
 item_location::item_location( Character &ch, item *which )
     : ptr( new impl::item_on_person( ch, which ) ) {}
+
+item_location::item_location( const vehicle_cursor &vc, std::list<item> *which )
+    : ptr( new impl::item_on_vehicle( vc, which ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new impl::item_on_vehicle( vc, which ) ) {}
