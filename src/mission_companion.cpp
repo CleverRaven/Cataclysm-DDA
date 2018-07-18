@@ -1308,10 +1308,10 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 popup( _("You don't have enough food stored to feed your companion.") );
             } else if (npc_list.empty() ) {
                 npc* comp = individual_mission( p, _("begins to upgrade the camp..."), "_faction_upgrade_camp", false, {},
-                                       making->skill_used.obj().name(), making->difficulty );
+                                       making->skill_used.obj().ident().c_str(), making->difficulty );
                 if( comp != nullptr ){
                     comp->companion_mission_time_ret = calendar::turn + time_duration::from_turns( making->time/ 100 ) ;
-                    g->u.consume_components_for_craft(making, 1);
+                    g->u.consume_components_for_craft( making, 1, true );
                     g->u.invalidate_crafting_inventory();
                     camp_food_supply( -need_food );
                 }
@@ -1508,8 +1508,8 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     }
                     if (npc_list.empty() ) {
                         if (individual_mission(p, _("begins to upgrade the expansion..."), "_faction_upgrade_exp_"+dir, false, {},
-                                       making->skill_used.obj().name(), making->difficulty ) != nullptr ){
-                            g->u.consume_components_for_craft(making, 1);
+                                       making->skill_used.obj().ident().c_str(), making->difficulty ) != nullptr ){
+                            g->u.consume_components_for_craft( making, 1, true );
                             g->u.invalidate_crafting_inventory();
                             camp_food_supply( -need_food);
                         }
@@ -1775,9 +1775,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 popup( _("You don't have enough food stored to feed your companion.") );
             } else {
                 npc* comp = individual_mission(p, _("begins constructing fortifications..."), "_faction_camp_om_fortifications", false, {},
-                                       making->skill_used.obj().name(), making->difficulty );
+                                       making->skill_used.obj().ident().c_str(), making->difficulty );
                 if( comp != nullptr ){
-                    g->u.consume_components_for_craft( making, (fortify_om.size() * 2) - 2 );
+                    g->u.consume_components_for_craft( making, (fortify_om.size() * 2) - 2, true );
                     g->u.invalidate_crafting_inventory();
                     camp_food_supply( -need_food );
                     companion_skill_trainer( *comp, "construction", build_time, 2 );
@@ -2894,7 +2894,7 @@ std::string talk_function::om_upgrade_description( std::string bldg ){
         comp = comp + elem + "\n";
     }
     comp = string_format( "Notes:\n%s\n \nSkill used: %s\nDifficulty: %d\n%s \nRisk: None\nTime: %s\n", making->description,
-                         making->skill_used.obj().name(), making->difficulty, comp, to_string( time_duration::from_turns( making->time / 100 ) ) );
+                         making->skill_used.obj().ident().c_str(), making->difficulty, comp, to_string( time_duration::from_turns( making->time / 100 ) ) );
     return comp;
 }
 
@@ -5118,9 +5118,9 @@ void talk_function::camp_craft_construction( npc &p, std::string cur_key, std::m
                         continue;
                     }
                     npc* comp = individual_mission(p, _("begins to work..."), miss_id+dir, false, {},
-                                   making->skill_used.obj().name(), making->difficulty );
+                                   making->skill_used.obj().ident().c_str(), making->difficulty );
                     if ( comp != nullptr ){
-                        g->u.consume_components_for_craft(making, batch_size);
+                        g->u.consume_components_for_craft( making, batch_size, true );
                         g->u.invalidate_crafting_inventory();
                         for ( auto results : making->create_results( batch_size ) ) {
                             comp->companion_mission_inv.add_item( results );
