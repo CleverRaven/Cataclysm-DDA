@@ -32,7 +32,7 @@
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "rag", 3 ] ],
+      [ [ "rag", 3 ], [ "bandages_makeshift", 3 ], [ "bandages_makeshift_bleached", 3 ], [ "bandages_makeshift_boiled", 3 ] ],
       [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ],
       [ [ "hard_liquor_toxic", 14, "LIST" ], [ "honey_glassed", 3 ], [ "honey_bottled", 6 ] ]
     ]
@@ -58,9 +58,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "tailor",
-    "time": 500,
+    "time": 150,
     "autolearn": true,
-    "components": [ [ [ "rag", 3 ] ] ]
+    "charges": 1,
+    "components": [ [ [ "rag", 1 ] ] ]
   },
   {
     "result": "bandages_makeshift_bleached",
