@@ -83,12 +83,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     const time_point sunset = calendar::turn.sunset();
     const time_point sunrise = calendar::turn.sunrise();
     const season_type season = season_of_year( calendar::turn );
-
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it ) {
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
-        
         //Insure that the time is not before the spawn first appears or after it stops appearing
         valid_entry = valid_entry && ( calendar::time_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
@@ -295,7 +293,6 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }
-
     // If we have the classic zombies option, remove non-conforming monsters
     if ( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         for( auto &elem : monsterGroupMap ) {
@@ -333,7 +330,6 @@ void MonsterGroupManager::FinalizeMonsterGroups()
 
 void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
 {
-    //bool option_is_classic_spawn = get_option<bool>( "CLASSIC_ZOMBIES" );
     float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
 
     MonsterGroup g;
