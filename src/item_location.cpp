@@ -445,8 +445,8 @@ const item_location item_location::nowhere;
 item_location::item_location()
     : ptr( new impl::nowhere() ) {}
 
-item_location::item_location(const map_cursor &mc, std::list<item> *which)
-    : ptr( new impl::item_on_map(mc, which) ) {}
+item_location::item_location( const map_cursor &mc, std::list<item> *which )
+    : ptr( new impl::item_on_map( mc, which ) ) {}
 
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new impl::item_on_map( mc, which ) ) {}
