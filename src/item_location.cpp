@@ -51,388 +51,388 @@ static item *retrieve_index( const T &sel, int idx )
 
 class item_location::impl
 {
-    public:
-        class nowhere;
-        class item_on_map;
-        class item_on_person;
-        class item_on_vehicle;
+public:
+    class nowhere;
+    class item_on_map;
+    class item_on_person;
+    class item_on_vehicle;
 
-        impl() = default;
-        impl( std::list<item> *what ) :  what( &what->front() ), whatstart( what ) {}
-        impl( item *what ) : what( what ) {}
-        impl( int idx ) : idx( idx ) {}
+    impl() = default;
+    impl( std::list<item> *what ) :  what( &what->front() ), whatstart( what ) {}
+    impl( item *what ) : what( what ) {}
+    impl( int idx ) : idx( idx ) {}
 
-        virtual ~impl() = default;
+    virtual ~impl() = default;
 
-        virtual bool valid() const {
-            return false;
+    virtual bool valid() const {
+        return false;
+    }
+
+    virtual type where() const {
+        return type::invalid;
+    }
+
+    virtual tripoint position() const {
+        return tripoint_min;
+    }
+
+    virtual std::string describe( const Character * ) const {
+        return "";
+    }
+
+    virtual int obtain( Character &, long ) {
+        return INT_MIN;
+    }
+
+    virtual int obtain_cost( const Character &, long ) const {
+        return 0;
+    }
+
+    virtual void remove_item() {}
+
+    virtual void serialize( JsonOut &js ) const = 0;
+
+    virtual item *unpack( int ) const {
+        return nullptr;
+    }
+
+    item *target() const {
+        if( idx >= 0 ) {
+            what = unpack( idx );
+            idx = -1;
         }
+        return what;
+    }
 
-        virtual type where() const {
-            return type::invalid;
+    // Add up the total charges of a stack of items
+    long charges_in_stack( unsigned int countOnly ) const {
+        long sum = 0L;
+        unsigned int c = countOnly;
+        // If the list points to a nullpointer, then the target pointer must still be valid
+        if( whatstart == nullptr ) {
+            return target()->charges;
         }
-
-        virtual tripoint position() const {
-            return tripoint_min;
+        for( std::list<item>::iterator it = whatstart->begin(); it != whatstart->end() && c; ++it, --c ) {
+            sum += it->charges;
         }
+        return sum;
+    }
 
-        virtual std::string describe( const Character * ) const {
-            return "";
-        }
-
-        virtual int obtain( Character &, long ) {
-            return INT_MIN;
-        }
-
-        virtual int obtain_cost( const Character &, long ) const {
-            return 0;
-        }
-
-        virtual void remove_item() {}
-
-        virtual void serialize( JsonOut &js ) const = 0;
-
-        virtual item *unpack( int ) const {
-            return nullptr;
-        }
-
-        item *target() const {
-            if( idx >= 0 ) {
-                what = unpack( idx );
-                idx = -1;
-            }
-            return what;
-        }
-
-        // Add up the total charges of a stack of items
-        long charges_in_stack( unsigned int countOnly ) const {
-            long sum = 0L;
-            unsigned int c = countOnly;
-            // If the list points to a nullpointer, then the target pointer must still be valid
-            if( whatstart == nullptr ) {
-                return target()->charges;
-            }
-            for( std::list<item>::iterator it = whatstart->begin(); it != whatstart->end() && c; ++it, --c ) {
-                sum += it->charges;
-            }
-            return sum;
-        }
-
-    private:
-        mutable item *what = nullptr;
-        mutable int idx = -1;
-        //Only used for stacked cash card currently, needed to be able to process a stack of different items
-        mutable std::list<item> *whatstart = nullptr;
+private:
+    mutable item *what = nullptr;
+    mutable int idx = -1;
+    //Only used for stacked cash card currently, needed to be able to process a stack of different items
+    mutable std::list<item> *whatstart = nullptr;
 };
 
 class item_location::impl::nowhere : public item_location::impl
 {
-    public:
-        void serialize( JsonOut &js ) const override {
-            js.start_object();
-            js.member( "type", "null" );
-            js.end_object();
-        }
+public:
+    void serialize( JsonOut &js ) const override {
+        js.start_object();
+        js.member( "type", "null" );
+        js.end_object();
+    }
 };
 
 class item_location::impl::item_on_map : public item_location::impl
 {
-    private:
-        map_cursor cur;
+private:
+    map_cursor cur;
 
-    public:
-        item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
-        item_on_map( const map_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
-        item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
+public:
+    item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+    item_on_map( const map_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
+    item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
-        bool valid() const override {
-            return target() && cur.has_item( *target() );
+    bool valid() const override {
+        return target() && cur.has_item( *target() );
+    }
+
+    void serialize( JsonOut &js ) const override {
+        js.start_object();
+        js.member( "type", "map" );
+        js.member( "pos", position() );
+        js.member( "idx", find_index( cur, target() ) );
+        js.end_object();
+    }
+
+    item *unpack( int idx ) const override {
+        return retrieve_index( cur, idx );
+    }
+
+    type where() const override {
+        return type::map;
+    }
+
+    tripoint position() const override {
+        return cur;
+    }
+
+    std::string describe( const Character *ch ) const override {
+        std::string res = g->m.name( cur );
+        if( ch ) {
+            res += std::string( " " ) += direction_suffix( ch->pos(), cur );
+        }
+        return res;
+    }
+
+    int obtain( Character &ch, long qty ) override {
+        ch.moves -= obtain_cost( ch, qty );
+
+        item obj = target()->split( qty );
+        if( !obj.is_null() ) {
+            return ch.get_item_position( &ch.i_add( obj ) );
+        } else {
+            int inv = ch.get_item_position( &ch.i_add( *target() ) );
+            remove_item();
+            return inv;
+        }
+    }
+
+    int obtain_cost( const Character &ch, long qty ) const override {
+        if( !target() ) {
+            return 0;
         }
 
-        void serialize( JsonOut &js ) const override {
-            js.start_object();
-            js.member( "type", "map" );
-            js.member( "pos", position() );
-            js.member( "idx", find_index( cur, target() ) );
-            js.end_object();
+        item obj = *target();
+        obj = obj.split( qty );
+        if( obj.is_null() ) {
+            obj = *target();
         }
 
-        item *unpack( int idx ) const override {
-            return retrieve_index( cur, idx );
-        }
+        int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
+        mv += 100 * rl_dist( ch.pos(), cur );
 
-        type where() const override {
-            return type::map;
-        }
+        //@todo: handle unpacking costs
 
-        tripoint position() const override {
-            return cur;
-        }
+        return mv;
+    }
 
-        std::string describe( const Character *ch ) const override {
-            std::string res = g->m.name( cur );
-            if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur );
-            }
-            return res;
-        }
-
-        int obtain( Character &ch, long qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
-
-            item obj = target()->split( qty );
-            if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
-            } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
-                remove_item();
-                return inv;
-            }
-        }
-
-        int obtain_cost( const Character &ch, long qty ) const override {
-            if( !target() ) {
-                return 0;
-            }
-
-            item obj = *target();
-            obj = obj.split( qty );
-            if( obj.is_null() ) {
-                obj = *target();
-            }
-
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
-            mv += 100 * rl_dist( ch.pos(), cur );
-
-            //@todo: handle unpacking costs
-
-            return mv;
-        }
-
-        void remove_item() override {
-            cur.remove_item( *what );
-        }
+    void remove_item() override {
+        cur.remove_item( *what );
+    }
 };
 
 class item_location::impl::item_on_person : public item_location::impl
 {
-    private:
-        Character &who;
+private:
+    Character &who;
 
-    public:
-        item_on_person( Character &who, std::list<item> *which ) : impl( which ), who( who ) {}
-        item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
-        item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
+public:
+    item_on_person( Character &who, std::list<item> *which ) : impl( which ), who( who ) {}
+    item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
+    item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
 
-        bool valid() const override {
-            return target() && who.has_item( *target() );
+    bool valid() const override {
+        return target() && who.has_item( *target() );
+    }
+
+    void serialize( JsonOut &js ) const override {
+        js.start_object();
+        js.member( "type", "character" );
+        js.member( "idx", find_index( who, target() ) );
+        js.end_object();
+    }
+
+    item *unpack( int idx ) const override {
+        return retrieve_index( who, idx );
+    }
+
+    type where() const override {
+        return type::character;
+    }
+
+    tripoint position() const override {
+        return who.pos();
+    }
+
+    std::string describe( const Character *ch ) const override {
+        if( !target() ) {
+            return std::string();
         }
 
-        void serialize( JsonOut &js ) const override {
-            js.start_object();
-            js.member( "type", "character" );
-            js.member( "idx", find_index( who, target() ) );
-            js.end_object();
-        }
-
-        item *unpack( int idx ) const override {
-            return retrieve_index( who, idx );
-        }
-
-        type where() const override {
-            return type::character;
-        }
-
-        tripoint position() const override {
-            return who.pos();
-        }
-
-        std::string describe( const Character *ch ) const override {
-            if( !target() ) {
-                return std::string();
-            }
-
-            if( ch == &who ) {
-                auto parents = who.parents( *target() );
-                if( !parents.empty() && who.is_worn( *parents.back() ) ) {
-                    return parents.back()->type_name();
-
-                } else if( who.is_worn( *target() ) ) {
-                    return _( "worn" );
-
-                } else {
-                    return _( "inventory" );
-                }
-
-            } else {
-                return who.name;
-            }
-        }
-
-        int obtain( Character &ch, long qty ) override {
-            ch.mod_moves( -obtain_cost( ch, qty ) );
-
-            if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
-                // item already in target characters inventory at base of stack
-                return ch.get_item_position( target() );
-            }
-
-            item obj = target()->split( qty );
-            if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
-            } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
-                remove_item();  // This also takes off the item from whoever wears it.
-                return inv;
-            }
-        }
-
-        int obtain_cost( const Character &ch, long qty ) const override {
-            if( !target() ) {
-                return 0;
-            }
-
-            int mv = 0;
-
-            item obj = *target();
-            obj = obj.split( qty );
-            if( obj.is_null() ) {
-                obj = *target();
-            }
-
+        if( ch == &who ) {
             auto parents = who.parents( *target() );
             if( !parents.empty() && who.is_worn( *parents.back() ) ) {
-                // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
-                // holsters may also adjust the volume cost factor
+                return parents.back()->type_name();
 
-                if( parents.back()->can_holster( obj, true ) ) {
-                    auto ptr = dynamic_cast<const holster_actor *>
-                               ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
-                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
-
-                } else if( parents.back()->is_bandolier() ) {
-                    auto ptr = dynamic_cast<const bandolier_actor *>
-                               ( parents.back()->type->get_use( "bandolier" )->get_actor_ptr() );
-                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
-
-                } else {
-                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false,
-                            INVENTORY_HANDLING_PENALTY / 2 );
-                }
+            } else if( who.is_worn( *target() ) ) {
+                return _( "worn" );
 
             } else {
-                // it is more expensive to obtain items from the inventory
-                // @todo: calculate cost for searching in inventory proportional to item volume
-                mv += dynamic_cast<player &>( who ).item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
+                return _( "inventory" );
             }
 
-            if( &ch != &who ) {
-                // @todo: implement movement cost for transferring item between characters
+        } else {
+            return who.name;
+        }
+    }
+
+    int obtain( Character &ch, long qty ) override {
+        ch.mod_moves( -obtain_cost( ch, qty ) );
+
+        if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
+            // item already in target characters inventory at base of stack
+            return ch.get_item_position( target() );
+        }
+
+        item obj = target()->split( qty );
+        if( !obj.is_null() ) {
+            return ch.get_item_position( &ch.i_add( obj ) );
+        } else {
+            int inv = ch.get_item_position( &ch.i_add( *target() ) );
+            remove_item();  // This also takes off the item from whoever wears it.
+            return inv;
+        }
+    }
+
+    int obtain_cost( const Character &ch, long qty ) const override {
+        if( !target() ) {
+            return 0;
+        }
+
+        int mv = 0;
+
+        item obj = *target();
+        obj = obj.split( qty );
+        if( obj.is_null() ) {
+            obj = *target();
+        }
+
+        auto parents = who.parents( *target() );
+        if( !parents.empty() && who.is_worn( *parents.back() ) ) {
+            // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
+            // holsters may also adjust the volume cost factor
+
+            if( parents.back()->can_holster( obj, true ) ) {
+                auto ptr = dynamic_cast<const holster_actor *>
+                           ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
+                mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
+
+            } else if( parents.back()->is_bandolier() ) {
+                auto ptr = dynamic_cast<const bandolier_actor *>
+                           ( parents.back()->type->get_use( "bandolier" )->get_actor_ptr() );
+                mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
+
+            } else {
+                mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false,
+                        INVENTORY_HANDLING_PENALTY / 2 );
             }
 
-            return mv;
+        } else {
+            // it is more expensive to obtain items from the inventory
+            // @todo: calculate cost for searching in inventory proportional to item volume
+            mv += dynamic_cast<player &>( who ).item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
         }
 
-        void remove_item() override {
-            who.remove_item( *what );
+        if( &ch != &who ) {
+            // @todo: implement movement cost for transferring item between characters
         }
+
+        return mv;
+    }
+
+    void remove_item() override {
+        who.remove_item( *what );
+    }
 };
 
 class item_location::impl::item_on_vehicle : public item_location::impl
 {
-    private:
-        vehicle_cursor cur;
+private:
+    vehicle_cursor cur;
 
-    public:
-        item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
-        item_on_vehicle( const vehicle_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
-        item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
+public:
+    item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
+    item_on_vehicle( const vehicle_cursor &cur, std::list<item> *which ) : impl( which ), cur( cur ) {}
+    item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
-        bool valid() const override {
-            if( !target() ) {
-                return false;
-            }
-            if( &cur.veh.parts[ cur.part ].base == target() ) {
-                return true; // vehicle_part::base
-            }
-            if( cur.has_item( *target() ) ) {
-                return true; // item within CARGO
-            }
+    bool valid() const override {
+        if( !target() ) {
             return false;
         }
+        if( &cur.veh.parts[ cur.part ].base == target() ) {
+            return true; // vehicle_part::base
+        }
+        if( cur.has_item( *target() ) ) {
+            return true; // item within CARGO
+        }
+        return false;
+    }
 
-        void serialize( JsonOut &js ) const override {
-            js.start_object();
-            js.member( "type", "vehicle" );
-            js.member( "pos", position() );
-            js.member( "part", cur.part );
-            if( target() != &cur.veh.parts[ cur.part ].base ) {
-                js.member( "idx", find_index( cur, target() ) );
-            }
-            js.end_object();
+    void serialize( JsonOut &js ) const override {
+        js.start_object();
+        js.member( "type", "vehicle" );
+        js.member( "pos", position() );
+        js.member( "part", cur.part );
+        if( target() != &cur.veh.parts[ cur.part ].base ) {
+            js.member( "idx", find_index( cur, target() ) );
+        }
+        js.end_object();
+    }
+
+    item *unpack( int idx ) const override {
+        return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.parts[ cur.part ].base;
+    }
+
+    type where() const override {
+        return type::vehicle;
+    }
+
+    tripoint position() const override {
+        return cur.veh.global_part_pos3( cur.part );
+    }
+
+    std::string describe( const Character *ch ) const override {
+        std::string res = cur.veh.parts[ cur.part ].name();
+        if( ch ) {
+            res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+        }
+        return res;
+    }
+
+    int obtain( Character &ch, long qty ) override {
+        ch.moves -= obtain_cost( ch, qty );
+
+        item obj = target()->split( qty );
+        if( !obj.is_null() ) {
+            return ch.get_item_position( &ch.i_add( obj ) );
+        } else {
+            int inv = ch.get_item_position( &ch.i_add( *target() ) );
+            remove_item();
+            return inv;
+        }
+    }
+
+    int obtain_cost( const Character &ch, long qty ) const override {
+        if( !target() ) {
+            return 0;
         }
 
-        item *unpack( int idx ) const override {
-            return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.parts[ cur.part ].base;
+        item obj = *target();
+        obj = obj.split( qty );
+        if( obj.is_null() ) {
+            obj = *target();
         }
 
-        type where() const override {
-            return type::vehicle;
+        int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true,
+                 VEHICLE_HANDLING_PENALTY );
+        mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
+
+        //@todo: handle unpacking costs
+
+        return mv;
+    }
+
+    void remove_item() override {
+        item &base = cur.veh.parts[ cur.part ].base;
+        if( &base == target() ) {
+            cur.veh.remove_part( cur.part ); // vehicle_part::base
+        } else {
+            cur.remove_item( *target() ); // item within CARGO
         }
-
-        tripoint position() const override {
-            return cur.veh.global_part_pos3( cur.part );
-        }
-
-        std::string describe( const Character *ch ) const override {
-            std::string res = cur.veh.parts[ cur.part ].name();
-            if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
-            }
-            return res;
-        }
-
-        int obtain( Character &ch, long qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
-
-            item obj = target()->split( qty );
-            if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
-            } else {
-                int inv = ch.get_item_position( &ch.i_add( *target() ) );
-                remove_item();
-                return inv;
-            }
-        }
-
-        int obtain_cost( const Character &ch, long qty ) const override {
-            if( !target() ) {
-                return 0;
-            }
-
-            item obj = *target();
-            obj = obj.split( qty );
-            if( obj.is_null() ) {
-                obj = *target();
-            }
-
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true,
-                     VEHICLE_HANDLING_PENALTY );
-            mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
-
-            //@todo: handle unpacking costs
-
-            return mv;
-        }
-
-        void remove_item() override {
-            item &base = cur.veh.parts[ cur.part ].base;
-            if( &base == target() ) {
-                cur.veh.remove_part( cur.part ); // vehicle_part::base
-            } else {
-                cur.remove_item( *target() ); // item within CARGO
-            }
-        }
+    }
 };
 
 // use of std::unique_ptr<impl> forces these definitions within the implementation
