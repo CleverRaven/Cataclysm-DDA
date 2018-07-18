@@ -99,6 +99,7 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
+void on_smoke_out( const tripoint &examp ); //activates end of smoking effects
 void smoker_options( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 

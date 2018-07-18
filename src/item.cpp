@@ -53,6 +53,7 @@
 #include "units.h"
 #include "ret_val.h"
 #include "iteminfo_query.h"
+#include "iexamine.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -5754,6 +5755,11 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
     if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
         item_counter = 0;
         return true; //destroy fake smoke
+    }
+
+    if( item_counter == 0 ) {
+        iexamine::on_smoke_out( pos ); //activate effects when timers goes to zero
+        return true; //destroy fake smoke when it 'burns out'
     }
 
     return false;

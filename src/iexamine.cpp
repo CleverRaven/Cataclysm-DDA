@@ -3657,9 +3657,8 @@ void smoker_activate(player &p, const tripoint &examp)
             charcoal = &it;
         }
     }
-    if( !charcoal->is_null() ) {
+    if( !charcoal->is_null() ) { // REMOVE WHEN BUG FIXED
         add_msg( _( "Charcoal NOT null but should be." ) );
-        return;
     }
     if( charcoal->is_null() ) {
         add_msg( _( "There is no charcoal in the rack." ) );
@@ -3698,50 +3697,24 @@ void smoker_activate(player &p, const tripoint &examp)
     add_msg( _("You fire the smocking rack.") );
 }
 
-void smoker_full(player &, const tripoint &examp)
+void smoker_finalize(player &, const tripoint &examp)
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
     if ( cur_smoker_type == f_smoking_rack_active ) {
         next_smoker_type = f_smoking_rack;
     } else {
-        debugmsg( "Examined furniture has action smoker_full, but is of type %s", g->m.furn( examp ).id().c_str() );
+        debugmsg( "Furniture executed action smoker_finalize, but is of type %s", g->m.furn( examp ).id().c_str() );
         return;
     }
 
     auto items = g->m.i_at( examp );
     if( items.empty() ) {
-        add_msg( _("This smoker is empty...") );
         g->m.furn_set(examp, next_smoker_type);
         return;
     }
-    item *charcoal = nullptr;
-    for( auto i : items ) {
-        if( i.typeId() == "charcoal" ) {
-            charcoal = &i;
-        }
-    }
-
-    add_msg( _("There's a smoking rack there.") );
-    time_duration time_left = 0;
-    if( !charcoal->is_null() ) {
-        time_left = 6_hours - charcoal->age();
-    }
-    if( time_left > 0 ) {
-        int hours = to_hours<int>( time_left );
-        int minutes = to_minutes<int>( time_left ) + 1;
-        if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish smoking in about %d hour.",
-                               "It will finish smoking in about %d hours.",
-                               hours ), hours );
-        } else if( minutes > 30 ) {
-            add_msg( _( "It will finish smoking in less than an hour." ) );
-        } else {                
-            add_msg( _("It should take about %d minutes to finish smoking."), minutes );
-        } 
-        return;                
-    }
-        std::string product = "";
+   
+    std::string product = "";
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "meat" ) {
             product = "meat_smoked";
@@ -3766,10 +3739,10 @@ void smoker_full(player &, const tripoint &examp)
             item_it = items.erase( item_it );
         }
     }
-    g->m.furn_set( examp, next_smoker_type);
+    g->m.furn_set( examp, next_smoker_type );
 }
 
-void load_smoking_rack(player &p, const tripoint &examp)
+void load_smoking_rack( player &p, const tripoint &examp )
 {
     std::vector<item_comp> comps;
     std::vector<item_comp> selected;
@@ -3797,7 +3770,7 @@ void load_smoking_rack(player &p, const tripoint &examp)
     smenu.query();
 
     if( static_cast<size_t>( smenu.ret ) >= comps.size() ) {
-        add_msg(m_info, _("Never mind."));
+        add_msg(m_info, _( "Never mind." ) );
         return;
     }
     
@@ -3806,6 +3779,15 @@ void load_smoking_rack(player &p, const tripoint &examp)
     consumed = p.consume_items( selected );
     g->m.add_item( examp, consumed.front() );
     return;
+}
+
+void iexamine::on_smoke_out( const tripoint &examp )
+{
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+        smoker_finalize( g->u, examp );
+    } else {
+        debugmsg( "Fake smoke life end while not in f_smoking_rack_active." );
+    }
 }
 
 void iexamine::smoker_options( player &p, const tripoint &examp )
@@ -3824,17 +3806,6 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         return;
     }
 
-    uimenu smenu;
-    smenu.text = _( "What to do with the smoking rack:" );
-    smenu.return_invalid = true;
-    smenu.addentry( 0, true, 'l', "%s", _( "Light up and smoke food" ) );
-    smenu.addentry( 1, true, 'i', "%s", _( "Insert food for smoking" ) );
-    smenu.addentry( 2, true, 'r', "%s", _( "Reload with charcoal" ) );
-
-    if( items_here.size() == 0 ) {
-        smenu.addentry( 3, false, 'e', "%s", _( "Remove food from rack (none inside)" ) );
-        smenu.addentry( 4, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
-    }
     bool f_check = false;
     bool c_check = false;
     item *charcoal = nullptr;
@@ -3847,6 +3818,44 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             c_check = true;
             charcoal = &it;
         }
+    }
+
+    if ( active ) {
+        add_msg( _("There's a smoking rack there.  It is lit and smoking.") );
+        time_duration time_left = 0;
+        if( !charcoal->is_null() ) {
+            time_left = 6_hours - charcoal->age();
+        }
+        if( time_left > 0 ) {
+            int hours = to_hours<int>( time_left );
+            int minutes = to_minutes<int>( time_left ) + 1;
+            if( minutes > 60 ) {
+                add_msg( ngettext( "It will finish smoking in about %d hour.",
+                                "It will finish smoking in about %d hours.",
+                                hours ), hours );
+            } else if( minutes > 30 ) {
+                add_msg( _( "It will finish smoking in less than an hour." ) );
+            } else {                
+                add_msg( _("It should take about %d minutes to finish smoking."), minutes );
+            }       
+        }
+    }
+
+    uimenu smenu;
+    smenu.text = _( "What to do with the smoking rack:" );
+    smenu.return_invalid = true;
+    if( active ) {
+        smenu.addentry( 0, false, 'l', "%s", _( "Light up and smoke food (lit & smoking)" ) );
+    } else {
+        smenu.addentry( 0, true, 'l', "%s", _( "Light up and smoke food" ) );
+    }
+
+    smenu.addentry( 1, true, 'i', "%s", _( "Insert food for smoking" ) );
+    smenu.addentry( 2, true, 'r', "%s", _( "Reload with charcoal" ) );
+
+    if( items_here.size() == 0 ) {
+        smenu.addentry( 3, false, 'e', "%s", _( "Remove food from rack (none inside)" ) );
+        smenu.addentry( 4, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
     }
     if( f_check && items_here.size() != 0 ) {
         smenu.addentry( 3, true, 'e', "%s", _( "Remove food from rack" ) );
@@ -3865,8 +3874,25 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     switch( smenu.ret ) {
         case 0: //activate
             if ( active ) {
-            add_msg( m_info, _( "It is already lit and smoking." ) );
-            break;
+                add_msg( _("There's a smoking rack there.  It is lit and smoking.") );
+                time_duration time_left = 0;
+                if( !charcoal->is_null() ) {
+                    time_left = 6_hours - charcoal->age();
+                }
+                if( time_left > 0 ) {
+                    int hours = to_hours<int>( time_left );
+                    int minutes = to_minutes<int>( time_left ) + 1;
+                    if( minutes > 60 ) {
+                        add_msg( ngettext( "It will finish smoking in about %d hour.",
+                                        "It will finish smoking in about %d hours.",
+                                        hours ), hours );
+                    } else if( minutes > 30 ) {
+                        add_msg( _( "It will finish smoking in less than an hour." ) );
+                    } else {                
+                        add_msg( _("It should take about %d minutes to finish smoking."), minutes );
+                    }       
+                }
+                break;
             } else {
             smoker_activate( p, examp );
             break;
