@@ -8,6 +8,41 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_DIVIDER",
+    "info": "Value that divides total weapon dipsersion. 15 means that weapons became 15 times more acurate than default.",
+    "stype": "float",
+    "value": 15
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_FLAT_PENALTY_PER_SKILL",
+    "info": "Flat penalty of dispersion per point of skill under max.",
+    "stype": "float",
+    "value": 3
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_SKILL_THERSHOLD",
+    "info": "Skill theshold. Before used GUN_DISPERSION_MULT_PRE_THERSHOLD + GUN_DISPERSION_MULT_POST_THERSHOLD. After - only GUN_DISPERSION_MULT_POST_THERSHOLD",
+    "stype": "float",
+    "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_MULT_PRE_THERSHOLD",
+    "info": "Gun dispersion multiplier for lack of skill before threshold. GUN_DISPERSION_MULT_POST_THERSHOLD will be added on top of it.",
+    "stype": "float",
+    "value": 3.75
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_MULT_POST_THERSHOLD",
+    "info": "Gun dispersion multiplier for lack of skill after threshold.",
+    "stype": "float",
+    "value": 1.25
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "PLAYER_MAX_STAMINA",
     "info": "Sets max stamina value of the player.",
     "stype": "int",
