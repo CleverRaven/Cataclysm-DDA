@@ -4754,8 +4754,7 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, g->u.posz() );
 
-    auto &cur_om = g->get_cur_om();
-    if( must_see && cur_om.seen( omt_tgt.x, omt_tgt.y, 0 ) == false ){
+    if( must_see && overmap_buffer.seen( omt_tgt.x, omt_tgt.y, 0 ) == false ){
         errors = true;
         popup( _("You must be able to see the target that you select.") );
     }
