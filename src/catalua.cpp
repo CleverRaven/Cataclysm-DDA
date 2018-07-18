@@ -921,7 +921,7 @@ monster *get_monster_at( const tripoint &p )
 }
 
 /** Get reference to Creature at given tripoint. */
-monster *get_critter_at( const tripoint &p )
+Creature *get_critter_at( const tripoint &p )
 {
     return g->critter_at( p );
 }
