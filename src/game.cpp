@@ -12708,13 +12708,13 @@ void game::update_map(int &x, int &y)
     // Put those in the active list.
     load_npcs();
 
+    // Make sure map cache is consistent since it may have shifted.
+    m.build_map_cache( get_levz() );
+
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
-
-    // Make sure map cache is consistent since it may have shifted.
-    m.build_map_cache( get_levz() );
 
     // Also ensure the player is on current z-level
     // get_levz() should later be removed, when there is no longer such a thing
