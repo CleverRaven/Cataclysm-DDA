@@ -407,7 +407,8 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
     }
 }
 
-std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size, bool ignore_last )
+std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size,
+        bool ignore_last )
 {
     std::list<item> used;
     if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
