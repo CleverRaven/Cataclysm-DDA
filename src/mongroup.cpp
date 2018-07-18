@@ -301,11 +301,15 @@ void MonsterGroupManager::FinalizeMonsterGroups()
                 // Test mon
                 const mtype &mt = c->name.obj();
 
-                if ( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ){
+                if ( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
                     c = mg.monsters.erase( c );
                 } else {
                     ++c;
                 }
+            }
+            const mtype &mt = mg.defaultMonster.obj();
+            if ( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
+                mg.defaultMonster = mtype_id::NULL_ID();
             }
         }
     }
