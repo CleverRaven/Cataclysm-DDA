@@ -300,11 +300,8 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
                 // Test mon
                 const mtype &mt = c->name.obj();
-                
-                bool in_classic = mt.in_category( "CLASSIC" );
-                bool in_wildlife= mt.in_category( "WILDLIFE" );
 
-                if ( !( in_classic | in_wildlife ) ){
+                if ( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ){
                     c = mg.monsters.erase( c );
                 } else {
                     ++c;
