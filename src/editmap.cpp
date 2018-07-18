@@ -1996,7 +1996,7 @@ bool editmap::mapgen_veh_has( tripoint omt_tgt )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( x, y, omt_tgt.z );
-            if( !destsm->vehicles.empty() ){
+            if( !destsm->vehicles.empty() ) {
                 return true;
             }
         }
