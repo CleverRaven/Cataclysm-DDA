@@ -58,9 +58,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "tailor",
-    "time": 500,
+    "time": 150,
     "autolearn": true,
-    "components": [ [ [ "rag", 3 ] ] ]
+    "charges": 1,
+    "components": [ [ [ "rag", 1 ] ] ]
   },
   {
     "result": "bandages_makeshift_bleached",
