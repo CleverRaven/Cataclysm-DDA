@@ -709,6 +709,11 @@ void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector
 
 void vehicle::control_electronics()
 {
+    // exit early if you can't control the vehicle
+    if( !interact_vehicle_locked() ) {
+        return;
+    }
+
     bool valid_option = false;
     do {
         std::vector<uimenu_entry> options;
