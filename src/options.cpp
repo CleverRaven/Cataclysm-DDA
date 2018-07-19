@@ -1962,7 +1962,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool sidebar_style_changed = false;
-    bool terminal_size_changed = true;
+    bool terminal_size_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
