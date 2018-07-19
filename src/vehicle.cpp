@@ -664,9 +664,9 @@ void vehicle::control_doors()
     }
 }
 
-char keybind( std::string const &opt )
+char keybind( const std::string &opt, const std::string &context )
 {
-    auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
+    auto const keys = input_context( context ).keys_bound_to( opt );
     return keys.empty() ? ' ' : keys.front();
 }
 
@@ -970,6 +970,24 @@ void vehicle::smash_security_system(){
     }
 }
 
+std::string vehicle::tracking_toggle_string()
+{
+    return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
+}
+
+void vehicle::toggle_tracking()
+{
+    if( tracking_on ) {
+        overmap_buffer.remove_vehicle( this );
+        tracking_on = false;
+        add_msg( _( "You stop keeping track of the vehicle position." ) );
+    } else {
+        overmap_buffer.add_vehicle( this );
+        tracking_on = true;
+        add_msg( _( "You start keeping track of this vehicle's position." ) );
+    }
+}
+
 void vehicle::use_controls( const tripoint &pos )
 {
     std::vector<uimenu_entry> options;
@@ -1103,19 +1121,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     options.emplace_back( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
                           keybind( "TOGGLE_TRACKING" ) );
-
-    actions.push_back( [&] {
-        if( tracking_on ) {
-            overmap_buffer.remove_vehicle( this );
-            tracking_on = false;
-            add_msg( _( "You stop keeping track of the vehicle position." ) );
-        } else {
-            overmap_buffer.add_vehicle( this );
-            tracking_on = true;
-            add_msg( _( "You start keeping track of this vehicle's position." ) );
-        }
-        refresh();
-    } );
+    actions.push_back( [&] { toggle_tracking(); } );
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name.c_str() ), keybind( "FOLD_VEHICLE" ) );
