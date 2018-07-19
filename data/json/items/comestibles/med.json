@@ -1348,7 +1348,7 @@
         "weight" : 15,
         "volume" : 1,
         "price" : 1500,
-        "charges" : 3,
+        "charges" : 2,
         "stack_size" : 20,
         "material" : "plastic",
         "symbol" : "!",
