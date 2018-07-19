@@ -23,21 +23,21 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "GUN_DISPERSION_SKILL_THERSHOLD",
-    "info": "Skill theshold. Before used GUN_DISPERSION_MULT_PRE_THERSHOLD + GUN_DISPERSION_MULT_POST_THERSHOLD. After - only GUN_DISPERSION_MULT_POST_THERSHOLD",
+    "info": "Skill theshold. Before used GUN_DISPERSION_MULT_PRE_SKILL_THERSHOLD + GUN_DISPERSION_MULT_POST_SKILL_THERSHOLD. After - only GUN_DISPERSION_MULT_POST_THERSHOLD.",
     "stype": "float",
     "value": 5
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "GUN_DISPERSION_MULT_PRE_THERSHOLD",
-    "info": "Gun dispersion multiplier for lack of skill before threshold. GUN_DISPERSION_MULT_POST_THERSHOLD will be added on top of it.",
+    "name": "GUN_DISPERSION_MULT_PRE_SKILL_THERSHOLD",
+    "info": "Gun dispersion multiplier for lack of skill before threshold. GUN_DISPERSION_MULT_POST_SKILL_THERSHOLD will be added on top of it. GUN_DISPERSION_MULT_POST_SKILL_THERSHOLD=3.75 GUN_DISPERSION_MULT_POST_SKILL_THERSHOLD=1.25 means that zero skill character gets 3.75 + 1.25 = 5 extra weapon diseprsion multiplier.",
     "stype": "float",
     "value": 3.75
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "GUN_DISPERSION_MULT_POST_THERSHOLD",
-    "info": "Gun dispersion multiplier for lack of skill after threshold.",
+    "name": "GUN_DISPERSION_MULT_POST_SKILL_THERSHOLD",
+    "info": "Gun dispersion multiplier for lack of skill after threshold. 1.25 means that character with skill level 5 gets 1.25 extra weapon dispersion multiplier.",
     "stype": "float",
     "value": 1.25
   },
