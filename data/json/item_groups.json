@@ -1606,7 +1606,7 @@
       ["shavingkit", 5],
       ["elec_hairtrimmer", 2],
       ["nic_gum", 25],
-	  ["antibacterial_ointment", 30]
+      ["antibacterial_ointment", 30]
     ]
   },{
     "type" : "item_group",
@@ -3775,7 +3775,7 @@
       ["smoxygen_tank", 25],
       ["bfipowder", 15],
       ["quikclot", 10],
-      ["anesthesia", 20],
+      ["anesthesia", 20]
     ]
   },{
     "type" : "item_group",

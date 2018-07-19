@@ -7940,7 +7940,7 @@ int iuse::antibacterial_ointment( player *p, item *it, bool, const tripoint & )
     }
     const time_duration duration = 12_hours;
     if( p->has_effect( effect_antibacterial_ointment ) ) {
-        if( query_yn( _( "Repplay antibacterial ointment?" ) ) ) {
+        if( query_yn( _( "Reapply antibacterial ointment?" ) ) ) {
             p->moves -= 200;
             p->add_msg_if_player( _( "You reapply your ointment." ), it->tname().c_str() );
             p->remove_effect( effect_antibacterial_ointment );

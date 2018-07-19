@@ -174,5 +174,21 @@
       [ [ "cotton_ball", 2 ] ],
       [ [ "disinfectant", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "antibacterial_ointment",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "skills_required": [ "firstaid", 1 ],
+    "time": 30000,
+    "autolearn": true,
+    "components": [
+      [ [ "thyme_oil", 3 ] ],
+      [ [ "tallow", 1 ] ],
+      [ [ "wild_herbs", 10 ] ]
+    ]
   }
 ]
