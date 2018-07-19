@@ -68,6 +68,7 @@ static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -1445,7 +1446,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
 
     auto recentWeather = sum_conditions( calendar::turn-10_minutes, calendar::turn, p.pos() );
 
-    // If it has been raining recently, then this event is twice less likely. 
+    // If it has been raining recently, then this event is twice less likely.
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
@@ -2017,10 +2018,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
-        } else {                
+        } else {
             add_msg( _("It should take about %d minutes to finish burning."), minutes );
-        } 
-        return;                
+        }
+        return;
     }
 
     units::volume total_volume = 0;
@@ -3484,6 +3485,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     bool adjacent_couch = false;
     bool in_position = false;
+    bool deadened = false;
     for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
         if( g->m.furn( couch_loc ) == couch ) {
@@ -3502,6 +3504,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
         return;
     }
+    if( p.has_trait( trait_NOPAIN ) ) {
+        deadened = true;
+    }
 
     const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
         return it.has_flag( "ANESTHESIA" );
@@ -3509,7 +3514,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     uimenu amenu;
     amenu.selected = 0;
-    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.text = _( "InteliAug Mk. XI.  Status: Online.  Please choose operation." );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
     amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
@@ -3545,14 +3550,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            if( !has_anesthesia ) {
-                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+            if( !has_anesthesia && !deadened ) {
+                popup( _( "You need an anesthesia kit for the InteliAug to perform any operation." ) );
                 return;
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( p.install_bionics( *itemtype ) ) {
-                p.introduce_into_anesthesia( duration );
+                p.introduce_into_anesthesia( duration, !deadened );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps );
@@ -3567,8 +3572,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            if( !has_anesthesia ) {
-                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+            if( !has_anesthesia && !deadened ) {
+                popup( _( "You need an anesthesia kit for the InteliAug to perform any operation." ) );
                 return;
             }
 
@@ -3601,7 +3606,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
             if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
-                p.introduce_into_anesthesia( duration );
+                p.introduce_into_anesthesia( duration, !deadened );
             }
             break;
         }
