@@ -403,6 +403,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     bool picked_up = false;
     pickup_answer option = CANCEL;
     item leftovers = newit;
+    const auto wield_check = u.can_wield( newit );
 
     if( newit.invlet != '\0' &&
         u.invlet_to_position( newit.invlet ) != INT_MIN ) {
@@ -470,16 +471,18 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             picked_up = u.wear_item( newit );
             break;
         case WIELD:
-            picked_up = u.wield( newit );
-            if( !picked_up ) {
-                break;
+            if ( wield_check.success() ) {
+                u.wield( newit );
+                if( u.weapon.invlet ) {
+                    add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
+                             u.weapon.display_name().c_str() );
+                }
+                else {
+                    add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
+                }
             }
-
-            if( u.weapon.invlet ) {
-                add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
-                         u.weapon.display_name().c_str() );
-            } else {
-                add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
+            else {
+                add_msg( wield_check.c_str() );
             }
             break;
         case SPILL:
