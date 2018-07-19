@@ -789,10 +789,7 @@ void place_construction( const std::string &desc )
     }
 
     if( valid.find( dirp ) == valid.end() ) {
-        if ( desc == std::string( "Deconstruct Furniture" ) )
-            add_msg( m_info, _( "You cannot deconstruct this!" ) );
-        else
-            cons.front()->explain_failure( dirp );
+        cons.front()->explain_failure( dirp );
         return;
     }
 
