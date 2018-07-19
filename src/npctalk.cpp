@@ -62,7 +62,6 @@ const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
-static const trait_id trait_FACTION_CAMP_TUTORIAL( "FACTION_CAMP_TUTORIAL" );
 
 struct dialogue;
 
@@ -2298,6 +2297,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_CAMP_OVERSEER" ) {
         p->companion_mission_role_id = "FACTION_CAMP";
         add_response( _( "What needs to be done?" ), "TALK_CAMP_OVERSEER", &talk_function::companion_mission );
+        add_response( _( "We're abandoning this camp." ), "TALK_DONE", &talk_function::remove_overseer );
         add_response_done( _( "See you around." ) );
 
     } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
@@ -2932,11 +2932,8 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::become_overseer( npc &p )
 {
-    if( !g->u.has_trait( trait_FACTION_CAMP_TUTORIAL ) ){
-        g->u.set_mutation( trait_FACTION_CAMP_TUTORIAL );
-        if( query_yn( _("Would you like to review the faction camp description?") ) ){
-            faction_camp_tutorial();
-        }
+    if( query_yn( _("Would you like to review the faction camp description?") ) ){
+        faction_camp_tutorial();
     }
 
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
@@ -3005,12 +3002,25 @@ void talk_function::become_overseer( npc &p )
     }
 
     add_msg( _( "%s has become a camp manager." ), p.name.c_str() );
-    p.name = p.name + ", Camp Manager";
+    if( p.name.find( _(", Camp Manager") ) == std::string::npos ){
+        p.name = p.name + _(", Camp Manager");
+    }
     p.companion_mission_role_id = "FACTION_CAMP";
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD;
     p.chatbin.first_topic = "TALK_CAMP_OVERSEER";
     p.set_destination();
+}
+
+void talk_function::remove_overseer( npc &p )
+{
+    if ( !query_yn( "This is permanent, any companions away on mission will be lost and the camp cannot be reclaimed!  Are "
+                   "you sure?") ) {
+        return;
+    }
+    add_msg( _( "%s has abandoned the camp." ), p.name.c_str() );
+    p.companion_mission_role_id.clear();
+    stop_guard(p);
 }
 
 void talk_function::wake_up( npc &p )

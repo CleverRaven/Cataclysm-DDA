@@ -90,6 +90,8 @@ class iuse
         int crowbar( player *, item *, bool, const tripoint & );
         int makemound( player *, item *, bool, const tripoint & );
         int dig( player *, item *, bool, const tripoint & );
+        int fill_pit( player *, item *, bool, const tripoint & );
+        int clear_rubble( player *, item *, bool, const tripoint & );
         int siphon( player *, item *, bool, const tripoint & );
         int chainsaw_off( player *, item *, bool, const tripoint & );
         int chainsaw_on( player *, item *, bool, const tripoint & );

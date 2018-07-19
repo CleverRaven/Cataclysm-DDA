@@ -117,7 +117,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "house_generic_boxy",      &mapgen_generic_house_boxy },
     { "house_generic_big_livingroom",      &mapgen_generic_house_big_livingroom },
     { "house_generic_center_hallway",      &mapgen_generic_house_center_hallway },
-    { "s_pharm",             &mapgen_pharm },
     { "spider_pit", mapgen_spider_pit },
     { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
     { "basement_junk", &mapgen_basement_junk },
@@ -2719,95 +2718,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     }
 
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
-}
-
-//////////////////////////////
-void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density) {
-
-    int lw = 0;
-    int rw = 0;
-    int mw = 0;
-    int tw = 0;
-    int bw = 0;
-    int cw = 0;
-
-
-        tw = rng(0, 4);
-        bw = SEEY * 2 - rng(1, 5);
-        mw = bw - rng(3, 4); // Top of the storage room
-        lw = rng(0, 4);
-        rw = SEEX * 2 - rng(1, 5);
-        cw = rng(13, rw - 5); // Left side of the storage room
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j == tw && ((i > lw + 2 && i < lw + 6) || (i > rw - 6 && i < rw - 2))) {
-                    m->ter_set(i, j, t_window);
-                } else if ((j == tw && (i == lw + 8 || i == lw + 9)) ||
-                           (i == cw && j == mw + 1)) {
-                    m->ter_set(i, j, t_door_c);
-                } else if (((j == tw || j == bw) && i >= lw && i <= rw) ||
-                           (j == mw && i >= cw && i < rw)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (((i == lw || i == rw) && j > tw && j < bw) ||
-                           (i == cw && j > mw && j < bw)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (((i == lw + 8 || i == lw + 9 || i == rw - 4 || i == rw - 3) &&
-                            j > tw + 3 && j < mw - 2) ||
-                           (j == bw - 1 && i > lw + 1 && i < cw - 1)) {
-                    m->set(i, j, t_floor, f_rack);
-                } else if ((i == lw + 1 && j > tw + 8 && j < mw - 1) ||
-                           (j == mw - 1 && i > cw + 1 && i < rw)) {
-                    m->set(i, j, t_floor, f_glass_fridge);
-                } else if ((j == mw     && i > lw + 1 && i < cw) ||
-                           (j == tw + 6 && i > lw + 1 && i < lw + 6) ||
-                           (i == lw + 5 && j > tw     && j < tw + 7)) {
-                    m->set(i, j, t_floor, f_counter);
-                } else if (i > lw && i < rw && j > tw && j < bw) {
-                    m->ter_set(i, j, t_floor);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            }
-        }
-
-        {
-            int num_carts = rng(0, 5);
-            for( int i = 0; i < num_carts; i++ ) {
-                m->add_vehicle( vproto_id( "shopping_cart" ), rng(lw, cw), rng(tw, mw), 90);
-            }
-        }
-
-        if (one_in(3)) {
-            m->place_items("snacks", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, turn);
-        } else if (one_in(4)) {
-            m->place_items("cleaning", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, turn);
-        } else {
-            m->place_items("magazines", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, turn);
-        }
-        if (one_in(5)) {
-            m->place_items("softdrugs", 84, lw + 9, tw + 4, lw + 9, mw - 3, false, turn);
-        } else if (one_in(4)) {
-            m->place_items("cleaning", 74, lw + 9, tw + 4, lw + 9, mw - 3, false, turn);
-        } else {
-            m->place_items("snacks", 74, lw + 9, tw + 4, lw + 9, mw - 3, false, turn);
-        }
-        if (one_in(5)) {
-            m->place_items("softdrugs", 84, rw - 4, tw + 4, rw - 4, mw - 3, false, turn);
-        } else {
-            m->place_items("snacks", 74, rw - 4, tw + 4, rw - 4, mw - 3, false, turn);
-        }
-        if (one_in(3)) {
-            m->place_items("snacks", 70, rw - 3, tw + 4, rw - 3, mw - 3, false, turn);
-        } else {
-            m->place_items("softdrugs", 80, rw - 3, tw + 4, rw - 3, mw - 3, false, turn);
-        }
-        m->place_items("fridgesnacks", 74, lw + 1, tw + 9, lw + 1, mw - 2, false, turn);
-        m->place_items("fridgesnacks", 74, cw + 2, mw - 1, rw - 1, mw - 1, false, turn);
-        m->place_items("harddrugs", 88, lw + 2, bw - 1, cw - 2, bw - 1, false, turn);
-        m->place_items("behindcounter", 78, lw + 1, tw + 1, lw + 4, tw + 5, false, turn);
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_PHARM" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-
 }
 
 ///////////////////////////////////////////////////////////

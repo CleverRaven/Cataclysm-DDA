@@ -184,6 +184,7 @@ static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 
 static const quality_id AXE( "AXE" );
+static const quality_id DIG( "DIG" );
 
 void remove_radio_mod( item &it, player &p )
 {
@@ -2788,17 +2789,107 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::makemound( player *p, item *it, bool, const tripoint & )
+int iuse::makemound( player *p, item *it, bool t, const tripoint &pos )
 {
-    if( g->m.has_flag( "DIGGABLE", p->pos() ) && !g->m.has_flag( "PLANT", p->pos() ) ) {
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Till soil where?" ), dirp ) ) {
+        return 0;
+    }
+
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "You think about jumping on a shovel, but then change up your mind." ) );
+        return 0;
+    }
+
+    if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) ) {
         p->add_msg_if_player( _( "You churn up the earth here." ) );
         p->moves = -300;
-        g->m.ter_set( p->pos(), t_dirtmound );
+        g->m.ter_set( dirp, t_dirtmound );
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
         return 0;
     }
+}
+
+int iuse::dig( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Dig pit where?" ), dirp ) ) {
+        return 0;
+    }
+
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "You delve into yourself." ) );
+        return 0;
+    }
+
+    int moves;
+
+    if( g->m.has_flag( "DIGGABLE", dirp ) ) {
+        if( g->m.ter( dirp ) == t_pit_shallow ) {
+            if( p->crafting_inventory().has_quality( DIG, 2 ) ) {
+                moves = MINUTES( 90 ) / it->get_quality( DIG ) * 100;
+            } else {
+                p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
+                return 0;
+            }
+        } else {
+            moves = MINUTES( 30 ) / it->get_quality( DIG ) * 100;
+        }
+    } else {
+        p->add_msg_if_player( _( "You can't dig a pit on this ground." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_DIG" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
+    return it->type->charges_to_use();
+}
+
+int iuse::fill_pit( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !p || t ) {
+        return 0;
+    }
+
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Fill which pit or mound?" ), dirp ) ) {
+        return 0;
+    }
+
+    if( dirp == p->pos() ) {
+        add_msg( m_info, _( "You decide not to bury yourself that early." ) );
+        return 0;
+    }
+
+    int moves;
+
+    if( g->m.ter( dirp ) == t_pit || g->m.ter( dirp ) == t_pit_spiked ||
+        g->m.ter( dirp ) == t_pit_glass || g->m.ter( dirp ) == t_pit_corpsed ) {
+        moves = MINUTES( 15 ) * 100;
+    } else if( g->m.ter( dirp ) == t_pit_shallow ) {
+        moves = MINUTES( 10 ) * 100;
+    } else if( g->m.ter( dirp ) == t_dirtmound ) {
+        moves = MINUTES( 5 ) * 100;
+    } else {
+        p->add_msg_if_player( _( "There is nothing to fill." ) );
+        return 0;
+    }
+
+    p->assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, p->get_item_position( it ) );
+    p->activity.placement = dirp;
+
+    return it->type->charges_to_use();
 }
 
 /**
@@ -2808,7 +2899,7 @@ int iuse::makemound( player *p, item *it, bool, const tripoint & )
  * index: The bonus, for calculating hunger and thirst penalties.
  */
 
-int iuse::dig( player *p, item *it, bool, const tripoint &pos )
+int iuse::clear_rubble( player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
