@@ -1484,10 +1484,10 @@ void bionic::deserialize( JsonIn &jsin )
     charge = jo.get_int( "charge" );
 }
 
-void player::introduce_into_anesthesia( time_duration const &duration, bool anesthetic ) //used by the InteliAug
+void player::introduce_into_anesthesia( time_duration const &duration, bool anesthetic ) //used by the Autodoc
 {
     add_msg_if_player( m_info,
-                       _( "You set up the operation step-by-step, configuring the InteliAug to manipulate a CBM, and settle into position, sliding your right wrist into the sofa's strap." ) );
+                       _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM, and settle into position, sliding your right wrist into the sofa's strap." ) );
     if (anesthetic) {
         add_msg_if_player( m_mixed,
                        _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
@@ -1495,7 +1495,7 @@ void player::introduce_into_anesthesia( time_duration const &duration, bool anes
     //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     else {
         add_msg_if_player( m_mixed,
-                       _( "The InteliAug sets quietly to work. Your blood drenches blades and needles as a pleasant warmth spreads through your mind and body. It soothes you, and you drift off..." ) ) ;
+                       _( "The Autodoc sets quietly to work. Your blood drenches blades and needles as a pleasant warmth spreads through your mind and body. It soothes you, and you drift off..." ) ) ;
     }
     add_effect( effect_narcosis, duration ); //works all ways - anesthesia forces it, deadened makes you unaware of outside stimulus
     fall_asleep( duration );
