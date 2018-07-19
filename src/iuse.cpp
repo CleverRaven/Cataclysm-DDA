@@ -95,6 +95,7 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
+const efftype_id effect_antibacterial_ointment( "antibacterial_ointment" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -7929,4 +7930,31 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
         return 1;
     }
     return 0;
+}
+
+int iuse::antibacterial_ointment( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+    const time_duration duration = 12_hours;
+    if( p->has_effect( effect_antibacterial_ointment ) ) {
+        if( query_yn( _( "Repplay antibacterial ointment?" ) ) ) {
+            p->moves -= 200;
+            p->add_msg_if_player( _( "You reapply your ointment." ), it->tname().c_str() );
+            p->remove_effect( effect_antibacterial_ointment );
+            p->add_effect( effect_antibacterial_ointment, duration );
+            return it->type->charges_to_use();
+        }
+        else {
+            return 0;
+        }
+    }
+    else {
+        p->moves -= 200;
+        p->add_msg_if_player( _( "You apply the %s." ), it->tname().c_str() );
+        p->add_effect( effect_antibacterial_ointment, duration );
+        return it->type->charges_to_use();
+    }
 }

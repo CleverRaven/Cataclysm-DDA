@@ -24,6 +24,7 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
+const efftype_id effect_antibacterial_ointment( "antibacterial_ointment" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -939,7 +940,9 @@ void player::hardcoded_effects( effect &it )
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
             }
-            it.mod_duration( 1_turns );
+            if( !has_effect( effect_antibacterial_ointment ) || x_in_y( 1, 2 ) ) {
+                it.mod_duration( 1_turns );
+            }
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );

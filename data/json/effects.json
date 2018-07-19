@@ -625,7 +625,7 @@
         "desc": ["You have an infected wound."],
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
-        "apply_message": "Your bite wound feels infected",
+        "apply_message": "Your bite wound feels infected.",
         "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
@@ -1817,5 +1817,14 @@
             "per_mod": [-0.071]
         },
         "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "antibacterial_ointment",
+        "name": ["Antibacterial Ointment"],
+        "desc": ["You're protected from new infections, and existing infections are slowed."],
+        "apply_message": "You cover yourself in antibacterial ointment.",
+        "remove_message": "Your ointment has worn off.",
+        "rating": "good"
     }
 ]

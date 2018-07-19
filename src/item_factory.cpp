@@ -521,6 +521,7 @@ void Item_factory::init()
     add_iuse( "ALCOHOL", &iuse::alcohol_medium );
     add_iuse( "ALCOHOL_STRONG", &iuse::alcohol_strong );
     add_iuse( "ALCOHOL_WEAK", &iuse::alcohol_weak );
+    add_iuse( "ANTIBACTERIAL_OINTMENT", &iuse::antibacterial_ointment );
     add_iuse( "ANTIBIOTIC", &iuse::antibiotic );
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
@@ -1073,8 +1074,8 @@ const itype * Item_factory::find_template( const itype_id& id ) const
         def->description = string_format( making->description );
         m_runtimes[ id ].reset( def );
         return def;
-    }    
-    
+    }
+
     debugmsg( "Missing item definition: %s", id.c_str() );
 
     itype *def = new itype();

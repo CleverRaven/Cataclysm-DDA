@@ -1337,5 +1337,23 @@
             "move_cost" : 300,
             "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
         }
+    },
+    {
+        "id" : "antibacterial_ointment",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "antibacterial ointment",
+        "name_plural" : "tubes of antibacterial ointment",
+        "description" : "A travel-sized tube of Wild Spirit ointment used to prevent infections. The label boasts 12 hours of protection from infections!",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 1500,
+        "charges" : 2,
+        "stack_size" : 20,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "cyan",
+        "use_action" : "ANTIBACTERIAL_OINTMENT",
+        "flags" : "NPC_SAFE"
     }
 ]
