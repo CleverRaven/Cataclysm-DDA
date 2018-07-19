@@ -471,17 +471,15 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             picked_up = u.wear_item( newit );
             break;
         case WIELD:
-            if ( wield_check.success() ) {
+            if( wield_check.success() ) {
                 u.wield( newit );
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name().c_str() );
-                }
-                else {
+                } else {
                     add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
                 }
-            }
-            else {
+            } else {
                 add_msg( wield_check.c_str() );
             }
             break;
