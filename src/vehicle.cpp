@@ -664,9 +664,9 @@ void vehicle::control_doors()
     }
 }
 
-char keybind( std::string const &opt )
+char keybind( const std::string &opt, const std::string &context )
 {
-    auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
+    auto const keys = input_context( context ).keys_bound_to( opt );
     return keys.empty() ? ' ' : keys.front();
 }
 
@@ -709,13 +709,18 @@ void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector
 
 void vehicle::control_electronics()
 {
+    // exit early if you can't control the vehicle
+    if( !interact_vehicle_locked() ) {
+        return;
+    }
+
     bool valid_option = false;
     do {
         std::vector<uimenu_entry> options;
         std::vector<std::function<void()>> actions;
-        auto add_toggle = [&]( const std::string &name, char key, const std::string &flag ) {
+        auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
             add_toggle_to_opts( options, actions, name, key, flag );
-	};
+        };
         add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
         add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
         add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
@@ -733,21 +738,24 @@ void vehicle::control_electronics()
 
         if( has_part( "DOOR_MOTOR" ) ) {
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
-            actions.push_back( [&]{ control_doors(); refresh(); } );
+            actions.push_back( [&] { control_doors(); refresh(); } );
         }
 
         if( camera_on ||
             ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ), keybind( "TOGGLE_CAMERA") );
-            actions.push_back( [&]{
-                if( camera_on ) {
+            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
+                                  keybind( "TOGGLE_CAMERA" ) );
+            actions.push_back( [&] {
+                if( camera_on )
+                {
                     camera_on = false;
-                    add_msg( _("Camera system disabled") );
-                } else if( fuel_left(fuel_type_battery, true) ) {
+                    add_msg( _( "Camera system disabled" ) );
+                } else if( fuel_left( fuel_type_battery, true ) )
+                {
                     camera_on = true;
-                    add_msg( _("Camera system enabled") );
+                    add_msg( _( "Camera system enabled" ) );
                 } else {
-                    add_msg( _("Camera system won't turn on") );
+                    add_msg( _( "Camera system won't turn on" ) );
                 }
                 refresh();
             } );
@@ -759,36 +767,39 @@ void vehicle::control_electronics()
         menu.text = _( "Electronics controls" );
         menu.entries = options;
         menu.query();
-        valid_option = menu.ret >= 0 && menu.ret < (int)actions.size();
+        valid_option = menu.ret >= 0 && menu.ret < ( int )actions.size();
         if( valid_option ) {
             actions[menu.ret]();
         }
     } while( valid_option );
 }
 
-void vehicle::control_engines() {
+void vehicle::control_engines()
+{
     int e_toggle = 0;
     bool dirty = false;
     //count active engines
     int active_count = 0;
-    for (size_t e = 0; e < engines.size(); ++e){
-        if (is_part_on(engines[e])){
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if( is_part_on( engines[e] ) ) {
             active_count++;
         }
     }
 
     //show menu until user finishes
-    while( e_toggle >= 0 && e_toggle < (int)engines.size() ) {
+    while( e_toggle >= 0 && e_toggle < ( int )engines.size() ) {
         e_toggle = select_engine();
-        if( e_toggle >= 0 && e_toggle < (int)engines.size() &&
-            (active_count > 1 || !is_part_on(engines[e_toggle]))) {
-            active_count += (!is_part_on(engines[e_toggle])) ? 1 : -1;
-            toggle_specific_engine(e_toggle, !is_part_on(engines[e_toggle]));
+        if( e_toggle >= 0 && e_toggle < ( int )engines.size() &&
+            ( active_count > 1 || !is_part_on( engines[e_toggle] ) ) ) {
+            active_count += ( !is_part_on( engines[e_toggle] ) ) ? 1 : -1;
+            toggle_specific_engine( e_toggle, !is_part_on( engines[e_toggle] ) );
             dirty = true;
         }
     }
 
-    if( !dirty ) { return; }
+    if( !dirty ) {
+        return;
+    }
 
     // if current velocity greater than new configuration safe speed
     // drop down cruise velocity.
@@ -798,92 +809,97 @@ void vehicle::control_engines() {
     }
 
     if( engine_on ) {
-        add_msg( _("You turn off the %s's engines to change their configurations."), name.c_str() );
+        add_msg( _( "You turn off the %s's engines to change their configurations." ), name.c_str() );
         engine_on = false;
     } else if( !g->u.controlling_vehicle ) {
-        add_msg( _("You change the %s's engine configuration."), name.c_str() );
+        add_msg( _( "You change the %s's engine configuration." ), name.c_str() );
         return;
     }
 
     start_engines();
 }
 
-int vehicle::select_engine() {
+int vehicle::select_engine()
+{
     uimenu tmenu;
     std::string name;
-    tmenu.text = _("Toggle which?");
+    tmenu.text = _( "Toggle which?" );
     for( size_t e = 0; e < engines.size(); ++e ) {
         name = parts[ engines[ e ] ].name();
         tmenu.addentry( e, true, -1, "[%s] %s",
-                        ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str() );
+                        ( ( parts[engines[e]].enabled ) ? "x" : " " ) , name.c_str() );
     }
 
-    tmenu.addentry(-1, true, 'q', _("Finish"));
+    tmenu.addentry( -1, true, 'q', _( "Finish" ) );
     tmenu.query();
     return tmenu.ret;
 }
 
-void vehicle::toggle_specific_engine(int e,bool on) {
+void vehicle::toggle_specific_engine( int e, bool on )
+{
     toggle_specific_part( engines[e], on );
 }
-void vehicle::toggle_specific_part(int p,bool on) {
+void vehicle::toggle_specific_part( int p, bool on )
+{
     parts[p].enabled = on;
 }
-bool vehicle::is_engine_type_on(int e, const itype_id &ft) const
+bool vehicle::is_engine_type_on( int e, const itype_id &ft ) const
 {
-    return is_engine_on(e) && is_engine_type(e, ft);
+    return is_engine_on( e ) && is_engine_type( e, ft );
 }
 
-bool vehicle::has_engine_type(const itype_id &ft, bool const enabled) const
+bool vehicle::has_engine_type( const itype_id &ft, bool const enabled ) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_type(e, ft) && (!enabled || is_engine_on(e)) ) {
+        if( is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
             return true;
         }
     }
     return false;
 }
-bool vehicle::has_engine_type_not(const itype_id &ft, bool const enabled) const
+bool vehicle::has_engine_type_not( const itype_id &ft, bool const enabled ) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( !is_engine_type(e, ft) && (!enabled || is_engine_on(e)) ) {
+        if( !is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool vehicle::is_engine_type(const int e, const itype_id  &ft) const {
-    return part_info(engines[e]).fuel_type == ft;
+bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
+{
+    return part_info( engines[e] ).fuel_type == ft;
 }
 
-bool vehicle::is_engine_on(int const e) const
+bool vehicle::is_engine_on( int const e ) const
 {
     return !parts[ engines[ e ] ].is_broken() && is_part_on( engines[ e ] );
 }
 
-bool vehicle::is_part_on(int const p) const
+bool vehicle::is_part_on( int const p ) const
 {
     return parts[p].enabled;
 }
 
-bool vehicle::is_alternator_on(int const a) const
+bool vehicle::is_alternator_on( int const a ) const
 {
     auto alt = parts[ alternators [ a ] ];
     if( alt.is_broken() ) {
         return false;
     }
 
-    return std::any_of( engines.begin(), engines.end(), [this,&alt]( int idx ) {
-        auto& eng = parts [ idx ];
-        return eng.enabled && !eng.is_broken() && eng.mount == alt.mount && !eng.faults().count( fault_belt );
+    return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
+        auto &eng = parts [ idx ];
+        return eng.enabled && !eng.is_broken() && eng.mount == alt.mount &&
+               !eng.faults().count( fault_belt );
     } );
 }
 
 bool vehicle::has_security_working() const
 {
     bool found_security = false;
-    for (size_t s = 0; s < speciality.size(); s++){
+    for( size_t s = 0; s < speciality.size(); s++ ) {
         if( part_flag( speciality[ s ], "SECURITY" ) && !parts[ speciality[ s ] ].is_broken() ) {
             found_security = true;
             break;
@@ -894,79 +910,98 @@ bool vehicle::has_security_working() const
 
 bool vehicle::interact_vehicle_locked()
 {
-    if (is_locked){
+    if( is_locked ) {
         const inventory &crafting_inv = g->u.crafting_inventory();
-        add_msg(_("You don't find any keys in the %s."), name.c_str());
+        add_msg( _( "You don't find any keys in the %s." ), name.c_str() );
         if( crafting_inv.has_quality( quality_id( "SCREW" ) ) ) {
-            if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
-                            name.c_str())) {
+            if( query_yn( _( "You don't find any keys in the %s. Attempt to hotwire vehicle?" ),
+                          name.c_str() ) ) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 int mechanics_skill = g->u.get_skill_level( skill_mechanics );
-                int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
+                int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
                 //assign long activity
                 g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), hotwire_time, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
-                point q = coord_translate(parts[0].mount);
-                g->u.activity.values.push_back(global_x() + q.x);//[0]
-                g->u.activity.values.push_back(global_y() + q.y);//[1]
-                g->u.activity.values.push_back(g->u.get_skill_level( skill_mechanics ));//[2]
+                point q = coord_translate( parts[0].mount );
+                g->u.activity.values.push_back( global_x() + q.x ); //[0]
+                g->u.activity.values.push_back( global_y() + q.y ); //[1]
+                g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
             } else {
-                if( has_security_working() && query_yn(_("Trigger the %s's Alarm?"), name.c_str()) ) {
+                if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name.c_str() ) ) {
                     is_alarm_on = true;
                 } else {
-                    add_msg(_("You leave the controls alone."));
+                    add_msg( _( "You leave the controls alone." ) );
                 }
             }
         } else {
-            add_msg(_("You could use a screwdriver to hotwire it."));
+            add_msg( _( "You could use a screwdriver to hotwire it." ) );
         }
     }
 
-    return !(is_locked);
+    return !( is_locked );
 }
 
-void vehicle::smash_security_system(){
+void vehicle::smash_security_system()
+{
 
     //get security and controls location
     int s = -1;
     int c = -1;
-    for (size_t d = 0; d < speciality.size(); d++){
+    for( size_t d = 0; d < speciality.size(); d++ ) {
         int p = speciality[d];
         if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
             s = p;
-            c = part_with_feature(s, "CONTROLS");
+            c = part_with_feature( s, "CONTROLS" );
             break;
         }
     }
     //controls and security must both be valid
-    if (c >= 0 && s >= 0){
+    if( c >= 0 && s >= 0 ) {
         ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
         int skill = g->u.get_skill_level( skill_mechanics );
-        int percent_controls = 70 / (1 + skill);
-        int percent_alarm = (skill+3) * 10;
-        int rand = rng(1,100);
+        int percent_controls = 70 / ( 1 + skill );
+        int percent_alarm = ( skill + 3 ) * 10;
+        int rand = rng( 1, 100 );
 
-        if (percent_controls > rand) {
-            damage_direct (c, part_info(c).durability / 4);
+        if( percent_controls > rand ) {
+            damage_direct( c, part_info( c ).durability / 4 );
 
             if( parts[ c ].removed || parts[ c ].is_broken() ) {
                 g->u.controlling_vehicle = false;
                 is_alarm_on = false;
-                add_msg(_("You destroy the controls..."));
+                add_msg( _( "You destroy the controls..." ) );
             } else {
-                add_msg(_("You damage the controls."));
+                add_msg( _( "You damage the controls." ) );
             }
         }
-        if (percent_alarm > rand) {
-            damage_direct (s, part_info(s).durability / 5);
+        if( percent_alarm > rand ) {
+            damage_direct( s, part_info( s ).durability / 5 );
             // chance to disable alarm immediately, or disable on destruction
             if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
                 is_alarm_on = false;
             }
         }
-        add_msg((is_alarm_on) ? _("The alarm keeps going.") : _("The alarm stops."));
+        add_msg( ( is_alarm_on ) ? _( "The alarm keeps going." ) : _( "The alarm stops." ) );
     } else {
-        debugmsg("No security system found on vehicle.");
+        debugmsg( "No security system found on vehicle." );
+    }
+}
+
+std::string vehicle::tracking_toggle_string()
+{
+    return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
+}
+
+void vehicle::toggle_tracking()
+{
+    if( tracking_on ) {
+        overmap_buffer.remove_vehicle( this );
+        tracking_on = false;
+        add_msg( _( "You stop keeping track of the vehicle position." ) );
+    } else {
+        overmap_buffer.add_vehicle( this );
+        tracking_on = true;
+        add_msg( _( "You start keeping track of this vehicle's position." ) );
     }
 }
 
@@ -980,7 +1015,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( remote ) {
         options.emplace_back( _( "Stop controlling" ), keybind( "RELEASE_CONTROLS" ) );
-        actions.push_back( [&]{
+        actions.push_back( [&] {
             g->u.controlling_vehicle = false;
             g->setremoteveh( nullptr );
             add_msg( _( "You stop controlling the vehicle." ) );
@@ -992,7 +1027,7 @@ void vehicle::use_controls( const tripoint &pos )
     } else if( veh_pointer_or_null( g->m.veh_at( pos ) ) == this ) {
         if( g->u.controlling_vehicle ) {
             options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
-            actions.push_back( [&]{
+            actions.push_back( [&] {
                 g->u.controlling_vehicle = false;
                 add_msg( _( "You let go of the controls." ) );
                 refresh();
@@ -1015,7 +1050,8 @@ void vehicle::use_controls( const tripoint &pos )
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
-                if( engine_on && has_engine_type_not( fuel_type_muscle, true ) ){
+                if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
+                {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
                 } else {
                     add_msg( _( "You let go of the controls." ) );
@@ -1026,10 +1062,12 @@ void vehicle::use_controls( const tripoint &pos )
                 refresh();
             } );
 
-        } else if( has_engine_type_not(fuel_type_muscle, true ) ) {
-            options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ), keybind( "TOGGLE_ENGINE" ) );
+        } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
+            options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
+                                  keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
-                if( engine_on ) {
+                if( engine_on )
+                {
                     engine_on = false;
                     add_msg( _( "You turn the engine off." ) );
                 } else {
@@ -1040,13 +1078,13 @@ void vehicle::use_controls( const tripoint &pos )
         }
     }
 
-    if( has_part( "HORN") ) {
+    if( has_part( "HORN" ) ) {
         options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
-        actions.push_back( [&]{ honk_horn(); refresh(); } );
+        actions.push_back( [&] { honk_horn(); refresh(); } );
     }
 
-    auto add_toggle = [&]( const std::string &name, char key, const std::string &flag ) {
-	add_toggle_to_opts( options, actions, name, key, flag );
+    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
+        add_toggle_to_opts( options, actions, name, key, flag );
     };
 
     add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
@@ -1070,71 +1108,63 @@ void vehicle::use_controls( const tripoint &pos )
 
         if( has_part( "DOOR_MOTOR" ) ) {
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
-            actions.push_back( [&]{ control_doors(); refresh(); } );
+            actions.push_back( [&] { control_doors(); refresh(); } );
         }
 
         options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
                               keybind( "TOGGLE_CRUISE_CONTROL" ) );
 
-        actions.emplace_back( [&]{
+        actions.emplace_back( [&] {
             cruise_on = !cruise_on;
             add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
             refresh();
         } );
         if( camera_on ||
             ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ), keybind( "TOGGLE_CAMERA") );
-            actions.push_back( [&]{
-                if( camera_on ) {
+            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
+                                  keybind( "TOGGLE_CAMERA" ) );
+            actions.push_back( [&] {
+                if( camera_on )
+                {
                     camera_on = false;
-                    add_msg( _("Camera system disabled") );
-                } else if( fuel_left(fuel_type_battery, true) ) {
+                    add_msg( _( "Camera system disabled" ) );
+                } else if( fuel_left( fuel_type_battery, true ) )
+                {
                     camera_on = true;
-                    add_msg( _("Camera system enabled") );
+                    add_msg( _( "Camera system enabled" ) );
                 } else {
-                    add_msg( _("Camera system won't turn on") );
+                    add_msg( _( "Camera system won't turn on" ) );
                 }
                 refresh();
             } );
         }
         options.emplace_back( _( "Control multiple electronics" ), keybind( "CONTROL_MANY_ELECTRONICS" ) );
-        actions.push_back( [&]{ control_electronics(); refresh(); } );
+        actions.push_back( [&] { control_electronics(); refresh(); } );
     }
 
-    options.emplace_back( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
+    options.emplace_back( tracking_on ? _( "Forget vehicle position" ) :
+                          _( "Remember vehicle position" ),
                           keybind( "TOGGLE_TRACKING" ) );
-
-    actions.push_back( [&] {
-        if( tracking_on ) {
-            overmap_buffer.remove_vehicle( this );
-            tracking_on = false;
-            add_msg( _( "You stop keeping track of the vehicle position." ) );
-        } else {
-            overmap_buffer.add_vehicle( this );
-            tracking_on = true;
-            add_msg( _( "You start keeping track of this vehicle's position." ) );
-        }
-        refresh();
-    } );
+    actions.push_back( [&] { toggle_tracking(); } );
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name.c_str() ), keybind( "FOLD_VEHICLE" ) );
-        actions.push_back( [&]{ fold_up(); } );
+        actions.push_back( [&] { fold_up(); } );
     }
 
     if( has_part( "ENGINE" ) ) {
         options.emplace_back( _( "Control individual engines" ), keybind( "CONTROL_ENGINES" ) );
-        actions.push_back( [&]{ control_engines(); refresh(); } );
+        actions.push_back( [&] { control_engines(); refresh(); } );
     }
 
     if( is_alarm_on ) {
         if( velocity == 0 && !remote ) {
             options.emplace_back( _( "Try to disarm alarm." ), keybind( "TOGGLE_ALARM" ) );
-            actions.push_back( [&]{ smash_security_system(); refresh(); } );
+            actions.push_back( [&] { smash_security_system(); refresh(); } );
 
         } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
             options.emplace_back( _( "Trigger alarm" ), keybind( "TOGGLE_ALARM" ) );
-            actions.push_back( [&]{
+            actions.push_back( [&] {
                 is_alarm_on = true;
                 add_msg( _( "You trigger the alarm" ) );
                 refresh();
@@ -1144,21 +1174,21 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( has_part( "TURRET" ) ) {
         options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
-        actions.push_back( [&]{ turrets_set_targeting(); refresh(); } );
+        actions.push_back( [&] { turrets_set_targeting(); refresh(); } );
 
         options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
-        actions.push_back( [&]{ turrets_set_mode(); refresh(); } );
+        actions.push_back( [&] { turrets_set_mode(); refresh(); } );
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&]{ turrets_aim_and_fire( true, false ); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire( true, false ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.push_back( [&]{ turrets_aim( false, true ); refresh(); } );
+        actions.push_back( [&] { turrets_aim( false, true ); refresh(); } );
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.push_back( [&]{ turrets_aim_single(); refresh(); } );
+        actions.push_back( [&] { turrets_aim_single(); refresh(); } );
     }
 
     uimenu menu;
