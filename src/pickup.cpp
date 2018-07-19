@@ -102,7 +102,8 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
-        selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ), _( "Control multiple electronics" ) );
+        selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
+                             _( "Control multiple electronics" ) );
     }
 
     if( has_washmachine ) {
