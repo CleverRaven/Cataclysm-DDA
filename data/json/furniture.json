@@ -2917,7 +2917,7 @@
     {
         "type" : "furniture",
         "id" : "f_autodoc",
-        "name": "InteliAug Mk. XI",
+        "name": "Autodoc Mk. XI",
         "symbol": "&",
         "description": "A surgical apparatus used for installation and uninstallation of bionics. It's only as skilled as its operator.",
         "color": "light_cyan",
@@ -2960,7 +2960,7 @@
     {
         "type" : "furniture",
         "id" : "f_autodoc_couch",
-        "name": "InteliAug operation couch",
+        "name": "Autodoc operation couch",
         "symbol": "H",
         "description": "A plush red sofa made less comfortable by the medical machinery directly above it. It has a single leather strap on the right armrest.",
         "bgcolor": "red",

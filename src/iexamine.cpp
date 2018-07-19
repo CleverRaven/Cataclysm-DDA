@@ -3514,7 +3514,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     uimenu amenu;
     amenu.selected = 0;
-    amenu.text = _( "InteliAug Mk. XI.  Status: Online.  Please choose operation." );
+    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
     amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
@@ -3551,7 +3551,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             if( !has_anesthesia && !deadened ) {
-                popup( _( "You need an anesthesia kit for the InteliAug to perform any operation." ) );
+                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
                 return;
             }
 
@@ -3573,7 +3573,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             if( !has_anesthesia && !deadened ) {
-                popup( _( "You need an anesthesia kit for the InteliAug to perform any operation." ) );
+                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
                 return;
             }
 
