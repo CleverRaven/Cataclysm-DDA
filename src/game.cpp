@@ -5111,11 +5111,13 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             tripoint const cur_pos {omx, omy, get_levz()};
-            if( overmap_buffer.has_horde( omx, omy, get_levz() )
-                && ( omx != targ.x || omy != targ.y )
-                && overmap_buffer.seen( omx, omy, get_levz() )
-                && g->u.overmap_los( cur_pos, sight_points ) ) {
-                mvwputch( w_minimap, j + 3, i + 3, c_green, 'Z' );
+            if (overmap_buffer.get_horde_size(omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE) {
+                tripoint const cur_pos {omx, omy, get_levz()};
+                if (overmap_buffer.seen(omx, omy, get_levz())
+                        && g->u.overmap_los( cur_pos, sight_points ) ) {
+                    mvwputch( w_minimap, j + 3, i + 3, c_green,
+                        overmap_buffer.get_horde_size(omx, omy, get_levz()) > HORDE_VISIBILITY_SIZE*2 ? 'Z' : 'z' );
+                }
             }
         }
     }
@@ -12708,13 +12710,13 @@ void game::update_map(int &x, int &y)
     // Put those in the active list.
     load_npcs();
 
+    // Make sure map cache is consistent since it may have shifted.
+    m.build_map_cache( get_levz() );
+
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
-
-    // Make sure map cache is consistent since it may have shifted.
-    m.build_map_cache( get_levz() );
 
     // Also ensure the player is on current z-level
     // get_levz() should later be removed, when there is no longer such a thing

@@ -114,6 +114,9 @@ class vpart_info
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
 
+        /** A text description of the part as a vehicle part */
+        std::string description;
+
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 

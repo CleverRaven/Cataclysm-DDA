@@ -1411,6 +1411,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 80,
+    "description": "A electric kiln for baking brick or clay, powered by the vehicle's batteries.  You could use this to harden bricks or clay.",
     "size": 200,
     "item": "kilnrig",
     "difficulty": 3,

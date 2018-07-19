@@ -550,6 +550,7 @@ void Item_factory::init()
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
+    add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
@@ -570,6 +571,7 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
+    add_iuse( "FILL_PIT", &iuse::fill_pit );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );

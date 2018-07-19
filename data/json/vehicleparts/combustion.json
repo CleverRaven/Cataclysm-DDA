@@ -34,6 +34,7 @@
     "fuel_type": "diesel",
     "difficulty": 4,
     "durability": 400,
+    "description": "A diesel engine.  Burns diesel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -250,
     "damage_modifier": 80,
     "breaks_into": [
@@ -50,6 +51,7 @@
     "fuel_type": "diesel",
     "difficulty": 4,
     "durability": 400,
+    "description": "A large diesel engine.  Burns diesel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -350,
     "damage_modifier": 80,
     "breaks_into": [
@@ -66,7 +68,7 @@
     "fuel_type": "gasoline",
     "difficulty": 2,
     "durability": 150,
-    "description": "A gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
+    "description": "A small gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": 0,
     "damage_modifier": 80,
     "breaks_into": [
@@ -83,6 +85,7 @@
     "fuel_type": "gasoline",
     "difficulty": 2,
     "durability": 120,
+    "description": "A very small gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": 0,
     "damage_modifier": 80,
     "breaks_into": [
@@ -99,6 +102,7 @@
     "fuel_type": "gasoline",
     "difficulty": 2,
     "durability": 300,
+    "description": "A gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -150,
     "damage_modifier": 80,
     "breaks_into": [
@@ -115,6 +119,7 @@
     "fuel_type": "gasoline",
     "difficulty": 6,
     "durability": 600,
+    "description": "An extremely large gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -350,
     "damage_modifier": 80,
     "breaks_into": [
@@ -131,6 +136,7 @@
     "fuel_type": "diesel",
     "difficulty": 7,
     "durability": 600,
+    "description": "An extremely large diesel engine.  Burns diesel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -400,
     "damage_modifier": 80,
     "breaks_into": [
@@ -147,6 +153,7 @@
     "fuel_type": "gasoline",
     "difficulty": 3,
     "durability": 400,
+    "description": "A gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -200,
     "damage_modifier": 80,
     "breaks_into": [
@@ -163,6 +170,7 @@
     "fuel_type": "gasoline",
     "difficulty": 3,
     "durability": 400,
+    "description": "A large gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -250,
     "damage_modifier": 80,
     "breaks_into": [
@@ -179,6 +187,7 @@
     "fuel_type": "gasoline",
     "difficulty": 2,
     "durability": 200,
+    "description": "A small gasoline engine.  Burns gasoline from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  Requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on.",
     "epower": -50,
     "damage_modifier": 80,
     "breaks_into": [
