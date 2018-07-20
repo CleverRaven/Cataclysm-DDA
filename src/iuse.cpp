@@ -7572,14 +7572,14 @@ int iuse::shavekit( player *p, item *it, bool, const tripoint & )
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
-        p->assign_activity( activity_id( "ACT_SHAVE" ), 3000);
+        p->assign_activity( activity_id( "ACT_SHAVE" ), 3000 );
     }
     return it->type->charges_to_use();
 }
 
 int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 {
-    p->assign_activity( activity_id( "ACT_HAIRCUT" ), 3000);
+    p->assign_activity( activity_id( "ACT_HAIRCUT" ), 3000 );
     return it->type->charges_to_use();
 }
 
