@@ -2417,15 +2417,15 @@
         "flags": [ "ANESTHESIA" ]
     },
     {
-        "id" : "1st_aid",
-        "type" : "GENERIC",
-        "name" : "first aid kit",
-        "description" : "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
-        "weight" : 240,
-        "volume" : 6,
-        "price" : 3000,
-        "material" : "plastic",
-        "symbol" : "!",
-        "color" : "red"
+        "id": "1st_aid",
+        "type": "GENERIC",
+        "name": "first aid kit",
+        "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
+        "weight": 1000,
+        "volume": 6,
+        "price": 3000,
+        "material": "plastic",
+        "symbol": "!",
+        "color": "red"
     }
 ]
