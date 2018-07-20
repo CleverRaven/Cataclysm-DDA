@@ -792,7 +792,7 @@
     },
     {
         "type" : "item_action",
-        "id" : "ANTIBACTERIAL_OINTMENT",
-        "name" : "Apply antibacterial ointment"
+        "id" : "AMOXICILLIN",
+        "name" : "Take amoxicillin"
     }
 ]

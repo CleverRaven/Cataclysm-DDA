@@ -25,7 +25,7 @@
       [ "medical_gauze", 20 ],
       [ "medical_tape", 20 ],
       [ "saline",  10 ],
-      [ "antibacterial_ointment", 20 ]
+      [ "amoxicillin", 20 ]
     ]
   },
   {

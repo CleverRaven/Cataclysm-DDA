@@ -199,7 +199,7 @@ class iuse
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );
-        int antibacterial_ointment( player *, item *, bool, const tripoint & );
+        int amoxicillin( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

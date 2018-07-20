@@ -24,7 +24,7 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_antibacterial_ointment( "antibacterial_ointment" );
+const efftype_id effect_amoxicillin( "amoxicillin" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -920,11 +920,14 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
+            if( has_effect( effect_amoxicillin ) ) {
+                recover_factor += 300;
+            }
             recover_factor += get_healthy() / 10;
 
             if( x_in_y( recover_factor, 864000 ) ) {
                 //~ %s is bodypart name.
-                add_msg_if_player( m_good, _( "Your %s wound begins to feel better." ),
+                add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ).c_str() );
                 add_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
@@ -940,7 +943,7 @@ void player::hardcoded_effects( effect &it )
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
             }
-            if( !has_effect( effect_antibacterial_ointment ) || x_in_y( 1, 2 ) ) {
+            if( !has_effect( effect_amoxicillin ) ) {
                 it.mod_duration( 1_turns );
             }
         }

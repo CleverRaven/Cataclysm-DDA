@@ -1820,11 +1820,6 @@
     },
     {
         "type": "effect_type",
-        "id": "antibacterial_ointment",
-        "name": ["Antibacterial Ointment"],
-        "desc": ["You're protected from new infections, and existing infections are slowed."],
-        "apply_message": "You cover yourself in antibacterial ointment.",
-        "remove_message": "Your ointment has worn off.",
-        "rating": "good"
+        "id": "amoxicillin"
     }
 ]
