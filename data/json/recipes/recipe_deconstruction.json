@@ -2449,6 +2449,21 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "1st_aid",
+    "type": "uncraft",
+    "time": 100,
+    "components": [
+      [ [ "medical_tape", 20 ] ],
+      [ [ "aspirin", 10 ] ],
+      [ [ "bottle_plastic_small", 2 ] ],
+      [ [ "disinfectant", 10 ] ],
+      [ [ "saline", 5 ] ],
+      [ [ "bandages", 6 ] ],
+      [ [ "medical_gauze", 6 ] ],
+      [ [ "booklet_firstaid", 1 ] ]
+    ]
+  },
+  {
     "result": "garlic",
     "type": "uncraft",
     "time": 100,
