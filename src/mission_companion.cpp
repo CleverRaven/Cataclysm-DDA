@@ -5174,23 +5174,25 @@ void talk_function::faction_camp_tutorial(){
     slide_overview = _("Faction Camp Tutorial:\n \n"
                         "<color_light_green>SELECTING A SITE:</color>  For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it. "
                         "Forests are your primary source of construction materials in the early game while fields can be used for farming.  You "
-                        "don't have to be too picky, you can build as many camps as you want but each will require an NPC camp manager.\n \n"
+                        "don't have to be too picky, you can build as many camps as you want but each will require an NPC camp manager and an additional NPC to task out.\n \n"
                         );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
                         "<color_light_green>UPGRADING:</color>  After you pick a site you will need to find or make materials to upgrade the camp further to access new "
                         "missions.  The first new missions are focused on gathering materials to upgrade the camp so you don't have to. "
                         "After two or three upgrades you will have access to the <color_yellow>[Menial Labor]</color> mission which will allow you to task companions "
-                        "with sorting all of the items around your camp into categories.\n \n"
+                        "with sorting all of the items around your camp into categories.  Later upgrades allow you to send companions to recruit new members, build overmap "
+                        "fortifications, or even conduct combat patrols.\n"
                         );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
                         "<color_light_green>EXPANSIONS:</color>  When you upgrade your first tent all the way you will unlock the ability to construct expansions. Expansions "
-                        "allow you to specialize each camp you build by focusing on the industries that you need.  A farm is recommended for "
-                        "players that want to pursue a large faction while a kitchen is better for players that just want the quality of life "
-                        "improvement of having an NPC do all of their cooking.  A garage is useful for chop shop type missions that let you "
-                        "trade vehicles for large amounts of parts and resources.  You can build an additional expansion every other level "
-                        "after the first is unlocked.\n \n"
+                        "allow you to specialize each camp you build by focusing on the industries that you need.  A <color_light_green>[Farm]</color> is recommended for "
+                        "players that want to pursue a large faction while a <color_light_green>[Kitchen]</color> is better for players that just want the quality of life "
+                        "improvement of having an NPC do all of their cooking.  A <color_light_green>[Garage]</color> is useful for chop shop type missions that let you "
+                        "trade vehicles for large amounts of parts and resources.  All those resources can be turning into valuable eqiupment in the "
+                        "<color_light_green>[Blacksmith Shop]</color>. You can build an additional expansion every other level after the first is unlocked and when one "
+                        "camp is full you can just as easily build another.\n \n"
                         );
     popup( "%s", slide_overview );
     if( query_yn( _("Repeat?") ) ){
