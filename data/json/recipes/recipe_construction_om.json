@@ -843,7 +843,7 @@
   {
     "type": "recipe",
     "result": "faction_base_blacksmith_11",
-    "description": "An on-site well wil allow us to fill boilers as needed.",
+    "description": "An on-site well will allow us to fill boilers as needed.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -857,7 +857,7 @@
   {
     "type": "recipe",
     "result": "faction_base_blacksmith_12",
-    "description": "A steam powered drop hammer will greatly increase production speed in exchange for charcoal.",
+    "description": "A steam-powered drop hammer will greatly increase production speed in exchange for charcoal.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "mechanics",
