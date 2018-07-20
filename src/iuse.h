@@ -74,6 +74,7 @@ class iuse
         int dogfood( player *, item *, bool, const tripoint & );
         int catfood( player *, item *, bool, const tripoint & );
         int feedcattle( player *, item *, bool, const tripoint & );
+        int feedbird( player *, item *, bool, const tripoint & );
         // TOOLS
         int sew_advanced( player *, item *, bool, const tripoint & );
         int scissors( player *, item *, bool, const tripoint & );
@@ -89,6 +90,8 @@ class iuse
         int crowbar( player *, item *, bool, const tripoint & );
         int makemound( player *, item *, bool, const tripoint & );
         int dig( player *, item *, bool, const tripoint & );
+        int fill_pit( player *, item *, bool, const tripoint & );
+        int clear_rubble( player *, item *, bool, const tripoint & );
         int siphon( player *, item *, bool, const tripoint & );
         int chainsaw_off( player *, item *, bool, const tripoint & );
         int chainsaw_on( player *, item *, bool, const tripoint & );
@@ -195,6 +198,7 @@ class iuse
         int washclothes( player *, item *, bool, const tripoint & );
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
+        int break_stick( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

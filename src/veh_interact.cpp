@@ -35,13 +35,6 @@
 #include <numeric>
 #include <cassert>
 
-#ifdef _MSC_VER
-#include <math.h>
-#define ISNAN _isnan
-#else
-#define ISNAN std::isnan
-#endif
-
 static inline const char * status_color( bool status )
 {
     static const char *good = "green";
@@ -616,6 +609,32 @@ bool veh_interact::can_install_part() {
     msg << string_format( _( "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_%4$s>strength %5$i</color>" ),
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
+
+    if( ! sel_vpart_info->description.empty() ) {
+        msg << _( "<color_white>Description</color>\n" );
+        std::string install_color = string_format( "<color_%1$s>",  status_color( ok || g->u.has_trait( trait_DEBUG_HS ) ) );
+        msg << "> " << install_color;
+
+        const auto wrap_descrip = foldstring( sel_vpart_info->description, getmaxx( w_msg ) - 4 );
+        msg << wrap_descrip[0];
+        for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
+            msg << "\n  " << wrap_descrip[i];
+        }
+        msg << "</color>\n";
+
+        // borrowed from item.cpp and adjusted
+        const quality_id quality_jack( "JACK" );
+        const quality_id quality_lift( "LIFT" );
+        for( const auto& qual : sel_vpart_info->qualities ) {
+            msg << "> " << install_color << string_format( _( "Has level %1$d %2$s quality" ),
+                                                     qual.second, qual.first.obj().name.c_str() );
+            if( qual.first == quality_jack || qual.first == quality_lift ) {
+                msg << string_format( _( " and is rated at %1$d %2$s" ),
+                                     (int)convert_weight( qual.second * TOOL_LIFT_FACTOR ), weight_units() );
+            }
+            msg << ".</color>\n";
+        }
+    }
 
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );

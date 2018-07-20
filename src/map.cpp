@@ -5027,6 +5027,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
@@ -5102,6 +5103,23 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 
             item tmp(type, 0); //TODO add a sane birthday arg
             tmp.charges = forgepart->vehicle().drain( ftype, quantity );
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if( kilnpart ) { // we have a veh_kiln, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "kiln") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -6815,17 +6833,41 @@ void map::grow_plant( const tripoint &p )
         return;
     }
     const time_duration plantEpoch = seed.get_plant_epoch();
-
-    if( seed.age() >= plantEpoch ) {
-        rotten_item_spawn( seed, p);
+    furn_id cur_furn = this->furn(p).id();
+    if( seed.age() >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ){
         if( seed.age() < plantEpoch * 2 ) {
-                i_rem(p, 1);
-                furn_set(p, furn_str_id( "f_plant_seedling" ) );
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+                return;
+            }
+            i_rem( p, 1 );
+            rotten_item_spawn( seed, p );
+            furn_set(p, furn_str_id( "f_plant_seedling" ) );
         } else if( seed.age() < plantEpoch * 3 ) {
-                i_rem(p, 1);
-                furn_set(p, furn_str_id( "f_plant_mature" ) );
+            if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+                return;
+            }
+            i_rem(p, 1);
+            rotten_item_spawn( seed, p );
+            //You've skipped the seedling stage so roll monsters twice
+            if( cur_furn != furn_str_id( "f_plant_seedling" ) ){
+                rotten_item_spawn( seed, p );
+            }
+            furn_set( p, furn_str_id( "f_plant_mature" ) );
         } else {
-                furn_set(p, furn_str_id( "f_plant_harvest" ) );
+            //You've skipped two stages so roll monsters two times
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+            //One stage change
+            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+                rotten_item_spawn( seed, p );
+            //Goes from seed to harvest in one check
+            } else {
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+            }
+            furn_set(p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }
@@ -7211,6 +7253,11 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue;
             }
             monster tmp( spawn_details.name );
+
+            // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
+            if( group.horde ) {
+                tmp.set_horde_attraction( MHA_ALWAYS );
+            }
             for( int i = 0; i < spawn_details.pack_size; i++) {
                 group.monsters.push_back( tmp );
             }

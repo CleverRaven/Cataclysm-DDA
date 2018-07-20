@@ -3319,7 +3319,7 @@
     "nutrition": 10,
     "description": "Plain and unseasoned popcorn.  Not as tasty as other kinds, but healthier as a result.",
     "price": 115,
-    "material": "junk",
+    "material": "veggy",
     "volume": 1,
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
@@ -5503,7 +5503,6 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-    "flags": ["MYCUS_OK"],
     "fun": 30
   },
   {
@@ -5546,6 +5545,7 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
+    "flags": ["MYCUS_OK"],
      "fun": 30
   },
   {
@@ -6066,6 +6066,7 @@
     "name_plural": "cooked acorn meal",
     "weight": 212,
     "color": "brown",
+    "spoils_in": 8640,
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,

@@ -46,6 +46,7 @@ class building_bin {
         building_bin() {};
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
+        std::vector<std::string> all;
         void clear();
         void finalize();
 };
@@ -340,6 +341,13 @@ class overmap
      */
     static tripoint draw_overmap();
     /**
+     * Interactive point choosing; used as the map screen.
+     * The map is initially centered on the @ref origin.
+     * @returns The absolute coordinates of the chosen point or
+     * invalid_point if canceled with Escape (or similar key).
+     */
+    static tripoint draw_overmap( tripoint origin );
+    /**
      * Draw overmap like with @ref draw_overmap() and display hordes.
      */
     static tripoint draw_hordes();
@@ -419,13 +427,6 @@ public:
     std::array<map_layer, OVERMAP_LAYERS> layer;
     std::unordered_map<tripoint, scent_trace> scents;
 
-    /**
-     * When monsters despawn during map-shifting they will be added here.
-     * map::spawn_monsters will load them and place them into the reality bubble
-     * (adding it to the creature tracker and putting it onto the map).
-     * This stores each submap worth of monsters in a different bucket of the multimap.
-     */
-    std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
     oter_id get_default_terrain( int z ) const;
@@ -435,6 +436,15 @@ public:
     // open existing overmap, or generate a new one
     void open( overmap_special_batch &enabled_specials );
  public:
+
+    /**
+     * When monsters despawn during map-shifting they will be added here.
+     * map::spawn_monsters will load them and place them into the reality bubble
+     * (adding it to the creature tracker and putting it onto the map).
+     * This stores each submap worth of monsters in a different bucket of the multimap.
+     */
+    std::unordered_multimap<tripoint, monster> monster_map;
+
   // parse data in an opened overmap file
   void unserialize(std::istream &fin);
   // Parse per-player overmap view data.

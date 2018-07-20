@@ -985,6 +985,22 @@
     "max_charges": 1000
   },
   {
+    "id": "kiln",
+    "type": "TOOL",
+    "name": "electric kiln",
+    "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
+    "weight": 12000,
+    "volume": 30,
+    "price": 50000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "max_charges": 1000
+  },
+  {
     "id": "broadfire_off",
     "type": "TOOL",
     "category": "weapons",
@@ -3649,7 +3665,7 @@
     "id": "hoe",
     "type": "TOOL",
     "name": "hoe",
-    "description": "This is a farming implement.  Use it to turn tillable land into a slow-to-cross pile of dirt.",
+    "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": 1088,
     "volume": 14,
     "price": 2000,
@@ -3659,6 +3675,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
+    "qualities": [ [ "DIG", 1 ] ],
     "use_action": "MAKEMOUND"
   },
   {
@@ -4921,6 +4938,21 @@
     "use_action": "MOP"
   },
   {
+    "id": "mortar_pestle",
+    "type": "TOOL",
+    "name": "mortar and pestle",
+    "name_plural": "sets of mortar and pestle",
+    "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
+    "weight": 1632,
+    "volume": 4,
+    "price": 0,
+    "to_hit": -4,
+    "bashing": 3,
+    "material": "stone",
+    "symbol": ":",
+    "color": "light_gray"
+  },
+  {
     "id": "mp3",
     "type": "TOOL",
     "name": "mp3 player (off)",
@@ -5307,7 +5339,7 @@
     "id": "pet_carrier",
     "type": "TOOL",
     "name": "pet carrier",
-    "description": "A plastic container meant to hold pets for transport.",
+    "description": "A plastic container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": 1000,
     "volume": 20,
     "price": 1000,
@@ -5317,6 +5349,23 @@
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "use_action": "CAPTURE_MONSTER_ACT",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "chicken_cage",
+    "type": "TOOL",
+    "name": "chicken cage",
+    "description": "A wire container made for transporting chickens, but you can use it to hold any tiny animal.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+    "weight": 250,
+    "volume": 10,
+    "price": 100,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "properties": [ [ "monster_size_capacity", "TINY" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -8347,6 +8396,21 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "CATTLEFODDER"
+  },
+  {
+    "id": "birdfood",
+    "type": "TOOL",
+    "name": "bird food",
+    "name_plural": "bird food",
+    "description": "What birds eat.  Mainly made of seeds, silages or legumes.  It's perfect for small birds.",
+    "weight": 60,
+    "volume": 1,
+    "price": 20,
+    "to_hit": -5,
+    "material": "veggy",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": "BIRDFOOD"
   },
   {
     "id": "link_sheet",

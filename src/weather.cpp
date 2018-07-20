@@ -73,20 +73,16 @@ int get_hourly_rotpoints_at_temp( int temp );
 
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
 {
-
     time_duration ret = 0;
-    // if underground it ignores weather, using strait underground temperature instead
-    if ( location.z < 0 ) {
-        for( time_point i = start; i < end; i += 1_hours ) {
-            ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( g->get_temperature( g->m.getlocal( location ) ) ) * 1_turns;
-        }
-        return ret;
-    }
-    // if on- or above-ground it uses progressive weather-determined temperatures at location
+
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
-        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( w.temperature ) * 1_turns;
+
+        //Use weather if above ground, use map temp if below
+        double temperature = location.z >= 0 ? w.temperature : g->get_temperature( location );
+
+        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
     }
     return ret;
 }
@@ -178,7 +174,7 @@ void item::add_rain_to_container(bool acid, int charges)
         return;
     }
     item ret( acid ? "water_acid" : "water", calendar::turn );
-    const long capa = get_remaining_capacity_for_liquid( ret );
+    const long capa = get_remaining_capacity_for_liquid( ret, true );
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if (!acid) {

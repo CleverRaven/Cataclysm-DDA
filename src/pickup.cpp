@@ -92,15 +92,18 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                               veh->parts[washing_machine_part].enabled;
 
     typedef enum {
-        EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
+        EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE
     } options;
     uimenu selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+    selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), veh->tracking_toggle_string() );
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+        selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
+                             _( "Control multiple electronics" ) );
     }
 
     if( has_washmachine ) {
@@ -271,13 +274,19 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
 
         case CONTROL:
-            if( veh->interact_vehicle_locked() ) {
-                veh->use_controls( pos );
-            }
+            veh->use_controls( pos );
+            return DONE;
+
+        case CONTROL_ELECTRONICS:
+            veh->control_electronics();
             return DONE;
 
         case EXAMINE:
             g->exam_vehicle( *veh );
+            return DONE;
+
+        case TRACK:
+            veh->toggle_tracking( );
             return DONE;
 
         case GET_ITEMS_ON_GROUND:
@@ -403,6 +412,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     bool picked_up = false;
     pickup_answer option = CANCEL;
     item leftovers = newit;
+    const auto wield_check = u.can_wield( newit );
 
     if( newit.invlet != '\0' &&
         u.invlet_to_position( newit.invlet ) != INT_MIN ) {
@@ -470,16 +480,16 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             picked_up = u.wear_item( newit );
             break;
         case WIELD:
-            picked_up = u.wield( newit );
-            if( !picked_up ) {
-                break;
-            }
-
-            if( u.weapon.invlet ) {
-                add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
-                         u.weapon.display_name().c_str() );
+            if( wield_check.success() ) {
+                picked_up = u.wield( newit );
+                if( u.weapon.invlet ) {
+                    add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
+                             u.weapon.display_name().c_str() );
+                } else {
+                    add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
+                }
             } else {
-                add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
+                add_msg( wield_check.c_str() );
             }
             break;
         case SPILL:

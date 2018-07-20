@@ -11,6 +11,7 @@
     "broken_color": "light_blue",
     "difficulty": 5,
     "durability": 200,
+    "description": "A rigid steel boom crane.  Can be used to jack up another vehicle to change the other vehicle's wheels, or lift a heavy component like an engine from another vehicle.",
     "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
     "qualities": [ [ "LIFT", 4 ], [ "JACK", 40 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION" ]
@@ -27,6 +28,7 @@
     "broken_color": "light_blue",
     "difficulty": 2,
     "durability": 100,
+    "description": "An extendable, cantilever crane.  Can be used to jack up another vehicle to change the other vehicle's wheels, or lift a heavy component like an engine from another vehicle.",
     "folded_volume": 12,
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 7 ] ],
@@ -44,6 +46,7 @@
     "broken_color": "light_blue",
     "difficulty": 2,
     "durability": 100,
+    "description": "A small pallet lifter.  Can be used to jack up another vehicle to change the other vehicle's wheels, or lift a heavy component like an engine from another vehicle.",
     "folded_volume": 12,
     "breaks_into": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
@@ -62,6 +65,7 @@
     "difficulty": 2,
     "damage_modifier": 200,
     "durability": 300,
+    "description": "A pair of forklift arms.  Can be used to jack up another vehicle to change the other vehicle's wheels, or lift a heavy component like an engine from another vehicle.",
     "size": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
@@ -70,5 +74,28 @@
     ],
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
     "flags": [ "CARGO", "PROTRUSION" ]
+  },
+  {
+    "id": "rockwheel",
+    "type": "vehicle_part",
+    "name": "rockwheel",
+    "item": "v_rockwheel_item",
+    "location": "structure",
+    "symbol": "&",
+    "broken_symbol": "x",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "difficulty": 5,
+    "damage_modifier": 100,
+    "durability": 300,
+    "description": "A large metal disc, powered by the vehicle's engines.  It can be turned on, and it will stop the vehicle unless it has a strong engine.  When turned on, it will dig a shallow pit in dirt. Mount it on the edge of your vehicle.",
+    "folded_volume": 12,
+    "power": -200,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ],
+    "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL" ]
   }
 ]

@@ -331,5 +331,17 @@
     "type": "activity_type",
     "stop_phrase": "Stop drilling?",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_DIG",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_FILL_PIT",
+    "type": "activity_type",
+    "stop_phrase": "Stop filling?",
+    "based_on": "speed"
   }
 ]

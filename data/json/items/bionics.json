@@ -10,7 +10,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
-    "use_action": "install_bionic",
     "flags": [ "CBM" ]
   },
   {

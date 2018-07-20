@@ -678,6 +678,46 @@
     },
     {
         "type": "effect_type",
+        "id": "bandaged",
+        "name": ["Bandaged"],
+        "desc": ["Your wounds are bandaged."],
+        "main_parts_only": true,
+        "rating": "good",
+        "int_dur_factor": 3600,
+        "max_intensity": 16,
+        "max_effective_intensity": 8,
+        "max_duration": 57600,
+        "base_mods": {
+            "healing_rate": [2],
+            "healing_head": [50],
+            "healing_torso": [150]
+        },
+        "scaling_mods": {
+            "healing_rate": [2]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "disinfected",
+        "name": ["Disinfected"],
+        "desc": ["Your wounds are disinfected."],
+        "main_parts_only": true,
+        "rating": "good",
+        "int_dur_factor": 3600,
+        "max_intensity": 16,
+        "max_effective_intensity": 8,
+        "max_duration": 57600,
+        "base_mods": {
+            "healing_rate": [2],
+            "healing_head": [50],
+            "healing_torso": [150]
+        },
+        "scaling_mods": {
+            "healing_rate": [2]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "spores",
         "name": [
             "Spore dusted",

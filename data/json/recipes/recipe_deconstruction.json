@@ -2417,5 +2417,35 @@
       [ [ "sheet_metal", 3 ] ],
       [ [ "rope_6", 1 ] ]
     ]
+  },
+  {
+    "result": "bundle_rag",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "qualities": [ { "id":"CUT", "level":1 } ],
+    "components": [
+      [ [ "rag", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_leather",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "qualities": [ { "id":"CUT", "level":1 } ],
+    "components": [
+      [ [ "leather", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_wool",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "qualities": [ { "id":"CUT", "level":1 } ],
+    "components": [
+      [ [ "felt_patch", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

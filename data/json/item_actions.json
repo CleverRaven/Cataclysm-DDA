@@ -161,10 +161,6 @@
         "name" : "Saw down barrel"
     },{
         "type" : "item_action",
-        "id" : "DIG",
-        "name" : "Clear rubble"
-    },{
-        "type" : "item_action",
         "id" : "ACIDBOMB_ACT",
         "name" : "Activate"
     },{
@@ -261,6 +257,10 @@
         "name" : "Chew"
     },{
         "type" : "item_action",
+        "id" : "CLEAR_RUBBLE",
+        "name" : "Clear rubble"
+    },{
+        "type" : "item_action",
         "id" : "COKE",
         "name" : "Snort coke"
     },{
@@ -287,6 +287,10 @@
         "type" : "item_action",
         "id" : "DATURA",
         "name" : "Eat"
+    },{
+        "type" : "item_action",
+        "id" : "DIG",
+        "name" : "Dig pit"
     },{
         "type" : "item_action",
         "id" : "DIRECTIONAL_ANTENNA",
@@ -327,6 +331,10 @@
         "type" : "item_action",
         "id" : "EYEDROPS",
         "name" : "Use"
+    },{
+        "type" : "item_action",
+        "id" : "FILL_PIT",
+        "name" : "Fill pit / tamp ground"
     },{
         "type" : "item_action",
         "id" : "FIRECRACKER",
@@ -759,6 +767,11 @@
     },
     {
         "type" : "item_action",
+        "id" : "BIRDFOOD",
+        "name" : "Place"
+    },
+    {
+        "type" : "item_action",
         "id" : "install_bionic",
         "name" : "Install bionic"
     },
@@ -771,5 +784,10 @@
         "type" : "item_action",
         "id" : "CHOP_LOGS",
         "name" : "Chop a Tree Trunk into logs"
+    },
+    {
+        "type" : "item_action",
+        "id" : "BREAK_STICK",
+        "name" : "Break stick"
     }
 ]
