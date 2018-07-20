@@ -90,10 +90,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
                               veh->parts[washing_machine_part].enabled;
+    const bool has_monster_capture = ( veh->part_with_feature( veh_root_part,
+                                       "CAPTURE_MONSTER_VEH" ) >= 0 );
+    const int monster_capture_part = veh->part_with_feature( veh_root_part, "CAPTURE_MONSTER_VEH" );
 
     typedef enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE
     } options;
     uimenu selectmenu;
 
@@ -156,6 +159,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( PURIFY_TANK, can_purify && veh->fuel_left( "water" ),
                              'P', _( "Purify water in vehicle tank" ) );
     }
+    if( has_monster_capture ) {
+        selectmenu.addentry( USE_MONSTER_CAPTURE, true, 'G', _( "Capture or release a creature" ) );
+    }
 
     int choice;
     if( selectmenu.entries.size() == 1 ) {
@@ -181,6 +187,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     };
 
     switch( static_cast<options>( choice ) ) {
+        case USE_MONSTER_CAPTURE: {
+            veh->use_monster_capture( monster_capture_part, pos );
+            return DONE;
+        }
 
         case USE_HOTPLATE:
             veh_tool( "hotplate" );

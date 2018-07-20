@@ -7675,6 +7675,17 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
+{
+    if( !it->has_flag( "VEHICLE" ) ) {
+        p->add_msg_if_player( m_info, _( "The %s must be installed in a vehicle before being loaded." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    capture_monster_act( p, it, 0, pos );
+    return 0;
+}
+
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->has_var( "contained_name" ) ) {

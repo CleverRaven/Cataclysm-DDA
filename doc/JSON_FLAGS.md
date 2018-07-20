@@ -467,6 +467,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```
+- ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO``` Cargo holding area.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
