@@ -887,11 +887,14 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
+            if( has_effect( effect_amoxicillin ) ) {
+                recover_factor += 300;
+            }
             recover_factor += get_healthy() / 10;
 
             if( x_in_y( recover_factor, 108000 ) ) {
                 //~ %s is bodypart name.
-                add_msg_if_player( m_good, _( "Your %s wound begins to feel better." ),
+                add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ).c_str() );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
@@ -904,7 +907,7 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
-            } else {
+            } else if( !has_effect( effect_amoxicillin ) ) {
                 it.mod_duration( 1_turns );
             }
         }

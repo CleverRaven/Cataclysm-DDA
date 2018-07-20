@@ -1344,7 +1344,7 @@
         "comestible_type" : "MED",
         "name" : "amoxicillin",
         "name_plural" : "amoxicillin",
-        "description" : "A broad-spectrum antibiotic used in treatment of infections. Typically used to supplement the immune system's natural defense.",
+        "description" : "A broad-spectrum antibiotic used to suppress infections and prevent them from setting in. It isn't strong enough to purge infections outright, but it boosts the body's resistance against them.",
         "weight" : 15,
         "volume" : 1,
         "price" : 1500,
@@ -1353,7 +1353,7 @@
         "material" : "plastic",
         "symbol" : "!",
         "color" : "white",
-        "healthy" : -5,
+        "healthy" : -2,
         "use_action" : "AMOXICILLIN",
         "flags" : "NPC_SAFE"
     }
