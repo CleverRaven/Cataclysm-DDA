@@ -3504,7 +3504,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
         return;
     }
-    if( p.has_trait( trait_NOPAIN ) ) {
+    if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id("bio_painkiller") ) ) {
         deadened = true;
     }
 
