@@ -1542,7 +1542,7 @@
     "time": 140000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "charcoal", 150 ] ] ]
+    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "charcoal", 200 ] ] ]
   },
   {
     "type": "recipe",
@@ -1555,7 +1555,7 @@
     "time": 290000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ] ], [ [ "charcoal", 675 ] ] ]
+    "components": [ [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ] ], [ [ "charcoal", 700 ] ] ]
   },
   {
     "type": "recipe",
@@ -1569,7 +1569,7 @@
     "autolearn": false,
     "never_learn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ], [ [ "charcoal", 75 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ], [ [ "charcoal", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -1584,7 +1584,7 @@
     "never_learn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "charcoal", 75 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "charcoal", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -1597,7 +1597,7 @@
     "time": 60000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "scrap", 7 ] ], [ [ "charcoal", 75 ] ] ]
+    "components": [ [ [ "scrap", 7 ] ], [ [ "charcoal", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -1610,6 +1610,6 @@
     "time": 60000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "scrap", 3 ] ], [ [ "charcoal", 75 ] ] ]
+    "components": [ [ [ "scrap", 3 ] ], [ [ "charcoal", 100 ] ] ]
   }
 ]
