@@ -2091,7 +2091,7 @@
         "type" : "furniture",
         "id" : "f_still",
         "name": "still",
-        "description": "Invaluable equipment in brewery and chemisty, that distilles liquids.",
+        "description": "Invaluable equipment in brewery and chemisty, that distills liquids.",
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
