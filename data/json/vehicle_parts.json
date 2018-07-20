@@ -1737,6 +1737,27 @@
   },
   {
     "type": "vehicle_part",
+    "id": "livestock_stall",
+    "name": "livestock stall",
+    "symbol": "=",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "dark_gray",
+    "durability": 250,
+    "description": "A cargo space for carrrying animals.  Examine it it to capture an animal next to it, or to release the animal currently contained.  While there is an animal the stall, it is impossible to access the cargo.",
+    "size": 800,
+    "item": "livestock_carrier",
+    "difficulty": 1,
+    "location": "center",
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 8 ] },
+      { "item": "steel_chunk", "count": [ 6, 8 ] },
+      { "item": "scrap", "count": [ 6, 8 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "recharge_station",
     "name": "UPS-compatible recharging station",
     "symbol": "o",
