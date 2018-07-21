@@ -586,7 +586,6 @@
     "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
-    "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
