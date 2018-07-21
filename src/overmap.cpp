@@ -2208,10 +2208,10 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
-            } else if (blink && showhordes && los && overmap_buffer.has_horde(omx, omy, z)) {
+            } else if (blink && showhordes && los && overmap_buffer.get_horde_size(omx, omy, z) >= HORDE_VISIBILITY_SIZE) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
-                ter_sym   = 'Z';
+                ter_sym   = overmap_buffer.get_horde_size(omx, omy, z) > HORDE_VISIBILITY_SIZE*2 ? 'Z' : 'z';
             } else if (blink && overmap_buffer.has_vehicle(omx, omy, z)) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
@@ -2558,6 +2558,11 @@ void overmap::draw_city_labels( const catacurses::window &w, const tripoint &cen
 tripoint overmap::draw_overmap()
 {
     return draw_overmap(g->u.global_omt_location(), draw_data_t());
+}
+
+tripoint overmap::draw_overmap( tripoint origin )
+{
+    return draw_overmap( origin, draw_data_t());
 }
 
 tripoint overmap::draw_overmap(int z)
@@ -3102,7 +3107,9 @@ void overmap::move_hordes()
             if(
                 !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
                 type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
+                this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
+                !this_monster.will_join_horde(INT_MAX) || // So are zombies who won't join a horde of any size.
                 this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
@@ -3110,28 +3117,37 @@ void overmap::move_hordes()
                 continue;
             }
 
-            // Scan for compatible hordes in this area.
+            // Scan for compatible hordes in this area, selecting the largest.
             mongroup *add_to_group = NULL;
             auto group_bucket = zg.equal_range(p);
+            std::vector<monster>::size_type add_to_horde_size = 0;
             std::for_each( group_bucket.first, group_bucket.second,
                 [&](std::pair<const tripoint, mongroup> &horde_entry ) {
                 mongroup &horde = horde_entry.second;
 
                 // We only absorb zombies into GROUP_ZOMBIE hordes
-                if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE) {
+                if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE && horde.monsters.size() > add_to_horde_size) {
                     add_to_group = &horde;
+                    add_to_horde_size = horde.monsters.size();
                 }
             });
 
-            // If there is no horde to add the monster to, create one.
-            if(add_to_group == NULL) {
-                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 1, 0);
-                m.horde = true;
-                m.monsters.push_back(this_monster);
-                m.interest = 0; // Ensures that we will select a new target.
-                add_mon_group( m );
-            } else {
-                add_to_group->monsters.push_back(this_monster);
+            // Check again if the zombie will join the largest horde, now that we know the accurate size.
+            if (this_monster.will_join_horde(add_to_horde_size)) {
+                // If there is no horde to add the monster to, create one.
+                if( add_to_group == NULL) {
+                    mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 1, 0);
+                    m.horde = true;
+                    m.monsters.push_back(this_monster);
+                    m.interest = 0; // Ensures that we will select a new target.
+                    add_mon_group( m );
+                } else {
+                    add_to_group->monsters.push_back(this_monster);
+                }
+            } else { // Bad luck--the zombie would have joined a larger horde, but not this one.  Skip.
+                // Don't delete the monster, just increment the iterator.
+                monster_map_it++;
+                continue;
             }
 
             // Delete the monster, continue iterating.

@@ -1596,6 +1596,10 @@ bool game::do_turn()
     if( player_is_sleeping ) {
         if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
             draw();
+            //Putting this in here to save on checking
+            if( calendar::once_every( 1_hours ) ) {
+                add_artifact_dreams( );
+            }
         }
 
         if( calendar::once_every( 1_minutes ) ) {
@@ -1827,6 +1831,11 @@ void game::increase_kill_count( const mtype_id& id )
 void game::record_npc_kill( const npc &p )
 {
    npc_kills.push_back( p.get_name() );
+}
+
+std::list<std::string> game::get_npc_kill()
+{
+   return npc_kills;
 }
 
 void game::handle_key_blocking_activity()
@@ -5102,11 +5111,13 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             tripoint const cur_pos {omx, omy, get_levz()};
-            if( overmap_buffer.has_horde( omx, omy, get_levz() )
-                && ( omx != targ.x || omy != targ.y )
-                && overmap_buffer.seen( omx, omy, get_levz() )
-                && g->u.overmap_los( cur_pos, sight_points ) ) {
-                mvwputch( w_minimap, j + 3, i + 3, c_green, 'Z' );
+            if (overmap_buffer.get_horde_size(omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE) {
+                tripoint const cur_pos {omx, omy, get_levz()};
+                if (overmap_buffer.seen(omx, omy, get_levz())
+                        && g->u.overmap_los( cur_pos, sight_points ) ) {
+                    mvwputch( w_minimap, j + 3, i + 3, c_green,
+                        overmap_buffer.get_horde_size(omx, omy, get_levz()) > HORDE_VISIBILITY_SIZE*2 ? 'Z' : 'z' );
+                }
             }
         }
     }
@@ -9820,6 +9831,7 @@ bool game::plfire()
                 return false;
             }
             reload_time += opt.moves();
+            u.recoil = MAX_RECOIL;
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
@@ -12699,13 +12711,13 @@ void game::update_map(int &x, int &y)
     // Put those in the active list.
     load_npcs();
 
+    // Make sure map cache is consistent since it may have shifted.
+    m.build_map_cache( get_levz() );
+
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
-
-    // Make sure map cache is consistent since it may have shifted.
-    m.build_map_cache( get_levz() );
 
     // Also ensure the player is on current z-level
     // get_levz() should later be removed, when there is no longer such a thing
@@ -13363,51 +13375,7 @@ void game::process_artifact( item &it, player &p )
         // Recharge it if necessary
         if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
             //Before incrementing charge, check that any extra requirements are met
-            const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
-            bool reqsmet = true;
-            switch( it.type->artifact->charge_req ) {
-            case(ACR_NULL):
-            case(NUM_ACRS):
-                break;
-            case(ACR_EQUIP):
-                //Generated artifacts won't both be wearable and have charges, but nice for mods
-                reqsmet = ( worn || heldweapon );
-                break;
-            case(ACR_SKIN):
-                //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
-                if( !worn && !heldweapon ){ reqsmet = false; break; }
-                for( const body_part bp : all_body_parts ) {
-                    if( it.covers(bp) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
-                        reqsmet = true;
-                        for ( auto &i : p.worn ) {
-                            if ( i.covers(bp) && ( &it != &i ) && i.get_coverage() > 50 ) {
-                                reqsmet = false; break; //This one's no good, check the next body part
-                            }
-                        }
-                        if(reqsmet){ break; } //Only need skin contact on one bodypart
-                    }
-                }
-                break;
-            case(ACR_SLEEP):
-                reqsmet = p.has_effect( effect_sleep );
-                break;
-            case(ACR_RAD):
-                reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
-                break;
-            case(ACR_WET):
-                reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
-                               []( const int w ) { return w != 0; } );
-                if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
-                    && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
-                   reqsmet = true;
-                }
-                break;
-            case(ACR_SKY):
-                reqsmet = ( p.posz() > 0 );
-                break;
-            }
-            //Proceed with actually recharging if all extra requirements met
-            if(reqsmet){
+            if( check_art_charge_req( it ) ) {
                 switch( it.type->artifact->charge_type ) {
                 case ARTC_NULL:
                 case NUM_ARTCS:
@@ -13578,6 +13546,57 @@ void game::process_artifact( item &it, player &p )
     p.int_cur = p.get_int();
     p.dex_cur = p.get_dex();
     p.per_cur = p.get_per();
+}
+//Check if an artifact's extra charge requirements are currently met
+bool check_art_charge_req( item& it )
+{
+    player& p = g->u;
+    bool reqsmet = true;
+    const bool worn = p.is_worn( it );
+    const bool wielded = ( &it == &p.weapon );
+    const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
+    switch( it.type->artifact->charge_req ) {
+    case(ACR_NULL):
+    case(NUM_ACRS):
+        break;
+    case(ACR_EQUIP):
+        //Generated artifacts won't both be wearable and have charges, but nice for mods
+        reqsmet = ( worn || heldweapon );
+        break;
+    case(ACR_SKIN):
+        //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
+        if( !worn && !heldweapon ){ reqsmet = false; break; }
+        for( const body_part bp : all_body_parts ) {
+            if( it.covers(bp) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
+                reqsmet = true;
+                for ( auto &i : p.worn ) {
+                    if ( i.covers(bp) && ( &it != &i ) && i.get_coverage() > 50 ) {
+                        reqsmet = false; break; //This one's no good, check the next body part
+                    }
+                }
+                if(reqsmet){ break; } //Only need skin contact on one bodypart
+            }
+        }
+        break;
+    case(ACR_SLEEP):
+        reqsmet = p.has_effect( effect_sleep );
+        break;
+    case(ACR_RAD):
+        reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+        break;
+    case(ACR_WET):
+        reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
+                       []( const int w ) { return w != 0; } );
+        if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
+            && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
+           reqsmet = true;
+        }
+        break;
+    case(ACR_SKY):
+        reqsmet = ( p.posz() > 0 );
+        break;
+    }
+    return reqsmet;
 }
 
 void game::start_calendar()
@@ -13787,6 +13806,48 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
     if (net_speed != 0) {
         add_msg(m_info, _("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
     }
+}
+
+void game::add_artifact_dreams( ) {
+    //If player is sleeping, get a dream from a carried artifact
+    //Don't need to check that player is sleeping here, that's done before calling
+    std::list<item *> art_items = g->u.get_artifact_items();
+    std::list<item *> arts_with_dream;
+    std::vector<item *>      valid_arts;
+    std::vector<std::vector<std::string>> valid_dreams; // Tracking separately so we only need to check its req once
+    //Pull the list of dreams
+    add_msg(m_debug, string_format("Checking %s carried artifacts", art_items.size() ) );
+    for( auto &it : art_items ) {
+        //Pick only the ones with an applicable dream
+        auto art = it->type->artifact;
+        if(art->charge_req != ACR_NULL && ( it->ammo_remaining() < it->ammo_capacity() || it->ammo_capacity() == 0 ) ) { //or max 0 in case of wacky mod shenanigans
+            add_msg(m_debug, string_format("Checking artifact %s", it->tname().c_str() ) );
+            if( check_art_charge_req( *it ) ) {
+                add_msg(m_debug, string_format("   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet ) );
+                if( art->dream_freq_met   > 0 && x_in_y( art->dream_freq_met,   100 ) ) {
+                    add_msg(m_debug, string_format("Adding met dream from %s", it->tname().c_str() ) );
+                    valid_arts.push_back( it );
+                    valid_dreams.push_back( art->dream_msg_met );
+                }
+            } else {
+                add_msg(m_debug, string_format("   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet ) );
+                if( art->dream_freq_unmet > 0 && x_in_y( art->dream_freq_unmet, 100 ) ) {
+                    add_msg(m_debug, string_format("Adding unmet dream from %s", it->tname().c_str() ) );
+                    valid_arts.push_back( it );
+                    valid_dreams.push_back( art->dream_msg_unmet );
+                }
+            }
+        }
+    }
+    if( !valid_dreams.empty() ) {
+        add_msg(m_debug, string_format("Found %s valid artifact dreams", valid_dreams.size() ) );
+        const int selected = rng( 0, valid_arts.size()-1 );
+        auto it = valid_arts[selected];
+        auto msg = random_entry( valid_dreams[selected] );
+        const std::string& dream = string_format( _( msg.c_str() ) , it->tname().c_str() );
+        add_msg( dream );
+    }
+    else{add_msg(m_debug,"Didn't have any dreams, sorry");}
 }
 
 int game::get_levx() const

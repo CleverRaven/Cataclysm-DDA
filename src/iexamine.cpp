@@ -723,7 +723,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
 }
 
 /**
- * Prompt removal of rubble. Select best shovel and invoke "DIG" on tile.
+ * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
  */
 void iexamine::rubble(player &p, const tripoint &examp)
 {
@@ -752,7 +752,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
         return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
     } );
 
-    p.invoke_item( *it, "DIG", examp );
+    p.invoke_item( *it, "CLEAR_RUBBLE", examp );
 }
 
 /**

@@ -653,6 +653,8 @@ class player : public Character
         bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
+        /** Reduce healing effect intensity, return initial intensity of the effect */
+        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
@@ -697,6 +699,8 @@ class player : public Character
         void get_sick();
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
+        /** Returns list of artifacts in player inventory. **/
+        std::list<item *> get_artifact_items();
 
         /** Adds an addiction to the player */
         void add_addiction(add_type type, int strength);
@@ -1164,6 +1168,7 @@ class player : public Character
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
+        void place_corpse( tripoint om_target ); // put corpse+inventory on defined om tile
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
@@ -1248,7 +1253,7 @@ class player : public Character
         void long_craft();
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe *making, int batch_size );
+        std::list<item> consume_components_for_craft( const recipe *making, int batch_size, bool ignore_last = false );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
@@ -1370,6 +1375,7 @@ class player : public Character
         int radiation;
         unsigned long cash;
         int movecounter;
+        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
 

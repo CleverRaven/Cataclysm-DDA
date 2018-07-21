@@ -914,6 +914,18 @@ static std::string string_input_popup_wrapper( const std::string &title, int wid
     return string_input_popup().title(title).width(width).description(desc).query_string();
 }
 
+/** Get reference to monster at given tripoint. */
+monster *get_monster_at( const tripoint &p )
+{
+    return g->critter_at<monster>( p );
+}
+
+/** Get reference to Creature at given tripoint. */
+Creature *get_critter_at( const tripoint &p )
+{
+    return g->critter_at( p );
+}
+
 /** Create a new monster of the given type. */
 monster *create_monster( const mtype_id &mon_type, const tripoint &p )
 {

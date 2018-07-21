@@ -32,9 +32,9 @@
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "rag", 3 ] ],
+      [ [ "rag", 3 ], [ "bandages_makeshift", 3 ], [ "bandages_makeshift_bleached", 3 ], [ "bandages_makeshift_boiled", 3 ] ],
       [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ],
-      [ [ "hard_liquor_toxic", 14, "LIST" ], [ "honey_glassed", 3 ], [ "honey_bottled", 6 ] ]
+      [ [ "hard_liquor_toxic", 2, "LIST" ], [ "honey_glassed", 3 ], [ "honey_bottled", 6 ] ]
     ]
   },
   {
@@ -51,6 +51,43 @@
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
       [ [ "disinfectant", 1 ], [ "thyme_oil", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
     ]
+  },
+  {
+    "result": "bandages_makeshift",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "tailor",
+    "time": 150,
+    "autolearn": true,
+    "charges": 1,
+    "components": [ [ [ "rag", 1 ] ] ]
+  },
+  {
+    "result": "bandages_makeshift_bleached",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 5000,
+    "batch_time_factors": [ 95, 4 ],
+    "autolearn": true,
+    "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "bleach", 1 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
+  },
+  {
+    "result": "bandages_makeshift_boiled",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 5000,
+    "batch_time_factors": [ 95, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 9, "LIST" ] ] ],
+    "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
   },
   {
     "result": "disinfectant",

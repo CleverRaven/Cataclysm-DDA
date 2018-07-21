@@ -4012,7 +4012,7 @@ bool item::is_salvageable() const
 
 bool item::is_funnel_container(units::volume &bigger_than) const
 {
-    if ( ! is_watertight_container() ) {
+    if ( !is_bucket() && !is_watertight_container() ) {
         return false;
     }
     // @todo; consider linking funnel to item or -making- it an active item
@@ -4248,7 +4248,8 @@ int item::gun_dispersion( bool with_ammo ) const
     // Dividing dispersion by 15 temporarily as a gross adjustment,
     // will bake that adjustment into individual gun definitions in the future.
     // Absolute minimum gun dispersion is 1.
-    dispersion_sum = std::max( static_cast<int>( std::round( dispersion_sum / 15.0 ) ), 1 );
+    double divider = get_option< float >( "GUN_DISPERSION_DIVIDER" );
+    dispersion_sum = std::max( static_cast<int>( std::round( dispersion_sum / divider) ), 1 );
 
     return dispersion_sum;
 }
@@ -4691,7 +4692,7 @@ ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname().c_str() );
 
-    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( pistol_gun_type ) ) {
+    } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
         return ret_val<bool>::make_failure( _("isn't big enough to use that mod") );
 
     } else if( mod.type->gunmod->location.str() == "underbarrel" && !mod.has_flag( "PUMP_RAIL_COMPATIBLE" ) && has_flag( "PUMP_ACTION" ) ) {

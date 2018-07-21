@@ -30,6 +30,7 @@
 #include <sstream>
 #include <numeric>
 
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -38,6 +39,7 @@ const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
+const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
@@ -1951,13 +1953,13 @@ float Character::get_hit_base() const
 
 hp_part Character::body_window( bool precise ) const
 {
-    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0 );
+    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0, 0, 0 );
 }
 
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                bool bleed, bool bite, bool infect ) const
+                                bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const
 {
     catacurses::window hp_window = catacurses::newwin( 10, 31, ( TERMY - 10 ) / 2, ( TERMX - 31 ) / 2 );
     draw_border(hp_window);
@@ -2011,7 +2013,7 @@ hp_part Character::body_window( const std::string &menu_header,
             e.allowed = true;
         } else if( limb_is_broken ) {
             continue;
-        } else if( current_hp < maximal_hp && e.bonus != 0 ) {
+        } else if( current_hp < maximal_hp && ( e.bonus != 0 || is_bandage || is_disinfectant ) ) {
             e.allowed = true;
         } else {
             continue;
@@ -2644,4 +2646,55 @@ float Character::healing_rate( float at_rest_quality ) const
     }
 
     return final_rate;
+}
+
+float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
+{
+    float rate_medicine = 0.0f;
+    float bandaged_rate = 0.0f;
+    float disinfected_rate = 0.0f;
+
+    const effect &e_bandaged = get_effect( effect_bandaged, bp );
+    const effect &e_disinfected = get_effect( effect_disinfected, bp );
+
+    if( !e_bandaged.is_null() ) {
+        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        if( bp == bp_head ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+        }
+        if( bp == bp_torso ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+        }
+    }
+
+    if( !e_disinfected.is_null() ) {
+        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        if( bp == bp_head ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+        }
+        if( bp == bp_torso ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+        }
+    }
+
+    rate_medicine += bandaged_rate + disinfected_rate;
+    rate_medicine *= 1.0f + mutation_value( "healing_resting" );
+    rate_medicine *= 1.0f + at_rest_quality;
+
+    // increase healing if character has both effects
+    if( !e_bandaged.is_null() && !e_disinfected.is_null() ){
+        rate_medicine *= 2;
+    }
+
+    if( get_healthy() > 0.0f ) {
+        rate_medicine *= 1.0f + get_healthy() / 200.0f;
+    } else {
+        rate_medicine *= 1.0f + get_healthy() / 400.0f;
+    }
+    float primary_hp_mod = mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        // HP mod can't get below -1.0
+        rate_medicine *= 1.0f + primary_hp_mod;
+    }
+    return rate_medicine;
 }
