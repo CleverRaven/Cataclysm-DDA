@@ -2462,5 +2462,12 @@
       [ [ "medical_gauze", 6 ] ],
       [ [ "booklet_firstaid", 1 ] ]
     ]
+  },
+  {
+    "result": "garlic",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "garlic_clove", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

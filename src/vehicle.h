@@ -79,6 +79,8 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
     units::volume max_volume() const override;
 };
 
+char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
+
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
@@ -591,12 +593,6 @@ public:
     // Engine backfire, making a loud noise
     void backfire( const int e ) const;
 
-    // Honk the vehicle's horn, if there are any
-    void honk_horn();
-    void beeper_sound();
-    void play_music();
-    void play_chimes();
-    void operate_planter();
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -1136,6 +1132,14 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
+    // Honk the vehicle's horn, if there are any
+    void honk_horn();
+    void beeper_sound();
+    void play_music();
+    void play_chimes();
+    void operate_planter();
+    std::string tracking_toggle_string();
+    void toggle_tracking();
     //scoop operation,pickups, battery drain, etc.
     void operate_scoop();
     void operate_reaper();

@@ -28,7 +28,7 @@
     "broken_color": "light_blue",
     "difficulty": 2,
     "durability": 100,
-    "description": "An extendable, cantilever crane.  Can be used to jack up another vehicle to change the other vehicle's wheels, or lift a heavy component like an engine from another vehicle.",
+    "description": "An extendable cantilever crane.  Can be used to jack up another vehicle to change the other vehicle's wheels, or lift a heavy component like an engine from another vehicle.",
     "folded_volume": 12,
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 7 ] ],
