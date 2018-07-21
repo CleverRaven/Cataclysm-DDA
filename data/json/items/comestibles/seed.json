@@ -575,4 +575,3 @@
     "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": 120 }
   }
 ]
-
