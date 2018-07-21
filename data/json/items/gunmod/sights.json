@@ -30,7 +30,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": ["bow"],
+    "mod_targets": [ "bow" ],
     "sight_dispersion": 22,
     "aim_speed": 7
   },
@@ -47,10 +47,10 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": ["bow"],
+    "mod_targets": [ "bow" ],
     "sight_dispersion": 1,
     "aim_speed": 2,
-    "min_skills": [ ["archery", 3] ]
+    "min_skills": [ [ "archery", 3 ] ]
   },
   {
     "id": "holo_sight",
