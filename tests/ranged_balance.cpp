@@ -222,7 +222,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
         arm_shooter( shooter, "tommygun", { "holo_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 4, 7, 20 );
+        test_shooting_scenario( shooter, 4, 6, 18 );
         test_fast_shooting( shooter, 70, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
