@@ -323,7 +323,7 @@
          "encumbrance" : 14
       },
       "reload_noise_volume": 3,
-	  "loudness": 6,
+      "loudness": 6,
       "ranged_damage" : 4,
       "range" : 4,
       "dispersion" : 210,
