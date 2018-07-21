@@ -36,6 +36,8 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 #include "bionics.h"
+#include "inventory.h"
+#include "craft_command.h"
 
 #include <sstream>
 #include <algorithm>
@@ -3742,15 +3744,39 @@ void smoker_finalize(player &, const tripoint &examp)
     g->m.furn_set( examp, next_smoker_type );
 }
 
-void load_smoking_rack( player &p, const tripoint &examp )
+void smoker_load_food( player &p, const tripoint &examp )
 {
     std::vector<item_comp> comps;
-    std::vector<item_comp> selected;
-    std::vector<const item *> s_filter = p.crafting_inventory().items_with( []( const item & it ) {
+    std::list<item> moved;
+
+    // filter SMOKABLE
+    inventory inv = p.crafting_inventory();
+    std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
         return it.has_flag( "SMOKABLE" );
     } );
-    for( const item *smokable_item : s_filter ) {
-        comps.push_back( item_comp( smokable_item->typeId(), 1 ) );
+
+    uimenu smenu;
+    smenu.text = _( "Load smoking rack with what kind of food?" );
+    smenu.return_invalid = true;
+    // count and ask for item ...
+    int count = 0;
+    for( const item *smokable_item : filtered ) {
+
+        if( smokable_item->count_by_charges() ) {
+            count = inv.charges_of( smokable_item->typeId() );
+            add_msg( "One: %s", count ); //TEMP DEBUG
+            count -= count_charges_in_list( smokable_item->type, g->m.i_at( examp ) );
+            add_msg( "Two: %s", count_charges_in_list( smokable_item->type, g->m.i_at( examp ) ) ); //TEMP DEBUG
+        } else {
+            count = inv.amount_of( smokable_item->typeId() );
+            count -= count_charges_in_list( smokable_item->type, g->m.i_at( examp ) );
+        }
+        if( count != 0 ){
+        smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
+        comps.push_back( item_comp( smokable_item->typeId(), count ) );
+        add_msg("Comps pushed: %s", count); //TEMP DEBUG
+        }
+        count = 0;
     }
 
     if( comps.size() == 0 ) {
@@ -3758,27 +3784,48 @@ void load_smoking_rack( player &p, const tripoint &examp )
         return;
     }
 
-    uimenu smenu;
-    smenu.text = _( "Load smoking rack with what?" );
-    smenu.return_invalid = true;
-
-    for( auto &comp : comps ) {
-        smenu.addentry( item::nname( comp.type, 1 ) );
-    }
-
     smenu.addentry( -1, true, 'q', _( "Cancel." ) );
     smenu.query();
 
-    if( static_cast<size_t>( smenu.ret ) >= comps.size() ) {
+    if( static_cast<size_t>( smenu.ret ) >= filtered.size() ) {
         add_msg(m_info, _( "Never mind." ) );
         return;
     }
-    
-    selected.push_back( item_comp( comps[smenu.ret].type, 1 ) );
-    std::list<item> consumed;
-    consumed = p.consume_items( selected );
-    g->m.add_item( examp, consumed.front() );
-    return;
+    count = 0;
+    auto what = filtered[smenu.ret];
+    for( auto c : comps ) {
+        if( c.type == what->typeId() ) {
+            count = c.count;
+            add_msg("Count from comps: %s", count); //TEMP DEBUG
+        }
+    }
+
+    // ... then ask how many to put it 
+    const std::string popupmsg = string_format(_("Insert how many %s into the rack?"),
+                                 item::nname( what->typeId(), count ).c_str() );
+    long amount = string_input_popup()
+                  .title( popupmsg )
+                  .width( 20 )
+                  .text( to_string( count ) )
+                  .only_digits( true )
+                  .query_long();
+
+    if( amount == 0 ) {
+        add_msg(m_info, _( "Never mind." ) );
+        return;
+    }
+
+    // reload comps with chosen items and quantity
+    comps.clear();
+    comps.push_back( item_comp( what->typeId(), amount ) );
+
+    // select from where to get the items from and place them
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
+    moved = p.consume_items( selected, 1 );
+    for( item m : moved ) {
+        g->m.add_item( examp, m );
+    }
 }
 
 void iexamine::on_smoke_out( const tripoint &examp )
@@ -3898,7 +3945,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             break;
             }
         case 1: // load food
-            load_smoking_rack( p, examp );
+            smoker_load_food( p, examp );
             break;
         case 2: // load charcoal
             reload_furniture( p, examp );
