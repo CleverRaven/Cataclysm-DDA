@@ -45,7 +45,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
-    "mod_targets": ["bow"],
+    "mod_targets": [ "bow" ],
     "dispersion_modifier": -40,
     "handling_modifier": 6,
     "min_skills": [ [ "archery", 2 ] ],
