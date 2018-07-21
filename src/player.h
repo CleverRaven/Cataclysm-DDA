@@ -270,7 +270,7 @@ class player : public Character
         bool in_climate_control();
 
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Uses anesthetic kits or NOPAIN mutation */
-        void introduce_into_anesthesia( time_duration const &duration, bool deadened );
+        void introduce_into_anesthesia( time_duration const &duration, bool needs_anesthesia );
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */

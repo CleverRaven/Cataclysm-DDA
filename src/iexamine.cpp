@@ -3485,7 +3485,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     bool adjacent_couch = false;
     bool in_position = false;
-    bool deadened = false;
+    bool needs_anesthesia = true;
     for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
         if( g->m.furn( couch_loc ) == couch ) {
@@ -3505,7 +3505,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id("bio_painkiller") ) ) {
-        deadened = true;
+        needs_anesthesia = false;
     }
 
     const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
@@ -3550,14 +3550,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            if( !has_anesthesia && !deadened ) {
+            if( !has_anesthesia && needs_anesthesia ) {
                 popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
                 return;
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( p.install_bionics( *itemtype ) ) {
-                p.introduce_into_anesthesia( duration, !deadened );
+                p.introduce_into_anesthesia( duration, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps );
@@ -3572,7 +3572,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            if( !has_anesthesia && !deadened ) {
+            if( !has_anesthesia && needs_anesthesia ) {
                 popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
                 return;
             }
@@ -3606,7 +3606,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
             if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
-                p.introduce_into_anesthesia( duration, !deadened );
+                p.introduce_into_anesthesia( duration, needs_anesthesia );
             }
             break;
         }
