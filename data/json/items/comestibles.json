@@ -4496,19 +4496,12 @@
     "quench": -18,
     "healthy": 1,
     "nutrition": 18,
-    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.",
+    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.  Can be disassembled to cloves.",
     "price": 600,
     "material": "veggy",
     "volume": 1,
     "fun": -18,
-    "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?",
-    "use_action": {
-      "target": "garlic_clove",
-      "msg": "You split the bulb into cloves.",
-      "target_charges": 6,
-      "menu_text": "Split",
-      "type": "transform"
-    }
+    "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?"
   },
   {
     "type": "COMESTIBLE",
