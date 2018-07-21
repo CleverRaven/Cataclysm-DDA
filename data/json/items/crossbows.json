@@ -122,7 +122,7 @@
       "volume" : 6,
       "bashing" : 11,
       "to_hit" : 1,
-      "loudness" : 10
+      "loudness" : 10,
       "ranged_damage" : 17,
       "range" : 9,
       "dispersion" : 150,
