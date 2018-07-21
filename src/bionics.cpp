@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "overmap.h"
+#include "options.h"
 #include "effect.h"
 #include "json.h"
 #include "itype.h"
@@ -798,8 +799,15 @@ void bionics_uninstall_failure( player *u )
 
 // bionic manipulation chance of success
 int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechanics,
-                      int bionic_difficulty )
+                      int bionic_difficulty, bool autodoc )
 {
+    int chance_of_success = 0;
+
+    if( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) {
+        chance_of_success = 100;
+        return chance_of_success;
+    }
+
     int pl_skill = p_int         * 4 +
                    s_electronics * 4 +
                    s_firstaid    * 3 +
@@ -822,13 +830,13 @@ int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechan
     // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
-    int chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
+    chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
                                  ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
 
-bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
+bool player::uninstall_bionic( bionic_id const &b_id, int skill_level, bool autodoc )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
@@ -876,22 +884,29 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
                                               skill_level,
                                               skill_level,
                                               skill_level,
-                                              difficulty + 2 );
+                                              difficulty + 2, autodoc );
     } else {
         ///\EFFECT_INT increases chance of success removing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
                                               get_skill_level( skilll_electronics ),
                                               get_skill_level( skilll_firstaid ),
                                               get_skill_level( skilll_mechanics ),
-                                              difficulty + 2 );
+                                              difficulty + 2, autodoc );
     }
 
-    if( !query_yn(
-            _( "WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?" ),
-            100 - chance_of_success ) ) {
+    if ( chance_of_success >= 100 ){
+        if( !query_yn(
+                _( "Are you sure you wish to uninstall the selected bionic?" ),
+                100 - chance_of_success ) ) {
+            return false;
+                }
+    } else {
+        if( !query_yn(
+            _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+            ( 100 - int( chance_of_success ) ) ) ) {
         return false;
+                }
     }
-
     // Surgery is imminent, retract claws or blade if active
     if( skill_level == -1 ) {
         for( size_t i = 0; i < my_bionics->size(); i++ ) {
@@ -934,7 +949,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
     return true;
 }
 
-bool player::install_bionics( const itype &type, int skill_level )
+bool player::install_bionics( const itype &type, int skill_level, bool autodoc )
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -949,14 +964,14 @@ bool player::install_bionics( const itype &type, int skill_level )
                                               skill_level,
                                               skill_level,
                                               skill_level,
-                                              difficult );
+                                              difficult, autodoc );
     } else {
         ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
                                               get_skill_level( skilll_electronics ),
                                               get_skill_level( skilll_firstaid ),
                                               get_skill_level( skilll_mechanics ),
-                                              difficult );
+                                              difficult, autodoc );
     }
 
     const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
@@ -973,10 +988,18 @@ bool player::install_bionics( const itype &type, int skill_level )
         return false;
     }
 
-    if( !query_yn(
+    if ( chance_of_success >= 100 ){
+        if( !query_yn(
+                _( "Are you sure you wish to install the selected bionic?" ),
+                100 - chance_of_success ) ) {
+            return false;
+                }
+    } else {
+        if( !query_yn(
             _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
             ( 100 - int( chance_of_success ) ) ) ) {
         return false;
+            }
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
