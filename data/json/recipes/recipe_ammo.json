@@ -782,6 +782,60 @@
   ]
 },{
   "type" : "recipe",
+  "result": "bolt_steel_bodkin",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 10000,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1}
+  ],
+     "tools": [
+    [
+      ["forge", 7],
+      ["oxy_torch", 2]
+      ]
+    ],
+     "components": [
+    [
+      ["steel_chunk", 2]
+    ],
+    [
+      ["scrap", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bolt_steel_target",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 10000,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1}
+  ],
+     "tools": [
+    [
+      ["forge", 7],
+      ["oxy_torch", 2]
+      ]
+    ],
+     "components": [
+    [
+      ["steel_chunk", 2]
+    ],
+    [
+      ["scrap", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bolt_explosive",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
