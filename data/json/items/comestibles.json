@@ -2020,7 +2020,7 @@
     "description": "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
     "price": 600,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
@@ -2348,7 +2348,7 @@
     "description": "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -2991,6 +2991,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 4,
+    "flags": [ "SMOKABLE" ],
     "fun": 3
   },
   {
@@ -3949,6 +3950,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -3,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3986,7 +3988,7 @@
     "price": 140,
     "material": "veggy",
     "volume": 1,
-    "flags": "HIDDEN_HALLU",
+    "flags": [ "HIDDEN_HALLU", "SMOKABLE" ],
     "fun": -3
   },
   {
@@ -4024,6 +4026,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": 1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4411,6 +4414,7 @@
     "material": "veggy",
     "volume": 3,
     "charges": 4,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4430,6 +4434,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -2,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4449,6 +4454,7 @@
     "price": 90,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4487,7 +4493,7 @@
     "price": 400,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4505,7 +4511,7 @@
     "price": 300,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4525,6 +4531,7 @@
     "volume": 1,
     "fun": -1,
     "fun_comment": "Raw onions probably aren't all that tasty to most people.",
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4571,6 +4578,7 @@
     "volume": 1,
     "charges": 6,
     "fun": -1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -6239,6 +6247,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -3,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9753,6 +9762,7 @@
     "price": 200,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
