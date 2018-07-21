@@ -646,6 +646,22 @@
     ]
   },
   {
+    "result": "spearsling",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "stabbing", 2 ],
+    "time": 15000,
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "rag", 7 ], [ "felt_patch", 7 ], [ "leather", 7 ], [ "fur", 7 ] ],
+      [ [ "filament", 20, "LIST" ], [ "cordage", 2, "LIST" ] ]
+    ]
+  },
+  {
     "result": "straw_basket",
     "type": "recipe",
     "category": "CC_ARMOR",

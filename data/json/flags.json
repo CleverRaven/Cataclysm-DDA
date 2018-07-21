@@ -243,6 +243,12 @@
     "description": "This item can be stored in a scabbard of the appropriate size."
   },
   {
+    "id": "SHEATH_SPEAR",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a sling of the appropriate size."
+  },
+  {
     "id": "SKINTIGHT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
