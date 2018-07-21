@@ -231,7 +231,7 @@
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["steel"],
-        "techniques" : ["WBLOCK_2"],
+        "techniques" : ["WBLOCK_1"],
         "volume" : 14,
         "bashing" : 19,
         "category" : "veh_parts",
