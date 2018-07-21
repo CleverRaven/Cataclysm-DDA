@@ -831,7 +831,7 @@ int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechan
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
     chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
-                                 ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                             ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
@@ -894,18 +894,18 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level, bool auto
                                               difficulty + 2, autodoc );
     }
 
-    if ( chance_of_success >= 100 ){
+    if( chance_of_success >= 100 ) {
         if( !query_yn(
                 _( "Are you sure you wish to uninstall the selected bionic?" ),
                 100 - chance_of_success ) ) {
             return false;
-                }
+        }
     } else {
         if( !query_yn(
-            _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
-            ( 100 - int( chance_of_success ) ) ) ) {
-        return false;
-                }
+                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                ( 100 - int( chance_of_success ) ) ) ) {
+            return false;
+        }
     }
     // Surgery is imminent, retract claws or blade if active
     if( skill_level == -1 ) {
@@ -988,18 +988,18 @@ bool player::install_bionics( const itype &type, int skill_level, bool autodoc )
         return false;
     }
 
-    if ( chance_of_success >= 100 ){
+    if( chance_of_success >= 100 ) {
         if( !query_yn(
                 _( "Are you sure you wish to install the selected bionic?" ),
                 100 - chance_of_success ) ) {
             return false;
-                }
+        }
     } else {
         if( !query_yn(
-            _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
-            ( 100 - int( chance_of_success ) ) ) ) {
-        return false;
-            }
+                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                ( 100 - int( chance_of_success ) ) ) ) {
+            return false;
+        }
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
