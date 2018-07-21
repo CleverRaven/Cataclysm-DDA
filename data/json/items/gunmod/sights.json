@@ -38,7 +38,7 @@
     "id": "bow_scope",
     "type": "GUNMOD",
     "name": "bow scope",
-    "description": "A single magnifying scope mounted on an adjustable bracket, with accompanying clarifier peep sight.  Designed for extra long shots, but easily adjusted for short range. Spectacularly accurate.",
+    "description": "A single magnifying scope mounted on an adjustable bracket, with accompanying clarifier peep sight.  Designed for extra long shots, but easily adjusted for short range.  Spectacularly accurate.",
     "weight": 180,
     "volume": 1,
     "integral_volume": 0,
