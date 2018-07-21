@@ -5459,7 +5459,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "pipe_glass",
@@ -6716,10 +6716,10 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "knife spear",
-    "description": "This is a simple wood pole made much more deadly by the blade tied to it.",
+    "description": "A crude pole made of wood with an equally crude metal spike tied to it.  It's long enough to slice from a distance, but its crude construction means it won't last long.",
     "weight": 1487,
-    "volume": 6,
-    "price": 1400,
+    "volume": 5,
+    "price": 700,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 16,
@@ -6728,7 +6728,24 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ]
+  },
+  {
+    "id": "spear_homemade_halfpike",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "homemade halfpike",
+    "description": "A short do-it-yourself spear made of a smooth wooden shaft with a shaped metal shape seated and bound into place at its tip.  Its functional grip and decent construction makes it a usable, if not effective, weapon.",
+    "weight": 1814,
+    "volume": 6,
+    "price": 1400,
+    "to_hit": 1,
+    "bashing": 2,
+    "cutting": 19,
+    "material": [ "wood", "iron" ],
+    "symbol": "/",
+    "color": "brown",
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "spray_can",

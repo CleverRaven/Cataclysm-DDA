@@ -9831,6 +9831,7 @@ bool game::plfire()
                 return false;
             }
             reload_time += opt.moves();
+            u.recoil = MAX_RECOIL;
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;

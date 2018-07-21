@@ -123,7 +123,9 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
-    { activity_id( "ACT_FILL_PIT" ), fill_pit_finish }
+    { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_SHAVE" ), shaving_finish },
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p ) {
@@ -2240,5 +2242,17 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p ) {
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish filling up %s."), old_ter.obj().name() );
 
+    act->set_to_null();
+}
+
+void activity_handlers::shaving_finish( player_activity *act, player *p ) {
+    p->add_msg_if_player( _( "You open up your kit and shave." ) );
+    p->add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+    act->set_to_null();
+}
+
+void activity_handlers::haircut_finish( player_activity *act, player *p ) {
+    p->add_msg_if_player( _( "You give your hair a trim." ) );
+    p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
     act->set_to_null();
 }
