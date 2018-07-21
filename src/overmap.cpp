@@ -1869,6 +1869,8 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
+    // Half of overmaps have a 1-in-3 chance of being subway connected.
+    // If the central lab exists, all labs which go down to z=4 will have a subway to central.
     int lab_train_odds = 0;
     if ( z == -2 && one_in(2)) lab_train_odds = 3;
     if ( z == -4 && !central_lab_points.empty() ) lab_train_odds = 1;
