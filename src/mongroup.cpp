@@ -294,21 +294,21 @@ void MonsterGroupManager::FinalizeMonsterGroups()
         }
     }
     // If we have the classic zombies option, remove non-conforming monsters
-    if ( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         for( auto &elem : monsterGroupMap ) {
             MonsterGroup &mg = elem.second;
             for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
                 // Test mon
                 const mtype &mt = c->name.obj();
 
-                if ( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
+                if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
                     c = mg.monsters.erase( c );
                 } else {
                     ++c;
                 }
             }
             const mtype &mt = mg.defaultMonster.obj();
-            if ( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
+            if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
                 mg.defaultMonster = mtype_id::NULL_ID();
             }
         }
