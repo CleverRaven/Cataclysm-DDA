@@ -41,15 +41,15 @@
     "weight": 300,
     "volume": 2,
     "price": 15000,
-    "material": ["aluminum", "plastic"],
+    "material": [ "aluminum", "plastic" ],
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
     "mod_targets": ["bow"],
     "dispersion_modifier": -40,
     "handling_modifier": 6,
-    "min_skills": [ ["archery", 2] ],
-    "flags": ["NEEDS_UNFOLD"]
+    "min_skills": [ [ "archery", 2 ] ],
+    "flags": [ "NEEDS_UNFOLD" ]
   },
   {
     "id": "bow_silencer",
@@ -59,15 +59,15 @@
     "weight": 50,
     "volume": 1,
     "price": 500,
-    "material": ["plastic"],
+    "material": [ "plastic" ],
     "symbol": ":",
     "color": "brown",
     "location": "dampening",
-    "mod_targets": ["bow", "crossbow", "rifle"],
+    "mod_targets": [ "bow", "crossbow", "rifle" ],
     "dispersion_modifier": -2,
     "loudness_modifier": -8,
     "handling_modifier": 1,
-    "min_skills": [ ["weapon", 2] ]
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "brass_catcher",
