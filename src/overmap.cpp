@@ -1834,7 +1834,7 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "ice_lab_stairs") {
                 ter(i, j, z) = oter_id( "ice_lab" );
             } else if (oter_above == "central_lab_core") {
-                central_lab_points.push_back(city(i, j, rng(1, 9 + z)));
+                central_lab_points.push_back(city(i, j, rng(std::max(1, 7 + z), 9 + z)));
             } else if (oter_above == "central_lab_stairs") {
                 ter(i, j, z) = oter_id( "central_lab" );
             } else if (oter_above == "mine_entrance") {
@@ -3619,7 +3619,8 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         const int &cy = cand->y;
         int dist = abs( x - cx ) + abs( y - cy );
         if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
-            if( one_in( dist / 2 + 1 ) ) { // odds diminish farther away from the stairs
+            int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
+            if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
                 ter( cx, cy, z ) = labt;
                 generated_lab.push_back( *cand );
                 // add new candidates, don't backtrack
