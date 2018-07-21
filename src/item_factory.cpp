@@ -521,7 +521,6 @@ void Item_factory::init()
     add_iuse( "ALCOHOL", &iuse::alcohol_medium );
     add_iuse( "ALCOHOL_STRONG", &iuse::alcohol_strong );
     add_iuse( "ALCOHOL_WEAK", &iuse::alcohol_weak );
-    add_iuse( "AMOXICILLIN", &iuse::amoxicillin );
     add_iuse( "ANTIBIOTIC", &iuse::antibiotic );
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
@@ -680,6 +679,7 @@ void Item_factory::init()
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
+    add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );

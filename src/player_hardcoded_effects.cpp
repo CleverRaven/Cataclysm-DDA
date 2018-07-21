@@ -24,7 +24,7 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_amoxicillin( "amoxicillin" );
+const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -887,8 +887,8 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_amoxicillin ) ) {
-                recover_factor += 300;
+            if( has_effect( effect_weak_antibiotic ) ) {
+                recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
 
@@ -907,7 +907,7 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
-            } else if( !has_effect( effect_amoxicillin ) ) {
+            } else if( !has_effect( effect_weak_antibiotic ) || calendar::once_every( 8_turns ) ) {
                 it.mod_duration( 1_turns );
             }
         }
@@ -923,8 +923,8 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_amoxicillin ) ) {
-                recover_factor += 300;
+            if( has_effect( effect_weak_antibiotic ) ) {
+                recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
 
@@ -946,7 +946,7 @@ void player::hardcoded_effects( effect &it )
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
             }
-            if( !has_effect( effect_amoxicillin ) ) {
+            if( !has_effect( effect_weak_antibiotic ) || calendar::once_every( 8_turns ) ) {
                 it.mod_duration( 1_turns );
             }
         }

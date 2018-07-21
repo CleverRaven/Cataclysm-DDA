@@ -95,7 +95,7 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_amoxicillin( "amoxicillin" );
+const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -7932,9 +7932,9 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-int iuse::amoxicillin( player *p, item *it, bool, const tripoint & )
+int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
-    p->add_effect( effect_amoxicillin, 12_hours );
+    p->add_effect( effect_weak_antibiotic, 12_hours );
     return it->type->charges_to_use();
 }

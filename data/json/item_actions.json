@@ -792,7 +792,7 @@
     },
     {
         "type" : "item_action",
-        "id" : "AMOXICILLIN",
-        "name" : "Take amoxicillin"
+        "id" : "WEAK_ANTIBIOTIC",
+        "name" : "Take"
     }
 ]
