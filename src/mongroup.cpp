@@ -343,7 +343,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
         while( monarr.has_more() ) {
             JsonObject mon = monarr.next_object();
             const mtype_id name = mtype_id( mon.get_string( "monster" ) );
-            
+
             int freq = mon.get_int( "freq" );
             int cost = mon.get_int( "cost_multiplier" );
             int pack_min = 1;
