@@ -3627,7 +3627,7 @@ void smoker_activate(player &p, const tripoint &examp)
     auto items = g->m.i_at( examp );
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &it = items[i];
-        if( it.has_flag( "SMOKED" ) ) {
+        if( it.has_flag( "SMOKED" ) && !it.has_flag( "SMOKABLE" ) ) {
             add_msg( _( "This rack already contains smoked food." ) );
             add_msg( _( "Remove it before firing the smoking rack again." ) );
             return;
@@ -3641,6 +3641,9 @@ void smoker_activate(player &p, const tripoint &examp)
             g->m.i_rem( examp, i );
             i--;
             return;
+        }
+        if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
+            add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
         }
     }
     if( !food_present ) {
@@ -3730,6 +3733,38 @@ void smoker_finalize(player &, const tripoint &examp)
             product = "mannwurst";
         } else if( item_it->typeId() == "human_flesh" ) { 
             product = "human_smoked";
+        } else if( item_it->typeId() == "meat_smoked" ) {
+            product = "dry_meat";
+        } else if( item_it->typeId() == "fish_smoked" ) {
+            product = "dry_fish";
+        } else if( item_it->typeId() == "raw_beans" ) {
+            product = "dry_beans";
+        } else if( item_it->typeId() == "sweet_fruit" || item_it->typeId() == "coconut" || item_it->typeId() == "can_coconut" ) {
+            product = "dry_fruit";
+        } else if( item_it->typeId() == "human_smoked" ) {
+            product = "dry_hflesh";
+        } else if( item_it->typeId() == "meat_tainted" ) {
+            product = "dry_meat_tainted";
+        } else if( item_it->typeId() == "mushroom" || item_it->typeId() == "mushroom_morel" ) {
+            product = "dry_mushroom";
+        } else if( item_it->typeId() == "mushroom_magic" ) {
+            product = "dry_mushroom_magic";
+        } else if( item_it->typeId() == "broccoli" ||
+            item_it->typeId() == "tomato" ||
+            item_it->typeId() == "pumpkin" ||
+            item_it->typeId() == "zucchini" ||
+            item_it->typeId() == "celery" ||
+            item_it->typeId() == "potato_raw" ||
+            item_it->typeId() == "onion" ||
+            item_it->typeId() == "carrot" ||
+            item_it->typeId() == "cabbage" ||
+            item_it->typeId() == "lettuce" ||
+            item_it->typeId() == "veggy" ||
+            item_it->typeId() == "veggy_wild" ||
+            item_it->typeId() == "dandelion_cooked" ) {
+            product = "dry_veggy";
+        } else if( item_it->typeId() == "veggy_tainted" ) {
+            product = "dry_veggy_tainted";
         } else {
             product = "";
             item_it++;

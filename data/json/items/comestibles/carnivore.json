@@ -249,7 +249,7 @@
     "quench": -1,
     "fun": 5,
     "proportional": { "price": 6, "calories": 0.95 },
-    "flags": [ "EATEN_HOT", "SMOKED" ]
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
   },
   {
     "id": "fish_smoked",
@@ -268,7 +268,7 @@
     "healthy": 1,
     "fun": 6,
     "proportional": { "price": 2, "calories": 0.95 },
-    "flags": [ "EATEN_HOT", "SMOKED" ]
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
   },
   {
     "id": "human_smoked",
@@ -285,6 +285,6 @@
     "quench": -1,
     "fun": 5,
     "proportional": { "price": 20, "calories": 0.95 },
-    "flags": [ "EATEN_HOT", "SMOKED" ]
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
   }
 ]
