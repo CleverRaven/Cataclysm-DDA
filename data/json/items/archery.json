@@ -351,7 +351,7 @@
       "reload_noise_volume": 3,
       "loudness": 10,
       "ranged_damage" : 18,
-      "range" : ,
+      "range" : 18,
       "dispersion" : 100,
       "durability" : 6,
       "clip_size" : 1,
