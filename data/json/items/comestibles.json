@@ -4496,7 +4496,7 @@
     "quench": -18,
     "healthy": 1,
     "nutrition": 18,
-    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.",
+    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.  Can be disassembled to cloves.",
     "price": 600,
     "material": "veggy",
     "volume": 1,
