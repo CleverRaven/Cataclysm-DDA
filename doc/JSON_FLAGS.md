@@ -714,6 +714,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
 - ```SKINTIGHT``` Undergarment layer.
+- ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
+- ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
 - ```STURDY``` This clothing is a lot more resistant to damage than normal.
 - ```SUN_GLASSES``` Prevents glaring when in sunlight.
 - ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
