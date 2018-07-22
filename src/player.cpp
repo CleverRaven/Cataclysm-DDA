@@ -2585,6 +2585,9 @@ bool player::in_climate_control()
         if( w.active && w.is_power_armor() ) {
             return true;
         }
+        if( worn_with_flag( "CControl" ) ) {
+            return true;
+        }
     }
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
