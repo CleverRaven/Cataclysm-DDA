@@ -68,7 +68,7 @@
       "d": {
         "items": [
           { "item": "office", "chance": 30 },
-          { "item": "textbooks", "chance": 3 },
+          { "item": "textbooks", "chance": 2 },
           { "item": "science", "chance": 3 }
         ]
       },
