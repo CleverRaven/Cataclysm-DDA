@@ -3671,11 +3671,12 @@ void smoker_activate(player &p, const tripoint &examp)
         return;
     }
 
-    int char_charges = 100 * to_liter( food_volume ) < 100 ? 100 : 100 * to_liter( food_volume );
+    long char_charges = 100 * to_liter( food_volume ) < 100 ? 100 : 100 * to_liter( food_volume );
 
-    if( count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) <= char_charges ) {
+    if( count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) < char_charges ) {
         add_msg( _( "There is not enough charcoal in the rack to smoke this much food." ) );
-        add_msg( _( "You need more then %s pieces of charcoal." ), char_charges );
+        add_msg( _( "You need at least %1$s pieces of charcoal, and the smoking rack has %2$s inside." ),
+                    char_charges, count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) );
         return;
     }
 
@@ -3687,10 +3688,12 @@ void smoker_activate(player &p, const tripoint &examp)
     }
 
     p.use_charges( "fire", 1 );
-    // g->m.i_clear( examp );
     g->m.furn_set( examp, next_smoker_type );
-    charcoal->charges -= char_charges;
-    charcoal->set_age( 0 );
+    if( charcoal->charges == char_charges ) {
+        g->m.i_rem( examp, charcoal );
+    } else {
+        charcoal->charges -= char_charges;
+    }
     item result( "fake_smoke_plume", calendar::turn );
     result.item_counter = 3600; // = 6 hours
     result.activate();
@@ -3886,9 +3889,14 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         return;
     }
 
+    bool rem_f_opt = false;
+    std::stringstream pop;
+    time_duration time_left = 0;
+    int hours_left = 0;
+    int minutes_left = 0;
+    int char_quantity = 0;
     bool f_check = false;
     bool c_check = false;
-    item *charcoal = nullptr;
     
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
@@ -3897,20 +3905,13 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         }
         if( it.typeId() == "charcoal" ) {
             c_check = true;
-            charcoal = &it;
+            char_quantity = count_charges_in_list( it.type, items_here );
         }
-    }
-
-    bool rem_f_opt = false;
-    std::stringstream pop;
-    time_duration time_left = 0;
-    int hours_left = 0;
-    int minutes_left = 0;
-    
-    if( charcoal != nullptr ) {
-        time_left = 6_hours - charcoal->age();
-        hours_left = to_hours<int>( time_left );
-        minutes_left = to_minutes<int>( time_left ) + 1;
+        if( active && it.typeId() == "fake_smoke_plume" ) {
+            time_left = time_duration::from_turns( it.item_counter );
+            hours_left = to_hours<int>( time_left );
+            minutes_left = to_minutes<int>( time_left ) + 1;
+        }
     }
     
     uimenu smenu;
@@ -3932,7 +3933,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         smenu.addentry( 4, false, 'e', "%s", _( "Remove food from rack (none inside)" ) );
     }
     if( c_check ) {
-            smenu.addentry( 5, true, 'c', "%s", _( "Remove charcoal from rack; has: " ) + std::to_string( count_charges_in_list( charcoal->type, items_here ) ) );
+            smenu.addentry( 5, true, 'c', "%s", _( "Remove charcoal from rack; has: " ) + std::to_string( char_quantity ) );
     } else {
             smenu.addentry( 5, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
     }
