@@ -108,7 +108,7 @@
    {
       "id" : "crossbow",
       "type" : "GUN",
-      "reload_noise_volume": 10,
+      "reload_noise_volume": 5,
       "symbol" : "(",
       "color" : "green",
       "name" : "crossbow",
@@ -122,12 +122,13 @@
       "volume" : 6,
       "bashing" : 11,
       "to_hit" : 1,
-      "ranged_damage" : 13,
-      "range" : 10,
+      "loudness" : 10,
+      "ranged_damage" : 17,
+      "range" : 9,
       "dispersion" : 150,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 800,
+      "reload" : 500,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
