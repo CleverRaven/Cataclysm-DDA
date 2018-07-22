@@ -1,5 +1,17 @@
 [
     {
+        "id": "1st_aid",
+        "type": "GENERIC",
+        "name": "first aid kit",
+        "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
+        "weight": 1000,
+        "volume": 6,
+        "price": 3000,
+        "material": "plastic",
+        "symbol": "!",
+        "color": "red"
+    },
+    {
         "id" : "adderall",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -486,16 +498,8 @@
         "type": "COMESTIBLE",
         "name": "makeshift disinfectant",
         "copy-from": "disinfectant",
-        "description": "Makeshift disinfectant made from ethanol.  Can be used to clean wounds.",
+        "description": "Makeshift disinfectant made from ethanol.  Can be used to disinfect a wound.",
         "use_action": { "type": "heal", "disinfectant_power": 3, "bite" : 0.95, "move_cost": 100 }
-    },
-    {
-        "id": "disinfectant_makeshift_aromatized",
-        "type": "COMESTIBLE",
-        "name": "aromatized makeshift disinfectant",
-        "copy-from": "disinfectant",
-        "description": "Makeshift disinfectant made from strong beverages.  Try not to drink it.",
-        "use_action": { "type": "heal", "disinfectant_power": 2, "bite" : 0.95, "move_cost": 100 }
     },
     {
         "id" : "diazepam",
