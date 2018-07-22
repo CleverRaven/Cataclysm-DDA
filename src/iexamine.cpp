@@ -3551,7 +3551,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( *itemtype ) ) {
+            if( p.install_bionics( ( *itemtype ), -1, true ) ) {
                 p.introduce_into_anesthesia( duration );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
@@ -3600,7 +3600,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
+            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
                 p.introduce_into_anesthesia( duration );
             }
             break;

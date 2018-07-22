@@ -100,6 +100,52 @@ static const std::map<std::string, std::string> CAMP_SKILL_9 =
 static const std::map<std::string, std::string> FARM_SKILL_4 =
                                                     { {" Craft: Wild Veggy Stems", "seed_veggy_wild"}, {" Craft: Dandelion Seeds", "seed_raw_dandelion"},
                                                     {" Craft: Potato, Starter", "seed_potato_raw"}, {" Craft: Buckwheat Seeds", "seed_buckwheat"} };
+static const std::map<std::string, std::string> SMITH_SKILL_0 =
+                                                    { {" Craft: Copper, Scrap", "scrap_copper_npc"}, {" Craft: Charcoal", "charcoal_npc"},
+                                                    {" Craft: Spike", "spike_npc"}, {" Craft: Steel, Chunk", "steel_chunk_npc"} };
+static const std::map<std::string, std::string> SMITH_SKILL_1 =
+                                                    { {" Craft: Knife, Copper", "copper_knife_npc"}, {" Craft: Sword, Crude", "sword_crude_npc"},
+                                                    {" Craft: Pot, Copper", "pot_copper_npc"}, {" Craft: Anvil", "anvil_npc"},
+                                                    {" Craft: Steel, Lump", "steel_lump_npc"} };
+static const std::map<std::string, std::string> SMITH_SKILL_2 =
+                                                    { {" Craft: Crossbow Bolt, Steel", "bolt_steel_npc"},
+                                                    {" Craft: Armor, Scrap Suit", "armor_scrapsuit_npc"}, {" Craft: Axe, Copper", "copper_ax_npc"},
+                                                    {" Craft: Spear, Copper", "spear_copper_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_3 =
+                                                    { {" Craft: Metalworking Chisel", "chisel_npc"}, {" Craft: Hammer", "hammer_npc"},
+                                                    {" Craft: Metal Tongs", "tongs_npc"}, {" Craft: Nail", "nail_npc"},
+                                                    {" Craft: Wire", "wire_npc"}, {" Craft: Swage and Die Set", "swage_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_4 =
+                                                    { {" Craft: Blade", "blade_npc"}, {" Craft: Bearings", "bearing_npc"},
+                                                    {" Craft: Caltrops", "caltrops_npc"}, {" Craft: Hand Drill", "hand_drill_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_5 =
+                                                    { {" Craft: Sheet Metal", "sheet_metal_npc"}, {" Craft: Chain", "chain_npc"},
+                                                    {" Craft: Shovel", "shovel_npc"}, {" Craft: Rebar", "rebar_npc"},
+                                                    {" Craft: Golden Ring", "ring_npc"}, {" Craft: Hammer, Sledge", "hammer_sledge_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_6 =
+                                                    { {" Craft: Knife, Combat", "knife_combat_npc"}, {" Craft: Spear, Steel", "spear_steel_npc"},
+                                                    {" Craft: Machete", "machete_npc"}, {" Craft: Pipe", "pipe_npc"},
+                                                    {" Craft: Screwdriver", "screwdriver_npc"}, {" Craft: Axe, Throwing", "throwing_axe_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_7 =
+                                                    { {" Craft: Wrench", "wrench_npc"}, {" Craft: Hatchet", "hatchet_npc"},
+                                                    {" Craft: Knife, Throwing", "throwing_knife_npc"}, {" Craft: Crowbar", "crowbar_npc"},
+                                                    {" Craft: Pot", "pot_npc"}, {" Craft: Hoe", "hoe_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_8 =
+                                                    { {" Craft: Pliers", "pliers_npc"}, {" Craft: Halberd", "halberd_npc"},
+                                                    {" Craft: Armor, Cuirass", "cuirass_lightplate_npc"}, {" Craft: Knife, Pocket", "pockknife_npc"},
+                                                    {" Craft: Hammer, War", "warhammer_npc"}, {" Craft: Helm, Great", "helmet_plate_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_9 =
+                                                    { {" Craft: Armor, Plate", "armor_lightplate_npc"}, {" Craft: Sword, Broadsword", "broadsword_npc"},
+                                                    {" Craft: Sword, Scimitar", "scimitar_npc"}, {" Craft: Axe, Fire", "fire_ax_npc"},
+                                                    {" Craft: Hacksaw", "hacksaw_npc"}, {" Craft: Woodsaw", "saw_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_10 =
+                                                    { {" Craft: Spear, Awl Pike", "pike_npc"}, {" Craft: Sword, Rapier", "rapier_npc"},
+                                                    {" Craft: Halligan Bar", "halligan_npc"}, {" Craft: Sword, Zweihander", "zweihander_npc"},
+                                                    {" Craft: Pickaxe", "pickaxe_npc"}};
+static const std::map<std::string, std::string> SMITH_SKILL_11 =
+                                                    { {" Craft: Sheet Metal, Drop Hammer", "sheet_metal_npc_drop"}, {" Craft: Chain, Drop Hammer", "chain_npc_drop"},
+                                                    {" Craft: Nail, Drop Hammer", "nail_npc_drop"}, {" Craft: Wire, Drop Hammer", "wire_npc_drop"},
+                                                    {" Craft: Pipe, Drop Hammer", "pipe_npc_drop"}, {" Craft: Rebar, Drop Hammer", "rebar_npc_drop"} };
 
 struct comp_rank {
   int industry;
@@ -153,7 +199,7 @@ void talk_function::bionic_install(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.install_bionics(it, 20)){
+    if ( g->u.install_bionics( it, 20, false ) ){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
@@ -210,7 +256,7 @@ void talk_function::bionic_remove(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20)){
+    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20, false)){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
@@ -582,10 +628,22 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                         for( std::map<std::string,std::string>::const_iterator it = cooking_recipes.begin(); it != cooking_recipes.end(); ++it ) {
                             std::string title_e = dr + it->first;
                             col_missions[title_e] = om_craft_description( it->second );
-
                             const recipe *recp = &recipe_id( it->second ).obj();
                             bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
+                            mission_key_push( key_vectors, title_e, dr, false, craftable  );
 
+                        }
+                    }
+                }
+
+                if( om_min_level("faction_base_blacksmith_1", om_cur_exp) ){
+                    inventory found_inv = g->u.crafting_inventory();
+                    if( companion_list( p, "_faction_exp_blacksmith_crafting_"+dr ).empty() ){
+                        for( std::map<std::string,std::string>::const_iterator it = cooking_recipes.begin(); it != cooking_recipes.end(); ++it ) {
+                            std::string title_e = dr + it->first;
+                            col_missions[title_e] = om_craft_description( it->second );
+                            const recipe *recp = &recipe_id( it->second ).obj();
+                            bool craftable = recp->requirements().can_make_with_inventory( found_inv, 1 );
                             mission_key_push( key_vectors, title_e, dr, false, craftable  );
 
                         }
@@ -746,6 +804,28 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Cooking" ] = entry;
                 mission_key_push( key_vectors, dir + " (Finish) Cooking", dir, true );
+            }
+        }
+
+        npc_list = companion_list( p, "_faction_exp_blacksmith_crafting_", true );
+        if( !npc_list.empty() ){
+            for( auto &elem : npc_list ) {
+                entry = _("Working in your blacksmith shop!\n");
+                int min_left = to_minutes<int>( elem->companion_mission_time_ret - calendar::turn );
+                float sec_left = to_turns<float>( elem->companion_mission_time_ret - calendar::turn );
+                if( min_left > 0 ){
+                    entry = entry + "  " + elem->name + " ["
+                        + to_string( min_left )
+                        + " minutes left] \n";
+                } else if( sec_left > 0 ) {
+                    entry = entry + "  " + elem->name + " [ALMOST DONE]\n";
+                } else {
+                    entry = entry + "  " + elem->name + " [DONE]\n";
+                }
+                entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
+                std::string dir = camp_direction( elem->get_companion_mission().mission_id );
+                col_missions[ dir + " (Finish) Smithing" ] = entry;
+                mission_key_push( key_vectors, dir + " (Finish) Smithing", dir, true );
             }
         }
 
@@ -1367,6 +1447,20 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         }
     }
 
+    if ( cur_key.find("] (Finish) Smithing") != std::string::npos ){
+        std::string dir = camp_direction(cur_key);
+        for( const auto &e : om_expansions ){
+            if( dir == om_simple_dir( omt_pos, e.second ) ) {
+                npc *comp = companion_choose_return( p, "_faction_exp_blacksmith_crafting_" + dir, calendar::before_time_starts );
+                if (comp != nullptr){
+                    popup(_("%s returns from your blacksmith shop with something..."), comp->name.c_str());
+                    companion_return( *comp );
+                }
+                break;
+            }
+        }
+    }
+
     if ( cur_key.find("] (Finish) Plow Fields") != std::string::npos ){
         std::string dir = camp_direction(cur_key);
         for( const auto &e : om_expansions ){
@@ -1954,27 +2048,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         }
     }
 
-    if (cur_key == "Recover Combat Patrol"){
-        npc *comp = companion_choose_return( p, "_faction_camp_combat_0", calendar::before_time_starts );
-        if (comp != nullptr){
-            popup(_("%s returns from patrol..."), comp->name.c_str());
-            for( auto pt : comp->companion_mission_points ){
-                oter_id &omt_ref = overmap_buffer.ter( pt.x, pt.y, pt.z );
-                int swim = comp->get_skill_level( skill_swimming );
-                if( is_river(omt_ref) && swim < 2 ){
-                    if( swim == 0 ){
-                        popup( _("Your companion hit a river and didn't know how to swim...") );
-                    } else {
-                        popup( _("Your companion hit a river and didn't know how to swim well enough to cross...") );
-                    }
-                    break;
-                }
-                overmap_buffer.reveal( pt, 1);
-            }
-            companion_return( *comp );
-        }
-    }
-
     if ( cur_key.find("] Chop Shop") != std::string::npos ){
         std::string dir = camp_direction(cur_key);
         for( const auto &e : om_expansions ){
@@ -1998,9 +2071,12 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     std::map<std::string,std::string> cooking_recipes = camp_recipe_deck( "COOK" );
     std::map<std::string,std::string> base_recipes = camp_recipe_deck( "BASE" );
     std::map<std::string,std::string> farming_recipes = camp_recipe_deck( "FARM" );
+    std::map<std::string,std::string> blacksmith_recipes = camp_recipe_deck( "SMITH" );
     camp_craft_construction( p, cur_key, cooking_recipes, "_faction_exp_kitchen_cooking_", tripoint( omt_pos.x, omt_pos.y, p.posz() ),
                             om_expansions  );
     camp_craft_construction( p, cur_key, farming_recipes, "_faction_exp_farm_crafting_", tripoint( omt_pos.x, omt_pos.y, p.posz() ),
+                            om_expansions  );
+    camp_craft_construction( p, cur_key, blacksmith_recipes, "_faction_exp_blacksmith_crafting_", tripoint( omt_pos.x, omt_pos.y, p.posz() ),
                             om_expansions  );
     //All crafting for base hub
     std::vector<std::pair<std::string, tripoint>> om_expansions_plus;
@@ -3436,6 +3512,7 @@ bool talk_function::camp_expansion_select( npc &p )
     pos_expansions.push_back( _("Farm") );
     pos_expansions.push_back( _("Garage") );
     pos_expansions.push_back( _("Kitchen") );
+    pos_expansions.push_back( _("Blacksmith Shop") );
     pos_expansions.push_back( _("Cancel") );
 
     int expan = menu_vec(true, _("Select an expansion:"), pos_expansions) - 1;
@@ -3453,6 +3530,9 @@ bool talk_function::camp_expansion_select( npc &p )
         return false;
     }
     if (expan == 2 && !edit.mapgen_set( "faction_base_kitchen_0", tripoint(omt_pos.x, omt_pos.y, p.posz()), 1 ) ){
+        return false;
+    }
+    if (expan == 3 && !edit.mapgen_set( "faction_base_blacksmith_0", tripoint(omt_pos.x, omt_pos.y, p.posz()), 1 ) ){
         return false;
     }
     companion_skill_trainer( *comp, "construction", 3_hours, 2 );
@@ -4503,6 +4583,42 @@ std::map<std::string,std::string> talk_function::camp_recipe_deck( std::string o
     if( om_min_level( "faction_base_farm_4", om_cur ) || om_cur == "ALL" || om_cur == "FARM" ){
         cooking_recipes.insert(FARM_SKILL_4.begin(), FARM_SKILL_4.end());
     }
+    if( om_min_level( "faction_base_blacksmith_1", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_0.begin(), SMITH_SKILL_0.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_2", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_1.begin(), SMITH_SKILL_1.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_3", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_2.begin(), SMITH_SKILL_2.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_4", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_3.begin(), SMITH_SKILL_3.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_5", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_4.begin(), SMITH_SKILL_4.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_6", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_5.begin(), SMITH_SKILL_5.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_7", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_6.begin(), SMITH_SKILL_6.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_8", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_7.begin(), SMITH_SKILL_7.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_9", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_8.begin(), SMITH_SKILL_8.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_10", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_9.begin(), SMITH_SKILL_9.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_11", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_10.begin(), SMITH_SKILL_10.end());
+    }
+    if( om_min_level( "faction_base_blacksmith_12", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
+        cooking_recipes.insert(SMITH_SKILL_11.begin(), SMITH_SKILL_11.end());
+    }
     return cooking_recipes;
 }
 
@@ -5058,23 +5174,25 @@ void talk_function::faction_camp_tutorial(){
     slide_overview = _("Faction Camp Tutorial:\n \n"
                         "<color_light_green>SELECTING A SITE:</color>  For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it. "
                         "Forests are your primary source of construction materials in the early game while fields can be used for farming.  You "
-                        "don't have to be too picky, you can build as many camps as you want but each will require an NPC camp manager.\n \n"
+                        "don't have to be too picky, you can build as many camps as you want but each will require an NPC camp manager and an additional NPC to task out.\n \n"
                         );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
                         "<color_light_green>UPGRADING:</color>  After you pick a site you will need to find or make materials to upgrade the camp further to access new "
                         "missions.  The first new missions are focused on gathering materials to upgrade the camp so you don't have to. "
                         "After two or three upgrades you will have access to the <color_yellow>[Menial Labor]</color> mission which will allow you to task companions "
-                        "with sorting all of the items around your camp into categories.\n \n"
+                        "with sorting all of the items around your camp into categories.  Later upgrades allow you to send companions to recruit new members, build overmap "
+                        "fortifications, or even conduct combat patrols.\n"
                         );
     popup( "%s", slide_overview );
     slide_overview = _("Faction Camp Tutorial:\n \n"
                         "<color_light_green>EXPANSIONS:</color>  When you upgrade your first tent all the way you will unlock the ability to construct expansions. Expansions "
-                        "allow you to specialize each camp you build by focusing on the industries that you need.  A farm is recommended for "
-                        "players that want to pursue a large faction while a kitchen is better for players that just want the quality of life "
-                        "improvement of having an NPC do all of their cooking.  A garage is useful for chop shop type missions that let you "
-                        "trade vehicles for large amounts of parts and resources.  You can build an additional expansion every other level "
-                        "after the first is unlocked.\n \n"
+                        "allow you to specialize each camp you build by focusing on the industries that you need.  A <color_light_green>[Farm]</color> is recommended for "
+                        "players that want to pursue a large faction while a <color_light_green>[Kitchen]</color> is better for players that just want the quality of life "
+                        "improvement of having an NPC do all of their cooking.  A <color_light_green>[Garage]</color> is useful for chop shop type missions that let you "
+                        "trade vehicles for large amounts of parts and resources.  All those resources can be turning into valuable eqiupment in the "
+                        "<color_light_green>[Blacksmith Shop]</color>. You can build an additional expansion every other level after the first is unlocked and when one "
+                        "camp is full you can just as easily build another.\n \n"
                         );
     popup( "%s", slide_overview );
     if( query_yn( _("Repeat?") ) ){

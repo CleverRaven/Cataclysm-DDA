@@ -3735,6 +3735,7 @@ inventory inventory_exchange( inventory &inv,
     inv.dump( item_dump );
     item_dump.insert( item_dump.end(), added.begin(), added.end() );
     inventory new_inv;
+    new_inv.copy_invlet_of( inv );
 
     for( item *it : item_dump ) {
         if( without.count( it ) == 0 ) {
