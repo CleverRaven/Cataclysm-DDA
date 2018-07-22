@@ -3716,62 +3716,62 @@ void smoker_finalize(player &, const tripoint &examp)
     }
 
     std::string product = "";
-    for( auto item_it = items.begin(); item_it != items.end(); ) {
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &item_it = items[i];
         //dry products before smoked products to avoid override
-        if( item_it->typeId() == "meat_smoked" ) {
+        if( item_it.typeId() == "meat_smoked" ) {
             product = "dry_meat";
-        } else if( item_it->typeId() == "fish_smoked" ) {
+        } else if( item_it.typeId() == "fish_smoked" ) {
             product = "dry_fish";
-        } else if( item_it->typeId() == "raw_beans" ) {
+        } else if( item_it.typeId() == "raw_beans" ) {
             product = "dry_beans";
-        } else if( item_it->typeId() == "sweet_fruit" || item_it->typeId() == "coconut" || item_it->typeId() == "can_coconut" ) {
+        } else if( item_it.typeId() == "sweet_fruit" || item_it.typeId() == "coconut" || item_it.typeId() == "can_coconut" ) {
             product = "dry_fruit";
-        } else if( item_it->typeId() == "human_smoked" ) {
+        } else if( item_it.typeId() == "human_smoked" ) {
             product = "dry_hflesh";
-        } else if( item_it->typeId() == "meat_tainted" ) {
+        } else if( item_it.typeId() == "meat_tainted" ) {
             product = "dry_meat_tainted";
-        } else if( item_it->typeId() == "mushroom" || item_it->typeId() == "mushroom_morel" ) {
+        } else if( item_it.typeId() == "mushroom" || item_it.typeId() == "mushroom_morel" ) {
             product = "dry_mushroom";
-        } else if( item_it->typeId() == "mushroom_magic" ) {
+        } else if( item_it.typeId() == "mushroom_magic" ) {
             product = "dry_mushroom_magic";
-        } else if( item_it->typeId() == "broccoli" ||
-            item_it->typeId() == "tomato" ||
-            item_it->typeId() == "pumpkin" ||
-            item_it->typeId() == "zucchini" ||
-            item_it->typeId() == "celery" ||
-            item_it->typeId() == "potato_raw" ||
-            item_it->typeId() == "onion" ||
-            item_it->typeId() == "carrot" ||
-            item_it->typeId() == "cabbage" ||
-            item_it->typeId() == "lettuce" ||
-            item_it->typeId() == "veggy" ||
-            item_it->typeId() == "veggy_wild" ||
-            item_it->typeId() == "dandelion_cooked" ) {
+        } else if( item_it.typeId() == "broccoli" ||
+            item_it.typeId() == "tomato" ||
+            item_it.typeId() == "pumpkin" ||
+            item_it.typeId() == "zucchini" ||
+            item_it.typeId() == "celery" ||
+            item_it.typeId() == "potato_raw" ||
+            item_it.typeId() == "onion" ||
+            item_it.typeId() == "carrot" ||
+            item_it.typeId() == "cabbage" ||
+            item_it.typeId() == "lettuce" ||
+            item_it.typeId() == "veggy" ||
+            item_it.typeId() == "veggy_wild" ||
+            item_it.typeId() == "dandelion_cooked" ) {
             product = "dry_veggy";
-        } else if( item_it->typeId() == "veggy_tainted" ) {
+        } else if( item_it.typeId() == "veggy_tainted" ) {
             product = "dry_veggy_tainted";
         //smoked products after dried products to avoid override
-        } else if( item_it->typeId() == "meat" ) {
+        } else if( item_it.typeId() == "meat" ) {
             product = "meat_smoked";
-        } else if( item_it->typeId() == "fish" ) {
+        } else if( item_it.typeId() == "fish" ) {
             product = "fish_smoked";
-        } else if( item_it->typeId() == "sausage_wasteland_raw" ) {
+        } else if( item_it.typeId() == "sausage_wasteland_raw" ) {
             product = "sausage_wasteland";
-        } else if( item_it->typeId() == "sausage_raw" ) {
+        } else if( item_it.typeId() == "sausage_raw" ) {
             product = "sausage";
-        } else if( item_it->typeId() == "mannwurst_raw" ) {
+        } else if( item_it.typeId() == "mannwurst_raw" ) {
             product = "mannwurst";
-        } else if( item_it->typeId() == "human_flesh" ) {
+        } else if( item_it.typeId() == "human_flesh" ) {
             product = "human_smoked";
         } else {
             product = "";
-            item_it++;
         }
         if( product != "" ) {
             item result( product, calendar::turn );
-            result.charges = item_it->charges;
-            g->m.add_item( examp, result );
-            item_it = items.erase( item_it );
+            result.charges = item_it.charges;
+            //g->m.add_item( examp, result );
+            item_it = result;
         }
     }
     g->m.furn_set( examp, next_smoker_type );
@@ -3970,7 +3970,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     continue;
                 }
                 pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) ); 
-                pop << "(" << std::to_string( count_charges_in_list( it.type, items_here ) ) << ") \n ";
+                pop << " (" << std::to_string( count_charges_in_list( it.type, items_here ) ) << ") \n ";
                 }
             }
             popup( pop.str(), PF_NONE ); 

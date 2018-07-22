@@ -107,8 +107,8 @@
         "id": "fake_smoke_plume",
         "copy-from": "fake_item",
         "type": "GENERIC",
-        "name": "smoke plume",
-        "description": "A plume of thick smoke that comes out of nowhere in particular.",
+        "name": "smoldering embers",
+        "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
         "emits": [ "emit_smoke_plume" ],
         "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
       }
