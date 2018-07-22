@@ -24,7 +24,7 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+const efftype_id effect_antibiotic( "antibiotic" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -34,6 +34,7 @@ const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cold( "cold" );
+const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
@@ -65,7 +66,7 @@ const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 const vitamin_id vitamin_iron( "iron" );
 
@@ -887,7 +888,10 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_weak_antibiotic ) ) {
+            if( has_effect( effect_antibiotic ) ) {
+                recover_factor += 200;
+            }
+            else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
@@ -907,7 +911,20 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
-            } else if( !has_effect( effect_weak_antibiotic ) || calendar::once_every( 8_turns ) ) {
+            }
+            //strong antibiotic slows down progression by a factor of 8
+            else if( has_effect( effect_antibiotic ) ) {
+                if( calendar::once_every( 8_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            }
+            //weak antibiotic slows down by half
+            else if( has_effect ( effect_weak_antibiotic ) ) {
+                if( calendar::once_every( 2_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            }
+            else {
                 it.mod_duration( 1_turns );
             }
         }
@@ -923,7 +940,10 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_weak_antibiotic ) ) {
+            if( has_effect( effect_antibiotic ) ) {
+                recover_factor += 200;
+            }
+            else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
@@ -946,7 +966,17 @@ void player::hardcoded_effects( effect &it )
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
             }
-            if( !has_effect( effect_weak_antibiotic ) || calendar::once_every( 8_turns ) ) {
+            else if( has_effect( effect_antibiotic ) ) {
+                if( calendar::once_every( 8_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            }
+            else if( has_effect ( effect_weak_antibiotic ) ) {
+                if( calendar::once_every( 2_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            }
+            else {
                 it.mod_duration( 1_turns );
             }
         }

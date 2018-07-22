@@ -87,7 +87,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "antibiotic",
-        "description" : "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection. It's the quickest and most reliable way to cure any infections you might have.",
+        "description" : "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection. It's the quickest and most reliable way to cure any infections you might have. One dose lasts twelve hours.",
         "weight" : 1,
         "volume" : 1,
         "price" : 9000,

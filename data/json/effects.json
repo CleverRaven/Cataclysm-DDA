@@ -1821,5 +1821,9 @@
     {
         "type": "effect_type",
         "id": "weak_antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "antibiotic"
     }
 ]
