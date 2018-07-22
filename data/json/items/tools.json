@@ -2191,7 +2191,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
-	"techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "DIG", 1 ] ]
   },
   {
@@ -4613,7 +4613,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
-	"techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ]
   },
   {
@@ -5410,7 +5410,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "use_action": "PICKAXE",
-    "techniques" : [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -6414,7 +6414,7 @@
       "failure_message": "Aw, dangit.  It fails to start!",
       "lacks_fuel_message": "This thing needs some fuel!"
     },
-    "techniques" : [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "SHEATH_SWORD" ]
   },
   {
@@ -6453,7 +6453,7 @@
         "moves": 30
       }
     ],
-    "techniques" : [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -6474,7 +6474,7 @@
     "ammo": "battery",
     "max_charges": 500,
     "charges_per_use": 100,
-    "techniques" : [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
     "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
   },
@@ -6955,7 +6955,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
-	"techniques": [ "RAPID" ],
+    "techniques": [ "RAPID" ],
     "flags": [ "STAB" ]
   },
   {

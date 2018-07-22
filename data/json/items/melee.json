@@ -23,7 +23,7 @@
         "name": "heavy stick",
         "description": "A sturdy, heavy stick.  Makes a decent melee weapon, and can be cut into two by fours for crafting.",
         "material": "wood",
-        "techniques": ["WBLOCK_2"],
+        "techniques": ["WBLOCK_1"],
         "flags": "TRADER_AVOID",
         "weight": 1700,
         "volume": 5,
