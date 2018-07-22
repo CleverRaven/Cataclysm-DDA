@@ -8,6 +8,7 @@
     "weight": 100,
     "volume": 1,
     "price": 50000,
+    "ammo_type" : "components",
     "count": 3,
     "material": "plastic",
     "symbol": "!",
