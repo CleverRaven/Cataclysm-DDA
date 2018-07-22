@@ -197,15 +197,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -244,15 +236,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -286,15 +270,7 @@
       [ "bee_sting", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -363,15 +339,7 @@
       [ "bee_sting", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -399,15 +367,7 @@
       [ "steel_chunk", 2 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -438,15 +398,7 @@
       [ "bee_sting", 2 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -486,15 +438,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -528,15 +472,7 @@
       [ "bee_sting", 2 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -564,15 +500,7 @@
       [ "steel_chunk", 3 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -600,15 +528,7 @@
       [ "steel_chunk", 3 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -636,15 +556,7 @@
       [ "steel_chunk", 3 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -1201,15 +1113,7 @@
       ["plastic_chunk", 3]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
