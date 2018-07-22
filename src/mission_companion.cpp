@@ -3408,9 +3408,12 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
     //Give any seeds the NPC didn't use back to you.
     for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp->companion_mission_inv.const_stack( i ) ) {
-            g->u.i_add( it );
+            if( it.charges > 0 ){
+                g->u.i_add( it );
+            }
         }
     }
+    comp->companion_mission_inv.clear();
 
     int need_food = time_to_food( work );
     if( camp_food_supply() < need_food ){
