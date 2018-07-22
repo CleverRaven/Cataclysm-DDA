@@ -3569,6 +3569,7 @@ bool talk_function::camp_distribute_food( npc &p )
             tripoint litter_spread = p_litter;
             litter_spread.x += rng(-3,3);
             litter_spread.y += rng(-3,3);
+            i.on_contents_changed();
             g->m.add_item_or_charges( litter_spread, i, false );
             i = comest;
         }
