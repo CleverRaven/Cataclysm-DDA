@@ -3464,31 +3464,31 @@ bool talk_function::camp_menial_return( npc &p )
             for( auto &i : g->m.i_at( tmp ) ) {
                 if( !i.made_of( LIQUID ) ) {
                     if( i.is_comestible() && i.rotten() ){
-                        g->m.add_item_or_charges( p_trash, i, false );
+                        g->m.add_item_or_charges( p_trash, i, true );
                     } else if( i.is_seed() ){
-                        g->m.add_item_or_charges( p_seed, i, false );
+                        g->m.add_item_or_charges( p_seed, i, true );
                     } else if( i.is_food() ){
-                        g->m.add_item_or_charges( p_food, i, false );
+                        g->m.add_item_or_charges( p_food, i, true );
                     } else if( i.is_corpse() ){
-                        g->m.add_item_or_charges( p_trash, i, false );
+                        g->m.add_item_or_charges( p_trash, i, true );
                     } else if( i.is_book() ){
-                        g->m.add_item_or_charges( p_book, i, false );
+                        g->m.add_item_or_charges( p_book, i, true );
                     } else if( i.is_bionic() ){
-                        g->m.add_item_or_charges( p_bionic, i, false );
+                        g->m.add_item_or_charges( p_bionic, i, true );
                     } else if( i.is_medication() ){
-                        g->m.add_item_or_charges( p_medication, i, false );
+                        g->m.add_item_or_charges( p_medication, i, true );
                     } else if( i.is_tool() ){
-                        g->m.add_item_or_charges( p_tool, i, false );
+                        g->m.add_item_or_charges( p_tool, i, true );
                     } else if( i.is_gun() ){
-                        g->m.add_item_or_charges( p_weapon, i, false );
+                        g->m.add_item_or_charges( p_weapon, i, true );
                     } else if( i.is_ammo() ){
-                        g->m.add_item_or_charges( p_ammo, i, false );
+                        g->m.add_item_or_charges( p_ammo, i, true );
                     } else if( i.is_armor() ){
-                        g->m.add_item_or_charges( p_clothing, i, false );
+                        g->m.add_item_or_charges( p_clothing, i, true );
                     } else if( i.typeId() == "log" || i.typeId() == "splinter" || i.typeId() == "stick" || i.typeId() == "2x4" ){
-                        g->m.add_item_or_charges( p_wood, i, false );
+                        g->m.add_item_or_charges( p_wood, i, true );
                     } else {
-                        g->m.add_item_or_charges( p_tool, i, false );
+                        g->m.add_item_or_charges( p_tool, i, true );
                     }
                 }
             }
