@@ -400,7 +400,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload": 110,
-      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ],["stabilizer", 1],["dampening", 1]]
    },
    {
       "id" : "compositebow",
@@ -463,7 +463,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload": 90,
-      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ],["stabilizer", 1],["dampening", 1]]
    },
    {
       "id" : "reflexbow",
@@ -557,7 +557,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 40,
-      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ],["stabilizer", 1],["dampening", 1]]
    },
     {   "type" : "AMMO",
         "id" : "throwing_knife",
