@@ -919,7 +919,7 @@ void player::hardcoded_effects( effect &it )
                 }
             }
             //weak antibiotic slows down by half
-            else if( has_effect ( effect_weak_antibiotic ) ) {
+            else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 2_turns ) ) {
                     it.mod_duration( 1_turns );
                 }
@@ -971,7 +971,7 @@ void player::hardcoded_effects( effect &it )
                     it.mod_duration( 1_turns );
                 }
             }
-            else if( has_effect ( effect_weak_antibiotic ) ) {
+            else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 2_turns ) ) {
                     it.mod_duration( 1_turns );
                 }
