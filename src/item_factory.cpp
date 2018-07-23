@@ -691,7 +691,6 @@ void Item_factory::init()
     add_actor( new consume_drug_iuse() );
     add_actor( new delayed_transform_iuse() );
     add_actor( new enzlave_actor() );
-    add_actor( new field_dress_actor() );
     add_actor( new explosion_iuse() );
     add_actor( new firestarter_actor() );
     add_actor( new fireweapon_off_actor() );

@@ -143,13 +143,6 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_FIELD_DRESS",
-    "type": "activity_type",
-    "stop_phrase": "Stop field dressing?",
-    "suspendable": true,
-    "based_on": "speed"
-  },
-  {
     "id": "ACT_DROP",
     "type": "activity_type",
     "stop_phrase": "Stop dropping?",

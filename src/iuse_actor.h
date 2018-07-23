@@ -541,22 +541,6 @@ class enzlave_actor : public iuse_actor
 };
 
 /**
- * Prepares a corpse of hunted game for further use (transport, storage, butchering)
- * by removing innards and unwanted parts; reduces rot factor
- */
-class field_dress_actor : public iuse_actor
-{
-    public:
-        field_dress_actor( const std::string &type = "field_dress" ) : iuse_actor( type, 0 ) {}
-
-        ~field_dress_actor() override = default;
-        void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const override;
-        iuse_actor *clone() const override;
-};
-
-/**
  * Try to turn on a burning melee weapon
  * Not iuse_transform, because they don't have that much in common
  */
