@@ -1213,6 +1213,18 @@ public:
     }
 };
 
+static void load_weighted_entries(JsonObject &jsi, std::string json_key, weighted_int_list<std::string>& list) {
+        JsonArray jarr = jsi.get_array( json_key );
+        while( jarr.has_more() ) {
+            if( jarr.test_array() ) {
+                JsonArray inner = jarr.next_array();
+                list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            } else {
+                list.add( jarr.next_string(), 100 );
+            }
+        }
+    }
+
 /**
  * Calls another mapgen call inside the current one.
  * Note: can't use regular overmap ids.
@@ -1239,40 +1251,39 @@ private:
                     return true;
                 }
 
+                bool all_directions_match  = true;
                 for( om_direction::type dir : om_direction::all ) {
                     int index = static_cast<int>( dir );
                     const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
-                    if( !allowed_neighbors.empty() && allowed_neighbors.count( dat.neighbor_at( dir ).id() ) == 0 ) {
-                        return false;
-                    }
-                }
 
-                return true;
+                    if (allowed_neighbors.empty()) {
+                        continue;  // no constraints on this direction, skip.
+                    }
+
+                    bool this_direction_matches = false;
+                    for( oter_str_id allowed_neighbor : allowed_neighbors ) {
+                        this_direction_matches |= is_ot_subtype(allowed_neighbor.c_str(), dat.neighbor_at( dir ).id() );
+                    }
+                    all_directions_match &= this_direction_matches;
+                }
+                return all_directions_match;
             }
     };
+
 public:
     weighted_int_list<std::string> entries;
+    weighted_int_list<std::string> else_entries;
     neighborhood_check neighbors;
     jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) )
     {
-        JsonArray jarr = jsi.get_array( "chunks" );
-        while( jarr.has_more() ) {
-            if( jarr.test_array() ) {
-                JsonArray inner = jarr.next_array();
-                entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
-            } else {
-                entries.add( jarr.next_string(), 100 );
-            }
-        }
+        load_weighted_entries(jsi, "chunks", entries);
+        load_weighted_entries(jsi, "else_chunks", else_entries);
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
     {
-        const std::string *res = entries.pick();
+        const std::string *res = neighbors.test( dat ) ? entries.pick() : else_entries.pick();
         if( res == nullptr || res->empty() || *res == "null" ) {
-            return;
-        }
-
-        if( !neighbors.test( dat ) ) {
+            // This will be common when neighbors.test(...) is false, since else_entires is often empty.
             return;
         }
 
@@ -2871,10 +2882,10 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            tw = is_ot_subtype( "lab", t_north) ? 0 : 2;
-            rw = is_ot_subtype( "lab", t_east) ? 1 : 2;
-            bw = is_ot_subtype( "lab", t_south) ? 1 : 2;
-            lw = is_ot_subtype( "lab", t_west) ? 0 : 2;
+            tw = is_ot_subtype("lab", t_north) ? 0 : 2;
+            rw = is_ot_subtype("lab", t_east) ? 1 : 2;
+            bw = is_ot_subtype("lab", t_south) ? 1 : 2;
+            lw = is_ot_subtype("lab", t_west) ? 0 : 2;
 
             int boarders = 0;
             if (tw == 0 ) {
@@ -2979,12 +2990,12 @@ ___DEEE|.R.|...,,...|sss\n",
                             }
                         }
 
-                        if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
+                        if (is_ot_subtype("stairs", t_above)) {
                             if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                                 ter_set( *p, t_stairs_up );
                             }
                         }
-                        if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
+                        if (is_ot_subtype("stairs", terrain_type)) {
                             if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                                 ter_set( *p, t_stairs_down );
                             }
@@ -3011,7 +3022,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 }
                             }
                         }
-                        if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
+                        if (is_ot_subtype("stairs", t_above)) {
                             ter_set(rng(SEEX - 1, SEEX), rng(SEEY - 1, SEEY), t_stairs_up);
                         }
                         // Top left
@@ -3056,7 +3067,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
                             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                         }
-                        if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") { // Stairs going down
+                        if (is_ot_subtype("stairs", terrain_type)) { // Stairs going down
                             std::vector<point> stair_points;
                             if (tw != 0) {
                                 stair_points.push_back(point(SEEX - 1, 2));
@@ -3108,7 +3119,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 }
                             }
                         }
-                        if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
+                        if (is_ot_subtype("stairs", t_above)) {
                             ter_set(SEEX - 1, SEEY - 1, t_stairs_up);
                             ter_set(SEEX    , SEEY - 1, t_stairs_up);
                             ter_set(SEEX - 1, SEEY    , t_stairs_up);
@@ -3143,7 +3154,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
                             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                         }
-                        if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
+                        if (is_ot_subtype("stairs", terrain_type)) {
                             ter_set(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1), t_stairs_down);
                         }
                         break;
@@ -3162,7 +3173,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         }
                         science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                      zlevel, rng(0, 3));
-                        if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
+                        if (is_ot_subtype("stairs", t_above)) {
                             if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                                 ter_set( *p, t_stairs_up );
                             }
@@ -3175,7 +3186,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
                             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                         }
-                        if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
+                        if (is_ot_subtype("stairs", terrain_type)) {
                             if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                                 ter_set( *p, t_stairs_down );
                             }
@@ -3289,6 +3300,11 @@ ___DEEE|.R.|...,,...|sss\n",
             int temperature = -20 + 30 * zlevel;
             set_temperature(x, y, temperature);
         }
+
+        tw = is_ot_subtype("lab", t_north) ? 0 : 2;
+        rw = is_ot_subtype("lab", t_east) ? 1 : 2;
+        bw = is_ot_subtype("lab", t_south) ? 1 : 2;
+        lw = is_ot_subtype("lab", t_west) ? 0 : 2;
 
         const std::string function_key = "lab_finale_1level";
         const auto fmapit = oter_mapgen.find( function_key );
@@ -3536,12 +3552,12 @@ ___DEEE|.R.|...,,...|sss\n",
         } // end use_hardcoded_lab_finale
 
         // Handle stairs in the unlikely case they are needed.
-        if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
+        if (is_ot_subtype("stairs", t_above)) {
             if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                 ter_set( *p, t_stairs_up );
             }
         }
-        if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
+        if (is_ot_subtype("stairs", terrain_type)) {
             if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
                 ter_set( *p, t_stairs_down );
             }
