@@ -98,27 +98,25 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         //Collect the various spawn conditions, and then insure they are met appropriately
         for( auto &elem : it->conditions ) {
             //Collect valid time of day ranges
-            if( ( elem ) == "DAY" || ( elem ) == "NIGHT" || ( elem ) == "DUSK" ||
-                ( elem ) == "DAWN" ) {
-                if( ( elem ) == "DAY" ) {
+            if( elem == "DAY" || elem == "NIGHT" || elem == "DUSK" || elem == "DAWN" ) {
+                if( elem == "DAY" ) {
                     valid_times_of_day.push_back( std::make_pair( sunrise, sunset ) );
-                } else if( ( elem ) == "NIGHT" ) {
+                } else if( elem == "NIGHT" ) {
                     valid_times_of_day.push_back( std::make_pair( sunset, sunrise ) );
-                } else if( ( elem ) == "DUSK" ) {
+                } else if( elem == "DUSK" ) {
                     valid_times_of_day.push_back( std::make_pair( sunset - 1_hours, sunset + 1_hours ) );
-                } else if( ( elem ) == "DAWN" ) {
+                } else if( elem == "DAWN" ) {
                     valid_times_of_day.push_back( std::make_pair( sunrise - 1_hours, sunrise + 1_hours ) );
                 }
             }
 
             //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
-            if( ( elem ) == "SUMMER" || ( elem ) == "WINTER" || ( elem ) == "SPRING" ||
-                ( elem ) == "AUTUMN" ) {
+            if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
                 season_limited = true;
-                if( ( season == SUMMER && ( elem ) == "SUMMER" ) ||
-                    ( season == WINTER && ( elem ) == "WINTER" ) ||
-                    ( season == SPRING && ( elem ) == "SPRING" ) ||
-                    ( season == AUTUMN && ( elem ) == "AUTUMN" ) ) {
+                if( ( season == SUMMER && elem == "SUMMER" ) ||
+                    ( season == WINTER && elem == "WINTER" ) ||
+                    ( season == SPRING && elem == "SPRING" ) ||
+                    ( season == AUTUMN && elem == "AUTUMN" ) ) {
                     season_matched = true;
                 }
             }
