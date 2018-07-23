@@ -293,12 +293,6 @@ void talk_function::companion_mission(npc &p)
 bool talk_function::outpost_missions( npc &p, const std::string &id, const std::string &title )
 {
     //see mission_key_push() for each key description
-    std::vector<std::vector<std::string>> key_vectors;
-    for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 3; tab_num++ ){
-        std::vector<std::string> k;
-        key_vectors.push_back( k );
-    }
-
     std::vector<std::vector<mission_entry>> mission_key_vectors;
     for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 3; tab_num++ ){
         std::vector<mission_entry> k;
