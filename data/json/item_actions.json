@@ -117,6 +117,10 @@
         "name" : "Create a zombie slave"
     },{
         "type" : "item_action",
+        "id" : "field_dress",
+        "name" : "Field dress a corpse"
+    },{
+        "type" : "item_action",
         "id" : "fireweapon_off",
         "name" : "Turn on"
     },{
