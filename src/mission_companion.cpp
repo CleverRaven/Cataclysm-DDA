@@ -401,6 +401,16 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Rots in < 5 days: 80%%\n \n"
             "Total faction food stock: %d kcal or %d day's rations", 10 * camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key_push( key_vectors, "Distribute Food" );
+
+        col_missions["Reset Sort Points"] = string_format("Notes:\n"
+            "Resest the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
+            "Effects:\n"
+            "> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, "
+            "all kinds of tools, wood, trash, books, medication, and ammo.\n"
+            "> Items sitting on any type of furniture will not be moved.\n"
+            "> Items that are not listed in one of the categories are defaulted to the tools group."
+            );
+        mission_key_push( key_vectors, "Reset Sort Points", "", false );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_2", om_cur)){
@@ -434,16 +444,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             );
         bool avail = companion_list( p, "_faction_camp_menial" ).empty();
         mission_key_push( key_vectors, "Menial Labor", "", false, avail );
-
-        col_missions["Reset Sort Points"] = string_format("Notes:\n"
-            "Resest the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
-            "Effects:\n"
-            "> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, "
-            "all kinds of tools, wood, trash, books, medication, and ammo.\n"
-            "> Items sitting on any type of furniture will not be moved.\n"
-            "> Items that are not listed in one of the categories are defaulted to the tools group."
-            );
-        mission_key_push( key_vectors, "Reset Sort Points", "", false );
     }
 
     if ( id == "FACTION_CAMP" && ( (om_min_level("faction_base_camp_4", om_cur) && om_expansions.empty()) ||
