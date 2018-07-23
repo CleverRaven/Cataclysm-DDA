@@ -99,6 +99,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "SAFE_AUTODOC",
+    "info": "Makes autodoc operations completely safe, independent of the players skill",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "FILTHY_WOUNDS",
     "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.",
     "stype": "bool",

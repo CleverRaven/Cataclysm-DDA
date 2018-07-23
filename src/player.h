@@ -278,7 +278,7 @@ class player : public Character
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(bionic_id const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1);
+        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1, bool autodoc = false );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1004,7 +1004,7 @@ class player : public Character
         void toolmod_add( item_location tool, item_location mod );
 
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(const itype &type, int skill_level = -1);
+        bool install_bionics(const itype &type, int skill_level = -1, bool autodoc = false);
         /**
          * Helper function for player::read.
          *

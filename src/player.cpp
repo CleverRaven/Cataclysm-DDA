@@ -1873,7 +1873,7 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_PONDEROUS3 ) ) {
         movecost *= 1.3f;
     }
-    if( is_wearing( "stillsuit" ) ) {
+    if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
     }
     if( worn_with_flag( "FIN" ) ) {
@@ -4252,10 +4252,10 @@ void player::update_needs( int rate_multiplier )
 
     float thirst_rate = get_option< float >( "PLAYER_THIRST_RATE" );
     thirst_rate *= 1.0f +  mutation_value( "thirst_modifier" );
-    if( is_wearing("stillsuit") ) {
+    if( worn_with_flag( "SLOWS_THIRST" ) ) {
         thirst_rate *= 0.7f;
     }
-
+	
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
         // Recycler won't help much with mutant metabolism - it is intended for human one
