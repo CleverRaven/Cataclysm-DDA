@@ -2585,7 +2585,7 @@ bool player::in_climate_control()
         if( w.active && w.is_power_armor() ) {
             return true;
         }
-        if( worn_with_flag( "CControl" ) ) {
+        if( worn_with_flag( "CCONTROL" ) ) {
             return true;
         }
     }
