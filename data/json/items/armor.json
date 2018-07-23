@@ -4587,11 +4587,11 @@
   },
   {
     "id": "hide_bag",
-    "copy-from": "raw_leather",
-    "type": "COMESTIBLE",
+    "type": "ARMOR",
     "category": "clothing",
     "name": "hide bag",
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
+    "weight": 748,
     "symbol": "[",
     "color": "pink",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
@@ -4599,15 +4599,17 @@
     "encumbrance": 100,
     "storage": 60,
     "material_thickness": 1,
+    "spoils_in": 36,
+    "rot_spawn": "GROUP_CARRION",
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "hide_tainted_bag",
-    "copy-from": "raw_tainted_leather",
-    "type": "COMESTIBLE",
+    "type": "ARMOR",
     "category": "clothing",
     "name": "tainted hide bag",
     "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
+    "weight": 748,
     "symbol": "[",
     "color": "pink",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
@@ -4615,6 +4617,8 @@
     "encumbrance": 100,
     "storage": 60,
     "material_thickness": 1,
+    "spoils_in": 6,
+    "rot_spawn": "GROUP_CARRION_INFECTED",
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {

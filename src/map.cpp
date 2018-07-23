@@ -6770,11 +6770,11 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
 {
     if( g->critter_at( pnt ) != nullptr )
         return;
-    auto &comest = item.type->comestible;
-    mongroup_id mgroup = comest->rot_spawn;
+    auto &degrad = item.type->degradable;
+    mongroup_id mgroup = degrad->rot_spawn;
     if ( mgroup == "GROUP_NULL" )
         return;
-    const int chance = ( comest->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
+    const int chance = ( degrad->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
     if (rng(0, 100) < chance){
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(mgroup);
         add_spawn(spawn_details.name, 1, pnt.x, pnt.y, false);

@@ -862,7 +862,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
                                               to_turns<int>( food->rot ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
-                                              to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
+                                              to_turns<int>( food->spoils_in() ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
                                               to_turn<int>( food->fridge ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
@@ -934,7 +934,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         if( food_item->goes_bad() && parts->test(iteminfo_parts::FOOD_ROT) ) {
-            const std::string rot_time = to_string_clipped( food_item->type->comestible->spoils );
+            const std::string rot_time = to_string_clipped( food_item->spoils_in() );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
@@ -972,6 +972,24 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 } else {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <bad>rot</bad>.  <info>Eating</info> it would be a <bad>very bad idea</bad>." ) ) );
+                }
+            }
+        }
+    } else {
+        const item *non_food_item = this;
+        if( non_food_item->goes_bad() && parts->test(iteminfo_parts::FOOD_ROT) ) {
+            const std::string rot_time = to_string_clipped( non_food_item->spoils_in() );
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "* This item is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
+                                              rot_time.c_str() ) );
+            if( !non_food_item->rotten() && g->u.get_skill_level( skill_survival ) >= 4 ) {
+                const double rot_progress = non_food_item->get_relative_rot();
+                if( non_food_item->is_fresh() ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This item looks as <good>fresh</good> as it can be." ) );
+                } else if( rot_progress >= 0.25 && rot_progress < 0.75 ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This item looks like it has <neutral>passed its midlife</neutral>. " ) );
+                } else if( non_food_item->is_going_bad() ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This item looks <bad>old</bad>.  It's about to rot away." ) );
                 }
             }
         }
@@ -2449,15 +2467,15 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     ret.str( "" );
-    if( is_food() ) {
-        if( rotten() ) {
-            ret << _( " (rotten)" );
-        } else if( is_going_bad() ) {
-            ret << _( " (old)" );
-        } else if( is_fresh() ) {
-            ret << _( " (fresh)" );
-        }
+    if( rotten() ) {
+        ret << _( " (rotten)" );
+    } else if( is_going_bad() ) {
+        ret << _( " (old)" );
+    } else if( is_fresh() ) {
+        ret << _( " (fresh)" );
+    }
 
+    if( is_food() ) {
         if( has_flag( "HOT" ) ) {
             ret << _( " (hot)" );
         }
@@ -3038,20 +3056,28 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
+time_duration item::spoils_in() const
+{
+    if( is_degradable() ) {
+        return type->degradable->spoils;
+    }
+    return 0;
+}
+
 bool item::goes_bad() const
 {
-    return is_food() && type->comestible->spoils != 0;
+    return spoils_in() != 0;
 }
 
 double item::get_relative_rot() const
 {
-    return goes_bad() ? rot / type->comestible->spoils : 0;
+    return goes_bad() ? rot / spoils_in() : 0;
 }
 
 void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
-        rot = type->comestible->spoils * val;
+        rot = spoils_in() * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
@@ -3075,7 +3101,7 @@ int item::spoilage_sort_order()
     }
 
     if ( subject->goes_bad() ) {
-        return to_turns<int>( subject->type->comestible->spoils - subject->rot );
+        return to_turns<int>( subject->spoils_in() - subject->rot );
     }
 
     if ( subject->type->comestible ) {
@@ -3102,7 +3128,7 @@ void item::calc_rot(const tripoint &location)
         // positive = food was produced some time before calendar::time_of_cataclysm and/or bad storage
         // negative = food was stored in good condiitons before calendar::time_of_cataclysm
         if( since == calendar::time_of_cataclysm && goes_bad() ) {
-            time_duration spoil_variation = type->comestible->spoils * 0.2f;
+            time_duration spoil_variation = spoils_in() * 0.2f;
             rot += rng( -spoil_variation, spoil_variation );
         }
 
@@ -3778,6 +3804,11 @@ bool item::is_bandolier() const
 bool item::is_ammo() const
 {
     return type->ammo.has_value();
+}
+
+bool item::is_degradable() const
+{
+    return type->degradable.has_value();
 }
 
 bool item::is_comestible() const
@@ -5686,9 +5717,8 @@ int item::processing_speed() const
     return 1;
 }
 
-bool item::process_food( player * /*carrier*/, const tripoint &pos )
+bool item::process_food( player * /*carrier*/, const tripoint & /*pos*/ )
 {
-    calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) > 0 ) {
         if( item_counter == 0 ) {
             item_tags.erase( "HOT" );
@@ -5983,6 +6013,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
 
     for( const auto &e : type->emits ) {
         g->m.emit_field( pos, e );
+    }
+
+    if( goes_bad() ) {
+        calc_rot( g->m.getabs( pos ) );
     }
 
     if( is_food() &&  process_food( carrier, pos ) ) {
