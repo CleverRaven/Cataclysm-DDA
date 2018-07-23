@@ -1460,6 +1460,26 @@ void Item_factory::load_book( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load( islot_degradable &slot, JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "dda";
+
+    assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
+    if( jo.has_string( "rot_spawn" ) ) {
+        slot.rot_spawn = mongroup_id(jo.get_string( "rot_spawn" ));
+    }
+    assign( jo, "rot_spawn_chance", slot.rot_spawn_chance, strict, 0 );
+}
+
+void Item_factory::load_degradable( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.degradable, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -1472,7 +1492,6 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "stim", slot.stim, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
 
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
@@ -1531,12 +1550,6 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
             }
         }
     }
-
-    if( jo.has_string( "rot_spawn" ) ) {
-        slot.rot_spawn = mongroup_id(jo.get_string( "rot_spawn" ));
-    }
-    assign( jo, "rot_spawn_chance", slot.rot_spawn_chance, strict, 0 );
-
 }
 
 void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
@@ -1912,6 +1925,10 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
+
+    if( jo.has_member( "spoils_in" ) ) {
+       load_slot( def.degradable, jo, src );
+    }
 
     // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );

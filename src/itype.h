@@ -123,6 +123,18 @@ struct islot_tool {
     unsigned char turns_per_charge = 0;
 };
 
+/* optional only slot for items that can rot */
+struct islot_degradable {
+    /** Time until becomes rotten at standard temperature, or zero if never spoils */
+    time_duration spoils = 0;
+
+    /** The monster group that is drawn from when the item rots away */
+    mongroup_id rot_spawn = mongroup_id::NULL_ID();
+
+    /** Chance the above monster group spawns*/
+    int rot_spawn_chance = 10;
+};
+
 struct islot_comestible
 {
     /** subtype, e.g. FOOD, DRINK, MED */
@@ -139,9 +151,6 @@ struct islot_comestible
 
     /** effect on character nutrition (may be negative) */
     int nutr = 0;
-
-    /** Time until becomes rotten at standard temperature, or zero if never spoils */
-    time_duration spoils = 0;
 
     /** addiction potential */
     int addict = 0;
@@ -170,11 +179,6 @@ struct islot_comestible
     int get_calories() const {
         return nutr * kcal_per_nutr;
     }
-    /** The monster group that is drawn from when the item rots away */
-    mongroup_id rot_spawn = mongroup_id::NULL_ID();
-
-    /** Chance the above monster group spawns*/
-    int rot_spawn_chance = 10;
 };
 
 struct islot_brewable {
@@ -668,6 +672,7 @@ struct itype {
     /*@{*/
     cata::optional<islot_container> container;
     cata::optional<islot_tool> tool;
+    cata::optional<islot_degradable> degradable;
     cata::optional<islot_comestible> comestible;
     cata::optional<islot_brewable> brewable;
     cata::optional<islot_armor> armor;

@@ -767,6 +767,8 @@ class player : public Character
          */
         item &get_comestible_from( item &it ) const;
 
+        item &get_degradable_from( item &it ) const;
+
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item& it ) const;
         std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;

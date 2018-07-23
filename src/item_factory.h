@@ -158,6 +158,7 @@ class Item_factory
         void load_toolmod( JsonObject &jo, const std::string &src );
         void load_tool_armor( JsonObject &jo, const std::string &src );
         void load_book( JsonObject &jo, const std::string &src );
+        void load_degradable( JsonObject &jo, const std::string &src );
         void load_comestible( JsonObject &jo, const std::string &src );
         void load_container( JsonObject &jo, const std::string &src );
         void load_engine( JsonObject &jo, const std::string &src );
@@ -291,6 +292,7 @@ class Item_factory
 
         void load( islot_tool &slot, JsonObject &jo, const std::string &src );
         void load( islot_container &slot, JsonObject &jo, const std::string &src );
+        void load( islot_degradable &slot, JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, JsonObject &jo, const std::string &src );
         void load( islot_brewable &slot, JsonObject &jo, const std::string &src );
         void load( islot_armor &slot, JsonObject &jo, const std::string &src );

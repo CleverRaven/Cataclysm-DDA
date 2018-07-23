@@ -630,6 +630,9 @@ class item : public visitable<item>
      */
     void calc_rot( const tripoint &p );
 
+    /** return an item's spoil period, or 0 if it doesn't spoil */
+    time_duration spoils_in() const;
+
      /** whether an item is perishable (can rot) */
     bool goes_bad() const;
 
@@ -914,6 +917,7 @@ public:
  bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
+ bool is_degradable() const;
  bool is_comestible() const;
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
