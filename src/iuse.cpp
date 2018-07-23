@@ -47,6 +47,7 @@
 #include "cata_utility.h"
 #include "map_iterator.h"
 #include "string_input_popup.h"
+#include "inventory.h"
 
 #include <vector>
 #include <sstream>
@@ -7924,5 +7925,12 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
         g->m.spawn_item( p->pos(), "splinter", 1 );
         return 1;
     }
+    return 0;
+}
+
+int iuse::disassemble( player *p, item *it, bool, const tripoint & )
+{
+    const int pos = p->inv.position_by_item( it );
+    p->disassemble( *it, pos, false, false );
     return 0;
 }

@@ -561,6 +561,7 @@ void Item_factory::init()
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
+    add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
@@ -1073,8 +1074,8 @@ const itype * Item_factory::find_template( const itype_id& id ) const
         def->description = string_format( making->description );
         m_runtimes[ id ].reset( def );
         return def;
-    }    
-    
+    }
+
     debugmsg( "Missing item definition: %s", id.c_str() );
 
     itype *def = new itype();
