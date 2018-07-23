@@ -2579,9 +2579,6 @@ bool player::in_climate_control()
         return true;
     }
     for( auto &w : worn ) {
-        if( w.typeId() == "rm13_armor_on" ) {
-            return true;
-        }
         if( w.active && w.is_power_armor() ) {
             return true;
         }
