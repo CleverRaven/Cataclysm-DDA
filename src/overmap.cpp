@@ -408,6 +408,12 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     return oter_str.str()[compare_size] == '_';
 }
 
+bool is_ot_subtype(const char* otype, const oter_id &oter)
+{
+    // Checks for any partial match.
+    return strstr(oter.id().c_str(), otype);
+}
+
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
