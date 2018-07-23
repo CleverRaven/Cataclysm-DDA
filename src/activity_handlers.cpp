@@ -89,6 +89,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HOTWIRE_CAR" ), hotwire_finish },
     { activity_id( "ACT_LONGSALVAGE" ), longsalvage_finish },
     { activity_id( "ACT_MAKE_ZLAVE" ), make_zlave_finish },
+    { activity_id( "ACT_FIELD_DRESS" ), field_dress_finish },
     { activity_id( "ACT_PICKAXE" ), pickaxe_finish },
     { activity_id( "ACT_PICKUP" ), pickup_finish },
     { activity_id( "ACT_RELOAD" ), reload_finish },
@@ -1161,6 +1162,95 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
         }
     }
 }
+
+void activity_handlers::field_dress_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    auto items = g->m.i_at(p->pos());
+    std::string corpse_name = act->str_values[0];
+    item *body = NULL;
+
+    for( auto it = items.begin(); it != items.end(); ++it ) {
+        if( it->display_name() == corpse_name ) {
+            body = &*it;
+        }
+    }
+
+    if( body == NULL ) {
+        add_msg( m_info, _( "There's no corpse to perform a field dressing!" ) );
+        return;
+    }
+    mtype *cadaver = body->get_mtype();
+
+    if( !cadaver->in_category( WILDLIFE ) ) {
+        if( cadaver->in_species( ZOMBIE ) ) {
+            add_msg( m_info, _("How would you benefit from field dressing a zombie?") );
+            return;
+        } else if( cadaver->in_species( HUMAN ) && ( !g->u.has_trait_flag( "CANNIBAL" ) || !g->u.has_trait_flag( "PSYCHOPATH" ) ) ) {
+            add_msg( m_info, _("Why would you do this to someone's mortal remains?") );
+            return;
+        } else if( cadaver->in_species( HUMAN ) && g->u.has_trait_flag( "CANNIBAL" ) && g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+            add_msg( m_info, _("This 'long-pork' will make for a fine feast!") );
+        } else if( cadaver->in_species( PLANT ) ) {
+            add_msg( m_info, _("Making a salad doesn't require field dressing.") );
+            return;
+        } else if( cadaver->in_species( ROBOT ) ) {
+            add_msg( m_info, _("You want to gut some screws and bolts? Rather not this way.") );
+            return;
+        } else {
+            add_msg( m_info, _("You don't know where to begin with it's anatomy so you don't even start.") );
+            return;
+        }
+    }
+
+    int success = act->values[0];
+    
+    if( success > 0 ) {
+        
+        p->practice( skill_firstaid, body->size + 1, 2 );
+        p->practice( skill_survival, body->size + 1, 6 );
+
+        p->add_msg_if_player( m_good,
+                             _( "You slice the corpse's belly, then remove intestines and other internal organs until you're confident it will not rot from inside." ) );
+        p->add_msg_if_player( m_good,
+                             _( "Then you remove some unneccesary parts, and prepare it for transportation." ) );
+
+        body->set_flag( "FIELD_DRESSED" );
+
+        //put field dressing effects for corpse here (no_guts, stomach, reduce weight 2/5, halt rot)
+
+    } else if( success > -20 ) {
+
+        p->practice( skill_firstaid, body->size + 1, 2 );
+        p->practice( skill_survival, body->size + 1, 6 );
+
+        p->add_msg_if_player(m_warning,
+                                _( "You hack into the corpse and chop off some body parts.  You think this has not made it any better." ) );
+        
+        body->mod_damage( rng( 0, ( body->max_damage() - body->damage() ) ), DT_STAB );
+        //sprawdzić jak butcher uwzględnia body->damage() w efektach i czy w ogóle
+
+        //partial success = field dressed but damaged, some negative effects, less good effects
+
+    } else {
+        p->practice( skill_firstaid, body->size + 1, 2 );
+        p->practice( skill_survival, body->size + 1, 6 );
+
+            
+        body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
+        if( body->damage() == body->max_damage() ) {
+            body->active = false; //sprawdź po co to jest tutaj
+            p->add_msg_if_player(m_warning, _("You hack up the corpse so unskillfully, that there is not much to salvage left from this bloody mess."));
+        } else {
+            p->add_msg_if_player(m_warning,
+                                    _("You cut into the corpse trying to remove the innards, but instead you cut the meat, spill the guts, and made a bloody mess."));
+        }
+
+    // failure effects, bad effects, rot++, no good effects, add lots of gore!!
+        
+    }
+}
+
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {

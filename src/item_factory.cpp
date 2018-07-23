@@ -539,6 +539,7 @@ void Item_factory::init()
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
+    add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
     add_iuse( "CATFOOD", &iuse::catfood );
@@ -690,6 +691,7 @@ void Item_factory::init()
     add_actor( new consume_drug_iuse() );
     add_actor( new delayed_transform_iuse() );
     add_actor( new enzlave_actor() );
+    add_actor( new field_dress_actor() );
     add_actor( new explosion_iuse() );
     add_actor( new firestarter_actor() );
     add_actor( new fireweapon_off_actor() );

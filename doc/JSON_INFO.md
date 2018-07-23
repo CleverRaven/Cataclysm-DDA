@@ -1244,6 +1244,9 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "enzlave" // Make a zlave.
 },
 "use_action": {
+    "type": "field_dress" // Field dress a corpse of a hunted game, to prepare for further use.
+},
+"use_action": {
     "type": "fireweapon_off", // Activate a fire based weapon.
     "target_id": "firemachete_on", // The item type to transform this item into.
     "success_message": "Your No. 9 glows!", // A message that is shows if the action succeeds.
