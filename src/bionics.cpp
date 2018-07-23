@@ -917,11 +917,6 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level, bool auto
                 deactivate_bionic( i );
             }
         }
-        //If you are paying the doctor to do it, shouldn't use your supplies
-        std::vector<item_comp> comps;
-        comps.push_back( item_comp( "1st_aid", 1 ) );
-        consume_items( comps );
-        invalidate_crafting_inventory();
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
