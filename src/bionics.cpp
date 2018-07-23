@@ -74,6 +74,7 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
@@ -819,6 +820,12 @@ int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechan
         add_msg( m_neutral, _( "You prep yourself to begin surgery." ) );
     }
 
+    // People trained in using the Autodoc gain an additional advantage towards using it
+    if( g->u.has_trait( trait_PROF_AUTODOC ) ) {
+        pl_skill += 7;
+        add_msg( m_neutral, _( "A lifetime of Autodoc use has taught you a thing or two..." ) );
+    }
+
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
                            float ( pl_skill ) - float ( pl_skill ) / float ( 10.0 ) );
@@ -1055,6 +1062,10 @@ void bionics_install_failure( player *u, int difficulty, int success )
     if( u->has_trait( trait_PROF_MED ) ) {
         pl_skill += 6;
     }
+    // As do autodoc techs
+    if( u->has_trait( trait_PROF_AUTODOC ) ) {
+        pl_skill += 12;
+    }
 
     // for failure_level calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
@@ -1090,7 +1101,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
             break;
     }
 
-    if( u->has_trait( trait_PROF_MED ) ) {
+    if( u->has_trait( trait_PROF_MED ) || u->has_trait( trait_PROF_AUTODOC ) ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg( m_neutral, _( "Your training helps you minimize the complications." ) );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.

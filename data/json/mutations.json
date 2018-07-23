@@ -5153,6 +5153,15 @@
         "initial_ma_styles" : [ "style_boxing" ],
         "purifiable": false,
         "profession": true
+	},{        
+        "type" : "mutation",
+        "id" : "PROF_AUTODOC",
+        "name" : "Autodoc Specialist",
+        "points" : 0,
+        "description" : "You're trained in the proper operation of the Autodoc, an advanced machine used for surgical procedures. Operations involving it will be moderately more likely to succeed.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
     },{
         "type" : "mutation",
         "id" : "NPC_BRANDY",
