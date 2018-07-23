@@ -3830,6 +3830,8 @@ int player::impact( const int force, const tripoint &p )
     // Percentage armor penetration - armor won't help much here
     // TODO: Make cushioned items like bike helmets help more
     float armor_eff = 1.0f;
+    // Shock Absorber CBM heavily reduces damage
+    bool shock_absorbers = has_bionic ( bionic_id( "bio_shock_absorber" ) );
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
@@ -3896,21 +3898,38 @@ int player::impact( const int force, const tripoint &p )
         return 0;
     }
 
+    // Shock absorbers kick in only when they need to, so if our other protections fail, fall back on them
+    if( shock_absorbers ) {
+        effective_force -= 15; // Provide a flat reduction to force
+        if( mod > 0.25f ) {
+            mod = 0.25f; // And provide a 75% reduction against that force if we don't have it already
+        }
+        if( effective_force < 0 ) {
+            effective_force = 0;
+        }
+    }
+
     int total_dealt = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        int bash = ( effective_force * rng(60, 100) / 100 );
-        damage_instance di;
-        di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
-        // No good way to land on sharp stuff, so here modifier == 1.0f
-        di.add_damage( DT_CUT,  cut,  0, armor_eff, 1.0f );
-        total_dealt += deal_damage( nullptr, bp, di ).total_damage();
+    if( mod * effective_force >= 5 ) {
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+            int bash = ( effective_force * rng(60, 100) / 100 );
+            damage_instance di;
+            di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
+            // No good way to land on sharp stuff, so here modifier == 1.0f
+            di.add_damage( DT_CUT,  cut,  0, armor_eff, 1.0f );
+            total_dealt += deal_damage( nullptr, bp, di ).total_damage();
+        }
     }
 
     if( total_dealt > 0 && is_player() ) {
         // "You slam against the dirt" is fine
         add_msg( m_bad, _("You are slammed against %s for %d damage."),
                  target_name.c_str(), total_dealt );
+    } else if( is_player() && shock_absorbers ) {
+        add_msg( m_bad, _("You are slammed against %s!"),
+                 target_name.c_str(), total_dealt );
+        add_msg( m_good, _("...but your shock absorbers negate the damage!") );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing
         // Non-players should only get this one: player doesn't know how much damage was dealt
@@ -4255,7 +4274,7 @@ void player::update_needs( int rate_multiplier )
     if( worn_with_flag( "SLOWS_THIRST" ) ) {
         thirst_rate *= 0.7f;
     }
-	
+
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
         // Recycler won't help much with mutant metabolism - it is intended for human one
@@ -4350,7 +4369,7 @@ void player::update_needs( int rate_multiplier )
     if( is_wearing( "solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 25 );
     }
-    
+
     if( is_wearing( "q_solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 50 );
     }
@@ -7232,7 +7251,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
-    
+
     for( auto &i : worn ) {
         if( i.has_flag( "ONLY_ONE" ) && i.typeId() == it.typeId() ) {
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname().c_str() );

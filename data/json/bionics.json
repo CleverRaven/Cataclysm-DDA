@@ -1028,5 +1028,12 @@
     "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
     "act_cost": 50
+  },
+  {
+    "id": "bio_shock_absorber",
+    "type": "bionic",
+    "name": "Shock Absorbers",
+    "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and padding. These hydraulic absorbers will prevent most damage to your body from severe impacts, but not protect you from them happening.",
+    "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ]
   }
 ]
