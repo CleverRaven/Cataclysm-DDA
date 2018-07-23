@@ -9831,8 +9831,8 @@ bool game::plfire()
                 return false;
             }
             reload_time += opt.moves();
-            // Character restores 50% + 8.3% * gun_skill, capped with 100% stability after shot for RELOAD_AND_SHOOT weapon
-            double skill_effect = 0.5 - 0.083 * u.get_skill_level( gun->gun_skill() );
+            // Character restores 50% + 7% * gun_skill, capped with 100% stability after shot for RELOAD_AND_SHOOT weapon
+            double skill_effect = 0.5 - 0.07 * u.get_skill_level( gun->gun_skill() );
             skill_effect = std::max( skill_effect, 0.0 );
             u.recoil = std::max( u.recoil, MAX_RECOIL * skill_effect );
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
