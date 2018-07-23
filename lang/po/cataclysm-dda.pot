@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-15 11:18+0800\n"
+"POT-Creation-Date: 2018-07-21 22:01-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6904,6 +6904,31 @@ msgstr ""
 msgid ""
 "A small concealed knife sheath worn on the ankle.  It is awkward to use "
 "without practice.  Activate to sheathe/draw a weapon."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "spear strap"
+msgid_plural "spear straps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action holster_msg for spear strap.
+#: lang/json/ARMOR_from_json.py
+#, no-python-format
+msgid "You holster your %s."
+msgstr ""
+
+#. ~ Use action holster_prompt for spear strap.
+#: lang/json/ARMOR_from_json.py
+msgid "Holster spear"
+msgstr ""
+
+#. ~ Description for spear strap
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A cloth strap tied around the torso for toting spears while keeping your "
+"hands free.  You have to duck to get through doors while one's in it, "
+"though.  Activate to holster/draw a weapon."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -20239,19 +20264,11 @@ msgstr ""
 msgid "garlic bulb"
 msgstr ""
 
-#. ~ Use action menu_text for garlic bulb.
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Split"
-msgstr ""
-
-#. ~ Use action msg for garlic bulb.
-#: lang/json/COMESTIBLE_from_json.py
-msgid "You split the bulb into cloves."
-msgstr ""
-
 #. ~ Description for garlic bulb
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A pungent garlic bulb.  Popular as a seasoning for its strong flavor."
+msgid ""
+"A pungent garlic bulb.  Popular as a seasoning for its strong flavor.  Can "
+"be disassembled to cloves."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24109,7 +24126,7 @@ msgstr ""
 
 #. ~ Description for spider egg
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A fist-sized egg from from a giant spider.  Incredibly gross."
+msgid "A fist-sized egg from a giant spider.  Incredibly gross."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24118,7 +24135,7 @@ msgstr ""
 
 #. ~ Description for roach egg
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A fist-sized egg from from a giant roach.  Incredibly gross."
+msgid "A fist-sized egg from a giant roach.  Incredibly gross."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24127,7 +24144,7 @@ msgstr ""
 
 #. ~ Description for insect egg
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A fist-sized egg from from a locust."
+msgid "A fist-sized egg from a locust."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24254,6 +24271,33 @@ msgstr ""
 #. ~ Description for bandage
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Simple cloth bandages.  Used for healing small amounts of damage."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "makeshift bandage"
+msgstr ""
+
+#. ~ Description for makeshift bandage
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Simple cloth bandages.  Better than nothing."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "bleached makeshift bandage"
+msgstr ""
+
+#. ~ Description for bleached makeshift bandage
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Simple cloth bandages.  It is white, as real bandages should be."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "boiled makeshift bandage"
+msgstr ""
+
+#. ~ Description for boiled makeshift bandage
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Simple cloth bandages.  It was boiled to make it more sterile."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -26816,7 +26860,8 @@ msgid_plural "oozing tanks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/CONTAINER_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "vortex engine"
 msgid_plural "vortex engines"
 msgstr[0] ""
@@ -26834,7 +26879,8 @@ msgid ""
 "due to its sensitivity."
 msgstr ""
 
-#: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/CONTAINER_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "vortex generator"
 msgid_plural "vortex generators"
 msgstr[0] ""
@@ -27299,7 +27345,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "bundle of rags"
-msgid_plural "bundle of ragss"
+msgid_plural "bundles of rags"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27311,7 +27357,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "bundle of leather"
-msgid_plural "bundle of leathers"
+msgid_plural "bundles of leather"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27324,7 +27370,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "bundle of felt"
-msgid_plural "bundle of felts"
+msgid_plural "bundles of felt"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -29498,8 +29544,9 @@ msgstr[1] ""
 #. ~ Description for forked spear
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A wooden spear with a decent grip and a three-pronged trident-like tip.  "
-"Heavy, but good for catching weapons."
+"A wooden pole with three spikes tied to it and decent grip.  It's "
+"specialized for catching weapons, and not intended for extended use in "
+"combat."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32994,6 +33041,71 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "massive engine block"
+msgid_plural "massive engine blocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for massive engine block
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The beginnings of a massive gas or diesel engine.  It's not good for much of "
+"anything on its own."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "large engine block"
+msgid_plural "large engine blocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for large engine block
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The beginnings of a large gas or diesel engine.  It's not good for much of "
+"anything on its own."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "medium engine block"
+msgid_plural "medium engine blocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for medium engine block
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The beginnings of a medium gas or diesel engine.  It's not good for much of "
+"anything on its own."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "small engine block"
+msgid_plural "small engine blocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for small engine block
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The beginnings of a small gas or diesel engine.  It's not good for much of "
+"anything on its own."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "tiny engine block"
+msgid_plural "tiny engine blocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for tiny engine block
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The beginnings of a tiny gas or diesel engine.  It's not good for much of "
+"anything on its own."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "steel boom"
 msgid_plural "steel booms"
 msgstr[0] ""
@@ -35491,6 +35603,50 @@ msgid ""
 "glow while doing so.  It is also capable of storing electricity from other "
 "sources, but doing so renders it inactive.  It seems pliable enough to pull "
 "apart..."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "BB hopper"
+msgstr ""
+
+#. ~ Description for BB hopper
+#. ~ Description for pebble hopper
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"An improvised magazine for a vehicle mounted weapon.  A simple metal box "
+"with some plastic guide rails, it acts as a gravity fed hopper to drop a "
+"small round shot into the weapon's chamber below.  It is not very reliable, "
+"but quick to reload."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "bolt hopper"
+msgstr ""
+
+#. ~ Description for bolt hopper
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"An improvised magazine for a vehicle mounted crossbow.  A simple metal box "
+"with some plastic guide rails, it acts as a gravity fed hopper to drop a "
+"crossbow bolt into the weapon below.  It is awkward to reload and not "
+"especially reliable."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "cannister rack"
+msgstr ""
+
+#. ~ Description for cannister rack
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"An improvised magazine for a vehicle mounted weapon.  A simple metal box "
+"with some plastic guide rails, it acts as a gravity fed hopper to drop a "
+"heavy cannister into the weapon below.  It is awkward to reload and not "
+"especially reliable."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "pebble hopper"
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -44146,8 +44302,8 @@ msgstr[1] ""
 #. ~ Description for hoe
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a farming implement.  Use it to turn tillable land into a slow-to-"
-"cross pile of dirt."
+"This is a farming implement.  You can use it to turn tillable land into a "
+"slow-to-cross pile of dirt, or dig a shallow pit."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -45225,7 +45381,23 @@ msgstr[1] ""
 
 #. ~ Description for pet carrier
 #: lang/json/TOOL_from_json.py
-msgid "A plastic container meant to hold pets for transport."
+msgid ""
+"A plastic container meant to hold pets for transport.  Use it on a suitable "
+"animal to capture, use it on an empty tile to release."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "chicken cage"
+msgid_plural "chicken cages"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for chicken cage
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A wire container made for transporting chickens, but you can use it to hold "
+"any tiny animal.  Use it on a suitable animal to capture, use it on an empty "
+"tile to release."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -46132,7 +46304,23 @@ msgstr[1] ""
 #. ~ Description for knife spear
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a simple wood pole made much more deadly by the blade tied to it."
+"A crude pole made of wood with an equally crude metal spike tied to it.  "
+"It's long enough to slice from a distance, but its crude construction means "
+"it won't last long."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "homemade halfpike"
+msgid_plural "homemade halfpikes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for homemade halfpike
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A short do-it-yourself spear made of a smooth wooden shaft with a shaped "
+"metal shape seated and bound into place at its tip.  Its functional grip and "
+"decent construction makes it a usable, if not effective, weapon."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -48907,6 +49095,22 @@ msgstr ""
 msgid "Stop drilling?"
 msgstr ""
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop digging?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop filling?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop shaving?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop cutting your hair?"
+msgstr ""
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ""
@@ -50321,27 +50525,11 @@ msgid "Certain terrain and furniture can be deconstructed without any tools."
 msgstr ""
 
 #: lang/json/construction_from_json.py
-msgid "Dig Pit"
-msgstr ""
-
-#: lang/json/construction_from_json.py
 msgid "Spike Pit"
 msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Glass Pit"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Fill Pit"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Till Soil"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Tamp Ground"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -52282,6 +52470,24 @@ msgstr ""
 #. ~ Description of effect 'Recovering From Infection'.
 #: lang/json/effects_from_json.py
 msgid "You are recovering from an infection."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Bandaged"
+msgstr ""
+
+#. ~ Description of effect 'Bandaged'.
+#: lang/json/effects_from_json.py
+msgid "Your wounds are bandaged."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Disinfected"
+msgstr ""
+
+#. ~ Description of effect 'Disinfected'.
+#: lang/json/effects_from_json.py
+msgid "Your wounds are disinfected."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -54706,7 +54912,7 @@ msgstr ""
 
 #. ~ Description for still
 #: lang/json/furniture_from_json.py
-msgid "Invaluable equipment in brewery and chemisty, that distiles liquids."
+msgid "Invaluable equipment in brewery and chemisty, that distills liquids."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -56033,7 +56239,9 @@ msgid ""
 "Developed by Leadworks as a companion sidearm to the L523 modular system, "
 "this massive autorevolver fires the powerful .223 round, but suffers high "
 "recoil as a result.  It has a weighted barrel to make recoil more manageable "
-"and a 5-chamber cylinder."
+"and a 5-chamber cylinder. Holographics and laser sights built in for "
+"additonal accuracy. Similar to other Leadworks products it doesn't accept "
+"third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56074,9 +56282,10 @@ msgid ""
 "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in "
 "multiple applications, and is designed to part-swap quickly, safely, and "
 "effectively from one to the next.  The carbine model incorporates Leadworks' "
-"proprietary gyro-stabilization technology and includes an integral laser "
-"sight, but like the rest of the family, doesn't accept third-party "
-"modifications."
+"proprietary gyro-stabilization technology and includes a read-dot sight and "
+"an integral laser sight.  Additionally it comes with underslung shotgun for "
+"close range encounters.  Like the rest of the family, doesn't accept third-"
+"party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56107,9 +56316,9 @@ msgid ""
 "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in "
 "multiple applications, and is designed to part-swap quickly, safely, and "
 "effectively from one to the next.  The rather ambitious light machine gun "
-"variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks "
-"gyro system.  Unlike the other configurations, the L523 LMG can be loaded "
-"with ammo belts."
+"variant incorporates ACOG scope, a heavy-duty barrel, foregrip, bipod and as "
+"well as the Leadworks gyro system.  Unlike the other configurations, the "
+"L523 LMG can be loaded with ammo belts."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56132,8 +56341,10 @@ msgid ""
 "multiple applications, and is designed to part-swap quickly, safely, and "
 "effectively from one to the next.  The battle rifle's (proprietary) "
 "combination optic & red-dot sights provide quick and accurate targeting, "
-"with a foregrip available for greater control.  Like the rest of the family, "
-"though, it doesn't accept third-party modifications."
+"with Leadworks gyro-stabilization system system and foregrip available for "
+"greater control.  Additionally it comes with grenade launcher module for "
+"dealing with hard targets.  Like the rest of the family, though, it doesn't "
+"accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56791,8 +57002,9 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"One of the most famous lever action rifles ever produced, the Henry Big Boy "
-"is chambered in the powerful .44 magnum cartridge.  Go get 'em cowboy!"
+"This fine lever action rifle is chambered in the powerful .44 magnum "
+"cartridge and features a sleek octagonal barrel with a tube fed magazine.  "
+"Go get 'em cowboy!"
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56884,7 +57096,9 @@ msgid ""
 "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-"
 "action of a semi-auto with the ease-of-reloading and style of a revolver.  "
 "It achieved overnight stardom when it appeared in \"Treasure Trail\", a "
-"popular space-Western series running from 2030 through 2037."
+"popular space-Western series.  Comes with built in holographic and laser "
+"sights.  Similar to other Leadworks products it doesn't accept third-party "
+"modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56896,11 +57110,13 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "Numbered to bridge the gap between the USian Frontier and modern Civil "
-"Defense needs, the Long Ranger was designed to give Enforcer users (or "
-"anyone using .45 caliber cartridges) a little extra reach while using the "
-"same ammunition.  Synthetic furniture cost it some charm points from the "
+"Defense needs, the Leadworks Long Ranger was designed to give Enforcer users "
+"(or anyone using .45 caliber cartridges) a little extra reach while using "
+"the same ammunition.  Synthetic furniture cost it some charm points from the "
 "legendary Winchester rifles it was based upon, but users agree that the "
-"forty-five's punch with the reach of a rifle is worth it."
+"forty-five's punch with the reach of a rifle is worth it.  Comes with built "
+"in holographic and laser sights.  Similar to other Leadworks products it "
+"doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56913,8 +57129,9 @@ msgstr[1] ""
 msgid ""
 "After the success of the 9x19mm model, Leadworks LLC released an L39B "
 "chambered in .45.  It soon earned a reputation as one of the most "
-"intimidating guns on the market, for firer and target alike.  Similar to "
-"other Leadworks products it doesn't accept third-party modifications."
+"intimidating guns on the market, for firer and target alike.  Come with "
+"built in red dot and laser sights.  Similar to other Leadworks products it "
+"doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -56927,8 +57144,9 @@ msgstr[1] ""
 msgid ""
 "Capitalizing on the L39B-45's reputation as one of the most intimidating "
 "pistols on the market, Leadworks LLC manufactured a semiautomatic model as "
-"well.  Locking it semi-auto reduced cost and improved performance.  Similar "
-"to other Leadworks products it doesn't accept third-party modifications."
+"well.  Locking it semi-auto reduced cost and improved performance.  Comes "
+"with built in red dot and laser sights.  Similar to other Leadworks products "
+"it doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -57524,9 +57742,11 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "After the Enforcer's success, Leadworks LLC reworked their autorevolver "
-"design to cater to the 9x19mm market.  The Lookout, released in 2032, takes "
-"advantage of the smaller 9x19mm to hold a seventh round, without sacrificing "
-"the ease of handling or reloading the Enforcer made legendary."
+"design to cater to the 9x19mm market.  The Lookout takes advantage of the "
+"smaller 9x19mm to hold a seventh round, without sacrificing the ease of "
+"handling or reloading the Enforcer made legendary.  Comes with built in "
+"holographic and laser sights.  Similar to other Leadworks products it "
+"doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -57537,11 +57757,11 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B "
+"A selective-firing 9x19mm handgun introduced by Leadworks LLC's, L39B "
 "provides accurate single-shot placement as well as controllable short-range "
 "firepower with its three-round burst mode.  Users praised its accuracy and "
-"fearsome appearance.  Similar to other Leadworks products it doesn't accept "
-"third-party modifications."
+"fearsome appearance.  Comes with built in red dot and laser sights.  Similar "
+"to other Leadworks products it doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -57552,11 +57772,11 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A semiautomatic 9x19mm handgun introduced in 2039, Leadworks LLC's L39 "
-"provides accurate single-shot placement in a very robust frame.  Several "
-"urban legends describe using it in ways that would have destroyed a lesser "
-"weapon.  Similar to other Leadworks products it doesn't accept third-party "
-"modifications."
+"A semiautomatic 9x19mm handgun introduced by Leadworks LLC's, L39 provides "
+"accurate single-shot placement in a very robust frame with built in red dot "
+"and laser sights. Several urban legends describe using it in ways that would "
+"have destroyed a lesser weapon. Similar to other Leadworks products it "
+"doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -57903,8 +58123,9 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "Leadworks LLC's sole shotgun offering to date is surprisingly compact thanks "
-"to its moving barrel and forward-back pump mechanism.  Like most other "
-"Leadworks products it doesn't accept third-party modifications."
+"to its moving barrel and forward-back pump mechanism. Additionaly it has "
+"built in red dot and laser sights. Like most other Leadworks products it "
+"doesn't accept third-party modifications."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -60015,6 +60236,43 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
+msgid "LW barrel extension"
+msgid_plural "LW barrel extensions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A Leadworks built in longer barrel increases the muzzle velocity of a "
+"firearm, contributing to both accuracy and damage, but slows aiming."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW shortened barrel"
+msgid_plural "LW shortened barrels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A Leadworks built in shortened barrel results in reduced weapon range, and a "
+"minor increase in noise, but also greatly improves the ease with which the "
+"weapon can be carried and wielded."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW heavy duty barrel"
+msgid_plural "LW heavy duty barrels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A Leadworks built in heavy duty barrel especially designed for prolonged "
+"shooting.  Reduce accuracy but increase damage output and weapon range."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
 msgid "lightweight replacement furniture"
 msgid_plural "lightweight replacement furnitures"
 msgstr[0] ""
@@ -60314,6 +60572,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
+msgid "LW gyroscopic stabilizer"
+msgid_plural "LW gyroscopic stabilizers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "An advanced Leadworks built in gyroscopic stabilizer."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
 msgid "bow sight"
 msgid_plural "bow sights"
 msgstr[0] ""
@@ -60434,6 +60702,48 @@ msgstr[1] ""
 msgid ""
 "A simple telescopic sight intended for use on a handgun.  Increases weight "
 "but improves accuracy greatly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW red dot sight"
+msgid_plural "LW red dot sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "Built in red-dot sight for the Leadworks weapon."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW rifle scope"
+msgid_plural "LW rifle scopes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "Built in rifle scope for the Leadworks weapon."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW ACOG scope"
+msgid_plural "LW ACOG scopes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"An Leadworks built in Advanced Combat Optical Gunsight, a milspec medium "
+"magnification scope.  Improves accuracy significantly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW holographic sight"
+msgid_plural "LW holographic sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "Leadworks built in holographic sight."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -60685,6 +60995,67 @@ msgstr[1] ""
 msgid ""
 "A short shotgun with 2 barrels, which can be mounted under the barrel of "
 "many rifles.  It allows two shotgun shells to be loaded and fired."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW underbarrel laser sight"
+msgid_plural "LW underbarrel laser sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A Leadworks built in visible-light laser that mounts under a firearm's "
+"barrel to enhance ease and speed of target acquisition."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW forward grip"
+msgid_plural "LW forward grips"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A Leadworks built in grip placed forward on the barrel allows for greater "
+"control."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW bipod"
+msgid_plural "LW bipods"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Leadworks built in bipod designed to provide a forward rest and reduce "
+"motion.  Although it greatly improve handling of recoil it is usable only on "
+"certain surfaces and are slow to equip."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW underslung shotgun"
+msgid_plural "LW underslung shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Leadworks built in shotgun with 2 barrels. It allows two shotgun shells to "
+"be loaded and fired."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LW GLM"
+msgid_plural "LW GLM"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The Leadworks built in Grenade Launcher Module offers the functionality of "
+"larger launchers in a very small package."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -61036,10 +61407,6 @@ msgid "Saw down barrel"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
-msgid "Clear rubble"
-msgstr ""
-
-#: lang/json/item_action_from_json.py
 msgid "Inject"
 msgstr ""
 
@@ -61084,6 +61451,10 @@ msgid "Chew"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
+msgid "Clear rubble"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
 msgid "Snort coke"
 msgstr ""
 
@@ -61094,6 +61465,10 @@ msgstr ""
 #: lang/json/item_action_from_json.py
 #: lang/json/keybinding_from_json.py
 msgid "Eat"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Dig pit"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -61114,6 +61489,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Spray"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Fill pit / tamp ground"
 msgstr ""
 
 #. ~ Mutation class name
@@ -61349,8 +61728,7 @@ msgstr ""
 #: lang/json/json_flag_from_json.py
 msgid ""
 "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> "
-"to safely install it into your body, or you may attempt to perform a "
-"<info>self-installation</info> with a higher risk of damaging yourself."
+"or <info>ask a surgeon</info> to install it into your body."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -61552,6 +61930,10 @@ msgstr ""
 
 #: lang/json/json_flag_from_json.py
 msgid "This item can be stored in a scabbard of the appropriate size."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "This item can be stored in a sling of the appropriate size."
 msgstr ""
 
 #: lang/json/json_flag_from_json.py
@@ -62849,7 +63231,8 @@ msgstr ""
 msgid "Load color template"
 msgstr ""
 
-#: lang/json/keybinding_from_json.py src/vehicle.cpp
+#: lang/json/keybinding_from_json.py src/pickup.cpp
+#: src/vehicle.cpp
 msgid "Control multiple electronics"
 msgstr ""
 
@@ -63162,6 +63545,86 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "the address is unreadable"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Barracks Entrance"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "UNLOCK ENTRANCE"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Magazine Entrance"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Prisoner Containment Entrance"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Containment Control"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "EMERGENCY CONTAINMENT RELEASE"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Operating Theatre Access Control"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "EMERGENCY EVAC - OPEN ALL DOORS"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "UNLOCK AUTODOC DOOR"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "EMERGENCY CONTAINMENT UNLOCK"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "EMERGENCY CLEANSE"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Containment Terminal"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "Mk IV Algorithmic Data Analyzer"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Run Decryption Algorithm"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Upload Data to Melchior"
+msgstr ""
+
+#. ~ Computer option
+#: lang/json/mapgen_from_json.py
+msgid "Access Melchior"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -63933,17 +64396,17 @@ msgid "damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: src/material.cpp
+#: lang/json/material_from_json.py src/material.cpp
 msgid "lightly damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: src/material.cpp
+#: lang/json/material_from_json.py src/material.cpp
 msgid "very damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: src/material.cpp
+#: lang/json/material_from_json.py src/material.cpp
 msgid "thoroughly damaged"
 msgstr ""
 
@@ -64206,6 +64669,26 @@ msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Vegetable Matter"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Tomato"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Bean"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Garlic"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Nut"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Mushroom"
 msgstr ""
 
 #: lang/json/material_from_json.py src/defense.cpp
@@ -73724,6 +74207,59 @@ msgid "icecream shop"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "camp survey"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "survivor camp"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "survivor base"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "farm survey"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+#: lang/json/start_location_from_json.py
+msgid "farm"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "garage survey"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "kitchen survey"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "kitchen"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hide site"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "trench"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "spiked trench"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "blacksmith survey"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "blacksmith shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "abandoned drive-through"
 msgstr ""
 
@@ -78522,6 +79058,21 @@ msgstr ""
 #. ~ Crafting recipes subcategory of 'OTHER' category
 #: lang/json/recipe_category_from_json.py
 msgid "VEHICLE"
+msgstr ""
+
+#. ~ Crafting recipes category name
+#: lang/json/recipe_category_from_json.py
+msgid "BUILDING"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'BUILDING' category
+#: lang/json/recipe_category_from_json.py
+msgid "BASES"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'BUILDING' category
+#: lang/json/recipe_category_from_json.py
+msgid "EXPANSIONS"
 msgstr ""
 
 #: lang/json/recipe_from_json.py
@@ -86053,7 +86604,7 @@ msgstr ""
 msgid "Gun Store"
 msgstr ""
 
-#: lang/json/start_location_from_json.py
+#: lang/json/start_location_from_json.py src/mission_companion.cpp
 msgid "Garage"
 msgstr ""
 
@@ -86148,10 +86699,6 @@ msgstr ""
 
 #: lang/json/start_location_from_json.py
 msgid "campgrounds"
-msgstr ""
-
-#: lang/json/start_location_from_json.py
-msgid "farm"
 msgstr ""
 
 #: lang/json/start_location_from_json.py
@@ -92018,7 +92565,7 @@ msgstr ""
 msgid ""
 "A strong door.  When open, it lets you move from inside the vehicle to "
 "outside or vice versa.  When closed, it prevents people from entering or "
-"leaving the vehicle.  A windows lets you see through it when closed."
+"leaving the vehicle.  A window lets you see through it when closed."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92034,7 +92581,7 @@ msgstr ""
 msgid ""
 "A very strong door.  When open, it lets you move from inside the vehicle to "
 "outside or vice versa.  When closed, it prevents people from entering or "
-"leaving the vehicle.  A windows lets you see through it when closed."
+"leaving the vehicle.  A window lets you see through it when closed."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92065,7 +92612,6 @@ msgid "A blade, welded to the vehicle, for cutting up zombies."
 msgstr ""
 
 #. ~ Description for spike
-#. ~ Description for wooden spike
 #: lang/json/vehicle_part_from_json.py
 msgid ""
 "A metal spike, welded to the vehicle, to increase injury when crashing into "
@@ -92346,6 +92892,13 @@ msgstr ""
 msgid "mounted electric kiln"
 msgstr ""
 
+#. ~ Description for mounted electric kiln
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A electric kiln for baking brick or clay, powered by the vehicle's "
+"batteries.  You could use this to harden bricks or clay."
+msgstr ""
+
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden armor"
 msgstr ""
@@ -92508,7 +93061,7 @@ msgstr ""
 #. ~ Description for jumper cable
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"Thick, copper cable with leads on either end.  Attach one end to one vehicle "
+"Thick copper cable with leads on either end.  Attach one end to one vehicle "
 "and the other to another, and you can transfer electrical power between the "
 "two."
 msgstr ""
@@ -92516,7 +93069,7 @@ msgstr ""
 #. ~ Description for heavy-duty cable
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"Very thick, copper cable with leads on either end.  Attach one end to one "
+"Very thick copper cable with leads on either end.  Attach one end to one "
 "vehicle and the other to another, and you can transfer electrical power "
 "between the two."
 msgstr ""
@@ -92532,6 +93085,13 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden spike"
+msgstr ""
+
+#. ~ Description for wooden spike
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A wooden spike, attached to the vehicle, to increase injury when crashing "
+"into things."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92706,6 +93266,7 @@ msgid ""
 msgstr ""
 
 #. ~ Description for car battery
+#. ~ Description for storage battery
 #: lang/json/vehicle_part_from_json.py
 msgid ""
 "A battery for storing electrical power, and discharging it to power "
@@ -92714,6 +93275,15 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "swappable storage battery"
+msgstr ""
+
+#. ~ Description for swappable storage battery
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A battery for storing electrical power, and discharging it to power "
+"electrical devices built into the vehicle.  This one is mounted on a quick "
+"release framework to allow it to be easily swapped, though it still weighs "
+"so much that a lifting tool of some kind is necessary for most people."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92840,8 +93410,56 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid ""
+"A large diesel engine.  Burns diesel from a tank in the vehicle to move the "
+"vehicle if the vehicle has sufficient wheels.  Requires controls to turn "
+"on.  Requires a charged battery to start.  An alternator attached to the "
+"engine will generate electrical power while the engine is on."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A small gasoline engine.  Burns gasoline from a tank in the vehicle to move "
+"the vehicle if the vehicle has sufficient wheels.  Requires controls to turn "
+"on.  Requires a charged battery to start.  An alternator attached to the "
+"engine will generate electrical power while the engine is on."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A very small gasoline engine.  Burns gasoline from a tank in the vehicle to "
+"move the vehicle if the vehicle has sufficient wheels.  Requires controls to "
+"turn on.  Requires a charged battery to start.  An alternator attached to "
+"the engine will generate electrical power while the engine is on."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
 "A gasoline engine.  Burns gasoline from a tank in the vehicle to move the "
 "vehicle if the vehicle has sufficient wheels.  Requires controls to turn "
+"on.  Requires a charged battery to start.  An alternator attached to the "
+"engine will generate electrical power while the engine is on."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An extremely large gasoline engine.  Burns gasoline from a tank in the "
+"vehicle to move the vehicle if the vehicle has sufficient wheels.  Requires "
+"controls to turn on.  Requires a charged battery to start.  An alternator "
+"attached to the engine will generate electrical power while the engine is on."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"An extremely large diesel engine.  Burns diesel from a tank in the vehicle "
+"to move the vehicle if the vehicle has sufficient wheels.  Requires controls "
+"to turn on.  Requires a charged battery to start.  An alternator attached to "
+"the engine will generate electrical power while the engine is on."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A large gasoline engine.  Burns gasoline from a tank in the vehicle to move "
+"the vehicle if the vehicle has sufficient wheels.  Requires controls to turn "
 "on.  Requires a charged battery to start.  An alternator attached to the "
 "engine will generate electrical power while the engine is on."
 msgstr ""
@@ -92865,7 +93483,7 @@ msgstr ""
 #. ~ Description for telescopic crane
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"An extendable, cantilever crane.  Can be used to jack up another vehicle to "
+"An extendable cantilever crane.  Can be used to jack up another vehicle to "
 "change the other vehicle's wheels, or lift a heavy component like an engine "
 "from another vehicle."
 msgstr ""
@@ -92888,6 +93506,14 @@ msgid ""
 "A pair of forklift arms.  Can be used to jack up another vehicle to change "
 "the other vehicle's wheels, or lift a heavy component like an engine from "
 "another vehicle."
+msgstr ""
+
+#. ~ Description for rockwheel
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A large metal disc, powered by the vehicle's engines.  It can be turned on, "
+"and it will stop the vehicle unless it has a strong engine.  When turned on, "
+"it will dig a shallow pit in dirt. Mount it on the edge of your vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92984,8 +93610,9 @@ msgstr ""
 #. ~ Description for atomic nightlight
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"A dim light, self-powered by an atomic decay reaction that never stops.  "
-"When turned on, it illuminates a square inside the vehicle."
+"A very dim light, self-powered by an atomic decay reaction that never "
+"stops.  When turned on, it illuminates a single square inside the vehicle "
+"that isn't suitable for crafting."
 msgstr ""
 
 #. ~ Description for floodlight
@@ -93037,7 +93664,7 @@ msgstr ""
 msgid ""
 "A set of bicycle style foot pedals.  If mounted on the same tile as seat, "
 "they allow you to move the vehicle at the cost of your stamina, if the "
-"vehicle has sufficient wheels."
+"vehicle has sufficient wheels.  They also act as controls."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -93049,7 +93676,7 @@ msgstr ""
 msgid ""
 "A set of wheelchair style wheels.  If mounted on the same tile as seat, they "
 "allow you to move the vehicle at the cost of your stamina, if the vehicle "
-"has sufficient wheels."
+"has sufficient wheels.  They also act as controls."
 msgstr ""
 
 #. ~ Description for electric motor
@@ -94696,13 +95323,13 @@ msgstr ""
 #: src/crafting.cpp src/debug_menu.cpp
 #: src/editmap.cpp src/game.cpp
 #: src/game.cpp
-#: src/game.cpp src/iexamine.cpp
 #: src/iexamine.cpp
-#: src/inventory_ui.cpp src/iuse.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp
 #: src/iuse_actor.cpp
 #: src/mission_companion.cpp
-#: src/pickup.cpp src/turret.cpp src/vehicle.cpp
+#: src/mission_companion.cpp src/pickup.cpp src/turret.cpp
+#: src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -95192,6 +95819,30 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You finish drilling."
+msgstr ""
+
+#. ~ Sound of a shovel digging a pit at work!
+#. ~ Sound of a shovel filling a pit or mound at work!
+#: src/activity_handlers.cpp
+msgid "hsh!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You finish digging up %s."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You finish filling up %s."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You open up your kit and shave."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You give your hair a trim."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -96637,6 +97288,81 @@ msgstr ""
 #: src/artifact.cpp
 #, c-format
 msgid "%s Suffering"
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid ""
+"The %s is somehow vaguely dissatisfied even though it doesn't want anything. "
+"Seeing this is a bug!"
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid ""
+"The %s is satisfied, as it should be because it has no standards. Seeing "
+"this is a bug!"
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "Your %s feels needy, like it wants to be held."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "You snuggle your %s closer."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "Your %s feels needy, like it wants to be touched."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "You press your %s against your skin."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid ""
+"The %s is confused to find you dreaming while awake. Seeing this is a bug!"
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "Your %s sleeps soundly."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "Your %s longs for the glow."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "Your %s basks in the glow."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "You dream of angels' tears falling on your %s."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "You dream of playing in the rain with your %s."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "You dream that your %s is being buried alive."
+msgstr ""
+
+#: src/artifact.cpp
+#, c-format
+msgid "You dream of your %s dancing in a blue void."
 msgstr ""
 
 #: src/artifact.cpp
@@ -98948,6 +99674,10 @@ msgid "You cannot build there!"
 msgstr ""
 
 #: src/construction.cpp
+msgid "You cannot deconstruct this!"
+msgstr ""
+
+#: src/construction.cpp
 msgid "Time to complete: "
 msgstr ""
 
@@ -99278,6 +100008,10 @@ msgstr ""
 
 #: src/crafting.cpp
 msgid "You can't see to craft!"
+msgstr ""
+
+#: src/crafting.cpp
+msgid "Overmap terrain building recipies are not implemented yet!"
 msgstr ""
 
 #: src/crafting.cpp
@@ -99851,6 +100585,10 @@ msgid "Player"
 msgstr ""
 
 #: src/debug_menu.cpp
+msgid "Edit [N]ame"
+msgstr ""
+
+#: src/debug_menu.cpp
 msgid "Edit [s]kills"
 msgstr ""
 
@@ -99971,6 +100709,17 @@ msgstr ""
 #: src/debug_menu.cpp
 #, c-format
 msgid "Set the morale to? Currently: %d"
+msgstr ""
+
+#: src/debug_menu.cpp
+msgid "Rename:"
+msgstr ""
+
+#: src/debug_menu.cpp
+#, c-format
+msgid ""
+"NPC: \n"
+"%s\n"
 msgstr ""
 
 #: src/debug_menu.cpp
@@ -100565,6 +101314,10 @@ msgstr ""
 msgid "You could harvest the following things from it:"
 msgstr ""
 
+#: src/dialogue.h
+msgid "Do you wish to give your companion additional items?"
+msgstr ""
+
 #: src/dump.cpp
 msgid "Loading content packs"
 msgstr ""
@@ -100891,6 +101644,34 @@ msgstr ""
 #: src/editmap.cpp
 #, c-format
 msgid "Changed oter_id from '%s' (%s) to '%s' (%s)"
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "Select a tile up to %d tiles away."
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "You must select a tile within %d range of the camp"
+msgstr ""
+
+#: src/editmap.cpp
+msgid "You must construct expansions in fields."
+msgstr ""
+
+#: src/editmap.cpp src/mission_companion.cpp
+msgid ""
+"Engine cannot support merging vehicles from two overmaps, please remove them "
+"from the OM tile."
+msgstr ""
+
+#: src/editmap.cpp
+msgid "Your mechanic could not find a vehicle at the garage."
+msgstr ""
+
+#: src/editmap.cpp
+msgid "Select the Vehicle"
 msgstr ""
 
 #: src/editmap.cpp
@@ -107030,11 +107811,10 @@ msgstr ""
 msgid ""
 "Bionics come in ready-to-install canisters. Installation of a bionic is best "
 "left to a trained professional or to an autodoc, if you manage to find one. "
-"However, you may attempt to perform a self-installation. Performing such a "
-"task requires high levels of intelligence, first aid, mechanics, and "
-"electronics. Beware though, a failure may cripple you! Many bionic canisters "
-"are difficult to find, but may be purchased from certain wandering vagabonds "
-"for a very high price."
+"Configuring autodoc requires high levels of intelligence, first aid, "
+"mechanics, and electronics. Beware though, a failure may cripple you!  Many "
+"bionic canisters are difficult to find, but may be purchased from certain "
+"wandering vagabonds for a very high price."
 msgstr ""
 
 #: src/help.cpp
@@ -111871,11 +112651,47 @@ msgid "You break the glass."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Till soil where?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You think about jumping on a shovel, but then change up your mind."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You churn up the earth here."
 msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't churn up this ground."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Dig pit where?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You delve into yourself."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't deepen this pit without a proper shovel."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't dig a pit on this ground."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Fill which pit or mound?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You decide not to bury yourself that early."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "There is nothing to fill."
 msgstr ""
 
 #: src/iuse.cpp
@@ -113779,14 +114595,6 @@ msgid "You need soap to use this."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You open up your kit and shave."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You give your hair a trim."
-msgstr ""
-
-#: src/iuse.cpp
 #, c-format
 msgid "The %s's monitor slowly outputs the data..."
 msgstr ""
@@ -114605,6 +115413,22 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "<bold>Actual healing:</bold> "
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "<bold>Base bandaging quality:</bold> "
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "<bold>Actual bandaging quality:</bold> "
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "<bold>Base disinfecting quality:</bold> "
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "<bold>Actual disinfecting quality:</bold> "
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -116321,58 +117145,6 @@ msgid "Please wait as the map saves [%d/%d]"
 msgstr ""
 
 #: src/mapgen.cpp
-msgid "Barracks Entrance"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "UNLOCK ENTRANCE"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Magazine Entrance"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Prisoner Containment Entrance"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Containment Control"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "EMERGENCY CONTAINMENT RELEASE"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Containment Terminal"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "EMERGENCY CONTAINMENT UNLOCK"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "EMERGENCY CLEANSE"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Mk IV Algorithmic Data Analyzer"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Run Decryption Algorithm"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Upload Data to Melchior"
-msgstr ""
-
-#: src/mapgen.cpp
-msgid "Access Melchior"
-msgstr ""
-
-#: src/mapgen.cpp
 msgid "Sub-prime contact console"
 msgstr ""
 
@@ -117131,6 +117903,10 @@ msgid "Outpost Missions"
 msgstr ""
 
 #: src/mission_companion.cpp
+msgid "Base Missions"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Junk Shop Missions"
 msgstr ""
 
@@ -117233,6 +118009,174 @@ msgid ""
 "Time: 1 hour minimum\n"
 " \n"
 "Labor Roster:\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Notes:\n"
+"Have a companion attempt to completely dissemble a vehicle into components.\n"
+" \n"
+"Skill used: mechanics\n"
+"Difficulty: 2 \n"
+"Effects:\n"
+"> Removed parts placed on the furniture in the garage.\n"
+"> Skill plays a huge role to determine what is salvaged.\n"
+" \n"
+"Risk: None\n"
+"Time: Skill Based \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Notes:\n"
+"Plow any spaces that have reverted to dirt or grass.\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Restores only the plots created in the last expansion upgrade.\n"
+"> Does not damage existing crops.\n"
+" \n"
+"Risk: None\n"
+"Time: 5 Min / Plot \n"
+"Positions: 0/1 \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Notes:\n"
+"Plant designated seeds in the spaces that have already been tilled.\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Choose which seed type or all of your seeds.\n"
+"> Stops when out of seeds or planting locations.\n"
+"> Will plant in ALL dirt mounds in the expansion.\n"
+" \n"
+"Risk: None\n"
+"Time: 1 Min / Plot \n"
+"Positions: 0/1 \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Notes:\n"
+"Harvest any plants that are ripe and bring the produce back.\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Will dump all harvesting products onto your location.\n"
+" \n"
+"Risk: None\n"
+"Time: 3 Min / Plot \n"
+"Positions: 0/1 \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working to expand your camp!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working to upgrade your expansions!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working at the chop shop...\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working in your kitchen!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working in your blacksmith shop!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working to plow your fields!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working to plant your fields!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working to harvest your fields!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Working on your farm!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Busy crafting!\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Searching for materials to upgrade the camp.\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Searching for firewood.\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Performing menial labor...\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"\n"
+" \n"
+"Do you wish to bring your allies back into your party?\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Surveying for expansion...\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Cutting logs in the woods...\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Setting up a hide site...\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Constructing fortifications...\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Searching for recruits.\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Scouting the region.\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Patrolling the region.\n"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -117399,11 +118343,240 @@ msgid "departs to work as a laborer..."
 msgstr ""
 
 #: src/mission_companion.cpp
+msgid "You don't have enough food stored to feed your companion."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins to upgrade the camp..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You already have a companion upgrading the camp."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You don't have the materials for the upgrade."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from your garage..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from your kitchen with something..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from your blacksmith shop with something..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from your farm with something..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns to you with something..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs to search for materials..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "There are too many companions working on this mission!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs to search for firewood..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs to dig ditches and scrub toilets..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs to survey land..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You have already selected a surveyor!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins to upgrade the expansion..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You already have a worker upgrading that expansion!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Forests and swamps are the only valid cutting locations."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Trip Estimate:\n"
+"%s"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs to cut logs..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from working in the woods..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Forests, swamps, and fields are valid hide site locations."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs to build a hide site..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You need equipment to setup a hide site..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from working on the hide site..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You must select an existing hide site."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Bring gear back?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs for the hide site..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You need equipment to transport between the hide site..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from shuttling gear between the hide site..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Select a start and end point.  Line must be straight. Fields, forests, and "
+"swamps are valid fortification locations.  In addition to existing "
+"fortification constructions."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Select an end point."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Invalid terrain in construction path."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You don't have the material to build the fortification."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins constructing fortifications..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from constructing fortifications..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs to search for recruits..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Select checkpoints until you reach maximum range or select the last point "
+"again to end."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "departs on patrol..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Your companion hit a river and didn't know how to swim..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Your companion hit a river and didn't know how to swim well enough to "
+"cross..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s didn't return from patrol..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from patrol..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You already have someone working in that garage."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins plowing the field..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You already have someone plowing that field."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You have no additional seeds to give your companions..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins planting the field..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You already have someone planting that field."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins to harvest the field..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You already have someone harvesting that field."
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "departs to work as a carpenter..."
 msgstr ""
 
 #: src/mission_companion.cpp
 msgid "departs to forage for food..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Done"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -117595,6 +118768,183 @@ msgid ""
 msgstr ""
 
 #: src/mission_companion.cpp
+msgid ""
+"Notes: \n"
+"Send a companion to gather materials for the next camp upgrade.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Gathering Possibilities:\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+" \n"
+"Risk: Very Low\n"
+"Time: 3 Hours, Repeated\n"
+"Positions: "
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from upgrading the camp having earned a bit of experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "While gathering supplies, a silent specter approaches %s..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s notices the antlered horror and slips away before if gets too close."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "The survivor approaches %s asking for directions."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Fearful that he may be an agent of some hostile faction, %s doesn't mention "
+"the camp."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "The two part on friendly terms and the survivor isn't seen again."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s didn't detect the ambush until it was too late!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "The bull moose charged %s from the tree line..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Despite being caught off guard %s was able to run away until the moose gave "
+"up pursuit."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "The jabberwock grabbed %s by the arm from behind and began to scream."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Terrified, %s spun around and delivered a massive kick to the creature's "
+"torso..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Collapsing into a pile of gore, %s walked away unscathed..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "(Sounds like bullshit, you wander what really happened.)"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s turned to find the hideous black eyes of a giant wasp staring back from "
+"only a few feet away..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "The screams were terrifying, there was nothing anyone could do."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Pieces of %s were found strewn across a few bushes."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "(You wander if your companions are fit to work on their own...)"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s returns from gathering materials carrying supplies and has a bit more "
+"experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Your companion seems disappointed that your pantry is empty..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"       Chopping this vehicle:\n"
+"%s"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins working in the garage..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "No seeds to plant!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from working your fields..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from doing the dirty work to keep the camp running..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Sorting points have changed, forcing reset."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Farm"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Kitchen"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Blacksmith Shop"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Select an expansion:"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from surveying for the expansion."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "No items are located at the drop point..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "You distribute %d kcal worth of food to your companions."
+msgstr ""
+
+#: src/mission_companion.cpp
 #, c-format
 msgid "While %s was framing a building one of the walls began to collapse..."
 msgstr ""
@@ -117696,7 +119046,7 @@ msgstr ""
 
 #: src/mission_companion.cpp
 #, c-format
-msgid "Engagement between %d members of %s %s and %d members of %s %s%s!"
+msgid "Engagement between %d members of %s %s and %d %s%s!"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -117710,11 +119060,25 @@ msgid "%s forces retreat from combat!"
 msgstr ""
 
 #: src/mission_companion.cpp
+msgid "The monsters are destroyed!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "The monsters disengage!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Engagement between %d members of %s %s and %d members of %s %s%s!"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "You don't have any companions to send out..."
 msgstr ""
 
 #: src/mission_companion.cpp
-msgid "Who do you want to send?"
+msgid ""
+"Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -117727,6 +119091,239 @@ msgstr ""
 
 #: src/mission_companion.cpp
 msgid "No one returns to your party..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "MAIN"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "  [N] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid " [NE] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "  [E] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid " [SE] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "  [S] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid " [SW] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "  [W] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid " [NW] "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Farm Expansion"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Garage Expansion"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Kitchen Expansion"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Empty Expansion"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Select a location between  %d and  %d tiles away."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"You must select a target between %d and %d range from the base.  Range: %d"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You must be able to see the target that you select."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Do you want to bounce off this location to extend range?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"                    Items       New Point       Old Point\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"\n"
+" \n"
+"             Save Points?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Revert to default points?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Faction Camp Tutorial:\n"
+" \n"
+"The faction camp system is designed to give you greater control over your "
+"companions by allowing you to assign them to their own missions.  These "
+"missions can range from gathering and crafting to eventual combat patrols.\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Faction Camp Tutorial:\n"
+" \n"
+"<color_light_green>FOOD:</color>  Food is required for or produced during "
+"every mission.  Missions that are for a fixed amount of time will require "
+"you to pay in advance while repeating missions, like gathering firewood, are "
+"paid upon completion.  Not having the food needed to pay a companion will "
+"result in a loss of reputation across the faction.  Which can lead to VERY "
+"bad things if it gets too low.\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Faction Camp Tutorial:\n"
+" \n"
+"<color_light_green>SELECTING A SITE:</color>  For your first camp, pick a "
+"site that has fields in the 8 adjacent tiles and lots of forests around it. "
+"Forests are your primary source of construction materials in the early game "
+"while fields can be used for farming.  You don't have to be too picky, you "
+"can build as many camps as you want but each will require an NPC camp "
+"manager and an additional NPC to task out.\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Faction Camp Tutorial:\n"
+" \n"
+"<color_light_green>UPGRADING:</color>  After you pick a site you will need "
+"to find or make materials to upgrade the camp further to access new "
+"missions.  The first new missions are focused on gathering materials to "
+"upgrade the camp so you don't have to. After two or three upgrades you will "
+"have access to the <color_yellow>[Menial Labor]</color> mission which will "
+"allow you to task companions with sorting all of the items around your camp "
+"into categories.  Later upgrades allow you to send companions to recruit new "
+"members, build overmap fortifications, or even conduct combat patrols.\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Faction Camp Tutorial:\n"
+" \n"
+"<color_light_green>EXPANSIONS:</color>  When you upgrade your first tent all "
+"the way you will unlock the ability to construct expansions. Expansions "
+"allow you to specialize each camp you build by focusing on the industries "
+"that you need.  A <color_light_green>[Farm]</color> is recommended for "
+"players that want to pursue a large faction while a "
+"<color_light_green>[Kitchen]</color> is better for players that just want "
+"the quality of life improvement of having an NPC do all of their cooking.  A "
+"<color_light_green>[Garage]</color> is useful for chop shop type missions "
+"that let you trade vehicles for large amounts of parts and resources.  All "
+"those resources can be turning into valuable eqiupment in the "
+"<color_light_green>[Blacksmith Shop]</color>. You can build an additional "
+"expansion every other level after the first is unlocked and when one camp is "
+"full you can just as easily build another.\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Repeat?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You don't have the materials to craft that"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Your batch is too large!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You already have someone working in that expansion."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "begins to work..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns from searching for recruits with a bit more experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s encountered %s..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s didn't find anyone to recruit..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s convinced %s to hear a recruitment offer from you..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s wasn't interested in anything %s had to offer..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Select an option:"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Increase Food"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Decrease Food"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Make Offer"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Not Interested"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s has been convinced to join!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s wasn't interested..."
 msgstr ""
 
 #: src/mission_end.cpp
@@ -121366,7 +122963,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Dialogue with %s"
+msgid "Dialogue: %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122049,6 +123646,10 @@ msgstr[1] ""
 
 #: src/npctalk.cpp
 msgid "I'm on watch."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Hey Boss..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -122969,6 +124570,14 @@ msgid "See you around."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "What needs to be done?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "We're abandoning this camp."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Combat commands..."
 msgstr ""
 
@@ -123022,6 +124631,10 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Miscellaneous rules..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I want you to build a camp here."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -123263,6 +124876,65 @@ msgstr ""
 #: src/npctalk.cpp
 #, c-format
 msgid "%s begins to follow you."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Would you like to review the faction camp description?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "You must build your camp in an empty field."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "You need more room for camp expansions!"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "You are too close to another camp!"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"Warning, you have selected a region with the following issues:\n"
+" \n"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "There are few forests.  Wood is your primary construction material.\n"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "There are few large clean-ish water sources.\n"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"There are no swamps.  Swamps provide access to a few late game industries.\n"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"There are few fields.  Producing enough food to supply your camp may be "
+"difficult.\n"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "You weren't able to survey the camp site."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s has become a camp manager."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ", Camp Manager"
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s has abandoned the camp."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -124911,6 +126583,26 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
+msgid "Bandages on your %s were damaged!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You got some filth on your disinfected %s!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Bandages on your %s were destroyed!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Your %s is no longer disinfected!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "You land on %s."
 msgstr ""
 
@@ -125092,6 +126784,16 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You're cramping up from stuffing yourself in this vehicle."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Bandaged wounds on your %s was healed."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Disinfected wounds on your %s was healed."
 msgstr ""
 
 #: src/player.cpp
@@ -128619,6 +130321,20 @@ msgid ""
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "<color_white>Description</color>\n"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "Has level %1$d %2$s quality"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid " and is rated at %1$d %2$s"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Your morale is too low to construct..."
 msgstr ""
 
@@ -129431,6 +131147,22 @@ msgid "The alarm stops."
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "Forget vehicle position"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Remember vehicle position"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "You stop keeping track of the vehicle position."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "You start keeping track of this vehicle's position."
+msgstr ""
+
+#: src/vehicle.cpp
 msgid "Stop controlling"
 msgstr ""
 
@@ -129484,22 +131216,6 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Cruise control turned on"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Forget vehicle position"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Remember vehicle position"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "You stop keeping track of the vehicle position."
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "You start keeping track of this vehicle's position."
 msgstr ""
 
 #: src/vehicle.cpp

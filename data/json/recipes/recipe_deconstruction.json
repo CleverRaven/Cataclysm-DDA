@@ -2447,5 +2447,12 @@
       [ [ "felt_patch", 10 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "garlic",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "garlic_clove", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
