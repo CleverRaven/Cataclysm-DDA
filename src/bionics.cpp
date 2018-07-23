@@ -919,10 +919,6 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level, bool auto
         }
     }
 
-    practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
-    practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
-    practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
-
     int success = chance_of_success - rng( 1, 100 );
 
     if( success > 0 ) {
@@ -1006,9 +1002,13 @@ bool player::install_bionics( const itype &type, int skill_level, bool autodoc )
         }
     }
 
-    practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
-    practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
-    practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
+    // Practice skills only if conducting manual self-installation
+    if( ( skill_level == -1 ) && !autodoc ) {
+        practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
+        practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
+        practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
+    }
+
     int success = chance_of_success - rng( 0, 99 );
     if( success > 0 ) {
         add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
