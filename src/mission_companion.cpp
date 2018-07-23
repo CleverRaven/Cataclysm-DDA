@@ -401,6 +401,16 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Rots in < 5 days: 80%%\n \n"
             "Total faction food stock: %d kcal or %d day's rations", 10 * camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key_push( key_vectors, "Distribute Food" );
+
+        col_missions["Reset Sort Points"] = string_format("Notes:\n"
+            "Resest the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
+            "Effects:\n"
+            "> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, "
+            "all kinds of tools, wood, trash, books, medication, and ammo.\n"
+            "> Items sitting on any type of furniture will not be moved.\n"
+            "> Items that are not listed in one of the categories are defaulted to the tools group."
+            );
+        mission_key_push( key_vectors, "Reset Sort Points", "", false );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_2", om_cur)){
@@ -434,16 +444,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             );
         bool avail = companion_list( p, "_faction_camp_menial" ).empty();
         mission_key_push( key_vectors, "Menial Labor", "", false, avail );
-
-        col_missions["Reset Sort Points"] = string_format("Notes:\n"
-            "Resest the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
-            "Effects:\n"
-            "> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, "
-            "all kinds of tools, wood, trash, books, medication, and ammo.\n"
-            "> Items sitting on any type of furniture will not be moved.\n"
-            "> Items that are not listed in one of the categories are defaulted to the tools group."
-            );
-        mission_key_push( key_vectors, "Reset Sort Points", "", false );
     }
 
     if ( id == "FACTION_CAMP" && ( (om_min_level("faction_base_camp_4", om_cur) && om_expansions.empty()) ||
@@ -3408,9 +3408,12 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
     //Give any seeds the NPC didn't use back to you.
     for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp->companion_mission_inv.const_stack( i ) ) {
-            g->u.i_add( it );
+            if( it.charges > 0 ){
+                g->u.i_add( it );
+            }
         }
     }
+    comp->companion_mission_inv.clear();
 
     int need_food = time_to_food( work );
     if( camp_food_supply() < need_food ){
@@ -3461,31 +3464,31 @@ bool talk_function::camp_menial_return( npc &p )
             for( auto &i : g->m.i_at( tmp ) ) {
                 if( !i.made_of( LIQUID ) ) {
                     if( i.is_comestible() && i.rotten() ){
-                        g->m.add_item_or_charges( p_trash, i, false );
+                        g->m.add_item_or_charges( p_trash, i, true );
                     } else if( i.is_seed() ){
-                        g->m.add_item_or_charges( p_seed, i, false );
+                        g->m.add_item_or_charges( p_seed, i, true );
                     } else if( i.is_food() ){
-                        g->m.add_item_or_charges( p_food, i, false );
+                        g->m.add_item_or_charges( p_food, i, true );
                     } else if( i.is_corpse() ){
-                        g->m.add_item_or_charges( p_trash, i, false );
+                        g->m.add_item_or_charges( p_trash, i, true );
                     } else if( i.is_book() ){
-                        g->m.add_item_or_charges( p_book, i, false );
+                        g->m.add_item_or_charges( p_book, i, true );
                     } else if( i.is_bionic() ){
-                        g->m.add_item_or_charges( p_bionic, i, false );
+                        g->m.add_item_or_charges( p_bionic, i, true );
                     } else if( i.is_medication() ){
-                        g->m.add_item_or_charges( p_medication, i, false );
+                        g->m.add_item_or_charges( p_medication, i, true );
                     } else if( i.is_tool() ){
-                        g->m.add_item_or_charges( p_tool, i, false );
+                        g->m.add_item_or_charges( p_tool, i, true );
                     } else if( i.is_gun() ){
-                        g->m.add_item_or_charges( p_weapon, i, false );
+                        g->m.add_item_or_charges( p_weapon, i, true );
                     } else if( i.is_ammo() ){
-                        g->m.add_item_or_charges( p_ammo, i, false );
+                        g->m.add_item_or_charges( p_ammo, i, true );
                     } else if( i.is_armor() ){
-                        g->m.add_item_or_charges( p_clothing, i, false );
+                        g->m.add_item_or_charges( p_clothing, i, true );
                     } else if( i.typeId() == "log" || i.typeId() == "splinter" || i.typeId() == "stick" || i.typeId() == "2x4" ){
-                        g->m.add_item_or_charges( p_wood, i, false );
+                        g->m.add_item_or_charges( p_wood, i, true );
                     } else {
-                        g->m.add_item_or_charges( p_tool, i, false );
+                        g->m.add_item_or_charges( p_tool, i, true );
                     }
                 }
             }
@@ -3566,6 +3569,7 @@ bool talk_function::camp_distribute_food( npc &p )
             tripoint litter_spread = p_litter;
             litter_spread.x += rng(-3,3);
             litter_spread.y += rng(-3,3);
+            i.on_contents_changed();
             g->m.add_item_or_charges( litter_spread, i, false );
             i = comest;
         }

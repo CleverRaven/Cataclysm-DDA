@@ -51,6 +51,12 @@
     "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> or <info>ask a surgeon</info> to install it into your body."
   },
   {
+    "id": "CLIMATE_CONTROL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This piece of clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

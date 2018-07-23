@@ -6302,9 +6302,14 @@ vehicle_part::operator bool() const {
     return id != vpart_id::NULL_ID();
 }
 
-const item& vehicle_part::get_base() const
+const item &vehicle_part::get_base() const
 {
     return base;
+}
+
+void vehicle_part::set_base( const item &new_base )
+{
+    base = new_base;
 }
 
 item vehicle_part::properties_to_item() const
@@ -6330,7 +6335,8 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
-std::string vehicle_part::name() const {
+std::string vehicle_part::name() const
+{
     auto res = info().name();
 
     if( base.engine_displacement() > 0 ) {
@@ -6344,6 +6350,9 @@ std::string vehicle_part::name() const {
         res += ( _( " (faulty)" ) );
     }
 
+    if( base.has_var( "contained_name" ) ) {
+        res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
+    }
     return res;
 }
 
@@ -6759,4 +6768,23 @@ void vehicle::use_washing_machine( int p ) {
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
     }
+}
+
+void vehicle::use_monster_capture( int part, const tripoint &pos )
+{
+    if( parts[part].is_broken() || parts[part].removed ) {
+        return;
+    }
+    item base = item( parts[part].get_base() );
+    base.type->invoke( g->u, base, pos );
+    parts[part].set_base( base );
+    /* captured animals take up all the cargo space */
+    /*
+    if( base.has_var( "contained_name" ) ) {
+        part_info( part ).size = 0;
+    } else {
+        part_info( part ).size = base.get_container_capacity();
+    }
+    */
+    parts[part].set_base( base );
 }
