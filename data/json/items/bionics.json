@@ -820,7 +820,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Shock Absorbers CBM",
-    "description": "A set of hydraulic springs and padding that replaces most of the flesh in your limbs and upper torso. These absorbers will heavily reduce damage from severe impacts.",
+    "description": "A set of hydraulic springs and padding that replaces most of the flesh in your limbs and upper torso.  These absorbers will heavily reduce damage from severe impacts.",
     "price": 10000,
     "difficulty": 4
   }
