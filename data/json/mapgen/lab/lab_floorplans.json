@@ -45,8 +45,8 @@
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab", "lab_stairs", "ice_lab", "ice_lab_stairs"] } },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab", "lab_stairs", "ice_lab", "ice_lab_stairs"] } }
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
     }
   },
@@ -133,8 +133,8 @@
       },
       "place_nested": [
         { "chunks": [ [ "null", 90 ], [ "lab_hulk_smash", 10 ] ], "x": 0, "y": 0 },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab", "lab_stairs", "ice_lab", "ice_lab_stairs"] } },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab", "lab_stairs", "ice_lab", "ice_lab_stairs"] } }
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
     }
   },
@@ -232,8 +232,8 @@
       },
       "place_nested": [
         { "chunks": [ [ "null", 90 ], [ "lab_hulk_smash", 10 ] ], "x": 0, "y": 0 },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab", "lab_stairs", "ice_lab", "ice_lab_stairs"] } },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab", "lab_stairs", "ice_lab", "ice_lab_stairs"] } }
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
     }
   },
