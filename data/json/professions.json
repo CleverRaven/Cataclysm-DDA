@@ -510,7 +510,6 @@
                 "wrench",
                 "duct_tape",
                 "screwdriver",
-                "hacksaw",
                 "welder",
                 "battery",
                 "battery",
@@ -518,6 +517,7 @@
                 "battery",
                 "battery",
                 "goggles_welding",
+                "jack_small",
                 "mag_cars"
             ],
             "male": [
