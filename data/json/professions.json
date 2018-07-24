@@ -508,12 +508,15 @@
                 "boots_steel",
                 "tool_belt",
                 "wrench",
+                "duct_tape",
                 "screwdriver",
                 "welder",
                 "battery",
                 "battery",
+                "battery",
+                "battery",
+                "battery",
                 "goggles_welding",
-                "jack_small",
                 "mag_cars"
             ],
             "male": [
