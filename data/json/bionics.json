@@ -583,7 +583,7 @@
     "type": "bionic",
     "name": "Electromagnetic Unit",
     "description": "Surgically embedded in your hand is a powerful electromagnet, allowing you to pull items made of iron over short distances.",
-	"capacity": 30,
+    "capacity": 30,
     "occupied_bodyparts": [ [ "HAND_R", 3 ] ],
     "act_cost": 10
   },
