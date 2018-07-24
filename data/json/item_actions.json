@@ -241,6 +241,10 @@
         "name" : "Capture/place"
     },{
         "type" : "item_action",
+        "id" : "CAPTURE_MONSTER_VEH",
+        "name" : "Capture/place"
+    },{
+        "type" : "item_action",
         "id" : "CARVER_OFF",
         "name" : "Turn on"
     },{
