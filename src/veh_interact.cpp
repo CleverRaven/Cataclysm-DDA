@@ -174,8 +174,8 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action("TIRE_CHANGE");
     main_context.register_action("ASSIGN_CREW");
     main_context.register_action("RELABEL");
-    main_context.register_action("PREV_TAB");
-    main_context.register_action("NEXT_TAB");
+    main_context.register_action("FUEL_LIST_DOWN");
+    main_context.register_action("FUEL_LIST_UP");
     main_context.register_action("CONFIRM");
     main_context.register_action("HELP_KEYBINDINGS");
     main_context.register_action("FILTER");
@@ -285,39 +285,41 @@ void veh_interact::do_main_loop()
         bool redraw = false;
         int dx = 0;
         int dy = 0;
-        if (main_context.get_direction(dx, dy, action)) {
+        if(main_context.get_direction(dx, dy, action)) {
             move_cursor(dx, dy);
-        } else if (action == "QUIT") {
+        } else if( action == "QUIT" ) {
             finish = true;
-        } else if (action == "INSTALL") {
+        } else if( action == "INSTALL" ) {
             redraw = do_install( msg );
-        } else if (action == "REPAIR") {
+        } else if( action == "REPAIR" ) {
             redraw = do_repair( msg );
-        } else if (action == "MEND") {
+        } else if( action == "MEND" ) {
             redraw = do_mend( msg );
-        } else if (action == "REFILL") {
+        } else if( action == "REFILL" ) {
             redraw = do_refill( msg );
-        } else if (action == "REMOVE") {
+        } else if( action == "REMOVE" ) {
             redraw = do_remove( msg );
-        } else if (action == "RENAME") {
+        } else if( action == "RENAME" ) {
             redraw = do_rename( msg );
-        } else if (action == "SIPHON") {
+        } else if( action == "SIPHON" ) {
             redraw = do_siphon( msg );
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
             finish = !g->u.activity.is_null();
-        } else if (action == "TIRE_CHANGE") {
+        } else if( action == "TIRE_CHANGE" ) {
             redraw = do_tirechange( msg );
-        } else if (action == "ASSIGN_CREW") {
+        } else if( action == "ASSIGN_CREW" ) {
             redraw = do_assign_crew( msg );
-        } else if (action == "RELABEL") {
+        } else if( action == "RELABEL" ) {
             redraw = do_relabel( msg );
-        } else if (action == "NEXT_TAB") {
-            move_fuel_cursor(1);
-        } else if (action == "PREV_TAB") {
-            move_fuel_cursor(-1);
+        } else if ( action == "FUEL_LIST_DOWN" ) {
+            move_fuel_cursor( 1 );
+            move_cursor( 0, 0 );
+        } else if ( action == "FUEL_LIST_UP" ) {
+            move_fuel_cursor( -1 );
+            move_cursor( 0, 0 );
         }
-        if (sel_cmd != ' ') {
+        if ( sel_cmd != ' ' ) {
             finish = true;
         }
 
