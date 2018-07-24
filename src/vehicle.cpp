@@ -2816,20 +2816,19 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  */
 int vehicle::print_part_desc( const catacurses::window &win, int y1, const int max_y, int width, int p, int hl /*= -1*/ ) const
 {
-    if (p < 0 || p >= (int)parts.size()) {
+    if( p < 0 || p >= ( int )parts.size() ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative(parts[p].mount.x, parts[p].mount.y);
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
     int y = y1;
-    for (size_t i = 0; i < pl.size(); i++)
-    {
-        if ( y >= max_y ) {
+    for( size_t i = 0; i < pl.size(); i++ ) {
+        if( y >= max_y ) {
             mvwprintz( win, y, 1, c_yellow, _( "More parts here..." ) );
             ++y;
             break;
         }
 
-        const vehicle_part& vp = parts[ pl [ i ] ];
+        const vehicle_part &vp = parts[ pl [ i ] ];
         nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.base.damage_color();
 
         std::string partname = vp.name();
@@ -2840,21 +2839,24 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format( _(" (vol: %s/%s %s)"),
+            partname += string_format( _( " (vol: %s/%s %s)" ),
                                        format_volume( stored_volume( pl[i] ) ).c_str(),
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
 
-        bool armor = part_flag(pl[i], "ARMOR");
+        bool armor = part_flag( pl[i], "ARMOR" );
         std::string left_sym;
         std::string right_sym;
-        if(armor) {
-            left_sym = "("; right_sym = ")";
-        } else if(part_info(pl[i]).location == part_location_structure) {
-            left_sym = "["; right_sym = "]";
+        if( armor ) {
+            left_sym = "(";
+            right_sym = ")";
+        } else if( part_info( pl[i] ).location == part_location_structure ) {
+            left_sym = "[";
+            right_sym = "]";
         } else {
-            left_sym = "-"; right_sym = "-";
+            left_sym = "-";
+            right_sym = "-";
         }
         nc_color sym_color = ( int )i == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, y, 1, sym_color, left_sym );
@@ -2862,20 +2864,21 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
                         ( int )i == hl ? hilite( col_cond ) : col_cond, partname );
         wprintz( win, sym_color, right_sym );
 
-        if( i == 0 && vpart_position( const_cast<vehicle&>( *this ), pl[i] ).is_inside() ) {
+        if( i == 0 && vpart_position( const_cast<vehicle &>( *this ), pl[i] ).is_inside() ) {
             //~ indicates that a vehicle part is inside
-            mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_light_gray, _("Interior"));
-        } else if (i == 0) {
+            mvwprintz( win, y, width - 2 - utf8_width( _( "Interior" ) ), c_light_gray, _( "Interior" ) );
+        } else if( i == 0 ) {
             //~ indicates that a vehicle part is outside
-            mvwprintz(win, y, width-2-utf8_width(_("Exterior")), c_light_gray, _("Exterior"));
+            mvwprintz( win, y, width - 2 - utf8_width( _( "Exterior" ) ), c_light_gray, _( "Exterior" ) );
         }
         y++;
     }
 
     // print the label for this location
-    const cata::optional<std::string> label = vpart_position( const_cast<vehicle&>( *this ), p ).get_label();
+    const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
+            p ).get_label();
     if( label && y <= max_y ) {
-        mvwprintz(win, y++, 1, c_light_red, _("Label: %s"), label->c_str());
+        mvwprintz( win, y++, 1, c_light_red, _( "Label: %s" ), label->c_str() );
     }
 
     return y;

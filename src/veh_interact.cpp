@@ -1564,20 +1564,20 @@ bool veh_interact::can_potentially_install(const vpart_info &vpart)
  * @param dx How far to move the cursor on the x-axis.
  * @param dy How far to move the cursor on the y-axis.
  */
-void veh_interact::move_cursor (int dx, int dy)
+void veh_interact::move_cursor( int dx, int dy )
 {
-    const int hw = getmaxx(w_disp) / 2;
-    const int hh = getmaxy(w_disp) / 2;
+    const int hw = getmaxx( w_disp ) / 2;
+    const int hh = getmaxy( w_disp ) / 2;
 
     ddx += dy;
     ddy -= dx;
 
     display_veh();
     // Update the current active component index to the new position.
-    cpart = part_at (0, 0);
+    cpart = part_at( 0, 0 );
     int vdx = -ddx;
     int vdy = -ddy;
-    point q = veh->coord_translate (point(vdx, vdy));
+    point q = veh->coord_translate( point( vdx, vdy ) );
     tripoint vehp = veh->global_pos3() + q;
     const bool has_critter = g->critter_at( vehp );
     bool obstruct = g->m.impassable_ter_furn( vehp );
@@ -1585,17 +1585,17 @@ void veh_interact::move_cursor (int dx, int dy)
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
-    nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
+    nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
     long sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
-    mvwputch (w_disp, hh, hw, obstruct ? red_background(col) : hilite(col),
-              special_symbol(sym));
-    wrefresh (w_disp);
-    werase (w_parts);
-    veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
-    wrefresh (w_parts);
+    mvwputch( w_disp, hh, hw, obstruct ? red_background( col ) : hilite( col ),
+              special_symbol( sym ) );
+    wrefresh( w_disp );
+    werase( w_parts );
+    veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+    wrefresh( w_parts );
 
     can_mount.clear();
-    if (!obstruct) {
+    if( !obstruct ) {
         int divider_index = 0;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
@@ -1603,9 +1603,10 @@ void veh_interact::move_cursor (int dx, int dy)
                 continue;
             }
             if( veh->can_mount( vdx, vdy, vp.get_id() ) ) {
-                if ( vp.get_id() != vpart_shapes[ vp.name()+ vp.item][0]->get_id() )
-                    continue; // only add first shape to install list
-                if (can_potentially_install(vp)) {
+                if( vp.get_id() != vpart_shapes[ vp.name() + vp.item ][ 0 ]->get_id() ) {
+                    continue;    // only add first shape to install list
+                }
+                if( can_potentially_install( vp ) ) {
                     can_mount.insert( can_mount.begin() + divider_index++, &vp );
                 } else {
                     can_mount.push_back( &vp );
@@ -1617,9 +1618,9 @@ void veh_interact::move_cursor (int dx, int dy)
     need_repair.clear();
     parts_here.clear();
     wheel = NULL;
-    if (cpart >= 0) {
-        parts_here = veh->parts_at_relative(veh->parts[cpart].mount.x, veh->parts[cpart].mount.y);
-        for (size_t i = 0; i < parts_here.size(); i++) {
+    if( cpart >= 0 ) {
+        parts_here = veh->parts_at_relative( veh->parts[cpart].mount.x, veh->parts[cpart].mount.y );
+        for( size_t i = 0; i < parts_here.size(); i++ ) {
             auto &pt = veh->parts[parts_here[i]];
 
             if( pt.base.damage() > 0 && pt.info().is_repairable() ) {
@@ -1631,8 +1632,8 @@ void veh_interact::move_cursor (int dx, int dy)
         }
     }
 
-    werase (w_msg);
-    wrefresh (w_msg);
+    werase( w_msg );
+    wrefresh( w_msg );
 }
 
 void veh_interact::display_grid()
