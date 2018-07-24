@@ -262,7 +262,7 @@
         "description": "Emergency water source, from the tank, and provider of relief.",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT"],
         "examine_action": "toilet",
         "bash": {
             "str_min": 8, "str_max": 30,
