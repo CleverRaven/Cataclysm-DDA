@@ -2814,7 +2814,8 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-int vehicle::print_part_desc( const catacurses::window &win, int y1, const int max_y, int width, int p, int hl /*= -1*/ ) const
+int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
+                              int p, int hl /*= -1*/ ) const
 {
     if( p < 0 || p >= ( int )parts.size() ) {
         return y1;
@@ -2882,6 +2883,39 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
     }
 
     return y;
+}
+
+/**
+ * Prints a list of descriptions for all parts to the screen inside of a boxed window
+ * highlighting a selected one.
+ * @param win The window to draw in.
+ * @param y1 The y-coordinate to start drawing at.
+ * @param max_y Draw no further than this y-coordinate.
+ * @param width The width of the window.
+ * @param &p The index of the part being examined.
+ */
+void vehicle::print_vparts_descs( const catacurses::window &win, int width, int &p ) const
+{
+    if( p < 0 || p >= ( int )parts.size() ) {
+        return;
+    }
+
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    std::ostringstream msg;
+
+    for( size_t i = 0; i < pl.size(); i++ ) {
+        const vehicle_part &vp = parts[ pl [ i ] ];
+        std::string name_color = string_format( "<color_%1$s>",
+                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_green ) );
+        msg << name_color << vp.name() << "</color>\n";
+        std::string desc_color = string_format( "<color_%1$s>",
+                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
+        vp.info().format_description( msg, desc_color, width - 2 );
+        msg << "</color>\n";
+    }
+    werase( win );
+    fold_and_print( win, 0, 1, width, c_light_gray, msg.str() );
+    wrefresh( win );
 }
 
 /**

@@ -917,9 +917,10 @@ bool veh_interact::do_repair( std::string &msg )
         fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
         wrefresh (w_msg);
 
-        werase (w_parts);
-        veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, need_repair[pos]);
-        wrefresh (w_parts);
+        werase( w_parts );
+        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
+                              need_repair[pos] );
+        wrefresh( w_parts );
 
         const std::string action = main_context.handle_input();
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
@@ -928,12 +929,12 @@ bool veh_interact::do_repair( std::string &msg )
             sel_cmd = 'r';
             break;
 
-        } else if (action == "QUIT") {
-            werase (w_parts);
-            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
-            wrefresh (w_parts);
-            werase (w_msg);
-            wrefresh(w_msg);
+        } else if( action == "QUIT" ) {
+            werase( w_parts );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            wrefresh( w_parts );
+            werase( w_msg );
+            wrefresh( w_msg );
             break;
 
         } else {
@@ -1357,7 +1358,7 @@ bool veh_interact::do_remove( std::string &msg )
     while (true) {
         //redraw list of parts
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
+        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos );
         wrefresh (w_parts);
         int part = parts_here[ pos ];
 
@@ -1371,12 +1372,12 @@ bool veh_interact::do_remove( std::string &msg )
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
             sel_cmd = 'o';
             break;
-        } else if (action == "QUIT") {
-            werase (w_parts);
-            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
-            wrefresh (w_parts);
-            werase (w_msg);
-            wrefresh(w_msg);
+        } else if( action == "QUIT" ) {
+            werase( w_parts );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            wrefresh( w_parts );
+            werase( w_msg );
+            wrefresh( w_msg );
             break;
         } else {
             move_in_list(pos, action, parts_here.size());
@@ -1591,8 +1592,12 @@ void veh_interact::move_cursor( int dx, int dy )
               special_symbol( sym ) );
     wrefresh( w_disp );
     werase( w_parts );
-    veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
     wrefresh( w_parts );
+
+    werase( w_msg );
+    veh->print_vparts_descs( w_msg, getmaxy( w_msg ), cpart );
+    wrefresh( w_msg );
 
     can_mount.clear();
     if( !obstruct ) {
@@ -1631,9 +1636,6 @@ void veh_interact::move_cursor( int dx, int dy )
             }
         }
     }
-
-    werase( w_msg );
-    wrefresh( w_msg );
 }
 
 void veh_interact::display_grid()
