@@ -492,7 +492,7 @@
         "ident": "mechanic",
         "name": "Home Mechanic",
         "description": "Although you never got your driver's license, you've always loved cars.  At least now you'll never be wanting for materials.",
-        "points": 1,
+        "points": 2,
         "skills": [
             {
                 "level": 3,
@@ -501,13 +501,19 @@
         ],
         "items": {
             "both": [
+                "slingpack",
                 "tank_top",
                 "jeans",
                 "socks",
                 "boots_steel",
                 "tool_belt",
                 "wrench",
-                "duct_tape",
+                "screwdriver",
+                "welder",
+                "battery",
+                "battery",
+                "goggles_welding",
+                "jack_small",
                 "mag_cars"
             ],
             "male": [
