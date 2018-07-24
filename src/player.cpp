@@ -1805,6 +1805,7 @@ int player::run_cost( int base_cost, bool diag ) const
     const bool flatground = movecost < 105;
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
+    const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS" , pos() );
 
     if( has_trait( trait_PARKOUR ) && movecost > 100 ) {
         movecost *= .5f;
@@ -1816,6 +1817,11 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost *= 1.25f;
         if( movecost < 100 ) {
             movecost = 100;
+        }
+    }
+    if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
+        if( movecost > 75 ) {
+            movecost = 75; // Mycal characters are faster on their home territory, even through things like shrubs
         }
     }
 
@@ -4255,7 +4261,7 @@ void player::update_needs( int rate_multiplier )
     if( worn_with_flag( "SLOWS_THIRST" ) ) {
         thirst_rate *= 0.7f;
     }
-	
+
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
         // Recycler won't help much with mutant metabolism - it is intended for human one
@@ -4350,7 +4356,7 @@ void player::update_needs( int rate_multiplier )
     if( is_wearing( "solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 25 );
     }
-    
+
     if( is_wearing( "q_solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 50 );
     }
@@ -7232,7 +7238,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
-    
+
     for( auto &i : worn ) {
         if( i.has_flag( "ONLY_ONE" ) && i.typeId() == it.typeId() ) {
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname().c_str() );
