@@ -2889,12 +2889,12 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
  * Prints a list of descriptions for all parts to the screen inside of a boxed window
  * highlighting a selected one.
  * @param win The window to draw in.
- * @param y1 The y-coordinate to start drawing at.
  * @param max_y Draw no further than this y-coordinate.
  * @param width The width of the window.
  * @param &p The index of the part being examined.
+ * @param start_at Which vehicle part to start printing at.
  */
-void vehicle::print_vparts_descs( const catacurses::window &win, int width, int &p ) const
+void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p, int start_at ) const
 {
     if( p < 0 || p >= ( int )parts.size() ) {
         return;
@@ -2903,15 +2903,29 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int width, int 
     std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
     std::ostringstream msg;
 
-    for( size_t i = 0; i < pl.size(); i++ ) {
+    int lines = 0;
+    start_at = std::max( start_at, 0 );
+    if( start_at ) {
+           msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
+           lines += 1;
+    }
+    for( size_t i = start_at; i < pl.size(); i++ ) {
         const vehicle_part &vp = parts[ pl [ i ] ];
+        std::ostringstream possible_msg;
         std::string name_color = string_format( "<color_%1$s>",
                                                 string_from_color( vp.is_broken() ? c_dark_gray : c_light_green ) );
-        msg << name_color << vp.name() << "</color>\n";
+        possible_msg << name_color << vp.name() << "</color>\n";
         std::string desc_color = string_format( "<color_%1$s>",
                                                 string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
-        vp.info().format_description( msg, desc_color, width - 2 );
-        msg << "</color>\n";
+        int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 2 );
+        possible_msg << "</color>\n";
+        if( lines + new_lines <= max_y ) {
+           msg << possible_msg.str();
+           lines += new_lines;
+        } else {
+           msg << "<color_yellow>" << _( "More parts here..." ) << "  >" << "</color>\n";
+           break;
+        }
     }
     werase( win );
     fold_and_print( win, 0, 1, width, c_light_gray, msg.str() );

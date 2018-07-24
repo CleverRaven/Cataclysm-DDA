@@ -176,6 +176,8 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action("RELABEL");
     main_context.register_action("FUEL_LIST_DOWN");
     main_context.register_action("FUEL_LIST_UP");
+    main_context.register_action("DESC_LIST_DOWN");
+    main_context.register_action("DESC_LIST_UP");
     main_context.register_action("CONFIRM");
     main_context.register_action("HELP_KEYBINDINGS");
     main_context.register_action("FILTER");
@@ -318,6 +320,10 @@ void veh_interact::do_main_loop()
         } else if ( action == "FUEL_LIST_UP" ) {
             move_fuel_cursor( -1 );
             move_cursor( 0, 0 );
+        } else if ( action == "DESC_LIST_DOWN" ) {
+            move_cursor( 0, 0, 1 );
+        } else if ( action == "DESC_LIST_UP" ) {
+            move_cursor( 0, 0, -1 );
         }
         if ( sel_cmd != ' ' ) {
             finish = true;
@@ -1566,14 +1572,20 @@ bool veh_interact::can_potentially_install(const vpart_info &vpart)
  * Moves the cursor on the vehicle editing window.
  * @param dx How far to move the cursor on the x-axis.
  * @param dy How far to move the cursor on the y-axis.
+ * @param dstart_at How far to change the start position for vehicle part descriptions
  */
-void veh_interact::move_cursor( int dx, int dy )
+void veh_interact::move_cursor( int dx, int dy, int dstart_at )
 {
     const int hw = getmaxx( w_disp ) / 2;
     const int hh = getmaxy( w_disp ) / 2;
 
     ddx += dy;
     ddy -= dx;
+    if( dx || dy ) {
+       start_at = 0;
+    } else {
+       start_at += dstart_at;
+    }
 
     display_veh();
     // Update the current active component index to the new position.
@@ -1598,7 +1610,7 @@ void veh_interact::move_cursor( int dx, int dy )
     wrefresh( w_parts );
 
     werase( w_msg );
-    veh->print_vparts_descs( w_msg, getmaxy( w_msg ), cpart );
+    veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at );
     wrefresh( w_msg );
 
     can_mount.clear();

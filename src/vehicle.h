@@ -580,7 +580,8 @@ public:
                              int hl = -1 ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
-        void print_vparts_descs( const catacurses::window &win, int width, int &p ) const;
+        void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+                                 int start_at ) const;
 
     /**
      *  Operate vehicle controls

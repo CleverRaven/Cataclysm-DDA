@@ -55,6 +55,7 @@ class veh_interact
 
         int ddx = 0;
         int ddy = 0;
+        int start_at = 0;
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
@@ -92,7 +93,7 @@ class veh_interact
                           const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( int dx, int dy );
-        void move_cursor( int dx, int dy );
+        void move_cursor( int dx, int dy, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:

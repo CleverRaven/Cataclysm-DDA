@@ -514,9 +514,10 @@ std::string vpart_info::name() const
     return name_;
 }
 
-void vpart_info::format_description( std::ostringstream &msg, std::string format_color,
-                                     int width ) const
+int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
+                                    int width ) const
 {
+    int lines = 0;
     if( ! description.empty() ) {
         msg << _( "<color_white>Description</color>\n" );
         msg << "> " << format_color;
@@ -527,6 +528,7 @@ void vpart_info::format_description( std::ostringstream &msg, std::string format
             msg << "\n  " << wrap_descrip[i];
         }
         msg << "</color>\n";
+        lines += 1 + wrap_descrip.size();
 
         // borrowed from item.cpp and adjusted
         const quality_id quality_jack( "JACK" );
@@ -539,8 +541,10 @@ void vpart_info::format_description( std::ostringstream &msg, std::string format
                                       ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ), weight_units() );
             }
             msg << ".</color>\n";
+            lines += 1;
         }
     }
+    return lines;
 }
 
 requirement_data vpart_info::install_requirements() const

@@ -1899,6 +1899,24 @@
     },
     {
         "type" : "keybinding",
+        "id": "DESC_LIST_UP",
+        "category": "VEH_INTERACT",
+        "name": "Scroll up through vehicle part descriptions",
+        "bindings":[
+            { "input_method":"keyboard", "key":"<" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DESC_LIST_DOWN",
+        "category": "VEH_INTERACT",
+        "name": "Scroll down through vehicle part descriptions",
+        "bindings":[
+            { "input_method":"keyboard", "key":">" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_UNAVAILABLE_CONSTRUCTIONS",
         "category": "CONSTRUCTION",
         "name": "Toggle unavailable constructions",
