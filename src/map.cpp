@@ -4940,17 +4940,17 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
             if( current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
                 ret.push_back( *current_item );
                 if( current_item->charges - quantity > 0 ) {
-                    // Update the returned water amount to match the requested amount
+                    // Update the returned liquid amount to match the requested amount
                     ret.back().charges = quantity;
-                    // Update the water item in the world to contain the leftover water
+                    // Update the liquid item in the world to contain the leftover liquid
                     current_item->charges -= quantity;
-                    // All the water needed was found, no other sources will be needed
+                    // All the liquid needed was found, no other sources will be needed
                     quantity = 0;
                 } else {
-                    // The water copy in ret already contains how much was available
+                    // The liquid copy in ret already contains how much was available
                     // The leftover quantity returned will check other sources
                     quantity -= current_item->charges;
-                    // Remove water item from the world
+                    // Remove liquid item from the world
                     item_list.erase( current_item );
                 }
                 return;
