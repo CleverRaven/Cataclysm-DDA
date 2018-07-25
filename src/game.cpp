@@ -2133,6 +2133,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("open");
     ctxt.register_action("close");
     ctxt.register_action("smash");
+    ctxt.register_action("loot");
     ctxt.register_action("examine");
     ctxt.register_action("advinv");
     ctxt.register_action("pickup");
@@ -2891,6 +2892,10 @@ bool game::handle_action()
 
         case ACTION_ZONES:
             zones_manager();
+            break;
+
+        case ACTION_LOOT:
+            loot();
             break;
 
         case ACTION_INVENTORY:
@@ -6682,6 +6687,16 @@ void game::smash()
     }
 }
 
+void game::loot()
+{
+    if ( !check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ) {
+        add_msg( m_info, _( "There is no unsorted loot pile nearby." ) );
+        return;
+    }
+
+    u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+}
+
 void game::use_item( int pos )
 {
     if( pos == INT_MIN ) {
@@ -7707,6 +7722,11 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
 bool game::check_zone( const zone_type_id &type, const tripoint &where ) const
 {
     return zone_manager::get_manager().has( type, m.getabs( where ) );
+}
+
+bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) const
+{
+    return zone_manager::get_manager().has_near( type, m.getabs( where ) );
 }
 
 void game::zones_manager_shortcuts( const catacurses::window &w_info )
