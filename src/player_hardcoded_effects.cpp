@@ -1118,7 +1118,6 @@ void player::hardcoded_effects( effect &it )
                 } else {
                     int max_count = rng( 1, 3 );
                     int count = 0;
-                    bool found_valid = false;
                     for( const tripoint &mp : g->m.points_in_radius( pos(), 1 ) ) {
                         if( mp == pos() ) {
                             continue;
@@ -1127,7 +1126,6 @@ void player::hardcoded_effects( effect &it )
                             g->m.pl_sees( mp, 2 ) ) {
                             g->spawn_hallucination( mp );
                             if( ++count > max_count ) {
-                                found_valid = true;
                                 break;
                             }
                         }
