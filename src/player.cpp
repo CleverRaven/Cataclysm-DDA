@@ -9332,12 +9332,15 @@ void player::do_read( item &book )
                 }
             }
 
-            if( ( skill_level == reading->level || !skill_level.can_train() ) || 
-              ( ( learner->has_trait( trait_id( "SCHIZOPHRENIC" ) ) || learner->has_artifact_with( AEP_SCHIZO ) ) &&
-                  learner->is_player() && one_in( 25 ) ) ) {
-                add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name().c_str() );
-            } else {
-                cant_learn.insert( learner->disp_name() );
+            if( ( skill_level == reading->level || !skill_level.can_train() ) ||
+                ( ( learner->has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
+                    learner->has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) )
+            {
+                if( learner->is_player() ) {
+                    add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name().c_str() );
+                } else {
+                    cant_learn.insert( learner->disp_name() );
+                }
             }
         } else if( skill ) {
             if( learner->is_player() ) {
