@@ -1034,7 +1034,7 @@
         "type": "effect_type",
         "id": "flu",
         "name": ["Influenza"],
-        "desc": ["You have contracted the 'Common Cold'.  Symptoms can be alleviated by medication (cough syrup)."],
+        "desc": ["You have contracted flu, or more technicaly speaking, the 'Influenza'.  Symptoms can be alleviated by medication (cough syrup)."],
         "apply_memorial_log": "Caught the flu.",
         "remove_memorial_log": "Got over the flu.",
         "apply_message": "You feel a flu coming on...",
