@@ -12,7 +12,6 @@ src/computer.cpp
 src/construction.cpp
 src/creature.cpp
 src/cursesport.cpp
-src/defense.cpp
 src/dump.cpp
 src/effect.cpp
 src/event.cpp
