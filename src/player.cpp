@@ -5117,7 +5117,7 @@ void player::suffer()
                     std::string i_name = Name::generate( one_in( 2 ) );
 
                     std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
-                    parse_tags( i_talk, *this, *( npc * )this );
+                    parse_tags( i_talk, *this, *this );
 
                     add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
                     done_effect = true;
