@@ -635,7 +635,7 @@
         "description" : "You never learned to read!  Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER", "SLOWREADER"]
+        "cancels" : ["FASTREADER", "SLOWREADER", "PROF_DICEMASTER"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
@@ -5163,6 +5163,16 @@
         "valid": false,
         "purifiable": false,
         "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_DICEMASTER",
+        "name" : "Dungeon Master",
+        "points" : 0,
+        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly. You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true,
+        "cancels": ["ILLITERATE"]
     },{
         "type" : "mutation",
         "id" : "NPC_BRANDY",

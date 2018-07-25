@@ -353,6 +353,7 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PRETTY( "PRETTY" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_QUILLS( "QUILLS" );
@@ -3085,6 +3086,9 @@ int player::read_speed(bool return_stat_effect) const
     int ret = 1000 - 50 * (intel - 8);
     if( has_trait( trait_FASTREADER ) ) {
         ret *= .8;
+    }
+    if( has_trait( trait_PROF_DICEMASTER ) ) {
+        ret *= .9;
     }
 
     if( has_trait( trait_SLOWREADER ) ) {
@@ -9027,7 +9031,7 @@ int player::time_to_read( const item &book, const player &reader, const player *
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     const int effective_int = std::min( {int_cur, reader.get_int(), learner ? learner->get_int() : INT_MAX } );
-    if( type->intel > effective_int ) {
+    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     if( !has_identified( book.typeId() ) ) {
@@ -9272,7 +9276,7 @@ bool player::read( int inventory_position, const bool continuous )
                  reader->disp_name().c_str() );
     }
 
-    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() );
+    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() ) && !reader->has_trait( trait_PROF_DICEMASTER );
     const player *complex_player = reader->get_int() < int_cur ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,

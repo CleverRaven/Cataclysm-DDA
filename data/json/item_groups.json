@@ -46,7 +46,8 @@
       ["basketball", 8],
       ["radiocontrol", 5],
       ["whistle", 3],
-      ["slingshot", 10]
+      ["slingshot", 10],
+      ["dnd_handbook", 1]
     ]
   },{
     "type" : "item_group",
@@ -3135,6 +3136,7 @@
       [ "holybook_kallisti", 1 ],
       [ "holybook_scientology", 1 ],
       [ "ZSG", 5 ],
+      [ "dnd_handbook", 2 ],
       [ "survnote", 1 ]
     ]
   },
@@ -3247,7 +3249,8 @@
       [ "mag_tailor", 25 ],
       [ "cookbook_sushi", 15 ],
       [ "survnote", 1 ],
-      [ "scots_cookbook", 8 ]
+      [ "scots_cookbook", 8 ],
+      [ "dnd_handbook", 2 ]
     ]
   },{
     "type" : "item_group",
@@ -3285,6 +3288,7 @@
       ["manual_fabrication", 20],
       ["manual_driving", 15],
       ["manual_survival", 20],
+      ["dnd_handbook", 2],
       ["survnote", 3]
     ]
   },{
@@ -4028,7 +4032,8 @@
       ["mag_unarmed", 10],
       ["weeks_old_newspaper", 80],
       ["newest_newspaper", 100],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["dnd_handbook", 1]
     ]
   },
   {
@@ -4135,7 +4140,8 @@
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
       [ "scots_cookbook", 1 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      [ "dnd_handbook", 1 ]
     ]
   },{
     "type" : "item_group",
@@ -5509,7 +5515,8 @@
       ["magnifying_glass", 2],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["dnd_handbook", 2]
     ]
   },{
     "type" : "item_group",
