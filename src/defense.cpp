@@ -1153,8 +1153,10 @@ std::string caravan_category_name( caravan_category cat )
             return _( "Shopping Cart" );
         case CARAVAN_MELEE:
             return _( "Melee Weapons" );
-        case CARAVAN_GUNS:
-            return _( "Firearms & Ammo" );
+        case CARAVAN_RANGED:
+            return _( "Ranged Weapons" );
+        case CARAVAN_AMMUNITION:
+            return _( "Ammuniton" );
         case CARAVAN_COMPONENTS:
             return _( "Crafting & Construction Components" );
         case CARAVAN_FOOD:
@@ -1181,24 +1183,28 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             item_list = item_group::items_from( "defense_caravan_melee" );
             break;
 
-        case CARAVAN_GUNS:
-            item_group::items_from( "defense_caravan_guns" );
+        case CARAVAN_RANGED:
+            item_list = item_group::items_from( "defense_caravan_ranged" );
+            break;
+
+        case CARAVAN_AMMUNITION:
+            item_list = item_group::items_from( "defense_caravan_ammunition" );
             break;
 
         case CARAVAN_COMPONENTS:
-            item_group::items_from( "defense_caravan_components" );
+            item_list = item_group::items_from( "defense_caravan_components" );
             break;
 
         case CARAVAN_FOOD:
-            item_group::items_from( "defense_caravan_food" );
+            item_list = item_group::items_from( "defense_caravan_food" );
             break;
 
         case CARAVAN_CLOTHES:
-            item_group::items_from( "defense_caravan_clothes" );
+            item_list = item_group::items_from( "defense_caravan_clothes" );
             break;
 
         case CARAVAN_TOOLS:
-            item_group::items_from( "defense_caravan_tools" );
+            item_list = item_group::items_from( "defense_caravan_tools" );
             break;
 
         case NUM_CARAVAN_CATEGORIES:
