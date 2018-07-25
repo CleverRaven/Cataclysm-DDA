@@ -23,6 +23,7 @@
 #include "player.h"
 #include "string_input_popup.h"
 #include "string_formatter.h"
+#include "item_group.h"
 
 #include <string>
 #include <vector>
@@ -1171,70 +1172,48 @@ std::string caravan_category_name( caravan_category cat )
 std::vector<itype_id> caravan_items( caravan_category cat )
 {
     std::vector<itype_id> ret;
+    item_group::ItemList item_list;
     switch( cat ) {
         case CARAVAN_CART:
             return ret;
 
         case CARAVAN_MELEE:
-            ret = {   "hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
-                      "knife_combat", "rapier", "machete", "katana", "spear_knife",
-                      "pike", "chainsaw_off"
-              };
+            item_list = item_group::items_from( "defense_caravan_melee" );
             break;
 
         case CARAVAN_GUNS:
-            ret = {   "crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
-                      "22_lr", "hk_mp5", "9mm", "taurus_38", "38_special", "deagle_44",
-                      "44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
-                      "remington_870", "shot_00", "shot_slug", "browning_blr", "3006",
-                      "ak47", "762_m87", "m4a1", "556", "savage_111f", "hk_g3",
-                      "762_51", "hk_g80", "12mm", "plasma_rifle", "plasma"
-              };
-
-            // Add the default magazine types for each gun.
-            for( unsigned i = 0, size = ret.size(); i < size; i++ ) {
-                item tmp( ret[i] );
-                if( tmp.is_gun() && !tmp.magazine_integral() ) {
-                    ret.emplace_back( tmp.magazine_default() );
-                }
-            }
+            item_group::items_from( "defense_caravan_guns" );
             break;
 
         case CARAVAN_COMPONENTS:
-            ret = {   "rag", "fur", "leather", "superglue", "string_36", "chain",
-                      "processor", "RAM", "power_supply", "motor", "hose", "pot",
-                      "2x4", "battery", "nail", "gasoline"
-              };
+            item_group::items_from( "defense_caravan_components" );
             break;
 
         case CARAVAN_FOOD:
-            ret = {   "1st_aid", "water", "energy_drink", "whiskey", "can_beans",
-                      "mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
-                      "cig", "meth", "royal_jelly", "mutagen", "purifier"
-              };
+            item_group::items_from( "defense_caravan_food" );
             break;
 
         case CARAVAN_CLOTHES:
-            ret = {   "backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
-                      "gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
-                      "glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
-                      "helmet_riot"
-              };
+            item_group::items_from( "defense_caravan_clothes" );
             break;
 
         case CARAVAN_TOOLS:
-            ret = {   "screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
-                      "scissors", "extinguisher", "flashlight", "hotplate",
-                      "soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
-                      "grenade", "flashbang", "EMPbomb", "smokebomb", "bot_manhack",
-                      "bot_turret", "UPS_off", "mininuke"
-              };
+            item_group::items_from( "defense_caravan_tools" );
             break;
+
         case NUM_CARAVAN_CATEGORIES:
             DebugLog( D_ERROR, D_GAME ) << "invalid caravan category: " << cat;
             break;
     }
 
+    for( auto &it : item_list ) {
+        itype_id item_type = it.typeId();
+        ret.emplace_back( item_type );
+        // Add the default magazine types for each gun.
+        if( it.is_gun() && !it.magazine_integral() ) {
+            ret.emplace_back( it.magazine_default() );
+        }
+    }
     return ret;
 }
 
