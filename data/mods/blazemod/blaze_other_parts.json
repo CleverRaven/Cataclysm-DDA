@@ -25,6 +25,7 @@
     "broken_color": "brown",
     "difficulty": 1,
     "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 200,
     "damage_modifier": 60,
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
@@ -41,6 +42,7 @@
     "broken_color": "brown",
     "difficulty": 1,
     "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 60,
     "damage_modifier": 60,
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
@@ -57,6 +59,7 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 250,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 1000,
     "breaks_into": [],
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
@@ -68,6 +71,7 @@
     "symbol": "X",
     "broken_symbol": "*",
     "difficulty": 2,
+    "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",
     "flags": [ "PROTRUSION", "OBSTACLE" ]
   },
   {
@@ -168,6 +172,7 @@
     "difficulty": 2,
     "durability": 150,
     "folded_volume": 4,
+    "description": "Improvised armor plate.  Will partially protect other components on the same frame from damage.",
     "breaks_into": [
       { "item": "rebar", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 4, 8 ] }
@@ -188,6 +193,7 @@
     "durability": 250,
     "epower": 600,
     "damage_modifier": 10,
+    "description": "A dozen solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -210,6 +216,7 @@
     "durability": 250,
     "epower": 1200,
     "damage_modifier": 10,
+    "description": "A dozen upgraded solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -232,6 +239,7 @@
     "durability": 500,
     "epower": 1080,
     "damage_modifier": 10,
+    "description": "A dozen upgraded solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 11 ] },
       { "item": "steel_chunk", "count": [ 12, 23 ] },
@@ -252,6 +260,7 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 1500,
+    "description": "A mounting frame on springs, intended to cushion the effects of collisions on the interior of your vehicle.",
     "breaks_into": [
       { "item": "scrap", "count": [ 1, 5 ] },
       { "item": "spring", "count": [ 0, 4 ] }
@@ -273,6 +282,7 @@
     "power": -25,
     "damage_modifier": 500,
     "breaks_into": [],
+    "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increased the damage the vehicle delivers in collisisons.  Mount on the edges of the vehicle, preferably the front.",
     "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ]
   },
   {
@@ -288,6 +298,7 @@
     "difficulty": 6,
     "durability": 2000,
     "damage_modifier": 50,
+    "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -310,6 +321,7 @@
     "difficulty": 7,
     "durability": 3500,
     "damage_modifier": 50,
+    "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 16 ] },
       { "item": "steel_chunk", "count": [ 20, 40 ] },
@@ -331,6 +343,7 @@
     "difficulty": 7,
     "durability": 5000,
     "damage_modifier": 50,
+    "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 12, 30 ] },
       { "item": "steel_chunk", "count": [ 25, 60 ] },
@@ -353,6 +366,7 @@
     "durability": 400,
     "damage_modifier": 80,
     "folded_volume": 25,
+    "description": "A rotating turret, capable of mounting a weapon system.  Install a suitable weapon on it as an automated weapon and the vehicle will be able to fire on hostile targets that get too close.",
     "breaks_into": [
       { "item": "scrap", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 4, 10 ] },
@@ -372,6 +386,7 @@
     "broken_color": "white",
     "difficulty": 1,
     "durability": 10,
+    "description": "A length of heavy duty copper wire, useful for routing power from one part of a vehicle to another part.",
     "folded_volume": 1,
     "breaks_into": [ { "item": "wire", "prob": 50 } ],
     "flags": [ "FOLDABLE", "AISLE", "TOOL_NONE" ]
