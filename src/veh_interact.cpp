@@ -287,8 +287,8 @@ void veh_interact::do_main_loop()
         bool redraw = false;
         int dx = 0;
         int dy = 0;
-        if(main_context.get_direction(dx, dy, action)) {
-            move_cursor(dx, dy);
+        if( main_context.get_direction( dx, dy, action ) ) {
+            move_cursor( dx, dy );
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
@@ -316,10 +316,8 @@ void veh_interact::do_main_loop()
             redraw = do_relabel( msg );
         } else if ( action == "FUEL_LIST_DOWN" ) {
             move_fuel_cursor( 1 );
-            move_cursor( 0, 0 );
         } else if ( action == "FUEL_LIST_UP" ) {
             move_fuel_cursor( -1 );
-            move_cursor( 0, 0 );
         } else if ( action == "DESC_LIST_DOWN" ) {
             move_cursor( 0, 0, 1 );
         } else if ( action == "DESC_LIST_UP" ) {
@@ -344,8 +342,9 @@ void veh_interact::do_main_loop()
             werase( w_msg );
             fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_red, msg );
             wrefresh( w_msg );
+        } else {
+            move_cursor( 0, 0 );
         }
-
     }
 }
 

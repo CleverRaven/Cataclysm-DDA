@@ -2887,14 +2887,14 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
 
 /**
  * Prints a list of descriptions for all parts to the screen inside of a boxed window
- * highlighting a selected one.
  * @param win The window to draw in.
  * @param max_y Draw no further than this y-coordinate.
  * @param width The width of the window.
  * @param &p The index of the part being examined.
  * @param start_at Which vehicle part to start printing at.
  */
-void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p, int start_at ) const
+void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+                                  int &start_at ) const
 {
     if( p < 0 || p >= ( int )parts.size() ) {
         return;
@@ -2904,7 +2904,9 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     std::ostringstream msg;
 
     int lines = 0;
-    start_at = std::max( start_at, 0 );
+    /* never start before the start of the list */
+    /* guess the number of entries that can fit in the window, and don't scroll past that */
+    start_at = std::min( std::max( start_at, 0 ), max_y / 6 );
     if( start_at ) {
            msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
            lines += 1;
