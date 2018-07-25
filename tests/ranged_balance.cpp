@@ -240,23 +240,23 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
-        arm_shooter( shooter, "sw_619", { "holo_sight" } );
-        test_shooting_scenario( shooter, 10, 13, 35 );
+        arm_shooter( shooter, "sw_619", { "red_dot_sight" } );
+        test_shooting_scenario( shooter, 10, 15, 33 );
         test_fast_shooting( shooter, 30, 0.5 );
     }
-    SECTION( "a skilled shooter with a modded shotgun" ) {
+    SECTION( "a skilled shooter with shotgun" ) {
         arm_shooter( shooter, "ksg", { "red_dot_sight" } );
-        test_shooting_scenario( shooter, 9, 15, 37 );
+        test_shooting_scenario( shooter, 9, 15, 33 );
         test_fast_shooting( shooter, 50, 0.5 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
-        arm_shooter( shooter, "hk_mp5", { "pistol_scope" } );
-        test_shooting_scenario( shooter, 12, 20, 55 );
-        test_fast_shooting( shooter, 70, 0.4 );
+        arm_shooter( shooter, "hk_mp5", { "tele_sight" } );
+        test_shooting_scenario( shooter, 12, 20, 40 );
+        test_fast_shooting( shooter, 40, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
-        arm_shooter( shooter, "ruger_mini", { "rifle_scope" } );
-        test_shooting_scenario( shooter, 10, 30, 90 );
+        arm_shooter( shooter, "ar15", { "tele_sight" } );
+        test_shooting_scenario( shooter, 10, 24, 48 );
         test_fast_shooting( shooter, 85, 0.3 );
     }
 }
@@ -269,8 +269,8 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 0 );
 
     SECTION( "an expert shooter with an excellent pistol" ) {
-        arm_shooter( shooter, "sw629", { "holo_sight" } );
-        test_shooting_scenario( shooter, 18, 20, 120 );
+        arm_shooter( shooter, "sw629", { "pistol_scope" } );
+        test_shooting_scenario( shooter, 18, 20, 140 );
         test_fast_shooting( shooter, 20, 0.6 );
     }
     SECTION( "an expert shooter with a heavily modded auto shotgun" ) {
@@ -279,7 +279,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
-        arm_shooter( shooter, "ppsh", { "pistol_scope" } );
+        arm_shooter( shooter, "ppsh", { "holo_sight" } );
         test_shooting_scenario( shooter, 20, 30, 190 );
         test_fast_shooting( shooter, 60, 0.5 );
     }
