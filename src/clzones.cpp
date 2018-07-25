@@ -7,14 +7,38 @@
 #include "translations.h"
 #include "ui.h"
 #include "string_input_popup.h"
+#include "line.h"
 
 #include <iostream>
 
 zone_manager::zone_manager()
 {
-    types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
-                   zone_type( translate_marker( "No Auto Pickup" ) ) );
+    types.emplace( zone_type_id( "NO_AUTO_PICKUP" ), zone_type( translate_marker( "No Auto Pickup" ) ) );
     types.emplace( zone_type_id( "NO_NPC_PICKUP" ), zone_type( translate_marker( "No NPC Pickup" ) ) );
+    types.emplace( zone_type_id( "LOOT_UNSORTED" ), zone_type( translate_marker( "Loot: Unsorted" ) ) );
+    types.emplace( zone_type_id( "LOOT_FOOD" ), zone_type( translate_marker( "Loot: Food" ) ) );
+    types.emplace( zone_type_id( "LOOT_PFOOD" ), zone_type( translate_marker( "Loot: P.Food" ) ) );
+    types.emplace( zone_type_id( "LOOT_DRINK" ), zone_type( translate_marker( "Loot: Drink" ) ) );
+    types.emplace( zone_type_id( "LOOT_PDRINK" ), zone_type( translate_marker( "Loot: P.Drink" ) ) );
+    types.emplace( zone_type_id( "LOOT_GUNS" ), zone_type( translate_marker( "Loot: Guns" ) ) );
+    types.emplace( zone_type_id( "LOOT_MAGAZINES" ), zone_type( translate_marker( "Loot: Magazines" ) ) );
+    types.emplace( zone_type_id( "LOOT_AMMO" ), zone_type( translate_marker( "Loot: Ammo" ) ) );
+    types.emplace( zone_type_id( "LOOT_WEAPONS" ), zone_type( translate_marker( "Loot: Weapons" ) ) );
+    types.emplace( zone_type_id( "LOOT_TOOLS" ), zone_type( translate_marker( "Loot: Tools" ) ) );
+    types.emplace( zone_type_id( "LOOT_CLOTHING" ), zone_type( translate_marker( "Loot: Clothing" ) ) );
+    types.emplace( zone_type_id( "LOOT_DRUGS" ), zone_type( translate_marker( "Loot: Drugs" ) ) );
+    types.emplace( zone_type_id( "LOOT_BOOKS" ), zone_type( translate_marker( "Loot: Books" ) ) );
+    types.emplace( zone_type_id( "LOOT_MODS" ), zone_type( translate_marker( "Loot: Mods" ) ) );
+    types.emplace( zone_type_id( "LOOT_MUTAGENS" ), zone_type( translate_marker( "Loot: Mutagens" ) ) );
+    types.emplace( zone_type_id( "LOOT_BIONICS" ), zone_type( translate_marker( "Loot: Bionics" ) ) );
+    types.emplace( zone_type_id( "LOOT_VEHICLE_PARTS" ), zone_type( translate_marker( "Loot: V.Parts" ) ) );
+    types.emplace( zone_type_id( "LOOT_OTHER" ), zone_type( translate_marker( "Loot: Other" ) ) );
+    types.emplace( zone_type_id( "LOOT_FUEL" ), zone_type( translate_marker( "Loot: Fuel" ) ) );
+    types.emplace( zone_type_id( "LOOT_SEEDS" ), zone_type( translate_marker( "Loot: Seeds" ) ) );
+    types.emplace( zone_type_id( "LOOT_CHEMICAL" ), zone_type( translate_marker( "Loot: Chemical" ) ) );
+    types.emplace( zone_type_id( "LOOT_SPARE_PARTS" ), zone_type( translate_marker( "Loot: S.Parts" ) ) );
+    types.emplace( zone_type_id( "LOOT_ARTIFACTS" ), zone_type( translate_marker( "Loot: Artifacts" ) ) );
+    types.emplace( zone_type_id( "LOOT_ARMOR" ), zone_type( translate_marker( "Loot: Armor" ) ) );
 }
 
 std::string zone_type::name() const
@@ -104,15 +128,47 @@ void zone_manager::cache_data()
     }
 }
 
-bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const
+std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &type ) const
 {
     const auto &type_iter = area_cache.find( type );
     if( type_iter == area_cache.end() ) {
-        return false;
+        return std::unordered_set<tripoint>();
     }
 
-    const auto &point_set = type_iter->second;;
+    return type_iter->second;;
+}
+
+bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const
+{
+    const auto &point_set = get_point_set( type );
     return point_set.find( where ) != point_set.end();
+}
+
+bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) const
+{
+    const auto &point_set = get_point_set( type );
+
+    for( auto &point : point_set ) {
+        if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type, const tripoint &where ) const
+{
+    const auto &point_set = get_point_set( type );
+    auto &near_point_set = std::unordered_set<tripoint>();
+
+    for( auto &point : point_set ) {
+        if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            near_point_set.insert( point );
+        }
+    }
+
+    return near_point_set;
 }
 
 void zone_manager::add( const std::string &name, const zone_type_id &type,
