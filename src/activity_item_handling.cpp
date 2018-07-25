@@ -4,6 +4,8 @@
 #include "map.h"
 #include "mapdata.h"
 #include "item.h"
+#include "itype.h"
+#include "item_category.h"
 #include "player_activity.h"
 #include "action.h"
 #include "enums.h"
@@ -26,6 +28,7 @@
 #include "debug.h"
 #include "pickup.h"
 #include "requirements.h"
+#include "clzones.h"
 
 #include <list>
 #include <vector>
@@ -647,6 +650,152 @@ void activity_on_turn_move_items()
             quantities.pop_front();
         }
     }
+}
+
+static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest )
+{
+    item leftovers = it;
+
+    if( quantity != 0 && it.count_by_charges() ) {
+        // Reinserting leftovers happens after item removal to avoid stacking issues.
+        leftovers.charges = it.charges - quantity;
+        if( leftovers.charges > 0 ) {
+            it.charges = quantity;
+        }
+    } else {
+        leftovers.charges = 0;
+    }
+
+    // Check that we can pick it up.
+    if( !it.made_of( LIQUID ) ) {
+        g->u.mod_moves( -Pickup::cost_to_move_item( g->u, it ) );
+        drop_on_map( g->u, { it }, dest );
+        // Remove from map.
+        g->m.i_rem( src, &it );
+    }
+
+    // If we didn't pick up a whole stack, put the remainder back where it came from.
+    if( leftovers.charges > 0 ) {
+        g->m.add_item_or_charges( src, leftovers );
+    }
+}
+
+static zone_type_id get_zone_type_for_item( const item &it )
+{
+    if( it.is_food_container() ) {
+        auto inner = it.contents.front();
+        if( inner.type->comestible->comesttype == "FOOD" ) {
+            return ( inner.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PFOOD" ) : zone_type_id( "LOOT_FOOD" );
+        }
+        if( inner.type->comestible->comesttype == "DRINK" ) {
+            return ( inner.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PDRINK" ) : zone_type_id( "LOOT_DRINK" );
+        }
+    }
+    if( it.is_comestible() && it.type->comestible->comesttype == "FOOD" ) {
+        return ( it.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PFOOD" ) : zone_type_id( "LOOT_FOOD" );
+    }
+    if( it.is_comestible() && it.type->comestible->comesttype == "DRINK" ) {
+        return ( it.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PDRINK" ) : zone_type_id( "LOOT_DRINK" );
+    }
+
+    auto cat = it.get_category();
+    
+    if( cat.id() == "guns" ) {
+        return zone_type_id( "LOOT_GUNS" );
+    }
+    if( cat.id() == "magazines" ) {
+        return zone_type_id( "LOOT_MAGAZINES" );
+    }
+    if( cat.id() == "ammo" ) {
+        return zone_type_id( "LOOT_AMMO" );
+    }
+    if( cat.id() == "weapons" ) {
+        return zone_type_id( "LOOT_WEAPONS" );
+    }
+    if( cat.id() == "tools" ) {
+        return zone_type_id( "LOOT_TOOLS" );
+    }
+    if( cat.id() == "clothing" ) {
+        return zone_type_id( "LOOT_CLOTHING" );
+    }
+    if( cat.id() == "drugs" ) {
+        return zone_type_id( "LOOT_DRUGS" );
+    }
+    if( cat.id() == "books" ) {
+        return zone_type_id( "LOOT_BOOKS" );
+    }
+    if( cat.id() == "mods" ) {
+        return zone_type_id( "LOOT_MODS" );
+    }
+    if( cat.id() == "mutagen" ) {
+        return zone_type_id( "LOOT_MUTAGENS" );
+    }
+    if( cat.id() == "bionics" ) {
+        return zone_type_id( "LOOT_BIONICS" );
+    }
+    if( cat.id() == "veh_parts" ) {
+        return zone_type_id( "LOOT_VEHICLE_PARTS" );
+    }
+    if( cat.id() == "other" ) {
+        return zone_type_id( "LOOT_OTHER" );
+    }
+    if( cat.id() == "fuel" ) {
+        return zone_type_id( "LOOT_FUEL" );
+    }
+    if( cat.id() == "seeds" ) {
+        return zone_type_id( "LOOT_SEEDS" );
+    }
+    if( cat.id() == "chems" ) {
+        return zone_type_id( "LOOT_CHEMICAL" );
+    }
+    if( cat.id() == "spare_parts" ) {
+        return zone_type_id( "LOOT_SPARE_PARTS" );
+    }
+    if( cat.id() == "artifacts" ) {
+        return zone_type_id( "LOOT_ARTIFACTS" );
+    }
+    if( cat.id() == "armor" ) {
+        return zone_type_id( "LOOT_ARMOR" );
+    }
+
+    return zone_type_id();
+}
+
+void activity_on_turn_move_loot( player_activity &act, player &p )
+{
+    const auto &src_set = zone_manager::get_manager().get_near( zone_type_id( "LOOT_UNSORTED" ), g->m.getabs( p.pos() ) );    
+    auto items = std::vector<item *>();
+
+    // Nuke the current activity, leaving the backlog alone.
+    p.activity = player_activity();
+
+    for( auto &src : src_set ) {
+        const auto &src_loc = g->m.getlocal( src );
+        for( auto &it : g->m.i_at( src_loc ) ) {
+            items.push_back( &it );
+        }
+
+        for( auto it : items ) {
+            const auto id = get_zone_type_for_item( *it );
+            const auto &dest_set = zone_manager::get_manager().get_near( id, g->m.getabs( p.pos() ) );
+
+            for( auto &dest : dest_set ) {
+                const auto &dest_loc = g->m.getlocal( dest );
+                if( g->m.free_volume( dest_loc ) > it->volume() ) {
+                    move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
+                    break;
+                }
+            }
+
+            if( p.moves <= 0 ) {
+                // Restart activity and break from cycle.
+                p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+                return;
+            }
+        }
+    }
+
+    // If we got here without restarting the activity, it means we're done
 }
 
 cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )
