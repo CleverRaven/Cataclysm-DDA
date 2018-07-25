@@ -1,7 +1,7 @@
 [
   {
-    "type" : "item_group",
-    "id" : "defense_caravan_melee",
+    "type": "item_group",
+    "id": "defense_caravan_melee",
     "subtype": "collection",
     "items": [
       { "item": "hammer" },
@@ -20,8 +20,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "defense_caravan_ranged",
+    "type": "item_group",
+    "id": "defense_caravan_ranged",
     "subtype": "collection",
     "items": [
       { "item": "crossbow" },
@@ -43,8 +43,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "defense_caravan_ammunition",
+    "type": "item_group",
+    "id": "defense_caravan_ammunition",
     "subtype": "collection",
     "items": [
       { "item": "bolt_steel" },
@@ -67,8 +67,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "defense_caravan_components",
+    "type": "item_group",
+    "id": "defense_caravan_components",
     "subtype": "collection",
     "items": [
       { "item": "rag" },
@@ -90,8 +90,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "defense_caravan_food",
+    "type": "item_group",
+    "id": "defense_caravan_food",
     "subtype": "collection",
     "items": [
       { "item": "1st_aid" },
@@ -113,8 +113,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "defense_caravan_clothes",
+    "type": "item_group",
+    "id": "defense_caravan_clothes",
     "subtype": "collection",
     "items": [
       { "item": "backpack" },
@@ -134,8 +134,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "defense_caravan_tools",
+    "type": "item_group",
+    "id": "defense_caravan_tools",
     "subtype": "collection",
     "items": [
       { "item": "screwdriver" },
