@@ -566,17 +566,17 @@ bool player::eat( item &food, bool force )
                                food.tname().c_str() );
     } else if( drinkable ) {
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
-              one_in( 50 ) && !spoiled && food.goes_bad() && is_player()) { 
+            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname().c_str() );
         } else {
-            add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ), 
+            add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
                                    food.tname().c_str() );
         }
     } else if( chew ) {
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
-              one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
+            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname().c_str() );
