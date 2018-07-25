@@ -9,7 +9,7 @@
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": "fine cutting",
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave", "field_dress" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -119,7 +119,8 @@
   {
     "type": "tool_quality",
     "id": "BUTCHER",
-    "name": "butchering"
+    "name": "butchering",
+    "usages": [ [ 1, [ "field_dress" ] ] ]
   },
   {
     "type": "tool_quality",

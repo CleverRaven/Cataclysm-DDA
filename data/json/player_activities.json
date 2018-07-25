@@ -146,7 +146,7 @@
     "id": "ACT_FIELD_DRESS",
     "type": "activity_type",
     "stop_phrase": "Stop field dressing?",
-    "suspendable": true,
+    "suspendable": false,
     "based_on": "speed"
   },
   {

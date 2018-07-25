@@ -934,6 +934,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
+- ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing. Affects butcher results.
 
 ## Bionics
 
