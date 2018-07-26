@@ -238,7 +238,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it, const tr
     }
     if( cat.id() == "clothing" ) {
         if( it.is_filthy() && has_near( zone_type_id( "LOOT_FCLOTHING" ), where ) ) {
-            zone_type_id( "LOOT_FCLOTHING" );
+            return zone_type_id( "LOOT_FCLOTHING" );
         }
         return zone_type_id( "LOOT_CLOTHING" );
     }
@@ -280,7 +280,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it, const tr
     }
     if( cat.id() == "armor" ) {
         if( it.is_filthy() && has_near( zone_type_id( "LOOT_FARMOR" ), where ) ) {
-            zone_type_id( "LOOT_FARMOR" );
+            return zone_type_id( "LOOT_FARMOR" );
         }
         return zone_type_id( "LOOT_ARMOR" );
     }
