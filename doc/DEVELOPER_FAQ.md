@@ -34,7 +34,7 @@ It should be mentioned that most buildings are built on the square `SEEX*2 x SEE
 If you want your building to be spawned not only in city limits you should refer to structures in file `omdata.h` (starting from the line `#define OMSPEC_FREQ 7`).
 
 These structures are also commented in source code. Add new identifier in enum `omspec_id` structure before `NUM_OMSPECS` and then add a record in `const overmap_special overmap_specials[NUM_OMSPECS]` array. For example:
-   
+
 ```C++
 {ot_toxic_dump,   0,  5, 15, -1, mcat_null, 0, 0, 0, 0, &omspec_place::wilderness,0}
 ```
@@ -49,14 +49,14 @@ The comments given in source code to structure `struct overmap_special` explain 
 4. For bionic ranged weapons add the bionic weapon counterparts to `ranged.json`, give them the `NO_AMMO` and `BIO_WEAPON` flags.
 5. For bionic close combat weapons add the bionic weapon to `data/json/items/melee.json` give them `NON_STUCK`, `NO_UNWIELD` at least.
 
-## How armour protection is calculated
+## How armor protection is calculated
 
-1. When the player is hit at a specific body part, armour coverage determines whether the armour is hit, or an uncovered part of the player is hit (roll `1d100` against coverage).
-2. If the above roll fails (ie roll value is above coverage), then the armour does not absorb any damage from the blow, neither does it become damaged.
-3. If the above roll succeeds, the armour is hit, possibly absorbing some damage and possibly getting damaged in the process.
-4. The above steps are repeated for each layer of armour on the body part.
-5. Armour protects against bash and cut damage.  These are determined by multiplying the armour thickness by the material bash/cut resistance factor respectively, given in `materials.json`.
-6. If the armour is made from 2 materials types, then it takes a weighted average of the primary material (`66%`) and secondary material (`33%`).
+1. When the player is hit at a specific body part, armor coverage determines whether the armor is hit, or an uncovered part of the player is hit (roll `1d100` against coverage).
+2. If the above roll fails (ie roll value is above coverage), then the armor does not absorb any damage from the blow, neither does it become damaged.
+3. If the above roll succeeds, the armor is hit, possibly absorbing some damage and possibly getting damaged in the process.
+4. The above steps are repeated for each layer of armor on the body part.
+5. Armor protects against bash and cut damage.  These are determined by multiplying the armor thickness by the material bash/cut resistance factor respectively, given in `materials.json`.
+6. If the armor is made from 2 materials types, then it takes a weighted average of the primary material (`66%`) and secondary material (`33%`).
 7. Materials resistance factors are given relative to `PAPER` as a material (this probably needs some fine-tuning for balance).
 
 ## Adding an iuse function.

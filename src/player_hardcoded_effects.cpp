@@ -48,6 +48,7 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_rat( "rat" );
@@ -990,19 +991,27 @@ void player::hardcoded_effects( effect &it )
             it.mod_intensity( 1 );
         }
 
-        if( get_fatigue() < -25 && it.get_duration() > 3_minutes ) {
+        if( has_effect( effect_narcosis ) && get_fatigue() <= 25 ) {
+            set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
+        }
+
+        if( get_fatigue() < -25 && it.get_duration() > 3_minutes && !has_effect( effect_narcosis ) ) {
             it.set_duration( 1_turns * dice( 3, 10 ) );
         }
 
-        if( get_fatigue() <= 0 && get_fatigue() > -20 ) {
+        if( get_fatigue() <= 0 && get_fatigue() > -20 && !has_effect( effect_narcosis ) ) {
             mod_fatigue( -25 );
             add_msg_if_player( m_good, _( "You feel well rested." ) );
             it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
+        bool compatible_weather_types = g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY
+                                        || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
+                                        || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
+
         if( calendar::once_every( 10_minutes ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
-            g->is_in_sunlight( pos() ) ) {
+            g->m.is_outside( pos() ) && g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( get_hunger() >= -30 ) {
                 mod_hunger( -5 );
@@ -1051,7 +1060,7 @@ void player::hardcoded_effects( effect &it )
 
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );
-        if( !is_blind() ) {
+        if( !is_blind() && !has_effect( effect_narcosis ) ) {
             if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
                 // So you can too sleep through noon
                 if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
@@ -1080,7 +1089,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         // Have we already woken up?
-        if( !woke_up ) {
+        if( !woke_up && !has_effect( effect_narcosis ) ) {
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
             for( const body_part bp : all_body_parts ) {

@@ -18,6 +18,7 @@
 #include "options.h"
 #include "ui.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -606,9 +607,9 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
                 veh = &vp->vehicle();
-                vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
+                vstor = vp->part_index();
             } else {
                 veh = nullptr;
                 vstor = -1;
@@ -646,9 +647,9 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
-            if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
                 veh = &vp->vehicle();
-                vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
+                vstor = vp->part_index();
             } else {
                 veh = nullptr;
                 vstor = -1;
@@ -1151,6 +1152,17 @@ bool advanced_inventory::move_all_items(bool nested_call)
             popup(_("There are no items to be moved!"));
             return false;
         }
+
+        auto &sarea = squares[spane.get_area()];
+        auto &darea = squares[dpane.get_area()];
+
+
+        // Check first if the destination area still have enough room for moving all.
+        if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+            !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+            return false;
+        }
+
         // make sure that there are items to be moved
         bool done = false;
         // copy the current pane, to be restored after the move is queued
@@ -1286,6 +1298,13 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 g->u.activity.str_values.push_back( "equip" );
             }
         } else { // Vehicle and map destinations are handled the same.
+
+            // Check first if the destination area still have enough room for moving all.
+            if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+                !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
+                return false;
+            }
+
             g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
             // store whether the source is from a vehicle (first entry)
             g->u.activity.values.push_back(spane.in_vehicle());
@@ -1416,10 +1435,10 @@ void advanced_inventory::display()
             do_return_entry();
             return;
         }
-        dest = ( src == left ? right : left );
+        dest = ( src == advanced_inventory::side::left ? advanced_inventory::side::right : advanced_inventory::side::left );
 
-        redraw_pane( left );
-        redraw_pane( right );
+        redraw_pane( advanced_inventory::side::left );
+        redraw_pane( advanced_inventory::side::right );
 
         if( redraw && !is_processing()) {
             werase( head );
@@ -1583,7 +1602,8 @@ void advanced_inventory::display()
                     } else if(srcarea == AIM_WORN) {
                         g->u.takeoff( *sitem->items.front(), &moving_items );
                     }
-                    int items_left = 0, moved = 0;
+                    int items_left = 0;
+                    int moved = 0;
                     for(auto &elem : moving_items) {
                         assert(!elem.is_null());
                         items_left = add_item(destarea, elem);
@@ -1703,7 +1723,7 @@ void advanced_inventory::display()
             }
             int ret = 0;
             const int info_width = w_width / 2;
-            const int info_startx = colstart + ( src == left ? info_width : 0 );
+            const int info_startx = colstart + ( src == advanced_inventory::side::left ? info_width : 0 );
             if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
                 int idx = ( spane.get_area() == AIM_INVENTORY ) ?
                           sitem->idx : player::worn_position_to_index( sitem->idx );
@@ -1716,7 +1736,7 @@ void advanced_inventory::display()
                 do_return_entry();
                 assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
                 ret = g->inventory_item_menu( idx, info_startx, info_width,
-                                              src == left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
+                                              src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
                 if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
                     exit = true;
                 } else {
@@ -1729,7 +1749,8 @@ void advanced_inventory::display()
                 recalc = true;
             } else {
                 item &it = *sitem->items.front();
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 it.info( true, vThisItem );
                 int iDummySelect = 0;
                 ret = draw_item_info( info_startx,
@@ -2402,9 +2423,9 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    if( const optional_vpart_position vp = g->m.veh_at( pos ) ) {
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false ) ) {
         veh = &vp->vehicle();
-        vstor = veh->part_with_feature( vp->part_index(), "CARGO", false );
+        vstor = vp->part_index();
     } else {
         veh = nullptr;
         vstor = -1;

@@ -23,6 +23,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"
+#include "vpart_reference.h"
 #include "sounds.h"
 #include "gates.h"
 #include "overmap_location.h"
@@ -1566,7 +1567,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         const optional_vpart_position ovp = g->m.veh_at( p );
         if( abs( vp->vehicle().velocity ) > 0 &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
-              vp->vehicle().part_with_feature( ovp->part_index(), VPFLAG_BOARDABLE ) < 0 ) ) {
+              !ovp.part_with_feature( VPFLAG_BOARDABLE ) ) ) {
             move_pause();
             return;
         }
@@ -1623,8 +1624,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
             doors::close_door( g->m, *this, old_pos );
         }
 
-        const optional_vpart_position vp = g->m.veh_at( p );
-        if( vp && vp->vehicle().part_with_feature( vp->part_index(), VPFLAG_BOARDABLE ) >= 0 ) {
+        if( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE ) ) {
             g->m.board_vehicle( p, this );
         }
 
@@ -1929,20 +1929,19 @@ void npc::find_item()
         if( !vp || vp->vehicle().velocity != 0 || !sees( p ) ) {
             continue;
         }
-        vehicle *const veh = &vp->vehicle();
-        int veh_part = veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         //TODO Let player know what parts are safe from NPC thieves
-        if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) ) {
+        if( !cargo || cargo->vehicle().part_flag( cargo->part_index(), locked_string ) ) {
             continue;
         }
 
         static const std::string cargo_locking_string( "CARGO_LOCKING" );
-        if( veh->part_with_feature( veh_part, cargo_locking_string, true ) != -1 ) {
+        if( vp.part_with_feature( cargo_locking_string, true ) ) {
             continue;
         }
 
-        for( const item &it : veh->get_items( veh_part ) ) {
+        for( const item &it : cargo->vehicle().get_items( cargo->part_index() ) ) {
             consider_item( it, p );
         }
     }
@@ -1982,13 +1981,9 @@ void npc::pick_up_item()
         return;
     }
 
-    const optional_vpart_position vp = g->m.veh_at( wanted_item_pos );
-    vehicle *const veh = veh_pointer_or_null( vp );
-    int veh_part = vp ? veh->part_with_feature( vp->part_index(), VPFLAG_CARGO, false ) : -1;
-
-    const bool has_cargo = veh != nullptr &&
-                           veh_part >= 0 &&
-                           !veh->part_flag( veh_part, "LOCKED" );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
+                VPFLAG_CARGO, false );
+    const bool has_cargo = vp && !vp->vehicle().part_flag( vp->part_index(), "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
@@ -2026,7 +2021,7 @@ void npc::pick_up_item()
 
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
-        picked_up = pick_up_item_vehicle( *veh, veh_part );
+        picked_up = pick_up_item_vehicle( vp->vehicle(), vp->part_index() );
     }
 
     if( picked_up.empty() ) {
@@ -2137,14 +2132,16 @@ void npc::drop_items( int weight, int volume )
              to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
              volume_capacity() / units::legacy_volume_factor );
 
-    int weight_dropped = 0, volume_dropped = 0;
+    int weight_dropped = 0;
+    int volume_dropped = 0;
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
     for( unsigned int i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
-        double wgt_ratio, vol_ratio;
+        double wgt_ratio = 0.0;
+        double vol_ratio = 0.0;
         if( value( it ) == 0 ) {
             wgt_ratio = 99999;
             vol_ratio = 99999;
@@ -2152,7 +2149,8 @@ void npc::drop_items( int weight, int volume )
             wgt_ratio = it.weight() / 1_gram / value( it );
             vol_ratio = it.volume() / units::legacy_volume_factor / value( it );
         }
-        bool added_wgt = false, added_vol = false;
+        bool added_wgt = false;
+        bool added_vol = false;
         for( size_t j = 0; j < rWgt.size() && !added_wgt; j++ ) {
             if( wgt_ratio > rWgt[j].ratio ) {
                 added_wgt = true;
@@ -2217,13 +2215,13 @@ void npc::drop_items( int weight, int volume )
         g->m.add_item_or_charges( pos(), dropped );
     }
     // Finally, describe the action if u can see it
-    std::string item_name_str = item_name.str();
     if( g->u.sees( *this ) ) {
         if( num_items_dropped >= 3 ) {
             add_msg( ngettext( "%s drops %d item.", "%s drops %d items.",
                                num_items_dropped ), name.c_str(),
                      num_items_dropped );
         } else {
+            std::string item_name_str = item_name.str();
             add_msg( _( "%1$s drops a %2$s." ), name.c_str(),
                      item_name_str.c_str() );
         }

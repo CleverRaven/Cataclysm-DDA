@@ -201,7 +201,7 @@
     "ident": "Mine_bottom",
     "name": "Bottom of a Mine",
     "points" : 1,
-    "description": "You were mining along when you found...something.  You're not sure what, but it sure is dark down here.",
+    "description": "You were mining along when you found... something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
     "professions" : ["miner"],
     "allowed_locs" : ["mine_finale"],
@@ -225,5 +225,16 @@
     "description": "You were outside of civilization when the bombs fell; you didn't even know the end had come, or that everyone was (un)dead.  Will this ignorance save you from the fate of the rest?",
     "start_name": "Out of City",
     "allowed_locs": [ "Swamp Shack", "campground", "survivalist farm", "cabin_woods" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "cyberpunk",
+    "name": "High Tech, Low Life",
+    "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthesic smuggled out of hospitals, and desperate people with little to lose got you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
+    "flags": [ "CITY_START" ],
+    "points" : -4,
+    "start_name": "Somewhere in town",
+    "allowed_locs": [ "house", "boarded_house", "pawn", "basement_bionic" ],
+    "professions": [  "cyberjunkie", "faulty_bionic", "cykotic", "razorgirl", "bionic_installer" ]
   }
 ]

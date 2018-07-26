@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 
 #include <queue>
+#include <algorithm>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -466,7 +467,7 @@ field_id field_from_ident(const std::string &field_ident)
 void map::create_burnproducts( const tripoint p, const item &fuel, const units::mass &burned_mass ) {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
-        return; 
+        return;
     }
     //Items that are multiple materials are assumed to be equal parts each.
     units::mass by_weight = burned_mass / all_mats.size();
@@ -896,7 +897,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
 
-                            fire_data frd{ cur.getFieldDensity(), 0.0f, 0.0f };
+                            fire_data frd( cur.getFieldDensity(), !can_spread );
                             // The highest # of items this fire can remove in one turn
                             int max_consume = cur.getFieldDensity() * 2;
 
@@ -905,7 +906,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // destroyed by the fire, this changes the item weight, but may not actually
                                 // destroy it. We need to spawn products anyway.
                                 const units::mass old_weight = fuel->weight( false );
-                                bool destroyed = fuel->burn( frd, can_spread);
+                                bool destroyed = fuel->burn( frd );
                                 // If the item is considered destroyed, it may have negative charge count,
                                 // see `item::burn?. This in turn means `item::weight` returns a negative value,
                                 // which we can not use, so only call `weight` when it's still an existing item.
@@ -916,9 +917,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
-                                    // But remember its contents
+                                    // But remember its contents, except for irremovable mods, if any
                                     std::copy( fuel->contents.begin(), fuel->contents.end(),
                                                std::back_inserter( new_content ) );
+                                    new_content.erase( std::remove_if( new_content.begin(), new_content.end(), [&]( const item & i ) {
+                                        return i.is_irremovable();
+                                    } ), new_content.end() );
                                     fuel = items_here.erase( fuel );
                                     consumed++;
                                 } else {
@@ -1467,13 +1471,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur.setFieldDensity(3);
                             int num_bolts = rng(3, 6);
                             for (int i = 0; i < num_bolts; i++) {
-                                int xdir = 0, ydir = 0;
+                                int xdir = 0;
+                                int ydir = 0;
                                 while (xdir == 0 && ydir == 0) {
                                     xdir = rng(-1, 1);
                                     ydir = rng(-1, 1);
                                 }
                                 int dist = rng(4, 12);
-                                int boltx = p.x, bolty = p.y;
+                                int boltx = p.x;
+                                int bolty = p.y;
                                 for (int n = 0; n < dist; n++) {
                                     boltx += xdir;
                                     bolty += ydir;
@@ -1807,22 +1813,22 @@ void map::player_in_field( player &u )
             {
                 // Burn message by intensity
                 static const std::array<std::string, 4> player_burn_msg = {{
-                    _("You burn your legs and feet!"),
-                    _("You're burning up!"),
-                    _("You're set ablaze!"),
-                    _("Your whole body is burning!")
+                    translate_marker("You burn your legs and feet!"),
+                    translate_marker("You're burning up!"),
+                    translate_marker("You're set ablaze!"),
+                    translate_marker("Your whole body is burning!")
                 }};
                 static const std::array<std::string, 4> npc_burn_msg = {{
-                    _("<npcname> burns their legs and feet!"),
-                    _("<npcname> is burning up!"),
-                    _("<npcname> is set ablaze!"),
-                    _("<npcname>s whole body is burning!")
+                    translate_marker("<npcname> burns their legs and feet!"),
+                    translate_marker("<npcname> is burning up!"),
+                    translate_marker("<npcname> is set ablaze!"),
+                    translate_marker("<npcname>s whole body is burning!")
                 }};
                 static const std::array<std::string, 4> player_warn_msg = {{
-                    _("You're standing in a fire!"),
-                    _("You're waist-deep in a fire!"),
-                    _("You're surrounded by raging fire!"),
-                    _("You're lying in fire!")
+                    translate_marker("You're standing in a fire!"),
+                    translate_marker("You're waist-deep in a fire!"),
+                    translate_marker("You're surrounded by raging fire!"),
+                    translate_marker("You're lying in fire!")
                 }};
 
                 int burn_min = adjusted_intensity;
@@ -1860,11 +1866,11 @@ void map::player_in_field( player &u )
                 }
                 if( total_damage > 0 ) {
                     u.add_msg_player_or_npc( m_bad,
-                        player_burn_msg[msg_num].c_str(),
-                        npc_burn_msg[msg_num].c_str() );
+                        _( player_burn_msg[msg_num].c_str() ),
+                        _( npc_burn_msg[msg_num].c_str() ) );
                 } else {
                     u.add_msg_if_player( m_warning,
-                        player_warn_msg[msg_num].c_str() );
+                        _( player_warn_msg[msg_num].c_str() ) );
                 }
                 u.check_dead_state();
             }
@@ -2081,7 +2087,7 @@ void map::player_in_field( player &u )
                     break;
                 }
                 // Full body suits protect you from the effects of the gas.
-                if( u.worn_with_flag("GAS_PROOF") ) {
+                if( u.worn_with_flag( "GAS_PROOF" ) && u.get_env_resist( bp_mouth ) >= 15 && u.get_env_resist( bp_eyes ) >= 15 ) {
                     break;
                 }
                 bool inhaled = false;

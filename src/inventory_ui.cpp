@@ -12,6 +12,7 @@
 #include "options.h"
 #include "messages.h"
 #include "catacharset.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
@@ -984,15 +985,12 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    optional_vpart_position vp = g->m.veh_at( target );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO" );
     if( !vp ) {
         return;
     }
     vehicle *const veh = &vp->vehicle();
-    const int part = veh->part_with_feature( vp->part_index(), "CARGO" );
-    if( part < 0 ) {
-        return;
-    }
+    const int part = vp->part_index();
     const auto items = veh->get_items( part );
     const std::string name = to_upper_case( veh->parts[part].name() );
     const item_category vehicle_cat( name, name, 200 );
@@ -1276,8 +1274,8 @@ void inventory_selector::set_filter()
     do {
         mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );
         mvwprintz( w_inv, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4, c_cyan, " >" );
-        std::string new_filter = spopup.query_string( false );
 
+        std::string new_filter = spopup.query_string( false );
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
             filter.clear();
         } else {
@@ -1590,6 +1588,11 @@ item_location inventory_pick_selector::execute()
             set_filter();
         } else {
             on_input( input );
+        }
+
+        if ( input.action == "HELP_KEYBINDINGS" ) {
+            g->draw_ter();
+            wrefresh( g->w_terrain );
         }
     }
 }

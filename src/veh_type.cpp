@@ -182,6 +182,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
+    assign( jo, "description", def.description );
 
     if( jo.has_member( "requirements" ) ) {
         auto reqs = jo.get_object( "requirements" );

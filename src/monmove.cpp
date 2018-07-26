@@ -457,6 +457,17 @@ void monster::move()
         g->m.creature_on_trap( *this, false );
     }
 
+    // The monster is in a deep water tile and has a chance to drown
+    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ) {
+        if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
+            die( nullptr );
+            if( g->u.sees( pos() ) ) {
+                add_msg( _( "The %s drowns!" ), name().c_str() );
+            }
+            return;
+        }
+    }
+
     if( moves < 0 ) {
         return;
     }
@@ -1111,6 +1122,12 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             if( fstr >= 2 ) {
                 g->m.add_field( sludge_p, fd_sludge, fstr );
             }
+        }
+    }
+
+    if( has_flag( MF_DRIPS_NAPALM ) ) {
+        if( one_in( 10 ) ) {
+            g->m.add_item_or_charges( pos(), item( "napalm" ) );
         }
     }
 

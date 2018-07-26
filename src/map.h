@@ -796,7 +796,7 @@ class map
 
         // Signs
         const std::string get_signage( const tripoint &p ) const;
-        void set_signage( const tripoint &p, std::string message ) const;
+        void set_signage( const tripoint &p, const std::string &message ) const;
         void delete_signage( const tripoint &p ) const;
 
         // Radiation
@@ -822,7 +822,7 @@ class map
 
         // Items
         void process_active_items();
-        void trigger_rc_items( std::string signal );
+        void trigger_rc_items( const std::string &signal );
 
         // Items: 2D
         map_stack i_at( int x, int y );
@@ -1084,7 +1084,7 @@ class map
 
         // Computers
         computer *computer_at( const tripoint &p );
-        computer *add_computer( const tripoint &p, std::string name, const int security );
+        computer *add_computer( const tripoint &p, const std::string &name, const int security );
 
         // Camps
         bool allow_camp( const tripoint &p, const int radius = CAMPCHECK );
@@ -1141,16 +1141,16 @@ class map
         void place_spawns( const mongroup_id &group, const int chance,
                            const int x1, const int y1, const int x2, const int y2, const float density );
         void place_gas_pump( const int x, const int y, const int charges );
-        void place_gas_pump( const int x, const int y, const int charges, std::string fuel_type );
+        void place_gas_pump( const int x, const int y, const int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge
         void place_toilet( const int x, const int y, const int charges = 6 * 4 );
-        void place_vending( int x, int y, std::string type, bool reinforced = false );
+        void place_vending( int x, int y, const std::string &type, bool reinforced = false );
         int place_npc( int x, int y, const string_id<npc_template> &type );
 
         void add_spawn( const mtype_id &type, const int count, const int x, const int y,
                         bool friendly = false,
                         const int faction_id = -1, const int mission_id = -1,
-                        std::string name = "NONE" );
+                        const std::string &name = "NONE" );
         vehicle *add_vehicle( const vgroup_id &type, const point &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
                               const bool merge_wrecks = true );
@@ -1290,6 +1290,12 @@ class map
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
+         * Checks to see if the item that is rotting away generates a creature when it does.
+         * @param item item that is spawning creatures
+         * @param p The point on this map where the item is and creature will be
+         */
+        void rotten_item_spawn( const item &item, const tripoint &p );
+        /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
          */
@@ -1330,7 +1336,7 @@ class map
         void draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                        const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                        const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                       const oter_id t_above, const time_point &when, const float density,
+                       const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
                        const int zlevel, const regional_settings *rsettings );
 
         void build_transparency_cache( int zlev );
@@ -1564,4 +1570,3 @@ class tinymap : public map
 };
 
 #endif
-

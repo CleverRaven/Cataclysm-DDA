@@ -142,7 +142,6 @@
       { "x": -8, "y": -1, "part": "halfboard_vertical" },
       { "x": -8, "y": 3, "part": "frame_vertical" },
       { "x": -8, "y": 3, "part": "halfboard_vertical" }
-
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 1, "items": [ "roadmap" ] },
@@ -246,7 +245,6 @@
       { "x": -4, "y": 1, "part": "trunk" },
       { "x": -4, "y": 2, "part": "frame_horizontal" },
       { "x": -4, "y": 2, "part": "halfboard_se" }
-
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 15, "item_groups": [ "car_misc" ] },
@@ -679,9 +677,9 @@
       { "x": 0, "y": 2, "part": "seatbelt" },
       { "x": 0, "y": 2, "part": "hdroof" },
       { "x": 0, "y": -1, "part": "hdframe_vertical" },
-      { "x": 0, "y": -1, "part": "door" },
+      { "x": 0, "y": -1, "part": "hddoor" },
       { "x": 0, "y": 3, "part": "hdframe_vertical" },
-      { "x": 0, "y": 3, "part": "door" },
+      { "x": 0, "y": 3, "part": "hddoor" },
       { "x": -2, "y": 1, "part": "hdframe_horizontal" },
       { "x": -2, "y": 1, "part": "wooden_aisle_vertical" },
       { "x": -2, "y": 1, "part": "roof_cloth" },

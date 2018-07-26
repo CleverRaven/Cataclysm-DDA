@@ -180,7 +180,7 @@ class game
     public:
 
         /** Initializes the UI. */
-        void init_ui();
+        void init_ui( const bool resized = false );
         void setup();
         /** True if the game has just started or loaded, else false. */
         bool new_game;
@@ -494,6 +494,8 @@ class game
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
+        /** Return list of killed NPC */
+        std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = NULL, bool add_teleglow = true );
@@ -526,7 +528,8 @@ class game
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void process_artifact( item &it, player &p );
-        void add_artifact_messages( std::vector<art_effect_passive> effects );
+        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
+        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );
@@ -585,7 +588,8 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
-        int get_temperature();    // Returns outdoor or indoor temperature of current location
+        // Returns outdoor or indoor temperature of given location
+        int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
         pimpl<w_point> weather_precise; // Cached weather data
@@ -601,7 +605,7 @@ class game
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
          */
-        void load_map( tripoint pos_sm );
+        void load_map( const tripoint &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -617,7 +621,9 @@ class game
     private:
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
-        int ter_view_x, ter_view_y, ter_view_z;
+        int ter_view_x;
+        int ter_view_y;
+        int ter_view_z;
 
     private:
         catacurses::window w_terrain_ptr;

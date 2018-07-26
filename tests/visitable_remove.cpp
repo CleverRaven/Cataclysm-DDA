@@ -8,6 +8,7 @@
 #include "map_selector.h"
 #include "rng.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 
@@ -403,10 +404,10 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( g->m.veh_at( e ) );
         } ) == 1 );
 
-        const optional_vpart_position vp = g->m.veh_at( veh );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO" );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
-        int part = v->part_with_feature( vp->part_index(), "CARGO" );
+        const int part = vp->part_index();
         REQUIRE( part >= 0 );
         // Empty the vehicle of any cargo.
         while( !v->get_items( part ).empty() ) {

@@ -29,6 +29,7 @@
     "//": "Industrial machinery used for construction",
     "items": [
       [ "brick_kiln", 80 ],
+      [ "kiln", 40 ],
       [ "con_mix", 120 ],
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
@@ -186,6 +187,7 @@
       [ "mess_kit", 20 ],
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
+      [ "knife_folding", 30 ],
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
       [ "signal_flare", 20 ],

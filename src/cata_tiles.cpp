@@ -21,6 +21,7 @@
 #include "npc.h"
 #include "catacharset.h"
 #include "itype.h"
+#include "vpart_reference.h"
 #include "vehicle.h"
 #include "game.h"
 #include "mapdata.h"
@@ -87,7 +88,7 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
 
 namespace
 {
-void printErrorIf( const bool condition, const std::string message )
+void printErrorIf( const bool condition, const std::string &message )
 {
     if( !condition ) {
         return;
@@ -95,7 +96,7 @@ void printErrorIf( const bool condition, const std::string message )
     dbg( D_ERROR ) << message << ": " << SDL_GetError();
 }
 
-void throwErrorIf( const bool condition, const std::string message )
+void throwErrorIf( const bool condition, const std::string &message )
 {
     if( !condition ) {
         return;
@@ -962,7 +963,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     int posx = center.x;
     int posy = center.y;
 
-    int sx, sy;
+    int sx = 0;
+    int sy = 0;
     get_window_tile_counts(width, height, sx, sy);
 
     init_light();
@@ -1705,7 +1707,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     // translate from player-relative to screen relative tile position
-    int screen_x, screen_y;
+    int screen_x = 0;
+    int screen_y = 0;
     if( tile_iso ) {
         screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
         op_x;
@@ -1818,7 +1821,8 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
 
     int ret = 0;
     // blit foreground based on rotation
-    int rotate_sprite, sprite_num;
+    bool rotate_sprite = false;
+    int sprite_num = 0;
     if( !rota_fg && spritelist.size() == 1 ) {
         // don't rotate, a background tile without manual rotations
         rotate_sprite = false;
@@ -1856,7 +1860,8 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
         }
     }
 
-    int width, height;
+    int width = 0;
+    int height = 0;
     std::tie( width, height ) = sprite_tex->dimension();
 
     SDL_Rect destination;
@@ -1963,9 +1968,10 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         tercol = cursesColorToSDL( curr_furn.color() );
     } else if( ( veh = g->m.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
         const int roof = veh->roof_at_part( part_below );
+        const auto vpobst = vpart_position( const_cast<vehicle&>( *veh ), part_below ).obstacle_at_part();
         tercol = cursesColorToSDL( ( roof >= 0 ||
-                                     veh->obstacle_at_part( part_below ) ) ? c_light_gray : c_magenta );
-        sizefactor = ( roof >= 0 || veh->obstacle_at_part( part_below ) ) ? 4 : 2;
+                                     vpobst ) ? c_light_gray : c_magenta );
+        sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
         tercol = cursesColorToSDL( curr_ter.color() );
     } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
@@ -1983,7 +1989,8 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         belowRect.w = ( belowRect.w * 3 ) / 4;
     }
     // translate from player-relative to screen relative tile position
-    int screen_x, screen_y;
+    int screen_x = 0;
+    int screen_y = 0;
     if( tile_iso ) {
         screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op_x;
@@ -2016,7 +2023,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
     }
 
     //char alteration = 0;
-    int subtile = 0, rotation = 0;
+    int subtile = 0;
+    int rotation = 0;
 
     int connect_group;
     if( g->m.ter( p ).obj().connects( connect_group ) ) {
@@ -2050,7 +2058,8 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
         static_cast<int> (g->m.furn( tripoint( p.x, p.y - 1, p.z ))) // north
     };
 
-    int subtile = 0, rotation = 0;
+    int subtile = 0;
+    int rotation = 0;
     get_tile_values(f_id, neighborhood, subtile, rotation);
 
     // get the name of this furniture piece
@@ -2077,7 +2086,8 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
         static_cast<int> (g->m.tr_at( tripoint( p.x, p.y - 1, p.z ) ).loadid) // north
     };
 
-    int subtile = 0, rotation = 0;
+    int subtile = 0;
+    int rotation = 0;
     get_tile_values(tr.loadid, neighborhood, subtile, rotation);
 
     return draw_from_id_string( tr.id.str(), C_TRAP, empty_string, p, subtile, rotation, ll,
@@ -2142,7 +2152,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
             static_cast<int> (g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).fieldSymbol()) // north
         };
 
-        int subtile = 0, rotation = 0;
+        int subtile = 0;
+        int rotation = 0;
         get_tile_values(f.fieldSymbol(), neighborhood, subtile, rotation);
 
         ret_draw_field = draw_from_id_string( fd_name, C_FIELD, empty_string, p, subtile, rotation,
@@ -2213,8 +2224,8 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
                 break;
         }
     }
-    int cargopart = veh->part_with_feature(veh_part, "CARGO");
-    bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
+    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
+    bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
                                    ll, nv_goggles_activated, height_3d );
     if ( ret && draw_highlight ) {
@@ -2440,7 +2451,8 @@ void cata_tiles::void_zones()
 void cata_tiles::draw_explosion_frame()
 {
     std::string exp_name = "explosion";
-    int subtile, rotation;
+    int subtile = 0;
+    int rotation = 0;
 
     for( int i = 1; i < exp_rad; ++i ) {
         subtile = corner;
@@ -2576,7 +2588,8 @@ void cata_tiles::draw_weather_frame()
     for( auto weather_iterator = anim_weather.vdrops.begin();
          weather_iterator != anim_weather.vdrops.end(); ++weather_iterator ) {
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
-        int x, y;
+        int x = 0;
+        int y = 0;
         if( tile_iso ) {
             x = weather_iterator->first;
             y = weather_iterator->second;
@@ -2824,7 +2837,8 @@ void cata_tiles::do_tile_loading_report() {
 template<typename Iter, typename Func>
 void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, const std::string &label, const std::string &prefix )
 {
-    int missing=0, present=0;
+    int missing = 0;
+    int present = 0;
     std::string missing_list;
     for( ; begin != end; ++begin ) {
         const std::string id_string = id_func( begin );

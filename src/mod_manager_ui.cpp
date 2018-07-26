@@ -175,8 +175,9 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         return;
     }
 
-    size_t newsel;
-    size_t oldsel;
+    // eliminates 'uninitialized variable' warning
+    size_t newsel = 0;
+    size_t oldsel = 0;
     mod_id selstring;
     mod_id modstring;
     int selshift = 0;
@@ -212,7 +213,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up( long selection, std::vector<mod_id> active_list )
+bool mod_ui::can_shift_up( long selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {
@@ -223,8 +224,6 @@ bool mod_ui::can_shift_up( long selection, std::vector<mod_id> active_list )
                                            active_list[selection] );
 
     int newsel;
-    int oldsel;
-    mod_id selstring;
     mod_id modstring;
 
     // figure out if we can move up!
@@ -234,10 +233,8 @@ bool mod_ui::can_shift_up( long selection, std::vector<mod_id> active_list )
     }
     // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
     newsel = selection - 1;
-    oldsel = selection;
 
     modstring = active_list[newsel];
-    selstring = active_list[oldsel];
 
     if( modstring->core ||
         std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {
@@ -249,7 +246,7 @@ bool mod_ui::can_shift_up( long selection, std::vector<mod_id> active_list )
     }
 }
 
-bool mod_ui::can_shift_down( long selection, std::vector<mod_id> active_list )
+bool mod_ui::can_shift_down( long selection, const std::vector<mod_id> &active_list )
 {
     // error catch for out of bounds
     if( selection < 0 || selection >= ( int )active_list.size() ) {

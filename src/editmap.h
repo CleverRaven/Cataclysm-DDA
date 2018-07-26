@@ -41,7 +41,8 @@ struct editmap_hilight {
 class editmap
 {
     public:
-        void uphelp( std::string txt1 = "", std::string txt2 = "", std::string title = "" );
+        void uphelp( const std::string &txt1 = "", const std::string &txt2 = "",
+                     const std::string &title = "" );
         tripoint pos2screen( const tripoint &p );
         tripoint screen2pos( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
@@ -58,6 +59,10 @@ class editmap
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
         int mapgen_preview( real_coords &tc, uimenu &gmenu );
+        bool mapgen_set( std::string om_name, tripoint omt_tgt, int r = 0, bool change_sensitive = true );
+        vehicle *mapgen_veh_query( tripoint omt_tgt );
+        bool mapgen_veh_has( tripoint omt_tgt );
+        bool mapgen_veh_destroy( tripoint omt_tgt, vehicle *car_target );
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 

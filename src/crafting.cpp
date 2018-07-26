@@ -20,6 +20,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
+#include "vpart_reference.h"
 #include "translations.h"
 #include "ui.h"
 #include "vpart_position.h"
@@ -55,6 +56,10 @@ static bool crafting_allowed( const player &p, const recipe &rec )
         return false;
     }
 
+    if( rec.category == "CC_BUILDING" ) {
+        add_msg( m_info, _( "Overmap terrain building recipies are not implemented yet!" ) );
+        return false;
+    }
     return true;
 }
 
@@ -300,13 +305,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( optional_vpart_position vp = g->m.veh_at( loc ) ) {
-            const int part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
-            if( part != -1 ) {
-                for( const auto &it : vp->vehicle().get_items( part ) ) {
-                    if( is_container_eligible_for_crafting( it, false ) ) {
-                        conts.emplace_back( &it );
-                    }
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO" ) ) {
+            for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
+                if( is_container_eligible_for_crafting( it, false ) ) {
+                    conts.emplace_back( &it );
                 }
             }
         }
@@ -405,13 +407,14 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
     }
 }
 
-std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size )
+std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size,
+        bool ignore_last )
 {
     std::list<item> used;
     if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
         return used;
     }
-    if( last_craft->has_cached_selections() ) {
+    if( last_craft->has_cached_selections() && !ignore_last ) {
         used = last_craft->consume_components();
     } else {
         // This should fail and return, but currently crafting_command isn't saved
@@ -695,7 +698,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool pl = false, mp = false;
+        bool pl = false;
+        bool mp = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             if( has_charges( type, count ) ) {
@@ -1386,12 +1390,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const optional_vpart_position vp = g->m.veh_at( pos() );
-        const int veh_part = vp ? vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) : -1;
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO" );
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( veh_part != -1 && vp->vehicle().add_item( veh_part, act_item ) ) {
+        } else if( vp && vp->vehicle().add_item( vp->part_index(), act_item ) ) {
             // add_item did put the items in the vehicle, nothing further to be done
         } else {
             // TODO: For items counted by charges, add as much as we can to the vehicle, and
