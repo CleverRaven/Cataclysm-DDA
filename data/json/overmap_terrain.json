@@ -855,7 +855,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mil_surplus",
-        "name" : "mil. surplus",
+        "name" : "military surplus",
         "copy-from" : "generic_city_building",
         "color" : "i_light_gray"
     },{
@@ -1485,7 +1485,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "shelter",
-        "name" : "evac shelter",
+        "name" : "evacuation shelter",
         "sym" : 43,
         "color" : "white",
         "see_cost" : 2,
@@ -1493,7 +1493,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "shelter_under",
-        "name" : "evac shelter",
+        "name" : "evacuation shelter",
         "sym" : 43,
         "color" : "white",
         "see_cost" : 2,
@@ -5020,7 +5020,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_d_38",
-        "name" : "Vault - Maint. Bay",
+        "name" : "Vault - Maintenance Bay",
         "sym" : 77,
         "color" : "yellow",
         "see_cost" : 999,
@@ -5028,7 +5028,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_d_39",
-        "name" : "Vault - Maint. Bay",
+        "name" : "Vault - Maintenance Bay",
         "sym" : 77,
         "color" : "yellow",
         "see_cost" : 999,
