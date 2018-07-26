@@ -89,7 +89,6 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HOTWIRE_CAR" ), hotwire_finish },
     { activity_id( "ACT_LONGSALVAGE" ), longsalvage_finish },
     { activity_id( "ACT_MAKE_ZLAVE" ), make_zlave_finish },
-    { activity_id( "ACT_FIELD_DRESS" ), field_dress_finish },
     { activity_id( "ACT_PICKAXE" ), pickaxe_finish },
     { activity_id( "ACT_PICKUP" ), pickup_finish },
     { activity_id( "ACT_RELOAD" ), reload_finish },

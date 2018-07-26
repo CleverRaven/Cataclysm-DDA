@@ -1414,7 +1414,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                     mapf::formatted_set_simple( m, 0, 0, "\
-.^DD^^DD^.......^DD^^DD^\n\
+.^DD^^DD^.####..^DD^^DD^\n\
 #.^DD^^DD^.......^DD^^DD\n\
 ##.^DD^^DD^.......^DD^^D\n\
 ###.^DD^^DD^.......^DD^^\n\
@@ -1424,10 +1424,10 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 #######.^DD^^DD^.......^\n\
 ########.^DD^^DD^.......\n\
 #########.^DD^^DD^......\n\
-##########.^DD^^DD^.....\n\
-###########.^DD^^DD^....\n\
-############.^DD^^DD^...\n\
-#############.^DD^^DD^..\n\
+##########.^DD^^DD^....#\n\
+###########.^DD^^DD^...#\n\
+############.^DD^^DD^..#\n\
+#############.^DD^^DD^.#\n\
 ##############.^DD^^DD^.\n\
 ###############.^DD^^DD^\n\
 ################.^DD^^DD\n\

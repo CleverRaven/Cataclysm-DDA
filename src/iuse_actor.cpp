@@ -3626,6 +3626,10 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
         return ret_val<bool>::make_failure();
     }
 
+    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) ) {
+        return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
+    }
+
     const bionic_id &bid = it.type->bionic->id;
 
     if( p.has_bionic( bid ) ) {

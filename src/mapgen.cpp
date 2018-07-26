@@ -2072,6 +2072,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                    const int zlevel, const regional_settings * rsettings)
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+    static const mongroup_id GROUP_TOWER_LAB( "GROUP_TOWER_LAB" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
@@ -2102,6 +2103,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     // To distinguish between types of labs
     bool ice_lab = true;
+    bool central_lab = false;
+    bool tower_lab = false;
 
     std::array<oter_id, 8> t_nesw = {{ t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest }};
     std::array<int, 8> nesw_fac = {{ 0, 0, 0, 0, 0, 0, 0, 0 }};
@@ -2781,13 +2784,16 @@ ___DEEE|.R.|...,,...|sss\n",
                terrain_type == "lab_core" ||
                terrain_type == "ice_lab" ||
                terrain_type == "ice_lab_stairs" ||
-               terrain_type == "ice_lab_core") {
+               terrain_type == "ice_lab_core" ||
+               terrain_type == "central_lab" ||
+               terrain_type == "central_lab_stairs" ||
+               terrain_type == "central_lab_core" ||
+               terrain_type == "tower_lab" ||
+               terrain_type == "tower_lab_stairs") {
 
-        if (is_ot_type("ice_lab", terrain_type)) {
-            ice_lab = true;
-        } else {
-            ice_lab = false;
-        }
+        ice_lab = is_ot_type("ice_lab", terrain_type);
+        central_lab = is_ot_type("central_lab", terrain_type);
+        tower_lab = is_ot_type("tower_lab", terrain_type);
 
         if (ice_lab) {
             int temperature = -20 + 30 * (zlevel);
@@ -3244,25 +3250,51 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Chance of adding occasional lighting through the area.
-        if (one_in(2)) {
+        // Tower lab effects:
+        // - Checkerboard lighting everywhere
+        // - Change rock features to match above-ground theme.
+        // - Add more monsters the higher the z-level is.
+        if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && one_in(150)) {
+                    if (t_rock_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    } else if (t_rock == ter(i, j)) {
+                        ter_set(i, j, t_concrete_wall);
+                    }
+                }
+            }
+            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
+        // central lab gets lighting but not other effects.
+        } else if (central_lab) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
                         ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
+        // Chance of adding occasional lighting through the area.
+        } else {
+            if (one_in(2)) {
+                for (int i = 0; i < SEEX * 2; i++) {
+                    for (int j = 0; j < SEEY * 2; j++) {
+                        if (t_rock_floor == ter(i, j) && one_in(150)) {
+                            ter_set(i, j, t_utility_light);
+                        }
                     }
                 }
             }
         }
 
     } else if (terrain_type == "lab_finale" ||
-               terrain_type == "ice_lab_finale") {
+               terrain_type == "ice_lab_finale" ||
+               terrain_type == "central_lab_finale" ||
+               terrain_type == "tower_lab_finale") {
 
-        if (is_ot_type("ice_lab", terrain_type)) {
-            ice_lab = true;
-        } else {
-            ice_lab = false;
-        }
+        ice_lab = is_ot_type("ice_lab", terrain_type);
+        central_lab = is_ot_type("central_lab", terrain_type);
+        tower_lab = is_ot_type("tower_lab", terrain_type);
 
         if ( ice_lab ) {
             int temperature = -20 + 30 * zlevel;
@@ -3531,12 +3563,36 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Chance of adding occasional lighting through the finale room.
-        if (one_in(2)) {
+        // Tower lab effects:
+        // - Checkerboard lighting everywhere
+        // - Change rock features to match above-ground theme.
+        if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && one_in(200)) {
+                    if (t_rock_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    } else if (t_rock == ter(i, j)) {
+                        ter_set(i, j, t_concrete_wall);
+                    }
+                }
+            }
+        // central lab gets lighting but not other effects.
+        } else if (central_lab) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
                         ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
+        // Chance of adding occasional lighting through the area.
+        } else {
+            if (one_in(2)) {
+                for (int i = 0; i < SEEX * 2; i++) {
+                    for (int j = 0; j < SEEY * 2; j++) {
+                        if (t_rock_floor == ter(i, j) && one_in(200)) {
+                            ter_set(i, j, t_utility_light);
+                        }
                     }
                 }
             }
