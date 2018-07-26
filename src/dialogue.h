@@ -15,6 +15,7 @@ class npc;
 class item;
 struct tripoint;
 struct comp_rank;
+struct mission_entry;
 class player;
 class npc_template;
 template<typename T>
@@ -115,8 +116,8 @@ std::vector<item *> individual_mission_give_equipment( std::vector<item *> equip
  * @param priority turns the mission key yellow and pushes to front of main tab
  * @param possible grays the mission key when false
  */
-void mission_key_push( std::vector<std::vector<std::string>> &key_vectors, std::string id,
-                       std::string dir = "", bool priority = false, bool possible = true );
+void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors, std::string id,
+                       std::string name_display = "", std::string dir = "", bool priority = false, bool possible = true );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
@@ -217,7 +218,7 @@ void faction_camp_tutorial();
 bool camp_gathering_return( npc &p, std::string task );
 /// Called on completion of recruiting, returns the new NPC.
 void camp_recruit_return( npc &p, std::string task, int score );
-void camp_craft_construction( npc &p, std::string cur_key,
+void camp_craft_construction( npc &p, mission_entry cur_key,
                               std::map<std::string, std::string> recipes, std::string miss_id,
                               tripoint omt_pos, std::vector<std::pair<std::string, tripoint>> om_expansions );
 std::string camp_recruit_evaluation( npc &p, std::string base,
@@ -268,7 +269,7 @@ int camp_discipline( int change = 0 );
 int camp_morale( int change = 0 );
 
 void draw_camp_tabs( const catacurses::window &win, camp_tab_mode cur_tab,
-                     std::vector<std::vector<std::string>> &key_vectors );
+                     std::vector<std::vector<mission_entry>> &mission_key_vectors );
 std::string name_mission_tabs( npc &p, std::string id, std::string cur_title,
                                camp_tab_mode cur_tab );
 
