@@ -3480,7 +3480,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     enum options {
         INSTALL_CBM,
         UNINSTALL_CBM,
-        UPGRADE_BIONIC_LICENSE,
         CANCEL,
     };
 
@@ -3514,116 +3513,174 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
-    if ( get_option < bool > ( "BIONIC_LICENSES" ) ) {
-        amenu.addentry( UPGRADE_BIONIC_LICENSE, true, 'l', _( "Upgrade your Bionic License." ) );
-    }
     amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
 
     amenu.query();
 
     switch( static_cast<options>( amenu.ret ) ) {
         case INSTALL_CBM: {
-            const item_location bionic = g->inv_map_splice( []( const item &e ) {
-                return e.is_bionic();
-            }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install." ) );
-
-            if( !bionic ) {
-                return;
-            }
-
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
-
-            if( p.has_bionic( bid ) ) {
-                popup( _( "You have already installed this bionic."  ) );
-                return;
-            } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
-                popup( _( "You have no base version of this bionic to upgrade." ) );
-                return;
-            } else {
-                const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                                    std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
-                if( downgrade ) {
-                    popup( _( "You have already installed a superior version of this bionic." ) );
-                    return;
-                }
-            }
-
-            if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
-                return;
-            }
-
-
-            const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( ( *itemtype ), -1, true )  ) {
-                if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-                    p.introduce_into_anesthesia( duration );
-                }
-                std::vector<item_comp> comps;
-                comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps );
-            }
+            autodoc_bionic_install( p, has_anesthesia );
             break;
         }
 
         case UNINSTALL_CBM: {
-            bionic_collection installed_bionics = *g->u.my_bionics;
-            if( installed_bionics.empty() ) {
-                popup( _( "You don't have any bionics installed." ) );
-                return;
-            }
-
-            if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
-                return;
-            }
-
-            item bionic_to_uninstall;
-            std::vector<itype_id> bionic_types;
-            std::vector<std::string> bionic_names;
-
-            for( auto &bio : installed_bionics ) {
-                if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
-                    if( bio.id != bionic_id( "bio_power_storage" ) ||
-                        bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
-                        const auto &bio_data = bio.info();
-                        bionic_names.push_back( bio_data.name );
-                        bionic_types.push_back( bio.id.str() );
-                        if( item::type_is_defined( bio.id.str() ) ) {
-                            bionic_to_uninstall = item( bio.id.str(), 0 );
-                        }
-                    }
-                }
-            }
-
-            int bionic_index = menu_vec( true, _( "Choose bionic to uninstall" ),
-                                         bionic_names ) - 1;
-            if( bionic_index < 0 ) {
-                return;
-            }
-
-            const itype *itemtype = bionic_to_uninstall.type;
-            // Malfunctioning bionics don't have associated items and get a difficulty of 12
-            const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
-            const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
-                if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-                    p.introduce_into_anesthesia( duration );
-                }
-            }
-            break;
-        }
-
-        case UPGRADE_BIONIC_LICENSE: {
-            bio_license_upgrader( p );
+            autodoc_bionic_uninstall( p, has_anesthesia );
             break;
         }
 
         case CANCEL:
             return;
     }
+}
+
+//Used in the mod Alternate Bionic System.  Handles all Bionic related operations.
+void iexamine::bio_station( player &p, const tripoint & ){
+
+    enum menu_options {
+        INSTALL_CBM,
+        UNINSTALL_CBM,
+        UPGRADE_BIONIC_LICENSE,
+        CANCEL,
+    };
+
+    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text_color = c_cyan;
+    amenu.border_color = c_blue;
+    amenu.title_color = c_cyan;
+    amenu.title = _( "Be welcome to this augmentation console. Please select an option." );
+    if ( get_option < bool > ( "BIONIC_LICENSES" ) ) {
+        amenu.text = string_format(_( "Your bionic license: %i/%i" ), g->u.used_license_points, g->u.max_license_points );
+       // amenu.text = (_( "Your bionic license: i%/i%" ), g->u.used_license_points, g->u.max_license_points );
+        amenu.addentry( UPGRADE_BIONIC_LICENSE, true, 'l', _( "Upgrade your Bionic License." ) );
+    }
+    amenu.addentry( INSTALL_CBM, true, 'i', _( "Install a Compact Bionic Module." ) );
+    amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Uninstall an implanted bionic." ) );
+
+    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
+
+    amenu.query();
+
+    switch( static_cast<menu_options>( amenu.ret ) ) {
+
+        case UPGRADE_BIONIC_LICENSE: {
+            bio_license_upgrader( p );
+            break;
+        }
+
+        case INSTALL_CBM: {
+            autodoc_bionic_install( p, has_anesthesia );
+            break;
+        }
+
+        case UNINSTALL_CBM: {
+            autodoc_bionic_uninstall( p, has_anesthesia );
+            break;
+        }
+
+        case CANCEL: {
+            break;
+        }
+    }
+    return;
+}
+
+void iexamine::autodoc_bionic_install( player &p, bool has_anesthesia ) {
+
+    const item_location bionic = g->inv_map_splice( []( const item &e ) {
+            return e.is_bionic();
+    }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install." ) );
+
+    if ( !bionic ) {
+        return;
+    }
+
+    const item *it = bionic.get_item();
+    const itype *itemtype = it->type;
+    const bionic_id &bid = itemtype->bionic->id;
+
+    if( p.has_bionic( bid ) ) {
+        popup( _( "You have already installed this bionic."  ) );
+        return;
+    } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
+        popup( _( "You have no base version of this bionic to upgrade." ) );
+        return;
+    } else {
+        const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
+                                            std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+        if( downgrade ) {
+            popup( _( "You have already installed a superior version of this bionic." ) );
+            return;
+        }
+    }
+
+    if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
+        popup( _( "You need an anesthesia kit to perform this operation." ) );
+        return;
+    }
+
+    const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+    if( p.install_bionics( ( *itemtype ), -1, true )  ) {
+        if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
+            p.introduce_into_anesthesia( duration );
+        }
+        std::vector<item_comp> comps;
+        comps.push_back( item_comp( it->typeId(), 1 ) );
+        p.consume_items( comps );
+    }
+    return;
+}
+
+void iexamine::autodoc_bionic_uninstall( player &p, bool has_anesthesia ) {
+    bionic_collection installed_bionics = *g->u.my_bionics;
+    if( installed_bionics.empty() ) {
+        popup( _( "You don't have any bionics installed." ) );
+        return;
+    }
+
+    if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
+        popup( _( "You need an anesthesia kit to perform this operation." ) );
+        return;
+    }
+
+    item bionic_to_uninstall;
+    std::vector<itype_id> bionic_types;
+    std::vector<std::string> bionic_names;
+
+    for( auto &bio : installed_bionics ) {
+        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+            if( bio.id != bionic_id( "bio_power_storage" ) ||
+                bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                    const auto &bio_data = bio.info();
+                    bionic_names.push_back( bio_data.name );
+                    bionic_types.push_back( bio.id.str() );
+                    if( item::type_is_defined( bio.id.str() ) ) {
+                        bionic_to_uninstall = item( bio.id.str(), 0 );
+                    }
+            }
+        }
+    }
+
+    int bionic_index = menu_vec( true, _( "Choose bionic to uninstall" ),
+                                bionic_names ) - 1;
+    if( bionic_index < 0 ) {
+        return;
+    }
+
+    const itype *itemtype = bionic_to_uninstall.type;
+    // Malfunctioning bionics don't have associated items and get a difficulty of 12
+    const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
+    const time_duration duration = difficulty * 20_minutes;
+    if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
+        if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
+            p.introduce_into_anesthesia( duration );
+        }
+    }
+    return;
 }
 
 void iexamine::bio_license_upgrader( player &p ) {
@@ -3646,10 +3703,10 @@ void iexamine::bio_license_upgrader( player &p ) {
     }
 
     std::string popupmsg = string_format(
-        _( "Buy how many license points? Max: %d Points. (0 to cancel) " ), license_card->charges );
+        _( "Implant how many license points? Max: %d. (0 to cancel) " ), license_card->charges );
         long upgrade_amount = string_input_popup()
                       .title( popupmsg )
-                      .width( 25 )
+                      .width( 15 )
                       .text( to_string( license_card->charges ) )
                       .only_digits( true )
                       .query_long();
@@ -3741,7 +3798,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
         { "climb_down", &iexamine::climb_down },
-        { "autodoc", &iexamine::autodoc }
+        { "autodoc", &iexamine::autodoc },
+        { "bio_station", &iexamine::bio_station }
+
     }};
 
     auto iter = function_map.find( function_name );
