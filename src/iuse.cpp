@@ -7572,18 +7572,14 @@ int iuse::shavekit( player *p, item *it, bool, const tripoint & )
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
-        p->add_msg_if_player( _( "You open up your kit and shave." ) );
-        p->moves -= 3000;
-        p->add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+        p->assign_activity( activity_id( "ACT_SHAVE" ), 3000 );
     }
     return it->type->charges_to_use();
 }
 
 int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You give your hair a trim." ) );
-    p->moves -= 3000;
-    p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    p->assign_activity( activity_id( "ACT_HAIRCUT" ), 3000 );
     return it->type->charges_to_use();
 }
 
@@ -7673,6 +7669,17 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
     hologram->set_dest( target );
     p->mod_moves( -100 );
     return it->type->charges_to_use();
+}
+
+int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
+{
+    if( !it->has_flag( "VEHICLE" ) ) {
+        p->add_msg_if_player( m_info, _( "The %s must be installed in a vehicle before being loaded." ),
+                              it->tname().c_str() );
+        return 0;
+    }
+    capture_monster_act( p, it, 0, pos );
+    return 0;
 }
 
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )

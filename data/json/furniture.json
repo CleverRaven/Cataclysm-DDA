@@ -262,7 +262,7 @@
         "description": "Emergency water source, from the tank, and provider of relief.",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT"],
         "examine_action": "toilet",
         "bash": {
             "str_min": 8, "str_max": 30,
@@ -2091,7 +2091,7 @@
         "type" : "furniture",
         "id" : "f_still",
         "name": "still",
-        "description": "Invaluable equipment in brewery and chemisty, that distiles liquids.",
+        "description": "Invaluable equipment in brewery and chemisty, that distills liquids.",
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,

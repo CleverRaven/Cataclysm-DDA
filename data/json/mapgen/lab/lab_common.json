@@ -68,7 +68,7 @@
       "d": {
         "items": [
           { "item": "office", "chance": 30 },
-          { "item": "textbooks", "chance": 3 },
+          { "item": "textbooks", "chance": 2 },
           { "item": "science", "chance": 3 }
         ]
       },
@@ -85,12 +85,12 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
-        { "chunks": [ "sub_t_concrete_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "sub_t_concrete_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["empty_rock"] } },
-        { "chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["empty_rock"] } },
-        { "chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["empty_rock"] } },
-        { "chunks": [ "lab_north_wall" ], "x": 0, "y": 0, "neighbors": { "north": ["empty_rock"] } },
-        { "chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": ["empty_rock"] } }
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["lab"] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["lab"] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["lab"] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["lab"] } },
+        { "else_chunks": [ "lab_north_wall" ], "x": 0, "y": 0, "neighbors": { "north": ["lab"] } },
+        { "else_chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": ["lab"] } }
       ]
     }
   },

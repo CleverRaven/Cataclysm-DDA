@@ -594,5 +594,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
+// Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
+bool is_ot_subtype(const char* otype, const oter_id &oter);
 
 #endif

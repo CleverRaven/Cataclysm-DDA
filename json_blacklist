@@ -69,7 +69,6 @@ data/json/items/gunmod/magazine.json
 data/json/items/gunmod/underbarrel.json
 data/json/items/gun/shot.json
 data/json/items/handloaded_bullets.json
-data/json/items/melee.json
 data/json/items/migration.json
 data/json/items/newspaper.json
 data/json/items/resources/metals.json
@@ -134,6 +133,7 @@ data/json/mapgen/house/house_rv.json
 data/json/mapgen/house/house_suicide.json
 data/json/mapgen/lab/lab_common.json
 data/json/mapgen/lab/lab_floorplan_cross.json
+data/json/mapgen/lab/lab_floorplans_finale1level.json
 data/json/mapgen/lab/lab_floorplans.json
 data/json/mapgen/lab/lab_rooms.json
 data/json/mapgen/laundromat.json

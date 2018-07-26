@@ -275,11 +275,12 @@ public:
     /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
 
-    const item& get_base() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
+        const item &get_base() const;
+        void set_base( const item &new_base );
     /**
      * Generate the corresponding item from this vehicle part. It includes
      * the hp (item damage), fuel charges (battery or liquids), aspect, ...
@@ -1193,6 +1194,7 @@ public:
      */
     void set_submap_moved(int x, int y);
     void use_washing_machine( int p );
+    void use_monster_capture( int part, const tripoint &pos );
 
     const std::string disp_name() const;
 

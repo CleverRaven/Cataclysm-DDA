@@ -539,6 +539,7 @@ void Item_factory::init()
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
+    add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
     add_iuse( "CATFOOD", &iuse::catfood );
@@ -1690,6 +1691,11 @@ static void set_allergy_flags( itype &item_template )
         std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
         std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
         std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "nut" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
         std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
         std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
         std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),

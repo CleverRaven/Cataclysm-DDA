@@ -311,6 +311,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -483,6 +484,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
@@ -1081,7 +1083,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -1794,7 +1796,8 @@
     "color": "light_gray",
     "ammo": "gasoline",
     "max_charges": 1000,
-    "use_action": "COMBATSAW_OFF"
+    "use_action": "COMBATSAW_OFF",
+    "techniques": [ "WBLOCK_1", "SWEEP" ]
   },
   {
     "id": "combatsaw_on",
@@ -1816,7 +1819,7 @@
     "max_charges": 1000,
     "turns_per_charge": 1,
     "revert_to": "combatsaw_off",
-    "techniques": "SWEEP",
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
     "qualities": [ [ "AXE", 1 ] ],
     "use_action": "COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID" ]
@@ -1871,6 +1874,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "AXE", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP"],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -2016,6 +2020,7 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ] ],
     "use_action": "CROWBAR",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -2096,7 +2101,7 @@
     "max_charges": 800,
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
-    "techniques": [ "WBLOCK_1", "SPIN" ],
+    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_OFF",
     "flags": [ "NONCONDUCTIVE" ]
   },
@@ -2139,7 +2144,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -2186,6 +2191,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "DIG", 1 ] ]
   },
   {
@@ -2667,7 +2673,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
@@ -2860,7 +2866,7 @@
     "color": "dark_gray",
     "ammo": "gasoline",
     "max_charges": 50,
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "firemachete_on",
@@ -2893,7 +2899,7 @@
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firemachete_off",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2" ],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -3459,7 +3465,7 @@
     "material": [ "cotton", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "techniques": [ "RAPID", "SPIN" ],
+    "techniques": [ "SPIN", "WRAP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -3591,7 +3597,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "techniques": [ "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
     "use_action": "CROWBAR",
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
@@ -3676,6 +3682,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
+    "techniques": "WBLOCK_1",
     "use_action": "MAKEMOUND"
   },
   {
@@ -4199,7 +4206,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "RAPID", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -4218,7 +4225,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
@@ -4457,6 +4464,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
+    "techniques": ["WBLOCK_1", "BRUTAL", "SWEEP"],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -4474,7 +4482,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -4605,6 +4613,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ]
   },
   {
@@ -5123,7 +5132,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -5401,6 +5410,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "use_action": "PICKAXE",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -5459,7 +5469,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "pipe_glass",
@@ -6404,6 +6414,7 @@
       "failure_message": "Aw, dangit.  It fails to start!",
       "lacks_fuel_message": "This thing needs some fuel!"
     },
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "SHEATH_SWORD" ]
   },
   {
@@ -6442,6 +6453,7 @@
         "moves": 30
       }
     ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -6462,7 +6474,7 @@
     "ammo": "battery",
     "max_charges": 500,
     "charges_per_use": 100,
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
     "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
   },
@@ -6548,6 +6560,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 3 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -6565,6 +6578,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -6716,10 +6730,10 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "knife spear",
-    "description": "This is a simple wood pole made much more deadly by the blade tied to it.",
+    "description": "A crude pole made of wood with an equally crude metal spike tied to it.  It's long enough to slice from a distance, but its crude construction means it won't last long.",
     "weight": 1487,
-    "volume": 6,
-    "price": 1400,
+    "volume": 5,
+    "price": 700,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 16,
@@ -6728,7 +6742,24 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ]
+  },
+  {
+    "id": "spear_homemade_halfpike",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "homemade halfpike",
+    "description": "A short do-it-yourself spear made of a smooth wooden shaft with a shaped metal shape seated and bound into place at its tip.  Its functional grip and decent construction makes it a usable, if not effective, weapon.",
+    "weight": 1814,
+    "volume": 6,
+    "price": 1400,
+    "to_hit": 1,
+    "bashing": 2,
+    "cutting": 19,
+    "material": [ "wood", "iron" ],
+    "symbol": "/",
+    "color": "brown",
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "spray_can",
@@ -6828,7 +6859,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1", "PRECISE" ],
+    "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -6941,6 +6972,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
+    "techniques": [ "RAPID" ],
     "flags": [ "STAB" ]
   },
   {
@@ -7714,6 +7746,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
@@ -7745,6 +7778,7 @@
     "turns_per_charge": 20,
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -8074,7 +8108,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WBLOCK_1" ],
+    "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -8298,7 +8332,7 @@
     "color": "light_gray",
     "ammo": "gasoline",
     "max_charges": 50,
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "zweifire_on",
@@ -8329,7 +8363,7 @@
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -8361,7 +8395,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {

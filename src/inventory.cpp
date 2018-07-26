@@ -978,3 +978,9 @@ const itype_bin &inventory::get_binned_items() const
     binned = true;
     return binned_items;
 }
+
+void inventory::copy_invlet_of( const inventory &other )
+{
+    assigned_invlet = other.assigned_invlet;
+    invlet_cache = other.invlet_cache;
+}

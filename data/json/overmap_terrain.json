@@ -7762,6 +7762,123 @@
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_0",
+    "name": "blacksmith survey",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_1",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_2",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_3",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_4",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_5",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_6",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_7",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_8",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_9",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_10",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_11",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_12",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
   }
 ]
 
