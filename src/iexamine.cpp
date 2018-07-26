@@ -3608,7 +3608,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) )
+            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
                 if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
                     p.introduce_into_anesthesia( duration );
                 }
