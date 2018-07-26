@@ -1949,7 +1949,10 @@ bool overmap::generate_sub(int const z)
         }
     }
 
-    place_rifts( z );
+    // Disable rifts when they can interfere with subways and sewers.
+    if( z < -4 ) {
+        place_rifts( z );
+    }
     for( auto &i : mine_points ) {
         build_mine( i.x, i.y, z, i.s );
     }
