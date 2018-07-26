@@ -2715,7 +2715,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
             handle_components( pl, fix, false, false );
-            fix.mod_damage( -1 );
+            fix.set_damage( std::max( fix.precise_damage() - 1, 0. ) );
             return AS_SUCCESS;
         }
 
