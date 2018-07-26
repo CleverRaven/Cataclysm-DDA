@@ -680,6 +680,7 @@ void Item_factory::init()
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
+    add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
@@ -1074,8 +1075,8 @@ const itype * Item_factory::find_template( const itype_id& id ) const
         def->description = string_format( making->description );
         m_runtimes[ id ].reset( def );
         return def;
-    }    
-    
+    }
+
     debugmsg( "Missing item definition: %s", id.c_str() );
 
     itype *def = new itype();
