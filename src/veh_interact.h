@@ -55,7 +55,9 @@ class veh_interact
 
         int ddx = 0;
         int ddy = 0;
+        /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
+        int start_limit = 0;
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 

@@ -2892,9 +2892,10 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
  * @param width The width of the window.
  * @param &p The index of the part being examined.
  * @param start_at Which vehicle part to start printing at.
+ * @param start_limit the part index beyond which the display is full
  */
 void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
-                                  int &start_at ) const
+                                  int &start_at, int &start_limit ) const
 {
     if( p < 0 || p >= ( int )parts.size() ) {
         return;
@@ -2904,9 +2905,23 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     std::ostringstream msg;
 
     int lines = 0;
-    /* never start before the start of the list */
-    /* guess the number of entries that can fit in the window, and don't scroll past that */
-    start_at = std::min( std::max( start_at, 0 ), max_y / 6 );
+    /*
+     * start_at and start_limit interaction is little tricky
+     * start_at and start_limit start at 0 when moving to a new frame
+     * if all the descriptions are displayed in the window, start_limit stays at 0 and
+     *    start_at is capped at 0 - so no scrolling at all.
+     * if all the descriptions aren't displayed, start_limit jumps to the last displayed part
+     *    and the next scrollthrough can start there - so scrolling down happens.
+     * when the scroll reaches the point where all the remaining descriptions are displayed in
+     *    the window, start_limit is set to start_at again.
+     * on the next attempted scrolldown, start_limit is set to the nth item, and start_at is
+     *    capped to the nth item, so no more scrolling down.
+     * start_at can always go down, but never below 0, so scrolling up is only possible after
+     *    some scrolling down has occurred.
+     * important! the calling function needs to track p, start_at, and start_limit, and set
+     *    start_limit to 0 if p changes.
+     */
+    start_at = std::max( 0, std::min( start_at, start_limit ) );
     if( start_at ) {
            msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
            lines += 1;
@@ -2924,8 +2939,10 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         if( lines + new_lines <= max_y ) {
            msg << possible_msg.str();
            lines += new_lines;
+	   start_limit = start_at;
         } else {
            msg << "<color_yellow>" << _( "More parts here..." ) << "  >" << "</color>\n";
+           start_limit = i;
            break;
         }
     }

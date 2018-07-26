@@ -1581,7 +1581,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
     ddx += dy;
     ddy -= dx;
     if( dx || dy ) {
-       start_at = 0;
+       start_limit = 0;
     } else {
        start_at += dstart_at;
     }
@@ -1609,7 +1609,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
     wrefresh( w_parts );
 
     werase( w_msg );
-    veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at );
+    veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at, start_limit );
     wrefresh( w_msg );
 
     can_mount.clear();
