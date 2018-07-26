@@ -6,7 +6,7 @@
     "points" : -4,
     "description": "You were one of the many law enforcement and military personnel alike called in to keep order on one of the FEMA camps, it all went to shit fast...wounded, infected, surrounded by fire you lay...and they just keep coming...",
     "allowed_locs": ["fema_entrance_s","fema_s"],
-      "professions" : ["cop","sniper_police","riot_police","bionic_cop","swat","swat_heavy","soldier","bio_soldier","bio_sniper","bio_specops","specops"],
+    "professions" : ["cop","sniper_police","riot_police","bionic_cop","swat","swat_heavy","soldier","bio_soldier","bio_sniper","bio_specops","specops"],
     "start_name": "Fema Camp",
     "flags": ["HELI_CRASH","SUR_START","FIRE_START","INFECTED","CHALLENGE"]
   },
@@ -22,6 +22,17 @@
     "flags" : ["SUR_START"]
   },
   {
+    "type": "scenario",
+    "ident": "last_crime",
+    "name": "The Last Gig",
+    "points": -6,
+    "description": "You were on your way to another routine job, it might of been a target to kill, an item to steal or intel to gather.  Whatever it was doesn't matter anymore; you did your best to avoid the horde and when you arrive, the place is sorrounded, not by cops as you might expected, but by the dead. Worse, you got a cut somewhere along the way and it's looking infected.",
+    "allowed_locs": ["house","bank","pawn","s_gun","s_gas_s"],
+    "professions": ["convict", "scoundrel", "gangster", "burglar", "bionic_thief", "razorgirl", "bionic_hitman", "bio_gangster"],
+    "start_name": "Intended Crime Scene",
+    "flags": ["SUR_START","INFECTED"]
+  },
+  {
     "type" : "scenario",
     "ident" : "summer_advanced_start",
     "copy-from" : "summer_advanced_start",
@@ -30,41 +41,37 @@
   {
     "type" : "scenario",
     "ident" : "ambushed",
-    "name": "Ambush",
-    "description": "It is the winter after zero hour, cold and weary you ducked into a small cabin for the night.  The next morning, you awoke to the sound of lots of movement in the woods.",
     "copy-from" : "ambushed",
     "extend": { "professions" : [ "wasteland_cyborg" ] }
   },
   {
     "type" : "scenario",
     "ident" : "heli_crash",
-    "name": "Helicopter Crash",
-    "description": "You've crashed your precious helicopter, it'll never fly again.  Monsters don't bother you, life without your Loach is worthless anyway.",
     "copy-from" : "heli_crash",
     "extend": { "professions" : [ "bio_specops" ] }
   },
   {
     "type" : "scenario",
     "ident": "lab_chal",
-    "name": "Challenge-Lab",
-    "description": "You've been locked in a lab with no (obvious) way out!  Find a way to escape or starve to death.",
     "copy-from" : "lab_chal",
     "extend": { "professions" : [ "cykotic" ] }
   },
   {
     "type" : "scenario",
     "ident" : "mutant",
-    "name" : "Experiment",
-    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "copy-from" : "mutant",
     "extend": { "professions" : [ "cykotic" ] }
   },
   {
     "type": "scenario",
     "ident": "schools_out",
-    "name": "School",
-    "description": "You were at school when the principal shambled in and ate one of the students, and before you knew it the entire campus was overrun by monsters.  Guess school's out forever.",
     "copy-from" : "schools_out",
     "extend": { "professions" : ["elementary_student", "prep_student", "janitor", "poor_student"] }
+  },
+  {
+    "type": "scenario",
+    "ident": "cyberpunk",
+    "copy-from" : "cyberpunk",
+    "extend": { "professions" : ["bionic_thief", "bionic_hitman", "bio_gangster"] }
   }
 ]
