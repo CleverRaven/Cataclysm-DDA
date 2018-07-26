@@ -7847,6 +7847,9 @@ void game::zones_manager()
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
             werase(w_zones_info);
 
+            const auto id = zones.query_type();
+            const auto name = zones.query_name( zones.get_name_from_type( id ) );
+
             mvwprintz(w_zones_info, 3, 2, c_white, _("Select first point."));
             wrefresh(w_zones_info);
 
@@ -7864,7 +7867,7 @@ void game::zones_manager()
                 werase(w_zones_info);
                 wrefresh(w_zones_info);
 
-                zones.add( "", zone_type_id(), false, true,
+                zones.add( name, id, false, true,
                             m.getabs( tripoint( std::min(first.x, second.x),
                                                 std::min(first.y, second.y),
                                                 std::min(first.z, second.z) ) ),
@@ -7876,8 +7879,6 @@ void game::zones_manager()
                 zone_num = zones.size();
                 active_index = zone_num - 1;
 
-                zones.zones[active_index].set_name();
-                zones.zones[active_index].set_type();
                 stuff_changed = true;
             }
 

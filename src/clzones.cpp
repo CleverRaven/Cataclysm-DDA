@@ -46,19 +46,17 @@ std::string zone_type::name() const
     return _( name_.c_str() );
 }
 
-void zone_manager::zone_data::set_name()
+std::string zone_manager::query_name( std::string default_name )
 {
-    const std::string new_name = string_input_popup()
-                                 .title( _( "Zone name:" ) )
-                                 .width( 55 )
-                                 .text( name )
-                                 .max_length( 15 )
-                                 .query_string();
-
-    name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
+    return string_input_popup()
+           .title( _( "Zone name:" ) )
+           .width( 55 )
+           .text( default_name )
+           .max_length( 15 )
+           .query_string();
 }
 
-void zone_manager::zone_data::set_type()
+zone_type_id zone_manager::query_type()
 {
     const auto &types = get_manager().get_types();
     uimenu as_m;
@@ -74,7 +72,20 @@ void zone_manager::zone_data::set_type()
 
     auto iter = types.begin();
     std::advance( iter, index );
-    type = iter->first;
+
+    return iter->first;
+}
+
+void zone_manager::zone_data::set_name()
+{
+    const std::string new_name = get_manager().query_name( name );
+
+    name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
+}
+
+void zone_manager::zone_data::set_type()
+{
+    type = get_manager().query_type();
 }
 
 void zone_manager::zone_data::set_enabled( const bool _enabled )

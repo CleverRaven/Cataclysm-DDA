@@ -126,6 +126,8 @@ class zone_manager
         bool has( const zone_type_id &type, const tripoint &where ) const;
         bool has_near( const zone_type_id &type, const tripoint &where ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
+        std::string query_name(std::string default_name = "");
+        zone_type_id query_type();
 
         bool save_zones();
         void load_zones();
