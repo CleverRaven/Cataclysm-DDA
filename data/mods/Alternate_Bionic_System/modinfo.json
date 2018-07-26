@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "alternatebionicsystem",
+    "name": "Alternate Bionic System",
+    "authors": [ "John Candlebury" ],
+    "description": "Greater customization of Bionic loadouts. Safely (un)install CBM, without anesthetic. Return uninstalled CBM. Upgradeable Bionic License limits install.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SAFE_AUTODOC",
+    "info": "Makes autodoc operations completely safe, independent of the player's skill",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ANESTHESIA_REQ",
+    "info": "Autodoc operations require anesthesia",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "BIONIC_LICENSES",
+    "info": "Enables bionic licenses as an aditional limit for bionic instalation",
+    "stype": "bool",
+    "value": true
+  }
+]

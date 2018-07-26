@@ -1,0 +1,42 @@
+[
+  {
+    "id": "consumer_electronics",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 12 ] ]
+  },
+  {
+    "id": "electronics",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 12 ] ]
+  },
+  {
+    "id": "bionics_sci",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 35 ] ]
+  },
+  {
+    "id": "bionics_common",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 35 ] ]
+  },
+  {
+    "id": "lab_dorm",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 20 ] ]
+  },
+  {
+    "id": "mine_equipment",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 20 ] ]
+  },
+  {
+    "id": "rare",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 30 ] ]
+  },
+  {
+    "id": "robots",
+    "type": "item_group",
+    "items": [ [ "bionic_license_card", 30 ] ]
+  }
+]
