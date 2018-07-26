@@ -26,6 +26,7 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_WEAPONS" ), zone_type( translate_marker( "Loot: Weapons" ) ) );
     types.emplace( zone_type_id( "LOOT_TOOLS" ), zone_type( translate_marker( "Loot: Tools" ) ) );
     types.emplace( zone_type_id( "LOOT_CLOTHING" ), zone_type( translate_marker( "Loot: Clothing" ) ) );
+    types.emplace( zone_type_id( "LOOT_FCLOTHING" ), zone_type( translate_marker( "Loot: F.Clothing" ) ) );
     types.emplace( zone_type_id( "LOOT_DRUGS" ), zone_type( translate_marker( "Loot: Drugs" ) ) );
     types.emplace( zone_type_id( "LOOT_BOOKS" ), zone_type( translate_marker( "Loot: Books" ) ) );
     types.emplace( zone_type_id( "LOOT_MODS" ), zone_type( translate_marker( "Loot: Mods" ) ) );
@@ -39,6 +40,7 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_SPARE_PARTS" ), zone_type( translate_marker( "Loot: S.Parts" ) ) );
     types.emplace( zone_type_id( "LOOT_ARTIFACTS" ), zone_type( translate_marker( "Loot: Artifacts" ) ) );
     types.emplace( zone_type_id( "LOOT_ARMOR" ), zone_type( translate_marker( "Loot: Armor" ) ) );
+    types.emplace( zone_type_id( "LOOT_FARMOR" ), zone_type( translate_marker( "Loot: F.Armor" ) ) );
 }
 
 std::string zone_type::name() const

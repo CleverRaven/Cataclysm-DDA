@@ -716,7 +716,7 @@ static zone_type_id get_zone_type_for_item( const item &it )
         return zone_type_id( "LOOT_TOOLS" );
     }
     if( cat.id() == "clothing" ) {
-        return zone_type_id( "LOOT_CLOTHING" );
+        return it.is_filthy() ? zone_type_id( "LOOT_FCLOTHING" ) : zone_type_id( "LOOT_CLOTHING" );
     }
     if( cat.id() == "drugs" ) {
         return zone_type_id( "LOOT_DRUGS" );
@@ -755,7 +755,7 @@ static zone_type_id get_zone_type_for_item( const item &it )
         return zone_type_id( "LOOT_ARTIFACTS" );
     }
     if( cat.id() == "armor" ) {
-        return zone_type_id( "LOOT_ARMOR" );
+        return it.is_filthy() ? zone_type_id( "LOOT_FARMOR" ) :  zone_type_id( "LOOT_ARMOR" );
     }
 
     return zone_type_id();
