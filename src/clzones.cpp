@@ -8,6 +8,9 @@
 #include "ui.h"
 #include "string_input_popup.h"
 #include "line.h"
+#include "item.h"
+#include "itype.h"
+#include "item_category.h"
 
 #include <iostream>
 
@@ -41,6 +44,7 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_ARTIFACTS" ), zone_type( translate_marker( "Loot: Artifacts" ) ) );
     types.emplace( zone_type_id( "LOOT_ARMOR" ), zone_type( translate_marker( "Loot: Armor" ) ) );
     types.emplace( zone_type_id( "LOOT_FARMOR" ), zone_type( translate_marker( "Loot: F.Armor" ) ) );
+    types.emplace( zone_type_id( "LOOT_WOOD" ), zone_type( translate_marker( "Loot: Wood" ) ) );
 }
 
 std::string zone_type::name() const
@@ -182,6 +186,106 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type, c
     }
 
     return near_point_set;
+}
+
+zone_type_id zone_manager::get_near_zone_type_for_item( const item &it, const tripoint &where ) const
+{
+    auto typeId = it.typeId();
+    if( typeId == "2x4" ||
+        typeId == "log" ||
+        typeId == "splinter" ||
+        typeId == "stick" ) {
+        if( has_near( zone_type_id( "LOOT_WOOD" ), where ) ) {
+            return zone_type_id( "LOOT_WOOD" );
+        }
+    }
+
+    if( it.is_food() || it.is_food_container() )
+    {
+        const auto &it_food = it.is_food_container() ? it.contents.front() : it;
+
+        if( it_food.type->comestible->comesttype == "DRINK" ) {
+            if( it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where ) ) {
+                return zone_type_id( "LOOT_PDRINK" );
+            } else if( has_near( zone_type_id( "LOOT_DRINK" ), where ) ) {
+                return zone_type_id( "LOOT_DRINK" );
+            }
+        }
+
+        if( it_food.goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where ) ) {
+            return zone_type_id( "LOOT_PFOOD" );
+        }
+
+        return zone_type_id( "LOOT_FOOD" );
+    }
+
+    auto cat = it.get_category();
+    
+    if( cat.id() == "guns" ) {
+        return zone_type_id( "LOOT_GUNS" );
+    }
+    if( cat.id() == "magazines" ) {
+        return zone_type_id( "LOOT_MAGAZINES" );
+    }
+    if( cat.id() == "ammo" ) {
+        return zone_type_id( "LOOT_AMMO" );
+    }
+    if( cat.id() == "weapons" ) {
+        return zone_type_id( "LOOT_WEAPONS" );
+    }
+    if( cat.id() == "tools" ) {
+        return zone_type_id( "LOOT_TOOLS" );
+    }
+    if( cat.id() == "clothing" ) {
+        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FCLOTHING" ), where ) ) {
+            zone_type_id( "LOOT_FCLOTHING" );
+        }
+        return zone_type_id( "LOOT_CLOTHING" );
+    }
+    if( cat.id() == "drugs" ) {
+        return zone_type_id( "LOOT_DRUGS" );
+    }
+    if( cat.id() == "books" ) {
+        return zone_type_id( "LOOT_BOOKS" );
+    }
+    if( cat.id() == "mods" ) {
+        return zone_type_id( "LOOT_MODS" );
+    }
+    if( cat.id() == "mutagen" ) {
+        return zone_type_id( "LOOT_MUTAGENS" );
+    }
+    if( cat.id() == "bionics" ) {
+        return zone_type_id( "LOOT_BIONICS" );
+    }
+    if( cat.id() == "veh_parts" ) {
+        return zone_type_id( "LOOT_VEHICLE_PARTS" );
+    }
+    if( cat.id() == "other" ) {
+        return zone_type_id( "LOOT_OTHER" );
+    }
+    if( cat.id() == "fuel" ) {
+        return zone_type_id( "LOOT_FUEL" );
+    }
+    if( cat.id() == "seeds" ) {
+        return zone_type_id( "LOOT_SEEDS" );
+    }
+    if( cat.id() == "chems" ) {
+        return zone_type_id( "LOOT_CHEMICAL" );
+    }
+    if( cat.id() == "spare_parts" ) {
+        return zone_type_id( "LOOT_SPARE_PARTS" );
+    }
+    if( cat.id() == "artifacts" ) {
+        return zone_type_id( "LOOT_ARTIFACTS" );
+    }
+    if( cat.id() == "armor" ) {
+        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FARMOR" ), where ) ) {
+            zone_type_id( "LOOT_FARMOR" );
+        }
+        return zone_type_id( "LOOT_ARMOR" );
+    }
+
+    return zone_type_id();
 }
 
 void zone_manager::add( const std::string &name, const zone_type_id &type,

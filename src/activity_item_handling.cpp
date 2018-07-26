@@ -4,8 +4,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "item.h"
-#include "itype.h"
-#include "item_category.h"
 #include "player_activity.h"
 #include "action.h"
 #include "enums.h"
@@ -680,90 +678,11 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 }
 
-static zone_type_id get_zone_type_for_item( const item &it )
-{
-    if( it.is_food_container() ) {
-        auto inner = it.contents.front();
-        if( inner.type->comestible->comesttype == "FOOD" ) {
-            return ( inner.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PFOOD" ) : zone_type_id( "LOOT_FOOD" );
-        }
-        if( inner.type->comestible->comesttype == "DRINK" ) {
-            return ( inner.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PDRINK" ) : zone_type_id( "LOOT_DRINK" );
-        }
-    }
-    if( it.is_comestible() && it.type->comestible->comesttype == "FOOD" ) {
-        return ( it.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PFOOD" ) : zone_type_id( "LOOT_FOOD" );
-    }
-    if( it.is_comestible() && it.type->comestible->comesttype == "DRINK" ) {
-        return ( it.type->comestible->spoils > 0 ) ? zone_type_id( "LOOT_PDRINK" ) : zone_type_id( "LOOT_DRINK" );
-    }
-
-    auto cat = it.get_category();
-    
-    if( cat.id() == "guns" ) {
-        return zone_type_id( "LOOT_GUNS" );
-    }
-    if( cat.id() == "magazines" ) {
-        return zone_type_id( "LOOT_MAGAZINES" );
-    }
-    if( cat.id() == "ammo" ) {
-        return zone_type_id( "LOOT_AMMO" );
-    }
-    if( cat.id() == "weapons" ) {
-        return zone_type_id( "LOOT_WEAPONS" );
-    }
-    if( cat.id() == "tools" ) {
-        return zone_type_id( "LOOT_TOOLS" );
-    }
-    if( cat.id() == "clothing" ) {
-        return it.is_filthy() ? zone_type_id( "LOOT_FCLOTHING" ) : zone_type_id( "LOOT_CLOTHING" );
-    }
-    if( cat.id() == "drugs" ) {
-        return zone_type_id( "LOOT_DRUGS" );
-    }
-    if( cat.id() == "books" ) {
-        return zone_type_id( "LOOT_BOOKS" );
-    }
-    if( cat.id() == "mods" ) {
-        return zone_type_id( "LOOT_MODS" );
-    }
-    if( cat.id() == "mutagen" ) {
-        return zone_type_id( "LOOT_MUTAGENS" );
-    }
-    if( cat.id() == "bionics" ) {
-        return zone_type_id( "LOOT_BIONICS" );
-    }
-    if( cat.id() == "veh_parts" ) {
-        return zone_type_id( "LOOT_VEHICLE_PARTS" );
-    }
-    if( cat.id() == "other" ) {
-        return zone_type_id( "LOOT_OTHER" );
-    }
-    if( cat.id() == "fuel" ) {
-        return zone_type_id( "LOOT_FUEL" );
-    }
-    if( cat.id() == "seeds" ) {
-        return zone_type_id( "LOOT_SEEDS" );
-    }
-    if( cat.id() == "chems" ) {
-        return zone_type_id( "LOOT_CHEMICAL" );
-    }
-    if( cat.id() == "spare_parts" ) {
-        return zone_type_id( "LOOT_SPARE_PARTS" );
-    }
-    if( cat.id() == "artifacts" ) {
-        return zone_type_id( "LOOT_ARTIFACTS" );
-    }
-    if( cat.id() == "armor" ) {
-        return it.is_filthy() ? zone_type_id( "LOOT_FARMOR" ) :  zone_type_id( "LOOT_ARMOR" );
-    }
-
-    return zone_type_id();
-}
-
 void activity_on_turn_move_loot( player_activity &act, player &p )
 {
-    const auto &src_set = zone_manager::get_manager().get_near( zone_type_id( "LOOT_UNSORTED" ), g->m.getabs( p.pos() ) );    
+    const auto &mgr = zone_manager::get_manager();
+    const auto abspos = g->m.getabs( p.pos() );
+    const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );    
     auto items = std::vector<item *>();
 
     // Nuke the current activity, leaving the backlog alone.
@@ -776,8 +695,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
         }
 
         for( auto it : items ) {
-            const auto id = get_zone_type_for_item( *it );
-            const auto &dest_set = zone_manager::get_manager().get_near( id, g->m.getabs( p.pos() ) );
+            const auto id = mgr.get_near_zone_type_for_item( *it, abspos );
+            const auto &dest_set = mgr.get_near( id, abspos );
 
             for( auto &dest : dest_set ) {
                 const auto &dest_loc = g->m.getlocal( dest );
