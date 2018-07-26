@@ -743,6 +743,7 @@
         "lab_palette"
       ],
       "furniture": {
+        "S": "f_null",
         "^": "f_indoor_plant",
         "f": "f_null"
       },
