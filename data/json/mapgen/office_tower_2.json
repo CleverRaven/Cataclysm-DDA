@@ -298,7 +298,7 @@
     "/2": "This map adds it back in, to prevent an open air-gap where players can fall into sky.",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_tower_inner_corner" ],
+    "om_terrain": [ "office_tower_open_air_corner" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_open_air",

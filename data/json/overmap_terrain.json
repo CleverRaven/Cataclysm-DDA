@@ -529,7 +529,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "office_tower_inner_corner",
+        "id" : "office_tower_open_air_corner",
         "name" : "open air",
         "sym" : 46,
         "color" : "blue"
@@ -1690,7 +1690,7 @@
         "color" : "light_blue",
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ],
-        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 7], "chance": 40 }
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_stairs",
@@ -1699,7 +1699,7 @@
         "color" : "blue",
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ],
-        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 7], "chance": 40 }
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_core",
@@ -1708,7 +1708,7 @@
         "color" : "light_blue",
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ],
-        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 7], "chance": 40 }
     },{
         "type" : "overmap_terrain",
         "id" : "central_lab_finale",

@@ -1870,10 +1870,10 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
-    // Half of overmaps have a 1-in-3 chance of being subway connected.
+    // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
     // If the central lab exists, all labs which go down to z=4 will have a subway to central.
     int lab_train_odds = 0;
-    if ( z == -2 && one_in(2)) lab_train_odds = 3;
+    if ( z == -2 && one_in(3)) lab_train_odds = 2;
     if ( z == -4 && !central_lab_points.empty() ) lab_train_odds = 1;
 
     for (auto &i : lab_points) {
@@ -3672,7 +3672,9 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
             }
         }
     }
-    if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
+
+    // We need a finale on the bottom of labs.  Central labs have a chance of additional finales.
+    if( numstairs == 0 || ( prefix == "central_" && one_in(-z-1) ) ) {
         int finalex = 0;
         int finaley = 0;
         int tries = 0;
