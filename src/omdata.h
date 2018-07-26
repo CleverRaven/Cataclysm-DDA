@@ -5,7 +5,9 @@
 #include "color.h"
 #include "common_types.h"
 #include "enums.h"
+#include "line.h"
 #include "int_id.h"
+#include "rng.h"
 #include "string_id.h"
 #include "translations.h"
 
@@ -84,6 +86,54 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
+}
+
+// Overmap "Zones" - Areas which have special post-generation processing attached to them
+namespace om_zone
+{
+/** Basic enum for zones. */
+enum class type : int {
+    OMZONE_NULL = 0,
+    OMZONE_CITY,        // Basic city; place corpses
+    OMZONE_BOMBED,      // Terrain is heavily destroyed
+    OMZONE_IRRADIATED,  // Lots of radioactivity TODO
+    OMZONE_CORRUPTED,   // Fabric of space is weak TODO
+    OMZONE_OVERGROWN,   // Lots of plants, etc. TODO
+    OMZONE_FUNGAL,      // Overgrown with fungus TODO
+    OMZONE_MILITARIZED, // _Was_ occupied by the military TODO
+    OMZONE_FLOODED,     // Flooded out TODO
+    OMZONE_TRAPPED,     // Heavily booby-trapped TODO
+    OMZONE_MUTATED,     // Home of mutation experiments - mutagen & monsters TODO
+    OMZONE_FORTIFIED,   // Boarded up windows &c TODO
+    OMZONE_BOTS,        // Home of the bots TODO
+};
+
+/** For the purposes of iteration. */
+const std::array<type, 13> all = {{ type::OMZONE_NULL, type::OMZONE_CITY, type::OMZONE_BOMBED, type::OMZONE_IRRADIATED, type::OMZONE_CORRUPTED, type::OMZONE_OVERGROWN, type::OMZONE_FUNGAL, type::OMZONE_MILITARIZED, type::OMZONE_FLOODED, type::OMZONE_TRAPPED, type::OMZONE_MUTATED, type::OMZONE_FORTIFIED, type::OMZONE_BOTS }};
+const size_t size = all.size();
+
+/** Identifier for serialization purposes. */
+const std::string &id( type zone_type );
+
+/** Get Human readable name of a zone */
+const std::string &name( type zone_type );
+
+/** Returns a random zone. */
+type random();
+
+}
+
+struct overmap_zone {
+    om_zone::type type;
+    tripoint center;
+    std::set<tripoint> points;
+    int size;
+    int distance_from_center( tripoint p ) {
+        return rl_dist( center, p );
+    }
+    bool contains_tripoint( tripoint p ) {
+        return ( points.find( p ) != points.end() );
+    }
 };
 
 struct overmap_spawns {

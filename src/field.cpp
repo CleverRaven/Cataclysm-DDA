@@ -104,6 +104,16 @@ const std::array<field_t, num_fields> fieldlist = { {
         false
     },
 
+    // Triffid vines
+    {
+        "fd_vines",
+        {_( "vine covering" ), _( "overgrown vines" ), _( "thick vines" )}, '$', 7,
+        {def_c_green, def_c_green, def_c_green}, {true, true, false}, {false, false, false}, 0,
+        {0,0,0},
+        SOLID,
+        false
+    },
+
     {
         "fd_slime",
         {translate_marker( "slime trail" ), translate_marker( "slime stain" ), translate_marker( "puddle of slime" )}, '%', 0,
@@ -842,6 +852,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // Use the normal aging logic below this switch
                     case fd_web:
+                        break;
+                    case fd_vines:
                         break;
                     case fd_sap:
                         break;

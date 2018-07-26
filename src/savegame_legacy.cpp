@@ -372,6 +372,17 @@ void overmap::unserialize_legacy(std::istream & fin) {
             int id;
             fin >> id >> v.name >> v.x >> v.y;
             vehicles[id]=v;
+        } else if ( datatype == 'z' ) { // zones!
+            overmap_zone omz;
+            tripoint p;
+            int zt;
+            fin >> zt >> p.x >> p.y >> p.z;
+            omz.type = (om_zone::type) zt;
+            omz.center = p;
+            while(fin.peek() != '\n'){
+                fin >> p.x >> p.y >> p.z;
+                omz.points.insert( p );
+            }
         } else if (datatype == 'n') { // NPC
 // When we start loading a new NPC, check to see if we've accumulated items for
 //   assignment to an NPC.
