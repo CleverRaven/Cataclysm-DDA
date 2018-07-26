@@ -675,10 +675,10 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                 open = true;
             }
         }
-        //@todo only despawn turrets "behind" the door
         for( monster &critter : g->all_monsters() ) {
-            if( ( critter.type->id == mon_turret ) ||
-                ( critter.type->id == mon_turret_rifle ) ) {
+            if( ( critter.type->id == mon_turret ||
+                critter.type->id == mon_turret_rifle ) &&
+                critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
