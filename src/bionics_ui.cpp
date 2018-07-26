@@ -3,6 +3,7 @@
 #include "game.h"
 #include "input.h"
 #include "bionics.h"
+#include "options.h"
 #include "bodypart.h"
 #include "translations.h"
 #include "catacharset.h"
@@ -69,7 +70,10 @@ void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
     fold_and_print( window, 0, 1, pwr_str_pos, c_white, desc );
-
+    if( get_option < bool > ( "BIONIC_LICENSES" ) ) {
+        right_print( window, 1, 1, c_cyan, string_format( _( "Bionic License: %i/%i" ),
+                     g->u.used_license_points, g->u.max_license_points ) );
+    }
     wrefresh( window );
 }
 

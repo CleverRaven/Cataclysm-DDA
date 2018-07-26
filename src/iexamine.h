@@ -99,6 +99,7 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
+void bio_license_upgrader( player &p );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );

@@ -241,6 +241,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "license_credit",
+        "name" : "license credit",
+        "default" : "license_credit"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "plutonium",
         "name" : "plutonium",
         "default" : "plut_cell"

@@ -610,6 +610,10 @@ struct islot_bionic {
      */
     int difficulty = 0;
     /**
+     * The license cost of the bionic. Relevant only if the external option BIONIC_LICENSES is true. See bionics.cpp  for its usage.
+     */
+    int license_cost = 2;
+    /**
      * Id of the bionic, see bionics.cpp for its usage.
      */
     bionic_id id;

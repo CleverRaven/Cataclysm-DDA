@@ -2278,6 +2278,24 @@
         "ammo": "money"
     },
     {
+        "id": "bionic_license_card",
+        "type": "TOOL",
+        "symbol": ",",
+        "color": "cyan",
+        "name": "Bionic License Card",
+        "description": "A small card of transparent plastic, a complex holographic pattern is inscribed within it. Use the credits at an autodoc to uprade your cybernetic license and install bionics",
+        "price": 100,
+        "price_postapoc": 10,
+        "material": "plastic",
+        "flags": ["NO_UNLOAD", "NO_RELOAD"],
+        "weight": 6,
+        "volume": 0,
+        "to_hit": -3,
+        "max_charges": 20,
+        "rand_charges": [2,4,4,8],
+        "ammo": "license_credit"
+    },
+    {
         "id": "gasdiscount_silver",
         "type": "TOOL",
         "symbol": ",",

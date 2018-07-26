@@ -981,6 +981,13 @@ bool player::install_bionics( const itype &type, int skill_level, bool autodoc )
                                               difficult, autodoc );
     }
 
+    if( get_option < bool > ( "BIONIC_LICENSES" ) ) {
+        if( used_license_points + type.bionic->license_cost > max_license_points ) {
+            popup( _( "Insuficient license score, please upgrade bionic license" ) );
+            return false;
+        }
+    }
+
     const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
@@ -1285,6 +1292,7 @@ void player::add_bionic( bionic_id const &b )
     }
 
     recalc_sight_limits();
+    calculate_used_license_points();
 }
 
 void player::remove_bionic( bionic_id const &b )
@@ -1304,6 +1312,7 @@ void player::remove_bionic( bionic_id const &b )
     }
     *my_bionics = new_my_bionics;
     recalc_sight_limits();
+    calculate_used_license_points();
 }
 
 int player::num_bionics() const
@@ -1534,4 +1543,25 @@ void player::introduce_into_anesthesia( time_duration const &duration )
         comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
     }
     consume_items( comps );
+}
+
+int player::calculate_used_license_points()
+{
+    int set_new = 0;
+    for( auto &bio :  *my_bionics ) {
+        if( item::type_is_defined(
+                bio.id.c_str() ) ) { //faulty bionics and sub bionics don't have a license cost.
+            auto type = item::find_type( bio.id.c_str() );
+            if( type->bionic ) {
+                set_new += type->bionic->license_cost;        //set_new += bio.info().license_cost;
+            }
+        }
+    }
+    used_license_points = set_new;
+    return set_new;
+}
+
+void player::upgrade_license( long points_up )
+{
+    max_license_points += points_up;
 }

@@ -21,6 +21,7 @@ enum class iteminfo_parts : size_t {
     BASE_CONTENTS,
     BASE_AMOUNT,
     BASE_DEBUG,
+    BASE_LICENSE_COST,
 
 
     FOOD_NUTRITION,

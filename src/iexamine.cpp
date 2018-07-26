@@ -8,6 +8,7 @@
 #include "mapdata.h"
 #include "output.h"
 #include "output.h"
+#include "options.h"
 #include "rng.h"
 #include "requirements.h"
 #include "ammo.h"
@@ -1445,7 +1446,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
 
     auto recentWeather = sum_conditions( calendar::turn-10_minutes, calendar::turn, p.pos() );
 
-    // If it has been raining recently, then this event is twice less likely. 
+    // If it has been raining recently, then this event is twice less likely.
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {
         // Should user player::infect, but can't!
         // player::infect needs to be restructured to return a bool indicating success.
@@ -3479,6 +3480,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     enum options {
         INSTALL_CBM,
         UNINSTALL_CBM,
+        UPGRADE_BIONIC_LICENSE,
         CANCEL,
     };
 
@@ -3512,6 +3514,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
+    if ( get_option < bool > ( "BIONIC_LICENSES" ) ) {
+        amenu.addentry( UPGRADE_BIONIC_LICENSE, true, 'l', _( "Upgrade your Bionic License." ) );
+    }
     amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
 
     amenu.query();
@@ -3545,14 +3550,17 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            if( !has_anesthesia ) {
+            if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
                 popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
                 return;
             }
 
+
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( ( *itemtype ), -1, true ) ) {
-                p.introduce_into_anesthesia( duration );
+            if( p.install_bionics( ( *itemtype ), -1, true )  ) {
+                if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
+                    p.introduce_into_anesthesia( duration );
+                }
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps );
@@ -3567,7 +3575,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            if( !has_anesthesia ) {
+            if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
                 popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
                 return;
             }
@@ -3600,9 +3608,16 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
-                p.introduce_into_anesthesia( duration );
+            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) )
+                if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
+                    p.introduce_into_anesthesia( duration );
+                }
             }
+            break;
+        }
+
+        case UPGRADE_BIONIC_LICENSE: {
+            bio_license_upgrader( p );
             break;
         }
 
@@ -3610,6 +3625,49 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             return;
     }
 }
+
+void iexamine::bio_license_upgrader( player &p ) {
+
+    item *license_card;
+
+    const int pos = g->inv_for_id( itype_id( "bionic_license_card" ), _( "Insert card." ) );
+
+    if( pos == INT_MIN ) {
+        add_msg( _( "You cancel the operation." ) );
+        return;
+    }
+
+    license_card = &( p.i_at( pos ) );
+
+    if( license_card->charges <= 0 ) {
+        popup( str_to_illiterate_str(
+            _( "The license card is empty." ) ).c_str() );
+            return;
+    }
+
+    std::string popupmsg = string_format(
+        _( "Buy how many license points? Max: %d Points. (0 to cancel) " ), license_card->charges );
+        long upgrade_amount = string_input_popup()
+                      .title( popupmsg )
+                      .width( 25 )
+                      .text( to_string( license_card->charges ) )
+                      .only_digits( true )
+                      .query_long();
+        if( upgrade_amount <= 0 ) {
+            add_msg( _( "You cancel the operation." ) );
+            return;
+        }
+        if( upgrade_amount > license_card->charges ) {
+            upgrade_amount = license_card->charges;
+        }
+
+        p.upgrade_license( upgrade_amount );
+        license_card->charges -= upgrade_amount;
+        p.mod_moves( 100 );
+        return;
+}
+
+
 
 /**
  * Given then name of one of the above functions, returns the matching function

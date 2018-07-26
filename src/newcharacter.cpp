@@ -610,6 +610,7 @@ bool player::create(character_type type, const std::string &tempname)
     }
     // Adjust current energy level to maximum
     power_level = max_power_level;
+    max_license_points = calculate_used_license_points();
 
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;

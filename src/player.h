@@ -271,6 +271,10 @@ class player : public Character
 
         /** Handles process of introducing patient into anesthesia through the autodoc */
         void introduce_into_anesthesia( time_duration const &duration );
+
+        void upgrade_license( long points_up );
+
+        int calculate_used_license_points();
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
@@ -1362,6 +1366,8 @@ class player : public Character
         std::string move_mode;
         int power_level;
         int max_power_level;
+        int max_license_points;
+        int used_license_points;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
