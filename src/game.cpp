@@ -7587,9 +7587,9 @@ void game::print_creature_info( const Creature *creature, const catacurses::wind
 void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                const int column, int &line, const int last_line )
 {
-    if (veh) {
-        mvwprintw(w_look, ++line, column, _("There is a %s there. Parts:"), veh->name.c_str());
-        line = veh->print_part_desc(w_look, ++line, last_line, getmaxx(w_look), veh_part);
+    if( veh ) {
+        mvwprintw( w_look, ++line, column, _( "There is a %s there. Parts:" ), veh->name.c_str() );
+        line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
 
