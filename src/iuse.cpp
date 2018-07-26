@@ -5479,23 +5479,23 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname().c_str() );
+        fix.mod_damage( -1 );
 
     } else if( fix.precise_damage() > 1 ) {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+        fix.mod_damage( -1 );
 
     } else {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.set_damage( 0 );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
                               fix.tname().c_str() );
+        fix.set_damage( 0 );
     }
     return it->type->charges_to_use();
 }
@@ -5605,21 +5605,21 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( fix.precise_damage() <= 0 ) {
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
+        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
         fix.mod_damage( -1 );
 
     } else if( fix.precise_damage() > 1 ) {
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
+        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
         fix.mod_damage( -1 );
 
     } else {
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
         p->moves -= 250 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
         fix.set_damage( 0 );
     }
     return it->type->charges_to_use();
