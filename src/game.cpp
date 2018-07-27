@@ -194,6 +194,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -1463,7 +1464,7 @@ bool game::do_turn()
     if( calendar::once_every( 1_hours ) ) {
         lua_callback( "on_hour_passed" );
     }
- 
+
     if( calendar::once_every( 1_minutes ) ) {
         lua_callback("on_minute_passed");
     }
@@ -1783,7 +1784,7 @@ void game::update_weather()
 
 int game::get_temperature( const tripoint &location )
 {
-    
+
     if ( location.z < 0 ) {
         // underground temperature = average New England temperature = 43F/6C rounded to int
         return 43 + m.temperature( location );
@@ -11367,8 +11368,9 @@ bool game::walk_move( const tripoint &dest_loc )
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
-    const bool slowed = ( !u.has_trait( trait_id( "PARKOUR" ) ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
-                  mcost_to > 4 || mcost_from > 4;
+    const bool fungus = m.has_flag_ter_or_furn( "FUNGUS" , u.pos() ) || m.has_flag_ter_or_furn( "FUNGUS" , dest_loc ); //fungal furniture has no slowing effect on mycus characters
+    const bool slowed = ( ( !u.has_trait( trait_PARKOUR ) && ( mcost_to > 2 || mcost_from > 2 ) ) || mcost_to > 4 || mcost_from > 4 ) &&
+                        !( u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {
