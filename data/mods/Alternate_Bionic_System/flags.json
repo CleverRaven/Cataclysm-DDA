@@ -3,6 +3,6 @@
     "id": "CBM",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
-    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> an <info>augmentation console</info> or <info>ask a surgeon</info> to install it into your body."
+    "info": "This item is a Compact Bionic Module.  You can  <info>use an augmentation console</info> or <info>ask a surgeon</info> to install it into your body."
   }
 ]
