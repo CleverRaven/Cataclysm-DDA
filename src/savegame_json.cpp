@@ -450,6 +450,9 @@ void player::load(JsonObject &data)
         setID( tmpid );
     }
 
+    data.read("max_license_points", max_license_points);
+    data.read("used_license_points", used_license_points);
+
     data.read("power_level", power_level);
     data.read("max_power_level", max_power_level);
     // Bionic power scale has been changed, savegame version 21 has the new scale
@@ -551,6 +554,9 @@ void player::store(JsonOut &json) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
+
+    json.member( "max_license_points", max_license_points );
+    json.member( "used_license_points", used_license_points );
 
     // npc; unimplemented
     json.member( "power_level", power_level );
