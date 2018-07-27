@@ -263,8 +263,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "time": 600,
+    "time": 1000,
     "reversible": true,
     "autolearn": true,
     "components": [
