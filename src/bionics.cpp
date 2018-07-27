@@ -1544,12 +1544,12 @@ void player::introduce_into_anesthesia( time_duration const &duration, bool anes
                        _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
         
         add_effect( effect_narcosis, duration );
-        fall_asleep( duration );
     //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
         add_msg_if_player( m_mixed,
-                       _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. After an eternity, the apparatus draws back with a quiet chime. This is normally where you'd be asleep from anesthesia while the machine cleans itself. Try not to focus on your blood drenching the blades." ) ) ;
+                       _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) ) ;
     }
+    fall_asleep( duration );
     if( anesthetic ) {
         std::vector<item_comp> comps;
         std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
