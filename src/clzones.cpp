@@ -184,7 +184,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
         const tripoint &where ) const
 {
     const auto &point_set = get_point_set( type );
-    auto &near_point_set = std::unordered_set<tripoint>();
+    auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
         if( square_dist( point, where ) <= MAX_DISTANCE ) {
