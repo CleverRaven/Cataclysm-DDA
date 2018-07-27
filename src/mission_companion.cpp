@@ -38,6 +38,7 @@
 #include "requirements.h"
 #include "string_input_popup.h"
 #include "line.h"
+#include "recipe_groups.h"
 
 #include <vector>
 #include <string>
@@ -3065,6 +3066,23 @@ std::string talk_function::om_next_upgrade( std::string bldg ){
     return comp;
 }
 
+std::vector<std::string> talk_function::om_all_upgrade_levels( std::string bldg ){
+    std::vector<std::string> upgrades;
+    std::string comp = "";
+    int phase = bldg.find_last_of("_");
+    comp = bldg.substr(phase+1);
+    int value = 0;
+    int current = atoi(comp.c_str());
+    while( value <= current ){
+        comp = bldg.substr(0,phase+1) + to_string(value);
+        if( oter_str_id( comp ).is_valid() ){
+            upgrades.push_back( comp );
+        }
+        value++;
+    }
+    return upgrades;
+}
+
 bool talk_function::om_min_level( std::string target, std::string bldg ){
     return (om_over_level( target, bldg ) >= 0);
 }
@@ -3533,31 +3551,24 @@ bool talk_function::camp_expansion_select( npc &p )
     if( comp == nullptr ){
         return false;
     }
-    std::vector<std::string> pos_expansions;
-    pos_expansions.push_back( _("Farm") );
-    pos_expansions.push_back( _("Garage") );
-    pos_expansions.push_back( _("Kitchen") );
-    pos_expansions.push_back( _("Blacksmith Shop") );
-    pos_expansions.push_back( _("Cancel") );
+    std::vector<std::string> pos_expansion_name_id;
+    std::vector<std::string> pos_expansion_name;
+    std::map<std::string,std::string> pos_expansions = recipe_group::get_recipes( "all_faction_base_expansions" );
+    for( std::map<std::string,std::string>::const_iterator it = pos_expansions.begin(); it != pos_expansions.end(); ++it ) {
+        pos_expansion_name.push_back( it->first );
+        pos_expansion_name_id.push_back( it->second );
+    }
+    pos_expansion_name.push_back( _("Cancel") );
 
-    int expan = menu_vec(true, _("Select an expansion:"), pos_expansions) - 1;
-    int sz = pos_expansions.size();
+    int expan = menu_vec(true, _("Select an expansion:"), pos_expansion_name) - 1;
+    int sz = pos_expansion_name.size();
     if (expan < 0 || expan >= sz) {
         popup("You choose to wait...");
         return false;
     }
     editmap edit;
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    if (expan == 0 && !edit.mapgen_set( "faction_base_farm_0", tripoint(omt_pos.x, omt_pos.y, p.posz()), 1 ) ){
-        return false;
-    }
-    if (expan == 1 && !edit.mapgen_set( "faction_base_garage_0", tripoint(omt_pos.x, omt_pos.y, p.posz()), 1 ) ){
-        return false;
-    }
-    if (expan == 2 && !edit.mapgen_set( "faction_base_kitchen_0", tripoint(omt_pos.x, omt_pos.y, p.posz()), 1 ) ){
-        return false;
-    }
-    if (expan == 3 && !edit.mapgen_set( "faction_base_blacksmith_0", tripoint(omt_pos.x, omt_pos.y, p.posz()), 1 ) ){
+    if ( !edit.mapgen_set( pos_expansion_name_id[expan], tripoint(omt_pos.x, omt_pos.y, p.posz()), 1 ) ){
         return false;
     }
     companion_skill_trainer( *comp, "construction", 3_hours, 2 );
@@ -4590,72 +4601,13 @@ std::string talk_function::name_mission_tabs( npc &p, std::string id, std::strin
 }
 
 std::map<std::string,std::string> talk_function::camp_recipe_deck( std::string om_cur ){
+    if( om_cur == "ALL" || om_cur == "COOK" || om_cur == "BASE" || om_cur == "FARM" || om_cur == "SMITH" ){
+        return recipe_group::get_recipes(om_cur);
+    }
     std::map<std::string,std::string> cooking_recipes;
-    if( om_min_level( "faction_base_kitchen_1", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_0.begin(), COOK_SKILL_0.end());
-    }
-    if( om_min_level( "faction_base_kitchen_2", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_1.begin(), COOK_SKILL_1.end());
-    }
-    if( om_min_level( "faction_base_kitchen_3", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_2.begin(), COOK_SKILL_2.end());
-    }
-    if( om_min_level( "faction_base_kitchen_4", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_3.begin(), COOK_SKILL_3.end());
-    }
-    if( om_min_level( "faction_base_kitchen_5", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_4.begin(), COOK_SKILL_4.end());
-    }
-    if( om_min_level( "faction_base_kitchen_6", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_5.begin(), COOK_SKILL_5.end());
-    }
-    if( om_min_level( "faction_base_kitchen_7", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_6.begin(), COOK_SKILL_6.end());
-    }
-    if( om_min_level( "faction_base_kitchen_8", om_cur ) || om_cur == "ALL" || om_cur == "COOK" ){
-        cooking_recipes.insert(COOK_SKILL_7.begin(), COOK_SKILL_7.end());
-    }
-    if( om_min_level( "faction_base_camp_9", om_cur ) || om_cur == "ALL" || om_cur == "BASE" ){
-        cooking_recipes.insert(CAMP_SKILL_9.begin(), CAMP_SKILL_9.end());
-    }
-    if( om_min_level( "faction_base_farm_4", om_cur ) || om_cur == "ALL" || om_cur == "FARM" ){
-        cooking_recipes.insert(FARM_SKILL_4.begin(), FARM_SKILL_4.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_1", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_0.begin(), SMITH_SKILL_0.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_2", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_1.begin(), SMITH_SKILL_1.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_3", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_2.begin(), SMITH_SKILL_2.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_4", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_3.begin(), SMITH_SKILL_3.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_5", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_4.begin(), SMITH_SKILL_4.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_6", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_5.begin(), SMITH_SKILL_5.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_7", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_6.begin(), SMITH_SKILL_6.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_8", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_7.begin(), SMITH_SKILL_7.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_9", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_8.begin(), SMITH_SKILL_8.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_10", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_9.begin(), SMITH_SKILL_9.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_11", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_10.begin(), SMITH_SKILL_10.end());
-    }
-    if( om_min_level( "faction_base_blacksmith_12", om_cur ) || om_cur == "ALL" || om_cur == "SMITH" ){
-        cooking_recipes.insert(SMITH_SKILL_11.begin(), SMITH_SKILL_11.end());
+    for( auto building_levels : om_all_upgrade_levels( om_cur ) ){
+        std::map<std::string,std::string> test_s = recipe_group::get_recipes(building_levels);
+        cooking_recipes.insert( test_s.begin(), test_s.end() );
     }
     return cooking_recipes;
 }
