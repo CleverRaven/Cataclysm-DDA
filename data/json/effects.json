@@ -1312,7 +1312,7 @@
         ],
         "desc": [ "You drank some alcohol.  You feel warm inside.",
                   "You drank alcohol.  Party on!",
-                  "You drank lots of alcohol.  Are those white mice?", 
+                  "You drank lots of alcohol.  Are those white mice?",
                   "You drank unholy amounts of alcohol.  It's the end of the world, what do you care?" ],
         "max_intensity": 4,
         "apply_message": "You feel lightheaded.",
@@ -1824,7 +1824,7 @@
         "type": "effect_type",
         "id": "stim_overdose",
         "name": [ "Stimulant Overdose" ],
-        "desc": [ "You can't sit still as you feel your heart pounding out of your chest. You probably overdosed on those stims." ],
+        "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
         "max_intensity": 1000,
         "int_dur_factor": 1,
         "base_mods": {

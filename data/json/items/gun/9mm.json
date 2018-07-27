@@ -221,7 +221,7 @@
     "type": "GUN",
     "name": "L39",
     "//": "L39s are based off the Robocop Auto-9, in turn a dolled-up Beretta 93R.",
-    "description": "A semiautomatic 9x19mm handgun introduced by Leadworks LLC's, L39 provides accurate single-shot placement in a very robust frame with built in red dot and laser sights. Several urban legends describe using it in ways that would have destroyed a lesser weapon. Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "A semiautomatic 9x19mm handgun introduced by Leadworks LLC's, L39 provides accurate single-shot placement in a very robust frame with built in red dot and laser sights.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 935,
     "volume": 2,
     "price": 70000,

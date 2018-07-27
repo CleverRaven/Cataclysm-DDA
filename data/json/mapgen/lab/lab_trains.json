@@ -64,7 +64,6 @@
         { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": ["lab"] } },
         { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": ["lab"] } },
         { "chunks": [ "lab_train_entrance_west" ], "x": 0, "y": 0, "neighbors": { "west": ["lab"] } }
-
       ]
     }
   },
