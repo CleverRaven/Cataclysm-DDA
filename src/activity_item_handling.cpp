@@ -678,7 +678,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 }
 
-void activity_on_turn_move_loot( player_activity &act, player &p )
+void activity_on_turn_move_loot( player_activity &, player &p )
 {
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p.pos() );
