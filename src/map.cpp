@@ -3489,6 +3489,9 @@ bash_params map::bash( const tripoint &p, const int str,
     bash_params bsh{
         str, silent, destroy, bash_floor, (float)rng_float( 0, 1.0f ), false, false, false
     };
+    if( !inbounds( p ) ) {
+        return bsh;
+    }
 
     bash_field( p, bsh );
     bash_items( p, bsh );

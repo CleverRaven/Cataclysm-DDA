@@ -123,7 +123,7 @@ void game::do_blast( const tripoint &p, const float power,
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
-            if( closed.count( dest ) != 0 ) {
+            if( closed.count( dest ) != 0 || !m.inbounds( dest ) ) {
                 continue;
             }
 
