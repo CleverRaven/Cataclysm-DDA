@@ -682,7 +682,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 {
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p.pos() );
-    const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );    
+    const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
     auto items = std::vector<item *>();
 
     // Nuke the current activity, leaving the backlog alone.
