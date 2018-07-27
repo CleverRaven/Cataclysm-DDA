@@ -650,6 +650,44 @@ void activity_on_turn_move_items()
     }
 }
 
+static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
+{
+    // to prevent potentially ridiculous number
+    const int MAX_COST = 500;
+
+    // it seems that pickup cost is flat 100
+    // in function pick_one_up, varible moves_taken has initial value of 100
+    // and never changes until it is finally used in function
+    // remove_from_map_or_vehicle
+    const int pickup_cost = 100;
+
+    // drop cost for non-tumbling items (from inventory overload) is also flat 100
+    // according to convert_to_items (it does contain todo to use calculated costs)
+    const int drop_cost = 100;
+
+    // typical flat ground move cost
+    const int mc_per_tile = 100;
+
+    const int inventory_capacity = units::to_milliliter( g->u.volume_capacity() );
+
+    const int item_volume = units::to_milliliter( it.volume() );
+
+    // fration of inventory the item would occupy
+    // fr = 1 is for player with inventory space smaller than is size of item
+    // or if he does not have any inventory space at all
+    // in such case, let's assume he does the trip for full cost with item in hands
+    double fr = 1;
+
+    if( inventory_capacity > item_volume ) {
+        fr = ( double )item_volume / inventory_capacity;
+    }
+
+    // approximation of movement cost between source and destination
+    const int move_cost = mc_per_tile * rl_dist( src, dest ) * fr;
+
+    return std::min( pickup_cost + drop_cost + move_cost, MAX_COST );
+}
+
 static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest )
 {
     item leftovers = it;
@@ -666,7 +704,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
 
     // Check that we can pick it up.
     if( !it.made_of( LIQUID ) ) {
-        g->u.mod_moves( -Pickup::cost_to_move_item( g->u, it ) );
+        g->u.mod_moves( -move_cost( it, src, dest ) );
         drop_on_map( g->u, { it }, dest );
         // Remove from map.
         g->m.i_rem( src, &it );
