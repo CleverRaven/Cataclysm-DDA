@@ -2048,7 +2048,7 @@
         "id" : "M_IMMUNE",
         "name" : "Mycus Identity",
         "points" : 5,
-        "description" : "We have synchronized our local physiology with that of our reproductive systems.  Any spores we may encounter will not attempt to germinate inside the local system.",
+        "description" : "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accomodate us.",
         "valid" : false,
         "purifiable": false,
         "threshreq" : ["THRESH_MYCUS"],
@@ -5151,6 +5151,15 @@
         "description" : "You are experienced in the Sweet Science of boxing.  You could've had a shot at a local boxing tournament, if the Cataclysm hadn't screwed that up.",
         "valid": false,
         "initial_ma_styles" : [ "style_boxing" ],
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_AUTODOC",
+        "name" : "Autodoc Specialist",
+        "points" : 0,
+        "description" : "You're trained in proper operation of the Autodoc, an advanced machine used for surgical procedures.  Operations involving it will be moderately more likely to succeed.",
+        "valid": false,
         "purifiable": false,
         "profession": true
     },{

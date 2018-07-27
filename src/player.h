@@ -722,6 +722,9 @@ class player : public Character
         /** Handles player vomiting effects */
         void vomit();
 
+        /** Creates an auditory hallucination */
+        void sound_hallu();
+
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */

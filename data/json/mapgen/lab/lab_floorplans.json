@@ -442,8 +442,7 @@
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 5, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 13 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 },
-        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 }
       ]
     }
   },
@@ -744,6 +743,7 @@
         "lab_palette"
       ],
       "furniture": {
+        "S": "f_null",
         "^": "f_indoor_plant",
         "f": "f_null"
       },

@@ -167,25 +167,26 @@
     }
   },
   {
-    "//": "Fill in quarters of each lab map with rocks, based on its neighboring tiles.",
+    "//": "Start with normal walls, then fill in quarters of each lab map with rocks, based on its neighboring tiles.",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_border_rock_quadrants",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
-        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "north": "lab" } },
-        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "west": "lab" } },
-        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "north": "lab" } },
-        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "east": "lab" } },
-        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "south": "lab" } },
-        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": "lab" } },
-        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": "lab" } },
-        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": "lab" } },
-        { "else_chunks": [ [ "lab_n_rock", 100 ], [ "lab_n_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "north": "lab" } },
-        { "else_chunks": [ [ "lab_w_rock", 100 ], [ "lab_w_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "west": "lab" } },
-        { "else_chunks": [ [ "lab_s_rock", 100 ], [ "lab_s_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "south": "lab" } },
-        { "else_chunks": [ [ "lab_e_rock", 100 ], [ "lab_e_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "east": "lab" } }
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "east": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "south": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_n_rock", 100 ], [ "lab_n_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_w_rock", 100 ], [ "lab_w_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_s_rock", 100 ], [ "lab_s_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "south": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_e_rock", 100 ], [ "lab_e_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "east": ["lab", "open_air"] } }
       ]
     }
   },
