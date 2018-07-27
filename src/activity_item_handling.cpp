@@ -721,33 +721,40 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p.pos() );
     const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
-    auto items = std::vector<item *>();
 
     // Nuke the current activity, leaving the backlog alone.
     p.activity = player_activity();
 
     for( auto &src : src_set ) {
         const auto &src_loc = g->m.getlocal( src );
+
+        auto items = std::vector<item *>();
         for( auto &it : g->m.i_at( src_loc ) ) {
             items.push_back( &it );
         }
 
         for( auto it : items ) {
             const auto id = mgr.get_near_zone_type_for_item( *it, abspos );
-            const auto &dest_set = mgr.get_near( id, abspos );
 
-            for( auto &dest : dest_set ) {
-                const auto &dest_loc = g->m.getlocal( dest );
-                if( g->m.free_volume( dest_loc ) > it->volume() ) {
-                    move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
-                    break;
+            // checks whether the item is already on correct loot zone or not
+            // if it is, we can skip such item, if not we move the item to correct pile
+            // think empty bag on food pile, after you ate the content
+            if( !mgr.has( id, src ) ) {
+                const auto &dest_set = mgr.get_near( id, abspos );
+
+                for( auto &dest : dest_set ) {
+                    const auto &dest_loc = g->m.getlocal( dest );
+                    if( g->m.free_volume( dest_loc ) > it->volume() ) {
+                        move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
+                        break;
+                    }
                 }
-            }
 
-            if( p.moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
-                return;
+                if( p.moves <= 0 ) {
+                    // Restart activity and break from cycle.
+                    p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+                    return;
+                }
             }
         }
     }
