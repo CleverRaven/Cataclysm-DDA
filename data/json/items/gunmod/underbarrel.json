@@ -338,7 +338,7 @@
   },
   {
     "id": "lead_grip",
-	"copy-from": "grip",
+    "copy-from": "grip",
     "type": "GUNMOD",
     "name": "LW forward grip",
     "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",

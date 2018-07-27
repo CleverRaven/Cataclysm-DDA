@@ -5153,7 +5153,7 @@
         "initial_ma_styles" : [ "style_boxing" ],
         "purifiable": false,
         "profession": true
-	},{        
+    },{
         "type" : "mutation",
         "id" : "PROF_AUTODOC",
         "name" : "Autodoc Specialist",
