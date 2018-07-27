@@ -51,15 +51,7 @@
         "-": "t_wall",
         "~": "t_window_alarm"
       },
-      "furniture": {
-        "X": "f_safe_l",
-        "d": "f_desk",
-        "#": "f_counter",
-        "h": "f_chair",
-        "%": "f_sink",
-        "{": "f_rack",
-        "}": "f_rack"
-      },
+      "furniture": { "X": "f_safe_l", "d": "f_desk", "#": "f_counter", "h": "f_chair", "%": "f_sink", "{": "f_rack", "}": "f_rack" },
       "toilets": { "&": {  } },
       "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 2 ] } },
       "place_loot": [
