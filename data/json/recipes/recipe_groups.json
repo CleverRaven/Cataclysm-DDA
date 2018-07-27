@@ -7,8 +7,7 @@
             { "id": "faction_base_farm_0", "description": "Farm" },
 			{ "id": "faction_base_garage_0", "description": "Garage" },
 			{ "id": "faction_base_kitchen_0", "description": "Kitchen" },
-			{ "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop" },
-			{ "id": "faction_base_kilns_0", "description": "Kilns" }
+			{ "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop" }
         ]
     },
     {
