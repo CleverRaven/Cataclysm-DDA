@@ -500,14 +500,30 @@
     "dodge": 3,
     "vision_night": 5,
     "path_settings": { "max_dist": 10 },
-    "reproduction": { "baby_monster": "mon_dog_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines",
+    "reproduction": { "baby_monster": "mon_dog_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines",
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "GROUP_MORALE", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "GROUP_MORALE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_pup",
@@ -517,11 +533,33 @@
     "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "GROUP_MORALE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bull",
@@ -537,8 +575,22 @@
     "melee_dice_sides": 2,
     "melee_cut": 6,
     "vision_night": 4,
-    "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 4, "baby_timer": 10 }, "//": "7 for size medium canines",
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "7 for size medium canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bull_pup",
@@ -548,7 +600,16 @@
     "description": "An adorable, defenseless American Bulldog puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -568,8 +629,22 @@
     "melee_dice_sides": 2,
     "melee_cut": 5,
     "special_attacks": [ [ "LUNGE", 5 ] ],
-    "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines",
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_pitbullmix_pup",
@@ -579,7 +654,16 @@
     "description": "An adorable, defenseless Pit Bull puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_pitbullmix" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -597,8 +681,26 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_cut": 2,
-    "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines",
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "GROUP_MORALE", "GUILT", "HARDTOSHOOT", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "GROUP_MORALE",
+      "GUILT",
+      "HARDTOSHOOT",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_beagle_pup",
@@ -608,11 +710,34 @@
     "description": "An adorable, defenseless Beagle puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_beagle" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "GROUP_MORALE", "GUILT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "GROUP_MORALE",
+      "GUILT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bcollie",
@@ -627,8 +752,23 @@
     "melee_cut": 4,
     "dodge": 4,
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
-    "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines",
-    "flags": [ "ANIMAL", "BONES", "CLIMBS", "DOGFOOD", "FAT", "FUR", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "CLIMBS",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bcollie_pup",
@@ -638,7 +778,16 @@
     "description": "An adorable, defenseless Border Collie puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_bcollie" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -657,7 +806,8 @@
     "melee_cut": 4,
     "vision_night": 4,
     "special_attacks": [ [ "LUNGE", 5 ] ],
-    "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines"
+    "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines"
   },
   {
     "id": "mon_dog_boxer_pup",
@@ -667,11 +817,33 @@
     "description": "An adorable, defenseless Boxer puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_boxer" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "GROUP_MORALE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_chihuahua",
@@ -688,8 +860,24 @@
     "melee_dice_sides": 2,
     "melee_cut": 2,
     "vision_night": 6,
-    "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines",
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "GUILT", "HARDTOSHOOT", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "GUILT",
+      "HARDTOSHOOT",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_chihuahua_pup",
@@ -698,11 +886,33 @@
     "name": "chihuahua puppy",
     "description": "An adorable, defenseless Chihuahua puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_chihuahua" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "GUILT", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "GUILT",
+      "HARDTOSHOOT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_dachshund",
@@ -717,8 +927,25 @@
     "melee_skill": 3,
     "melee_dice_sides": 2,
     "vision_night": 6,
-    "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines",
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "GUILT", "HARDTOSHOOT", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "STUMBLES", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "GUILT",
+      "HARDTOSHOOT",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "STUMBLES",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_dachshund_pup",
@@ -728,11 +955,34 @@
     "description": "An adorable, defenseless Dachshund puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_dachshund" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "GUILT", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "STUMBLES", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FUR",
+      "GUILT",
+      "HARDTOSHOOT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "STUMBLES",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gshepherd",
@@ -747,7 +997,8 @@
     "melee_cut": 6,
     "vision_night": 6,
     "special_attacks": [ [ "LUNGE", 5 ] ],
-    "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 4, "baby_timer": 10 }, "//": "7 for size medium canines",
+    "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "7 for size medium canines",
     "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
@@ -758,7 +1009,16 @@
     "description": "An adorable, defenseless German Shepherd puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_gshepherd" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -768,7 +1028,8 @@
     "id": "mon_dog_gpyrenees",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "great pyrenees", "//": "Rare, location specific only",
+    "name": "great pyrenees",
+    "//": "Rare, location specific only",
     "description": "A large and powerful breed, the Great Pyrenees has a beautiful, thick white coat.  Originally bred to deter wolves and other predators, now faced with protecting livestock from shambling hordes of undead.",
     "size": "MEDIUM",
     "hp": 40,
@@ -780,8 +1041,22 @@
     "melee_cut": 5,
     "dodge": 2,
     "vision_night": 6,
-    "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 10 }, "//": "7 for size medium canines",
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 10 },
+    "//": "7 for size medium canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gpyrenees_pup",
@@ -791,7 +1066,16 @@
     "description": "An adorable, defenseless Great Pyrenees puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_gpyrenees" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -801,7 +1085,8 @@
     "id": "mon_dog_rottweiler",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "rottweiler", "//": "Rare, location specific only",
+    "name": "rottweiler",
+    "//": "Rare, location specific only",
     "description": "Terrifying breed to face feral, as the Rottweiler breed is descended from Roman legion mastiffs.  Robust and vicious, quite capable of mauling a human to death.",
     "size": "MEDIUM",
     "hp": 42,
@@ -813,8 +1098,22 @@
     "melee_cut": 6,
     "vision_night": 6,
     "special_attacks": [ [ "LUNGE", 5 ] ],
-    "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 10 }, "//": "7 for size medium canines",
-    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FAT", "FUR", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 10 },
+    "//": "7 for size medium canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_rottweiler_pup",
@@ -824,7 +1123,16 @@
     "description": "An adorable, defenseless Rottweiler puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_rottweiler" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -846,8 +1154,23 @@
     "dodge": 4,
     "vision_night": 6,
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
-    "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 10 }, "//": "4 for size tiny and small canines",
-    "flags": [ "ANIMAL", "BONES", "CLIMBS", "DOGFOOD", "FAT", "FUR", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 10 },
+    "//": "4 for size tiny and small canines",
+    "flags": [
+      "ANIMAL",
+      "BONES",
+      "CLIMBS",
+      "DOGFOOD",
+      "FAT",
+      "FUR",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_auscattle_pup",
@@ -857,7 +1180,16 @@
     "description": "An adorable, defenseless Australian Cattle Dog puppy.  Much safer to tame than adult counterparts.",
     "diff": 3,
     "size": "TINY",
-    "proportional": { "hp": 0.25, "speed": 0.65, "morale": 0.5, "melee_skill": 0.25, "melee_dice": 0.5, "melee_dice_sides": 0.5, "melee_cut": 0.5, "dodge": 0.5 },
+    "proportional": {
+      "hp": 0.25,
+      "speed": 0.65,
+      "morale": 0.5,
+      "melee_skill": 0.25,
+      "melee_dice": 0.5,
+      "melee_dice_sides": 0.5,
+      "melee_cut": 0.5,
+      "dodge": 0.5
+    },
     "relative": { "aggression": -15, "vision_night": -1 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_auscattle" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
