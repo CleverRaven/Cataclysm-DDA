@@ -271,6 +271,15 @@ void set_up_butchery( player_activity &act, player &u )
         time_to_cut = 500;
     }
 
+    bool butcher = act.id() == activity_id( "ACT_BUTCHER" );
+    bool corpse_dressed = items[act.index]->has_flag( "FIELD_DRESS" ) || items[act.index]->has_flag( "FIELD_DRESS_FAILED" );
+
+    if( butcher && !corpse_dressed ) {
+        time_to_cut *= 10;
+    } else if( !butcher && !corpse_dressed ) {
+        time_to_cut *= 2;
+    }
+
     act.moves_left = time_to_cut;
 }
 
@@ -347,12 +356,21 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
     wool +=     std::min( 0, roll_butchery() );
     stomach = roll_butchery() >= 0;
 
+    // in quick butchery you aim for meat and don't care that you damage some parts
+    if( !corpse->has_flag( "FIELD_DRESS" ) || !corpse->has_flag( "FIELD_DRESS_FAILED" ) ) {
+        skins = 0;
+        bones = rng( 0, bones );
+        fats = rng( 0, fats );
+        sinews = rng( 0, sinews );
+        feathers = rng( 0, feathers );
+    }
+
     // field dressing removed innards and bones from meatless limbs
     if( corpse->has_flag( "FIELD_DRESS" ) ) {
         stomach = 0;
         bones = ( bones / 2 ) + rng( bones / 2 , bones);
     }
-    // unskillfull field dressing may damage the skin, meat, and other parts
+    // unskillfull field dressing damaged the skin, meat, and other parts
     if( corpse->has_flag( "FIELD_DRESS_FAILED" ) ) {
         pieces = rng( 0, pieces );
         skins = rng( 0, skins );
@@ -361,6 +379,15 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
         feathers = rng( 0, feathers );
         wool = rng( 0, wool );
         stomach = 0;
+    }
+    if( corpse->has_flag( "QUARTERED" ) ) {
+        pieces /= 4;
+        skins = 0; //quartering reduces the skin to unusable parts
+        bones/= 4;
+        fats /= 4;
+        sinews /= 4;
+        feathers /= 4;
+        wool /= 4;
     }
 
     int practice = std::max( 0, 4 + pieces + roll_butchery() );
@@ -559,7 +586,7 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
                               !chunk.made_of ( material_id ( "veggy" ) );
 
             for ( int i = 1; i < pieces; ++i ) {
-                if ( make_offal && one_in( 3 ) ) {
+                if ( make_offal && one_in( 6 ) ) {
                     parts.charges++;
                 } else {
                     chunk.charges++;
@@ -661,6 +688,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const int skill_level = p->get_skill_level( skill_survival );
     const int factor = p->max_quality( quality_id( "BUTCHER" ) );
 
+    if( factor < 0 and one_in( 3 ) ) {
+        add_msg( m_info, _("You don't trust the quality of your tools, but carry on anyway." ) );
+    }
+
     auto roll_butchery = [&]() {
         double skill_shift = 0.0;
         ///\EFFECT_SURVIVAL randomly increases butcher rolls
@@ -675,14 +706,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-    /*
+
     if( corpse_item.has_flag( "FIELD_DRESS" ) ) {
-        corpse->set_flag( "FIELD_DRESS", true );
+        age /= 4;
     }
-    if( corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) {
-        corpse->set_flag( "FIELD_DRESS_FAILED", true );
-    }
-    */
    
     if( corpse->harvest.is_null() ) {
         butchery_drops_hardcoded( corpse, p, age, roll_butchery );
@@ -1215,89 +1242,6 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::field_dress_finish( player_activity *act, player *p )
-{
-    act->set_to_null();
-    auto items = g->m.i_at(p->pos());
-    std::string corpse_name = act->str_values[0];
-    item *body = NULL;
-    const mtype *mt =  body->get_mtype();
-
-    for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( it->display_name() == corpse_name ) {
-            body = &*it;
-        }
-    }
-
-    if( body == NULL ) {
-        add_msg( m_info, _( "There's no corpse to perform a field dressing!" ) );
-        return;
-    }
-
-
-    const field_id type_blood = mt->bloodType();
-    const field_id type_gib = mt->gibType();
-    int success = act->values[0];
-    
-    if( success > 0 ) {
-        
-        p->practice( skill_firstaid, mt->size + 1, 2 );
-        p->practice( skill_survival, mt->size + 1, 6 );
-
-        p->add_msg_if_player( m_good,
-                             _( "You slice the corpse's belly, then remove intestines and other internal organs until you're confident it will not rot from inside." ) );
-        p->add_msg_if_player( m_good,
-                             _( "Then you remove blood, some unnecessary parts, and prepare it for transportation." ) );
-
-        body->set_flag( "FIELD_DRESS" );
-
-        //put field dressing effects for corpse here (no_guts, stomach, reduce weight 2/5, halt rot)
-        
-        g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( 1, mt->get_meat_chunks_count() ) );
-        g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( 1, mt->get_meat_chunks_count() ) );
-
-    } else if( success > -20 ) {
-
-        p->practice( skill_firstaid, mt->size + 1, 2 );
-        p->practice( skill_survival, mt->size + 1, 6 );
-
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                p->add_msg_if_player(m_warning, _( "You hack into the corpse damaging it and chop off some body parts.  You think this was not job well done." ) );
-                break;
-            case 2:
-                p->add_msg_if_player(m_warning, _( "Your unskilled hand slips and damages the corpse. You still hope it's not a total waste though." ) );
-                break;
-            case 3:
-                p->add_msg_if_player(m_warning, _( "You did something wrong and hacked the corpse badly. Maybe it's still recoverable." ) );
-                break;
-        }
-
-        body->mod_damage( rng( 0, ( body->max_damage() - body->damage() ) ), DT_STAB );
-
-        //partial success = field dressed but damaged, some negative effects, less good effects
-        body->set_flag( "FIELD_DRESS_FAILED" );
-        g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( mt->size + 1, mt->get_meat_chunks_count() ) );
-        g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( mt->size + 1, mt->get_meat_chunks_count() ) );
-
-    } else {
-        p->practice( skill_firstaid, mt->size + 1, 2 );
-        p->practice( skill_survival, mt->size + 1, 6 );
-            
-        body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
-        if( body->damage() == body->max_damage() ) {
-            body->active = false;
-            p->add_msg_if_player(m_warning, _("You hack up the corpse so unskillfully, that there is nothing left to salvage from this bloody mess."));
-        } else {
-            p->add_msg_if_player(m_warning,
-                                    _("You cut into the corpse trying to remove the innards, but instead you hacked the meat, spill the guts all over it, and made a bloody mess."));
-            body->set_flag( "FIELD_DRESS_FAILED" );
-        }
-
-        g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 2 ) ), mt->get_meat_chunks_count() );
-        g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 2 ) ), mt->get_meat_chunks_count() );
-    }
-}
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
