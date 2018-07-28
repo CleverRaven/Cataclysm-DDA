@@ -366,6 +366,12 @@
         "g": [ "t_wall_glass"]
       },
       "mapping": {
+        "f": {
+          "items": [
+            { "item": "fridge", "chance": 30 },
+            { "item": "alcohol", "chance": 60 }
+          ]
+        },
         "t": {
           "items": [
             { "item": "magazines", "chance": 3 }
