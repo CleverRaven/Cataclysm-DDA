@@ -675,10 +675,10 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                 open = true;
             }
         }
-        //@todo only despawn turrets "behind" the door
         for( monster &critter : g->all_monsters() ) {
-            if( ( critter.type->id == mon_turret ) ||
-                ( critter.type->id == mon_turret_rifle ) ) {
+            if( ( critter.type->id == mon_turret ||
+                critter.type->id == mon_turret_rifle ) &&
+                critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
@@ -723,7 +723,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
 }
 
 /**
- * Prompt removal of rubble. Select best shovel and invoke "DIG" on tile.
+ * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
  */
 void iexamine::rubble(player &p, const tripoint &examp)
 {
@@ -752,7 +752,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
         return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
     } );
 
-    p.invoke_item( *it, "DIG", examp );
+    p.invoke_item( *it, "CLEAR_RUBBLE", examp );
 }
 
 /**
@@ -3551,7 +3551,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( *itemtype ) ) {
+            if( p.install_bionics( ( *itemtype ), -1, true ) ) {
                 p.introduce_into_anesthesia( duration );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
@@ -3600,7 +3600,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
+            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
                 p.introduce_into_anesthesia( duration );
             }
             break;

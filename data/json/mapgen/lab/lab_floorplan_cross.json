@@ -1,10 +1,10 @@
 [
   {
-    "//": "Variation of the cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
-    "weight": 300,
+    "weight": 200,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -13,20 +13,20 @@
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
-        "          |..+         |",
+        "          ?..+         |",
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
-        "-----+----|..|---------|",
+        "-----+----|..|----?----|",
         ".......................+",
         ".......................+",
-        "----------|..|----+----|",
+        "-----?----|..|----+----|",
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
-        "          +..|         |",
+        "          +..?         |",
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
@@ -36,6 +36,9 @@
       "palettes": [
         "lab_palette"
       ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
+      },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 1 },
         { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": 1 },
@@ -46,25 +49,144 @@
     }
   },
   {
-    "//": "Fill in quarters of each lab map with rocks, based on its neighboring tiles.",
+    "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          +..?         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "-----?----|..|----+----|",
+        ".......................+",
+        ".......................+",
+        "-----+----|..|----?----|",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          ?..+         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1] },
+        { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1] },
+        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14 },
+        { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "Non-cross format amenable to quadrants being filled in with rocks/vaults when a side is empty.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 50,
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        ".......................|",
+        "...............hhhhhhh.|",
+        "..|---?---|............|",
+        "..|       |....hhhhhhh.|",
+        "..|       |............|",
+        "..|       |....hhhhhhh.|",
+        "..+       ?............|",
+        "..|       |............|",
+        "..|       |.......c...h|",
+        "..|       |...........h|",
+        "..|---?---|..|----+----|",
+        ".......................+",
+        ".......................+",
+        "-----+----|............|",
+        "          |.....htth.12|",
+        "          |....--------|",
+        "          |....|       |",
+        "          |...l|       |",
+        "          ?....|       |",
+        "          |....+       |",
+        "          |....|       |",
+        "          |...l|       |",
+        "          |....|       |",
+        "-----------++----------|"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "vendingmachines": {
+        "1": { "item_group": "vending_drink" },
+        "2": { "item_group": "vending_food" }
+      },
+      "mapping": {
+        "t": {
+          "items": [ { "item": "fridge", "chance": 30 } ]
+        },
+        "l": {
+          "items": [
+            { "item": "office", "chance": 20 },
+            { "item": "textbooks", "chance": 10 },
+            { "item": "science", "chance": 10 },
+            { "item": "harddrugs", "chance": 5 },
+            { "item": "softdrugs", "chance": 5 },
+            { "item": "dresser", "chance": 5 },
+            { "item": "lab_torso", "chance": 5 },
+            { "item": "lab_pants", "chance": 5 }
+          ]
+        }
+      },
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 3},
+        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16 },
+        { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "Start with normal walls, then fill in quarters of each lab map with rocks, based on its neighboring tiles.",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_border_rock_quadrants",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
-        { "chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "north": "empty_rock" } },
-        { "chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "west": "empty_rock" } },
-        { "chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "north": "empty_rock" } },
-        { "chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "east": "empty_rock" } },
-        { "chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "south": "empty_rock" } },
-        { "chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": "empty_rock" } },
-        { "chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": "empty_rock" } },
-        { "chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": "empty_rock" } },
-        { "chunks": [ "lab_n_rock", "lab_n_rock", "lab_n_rock", "lab_n_vault" ], "x": 0, "y": 0, "neighbors": { "north": "empty_rock" } },
-        { "chunks": [ "lab_w_rock", "lab_w_rock", "lab_w_rock", "lab_w_vault" ], "x": 0, "y": 0, "neighbors": { "west": "empty_rock" } },
-        { "chunks": [ "lab_s_rock", "lab_s_rock", "lab_s_rock", "lab_s_vault" ], "x": 0, "y": 0, "neighbors": { "south": "empty_rock" } },
-        { "chunks": [ "lab_e_rock", "lab_e_rock", "lab_e_rock", "lab_e_vault" ], "x": 0, "y": 0, "neighbors": { "east": "empty_rock" } }
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "east": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "south": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"] } },
+        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_n_rock", 100 ], [ "lab_n_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_w_rock", 100 ], [ "lab_w_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_s_rock", 100 ], [ "lab_s_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "south": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_e_rock", 100 ], [ "lab_e_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "east": ["lab", "open_air"] } }
       ]
     }
   },

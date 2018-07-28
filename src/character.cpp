@@ -46,6 +46,7 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -529,7 +530,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() || in_sleep_state() ) {
+    if( is_blind() || in_sleep_state() || has_effect( effect_narcosis ) ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
@@ -2660,10 +2661,10 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     if( !e_bandaged.is_null() ) {
         bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
         if( bp == bp_head ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD_MULT", 0 ) / 100.0f;
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
         }
         if( bp == bp_torso ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO_MULT", 0 ) / 100.0f;
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
         }
     }
 

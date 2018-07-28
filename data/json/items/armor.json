@@ -586,7 +586,6 @@
     "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
-    "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
@@ -1166,6 +1165,32 @@
       "max_volume": 2,
       "draw_cost": 30,
       "flags": [ "SHEATH_KNIFE" ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "spearsling",
+    "type": "ARMOR",
+    "name": "spear strap",
+    "description": "A cloth strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
+    "weight": 160,
+    "volume": 2,
+    "price": 5200,
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Holster spear",
+      "holster_msg": "You holster your %s.",
+      "max_volume": 14,
+      "draw_cost": 50,
+      "flags": [ "SHEATH_SPEAR" ]
     },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
@@ -4569,12 +4594,14 @@
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
     "symbol": "[",
     "color": "pink",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
-    "coverage": 5,
-    "encumbrance": 100,
-    "storage": 60,
-    "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "coverage": 5,
+      "encumbrance": 100,
+      "storage": 60,
+      "material_thickness": 1,
+      "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    }
   },
   {
     "id": "hide_tainted_bag",
@@ -4585,12 +4612,14 @@
     "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
     "symbol": "[",
     "color": "pink",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
-    "coverage": 5,
-    "encumbrance": 100,
-    "storage": 60,
-    "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "coverage": 5,
+      "encumbrance": 100,
+      "storage": 60,
+      "material_thickness": 1,
+      "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    }
   },
   {
     "id": "holy_symbol",
@@ -8076,7 +8105,7 @@
     "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ]
   },
   {
     "id": "stockings",

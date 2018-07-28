@@ -403,10 +403,9 @@ require the installation of a special bionic just for fuel consumption." ) );
 
     text.push_back( _( "\
 Bionics come in ready-to-install canisters. Installation of a bionic is best left to a trained \
-professional or to an autodoc, if you manage to find one. However, you may attempt to perform \
-a self-installation. Performing such a task requires high levels of intelligence, \
-first aid, mechanics, and electronics. Beware though, a failure may cripple you! \
-Many bionic canisters are difficult to find, but may be purchased from certain \
+professional or to an autodoc, if you manage to find one. Configuring autodoc requires \
+high levels of intelligence, first aid, mechanics, and electronics. Beware though, a failure \
+may cripple you!  Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price." ) );
 
     text.push_back( _( "\

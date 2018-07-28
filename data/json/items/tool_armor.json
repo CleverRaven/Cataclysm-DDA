@@ -560,7 +560,7 @@
         "name": "RM13 combat armor (on)",
         "name_plural": "RM13 combat armors (on)",
         "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
-        "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_PROOF", "ELECTRIC_IMMUNE", "THERMOMETER", "TRADER_AVOID"],
+        "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_PROOF", "ELECTRIC_IMMUNE", "THERMOMETER", "TRADER_AVOID", "CLIMATE_CONTROL"],
         "price": 50000000,
         "material": ["ceramic", "kevlar"],
         "weight" : 6820,

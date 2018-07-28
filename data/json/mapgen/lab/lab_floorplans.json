@@ -8,7 +8,7 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
-        "|----------++----------|",
+        "|----------..----------|",
         "|         |..|         |",
         "|         |..|         |",
         "|         |..|         |",
@@ -44,12 +44,14 @@
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 }
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
     }
   },
   {
-    "//": "military bunker with 1-in-7 chance of the doors being smashed in by a hulk.",
+    "//": "military bunker with 1-in-10 chance of the doors being smashed in by a hulk.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
@@ -87,8 +89,7 @@
       ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_monster": [
-        { "monster": "mon_zombie_bio_op", "x": [ 1, 22 ], "y": [ 1, 16 ], "chance": 25 },
-        { "monster": "mon_zombie_grenadier", "x": [ 1, 22 ], "y": [ 1, 16 ], "chance": 25 }
+        { "monster": [ "mon_zombie_bio_op", "mon_zombie_grenadier" ], "x": [ 1, 22 ], "y": [ 1, 12 ], "repeat": [ 1, 2 ], "chance": 50 }
       ],
      "terrain": {
         "7": "t_console"
@@ -131,12 +132,14 @@
         }
       },
       "place_nested": [
-        { "chunks": [ "null", "null", "null", "null", "null", "null", "lab_hulk_smash" ], "x": 0, "y": 0 }
+        { "chunks": [ [ "null", 90 ], [ "lab_hulk_smash", 10 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
     }
   },
   {
-    "//": "prisoner containment with 1-in-7 chance of the doors being smashed in by a hulk.",
+    "//": "prisoner containment with 1-in-10 chance of the doors being smashed in by a hulk.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
@@ -228,7 +231,9 @@
         }
       },
       "place_nested": [
-        { "chunks": [ "null", "null", "null", "null", "null", "null", "lab_hulk_smash" ], "x": 0, "y": 0 }
+        { "chunks": [ [ "null", 90 ], [ "lab_hulk_smash", 10 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
     }
   },
@@ -250,47 +255,15 @@
     }
   },
   {
+    "//": "Adds a pair of doors in the center of the top entrance, as would be expected in a 1-sided lab section facing north or west.",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_4side" ],
-    "weight": 50,
+    "nested_mapgen_id": "lab_north_doors",
     "object": {
-      "fill_ter": "t_rock_floor",
-      "rows": [
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          +..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "----------|..|----+----|",
-        ".......................+",
-        ".......................+",
-        "-----+----|..|---------|",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..+         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "          |..|         |",
-        "-----------++----------|"
-      ],
-      "palettes": [
-        "lab_palette"
-      ],
-      "place_nested": [
-        { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1] },
-        { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1] },
-        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14 },
-        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [
+        { "ter": "t_door_metal_c", "x": 0, "y": 0 },
+        { "ter": "t_door_metal_c", "x": 1, "y": 0 }
       ]
     }
   },
@@ -354,6 +327,8 @@
     "weight": 100,
     "object": {
       "fill_ter": "t_rock_floor",
+      "rotation": [ 0, 1 ],
+      "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
         "...............|.cccccX|",
         "...............+......X|",
@@ -366,19 +341,19 @@
         "..?         ?..|       |",
         "..|         |..|       |",
         "..|         |..----?---|",
-        "..|         |..........+",
-        "..|         |..........+",
+        "..|         |...........",
+        "..|         |...........",
         "-?-----?-----..----+---|",
         "          |....|       |",
-        "          |....|       |",
-        "          |..|-|       |",
+        "          g....|       |",
+        "          g..|-|       |",
         "          |..|f|       |",
         "          +..+.|       |",
         "          |..|-|       |",
-        "          |..|T|       |",
-        "          |..+.|---+---|",
+        "          g..|T|       |",
+        "          g..+.|---+---|",
         "          |..|S|X.....X|",
-        "-----------++----------|"
+        "          |..|-|X.ccc.X|"
       ],
       "palettes": [
         "lab_palette", "lab_loot_generic"
@@ -387,12 +362,13 @@
         "H": [ "f_armchair" ]
       },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ],
+        "g": [ "t_wall_glass"]
       },
       "mapping": {
         "t": {
           "items": [
-            { "item": "textbooks", "chance": 5 },
+            { "item": "textbooks", "chance": 2 },
             { "item": "magazines", "chance": 3 }
           ]
         }
@@ -401,8 +377,7 @@
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 3, "y": 4 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
-        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 }
       ]
     }
   },
@@ -412,32 +387,33 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
+      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock_floor",
       "rows": [
-        ".......................|",
-        ".......................|",
-        "....----?-------+----..|",
-        "..hh|       |       |..|",
-        "..tt|       |       |..|",
-        "..hh|       |       |..|",
-        "....?       ?       ?..|",
-        "..hh|       |       |..|",
-        "..tt|       |       |..|",
-        "..hh|       |       |..|",
-        "....----+-|---------|..|",
-        "....+....f|         |..+",
-        "..|---+---|         |..+",
-        "..|       |         |..|",
-        "..|       |         |..|",
-        "..|       |         +..|",
-        "..?       |         |..|",
-        "..|       |         |..|",
-        "..|       |         |..|",
-        "..|       |         |..|",
-        "..----?--------?-----..|",
-        ".......................|",
-        ".......................|",
-        "-----------++----------|"
+        ".......................l",
+        ".......................l",
+        "....----?-------+----..l",
+        "hh..|       |       |..l",
+        "tt..|       |       |..l",
+        "hh..|       |       |...",
+        "....?       ?       ?..l",
+        "hh..|       |       |..l",
+        "tt..|       |       |..l",
+        "hh..|       |       |..l",
+        "....----+-|---------|...",
+        "....+....f|         |...",
+        "..|---+---|         |...",
+        "..|       |         |...",
+        "..|       |         |..l",
+        "..|       |         +..l",
+        "..?       |         |..l",
+        "..|       |         |..l",
+        "..|       |         |...",
+        "..|       |         |..l",
+        "..----?--------?-----..l",
+        ".......................l",
+        ".......................l",
+        "...hth.hth.......hth...."
       ],
       "palettes": [
         "lab_palette", "lab_loot_generic"
@@ -448,14 +424,119 @@
       "mapping": {
         "t": {
           "items": [ { "item": "fridge", "chance": 30 } ]
+        },
+        "l": {
+          "items": [
+            { "item": "office", "chance": 10 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 },
+            { "item": "harddrugs", "chance": 3 },
+            { "item": "softdrugs", "chance": 3 },
+            { "item": "dresser", "chance": 3 },
+            { "item": "lab_torso", "chance": 3 },
+            { "item": "lab_pants", "chance": 3 }
+          ]
         }
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 5, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 13 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 },
-        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 }
+      ]
+    }
+  },
+  {
+    "//": "utility with random room",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 50,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        ".......D...............l",
+        ".......D...............l",
+        ".......D....----?----..l",
+        "-------|M...|       |..l",
+        ".......D....|       |..l",
+        ".......D....|       |..l",
+        ".......D....+       ?..l",
+        "-------|....|       |..l",
+        "............|       |-+-",
+        "............|       |...",
+        ".....-----?----------...",
+        "....l|         |........",
+        "....l|         |........",
+        "--+--|         |........",
+        ".....|         |..fFFHFF",
+        ".c.c.?         +..f.....",
+        ".c.c.|         |..fXX..X",
+        ".c.c.|         |..fXX..X",
+        ".....|         |..f....r",
+        "--+--|         |..fXX..r",
+        "RR.RR-----?-----..fXX..r",
+        ".....+............H....r",
+        ".RRR.|............f.....",
+        ".....|............f.rrrr"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "furniture": {
+        "^": "f_indoor_plant",
+        "f": "f_null",
+        "R": "f_rack"
+      },
+      "terrain": {
+        "F": "t_chainfence_h",
+        "f": "t_chainfence_v",
+        "H": "t_chaingate_c",
+        "M": "t_gates_control_concrete",
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
+      },
+      "mapping": {
+        "X": {
+          "items": [
+            { "item": "robots", "chance": 30 },
+            { "item": "science", "chance": 15 },
+            { "item": "sewage_plant", "chance": 8 }
+          ]
+        },
+        "R": {
+          "items": [
+            { "item": "cleaning", "chance": 60 }
+          ]
+        },
+        "l": {
+          "items": [
+            { "item": "office", "chance": 10 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 },
+            { "item": "harddrugs", "chance": 3 },
+            { "item": "softdrugs", "chance": 3 },
+            { "item": "dresser", "chance": 3 },
+            { "item": "lab_torso", "chance": 3 },
+            { "item": "lab_pants", "chance": 3 }
+          ]
+        },
+        "r": {
+          "items": [
+            { "item": "mine_equipment", "chance": 30 }
+          ]
+        },
+        "c": {
+          "items": [
+            { "item": "chem_lab", "chance": 30 }
+          ]
+        }
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 6, "y": 11 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,6], "y": [4,6], "repeat": 8},
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,6], "y": [0,2], "repeat": 8}
       ]
     }
   },
@@ -469,30 +550,30 @@
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock_floor",
       "rows": [
-        "........................",
-        "........................",
-        ".d.h.d...........d.h.d..",
-        ".ddxdd...........ddxdd..",
-        "........d.h.h.d.........",
-        "........ddxd7dd.........",
-        "........................",
-        "........................",
-        "........|-ggg-|.........",
+        "..cccccc.|...|,,,|..|,,,",
+        "c........|...|,,,|.6|,,,",
+        "c..Ccxc..|...|,,,g..g,,,",
+        "c........g...|,,,g..g,,,",
+        "c........g...|,,,D..D,,,",
+        "......llS|...|---|..|---",
+        "--gg-+---|...|,,,|..|,,,",
+        ".............|,,,g..g,,,",
+        ".............|,,,g..g,,,",
+        ".............|,,,D..D,,,",
+        "........|-ggg----|..|---",
+        "........|r,,,r|t--+-|...",
+        "........g,,/,,D.....+...",
+        "........g,,?,,|-ggg-|...",
         "........|r,,,r|.........",
-        "........g,,?,,|-gg-|....",
-        "........g,,/,,D....+....",
-        "........|r,,,r|t-+-|....",
-        "........|-ggg---|..||---",
-        ".............|,,D..D,,,,",
-        ".............|,,g..g,,,,",
-        ".............|,,g..g,,,,",
-        "--gg-+---|...|,,|..|,,,,",
-        "......llS|...|--|..|----",
-        ".c.......g...|,,D..D,,,,",
-        ".c.......g...|,,g..g,,,,",
-        ".c.Ccxc..|...|,,g..g,,,,",
-        ".c.......|...|,,|.6|,,,,",
-        ".........|...|,,|..|,,,,"
+        "........|-ggg-|.........",
+        "........................",
+        "........................",
+        "..........dd7dd.........",
+        "..........d.h.d.........",
+        "...ddxdd.........ddxdd..",
+        "...d.h.d.........d.h.d..",
+        "........................",
+        "........................"
       ],
       "palettes": [
         "lab_palette", "lab_loot_generic"
@@ -509,7 +590,7 @@
         "r": "t_floor_blue"
       },
       "place_loot": [
-        { "item": "anesthesia", "x": 15, "y": 12 }
+        { "item": "anesthesia", "x": 15, "y": 11 }
       ],
       "mapping": {
         "r": {
@@ -522,7 +603,7 @@
       },
       "computers": {
         "6": {
-          "name": "Operating Theatre Access Control", "security": 2, "options": [ { "name": "EMERGENCY EVAC - OPEN ALL DOORS", "action": "open", "security": 0 } ], "failures": [
+          "name": "Operating Theatre Access Control", "security": 0, "options": [ { "name": "EMERGENCY EVAC - OPEN ALL DOORS", "action": "open", "security": 0 } ], "failures": [
             { "action": "damage" },
             { "action": "shutdown" }
           ]
@@ -535,15 +616,15 @@
         }
       },
       "place_monster": [
-        { "monster": "mon_broken_cyborg", "x": [ 14, 15 ], "y": [ 14, 17 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 14, 15 ], "y": [ 19, 22 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 20, 22 ], "y": [ 14, 17 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 20, 22 ], "y": [ 19, 22 ], "chance": 90 }
+        { "monster": [ "mon_broken_cyborg", "mon_zombie_electric" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
+        { "monster": "mon_broken_cyborg", "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
+        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 }
       ]
     }
   },
   {
-    "//": "alien containment. TODO: 1/3rd replace crawler with shuggoth, 2/3rd replace migo with brute.",
+    "//": "alien containment.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -616,9 +697,9 @@
         }
       },
       "place_monster": [
-        { "monster": "mon_mi_go", "x": 12, "y": 12 },
+        { "monster": [ [ "mon_zombie_brute", 60 ], [ "mon_mi_go", 30 ] ], "x": 12, "y": 12 },
         { "monster": "mon_kreck", "x": 2, "y": 2, "chance": 30 },
-        { "monster": "mon_crawler", "x": 2, "y": 7 },
+        { "monster": [ [ "mon_crawler", 60 ], [ "mon_shoggoth", 30] ], "x": 2, "y": 7 },
         { "monster": "mon_zombie_scientist", "x": [ 10, 14 ], "y": [ 16, 18 ], "chance": 50, "repeat": [ 1, 3 ] }
       ]
     }
@@ -633,14 +714,14 @@
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock_floor",
       "rows": [
-        ".....|...........f......",
-        ".lll.|...........f.rrrr.",
-        ".....+...........H......",
-        ".ll..|...........fXX..r.",
-        "-----|FFFF|---|..fXX..r.",
-        ".....f....|...|..f....r.",
-        ".pSp.f.PP.|.&.|..fXX..X.",
-        ".pSp.f.PP.|.x.|..fXX..X.",
+        ".....|...........f.rrrrr",
+        ".lll.|...........f......",
+        ".....+...........H.....r",
+        "llll.|...........fXX...r",
+        "-----|FFFF|---|..fXX...r",
+        ".....f....|...|..f.....r",
+        ".pSp.f.PP.|.&.|..fXX...X",
+        ".pSp.f.PP.|.x.|..fXX...X",
         ".....f.PP.|...|..f......",
         ".....H....|-+-|..fFFHFFf",
         "FFHFFf........f.........",
@@ -662,6 +743,7 @@
         "lab_palette"
       ],
       "furniture": {
+        "S": "f_null",
         "^": "f_indoor_plant",
         "f": "f_null"
       },
@@ -730,11 +812,11 @@
     }
   },
   {
-    "//": "tribute. TODO: figure out why bodies aren't appearing",
+    "//": "Tribute",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
-    "weight": 100,
+    "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock_floor",

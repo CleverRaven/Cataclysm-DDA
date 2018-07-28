@@ -658,7 +658,7 @@ void editmap::update_view( bool update_info )
         } else if( vp ) {
             mvwprintw( w_info, off, 1, _( "There is a %s there. Parts:" ), vp->vehicle().name );
             off++;
-            vp->vehicle().print_part_desc( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
+            vp->vehicle().print_part_list( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
             off += 6;
         }
 
@@ -1989,6 +1989,20 @@ vehicle *editmap::mapgen_veh_query( tripoint omt_tgt )
     return nullptr;
 }
 
+bool editmap::mapgen_veh_has( tripoint omt_tgt )
+{
+    tinymap target_bay;
+    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    for( int x = 0; x < 2; x++ ) {
+        for( int y = 0; y < 2; y++ ) {
+            submap *destsm = target_bay.get_submap_at_grid( x, y, omt_tgt.z );
+            if( !destsm->vehicles.empty() ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 bool editmap::mapgen_veh_destroy( tripoint omt_tgt, vehicle *car_target )
 {

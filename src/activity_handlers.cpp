@@ -74,7 +74,9 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
-    { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn }
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
+    { activity_id( "ACT_DIG" ), dig_do_turn },
+    { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -119,7 +121,11 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
     { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
-    { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish }
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
+    { activity_id( "ACT_DIG" ), dig_finish },
+    { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_SHAVE" ), shaving_finish },
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p ) {
@@ -2183,5 +2189,70 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p ) {
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
 
+    act->set_to_null();
+}
+
+void activity_handlers::dig_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::dig_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    if( g->m.ter( pos ) == t_pit_shallow ) {
+        g->m.ter_set( pos, t_pit );
+    } else {
+        g->m.ter_set( pos, t_pit_shallow );
+    }
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+
+    act->set_to_null();
+}
+
+void activity_handlers::fill_pit_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel filling a pit or mound at work!
+        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::fill_pit_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+    const ter_id ter = g->m.ter( pos );
+    const ter_id old_ter = ter;
+
+    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
+        ter == t_pit_corpsed ) {
+        g->m.ter_set( pos, t_pit_shallow );
+    } else {
+        g->m.ter_set( pos, t_dirt );
+    }
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish filling up %s."), old_ter.obj().name() );
+
+    act->set_to_null();
+}
+
+void activity_handlers::shaving_finish( player_activity *act, player *p ) {
+    p->add_msg_if_player( _( "You open up your kit and shave." ) );
+    p->add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+    act->set_to_null();
+}
+
+void activity_handlers::haircut_finish( player_activity *act, player *p ) {
+    p->add_msg_if_player( _( "You give your hair a trim." ) );
+    p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
     act->set_to_null();
 }

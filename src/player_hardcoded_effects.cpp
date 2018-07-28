@@ -1119,6 +1119,29 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
+            if( ( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
+                  one_in( 7200 ) && is_player() ) ) {
+                if( one_in( 2 ) ) {
+                    sound_hallu();
+                } else {
+                    int max_count = rng( 1, 3 );
+                    int count = 0;
+                    for( const tripoint &mp : g->m.points_in_radius( pos(), 1 ) ) {
+                        if( mp == pos() ) {
+                            continue;
+                        }
+                        if( g->m.has_flag( "FLAT", mp ) &&
+                            g->m.pl_sees( mp, 2 ) ) {
+                            g->spawn_hallucination( mp );
+                            if( ++count > max_count ) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                it.set_duration( 0 );
+                woke_up = true;
+            }
         }
 
         // A bit of a hack: check if we are about to wake up for any reason,
