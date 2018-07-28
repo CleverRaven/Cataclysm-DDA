@@ -119,7 +119,7 @@
   {
     "type": "tool_quality",
     "id": "BUTCHER",
-    "name": "butchering",
+    "name": "butchering"
   },
   {
     "type": "tool_quality",
