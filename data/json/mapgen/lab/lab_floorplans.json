@@ -428,7 +428,7 @@
       },
       "mapping": {
         "t": {
-          "items": [ { "item": "fridge", "chance": 30 } ]
+          "items": [ { "item": "vending_food_items", "chance": 30 } ]
         }
       },
       "place_nested": [
@@ -855,7 +855,7 @@
       },
       "mapping": {
         "t": {
-          "items": [ { "item": "fridge", "chance": 20 } ]          
+          "items": [ { "item": "vending_food_items", "chance": 20 } ]
         }
       },
       "place_loot": [

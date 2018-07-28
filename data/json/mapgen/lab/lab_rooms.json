@@ -402,6 +402,28 @@
     }
   },
   {
+    "//": "7x7 chem_storage and office",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        ".ccccc.",
+        ".c.....",
+        ".c...d.",
+        ".c..hd.",
+        ".c..xd.",
+        "......."
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_research"
+      ]
+    }
+  },
+  {
     "//": "9x9 chem_storage",
     "type": "mapgen",
     "method": "json",
@@ -423,6 +445,33 @@
       "palettes": [
         "lab_palette", "lab_loot_research"
       ]
+    }
+  },
+  {
+    "//": "7x7 security desk",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        "..d....",
+        "..d....",
+        "..ch...",
+        "..ccdd.",
+        ".......",
+        "......."
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_home_office"
+      ],
+      "mapping": {
+        "c": {
+          "items": [ {"item": "museum_security", "chance": 66} ]
+        }
+      }
     }
   },
   {
@@ -531,6 +580,33 @@
           { "item": "drugs_heal_simple", "chance": 10 },
           { "item": "harddrugs", "chance": 5 }
         ]}
+      }
+    }
+  },
+  {
+    "//": "7x7 vr mat, using safety glasses to suggest vr goggles",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        ".,,,,,.",
+        ".,,,,,.",
+        ".,,,,,.",
+        ".,,,,,.",
+        ".,,,,x.",
+        "......."
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        ",": {
+          "item": [ {"item": "glasses_safety", "chance": 4} ]
+        }
       }
     }
   },
@@ -777,7 +853,7 @@
       },
       "mapping": {
         "t": {
-          "items": [ { "item": "fridge", "chance": 10 } ]
+          "items": [ { "item": "vending_food_items", "chance": 10 } ]
         },
         "f": {
           "items": [ { "item": "fridge", "chance": 80 } ]
