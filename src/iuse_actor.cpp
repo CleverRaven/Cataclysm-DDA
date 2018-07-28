@@ -53,8 +53,6 @@ const skill_id skill_fabrication( "fabrication" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
-const species_id PLANT( "PLANT" );
-const species_id ROBOT( "ROBOT" );
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
