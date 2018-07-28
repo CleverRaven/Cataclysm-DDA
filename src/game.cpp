@@ -9945,6 +9945,8 @@ void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
     }
 }
 
+
+
 void game::butcher()
 {
     const static std::string salvage_string = "salvage";
@@ -10133,6 +10135,35 @@ void game::butcher()
         }
     }
 
+    bool no_morale_butcher = false;
+    if( !p.has_morale_to_craft() ) {
+        switch( butcher_type ) {
+        case BUTCHER_OTHER:
+            switch( indexer_index ) {
+            case MULTIBUTCHER:
+                no_morale_butcher = true;
+                break;
+            case MULTIFIELDDRESS:
+                no_morale_butcher = true;
+                break;
+            }
+        case BUTCHER_CORPSE:
+                 no_morale_butcher = true;
+                break;
+        case FIELD_DRESS:
+                no_morale_butcher = true;
+                break;
+        }
+        if( no_morale_butcher ){
+            add_msg( m_info, _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
+            return;
+        } else {
+            add_msg( m_info, _( "You are not in the mood and the prospect of work stops you before you begin." ) );
+            return;
+        }
+
+    }
+
     switch( butcher_type ) {
     case BUTCHER_OTHER:
         switch( indexer_index ) {
@@ -10170,6 +10201,7 @@ void game::butcher()
             u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             u.activity.values.push_back( index );
         }
+        break;	
     case FIELD_DRESS:
         {
             draw_ter();
