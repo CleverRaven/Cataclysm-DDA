@@ -254,7 +254,7 @@
     "dispersion": 85,
     "durability": 9,
     "barrel_length": 2,
-    "default_mods": [ "rifle_scope" ],
+    "default_mods": [ "rifle_scope", "cheek_pad" ],
     "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
