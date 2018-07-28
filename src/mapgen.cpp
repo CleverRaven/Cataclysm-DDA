@@ -1014,18 +1014,28 @@ public:
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        // We scale up the chance based on spawn density.  This means high spawn guarantees placements.
-        // TODO: Could do more creative solution which never makes a monster less than half as likely to be absent,
-        //       but increases the spawn_count when a monster is present to make up for it.
-        //       Currently, a 50% chance & spawn_density 4 becomes a 100% chance of 2 monsters.
-        //       But we could instead have a 75% chance of ~2.7 monsters for the same expected number of monsters.
-        const float spawn_rate = get_option<float>( "SPAWN_DENSITY" );
-        int spawn_count = roll_remainder( chance.get() * spawn_rate / 100.0f );
+        int raw_odds = chance.get();
 
-        if (one_or_none) { // don't let high spawn density alone cause more than 1 to spawn.
+        // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+        // Instead, apply a multipler to the number of monsters for really high densities.
+        // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
+        int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+        int max_odds = 100 - (100 - raw_odds)/2;
+        float density_multiplier = 1;
+        if( odds_after_density > max_odds ) {
+            density_multiplier = 1.0f * odds_after_density / max_odds;
+            odds_after_density = max_odds;
+        }
+
+        if( !x_in_y( odds_after_density, 100 ) ) {
+            return;
+        }
+        int spawn_count = roll_remainder( density_multiplier );
+
+        if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
             spawn_count = std::min(spawn_count, 1);
         }
-        if (chance.get() == 100) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+        if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
             spawn_count = std::max(spawn_count, 1);
         }
 
