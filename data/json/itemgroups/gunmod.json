@@ -11,7 +11,8 @@
       [ "rifle_scope", 30 ],
       [ "shoulder_strap", 100 ],
       [ "suppressor", 60 ],
-      [ "suppressor_compact", 40 ]
+      [ "suppressor_compact", 40 ],
+      [ "cheek_pad", 25 ]
     ]
   },
   {
