@@ -1797,7 +1797,7 @@ void map::player_in_field( player &u )
             if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing("rm13_armor_on") ||
                 u.has_trait( trait_M_SKIN2 ) ) {
                 //heatsink, suit, or internal restructuring prevents ALL fire damage.
-                if( u.has_trait( trait_PYROMANIA ) && !u.has_morale( MORALE_PYROMANIA_NEARFIRE ) ) {
+                if( u.has_trait( trait_PYROMANIA ) ) {
                     u.rem_morale( MORALE_PYROMANIA_NEARFIRE );
                     u.add_morale( MORALE_PYROMANIA_MOREDOTS, 5, 50, 30_minutes, 15_minutes ); // Pyromaniacs still gain a mood boost, but not as much since they can't feel heat
                 }
