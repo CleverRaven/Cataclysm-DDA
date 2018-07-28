@@ -40,6 +40,7 @@
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
       },
       "place_nested": [
+        { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 1 },
         { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": 1 },
         { "chunks": [ "lab_spawn_9x9" ], "x": 1, "y": 14 },
@@ -89,6 +90,7 @@
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
       },
       "place_nested": [
+        { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1] },
         { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1] },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14 },
@@ -164,6 +166,43 @@
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16 },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_cross_windows",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "          g  g          ",
+        "          g  g          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          g  g          ",
+        "          g  g          ",
+        "                        ",
+        "  gg   gg      gg   gg  ",
+        "                        ",
+        "                        ",
+        "  gg   gg               ",
+        "                        ",
+        "          g             ",
+        "          g             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          g             ",
+        "          g             ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "g": [ "t_wall_glass" ]
+      }
     }
   },
   {
