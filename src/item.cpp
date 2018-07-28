@@ -2497,6 +2497,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( has_flag( "LITCIG" ) ) {
         ret << _( " (lit)" );
     }
+    if( has_flag( "FIELD_DRESSED" ) || has_flag( "FIELD_DRESSED_FAILED" ) ) {
+        if ( has_flag( "QUARTERED" ) ) {
+            ret << _( " (quartered carcass)" );            
+        } else{
+            ret << _( " (carcass)" );
+        }
+    }
     if( already_used_by_player( g->u ) ) {
         ret << _( " (used)" );
     }
@@ -2664,6 +2671,9 @@ units::mass item::weight( bool include_contents ) const
         if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
             ret *= 0.75;
         }
+        if( has_flag( "QUARTERED") ){
+            ret /= 4;
+        }
 
     } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == ammotype( "plutonium" ) ) {
@@ -2699,15 +2709,24 @@ units::mass item::weight( bool include_contents ) const
 
 static units::volume corpse_volume( m_size corpse_size )
 {
-    switch( corpse_size ) {
-        case MS_TINY:    return    750_ml;
-        case MS_SMALL:   return  30000_ml;
-        case MS_MEDIUM:  return  62500_ml;
-        case MS_LARGE:   return  92500_ml;
-        case MS_HUGE:    return 875000_ml;
-    }
-    debugmsg( "unknown monster size for corpse" );
-    return 0;
+    if( !has_flag( "QUARTERED" ) ) {
+        switch( corpse_size ) {
+            case MS_TINY:    return    750_ml;
+            case MS_SMALL:   return  30000_ml;
+            case MS_MEDIUM:  return  62500_ml;
+            case MS_LARGE:   return  92500_ml;
+            case MS_HUGE:    return 875000_ml;
+        }
+    } else {
+        switch( corpse_size ) {
+            case MS_TINY:    return    750_ml; // no quartering
+            case MS_SMALL:   return   7500_ml;
+            case MS_MEDIUM:  return  15625_ml;
+            case MS_LARGE:   return  23125_ml;
+            case MS_HUGE:    return 218750_ml;
+        }
+        debugmsg( "unknown monster size for corpse" );
+        return 0;
 }
 
 units::volume item::base_volume() const
