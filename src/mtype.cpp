@@ -204,13 +204,13 @@ int mtype::get_meat_chunks_count() const
         case MS_TINY:
             return 1;
         case MS_SMALL:
-            return 2;
-        case MS_MEDIUM:
-            return 4;
-        case MS_LARGE:
-            return 8;
-        case MS_HUGE:
             return 16;
+        case MS_MEDIUM:
+            return 32;
+        case MS_LARGE:
+            return 48;
+        case MS_HUGE:
+            return 80;
     }
     return 0;
 }
