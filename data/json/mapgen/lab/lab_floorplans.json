@@ -840,7 +840,7 @@
         ".........|....|---------"
       ],
       "palettes": [
-        "lab_palette", "loot_lab_home_office"
+        "lab_palette", "lab_loot_home_office"
       ],
       "furniture": {
         "^": "f_indoor_plant"

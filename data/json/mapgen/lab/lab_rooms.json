@@ -41,22 +41,26 @@
     }
   },
   {
-    "//": "7x7 horde of blobs",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_room_7x7",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "place_monsters": [ { "monster": "GROUP_GOO", "x": [ 0, 6 ], "y": [ 0, 6 ], "density": 0.15 } ]
-    }
-  },
-  {
-    "//": "9x9 horde of blobs",
+    "//": "9x9 blob room inactive",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 9, 9 ],
+      "place_furniture": [ { "furn": "f_fridge", "x": 8, "y": 0 } ],
+      "place_items": [ { "item": "goo", "x": 8, "y": 0, "chance": 70 } ],
+      "place_traps": [ { "trap": "tr_goo", "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": 30, "//": "9x9=81 spaces" } ]
+    }
+  },
+  {
+    "//": "9x9 blob room active",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_furniture": [ { "furn": "f_fridge", "x": 8, "y": 0 } ],
+      "place_items": [ { "item": "goo", "x": 8, "y": 0, "chance": 70 } ],
       "place_monsters": [ { "monster": "GROUP_GOO", "x": [ 0, 8 ], "y": [ 0, 8 ], "density": 0.12 } ]
     }
   },
@@ -524,9 +528,9 @@
             { "item": "cleaning", "chance": 60, "repeat": 2 }
         ]},
         "S": { "items": [
-          { "item": "drugs_heal_simple", "chance": 10 }
+          { "item": "drugs_heal_simple", "chance": 10 },
           { "item": "harddrugs", "chance": 5 }
-        ]},
+        ]}
       }
     }
   },
@@ -540,11 +544,11 @@
       "rotation": [0, 3],
       "rows": [
         "bb|.|ST",
-        "D.|.|..",
+        "s.|.|..",
         "-+-.-+-",
         ".......",
         "-+-.-+-",
-        "D.|.|.D",
+        "s.|.|.s",
         "bb|.|bb"
       ],
       "palettes": [
@@ -563,11 +567,11 @@
       "rows": [
         "bb.|.|T.B",
         "...|.+..B",
-        "..D|.|S..",
+        "..s|.|S..",
         "-+--.----",
         ".........",
         "----.--+-",
-        "..D|.|D..",
+        "..s|.|s..",
         "b..+.|...",
         "b..|.|.bb"
       ],

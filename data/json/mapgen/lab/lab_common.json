@@ -8,7 +8,7 @@
       "X": "f_crate_c",
       "r": "f_rack",
       "d": "f_desk",
-      "D": "f_dresser",
+      "s": "f_dresser",
       "h": "f_chair",
       "f": "f_fridge",
       "t": "f_table",
@@ -48,7 +48,7 @@
       },
       "S": {
         "items": [
-          { "item": "drugs_heal_simple", "chance": 10 }
+          { "item": "drugs_heal_simple", "chance": 10 },
           { "item": "harddrugs", "chance": 5 }
         ]
       },
@@ -75,7 +75,7 @@
       "]": {
         "items": [
           { "item": "manuals", "chance": 10 },
-          { "item": "textbooks", "chance": 10 },
+          { "item": "textbooks", "chance": 10 }
         ]
       },
       "l": {
@@ -114,7 +114,7 @@
       },
       "S": {
         "items": [
-          { "item": "drugs_heal_simple", "chance": 10 }
+          { "item": "drugs_heal_simple", "chance": 10 },
           { "item": "harddrugs", "chance": 5 }
         ]
       },
@@ -131,7 +131,7 @@
       "h": {
         "item": [ {"item": "coat_lab", "chance": 5} ]
       },
-      "D": { 
+      "s": {
         "items": [
           { "item": "dresser", "chance": 30 },
           { "item": "lab_shoes", "chance": 20 },
