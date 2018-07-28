@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "skill.h"
+#include "map.h"
 
 #include <algorithm>
 #include <functional>
@@ -406,7 +407,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->made_of( LIQUID ) ) {
+            if( loc->made_of( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
