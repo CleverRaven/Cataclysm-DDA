@@ -198,6 +198,8 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where ) const
 {
+    auto cat = it.get_category();
+
     auto typeId = it.typeId();
     if( typeId == "2x4" ||
         typeId == "log" ||
@@ -208,7 +210,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
-    if( it.is_food() || it.is_food_container() ) {
+    if( cat.id() == "food" ) {
         const bool preserves = it.is_food_container() && it.type->container->preserves ? 1 : 0;
         const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
@@ -226,9 +228,6 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 
         return zone_type_id( "LOOT_FOOD" );
     }
-
-    auto cat = it.get_category();
-
     if( cat.id() == "guns" ) {
         return zone_type_id( "LOOT_GUNS" );
     }
