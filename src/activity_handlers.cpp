@@ -71,6 +71,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
+    { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
@@ -83,6 +84,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
 {
     { activity_id( "ACT_BURROW" ), burrow_finish },
     { activity_id( "ACT_BUTCHER" ), butcher_finish },
+    { activity_id( "ACT_FIELD_DRESS" ), butcher_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
     { activity_id( "ACT_FISH" ), fish_finish },
     { activity_id( "ACT_FORAGE" ), forage_finish },

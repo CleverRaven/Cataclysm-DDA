@@ -120,7 +120,6 @@
     "type": "tool_quality",
     "id": "BUTCHER",
     "name": "butchering",
-    "usages": [ [ 1, [ "field_dress" ] ] ]
   },
   {
     "type": "tool_quality",
