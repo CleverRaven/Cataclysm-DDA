@@ -607,7 +607,7 @@
         "price_postapoc": 500,
         "material": "steel",
         "weight": 8440,
-        "volume": 8
+        "volume": 20
     },
     {
         "type":"GENERIC",
