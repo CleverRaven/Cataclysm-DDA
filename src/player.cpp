@@ -354,6 +354,7 @@ static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PRETTY( "PRETTY" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
@@ -1132,9 +1133,16 @@ void player::update_bodytemp()
         if( has_heatsink ) {
             blister_count -= 20;
         }
+
+        const bool pyromania = has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_MOREDOTS );
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if( blister_count - get_env_resist( bp ) > 10 ) {
             add_effect( effect_blisters, 1_turns, bp );
+            if( pyromania ) {
+                add_morale( MORALE_PYROMANIA_NEARFIRE, 25, 25, 1_hours, 30_minutes );
+            }
+        } else if( pyromania ) {
+            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes, 15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
         }
 
         temp_conv[bp] += fire_warmth;

@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "morale_types.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -31,6 +32,7 @@ const efftype_id effect_tetanus( "tetanus" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
@@ -839,6 +841,9 @@ void trapfunc::lava( Creature *c, const tripoint &p )
             n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_HEAT, 20 ) );
             n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, 20 ) );
             n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, 20 ) );
+            if( n->has_trait( trait_PYROMANIA ) ) {
+                n->add_morale( MORALE_PYROMANIA_NEARFIRE, 100, 100, 1_hours, 30_minutes ); // we're probably gonna die here, but might as well die happy, right?
+            }
         } else if( z != nullptr ) {
             // MATERIALS-TODO: use fire resistance
             int dam = 30;

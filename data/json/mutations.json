@@ -5052,6 +5052,13 @@
         "category" : ["MUTCAT_INSECT", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL", "MUTCAT_SLIME"]
     },{
         "type" : "mutation",
+        "id" : "PYROMANIA",
+        "name" : "Pyromania",
+        "starting_trait" : true,
+        "points" : 1,
+        "description" : "Fire has always enthralled and fascinated you, and you gain a mood boost from lighting and being near them."
+    },{
+        "type" : "mutation",
         "id" : "PROF_POLICE",
         "name" : "Police Officer",
         "points" : 0,
