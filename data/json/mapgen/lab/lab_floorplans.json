@@ -356,7 +356,7 @@
         "          |..|-|X.ccc.X|"
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ],
       "furniture": {
         "H": [ "f_armchair" ]
@@ -368,7 +368,6 @@
       "mapping": {
         "t": {
           "items": [
-            { "item": "textbooks", "chance": 2 },
             { "item": "magazines", "chance": 3 }
           ]
         }
@@ -416,7 +415,7 @@
         "...hth.hth.......hth...."
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_home_office"
       ],
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
@@ -424,18 +423,6 @@
       "mapping": {
         "t": {
           "items": [ { "item": "fridge", "chance": 30 } ]
-        },
-        "l": {
-          "items": [
-            { "item": "office", "chance": 10 },
-            { "item": "textbooks", "chance": 3 },
-            { "item": "science", "chance": 3 },
-            { "item": "harddrugs", "chance": 3 },
-            { "item": "softdrugs", "chance": 3 },
-            { "item": "dresser", "chance": 3 },
-            { "item": "lab_torso", "chance": 3 },
-            { "item": "lab_pants", "chance": 3 }
-          ]
         }
       },
       "place_nested": [
@@ -576,7 +563,7 @@
         "........................"
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ],
       "furniture": {
         "?": "f_autodoc",
@@ -847,7 +834,7 @@
         ".........|....|---------"
       ],
       "palettes": [
-        "lab_palette"
+        "lab_palette", "loot_lab_home_office"
       ],
       "furniture": {
         "^": "f_indoor_plant"
@@ -861,15 +848,8 @@
         "C": "t_centrifuge"
       },
       "mapping": {
-        "l": {
-          "items": [
-            { "item": "science", "chance": 60 }
-          ]
-        },
-        "f": {
-          "items": [
-            { "item": "fridge", "chance": 50 }
-          ]
+        "t": {
+          "items": [ { "item": "fridge", "chance": 20 } ]          
         }
       },
       "place_loot": [
@@ -919,7 +899,7 @@
         "........................"
       ],
       "palettes": [
-        "lab_palette"
+        "lab_palette", "lab_loot_home_office"
       ],
       "furniture": {
         "r": "f_null"
@@ -928,13 +908,6 @@
         "&": "t_radio_tower",
         "g": "t_wall_glass",
         "r": "t_railing_h"
-      },
-      "mapping": {
-        "c": {
-          "items": [
-            { "item": "cubical_office", "chance": 30 }
-          ]
-        }
       },
       "computers": {
         "6": {

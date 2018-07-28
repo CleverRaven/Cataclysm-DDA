@@ -78,7 +78,7 @@
         "......."
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ],
       "place_traps": [ { "trap": "tr_dissector", "x": [ 3, 3 ], "y": [ 4, 5 ] } ],
       "place_monster": [ { "monster": "mon_broken_cyborg", "x": [0, 6], "y": [ 0, 6 ], "chance": 33 } ]
@@ -393,7 +393,7 @@
         "c.c.c.c"
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ]
     }
   },
@@ -417,7 +417,7 @@
         "c.c...c.c"
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ]
     }
   },
@@ -453,7 +453,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ],
       "//": "Places a crate, 25% chance of being pre-opened.",
       "furniture": {
@@ -521,8 +521,12 @@
       ],
       "mapping": {
         "l": { "items": [
-            { "item": "cleaning", "chance": 50 }
-        ]}
+            { "item": "cleaning", "chance": 60, "repeat": 2 }
+        ]},
+        "S": { "items": [
+          { "item": "drugs_heal_simple", "chance": 10 }
+          { "item": "harddrugs", "chance": 5 }
+        ]},
       }
     }
   },
@@ -535,34 +539,70 @@
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
       "rows": [
-        "bb|.|Tl",
-        "d.|.|.S",
+        "bb|.|ST",
+        "D.|.|..",
         "-+-.-+-",
         ".......",
         "-+-.-+-",
-        "d.|.|.d",
+        "D.|.|.D",
         "bb|.|bb"
       ],
       "palettes": [
-        "lab_palette"
-      ],
-      "furniture": {
-        "d": "f_dresser"
-      },
-      "mapping": {
-        "l": { "items": [
-            { "item": "cleaning", "chance": 50 }
-        ]},
-        "d": { "items": [
-            { "item": "dresser", "chance": 80 }
-        ]},
-        "b": { "items": [
-            { "item": "bed", "chance": 50 }
-        ]}
-      }
+        "lab_palette", "lab_loot_home_office"
+      ]
     }
   },
   {
+    "//": "9x9 bedrooms",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        "bb.|.|T.B",
+        "...|.+..B",
+        "..D|.|S..",
+        "-+--.----",
+        ".........",
+        "----.--+-",
+        "..D|.|D..",
+        "b..+.|...",
+        "b..|.|.bb"
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_home_office"
+      ]
+    }
+  },
+  {
+    "//": "9x9 cubicles",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        "d..|.|..d",
+        "ch.....hc",
+        "d.?|.|?.d",
+        "----.----",
+        ".........",
+        "----.----",
+        "d.?|.|?.d",
+        "ch.....hc",
+        "d..|.|..d"
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_home_office"
+      ],
+      "furniture": {
+        "?": ["f_null", "f_null", "f_indoor_plant"]
+      }
+    }
+  },  {
     "//": "7x7 kennel",
     "type": "mapgen",
     "method": "json",
@@ -580,23 +620,13 @@
         ",,=.ccc"
       ],
       "palettes": [
-        "lab_palette"
+        "lab_palette", "lab_loot_home_office"
       ],
       "terrain": {
         "=": "t_chainfence_h",
         "^": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ]
       },
       "mapping": {
-        "c": {
-          "items": [
-            { "item": "office", "chance": 30 },
-            { "item": "textbooks", "chance": 3 },
-            { "item": "science", "chance": 3 }
-          ]
-        },
-        "h": {
-          "item": [ {"item": "coat_lab", "chance": 10} ]
-        },
         "l": {
           "items": [ {"item": "vet_softdrug", "chance": 80, "repeat": 2} ]
         }
@@ -628,21 +658,8 @@
         "........."
       ],
       "palettes": [
-        "lab_palette"
-      ],
-      "furniture": {
-        "]": "f_bookcase"
-      },
-      "mapping": {
-        "]": {
-          "items": [
-            { "item": "manuals", "chance": 10 },
-            { "item": "textbooks", "chance": 10 },
-            { "item": "novels", "chance": 5 },
-            { "item": "magazines", "chance": 5 }
-          ]
-        }
-      }
+        "lab_palette", "lab_loot_home_office"
+      ]
     }
   },
   {
