@@ -1724,16 +1724,6 @@ ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const
     return ret_val<bool>::make_success();
 }
 
-void field_dress_actor::load( JsonObject &obj )
-{
-    assign( obj, "cost", cost );
-}
-
-iuse_actor *field_dress_actor::clone() const
-{
-    return new field_dress_actor( *this );
-}
-
 long field_dress_actor::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
     if( t ) {
