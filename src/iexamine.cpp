@@ -1458,7 +1458,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "poppy_bud", 1, 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "poppy_bud", 1, 0, calendar::turn );
 }
 
 /**
@@ -1503,7 +1503,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "dahlia_root", 1, 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "dahlia_root", 1, 0, calendar::turn );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1606,7 +1606,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
         return;
     }
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "marloss_seed", 1, 3, calendar::turn );
+    g->m.spawn_item( p.pos(), "marloss_seed", 1, 3, calendar::turn );
 }
 
 /**
@@ -1625,7 +1625,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         none( p, examp );
         return;
     }
-    g->m.spawn_item( examp, "spider_egg", rng( 1, 4 ), 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "spider_egg", rng( 1, 4 ), 0, calendar::turn );
     g->m.furn_set( examp, f_egg_sacke );
     if( one_in( 2 ) ) {
         int monster_count = 0;
@@ -2616,7 +2616,7 @@ void iexamine::shrub_marloss(player &p, const tripoint &examp)
     if (p.has_trait(trait_THRESH_MYCUS)) {
         pick_plant(p, examp, "mycus_fruit", t_shrub_fungal);
     } else if (p.has_trait(trait_THRESH_MARLOSS)) {
-        g->m.spawn_item( examp, "mycus_fruit", 1, 0, calendar::turn );
+        g->m.spawn_item( p.pos(), "mycus_fruit", 1, 0, calendar::turn );
         g->m.ter_set(examp, t_fungus);
         add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
     } else {
