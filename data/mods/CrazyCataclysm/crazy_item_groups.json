@@ -5,12 +5,13 @@
         "items": [ [ "granade", 1 ] ]
     },
     {
-        "id": "sporeostm",
+        "id": "skeltal_drops",
         "type": "item_group",
-        "subtype": "collection",
+        "subtype": "distribution",
         "entries":
         [
-            { "item": "sporeos", "prob": 5 }
+            { "item": "milk", "prob": 9 },
+			{ "item": "trumpet", "prob": 1 }
         ]
     }
 ]

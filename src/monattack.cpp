@@ -34,6 +34,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "map_iterator.h"
+#include "text_snippets.h"
 #include <map>
 
 #include <algorithm>
@@ -76,6 +77,7 @@ const mtype_id mon_triffid( "mon_triffid" );
 const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_gun( "gun" );
@@ -622,58 +624,8 @@ bool mattack::shockstorm(monster *z)
 bool mattack::shocking_reveal(monster *z)
 {
     shockstorm(z);
-    std::string WHAT_A_SCOOP;
-    std::string speak_string;
-    switch( rng( 1, 9 ) ) {
-        case 1:
-            WHAT_A_SCOOP = "KEVIN SACRIFICING GAMEPLAY FOR REALISM? THE SHOCKING TRUTH REVEALED";
-            break;
-        case 2:
-            WHAT_A_SCOOP = "AUTODOC MANUFACTURER PRYANIK IN BUSINESS AGREEMENT WITH ANESTHESIA COMPANIES? OUR REPORTERS HAVE THE FULL STORY";
-            break;
-        case 3:
-            WHAT_A_SCOOP = "TEN FACTS ABOUT SCIENCE LABS THAT WILL SHOCK YOU";
-            break;
-        case 4:
-            WHAT_A_SCOOP = "YOU WON\'T BELIEVE WHO JUST ADDED A NEW PROFESSION";
-            break;
-        case 5:
-            WHAT_A_SCOOP = "THIS MAN DISCOVERED THREE SPEAR WEAPONS THAT CAN TRIVIALIZE THE EARLY GAME! CONTRIBUTORS HATE HIM";
-            break;
-        case 6:
-            WHAT_A_SCOOP = "A MEDICAL MUTANT SET HIMSELF ON FIRE - YOU WON\'T BELIEVE WHAT HAPPENED NEXT";
-            break;
-        case 7:
-            WHAT_A_SCOOP = "ARE YOU HEARING THE FULL STORY? THE TRUTH ABOUT CATACLYSM\'S DEVELOPMENT - AND ITS DISGUSTING DIRTY SECRET";
-            break;
-        case 8:
-            WHAT_A_SCOOP = "IT\'S TRUE - MUTAGEN IS DERIVED FROM BLEACH, AND HERE\'S WHY";
-            break;
-        case 9:
-            WHAT_A_SCOOP = "TWENTY EASY WAYS TO GET OUT OF A LAB ESCAPE - NUMBER 4 WILL BLOW YOUR MIND";
-            break;
-    }
-    switch( rng( 1, 6 ) ) {
-        case 1:
-            speak_string = "obnoxiously saying";
-            break;
-        case 2:
-            speak_string = "annoyingly saying";
-            break;
-        case 3:
-            speak_string = "loudly saying";
-            break;
-        case 4:
-            speak_string = "aggravatingly saying";
-            break;
-        case 5:
-            speak_string = "screaming";
-            break;
-        case 6:
-            speak_string = "screeching";
-            break;
-    }
-    sounds::sound(z->pos(), 10, string_format( _("the %s %s \"%s!!!\""), z->name().c_str(), speak_string, WHAT_A_SCOOP ) );
+    std::string WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" );
+    sounds::sound(z->pos(), 10, string_format( _("the %s obnoxiously yelling \"%s!!!\""), z->name().c_str(), WHAT_A_SCOOP ) );
     return true;
 }
 
@@ -4730,6 +4682,30 @@ bool mattack::stretch_attack(monster *z)
 
     target->on_hit( z, hit,  z->type->melee_skill );
 
+    return true;
+}
+
+bool mattack::doot( monster *z ) {
+    z->moves -= 300;
+    if(g->u.sees( *z )){
+        add_msg( _("The %s doots its trumpet!"), z->name().c_str());
+    }
+    int spooks = 0;
+    for( const tripoint &spookyscary : g->m.points_in_radius( z->pos(), 2 ) ) {
+        if( spookyscary == z->pos() || g->m.impassable( spookyscary ) ) {
+            continue;
+        }
+        const int dist = rl_dist( z->pos(), spookyscary );
+        if( ( one_in( dist + 3 ) || spooks == 0 ) && spooks < 5 ) {
+            if(g->u.sees( *z )){
+                add_msg( _("A spooky skeleton rises from the ground!") );
+            }
+            g->summon_mon( mon_zombie_skeltal_minion, spookyscary );
+            spooks++;
+            continue;
+        }
+    }
+    sounds::sound( z->pos(), 200, _( "DOOT." ) );
     return true;
 }
 
