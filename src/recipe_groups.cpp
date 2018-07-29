@@ -21,14 +21,15 @@ using group_id = string_id<recipe_group_data>;
 struct recipe_group_data {
     group_id id;
     std::string building_type = "NONE";
-    std::map<std::string,std::string> cooking_recipes;
+    std::map<std::string, std::string> cooking_recipes;
     bool was_loaded;
 
     void load( JsonObject &jo, const std::string &src );
     void check() const;
 };
 
-generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "name", "other_handles" );
+generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "name",
+        "other_handles" );
 
 } // namespace
 
@@ -55,12 +56,12 @@ void recipe_group_data::check() const
     }
 }
 
-std::map<std::string,std::string> recipe_group::get_recipes( std::string id )
+std::map<std::string, std::string> recipe_group::get_recipes( std::string id )
 {
-    std::map<std::string,std::string> all_rec;
+    std::map<std::string, std::string> all_rec;
     if( id == "ALL" ) {
         for( auto gr : recipe_groups_data.get_all() ) {
-            std::map<std::string,std::string> tmp = gr.cooking_recipes;
+            std::map<std::string, std::string> tmp = gr.cooking_recipes;
             all_rec.insert( tmp.begin(), tmp.end() );
         }
         return all_rec;
@@ -69,7 +70,7 @@ std::map<std::string,std::string> recipe_group::get_recipes( std::string id )
             if( gr.building_type != id ) {
                 continue;
             }
-            std::map<std::string,std::string> tmp = gr.cooking_recipes;
+            std::map<std::string, std::string> tmp = gr.cooking_recipes;
             all_rec.insert( tmp.begin(), tmp.end() );
         }
         return all_rec;
