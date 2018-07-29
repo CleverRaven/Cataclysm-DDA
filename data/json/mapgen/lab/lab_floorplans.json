@@ -516,7 +516,7 @@
       "mapping": {
         "c": {
           "items": [
-            { "item": "chem_lab", "chance": 30 }
+            { "item": "chem_lab", "chance": 20 }
           ]
         }
       },
@@ -528,7 +528,71 @@
     }
   },
   {
-    "//": "Add mutagens to the lab hoods.",
+    "//": "large chemlab",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "...!....!......!.....rrr",
+        "........................",
+        "..---..---....---..---..",
+        "..c|c..c|c....c|c..c|c..",
+        "..c|c..c|c....c|c..c|c..",
+        "..---..---....---..---..",
+        "..c|c..c|c....c|c..c|c..",
+        "..c|c..c|c....c|c..c|c..",
+        "..---..---....---..---..",
+        "........................",
+        "...C....C......C....C...",
+        "........................",
+        "........................",
+        "...C....C......C....C...",
+        "........................",
+        "..---..---.....|---+---|",
+        "..c|c..c|c.....|       |",
+        "..c|c..c|c.....|       |",
+        "..---..---.....|       |",
+        "..c|c..c|c.....?       |",
+        "..c|c..c|c.....|       |",
+        "..---..---....l|       |",
+        "..............l|       |",
+        "rrr.....!.....l|-------|"
+      ],
+      "palettes": [
+        "lab_palette", "lab_loot_research"
+      ],
+      "furniture": {
+        "f": "f_null"
+      },
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ],
+        "!": [ "t_rock_floor", "t_rock_floor", "t_console_broken", "t_generator_broken"],
+        "C": "t_centrifuge"
+      },
+      "mapping": {
+        "c": {
+          "items": [ { "item": "chem_lab", "chance": 10 } ]
+        },
+        "r": {
+          "items": [ { "item": "cleaning", "chance": 30 } ]
+        }
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16 },
+        { "chunks": [ [ "null", 80], [ "lab_largechem_windfall", 20] ], "x": 0, "y": 0}
+      ],
+      "place_monster": [
+        { "monster": [ [ "mon_zombie_scientist", 300 ], "mon_zombie_technician", "mon_zombie_soldier" ],
+          "x": [ 9, 15 ], "y": [ 9, 15 ], "chance": 10, "pack_size": [2,4] }
+      ]
+    }
+  },
+  {
+    "//": "Add mutagens to a cluster of 4 lab hoods.",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_hood_windfall",
@@ -543,6 +607,35 @@
         { "item": "mut_lab", "x": 7, "y": [ 1, 2 ], "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "mut_lab", "x": 5, "y": [ 4, 5 ], "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "mut_lab", "x": 7, "y": [ 4, 5 ], "chance": 50, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "//": "Large chemlab: add mutagens, shift centrifuges into cloning vats, maybe secubots.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_largechem_windfall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "terrain", "id": "t_vat", "x": 3, "y": 10 },
+        { "point": "terrain", "id": "t_vat", "x": 3, "y": 13 },
+        { "point": "terrain", "id": "t_vat", "x": 8, "y": 10 },
+        { "point": "terrain", "id": "t_vat", "x": 8, "y": 13 }
+      ],
+      "place_items": [
+        { "item": "cloning_vat", "x": 3, "y": 10, "chance": 66 },
+        { "item": "cloning_vat", "x": 3, "y": 13, "chance": 66 },
+        { "item": "cloning_vat", "x": 8, "y": 10, "chance": 66 },
+        { "item": "cloning_vat", "x": 8, "y": 13, "chance": 66 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_hood_windfall" ], "x": 2, "y": 2},
+        { "chunks": [ "lab_hood_windfall" ], "x": 14, "y": 2},
+        { "chunks": [ "lab_hood_windfall" ], "x": 2, "y": 15}
+      ],
+      "place_monster": [
+        { "monster": [ "mon_zombie_scientist", "mon_secubot" ], "x": [ 9, 15 ], "y": [ 9, 15 ], "chance": 33, "pack_size": [1,2] }
       ]
     }
   },
