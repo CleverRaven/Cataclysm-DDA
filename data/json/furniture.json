@@ -2987,5 +2987,33 @@
                 { "item": "rag", "count": [20, 30] }
             ]
         }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_butcher_rack",
+        "name": "butchering rack",
+        "description": "A butchering rack designed to hang the carcass in the air.",
+        "symbol": "#",
+        "bgcolor": "brown",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "FLAMABLE_ASH", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT"],
+        "crafting_pseudo_item": "char_smoker",
+        "examine_action": "reload_furniture",
+        "deconstruct": {
+            "items": [
+            { "item": "stic_long", "count": 6 }
+            ]
+        },
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "stick_long", "count": [1, 6] }
+            ]
+        }
+
+
     }
 ]
