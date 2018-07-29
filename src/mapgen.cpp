@@ -964,13 +964,26 @@ public:
  * "monster": id of the monster.
  * "friendly": whether the new monster is friendly to the player character.
  * "name": the name of the monster (if it has one).
+ * "chance": the percentage chance of a monster, affected by spawn density
+ *     If high density means greater than one hundred percent, can place multiples. 
+ * "repeat": roll this many times for creatures, potentially spawning multiples.
+ * "pack_size": place this many creatures each time a roll is successful.
+ * "one_or_none": place max of 1 (or pack_size) monsters, even if spawn density > 1.
+ *     Defaults to true if repeat and pack_size are unset, false if one is set.
  */
 class jmapgen_monster : public jmapgen_piece {
 public:
     weighted_int_list<mtype_id> ids;
+    jmapgen_int chance;
+    jmapgen_int pack_size;
+    bool one_or_none;
     bool friendly;
     std::string name;
     jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
+    , chance( jsi, "chance", 100, 100 )
+    , pack_size( jsi, "pack_size", 1, 1 )
+    , one_or_none ( jsi.get_bool( "one_or_none",
+                    !(jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
     , friendly( jsi.get_bool( "friendly", false ) )
     , name( jsi.get_string( "name", "NONE" ) )
     {
@@ -1001,7 +1014,32 @@ public:
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        dat.m.add_spawn( *(ids.pick()), 1, x.get(), y.get(), friendly, -1, -1, name );
+        int raw_odds = chance.get();
+
+        // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+        // Instead, apply a multipler to the number of monsters for really high densities.
+        // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
+        int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+        int max_odds = 100 - (100 - raw_odds)/2;
+        float density_multiplier = 1;
+        if( odds_after_density > max_odds ) {
+            density_multiplier = 1.0f * odds_after_density / max_odds;
+            odds_after_density = max_odds;
+        }
+
+        if( !x_in_y( odds_after_density, 100 ) ) {
+            return;
+        }
+        int spawn_count = roll_remainder( density_multiplier );
+
+        if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+            spawn_count = std::min(spawn_count, 1);
+        }
+        if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+            spawn_count = std::max(spawn_count, 1);
+        }
+
+        dat.m.add_spawn( *(ids.pick()), spawn_count * pack_size.get(), x.get(), y.get(), friendly, -1, -1, name );
     }
 };
 
