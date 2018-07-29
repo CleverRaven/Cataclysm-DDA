@@ -890,8 +890,7 @@ void player::hardcoded_effects( effect &it )
             }
             if( has_effect( effect_antibiotic ) ) {
                 recover_factor += 200;
-            }
-            else if( has_effect( effect_weak_antibiotic ) ) {
+            } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
@@ -911,20 +910,15 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
-            }
-            //strong antibiotic slows down progression by a factor of 8
-            else if( has_effect( effect_antibiotic ) ) {
+            } else if( has_effect( effect_antibiotic ) ) {
                 if( calendar::once_every( 8_turns ) ) {
-                    it.mod_duration( 1_turns );
+                    it.mod_duration( 1_turns ); //strong antibiotic slows down progression by a factor of 8
                 }
-            }
-            //weak antibiotic slows down by half
-            else if( has_effect( effect_weak_antibiotic ) ) {
+            } else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 2_turns ) ) {
-                    it.mod_duration( 1_turns );
+                    it.mod_duration( 1_turns ); //weak antibiotic slows down by half
                 }
-            }
-            else {
+            } else {
                 it.mod_duration( 1_turns );
             }
         }
@@ -942,8 +936,7 @@ void player::hardcoded_effects( effect &it )
             }
             if( has_effect( effect_antibiotic ) ) {
                 recover_factor += 200;
-            }
-            else if( has_effect( effect_weak_antibiotic ) ) {
+            } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
@@ -965,18 +958,15 @@ void player::hardcoded_effects( effect &it )
                 add_memorial_log( pgettext( "memorial_male", "Succumbed to the infection." ),
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
-            }
-            else if( has_effect( effect_antibiotic ) ) {
+            } else if( has_effect( effect_antibiotic ) ) {
                 if( calendar::once_every( 8_turns ) ) {
                     it.mod_duration( 1_turns );
                 }
-            }
-            else if( has_effect( effect_weak_antibiotic ) ) {
+            } else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 2_turns ) ) {
                     it.mod_duration( 1_turns );
                 }
-            }
-            else {
+            } else {
                 it.mod_duration( 1_turns );
             }
         }
