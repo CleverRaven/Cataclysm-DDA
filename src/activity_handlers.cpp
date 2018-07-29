@@ -744,11 +744,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( act->id() == activity_id( "ACT_FIELD_DRESS" ) &&
         ( corpse_item.has_flag( "FIELD_DRESSED" ) || corpse_item.has_flag( "FIELD_DRESSED" ) ) ) {
             p->add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
+            act->set_to_null();
             return;
     }
 
     if( corpse->in_species( HUMAN ) && ( !p->has_trait_flag( "CANNIBAL" ) || !p->has_trait_flag( "PSYCHOPATH" ) || !p->has_trait_flag( "SAPIOVORE" ) ) ) {
         add_msg( m_info, _( "Why would you do this to mortal remains of a fellow human?" ) );
+        act->set_to_null();
         return;
     }
 
@@ -823,6 +825,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 break;
         g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
         g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        act->set_to_null();
         return;
         }
     }
@@ -855,16 +858,16 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
     if( act->id() == activity_id( "ACT_FIELD_DRESS" ) && set_aside == p->pos() ) {
         p->add_msg_if_player(m_warning, _( "You need some space around you for setting aside field dressed corpses." ) );
+        act->set_to_null();
         return;
     }
 
-    bool field_dressing_successful = false;
     if( act->id() == activity_id( "ACT_BUTCHER" ) &&
         ( corpse_item.has_flag( "FIELD_DRESSED" ) || corpse_item.has_flag( "FIELD_DRESSED" ) ) ) {
         p->add_msg_if_player( m_good, _("You finish butchering the %s."), corpse->nname().c_str() );
     } else if( act->id() == activity_id( "ACT_BUTCHER" ) ) {
         p->add_msg_if_player( m_good, _("You quickly butcher what you can from the %s and leave the rest for vultures."), corpse->nname().c_str() );
-    } else if ( !field_dressing_successful ) {
+    } else if ( roll_butchery() < 0 ) {
 
         switch( rng( 1, 3 ) ) {
             case 1:
