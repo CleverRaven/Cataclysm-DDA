@@ -266,7 +266,7 @@
   "components": [
     [
       [ "fighter_sting", 1 ],
-      [ "disinfectant", 4 ],
+      [ "disinfectant", 20 ],
       [ "oxy_powder", 100 ]
     ],
     [
@@ -1287,7 +1287,7 @@
     [
       [ "vitamins", 5 ],
       [ "iodine", 5 ],
-      [ "disinfectant", 5 ],
+      [ "disinfectant", 25 ],
       [ "hflesh_powder", 10 ],
       [ "protein_powder", 10 ]
     ]
@@ -1593,7 +1593,7 @@
   ],
   "components": [
     [
-      [ "disinfectant", 2 ],
+      [ "disinfectant", 10 ],
       [ "salt", 50 ]
     ],
     [
