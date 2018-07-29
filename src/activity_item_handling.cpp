@@ -729,7 +729,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
         const auto &src_loc = g->m.getlocal( src );
 
         // skip tiles in IGNORE zone and tiles on fire (to prevent taking out wood off the lit brazier)
-        if( mgr.has( zone_type_id( "LOOT_IGNORE" ), src ) || g->m.get_field( src_loc, fd_fire ) != nullptr ) {
+        if( mgr.has( zone_type_id( "LOOT_IGNORE" ), src ) ||
+            g->m.get_field( src_loc, fd_fire ) != nullptr ) {
             continue;
         }
 
