@@ -5026,7 +5026,7 @@
         "id" : "t_nanofab",
         "name": "nanofabricator control panel",
         "symbol": "&",
-        "description": "A small computer panel attached to a nanofabricator. It has a single slot for reading  templates.",
+        "description": "A small computer panel attached to a nanofabricator.  It has a single slot for reading templates.",
         "color": "red",
         "move_cost": 0,
         "flags": ["WALL", "NOITEM", "PERMEABLE"],

@@ -833,10 +833,10 @@
     "name_plural" : "nanomaterial canisters",
     "symbol" : "=",
     "color" : "light_gray",
-    "description" : "Steel Canisters containing several types of nanomaterials.  A nanofabricator can turn them into usable items.",
+    "description" : "Steel canisters containing several types of nanomaterials.  A nanofabricator can turn them into usable items.",
     "material" : "steel",
     "volume" : 0.4,
-    "weight" : 1,
+    "weight" : 20000,
     "ammo_type" : "components",
     "count" : 50
    },
