@@ -887,7 +887,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_lsurvivor",
@@ -915,7 +915,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_survivor",
@@ -942,7 +942,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_survivorxl",
@@ -969,7 +969,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "mask_wsurvivor",
@@ -996,7 +996,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_wsurvivorxl",
@@ -1023,7 +1023,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "hazmat_suit",
