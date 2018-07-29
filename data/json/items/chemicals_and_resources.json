@@ -957,7 +957,7 @@
     "type" : "AMMO",
     "id" : "nanomaterial",
     "category" : "chems",
-    "price" : 0,
+    "price" : 25000,
     "name" : "nanomaterial canisters",
     "name_plural" : "nanomaterial canisters",
     "symbol" : "=",
@@ -965,7 +965,7 @@
     "description" : "Steel canisters containing several types of nanomaterials.  A nanofabricator can turn them into usable items.",
     "material" : "steel",
     "volume" : 0.4,
-    "weight" : 20000,
+    "weight" : 10,
     "ammo_type" : "components",
     "count" : 50
    },
