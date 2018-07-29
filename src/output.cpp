@@ -1457,7 +1457,7 @@ std::string rewrite_vsnprintf( const char *msg )
     return rewritten_msg.str();
 }
 
-std::string cata::string_formatter::raw_string_format( char const *const format, ... )
+std::string cata::string_formatter::raw_string_format( char const *format, ... )
 {
     va_list args;
     va_start( args, format );
