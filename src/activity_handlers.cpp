@@ -762,7 +762,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         factor += rng( 0, 10 ); 
     }
     bool has_table_nearby = false;
-    for( const tripoint &p : g->m.points_in_radius( p->pos(), 1 ) ) {
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         if( g->m.furn( p ) == furn_id( "f_table" ) ) {
             has_table_nearby = true;
         }
