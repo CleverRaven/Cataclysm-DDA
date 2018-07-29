@@ -619,6 +619,64 @@ bool mattack::shockstorm(monster *z)
     return true;
 }
 
+bool mattack::shocking_reveal(monster *z)
+{
+    shockstorm(z);
+    std::string WHAT_A_SCOOP;
+    std::string speak_string;
+    switch( rng( 1, 9 ) ) {
+        case 1:
+            WHAT_A_SCOOP = "KEVIN SACRIFICING GAMEPLAY FOR REALISM? THE SHOCKING TRUTH REVEALED";
+            break;
+        case 2:
+            WHAT_A_SCOOP = "AUTODOC MANUFACTURER PRYANIK IN BUSINESS AGREEMENT WITH ANESTHESIA COMPANIES? OUR REPORTERS HAVE THE FULL STORY";
+            break;
+        case 3:
+            WHAT_A_SCOOP = "TEN FACTS ABOUT SCIENCE LABS THAT WILL SHOCK YOU";
+            break;
+        case 4:
+            WHAT_A_SCOOP = "YOU WON\'T BELIEVE WHO JUST ADDED A NEW PROFESSION";
+            break;
+        case 5:
+            WHAT_A_SCOOP = "THIS MAN DISCOVERED THREE SPEAR WEAPONS THAT CAN TRIVIALIZE THE EARLY GAME! CONTRIBUTORS HATE HIM";
+            break;
+        case 6:
+            WHAT_A_SCOOP = "A MEDICAL MUTANT SET HIMSELF ON FIRE - YOU WON\'T BELIEVE WHAT HAPPENED NEXT";
+            break;
+        case 7:
+            WHAT_A_SCOOP = "ARE YOU HEARING THE FULL STORY? THE TRUTH ABOUT CATACLYSM\'S DEVELOPMENT - AND ITS DISGUSTING DIRTY SECRET";
+            break;
+        case 8:
+            WHAT_A_SCOOP = "IT\'S TRUE - MUTAGEN IS DERIVED FROM BLEACH, AND HERE\'S WHY";
+            break;
+        case 9:
+            WHAT_A_SCOOP = "TWENTY EASY WAYS TO GET OUT OF A LAB ESCAPE - NUMBER 4 WILL BLOW YOUR MIND";
+            break;
+    }
+    switch( rng( 1, 6 ) ) {
+        case 1:
+            speak_string = "obnoxiously saying";
+            break;
+        case 2:
+            speak_string = "annoyingly saying";
+            break;
+        case 3:
+            speak_string = "loudly saying";
+            break;
+        case 4:
+            speak_string = "aggravatingly saying";
+            break;
+        case 5:
+            speak_string = "screaming";
+            break;
+        case 6:
+            speak_string = "screeching";
+            break;
+    }
+    sounds::sound(z->pos(), 10, string_format( _("the %s %s \"%s!!!\""), z->name().c_str(), speak_string, WHAT_A_SCOOP ) );
+    return true;
+}
+
 bool mattack::pull_metal_weapon(monster *z)
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1518,6 +1576,20 @@ bool mattack::fungus(monster *z)
     }
 
     return true;
+}
+
+bool mattack::fungus_corporate(monster *z) {
+    if( x_in_y( 1, 20 ) ) {
+        sounds::sound(z->pos(), 10, _("\"Buy SpOreos(tm) now!\""));
+        if (g->u.sees( *z )) {
+            add_msg(m_warning, _("Delicious snacks are released from the %s!"), z->name().c_str());
+            g->m.add_item( z->pos(), item( "sporeos" ) );
+        } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
+        return true;
+    }
+    else {
+        return fungus(z);
+    }
 }
 
 bool mattack::fungus_haze(monster *z)
