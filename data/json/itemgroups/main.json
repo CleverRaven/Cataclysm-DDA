@@ -77,7 +77,7 @@
   {
     "type" : "item_group",
     "id" : "nanofab_recipes",
-    "//" : "Very rare high level loot. This list doesnt spawn anywere directly, it is used to create te recipes inside nanofabricator templates. ",
+    "//" : "Very rare high level loot. This list doesnt spawn anywere directly, it is used to create the recipes inside nanofabricator templates. ",
     "magazine": 100,
     "items":[
       ["12mm", 10],
@@ -109,10 +109,9 @@
       ["power_armor_helmet_heavy", 10],
       ["power_armor_helmet_light", 10],
       ["high_density_capacitor", 10],
-      [ "beam_scatterer", 10 ],
+      ["beam_scatterer", 10 ],
       ["power_armor_light", 10],
       ["control_laptop", 10],
-      ["recipe_medicalmut", 10],
       ["rm11b_sniper_rifle", 10],
       ["rm13_armor", 10],
       ["v29", 10]
