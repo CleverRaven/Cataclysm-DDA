@@ -788,7 +788,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             }
     }
 
-    if( factor < 0 and one_in( 3 ) ) {
+    if( factor < 0 && one_in( 3 ) ) {
         add_msg( m_info, _("You don't trust the quality of your tools, but carry on anyway." ) );
     }
 
