@@ -51,6 +51,7 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_ARMOR" ), zone_type( translate_marker( "Loot: Armor" ) ) );
     types.emplace( zone_type_id( "LOOT_FARMOR" ), zone_type( translate_marker( "Loot: F.Armor" ) ) );
     types.emplace( zone_type_id( "LOOT_WOOD" ), zone_type( translate_marker( "Loot: Wood" ) ) );
+    types.emplace( zone_type_id( "LOOT_IGNORE" ), zone_type( translate_marker( "Loot: Ignore" ) ) );
 }
 
 std::string zone_type::name() const
