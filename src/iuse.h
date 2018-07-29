@@ -212,6 +212,8 @@ class iuse
 
         int remoteveh( player *, item *, bool, const tripoint & );
 
+        int disassemble( player *, item *, bool, const tripoint & );
+
         // ARTIFACTS
         /* This function is used when an artifact is activated.
            It examines the item's artifact-specific properties.

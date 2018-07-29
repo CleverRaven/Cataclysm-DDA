@@ -1069,18 +1069,17 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         if (parts->test(iteminfo_parts::GUN_USEDSKILL))
             info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill.name() + "</info>" ) );
 
-        if( mod->magazine_integral() ) {
+        if( mod->magazine_integral() || mod->magazine_current() ) {
+            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
+            }
             if( mod->ammo_capacity() && parts->test(iteminfo_parts::GUN_CAPACITY)) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                                   mod->ammo_type()->name().c_str() ), mod->ammo_capacity(), true );
             }
-        } else {
-            if (parts->test(iteminfo_parts::GUN_TYPE))
-                info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
-            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
-                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
-            }
+        } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
+            info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
         }
 
         if( mod->ammo_data() && parts->test(iteminfo_parts::AMMO_REMAINING)) {
@@ -1553,9 +1552,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( is_container() && parts->test(iteminfo_parts::CONTAINER_DETAILS)) {
         const auto &c = *type->container;
 
-        // @todo: check *why* this is here - makes no sense.....
-        info.push_back( iteminfo( "ARMOR", temp1.str() ) );
-
         temp1.str( "" );
         temp1 << _( "This container " );
 
@@ -2004,6 +2000,8 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
+                insert_separation_line();
+                info.emplace_back( "DESCPIPTION", _( "<bold>Content of this item</bold>:" ) );
                 info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }

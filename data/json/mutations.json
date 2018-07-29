@@ -2048,7 +2048,7 @@
         "id" : "M_IMMUNE",
         "name" : "Mycus Identity",
         "points" : 5,
-        "description" : "We have synchronized our local physiology with that of our reproductive systems.  Any spores we may encounter will not attempt to germinate inside the local system.",
+        "description" : "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accomodate us.",
         "valid" : false,
         "purifiable": false,
         "threshreq" : ["THRESH_MYCUS"],
@@ -5153,7 +5153,7 @@
         "initial_ma_styles" : [ "style_boxing" ],
         "purifiable": false,
         "profession": true
-	},{        
+    },{
         "type" : "mutation",
         "id" : "PROF_AUTODOC",
         "name" : "Autodoc Specialist",

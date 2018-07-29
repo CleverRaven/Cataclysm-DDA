@@ -122,7 +122,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "basement_junk", &mapgen_basement_junk },
     { "basement_spiders", &mapgen_basement_spiders },
     { "police", &mapgen_police },
-    { "pawn", &mapgen_pawn },
     { "cave", &mapgen_cave },
     { "cave_rat", &mapgen_cave_rat },
     { "cavern", &mapgen_cavern },
@@ -1414,7 +1413,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                     mapf::formatted_set_simple( m, 0, 0, "\
-.^DD^^DD^.......^DD^^DD^\n\
+.^DD^^DD^.####..^DD^^DD^\n\
 #.^DD^^DD^.......^DD^^DD\n\
 ##.^DD^^DD^.......^DD^^D\n\
 ###.^DD^^DD^.......^DD^^\n\
@@ -1424,10 +1423,10 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 #######.^DD^^DD^.......^\n\
 ########.^DD^^DD^.......\n\
 #########.^DD^^DD^......\n\
-##########.^DD^^DD^.....\n\
-###########.^DD^^DD^....\n\
-############.^DD^^DD^...\n\
-#############.^DD^^DD^..\n\
+##########.^DD^^DD^....#\n\
+###########.^DD^^DD^...#\n\
+############.^DD^^DD^..#\n\
+#############.^DD^^DD^.#\n\
 ##############.^DD^^DD^.\n\
 ###############.^DD^^DD^\n\
 ################.^DD^^DD\n\
@@ -2990,110 +2989,6 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, const time_poin
 
         m->place_spawns( mongroup_id( "GROUP_POLICE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
-
-}
-
-
-void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float)
-{
-
-//    } else if (is_ot_type("pawn", terrain_type)) {
-
-        // Init to plain grass/dirt
-        dat.fill_groundcover();
-
-        int tw = rng(0, 10);
-        int bw = SEEY * 2 - rng(1, 2) - rng(0, 1) * rng(0, 1);
-        int lw = rng(0, 4);
-        int rw = SEEX * 2 - rng(1, 5);
-        if (tw >= 6) { // Big enough for its own parking lot
-            square(m, t_pavement, 0, 0, SEEX * 2 - 1, tw - 1);
-            for (int i = rng(0, 1); i < SEEX * 2; i += 4) {
-                line(m, t_pavement_y, i, 1, i, tw - 1);
-            }
-        }
-        // Floor and walls
-        square(m, t_floor, lw, tw, rw, bw);
-        line(m, t_wall, lw, tw, rw, tw);
-        line(m, t_wall, lw, bw, rw, bw);
-        line(m, t_wall, lw, tw + 1, lw, bw - 1);
-        line(m, t_wall, rw, tw + 1, rw, bw - 1);
-        // Doors and windows--almost certainly alarmed
-        if (one_in(15)) {
-            line(m, t_window, lw + 2, tw, lw + 5, tw);
-            line(m, t_window, rw - 5, tw, rw - 2, tw);
-            line(m, t_door_locked, SEEX, tw, SEEX + 1, tw);
-        } else {
-            line(m, t_window_alarm, lw + 2, tw, lw + 5, tw);
-            line(m, t_window_alarm, rw - 5, tw, rw - 2, tw);
-            line(m, t_door_locked_alarm, SEEX, tw, SEEX + 1, tw);
-        }
-        // Some display racks by the left and right walls
-        line_furn(m, f_rack, lw + 1, tw + 1, lw + 1, bw - 1);
-        m->place_items("pawn", 86, lw + 1, tw + 1, lw + 1, bw - 1, false, turn);
-        line_furn(m, f_rack, rw - 1, tw + 1, rw - 1, bw - 1);
-        m->place_items("pawn", 86, rw - 1, tw + 1, rw - 1, bw - 1, false, turn);
-        // Some display counters
-        line_furn(m, f_counter, lw + 4, tw + 2, lw + 4, bw - 3);
-        m->place_items("pawn", 80, lw + 4, tw + 2, lw + 4, bw - 3, false, turn);
-        line_furn(m, f_counter, rw - 4, tw + 2, rw - 4, bw - 3);
-        m->place_items("pawn", 80, rw - 4, tw + 2, rw - 4, bw - 3, false, turn);
-        // More display counters, if there's room for them
-        if (rw - lw >= 18 && one_in(rw - lw - 17)) {
-            for (int j = tw + rng(3, 5); j <= bw - 3; j += 3) {
-                line_furn(m, f_counter, lw + 6, j, rw - 6, j);
-                m->place_items("pawn", 75, lw + 6, j, rw - 6, j, false, turn);
-            }
-        }
-        // Finally, place an office sometimes
-        if (!one_in(5)) {
-            if (one_in(2)) { // Office on the left side
-                int office_top = bw - rng(3, 5), office_right = lw + rng(4, 7);
-                // Clear out any items in that area!  And reset to floor.
-                for (int i = lw + 1; i <= office_right; i++) {
-                    for (int j = office_top; j <= bw - 1; j++) {
-                        m->i_clear(i, j);
-                        m->ter_set(i, j, t_floor);
-                        m->furn_set( i, j, f_null );
-                    }
-                }
-                line(m, t_wall, lw + 1, office_top, office_right, office_top);
-                line(m, t_wall, office_right, office_top + 1, office_right, bw - 1);
-                m->ter_set(office_right, rng(office_top + 1, bw - 1), t_door_locked);
-                if (one_in(4)) { // Back door
-                    m->ter_set(rng(lw + 1, office_right - 1), bw, t_door_locked_alarm);
-                }
-                // Finally, add some stuff in there
-                m->place_items("office", 70, lw + 1, office_top + 1, office_right - 1, bw - 1,
-                            false, turn);
-                m->place_items("homeguns", 50, lw + 1, office_top + 1, office_right - 1,
-                            bw - 1, false, turn);
-                m->place_items("harddrugs", 20, lw + 1, office_top + 1, office_right - 1,
-                            bw - 1, false, turn);
-            } else { // Office on the right side
-                int office_top = bw - rng(3, 5), office_left = rw - rng(4, 7);
-                for (int i = office_left; i <= rw - 1; i++) {
-                    for (int j = office_top; j <= bw - 1; j++) {
-                        m->i_clear(i, j);
-                        m->ter_set(i, j, t_floor);
-                        m->furn_set( i, j, f_null );
-                    }
-                }
-                line(m, t_wall, office_left, office_top, rw - 1, office_top);
-                line(m, t_wall, office_left, office_top + 1, office_left, bw - 1);
-                m->ter_set(office_left, rng(office_top + 1, bw - 1), t_door_locked);
-                if (one_in(4)) { // Back door
-                    m->ter_set(rng(office_left + 1, rw - 1), bw, t_door_locked_alarm);
-                }
-                m->place_items("office", 70, office_left + 1, office_top + 1, rw - 1, bw - 1,
-                            false, turn);
-                m->place_items("homeguns", 50, office_left + 1, office_top + 1, rw - 1,
-                            bw - 1, false, turn);
-                m->place_items("harddrugs", 20, office_left + 1, office_top + 1, rw - 1,
-                            bw - 1, false, turn);
-            }
-        }
-        autorotate(false);
 
 }
 

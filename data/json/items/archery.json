@@ -232,7 +232,7 @@
       "loudness": 0,
       "count": 10,
       "effects": ["RECOVER_60"]
-   }, 
+   },
    {
       "type" : "AMMO",
       "id" : "arrow_cf",
@@ -400,7 +400,53 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload": 110,
-      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ],["stabilizer", 1],["dampening", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ],["stabilizer", 1],["dampening", 1]],
+      "use_action": {
+        "menu_text": "Tighten Limbs",
+        "type": "transform",
+        "target": "compbow_high",
+        "msg": "You tighten the limbs, increasing the strength of the bow."
+      }
+   },
+   {
+      "id" : "compbow_high",
+      "copy-from" : "compbow",
+      "override" : true,
+      "type" : "GUN",
+      "name" : "compound bow (high)",
+      "name_plural" : "compound bows (high)",
+      "description" : "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage if you can draw it.",
+      "min_strength" : 8,
+      "dispersion" : 85,
+      "reload" : 120,
+      "ranged_damage" : 22,
+      "range" : 22,
+      "use_action" : {
+        "menu_text" : "Loosen Limbs",
+        "type" : "transform",
+        "target" : "compbow_low",
+        "msg" : "You loosen the limbs, decreasing the strength of the bow."
+      }
+   },
+   {
+      "id" : "compbow_low",
+      "copy-from" : "compbow",
+      "override" : true,
+      "type" : "GUN",
+      "name" : "compound bow (low)",
+      "name_plural" : "compound bows (low)",
+      "description" : "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by average archers.  Currently set to a low weight, and much easier to draw.",
+      "min_strength" : 4,
+      "dispersion" : 115,
+      "reload" : 85,
+      "ranged_damage" : 14,
+      "range" : 14,
+      "use_action" : {
+        "menu_text" : "Tighten Limbs",
+        "type" : "transform",
+        "target" : "compbow",
+        "msg" : "You tighten the limbs, increasing the strength of the bow."
+      }
    },
    {
       "id" : "compositebow",
@@ -533,7 +579,7 @@
       "symbol" : "(",
       "color" : "yellow",
       "name" : "reflex recurve bow",
-      "description" : "A modernised bow that combines the traits from both the reflex and the recurve bows, with both limbs and tips curving away from the archer, and reinforced with composite materials.  This dramatically increases the power and requires significant strength to draw the bow effectively, but can still be fired quickly.",
+      "description" : "A modernized bow that combines the traits from both the reflex and the recurve bows, with both limbs and tips curving away from the archer, and reinforced with composite materials.  This dramatically increases the power and requires significant strength to draw the bow effectively, but can still be fired quickly.",
       "price" : 72000,
       "material" : ["wood"],
       "flags" : ["FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED"],

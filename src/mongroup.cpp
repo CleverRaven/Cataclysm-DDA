@@ -79,16 +79,14 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1 );
 
     bool monster_found = false;
+    // Loop invariant values
+    const time_point sunset = calendar::turn.sunset();
+    const time_point sunrise = calendar::turn.sunrise();
+    const season_type season = season_of_year( calendar::turn );
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it ) {
-        const mtype &mt = it->name.obj();
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
-        // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
-        if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-            valid_entry = valid_entry && ( mt.in_category( "CLASSIC" ) ||
-                                           mt.in_category( "WILDLIFE" ) );
-        }
         //Insure that the time is not before the spawn first appears or after it stops appearing
         valid_entry = valid_entry && ( calendar::time_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
@@ -100,29 +98,25 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         //Collect the various spawn conditions, and then insure they are met appropriately
         for( auto &elem : it->conditions ) {
             //Collect valid time of day ranges
-            if( ( elem ) == "DAY" || ( elem ) == "NIGHT" || ( elem ) == "DUSK" ||
-                ( elem ) == "DAWN" ) {
-                const time_point sunset = calendar::turn.sunset();
-                const time_point sunrise = calendar::turn.sunrise();
-                if( ( elem ) == "DAY" ) {
+            if( elem == "DAY" || elem == "NIGHT" || elem == "DUSK" || elem == "DAWN" ) {
+                if( elem == "DAY" ) {
                     valid_times_of_day.push_back( std::make_pair( sunrise, sunset ) );
-                } else if( ( elem ) == "NIGHT" ) {
+                } else if( elem == "NIGHT" ) {
                     valid_times_of_day.push_back( std::make_pair( sunset, sunrise ) );
-                } else if( ( elem ) == "DUSK" ) {
+                } else if( elem == "DUSK" ) {
                     valid_times_of_day.push_back( std::make_pair( sunset - 1_hours, sunset + 1_hours ) );
-                } else if( ( elem ) == "DAWN" ) {
+                } else if( elem == "DAWN" ) {
                     valid_times_of_day.push_back( std::make_pair( sunrise - 1_hours, sunrise + 1_hours ) );
                 }
             }
 
             //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
-            if( ( elem ) == "SUMMER" || ( elem ) == "WINTER" || ( elem ) == "SPRING" ||
-                ( elem ) == "AUTUMN" ) {
+            if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
                 season_limited = true;
-                if( ( season_of_year( calendar::turn ) == SUMMER && ( elem ) == "SUMMER" ) ||
-                    ( season_of_year( calendar::turn ) == WINTER && ( elem ) == "WINTER" ) ||
-                    ( season_of_year( calendar::turn ) == SPRING && ( elem ) == "SPRING" ) ||
-                    ( season_of_year( calendar::turn ) == AUTUMN && ( elem ) == "AUTUMN" ) ) {
+                if( ( season == SUMMER && elem == "SUMMER" ) ||
+                    ( season == WINTER && elem == "WINTER" ) ||
+                    ( season == SPRING && elem == "SPRING" ) ||
+                    ( season == AUTUMN && elem == "AUTUMN" ) ) {
                     season_matched = true;
                 }
             }
@@ -297,6 +291,27 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }
+    // If we have the classic zombies option, remove non-conforming monsters
+    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+        for( auto &elem : monsterGroupMap ) {
+            MonsterGroup &mg = elem.second;
+            for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
+                // Test mon
+                const mtype &mt = c->name.obj();
+
+                if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
+                    c = mg.monsters.erase( c );
+                } else {
+                    ++c;
+                }
+            }
+            const mtype &mt = mg.defaultMonster.obj();
+            if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
+                mg.defaultMonster = mtype_id::NULL_ID();
+            }
+        }
+    }
+    // Further, remove all blacklisted monsters
     for( auto &elem : monsterGroupMap ) {
         MonsterGroup &mg = elem.second;
         for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
@@ -314,6 +329,8 @@ void MonsterGroupManager::FinalizeMonsterGroups()
 
 void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
 {
+    float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+
     MonsterGroup g;
 
     g.name = mongroup_id( jo.get_string( "name" ) );
@@ -332,6 +349,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
         while( monarr.has_more() ) {
             JsonObject mon = monarr.next_object();
             const mtype_id name = mtype_id( mon.get_string( "monster" ) );
+
             int freq = mon.get_int( "freq" );
             int cost = mon.get_int( "cost_multiplier" );
             int pack_min = 1;
@@ -345,20 +363,10 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
             time_duration starts = 0;
             time_duration ends = 0;
             if( mon.has_member( "starts" ) ) {
-                if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-                    starts = tdfactor * mon.get_int( "starts" ) * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-                } else {
-                    // Default value if the monster upgrade factor is set to 0.0 - off
-                    starts = tdfactor * mon.get_int( "starts" );
-                }
+                starts = tdfactor * mon.get_int( "starts" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
             }
             if( mon.has_member( "ends" ) ) {
-                if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-                    ends = tdfactor * mon.get_int( "ends" ) * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-                } else {
-                    // Default value if the monster upgrade factor is set to 0.0 - off
-                    ends = tdfactor * mon.get_int( "ends" );
-                }
+                ends = tdfactor * mon.get_int( "ends" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
             }
             MonsterGroupEntry new_mon_group = MonsterGroupEntry( name, freq, cost, pack_min, pack_max, starts,
                                               ends );
@@ -368,8 +376,6 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
                     new_mon_group.conditions.push_back( conditions_arr.next_string() );
                 }
             }
-
-
 
             g.monsters.push_back( new_mon_group );
         }

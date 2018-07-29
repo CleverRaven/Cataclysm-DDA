@@ -47,6 +47,7 @@
 #include "cata_utility.h"
 #include "map_iterator.h"
 #include "string_input_popup.h"
+#include "inventory.h"
 
 #include <vector>
 #include <sstream>
@@ -6035,8 +6036,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             add_msg( m_info, _( "You cannot read a computer screen." ) );
             return 0;
         }
-        if( p->has_trait( trait_HYPEROPIC ) && !p->is_wearing( "glasses_reading" )
-            && !p->is_wearing( "glasses_bifocal" ) && !p->has_effect( effect_contacts ) ) {
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+            !p->has_effect( effect_contacts ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
@@ -7224,8 +7225,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
         }
 
-        if( p->has_trait( trait_HYPEROPIC ) && !p->is_wearing( "glasses_reading" )
-            && !p->is_wearing( "glasses_bifocal" ) && !p->has_effect( effect_contacts ) ) {
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+            !p->has_effect( effect_contacts ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
@@ -7937,4 +7938,11 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
     return it->type->charges_to_use();
+}
+
+int iuse::disassemble( player *p, item *it, bool, const tripoint & )
+{
+    const int pos = p->inv.position_by_item( it );
+    p->disassemble( *it, pos, false, false );
+    return 0;
 }

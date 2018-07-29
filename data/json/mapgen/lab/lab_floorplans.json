@@ -87,9 +87,10 @@
       "palettes": [
         "lab_palette"
       ],
-      "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ],
       "place_monster": [
-        { "monster": [ "mon_zombie_bio_op", "mon_zombie_grenadier" ], "x": [ 1, 22 ], "y": [ 1, 12 ], "repeat": [ 1, 2 ], "chance": 50 }
+        { "monster": [ "mon_zombie_bio_op", "mon_zombie_grenadier" ], "x": [ 10, 16 ], "y": [ 5, 12 ], "pack_size": [ 1, 2 ], "chance": 40 },
+        { "monster": [ "mon_zombie_soldier" ], "x": [ 1, 21 ], "y": [ 1, 16 ], "pack_size": [ 1, 4 ], "chance": 40 }
       ],
      "terrain": {
         "7": "t_console"
@@ -180,8 +181,7 @@
         { "monster": "mon_zombie_brute", "x": [ 12, 15 ], "y": [ 20, 22 ] },
         { "monster": "mon_zombie_child", "x": [ 7, 10 ], "y": [ 20, 22 ] },
         { "monster": "mon_zombie_grabber", "x": [ 1, 5 ], "y": [ 12, 15 ] },
-        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 6, 10 ], "chance": 60 },
-        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 6, 10 ], "chance": 40 }
+        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 5, 10 ], "pack_size": [1, 2], "chance": 50 }
       ],
       "furniture": {
         "^": "f_indoor_plant"
@@ -250,7 +250,14 @@
         { "x": 12, "y": 13, "items": true }
       ],
       "place_monster": [
-        { "monster": "mon_zombie_hulk", "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
+        { "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk" ], "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
+      ],
+      "place_loot": [
+        { "group": "everyday_corpse", "x": [10,13], "y": [1,3], "repeat": 2 }
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": [ 3, 5 ] },
+        { "field": "fd_gibs_flesh", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": [ 0, 2 ] }
       ]
     }
   },
@@ -356,7 +363,7 @@
         "          |..|-|X.ccc.X|"
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ],
       "furniture": {
         "H": [ "f_armchair" ]
@@ -366,9 +373,14 @@
         "g": [ "t_wall_glass"]
       },
       "mapping": {
+        "f": {
+          "items": [
+            { "item": "fridge", "chance": 30 },
+            { "item": "alcohol", "chance": 60 }
+          ]
+        },
         "t": {
           "items": [
-            { "item": "textbooks", "chance": 2 },
             { "item": "magazines", "chance": 3 }
           ]
         }
@@ -416,34 +428,21 @@
         "...hth.hth.......hth...."
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_home_office"
       ],
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
       },
       "mapping": {
         "t": {
-          "items": [ { "item": "fridge", "chance": 30 } ]
-        },
-        "l": {
-          "items": [
-            { "item": "office", "chance": 10 },
-            { "item": "textbooks", "chance": 3 },
-            { "item": "science", "chance": 3 },
-            { "item": "harddrugs", "chance": 3 },
-            { "item": "softdrugs", "chance": 3 },
-            { "item": "dresser", "chance": 3 },
-            { "item": "lab_torso", "chance": 3 },
-            { "item": "lab_pants", "chance": 3 }
-          ]
+          "items": [ { "item": "vending_food_items", "chance": 30 } ]
         }
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 5, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 13 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 },
-        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 11, "y": 11 }
       ]
     }
   },
@@ -577,7 +576,7 @@
         "........................"
       ],
       "palettes": [
-        "lab_palette", "lab_loot_generic"
+        "lab_palette", "lab_loot_research"
       ],
       "furniture": {
         "?": "f_autodoc",
@@ -639,7 +638,7 @@
         ",,,,,g..g.....g.......l.",
         ",,,,,g..g.....g.......l.",
         ",,,,,D..g.....|.......S.",
-        "-----|..|.....|-gg+-gg-.",
+        "-----|..|.....|-gg+-gg--",
         ",,,,,D..g...............",
         ",,,,,g..g...............",
         ",,,,,g..g...............",
@@ -701,7 +700,7 @@
         { "monster": [ [ "mon_zombie_brute", 60 ], [ "mon_mi_go", 30 ] ], "x": 12, "y": 12 },
         { "monster": "mon_kreck", "x": 2, "y": 2, "chance": 30 },
         { "monster": [ [ "mon_crawler", 60 ], [ "mon_shoggoth", 30] ], "x": 2, "y": 7 },
-        { "monster": "mon_zombie_scientist", "x": [ 10, 14 ], "y": [ 16, 18 ], "chance": 50, "repeat": [ 1, 3 ] }
+        { "monster": "mon_zombie_scientist", "x": [ 10, 14 ], "y": [ 16, 18 ], "chance": 50, "pack_size": [ 1, 3 ] }
       ]
     }
   },
@@ -744,6 +743,7 @@
         "lab_palette"
       ],
       "furniture": {
+        "S": "f_null",
         "^": "f_indoor_plant",
         "f": "f_null"
       },
@@ -778,7 +778,7 @@
         }
       },
       "place_monster": [
-        { "monster": "mon_zombie", "x": [1, 22], "y": [1, 22], "chance": 70, "repeat": [1, 2] }
+        { "monster": "mon_zombie", "x": [1, 22], "y": [1, 22], "chance": 50, "pack_size": [2, 3] }
       ],
       "place_nested": [
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,6], "y": [16,18], "repeat": 8},
@@ -847,7 +847,7 @@
         ".........|....|---------"
       ],
       "palettes": [
-        "lab_palette"
+        "lab_palette", "lab_loot_home_office"
       ],
       "furniture": {
         "^": "f_indoor_plant"
@@ -861,25 +861,18 @@
         "C": "t_centrifuge"
       },
       "mapping": {
-        "l": {
-          "items": [
-            { "item": "science", "chance": 60 }
-          ]
-        },
-        "f": {
-          "items": [
-            { "item": "fridge", "chance": 50 }
-          ]
+        "t": {
+          "items": [ { "item": "vending_food_items", "chance": 20 } ]
         }
       },
       "place_loot": [
-        { "item": "corpse", "x": 17, "y": 15 },
-        { "item": "corpse", "x": 8, "y": 3 },
-        { "item": "corpse", "x": 10, "y": 3 },
+        { "group": "everyday_corpse", "x": 17, "y": 15 },
+        { "group": "everyday_corpse", "x": 8, "y": 3 },
+        { "group": "everyday_corpse", "x": 10, "y": 3 },
         { "item": "fire_ax", "x": 18, "y": 15 }
       ],
       "place_monster": [
-        { "monster": "mon_zombie", "x": [1, 22], "y": [1, 22], "chance": 70, "repeat": [1, 2] }
+        { "monster": "mon_zombie", "x": [1, 22], "y": [1, 22], "chance": 50, "pack_size": [2, 3] }
       ]
     }
   },
@@ -919,7 +912,7 @@
         "........................"
       ],
       "palettes": [
-        "lab_palette"
+        "lab_palette", "lab_loot_home_office"
       ],
       "furniture": {
         "r": "f_null"
@@ -928,13 +921,6 @@
         "&": "t_radio_tower",
         "g": "t_wall_glass",
         "r": "t_railing_h"
-      },
-      "mapping": {
-        "c": {
-          "items": [
-            { "item": "cubical_office", "chance": 30 }
-          ]
-        }
       },
       "computers": {
         "6": {
@@ -952,7 +938,7 @@
         }
       },
       "place_monster": [
-        { "monster": "mon_zombie", "x": [1, 22], "y": [1, 22], "chance": 70, "repeat": [1, 2] }
+        { "monster": "mon_zombie", "x": [1, 22], "y": [1, 22], "chance": 50, "pack_size": [1, 3] }
       ]
     }
   }
