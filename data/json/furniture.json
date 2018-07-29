@@ -3002,7 +3002,7 @@
         "examine_action": "reload_furniture",
         "deconstruct": {
             "items": [
-            { "item": "stic_long", "count": 6 }
+            { "item": "stick_long", "count": 6 }
             ]
         },
         "bash": {
