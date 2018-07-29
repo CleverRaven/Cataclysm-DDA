@@ -539,6 +539,7 @@ void Item_factory::init()
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
+    add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
     add_iuse( "CATFOOD", &iuse::catfood );
@@ -550,6 +551,7 @@ void Item_factory::init()
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
+    add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
@@ -570,6 +572,7 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
+    add_iuse( "FILL_PIT", &iuse::fill_pit );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
@@ -1174,6 +1177,13 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
     slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
+    // No dreams unless specified for artifacts embedded in items.
+    // If specifying dreams, message should be set too,
+    // since the array with the defaults isn't accessible from here.
+    slot.dream_freq_unmet = jo.get_int(    "dream_freq_unmet", 0 );
+    slot.dream_freq_met   = jo.get_int(    "dream_freq_met",   0 );
+    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" ); //@todo Make sure it doesn't cause problems if this is empty
+    slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
@@ -1681,6 +1691,11 @@ static void set_allergy_flags( itype &item_template )
         std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
         std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
         std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "nut" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
         std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
         std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
         std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),

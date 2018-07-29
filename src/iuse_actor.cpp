@@ -3187,10 +3187,10 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( disinfectant_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", disinfectant_power,
+        dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ), "", disinfectant_power,
                            true, "", true );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "",
+            dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ), "",
                                get_disinfected_level( g->u ), true, "", true );
         }
     }
@@ -3458,7 +3458,7 @@ iuse_actor *saw_barrel_actor::clone() const
 
 long install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    return p.install_bionics( *it.type ) ? it.type->charges_to_use() : 0;
+    return p.install_bionics( *it.type, -1, false ) ? it.type->charges_to_use() : 0;
 }
 
 ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
@@ -3466,6 +3466,10 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
 {
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
+    }
+
+    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) ) {
+        return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     }
 
     const bionic_id &bid = it.type->bionic->id;

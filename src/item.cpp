@@ -1152,7 +1152,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         
         if (parts->test(iteminfo_parts::GUN_DISPERSION))
             info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
-                                      mod->gun_dispersion( false ), true, "", !has_ammo, true ) );
+                                      mod->gun_dispersion( false, false ), true, "", !has_ammo, true ) );
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_range >= 0 ? "+" : "" );
@@ -1162,7 +1162,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           ammo_dispersion, true, temp1.str(), false, true, false ) );
             if (parts->test(iteminfo_parts::GUN_DISPERSION_TOTAL))
                 info.push_back( iteminfo( "GUN", "sum_of_dispersion", _( " = <num>" ),
-                                          mod->gun_dispersion( true ), true, "", true, true, false ) );
+                                          mod->gun_dispersion( true, false ), true, "", true, true, false ) );
         }
 
         // if effective sight dispersion differs from actual sight dispersion display both
@@ -4012,7 +4012,7 @@ bool item::is_salvageable() const
 
 bool item::is_funnel_container(units::volume &bigger_than) const
 {
-    if ( ! is_watertight_container() ) {
+    if ( !is_bucket() && !is_watertight_container() ) {
         return false;
     }
     // @todo; consider linking funnel to item or -making- it an active item
@@ -4229,7 +4229,7 @@ skill_id item::melee_skill() const
     return res;
 }
 
-int item::gun_dispersion( bool with_ammo ) const
+int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
 {
     if( !is_gun() ) {
         return 0;
@@ -4244,11 +4244,15 @@ int item::gun_dispersion( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
     }
+    if( !with_scaling ) {
+        return dispersion_sum;
+    }
 
     // Dividing dispersion by 15 temporarily as a gross adjustment,
     // will bake that adjustment into individual gun definitions in the future.
     // Absolute minimum gun dispersion is 1.
-    dispersion_sum = std::max( static_cast<int>( std::round( dispersion_sum / 15.0 ) ), 1 );
+    double divider = get_option< float >( "GUN_DISPERSION_DIVIDER" );
+    dispersion_sum = std::max( static_cast<int>( std::round( dispersion_sum / divider) ), 1 );
 
     return dispersion_sum;
 }

@@ -174,7 +174,7 @@ void item::add_rain_to_container(bool acid, int charges)
         return;
     }
     item ret( acid ? "water_acid" : "water", calendar::turn );
-    const long capa = get_remaining_capacity_for_liquid( ret );
+    const long capa = get_remaining_capacity_for_liquid( ret, true );
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if (!acid) {

@@ -317,8 +317,8 @@ class game
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        /** Spawns a hallucination close to the player. */
-        bool spawn_hallucination();
+        /** Spawns a hallucination at a determined position (or random position close to the player). */
+        bool spawn_hallucination( const tripoint &p = tripoint_min );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
@@ -529,6 +529,7 @@ class game
 
         void process_artifact( item &it, player &p );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
+        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );

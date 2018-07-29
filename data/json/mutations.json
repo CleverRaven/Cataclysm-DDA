@@ -2048,7 +2048,7 @@
         "id" : "M_IMMUNE",
         "name" : "Mycus Identity",
         "points" : 5,
-        "description" : "We have synchronized our local physiology with that of our reproductive systems.  Any spores we may encounter will not attempt to germinate inside the local system.",
+        "description" : "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accomodate us.",
         "valid" : false,
         "purifiable": false,
         "threshreq" : ["THRESH_MYCUS"],
@@ -5155,6 +5155,15 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_AUTODOC",
+        "name" : "Autodoc Specialist",
+        "points" : 0,
+        "description" : "You're trained in proper operation of the Autodoc, an advanced machine used for surgical procedures.  Operations involving it will be moderately more likely to succeed.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "NPC_BRANDY",
         "name" : "Carries Brandy",
         "points" : 0,
@@ -5199,14 +5208,6 @@
         "name" : "Has Level 2 Construction Built",
         "points" : 0,
         "description" : "New options may have become available!",
-        "valid": false,
-        "purifiable": false
-    },{
-        "type" : "mutation",
-        "id" : "FACTION_CAMP_TUTORIAL",
-        "name" : "Has seen faction camp tutorial.",
-        "points" : 0,
-        "description" : "Understand what's going on?",
         "valid": false,
         "purifiable": false
     },{
