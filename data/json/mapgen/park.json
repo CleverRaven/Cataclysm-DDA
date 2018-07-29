@@ -326,7 +326,7 @@
       "place_items": [
         { "item": "trash", "x": 4, "y": 5, "chance": 50 }
       ],
-      "add": [
+      "place_item": [
         { "item": "char_smoker", "x": 7, "y": 7 }
       ],
       "place_monsters": [
@@ -451,7 +451,7 @@
       "place_items": [
         { "item": "trash", "x": 11, "y": 12, "chance": 50 }
       ],
-      "add": [
+      "place_item": [
         { "item": "bag_plastic", "x": 10, "y": 11, "repeat": [ 5, 10 ] }
       ],
       "place_monsters": [

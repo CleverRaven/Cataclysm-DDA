@@ -253,7 +253,7 @@
       "items": {
         "l": [ { "item": "prison_weapons", "chance": 30 }, { "item": "prison_armor", "chance": 30 }, { "item": "cop_torso", "chance": 20 }, { "item": "cop_pants", "chance": 20 }, { "item": "cop_shoes", "chance": 20 } ]
       },
-      "add": [
+      "place_item": [
         { "item": "visions_solitude", "x": 16, "y": 108, "amount": 1 }
       ],
       "place_monsters": [

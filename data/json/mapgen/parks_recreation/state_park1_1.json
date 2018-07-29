@@ -65,7 +65,7 @@
         "f": "f_dandelion",
         "i": "f_cattails"
       },
-      "add": [
+      "place_item": [
         { "item": "rock", "x": 2, "y": 6 },
         { "item": "rock", "x": 18, "y": 21 }
       ],

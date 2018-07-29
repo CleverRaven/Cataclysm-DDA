@@ -59,7 +59,7 @@
         "b": "f_bluebell",
         "f": "f_dandelion"
       },
-      "add": [
+      "place_item": [
         { "item": "rock", "x": 4, "y": 4 },
         { "item": "log", "x": 18, "y": 5 },
         { "item": "log", "x": 4, "y": 11 },

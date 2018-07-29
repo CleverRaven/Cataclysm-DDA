@@ -55,7 +55,7 @@
         "|": "t_chainfence_h"
       },
       "furniture": { "&": "f_trashcan", "B": "f_bluebell", "a": "f_table", "b": "f_bench", "d": "f_bench", "f": "f_dandelion" },
-      "add": [
+      "place_item": [
         { "item": "log", "x": 16, "y": 4 },
         { "item": "rock", "x": 1, "y": 7 },
         { "item": "log", "x": 2, "y": 12 },

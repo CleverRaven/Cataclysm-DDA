@@ -56,7 +56,7 @@
         "&": "f_trashcan",
         "b": "f_bench"
       },
-      "add": [
+      "place_item": [
         { "item": "rock", "x": 13, "y": 9 },
         { "item": "rock", "x": 2, "y": 13 },
         { "item": "rock", "x": 22, "y": 19 }
@@ -129,7 +129,7 @@
         "&": "f_trashcan",
         "b": "f_bench"
       },
-      "add": [
+      "place_item": [
         { "item": "rock", "x": 2, "y": 13 },
         { "item": "rock", "x": 22, "y": 19 }
       ],

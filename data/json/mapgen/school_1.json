@@ -148,7 +148,7 @@
         "r": { "item": "cannedfood", "chance": 95 }
       },
       "place_items": [],
-      "add": [
+      "place_item": [
         { "item": "american_flag", "x": 36, "y": 58, "amount": 1 }
       ],
       "place_monsters": [

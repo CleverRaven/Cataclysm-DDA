@@ -345,7 +345,7 @@
         { "item": "pasta", "x": 7, "y": 20, "chance": 75 },
         { "item": "camping", "x": 20, "y": 16, "chance": 75 }
       ],
-      "add": [
+      "place_item": [
         { "item": "log", "x": 17, "y": 3, "amount": [ 3, 8 ] }
       ],
       "place_monsters": [
