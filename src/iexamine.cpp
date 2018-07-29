@@ -125,6 +125,61 @@ void iexamine::cvdmachine( player &p, const tripoint & ) {
 }
 
 /**
+ * UI FOR LAB_FINALE NANO FABRICATOR.
+ */
+void iexamine::nanofab( player &p, const tripoint &examp )
+{
+    bool table_exists = false;
+    tripoint spawn_point;
+    for( const auto &valid_location : g->m.points_in_radius( examp, 1, 0 ) ) {
+        if( g->m.ter(valid_location) == t_nanofab_body ) {
+            spawn_point = valid_location;
+            table_exists = true;
+            break;
+        }
+    }
+    if (!table_exists){
+        return;
+    }
+
+    auto nanofab_template= g->inv_map_splice( []( const item &e ) {
+        return ( e.has_var( "NANOFAB_ITEM_ID" ) );
+    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE, _( "You don't have any usable templates." ) );
+
+    if( !nanofab_template ) {
+        return;
+    }
+
+    //item *it = nanofab_template.get_item();
+    item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
+
+    auto qty = new_item.volume() / units::legacy_volume_factor;
+    qty = std::max( 1, qty );
+    auto reqs = *requirement_id( "nanofabricator" ) * qty;
+
+    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+        popup( "%s", reqs.list_missing().c_str() );
+        return;
+    }
+
+    // Consume materials
+    for( const auto& e : reqs.get_components() ) {
+        p.consume_items( e );
+    }
+    for( const auto& e : reqs.get_tools() ) {
+        p.consume_tools( e );
+    }
+    p.invalidate_crafting_inventory();
+
+    // Create the item
+    g->m.spawn_an_item( spawn_point, new_item, new_item.type->charges_default() , 0);
+    if (new_item.is_armor() && new_item.has_flag( "VARSISE" ) ){
+        new_item.item_tags.insert( "FIT" );
+    }
+
+}
+
+/**
  * Use "gas pump."  Will pump any liquids on tile.
  */
 void iexamine::gaspump(player &p, const tripoint &examp)
@@ -3624,6 +3679,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "none", &iexamine::none },
         { "deployed_furniture", &iexamine::deployed_furniture },
         { "cvdmachine", &iexamine::cvdmachine },
+        { "nanofab", &iexamine::nanofab },
         { "gaspump", &iexamine::gaspump },
         { "atm", &iexamine::atm },
         { "vending", &iexamine::vending },

@@ -30,6 +30,12 @@
     "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
   },
   {
+    "id": "nanofabricator",
+    "type": "requirement",
+    "//": "Materials required by the nanofabricator to create an item (per 250ml volume)",
+    "components": [ [ [ "nanomaterial", 5 ] ] ]
+  },
+  {
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Materials used for crafting or repairing clothing or sheeting",

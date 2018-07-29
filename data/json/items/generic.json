@@ -1118,6 +1118,21 @@
     },
     {
         "type":"GENERIC",
+        "id": "standard_template_construct",
+        "symbol": "'",
+        "color": "cyan",
+        "name": "nanofabricator template",
+        "category": "spare_parts",
+        "description": "A lattice of golden metal lies inscribed in small disc of silicon substrate, it holds instructions to create an item through a nanofabricator",
+        "price": 13500,
+        "material": ["steel", "plastic"],
+        "weight": 317,
+        "volume": 10,
+        "to_hit": -1,
+        "flags": [ "NANOFAB_TEMPLATE" ]
+    },
+    {
+        "type":"GENERIC",
         "id": "antenna",
         "symbol": ",",
         "color": "light_gray",
