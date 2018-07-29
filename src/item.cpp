@@ -2707,7 +2707,7 @@ units::mass item::weight( bool include_contents ) const
     return ret;
 }
 
-static units::volume corpse_volume( m_size corpse_size )
+units::volume item::corpse_volume( m_size corpse_size ) const
 {
     if( !has_flag( "QUARTERED" ) ) {
         switch( corpse_size ) {
@@ -2725,8 +2725,9 @@ static units::volume corpse_volume( m_size corpse_size )
             case MS_LARGE:   return  23125_ml;
             case MS_HUGE:    return 218750_ml;
         }
-        debugmsg( "unknown monster size for corpse" );
-        return 0;
+    }
+    debugmsg( "unknown monster size for corpse" );
+    return 0;
 }
 
 units::volume item::base_volume() const

@@ -936,6 +936,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing. Affects butcher results.
+- ```IS_FIELD_DRESSED``` Temporary flag to check if corpse is being butchered or field dressed.
 - ```QUARTERED``` Corpse was quartered into parts. Affects butcher results, weight, volume.
 
 ## Bionics

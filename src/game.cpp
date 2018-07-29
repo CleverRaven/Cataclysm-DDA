@@ -10136,7 +10136,7 @@ void game::butcher()
     }
 
     bool no_morale_butcher = false;
-    if( !p.has_morale_to_craft() ) {
+    if( !u.has_morale_to_craft() ) {
         switch( butcher_type ) {
         case BUTCHER_OTHER:
             switch( indexer_index ) {
@@ -10148,12 +10148,17 @@ void game::butcher()
                 break;
             }
         case BUTCHER_CORPSE:
-                 no_morale_butcher = true;
-                break;
+            no_morale_butcher = true;
+            break;
         case FIELD_DRESS:
-                no_morale_butcher = true;
-                break;
+            no_morale_butcher = true;
+            break;
+        case BUTCHER_DISASSEMBLE:
+            break;
+        case BUTCHER_SALVAGE:
+            break;
         }
+
         if( no_morale_butcher ){
             add_msg( m_info, _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
             return;
