@@ -34,7 +34,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "nam
 
 void recipe_group_data::load( JsonObject &jo, const std::string & )
 {
-    building_type = jo.get_string("building_type");
+    building_type = jo.get_string( "building_type" );
     JsonArray jsarr;
     jsarr = jo.get_array( "recipes" );
     while( jsarr.has_more() ) {
@@ -48,8 +48,8 @@ void recipe_group_data::load( JsonObject &jo, const std::string & )
 
 void recipe_group_data::check() const
 {
-    for( auto a : cooking_recipes ){
-        if( !recipe_id( a.second ).is_valid() ){
+    for( auto a : cooking_recipes ) {
+        if( !recipe_id( a.second ).is_valid() ) {
             debugmsg( "%s is not a valid recipe", a.second );
         }
     }
@@ -59,18 +59,18 @@ std::map<std::string,std::string> recipe_group::get_recipes( std::string id )
 {
     std::map<std::string,std::string> all_rec;
     if( id == "ALL" ) {
-        for( auto gr : recipe_groups_data.get_all() ){
+        for( auto gr : recipe_groups_data.get_all() ) {
             std::map<std::string,std::string> tmp = gr.cooking_recipes;
-            all_rec.insert(tmp.begin(), tmp.end());
+            all_rec.insert( tmp.begin(), tmp.end() );
         }
         return all_rec;
     } else if( id == "COOK" || id == "BASE" || id == "FARM" || id == "SMITH" ) {
-        for( auto gr : recipe_groups_data.get_all() ){
-            if( gr.building_type != id ){
+        for( auto gr : recipe_groups_data.get_all() ) {
+            if( gr.building_type != id ) {
                 continue;
             }
             std::map<std::string,std::string> tmp = gr.cooking_recipes;
-            all_rec.insert(tmp.begin(), tmp.end());
+            all_rec.insert( tmp.begin(), tmp.end() );
         }
         return all_rec;
     }
@@ -94,5 +94,3 @@ void recipe_group::reset()
 {
     recipe_groups_data.reset();
 }
-
-
