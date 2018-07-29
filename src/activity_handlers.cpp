@@ -17,6 +17,7 @@
 #include "morale_types.h"
 #include "string_formatter.h"
 #include "output.h"
+#include "vpart_position.h"
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
@@ -73,7 +74,9 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
-    { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn }
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
+    { activity_id( "ACT_DIG" ), dig_do_turn },
+    { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -118,7 +121,11 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
     { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
-    { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish }
+    { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
+    { activity_id( "ACT_DIG" ), dig_finish },
+    { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
+    { activity_id( "ACT_SHAVE" ), shaving_finish },
+    { activity_id( "ACT_HAIRCUT" ), haircut_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p ) {
@@ -521,18 +528,27 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point 
         } else {
             p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
 
-            item chunk( meat, age );
+            item chunk( meat, age, 1 );
             chunk.set_mtype( corpse );
+
+            item parts( "offal", age, 0 );
+            parts.set_mtype( corpse );
 
             // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
             bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
                               !chunk.made_of ( material_id ( "veggy" ) );
-            item parts( make_offal ? "offal" : meat, age );
-            parts.set_mtype( corpse );
+
+            for ( int i = 1; i < pieces; ++i ) {
+                if ( make_offal && one_in( 3 ) ) {
+                    parts.charges++;
+                } else {
+                    chunk.charges++;
+                }
+            }
 
             g->m.add_item_or_charges( p->pos(), chunk );
-            for( int i = 1; i <= pieces; ++i ) {
-                g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
+            if ( parts.charges > 0 ) {
+                g->m.add_item_or_charges( p->pos(), parts );
             }
         }
     }
@@ -723,7 +739,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         switch( source_type ) {
         case LST_VEHICLE:
-            source_veh = g->m.veh_at( source_pos );
+            source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
             if( source_veh == nullptr ) {
                 throw std::runtime_error( "could not find source vehicle for liquid transfer" );
             }
@@ -761,8 +777,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
         case LTT_VEHICLE:
-            if( auto veh = g->m.veh_at( act.coords.at( 1 ) ) ) {
-                p->pour_into( *veh, liquid );
+            if( const optional_vpart_position vp = g->m.veh_at( act.coords.at( 1 ) ) ) {
+                p->pour_into( vp->vehicle(), liquid );
             } else {
                 throw std::runtime_error( "could not find target vehicle for liquid transfer" );
             }
@@ -892,11 +908,11 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
    if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-        if( fishables.size() < 1 ) {
+        if( fishables.empty() ) {
             if( one_in(20) ) {
                 item fish;
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                const mtype_id &fish_mon = random_entry_ref( fish_group );
                 g->m.add_item_or_charges(p->pos(), item::make_corpse( fish_mon ) );
                 p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
@@ -1017,8 +1033,8 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
-    if( veh ) {
+    if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
+        vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
         if( mech_skill > (int)rng(1, 6) ) {
             //success
@@ -1208,8 +1224,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at( pos );
     for( auto &corpse : corpse_pile ) {
-        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES )  ) {
-            // Don't smash non-rezing corpses
+        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES ) ||
+            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+              act->str_values.end() && corpse.get_mtype()->bloodType() == fd_acid ) ) {
+            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }
 
@@ -1380,7 +1398,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
+    const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
     veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -1395,11 +1413,11 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
         debugmsg("process_activity invalid ACT_VEHICLE values:%d",
                  act->values.size());
     } else {
-        if( veh ) {
+        if( vp ) {
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
-            g->exam_vehicle( *veh, act->values[ 2 ], act->values[ 3 ] );
+            g->exam_vehicle( vp->vehicle(), act->values[ 2 ], act->values[ 3 ] );
             return;
         } else {
             dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";
@@ -1454,7 +1472,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     vehicle *veh = g->remoteveh();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
-        veh = g->m.veh_at( pos );
+        veh = veh_pointer_or_null( g->m.veh_at( pos ) );
         if( !veh ) { return; }
     }
 
@@ -1521,8 +1539,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
         g->m.spawn_item( p->pos(), "steel_chunk", rng(2, 6) );
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
         g->m.spawn_item( pos, "pipe", rng(1, 4) );
         g->m.spawn_item( pos, "wire", rng(4, 16) );
@@ -1625,7 +1642,7 @@ struct weldrig_hack {
         }
 
         part = act.values[1];
-        veh = g->m.veh_at( act.coords[0] );
+        veh = veh_pointer_or_null( g->m.veh_at( act.coords[0] ) );
         if( veh == nullptr || veh->parts.size() <= ( size_t )part ) {
             part = -1;
             return false;
@@ -1642,9 +1659,8 @@ struct weldrig_hack {
             return pseudo;
         }
 
-        static item nulitem;
         // null item should be handled just fine
-        return nulitem;
+        return null_item_reference();
     }
 
     void clean_up()
@@ -1831,9 +1847,15 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
-            p->i_rem( &gun );
+            // Remove irremovable mods prior to destroying the gun
+            for( auto mod : gun.gunmods() ) {
+                if( mod->is_irremovable() ) {
+                    p->remove_item( *mod );
+                }
+            }
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );
+            p->i_rem( &gun );
         } else {
             add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );
@@ -1980,7 +2002,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         } else {
             p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         }
-        act->set_to_null();
+        p->cancel_activity();
         return;
     }
     act->moves_left -= crafting_speed * p->get_moves();
@@ -2040,21 +2062,6 @@ void activity_handlers::aim_finish( player_activity *, player * )
     return;
 }
 
-void activity_handlers::washing_finish( player_activity *act, player *p )
-{
-    item &filthy_item = p->i_at( act->position );
-
-    if( p->is_worn( filthy_item ) ) {
-        filthy_item.on_takeoff( *p );
-        filthy_item.item_tags.erase( "FILTHY" );
-        filthy_item.on_wear( *p );
-    }
-    filthy_item.item_tags.erase( "FILTHY" );
-
-    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
-    act->set_to_null();
-}
-
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p ) {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
@@ -2071,8 +2078,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p ) {
         g->m.furn_set( pos, f_null );
         g->m.spawn_item( pos, "pipe", rng( 1, 3 ) );
         g->m.spawn_item( pos, "steel_chunk" );
-    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
         g->m.ter_set( pos, t_dirt );
         g->m.spawn_item( pos, "pipe", 6 );
         g->m.spawn_item( pos, "wire", 20 );
@@ -2155,6 +2161,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
 
     g->m.ter_set( pos, t_dirt );
     g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+    g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
@@ -2182,5 +2189,70 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p ) {
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
 
+    act->set_to_null();
+}
+
+void activity_handlers::dig_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::dig_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+
+    if( g->m.ter( pos ) == t_pit_shallow ) {
+        g->m.ter_set( pos, t_pit );
+    } else {
+        g->m.ter_set( pos, t_pit_shallow );
+    }
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+
+    act->set_to_null();
+}
+
+void activity_handlers::fill_pit_do_turn( player_activity *act, player *p ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel filling a pit or mound at work!
+        sounds::sound( act->placement, 10, _( "hsh!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
+void activity_handlers::fill_pit_finish( player_activity *act, player *p ) {
+    const tripoint &pos = act->placement;
+    const ter_id ter = g->m.ter( pos );
+    const ter_id old_ter = ter;
+
+    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
+        ter == t_pit_corpsed ) {
+        g->m.ter_set( pos, t_pit_shallow );
+    } else {
+        g->m.ter_set( pos, t_dirt );
+    }
+
+    p->mod_hunger( 5 );
+    p->mod_thirst( 5 );
+    p->mod_fatigue( 10 );
+    p->add_msg_if_player( m_good, _( "You finish filling up %s."), old_ter.obj().name() );
+
+    act->set_to_null();
+}
+
+void activity_handlers::shaving_finish( player_activity *act, player *p ) {
+    p->add_msg_if_player( _( "You open up your kit and shave." ) );
+    p->add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+    act->set_to_null();
+}
+
+void activity_handlers::haircut_finish( player_activity *act, player *p ) {
+    p->add_msg_if_player( _( "You give your hair a trim." ) );
+    p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
     act->set_to_null();
 }

@@ -1,0 +1,135 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISPERSION_PER_GUN_DAMAGE",
+    "info": "Value that adds to weapon dispersion per weapon damage value.",
+    "stype": "int",
+    "value": 30
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_DIVIDER",
+    "info": "Value that divides total weapon dipsersion. 15 means that weapons became 15 times more acurate than default.",
+    "stype": "float",
+    "value": 15
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_FLAT_PENALTY_PER_SKILL",
+    "info": "Flat penalty of dispersion per point of skill under max.",
+    "stype": "float",
+    "value": 3
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_SKILL_THRESHOLD",
+    "info": "Skill threshold. Before used GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD + GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD. After - only GUN_DISPERSION_MULT_POST_THRESHOLD.",
+    "stype": "float",
+    "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD",
+    "info": "Gun dispersion multiplier for lack of skill before threshold. GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD will be added on top of it. GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD=3.75 GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD=1.25 means that zero skill character gets 3.75 + 1.25 = 5 extra weapon diseprsion multiplier.",
+    "stype": "float",
+    "value": 4.5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD",
+    "info": "Gun dispersion multiplier for lack of skill after threshold. 1.25 means that character with skill level 5 gets 1.25 extra weapon dispersion multiplier.",
+    "stype": "float",
+    "value": 1.5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STAMINA",
+    "info": "Sets max stamina value of the player.",
+    "stype": "int",
+    "value": 1000
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_HUNGER_RATE",
+    "info": "Set base hunger rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_THIRST_RATE",
+    "info": "Set base thirst rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_FATIGUE_RATE",
+    "info": "Set base fatigue rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_HEALING_RATE",
+    "info": "Set base player healing rate per turn. Default: 0.01",
+    "stype": "float",
+    "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NPC_HEALING_RATE",
+    "info": "Set base NPC healing rate per turn. Default: 0.01",
+    "stype": "float",
+    "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_FAULTS",
+    "info": "Disables vehicle part faults.  If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FILTHY_MORALE",
+    "info": "Morale penalty for filthy clothing.  If true, wearing filthy clothing will cause morale penalties.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MANUAL_BIONIC_INSTALLATION",
+    "info": "Permits manual self-installation of bionics.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SAFE_AUTODOC",
+    "info": "Makes autodoc operations completely safe, independent of the players skill.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FILTHY_WOUNDS",
+    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_NPC_FOOD",
+    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_VITAMINS",
+    "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
+    "stype": "bool",
+    "value": false
+  }
+]

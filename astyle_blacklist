@@ -12,7 +12,6 @@ src/computer.cpp
 src/construction.cpp
 src/creature.cpp
 src/cursesport.cpp
-src/defense.cpp
 src/dump.cpp
 src/effect.cpp
 src/event.cpp
@@ -25,10 +24,6 @@ src/inventory.cpp
 src/inventory_ui.cpp
 src/item.cpp
 src/item_factory.cpp
-src/iuse_actor.cpp
-src/iuse.cpp
-src/iuse_software_kitten.cpp
-src/iuse_software_minesweeper.cpp
 src/json.cpp
 src/lightmap.cpp
 src/line.cpp
@@ -73,7 +68,6 @@ src/field.h
 src/io.h
 src/item.h
 src/itype.h
-src/iuse.h
 src/json.h
 src/mapdata.h
 src/mapgen_functions.h

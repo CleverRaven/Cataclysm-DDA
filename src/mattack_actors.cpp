@@ -9,12 +9,14 @@
 #include "messages.h"
 #include "translations.h"
 #include "sounds.h"
+#include "gun_mode.h"
 #include "npc.h"
 #include "output.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "line.h"
 
+const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -270,7 +272,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp : eff.bp;
-            target.add_effect( eff.id, eff.duration, affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
 }
@@ -293,14 +295,14 @@ void bite_actor::load_internal( JsonObject &obj, const std::string &src )
 void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     melee_actor::on_damage( z, target, dealt );
-    if( one_in( no_infection_chance - dealt.total_damage() ) ) {
+    if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
         const body_part hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit ) ) {
-            target.add_effect( effect_bite, 400, hit, true );
+            target.add_effect( effect_bite, 40_minutes, hit, true );
         } else if( target.has_effect( effect_infected, hit ) ) {
-            target.add_effect( effect_infected, 250, hit, true );
+            target.add_effect( effect_infected, 25_minutes, hit, true );
         } else {
-            target.add_effect( effect_bite, 1, hit, true );
+            target.add_effect( effect_bite, 1_turns, hit, true );
         }
     }
 }
@@ -341,7 +343,7 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
             obj.throw_error( "incomplete or invalid range specified", "ranges" );
         }
         ranges.emplace( std::make_pair<int, int>( mode.get_int( 0 ), mode.get_int( 1 ) ),
-                        mode.size() > 2 ? mode.get_string( 2 ) : "" );
+                        gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );
     }
 
     obj.read( "max_ammo", max_ammo );
@@ -421,7 +423,7 @@ bool gun_actor::call( monster &z ) const
     return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) const
+void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) && g->u.sees( z ) ) {
@@ -442,11 +444,11 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
             sounds::sound( z.pos(), targeting_volume, _( targeting_sound.c_str() ) );
         }
         if( not_targeted ) {
-            z.add_effect( effect_targeted, targeting_timeout );
+            z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout ) );
         }
         if( not_laser_locked ) {
-            target.add_effect( effect_laserlocked, 5 );
-            target.add_effect( effect_was_laserlocked, 5 );
+            target.add_effect( effect_laserlocked, 5_turns );
+            target.add_effect( effect_was_laserlocked, 5_turns );
             target.add_msg_if_player( m_warning,
                                       _( "You're not sure why you've got a laser dot on you..." ) );
         }
@@ -493,11 +495,11 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
     z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
 
     if( require_targeting ) {
-        z.add_effect( effect_targeted, targeting_timeout_extend );
+        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
     }
 
     if( laser_lock ) {
         // To prevent spamming laser locks when the player can tank that stuff somehow
-        target.add_effect( effect_was_laserlocked, 5 );
+        target.add_effect( effect_was_laserlocked, 5_turns );
     }
 }

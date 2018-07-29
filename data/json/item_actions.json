@@ -73,6 +73,10 @@
         "name" : "Repair a gun"
     },{
         "type" : "item_action",
+        "id" : "DIRECTIONAL_HOLOGRAM",
+        "name" : "Create a moving hologram"
+    },{
+        "type" : "item_action",
         "id" : "ROBOTCONTROL",
         "name" : "Hack a robot"
     },{
@@ -157,10 +161,6 @@
         "name" : "Saw down barrel"
     },{
         "type" : "item_action",
-        "id" : "DIG",
-        "name" : "Clear rubble"
-    },{
-        "type" : "item_action",
         "id" : "ACIDBOMB_ACT",
         "name" : "Activate"
     },{
@@ -241,6 +241,10 @@
         "name" : "Capture/place"
     },{
         "type" : "item_action",
+        "id" : "CAPTURE_MONSTER_VEH",
+        "name" : "Capture/place"
+    },{
+        "type" : "item_action",
         "id" : "CARVER_OFF",
         "name" : "Turn on"
     },{
@@ -255,6 +259,10 @@
         "type" : "item_action",
         "id" : "CHEW",
         "name" : "Chew"
+    },{
+        "type" : "item_action",
+        "id" : "CLEAR_RUBBLE",
+        "name" : "Clear rubble"
     },{
         "type" : "item_action",
         "id" : "COKE",
@@ -283,6 +291,10 @@
         "type" : "item_action",
         "id" : "DATURA",
         "name" : "Eat"
+    },{
+        "type" : "item_action",
+        "id" : "DIG",
+        "name" : "Dig pit"
     },{
         "type" : "item_action",
         "id" : "DIRECTIONAL_ANTENNA",
@@ -323,6 +335,10 @@
         "type" : "item_action",
         "id" : "EYEDROPS",
         "name" : "Use"
+    },{
+        "type" : "item_action",
+        "id" : "FILL_PIT",
+        "name" : "Fill pit / tamp ground"
     },{
         "type" : "item_action",
         "id" : "FIRECRACKER",
@@ -455,6 +471,18 @@
         "type" : "item_action",
         "id" : "MP3_ON",
         "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "GASMASK",
+        "name" : "Prepare to use"
+    },{
+        "type" : "item_action",
+        "id" : "SOLARPACK",
+        "name" : "Unfold"
+    },{
+        "type" : "item_action",
+        "id" : "SOLARPACK_OFF",
+        "name" : "Fold"
     },{
         "type" : "item_action",
         "id" : "MULTICOOKER",
@@ -738,7 +766,12 @@
     },
     {
         "type" : "item_action",
-        "id" : "FEEDCATTLE",
+        "id" : "CATTLEFODDER",
+        "name" : "Place"
+    },
+    {
+        "type" : "item_action",
+        "id" : "BIRDFOOD",
         "name" : "Place"
     },
     {
@@ -755,5 +788,10 @@
         "type" : "item_action",
         "id" : "CHOP_LOGS",
         "name" : "Chop a Tree Trunk into logs"
+    },
+    {
+        "type" : "item_action",
+        "id" : "BREAK_STICK",
+        "name" : "Break stick"
     }
 ]

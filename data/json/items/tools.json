@@ -60,7 +60,7 @@
     "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
     "weight": 2500,
     "volume": 6,
-    "price": 450000,
+    "price": 200000,
     "bashing": 6,
     "material": "aluminum",
     "symbol": ")",
@@ -185,6 +185,7 @@
     "material": "iron",
     "symbol": ";",
     "color": "dark_gray",
+    "qualities": [ [ "ANVIL", 3 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -310,6 +311,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -482,6 +484,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
@@ -643,7 +646,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "BOLTCUTTERS"
+    "use_action": "BOLTCUTTERS",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "bone_flute",
@@ -851,8 +855,8 @@
   {
     "id": "bot_antimateriel",
     "type": "TOOL",
-    "name": "inactive antimateriel turret",
-    "description": "This is an inactive antimateriel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "name": "inactive anti-materiel turret",
+    "description": "This is an inactive anti-materiel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with a built-in rifle.",
     "weight": 1550,
     "volume": 14,
     "price": 500500,
@@ -983,6 +987,22 @@
     "max_charges": 1000
   },
   {
+    "id": "kiln",
+    "type": "TOOL",
+    "name": "electric kiln",
+    "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
+    "weight": 12000,
+    "volume": 30,
+    "price": 50000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "max_charges": 1000
+  },
+  {
     "id": "broadfire_off",
     "type": "TOOL",
     "category": "weapons",
@@ -1006,7 +1026,7 @@
       "target_id": "broadfire_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "Charge!!",
+      "success_message": "Charge!",
       "lacks_fuel_message": "No strength to fight!"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
@@ -1063,7 +1083,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -1198,13 +1218,13 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "can sealer",
-    "description": "A hand crank powered cast aluminum machine designed to automatically seal tin cans.",
+    "description": "A hand crank powered cast steel machine designed to automatically seal tin cans.",
     "weight": 9800,
     "volume": 20,
     "price": 52500,
     "to_hit": -2,
     "bashing": 8,
-    "material": "aluminum",
+    "material": "steel",
     "symbol": ";",
     "color": "light_gray"
   },
@@ -1373,7 +1393,7 @@
     "type": "TOOL",
     "name": "cell phone",
     "name_plural": "cell phones",
-    "description": "This is a typical smartphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
+    "description": "This is a typical cellphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.  Also it has a clock app that includes an alarm.",
     "weight": 226,
     "volume": 1,
     "price": 10000,
@@ -1586,7 +1606,8 @@
     "cutting": 2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "chisel",
@@ -1603,7 +1624,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 3 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "id": "circsaw_off",
@@ -1775,7 +1796,8 @@
     "color": "light_gray",
     "ammo": "gasoline",
     "max_charges": 1000,
-    "use_action": "COMBATSAW_OFF"
+    "use_action": "COMBATSAW_OFF",
+    "techniques": [ "WBLOCK_1", "SWEEP" ]
   },
   {
     "id": "combatsaw_on",
@@ -1797,7 +1819,7 @@
     "max_charges": 1000,
     "turns_per_charge": 1,
     "revert_to": "combatsaw_off",
-    "techniques": "SWEEP",
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
     "qualities": [ [ "AXE", 1 ] ],
     "use_action": "COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID" ]
@@ -1852,6 +1874,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "AXE", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP"],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -1997,6 +2020,7 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ] ],
     "use_action": "CROWBAR",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -2077,7 +2101,7 @@
     "max_charges": 800,
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
-    "techniques": [ "WBLOCK_1", "SPIN" ],
+    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_OFF",
     "flags": [ "NONCONDUCTIVE" ]
   },
@@ -2120,7 +2144,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -2167,6 +2191,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "DIG", 1 ] ]
   },
   {
@@ -2358,7 +2383,7 @@
     },
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
+      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away and use the remote control to detonate.",
       "explosion": { "power": 50 }
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
@@ -2398,7 +2423,29 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD" ]
+    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
+  },
+  {
+    "id": "eggs_ferment",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "fermenting eggs jar",
+    "description": "This jar contains a batch of eggs in a pickling solution.  You can seal up the jar once the process is completed.",
+    "weight": 52,
+    "volume": 1,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "glass", "egg" ],
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "jar_eggs_pickled",
+      "msg": "You examine the batch and see that the pickling soluction has done it's job, so you seal the jar up for storage.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 33600,
+      "not_ready_msg": "The eggs are not done yet."
+    }
   },
   {
     "id": "eink_tablet_pc",
@@ -2626,7 +2673,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
@@ -2819,7 +2866,7 @@
     "color": "dark_gray",
     "ammo": "gasoline",
     "max_charges": 50,
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "firemachete_on",
@@ -2852,7 +2899,7 @@
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firemachete_off",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2" ],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -3418,7 +3465,7 @@
     "material": [ "cotton", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "techniques": [ "RAPID", "SPIN" ],
+    "techniques": [ "SPIN", "WRAP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -3533,7 +3580,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ]
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "halligan",
@@ -3549,7 +3597,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "techniques": [ "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
     "use_action": "CROWBAR",
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
@@ -3623,7 +3671,7 @@
     "id": "hoe",
     "type": "TOOL",
     "name": "hoe",
-    "description": "This is a farming implement.  Use it to turn tillable land into a slow-to-cross pile of dirt.",
+    "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": 1088,
     "volume": 14,
     "price": 2000,
@@ -3633,6 +3681,8 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
+    "qualities": [ [ "DIG", 1 ] ],
+    "techniques": "WBLOCK_1",
     "use_action": "MAKEMOUND"
   },
   {
@@ -3837,6 +3887,29 @@
       "msg": "You open the jar, exposing it to the atmosphere.",
       "container": "jar_glass",
       "target_charges": 4,
+      "menu_text": "Open jar",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "jar_eggs_pickled",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "sealed jar of eggs",
+    "name_plural": "sealed jars of eggs",
+    "description": "This is a sealed glass jar containing pickled eggs.  Use to open and eat to enjoy.",
+    "weight": 1750,
+    "volume": 2,
+    "price": 650,
+    "bashing": 4,
+    "material": [ "glass", "veggy" ],
+    "symbol": "%",
+    "color": "green",
+    "use_action": {
+      "target": "pickle",
+      "msg": "You open the jar, exposing it to the atmosphere.",
+      "container": "jar_glass",
+      "target_charges": 6,
       "menu_text": "Open jar",
       "type": "transform"
     }
@@ -4133,7 +4206,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "RAPID", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -4152,7 +4225,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
@@ -4391,6 +4464,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
+    "techniques": ["WBLOCK_1", "BRUTAL", "SWEEP"],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -4408,7 +4482,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -4503,7 +4577,7 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": "HAMMER",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "makeshift_knife",
@@ -4539,6 +4613,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ]
   },
   {
@@ -4872,6 +4947,21 @@
     "use_action": "MOP"
   },
   {
+    "id": "mortar_pestle",
+    "type": "TOOL",
+    "name": "mortar and pestle",
+    "name_plural": "sets of mortar and pestle",
+    "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
+    "weight": 1632,
+    "volume": 4,
+    "price": 0,
+    "to_hit": -4,
+    "bashing": 3,
+    "material": "stone",
+    "symbol": ":",
+    "color": "light_gray"
+  },
+  {
     "id": "mp3",
     "type": "TOOL",
     "name": "mp3 player (off)",
@@ -5042,7 +5132,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -5193,7 +5283,8 @@
     "to_hit": 1,
     "material": [ "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "pan",
@@ -5257,7 +5348,7 @@
     "id": "pet_carrier",
     "type": "TOOL",
     "name": "pet carrier",
-    "description": "A plastic container meant to hold pets for transport.",
+    "description": "A plastic container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": 1000,
     "volume": 20,
     "price": 1000,
@@ -5267,6 +5358,23 @@
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "use_action": "CAPTURE_MONSTER_ACT",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "chicken_cage",
+    "type": "TOOL",
+    "name": "chicken cage",
+    "description": "A wire container made for transporting chickens, but you can use it to hold any tiny animal.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+    "weight": 250,
+    "volume": 10,
+    "price": 100,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "properties": [ [ "monster_size_capacity", "TINY" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -5302,6 +5410,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "use_action": "PICKAXE",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -5360,7 +5469,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "pipe_glass",
@@ -5478,7 +5587,7 @@
     "max_charges": 1,
     "use_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away, and use the remote control to detonate.",
+      "no_deactivate_msg": "You can't disarm your %s.  Place it, get away, and use the remote control to detonate.",
       "explosion": {
         "power": 12,
         "shrapnel": 4
@@ -5513,7 +5622,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ] ]
+    "qualities": [ [ "WRENCH", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "pockknife",
@@ -5529,7 +5639,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -5673,7 +5783,8 @@
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 1 ] ]
+    "qualities": [ [ "SAW_W", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_axe",
@@ -5688,7 +5799,8 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ] ]
+    "qualities": [ [ "AXE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_hammer",
@@ -5703,7 +5815,8 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": "HAMMER"
+    "use_action": "HAMMER",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "primitive_knife",
@@ -6055,7 +6168,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "SAW_W", 2 ] ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "scalpel",
@@ -6158,7 +6271,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
     "id": "screwdriver_set",
@@ -6174,7 +6287,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ]
+    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "scythe",
@@ -6300,6 +6414,7 @@
       "failure_message": "Aw, dangit.  It fails to start!",
       "lacks_fuel_message": "This thing needs some fuel!"
     },
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "SHEATH_SWORD" ]
   },
   {
@@ -6338,6 +6453,7 @@
         "moves": 30
       }
     ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -6358,7 +6474,7 @@
     "ammo": "battery",
     "max_charges": 500,
     "charges_per_use": 100,
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
     "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
   },
@@ -6412,7 +6528,7 @@
     "id": "shotgun_trap",
     "type": "TOOL",
     "name": "shotgun trap",
-    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barrelled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
     "weight": 2922,
     "volume": 7,
     "price": 25000,
@@ -6444,6 +6560,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 3 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -6461,6 +6578,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -6605,17 +6723,17 @@
         "type": "cauterize"
       }
     ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
     "id": "spear_knife",
     "type": "TOOL",
     "category": "weapons",
     "name": "knife spear",
-    "description": "This is a simple wood pole made much more deadly by the blade tied to it.",
+    "description": "A crude pole made of wood with an equally crude metal spike tied to it.  It's long enough to slice from a distance, but its crude construction means it won't last long.",
     "weight": 1487,
-    "volume": 6,
-    "price": 1400,
+    "volume": 5,
+    "price": 700,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 16,
@@ -6624,7 +6742,24 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ]
+  },
+  {
+    "id": "spear_homemade_halfpike",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "homemade halfpike",
+    "description": "A short do-it-yourself spear made of a smooth wooden shaft with a shaped metal shape seated and bound into place at its tip.  Its functional grip and decent construction makes it a usable, if not effective, weapon.",
+    "weight": 1814,
+    "volume": 6,
+    "price": 1400,
+    "to_hit": 1,
+    "bashing": 2,
+    "cutting": 19,
+    "material": [ "wood", "iron" ],
+    "symbol": "/",
+    "color": "brown",
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "spray_can",
@@ -6724,7 +6859,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1", "PRECISE" ],
+    "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -6837,6 +6972,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
+    "techniques": [ "RAPID" ],
     "flags": [ "STAB" ]
   },
   {
@@ -7173,7 +7309,8 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "tool_anfo_charge",
@@ -7384,7 +7521,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "RDX charge",
-    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+    "description": "This is an metal keg, filled with 50 liters worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
     "weight": 106600,
     "volume": 200,
     "price": 90000,
@@ -7419,7 +7556,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "active RDX charge",
-    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+    "description": "This is an metal keg, filled with 50 liters worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
     "weight": 106600,
     "volume": 200,
     "price": 0,
@@ -7529,7 +7666,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "rocket candy",
-    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpetre with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
+    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
     "weight": 250,
     "volume": 1,
     "price": 100,
@@ -7609,6 +7746,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
@@ -7640,6 +7778,7 @@
     "turns_per_charge": 20,
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -7969,7 +8108,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WBLOCK_1" ],
+    "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -8154,7 +8293,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "xacto",
@@ -8192,7 +8332,7 @@
     "color": "light_gray",
     "ammo": "gasoline",
     "max_charges": 50,
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "zweifire_on",
@@ -8223,7 +8363,7 @@
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -8255,7 +8395,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
@@ -8289,7 +8429,22 @@
     "material": "veggy",
     "symbol": ";",
     "color": "brown",
-    "use_action": "FEEDCATTLE"
+    "use_action": "CATTLEFODDER"
+  },
+  {
+    "id": "birdfood",
+    "type": "TOOL",
+    "name": "bird food",
+    "name_plural": "bird food",
+    "description": "What birds eat.  Mainly made of seeds, silages or legumes.  It's perfect for small birds.",
+    "weight": 60,
+    "volume": 1,
+    "price": 20,
+    "to_hit": -5,
+    "material": "veggy",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": "BIRDFOOD"
   },
   {
     "id": "link_sheet",
@@ -8304,5 +8459,36 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "knife_folding",
+    "type": "TOOL",
+    "name": "folding knife",
+    "name_plural": "folding knives",
+    "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
+    "weight": 256,
+    "volume": 1,
+    "price": 1500,
+    "bashing": 1,
+    "cutting": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [ "STAB", "BELT_CLIP" ]
+  },
+  {
+    "id": "electrolysis_kit",
+    "type": "TOOL",
+    "name": "electrolysis kit",
+    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
+    "weight": 250,
+    "volume": 1,
+    "price": 1000,
+    "material": [ "steel", "copper", "plastic" ],
+    "symbol": ";",
+    "ammo": "battery",
+    "magazines": [ [ "battery", [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ] ] ],
+    "magazine_well" : 0
   }
 ]

@@ -15,7 +15,7 @@
     "material": "superalloy",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -35,7 +35,7 @@
     "material": "bronze",
     "symbol": "!",
     "color": "yellow",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ]
   },
@@ -55,7 +55,7 @@
     "material": "bronze",
     "symbol": "/",
     "color": "yellow",
-    "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
+    "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
@@ -75,8 +75,24 @@
     "material": "bronze",
     "symbol": "/",
     "color": "yellow",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "anvil_bronze",
+    "type": "TOOL",
+    "name": "bronze anvil",
+    "description": "This is a block of oddly shaped bronze with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
+    "weight": 2180,
+    "volume": 10,
+    "price": 60000,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": "bronze",
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "ANVIL", 2 ] ],
     "flags": [ "DURABLE_MELEE" ]
   }
 ]

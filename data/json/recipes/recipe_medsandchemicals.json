@@ -1127,7 +1127,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "egg_bird", 1 ]
+      [ "eggs_bird", 1, "LIST" ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1788,7 +1788,7 @@
   "batch_time_factors": [ 80, 4 ],
   "qualities": [ { "id": "BOIL", "level": 1 } ],
   "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
-  "components": [ [ [ "lye", 40 ] ] ]
+  "components": [ [ [ "lye", 6 ] ] ]
 },{
   "type" : "recipe",
   "result": "heatpack",
@@ -1839,6 +1839,29 @@
     [
       [ "ammonia", 1 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fertilizer_liquid",
+  "id_suffix" : "simple",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 20000,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "flags": ["BLIND_HARD"],
+  "qualities":[
+    {"id":"BOIL","level":1}
+  ], "tools": [
+    [ [ "surface_heat", 10, "LIST" ] ]
+  ],
+  "components": [
+    [ [ "water", 4 ], [ "water_clean", 4 ] ],
+    [ [ "meal_bone", 2 ] ],
+    [ [ "meal_chitin_piece", 1 ] ],
+    [ [ "feces_bird", 10 ], [ "feces_cow", 4 ], [ "feces_manure", 6 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1932,11 +1955,12 @@
      [ "cooking_oil", 2 ]
     ],
     [
-     [ "lye_powder", 10 ], [ "lye", 2 ]
+     [ "lye", 2 ],
+     [ "lye_powder", 75 ]
     ],
     [
-     [ "water", 1 ],
-     [ "water_clean", 1 ]
+     [ "water", 2 ],
+     [ "water_clean", 2 ]
     ]
    ]
 },{
@@ -2369,7 +2393,7 @@
   "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
-    [ [ "ash", 50 ] ]
+    [ [ "ash", 500 ] ]
   ]
 }
 ]

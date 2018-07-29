@@ -250,7 +250,8 @@ void faction::randomize()
     } while( ( one_in( num_values ) || one_in( num_values ) ) && tries < 15 );
 
     std::string noun;
-    int sel = 1, best = strength;
+    int sel = 1;
+    int best = strength;
     if (sneak > best) {
         sel = 2;
         best = sneak;
@@ -268,27 +269,27 @@ void faction::randomize()
 
     switch (sel) {
     case 1:
-        noun  = _( faction_noun_strong[rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_strong ).c_str() );
         power = dice(5, 20);
         size  = dice(5, 6);
         break;
     case 2:
-        noun  = _( faction_noun_sneak [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_sneak ).c_str() );
         power = dice(5, 8);
         size  = dice(5, 8);
         break;
     case 3:
-        noun  = _( faction_noun_crime [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_crime ).c_str() );
         power = dice(5, 16);
         size  = dice(5, 8);
         break;
     case 4:
-        noun  = _( faction_noun_cult  [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_cult ).c_str() );
         power = dice(8, 8);
         size  = dice(4, 6);
         break;
     default:
-        noun  = _( faction_noun_none  [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_none ).c_str() );
         power = dice(6, 8);
         size  = dice(6, 6);
     }
@@ -305,11 +306,11 @@ void faction::randomize()
         do {
             std::string adj;
             if (good >= 3) {
-                adj = _( faction_adj_pos[rng(0, 14)].c_str() );
+                adj = _( random_entry_ref( faction_adj_pos ).c_str() );
             } else if  (good <= -3) {
-                adj = _( faction_adj_bad[rng(0, 14)].c_str() );
+                adj = _( random_entry_ref( faction_adj_bad ).c_str() );
             } else {
-                adj = _( faction_adj_neu[rng(0, 14)].c_str() );
+                adj = _( random_entry_ref( faction_adj_neu ).c_str() );
             }
             name = string_format(_("The %1$s %2$s"), adj.c_str(), noun.c_str());
             if (one_in(4)) {
@@ -377,9 +378,9 @@ bool faction::matches_us(faction_value v) const
 
 std::string faction::describe() const
 {
-    std::string ret;
-    ret = desc + "\n \n" + string_format( _("%1$s have the ultimate goal of %2$s."), name.c_str(),
-                                          _( facgoal_data[goal].name.c_str() ) );
+    std::string ret = _( desc.c_str() );
+    ret = ret + "\n\n" + string_format( _( "%1$s have the ultimate goal of %2$s." ), _( name.c_str() ),
+                                        _( facgoal_data[goal].name.c_str() ) );
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), _( facjob_data[job1].name.c_str()));
     } else {
@@ -547,7 +548,8 @@ std::string invent_name()
 std::string invent_adj()
 {
     int syllables = dice(2, 2) - 1;
-    std::string ret,  tmp;
+    std::string ret;
+    std::string tmp;
     switch (rng(0, 25)) {
     case  0:
         ret = pgettext( "faction adjective", "Ald" );
@@ -1006,7 +1008,7 @@ void faction_manager::display() const
             mvwprintz( w_list, 1, 1, c_white, _( "FACTIONS:" ) );
             for( size_t i = 0; i < valfac.size(); i++ ) {
                 nc_color col = ( i == sel ? h_white : c_white );
-                mvwprintz( w_list, i + 2, 1, col, valfac[i]->name );
+                mvwprintz( w_list, i + 2, 1, col, _( valfac[i]->name.c_str() ) );
             }
             wrefresh( w_list );
             werase( w_info );

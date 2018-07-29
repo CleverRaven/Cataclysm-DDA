@@ -13,6 +13,7 @@
 #include "projectile.h"
 #include "sounds.h"
 #include "output.h"
+#include "vpart_position.h"
 #include "trap.h"
 #include "vehicle.h"
 
@@ -114,7 +115,7 @@ static size_t blood_trail_len( int damage )
     return 0;
 }
 
-projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range,
+projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersion, double range,
         double target_size )
 {
     projectile_attack_aim aim;
@@ -142,7 +143,7 @@ projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, dou
 }
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
-        const tripoint &target_arg, dispersion_sources dispersion,
+        const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin, const vehicle *in_veh )
 {
     const bool do_animation = get_option<bool>( "ANIMATIONS" );
@@ -293,9 +294,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         if( in_veh != nullptr ) {
-            int part;
-            vehicle *other = g->m.veh_at( tp, part );
-            if( in_veh == other && other->is_inside( part ) ) {
+            const optional_vpart_position other = g->m.veh_at( tp );
+            if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
                 continue; // Turret is on the roof and can't hit anything inside
             }
         }
@@ -333,7 +333,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
-            if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh && critter->is_player() ) {
+            if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh &&
+                critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
@@ -353,7 +354,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             } else {
                 attack.missed_by = aim.missed_by;
             }
-        } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
+        } else if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot( tp, proj, !no_item_damage && tp == target );
@@ -391,7 +392,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     if( proj.proj_effects.count( "BOUNCE" ) ) {
         // Add effect so the shooter is not targeted itself.
         if( origin && !origin->has_effect( effect_bounced ) ) {
-            origin->add_effect( effect_bounced, 1 );
+            origin->add_effect( effect_bounced, 1_turns );
         }
         Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
             // search for creatures in radius 4 around impact site
@@ -407,7 +408,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
             add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
-            z.add_effect( effect_bounced, 1 );
+            z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
                                      sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );

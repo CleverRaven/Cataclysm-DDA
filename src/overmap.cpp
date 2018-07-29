@@ -22,6 +22,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "map_extras.h"
 #include "cata_utility.h"
 #include "sounds.h"
 #include "uistate.h"
@@ -183,7 +184,8 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "RIVER",          river_tile     },
     { "SIDEWALK",       has_sidewalk   },
     { "NO_ROTATE",      no_rotate      },
-    { "LINEAR",         line_drawing   }
+    { "LINEAR",         line_drawing   },
+    { "SUBWAY",         subway_connection   }
 };
 
 template<>
@@ -406,6 +408,12 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     return oter_str.str()[compare_size] == '_';
 }
 
+bool is_ot_subtype(const char* otype, const oter_id &oter)
+{
+    // Checks for any partial match.
+    return strstr(oter.id().c_str(), otype);
+}
+
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
@@ -598,6 +606,13 @@ bool oter_t::is_hardcoded() const
         "ice_lab_stairs",
         "ice_lab_core",
         "ice_lab_finale",
+        "central_lab",
+        "central_lab_stairs",
+        "central_lab_core",
+        "central_lab_finale",
+        "tower_lab",
+        "tower_lab_stairs",
+        "tower_lab_finale",
         "lab",
         "lab_core",
         "lab_stairs",
@@ -849,6 +864,9 @@ void load_region_settings( JsonObject &jo )
         if ( ! cjo.read("park_radius", new_region.city_spec.park_radius) && strict ) {
             jo.throw_error("city: park_radius required for default");
         }
+        if ( ! cjo.read("house_basement_chance", new_region.city_spec.house_basement_chance) && strict ) {
+            jo.throw_error("city: house_basement_chance required for default");
+        }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string &type,
                                                          building_bin &dest ) {
             if ( !cjo.has_object( type ) && strict ) {
@@ -866,6 +884,7 @@ void load_region_settings( JsonObject &jo )
             }
         };
         load_building_types( "houses", new_region.city_spec.houses );
+        load_building_types( "basements", new_region.city_spec.basements );
         load_building_types( "shops", new_region.city_spec.shops );
         load_building_types( "parks", new_region.city_spec.parks );
     }
@@ -993,7 +1012,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
         }
     }
 
-    if(region.field_coverage.boost_chance > 0.0f && region.field_coverage.boosted_percent_str.size() == 0) {
+    if( region.field_coverage.boost_chance > 0.0f && region.field_coverage.boosted_percent_str.empty() ) {
         fieldjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
     }
 
@@ -1026,6 +1045,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
     cityjo.read("shop_radius", region.city_spec.shop_radius);
     cityjo.read("park_radius", region.city_spec.park_radius);
+    cityjo.read("house_basement_chance", region.city_spec.house_basement_chance);
 
     const auto load_building_types = [&cityjo]( const std::string &type, building_bin &dest ) {
         JsonObject typejo = cityjo.get_object( type );
@@ -1037,6 +1057,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
         }
     };
     load_building_types( "houses", region.city_spec.houses );
+    load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
 }
@@ -1391,7 +1412,7 @@ std::vector<point> overmap::find_notes(int const z, std::string const &text)
     std::vector<point> note_locations;
     map_layer &this_layer = layer[z + OVERMAP_DEPTH];
     for( auto note : this_layer.notes ) {
-        if( lcmatch( note.text, text ) ) {
+        if( match_include_exclude( note.text, text ) ) {
             note_locations.push_back( global_base_point() + point( note.x, note.y ) );
         }
     }
@@ -1737,6 +1758,8 @@ bool overmap::generate_sub(int const z)
     std::vector<city> goo_points;
     std::vector<city> lab_points;
     std::vector<city> ice_lab_points;
+    std::vector<city> central_lab_points;
+    std::vector<point> lab_train_points;
     std::vector<point> shaft_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
@@ -1809,6 +1832,12 @@ bool overmap::generate_sub(int const z)
                 ice_lab_points.push_back(city(i, j, rng(1, 5 + z)));
             } else if (oter_above == "ice_lab_stairs") {
                 ter(i, j, z) = oter_id( "ice_lab" );
+            } else if (oter_above == "central_lab_core") {
+                central_lab_points.push_back(city(i, j, rng(std::max(1, 7 + z), 9 + z)));
+            } else if (oter_above == "central_lab_stairs") {
+                ter(i, j, z) = oter_id( "central_lab" );
+            } else if (is_ot_subtype("hidden_lab_stairs", oter_above)) {
+                (one_in(2) ? lab_points : ice_lab_points).push_back(city(i, j, rng(1, 5 + z)));
             } else if (oter_above == "mine_entrance") {
                 shaft_points.push_back( point(i, j) );
             } else if (oter_above == "mine_shaft" ||
@@ -1841,8 +1870,47 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
+    // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
+    // If the central lab exists, all labs which go down to z=4 will have a subway to central.
+    int lab_train_odds = 0;
+    if ( z == -2 && one_in(3)) lab_train_odds = 2;
+    if ( z == -4 && !central_lab_points.empty() ) lab_train_odds = 1;
+
+    for (auto &i : lab_points) {
+        bool lab = build_lab(i.x, i.y, z, i.s, &lab_train_points, "", lab_train_odds);
+        requires_sub |= lab;
+        if (!lab && ter(i.x, i.y, z) == "lab_core") {
+            ter(i.x, i.y, z) = oter_id( "lab" );
+        }
+    }
+    for (auto &i : ice_lab_points) {
+        bool ice_lab = build_lab(i.x, i.y, z, i.s, &lab_train_points, "ice_", lab_train_odds);
+        requires_sub |= ice_lab;
+        if (!ice_lab && ter(i.x, i.y, z) == "ice_lab_core") {
+            ter(i.x, i.y, z) = oter_id( "ice_lab" );
+        }
+    }
+    for (auto &i : central_lab_points) {
+        bool central_lab = build_lab(i.x, i.y, z, i.s, &lab_train_points, "central_", lab_train_odds);
+        requires_sub |= central_lab;
+        if (!central_lab && ter(i.x, i.y, z) == "central_lab_core") {
+            ter(i.x, i.y, z) = oter_id( "central_lab" );
+        }
+    }
+
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
+
+    subway_points.insert( subway_points.end(), lab_train_points.begin(), lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
+    // If on z = 4 and central lab is present, also connect the first and last points to ensure
+    // that the central lab (last point) can reach other labs (first point).
+    if (z == -4 && !central_lab_points.empty() && !lab_train_points.empty()) {
+        std::vector<point> extra_route;
+        extra_route.push_back(lab_train_points.front());
+        extra_route.push_back(lab_train_points.back());
+        connect_closest_points(extra_route, z, *subway_tunnel);
+    }
+
 
     for( auto &i : subway_points ) {
         if( is_ot_type( "sub_station", ter( i.x, i.y, z + 2 ) ) ) {
@@ -1850,19 +1918,20 @@ bool overmap::generate_sub(int const z)
         }
     }
 
-    for (auto &i : lab_points) {
-        bool lab = build_lab(i.x, i.y, z, i.s);
-        requires_sub |= lab;
-        if (!lab && ter(i.x, i.y, z) == "lab_core") {
-            ter(i.x, i.y, z) = oter_id( "lab" );
+    // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
+    bool is_first_in_pair = true;
+    for( auto &i : lab_train_points ) {
+        if (is_first_in_pair) {
+            if (is_ot_subtype("subway", ter( i.x + 1, i.y, z)) ||
+                is_ot_subtype("subway", ter( i.x - 1, i.y, z)) ||
+                is_ot_subtype("subway", ter( i.x, i.y + 1, z)) ||
+                is_ot_subtype("subway", ter( i.x, i.y - 1, z))) {
+                ter( i.x, i.y, z ) = oter_id( "lab_train_depot" );
+            } else {
+                ter( i.x, i.y, z ) = oter_id ( "empty_rock");
+            }
         }
-    }
-    for (auto &i : ice_lab_points) {
-        bool ice_lab = build_lab(i.x, i.y, z, i.s, true);
-        requires_sub |= ice_lab;
-        if (!ice_lab && ter(i.x, i.y, z) == "ice_lab_core") {
-            ter(i.x, i.y, z) = oter_id( "ice_lab" );
-        }
+        is_first_in_pair = !is_first_in_pair;
     }
 
     for( auto &i : ant_points ) {
@@ -1880,7 +1949,10 @@ bool overmap::generate_sub(int const z)
         }
     }
 
-    place_rifts( z );
+    // Disable rifts when they can interfere with subways and sewers.
+    if( z < -4 ) {
+        place_rifts( z );
+    }
     for( auto &i : mine_points ) {
         build_mine( i.x, i.y, z, i.s );
     }
@@ -2020,10 +2092,10 @@ static bool get_weather_glyph( tripoint const &pos, nc_color &ter_color, long &t
 static bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
 {
     auto possible_scent = overmap_buffer.scent_at( pos );
-    if( possible_scent.creation_turn >= 0 ) {
+    if( possible_scent.creation_time != calendar::before_time_starts ) {
         color_manager &color_list = get_all_colors();
         int i = 0;
-        int scent_age = calendar::turn - possible_scent.creation_turn;
+        time_duration scent_age = calendar::turn - possible_scent.creation_time;
         while( i < num_colors && scent_age > 0 ) {
             i++;
             scent_age /= 10;
@@ -2066,6 +2138,8 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
                              100;
+    // Whether showing hordes is currently enabled
+    const bool showhordes = uistate.overmap_show_hordes;
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
@@ -2198,10 +2272,10 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
-            } else if (blink && los && overmap_buffer.has_horde(omx, omy, z)) {
+            } else if (blink && showhordes && los && overmap_buffer.get_horde_size(omx, omy, z) >= HORDE_VISIBILITY_SIZE) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
-                ter_sym   = 'Z';
+                ter_sym   = overmap_buffer.get_horde_size(omx, omy, z) > HORDE_VISIBILITY_SIZE*2 ? 'Z' : 'z';
             } else if (blink && overmap_buffer.has_vehicle(omx, omy, z)) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
@@ -2481,6 +2555,7 @@ void overmap::draw( const catacurses::window &w, const catacurses::window &wbar,
         print_hint( "TOGGLE_BLINKING" );
         print_hint( "TOGGLE_OVERLAYS" );
         print_hint( "TOGGLE_CITY_LABELS" );
+        print_hint( "TOGGLE_HORDES" );
         print_hint( "TOGGLE_EXPLORED" );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
@@ -2547,6 +2622,11 @@ void overmap::draw_city_labels( const catacurses::window &w, const tripoint &cen
 tripoint overmap::draw_overmap()
 {
     return draw_overmap(g->u.global_omt_location(), draw_data_t());
+}
+
+tripoint overmap::draw_overmap( tripoint origin )
+{
+    return draw_overmap( origin, draw_data_t());
 }
 
 tripoint overmap::draw_overmap(int z)
@@ -2628,6 +2708,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     ictxt.register_action("LIST_NOTES");
     ictxt.register_action("TOGGLE_BLINKING");
     ictxt.register_action("TOGGLE_OVERLAYS");
+    ictxt.register_action("TOGGLE_HORDES");
     ictxt.register_action("TOGGLE_CITY_LABELS");
     ictxt.register_action("TOGGLE_EXPLORED");
     if( data.debug_editor ) {
@@ -2641,7 +2722,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input( BLINK_SPEED );
 
-        int dirx, diry;
+        int dirx = 0;
+        int diry = 0;
         if (ictxt.get_direction(dirx, diry, action)) {
             curs.x += dirx;
             curs.y += diry;
@@ -2702,16 +2784,20 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 show_explored = !show_explored;
             }
+        } else if (action == "TOGGLE_HORDES") {
+            uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs.x, curs.y, curs.z );
         } else if( action == "SEARCH" ) {
-            std::string term = string_input_popup().title( _( "Search term:" ) ).query_string();
+            std::string term = string_input_popup()
+            .title( _( "Search term:" ) )
+            .description( _( "Multiple entries separated with , Excludes starting with -" ) )
+            .query_string();
             if( term.empty() ) {
                 continue;
             }
-            std::transform( term.begin(), term.end(), term.begin(), tolower );
 
             std::vector<point> locations;
             std::vector<point> overmap_checked;
@@ -2737,7 +2823,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                         }
 
                         if( om->seen( om_relative_x, om_relative_y, curs.z ) &&
-                            lcmatch( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
+                            match_include_exclude( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
                             locations.push_back( om->global_base_point() + point( om_relative_x, om_relative_y ) );
                         }
                     }
@@ -2810,12 +2896,12 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             const bool terrain = action == "PLACE_TERRAIN";
 
             if( terrain ) {
-                pmenu.title = "Select terrain to place:";
+                pmenu.title = _( "Select terrain to place:" );
                 for( const auto &oter : terrains.get_all() ) {
                     pmenu.addentry( oter.id.id(), true, 0, oter.id.str() );
                 }
             } else {
-                pmenu.title = "Select special to place:";
+                pmenu.title = _( "Select special to place:" );
                 for( const auto &elem : specials.get_all() ) {
                     oslist.push_back( &elem );
                     pmenu.addentry( oslist.size()-1, true, 0, elem.id.str() );
@@ -2932,7 +3018,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     werase(g->w_overmap);
     werase(g->w_omlegend);
     catacurses::erase();
-    g->refresh_all();
+    g->init_ui( true );
     return ret;
 }
 
@@ -3085,7 +3171,9 @@ void overmap::move_hordes()
             if(
                 !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
                 type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
+                this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
+                !this_monster.will_join_horde(INT_MAX) || // So are zombies who won't join a horde of any size.
                 this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
@@ -3093,28 +3181,37 @@ void overmap::move_hordes()
                 continue;
             }
 
-            // Scan for compatible hordes in this area.
+            // Scan for compatible hordes in this area, selecting the largest.
             mongroup *add_to_group = NULL;
             auto group_bucket = zg.equal_range(p);
+            std::vector<monster>::size_type add_to_horde_size = 0;
             std::for_each( group_bucket.first, group_bucket.second,
                 [&](std::pair<const tripoint, mongroup> &horde_entry ) {
                 mongroup &horde = horde_entry.second;
 
                 // We only absorb zombies into GROUP_ZOMBIE hordes
-                if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE) {
+                if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE && horde.monsters.size() > add_to_horde_size) {
                     add_to_group = &horde;
+                    add_to_horde_size = horde.monsters.size();
                 }
             });
 
-            // If there is no horde to add the monster to, create one.
-            if(add_to_group == NULL) {
-                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 1, 0);
-                m.horde = true;
-                m.monsters.push_back(this_monster);
-                m.interest = 0; // Ensures that we will select a new target.
-                add_mon_group( m );
-            } else {
-                add_to_group->monsters.push_back(this_monster);
+            // Check again if the zombie will join the largest horde, now that we know the accurate size.
+            if (this_monster.will_join_horde(add_to_horde_size)) {
+                // If there is no horde to add the monster to, create one.
+                if( add_to_group == NULL) {
+                    mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 1, 0);
+                    m.horde = true;
+                    m.monsters.push_back(this_monster);
+                    m.interest = 0; // Ensures that we will select a new target.
+                    add_mon_group( m );
+                } else {
+                    add_to_group->monsters.push_back(this_monster);
+                }
+            } else { // Bad luck--the zombie would have joined a larger horde, but not this one.  Skip.
+                // Don't delete the monster, just increment the iterator.
+                monster_map_it++;
+                continue;
             }
 
             // Delete the monster, continue iterating.
@@ -3179,7 +3276,9 @@ void overmap::place_forest()
 {
     int forests_placed = 0;
     for (int i = 0; i < settings.num_forests; i++) {
-        int forx, fory, fors;
+        int forx = 0;
+        int fory = 0;
+        int fors = 0;
         // try to place this forest
         int tries = 100;
         do {
@@ -3266,7 +3365,8 @@ void overmap::place_forest()
 
 void overmap::place_river(point pa, point pb)
 {
-    int x = pa.x, y = pa.y;
+    int x = pa.x;
+    int y = pa.y;
     do {
         x += rng(-1, 1);
         y += rng(-1, 1);
@@ -3502,10 +3602,10 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     }
 }
 
-bool overmap::build_lab( int x, int y, int z, int s, bool ice )
+bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points, const std::string prefix, int train_odds )
 {
     std::vector<point> generated_lab;
-    const oter_id labt( ice ? "ice_lab" : "lab" );
+    const oter_id labt( prefix + "lab" );
     const oter_id labt_stairs( labt.id().str() + "_stairs" );
     const oter_id labt_core( labt.id().str() + "_core" );
     const oter_id labt_finale( labt.id().str() + "_finale" );
@@ -3523,7 +3623,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
         const int &cy = cand->y;
         int dist = abs( x - cx ) + abs( y - cy );
         if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
-            if( one_in( dist / 2 + 1 ) ) { // odds diminish farther away from the stairs
+            int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
+            if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
                 ter( cx, cy, z ) = labt;
                 generated_lab.push_back( *cand );
                 // add new candidates, don't backtrack
@@ -3546,7 +3647,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
 
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == labt_stairs ) {
+        // Use a check for "_stairs" to catch the hidden_lab_stairs tiles.
+        if( is_ot_subtype("_stairs", ter( elem.x, elem.y, z + 1 ))) {
             generate_stairs = false;
         }
     }
@@ -3559,7 +3661,8 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     int numstairs = 0;
     if( s > 0 ) { // Build stairs going down
         while( !one_in( 6 ) ) {
-            int stairx, stairy;
+            int stairx = 0;
+            int stairy = 0;
             int tries = 0;
             do {
                 stairx = rng( x - s, x + s );
@@ -3572,8 +3675,11 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
             }
         }
     }
-    if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
-        int finalex, finaley;
+
+    // We need a finale on the bottom of labs.  Central labs have a chance of additional finales.
+    if( numstairs == 0 || ( prefix == "central_" && one_in(-z-1) ) ) {
+        int finalex = 0;
+        int finaley = 0;
         int tries = 0;
         do {
             finalex = rng( x - s, x + s );
@@ -3582,6 +3688,40 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
         } while( tries < 15 && ter( finalex, finaley, z ) != labt
                   && ter( finalex, finaley, z ) != labt_core );
         ter( finalex, finaley, z ) = labt_finale;
+    }
+
+    if( train_odds > 0 && one_in(train_odds) ) {
+        int trainx = 0;
+        int trainy = 0;
+        int tries = 0;
+        int adjacent_labs = 0;
+
+        do {
+            trainx = rng( x - s*1.5 - 1, x + s*1.5 + 1);
+            trainy = rng( y - s*1.5 - 1, y + s*1.5 + 1);
+            tries++;
+
+            adjacent_labs = ( is_ot_subtype( "lab", ter( trainx, trainy - 1, z )) ? 1 : 0) +
+                            ( is_ot_subtype( "lab", ter( trainx - 1, trainy, z )) ? 1 : 0) +
+                            ( is_ot_subtype( "lab", ter( trainx , trainy + 1, z )) ? 1 : 0) +
+                            ( is_ot_subtype( "lab", ter( trainx + 1, trainy, z )) ? 1 : 0);
+        } while( tries < 50 && (
+                  ter( trainx, trainy, z ) == labt ||
+                  ter( trainx, trainy, z ) == labt_stairs ||
+                  ter( trainx, trainy, z ) == labt_finale ||
+                  adjacent_labs != 1 ) );
+        if( tries < 50 ) {
+            lab_train_points->push_back( point( trainx, trainy ) );
+            if(is_ot_subtype( "lab", ter( trainx, trainy - 1, z ) ) ) {
+                lab_train_points->push_back( point( trainx, trainy + 1) );
+            } else if(is_ot_subtype( "lab", ter( trainx, trainy + 1, z ) ) ) {
+                lab_train_points->push_back( point( trainx, trainy - 1) );
+            } else if(is_ot_subtype( "lab", ter( trainx + 1, trainy, z ) ) ) {
+                lab_train_points->push_back( point( trainx - 1, trainy) );
+            } else if(is_ot_subtype( "lab", ter( trainx - 1, trainy, z ) ) ) {
+                lab_train_points->push_back( point( trainx + 1, trainy) );
+            }
+        }
     }
 
     return numstairs > 0;
@@ -3915,7 +4055,7 @@ void overmap::connect_closest_points( const std::vector<point> &points, int z, c
     }
     for( size_t i = 0; i < points.size(); ++i ) {
         int closest = -1;
-        int k;
+        int k = 0;
         for( size_t j = i + 1; j < points.size(); j++ ) {
             const int distance = trig_dist( points[i].x, points[i].y, points[j].x, points[j].y );
             if( distance < closest || closest < 0) {
@@ -4096,7 +4236,7 @@ point om_direction::rotate( const point &p, type dir )
 {
     switch( dir ) {
         case type::invalid:
-            debugmsg( "Invalid overmap rotation (%d).", dir );
+            debugmsg( "Invalid overmap rotation (%d).", static_cast<int>( dir ) );
             // Intentional fallthrough.
         case type::north:
             break;  // No need to do anything.
@@ -4275,9 +4415,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     // Make connections.
     if( cit ) {
         for( const auto &elem : special.connections ) {
-            const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
-
             if( elem.connection ) {
+                const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
                 build_connection( point( cit.x, cit.y ), point( rp.x, rp.y ), elem.p.z, *elem.connection );
             }
         }
@@ -4288,6 +4427,12 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
+    }
+    // Place basement for houses.
+    if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {
+        const overmap_special_id basement_tid = settings.city_spec.pick_basement();
+        const tripoint basement_p = tripoint( p.x, p.y, p.z - 1 );
+        place_special( *basement_tid, basement_p, dir, cit );
     }
 }
 
@@ -4765,6 +4910,7 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
 void city_settings::finalize()
 {
     houses.finalize();
+    basements.finalize();
     shops.finalize();
     parks.finalize();
 }
@@ -4781,9 +4927,9 @@ void building_bin::add( const overmap_special_id &building, int weight )
 
 overmap_special_id building_bin::pick() const
 {
-    overmap_special_id null_special( "null" );
     if( !finalized ) {
         debugmsg( "Tried to pick a special out of a non-finalized bin" );
+        overmap_special_id null_special( "null" );
         return null_special;
     }
 
@@ -4795,6 +4941,7 @@ void building_bin::clear()
     finalized = false;
     buildings.clear();
     unfinalized_buildings.clear();
+    all.clear();
 }
 
 void building_bin::finalize()
@@ -4817,6 +4964,8 @@ void building_bin::finalize()
             if( !converted_id.is_valid() ) {
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type", pr.first.c_str() );
                 continue;
+            } else {
+                all.emplace_back( pr.first.str() );
             }
             current_id = overmap_specials::create_building_from( converted_id );
         }

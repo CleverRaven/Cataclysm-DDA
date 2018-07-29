@@ -22,8 +22,20 @@ mtype::mtype()
     def_chance = 0;
     upgrades = false;
     half_life = -1;
+    age_grow = -1;
     upgrade_into = mtype_id::NULL_ID();
     upgrade_group = mongroup_id::NULL_ID();
+
+    reproduces = false;
+    baby_timer = -1;
+    baby_count = -1;
+    baby_monster = mtype_id::NULL_ID();
+    baby_egg = "null";
+
+    biosignatures = false;
+    biosig_timer = -1;
+    biosig_item = "null";
+
     burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
@@ -50,12 +62,12 @@ bool mtype::has_flag( m_flag flag ) const
     return bitflags[flag];
 }
 
-bool mtype::has_flag( std::string flag ) const
+bool mtype::has_flag( const std::string &flag ) const
 {
     return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
 }
 
-void mtype::set_flag( std::string flag, bool state )
+void mtype::set_flag( const std::string &flag, bool state )
 {
     if( state ) {
         flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
@@ -84,7 +96,7 @@ bool mtype::has_placate_trigger( monster_trigger trig ) const
     return bitplacate[trig];
 }
 
-bool mtype::in_category( std::string category ) const
+bool mtype::in_category( const std::string &category ) const
 {
     return ( categories.find( category ) != categories.end() );
 }

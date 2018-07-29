@@ -32,13 +32,13 @@ class wish_mutate_callback: public uimenu_callback
         std::string padding;
 
         nc_color mcolor( const trait_id &m ) {
-            if( pTraits[ m ] == true ) {
+            if( pTraits[ m ] ) {
                 return c_green;
             }
             return c_light_gray;
         }
 
-        wish_mutate_callback() : msg( "" ) {
+        wish_mutate_callback() : msg() {
             lastlen = 0;
             started = false;
             vTraits.clear();
@@ -170,7 +170,8 @@ class wish_mutate_callback: public uimenu_callback
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg = padding;
             input_context ctxt( "UIMENU" );
-            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[%s] find, [%s] quit" ),
+            mvwprintw( menu->window, menu->w_height - 2, startx,
+                       _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
         };
@@ -274,7 +275,7 @@ class wish_monster_callback: public uimenu_callback
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
-            : msg( "" ), padding( "" ), mtypes( mtypes ) {
+            : msg(), padding(), mtypes( mtypes ) {
             started = false;
             friendly = false;
             hallucination = false;
@@ -409,15 +410,26 @@ class wish_item_callback: public uimenu_callback
 {
     public:
         bool incontainer;
+        bool has_flag;
         std::string msg;
+        std::string flag;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
-            incontainer( false ), msg( "" ), standard_itype_ids( ids ) {
+            incontainer( false ), has_flag( false ), msg(), standard_itype_ids( ids ) {
         }
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uimenu * /*menu*/ ) override {
             if( event.get_first_input() == 'f' ) {
                 incontainer = !incontainer;
+                return true;
+            }
+            if( event.get_first_input() == 'F' ) {
+                flag = string_input_popup()
+                       .title( _( "Add which flag?  Use UPPERCASE letters without quotes" ) )
+                       .query_string();
+                if( flag.length() > 0 ) {
+                    has_flag = true;
+                }
                 return true;
             }
             return false;
@@ -432,9 +444,10 @@ class wish_item_callback: public uimenu_callback
             }
             item tmp( standard_itype_ids[entnum], calendar::turn );
             mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
-            const std::string header = string_format( "#%d: %s%s", entnum,
+            const std::string header = string_format( "#%d: %s%s%s", entnum,
                                        standard_itype_ids[entnum]->get_id().c_str(),
-                                       ( incontainer ? _( " (contained)" ) : "" ) );
+                                       ( incontainer ? _( " (contained)" ) : "" ),
+                                       ( has_flag ? _( " (flagged)" ) : "" ) );
             mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan,
                        header );
 
@@ -444,7 +457,8 @@ class wish_item_callback: public uimenu_callback
             msg.erase();
 
             input_context ctxt( "UIMENU" );
-            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[%s] find, [f] container, [%s] quit" ),
+            mvwprintw( menu->window, menu->w_height - 2, startx,
+                       _( "[%s] find, [f] container, [F] flag, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
         }
 };
@@ -457,7 +471,8 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     }
     const auto opts = item_controller->all();
 
-    int prev_amount, amount = 1;
+    int prev_amount = 1;
+    int amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
@@ -482,6 +497,9 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             item granted( opts[wmenu.ret] );
             if( cb.incontainer ) {
                 granted = granted.in_its_container();
+            }
+            if( cb.has_flag ) {
+                granted.item_tags.insert( cb.flag );
             }
             prev_amount = amount;
             bool canceled = false;

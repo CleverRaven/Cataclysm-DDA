@@ -204,9 +204,9 @@ void uimenu::init()
  */
 void uimenu::filterlist()
 {
-    bool notfiltering = ( ! filtering || filter.size() < 1 );
+    bool notfiltering = ( ! filtering || filter.empty() );
     int num_entries = entries.size();
-    bool nocase = (filtering_nocase == true); // @todo: && is_all_lc( filter )
+    bool nocase = filtering_nocase; // @todo: && is_all_lc( filter )
     std::string fstr = "";
     fstr.reserve(filter.size());
     if ( nocase ) {
@@ -218,7 +218,7 @@ void uimenu::filterlist()
     fselected = -1;
     int f = 0;
     for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( nocase == false && (int)entries[ i ].txt.find(filter) != -1 ) ||
+        if( notfiltering || ( !nocase && (int)entries[ i ].txt.find(filter) != -1 ) ||
             lcmatch(entries[i].txt, fstr ) ) {
             fentries.push_back( i );
             if ( i == selected ) {
@@ -277,7 +277,7 @@ std::string uimenu::inputfilter()
         event = popup.context().get_raw_input();
         // key = filter_input->keypress;
         if ( event.get_first_input() != KEY_ESCAPE ) {
-            if ( scrollby( scroll_amount_from_key( event.get_first_input() ) ) == false ) {
+            if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
                 filterlist();
             }
             show();
@@ -428,7 +428,7 @@ void uimenu::setup()
         } else if ( textwidth != -1 ) {
             realtextwidth = textwidth;
         }
-        if ( formattxt == true ) {
+        if ( formattxt ) {
             textformatted = foldstring(text, realtextwidth);
         }
     }
@@ -818,7 +818,7 @@ void uimenu::query(bool loop)
 
         if ( skipkey ) {
             /* nothing */
-        } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
+        } else if( scrollby( scroll_amount_from_action( action ) ) ) {
             /* nothing */
         } else if ( action == "HELP_KEYBINDINGS" ) {
             /* nothing, handled by input_context */
@@ -858,7 +858,7 @@ void uimenu::query(bool loop)
  */
 void uimenu::reset()
 {
-	window = catacurses::window();
+    window = catacurses::window();
     init();
 }
 

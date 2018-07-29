@@ -2,6 +2,8 @@
   {
     "id": "rm120c",
     "type": "GUN",
+    "reload_noise_volume": 10,
+    "reload_noise": "chuk chuk.",
     "name": "RM120c shotgun",
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM120c caseless pump-action shotgun was designed for hunting big game, with durability and ease of use as priorities.",
     "weight": 1880,
@@ -16,7 +18,7 @@
     "skill": "shotgun",
     "range": 6,
     "ranged_damage": 4,
-    "dispersion": 45,
+    "dispersion": 345,
     "durability": 9,
     "clip_size": 5,
     "barrel_length": 3,
@@ -34,6 +36,8 @@
   {
     "id": "rm20",
     "type": "GUN",
+    "reload_noise_volume": 10,
+    "reload_noise": "chuk chuk.",
     "name": "RM20 autoshotgun",
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM20 caseless automatic combat shotgun was designed with durability and overwhelming power in mind.",
     "weight": 2820,
@@ -46,7 +50,7 @@
     "color": "dark_gray",
     "ammo": "20x66mm",
     "skill": "shotgun",
-    "dispersion": 90,
+    "dispersion": 390,
     "durability": 9,
     "burst": 4,
     "valid_mod_locations": [
@@ -65,6 +69,8 @@
   {
     "id": "rm228",
     "type": "GUN",
+    "reload_noise_volume": 10,
+    "reload_noise": "chuk chuk.",
     "name": "RM228 PDW",
     "description": "Chambering the powerful 20x66mm caseless shotgun cartridge, the Rivtech RM228 PDW was designed for the civilian personal defense market with durability and ease of use as priorities.  While lauded for its small size and light weight, its hefty price tag kept it out of the reach of casual collectors.",
     "weight": 780,
@@ -77,7 +83,7 @@
     "color": "dark_gray",
     "ammo": "20x66mm",
     "skill": "pistol",
-    "dispersion": 250,
+    "dispersion": 550,
     "durability": 9,
     "default_mods": [ "pistol_stock" ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],

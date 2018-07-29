@@ -197,15 +197,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -244,15 +236,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -286,15 +270,7 @@
       [ "bee_sting", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -363,15 +339,7 @@
       [ "bee_sting", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -399,15 +367,7 @@
       [ "steel_chunk", 2 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -438,15 +398,7 @@
       [ "bee_sting", 2 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -486,15 +438,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -528,15 +472,7 @@
       [ "bee_sting", 2 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -564,15 +500,63 @@
       [ "steel_chunk", 3 ]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "arrow_metal_bodkin",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
+  "difficulty" : 5,
+  "time" : 20000,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 4 ]],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
+  ], "components" : [
+    [
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
+    ],
+    [
+      [ "scrap", 9 ],
+      [ "steel_chunk", 3 ]
+    ],
+    [
+      [ "fletching", 1, "LIST" ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "arrow_metal_target",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
+  "difficulty" : 5,
+  "time" : 20000,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 4 ]],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
+  ], "components" : [
+    [
+      [ "adhesive", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
+    ],
+    [
+      [ "scrap", 9 ],
+      [ "steel_chunk", 3 ]
+    ],
+    [
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -700,6 +684,60 @@
       ]
     ],
      "//" : "Extra steel is for stablizers, mass, etc.  These are mostly better thanks to the maker's skill, though.",
+     "components": [
+    [
+      ["steel_chunk", 2]
+    ],
+    [
+      ["scrap", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bolt_steel_bodkin",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 10000,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1}
+  ],
+     "tools": [
+    [
+      ["forge", 7],
+      ["oxy_torch", 2]
+      ]
+    ],
+     "components": [
+    [
+      ["steel_chunk", 2]
+    ],
+    [
+      ["scrap", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bolt_steel_target",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 10000,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1}
+  ],
+     "tools": [
+    [
+      ["forge", 7],
+      ["oxy_torch", 2]
+      ]
+    ],
      "components": [
     [
       ["steel_chunk", 2]
@@ -1075,15 +1113,7 @@
       ["plastic_chunk", 3]
     ],
     [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "paper", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 40 ],
-      [ "cash_card", 2 ]
+      [ "fletching", 1, "LIST" ]
     ]
   ]
 },{
@@ -1113,14 +1143,12 @@
   "time": 100000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["anvil", -1]
      ],
      [
       ["crucible", -1],
@@ -1150,12 +1178,12 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
+    { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
     [ ["tongs", -1]  ],
     [ ["swage", -1]  ],
-    [ ["anvil", -1]  ],
     [ ["forge", 50], [ "oxy_torch", 10] ]
            ],
   "components": [

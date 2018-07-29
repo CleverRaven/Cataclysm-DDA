@@ -270,6 +270,9 @@ void Character::load(JsonObject &data)
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
 
+    data.read( "damage_bandaged", damage_bandaged );
+    data.read( "damage_disinfected", damage_disinfected );
+
     JsonArray parray;
 
     data.read("underwater", underwater);
@@ -546,6 +549,8 @@ void player::store(JsonOut &json) const
     // @todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
+    json.member( "damage_bandaged", damage_bandaged );
+    json.member( "damage_disinfected", damage_disinfected );
 
     // npc; unimplemented
     json.member( "power_level", power_level );
@@ -1030,8 +1035,13 @@ void npc::load(JsonObject &data)
     int classtmp = 0;
     int atttmp = 0;
     std::string facID;
-    std::string comp_miss;
+    std::string comp_miss_id;
+    std::string comp_miss_role;
+    tripoint comp_miss_pt;
     std::string classid;
+    std::string companion_mission_role;
+    time_point companion_mission_t = 0;
+    time_point companion_mission_t_r = 0;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
@@ -1115,12 +1125,46 @@ void npc::load(JsonObject &data)
         }
     }
 
-    if ( data.read( "companion_mission", comp_miss) ) {
-        companion_mission = comp_miss;
+    if ( data.read( "comp_mission_id", comp_miss_id) ) {
+        comp_mission.mission_id = comp_miss_id;
     }
 
-    if( !data.read( "companion_mission_time", companion_mission_time ) ) {
+    if ( data.read( "comp_mission_pt", comp_miss_pt) ) {
+        comp_mission.position = comp_miss_pt;
+    }
+
+    if ( data.read( "comp_mission_role", comp_miss_role) ) {
+        comp_mission.role_id = comp_miss_role;
+    }
+
+    if ( data.read( "companion_mission_role_id", companion_mission_role ) ) {
+        companion_mission_role_id = companion_mission_role;
+    }
+
+    std::vector<tripoint> companion_mission_pts;
+    data.read("companion_mission_points", companion_mission_pts);
+    if( !companion_mission_pts.empty() ) {
+        for( auto pt : companion_mission_pts ){
+            companion_mission_points.push_back( pt );
+        }
+    }
+
+    if( !data.read( "companion_mission_time", companion_mission_t ) ) {
         companion_mission_time = calendar::before_time_starts;
+    } else {
+        companion_mission_time = companion_mission_t;
+    }
+
+    if( !data.read( "companion_mission_time_ret", companion_mission_t_r ) ) {
+        companion_mission_time_ret = calendar::before_time_starts;
+    } else {
+        companion_mission_time_ret = companion_mission_t_r;
+    }
+
+    companion_mission_inv.clear();
+    if ( data.has_member( "companion_mission_inv" ) ) {
+        JsonIn *invin_mission = data.get_raw( "companion_mission_inv" );
+        companion_mission_inv.json_load_items( *invin_mission );
     }
 
     if( !data.read( "restock", restock ) ) {
@@ -1206,8 +1250,15 @@ void npc::store(JsonOut &json) const
     json.member("chatbin", chatbin);
     json.member("rules", rules);
 
-    json.member("companion_mission", companion_mission);
+    json.member("comp_mission_id", comp_mission.mission_id);
+    json.member("comp_mission_pt", comp_mission.position);
+    json.member("comp_mission_role", comp_mission.role_id);
+    json.member("companion_mission_role_id", companion_mission_role_id);
+    json.member("companion_mission_points", companion_mission_points);
     json.member("companion_mission_time", companion_mission_time);
+    json.member("companion_mission_time_ret", companion_mission_time_ret);
+    json.member( "companion_mission_inv" );
+    companion_mission_inv.json_save_items( json );
     json.member("restock", restock);
 
     json.member("last_updated", last_updated);
@@ -1384,6 +1435,14 @@ void monster::load(JsonObject &data)
     upgrades = data.get_bool("upgrades", type->upgrades);
     upgrade_time = data.get_int("upgrade_time", -1);
 
+    reproduces = data.get_bool("reproduces", type->reproduces);
+    baby_timer = data.get_int("baby_timer", -1);
+
+    biosignatures = data.get_bool("biosignatures", type->biosignatures);
+    biosig_timer = data.get_int("biosig_timer", -1);
+
+    horde_attraction = static_cast<monster_horde_attraction>(data.get_int("horde_attraction", 0));
+
     data.read("inv", inv);
     if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
@@ -1393,7 +1452,11 @@ void monster::load(JsonObject &data)
     }
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
-    last_updated = data.get_int( "last_updated", calendar::turn );
+    if( !data.read( "last_updated", last_updated ) ) {
+        last_updated = calendar::turn;
+    }
+    last_baby = data.get_int( "last_baby", calendar::turn );
+    last_biosig = data.get_int( "last_biosig", calendar::turn );
 
     data.read( "path", path );
 }
@@ -1440,6 +1503,15 @@ void monster::store(JsonOut &json) const
     json.member("upgrades", upgrades);
     json.member("upgrade_time", upgrade_time);
     json.member("last_updated", last_updated);
+    json.member("reproduces", reproduces);
+    json.member("baby_timer", baby_timer);
+    json.member("last_baby", last_baby);
+    json.member("biosignatures", biosignatures);
+    json.member("biosig_timer", biosig_timer);
+    json.member("last_biosig", last_biosig);
+    if (horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION) {
+        json.member("horde_attraction", horde_attraction);
+    }
 
     json.member( "inv", inv );
 
@@ -1580,7 +1652,7 @@ void item::io( Archive& archive )
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
-        gun_set_mode(mode);
+        gun_set_mode( gun_mode_id( mode ) );
     }
 
     // Fixes #16751 (items could have null contents due to faulty spawn code)
@@ -2062,6 +2134,7 @@ void mission::deserialize(JsonIn &jsin)
 
     jo.read( "target_npc_id", target_npc_id );
     jo.read( "monster_type", monster_type );
+    jo.read( "monster_species", monster_species );
     jo.read( "monster_kill_goal", monster_kill_goal );
     jo.read("deadline", deadline );
     jo.read("step", step );
@@ -2102,6 +2175,7 @@ void mission::serialize(JsonOut &json) const
     json.member("recruit_class", recruit_class);
     json.member("target_npc_id", target_npc_id);
     json.member("monster_type", monster_type);
+    json.member("monster_species", monster_species);
     json.member("monster_kill_goal", monster_kill_goal);
     json.member("deadline", deadline);
     json.member("npc_id", npc_id);
@@ -2400,7 +2474,7 @@ void addiction::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
     type = static_cast<add_type>( jo.get_int( "type_enum" ) );
     intensity = jo.get_int( "intensity" );
-    sated = jo.get_int( "sated" );
+    jo.read( "sated", sated );
 }
 
 void stats::serialize( JsonOut &json ) const

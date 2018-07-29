@@ -140,11 +140,11 @@ class player : public Character
         player &operator=(player &&);
 
         // newcharacter.cpp
-        bool create(character_type type, std::string tempname = "");
+        bool create(character_type type, const std::string &tempname = "");
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
-         *  normalizes HP and bodytemperature
+         *  normalizes HP and body temperature
          */
 
         void normalize() override;
@@ -185,7 +185,7 @@ class player : public Character
         virtual void serialize( JsonOut &jsout ) const;
 
         /** Prints out the player's memorial file */
-        void memorial( std::ostream &memorial_file, std::string epitaph );
+        void memorial( std::ostream &memorial_file, const std::string &epitaph );
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
@@ -222,7 +222,7 @@ class player : public Character
         /** Updates all "biology" by one turn. Should be called once every turn. */
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
-        void update_body( int from, int to );
+        void update_body( const time_point &from, const time_point &to );
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
 
@@ -269,6 +269,8 @@ class player : public Character
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
 
+        /** Handles process of introducing patient into anesthesia through the autodoc */
+        void introduce_into_anesthesia( time_duration const &duration );
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
@@ -276,7 +278,7 @@ class player : public Character
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(bionic_id const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1);
+        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1, bool autodoc = false );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -464,8 +466,9 @@ class player : public Character
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
+         * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique );
+        void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, bool allow_unarmed = true );
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).
@@ -650,6 +653,8 @@ class player : public Character
         bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
+        /** Reduce healing effect intensity, return initial intensity of the effect */
+        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
@@ -694,6 +699,8 @@ class player : public Character
         void get_sick();
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
+        /** Returns list of artifacts in player inventory. **/
+        std::list<item *> get_artifact_items();
 
         /** Adds an addiction to the player */
         void add_addiction(add_type type, int strength);
@@ -714,6 +721,9 @@ class player : public Character
         void mend( int rate_multiplier );
         /** Handles player vomiting effects */
         void vomit();
+
+        /** Creates an auditory hallucination */
+        void sound_hallu();
 
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
@@ -765,7 +775,7 @@ class player : public Character
         std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        int vitamin_rate( const vitamin_id& vit ) const;
+        time_duration vitamin_rate( const vitamin_id& vit ) const;
 
         /**
          * Add or subtract vitamins from player storage pools
@@ -997,7 +1007,7 @@ class player : public Character
         void toolmod_add( item_location tool, item_location mod );
 
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(const itype &type, int skill_level = -1);
+        bool install_bionics(const itype &type, int skill_level = -1, bool autodoc = false);
         /**
          * Helper function for player::read.
          *
@@ -1022,7 +1032,7 @@ class player : public Character
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( std::string item_id ) const;
+        bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
         /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
@@ -1030,7 +1040,7 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Adds "sleep" to the player */
-        void fall_asleep(int duration);
+        void fall_asleep( const time_duration &duration );
         /** Removes "sleep" and "lying_down" from the player */
         void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
@@ -1078,10 +1088,10 @@ class player : public Character
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
-        bool is_wearing_shoes(std::string side = "both") const;
+        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
         /** Returns true if the player is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
-        /** Returns the total emcumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
+        /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
         int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
@@ -1102,16 +1112,16 @@ class player : public Character
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         /** Legacy activity assignment, should not be used where resuming is important. */
-        void assign_activity( activity_id type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
-                             std::string name = "" );
+        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
+                             const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity( const activity_id type) const;
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
-                        int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+        void add_morale( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
+                        time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;
@@ -1161,6 +1171,7 @@ class player : public Character
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
+        void place_corpse( tripoint om_target ); // put corpse+inventory on defined om tile
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
@@ -1176,7 +1187,7 @@ class player : public Character
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
-        int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
+        int  leak_level( const std::string &flag ) const; // carried items may leak radiation or chemicals
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag ) const;
@@ -1245,7 +1256,7 @@ class player : public Character
         void long_craft();
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe *making, int batch_size );
+        std::list<item> consume_components_for_craft( const recipe *making, int batch_size, bool ignore_last = false );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
@@ -1352,16 +1363,22 @@ class player : public Character
         time_point next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
-        int power_level, max_power_level;
-        int tank_plut, reactor_plut, slow_rad;
+        int power_level;
+        int max_power_level;
+        int tank_plut;
+        int reactor_plut;
+        int slow_rad;
         int oxygen;
         int stamina;
         double recoil = MAX_RECOIL;
         int scent;
-        int dodges_left, blocks_left;
-        int stim, radiation;
+        int dodges_left;
+        int blocks_left;
+        int stim;
+        int radiation;
         unsigned long cash;
         int movecounter;
+        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
 

@@ -24,6 +24,8 @@ class options_manager
 
         std::map<std::string, std::string> post_json_verify;
 
+        std::map<std::string, std::pair<std::string, std::map<std::string, std::string> > > mMigrateOption;
+
         friend options_manager &get_options();
         options_manager();
 
@@ -39,7 +41,7 @@ class options_manager
             COPT_POSIX_CURSES_HIDE,
             /** Hide this option in builds without sound support */
             COPT_NO_SOUND_HIDE,
-            /** Hide this option always, it is set as a mod. **/
+            /** Hide this option always, it should not be changed by user directly through UI. **/
             COPT_ALWAYS_HIDE
         };
 
@@ -154,6 +156,9 @@ class options_manager
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        std::string migrateOptionName( const std::string &name ) const;
+        std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
 
         /**
          * Returns a copy of the options in the "world default" page. The options have their

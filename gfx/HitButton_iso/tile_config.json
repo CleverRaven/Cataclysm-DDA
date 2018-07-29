@@ -1942,8 +1942,9 @@
           "fg": [ 526 , 527 ]
         },
         {
-          "id":["t_chainfence_v", "t_chainfence_h" ],
+          "id":[ "t_chainfence", "t_chainfence_v", "t_chainfence_h" ],
           "fg": [ 528 , 529 ],
+          "rotates": true,
           "multitile": true,
           "height_3d": 6,
           "additional_tiles": [
@@ -2191,10 +2192,11 @@
           "fg": 636
         },
         {
-          "id": ["t_fence_v", "t_fence_h", "t_wall_log_half" ],
+          "id": [ "t_fence", "t_fence_v", "t_fence_h", "t_wall_log_half" ],
           "fg": [ 640 , 641 ],
           "height_3d": 3,
           "bg": 13,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -2324,9 +2326,10 @@
           "fg": 687
         },
         {
-          "id": ["t_railing_v", "t_railing_h" ],
+          "id": [ "t_railing", "t_railing_v", "t_railing_h" ],
           "fg": [ 688 , 689 ],
           "bg": 13,
+          "rotates": true,
           "multitile": true,
           "height_3d": 2,
           "additional_tiles": [
@@ -8555,5 +8558,4 @@
       ]
     }
   ]
-}
 }

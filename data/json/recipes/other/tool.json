@@ -37,12 +37,12 @@
     "book_learn": [ [ "manual_mechanics", 3 ] , [ "manual_fabrication", 5 ] , [ "textbook_fabrication", 5 ] ],
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 1 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id":"HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ ["tongs", -1 ] ],
-      [ ["anvil", -1 ] ],
       [ ["crucible", -1 ], ["crucible_clay", -1] ],
       [ ["swage", -1 ] ]
     ]
@@ -100,12 +100,12 @@
     "book_learn": [ [ "textbook_carpentry", 5 ], [ "textbook_fabrication", 6 ] ],
     "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
@@ -151,5 +151,68 @@
       [ [ "motor_small", 1 ] ],
       [ [ "e_scrap", 1 ] ]
     ]
+  },
+  {
+    "result": "can_sealer",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 2 ],
+    "difficulty": 4,
+    "time": 20000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
+    "using": [ [ "welding_standard", 1 ], [ "forging_standard", 1 ] ],
+    "qualities":[
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 2 }
+    ],
+    "components": [
+      [ [ "foot_crank", 1 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "steel_lump", 2 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "mortar_pestle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ ["survival", 1], ["cooking", 2] ],
+    "difficulty": 1,
+    "time": 6000,
+    "autolearn": true,
+    "book_learn": [["atomic_survival", 0] , ["textbook_survival", 0]],
+    "qualities":[{"id":"HAMMER","level":2}],
+    "components": [
+      [
+        [ "rock", 3 ],
+        [ "ceramic_shard", 3 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "chicken_cage",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "wire", 4 ] ] ]
   }
 ]

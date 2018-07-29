@@ -114,6 +114,9 @@ class vpart_info
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
 
+        /** A text description of the part as a vehicle part */
+        std::string description;
+
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 
@@ -145,6 +148,10 @@ class vpart_info
         /** Legacy parts don't specify installation requirements */
         bool legacy = true;
 
+        /** Format the description for display */
+        int format_description( std::ostringstream &msg, std::string format_color, int width ) const;
+
+
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
 
@@ -152,7 +159,7 @@ class vpart_info
         std::map<skill_id, int> install_skills;
 
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
-        int install_moves = MOVES( HOURS( 1 ) );
+        int install_moves = to_moves<int>( 1_hours );
 
         /** Installation time (in moves) for this component accounting for player skills */
         int install_time( const Character &ch ) const;
@@ -179,7 +186,7 @@ class vpart_info
         std::map<skill_id, int> repair_skills;
 
         /** Repair time (in moves) to fully repair a component (@see repair_time) */
-        int repair_moves = MOVES( HOURS( 1 ) );
+        int repair_moves = to_moves<int>( 1_hours );
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
         int repair_time( const Character &ch ) const;

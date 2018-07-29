@@ -26,7 +26,7 @@ void clear_game( const ter_id &terrain )
     // Move player somewhere safe
     g->u.setpos( tripoint( 0, 0, 0 ) );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 1, num_bp, true );
+    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
 
     for( const tripoint &p : g->m.points_in_rectangle( tripoint( 0, 0, 0 ),
             tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {

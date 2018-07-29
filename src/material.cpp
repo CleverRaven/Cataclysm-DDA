@@ -43,7 +43,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
     assign( jsobj, "immune", bd.immune );
-    assign( jsobj, "chance", bd.chance_in_volume );
+    assign( jsobj, "volume_penalty", bd.volume_per_turn );
     jsobj.read( "fuel", bd.fuel );
     jsobj.read( "smoke", bd.smoke );
     jsobj.read( "burn", bd.burn );
@@ -96,6 +96,11 @@ void material_type::load( JsonObject &jsobj, const std::string & )
 
             _burn_data[ intensity ] = mbd;
         }
+    }
+    auto bp_array = jsobj.get_array( "burn_products" );
+    while( bp_array.has_more( ) ) {
+        auto pair = bp_array.next_array();
+        _burn_products.emplace_back( pair.get_string( 0 ), pair.get_float( 1 ) );
     }
 }
 
@@ -228,6 +233,11 @@ bool material_type::soft() const
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
     return _burn_data[ std::min<size_t>( intensity, MAX_FIELD_DENSITY ) - 1 ];
+}
+
+const mat_burn_products &material_type::burn_products() const
+{
+    return _burn_products;
 }
 
 void materials::load( JsonObject &jo, const std::string &src )

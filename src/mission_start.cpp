@@ -99,7 +99,7 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
                                bool must_see, int range )
 {
     auto places = overmap_buffer.find_all( g->u.global_omt_location(), omter, range, must_see );
-    if( places.size() == 0 ) {
+    if( places.empty() ) {
         return g->u.global_omt_location();
     }
     const auto &cur_om = g->get_cur_om();
@@ -165,7 +165,7 @@ void mission_start::infect_npc( mission *miss )
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
-    p->add_effect( effect_infection, 1, num_bp, 1, true );
+    p->add_effect( effect_infection, 1_turns, num_bp, 1, true );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
@@ -359,19 +359,16 @@ void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
-    miss->monster_type = mon_zombie.str(); // TODO: change monster_type to be mtype_id (better: species!)
-    int killed = 0;
-    killed += g->kill_count( mon_zombie );
-    miss->monster_kill_goal = 100 + killed; //your kill score must increase by 100
+    //kill count of the monsters from a given species you need to reach
+    miss->kill_count_to_reach = g->kill_count( miss->monster_species ) + miss->monster_kill_goal;
 }
 
 void mission_start::kill_20_nightmares( mission *miss )
 {
     target_om_ter( "necropolis_c_44", 3, miss, false );
     miss->monster_type = mon_charred_nightmare.str();
-    int killed = 0;
-    killed += g->kill_count( mon_charred_nightmare );
-    miss->monster_kill_goal = 20 + killed; //your kill score must increase by 100
+    //kill count of the monster type you need to reach
+    miss->kill_count_to_reach = g->kill_count( mon_charred_nightmare ) + miss->monster_kill_goal;
 }
 
 void mission_start::kill_horde_master( mission *miss )
@@ -1310,7 +1307,7 @@ void mission_start::ranch_construct_16(mission *miss)
         already_has = true;
     }
  }
- if (already_has == false){
+    if( !already_has ) {
     bay.place_npc( 12, 22, string_id<npc_template>( "ranch_bartender" ) );
     bay.place_npc( 7, 20, string_id<npc_template>( "scavenger_merc" ) );
  }
@@ -1520,15 +1517,15 @@ void mission_start::ranch_scavenger_1(mission *miss)
  tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false, RANCH_SIZE);
  tinymap bay;
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.draw_square_ter(t_chainfence_v, 15, 13, 15, 22);
- bay.draw_square_ter(t_chainfence_h, 16, 13, 23, 13);
- bay.draw_square_ter(t_chainfence_h, 16, 22, 23, 22);
+ bay.draw_square_ter(t_chainfence, 15, 13, 15, 22);
+ bay.draw_square_ter(t_chainfence, 16, 13, 23, 13);
+ bay.draw_square_ter(t_chainfence, 16, 22, 23, 22);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_49", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.place_items( "mechanics", 65, 9, 13, 10, 16, true, 0 );
- bay.draw_square_ter(t_chainfence_h, 0, 22, 7, 22);
+ bay.draw_square_ter(t_chainfence, 0, 22, 7, 22);
  bay.draw_square_ter(t_dirt, 2, 22, 3, 22);
  bay.spawn_item( 7, 19, "30gal_drum" );
  bay.save();

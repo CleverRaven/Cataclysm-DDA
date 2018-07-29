@@ -2,6 +2,7 @@
   {
     "id": "TDI",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "TDI Vector",
     "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
     "weight": 2600,
@@ -27,6 +28,7 @@
   {
     "id": "hk_ump45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "H&K UMP45",
     "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
     "weight": 2300,
@@ -56,7 +58,7 @@
     "name": "L2031 Enforcer",
     "name_plural": "L2031 Enforcer",
     "//": "Real-life Autorevolvers tended to vary between 6-7.5 inch barrels, so we'll err on the side of a +1 here.",
-    "description": "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-action of a semi-auto with the ease-of-reloading and style of a revolver.  It achieved overnight stardom when it appeared in \"Treasure Trail\", a popular space-Western series running from 2030 through 2037.",
+    "description": "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-action of a semi-auto with the ease-of-reloading and style of a revolver.  It achieved overnight stardom when it appeared in \"Treasure Trail\", a popular space-Western series.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 1370,
     "volume": 2,
     "price": 83000,
@@ -69,15 +71,18 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 8,
-    "clip_size": 6
+    "clip_size": 6,
+    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight"],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "l_long_45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
-    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach while using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.",
+    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Leadworks Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach while using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 4175,
     "volume": 13,
     "price": 90000,
@@ -94,7 +99,8 @@
     "durability": 9,
     "clip_size": 7,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight"],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -102,7 +108,7 @@
     "copy-from": "l_mp_9mm",
     "type": "GUN",
     "name": "L39B-45",
-    "description": "After the success of the 9x19mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "After the success of the 9x19mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.  Come with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "45"
   },
   {
@@ -110,7 +116,7 @@
     "copy-from": "l_sp_9mm",
     "type": "GUN",
     "name": "L39-45",
-    "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.  Comes with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "45"
   },
   {
@@ -140,6 +146,7 @@
   {
     "id": "mac_10",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "MAC-10",
     "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
     "weight": 2630,
@@ -188,6 +195,7 @@
   {
     "id": "tommygun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Thompson submachine gun",
     "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
     "weight": 4630,

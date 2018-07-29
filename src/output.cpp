@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -753,7 +754,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
                             const std::string sItemName, const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
@@ -765,7 +767,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wrefresh( win );
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
+                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
+                                        padding );
     return result;
 }
 
@@ -909,7 +912,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if( vItemDisplay[i].is_int == true ) {
+                if( vItemDisplay[i].is_int ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
                     buffer << string_format( "%.2f", vItemDisplay[i].dValue );
@@ -932,7 +935,8 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
                             const std::string sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
@@ -942,7 +946,9 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
     if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
-    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+    for( unsigned int i = 0; i < padding; i++ ) {
+        buffer << " \n";    //This space is required, otherwise it won't make an empty line.
+    }
 
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
@@ -1210,7 +1216,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
     if( ! bDisabled ) {
         mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
     } else {
-        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray : c_dark_gray, sText );
+        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray.italic() : c_dark_gray.italic(), sText );
     }
 
     if( bSelected ) {
@@ -1218,8 +1224,8 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
             mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
             mvwputch( w, 0, iOffsetXRight + bDecorate, h_light_gray, '>' );
         } else {
-            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray, '<' );
-            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray, '>' );
+            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray.italic(), '<' );
+            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray.italic(), '>' );
         }
 
         for( int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++ ) {
@@ -1326,15 +1332,22 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
 }
 
 #if defined(_MSC_VER)
-std::string vstring_format( char const *const format, va_list args )
+std::string cata::string_formatter::raw_string_format( char const *const format, ... )
 {
-    int const result = _vscprintf_p( format, args );
+    va_list args;
+    va_start( args, format );
+
+    va_list args_copy;
+    va_copy( args_copy, args );
+    int const result = _vscprintf_p( format, args_copy );
+    va_end( args_copy );
     if( result == -1 ) {
-        return std::string( "Bad format string for printf." );
+        throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
     }
 
     std::string buffer( result, '\0' );
     _vsprintf_p( &buffer[0], result + 1, format, args ); //+1 for string's null
+    va_end( args );
 
     return buffer;
 }
@@ -1444,8 +1457,11 @@ std::string rewrite_vsnprintf( const char *msg )
     return rewritten_msg.str();
 }
 
-std::string vstring_format( char const *format, va_list args )
+std::string cata::string_formatter::raw_string_format( char const *const format, ... )
 {
+    va_list args;
+    va_start( args, format );
+
     errno = 0; // Clear errno before trying
     std::vector<char> buffer( 1024, '\0' );
 
@@ -1471,13 +1487,14 @@ std::string vstring_format( char const *format, va_list args )
         // Some non-standard versions return -1 to indicate a bigger buffer is needed.
         // Some of the latter set errno to ERANGE at the same time.
         if( result < 0 && errno && errno != ERANGE ) {
-            return std::string( "Bad format string for printf." );
+            throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
         }
 
         // Looks like we need to grow... bigger, definitely bigger.
         buffer.resize( buffer_size * 2 );
     }
 
+    va_end( args );
     return std::string( &buffer[0] );
 }
 #endif
@@ -2095,6 +2112,8 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
+// We need to override these for Windows console resizing
+#if !(defined _WIN32 || defined __WIN32__)
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
@@ -2105,6 +2124,7 @@ int get_terminal_height()
 {
     return get_option<int>( "TERMINAL_Y" );
 }
+#endif
 
 bool is_draw_tiles_mode()
 {

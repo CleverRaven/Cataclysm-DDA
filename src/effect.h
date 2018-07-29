@@ -3,6 +3,7 @@
 #define EFFECT_H
 
 #include "pldata.h"
+#include "calendar.h"
 #include "enums.h"
 #include "string_id.h"
 #include <unordered_map>
@@ -71,23 +72,24 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jsobj, std::string member );
-        bool load_miss_msgs( JsonObject &jsobj, std::string member );
-        bool load_decay_msgs( JsonObject &jsobj, std::string member );
+        bool load_mod_data( JsonObject &jsobj, const std::string &member );
+        bool load_miss_msgs( JsonObject &jsobj, const std::string &member );
+        bool load_decay_msgs( JsonObject &jsobj, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
     protected:
         int max_intensity;
-        int max_duration;
+        int max_effective_intensity;
+        time_duration max_duration;
 
         int dur_add_perc;
         int int_add_val;
 
         int int_decay_step;
         int int_decay_tick;
-        int int_dur_factor;
+        time_duration int_dur_factor;
 
         bool main_parts_only;
 
@@ -133,13 +135,13 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( NULL ), duration( 0 ), bp( num_bp ),
-            permanent( false ), intensity( 1 ), start_turn( 0 ) {
+        effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
+            permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
         }
-        effect( const effect_type *peff_type, int dur, body_part part,
-                bool perm, int nintensity, int nstart_turn ) :
+        effect( const effect_type *peff_type, const time_duration dur, body_part part,
+                bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
-            permanent( perm ), intensity( nintensity ), start_turn( nstart_turn ) {
+            permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
@@ -164,21 +166,21 @@ class effect
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
         void decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
-                    unsigned int turn, bool player );
+                    const time_point &time, bool player );
 
         /** Returns the remaining duration of an effect. */
-        int get_duration() const;
+        time_duration get_duration() const;
         /** Returns the maximum duration of an effect. */
-        int get_max_duration() const;
+        time_duration get_max_duration() const;
         /** Sets the duration, capping at max_duration if it exists. */
-        void set_duration( int dur, bool alert = false );
+        void set_duration( time_duration dur, bool alert = false );
         /** Mods the duration, capping at max_duration if it exists. */
-        void mod_duration( int dur, bool alert = false );
+        void mod_duration( time_duration dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration( double dur, bool alert = false );
 
         /** Returns the turn the effect was applied. */
-        int get_start_turn() const;
+        time_point get_start_time() const;
 
         /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
         body_part get_bp() const;
@@ -233,12 +235,12 @@ class effect
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
         int get_max_val( std::string arg, bool reduced = false ) const;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
-        bool get_sizing( std::string arg ) const;
+        bool get_sizing( const std::string &arg ) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
         double get_percentage( std::string arg, int val, bool reduced = false ) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated( int turn, std::string arg, int val,
+        bool activated( const time_point &when, std::string arg, int val,
                         bool reduced = false, double mod = 1 ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
@@ -248,7 +250,7 @@ class effect
         /** Returns the percentage value by further applications of existing effects' duration is multiplied by. */
         int get_dur_add_perc() const;
         /** Returns the number of turns it takes for the intensity to fall by 1 or 0 if intensity isn't based on duration. */
-        int get_int_dur_factor() const;
+        time_duration get_int_dur_factor() const;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
         int get_int_add_val() const;
 
@@ -271,11 +273,11 @@ class effect
 
     protected:
         const effect_type *eff_type;
-        int duration;
+        time_duration duration;
         body_part bp;
         bool permanent;
         int intensity;
-        int start_turn;
+        time_point start_time;
 
 };
 

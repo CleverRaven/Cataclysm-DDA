@@ -86,7 +86,7 @@ void computer::add_option( const computer_option &opt )
     options.emplace_back( opt );
 }
 
-void computer::add_option(std::string opt_name, computer_action action,
+void computer::add_option(const std::string &opt_name, computer_action action,
                           int Security)
 {
     add_option( computer_option( opt_name, action, Security ) );
@@ -177,9 +177,9 @@ void computer::use()
         //reset_terminal();
         size_t options_size = options.size();
         print_newline();
-        print_line("%s - %s", name.c_str(), _("Root Menu"));
+        print_line("%s - %s", _(name.c_str()), _("Root Menu"));
         for (size_t i = 0; i < options_size; i++) {
-            print_line("%d - %s", i + 1, options[i].name.c_str());
+            print_line("%d - %s", i + 1, _(options[i].name.c_str()));
         }
         print_line("Q - %s", _("Quit and shut down"));
         print_newline();
@@ -525,6 +525,21 @@ void computer::activate_function( computer_action action )
     }
     break;
 
+    case COMPACT_MAP_SUBWAY: {
+        g->u.moves -= 30;
+        const tripoint center = g->u.global_omt_location();
+        for (int i = -60; i <= 60; i++) {
+            for (int j = -60; j <= 60; j++) {
+                const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);
+                if (is_ot_type("subway", oter) || is_ot_type("lab_train_depot", oter)) {
+                    overmap_buffer.set_seen(center.x + i, center.y + j, center.z, true);
+                }
+            }
+        }
+        query_any(_("Subway map data downloaded.  Press any key..."));
+        remove_option( COMPACT_MAP_SUBWAY );
+    }
+    break;
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
@@ -547,7 +562,7 @@ void computer::activate_function( computer_action action )
             for(int j = g->u.posy() + 3; j < g->u.posy() + 12; j++)
                 if(!one_in(4)) {
                     tripoint dest( i + rng(-2, 2), j + rng(-2, 2), g->u.posz() );
-                    g->m.add_field( dest, fd_smoke, rng(1, 9), 0 );
+                    g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
                 }
         }
 
@@ -749,7 +764,7 @@ INITIATING STANDARD TREMOR TEST..."));
     case COMPACT_AMIGARA_START:
         g->events.add( EVENT_AMIGARA, calendar::turn + 10_turns );
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
-            g->u.add_effect( effect_amigara, 20);
+            g->u.add_effect( effect_amigara, 2_minutes );
         }
         // Disable this action to prevent further amigara events, which would lead to
         // further amigara monster, which would lead to further artifacts.
@@ -758,7 +773,7 @@ INITIATING STANDARD TREMOR TEST..."));
 
     case COMPACT_STEMCELL_TREATMENT:
         g->u.moves -= 70;
-        g->u.add_effect( effect_stemcell_treatment, 120);
+        g->u.add_effect( effect_stemcell_treatment, 12_minutes );
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
@@ -831,10 +846,8 @@ of pureed bone & LSD."));
                     print_error(_("ERROR: Please place sample in centrifuge."));
                 } else if (g->m.i_at(dest).size() > 1) {
                     print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                } else if (g->m.i_at(dest)[0].typeId() != "vacutainer") {
-                    print_error(_("ERROR: Please use blood-contained samples."));
                 } else if (g->m.i_at(dest)[0].contents.empty()) {
-                    print_error(_("ERROR: Blood draw kit is empty."));
+                    print_error(_("ERROR: Please only use container with blood sample."));
                 } else if (g->m.i_at(dest)[0].contents.front().typeId() != "blood") {
                     print_error(_("ERROR: Please only use blood samples."));
                 } else { // Success!
@@ -1324,7 +1337,7 @@ void computer::activate_failure(computer_failure_type fail)
 
     case COMPFAIL_AMIGARA:
         g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
-        g->u.add_effect( effect_amigara, 20);
+        g->u.add_effect( effect_amigara, 2_minutes );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         remove_option( COMPACT_AMIGARA_START );
@@ -1518,7 +1531,7 @@ void computer::print_newline()
 
 computer_option computer_option::from_json( JsonObject &jo )
 {
-    std::string name = _( jo.get_string( "name" ).c_str() );
+    std::string name = jo.get_string( "name" );
     computer_action action = computer_action_from_string( jo.get_string( "action" ) );
     int sec = jo.get_int( "security", 0 );
     return computer_option( name, action, sec );
@@ -1547,6 +1560,7 @@ computer_action computer_action_from_string( const std::string &str )
         { "research", COMPACT_RESEARCH },
         { "maps", COMPACT_MAPS },
         { "map_sewer", COMPACT_MAP_SEWER },
+        { "map_subway", COMPACT_MAP_SUBWAY },
         { "miss_launch", COMPACT_MISS_LAUNCH },
         { "miss_disarm", COMPACT_MISS_DISARM },
         { "list_bionics", COMPACT_LIST_BIONICS },

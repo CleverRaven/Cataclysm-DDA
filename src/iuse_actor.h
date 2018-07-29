@@ -198,11 +198,11 @@ class unfold_vehicle_iuse : public iuse_actor
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data {
     efftype_id id;
-    int duration;
+    time_duration duration;
     body_part bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, int dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration dur, body_part nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
 };
 
@@ -238,6 +238,9 @@ class consume_drug_iuse : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        /** Item produced after using drugs. */
+        std::string used_up_item;
 };
 
 /**
@@ -813,6 +816,14 @@ class heal_actor : public iuse_actor
         float head_power = 0;
         /** How much hp to restore when healing torso? */
         float torso_power = 0;
+        /** How many intensity levels will be applied when healing limbs? */
+        float bandages_power = 0;
+        /** Extra intensity levels gained per skill level when healing limbs. */
+        float bandages_scaling = 0;
+        /** How many intensity levels will be applied when healing limbs? */
+        float disinfectant_power = 0;
+        /** Extra intensity levels gained per skill level when healing limbs. */
+        float disinfectant_scaling = 0;
         /** Chance to remove bleed effect. */
         float bleed = 0;
         /** Chance to remove bite effect. */
@@ -836,11 +847,17 @@ class heal_actor : public iuse_actor
          * If the used item is a tool it, it will be turned into the used up item.
          * If it is not a tool a new item with this id will be created.
          */
-        std::string used_up_item;
+        std::string used_up_item_id;
+        int used_up_item_quantity = 1;
+        int used_up_item_charges = 1;
+        std::set<std::string> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const player &healer, hp_part healed ) const;
-
+        /** How many intensity levels will be applied using this actor by `healer`. */
+        int get_bandaged_level( const player &healer ) const;
+        /** How many intensity levels will be applied using this actor by `healer`. */
+        int get_disinfected_level( const player &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
         long finish_using( player &healer, player &patient, item &it, hp_part part ) const;
 

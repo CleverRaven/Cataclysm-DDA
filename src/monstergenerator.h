@@ -76,7 +76,7 @@ class MonsterGenerator
         friend class mattack_actor;
 
     protected:
-        m_flag m_flag_from_string( std::string flag ) const;
+        m_flag m_flag_from_string( const std::string &flag ) const;
     private:
         MonsterGenerator();
 

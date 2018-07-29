@@ -27,5 +27,19 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "result": "tin",
+    "type": "recipe",
+    "byproducts": [ [ "steel_chunk" ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
+    "time": 30000,
+    "batch_time_factors": [ 50, 2 ],
+    "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass", 1 ], [ "jar_3l_glass", 1 ] ] ],
+    "components": [ [ [ "acid", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "can_food_unsealed", 1 ] ] ]
   }
 ]

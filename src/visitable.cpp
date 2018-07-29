@@ -422,7 +422,7 @@ VisitResponse visitable<map_cursor>::visit_items(
     auto cur = static_cast<map_cursor *>( this );
 
     // skip inaccessible items
-    if( g->m.has_flag( "SEALED", *cur ) ) {
+    if( g->m.has_flag( "SEALED", *cur ) && !g->m.has_flag( "LIQUIDCONT", *cur ) ) {
         return VisitResponse::NEXT;
     }
 
@@ -637,7 +637,8 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     }
 
     // fetch the appropriate item stack
-    int x, y;
+    int x = 0;
+    int y = 0;
     submap *sub = g->m.get_submap_at( *cur, x, y );
 
     for( auto iter = sub->itm[ x ][ y ].begin(); iter != sub->itm[ x ][ y ].end(); ) {

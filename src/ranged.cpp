@@ -2,6 +2,7 @@
 
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "gun_mode.h"
 #include "dispersion.h"
 #include "game.h"
 #include "map.h"
@@ -14,6 +15,7 @@
 #include "options.h"
 #include "action.h"
 #include "input.h"
+#include "vpart_position.h"
 #include "messages.h"
 #include "projectile.h"
 #include "sounds.h"
@@ -70,6 +72,20 @@ static double occupied_tile_fraction( m_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    if( has_flag( MF_HARDTOSHOOT ) ) {
+        switch( get_size() ) {
+            case MS_TINY:
+                return occupied_tile_fraction( MS_TINY );
+            case MS_SMALL:
+                return occupied_tile_fraction( MS_TINY );
+            case MS_MEDIUM:
+                return occupied_tile_fraction( MS_SMALL );
+            case MS_LARGE:
+                return occupied_tile_fraction( MS_MEDIUM );
+            case MS_HUGE:
+                return occupied_tile_fraction( MS_LARGE );
+        }
+    }
     return occupied_tile_fraction( get_size() );
 }
 
@@ -202,8 +218,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     // usage of any attached bipod is dependent upon terrain
     bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
     if( !bipod ) {
-        auto veh = g->m.veh_at( pos() );
-        bipod = veh && veh->has_part( pos(), "MOUNTABLE" );
+        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
+        }
     }
 
     // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
@@ -226,7 +243,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         dispersion.add_range( recoil_total() );
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
-        const vehicle *in_veh = has_effect( effect_on_roof ) ? g->m.veh_at( pos() ) : nullptr;
+        const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
 
         auto shot = projectile_attack( make_gun_projectile( gun ), pos(), aim, dispersion, this, in_veh );
         curshot++;
@@ -641,16 +658,16 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     return line_number;
 }
 
-static double confidence_estimate( int range, double target_size, dispersion_sources dispersion )
+static double confidence_estimate( int range, double target_size, const dispersion_sources &dispersion )
 {
     // This is a rough estimate of accuracy based on a linear distribution across min and max
     // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
     // is not doing Gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
-	if( range == 0 ) {
-		return 2 * target_size;
-	}
+    if( range == 0 ) {
+        return 2 * target_size;
+    }
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
     return 1 / ( max_lateral_offset / target_size );
 }
@@ -662,7 +679,7 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, dispersion_sources dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
+static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
@@ -675,9 +692,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     if( display_type != "numbers" ) {
-        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
+        mvwprintw( w, line_number++, 1, _( "Symbols: * = Great + = Normal | = Graze" ) );
     }
-    for( const aim_type type : aim_types ) {
+    for( const aim_type& type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
         std::string label = _( "Current Aim" );
@@ -707,7 +724,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                     // @todo: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                     int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                     last_chance += chance;
-                    return string_format( "%s: %3d%%", config.label.c_str(), chance );
+                    return string_format( "%s: %3d%%", _( config.label.c_str() ), chance );
                 }, false );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                                 c_white, confidence_s );
@@ -750,9 +767,9 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-        { accuracy_headshot, '*', _( "Head" ) },
-        { accuracy_goodhit, '+', _( "Hit" ) },
-        { accuracy_grazing, '|', _( "Graze" ) }
+        { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
+        { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
+        { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
     }};
 
     const double range = rl_dist( p.pos(), target.pos() );
@@ -763,14 +780,14 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
 static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number, const tripoint &targ )
 {
-    vehicle *veh = g->m.veh_at( p.pos() );
-    if( veh == nullptr ) {
+    const optional_vpart_position vp = g->m.veh_at( p.pos() );
+    if( !vp ) {
         debugmsg( "Tried to aim turret while outside vehicle" );
         return line_number;
     }
 
     // fetch and display list of turrets that are ready to fire at the target
-    auto turrets = veh->turrets( targ );
+    auto turrets = vp->vehicle().turrets( targ );
 
     mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), turrets.size() );
     for( const auto e : turrets ) {
@@ -793,12 +810,12 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
     static const std::vector<confidence_rating> confidence_config_critter = {{
-        { accuracy_headshot, '*', _( "Headshot" ) },
-        { accuracy_goodhit, '+', _( "Hit" ) },
-        { accuracy_grazing, '|', _( "Graze" ) }
+        { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
+        { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
+        { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
     }};
     static const std::vector<confidence_rating> confidence_config_object = {{
-        { accuracy_grazing, '*', _( "Hit" ) }
+        { accuracy_grazing, '*', translate_marker_context( "aim_confidence", "Hit" ) }
     }};
     const auto &confidence_config = target != nullptr ?
       confidence_config_critter : confidence_config_object;
@@ -1055,10 +1072,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             if( relevant != m.target ) {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
-                           m->tname().c_str(), m.mode.c_str(), m.qty );
+                           m->tname().c_str(), m.name(), m.qty );
             } else {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
-                           m.mode.c_str(), m.qty );
+                           m.name(), m.qty );
             }
 
             const itype *cur = ammo ? ammo : m->ammo_data();
@@ -1301,7 +1318,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     } else if( monster * const mon = dynamic_cast<monster*>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 100 );
+        mon->add_effect( effect_hit_by_player, 10_minutes );
     }
 
     return ret;
@@ -1389,10 +1406,10 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    auto veh = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( pos );
     std::vector<vehicle_part *> cargo;
-    if( veh && weap.has_flag( "VEHICLE" ) ) {
-        cargo = veh->get_parts( pos, "CARGO" );
+    if( vp && weap.has_flag( "VEHICLE" ) ) {
+        cargo = vp->vehicle().get_parts( pos, "CARGO" );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
@@ -1402,7 +1419,7 @@ static void cycle_action( item& weap, const tripoint &pos ) {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing ) );
             } else {
-                veh->add_item( *cargo.front(), item( weap.ammo_data()->ammo->casing ) );
+                vp->vehicle().add_item( *cargo.front(), item( weap.ammo_data()->ammo->casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -1421,7 +1438,7 @@ static void cycle_action( item& weap, const tripoint &pos ) {
         else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );
         } else {
-            veh->add_item( *cargo.front(), linkage );
+            vp->vehicle().add_item( *cargo.front(), linkage );
         }
     }
 }
@@ -1474,7 +1491,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 60 ) {
             return { noise, _( "Tsewww!" ) };
         } else {
-            return { noise, _( "Kra-kow!!" ) };
+            return { noise, _( "Kra-kow!" ) };
         }
 
     } else if( fx.count( "LIGHTNING" ) ) {
@@ -1485,7 +1502,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 60 ) {
             return { noise, _( "Bzaapp!" ) };
         } else {
-            return { noise, _( "Kra-koom!!" ) };
+            return { noise, _( "Kra-koom!" ) };
         }
 
     } else if( fx.count( "WHIP" ) ) {
@@ -1499,7 +1516,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         } else if( noise < 175 ) {
             return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
-            return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
+            return { noise, burst ? _( "Kaboom!" ) : _( "kerblam!" ) };
         }
     }
 
@@ -1508,8 +1525,32 @@ item::sound_data item::gun_noise( bool const burst ) const
 
 static bool is_driving( const player &p )
 {
-    const auto veh = g->m.veh_at( p.pos() );
-    return veh && veh->velocity != 0 && veh->player_in_control( p );
+    const optional_vpart_position vp = g->m.veh_at( p.pos() );
+    return vp && vp->vehicle().velocity != 0 && vp->vehicle().player_in_control( p );
+}
+
+static double dispersion_from_skill( double skill, double weapon_dispersion )
+{
+    if( skill >= MAX_SKILL ) {
+        return 0.0;
+    }
+    double skill_shortfall = double( MAX_SKILL ) - skill;
+    // Flat penalty dispersion per point of skill under max.
+    double flat_penalty = get_option< float >( "GUN_DISPERSION_FLAT_PENALTY_PER_SKILL" );
+    double dispersion_penalty = flat_penalty * skill_shortfall;
+    double skill_threshold = get_option< float >( "GUN_DISPERSION_SKILL_THRESHOLD" );
+    double mult_post_threshold = get_option< float >( "GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD" );
+    if( skill >= skill_threshold) {
+        double post_threshold_skill_shortfall = double( MAX_SKILL ) - skill;
+        // Lack of mastery multiplies the dispersion of the weapon.
+        return dispersion_penalty + weapon_dispersion * post_threshold_skill_shortfall * mult_post_threshold / ( double( MAX_SKILL ) - skill_threshold );
+    }
+    // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
+    double pre_threshold_skill_shortfall = skill_threshold - skill;
+    double mult_pre_thershold = get_option< float >( "GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD" );
+    dispersion_penalty += weapon_dispersion * ( mult_post_threshold + pre_threshold_skill_shortfall * mult_pre_thershold / skill_threshold);
+
+    return dispersion_penalty;
 }
 
 // utility functions for projectile_attack
@@ -1517,12 +1558,9 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
-    /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    dispersion.add_range( 3 * ( MAX_SKILL - std::min( get_skill_level( skill_gun ), MAX_SKILL ) ) );
-
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( encumb( bp_arm_l ) + encumb( bp_arm_r ) );
+    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1533,6 +1571,13 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
+    /** @EFFECT_GUN improves usage of accurate weapons and sights */
+    double avgSkill = double( get_skill_level( skill_gun ) +
+                              get_skill_level( obj.gun_skill() ) ) / 2.0;
+    avgSkill = std::min( avgSkill, double( MAX_SKILL ) );
+
+    dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
+
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
     }
@@ -1541,6 +1586,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         // Range is effectively four times longer when shooting unflagged guns underwater.
         ( !is_underwater() && obj.has_flag( "UNDERWATER_GUN" ) ) ) {
         // Range is effectively four times longer when shooting flagged guns out of water.
+        dispersion.add_range( 150 ); //Adding dispersion for additonal debuff
         dispersion.add_multiplier( 4 );
     }
 

@@ -281,6 +281,16 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
+        "id" : "house_prepper",
+        "name" : "house",
+        "sym" : 94,
+        "color" : "light_green",
+        "see_cost" : 2,
+        "extras" : "build",
+        "mondensity" : 2,
+        "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
         "id" : "s_lot",
         "name" : "parking lot",
         "sym" : 112,
@@ -1938,16 +1948,17 @@
     },{
         "type" : "overmap_terrain",
         "id" : "basement",
-        "name" : "basement",
         "sym" : 98,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2,
+        "copy-from" : "generic_city_house_basement",
         "mapgen": [
             { "method": "builtin", "name": "basement_junk" },
             { "method": "builtin", "name": "basement_spiders" }
-        ],
-        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
+        ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "basement_bionic",
+        "sym" : 98,
+        "copy-from" : "generic_city_house_basement"
     },{
         "type" : "overmap_terrain",
         "id" : "cavern",

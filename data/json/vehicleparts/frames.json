@@ -8,11 +8,9 @@
     "symbol": "h",
     "difficulty": 2,
     "durability": 50,
+    "description": "A light metal framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "folded_volume": 10,
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
   },
   {
@@ -26,11 +24,9 @@
     "broken_color": "brown",
     "difficulty": 2,
     "durability": 15,
+    "description": "A light wooden framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "folded_volume": 15,
-    "breaks_into": [
-      { "item": "splinter", "count": [ 0, 6 ] },
-      { "item": "nail", "charges": [ 1, 15 ] }
-    ],
+    "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ]
   },
   {
@@ -41,22 +37,12 @@
     "location": "structure",
     "difficulty": 1,
     "durability": 400,
+    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_frame",
     "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": 120000,
-        "using": [ [ "welding_standard", 10 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "using": "vehicle_weld_removal"
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": 30000,
-        "using": [ [ "welding_standard", 5 ] ]
-      }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": 120000, "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 30000, "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "MOUNTABLE" ]
   },
@@ -70,10 +56,8 @@
     "broken_color": "brown",
     "difficulty": 1,
     "durability": 150,
-    "breaks_into": [
-      { "item": "splinter", "count": [ 7, 9 ] },
-      { "item": "nail", "charges": [ 5, 10 ] }
-    ],
+    "description": "A wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and nail construction means it can be constructed and added to the vehicle without welding tools.",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "flags": [ "NAILABLE" ]
   },
   {
@@ -86,19 +70,11 @@
     "broken_color": "brown",
     "difficulty": 0,
     "durability": 100,
-    "breaks_into": [
-      { "item": "splinter", "count": [ 3, 5 ] },
-      { "item": "string_36", "count": [ 10, 15 ] }
-    ],
+    "description": "A light wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and rope constructions means it can be constructed and added to the vehicle without welding tools or nails.",
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
     "requirements": {
-      "install": {
-        "time": 60000,
-        "using": [ [ "rope_natural_short", 1 ] ]
-      },
-      "repair": {
-        "time": 30000,
-        "using": [ [ "adhesive", 1 ] ]
-      }
+      "install": { "time": 60000, "using": [ [ "rope_natural_short", 1 ] ] },
+      "repair": { "time": 30000, "using": [ [ "adhesive", 1 ] ] }
     }
   },
   {
@@ -110,22 +86,12 @@
     "color": "dark_gray",
     "difficulty": 3,
     "durability": 1600,
+    "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "time": 240000,
-        "using": [ [ "welding_standard", 20 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "using": "vehicle_weld_removal"
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "time": 60000,
-        "using": [ [ "welding_standard", 10 ] ]
-      }
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": 240000, "using": [ [ "welding_standard", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 60000, "using": [ [ "welding_standard", 10 ] ] }
     },
     "flags": [ "MOUNTABLE" ]
   },
@@ -138,6 +104,7 @@
     "color": "light_gray",
     "difficulty": 1,
     "durability": 150,
+    "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_xlframe",
     "flags": [ "MOUNTABLE" ]
   },

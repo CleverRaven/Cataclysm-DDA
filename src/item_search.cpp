@@ -3,6 +3,7 @@
 #include "material.h"
 #include "cata_utility.h"
 #include "output.h"
+#include "item_category.h"
 
 #include <algorithm>
 
@@ -84,7 +85,7 @@ item_filter_from_string( std::string filter )
     switch( flag ) {
         case 'c'://category
             return [filter]( const item & i ) {
-                return lcmatch( i.get_category().name, filter );
+                return lcmatch( i.get_category().name(), filter );
             };
             break;
         case 'm'://material
