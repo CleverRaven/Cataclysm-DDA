@@ -782,7 +782,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             }
             if( ( !p->has_quality( quality_id( "CUT" ) ) || !p->has_quality( quality_id( "CUT_FINE" ) ) ) &&
                 ( !p->has_quality( quality_id( "SAW_W" ) ) || !p->has_quality( quality_id( "SAW_M" ) ) ) ) {
-                p->add_msg_if_player( m_info, _( "You need cools that can cut and saw to perform a full butchery." ) );
+                p->add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
                 act->set_to_null();
                 return; 
             }
