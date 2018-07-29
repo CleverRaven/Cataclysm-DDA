@@ -3020,7 +3020,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_eye",
@@ -3039,7 +3039,7 @@
     "coverage": 75,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_monocle",
@@ -3064,7 +3064,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_reading",
@@ -3089,7 +3089,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_safety",

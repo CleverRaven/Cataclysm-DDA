@@ -6044,8 +6044,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             add_msg( m_info, _( "You cannot read a computer screen." ) );
             return 0;
         }
-        if( p->has_trait( trait_HYPEROPIC ) && !p->is_wearing( "glasses_reading" )
-            && !p->is_wearing( "glasses_bifocal" ) && !p->has_effect( effect_contacts ) ) {
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+            !p->has_effect( effect_contacts ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
@@ -7233,8 +7233,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
         }
 
-        if( p->has_trait( trait_HYPEROPIC ) && !p->is_wearing( "glasses_reading" )
-            && !p->is_wearing( "glasses_bifocal" ) && !p->has_effect( effect_contacts ) ) {
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+            !p->has_effect( effect_contacts ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }

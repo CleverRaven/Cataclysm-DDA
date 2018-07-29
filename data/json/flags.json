@@ -104,6 +104,18 @@
     "conflicts": [ "SUPER_FANCY" ]
   },
   {
+    "id": "FIX_FARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects farsightedness</good>."
+  },
+  {
+    "id": "FIX_NEARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects nearsightedness</good>."
+  },
+  {
     "id": "FILTHY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
