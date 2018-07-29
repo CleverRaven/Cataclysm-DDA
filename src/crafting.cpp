@@ -37,7 +37,6 @@
 
 const efftype_id effect_contacts( "contacts" );
 
-void remove_from_component_lookup( recipe *r );
 void drop_or_handle( const item &newit, player &p );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
