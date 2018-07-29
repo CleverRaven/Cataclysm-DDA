@@ -5300,6 +5300,14 @@
         "threshold" : true
     },{
         "type" : "mutation",
+        "id" : "DEBUG_BIONICS",
+        "name" : "Debug Bionic Installation",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Lets you instantly install torsion ratchets for your eight legs.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
         "id" : "SQUEAMISH",
         "name" : "Squeamish",
         "points" : -1,
