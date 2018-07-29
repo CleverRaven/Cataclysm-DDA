@@ -1535,19 +1535,21 @@ void bionic::deserialize( JsonIn &jsin )
     charge = jo.get_int( "charge" );
 }
 
-void player::introduce_into_anesthesia( time_duration const &duration, bool anesthetic ) //used by the Autodoc
+void player::introduce_into_anesthesia( time_duration const &duration,
+                                        bool anesthetic ) //used by the Autodoc
 {
     add_msg_if_player( m_info,
                        _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM, and settle into position, sliding your right wrist into the sofa's strap." ) );
     if( anesthetic ) {
         add_msg_if_player( m_mixed,
-                       _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
-        
+                           _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+
         add_effect( effect_narcosis, duration );
-    //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
+        //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
         add_msg_if_player( m_mixed,
-                       _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) ) ;
+                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) )
+        ;
     }
     fall_asleep( duration );
     if( anesthetic ) {
