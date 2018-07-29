@@ -2001,6 +2001,8 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
+                insert_separation_line();
+                info.emplace_back( "DESCPIPTION", _( "<bold>Content of this item</bold>:" ) );
                 info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }
