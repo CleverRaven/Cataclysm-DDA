@@ -77,6 +77,7 @@ class zone_manager
 
                 void set_name();
                 void set_type();
+                void set_position( const std::pair<tripoint, tripoint> position );
                 void set_enabled( const bool enabled );
 
                 std::string get_name() const {

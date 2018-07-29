@@ -7842,39 +7842,47 @@ void game::zones_manager()
     bool redraw_info = true;
     bool stuff_changed = false;
 
+    auto query_position = [this, w_zones_info]() {
+        werase( w_zones_info );
+        mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
+        wrefresh( w_zones_info );
+
+        tripoint first = look_around( w_zones_info, u.pos() + u.view_offset, false, true );
+        tripoint second = tripoint_min;
+        if( first != tripoint_min ) {
+            mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
+            wrefresh( w_zones_info );
+
+            second = look_around( w_zones_info, first, true, true );
+        }
+
+        if( second != tripoint_min ) {
+            werase( w_zones_info );
+            wrefresh( w_zones_info );
+
+            tripoint first_abs = m.getabs( tripoint( std::min( first.x, second.x ),
+                                           std::min( first.y, second.y ),
+                                           std::min( first.z, second.z ) ) );
+            tripoint second_abs = m.getabs( tripoint( std::max( first.x, second.x ),
+                                            std::max( first.y, second.y ),
+                                            std::max( first.z, second.z ) ) );
+
+            return std::pair<tripoint, tripoint>( first_abs, second_abs );
+        }
+
+        return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
+    };
+
     do {
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
-            werase(w_zones_info);
 
             const auto id = zones.query_type();
             const auto name = zones.query_name( zones.get_name_from_type( id ) );
+            const auto position = query_position();
 
-            mvwprintz(w_zones_info, 3, 2, c_white, _("Select first point."));
-            wrefresh(w_zones_info);
-
-            tripoint first = look_around( w_zones_info, u.pos() + u.view_offset, false, true );
-            tripoint second = tripoint_min;
-
-            if( first != tripoint_min ) {
-                mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
-                wrefresh(w_zones_info);
-
-                second = look_around( w_zones_info, first, true, true );
-            }
-
-            if( second != tripoint_min ) {
-                werase(w_zones_info);
-                wrefresh(w_zones_info);
-
-                zones.add( name, id, false, true,
-                            m.getabs( tripoint( std::min(first.x, second.x),
-                                                std::min(first.y, second.y),
-                                                std::min(first.z, second.z) ) ),
-                            m.getabs( tripoint( std::max(first.x, second.x),
-                                                std::max(first.y, second.y),
-                                                std::max(first.z, second.z) ) )
-                           );
+            if( position.first != tripoint_min ) {
+                zones.add( name, id, false, true, position.first, position.second );
 
                 zone_num = zones.size();
                 active_index = zone_num - 1;
@@ -7931,9 +7939,8 @@ void game::zones_manager()
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                //as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Move position left/top") ));
-                //as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Move coordinates right/bottom") ));
-                as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
+                as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Edit position")));
+                as_m.entries.emplace_back(uimenu_entry(4, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -7946,10 +7953,8 @@ void game::zones_manager()
                     stuff_changed = true;
                     break;
                 case 3:
-                    //pos lt
-                    break;
-                case 4:
-                    //pos rb
+                    zones.zones[active_index].set_position( query_position() );
+                    stuff_changed = true;
                     break;
                 default:
                     break;

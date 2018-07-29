@@ -99,6 +99,16 @@ void zone_manager::zone_data::set_name()
 void zone_manager::zone_data::set_type()
 {
     type = get_manager().query_type();
+
+    get_manager().cache_data();
+}
+
+void zone_manager::zone_data::set_position( const std::pair<tripoint, tripoint> position )
+{
+    start = position.first;
+    end = position.second;
+
+    get_manager().cache_data();
 }
 
 void zone_manager::zone_data::set_enabled( const bool _enabled )
