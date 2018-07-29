@@ -525,7 +525,7 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
     }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
-                             _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
+                              _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
     return it->type->charges_to_use();
