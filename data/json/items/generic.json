@@ -1119,7 +1119,7 @@
     {
         "type":"GENERIC",
         "id": "standard_template_construct",
-        "symbol": "'",
+        "symbol": ",",
         "color": "cyan",
         "name": "nanofabricator template",
         "category": "spare_parts",
@@ -1127,7 +1127,7 @@
         "price": 13500,
         "material": ["steel", "plastic"],
         "weight": 317,
-        "volume": 10,
+        "volume": 1,
         "to_hit": -1,
         "flags": [ "NANOFAB_TEMPLATE" ]
     },
