@@ -1,0 +1,16 @@
+[
+    {
+        "id": "grenades",
+        "type": "item_group",
+        "items": [ [ "granade", 1 ] ]
+    },
+    {
+        "id": "sporeostm",
+        "type": "item_group",
+        "subtype": "collection",
+        "entries":
+        [
+            { "item": "sporeos", "prob": 5 }
+        ]
+    }
+]

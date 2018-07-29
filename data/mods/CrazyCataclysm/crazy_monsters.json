@@ -1,0 +1,17 @@
+[
+    {
+        "id": "mon_fungaloid",
+        "type": "MONSTER",
+        "name": "fungaloid",
+        "copy-from": "mon_fungaloid",
+        "special_attacks": [ [ "FUNGUS_CORPORATE", 30 ] ]
+    },
+    {
+        "id": "mon_zombie_electric",
+        "type": "MONSTER",
+        "name": "shocker zombie",
+        "description": "A human body with pale blue flesh, crackling with electrical energy. It seems eager to tell you something.",
+        "copy-from": "mon_zombie_electric",
+        "special_attacks": [ [ "SHOCKING_REVEAL", 25 ] ]
+    }
+]
