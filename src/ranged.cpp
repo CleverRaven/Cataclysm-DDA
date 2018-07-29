@@ -72,6 +72,20 @@ static double occupied_tile_fraction( m_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    if( has_flag( MF_HARDTOSHOOT ) ) {
+        switch( get_size() ) {
+            case MS_TINY:
+                return occupied_tile_fraction( MS_TINY );
+            case MS_SMALL:
+                return occupied_tile_fraction( MS_TINY );
+            case MS_MEDIUM:
+                return occupied_tile_fraction( MS_SMALL );
+            case MS_LARGE:
+                return occupied_tile_fraction( MS_MEDIUM );
+            case MS_HUGE:
+                return occupied_tile_fraction( MS_LARGE );
+        }
+    }
     return occupied_tile_fraction( get_size() );
 }
 
@@ -644,7 +658,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     return line_number;
 }
 
-static double confidence_estimate( int range, double target_size, dispersion_sources dispersion )
+static double confidence_estimate( int range, double target_size, const dispersion_sources &dispersion )
 {
     // This is a rough estimate of accuracy based on a linear distribution across min and max
     // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
@@ -665,7 +679,7 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, dispersion_sources dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
+static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number, target_mode mode, const item &ranged_weapon, const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config, double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
@@ -680,7 +694,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( display_type != "numbers" ) {
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Great + = Normal | = Graze" ) );
     }
-    for( const aim_type type : aim_types ) {
+    for( const aim_type& type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
         std::string label = _( "Current Aim" );
@@ -710,7 +724,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                     // @todo: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                     int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                     last_chance += chance;
-                    return string_format( "%s: %3d%%", config.label.c_str(), chance );
+                    return string_format( "%s: %3d%%", _( config.label.c_str() ), chance );
                 }, false );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                                 c_white, confidence_s );
@@ -753,9 +767,9 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-        { accuracy_critical, '*', _( "Great" ) },
-        { accuracy_standard, '+', _( "Normal" ) },
-        { accuracy_grazing, '|', _( "Graze" ) }
+        { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
+        { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
+        { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
     }};
 
     const double range = rl_dist( p.pos(), target.pos() );
@@ -796,12 +810,12 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
     static const std::vector<confidence_rating> confidence_config_critter = {{
-        { accuracy_critical, '*', _( "Great" ) },
-        { accuracy_standard, '+', _( "Normal" ) },
-        { accuracy_grazing, '|', _( "Graze" ) }
+        { accuracy_critical, '*', translate_marker_context( "aim_confidence", "Great" ) },
+        { accuracy_standard, '+', translate_marker_context( "aim_confidence", "Normal" ) },
+        { accuracy_grazing, '|', translate_marker_context( "aim_confidence", "Graze" ) }
     }};
     static const std::vector<confidence_rating> confidence_config_object = {{
-        { accuracy_grazing, '*', _( "Hit" ) }
+        { accuracy_grazing, '*', translate_marker_context( "aim_confidence", "Hit" ) }
     }};
     const auto &confidence_config = target != nullptr ?
       confidence_config_critter : confidence_config_object;
@@ -1521,15 +1535,20 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         return 0.0;
     }
     double skill_shortfall = double( MAX_SKILL ) - skill;
-    // Flat penalty of 3 dispersion per point of skill under max.
-    double dispersion_penalty = 3.0 * skill_shortfall;
-    if( skill >= 5 ) {
+    // Flat penalty dispersion per point of skill under max.
+    double flat_penalty = get_option< float >( "GUN_DISPERSION_FLAT_PENALTY_PER_SKILL" );
+    double dispersion_penalty = flat_penalty * skill_shortfall;
+    double skill_threshold = get_option< float >( "GUN_DISPERSION_SKILL_THRESHOLD" );
+    double mult_post_threshold = get_option< float >( "GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD" );
+    if( skill >= skill_threshold) {
+        double post_threshold_skill_shortfall = double( MAX_SKILL ) - skill;
         // Lack of mastery multiplies the dispersion of the weapon.
-        return dispersion_penalty + skill_shortfall * weapon_dispersion / 5.0;
+        return dispersion_penalty + weapon_dispersion * post_threshold_skill_shortfall * mult_post_threshold / ( double( MAX_SKILL ) - skill_threshold );
     }
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
-    double lower_skill_shortfall = 5.0 - skill;
-    dispersion_penalty += weapon_dispersion + lower_skill_shortfall * weapon_dispersion * 3.0 / 5.0;
+    double pre_threshold_skill_shortfall = skill_threshold - skill;
+    double mult_pre_thershold = get_option< float >( "GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD" );
+    dispersion_penalty += weapon_dispersion * ( mult_post_threshold + pre_threshold_skill_shortfall * mult_pre_thershold / skill_threshold);
 
     return dispersion_penalty;
 }

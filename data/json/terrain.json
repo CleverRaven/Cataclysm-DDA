@@ -43,7 +43,10 @@
             "sound": "crash!",
             "sound_fail": "bash!",
             "ter_set": "t_null",
-            "items": [ { "item": "rock", "count": [6, 10] } ]
+            "items": [
+                { "item": "rock", "count": [5, 8] },
+                { "item": "brick", "count": [1, 3] }
+            ]
         }
     },{
         "type" : "terrain",
@@ -61,7 +64,8 @@
             "sound_fail": "bash!",
             "ter_set": "t_null",
             "items": [
-                { "item": "rock", "count": [10, 20] }
+                { "item": "rock", "count": [8, 15] },
+                { "item": "brick", "count": [2, 6] }
             ]
         }
     },{
@@ -3074,7 +3078,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3093,7 +3097,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3112,7 +3116,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                 { "item": "stick", "count": [0, 5] }
+                 { "item": "stick_long", "count": [0, 5] }
             ]
         }
     },{
@@ -3135,7 +3139,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3156,7 +3160,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3180,7 +3184,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3201,7 +3205,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3225,7 +3229,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3246,7 +3250,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3270,7 +3274,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3291,7 +3295,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3315,7 +3319,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3336,7 +3340,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3360,7 +3364,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3381,7 +3385,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3405,7 +3409,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3424,7 +3428,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3448,7 +3452,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3467,7 +3471,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3490,7 +3494,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3508,7 +3512,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3527,7 +3531,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3546,7 +3550,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3569,7 +3573,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3589,7 +3593,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3607,7 +3611,7 @@
             "sound_fail": "whack!",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "count": [3, 10] },
+                { "item": "stick_long", "count": [3, 10] },
                 { "item": "splinter", "count": [10, 25] }
             ]
         }
@@ -3874,8 +3878,13 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT"]
     },{
         "type" : "terrain",
-        "id" : "t_fence_v",
+        "id" : "t_fence",
+        "aliases" : [
+            "t_fence_h",
+            "t_fence_v"
+        ],
         "name": "picket fence",
+        "description": "A barrier made of wood, it's nothing complicated.  Mildly suggests where not to go.",
         "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 3,
@@ -3903,57 +3912,13 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_fence_h",
-        "name": "picket fence",
-        "symbol": "LINE_OXOX",
-        "color": "brown",
-        "move_cost": 3,
-        "flags": [
-            "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-            "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
-        "connects_to": "WOODFENCE",
-        "deconstruct": {
-            "ter_set": "t_fence_post",
-            "items": [
-                { "item": "2x4", "count": 5 },
-                { "item": "nail", "charges": 8 }
-            ]
-        },
-        "bash": {
-            "str_min": 4, "str_max": 20,
-            "sound": "crack.",
-            "sound_fail": "wham.",
-            "ter_set": "t_null",
-            "items": [
-                { "item": "2x4", "count": [1, 3] },
-                { "item": "nail", "charges": [2, 6] },
-                { "item": "splinter", "count": 1 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_chainfence_v",
+        "id" : "t_chainfence",
+        "aliases" : [
+            "t_chainfence_h",
+            "t_chainfence_v"
+        ],
         "name": "chain link fence",
-        "symbol": "LINE_OXOX",
-        "color": "cyan",
-        "move_cost": 0,
-        "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
-        "connects_to": "CHAINFENCE",
-        "examine_action": "chainfence",
-        "bash": {
-            "str_min": 10, "str_max": 150,
-            "sound": "metal screeching!",
-            "sound_fail": "clang!",
-            "ter_set": "t_chainfence_posts",
-            "items": [
-                { "item": "wire", "count": [8, 15] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_chainfence_h",
-        "name": "chain link fence",
+        "description": "A tall fence made of woven wires.  It doesn't suggest to stop, it just stops.",
         "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
@@ -3974,6 +3939,7 @@
         "type" : "terrain",
         "id" : "t_chainfence_posts",
         "name": "metal post",
+        "description": "Set of metal posts, that can hold more serious fences.",
         "symbol": "#",
         "color": "cyan",
         "move_cost": 2,
@@ -3992,6 +3958,7 @@
         "type" : "terrain",
         "id" : "t_fence_post",
         "name": "fence post",
+        "description": "A couple of posts that support the fence.  They look alone without the fence.",
         "symbol": "#",
         "color": "brown",
         "move_cost": 2,
@@ -4015,6 +3982,7 @@
         "type" : "terrain",
         "id" : "t_fence_wire",
         "name": "wire fence",
+        "description": "A barrier made of wire, it's nothing complicated.  Mildly suggests where not to go.",
         "symbol": "$",
         "color": "blue",
         "move_cost": 4,
@@ -4039,6 +4007,7 @@
         "type" : "terrain",
         "id" : "t_fence_barbed",
         "name": "barbed wire fence",
+        "description": "A barrier made of sharp barbed wire.  More persuasive brother of wire fence.",
         "symbol": "$",
         "color": "blue",
         "move_cost": 4,
@@ -4063,6 +4032,7 @@
         "type" : "terrain",
         "id" : "t_fence_rope",
         "name": "rope fence",
+        "description": "A barrier made of rope, it's nothing complicated.  Mildly suggests where not to go.",
         "symbol": "$",
         "color": "brown",
         "move_cost": 3,
@@ -4086,28 +4056,11 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_railing_v",
-        "name": "railing",
-        "symbol": "LINE_OXOX",
-        "color": "yellow",
-        "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
-        "connects_to": "RAILING",
-        "bash": {
-            "str_min": 20, "str_max": 80,
-            "sound": "crack!",
-            "sound_fail": "whump.",
-            "ter_set": "t_floor",
-            "items": [
-                { "item": "2x4", "prob": 50 },
-                { "item": "nail", "charges": [2, 6] },
-                { "item": "scrap", "count": [1, 3] },
-                { "item": "splinter", "count": [1, 3] }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_railing_h",
+        "id" : "t_railing",
+        "aliases" : [
+            "t_railing_h",
+            "t_railing_v"
+        ],
         "name": "railing",
         "symbol": "LINE_OXOX",
         "color": "yellow",
@@ -4883,6 +4836,7 @@
         "type" : "terrain",
         "id" : "t_barndoor",
         "name": "rope and pulley",
+        "description": "A system of ropes and pulleys that allows to pull up heavy doors.",
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
@@ -4910,6 +4864,7 @@
         "type" : "terrain",
         "id" : "t_palisade_pulley",
         "name": "rope and pulley",
+        "description": "A system of ropes and pulleys that allows to pull up heavy doors or gates.",
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
@@ -5449,6 +5404,7 @@
         "type" : "terrain",
         "id" : "t_carpet_red",
         "name": "red carpet",
+        "description": "Soft red carpet.",
         "symbol": ".",
         "color": "red",
         "move_cost": 2,
@@ -5469,6 +5425,7 @@
         "type" : "terrain",
         "id" : "t_carpet_yellow",
         "name": "yellow carpet",
+        "description": "Soft yellow carpet.",
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
@@ -5489,6 +5446,7 @@
         "type" : "terrain",
         "id" : "t_carpet_green",
         "name": "green carpet",
+        "description": "Soft green carpet.",
         "symbol": ".",
         "color": "green",
         "move_cost": 2,
@@ -5509,6 +5467,7 @@
         "type" : "terrain",
         "id" : "t_carpet_purple",
         "name": "purple carpet",
+        "description": "Soft purple carpet.",
         "symbol": ".",
         "color": "magenta",
         "move_cost": 2,
@@ -5575,6 +5534,7 @@
             "t_wall_v_r"
         ],
         "name": "red wall",
+        "description": "Wall painted red.",
         "symbol": "LINE_OXOX",
         "color": "red",
         "move_cost": 0,
@@ -5594,6 +5554,7 @@
             "t_wall_v_w"
         ],
         "name": "white wall",
+        "description": "Wall painted white.",
         "symbol": "LINE_OXOX",
         "color": "white",
         "move_cost": 0,
@@ -5613,6 +5574,7 @@
             "t_wall_v_b"
         ],
         "name": "blue wall",
+        "description": "Wall painted blue.",
         "symbol": "LINE_OXOX",
         "color": "blue",
         "move_cost": 0,
@@ -5632,6 +5594,7 @@
             "t_wall_v_g"
         ],
         "name": "green wall",
+        "description": "Wall painted green.",
         "symbol": "LINE_OXOX",
         "color": "green",
         "move_cost": 0,
@@ -5651,6 +5614,7 @@
             "t_wall_v_y"
         ],
         "name": "yellow wall",
+        "description": "Wall painted yellow.",
         "symbol": "LINE_OXOX",
         "color": "yellow",
         "move_cost": 0,
@@ -5670,6 +5634,7 @@
             "t_wall_v_p"
         ],
         "name": "purple wall",
+        "description": "Wall painted purple.",
         "symbol": "LINE_OXOX",
         "color": "magenta",
         "move_cost": 0,
@@ -5721,6 +5686,7 @@
         "type" : "terrain",
         "id" : "t_covered_well",
         "name": "covered well",
+        "description": "Deep well collecting ground water.  Requires a method to draw water from.",
         "symbol": "#",
         "color": "dark_gray",
         "move_cost": 2,
@@ -5741,6 +5707,7 @@
         "type" : "terrain",
         "id" : "t_water_pump",
         "name": "water pump",
+        "description": "Deep well collecting ground water.  Installed water pump allowes to draw water from it.",
         "symbol": "&",
         "color": "light_gray",
         "move_cost": 6,
@@ -5768,6 +5735,7 @@
         "type" : "terrain",
         "id" : "t_improvised_shelter",
         "name": "improvised shelter",
+        "description": "Improvised shelter providing little bit of protection from the elements.",
         "symbol": "#",
         "color": "brown_green",
         "move_cost": 2,
@@ -6237,6 +6205,7 @@
         "type" : "terrain",
         "id" : "t_dock",
         "name": "dock",
+        "description": "A wooden platform held by a support made of logs dug into the ground.",
         "symbol": "8",
         "color": "brown",
         "move_cost": 4,
@@ -6262,6 +6231,7 @@
         "type" : "terrain",
         "id" : "t_pontoon_dp",
         "name": "pontoon bridge",
+        "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
         "symbol": "8",
         "color": "brown",
         "move_cost": 4,
@@ -6739,15 +6709,57 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
-    "id": "t_railroad_track_on_tie",
+    "id": "t_railroad_track_h",
     "type": "terrain",
     "name": "railroad track",
-    "symbol": "x",
+    "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_v",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d1",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d2",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -6757,7 +6769,78 @@
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 3,
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_h",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_v",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_d",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_track_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_h_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_v_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "connects_to": "RAIL",
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_floor_waxed",

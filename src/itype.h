@@ -43,7 +43,9 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
+enum art_charge_req : int;
 enum art_effect_passive : int;
+struct artifact_dream_datum;
 class material_type;
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
@@ -234,6 +236,10 @@ struct islot_armor {
      * Resistance to environmental effects.
      */
     int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
     /**
      * How much warmth this item provides.
      */
@@ -640,11 +646,17 @@ struct islot_seed {
 
 struct islot_artifact {
     art_charge charge_type;
+    art_charge_req charge_req;
     std::vector<art_effect_passive> effects_wielded;
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
     std::vector<art_effect_passive> effects_worn;
+    std::vector<std::string> dream_msg_unmet;
+    std::vector<std::string> dream_msg_met;
+    int dream_freq_unmet;
+    int dream_freq_met;
 };
+bool check_art_charge_req( item& it );
 
 struct itype {
     friend class Item_factory;

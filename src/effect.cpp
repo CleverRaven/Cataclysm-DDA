@@ -160,7 +160,7 @@ void weed_msg( player &p ) {
 }
 
 static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
-                            std::string mod_type, std::string data_key, std::string type_key, std::string arg_key)
+                            const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key)
 {
     double val = 0;
     double reduced_val = 0;
@@ -183,7 +183,7 @@ static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::st
     }
 }
 
-bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
+bool effect_type::load_mod_data( JsonObject &jsobj, const std::string &member ) {
     if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);
 
@@ -317,6 +317,11 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "vomit_chance_bot", member, "VOMIT",    "chance_bot");
         extract_effect(j, mod_data, "vomit_tick",       member, "VOMIT",    "tick");
 
+        // Then healing effects
+        extract_effect( j, mod_data, "healing_rate",    member, "HEAL_RATE",  "amount" );
+        extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
+        extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
+
         return true;
     } else {
         return false;
@@ -398,7 +403,7 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
+bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
 {
     if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
@@ -410,7 +415,7 @@ bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
     }
     return false;
 }
-bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
+bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
 {
     if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
@@ -840,6 +845,7 @@ int effect::get_avg_mod(std::string arg, bool reduced) const
 
 int effect::get_amount(std::string arg, bool reduced) const
 {
+    int intensity_capped = ( ( eff_type->max_effective_intensity > 0 ) ? std::min( eff_type->max_effective_intensity, intensity ) : intensity );
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "amount"));
@@ -848,7 +854,7 @@ int effect::get_amount(std::string arg, bool reduced) const
     }
     found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "amount"));
     if (found != mod_data.end()) {
-        ret += found->second * (intensity - 1);
+        ret += found->second * (intensity_capped - 1);
     }
     return int(ret);
 }
@@ -883,7 +889,7 @@ int effect::get_max_val(std::string arg, bool reduced) const
     return int(ret);
 }
 
-bool effect::get_sizing(std::string arg) const
+bool effect::get_sizing( const std::string &arg ) const
 {
     if (arg == "PAIN") {
         return eff_type->pain_sizing;
@@ -1200,6 +1206,8 @@ void load_effect_type(JsonObject &jo)
     new_etype.pain_sizing = jo.get_bool("pain_sizing", false);
     new_etype.hurt_sizing = jo.get_bool("hurt_sizing", false);
     new_etype.harmful_cough = jo.get_bool("harmful_cough", false);
+
+    new_etype.max_effective_intensity = jo.get_int( "max_effective_intensity", 0 );
 
     new_etype.load_mod_data(jo, "base_mods");
     new_etype.load_mod_data(jo, "scaling_mods");

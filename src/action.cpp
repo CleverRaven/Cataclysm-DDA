@@ -375,7 +375,7 @@ bool can_action_change_worldstate( const action_id act )
     }
 }
 
-action_id look_up_action( std::string ident )
+action_id look_up_action( const std::string &ident )
 {
     // Temporarily for the interface with the input manager!
     if( ident == "move_nw" ) {
@@ -414,13 +414,14 @@ std::string press_x( action_id act )
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), _( "Press " ), "", _( "Try" ) );
 }
-std::string press_x( action_id act, std::string key_bound, std::string key_unbound )
+std::string press_x( action_id act, const std::string &key_bound, const std::string &key_unbound )
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound, "", key_unbound );
 }
-std::string press_x( action_id act, std::string key_bound_pre, std::string key_bound_suf,
-                     std::string key_unbound )
+std::string press_x( action_id act, const std::string &key_bound_pre,
+                     const std::string &key_bound_suf,
+                     const std::string &key_unbound )
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
@@ -903,7 +904,7 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     return false;
 }
 
-bool choose_adjacent( std::string message, int &x, int &y )
+bool choose_adjacent( const std::string &message, int &x, int &y )
 {
     tripoint temp( x, y, g->u.posz() );
     bool ret = choose_adjacent( message, temp );
@@ -912,7 +913,7 @@ bool choose_adjacent( std::string message, int &x, int &y )
     return ret;
 }
 
-bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
+bool choose_adjacent( const std::string &message, tripoint &p, bool allow_vertical )
 {
     if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
@@ -921,7 +922,7 @@ bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
     return true;
 }
 
-bool choose_adjacent_highlight( std::string message, int &x, int &y,
+bool choose_adjacent_highlight( const std::string &message, int &x, int &y,
                                 action_id action_to_highlight )
 {
     tripoint temp( x, y, g->u.posz() );
@@ -931,7 +932,7 @@ bool choose_adjacent_highlight( std::string message, int &x, int &y,
     return ret;
 }
 
-bool choose_adjacent_highlight( std::string message, tripoint &p,
+bool choose_adjacent_highlight( const std::string &message, tripoint &p,
                                 action_id action_to_highlight )
 {
     // Highlight nearby terrain according to the highlight function

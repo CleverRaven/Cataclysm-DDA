@@ -52,6 +52,7 @@
       [ "pet_carrier", 30 ],
       [ "dogfood", 30 ],
       [ "catfood", 30 ],
+      [ "birdfood", 10 ],
       [ "towel", 20 ],
       [ "soap", 10 ],
       [ "gloves_medical", 20 ],
@@ -78,7 +79,8 @@
       [ "1st_aid", 30 ],
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
-      [ "vaccine_shot", 15 ]
+      [ "vaccine_shot", 15 ],
+      [ "anesthesia", 20 ]
     ]
   },
   {

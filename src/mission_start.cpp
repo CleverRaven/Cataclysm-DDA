@@ -1517,15 +1517,15 @@ void mission_start::ranch_scavenger_1(mission *miss)
  tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false, RANCH_SIZE);
  tinymap bay;
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.draw_square_ter(t_chainfence_v, 15, 13, 15, 22);
- bay.draw_square_ter(t_chainfence_h, 16, 13, 23, 13);
- bay.draw_square_ter(t_chainfence_h, 16, 22, 23, 22);
+ bay.draw_square_ter(t_chainfence, 15, 13, 15, 22);
+ bay.draw_square_ter(t_chainfence, 16, 13, 23, 13);
+ bay.draw_square_ter(t_chainfence, 16, 22, 23, 22);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_49", 1, miss, false, RANCH_SIZE);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.place_items( "mechanics", 65, 9, 13, 10, 16, true, 0 );
- bay.draw_square_ter(t_chainfence_h, 0, 22, 7, 22);
+ bay.draw_square_ter(t_chainfence, 0, 22, 7, 22);
  bay.draw_square_ter(t_dirt, 2, 22, 3, 22);
  bay.spawn_item( 7, 19, "30gal_drum" );
  bay.save();

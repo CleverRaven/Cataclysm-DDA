@@ -35,12 +35,13 @@ std::map<std::string, std::string> normalized_names;
 
 static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
                                       const recipe &rec );
-static void draw_recipe_tabs( const catacurses::window &w, std::string tab,
+static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
                               TAB_MODE mode = NORMAL );
-static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
+                                 const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string get_cat_name( std::string prefixed_name )
+std::string get_cat_name( const std::string &prefixed_name )
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
@@ -69,7 +70,7 @@ void load_recipe_category( JsonObject &jsobj )
     }
 }
 
-std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
+std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_name( cat ) + "_";
 
@@ -178,7 +179,9 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::string previous_tab = "";
     std::string previous_subtab = "";
     item tmp;
-    int line = 0, ypos, scroll_pos = 0;
+    int line = 0;
+    int ypos = 0;
+    int scroll_pos = 0;
     bool redraw = true;
     bool keepline = false;
     bool done = false;
@@ -186,7 +189,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = NULL;
-    std::vector<iteminfo> thisItem, dummy;
+    std::vector<iteminfo> thisItem;
+    std::vector<iteminfo> dummy;
 
     input_context ctxt( "CRAFTING" );
     ctxt.register_cardinal();
@@ -687,7 +691,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
     }
 }
 
-static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_MODE mode )
+static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );
@@ -719,7 +723,8 @@ static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_
     wrefresh( w );
 }
 
-static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
+                                 const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode )
 {
     werase( w );
@@ -727,7 +732,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, s
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XXXO );
-        } else if( i == width ) {
+        } else if( i == width ) { // @todo: that is always false!
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XOXX );
         } else {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_OXOX );
@@ -743,7 +748,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, s
         case NORMAL: {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
-            for( const auto stt : craft_subcat_list[tab] ) {
+            for( const auto &stt : craft_subcat_list[tab] ) {
                 bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;
