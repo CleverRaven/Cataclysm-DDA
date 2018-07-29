@@ -2995,8 +2995,9 @@ ___DEEE|.R.|...,,...|sss\n",
 
                         // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
                         // borders and have to be caught in code. We determine if a border isn't handled by checking
-                        // the east-facing border space where the door normally is -- it should not be a floor.
-                        if( ter(tripoint(23, 11, abs_sub.z)) == t_rock_floor ) {
+                        // the east-facing border space where the door normally is -- it should be a wall or door.
+                        tripoint east_border(23, 11, abs_sub.z);
+                        if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                             // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                             for( int i = 0; i <= 23; i++ ) {
                                 ter_set( 23, i, t_concrete_wall );

@@ -825,6 +825,40 @@
     }
   },
   {
+    "//": "gym",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".........",
+        ".5.....L.",
+        "...l|l...",
+        "...l|l...",
+        ".5..|..L.",
+        "....|l...",
+        "```.|l...",
+        "```....L.",
+        "```......"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "furniture": {
+        "L": "f_treadmill",
+        "5": [ "f_ergometer", "f_exercise"],
+        "`": "f_canvas_floor"
+      },
+      "items": {
+        ".": { "item": "clutter_gym", "chance": 3 },
+        "l": { "item": "locker_gym", "chance": 30 },
+        "`": { "item": "boxing_misc", "chance": 5 }
+      }
+    }
+  },
+  {
     "//": "kitchen and dining area",
     "type": "mapgen",
     "method": "json",
