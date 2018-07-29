@@ -1881,11 +1881,35 @@
     },
     {
         "type" : "keybinding",
+        "id": "NEXT_TAB",
+        "category": "VEH_INTERACT",
+        "name": "Go to next tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_TAB",
+        "category": "VEH_INTERACT",
+        "name": "Go to prev tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"BACKTAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "FUEL_LIST_UP",
         "category": "VEH_INTERACT",
         "name": "Scroll up through fuel list",
         "bindings":[
-            { "input_method":"keyboard", "key":"BACKTAB" }
+            { "input_method":"keyboard", "key":"[" }
         ]
     },
     {
@@ -1894,7 +1918,7 @@
         "category": "VEH_INTERACT",
         "name": "Scroll down through fuel list",
         "bindings":[
-            { "input_method":"keyboard", "key":"TAB" }
+            { "input_method":"keyboard", "key":"]" }
         ]
     },
     {
