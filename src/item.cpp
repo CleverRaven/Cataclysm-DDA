@@ -1553,9 +1553,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( is_container() && parts->test(iteminfo_parts::CONTAINER_DETAILS)) {
         const auto &c = *type->container;
 
-        // @todo: check *why* this is here - makes no sense.....
-        info.push_back( iteminfo( "ARMOR", temp1.str() ) );
-
         temp1.str( "" );
         temp1 << _( "This container " );
 
