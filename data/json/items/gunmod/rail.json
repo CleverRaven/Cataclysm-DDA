@@ -44,7 +44,7 @@
     "color": "dark_gray",
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "sight_dispersion": 360,
+    "sight_dispersion": 30,
     "aim_speed": 8,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
@@ -65,5 +65,16 @@
     "dispersion_modifier": -30,
     "handling_modifier": 6,
     "min_skills": [ [ "weapon", 6 ] ]
+  },
+  {
+    "id": "lead_stabilizer",
+    "copy-from": "stabilizer",
+    "type": "GUNMOD",
+    "name": "LW gyroscopic stabilizer",
+    "description": "An advanced Leadworks built in gyroscopic stabilizer.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "flags": [ "IRREMOVABLE" ]
   }
 ]

@@ -72,15 +72,16 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jsobj, std::string member );
-        bool load_miss_msgs( JsonObject &jsobj, std::string member );
-        bool load_decay_msgs( JsonObject &jsobj, std::string member );
+        bool load_mod_data( JsonObject &jsobj, const std::string &member );
+        bool load_miss_msgs( JsonObject &jsobj, const std::string &member );
+        bool load_decay_msgs( JsonObject &jsobj, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
     protected:
         int max_intensity;
+        int max_effective_intensity;
         time_duration max_duration;
 
         int dur_add_perc;
@@ -234,7 +235,7 @@ class effect
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
         int get_max_val( std::string arg, bool reduced = false ) const;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
-        bool get_sizing( std::string arg ) const;
+        bool get_sizing( const std::string &arg ) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
         double get_percentage( std::string arg, int val, bool reduced = false ) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct

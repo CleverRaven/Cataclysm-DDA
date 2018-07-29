@@ -1171,6 +1171,16 @@
         "volume" : 30
     },{
         "type" : "speech",
+        "speaker" : "mon_mi_go",
+        "sound" : "That creepy abandoned post-apocalyptic lab complex looks safe...",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_mi_go",
+        "sound" : "Don't worry, it isn't like anything could teleport out of the containment cells.",
+        "volume" : 20
+    },{
+        "type" : "speech",
         "speaker" : "mon_shoggoth",
         "sound" : "\"TEKELI-LI!\"",
         "volume" : 40

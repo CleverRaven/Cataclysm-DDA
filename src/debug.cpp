@@ -150,7 +150,7 @@ struct NullBuf : public std::streambuf {
 struct DebugFile {
     DebugFile();
     ~DebugFile();
-    void init( std::string filename );
+    void init( const std::string &filename );
     void deinit();
 
     std::ofstream &currentTime();
@@ -185,7 +185,7 @@ void DebugFile::deinit()
     file.close();
 }
 
-void DebugFile::init( std::string filename )
+void DebugFile::init( const std::string &filename )
 {
     this->filename = filename;
     const std::string oldfile = filename + ".prev";

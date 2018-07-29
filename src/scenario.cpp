@@ -286,7 +286,7 @@ bool scenario::is_forbidden_trait( const trait_id &trait ) const
     return _forbidden_traits.count( trait ) != 0;
 }
 
-bool scenario::has_flag( std::string flag ) const
+bool scenario::has_flag( const std::string &flag ) const
 {
     return flags.count( flag ) != 0;
 }

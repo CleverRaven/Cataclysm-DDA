@@ -104,9 +104,18 @@ classes = {
         },
         by_value_and_reference = true,
         attributes = {
+            before_time_starts = { type = "time_point", writable = false },
+            time_of_cataclysm = { type = "time_point", writable = false },
         },
         functions = {
+            { name = "eternal_season", rval = "bool", args = { } },
+            { name = "year_length", rval = "time_duration", args = { } },
+            { name = "season_length", rval = "time_duration", args = { } },
+            { name = "season_ratio", rval = "float", args = { } },
+            { name = "season_from_default_ratio", rval = "float", args = { } },
+            { name = "name_season", rval = "string", args = { "season_type" } },
             { name = "day_of_year", rval = "int", args = { } },
+            { name = "get_turn", rval = "int", cpp_name = "operator int", args = { } },
             { name = "increment", rval = nil, args = { } },
             { name = "is_night", rval = "bool", args = { } },
             { name = "sunlight", rval = "float", args = { } },
@@ -341,7 +350,7 @@ classes = {
             { name = "get_levx", rval = "int", args = { } },
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
-            { name = "get_temperature", rval = "int", args = { } },
+            { name = "get_temperature", rval = "int", args = { "tripoint" } },
             { name = "handle_liquid", rval = "bool", args = { "item" } },
             { name = "increase_kill_count", rval = nil, args = { "mtype_id" } },
             { name = "inv_for_all", rval = "int", args = { "string" } },
@@ -610,7 +619,7 @@ classes = {
             { name = "invoke_item", rval = "bool", args = { "item" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string", "tripoint" } },
-            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },            
+            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },
             { name = "is_armed", rval = "bool", args = { } },
             { name = "is_dead_state", rval = "bool", args = { } },
             { name = "is_deaf", rval = "bool", args = { } },
@@ -628,7 +637,7 @@ classes = {
             { name = "is_underwater", rval = "bool", args = { } },
             { name = "is_wearing_active_power_armor", rval = "bool", args = { } },
             { name = "is_wearing_power_armor", rval = "bool", args = { } },
-            { name = "is_wearing_shoes", rval = "bool", args = { "string" } },
+            { name = "is_wearing_shoes", rval = "bool", args = { "side" } },
             { name = "is_wearing_shoes", rval = "bool", args = { } },
             { name = "item_handling_cost", rval = "int", args = { "item" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool" } },
@@ -1823,17 +1832,25 @@ classes = {
             { name = "set_interest", rval = nil, args = { "int" } },
         }
     },
+    -- You can get reference to current overmap using `g:get_cur_om()` or return value of overmap with given coordinates using `overmap(x, y)`.
     overmap = {
+        by_value_and_reference = true,
+        new = {
+            { "int", "int" },
+        },
         attributes = {
         },
         functions = {
-            { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
-            { name = "clear_mon_groups", rval = nil, args = { } },
-            { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
+            { name = "pos", rval = "point", args = { } },
             { name = "find_random_omt", rval = "tripoint", args = { "string" } },
-            { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_explored", rval = "bool", args = { "int", "int", "int" } },
+            { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "note", rval = "string", args = { "int", "int", "int" } },
+            { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
+            { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
+            { name = "display_notes", rval = "point", args = { "int" } },
+            { name = "global_base_point", rval = "point", args = { } },
+            { name = "clear_mon_groups", rval = nil, args = { } },
         }
     },
     volume = {
@@ -1861,6 +1878,10 @@ classes = {
     },
     time_duration = {
         by_value = true,
+        has_equal = true,
+        new = {
+            { "time_duration" },
+        },
         attributes = {
         },
         functions = {
@@ -1868,6 +1889,12 @@ classes = {
     },
     time_point = {
         by_value = true,
+        has_equal = true,
+        new = {
+            { "calendar" },
+            { "int" },
+            { "time_point" },
+        },
         attributes = {
         },
         functions = {
@@ -1950,6 +1977,14 @@ classes = {
 }
 
 enums = {
+    overmap_direction = {
+        "overmap_direction::invalid",
+        "overmap_direction::none",
+        "overmap_direction::north",
+        "overmap_direction::east",
+        "overmap_direction::south",
+        "overmap_direction::west",
+    },
     body_part = {
         "bp_torso",
         "bp_head",
@@ -2086,6 +2121,12 @@ global_functions = {
         rval = nil,
         desc = "Write a message to the game's standard message window."
     },
+    query_yn = {
+        cpp_name = "query_yn_wrapper",
+        args     = { "string" },
+        argnames = { "message" },
+        rval = "bool"
+    },
     popup = {
         cpp_name = "popup_wrapper",
         args = { "string" },
@@ -2131,6 +2172,18 @@ global_functions = {
         args = { "string", "string", "int" },
         rval = "bool"
     },
+    get_monster_at = {
+        cpp_name = "get_monster_at",
+        args = { "tripoint" },
+        rval = "monster&",
+        desc = "Returns a reference to monster at given tripoint, *or* nil if there is no monster."
+    },
+    get_critter_at = {
+        cpp_name = "get_critter_at",
+        args = { "tripoint" },
+        rval = "Creature&",
+        desc = "Returns a reference to creature at given tripoint, *or* nil if there is no creature."
+    },
     create_monster = {
         cpp_name = "create_monster",
         args = { "mtype_id", "tripoint" },
@@ -2141,6 +2194,27 @@ global_functions = {
         cpp_name = "get_calendar_turn_wrapper",
         args = {},
         rval = "calendar&"
+    },
+    get_time_duration = {
+        cpp_name = "get_time_duration_wrapper",
+        args = { "int" },
+        rval = "time_duration",
+        desc = "Constructs `time_duration` with given `int` value (which is number of turns). You can also use TURNS(n), MINUTES(n), HOURS(n) and DAYS(n) wrapper functions from `autoexec.lua`."
+    },
+	-- Returns id of overmap terrain on given overmap with given tripoint in global overmap terrain coordinates.
+	-- Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return id of overmap terrain of current player location.
+    get_omt_id = {
+        cpp_name = "get_omt_id",
+        args = { "overmap", "tripoint" },
+        rval = "string"
+    },
+	-- Returns enum, indicating direction of overmap terrain on given overmap with given tripoint in global overmap terrain coordinates.
+	-- Possible return values are in `overmap_direction` in `enums` section above.
+	-- Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return direction of overmap terrain of current player location.
+    get_omt_dir = {
+        cpp_name = "get_omt_dir",
+        args = { "overmap", "tripoint" },
+        rval = "overmap_direction"
     }
 }
 

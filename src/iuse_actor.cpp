@@ -40,6 +40,7 @@
 #include "string_input_popup.h"
 #include "options.h"
 #include "skill.h"
+#include "effect.h"
 
 #include <sstream>
 #include <algorithm>
@@ -53,8 +54,10 @@ const skill_id skill_fabrication( "fabrication" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_playing_instrument( "playing_instrument" );
@@ -497,6 +500,9 @@ void consume_drug_iuse::load( JsonObject &obj )
         auto hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
     }
+
+    used_up_item = obj.get_string( "used_up_item", used_up_item );
+
 }
 
 void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -586,6 +592,12 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.use_charges( consumable->first, consumable->second );
         }
     }
+
+    if( !used_up_item.empty() ) {
+        item used_up( used_up_item, it.birthday() );
+        p.i_add_or_drop( used_up );
+    }
+
     p.moves -= moves;
     return it.type->charges_to_use();
 }
@@ -907,12 +919,13 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
         return 0;
     }
 
-    if( g->m.has_furn( pos ) ) {
+    if( g->m.has_furn( dir ) ) {
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return 0;
     }
 
     g->m.furn_set( dir, furn_type );
+    p.mod_moves( -200 );
     return 1;
 }
 
@@ -1364,7 +1377,8 @@ bool inscribe_actor::item_inscription( item &cut ) const
     menu.addentry( INSCRIPTION_CANCEL, true, 'q', _( "Cancel" ) );
     menu.query();
 
-    std::string carving, carving_type;
+    std::string carving;
+    std::string carving_type;
     switch( menu.ret ) {
         case INSCRIPTION_LABEL:
             carving = "item_label";
@@ -1505,7 +1519,7 @@ long cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     bool did_cauterize = false;
 
     if( has_disease ) {
-        did_cauterize = cauterize_effect( p, it, !has_disease );
+        did_cauterize = cauterize_effect( p, it, false );
     } else {
         const bool can_have_fun = p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
                                   p.has_trait( trait_CENOBITE );
@@ -2662,7 +2676,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     const int current_skill_level = pl.get_skill_level( used_skill );
     const auto action = default_action( fix, current_skill_level );
     const auto chance = repair_chance( pl, fix, action );
-    const int practice_amount = repair_recipe_difficulty( pl, fix, true );
+    int practice_amount = repair_recipe_difficulty( pl, fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -2684,9 +2698,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     // If not for this if, it would spam a lot
-    if( current_skill_level <= trains_skill_to ) {
-        pl.practice( used_skill, practice_amount / 2 + 1, trains_skill_to );
+    if( current_skill_level > trains_skill_to ) {
+        practice_amount = 0;
     }
+    pl.practice( used_skill, practice_amount, trains_skill_to );
 
     if( roll == FAILURE ) {
         return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
@@ -2767,9 +2782,14 @@ void heal_actor::load( JsonObject &obj )
 {
     // Mandatory
     move_cost = obj.get_int( "move_cost" );
-    limb_power = obj.get_float( "limb_power" );
+    limb_power = obj.get_float( "limb_power", 0 );
 
     // Optional
+    bandages_power = obj.get_float( "bandages_power", 0 );
+    bandages_scaling = obj.get_float( "bandages_scaling", 0.25f * bandages_power );
+    disinfectant_power = obj.get_float( "disinfectant_power", 0 );
+    disinfectant_scaling = obj.get_float( "disinfectant_scaling", 0.25f * disinfectant_power );
+
     head_power = obj.get_float( "head_power", 0.8f * limb_power );
     torso_power = obj.get_float( "torso_power", 1.5f * limb_power );
 
@@ -2887,9 +2907,29 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     return heal_base;
 }
 
+int heal_actor::get_bandaged_level( const player &healer ) const
+{
+    if( bandages_power > 0 ) {
+        /** @EFFECT_FIRSTAID increases healing item effects */
+        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+    }
+
+    return bandages_power;
+}
+
+int heal_actor::get_disinfected_level( const player &healer ) const
+{
+    if( disinfectant_power > 0 ) {
+        /** @EFFECT_FIRSTAID increases healing item effects */
+        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+    }
+
+    return disinfectant_power;
+}
+
 long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
-    float practice_amount = std::max( 9.0f, limb_power * 3.0f );
+    float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
 
     if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
@@ -2978,6 +3018,25 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         }
     }
 
+    // apply healing over time effects
+    if( bandages_power > 0 ) {
+        int bandages_intensity = get_bandaged_level( healer );
+        patient.add_effect( effect_bandaged, 1_turns, bp_healed );
+        effect &e = patient.get_effect( effect_bandaged, bp_healed );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
+        patient.damage_bandaged[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        practice_amount += 2 * bandages_intensity;
+    }
+    if( disinfectant_power > 0 ) {
+        int disinfectant_intensity = get_disinfected_level( healer );
+        patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+        effect &e = patient.get_effect( effect_disinfected, bp_healed );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
+        patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        practice_amount += 2 * disinfectant_intensity;
+    }
+    practice_amount = std::max( 9.0f, practice_amount );
+
     healer.practice( skill_firstaid, ( int )practice_amount );
     return it.type->charges_to_use();
 }
@@ -2987,7 +3046,7 @@ hp_part pick_part_to_heal(
     const std::string &menu_header,
     int limb_power, int head_bonus, int torso_bonus,
     float bleed_chance, float bite_chance, float infect_chance,
-    bool force )
+    bool force, bool is_bandage, bool is_disinfectant )
 {
     const bool bleed = bleed_chance > 0.0f;
     const bool bite = bite_chance > 0.0f;
@@ -3001,7 +3060,7 @@ hp_part pick_part_to_heal(
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
                               limb_power, head_bonus, torso_bonus,
-                              bleed, bite, infect );
+                              bleed, bite, infect, is_bandage, is_disinfectant );
         if( healed_part == num_hp_parts ) {
             return num_hp_parts;
         }
@@ -3067,9 +3126,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing self - let player select
         if( healer.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             const std::string menu_header = it.tname();
+            bool is_bandages = bandages_power;
+            bool is_disinfectant = disinfectant_power;
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force );
+                                        bleed, bite, infect, force, is_bandages, is_disinfectant );
             if( healed == num_hp_parts ) {
                 return num_hp_parts; // canceled
             }
@@ -3086,9 +3147,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
         const std::string menu_header = it.tname();
+        bool is_bandages = bandages_power;
+        bool is_disinfectant = disinfectant_power;
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force );
+                                    bleed, bite, infect, force, is_bandages, is_disinfectant );
     }
 
     if( healed != num_hp_parts ) {
@@ -3111,6 +3174,24 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
             dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "",
                                false );
             dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
+        }
+    }
+
+    if( bandages_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", bandages_power, true,
+                           "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "",
+                               get_bandaged_level( g->u ), true, "", true );
+        }
+    }
+
+    if( disinfectant_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ), "", disinfectant_power,
+                           true, "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ), "",
+                               get_disinfected_level( g->u ), true, "", true );
         }
     }
 
@@ -3251,7 +3332,7 @@ long place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
             if( !is_allowed( p, t, it.tname() ) ) {
                 p.add_msg_if_player( m_info,
                                      _( "That trap needs a 3x3 space to be clear, centered two tiles from you." ) );
-                return false;
+                return 0;
             }
         }
     }
@@ -3377,7 +3458,7 @@ iuse_actor *saw_barrel_actor::clone() const
 
 long install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    return p.install_bionics( *it.type ) ? it.type->charges_to_use() : 0;
+    return p.install_bionics( *it.type, -1, false ) ? it.type->charges_to_use() : 0;
 }
 
 ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
@@ -3385,6 +3466,10 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
 {
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
+    }
+
+    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) ) {
+        return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     }
 
     const bionic_id &bid = it.type->bionic->id;

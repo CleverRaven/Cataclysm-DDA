@@ -214,7 +214,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     return special_world;
 }
 
-WORLDPTR worldfactory::convert_to_world(std::string origin_path)
+WORLDPTR worldfactory::convert_to_world(const std::string &origin_path)
 {
     // prompt for worldname? Nah, just make a worldname... the user can fix it later if they really don't want this as a name...
     std::string worldname = get_next_valid_worldname();
@@ -274,7 +274,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 
             for( auto &elem : world->WORLD_OPTIONS ) {
                 // Skip hidden option because it is set by mod and should not be saved
-                if( elem.second.getDefaultText() != "" && !elem.second.is_hidden() ) {
+                if( elem.second.getDefaultText() != "" ) {
                     jout.start_object();
 
                     jout.member( "info", elem.second.getTooltip() );
@@ -498,8 +498,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         wmove( w_worlds_header, 0, 7 );
 
         for( size_t i = 0; i < num_pages; ++i ) {
-            nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
-            if( !world_pages[i].empty() ) { //skip empty pages
+            if (!world_pages[i].empty()) { //skip empty pages
+                nc_color tabcolor = (selpage == i) ? hilite(c_white) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
                 wprintz( w_worlds_header, tabcolor, _("Page %lu"), i + 1) ;
                 wprintz( w_worlds_header, c_white, "]" );
@@ -569,7 +569,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     return nullptr;
 }
 
-void worldfactory::remove_world(std::string worldname)
+void worldfactory::remove_world(const std::string &worldname)
 {
     auto it = all_worlds.find(worldname);
     if( it != all_worlds.end() ) {
@@ -1316,7 +1316,7 @@ bool worldfactory::world_need_lua_build(std::string world_name)
     return false;
 }
 
-bool worldfactory::valid_worldname(std::string name, bool automated)
+bool worldfactory::valid_worldname(const std::string &name, bool automated)
 {
     std::string msg;
 
@@ -1463,7 +1463,7 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden(std::string candidate)
+static bool isForbidden(const std::string &candidate)
 {
     if (candidate.find(FILENAMES["worldoptions"]) != std::string::npos ||
             candidate.find("mods.json") != std::string::npos) {

@@ -45,7 +45,7 @@ static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpo
         int veh_root_part );
 
 static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                        int &moves_taken, int curmit );
+                                        int moves_taken, int curmit );
 static void show_pickup_message( const PickupMap &mapPickup );
 
 struct pickup_count {
@@ -82,7 +82,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
                                 ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
-    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
+    const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
@@ -90,17 +90,23 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
                               veh->parts[washing_machine_part].enabled;
+    const bool has_monster_capture = ( veh->part_with_feature( veh_root_part,
+                                       "CAPTURE_MONSTER_VEH" ) >= 0 );
+    const int monster_capture_part = veh->part_with_feature( veh_root_part, "CAPTURE_MONSTER_VEH" );
 
     typedef enum {
-        EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE
+        EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE
     } options;
     uimenu selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+    selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), veh->tracking_toggle_string() );
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+        selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
+                             _( "Control multiple electronics" ) );
     }
 
     if( has_washmachine ) {
@@ -153,6 +159,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( PURIFY_TANK, can_purify && veh->fuel_left( "water" ),
                              'P', _( "Purify water in vehicle tank" ) );
     }
+    if( has_monster_capture ) {
+        selectmenu.addentry( USE_MONSTER_CAPTURE, true, 'G', _( "Capture or release a creature" ) );
+    }
 
     int choice;
     if( selectmenu.entries.size() == 1 ) {
@@ -178,6 +187,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     };
 
     switch( static_cast<options>( choice ) ) {
+        case USE_MONSTER_CAPTURE: {
+            veh->use_monster_capture( monster_capture_part, pos );
+            return DONE;
+        }
 
         case USE_HOTPLATE:
             veh_tool( "hotplate" );
@@ -193,10 +206,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
 
         case DRINK: {
-            veh->drain( "water_clean", 1 );
             item water( "water_clean", 0 );
-            g->u.eat( water );
-            g->u.moves -= 250;
+            if( g->u.eat( water ) ) {
+                veh->drain( "water_clean", 1 );
+                g->u.moves -= 250;
+            }
             return DONE;
         }
 
@@ -271,13 +285,19 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
 
         case CONTROL:
-            if( veh->interact_vehicle_locked() ) {
-                veh->use_controls( pos );
-            }
+            veh->use_controls( pos );
+            return DONE;
+
+        case CONTROL_ELECTRONICS:
+            veh->control_electronics();
             return DONE;
 
         case EXAMINE:
             g->exam_vehicle( *veh );
+            return DONE;
+
+        case TRACK:
+            veh->toggle_tracking( );
             return DONE;
 
         case GET_ITEMS_ON_GROUND:
@@ -403,6 +423,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     bool picked_up = false;
     pickup_answer option = CANCEL;
     item leftovers = newit;
+    const auto wield_check = u.can_wield( newit );
 
     if( newit.invlet != '\0' &&
         u.invlet_to_position( newit.invlet ) != INT_MIN ) {
@@ -470,16 +491,16 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             picked_up = u.wear_item( newit );
             break;
         case WIELD:
-            picked_up = u.wield( newit );
-            if( !picked_up ) {
-                break;
-            }
-
-            if( u.weapon.invlet ) {
-                add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
-                         u.weapon.display_name().c_str() );
+            if( wield_check.success() ) {
+                picked_up = u.wield( newit );
+                if( u.weapon.invlet ) {
+                    add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
+                             u.weapon.display_name().c_str() );
+                } else {
+                    add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
+                }
             } else {
-                add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
+                add_msg( wield_check.c_str() );
             }
             break;
         case SPILL:
@@ -761,13 +782,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
 
-        int start = 0, cur_it;
+        int start = 0;
+        int cur_it = 0;
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
         int iScrollPos = 0;
 
-        std::string filter, new_filter;
+        std::string filter;
+        std::string new_filter;
         std::vector<int> matches;//Indexes of items that match the filter
         bool filter_changed = true;
         if( g->was_fullscreen ) {
@@ -932,7 +955,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
             werase( w_item_info );
             if( selected >= 0 && selected <= ( int )stacked_here.size() - 1 ) {
-                std::vector<iteminfo> vThisItem, vDummy;
+                std::vector<iteminfo> vThisItem;
+                std::vector<iteminfo> vDummy;
                 selected_item.info( true, vThisItem );
 
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
@@ -1131,7 +1155,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
 //helper function for Pickup::pick_up (singular item)
 void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                 int &moves_taken, int curmit )
+                                 int moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );

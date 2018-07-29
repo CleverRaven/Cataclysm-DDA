@@ -403,16 +403,16 @@ require the installation of a special bionic just for fuel consumption." ) );
 
     text.push_back( _( "\
 Bionics come in ready-to-install canisters. Installation of a bionic is best left to a trained \
-professional. However, you may attempt to perform a self-installation. Performing such a task \
-requires high levels of intelligence, first aid, mechanics, and electronics. Beware though, a failure may \
-cripple you! Many bionic canisters are difficult to find, but may be purchased from certain \
+professional or to an autodoc, if you manage to find one. Configuring autodoc requires \
+high levels of intelligence, first aid, mechanics, and electronics. Beware though, a failure \
+may cripple you!  Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price." ) );
 
     text.push_back( _( "\
 As you may note, all of your body parts have only limited space for containing bionics, \
 so you should choose bionics for installation wisely. Of course, any bionic can be removed \
-from your body but it's not any easier than its installation; \
-this non-trivial surgical procedure requires special tools (and many, many painkillers)." ) );
+from your body but it's not any easier than its installation; and as well as installation, \
+this non-trivial surgical procedure requires anesthesia." ) );
 
     return text;
 }

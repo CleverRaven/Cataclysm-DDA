@@ -215,9 +215,14 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 4, 5, 15 );
         test_fast_shooting( shooter, 40, 0.3 );
     }
+    SECTION( "an unskilled shooter with basic shotgun" ) {
+        arm_shooter( shooter, "shotgun_d" );
+        test_shooting_scenario( shooter, 4, 6, 16 );
+        test_fast_shooting( shooter, 50, 0.3 );
+    }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
         arm_shooter( shooter, "tommygun", { "holo_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 4, 7, 20 );
+        test_shooting_scenario( shooter, 4, 6, 18 );
         test_fast_shooting( shooter, 70, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
@@ -238,6 +243,11 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         arm_shooter( shooter, "sw_619", { "holo_sight", "pistol_grip", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 10, 13, 35 );
         test_fast_shooting( shooter, 30, 0.5 );
+    }
+    SECTION( "a skilled shooter with a modded shotgun" ) {
+        arm_shooter( shooter, "ksg", { "red_dot_sight", "light_grip", "tuned_mechanism" } );
+        test_shooting_scenario( shooter, 9, 15, 37 );
+        test_fast_shooting( shooter, 50, 0.5 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "pistol_scope", "barrel_big", "match_trigger", "adjustable_stock" } );
@@ -262,6 +272,11 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         arm_shooter( shooter, "sw629", { "holo_sight", "match_trigger" } );
         test_shooting_scenario( shooter, 18, 20, 120 );
         test_fast_shooting( shooter, 20, 0.6 );
+    }
+    SECTION( "an expert shooter with a heavily modded auto shotgun" ) {
+        arm_shooter( shooter, "abzats", { "holo_sight", "light_grip", "tuned_mechanism", "barrel_rifled" } );
+        test_shooting_scenario( shooter, 18, 24, 124 );
+        test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );

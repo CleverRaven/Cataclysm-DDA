@@ -55,7 +55,7 @@
     },{
         "type" : "furniture",
         "id" : "f_piano",
-        "name": "wardrobe",
+        "name": "piano",
         "symbol": "P",
         "color": "i_black",
         "move_cost_mod": 2,

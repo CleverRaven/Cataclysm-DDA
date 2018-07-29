@@ -4,6 +4,7 @@
 
 #include "int_id.h"
 #include "weighted_list.h"
+#include "game_constants.h"
 
 #include <string>
 #include <map>
@@ -38,13 +39,14 @@ public:
   int sw_fac = 0; // dir == 6
   int nw_fac = 0; // dir == 7
   oter_id t_above;
+  oter_id t_below;
   int zlevel;
   const regional_settings &region;
   map &m;
   weighted_int_list<ter_id> default_groundcover;
   mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
              oter_id t_neast, oter_id t_seast, oter_id t_swest, oter_id t_nwest,
-             oter_id up, int z, const regional_settings &rsettings, map &mp );
+             oter_id up, oter_id below, int z, const regional_settings &rsettings, map &mp );
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);
@@ -57,11 +59,13 @@ public:
   const oter_id &swest() const { return t_nesw[6]; }
   const oter_id &nwest() const { return t_nesw[7]; }
   const oter_id &above() const { return t_above; }
+  const oter_id &below() const { return t_below; }
   const oter_id &neighbor_at( om_direction::type dir ) const;
   void fill_groundcover();
   void square_groundcover(const int x1, const int y1, const int x2, const int y2);
   ter_id groundcover();
   bool is_groundcover(const ter_id iid ) const;
+  bool has_basement() const;
 };
 
 /**
@@ -148,5 +152,8 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, const time_po
 void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id t );
 void madd_field( map *m, int x, int y, field_id t, int density );
+
+void place_stairs( map *m, oter_id terrain_type, mapgendata dat,
+                   const int actual_house_height = SEEY * 2, const int lw = 0, const int rw = SEEX * 2 - 1 );
 
 #endif

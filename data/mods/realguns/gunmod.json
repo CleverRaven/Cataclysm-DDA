@@ -13,7 +13,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "410", "skill": "shotgun", "range": 1, "dispersion": 20, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "410", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 15,
     "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
   }

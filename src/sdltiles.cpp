@@ -1354,7 +1354,8 @@ void toggle_fullscreen_window()
             return;
         }
     }
-    int nw, nh;
+    int nw = 0;
+    int nh = 0;
     SDL_GetWindowSize( window.get(), &nw, &nh );
     handle_resize( nw, nh );
     fullscreen = !fullscreen;
@@ -1504,7 +1505,7 @@ static bool ends_with(const std::string &text, const std::string &suffix) {
 //Pseudo-Curses Functions           *
 //***********************************
 
-static void font_folder_list(std::ofstream& fout, std::string path, std::set<std::string> &bitmap_fonts)
+static void font_folder_list(std::ofstream& fout, const std::string &path, std::set<std::string> &bitmap_fonts)
 {
     for( const auto &f : get_files_from_path( "", path, true, false ) ) {
             TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
@@ -1599,7 +1600,7 @@ static void save_font_list()
 #endif
 }
 
-static std::string find_system_font(std::string name, int& faceIndex)
+static std::string find_system_font( const std::string &name, int& faceIndex )
 {
     const std::string fontlist_path = FILENAMES["fontlist"];
     std::ifstream fin(fontlist_path.c_str());
@@ -1637,7 +1638,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
 
 // bitmap font size test
 // return face index that has this size or below
-static int test_face_size(std::string f, int size, int faceIndex)
+static int test_face_size( const std::string &f, int size, int faceIndex )
 {
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
@@ -2148,7 +2149,7 @@ SDL_Color cursesColorToSDL( const nc_color &color ) {
 
 void musicFinished();
 
-void play_music_file(std::string filename, int volume) {
+void play_music_file( const std::string &filename, int volume ) {
     const std::string path = ( current_soundpack_path + "/" + filename );
     current_music = Mix_LoadMUS(path.c_str());
     if( current_music == nullptr ) {
@@ -2283,7 +2284,7 @@ const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
     if( iter == sound_effects_p.end() ) {
         return nullptr;
     }
-	return &random_entry_ref( iter->second );
+    return &random_entry_ref( iter->second );
 }
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
 const sound_effect* find_random_effect( const std::string &id, const std::string& variant )
@@ -2352,7 +2353,7 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     return result;
 }
 
-void sfx::play_variant_sound( std::string id, std::string variant, int volume ) {
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume ) {
     if( volume == 0 ) {
         return;
     }
@@ -2372,7 +2373,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume ) 
     Mix_PlayChannel( -1, effect_to_play, 0 );
 }
 
-void sfx::play_variant_sound( std::string id, std::string variant, int volume, int angle,
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                               float pitch_min, float pitch_max ) {
     if( volume == 0 ) {
         return;
@@ -2394,7 +2395,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     Mix_SetPosition( channel, angle, 1 );
 }
 
-void sfx::play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
+void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume, int channel,
                                       int duration ) {
     if( volume == 0 ) {
         return;

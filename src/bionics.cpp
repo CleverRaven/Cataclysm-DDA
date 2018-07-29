@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "overmap.h"
+#include "options.h"
 #include "effect.h"
 #include "json.h"
 #include "itype.h"
@@ -38,6 +39,7 @@
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
+const skill_id skilll_computer( "computer" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -52,6 +54,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pblue( "pblue" );
@@ -72,6 +75,7 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
@@ -112,7 +116,7 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
-void bionics_install_failure( player *u, int difficulty, int success );
+void bionics_install_failure( player *u, int difficulty, int success, bool autodoc = true );
 
 bionic_data::bionic_data()
 {
@@ -492,7 +496,7 @@ bool player::activate_bionic( int b, bool eff_only )
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                            cur_om_ter, g->is_sheltered( g->u.pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
-                           print_temperature( g->get_temperature() ).c_str() );
+                           print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, g->weather,
@@ -505,7 +509,7 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + g->get_temperature() ).c_str() );
+                                       windpower ) + g->get_temperature( g->u.pos() ) ).c_str() );
     } else if( bio.id == "bio_remote" ) {
         int choice = menu( true, _( "Perform which function:" ), _( "Nothing" ),
                            _( "Control vehicle" ), _( "RC radio" ), NULL );
@@ -538,6 +542,13 @@ bool player::activate_bionic( int b, bool eff_only )
         if( !has_cable ) {
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
+        }
+        if( g->u.is_wearing( "solarpack_on" ) || g->u.is_wearing( "q_solarpack_on" ) ) {
+            add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
+                                          " your system." ) );
+        } else if( g->u.is_wearing( "solarpack" ) || g->u.is_wearing( "q_solarpack" ) ) {
+            add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
+                                          " system, if you unfold it." ) );
         }
     }
 
@@ -789,18 +800,32 @@ void bionics_uninstall_failure( player *u )
 }
 
 // bionic manipulation chance of success
-int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechanics,
-                      int bionic_difficulty )
+int bionic_manip_cos( int p_int, int most_important_skill, int important_skill,
+                      int least_important_skill, int bionic_difficulty,
+                      bool autodoc )
 {
-    int pl_skill = p_int         * 4 +
-                   s_electronics * 4 +
-                   s_firstaid    * 3 +
-                   s_mechanics   * 1;
+    int chance_of_success = 0;
+
+    if( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) {
+        chance_of_success = 100;
+        return chance_of_success;
+    }
+
+    int pl_skill = p_int                 * 4 +
+                   most_important_skill  * 4 +
+                   important_skill       * 3 +
+                   least_important_skill * 1;
 
     // Medical residents have some idea what they're doing
     if( g->u.has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
         add_msg( m_neutral, _( "You prep yourself to begin surgery." ) );
+    }
+
+    // People trained in using the Autodoc gain an additional advantage towards using it
+    if( g->u.has_trait( trait_PROF_AUTODOC ) ) {
+        pl_skill += 7;
+        add_msg( m_neutral, _( "A lifetime of Autodoc use has taught you a thing or two..." ) );
     }
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -814,17 +839,16 @@ int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechan
     // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
-    int chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
-                                 ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+    chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
+                             ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
 
-bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
+bool player::uninstall_bionic( bionic_id const &b_id, int skill_level, bool autodoc )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
-    const inventory &crafting_inv = crafting_inventory();
     if( item::type_is_defined( b_id.c_str() ) ) {
         auto type = item::find_type( b_id.c_str() );
         if( type->bionic ) {
@@ -834,14 +858,6 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
 
     if( !has_bionic( b_id ) ) {
         popup( _( "You don't have this bionic installed." ) );
-        return false;
-    }
-    //If you are paying the doctor to do it, shouldn't use your supplies
-    static const quality_id CUT_FINE( "CUT_FINE" );
-    if( !( crafting_inv.has_quality( CUT_FINE ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
-        skill_level == -1 ) {
-        popup( _( "Removing bionics requires a tool with %s quality, and a first aid kit." ),
-               CUT_FINE.obj().name.c_str() );
         return false;
     }
 
@@ -870,29 +886,36 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
         return false;
     }
 
-    // removal of bionics adds +2 difficulty over installation, high quality tool subtracts its fine cutting quality amount
+    // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
-    if( skill_level != -1 ) {
+    if( skill_level != -1 ) { // NPC surgeon removal
         chance_of_success = bionic_manip_cos( skill_level,
                                               skill_level,
                                               skill_level,
                                               skill_level,
-                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
-    } else {
+                                              difficulty + 2, autodoc );
+    } else { // Autodoc removal
         ///\EFFECT_INT increases chance of success removing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
-                                              get_skill_level( skilll_electronics ),
                                               get_skill_level( skilll_firstaid ),
-                                              get_skill_level( skilll_mechanics ),
-                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
+                                              get_skill_level( skilll_computer ),
+                                              get_skill_level( skilll_electronics ),
+                                              difficulty + 2, autodoc );
     }
 
-    if( !query_yn(
-            _( "WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?" ),
-            100 - chance_of_success ) ) {
-        return false;
+    if( chance_of_success >= 100 ) {
+        if( !query_yn(
+                _( "Are you sure you wish to uninstall the selected bionic?" ),
+                100 - chance_of_success ) ) {
+            return false;
+        }
+    } else {
+        if( !query_yn(
+                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                ( 100 - int( chance_of_success ) ) ) ) {
+            return false;
+        }
     }
-
     // Surgery is imminent, retract claws or blade if active
     if( skill_level == -1 ) {
         for( size_t i = 0; i < my_bionics->size(); i++ ) {
@@ -901,16 +924,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
                 deactivate_bionic( i );
             }
         }
-        //If you are paying the doctor to do it, shouldn't use your supplies
-        std::vector<item_comp> comps;
-        comps.push_back( item_comp( "1st_aid", 1 ) );
-        consume_items( comps );
-        invalidate_crafting_inventory();
     }
-
-    practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
-    practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
-    practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
 
     int success = chance_of_success - rng( 1, 100 );
 
@@ -935,7 +949,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level )
     return true;
 }
 
-bool player::install_bionics( const itype &type, int skill_level )
+bool player::install_bionics( const itype &type, int skill_level, bool autodoc )
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -945,19 +959,26 @@ bool player::install_bionics( const itype &type, int skill_level )
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
     int chance_of_success;
-    if( skill_level != -1 ) {
+    if( skill_level != -1 ) { // NPC surgeon installation
         chance_of_success = bionic_manip_cos( skill_level,
                                               skill_level,
                                               skill_level,
                                               skill_level,
-                                              difficult );
-    } else {
+                                              difficult, autodoc );
+    } else if( autodoc ) { // Autodoc installation
+        ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
+        chance_of_success = bionic_manip_cos( int_cur,
+                                              get_skill_level( skilll_firstaid ),
+                                              get_skill_level( skilll_computer ),
+                                              get_skill_level( skilll_electronics ),
+                                              difficult, autodoc );
+    } else { // Manual self-installation
         ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
                                               get_skill_level( skilll_electronics ),
                                               get_skill_level( skilll_firstaid ),
                                               get_skill_level( skilll_mechanics ),
-                                              difficult );
+                                              difficult, autodoc );
     }
 
     const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
@@ -974,78 +995,27 @@ bool player::install_bionics( const itype &type, int skill_level )
         return false;
     }
 
-    const int pk = get_painkiller();
-    const int overall_pk_dur = to_minutes<int>( get_effect_dur( effect_pkill1 ) + get_effect_dur(
-                                   effect_pkill2 ) +
-                               get_effect_dur( effect_pkill3 ) + get_effect_dur( effect_pkill_l ) );
-    int pain_cap = 100;
-    if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-        pain_cap = pain_cap / 2;
-    } else if( has_trait( trait_PAINRESIST ) ) {
-        pain_cap = pain_cap / 1.5;
-    }
-
-    int fa_level = get_skill_level( skilll_firstaid );
-
-    if( has_trait( trait_PROF_MED ) ) {
-        fa_level = 5;
-    }
-
-    if( !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
-        !has_trait( trait_MASOCHIST_MED ) && !has_bionic( bionic_id( "bio_painkiller" ) ) ) {
-        if( pk == 0 ) {
-            popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
+    if( chance_of_success >= 100 ) {
+        if( !query_yn(
+                _( "Are you sure you wish to install the selected bionic?" ),
+                100 - chance_of_success ) ) {
             return false;
-        } else if( pk < pain_cap / 2 ) {
-            if( fa_level < 2 ) {
-                popup( _( "You need to be a lot more numb to tolerate installing bionics.  "
-                          "Note that painkillers you've already taken could take up to an hour"
-                          " to achieve full effect." ) );
-            } else if( fa_level <= 4 ) {
-                popup( _( "Intensity of painkillers you've already taken is less than half of "
-                          "the threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       overall_pk_dur );
-            } else {
-                popup( _( "Intensity of painkillers you've already taken is %i percent of the "
-                          "threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       100 * pk / pain_cap, overall_pk_dur );
-            }
-            return false;
-        } else if( pk < pain_cap ) {
-            if( fa_level < 2 ) {
-                popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that"
-                          " painkillers you've already taken could take up to an hour to achieve "
-                          "full effect." ) );
-            } else if( fa_level <= 4 ) {
-                popup( _( "Intensity of painkillers you've already taken is more than half of the "
-                          "threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       overall_pk_dur );
-            } else {
-                popup( _( "Intensity of painkillers you've already taken is %i percent of the "
-                          "threshold that will allow you to install bionics.  It will take %i "
-                          "minutes for painkillers you've already taken to achieve maximum effect."
-                        ),
-                       100 * pk / pain_cap, overall_pk_dur );
-            }
+        }
+    } else {
+        if( !query_yn(
+                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                ( 100 - int( chance_of_success ) ) ) ) {
             return false;
         }
     }
 
-    if( !query_yn(
-            _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
-            ( 100 - int( chance_of_success ) ) ) ) {
-        return false;
+    // Practice skills only if conducting manual self-installation
+    if( ( skill_level == -1 ) && !autodoc ) {
+        practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
+        practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
+        practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
-    practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
-    practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
-    practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
     int success = chance_of_success - rng( 0, 99 );
     if( success > 0 ) {
         add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
@@ -1073,13 +1043,17 @@ bool player::install_bionics( const itype &type, int skill_level )
         add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
                           pgettext( "memorial_female", "Installed bionic: %s." ),
                           bioid->name.c_str() );
-        bionics_install_failure( this, difficult, success );
+        if( autodoc ) {
+            bionics_install_failure( this, difficult, success, true );
+        } else {
+            bionics_install_failure( this, difficult, success, false );
+        }
     }
     g->refresh_all();
     return true;
 }
 
-void bionics_install_failure( player *u, int difficulty, int success )
+void bionics_install_failure( player *u, int difficulty, int success, bool autodoc )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -1088,13 +1062,26 @@ void bionics_install_failure( player *u, int difficulty, int success )
     // it would be better for code reuse just to pass in skill as an argument from install_bionic
     // pl_skill should be calculated the same as in install_bionics
     ///\EFFECT_INT randomly decreases severity of bionics installation failure
-    int pl_skill = u->int_cur * 4 +
+    int pl_skill;
+    if( autodoc ) {
+        pl_skill = u->int_cur * 4 +
+                   u->get_skill_level( skilll_firstaid )    * 4 +
+                   u->get_skill_level( skilll_computer )    * 3 +
+                   u->get_skill_level( skilll_electronics ) * 1;
+    } else {
+        pl_skill = u->int_cur * 4 +
                    u->get_skill_level( skilll_electronics ) * 4 +
                    u->get_skill_level( skilll_firstaid )    * 3 +
                    u->get_skill_level( skilll_mechanics )   * 1;
+    }
+
     // Medical residents get a substantial assist here
     if( u->has_trait( trait_PROF_MED ) ) {
         pl_skill += 6;
+    }
+    // As do autodoc techs
+    if( u->has_trait( trait_PROF_AUTODOC ) ) {
+        pl_skill += 12;
     }
 
     // for failure_level calculation, shift skill down to a float between ~0.4 - 30
@@ -1131,7 +1118,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
             break;
     }
 
-    if( u->has_trait( trait_PROF_MED ) ) {
+    if( u->has_trait( trait_PROF_MED ) || u->has_trait( trait_PROF_AUTODOC ) ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg( m_neutral, _( "Your training helps you minimize the complications." ) );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
@@ -1404,13 +1391,13 @@ void reset_bionics()
 static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const std::string &flag,
                               const bool fallback, const std::string &flags_node = "flags" )
 {
-    const std::set<std::string> flags = jsobj.get_tags( flags_node );
     bool value = fallback;
     if( jsobj.has_bool( name ) ) {
         value = jsobj.get_bool( name, fallback );
         debugmsg( "JsonObject contains legacy node `" + name + "`.  Consider replacing it with `" +
                   flag + "` flag in `" + flags_node + "` node." );
     } else {
+        const std::set<std::string> flags = jsobj.get_tags( flags_node );
         value = flags.count( flag );
     }
     return value;
@@ -1546,4 +1533,22 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge = jo.get_int( "charge" );
+}
+
+void player::introduce_into_anesthesia( time_duration const &duration )
+{
+    add_msg_if_player( m_info,
+                       _( "You type data into the console, configuring Autodoc to work with a CBM." ) );
+    add_effect( effect_narcosis, duration );
+    fall_asleep( duration );
+    add_msg_if_player( m_info,
+                       _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
+    std::vector<item_comp> comps;
+    std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+    for( const item *anesthesia_item : a_filter ) {
+        comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+    }
+    consume_items( comps );
 }

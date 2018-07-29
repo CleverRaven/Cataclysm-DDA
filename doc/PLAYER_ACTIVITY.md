@@ -6,7 +6,7 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 
 1. `player_activities.json` Define properties that apply to all instances of the activity in question.
 2. `activity_handlers.h` Optionally declare a do_turn and/or finish function.
-3. `player_activity.cpp` Optionally update `can_resume_with`. 
+3. `player_activity.cpp` Optionally update `can_resume_with`.
 4. `activity_handlers.cpp` Add the functions from #2 into the do_turn and finish maps, and define the functions.
 5. Start the activity by calling `player::assign_activity`.
 

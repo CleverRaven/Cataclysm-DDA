@@ -27,24 +27,6 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
-        "description" : "Dig Pit", "//": "Step 1: shallow pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Dig Pit", "//": "Step 2: deep pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 90,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_pit"
-    },{
-        "type" : "construction",
         "description" : "Spike Pit",
         "category" : "DIG",
         "required_skills" : [ [ "survival", 1 ] ],
@@ -65,60 +47,6 @@
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_pit_glass"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in a pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in the spiked pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_spiked",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in a glass pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_glass",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in the shallow pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 15,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_dirt"
-    },{
-        "type" : "construction",
-        "description" : "Till Soil",
-        "category" : "FARM_WOOD",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_dirtmound"
-    },{
-        "type" : "construction",
-        "description" : "Tamp Ground",
-        "category" : "FARM_WOOD",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 5,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain": "t_dirtmound",
-        "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Planks",
@@ -1277,15 +1205,7 @@
             [ [ "nail", 8 ] ]
         ],
         "pre_terrain" : "t_fence_post",
-        "post_terrain" : "t_fence_h"
-    },{
-        "type" : "construction",
-        "description" : "Realign Fence", "//": "horizontal to vertical",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_fence_h",
-        "post_terrain" : "t_fence_v"
+        "post_terrain" : "t_fence"
     },{
         "type" : "construction",
         "description" : "Build Fence Gate",
@@ -1307,14 +1227,6 @@
         ],
         "pre_flags" : "DIGGABLE",
         "post_terrain" : "t_fencegate_c"
-    },{
-        "type" : "construction",
-        "description" : "Realign Fence", "//": "vertical to horizontal",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_fence_v",
-        "post_terrain" : "t_fence_h"
     },
     {
         "type" : "construction",
@@ -1368,7 +1280,7 @@
         "post_terrain" : "t_chainfence_posts"
     },{
         "type" : "construction",
-        "description" : "Build Chainlink Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
+        "description" : "Build Chainlink Fence", "//": "Step 2: chainlink",
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
@@ -1376,23 +1288,7 @@
             [ [ "wire", 20 ] ]
         ],
         "pre_terrain" : "t_chainfence_posts",
-        "post_terrain" : "t_chainfence_v"
-    },{
-        "type" : "construction",
-        "description" : "Realign Chainlink Fence",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_chainfence_h",
-        "post_terrain" : "t_chainfence_v"
-    },{
-        "type" : "construction",
-        "description" : "Realign Chainlink Fence",
-        "category" : "OTHER",
-        "required_skills" : [ [ "fabrication", 0 ] ],
-        "time" : 1,
-        "pre_terrain" : "t_chainfence_v",
-        "post_terrain" : "t_chainfence_h"
+        "post_terrain" : "t_chainfence"
     },{
         "type" : "construction",
         "description" : "Build Chainlink Gate",
@@ -1847,7 +1743,7 @@
         "pre_special" : "check_empty",
         "post_terrain" : "f_standing_tank"
     },
-	{
+    {
         "type" : "construction",
         "description" : "Place Forge",
         "category" : "FURN",
@@ -2375,5 +2271,13 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Mark firewood source",
+        "category" : "OTHER",
+        "required_skills" : [],
+        "time" : 0,
+        "pre_special" : "check_no_trap",
+        "post_special" : "done_mark_firewood"
     }
 ]
