@@ -1020,10 +1020,10 @@ void game::create_starting_npcs()
         return; //Do not generate a starting npc.
     }
 
-    //We don't want more than one starting npc per shelter
+    //We don't want more than one starting npc per starting location
     const int radius = 1;
     if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
-        return; //There is already an NPC in this shelter
+        return; //There is already an NPC in this starting location
     }
 
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
@@ -1033,10 +1033,10 @@ void game::create_starting_npcs()
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
-    //This sets the npc mission. This NPC remains in the shelter.
+    //This sets the NPC mission. This NPC remains in the starting location.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
-    //one random shelter mission.
+    //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(), tmp->getID() ) );
 }
 
