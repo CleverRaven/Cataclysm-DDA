@@ -225,16 +225,18 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const bool preserves = it.is_food_container() && it.type->container->preserves ? 1 : 0;
         const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
-        if( it_food.type->comestible->comesttype == "DRINK" ) {
-            if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where ) ) {
-                return zone_type_id( "LOOT_PDRINK" );
-            } else if( has_near( zone_type_id( "LOOT_DRINK" ), where ) ) {
-                return zone_type_id( "LOOT_DRINK" );
+        if( it_food.is_food() ) { // skip food without comestible, like MREs
+            if( it_food.type->comestible->comesttype == "DRINK" ) {
+                if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where ) ) {
+                    return zone_type_id( "LOOT_PDRINK" );
+                } else if( has_near( zone_type_id( "LOOT_DRINK" ), where ) ) {
+                    return zone_type_id( "LOOT_DRINK" );
+                }
             }
-        }
 
-        if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where ) ) {
-            return zone_type_id( "LOOT_PFOOD" );
+            if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where ) ) {
+                return zone_type_id( "LOOT_PFOOD" );
+            }
         }
 
         return zone_type_id( "LOOT_FOOD" );
