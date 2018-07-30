@@ -889,7 +889,11 @@ bool game::start_game()
     get_safemode().clear_character_rules();
 
     //Put some NPCs in there!
-    create_starting_npcs();
+    if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
+        ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
+        !g->scen->has_flag( "LONE_START" ) ) ) {
+        create_starting_npcs();
+    }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
