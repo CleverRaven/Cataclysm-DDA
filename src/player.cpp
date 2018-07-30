@@ -1139,7 +1139,7 @@ void player::update_bodytemp()
         if( blister_count - get_env_resist( bp ) > 10 ) {
             add_effect( effect_blisters, 1_turns, bp );
             if( pyromania ) {
-                add_morale( MORALE_PYROMANIA_NEARFIRE, 25, 25, 1_hours, 30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
+                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours, 30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
         } else if( pyromania && fire_warmth >= 1 ) { // Only give us fire bonus if there's actually fire

@@ -1037,9 +1037,9 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
             }
             else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 10, 30, 24_hours, 8_hours );
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 24_hours, 8_hours );
                 p.rem_morale( MORALE_PYROMANIA_NOFIRE );
-            }
+            }5
         }
     }
 }
