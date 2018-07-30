@@ -1174,7 +1174,10 @@ public:
         // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
         if( dat.m.has_flag_ter("WALL", x.get(), y.get() ) ) {
             dat.m.furn_set( x.get(), y.get(), f_null);
-            dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+            // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
+            if( !dat.m.has_flag_ter("PLACE_ITEM", x.get(), y.get() ) ) {
+                dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+            }
         }
     }
 };
