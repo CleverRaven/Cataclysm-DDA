@@ -2124,7 +2124,7 @@
     "melee_cut": 0,
     "dodge": 4,
     "vision_day": 50,
-    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": [ "MELT" ],
     "flags": [
@@ -2167,7 +2167,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 4,
     "dodge": 1,
-    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "LEATHER", "PLASTIC", "SUNDEATH", "NOGIB" ]
   },
