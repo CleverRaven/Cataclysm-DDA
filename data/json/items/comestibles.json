@@ -7049,7 +7049,7 @@
     "name": "soylent slice",
     "name_plural": "soylent slices",
     "description": "Low-sodium preserved human meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
-    "material": "hflesh",
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -9692,7 +9692,6 @@
     "type": "COMESTIBLE",
     "id": "raw_hleather",
     "copy-from": "raw_leather",
-    "category": "spare_parts",
     "name": "raw human skin",
     "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "material": "hflesh"
