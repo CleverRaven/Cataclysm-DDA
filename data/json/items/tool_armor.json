@@ -845,7 +845,7 @@
         "color": "light_gray",
         "name": "firefighter PBA mask",
         "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-        "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+        "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
         "price": 100000,
         "material": [ "plastic", "nomex" ],
         "weight": 1260,
@@ -862,7 +862,6 @@
         "encumbrance": 20,
         "coverage": 100,
         "qualities": [ [ "GLARE", 2 ] ],
-        "flags": [ "SUN_GLASSES" ],
         "material_thickness": 3
     },
     {
