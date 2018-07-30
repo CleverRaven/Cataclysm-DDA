@@ -358,17 +358,11 @@
   },
   {
     "id": "bag_hflesh_vac",
+	"copy-from": "bag_meat_vac",
     "type": "GENERIC",
-    "category": "food",
     "name": "vacuum-packed salted simpleton slice",
     "description": "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use to open and eat to enjoy.",
-    "weight": 240,
-    "volume": 1,
-    "price": 0,
-    "bashing": 8,
     "material": [ "plastic", "hflesh" ],
-    "symbol": "%",
-    "color": "red",
     "use_action": {
       "target": "hflesh_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
