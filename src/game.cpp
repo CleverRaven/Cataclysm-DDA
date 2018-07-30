@@ -1784,13 +1784,8 @@ void game::update_weather()
 
 int game::get_temperature( const tripoint &location )
 {
-
-    if ( location.z < 0 ) {
-        // underground temperature = average New England temperature = 43F/6C rounded to int
-        return 43 + m.temperature( location );
-    }
-    // if not underground use weather determined temperature
-    return temperature + m.temperature( location );
+    //underground temperature = average New England temperature = 43F/6C rounded to int
+    return ( location.z < 0 ? 43 : temperature ) + ( new_game ? 0 : m.temperature( location ) );
 }
 
 int game::assign_mission_id()
