@@ -6913,11 +6913,12 @@
     "name": "MRE - Beef",
     "name_plural": "MREs - beef",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_veggy_box",
@@ -6927,11 +6928,12 @@
     "name": "MRE - Vegetarian",
     "name_plural": "MREs - vegetarian",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_chicken_box",
@@ -6941,11 +6943,12 @@
     "name": "MRE - Chicken",
     "name_plural": "MREs - chicken",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_hotdog_box",
@@ -6955,11 +6958,12 @@
     "name": "MRE - Hotdogs",
     "name_plural": "MREs - hotdogs",
     "category": "food",
-    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1200,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_ravioli_box",
@@ -6969,11 +6973,12 @@
     "name": "MRE - Ravioli",
     "name_plural": "MREs - ravioli",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1700,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "type": "COMESTIBLE",

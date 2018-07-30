@@ -701,6 +701,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
 - ```ONLY_ONE``` You can wear only one.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FIX_FARSIGHT``` This gear corrects farsightedness.
+- ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.

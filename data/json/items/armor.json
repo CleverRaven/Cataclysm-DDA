@@ -3020,7 +3020,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_eye",
@@ -3039,7 +3039,7 @@
     "coverage": 75,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_monocle",
@@ -3064,7 +3064,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_reading",
@@ -3089,7 +3089,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_safety",
@@ -3650,7 +3650,7 @@
     "id": "gobag",
     "type": "ARMOR",
     "name": "go bag",
-    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Disassemble to unpack and enjoy.",
+    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate or disassemble to unpack and enjoy.",
     "weight": 18043,
     "volume": 143,
     "price": 100000,
@@ -3663,7 +3663,8 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "goggles_ski",

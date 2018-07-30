@@ -1,50 +1,17 @@
 [
     {
-        "id" : "1st_aid",
+        "id": "1st_aid",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
-        "name" : "first aid kit",
-        "description" : "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.",
-        "weight" : 240,
-        "volume" : 1,
-        "price" : 3000,
-        "charges" : 2,
-        "stack_size" : 6,
-        "material" : "plastic",
-        "symbol" : "!",
-        "color" : "red",
-        "use_action" : {
-            "type" : "heal",
-            "bandages_power" : 8,
-            "disinfectant_power" : 8,
-            "bleed" : 0.95,
-            "bite" : 0.99,
-            "move_cost" : 6000,
-            "long_action" : true,
-            "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
-        }
-    },
-    {
-        "id" : "1st_aid_survivor",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "improvised first aid kit",
-        "description" : "A medical kit made with cheap, subpar components.  For when nothing else is available.",
-        "weight" : 240,
-        "volume" : 2,
-        "price" : 100,
-        "stack_size" : 2,
-        "material" : "cotton",
-        "symbol" : "!",
-        "color" : "dark_gray",
-        "use_action" : {
-            "type" : "heal",
-            "bandages_power" : 6,
-            "disinfectant_power" : 6,
-            "bleed" : 1.0,
-            "move_cost" : 50000,
-            "long_action" : true
-        }
+        "name": "first aid kit",
+        "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
+        "weight": 1000,
+        "volume": 6,
+        "price": 3000,
+        "material": "plastic",
+        "symbol": "!",
+        "color": "red",
+        "use_action": "DISASSEMBLE"
     },
     {
         "id" : "adderall",
@@ -87,7 +54,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "antibiotic",
-        "description" : "Antibacterial medication designed to prevent or stop the spread of infection.",
+        "description" : "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection. It's the quickest and most reliable way to cure any infections you might have. One dose lasts twelve hours.",
         "weight" : 1,
         "volume" : 1,
         "price" : 9000,
@@ -217,7 +184,7 @@
         "container" : "bottle_plastic_small",
         "use_action" : {
             "type" : "heal",
-            "disinfectant_power" : 2,
+            "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 100
         }
@@ -513,10 +480,10 @@
         "comestible_type" : "MED",
         "name" : "disinfectant",
         "description" : "A powerful disinfectant commonly used for contaminated wounds.",
-        "weight" : 135,
+        "weight" : 27,
         "volume" : 1,
         "price" : 1500,
-        "charges" : 2,
+        "charges" : 10,
         "symbol" : "~",
         "color" : "light_cyan",
         "phase" : "liquid",
@@ -527,6 +494,14 @@
             "bite" : 0.95,
             "move_cost" : 100
         }
+    },
+    {
+        "id": "disinfectant_makeshift",
+        "type": "COMESTIBLE",
+        "name": "makeshift disinfectant",
+        "copy-from": "disinfectant",
+        "description": "Makeshift disinfectant made from ethanol.  Can be used to disinfect a wound.",
+        "use_action": { "type": "heal", "disinfectant_power": 3, "bite" : 0.95, "move_cost": 100 }
     },
     {
         "id" : "diazepam",
@@ -742,7 +717,7 @@
         "color" : "white",
         "use_action" : {
             "type" : "heal",
-            "bandages_power" : 2,
+            "bandages_power" : 4,
             "bleed" : 0.5,
             "move_cost" : 200
         }
@@ -1019,7 +994,7 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "disinfectant_power" : 2,
+            "disinfectant_power" : 4,
             "bleed" : 90,
             "move_cost" : 100
         }
@@ -1073,7 +1048,7 @@
         "spoils_in" : 672,
         "use_action" : {
             "type" : "heal",
-            "disinfectant_power" : 2,
+            "disinfectant_power" : 3,
             "bite" : 0.95,
             "move_cost" : 100
         }
@@ -1308,14 +1283,12 @@
         "weight" : 80, "//" : "Can't copy-from rag, it breaks the stacking for some reason!",
         "volume" : 1,
         "price" : 250,
-        "charges" : 4,
-        "stack_size" : 1,
         "material": "cotton",
         "symbol": ",",
         "color": "white",
         "use_action" : {
             "type" : "heal",
-            "disinfectant_power" : 2,
+            "disinfectant_power" : 4,
             "bite" : 0.75,
             "move_cost" : 200,
             "used_up_item" : { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
@@ -1330,12 +1303,32 @@
         "description" : "Fluffy balls of clean white cotton.  Now soaked with disinfectant, they are useful to disinfect a wound.",
         "category" : "drugs",
         "price" : 1000,
+        "charges" : 1,
         "use_action" : {
             "type" : "heal",
-            "disinfectant_power" : 2,
+            "disinfectant_power" : 4,
             "bite" : 0.95,
             "move_cost" : 300,
             "used_up_item" : { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
         }
+    },
+    {
+        "id" : "weak_antibiotic",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "Atreyupan",
+        "name_plural" : "Atreyupan",
+        "description" : "A broad-spectrum antibiotic used to suppress infections and prevent them from setting in. It isn't strong enough to purge infections outright, but it boosts the body's resistance against them. One dose lasts twelve hours.",
+        "weight" : 15,
+        "volume" : 1,
+        "price" : 1500,
+        "charges" : 5,
+        "stack_size" : 200,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "white",
+        "healthy" : -2,
+        "use_action" : "WEAK_ANTIBIOTIC",
+        "flags" : "NPC_SAFE"
     }
 ]

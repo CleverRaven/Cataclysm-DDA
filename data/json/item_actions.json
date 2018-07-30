@@ -793,5 +793,15 @@
         "type" : "item_action",
         "id" : "BREAK_STICK",
         "name" : "Break stick"
+    },
+    {
+        "type" : "item_action",
+        "id" : "WEAK_ANTIBIOTIC",
+        "name" : "Take"
+    },
+    {
+        "type" : "item_action",
+        "id" : "DISASSEMBLE",
+        "name" : "Get content"
     }
 ]

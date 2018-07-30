@@ -206,6 +206,8 @@ std::string om_craft_description( std::string bldg );
 std::string om_gathering_description( npc &p, std::string bldg );
 /// Returns the name of the building the current @ref bldg upgrades into, "null" if there isn't one
 std::string om_next_upgrade( std::string bldg );
+/// Returns a vector of all upgrades the current build would have if it reached bldg level, "null" if there isn't one
+std::vector<std::string> om_all_upgrade_levels( std::string bldg );
 /// Is the @ref bldg of the same type as the @ref target and does the level of bldg meet or exceed the target level
 bool om_min_level( std::string target, std::string bldg );
 /// Is the @ref bldg of the same type as the @ref target and how many levels greater is it, -1 for no match, 0 for same

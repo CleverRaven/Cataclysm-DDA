@@ -47,6 +47,7 @@
 #include "cata_utility.h"
 #include "map_iterator.h"
 #include "string_input_popup.h"
+#include "inventory.h"
 
 #include <vector>
 #include <sstream>
@@ -95,6 +96,7 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
+const efftype_id effect_antibiotic( "antibiotic" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -143,6 +145,7 @@ const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
+const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
@@ -512,22 +515,6 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some antibiotics." ),
                               _( "<npcname> takes some antibiotics." ) );
-    if( p->has_effect( effect_infected ) ) {
-        // cheap model of antibiotic resistance, but it's something.
-        if( x_in_y( 95, 100 ) ) {
-            // Add recovery effect for each infected wound
-            time_duration infected_tot = 0_turns;
-            for( const body_part bp : all_body_parts ) {
-                const time_duration infected_dur = p->get_effect_dur( effect_infected, bp );
-                if( infected_dur > 0_turns ) {
-                    infected_tot += infected_dur;
-                }
-            }
-            p->add_effect( effect_recover, infected_tot );
-            // Remove all infected wounds
-            p->remove_effect( effect_infected );
-        }
-    }
     if( p->has_effect( effect_tetanus ) ) {
         if( one_in( 3 ) ) {
             p->remove_effect( effect_tetanus );
@@ -536,6 +523,11 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
         }
     }
+    if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
+        p->add_msg_if_player( m_good,
+                              _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
+    }
+    p->add_effect( effect_antibiotic, 12_hours );
     return it->type->charges_to_use();
 }
 
@@ -6044,8 +6036,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             add_msg( m_info, _( "You cannot read a computer screen." ) );
             return 0;
         }
-        if( p->has_trait( trait_HYPEROPIC ) && !p->is_wearing( "glasses_reading" )
-            && !p->is_wearing( "glasses_bifocal" ) && !p->has_effect( effect_contacts ) ) {
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+            !p->has_effect( effect_contacts ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
@@ -7233,8 +7225,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
         }
 
-        if( p->has_trait( trait_HYPEROPIC ) && !p->is_wearing( "glasses_reading" )
-            && !p->is_wearing( "glasses_bifocal" ) && !p->has_effect( effect_contacts ) ) {
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+            !p->has_effect( effect_contacts ) ) {
             add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
@@ -7935,5 +7927,22 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
         g->m.spawn_item( p->pos(), "splinter", 1 );
         return 1;
     }
+    return 0;
+}
+
+int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
+    if( p->has_effect( effect_infected ) && !p->has_effect( effect_weak_antibiotic ) ) {
+        p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes. Slightly." ) );
+    }
+    p->add_effect( effect_weak_antibiotic, 12_hours );
+    return it->type->charges_to_use();
+}
+
+int iuse::disassemble( player *p, item *it, bool, const tripoint & )
+{
+    const int pos = p->inv.position_by_item( it );
+    p->disassemble( *it, pos, false, false );
     return 0;
 }
