@@ -3329,7 +3329,7 @@ ___DEEE|.R.|...,,...|sss\n",
 
         // Lab special effects.
         if( one_in(10) ) {
-            switch( rng(1, 5) ) {
+            switch( rng(1, 6) ) {
                 // full flooding/sewage
                 case 1: {
                     if (is_ot_subtype("stairs", terrain_type)) {
@@ -3411,6 +3411,34 @@ ___DEEE|.R.|...,,...|sss\n",
                     furn_set( center.x, center.y, f_null );
                     trap_set( center, tr_portal );
                     create_anomaly( center, random_entry( valid_props ), false );
+                }
+                // damaged mininuke accident.
+                case 6: {
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    if( has_flag_ter("WALL", center.x, center.y) ) {
+                        return;  // just skip it, we don't want to risk embedding radiation out of sight.
+                    }
+                    draw_rough_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 10);
+                        }, center.x, center.y, rng(7, 12) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 20);
+                        }, center.x, center.y, rng(5, 8) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 30);
+                        }, center.x, center.y, rng(2, 4) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 50);
+                        }, center.x, center.y, 1 );
+                    draw_circle( [this]( int x, int y ) {
+                        make_rubble( {x, y, abs_sub.z } );
+                        ter_set( x, y, t_rock_floor);
+                        }, center.x, center.y, 1 );
+                    add_spawn(mon_hazmatbot, 1, center.x - 1, center.y - 1);
+                    add_spawn(mon_hazmatbot, 1, center.x + 1, center.y + 1);
+                    // damaged mininuke thrown past edge of rubble so the player can see it.
+                    spawn_item(center.x - 2 + 4 * rng(0, 1), center.y + rng(-2, 2),
+                        "mininuke", 1, 1, 0, rng (2, 4) );
                 }
             }
         }
