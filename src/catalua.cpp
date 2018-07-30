@@ -21,6 +21,8 @@
 #include "line.h"
 #include "requirements.h"
 #include "weather_gen.h"
+#include "omdata.h"
+#include "overmap.h"
 
 #ifdef LUA
 #include "ui.h"
@@ -52,6 +54,7 @@ using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
 using mass = units::mass;
 using npc_template_id = string_id<npc_template>;
+using overmap_direction = om_direction::type;
 
 lua_State *lua_state = nullptr;
 
@@ -892,8 +895,35 @@ static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
 }
 
+static time_duration get_time_duration_wrapper( const int t )
+{
+    return time_duration::from_turns( t );
+}
+
+static std::string get_omt_id( const overmap &om, const tripoint &p )
+{
+    return om.get_ter( p ).id().str();
+}
+
+static overmap_direction get_omt_dir( const overmap &om, const tripoint &p )
+{
+   return om.get_ter( p ).obj().get_dir();
+}
+
 static std::string string_input_popup_wrapper( const std::string &title, int width, const std::string &desc ) {
     return string_input_popup().title(title).width(width).description(desc).query_string();
+}
+
+/** Get reference to monster at given tripoint. */
+monster *get_monster_at( const tripoint &p )
+{
+    return g->critter_at<monster>( p );
+}
+
+/** Get reference to Creature at given tripoint. */
+Creature *get_critter_at( const tripoint &p )
+{
+    return g->critter_at( p );
 }
 
 /** Create a new monster of the given type. */
@@ -946,6 +976,10 @@ static void popup_wrapper(const std::string &text) {
 
 static void add_msg_wrapper(const std::string &text) {
     add_msg( text );
+}
+
+static bool query_yn_wrapper(const std::string &text) {
+    return query_yn( text );
 }
 
 // items = game.items_at(x, y)

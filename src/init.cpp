@@ -64,6 +64,7 @@
 #include "morale_types.h"
 #include "anatomy.h"
 #include "loading_ui.h"
+#include "recipe_groups.h"
 
 #include <assert.h>
 #include <string>
@@ -158,6 +159,8 @@ void DynamicDataLoader::initialize()
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
+    add( "WORLD_OPTION", &load_world_option );
+    add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
@@ -223,6 +226,7 @@ void DynamicDataLoader::initialize()
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
+    add( "recipe_group",  &recipe_group::load );
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
@@ -241,8 +245,6 @@ void DynamicDataLoader::initialize()
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
     add( "TRAIT_BLACKLIST", []( JsonObject &jo ) { mutation_branch::load_trait_blacklist( jo ); } );
-    add( "WORLD_OPTION", &load_world_option );
-    add( "EXTERNAL_OPTION", &load_external_option );
 
     // loaded earlier.
     add( "colordef", &load_ignored_type );
@@ -373,6 +375,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     recipe_dictionary::reset();
+    recipe_group::reset();
     faction_template::reset();
     quality::reset();
     trap::reset();
@@ -435,6 +438,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
         { _( "Monster factions" ), &monfactions::finalize },
         { _( "Crafting recipes" ), &recipe_dictionary::finalize },
+        { _( "Recipe groups" ), &recipe_group::check },
         { _( "Martial arts" ), &finialize_martial_arts },
         { _( "Constructions" ), &finalize_constructions },
         { _( "NPC classes" ), &npc_class::finalize_all },

@@ -2716,11 +2716,11 @@ void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_i
     if (rubble_type == f_wreckage) {
         item chunk("steel_chunk", calendar::turn);
         item scrap("scrap", calendar::turn);
-        item pipe("pipe", calendar::turn);
-        item wire("wire", calendar::turn);
         add_item_or_charges(p, chunk);
         add_item_or_charges(p, scrap);
         if (one_in(5)) {
+            item pipe("pipe", calendar::turn);
+            item wire("wire", calendar::turn);
             add_item_or_charges(p, pipe);
             add_item_or_charges(p, wire);
         }
@@ -3935,6 +3935,12 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         if(!check_only) {
             sounds::sound( p, 6, "", true, "open_door", ter.id.str() );
             ter_set(p, ter.open );
+
+            if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
+                && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
+                tripoint mp = p + tripoint( ( p.x - g->u.pos().x ) * 2, ( p.y - g->u.pos().y ) * 2, p.z );
+                g->spawn_hallucination( mp );
+            }
         }
 
         return true;
@@ -4932,36 +4938,30 @@ long remove_charges_in_list(const itype *type, map_stack stack, long quantity)
 void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
                             map *m, const tripoint &p, std::list<item> &ret )
 {
-    if( type == "water" && f.examine == &iexamine::toilet ) {
-        auto items = m->i_at( p );
-        auto water = items.begin();
-        for( ; water != items.end(); ++water ) {
-            if( water->typeId() == "water" ) {
-                break;
+    if( m->has_flag( "LIQUIDCONT", p ) ) {
+        auto item_list = m->i_at( p );
+        auto current_item = item_list.begin();
+        for( ; current_item != item_list.end(); ++current_item ) {
+            // looking for a liquid that matches
+            if( current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
+                ret.push_back( *current_item );
+                if( current_item->charges - quantity > 0 ) {
+                    // Update the returned liquid amount to match the requested amount
+                    ret.back().charges = quantity;
+                    // Update the liquid item in the world to contain the leftover liquid
+                    current_item->charges -= quantity;
+                    // All the liquid needed was found, no other sources will be needed
+                    quantity = 0;
+                } else {
+                    // The liquid copy in ret already contains how much was available
+                    // The leftover quantity returned will check other sources
+                    quantity -= current_item->charges;
+                    // Remove liquid item from the world
+                    item_list.erase( current_item );
+                }
+                return;
             }
         }
-
-        // If the toilet is not empty
-        if( water != items.end() ) {
-            // There is water, copy it to report back to the outer method
-            ret.push_back( *water );
-            if( water->charges - quantity > 0 ) {
-                // Update the returned water amount to match the requested amount
-                ret.back().charges = quantity;
-                // Update the water item in the world to contain the leftover water
-                water->charges -= quantity;
-                // All the water needed was found, no other sources will be needed
-                quantity = 0;
-            } else {
-                // The water copy in ret already contains how much was available
-                // The leftover quantity returned will check other sources
-                quantity -= water->charges;
-                // Remove water item from the world
-                items.erase( water );
-            }
-        }
-
-        return;
     }
 
     const itype *itt = f.crafting_pseudo_item_type();
@@ -5027,6 +5027,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
@@ -5102,6 +5103,23 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 
             item tmp(type, 0); //TODO add a sane birthday arg
             tmp.charges = forgepart->vehicle().drain( ftype, quantity );
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if( kilnpart ) { // we have a veh_kiln, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "kiln") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -6815,17 +6833,41 @@ void map::grow_plant( const tripoint &p )
         return;
     }
     const time_duration plantEpoch = seed.get_plant_epoch();
-
-    if( seed.age() >= plantEpoch ) {
-        rotten_item_spawn( seed, p);
+    furn_id cur_furn = this->furn(p).id();
+    if( seed.age() >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ){
         if( seed.age() < plantEpoch * 2 ) {
-                i_rem(p, 1);
-                furn_set(p, furn_str_id( "f_plant_seedling" ) );
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+                return;
+            }
+            i_rem( p, 1 );
+            rotten_item_spawn( seed, p );
+            furn_set(p, furn_str_id( "f_plant_seedling" ) );
         } else if( seed.age() < plantEpoch * 3 ) {
-                i_rem(p, 1);
-                furn_set(p, furn_str_id( "f_plant_mature" ) );
+            if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+                return;
+            }
+            i_rem(p, 1);
+            rotten_item_spawn( seed, p );
+            //You've skipped the seedling stage so roll monsters twice
+            if( cur_furn != furn_str_id( "f_plant_seedling" ) ){
+                rotten_item_spawn( seed, p );
+            }
+            furn_set( p, furn_str_id( "f_plant_mature" ) );
         } else {
-                furn_set(p, furn_str_id( "f_plant_harvest" ) );
+            //You've skipped two stages so roll monsters two times
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+            //One stage change
+            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+                rotten_item_spawn( seed, p );
+            //Goes from seed to harvest in one check
+            } else {
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+                rotten_item_spawn( seed, p );
+            }
+            furn_set(p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }
@@ -7211,6 +7253,11 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue;
             }
             monster tmp( spawn_details.name );
+
+            // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
+            if( group.horde ) {
+                tmp.set_horde_attraction( MHA_ALWAYS );
+            }
             for( int i = 0; i < spawn_details.pack_size; i++) {
                 group.monsters.push_back( tmp );
             }

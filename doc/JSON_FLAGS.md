@@ -213,6 +213,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ATTACKMON``` Attacks other monsters.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
+- ```BIRDFOOD``` Becomes friendly / tamed with bird food.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BLEED``` Causes the player to bleed.
 - ```BONES``` May produce bones and sinews when butchered.
@@ -247,7 +248,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT``` You feel guilty for killing it.
-- ```HARDTOSHOOT``` Some shots are actually misses.
+- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then MS_TINY 
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
@@ -466,6 +467,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```
+- ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO``` Cargo holding area.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
@@ -693,11 +695,14 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
+- ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
 - ```ONLY_ONE``` You can wear only one.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FIX_FARSIGHT``` This gear corrects farsightedness.
+- ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.
@@ -713,6 +718,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
 - ```SKINTIGHT``` Undergarment layer.
+- ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
+- ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
 - ```STURDY``` This clothing is a lot more resistant to damage than normal.
 - ```SUN_GLASSES``` Prevents glaring when in sunlight.
 - ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
@@ -752,6 +759,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
 - ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
 - ```BANDAGE``` Stop bleeding.
+- ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
@@ -1037,6 +1045,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TURRET``` Activate a turret.
 - ```WASHCLOTHES``` Wash clothes with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
+- ```BREAK_STICK``` Breaks long stick into two.
 
 ## Generic
 

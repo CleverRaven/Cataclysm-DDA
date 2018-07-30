@@ -2,6 +2,8 @@
 #ifndef FIRE_H
 #define FIRE_H
 
+#include "units.h"
+
 /**
  * Contains the state of a fire in one tile on one turn
  *
@@ -14,12 +16,19 @@
  * this turn.
  */
 struct fire_data {
+    fire_data() {}
+    fire_data( const fire_data & ) = default;
+    fire_data( int intensity, bool is_contained = false ) : fire_intensity( intensity ),
+        contained( is_contained )
+    {}
     /** Current intensity of the fire.  This is an input to the calculations */
-    int fire_intensity;
+    int fire_intensity = 0;
     /** Smoke produced by each burning item this turn is summed here. */
-    float smoke_produced;
+    float smoke_produced = 0.0f;
     /** Fuel contributed by each burning item this turn is summed here. */
-    float fuel_produced;
+    float fuel_produced = 0.0f;
+    /** The fire is contained and burned for fuel intentionally. */
+    bool contained = false;
 };
 
 /**
@@ -37,8 +46,8 @@ struct fire_data {
 struct mat_burn_data {
     /** If this is true, an object will not burn or be destroyed by fire. */
     bool immune = false;
-    /** Chance of burning per unit volume of the object, per turn. 0 for 100% chance */
-    int chance_in_volume = 0;
+    /** If non-zero and lower than item's volume, scale burning by `volume_penalty / volume`. */
+    units::volume volume_per_turn = 0_ml;
     /** Fuel contributed per tick when this material burns. */
     float fuel = 0.0f;
     /** Smoke produced per tick when this material burns. */

@@ -238,6 +238,9 @@ class consume_drug_iuse : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        /** Item produced after using drugs. */
+        std::string used_up_item;
 };
 
 /**
@@ -813,6 +816,14 @@ class heal_actor : public iuse_actor
         float head_power = 0;
         /** How much hp to restore when healing torso? */
         float torso_power = 0;
+        /** How many intensity levels will be applied when healing limbs? */
+        float bandages_power = 0;
+        /** Extra intensity levels gained per skill level when healing limbs. */
+        float bandages_scaling = 0;
+        /** How many intensity levels will be applied when healing limbs? */
+        float disinfectant_power = 0;
+        /** Extra intensity levels gained per skill level when healing limbs. */
+        float disinfectant_scaling = 0;
         /** Chance to remove bleed effect. */
         float bleed = 0;
         /** Chance to remove bite effect. */
@@ -843,7 +854,10 @@ class heal_actor : public iuse_actor
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const player &healer, hp_part healed ) const;
-
+        /** How many intensity levels will be applied using this actor by `healer`. */
+        int get_bandaged_level( const player &healer ) const;
+        /** How many intensity levels will be applied using this actor by `healer`. */
+        int get_disinfected_level( const player &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
         long finish_using( player &healer, player &patient, item &it, hp_part part ) const;
 

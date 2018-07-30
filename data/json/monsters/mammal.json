@@ -14,6 +14,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 2,
     "dodge": 2,
+    "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "upgrades": { "age_grow": 42, "into": "mon_bear" }
   },
   {
@@ -49,6 +50,7 @@
     "harvest": "animal_large",
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 13 },
     "baby_flags": [ "SPRING" ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "BASHES", "ATTACKMON" ]
   },
   {
@@ -104,6 +106,7 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES" ]
   },
   {
@@ -289,6 +292,7 @@
     "harvest": "animal_large",
     "upgrades": { "age_grow": 28, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
   },
   {
@@ -325,6 +329,7 @@
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
+    "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -468,6 +473,7 @@
     "reproduction": { "baby_monster": "mon_deer_fawn", "baby_count": 1, "baby_timer": 13 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
@@ -497,6 +503,7 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -672,6 +679,7 @@
     "death_function": [ "NORMAL" ],
     "harvest": "animal_large",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -783,6 +791,7 @@
     "death_function": [ "NORMAL" ],
     "harvest": "animal_large",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "ATTACKMON" ]
   },
   {
@@ -938,6 +947,7 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 20, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
+    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
@@ -970,6 +980,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
@@ -1131,6 +1142,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "flags": [
       "SEES",
       "HEARS",

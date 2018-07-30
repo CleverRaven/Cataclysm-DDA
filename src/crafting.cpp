@@ -56,6 +56,10 @@ static bool crafting_allowed( const player &p, const recipe &rec )
         return false;
     }
 
+    if( rec.category == "CC_BUILDING" ) {
+        add_msg( m_info, _( "Overmap terrain building recipies are not implemented yet!" ) );
+        return false;
+    }
     return true;
 }
 
@@ -403,13 +407,14 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
     }
 }
 
-std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size )
+std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size,
+        bool ignore_last )
 {
     std::list<item> used;
     if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
         return used;
     }
-    if( last_craft->has_cached_selections() ) {
+    if( last_craft->has_cached_selections() && !ignore_last ) {
         used = last_craft->consume_components();
     } else {
         // This should fail and return, but currently crafting_command isn't saved
@@ -467,8 +472,8 @@ void player::complete_craft()
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( trait_id( "HYPEROPIC" ) ) && !is_wearing( "glasses_reading" ) &&
-        !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+    if( has_trait( trait_id( "HYPEROPIC" ) ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+        !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making->skill_used == skill_id( "electronics" ) ) {
             main_rank_penalty = 2;
