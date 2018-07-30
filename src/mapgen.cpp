@@ -3434,8 +3434,10 @@ ___DEEE|.R.|...,,...|sss\n",
                         make_rubble( {x, y, abs_sub.z } );
                         ter_set( x, y, t_rock_floor);
                         }, center.x, center.y, 1 );
-                    add_spawn(mon_hazmatbot, 1, center.x - 1, center.y - 1);
-                    add_spawn(mon_hazmatbot, 1, center.x + 1, center.y + 1);
+                    add_spawn( mon_hazmatbot, 1, center.x - 1, center.y );
+                    if (one_in(2)) {
+                        add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
+                    }
                     // damaged mininuke thrown past edge of rubble so the player can see it.
                     spawn_item(center.x - 2 + 4 * rng(0, 1), center.y + rng(-2, 2),
                         "mininuke", 1, 1, 0, rng (2, 4) );
