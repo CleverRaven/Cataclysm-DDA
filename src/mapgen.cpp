@@ -3411,6 +3411,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     furn_set( center.x, center.y, f_null );
                     trap_set( center, tr_portal );
                     create_anomaly( center, random_entry( valid_props ), false );
+                    break;
                 }
                 // damaged mininuke accident.
                 case 6: {
@@ -3431,6 +3432,11 @@ ___DEEE|.R.|...,,...|sss\n",
                         set_radiation( x, y, 50);
                         }, center.x, center.y, 1 );
                     draw_circle( [this]( int x, int y ) {
+                        if ( has_flag_ter( "GOES_DOWN", x, y ) ||
+                             has_flag_ter( "GOES_UP", x, y ) ||
+                             has_flag_ter( "CONSOLE", x, y ) ) {
+                            return; // spare stairs and consoles.
+                        }
                         make_rubble( {x, y, abs_sub.z } );
                         ter_set( x, y, t_rock_floor);
                         }, center.x, center.y, 1 );
@@ -3441,6 +3447,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     // damaged mininuke thrown past edge of rubble so the player can see it.
                     spawn_item(center.x - 2 + 4 * rng(0, 1), center.y + rng(-2, 2),
                         "mininuke", 1, 1, 0, rng (2, 4) );
+                    break;
                 }
             }
         }
