@@ -808,7 +808,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_fsurvivorxl",
@@ -835,7 +835,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "mask_bunker",
@@ -845,7 +845,7 @@
         "color": "light_gray",
         "name": "firefighter PBA mask",
         "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-        "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+        "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
         "price": 100000,
         "material": [ "plastic", "nomex" ],
         "weight": 1260,
