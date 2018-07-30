@@ -1011,7 +1011,8 @@ void game::reload_npcs()
 
 void game::create_starting_npcs()
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ) {
+    if( !get_option<bool>( "STATIC_NPC" ) ||
+        get_option<std::string>( "STARTING_NPC" ) == "never" ) {
         return; //Do not generate a starting npc.
     }
 
