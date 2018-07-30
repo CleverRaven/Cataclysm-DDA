@@ -578,6 +578,7 @@
         "encumbrance" : 10,
         "coverage" : 100,
         "qualities" : [["GLARE", 2]],
+        "flags": [ "SUN_GLASSES" ]
         "material_thickness" : 5
     },
     {
@@ -808,7 +809,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_fsurvivorxl",
@@ -835,7 +836,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "mask_bunker",
@@ -862,6 +863,7 @@
         "encumbrance": 20,
         "coverage": 100,
         "qualities": [ [ "GLARE", 2 ] ],
+        "flags": [ "SUN_GLASSES" ]
         "material_thickness": 3
     },
     {
