@@ -285,9 +285,9 @@
     "text": "Spent time close to fire"
   },
   {
-    "id": "morale_pyromania_moredots",
+    "id": "morale_pyromania_nofire",
     "type": "morale_type",
-    "text": "Stood in the fire"
+    "text": "Craving fire"
   },
   {
     "id": "morale_perm_filthy",

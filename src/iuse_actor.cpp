@@ -1032,8 +1032,14 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
             p.add_msg_if_player( _( "You successfully light a fire." ) );
         }
         else {
-            p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
-            p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 30, 10_minutes, 9_minutes );
+            if( one_in( 4 ) ) {
+                p.add_msg_if_player( m_mixed, _( "You light a fire, but it isn't enough. You need to light more." ) );
+            }
+            else {
+                p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 10, 30, 24_hours, 8_hours );
+                p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
         }
     }
 }

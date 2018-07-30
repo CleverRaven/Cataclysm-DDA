@@ -841,10 +841,6 @@ void trapfunc::lava( Creature *c, const tripoint &p )
             n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_HEAT, 20 ) );
             n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, 20 ) );
             n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, 20 ) );
-            if( n->has_trait( trait_PYROMANIA ) ) {
-                n->rem_morale( MORALE_PYROMANIA_NEARFIRE );
-                n->add_morale( MORALE_PYROMANIA_MOREDOTS, 100, 100, 1_hours, 30_minutes ); // we're probably gonna die here, but might as well die happy, right?
-            }
         } else if( z != nullptr ) {
             // MATERIALS-TODO: use fire resistance
             int dam = 30;

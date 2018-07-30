@@ -73,7 +73,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_pyromania_startfire" ),
             morale_type( "morale_pyromania_nearfire" ),
-            morale_type( "morale_pyromania_moredots" ),
+            morale_type( "morale_pyromania_nofire" ),
 
             morale_type( "morale_perm_filthy" ),
 
@@ -148,7 +148,7 @@ const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
 const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );
-const morale_type MORALE_PYROMANIA_MOREDOTS( "morale_pyromania_moredots" );
+const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 

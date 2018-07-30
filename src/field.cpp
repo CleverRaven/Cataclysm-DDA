@@ -47,7 +47,6 @@ const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_webbed( "webbed" );
 
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -1797,10 +1796,6 @@ void map::player_in_field( player &u )
             if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing("rm13_armor_on") ||
                 u.has_trait( trait_M_SKIN2 ) ) {
                 //heatsink, suit, or internal restructuring prevents ALL fire damage.
-                if( u.has_trait( trait_PYROMANIA ) ) {
-                    u.rem_morale( MORALE_PYROMANIA_NEARFIRE );
-                    u.add_morale( MORALE_PYROMANIA_MOREDOTS, 5, 50, 30_minutes, 15_minutes ); // Pyromaniacs still gain a mood boost, but not as much since they can't feel heat
-                }
                 break;
             }
             //Burn the player. Less so if you are in a car or ON a car.
@@ -1877,10 +1872,6 @@ void map::player_in_field( player &u )
                 } else {
                     u.add_msg_if_player( m_warning,
                         _( player_warn_msg[msg_num].c_str() ) );
-                }
-                if( u.has_trait( trait_PYROMANIA ) ) {
-                    u.rem_morale( MORALE_PYROMANIA_NEARFIRE );
-                    u.add_morale( MORALE_PYROMANIA_MOREDOTS, 25, 100, 1_hours, 30_minutes ); // Pyros get a big adrenaline rush from being in fire
                 }
                 u.check_dead_state();
             }
