@@ -1422,6 +1422,7 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.capacity = jsobj.get_int( "capacity", 0 );
 
+    new_bionic.npc_install = get_bool_or_flag( jsobj, "npc_install", "BIONIC_NPC_INSTALL", false );
     new_bionic.faulty = get_bool_or_flag( jsobj, "faulty", "BIONIC_FAULTY", false );
     new_bionic.power_source = get_bool_or_flag( jsobj, "power_source", "BIONIC_POWER_SOURCE", false );
 
