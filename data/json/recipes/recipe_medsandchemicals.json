@@ -2406,7 +2406,7 @@
 	"time": 40000,
 	"book_learn":[ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
 	"qualities": [
-		{ "id": "CHEM", "level": 3},
+		{ "id": "CHEM", "level": 3 },
 		{ "id": "BOIL", "level": 2 }
 		],
 	"tools": [ 
