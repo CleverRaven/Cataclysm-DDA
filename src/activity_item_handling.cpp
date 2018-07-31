@@ -729,8 +729,10 @@ void activity_on_turn_move_loot( player_activity &, player &p )
         const auto &src_loc = g->m.getlocal( src );
 
         // skip tiles in IGNORE zone and tiles on fire (to prevent taking out wood off the lit brazier)
+        // and inaccessible furniture, like filled charcoal kiln
         if( mgr.has( zone_type_id( "LOOT_IGNORE" ), src ) ||
-            g->m.get_field( src_loc, fd_fire ) != nullptr ) {
+            g->m.get_field( src_loc, fd_fire ) != nullptr ||
+            !g->m.can_put_items_ter_furn( src_loc ) ) {
             continue;
         }
 
@@ -750,6 +752,12 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );
+
+                    // skip tiles with inaccessible furniture, like filled charcoal kiln
+                    if( !g->m.can_put_items_ter_furn( dest_loc ) ) {
+                        continue;
+                    }
+
                     if( g->m.free_volume( dest_loc ) > it->volume() ) {
                         move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
                         break;
