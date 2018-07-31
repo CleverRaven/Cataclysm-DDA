@@ -184,6 +184,13 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+enum butcher_type : int {
+    BUTCHER,         // quick butchery
+    BUTCHER_FULL,   // full workshop butchery
+    F_DRESS,        // field dressing a corpse
+    QUARTER         // quarter a corpse
+};
+
 bool check_butcher_cbm( const int roll )
 {
     // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
@@ -227,7 +234,7 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
-void set_up_butchery( player_activity &act, player &u )
+void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
     if( !act.values.empty() ) {
         act.index = act.values.back();
@@ -273,19 +280,32 @@ void set_up_butchery( player_activity &act, player &u )
         time_to_cut = 500;
     }
 
-    bool butcher = act.id() == activity_id( "ACT_BUTCHER" );
     bool corpse_dressed = items[act.index].has_flag( "FIELD_DRESS" ) || items[act.index].has_flag( "FIELD_DRESS_FAILED" );
 
-    if( butcher && !corpse_dressed ) {
-        time_to_cut *= 10;
-    } else if( !butcher && !corpse_dressed ) {
-        time_to_cut *= 2;
+    switch( action ) {
+    case BUTCHER:
+        break;
+    case BUTCHER_FULL:
+        if( !corpse_dressed ) {
+            time_to_cut *= 6;
+        } else {
+            time_to_cut *= 4;
+        }
+        break;
+    case F_DRESS:
+        break;
+    case QUARTER:
+        time_to_cut /= 4;
+        if( time_to_cut < 200 ) {
+            time_to_cut = 200;
+        }
+        break;
     }
 
     act.moves_left = time_to_cut;
 }
 
-void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p, const time_point &age, const std::function<int()> &roll_butchery )
+void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p, const time_point &age, const std::function<int()> &roll_butchery, butcher_type action )
 {
     itype_id meat = corpse->get_meat_itype();
     if( corpse->made_of( material_id( "bone" ) ) ) {
@@ -358,8 +378,9 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     wool +=     std::min( 0, roll_butchery() );
     stomach = roll_butchery() >= 0;
 
+    // QUICK BUTCHERY preq: untouched corpse
     // in quick butchery you aim for meat and don't care that you damage some parts
-    if( !corpse_item->has_flag( "FIELD_DRESS" ) || !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) || !corpse_item->has_flag( "IS_FIELD_DRESSED" ) ) {
+    if( action == F_DRESS && ( !corpse_item->has_flag( "FIELD_DRESS" ) || !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         skins = 0;
         bones = rng( 0, bones );
         fats = rng( 0, fats );
@@ -367,8 +388,9 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         feathers = rng( 0, feathers );
     }
 
-    if( corpse_item->has_flag( "IS_FIELD_DRESSED" ) ) {
-        // pieces left unchanged becouse they are 'coverted' to offal and not into meat
+    //FIELD DRESSING preq: untouched corpse
+    if( action == F_DRESS ) {
+        // "pieces" left unchanged becouse they are 'converted' to offal and don't yield meat
         skins = 0;
         bones =  rng( 0, bones / 2 );
         fats = 0;
@@ -544,7 +566,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
     //As long as the factor is above -4 (the sinew cutoff), you will be able to extract CBMs
-    if( !corpse_item->has_flag( "IS_FIELD_DRESSED" ) && p->has_quality( quality_id( "CUT_FINE" ) ) ) {
+    if( action == F_DRESS && p->has_quality( quality_id( "CUT_FINE" ) ) ) {
 
         if( corpse->has_flag( MF_CBM_CIV ) ) {
             butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
@@ -580,7 +602,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         if( corpse->has_flag( MF_CBM_POWER ) ) {
             butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
         }
-    } else if( !corpse_item->has_flag( "IS_FIELD_DRESSED" ) &&
+    } else if( action == F_DRESS &&
                 ( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) ||
                 corpse->has_flag( MF_CBM_TECH ) || corpse->has_flag( MF_CBM_SUBS ) ||
                 corpse->has_flag( MF_CBM_OP ) || corpse->has_flag( MF_CBM_POWER ) ) ) {
@@ -605,7 +627,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
                               ( !corpse->has_flag( "FIELD_DRESS" ) || !corpse->has_flag( "FIELD_DRESS_FAILED" ) ) &&
                               !chunk.made_of ( material_id ( "veggy" ) );
-            if( corpse_item->has_flag( "IS_FIELD_DRESSED" ) ) {
+            if( action == F_DRESS ) {
                 for ( int i = 1; i < pieces; ++i ) {
                     if ( make_offal && one_in( 6 ) ) {
                         parts.charges++;
@@ -627,12 +649,9 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             }
         }
     }
-    if( corpse_item->has_flag( "IS_FIELD_DRESSED" ) ) {
-        corpse_item->unset_flag( "IS_FIELD_DRESSED" );
-    }
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &age, const std::function<int()> &roll_butchery )
+void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &age, const std::function<int()> &roll_butchery, butcher_type action )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
 
@@ -646,7 +665,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         const itype *drop = item::find_type( entry.drop );
 
         // field dressing ignores everything outside below list
-        if( corpse_item->has_flag( "IS_FIELD_DRESSED" ) ) {
+        if( action == F_DRESS ) {
             if( entry.drop != "stomach" || entry.drop != "stomach_large" || entry.drop != "hstomach" || entry.drop != "hstomach_large" || entry.drop != "offal" ) {
                 continue;
             }
@@ -658,7 +677,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         // field dressing removed innards and bones from meatless limbs
         if( corpse_item->has_flag( "FIELD_DRESS" ) ) {
             if( entry.drop == "stomach" || entry.drop == "stomach_large" || entry.drop == "hstomach" || entry.drop == "hstomach_large" || entry.drop == "offal" ) {
-                continue;
+                roll = 0;
             }
             if( entry.drop == "bone" ) {
                  roll = ( roll / 2 ) + rng( roll / 2 , roll);
@@ -667,7 +686,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         // unskillfull field dressing may damage the skin, meat, and other parts
         if( corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
             if( entry.drop == "stomach" || entry.drop == "stomach_large" || entry.drop == "hstomach" || entry.drop == "hstomach_large" || entry.drop == "offal" ) {
-                continue;
+                roll = 0;
             }
             if( entry.drop == "bone" || entry.drop == "bone_human" ) {
                  roll = ( roll / 2 ) + rng( roll / 2 , roll);
@@ -713,15 +732,46 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 
     p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
     
-    if( corpse_item->has_flag( "IS_FIELD_DRESSED" ) ) {
-        corpse_item->unset_flag( "IS_FIELD_DRESSED" );
+}
+
+void butchery_quarter( item *corpse_item, player &p )
+{   
+    const mtype *corpse = corpse_item->get_mtype();
+    if( corpse_item->get_mtype()->size == MS_TINY ) {
+        p.add_msg_if_player( m_bad, _("This corpse is too small to quarter without damaging."), corpse->nname().c_str() );
+        return;
+    }
+    if( corpse_item->has_flag( "QUARTERED" ) ) {
+        p.add_msg_if_player( m_bad, _("This is already quartered."), corpse->nname().c_str() );
+        return;
+    }
+    if( !corpse_item->has_flag( "FIELD_DRESS" ) || !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
+        p.add_msg_if_player( m_bad, _("You need to perform field dressing before quartering."), corpse->nname().c_str() );
+        return;
+    }
+
+    corpse_item->set_flag( "QUARTERED" );
+    p.add_msg_if_player( m_good, _("You roughly slice the corpse of %s into four parts and set them aside."), corpse->nname().c_str() );
+    for( int i = 1; i <= 4; i++ ) { // 4 quarters
+    g->m.add_item_or_charges( p.pos(), *corpse_item, true );
     }
 }
 
 void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
+    butcher_type action;
+    if( act->id() == activity_id( "ACT_BUTCHER" ) ) {
+        action = BUTCHER;
+    } else if( act->id() == activity_id( "ACT_BUTCHER_FULL" ) ) {
+        action = BUTCHER_FULL;
+    } else if( act->id() == activity_id( "ACT_FIELD_DRESS" ) ) {
+        action = F_DRESS;
+    } else if( act->id() == activity_id( "ACT_FIELD_DRESS" ) ) {
+        action = QUARTER;
+    }
+   
     if( act->index < 0 ) {
-        set_up_butchery( *act, *p );
+        set_up_butchery( *act, *p , action );
         return;
     }
     // Corpses can disappear (rezzing!), so check for that
@@ -741,13 +791,19 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const field_id type_gib = corpse->gibType();
     g->m.i_rem( p->pos(), act->index );
 
-    if( act->id() == activity_id( "ACT_FIELD_DRESS" ) &&
-        ( corpse_item.has_flag( "FIELD_DRESSED" ) || corpse_item.has_flag( "FIELD_DRESSED" ) ) ) {
+    if( action == QUARTER &&
+        query_yn( _( "Quarter the corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() )  ) {
+        butchery_quarter( &corpse_item, *p );
+        act->set_to_null();
+        return;
+    }
+
+    if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             p->add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
             act->set_to_null();
             return;
     }
-
+    // applies to all butchery actions
     if( corpse->in_species( HUMAN ) && ( !p->has_trait_flag( "CANNIBAL" ) || !p->has_trait_flag( "PSYCHOPATH" ) || !p->has_trait_flag( "SAPIOVORE" ) ) ) {
         add_msg( m_info, _( "Why would you do this to mortal remains of a fellow human?" ) );
         act->set_to_null();
@@ -767,9 +823,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             has_table_nearby = true;
         }
     }
-
-    if( act->id() == activity_id( "ACT_BUTCHER" ) &&
-        ( corpse_item.has_flag( "FIELD_DRESSED" ) || corpse_item.has_flag( "FIELD_DRESSED" ) ) ) {
+    // workshop butchery (full) prequisites
+    if( action == BUTCHER_FULL && ( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             if( g->m.furn( p->pos() ) != furn_id( "f_butcher_rack" ) ){
                 p->add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
                 act->set_to_null();
@@ -786,7 +841,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 act->set_to_null();
                 return; 
             }
-    }
+    } // no "else" here to allow full butchery without field dressing too
 
     if( factor < 0 && one_in( 3 ) ) {
         add_msg( m_info, _("You don't trust the quality of your tools, but carry on anyway." ) );
@@ -807,11 +862,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
 
     // age of field dressed corpse does not change, but age of butchered elements does
-    // to simulate reduced decay of a field dressed corpse 
+    // to simulate reduced decay of a field dressed corpse
+    // no FIELD_DRESS_FAILED here as it gets no benefit
     if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
         age = time_point::from_turn( to_turn<int>( age ) / 4 );
     }
-   
+    
+    //all action types - FATAL FAILURE
     if( roll_butchery() <= ( -15 ) && one_in( 3 ) ) {
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -830,94 +887,89 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
     }
 
+    // all action types - yields
     if( corpse->harvest.is_null() ) {
-        butchery_drops_hardcoded( &corpse_item, corpse, p, age, roll_butchery );
+        butchery_drops_hardcoded( &corpse_item, corpse, p, age, roll_butchery, action );
     } else {
-        butchery_drops_harvest( &corpse_item, *corpse, *p, age, roll_butchery );
+        butchery_drops_harvest( &corpse_item, *corpse, *p, age, roll_butchery, action );
     }
 
-    // Recover hidden items
-    for( auto &content : contents  ) {
-        if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
-            //~ %1$s - item name, %2$s - monster name
-            p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
-                     corpse->nname().c_str() );
-            g->m.add_item_or_charges( p->pos(), content );
-        } else if( content.is_bionic()  ) {
-            g->m.spawn_item(p->pos(), "burnt_out_bionic", 1, 0, age);
+    // quick & full butcher only
+    // reveal hidden items / hidden content
+    if( action!= F_DRESS ){
+        for( auto &content : contents  ) {
+            if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
+                //~ %1$s - item name, %2$s - monster name
+                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
+                        corpse->nname().c_str() );
+                g->m.add_item_or_charges( p->pos(), content );
+            } else if( content.is_bionic()  ) {
+                g->m.spawn_item(p->pos(), "burnt_out_bionic", 1, 0, age);
+            }
         }
     }
    
-   // to avoid infinite loops and index mixups in set_up_butchery() field dressed corpses
-   // are set aside in location other then p->pos()
-    tripoint set_aside = p->pos();
-    for( tripoint pt : g->m.points_in_radius( p->pos(), 1 ) ) {
-        if( g->m.can_put_items( pt ) && g->m.free_volume( pt ) > corpse_item.volume() ) {
-            set_aside = pt;
-        }
-    }
-    if( act->id() == activity_id( "ACT_FIELD_DRESS" ) && set_aside == p->pos() ) {
-        p->add_msg_if_player(m_warning, _( "You need some space around you for setting aside field dressed corpses." ) );
+    //end messages and effects
+    switch( action ){
+    case QUARTER:
+        break;
+    case BUTCHER:
+        p->add_msg_if_player( m_good, _("You quickly harvest what you can from the %s and leave the rest for vultures."), corpse->nname().c_str() );
+        break; //no set_to_null here, for multibutchering
+    case BUTCHER_FULL:
+        p->add_msg_if_player( m_good, _("You finish butchering the %s."), corpse->nname().c_str() );
         act->set_to_null();
         return;
-    }
-
-    if( act->id() == activity_id( "ACT_BUTCHER" ) &&
-        ( corpse_item.has_flag( "FIELD_DRESSED" ) || corpse_item.has_flag( "FIELD_DRESSED" ) ) ) {
-        p->add_msg_if_player( m_good, _("You finish butchering the %s."), corpse->nname().c_str() );
-    } else if( act->id() == activity_id( "ACT_BUTCHER" ) ) {
-        p->add_msg_if_player( m_good, _("You quickly butcher what you can from the %s and leave the rest for vultures."), corpse->nname().c_str() );
-    } else if ( roll_butchery() < 0 ) {
-
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                p->add_msg_if_player(m_warning, _( "You hack into the corpse damaging it and chop off some body parts.  You think this was not a job well done." ) );
-                break;
-            case 2:
-                p->add_msg_if_player(m_warning, _( "Your unskilled hand slips and damages the corpse. You still hope it's not a total waste though." ) );
-                break;
-            case 3:
-                p->add_msg_if_player(m_warning, _( "You did something wrong and hacked the corpse badly. Maybe it's still recoverable." ) );
-                break;
-        }
-        corpse_item.set_flag( "FIELD_DRESS_FAILED" );
-        g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-        g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-
-    } else {
-        
-        switch( rng( 1, 3 ) ) {
-            case 1:
-                p->add_msg_if_player( m_good, _("You field dress the %s."), corpse->nname().c_str() );
-                break;
-            case 2:
-                p->add_msg_if_player( m_good, _( "You slice the corpse's belly, then remove intestines and other internal organs until you're confident it will not rot from inside." ) );
-                break;
-            case 3:
-                 p->add_msg_if_player( m_good, _( "You remove blood, guts, some unnecessary parts, and otherwise prepare corpse to use it later." ) );
-                break;
-        }
-        corpse_item.set_flag( "FIELD_DRESS" );
-        g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 1, ( corpse->size + 1 ) * 2 ) );
-        g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 1, ( corpse->size + 1 ) * 2 ) );
-    }
-    if( act->id() == activity_id( "ACT_FIELD_DRESS" ) && corpse->size > MS_TINY ) {
-        if( query_yn( _( "Quarter the corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() ) ) {
-            corpse_item.set_flag( "QUARTERED" );
-            p->add_msg_if_player( m_good, _("You roughly slice the corpse into four parts and set them aside."), corpse->nname().c_str() );
-            for( int i = 1; i <= 4; i++ ) { // 4 quarters
-            g->m.add_item_or_charges( set_aside, corpse_item, true );
+        break;
+    case F_DRESS:
+        if ( roll_butchery() < 0 ) { // partial failure
+            switch( rng( 1, 3 ) ) {
+                case 1:
+                    p->add_msg_if_player(m_warning, _( "You unskilfully hack the corpse and chop off some excess body parts.  You think this was not a job well done." ) );
+                    break;
+                case 2:
+                    p->add_msg_if_player(m_warning, _( "Your unskilled hands slip and damage the corpse. You still hope it's not a total waste though." ) );
+                    break;
+                case 3:
+                    p->add_msg_if_player(m_warning, _( "You did something wrong and hacked the corpse badly. Maybe it's still recoverable." ) );
+                    break;
             }
-        } else {
-            p->add_msg_if_player( m_good, _("You set aside the field dressed corpse.") );
-            g->m.add_item_or_charges( set_aside, corpse_item, true );
-        }
-    }
+            corpse_item.set_flag( "FIELD_DRESS_FAILED" );
+            g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
 
+        } else { // success
+            
+            switch( rng( 1, 3 ) ) {
+                case 1:
+                    p->add_msg_if_player( m_good, _("You field dress the %s."), corpse->nname().c_str() );
+                    break;
+                case 2:
+                    p->add_msg_if_player( m_good, _( "You slice the corpse's belly and remove intestines and organs until you're confident it will not rot from inside." ) );
+                    break;
+                case 3:
+                    p->add_msg_if_player( m_good, _( "You remove guts and excess parts, preparing the corpse for later use." ) );
+                    break;
+            }
+            corpse_item.set_flag( "FIELD_DRESS" );
+            g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 1, ( corpse->size + 1 ) * 2 ) );
+            g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 1, ( corpse->size + 1 ) * 2 ) );
+        }
+        if( corpse->size > MS_TINY &&
+            query_yn( _( "Quarter the corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() ) ) {
+            butchery_quarter( &corpse_item, *p );
+        } else {
+            g->m.add_item_or_charges( p->pos(), corpse_item, true );
+        }
+        act->set_to_null();
+        return;
+        break;
+    }
+    // multibutchering (quick)
     if( act->values.empty() ) {
         act->set_to_null();
     } else {
-        set_up_butchery( *act, *p );
+        set_up_butchery( *act, *p, action );
     }
 }
 
