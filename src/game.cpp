@@ -9929,12 +9929,7 @@ void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
             }
         }
         if( it.is_corpse() ) {
-            std::stringstream ss;
-            ss << _("Butcher ") << " " <<it.get_mtype()->nname();
-            kmenu.addentry( menu_index++, true, hotkey, ss.str() );
-            ss.clear();
-            ss << _("Field dress ") << " " <<it.get_mtype()->nname();
-            kmenu.addentry( menu_index++, true, hotkey, ss.str() );
+            kmenu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
         } else if( !salvage ) {
             kmenu.addentry( menu_index++, true, hotkey, it.tname());
         } else {
@@ -9944,8 +9939,6 @@ void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
         }
     }
 }
-
-
 
 void game::butcher()
 {
@@ -10060,15 +10053,17 @@ void game::butcher()
     enum : int {
         MULTISALVAGE =  MAX_ITEM_IN_SQUARE + 1,
         MULTIBUTCHER,
-        MULTIFIELDDRESS,
         MULTIDISASSEMBLE_ONE,
         MULTIDISASSEMBLE_ALL,
+        BUTCHER,            // quick butchery
+        BUTCHER_FULL,       // full workshop butchery
+        F_DRESS,            // field dressing a corpse
+        QUARTER             // quarter corpse
         CANCEL
     };
     // What are we butchering (ie. which vector to pick indices from)
     enum {
         BUTCHER_CORPSE,
-        FIELD_DRESS,
         BUTCHER_DISASSEMBLE,
         BUTCHER_SALVAGE,
         BUTCHER_OTHER // For multisalvage etc.
@@ -10088,11 +10083,7 @@ void game::butcher()
 
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b',
-                _("Butcher everything") );
-        }
-        if( corpses.size() > 1 ) {
-            kmenu.addentry( MULTIFIELDDRESS, true, 'f',
-                _("Field dress every corpse") );
+            _("Butcher everything") );
         }
         if( disassembles.size() > 1 ) {
             kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
@@ -10107,6 +10098,16 @@ void game::butcher()
         kmenu.addentry( CANCEL, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
+
+        uimenu smenu;
+        smenu.text = _("Choose type of butchery for this corpse:");
+        smenu.addentry( BUTCHER, true, 'B' , _("Quick butcher") );
+        smenu.addentry( BUTCHER_FULL, true, 'b' , _("Full butcher") );
+        smenu.addentry( F_DRESS, true, 'f' , _("Field dress") );
+        smenu.addentry( QUARTER, true, 'k' , _("Quarter") );
+        smenu.addentry( CANCEL, true, 'q', _("Cancel"));
+        smenu.return_invalid = true;
+
         if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
             return;
         }
@@ -10115,20 +10116,15 @@ void game::butcher()
         if( ret >= MULTISALVAGE && ret < CANCEL ) {
             butcher_type = BUTCHER_OTHER;
             indexer_index = ret;
-        } else if( ret < corpses.size() * 2 ) {
-            if( ret % 2 == 0) {
-            butcher_type = FIELD_DRESS;
-            indexer_index = ret / 2;
-            } else {
+        } else if( ret < corpses.size() ) {
             butcher_type = BUTCHER_CORPSE;
-            indexer_index = ret / 2;
-            }
-        } else if( ret < corpses.size() * 2 + disassembles.size() ) {
+            indexer_index = ret;
+        } else if( ret < corpses.size() + disassembles.size() ) {
             butcher_type = BUTCHER_DISASSEMBLE;
-            indexer_index = ret - corpses.size() * 2;
-        } else if( ret < corpses.size() * 2 + disassembles.size() + salvageables.size() ) {
+            indexer_index = ret - corpses.size();
+        } else if( ret < corpses.size() + disassembles.size() + salvageables.size() ) {
             butcher_type = BUTCHER_SALVAGE;
-            indexer_index = ret - corpses.size() * 2 - disassembles.size();
+            indexer_index = ret - corpses.size() - disassembles.size();
         } else {
             debugmsg( "Invalid butchery index: %d", ret );
             return;
@@ -10143,14 +10139,8 @@ void game::butcher()
             case MULTIBUTCHER:
                 no_morale_butcher = true;
                 break;
-            case MULTIFIELDDRESS:
-                no_morale_butcher = true;
-                break;
             }
         case BUTCHER_CORPSE:
-            no_morale_butcher = true;
-            break;
-        case FIELD_DRESS:
             no_morale_butcher = true;
             break;
         case BUTCHER_DISASSEMBLE:
@@ -10168,7 +10158,6 @@ void game::butcher()
         }
 
     }
-
     switch( butcher_type ) {
     case BUTCHER_OTHER:
         switch( indexer_index ) {
@@ -10177,12 +10166,6 @@ void game::butcher()
             break;
         case MULTIBUTCHER:
             u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
-            for( int i : corpses ) {
-                u.activity.values.push_back( i );
-            }
-            break;
-        case MULTIFIELDDRESS:
-            u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
             for( int i : corpses ) {
                 u.activity.values.push_back( i );
             }
@@ -10200,22 +10183,29 @@ void game::butcher()
         break;
     case BUTCHER_CORPSE:
         {
+            smenu.query();
+            switch( smenu.ret ) {
+            case BUTCHER:
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+                break;
+            case BUTCHER_FULL:
+                u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+                break;
+            case F_DRESS:
+                u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+                break;
+            case QUARTER:
+                u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+                break;
+            case CANCEL:
+                return;
+            }
             draw_ter();
             wrefresh( w_terrain );
             int index = corpses[indexer_index];
-            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             u.activity.values.push_back( index );
         }
         break;	
-    case FIELD_DRESS:
-        {
-            draw_ter();
-            wrefresh( w_terrain );
-            int index = corpses[indexer_index];
-            u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
-            u.activity.values.push_back( index );
-        }
-        break;
     case BUTCHER_DISASSEMBLE:
         {
             size_t index = disassembles[indexer_index];

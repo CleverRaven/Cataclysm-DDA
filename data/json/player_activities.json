@@ -58,9 +58,21 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_BUTCHER_FULL",
+    "type": "activity_type",
+    "stop_phrase": "Stop butchering?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_FIELD_DRESS",
     "type": "activity_type",
     "stop_phrase": "Stop field dressing?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_QUARTER",
+    "type": "activity_type",
+    "stop_phrase": "Stop quartering?",
     "based_on": "speed"
   },
   {
