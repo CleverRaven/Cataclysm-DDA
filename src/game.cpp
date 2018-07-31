@@ -10058,7 +10058,7 @@ void game::butcher()
         BUTCHER,            // quick butchery
         BUTCHER_FULL,       // full workshop butchery
         F_DRESS,            // field dressing a corpse
-        QUARTER             // quarter corpse
+        QUARTER,             // quarter corpse
         CANCEL
     };
     // What are we butchering (ie. which vector to pick indices from)
@@ -10098,15 +10098,6 @@ void game::butcher()
         kmenu.addentry( CANCEL, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
-
-        uimenu smenu;
-        smenu.text = _("Choose type of butchery for this corpse:");
-        smenu.addentry( BUTCHER, true, 'B' , _("Quick butcher") );
-        smenu.addentry( BUTCHER_FULL, true, 'b' , _("Full butcher") );
-        smenu.addentry( F_DRESS, true, 'f' , _("Field dress") );
-        smenu.addentry( QUARTER, true, 'k' , _("Quarter") );
-        smenu.addentry( CANCEL, true, 'q', _("Cancel"));
-        smenu.return_invalid = true;
 
         if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
             return;
@@ -10183,6 +10174,14 @@ void game::butcher()
         break;
     case BUTCHER_CORPSE:
         {
+            uimenu smenu;
+            smenu.text = _("Choose type of butchery for this corpse:");
+            smenu.addentry( BUTCHER, true, 'B' , _("Quick butcher") );
+            smenu.addentry( BUTCHER_FULL, true, 'b' , _("Full butcher") );
+            smenu.addentry( F_DRESS, true, 'f' , _("Field dress") );
+            smenu.addentry( QUARTER, true, 'k' , _("Quarter") );
+            smenu.addentry( CANCEL, true, 'q', _("Cancel"));
+            smenu.return_invalid = true;
             smenu.query();
             switch( smenu.ret ) {
             case BUTCHER:
