@@ -8863,7 +8863,7 @@
     "color": "yellow",
     "covers": [ "HEAD" ],
     "coverage": 90,
-    "flags": [ "SKINTIGHT", "TRADER_AVOID" ]
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ]
   },
   {
     "id": "tool_belt",
