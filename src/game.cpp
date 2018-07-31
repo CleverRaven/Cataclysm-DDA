@@ -5395,7 +5395,7 @@ int game::mon_info( const catacurses::window &w )
                 monster &critter = *new_seen_mon.back();
                 cancel_activity_query( string_format( _( "%s spotted!" ), critter.name().c_str() ) );
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
-                    add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
+                    add_msg(m_warning, _("We have detected a %s - an enemy of the Mycus!"), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
                         u.add_effect( effect_adrenaline_mycus, 30_minutes );
                     } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {

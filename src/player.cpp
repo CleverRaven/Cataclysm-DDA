@@ -329,8 +329,10 @@ static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
@@ -1792,7 +1794,7 @@ void player::recalc_speed_bonus()
         }
     }
 
-    if( has_trait( trait_M_SKIN2 ) ) {
+    if( has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 ) ) {
         mod_speed_bonus( -20 ); // Could be worse--you've got the armor from a (sessile!) Spire
     }
 
@@ -2088,7 +2090,7 @@ bool player::is_immune_damage( const damage_type dt ) const
         case DT_STAB:
             return false;
         case DT_HEAT:
-            return has_trait( trait_M_SKIN2 );
+            return has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
@@ -2604,6 +2606,9 @@ bool player::in_climate_control()
     bool regulated_area = false;
     // Check
     if( has_active_bionic( bio_climate ) ) {
+        return true;
+    }
+    if( has_trait( trait_M_SKIN3 ) && g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) && in_sleep_state() ) {
         return true;
     }
     for( auto &w : worn ) {
@@ -4276,6 +4281,7 @@ void player::update_needs( int rate_multiplier )
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down );
     const bool hibernating = asleep && is_hibernating();
+    const bool mycus = has_trait( trait_M_DEPENDENT );
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
 
@@ -4321,6 +4327,14 @@ void player::update_needs( int rate_multiplier )
 
     if( !foodless && thirst_rate > 0.0f ) {
         mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
+    }
+    if( mycus ) {
+        // Mycus feeders synchronize hunger and thirst, since their only source of both is the mycus fruit.
+        if( get_hunger() > get_thirst() ) {
+            set_thirst( get_hunger() );
+        } else if( get_thirst() > get_hunger() ) {
+            set_hunger( get_thirst() );
+        }
     }
 
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
@@ -9686,6 +9700,7 @@ void player::try_to_sleep()
     const ter_id ter_at_pos = g->m.ter(pos());
     const furn_id furn_at_pos = g->m.furn(pos());
     bool plantsleep = false;
+    bool fungaloid_cosplay = false;
     bool websleep = false;
     bool webforce = false;
     bool websleeping = false;
@@ -9703,6 +9718,12 @@ void player::try_to_sleep()
             add_msg_if_player(m_bad, _("The humans' furniture blocks your roots. You can't get comfortable."));
         } else { // Floor problems
             add_msg_if_player(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
+        }
+    }
+    else if( has_trait( trait_M_SKIN3 ) ) {
+        fungaloid_cosplay = true;
+        if( g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) ) {
+            add_msg_if_player( m_good, _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
     }
     if (has_trait( trait_WEB_WALKER )) {
@@ -9746,7 +9767,7 @@ void player::try_to_sleep()
          vp.part_with_feature( "SEAT" ) ||
          vp.part_with_feature( "BED" ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
-    } else if (ter_at_pos != t_floor && !plantsleep) {
+    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
@@ -9759,6 +9780,7 @@ int player::sleep_spot( const tripoint &p ) const
 {
     int sleepy = 0;
     bool plantsleep = false;
+    bool fungaloid_cosplay = false;
     bool websleep = false;
     bool webforce = false;
     bool in_shell = false;
@@ -9776,6 +9798,9 @@ int player::sleep_spot( const tripoint &p ) const
     }
     if (has_trait( trait_CHLOROMORPH )) {
         plantsleep = true;
+    }
+    if (has_trait( trait_M_SKIN3 )) {
+        fungaloid_cosplay = true;
     }
     if (has_trait( trait_WEB_WALKER )) {
         websleep = true;
@@ -9796,41 +9821,41 @@ int player::sleep_spot( const tripoint &p ) const
     int web = g->m.get_field_strength( p, fd_web );
     // Plant sleepers use a different method to determine how comfortable something is
     // Web-spinning Arachnids do too
-    if (!plantsleep && !webforce) {
+    if( !plantsleep && !webforce ) {
         // Shells are comfortable and get used anywhere
-        if (in_shell) {
+        if( in_shell ) {
             sleepy += 4;
         // Else use the vehicle tile if we are in one
-        } else if (vp) {
+        } else if( vp ) {
             if( vp.part_with_feature( "BED" ) ) {
                 sleepy += 4;
             } else if( vp.part_with_feature( "SEAT" ) ) {
                 sleepy += 3;
             } else {
                 // Sleeping elsewhere is uncomfortable
-                sleepy -= g->m.move_cost(p);
+                sleepy -= g->m.move_cost( p );
             }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        } else if (furn_at_pos == f_bed) {
+        } else if( furn_at_pos == f_bed ) {
             sleepy += 5;
-        } else if (furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
-                    furn_at_pos == f_sofa) {
+        } else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
+                   furn_at_pos == f_sofa ) {
             sleepy += 4;
-        } else if (websleep && web >= 3) {
+        } else if( websleep && web >= 3 ) {
             sleepy += 4;
-        } else if (trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
-              furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) {
+        } else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
+                   furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
             sleepy += 3;
-        } else if (furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami) {
+        } else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
             sleepy += 2;
-        } else if (furn_at_pos == f_chair || furn_at_pos == f_bench ||
-                    ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                    ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                    ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple) {
+        } else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
+                   ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
+                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
             sleepy += 1;
         } else {
             // Not a comfortable sleeping spot
-            sleepy -= g->m.move_cost(p);
+            sleepy -= g->m.move_cost( p );
         }
         auto items = g->m.i_at( p );
         for( auto &items_it : items ) {
@@ -9839,18 +9864,21 @@ int player::sleep_spot( const tripoint &p ) const
                 break; // prevents using more then 1 sleep aid
             }
         }
+        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) ) {
+            sleepy += 30;
+        }
     // Has plantsleep
-    } else if (plantsleep) {
-        if (vp || furn_at_pos != f_null) {
+    } else if( plantsleep ) {
+        if( vp || furn_at_pos != f_null ) {
             // Sleep ain't happening in a vehicle or on furniture
             sleepy -= 999;
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
-            if (ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
-                  ter_at_pos == t_pit_shallow) {
+            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
+                ter_at_pos == t_pit_shallow ) {
                 sleepy += 10;
             // Not as much if you have to dig through stuff first
-            } else if (ter_at_pos == t_grass) {
+            } else if( ter_at_pos == t_grass ) {
                 sleepy += 5;
             // Sleep ain't happening
             } else {
@@ -9859,7 +9887,7 @@ int player::sleep_spot( const tripoint &p ) const
         }
     // Has webforce
     } else {
-        if (web >= 3) {
+        if( web >= 3 ) {
             // Thick Web and you're good to go
             sleepy += 10;
         }
@@ -9867,10 +9895,10 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy -= 999;
         }
     }
-    if (get_fatigue() < TIRED + 1) {
-        sleepy -= int( (TIRED + 1 - get_fatigue()) / 4);
+    if( get_fatigue() < TIRED + 1 ) {
+        sleepy -= int( ( TIRED + 1 - get_fatigue() ) / 4 );
     } else {
-        sleepy += int((get_fatigue() - TIRED + 1) / 16);
+        sleepy += int( ( get_fatigue() - TIRED + 1 ) / 16 );
     }
 
     if( stim > 0 || !has_trait( trait_INSOMNIA ) ) {
@@ -11364,7 +11392,8 @@ void player::add_known_trap( const tripoint &pos, const trap &t)
 bool player::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag("DEAF") ||
-           (has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) );
+           (has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) ) ||
+           ( has_trait( trait_M_SKIN3 ) && g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) && in_sleep_state() );
 }
 
 bool player::can_hear( const tripoint &source, const int volume ) const
