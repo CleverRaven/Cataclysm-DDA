@@ -17,6 +17,7 @@
 class game;
 class item;
 class player;
+class npc;
 class map;
 struct tripoint;
 struct itype;
