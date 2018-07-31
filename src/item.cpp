@@ -2497,10 +2497,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( has_flag( "LITCIG" ) ) {
         ret << _( " (lit)" );
     }
-    if( has_flag( "FIELD_DRESSED" ) || has_flag( "FIELD_DRESSED_FAILED" ) ) {
+    if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
         if ( has_flag( "QUARTERED" ) ) {
             ret << _( " (quartered carcass)" );            
-        } else{
+        } else {
             ret << _( " (carcass)" );
         }
     }
