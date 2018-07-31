@@ -1551,6 +1551,8 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
     slot.seed_id = jo.get_string( "seed", slot.fruit_id );
     slot.seed_count = jo.get_int( "seed_count", 0 );
     slot.byproducts = jo.get_string_array( "byproducts" );
+    slot.water_requirement = jo.get_float( "water_requirement", 1.0f );
+    slot.weed_susceptibility = jo.get_float( "weed_susceptibility", 1.0f );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo, const std::string & )

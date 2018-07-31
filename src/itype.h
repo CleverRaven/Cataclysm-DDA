@@ -644,6 +644,14 @@ struct islot_seed {
      */
     int seed_count;
     /**
+     * Relative water requirement.
+     */
+    float water_requirement;
+    /**
+     * Relative weed susceptibility.
+     */
+    float weed_susceptibility;
+    /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<std::string> byproducts;

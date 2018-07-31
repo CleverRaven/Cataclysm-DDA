@@ -17,6 +17,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "player.h"
+#include "itype.h"
 
 #include <vector>
 #include <sstream>
@@ -99,6 +100,8 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
     int water = seed.get_var( "water", 0 );
     int fertilizer = seed.get_var( "fertilizer", 0 );
     int weed = seed.get_var( "weed", 0 );
+    float water_requirement = seed.type->seed->water_requirement;
+    float weed_susceptibility = seed.type->seed->weed_susceptibility;
 
     /*
     1L = 10 units of water
@@ -152,7 +155,7 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
         }
 
         // Absorb water
-        water -= 3;
+        water -= roll_remainder( 3.0f * water_requirement ) ;
         if ( water <= 0 ){
             health -= 1;
         }
@@ -173,7 +176,7 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
 
         // Air temperature above 80F(26C) increase water consumption
         if( temperature > 80 ) {
-            water -= 5;
+            water -= roll_remainder( 5.0f * water_requirement ) ;
             if ( water <= 0 ){
                 health -= 1;
             }
@@ -181,13 +184,13 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
 
         // Grow weeds
         if( weed == weed_max ){
-            health -= 2;
+            health -= roll_remainder( 2.0f * weed_susceptibility ) ;
             fertilizer -= 2;
             water -= 6;
         } else {
             weed += roll_remainder( 1.0f / calendar::season_ratio() );
             if( one_in( weed_max - weed) ){
-                    health -= 1;
+                    health -= roll_remainder( 1.0f * weed_susceptibility ) ;
                     fertilizer -= 1;
                     water -= 3;
             }
