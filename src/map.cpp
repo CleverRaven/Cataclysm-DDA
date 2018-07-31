@@ -6833,14 +6833,22 @@ void map::grow_plant( const tripoint &p )
         return;
     }
 
-    const time_duration plantEpoch = seed.get_plant_epoch();
-    const time_point since = seed.birthday();
+    item &seed_item = i_at( p ).front();
+    const time_point seed_bday = seed_item.birthday();
+    time_duration seed_age = time_duration::from_turns( seed_item.get_var( "seed_age", 1 ) );
+
+    const time_duration plantEpoch = seed_item.get_plant_epoch();
+    const time_point since = time_point::from_turn( seed_item.get_var( "last_grow_check", to_turn<int>( seed_bday ) ) );
+
     const time_point until = calendar::turn;
-    const time_duration seed_age = get_crops_grow_since( since, until, p );
+    seed_age += get_crops_grow_since( since, until, p );
+    seed_item.set_var( "last_grow_check", to_turn<int>( until ) );
+    seed_item.set_var( "seed_age", to_turns<int>( seed_age ) );
+
     furn_id cur_furn = this->furn(p).id();
 
     // The plant have died
-    if( seed_age < 0 ) {
+    if( seed_item.get_var( "frozen", 0 ) > 0 ) {
         i_clear( p );
         furn_set( p, f_null );
         if( rng( 0, 1 ) > 0 ) {

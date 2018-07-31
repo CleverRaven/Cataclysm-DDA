@@ -1223,6 +1223,10 @@ public:
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
+        /**
+         * Is temperature comfortable for this plant.
+         */
+        bool is_warm_enought() const;
         /*@}*/
 
         /**

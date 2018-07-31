@@ -94,26 +94,114 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
 time_duration get_crops_grow_since( const time_point &start, const time_point &end,
                                     const tripoint &location )
 {
+    item &seed = g->m.i_at( location ).front();
+    int health = seed.get_var( "health", 0 );
+    int water = seed.get_var( "water", 0 );
+    int fertilizer = seed.get_var( "fertilizer", 0 );
+    int weed = seed.get_var( "weed", 0 );
+
+    /*
+    1L = 10 units of water
+    One plant tile will absorb 50 L/week ( 0.3 L/hour, 650 L/season )
+    Precipitation is 300 L/season
+    Watering once per week is recommended for the best results
+
+    Common IRL watering is 50L per week per square meter.
+
+    Per season plant will have -2000 health without watering and -4300 health without watering and weed control
+    +4300 health is possible for the best conditions.
+    */
+    int water_max = 500;
+
+    // weeds will grow to max in 1 week ( 168 hours )
+    int weed_max = 168;
+
     time_duration eff_grow_time = 0;
+
     if( location.z < 0 ) {
         return 0;
     }
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
+        weather_type wtype = wgen.get_weather_conditions( location, i, g->get_seed() );
+
+        // plant grow speed
         int temperature = w.temperature;
         float temperature_coeff = 0.0f;
         if( temperature > 70 ) {
             temperature_coeff = 1.0f;
         } else if( temperature > 32 ) {
             temperature_coeff = ( temperature - 32 ) / 38.0f;
-        } else {
-            // Freezing can kill the plants
-            if( one_in( 20 ) ) {
-                return -1_turns;
-            }
+        } else if ( ( temperature < 23 ) && one_in( 20 ) ) {
+            // Freezing can kill the plant
+            seed.set_var( "frozen", 1 );
+            return eff_grow_time;
         }
         eff_grow_time += 1_hours * temperature_coeff;
+
+        // Low temperature damage the plant
+        if( !seed.is_warm_enought() ){
+            health -= 1;
+        }
+
+        // Absorb fertilizer
+        if( fertilizer > 0 ){
+            fertilizer -= 1;
+            health += roll_remainder( 3.0f * temperature_coeff );
+        }
+
+        // Absorb water
+        water -= 3;
+        if ( water <= 0 ){
+            health -= 1;
+        }
+
+        // Precipitation was reduced 10 times to compensate rain frequency
+        switch( wtype ) {
+            case WEATHER_DRIZZLE:
+                water += 4;
+                break;
+            case WEATHER_RAINY:
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+                water += 8;
+                break;
+            default:
+                break;
+        }
+
+        // Air temperature above 80F(26C) increase water consumption
+        if( temperature > 80 ) {
+            water -= 5;
+            if ( water <= 0 ){
+                health -= 1;
+            }
+        }
+
+        // Grow weeds
+        if( weed == weed_max ){
+            health -= 2;
+            fertilizer -= 2;
+            water -= 6;
+        } else {
+            weed += roll_remainder( 1.0f / calendar::season_ratio() );
+            if( one_in( weed_max - weed) ){
+                    health -= 1;
+                    fertilizer -= 1;
+                    water -= 3;
+            }
+        }
+
+        water = std::max( water , -water_max );
+        water = std::min( water , water_max );
+        fertilizer = std::max( fertilizer , 0 );
+        weed = std::min( weed , weed_max );
+
+        seed.set_var( "health", health );
+        seed.set_var( "water", water );
+        seed.set_var( "fertilizer", fertilizer );
+        seed.set_var( "weed", weed );
     }
     return eff_grow_time;
 }
@@ -759,8 +847,5 @@ bool warm_enough_to_plant() {
     return g->get_temperature( g-> u.pos() ) >= 32;
 }
 
-bool warm_enough_to_safe_plant() {
-    return g->get_temperature( g-> u.pos() ) >= 50;
-}
 
 ///@}

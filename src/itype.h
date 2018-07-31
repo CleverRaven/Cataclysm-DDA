@@ -620,9 +620,9 @@ struct islot_seed {
      */
     time_duration grow = 0;
     /**
-     * Amount of harvested charges of fruits is divided by this number.
+     * Minimal comfortable temperature (in degree Celsius)
      */
-    int fruit_div = 1;
+    int comfortable_temperature;
     /**
      * Name of the plant, already translated.
      */
@@ -632,9 +632,17 @@ struct islot_seed {
      */
     std::string fruit_id;
     /**
-     * Whether to spawn seed items additionally to the fruit items.
+     * Average number of fruits per harvest.
      */
-    bool spawn_seeds = true;
+    int fruit_count;
+    /**
+     * Type id of the seed item.
+     */
+    std::string seed_id;
+    /**
+     * Average number of seeds per harvest.
+     */
+    int seed_count;
     /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */

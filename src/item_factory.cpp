@@ -1544,10 +1544,12 @@ void Item_factory::load_container( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
-    slot.fruit_div = jo.get_int( "fruit_div", 1 );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
+    slot.comfortable_temperature = jo.get_int( "comfortable_temperature", 0 );
     slot.fruit_id = jo.get_string( "fruit" );
-    slot.spawn_seeds = jo.get_bool( "seeds", true );
+    slot.fruit_count = jo.get_int( "fruit_count", 10 );
+    slot.seed_id = jo.get_string( "seed", slot.fruit_id );
+    slot.seed_count = jo.get_int( "seed_count", 0 );
     slot.byproducts = jo.get_string_array( "byproducts" );
 }
 

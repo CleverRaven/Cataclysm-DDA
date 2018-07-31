@@ -1698,16 +1698,20 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     }
 
     // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
-    std::map<itype_id, int> seed_map;
+    std::map<itype_id, std::vector<int>> seed_map;
+    std::vector<int> seed_info;
     for( auto &seed : seed_inv ) {
-        seed_map[seed->typeId()] += (seed->charges > 0 ? seed->charges : 1);
+        int seed_count = ( seed->charges > 0 ? seed->charges : 1 );
+        seed_info = { seed_count, seed->is_warm_enought() };
+        seed_map.insert( std::pair<itype_id, std::vector<int>>( seed->typeId() , seed_info ) );
     }
 
-    using seed_tuple = std::tuple<itype_id, std::string, int>;
+    using seed_tuple = std::tuple<itype_id, std::string, std::vector<int>>;
     std::vector<seed_tuple> seed_entries;
     for( const auto &pr : seed_map ) {
+        seed_info = pr.second;
         seed_entries.emplace_back(
-            pr.first, item::nname( pr.first, pr.second ), pr.second );
+            pr.first, item::nname( pr.first, seed_info[0] ), pr.second );
     }
 
     // Sort by name
@@ -1720,15 +1724,22 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     // Don't use y/n prompt, stick with one kind of menu
     uimenu smenu;
     smenu.return_invalid = true;
-    std::string planing_text = "Use which seed?";
-    if( !warm_enough_to_safe_plant() ) {
-        planing_text = "Use which seed?  Plants can be damaged by cold weather.";
-    }
-    smenu.text = _( planing_text );
+    smenu.text = _( "Use which seed?            | Temperature" );
     int count = 0;
+    std::string temp;
     for( const auto &entry : seed_entries ) {
-        smenu.addentry( count++, true, MENU_AUTOASSIGN, _("%s (%d)"),
-            std::get<1>( entry ).c_str(), std::get<2>( entry ) );
+        itype_id seedid =  std::get<1>( entry );
+        seed_info = std::get<2>( entry );
+        int seed_count = seed_info[0];
+
+        if( p.get_skill_level( skill_survival ) >= 2 ){
+            temp = ( seed_info[1] ? _( "Comfortable" ) : _( "Too cold" ) );
+        } else {
+            temp = _( "Looks fine" );
+        }
+
+        smenu.addentry( count++, true, MENU_AUTOASSIGN, ("%-20s (%s) | %s"),
+            std::get<1>( entry ).c_str(), seed_count, temp );
     }
     smenu.query();
 
@@ -1749,6 +1760,10 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
         used_seed = p.use_amount( seed_id, 1 );
     }
     used_seed.front().set_age( 0 );
+    used_seed.front().set_var( "health", 0 );
+    used_seed.front().set_var( "water", 0 );
+    used_seed.front().set_var( "fertilizer", 0 );
+    used_seed.front().set_var( "weed", 0 );
     g->m.add_item_or_charges( examp, used_seed.front() );
     g->m.set( examp, t_dirt, f_plant_seed );
     p.moves -= 500;
@@ -1756,31 +1771,20 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
 }
 
 /**
- * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
- * @param type The seed type, must have a @ref itype::seed slot.
- * @param plant_count Number of fruits to generate. For charge-based items, this
- *     specifies multiples of the default charge.
- * @param seed_count Number of seeds to generate.
- * @param byproducts If true, byproducts (like straw, withered plants, see
- * @ref islot_seed::byproducts) are included.
+ * Items that appear when a generic plant is harvested.
+ * @param seed is used to get plant health and all products.
  */
-std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_count,
-                                             const int seed_count, const bool byproducts )
+std::list<item> iexamine::get_harvest_items( item &seed )
 {
     std::list<item> result;
-    if( !type.seed ) {
+    if( !seed.is_seed() ) {
         return result;
     }
-    const islot_seed &seed_data = *type.seed;
-    // This is a temporary measure, itype should instead provide appropriate accessors
-    // to expose data about the seed item to allow harvesting to function.
-    const itype_id &seed_type = type.get_id();
 
     const auto add = [&]( const itype_id &id, const int count ) {
         item new_item( id, calendar::turn );
         if( new_item.count_by_charges() && count > 0 ) {
             new_item.charges *= count;
-            new_item.charges /= seed_data.fruit_div;
             if(new_item.charges <= 0) {
                 new_item.charges = 1;
             }
@@ -1790,16 +1794,31 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
         }
     };
 
-    if( seed_data.spawn_seeds ) {
-        add( seed_type, seed_count );
+    int health = seed.get_var( "health", 0 );
+
+    // Multiplier for fruit yield.
+    // Should be in range (0, 2), equal to 1 if plant has default health (0).
+    const time_duration seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
+    float fruit_multiplier = ( 3.0f * to_hours<int>( seed_grow_time )  + health ) / ( 3.0f * to_hours<int>( seed_grow_time ) );
+    fruit_multiplier *= calendar::season_ratio();
+    fruit_multiplier = std::max( fruit_multiplier, 0.0f );
+
+    std::string fruit_id;
+    fruit_id = seed.type->seed->fruit_id;
+    int fruit_count = seed.type->seed->fruit_count;
+    fruit_count = roll_remainder( fruit_count * fruit_multiplier );
+    add( fruit_id, fruit_count );
+
+    int seed_count = seed.type->seed->seed_count;
+    seed_count = roll_remainder( seed_count * fruit_multiplier );
+    if( seed_count ) {
+        std::string seed_id;
+        seed_id = seed.type->seed->seed_id;
+        add( seed_id, seed_count );
     }
 
-    add( seed_data.fruit_id, plant_count );
-
-    if( byproducts ) {
-        for( auto &b : seed_data.byproducts ) {
-            add( b, 1 );
-        }
+    for( auto &b : seed.type->seed->byproducts ) {
+        add( b, 1 );
     }
 
     return result;
@@ -1813,7 +1832,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
         debugmsg( "Missing seed in plant furniture!" );
         return;
     }
-    const item &seed = g->m.i_at( examp ).front();
+    item &seed = g->m.i_at( examp ).front();
     if( !seed.is_seed() ) {
         debugmsg( "The seed item %s is not a seed!", seed.tname().c_str() );
         return;
@@ -1844,79 +1863,142 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
                 add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
             }
         } else { // Generic seed, use the seed item data
-            const itype &type = *seed.type;
             g->m.i_clear(examp);
             g->m.furn_set(examp, f_null);
 
-            int skillLevel = p.get_skill_level( skill_survival );
-            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-            int plantCount = rng(skillLevel / 2, skillLevel);
-            if (plantCount >= 12) {
-                plantCount = 12;
-            } else if( plantCount <= 0 ) {
-                plantCount = 1;
-            }
-            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-            for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+            for( auto &i : get_harvest_items( seed ) ) {
                 g->m.add_item_or_charges( examp, i );
             }
             p.moves -= 500;
         }
     } else if (g->m.furn(examp) != f_plant_harvest) {
-        if (g->m.i_at(examp).size() > 1) {
-            add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
-            return;
-        }
-        std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
-        if( f_inv.empty() ) {
-        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
-        return;
-        }
-        if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
-        std::vector<itype_id> f_types;
-        std::vector<std::string> f_names;
-            for( auto &f : f_inv ) {
-                if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
-                    f_types.push_back( f->typeId() );
-                    f_names.push_back( f->tname() );
-                }
-            }
-            // Choose fertilizer from list
-            int f_index = 0;
-            if (f_types.size() > 1) {
-                f_names.push_back(_("Cancel"));
-                f_index = menu_vec(false, _("Use which fertilizer?"), f_names) - 1;
-                if (f_index == (int)f_names.size() - 1) {
-                    f_index = -1;
-                }
+        int health = seed.get_var( "health", 0 );
+        int water = seed.get_var( "water", 0 );
+        int fertilizer = seed.get_var( "fertilizer", 0 );
+        int weed = seed.get_var( "weed", 0 );
+
+        const time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
+        int seed_age_days = to_days<int>( seed_age );
+        const time_duration seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
+        int seed_grow_time_days = to_days<int>( seed_grow_time );
+
+        uimenu pmenu;
+        pmenu.return_invalid = true;
+
+        std::stringstream data;
+      //  data << string_format( _( "Plant info - %-15s" ), pname ) << string_format( _( "Plant info - %-15s" ), pname ) << std::endl;
+        data << string_format( _( "%-15s" ), pname ) << std::endl;
+      //  pmenu.text = data.str();
+        pmenu.text = pname;
+
+        //pmenu.text = _( "Plant info - %s", seedType );
+        pmenu.addentry( 1, false, MENU_AUTOASSIGN, _("health      %s"), health );
+        pmenu.addentry( 2, false, MENU_AUTOASSIGN, _("grow   %s / %s"), seed_age_days, seed_grow_time_days );
+        pmenu.addentry( 3, true,  MENU_AUTOASSIGN, _("water       %s"), water );
+        pmenu.addentry( 4, true,  MENU_AUTOASSIGN, _("fertilizer  %s"), fertilizer );
+        pmenu.addentry( 5, true,  MENU_AUTOASSIGN, _("weed        %s"), weed );
+        pmenu.query();
+
+        int action_index = pmenu.ret;
+
+        // Watering
+        if( action_index == 3 ) {
+            const inventory &crafting_inv = p.crafting_inventory();
+            int water_charges = crafting_inv.charges_of( "water" );
+            if ( water_charges == 0) {
+                add_msg( _("You don't have water."));
+                return;
+            } else if ( water > 400 ) {
+                add_msg( _("There is no need to water this plant."));
+                return;
             } else {
-                    f_index = 0;
-            }
-            if (f_index < 0) {
+                // Up to 50L of water can be used per plant
+                int water_use = std::min( water_charges * 5, ( 500 - water ) );
+                water += water_use;
+                seed.set_var( "water", water );
+                float water_used = water_use / 5.0f;
+                std::vector<item_comp> comps;
+                comps.push_back( item_comp( "water", std::max ( static_cast<int>( water_used ), 1 ) ) );
+                p.consume_items( comps );
+                add_msg( _("You watered the plant."));
+                p.moves -= 500;
                 return;
             }
-            std::list<item> planted = p.use_charges( f_types[f_index], 1 );
-            if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
-                if (p.weapon.charges > 1) {
-                    p.weapon.charges--;
-                } else {
-                    p.remove_weapon();
-                }
-            }
-            // Reduce the amount of time it takes until the next stage of the plant by
-            // 20% of a seasons length. (default 2.8 days).
-            const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+        }
 
-            item &seed = g->m.i_at( examp ).front();
-            //@todo: item should probably clamp the value on its own
-            seed.set_birthday( std::max( calendar::time_of_cataclysm, seed.birthday() - fertilizerEpoch ) );
-            // The plant furniture has the NOITEM token which prevents adding items on that square,
-            // spawned items are moved to an adjacent field instead, but the fertilizer token
-            // must be on the square of the plant, therefore this hack:
-            const auto old_furn = g->m.furn( examp );
-            g->m.furn_set( examp, f_null );
-            g->m.spawn_item( examp, "fertilizer", 1, 1, calendar::turn );
-            g->m.furn_set( examp, old_furn );
+        // Use fertilizer
+        if( action_index == 4 ) {
+            if ( water > 400 ){
+                add_msg(_("There is no need to fertilize this plant."));
+                return;
+            } else {
+                std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
+                if( f_inv.empty() ) {
+                    add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
+                    return;
+                }
+
+                if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
+                    std::vector<itype_id> f_types;
+                    std::vector<std::string> f_names;
+                    for( auto &f : f_inv ) {
+                        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+                            f_types.push_back( f->typeId() );
+                            f_names.push_back( f->tname() );
+                        }
+                    }
+                    // Choose fertilizer from list
+                    int f_index = 0;
+                    if (f_types.size() > 1) {
+                        f_names.push_back(_("Cancel"));
+                        f_index = menu_vec(false, _("Use which fertilizer?"), f_names) - 1;
+                        if (f_index == (int)f_names.size() - 1) {
+                            f_index = -1;
+                        }
+                    } else {
+                            f_index = 0;
+                    }
+                    if (f_index < 0) {
+                        return;
+                    }
+                    std::list<item> planted = p.use_charges( f_types[f_index], 1 );
+                    if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
+                        if (p.weapon.charges > 1) {
+                            p.weapon.charges--;
+                        } else {
+                            p.remove_weapon();
+                        }
+                    }
+                    add_msg(_("You fertilized the plant."));
+                    p.moves -= 500;
+                    const time_duration seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
+                    int seed_grow_time_hours = to_hours<int>( seed_grow_time );
+                    seed.set_var( "fertilizer", fertilizer + seed_grow_time_hours );
+                }
+                return;
+            }
+        }
+
+        // Weed control
+        if( action_index == 5 ) {
+            if ( weed == 0 ){
+                add_msg(_("There are no weeds here."));
+                return;
+            } else {
+                p.moves -= 10 * weed;
+                int survival = p.get_skill_level( skill_survival );
+                if( survival >= 2 ){
+                    seed.set_var( "weed", 0 );
+                    add_msg(_("You removed all weeds."));
+                } else {
+                    weed *= rng( survival * 50, 100 ) / 100.0f;
+                    seed.set_var( "weed", weed );
+                    health -= rng( 0, 20 - survival * 10 );
+                    seed.set_var( "health", health );
+                    add_msg(_("You removed some weeds."));
+                }
+                return;
+            }
         }
     }
 }

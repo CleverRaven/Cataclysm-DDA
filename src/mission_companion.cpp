@@ -930,7 +930,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
     tmp = item( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp.type->seed;
-    if( seed_data.spawn_seeds ){
+    if( seed_data.seed_count > 0 ){
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }
@@ -1532,7 +1532,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((t == t_window || t == t_window_taped || t == t_window_domestic || 
+            else if ((t == t_window || t == t_window_taped || t == t_window_domestic ||
                     t == t_window_boarded_noglass || t == t_window_domestic_taped ||
                     t == t_window_alarm_taped || t == t_window_boarded ||
                     t == t_curtains || t == t_window_alarm ||

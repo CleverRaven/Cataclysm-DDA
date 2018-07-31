@@ -168,7 +168,6 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
 
 /**
  * Get effective grow time based on the temperature, similar to get_rot_since() above.
- * Return negative value if the plant was frozen to death.
  */
 time_duration get_crops_grow_since( const time_point &start, const time_point &end,
                                     const tripoint &pos );
@@ -177,10 +176,5 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
  * Is it warm enough to plant seeds?
  */
 bool warm_enough_to_plant();
-
-/**
- * Is it (mostly) safe from night frost? Just a placeholder for now.
- */
-bool warm_enough_to_safe_plant();
 
 #endif
