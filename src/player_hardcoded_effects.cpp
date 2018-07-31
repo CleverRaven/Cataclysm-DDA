@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "vitamin.h"
 #include "mongroup.h"
+#include "field.h"
 
 #ifdef TILES
 #include "SDL.h"
@@ -1010,14 +1011,30 @@ void player::hardcoded_effects( effect &it )
                                         || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
                                         || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
 
-        if( calendar::once_every( 10_minutes ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
-            g->m.is_outside( pos() ) && g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
-            // Hunger and thirst fall before your Chloromorphic physiology!
-            if( get_hunger() >= -30 ) {
-                mod_hunger( -5 );
+        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
+                has_trait( trait_id( "M_SKIN3" ) ) ) &&
+            g->m.is_outside( pos() ) ) {
+            if( has_trait( trait_id( "CHLOROMORPH" ) ) ) {
+                // Hunger and thirst fall before your Chloromorphic physiology!
+                if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
+                    if( get_hunger() >= -30 ) {
+                        mod_hunger( -5 );
+                    }
+                    if( get_thirst() >= -30 ) {
+                        mod_thirst( -5 );
+                    }
+                }
             }
-            if( get_thirst() >= -30 ) {
-                mod_thirst( -5 );
+            if( has_trait( trait_id( "M_SKIN3" ) ) ) {
+                // Spores happen!
+                if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+                    if( get_fatigue() >= 0 ) {
+                        mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                    }
+                    if( calendar::once_every( 1_hours ) ) {
+                        spores(); // spawn some P O O F Y   B O I S
+                    }
+                }
             }
         }
 
