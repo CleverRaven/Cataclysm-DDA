@@ -600,7 +600,7 @@
 					"fuel": 30,
 					"rotation": 90,
 					"status": -1,
-					"vehicle": "vehicles_forgotten",
+					"vehicle": "forgotten_vehicles",
 					"x": 8,
 					"y": 7
 				}
