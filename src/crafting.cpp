@@ -1337,9 +1337,12 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
             const bool is_liquid = newit.made_of( LIQUID );
-            if( uncraft_liquids_contained && is_liquid ) {
+            if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
                 // Spawn liquid item in its default container
-                newit = newit.in_its_container();
+                compcount = compcount / newit.charges;
+                if( compcount != 0 ) {
+                    newit = newit.in_its_container();
+                }
             } else {
                 // Compress liquids and counted-by-charges items into one item,
                 // they are added together on the map anyway and handle_liquid
