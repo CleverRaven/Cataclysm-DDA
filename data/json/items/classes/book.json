@@ -27,7 +27,7 @@
     "use_action": "MA_MANUAL",
     "book_data": {
         "time": 10,
-        "intelligence" : 9
+        "intelligence": 9
     }
   }
 ]
