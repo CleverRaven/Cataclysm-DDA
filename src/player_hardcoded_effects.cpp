@@ -168,10 +168,10 @@ static void eff_fun_rat( player &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "MUTCAT_RAT" );
+            u.mutate_category( "RAT" );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "MUTCAT_TROGLOBITE" );
+            u.mutate_category( "TROGLOBITE" );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -1078,7 +1078,7 @@ void player::hardcoded_effects( effect &it )
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MUTCAT_MYCUS" );
+                        mutate_category( "MYCUS" );
                         mod_hunger( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
