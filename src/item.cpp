@@ -5686,7 +5686,7 @@ int item::processing_speed() const
 
 bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
-    calc_rot( pos );
+    calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) > 0 ) {
         if( item_counter == 0 ) {
             item_tags.erase( "HOT" );

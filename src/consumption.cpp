@@ -469,7 +469,7 @@ bool player::eat( item &food, bool force )
         return false;
     }
     // Check if it's rotten before eating!
-    food.calc_rot( pos() );
+    food.calc_rot( global_square_location() );
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
     if( !ret.success() ) {
         return false;
