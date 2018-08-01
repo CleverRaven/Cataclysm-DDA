@@ -759,7 +759,7 @@ void butchery_quarter( item *corpse_item, player &p )
 
 void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
-    butcher_type action;
+    butcher_type action = BUTCHER;
     if( act->id() == activity_id( "ACT_BUTCHER" ) ) {
         action = BUTCHER;
     } else if( act->id() == activity_id( "ACT_BUTCHER_FULL" ) ) {
