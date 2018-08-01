@@ -25,6 +25,7 @@
     "symbol": "?",
     "color": "green",
     "use_action": "MA_MANUAL",
+	"intelligence" : 9,	
     "book_data": { "time": 10 }
   }
 ]

@@ -28,6 +28,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
+    "intelligence": 8,
     "time": 30,
     "fun": -1
   },
@@ -124,6 +125,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
+    "intelligence": 3,
     "time": 1
   },
   {
@@ -497,6 +499,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_cyan",
+    "intelligence": 2,
     "time": 10
   },
   {
@@ -1021,6 +1024,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
+    "intelligence": 10,
     "time": 30,
     "fun": -1
   },
@@ -1037,6 +1041,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
+    "intelligence": 8,
     "time": 30,
     "fun": -1
   },
@@ -1053,6 +1058,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
+    "intelligence": 4,
     "time": 30,
     "fun": -1
   },
@@ -1103,6 +1109,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_cyan",
+    "intelligence": 6,
     "time": 30,
     "fun": 2,
     "flags": [ "INSPIRATIONAL" ]
