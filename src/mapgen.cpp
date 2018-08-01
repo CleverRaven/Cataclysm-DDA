@@ -3332,8 +3332,10 @@ ___DEEE|.R.|...,,...|sss\n",
             switch( rng(1, 6) ) {
                 // full flooding/sewage
                 case 1: {
-                    if (is_ot_subtype("stairs", terrain_type)) {
-                        break;  // don't flood if stairs because the floor below will not be flooded.
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
                     }
                     auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
                     for (int i = 0; i < SEEX * 2 - 1; i++) {
@@ -3353,8 +3355,10 @@ ___DEEE|.R.|...,,...|sss\n",
                 }
                 // minor flooding/sewage
                 case 2: {
-                    if (is_ot_subtype("stairs", terrain_type)) {
-                        break;  // don't flood if stairs because the floor below will not be flooded.
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
                     }
                     auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
                     for (int i = 0; i < 2; ++i) {
