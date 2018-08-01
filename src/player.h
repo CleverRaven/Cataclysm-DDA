@@ -269,12 +269,13 @@ class player : public Character
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
 
-        /** Handles process of introducing patient into anesthesia through the autodoc */
-        void introduce_into_anesthesia( time_duration const &duration );
-
         void upgrade_license( long points_up );
 
         int calculate_used_license_points();
+
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Uses anesthetic kits or NOPAIN mutation */
+        void introduce_into_anesthesia( time_duration const &duration, bool needs_anesthesia );
+
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
@@ -725,6 +726,9 @@ class player : public Character
         void mend( int rate_multiplier );
         /** Handles player vomiting effects */
         void vomit();
+
+        /** Creates an auditory hallucination */
+        void sound_hallu();
 
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );

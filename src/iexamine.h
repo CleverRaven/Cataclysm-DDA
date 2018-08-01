@@ -100,8 +100,8 @@ void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
 void bio_station( player &p, const tripoint &examp );
-void autodoc_bionic_install( player &p, bool anesthesia ); //used by autodoc to install bionics
-void autodoc_bionic_uninstall( player &p, bool anesthesia ); //used by autodoc to uninstall bionics
+void autodoc_bionic_install( player &p ); //used by autodoc to install bionics
+void autodoc_bionic_uninstall( player &p ); //used by autodoc to uninstall bionics
 void bio_license_upgrader( player &p );
 hack_result hack_attempt( player &p );
 

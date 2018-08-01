@@ -3935,6 +3935,12 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         if(!check_only) {
             sounds::sound( p, 6, "", true, "open_door", ter.id.str() );
             ter_set(p, ter.open );
+
+            if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
+                && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
+                tripoint mp = p + tripoint( ( p.x - g->u.pos().x ) * 2, ( p.y - g->u.pos().y ) * 2, p.z );
+                g->spawn_hallucination( mp );
+            }
         }
 
         return true;

@@ -148,6 +148,10 @@ class vpart_info
         /** Legacy parts don't specify installation requirements */
         bool legacy = true;
 
+        /** Format the description for display */
+        int format_description( std::ostringstream &msg, std::string format_color, int width ) const;
+
+
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
 

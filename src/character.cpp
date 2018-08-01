@@ -544,8 +544,7 @@ void Character::recalc_sight_limits()
         // You can kinda see out a bit.
         sight_max = 2;
     } else if ( (has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE )) &&
-            !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
+            !worn_with_flag( "FIX_NEARSIGHT" ) && !has_effect( effect_contacts )) {
         sight_max = 4;
     } else if (has_trait( trait_PER_SLIME )) {
         sight_max = 6;

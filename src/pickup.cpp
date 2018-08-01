@@ -206,10 +206,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
 
         case DRINK: {
-            veh->drain( "water_clean", 1 );
             item water( "water_clean", 0 );
-            g->u.eat( water );
-            g->u.moves -= 250;
+            if( g->u.eat( water ) ) {
+                veh->drain( "water_clean", 1 );
+                g->u.moves -= 250;
+            }
             return DONE;
         }
 

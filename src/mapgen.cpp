@@ -964,13 +964,26 @@ public:
  * "monster": id of the monster.
  * "friendly": whether the new monster is friendly to the player character.
  * "name": the name of the monster (if it has one).
+ * "chance": the percentage chance of a monster, affected by spawn density
+ *     If high density means greater than one hundred percent, can place multiples. 
+ * "repeat": roll this many times for creatures, potentially spawning multiples.
+ * "pack_size": place this many creatures each time a roll is successful.
+ * "one_or_none": place max of 1 (or pack_size) monsters, even if spawn density > 1.
+ *     Defaults to true if repeat and pack_size are unset, false if one is set.
  */
 class jmapgen_monster : public jmapgen_piece {
 public:
     weighted_int_list<mtype_id> ids;
+    jmapgen_int chance;
+    jmapgen_int pack_size;
+    bool one_or_none;
     bool friendly;
     std::string name;
     jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
+    , chance( jsi, "chance", 100, 100 )
+    , pack_size( jsi, "pack_size", 1, 1 )
+    , one_or_none ( jsi.get_bool( "one_or_none",
+                    !(jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
     , friendly( jsi.get_bool( "friendly", false ) )
     , name( jsi.get_string( "name", "NONE" ) )
     {
@@ -1001,7 +1014,32 @@ public:
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        dat.m.add_spawn( *(ids.pick()), 1, x.get(), y.get(), friendly, -1, -1, name );
+        int raw_odds = chance.get();
+
+        // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+        // Instead, apply a multipler to the number of monsters for really high densities.
+        // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
+        int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+        int max_odds = 100 - (100 - raw_odds)/2;
+        float density_multiplier = 1;
+        if( odds_after_density > max_odds ) {
+            density_multiplier = 1.0f * odds_after_density / max_odds;
+            odds_after_density = max_odds;
+        }
+
+        if( !x_in_y( odds_after_density, 100 ) ) {
+            return;
+        }
+        int spawn_count = roll_remainder( density_multiplier );
+
+        if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+            spawn_count = std::min(spawn_count, 1);
+        }
+        if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+            spawn_count = std::max(spawn_count, 1);
+        }
+
+        dat.m.add_spawn( *(ids.pick()), spawn_count * pack_size.get(), x.get(), y.get(), friendly, -1, -1, name );
     }
 };
 
@@ -1136,7 +1174,10 @@ public:
         // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
         if( dat.m.has_flag_ter("WALL", x.get(), y.get() ) ) {
             dat.m.furn_set( x.get(), y.get(), f_null);
-            dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+            // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
+            if( !dat.m.has_flag_ter("PLACE_ITEM", x.get(), y.get() ) ) {
+                dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+            }
         }
     }
 };
@@ -2072,6 +2113,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                    const int zlevel, const regional_settings * rsettings)
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+    static const mongroup_id GROUP_TOWER_LAB( "GROUP_TOWER_LAB" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
@@ -2102,6 +2144,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     // To distinguish between types of labs
     bool ice_lab = true;
+    bool central_lab = false;
+    bool tower_lab = false;
 
     std::array<oter_id, 8> t_nesw = {{ t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest }};
     std::array<int, 8> nesw_fac = {{ 0, 0, 0, 0, 0, 0, 0, 0 }};
@@ -2781,13 +2825,16 @@ ___DEEE|.R.|...,,...|sss\n",
                terrain_type == "lab_core" ||
                terrain_type == "ice_lab" ||
                terrain_type == "ice_lab_stairs" ||
-               terrain_type == "ice_lab_core") {
+               terrain_type == "ice_lab_core" ||
+               terrain_type == "central_lab" ||
+               terrain_type == "central_lab_stairs" ||
+               terrain_type == "central_lab_core" ||
+               terrain_type == "tower_lab" ||
+               terrain_type == "tower_lab_stairs") {
 
-        if (is_ot_type("ice_lab", terrain_type)) {
-            ice_lab = true;
-        } else {
-            ice_lab = false;
-        }
+        ice_lab = is_ot_type("ice_lab", terrain_type);
+        central_lab = is_ot_type("central_lab", terrain_type);
+        tower_lab = is_ot_type("tower_lab", terrain_type);
 
         if (ice_lab) {
             int temperature = -20 + 30 * (zlevel);
@@ -2951,8 +2998,9 @@ ___DEEE|.R.|...,,...|sss\n",
 
                         // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
                         // borders and have to be caught in code. We determine if a border isn't handled by checking
-                        // the east-facing border space where the door normally is -- it should not be a floor.
-                        if( ter(tripoint(23, 11, abs_sub.z)) == t_rock_floor ) {
+                        // the east-facing border space where the door normally is -- it should be a wall or door.
+                        tripoint east_border(23, 11, abs_sub.z);
+                        if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                             // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                             for( int i = 0; i <= 23; i++ ) {
                                 ter_set( 23, i, t_concrete_wall );
@@ -3244,25 +3292,51 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Chance of adding occasional lighting through the area.
-        if (one_in(2)) {
+        // Tower lab effects:
+        // - Checkerboard lighting everywhere
+        // - Change rock features to match above-ground theme.
+        // - Add more monsters the higher the z-level is.
+        if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && one_in(150)) {
+                    if (t_rock_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    } else if (t_rock == ter(i, j)) {
+                        ter_set(i, j, t_concrete_wall);
+                    }
+                }
+            }
+            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
+        // central lab gets lighting but not other effects.
+        } else if (central_lab) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
                         ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
+        // Chance of adding occasional lighting through the area.
+        } else {
+            if (one_in(2)) {
+                for (int i = 0; i < SEEX * 2; i++) {
+                    for (int j = 0; j < SEEY * 2; j++) {
+                        if (t_rock_floor == ter(i, j) && one_in(150)) {
+                            ter_set(i, j, t_utility_light);
+                        }
                     }
                 }
             }
         }
 
     } else if (terrain_type == "lab_finale" ||
-               terrain_type == "ice_lab_finale") {
+               terrain_type == "ice_lab_finale" ||
+               terrain_type == "central_lab_finale" ||
+               terrain_type == "tower_lab_finale") {
 
-        if (is_ot_type("ice_lab", terrain_type)) {
-            ice_lab = true;
-        } else {
-            ice_lab = false;
-        }
+        ice_lab = is_ot_type("ice_lab", terrain_type);
+        central_lab = is_ot_type("central_lab", terrain_type);
+        tower_lab = is_ot_type("tower_lab", terrain_type);
 
         if ( ice_lab ) {
             int temperature = -20 + 30 * zlevel;
@@ -3531,12 +3605,36 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Chance of adding occasional lighting through the finale room.
-        if (one_in(2)) {
+        // Tower lab effects:
+        // - Checkerboard lighting everywhere
+        // - Change rock features to match above-ground theme.
+        if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && one_in(200)) {
+                    if (t_rock_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    } else if (t_rock == ter(i, j)) {
+                        ter_set(i, j, t_concrete_wall);
+                    }
+                }
+            }
+        // central lab gets lighting but not other effects.
+        } else if (central_lab) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
                         ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
+        // Chance of adding occasional lighting through the area.
+        } else {
+            if (one_in(2)) {
+                for (int i = 0; i < SEEX * 2; i++) {
+                    for (int j = 0; j < SEEY * 2; j++) {
+                        if (t_rock_floor == ter(i, j) && one_in(200)) {
+                            ter_set(i, j, t_utility_light);
+                        }
                     }
                 }
             }

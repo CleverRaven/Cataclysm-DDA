@@ -69,6 +69,7 @@ static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -676,10 +677,10 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                 open = true;
             }
         }
-        //@todo only despawn turrets "behind" the door
         for( monster &critter : g->all_monsters() ) {
-            if( ( critter.type->id == mon_turret ) ||
-                ( critter.type->id == mon_turret_rifle ) ) {
+            if( ( critter.type->id == mon_turret ||
+                critter.type->id == mon_turret_rifle ) &&
+                critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
@@ -1459,7 +1460,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "poppy_bud", 1, 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "poppy_bud", 1, 0, calendar::turn );
 }
 
 /**
@@ -1504,7 +1505,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "dahlia_root", 1, 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "dahlia_root", 1, 0, calendar::turn );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1607,7 +1608,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
         return;
     }
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "marloss_seed", 1, 3, calendar::turn );
+    g->m.spawn_item( p.pos(), "marloss_seed", 1, 3, calendar::turn );
 }
 
 /**
@@ -1626,7 +1627,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         none( p, examp );
         return;
     }
-    g->m.spawn_item( examp, "spider_egg", rng( 1, 4 ), 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "spider_egg", rng( 1, 4 ), 0, calendar::turn );
     g->m.furn_set( examp, f_egg_sacke );
     if( one_in( 2 ) ) {
         int monster_count = 0;
@@ -2018,10 +2019,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
                                hours ), hours );
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
-        } else {                
+        } else {
             add_msg( _("It should take about %d minutes to finish burning."), minutes );
-        } 
-        return;                
+        }
+        return;
     }
 
     units::volume total_volume = 0;
@@ -2617,7 +2618,7 @@ void iexamine::shrub_marloss(player &p, const tripoint &examp)
     if (p.has_trait(trait_THRESH_MYCUS)) {
         pick_plant(p, examp, "mycus_fruit", t_shrub_fungal);
     } else if (p.has_trait(trait_THRESH_MARLOSS)) {
-        g->m.spawn_item( examp, "mycus_fruit", 1, 0, calendar::turn );
+        g->m.spawn_item( p.pos(), "mycus_fruit", 1, 0, calendar::turn );
         g->m.ter_set(examp, t_fungus);
         add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
     } else {
@@ -3504,10 +3505,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
-    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
-        return it.has_flag( "ANESTHESIA" );
-    } );
-
     uimenu amenu;
     amenu.selected = 0;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
@@ -3519,12 +3516,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( static_cast<options>( amenu.ret ) ) {
         case INSTALL_CBM: {
-            autodoc_bionic_install( p, has_anesthesia );
+            autodoc_bionic_install( p );
             break;
         }
 
         case UNINSTALL_CBM: {
-            autodoc_bionic_uninstall( p, has_anesthesia );
+            autodoc_bionic_uninstall( p );
             break;
         }
 
@@ -3542,10 +3539,6 @@ void iexamine::bio_station( player &p, const tripoint & ){
         UPGRADE_BIONIC_LICENSE,
         CANCEL,
     };
-
-    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
-        return it.has_flag( "ANESTHESIA" );
-    } );
 
     uimenu amenu;
     amenu.selected = 0;
@@ -3573,12 +3566,12 @@ void iexamine::bio_station( player &p, const tripoint & ){
         }
 
         case INSTALL_CBM: {
-            autodoc_bionic_install( p, has_anesthesia );
-            break;
+            autodoc_bionic_install( p );
+
         }
 
         case UNINSTALL_CBM: {
-            autodoc_bionic_uninstall( p, has_anesthesia );
+            autodoc_bionic_uninstall( p );
             break;
         }
 
@@ -3589,7 +3582,21 @@ void iexamine::bio_station( player &p, const tripoint & ){
     return;
 }
 
-void iexamine::autodoc_bionic_install( player &p, bool has_anesthesia ) {
+void iexamine::autodoc_bionic_install( player &p ) {
+
+    bool needs_anesthesia = true;
+    if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) || !( get_option < bool > ( "ANESTHESIA_REQ" ) ) ) {
+        needs_anesthesia = false;
+    }
+
+    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+
+    if( !has_anesthesia && needs_anesthesia ) {
+        popup( _( "You need an anesthesia kit to perform this operation." ) );
+        return;
+    }
 
     const item_location bionic = g->inv_map_splice( []( const item &e ) {
             return e.is_bionic();
@@ -3618,15 +3625,10 @@ void iexamine::autodoc_bionic_install( player &p, bool has_anesthesia ) {
         }
     }
 
-    if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-        popup( _( "You need an anesthesia kit to perform this operation." ) );
-        return;
-    }
-
     const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
     if( p.install_bionics( ( *itemtype ), -1, true )  ) {
         if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-            p.introduce_into_anesthesia( duration );
+            p.introduce_into_anesthesia( duration, needs_anesthesia );
         }
         std::vector<item_comp> comps;
         comps.push_back( item_comp( it->typeId(), 1 ) );
@@ -3635,15 +3637,25 @@ void iexamine::autodoc_bionic_install( player &p, bool has_anesthesia ) {
     return;
 }
 
-void iexamine::autodoc_bionic_uninstall( player &p, bool has_anesthesia ) {
-    bionic_collection installed_bionics = *g->u.my_bionics;
-    if( installed_bionics.empty() ) {
-        popup( _( "You don't have any bionics installed." ) );
+void iexamine::autodoc_bionic_uninstall( player &p ) {
+
+    bool needs_anesthesia = true;
+    if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) || !( get_option < bool > ( "ANESTHESIA_REQ" ) ) ) {
+        needs_anesthesia = false;
+    }
+
+    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
+        return it.has_flag( "ANESTHESIA" );
+    } );
+
+    if( !has_anesthesia && needs_anesthesia ) {
+        popup( _( "You need an anesthesia kit to perform this operation." ) );
         return;
     }
 
-    if( !has_anesthesia && get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-        popup( _( "You need an anesthesia kit to perform this operation." ) );
+    bionic_collection installed_bionics = *g->u.my_bionics;
+    if( installed_bionics.empty() ) {
+        popup( _( "You don't have any bionics installed." ) );
         return;
     }
 
@@ -3677,7 +3689,7 @@ void iexamine::autodoc_bionic_uninstall( player &p, bool has_anesthesia ) {
     const time_duration duration = difficulty * 20_minutes;
     if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
         if ( get_option < bool > ( "ANESTHESIA_REQ" ) ) {
-            p.introduce_into_anesthesia( duration );
+            p.introduce_into_anesthesia( duration, needs_anesthesia );
         }
     }
     return;

@@ -317,8 +317,8 @@ class game
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        /** Spawns a hallucination close to the player. */
-        bool spawn_hallucination();
+        /** Spawns a hallucination at a determined position (or random position close to the player). */
+        bool spawn_hallucination( const tripoint &p = tripoint_min );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
@@ -588,7 +588,7 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
-        // Returns outdoor or indoor temperature of given location
+        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
