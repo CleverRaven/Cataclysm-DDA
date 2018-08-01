@@ -246,7 +246,7 @@
     },
     {
         "type" : "vehicle_group",
-        "id" : "vehicles_forgotten",
+        "id" : "forgotten_vehicles",
         "vehicles" : [
             ["car", 1000],
             ["suv", 400],
@@ -259,7 +259,7 @@
     },
     {
         "type" : "vehicle_group",
-        "id" : "vehicles_junkyard",
+        "id" : "junkyard_vehicles",
         "vehicles" : [
             ["car", 1500],
             ["car_chassis", 2000],
@@ -277,7 +277,7 @@
     },
 	{
         "type" : "vehicle_group",
-        "id" : "vehicles_dumpsite",
+        "id" : "dumpsite_vehicles",
         "vehicles" : [
             ["car", 1000],
             ["car_chassis", 1200],
@@ -296,7 +296,7 @@
     },
     {
         "type" : "vehicle_group",
-        "id" : "vehicles_campground",
+        "id" : "campground_vehicles",
         "vehicles" : [
             ["car", 1000],
             ["electric_car", 100],
