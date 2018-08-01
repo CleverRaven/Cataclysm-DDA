@@ -2107,8 +2107,7 @@
 			{ "point": [ 0, 0, 0 ], "overmap": "desolatebarn_north" }
         ],
         "occurrences" : [0, 15],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "junkyard",
@@ -2126,8 +2125,7 @@
         "city_distance" : [-1, 5],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 6],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "dumpsite",
@@ -2138,8 +2136,7 @@
         "city_distance" : [2, 8],
         "city_sizes" : [3, 12],
         "occurrences" : [0, 8],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "nature trail",
@@ -2154,8 +2151,7 @@
         "city_distance" : [1, 8],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 6],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "public pond",
@@ -2170,8 +2166,7 @@
         "city_distance" : [1, 6],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 5],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "cemetery",
@@ -2186,8 +2181,7 @@
         "city_distance" : [-1, 5],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 7],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "botanical garden",
@@ -2203,8 +2197,7 @@
         "city_distance" : [-1, 4],
         "city_sizes" : [5, 12],
         "occurrences" : [0, 2],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "tree farm",
@@ -2219,8 +2212,7 @@
         "city_distance" : [1, 6],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 3],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "shooting range",
@@ -2235,8 +2227,7 @@
         "city_distance" : [1, 8],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 5],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	},{
 		"type" : "overmap_special",
         "id" : "campground",
@@ -2253,7 +2244,6 @@
         "city_distance" : [1, 9],
         "city_sizes" : [3, 12],
         "occurrences" : [0, 5],
-		"flags" : [ "CLASSIC" ],
-        "rotate" : true
+		"flags" : [ "CLASSIC" ]
 	}
 ]
