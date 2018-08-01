@@ -250,17 +250,16 @@ void npc_class::load( JsonObject &jo, const std::string & )
             mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
-            auto mutcat = "MUTCAT_" + mutation;
             auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
-                return p.second.category == mutation;
+                return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
                               category_match ) == mutation_categories.end() ) {
-                debugmsg( "Unrecognized mutation category %s (i.e. %s)", mutation, mutcat );
+                debugmsg( "Unrecognized mutation category %s", mutation );
                 continue;
             }
             auto distrib = jo2.get_object( mutation );
-            mutation_rounds[mutcat] = load_distribution( distrib );
+            mutation_rounds[mutation] = load_distribution( distrib );
         }
     }
 

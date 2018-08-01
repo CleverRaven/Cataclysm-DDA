@@ -489,11 +489,11 @@
         "name" : "Cook"
     },{
         "type" : "item_action",
-        "id" : "MUTAGEN",
+        "id" : "mutagen",
         "name" : "Consume"
     },{
         "type" : "item_action",
-        "id" : "MUT_IV",
+        "id" : "mutagen_iv",
         "name" : "Inject"
     },{
         "type" : "item_action",

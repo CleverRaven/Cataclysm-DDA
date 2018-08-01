@@ -79,20 +79,15 @@ void load_mutation_category(JsonObject &jsobj)
     mutation_category_trait new_category;
     new_category.id = jsobj.get_string("id");
     new_category.name =_(jsobj.get_string("name").c_str());
-    new_category.category = jsobj.get_string( "category" );
-    // @todo: Remove
-    new_category.category_full = jsobj.get_string( "category_full", "MUTCAT_" + new_category.category );
-    // @todo: Remove default, make it required
-    new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut", "THRESH_" + new_category.category ) );
-    new_category.mutagen_flag = jsobj.get_string( "mutagen_flag", "MUTAGEN_" + new_category.category );
+    new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
-    new_category.mutagen_message = _(jsobj.get_string("mutagen_message", "You drink your mutagen").c_str());
+    new_category.mutagen_message = _(jsobj.get_string("mutagen_message").c_str());
     new_category.mutagen_hunger  = jsobj.get_int("mutagen_hunger", 10);
     new_category.mutagen_thirst  = jsobj.get_int("mutagen_thirst", 10);
     new_category.mutagen_pain    = jsobj.get_int("mutagen_pain", 2);
     new_category.mutagen_fatigue = jsobj.get_int("mutagen_fatigue", 5);
     new_category.mutagen_morale  = jsobj.get_int("mutagen_morale", 0);
-    new_category.iv_message = _(jsobj.get_string("iv_message", "You inject yourself").c_str());
+    new_category.iv_message = _(jsobj.get_string("iv_message").c_str());
     new_category.iv_min_mutations    = jsobj.get_int("iv_min_mutations", 1);
     new_category.iv_additional_mutations = jsobj.get_int("iv_additional_mutations", 2);
     new_category.iv_additional_mutations_chance = jsobj.get_int("iv_additional_mutations_chance", 3);
@@ -106,7 +101,7 @@ void load_mutation_category(JsonObject &jsobj)
     new_category.iv_sound_message = _(jsobj.get_string("iv_sound_message", "You inject yoursel-arRGH!").c_str());
     new_category.iv_noise = jsobj.get_int("iv_noise", 0);
     new_category.iv_sleep = jsobj.get_bool("iv_sleep", false);
-    new_category.iv_sleep_message =_(jsobj.get_string("iv_sleep_message", "Fell asleep").c_str());
+    new_category.iv_sleep_message =_(jsobj.get_string("iv_sleep_message", "You fall asleep.").c_str());
     new_category.iv_sleep_dur = jsobj.get_int("iv_sleep_dur", 0);
     new_category.memorial_message = _(jsobj.get_string("memorial_message", "Crossed a threshold").c_str());
     new_category.junkie_message = _(jsobj.get_string("junkie_message", "Oh, yeah! That's the stuff!").c_str());
@@ -117,6 +112,11 @@ void load_mutation_category(JsonObject &jsobj)
 const std::map<std::string, mutation_category_trait> &mutation_category_trait::get_all()
 {
     return mutation_category_traits;
+}
+
+const mutation_category_trait &mutation_category_trait::get_category( std::string category_id )
+{
+    return mutation_category_traits.find( category_id )->second;
 }
 
 void mutation_category_trait::reset()
@@ -274,7 +274,7 @@ void mutation_branch::load( JsonObject &jsobj )
         new_mut.prereqs2.emplace_back( t );
     }
     // Dedicated-purpose prerequisite slot for Threshold mutations
-    // Stuff like Huge might fit in more than one mutcat post-threshold, so yeah
+    // Stuff like Huge might fit in more than one category post-threshold, so yeah
     for( auto &t : jsobj.get_string_array( "threshreq" ) ) {
         new_mut.threshreq.emplace_back( t );
     }
