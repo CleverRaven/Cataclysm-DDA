@@ -301,7 +301,7 @@
         "description" : "There's nothing quite like the smell of a good book! Books are more fun (or less boring) for you!",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["HATES_BOOKS"]
+        "cancels" : ["ILLITERATE","HATES_BOOKS"]
     },
     {
         "type" : "mutation",
@@ -708,11 +708,11 @@
         "type" : "mutation",
         "id" : "HATES_BOOKS",
         "name" : "Hates Books",
-        "points" : -2,
+        "points" : -1,
         "description" : "Reading is for nerds! You can't have fun at all by reading books.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["LOVES_BOOKS"]
+        "cancels" : ["ILLITERATE","LOVES_BOOKS"]
     },
     {
         "type" : "mutation",
