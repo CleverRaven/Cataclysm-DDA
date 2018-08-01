@@ -83,7 +83,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
 
         double temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) ) + ( g->new_game ? 0 : g->m.temperature( g->m.getlocal( location ) ) );
         
-        if( !g->new_game && g->m.ter( location ) == t_rootcellar ) {
+        if( !g->new_game && g->m.ter( g->m.getlocal( location ) ) == t_rootcellar ) {
             temperature = AVERAGE_ANNUAL_TEMPERATURE;
         }
 
