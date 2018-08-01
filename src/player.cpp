@@ -9382,7 +9382,7 @@ void player::do_read( item &book )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( reading->fun != 0 ) {
+        if( book_fun_for( book ) != 0 ) {
             int fun_bonus = 0;
             const int chapters = book.get_chapters();
             const int remain = book.get_remaining_chapters( *this );
