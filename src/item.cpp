@@ -2477,7 +2477,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        ret << string_format( _( " (%s)" ), find_type( get_var( "NANOFAB_ITEM_ID" ) )->nname(1) );
+        ret << string_format( " (%s)" , find_type( get_var( "NANOFAB_ITEM_ID" ) )->nname(1) );
     }
 
     if( has_flag( "RADIO_MOD" ) ) {
