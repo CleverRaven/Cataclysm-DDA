@@ -81,7 +81,7 @@
 					"fuel": 0,
 					"rotation": 270,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 12,
 					"y": 17
 				},
@@ -90,7 +90,7 @@
 					"fuel": 0,
 					"rotation": 270,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 19,
 					"y": 17
 				}
@@ -230,7 +230,7 @@
 					"fuel": 0,
 					"rotation": 180,
 					"status": -1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 7,
 					"y": 9
 				},
@@ -239,7 +239,7 @@
 					"fuel": 0,
 					"rotation": 270,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 4,
 					"y": 17
 				},
@@ -248,7 +248,7 @@
 					"fuel": 0,
 					"rotation": 270,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 11,
 					"y": 17
 				}
@@ -345,7 +345,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 11,
 					"y": 7
 				},
@@ -354,7 +354,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 18,
 					"y": 7
 				},
@@ -363,7 +363,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 6,
 					"y": 19
 				},
@@ -372,7 +372,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 13,
 					"y": 19
 				},
@@ -381,7 +381,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 20,
 					"y": 19
 				}
@@ -468,7 +468,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 5,
 					"y": 7
 				},
@@ -477,7 +477,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 12,
 					"y": 7
 				},
@@ -486,7 +486,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 3,
 					"y": 19
 				},
@@ -495,7 +495,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 10,
 					"y": 19
 				},
@@ -504,7 +504,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_junkyard",
+					"vehicle": "junkyard_vehicles",
 					"x": 17,
 					"y": 19
 				}
