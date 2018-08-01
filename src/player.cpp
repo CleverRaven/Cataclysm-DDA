@@ -294,6 +294,7 @@ static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
+static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HOARDER( "HOARDER" );
@@ -318,6 +319,7 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_EARS( "LUPINE_EARS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
@@ -9026,8 +9028,24 @@ bool player::fun_to_read( const item &book ) const
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
-        return book.type->book->fun > 0;
+        return book_fun_for( book ) > 0;
     }
+}
+
+int player::book_fun_for(const item &book) const
+{
+    if( !book.is_book() ) {
+        debugmsg( "called player::book_fun_for with non-book" );
+        return 0;
+    }
+    if( has_trait( trait_LOVES_BOOKS ) ) {
+        return ( book.type->book->fun + 1 );
+    } else if ( has_trait( trait_HATES_BOOKS ) ) {
+        if( ( book.type->book->fun > 0 ) ) {
+            return 0;
+        }
+    }
+    return book.type->book->fun;
 }
 
 /**
