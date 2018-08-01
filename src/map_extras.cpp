@@ -50,6 +50,19 @@ void mx_null( map &, const tripoint & )
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
     int cx = rng( 4, SEEX * 2 - 5 ), cy = rng( 4, SEEY * 2 - 5 );
+
+    int x1 = cx + rng(1, 8) - 3;
+    int y1 = cy + rng(1, 8) - 3;
+    int dir1 = rng(0, 359);
+    
+    if( one_in( 3 ) ) {
+        m.add_vehicle( vproto_id( "policecar" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
+    } else if( one_in( 2 ) ) {
+        m.add_vehicle( vproto_id( "military_cargo_truck" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
+    } else {
+        m.add_vehicle( vproto_id( "policecar" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
+    }
+
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             if( x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4 ) {
