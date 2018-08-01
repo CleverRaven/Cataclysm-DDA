@@ -343,5 +343,17 @@
     "type": "activity_type",
     "stop_phrase": "Stop filling?",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_SHAVE",
+    "type": "activity_type",
+    "stop_phrase": "Stop shaving?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_HAIRCUT",
+    "type": "activity_type",
+    "stop_phrase": "Stop cutting your hair?",
+    "based_on": "speed"
   }
 ]

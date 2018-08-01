@@ -80,10 +80,13 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
         //Use weather if above ground, use map temp if below
-        double temperature = location.z >= 0 ? w.temperature : g->get_temperature( location );
-        if( g->m.ter( location ) == t_rootcellar ) {
+
+        double temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) ) + ( g->new_game ? 0 : g->m.temperature( g->m.getlocal( location ) ) );
+        
+        if( !g->new_game && g->m.ter( location ) == t_rootcellar ) {
             temperature = AVERAGE_ANNUAL_TEMPERATURE;
         }
+
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
     }
     return ret;

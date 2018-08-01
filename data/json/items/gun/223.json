@@ -107,7 +107,7 @@
     "name": "L2037 Backup",
     "name_plural": "L2037 Backups",
     "//": "Most real-life autorevolvers use 6-7.5 inch barrel, but this one's mentioned to be particularly massive.",
-    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result.  It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder. Holographics and laser sights built in for additonal accuracy. Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result.  It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder.  Holographics and laser sights built in for additional accuracy.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 2370,
     "volume": 3,
     "price": 267000,

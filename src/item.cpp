@@ -1069,18 +1069,17 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         if (parts->test(iteminfo_parts::GUN_USEDSKILL))
             info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill.name() + "</info>" ) );
 
-        if( mod->magazine_integral() ) {
+        if( mod->magazine_integral() || mod->magazine_current() ) {
+            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
+            }
             if( mod->ammo_capacity() && parts->test(iteminfo_parts::GUN_CAPACITY)) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                                   mod->ammo_type()->name().c_str() ), mod->ammo_capacity(), true );
             }
-        } else {
-            if (parts->test(iteminfo_parts::GUN_TYPE))
-                info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
-            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
-                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
-            }
+        } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
+            info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
         }
 
         if( mod->ammo_data() && parts->test(iteminfo_parts::AMMO_REMAINING)) {
@@ -1152,7 +1151,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         
         if (parts->test(iteminfo_parts::GUN_DISPERSION))
             info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
-                                      mod->gun_dispersion( false ), true, "", !has_ammo, true ) );
+                                      mod->gun_dispersion( false, false ), true, "", !has_ammo, true ) );
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_range >= 0 ? "+" : "" );
@@ -1162,7 +1161,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           ammo_dispersion, true, temp1.str(), false, true, false ) );
             if (parts->test(iteminfo_parts::GUN_DISPERSION_TOTAL))
                 info.push_back( iteminfo( "GUN", "sum_of_dispersion", _( " = <num>" ),
-                                          mod->gun_dispersion( true ), true, "", true, true, false ) );
+                                          mod->gun_dispersion( true, false ), true, "", true, true, false ) );
         }
 
         // if effective sight dispersion differs from actual sight dispersion display both
@@ -1552,9 +1551,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( is_container() && parts->test(iteminfo_parts::CONTAINER_DETAILS)) {
         const auto &c = *type->container;
-
-        // @todo: check *why* this is here - makes no sense.....
-        info.push_back( iteminfo( "ARMOR", temp1.str() ) );
 
         temp1.str( "" );
         temp1 << _( "This container " );
@@ -2004,6 +2000,8 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
+                insert_separation_line();
+                info.emplace_back( "DESCPIPTION", _( "<bold>Content of this item</bold>:" ) );
                 info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }
@@ -4229,7 +4227,7 @@ skill_id item::melee_skill() const
     return res;
 }
 
-int item::gun_dispersion( bool with_ammo ) const
+int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
 {
     if( !is_gun() ) {
         return 0;
@@ -4243,6 +4241,9 @@ int item::gun_dispersion( bool with_ammo ) const
     dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
+    }
+    if( !with_scaling ) {
+        return dispersion_sum;
     }
 
     // Dividing dispersion by 15 temporarily as a gross adjustment,

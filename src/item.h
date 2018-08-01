@@ -1563,7 +1563,7 @@ public:
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
-        int gun_dispersion( bool with_ammo = true ) const;
+        int gun_dispersion( bool with_ammo = true, bool with_scaling = true ) const;
         /**
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */

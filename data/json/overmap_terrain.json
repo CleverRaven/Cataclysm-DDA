@@ -468,7 +468,7 @@
         "type" : "overmap_terrain",
         "id" : "office_tower_2_a1",
         "name" : "office tower",
-        "sym" : 84,
+        "sym" : 116,
         "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
@@ -477,7 +477,7 @@
         "type" : "overmap_terrain",
         "id" : "office_tower_2_a2",
         "name" : "office tower",
-        "sym" : 84,
+        "sym" : 116,
         "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
@@ -485,9 +485,9 @@
     },{
         "type" : "overmap_terrain",
         "id" : "office_tower_2_a3",
-        "name" : "office tower",
-        "sym" : 84,
-        "color" : "i_light_gray",
+        "name" : "office courtyard",
+        "sym" : 79,
+        "color" : "light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -495,7 +495,7 @@
         "type" : "overmap_terrain",
         "id" : "office_tower_2_b1",
         "name" : "office tower",
-        "sym" : 84,
+        "sym" : 116,
         "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
@@ -504,7 +504,7 @@
         "type" : "overmap_terrain",
         "id" : "office_tower_2_b2",
         "name" : "office tower",
-        "sym" : 84,
+        "sym" : 116,
         "color" : "i_light_gray",
         "see_cost" : 5,
         "mondensity" : 2,
@@ -518,6 +518,21 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_a1_tower_lab",
+        "name" : "office tower",
+        "sym" : 116,
+        "color" : "i_light_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_open_air_corner",
+        "name" : "open air",
+        "sym" : 46,
+        "color" : "blue"
     },{
         "type" : "overmap_terrain",
         "id" : "church",
@@ -614,13 +629,13 @@
         "id" : "s_library",
         "name" : "library",
         "copy-from" : "generic_city_building",
-        "color" : "brown"
+        "color" : "i_brown"
     },{
         "type" : "overmap_terrain",
         "id" : "s_bookstore",
         "name" : "bookstore",
         "copy-from" : "generic_city_building",
-        "color" : "black_yellow"
+        "color" : "i_brown"
     },{
         "type" : "overmap_terrain",
         "id" : "s_restaurant",
@@ -644,7 +659,7 @@
         "id" : "s_teashop",
         "name" : "teashop",
         "copy-from" : "generic_city_building",
-        "color" : "white_magenta"
+        "color" : "c_light_cyan_magenta"
     },{
         "type" : "overmap_terrain",
         "id" : "bar",
@@ -841,6 +856,7 @@
         "type" : "overmap_terrain",
         "id" : "mil_surplus",
         "name" : "mil. surplus",
+        "sym": 77,
         "copy-from" : "generic_city_building",
         "color" : "i_light_gray"
     },{
@@ -848,7 +864,7 @@
         "id" : "furniture",
         "name" : "furniture store",
         "copy-from" : "generic_city_building",
-        "color" : "i_brown"
+        "color" : "brown"
     },{
         "type" : "overmap_terrain",
         "id" : "abstorefront",
@@ -1180,6 +1196,27 @@
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1_b_9",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_7_hidden",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_8_hidden_lab_stairs",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_9_hidden",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_light_blue",
@@ -1552,6 +1589,138 @@
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
+        "id" : "tower_lab",
+        "name" : "science lab tower",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "spawns" : { "group": "GROUP_TOWER_LAB", "population": [0, 5], "chance": 20 },
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "tower_lab_stairs",
+        "name" : "science lab tower",
+        "sym" : 76,
+        "color" : "blue",
+        "see_cost" : 5,
+        "spawns" : { "group": "GROUP_TOWER_LAB", "population": [0, 5], "chance": 20 },
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "tower_lab_finale",
+        "name" : "science lab tower",
+        "sym" : 76,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "lab_train_depot",
+        "name" : "science train depot",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "extras" : "subway",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
+        "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_entrance",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 3,
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_shaft",
+        "name" : "access shaft",
+        "sym" : 48,
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "abstract" : "generic_central_lab",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_1",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_2",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_3",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_4",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_5",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_6",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_7",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_8",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_hq_9",
+        "copy-from" : "generic_central_lab"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 7], "chance": 40 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_stairs",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "blue",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 7], "chance": 40 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_core",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 7], "chance": 40 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "central_lab_finale",
+        "name" : "central lab",
+        "sym" : 76,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ],
+        "spawns" : { "group": "GROUP_CENTRAL_LAB", "population": [0, 5], "chance": 20 }
+    },{
+        "type" : "overmap_terrain",
         "id" : "bunker",
         "name" : "military bunker",
         "sym" : 66,
@@ -1834,9 +2003,9 @@
     },{
         "type" : "overmap_terrain",
         "id" : "acid_anthill",
-        "name" : "anthill",
+        "name" : "sulfurous anthill",
         "sym" : 37,
-        "color" : "brown",
+        "color" : "green",
         "see_cost" : 2,
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
@@ -1890,6 +2059,10 @@
     },{
         "type" : "overmap_terrain",
         "id" : "basement_bionic",
+        "copy-from" : "generic_city_house_basement"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "basement_hidden_lab_stairs",
         "copy-from" : "generic_city_house_basement"
     },{
         "type" : "overmap_terrain",
@@ -7306,21 +7479,21 @@
     "id": "candy_shop",
     "name": "candy shop",
     "copy-from": "generic_city_building",
-    "color": "yellow"
+    "color": "c_red_white"
   },
   {
     "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
     "copy-from": "generic_city_building",
-    "color": "yellow"
+    "color": "c_yellow_white"
   },
   {
     "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
     "copy-from": "generic_city_building",
-    "color": "white"
+    "color": "c_blue_white"
   },
   {
     "type": "overmap_terrain",
@@ -7760,6 +7933,123 @@
     "name": "spiked trench",
     "sym": 88,
     "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_0",
+    "name": "blacksmith survey",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_1",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_2",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_3",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_4",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_5",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_6",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_7",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_8",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_9",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_10",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_11",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_12",
+    "name": "blacksmith shop",
+    "sym": 43,
+    "color": "i_dark_gray",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   }

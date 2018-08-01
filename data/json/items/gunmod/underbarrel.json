@@ -338,7 +338,7 @@
   },
   {
     "id": "lead_grip",
-	"copy-from": "grip",
+    "copy-from": "grip",
     "type": "GUNMOD",
     "name": "LW forward grip",
     "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",
@@ -360,10 +360,10 @@
   },
   {
     "id": "lead_u_shotgun",
-    "copy-from": "u_shotgun",
+    "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": "LW underslung shotgun",
-    "description": "Leadworks built in shotgun with 2 barrels. It allows two shotgun shells to be loaded and fired.",
+    "description": "Leadworks built in minimalist pump action shotgun module. It allows 4 shotgun shells to be loaded and fired.",
     "weight": 0,
     "volume": 0,
     "price": 0,

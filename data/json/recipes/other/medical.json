@@ -1,43 +1,5 @@
 [
   {
-    "result": "1st_aid",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MEDICAL",
-    "skill_used": "firstaid",
-    "difficulty": 3,
-    "time": 20000,
-    "reversible": true,
-    "decomp_learn": 2,
-    "autolearn": true,
-    "components": [
-      [ [ "medical_tape", 20 ], [ "duct_tape", 40 ] ],
-      [ [ "aspirin", 10 ], [ "codeine", 2 ] ],
-      [ [ "disinfectant", 1 ], [ "thyme_oil", 1 ], [ "bfipowder", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
-      [ [ "saline", 10 ], [ "eyedrops", 20 ] ],
-      [ [ "bandages", 3 ], [ "quikclot", 1 ] ]
-    ]
-  },
-  {
-    "result": "1st_aid_survivor",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MEDICAL",
-    "skill_used": "firstaid",
-    "time": 50000,
-    "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "BOIL", "level": 1 }
-    ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [
-      [ [ "rag", 3 ], [ "bandages_makeshift", 3 ], [ "bandages_makeshift_bleached", 3 ], [ "bandages_makeshift_boiled", 3 ] ],
-      [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ],
-      [ [ "hard_liquor_toxic", 2, "LIST" ], [ "honey_glassed", 3 ], [ "honey_bottled", 6 ] ]
-    ]
-  },
-  {
     "result": "bandages",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -49,7 +11,7 @@
     "components": [
       [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
-      [ [ "disinfectant", 1 ], [ "thyme_oil", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
+      [ [ "disinfectant", 5 ], [ "thyme_oil", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
     ]
   },
   {
@@ -108,6 +70,18 @@
     ]
   },
   {
+    "result": "disinfectant_makeshift",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "autolearn": true,
+    "time": 500,
+    "components": [
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
+    ]
+  },
+  {
     "result": "mugwort_oil",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -158,7 +132,7 @@
     "time": 1000,
     "autolearn": true,
     "components": [
-      [ [ "rag", 4 ] ],
+      [ [ "rag", 1 ] ],
       [ [ "disinfectant", 1 ] ]
     ]
   },
@@ -171,7 +145,7 @@
     "time": 1000,
     "autolearn": true,
     "components": [
-      [ [ "cotton_ball", 2 ] ],
+      [ [ "cotton_ball", 1 ] ],
       [ [ "disinfectant", 1 ] ]
     ]
   }

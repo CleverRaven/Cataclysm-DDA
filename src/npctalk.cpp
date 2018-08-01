@@ -3348,7 +3348,7 @@ void talk_function::start_training( npc &p )
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
-void parse_tags( std::string &phrase, const player &u, const npc &me )
+void parse_tags( std::string &phrase, const player &u, const player &me )
 {
     phrase = remove_color_tags( phrase );
 
@@ -3735,6 +3735,7 @@ inventory inventory_exchange( inventory &inv,
     inv.dump( item_dump );
     item_dump.insert( item_dump.end(), added.begin(), added.end() );
     inventory new_inv;
+    new_inv.copy_invlet_of( inv );
 
     for( item *it : item_dump ) {
         if( without.count( it ) == 0 ) {

@@ -7,6 +7,7 @@
     "durability": 400,
     "damage_modifier": 80,
     "location": "on_roof",
+    "description": "This heavy weapon is mounted on a turret, and can be fired from your vehicle controls.",
     "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {

@@ -1563,7 +1563,7 @@
       [ "novel_fantasy", 20 ],
       [ "novel_erotic", 4 ],
       [ "poetry_book", 10 ],
-      [ "jewelry_book", 10 ],
+      [ "jewelry_book", 4 ],
       [ "philosophy_book", 2 ],
       [ "essay_book", 6 ],
       [ "plays_book", 8 ],
@@ -1605,7 +1605,8 @@
       ["eyedrops", 35],
       ["shavingkit", 5],
       ["elec_hairtrimmer", 2],
-      ["nic_gum", 25]
+      ["nic_gum", 25],
+      ["weak_antibiotic", 30]
     ]
   },{
     "type" : "item_group",
@@ -3080,7 +3081,7 @@
       [ "novel_fantasy", 20 ],
       [ "novel_erotic", 4 ],
       [ "poetry_book", 10 ],
-      [ "jewelry_book", 10 ],
+      [ "jewelry_book", 4 ],
       [ "philosophy_book", 2 ],
       [ "essay_book", 6 ],
       [ "plays_book", 8 ],
@@ -3137,7 +3138,7 @@
       [ "novel_mystery", 25 ],
       [ "novel_fantasy", 20 ],
       [ "poetry_book", 10 ],
-      [ "jewelry_book", 10 ],
+      [ "jewelry_book", 4 ],
       [ "plays_book", 8 ],
       [ "tall_tales", 10 ],
       [ "story_book", 4 ],
@@ -3338,7 +3339,7 @@
       [ "poetry_book", 30 ],
       [ "carpentry_book", 24 ],
       [ "scots_cookbook", 30 ],
-      [ "jewelry_book", 30 ],
+      [ "jewelry_book", 15 ],
       [ "manual_capoeira", 9 ],
       [ "manual_centipede", 1 ],
       [ "manual_crane", 1 ],
@@ -3621,7 +3622,8 @@
       ["stethoscope", 35],
       ["jar_3l_glass", 15],
       ["magnifying_glass", 5],
-      ["chem_hydrogen_peroxide", 5]
+      ["chem_hydrogen_peroxide", 5],
+      ["weak_antibiotic", 15]
     ]
   },{
     "type" : "item_group",
@@ -4075,7 +4077,7 @@
       [ "novel_fantasy", 20 ],
       [ "novel_erotic", 4 ],
       [ "poetry_book", 10 ],
-      [ "jewelry_book", 10 ],
+      [ "jewelry_book", 8 ],
       [ "philosophy_book", 2 ],
       [ "essay_book", 6 ],
       [ "plays_book", 8 ],
@@ -5903,7 +5905,8 @@
       ["oxygen_tank", 10],
       ["smoxygen_tank", 20],
       ["bfipowder", 15],
-      ["quikclot", 10]
+      ["quikclot", 10],
+      ["weak_antibiotic", 40]
     ]
   },{
     "type" : "item_group",

@@ -9,6 +9,7 @@
     "durability": 400,
     "damage_modifier": 80,
     "location": "on_roof",
+    "description": "This heavy weapon is mounted on an automated turret.  If you set it to fire automatically from your vehicle controls, it will fire at any hostile creature that gets too close to your vehicle.  It has a safety system and won't fire if you're in or near the line of fire, but you may get caught in any explosions.",
     "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {

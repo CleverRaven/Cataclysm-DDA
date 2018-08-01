@@ -492,7 +492,7 @@
         "ident": "mechanic",
         "name": "Home Mechanic",
         "description": "Although you never got your driver's license, you've always loved cars.  At least now you'll never be wanting for materials.",
-        "points": 1,
+        "points": 2,
         "skills": [
             {
                 "level": 3,
@@ -501,6 +501,7 @@
         ],
         "items": {
             "both": [
+                "slingpack",
                 "tank_top",
                 "jeans",
                 "socks",
@@ -508,6 +509,14 @@
                 "tool_belt",
                 "wrench",
                 "duct_tape",
+                "screwdriver",
+                "welder",
+                "battery",
+                "battery",
+                "battery",
+                "battery",
+                "battery",
+                "goggles_welding",
                 "mag_cars"
             ],
             "male": [
@@ -5166,5 +5175,47 @@
         "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
         "points": -1,
         "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "bionic_installer",
+        "name": "Augmentation Associate",
+        "description": "When bionics first emerged, you were quick to make them into your career, and spent your days overseeing their installation.  As one of the few non-zombies in the world that can calibrate an Autodoc, your skills might come in handy now that the world is over.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 4,
+                "name": "firstaid"
+            },
+            {
+                "level": 4,
+                "name": "electronics"
+            }
+        ],
+        "traits": [
+            "PROF_AUTODOC"
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+                "gloves_medical",
+                "socks",
+                "dress_shoes",
+                "coat_lab",
+                "bandages",
+                "anesthesia",
+                "1st_aid",
+                "recipe_augs",
+                "stethoscope"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     }
 ]

@@ -269,8 +269,8 @@ class player : public Character
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
 
-        /** Handles process of introducing patient into anesthesia through the autodoc */
-        void introduce_into_anesthesia( time_duration const &duration );
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Uses anesthetic kits or NOPAIN mutation */
+        void introduce_into_anesthesia( time_duration const &duration, bool needs_anesthesia );
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
@@ -278,7 +278,7 @@ class player : public Character
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(bionic_id const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1);
+        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1, bool autodoc = false );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -722,6 +722,9 @@ class player : public Character
         /** Handles player vomiting effects */
         void vomit();
 
+        /** Creates an auditory hallucination */
+        void sound_hallu();
+
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
@@ -1004,7 +1007,7 @@ class player : public Character
         void toolmod_add( item_location tool, item_location mod );
 
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(const itype &type, int skill_level = -1);
+        bool install_bionics(const itype &type, int skill_level = -1, bool autodoc = false);
         /**
          * Helper function for player::read.
          *

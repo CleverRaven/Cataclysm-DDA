@@ -178,6 +178,8 @@ class inventory : public visitable<inventory>
 
         void update_cache_with_item( item &newit );
 
+        void copy_invlet_of( const inventory &other );
+
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;

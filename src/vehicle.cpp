@@ -2814,22 +2814,22 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-int vehicle::print_part_desc( const catacurses::window &win, int y1, const int max_y, int width, int p, int hl /*= -1*/ ) const
+int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
+                              int p, int hl /*= -1*/ ) const
 {
-    if (p < 0 || p >= (int)parts.size()) {
+    if( p < 0 || p >= ( int )parts.size() ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative(parts[p].mount.x, parts[p].mount.y);
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
     int y = y1;
-    for (size_t i = 0; i < pl.size(); i++)
-    {
-        if ( y >= max_y ) {
+    for( size_t i = 0; i < pl.size(); i++ ) {
+        if( y >= max_y ) {
             mvwprintz( win, y, 1, c_yellow, _( "More parts here..." ) );
             ++y;
             break;
         }
 
-        const vehicle_part& vp = parts[ pl [ i ] ];
+        const vehicle_part &vp = parts[ pl [ i ] ];
         nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.base.damage_color();
 
         std::string partname = vp.name();
@@ -2840,21 +2840,24 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format( _(" (vol: %s/%s %s)"),
+            partname += string_format( _( " (vol: %s/%s %s)" ),
                                        format_volume( stored_volume( pl[i] ) ).c_str(),
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
 
-        bool armor = part_flag(pl[i], "ARMOR");
+        bool armor = part_flag( pl[i], "ARMOR" );
         std::string left_sym;
         std::string right_sym;
-        if(armor) {
-            left_sym = "("; right_sym = ")";
-        } else if(part_info(pl[i]).location == part_location_structure) {
-            left_sym = "["; right_sym = "]";
+        if( armor ) {
+            left_sym = "(";
+            right_sym = ")";
+        } else if( part_info( pl[i] ).location == part_location_structure ) {
+            left_sym = "[";
+            right_sym = "]";
         } else {
-            left_sym = "-"; right_sym = "-";
+            left_sym = "-";
+            right_sym = "-";
         }
         nc_color sym_color = ( int )i == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, y, 1, sym_color, left_sym );
@@ -2862,23 +2865,90 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
                         ( int )i == hl ? hilite( col_cond ) : col_cond, partname );
         wprintz( win, sym_color, right_sym );
 
-        if( i == 0 && vpart_position( const_cast<vehicle&>( *this ), pl[i] ).is_inside() ) {
+        if( i == 0 && vpart_position( const_cast<vehicle &>( *this ), pl[i] ).is_inside() ) {
             //~ indicates that a vehicle part is inside
-            mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_light_gray, _("Interior"));
-        } else if (i == 0) {
+            mvwprintz( win, y, width - 2 - utf8_width( _( "Interior" ) ), c_light_gray, _( "Interior" ) );
+        } else if( i == 0 ) {
             //~ indicates that a vehicle part is outside
-            mvwprintz(win, y, width-2-utf8_width(_("Exterior")), c_light_gray, _("Exterior"));
+            mvwprintz( win, y, width - 2 - utf8_width( _( "Exterior" ) ), c_light_gray, _( "Exterior" ) );
         }
         y++;
     }
 
     // print the label for this location
-    const cata::optional<std::string> label = vpart_position( const_cast<vehicle&>( *this ), p ).get_label();
+    const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
+            p ).get_label();
     if( label && y <= max_y ) {
-        mvwprintz(win, y++, 1, c_light_red, _("Label: %s"), label->c_str());
+        mvwprintz( win, y++, 1, c_light_red, _( "Label: %s" ), label->c_str() );
     }
 
     return y;
+}
+
+/**
+ * Prints a list of descriptions for all parts to the screen inside of a boxed window
+ * @param win The window to draw in.
+ * @param max_y Draw no further than this y-coordinate.
+ * @param width The width of the window.
+ * @param &p The index of the part being examined.
+ * @param start_at Which vehicle part to start printing at.
+ * @param start_limit the part index beyond which the display is full
+ */
+void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+                                  int &start_at, int &start_limit ) const
+{
+    if( p < 0 || p >= ( int )parts.size() ) {
+        return;
+    }
+
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    std::ostringstream msg;
+
+    int lines = 0;
+    /*
+     * start_at and start_limit interaction is little tricky
+     * start_at and start_limit start at 0 when moving to a new frame
+     * if all the descriptions are displayed in the window, start_limit stays at 0 and
+     *    start_at is capped at 0 - so no scrolling at all.
+     * if all the descriptions aren't displayed, start_limit jumps to the last displayed part
+     *    and the next scrollthrough can start there - so scrolling down happens.
+     * when the scroll reaches the point where all the remaining descriptions are displayed in
+     *    the window, start_limit is set to start_at again.
+     * on the next attempted scrolldown, start_limit is set to the nth item, and start_at is
+     *    capped to the nth item, so no more scrolling down.
+     * start_at can always go down, but never below 0, so scrolling up is only possible after
+     *    some scrolling down has occurred.
+     * important! the calling function needs to track p, start_at, and start_limit, and set
+     *    start_limit to 0 if p changes.
+     */
+    start_at = std::max( 0, std::min( start_at, start_limit ) );
+    if( start_at ) {
+           msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
+           lines += 1;
+    }
+    for( size_t i = start_at; i < pl.size(); i++ ) {
+        const vehicle_part &vp = parts[ pl [ i ] ];
+        std::ostringstream possible_msg;
+        std::string name_color = string_format( "<color_%1$s>",
+                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_green ) );
+        possible_msg << name_color << vp.name() << "</color>\n";
+        std::string desc_color = string_format( "<color_%1$s>",
+                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
+        int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 2 );
+        possible_msg << "</color>\n";
+        if( lines + new_lines <= max_y ) {
+           msg << possible_msg.str();
+           lines += new_lines;
+	   start_limit = start_at;
+        } else {
+           msg << "<color_yellow>" << _( "More parts here..." ) << "  >" << "</color>\n";
+           start_limit = i;
+           break;
+        }
+    }
+    werase( win );
+    fold_and_print( win, 0, 1, width, c_light_gray, msg.str() );
+    wrefresh( win );
 }
 
 /**
@@ -6000,6 +6070,11 @@ void vehicle::close(int part_index)
   }
 }
 
+bool vehicle::is_open(int part_index) const
+{
+  return parts[part_index].open;
+}
+
 void vehicle::open_all_at(int p)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
@@ -6302,9 +6377,14 @@ vehicle_part::operator bool() const {
     return id != vpart_id::NULL_ID();
 }
 
-const item& vehicle_part::get_base() const
+const item &vehicle_part::get_base() const
 {
     return base;
+}
+
+void vehicle_part::set_base( const item &new_base )
+{
+    base = new_base;
 }
 
 item vehicle_part::properties_to_item() const
@@ -6330,7 +6410,8 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
-std::string vehicle_part::name() const {
+std::string vehicle_part::name() const
+{
     auto res = info().name();
 
     if( base.engine_displacement() > 0 ) {
@@ -6344,6 +6425,9 @@ std::string vehicle_part::name() const {
         res += ( _( " (faulty)" ) );
     }
 
+    if( base.has_var( "contained_name" ) ) {
+        res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
+    }
     return res;
 }
 
@@ -6759,4 +6843,23 @@ void vehicle::use_washing_machine( int p ) {
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
     }
+}
+
+void vehicle::use_monster_capture( int part, const tripoint &pos )
+{
+    if( parts[part].is_broken() || parts[part].removed ) {
+        return;
+    }
+    item base = item( parts[part].get_base() );
+    base.type->invoke( g->u, base, pos );
+    parts[part].set_base( base );
+    /* captured animals take up all the cargo space */
+    /*
+    if( base.has_var( "contained_name" ) ) {
+        part_info( part ).size = 0;
+    } else {
+        part_info( part ).size = base.get_container_capacity();
+    }
+    */
+    parts[part].set_base( base );
 }

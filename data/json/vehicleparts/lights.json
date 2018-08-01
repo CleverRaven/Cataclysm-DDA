@@ -46,7 +46,7 @@
     "type": "vehicle_part",
     "name": "atomic nightlight",
     "item": "atomic_light",
-    "description": "A dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a square inside the vehicle.",
+    "description": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
     "bonus": 5
   },
   {
