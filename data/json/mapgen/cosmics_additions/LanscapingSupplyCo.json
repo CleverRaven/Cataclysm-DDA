@@ -92,7 +92,7 @@
         { "signage": "GRAVEL", "x": 17, "y": 15 }
       ]
     },
-    "om_terrain": "lanscapingsupplyco_1a",
+    "om_terrain": "landscapingsupplyco_1a",
     "type": "mapgen",
     "weight": 100
   },
@@ -204,7 +204,7 @@
         { "signage": "BOULDERS and SLABS", "x": 1, "y": 18 }
       ]
     },
-    "om_terrain": "lanscapingsupplyco_1b",
+    "om_terrain": "landscapingsupplyco_1b",
     "type": "mapgen",
     "weight": 100
   }
