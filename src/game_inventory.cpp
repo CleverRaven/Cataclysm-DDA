@@ -645,7 +645,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( get_book( loc ).fun );
+                return good_bad_none( p.book_fun_for( get_book( loc ) ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
