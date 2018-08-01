@@ -25,10 +25,9 @@
     "symbol": "?",
     "color": "green",
     "use_action": "MA_MANUAL",
-    "book_data":
-      {
+    "book_data": {
         "time": 10,
         "intelligence" : 9
-      }
+    }
   }
 ]
