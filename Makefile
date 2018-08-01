@@ -528,8 +528,14 @@ ifdef TILES
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
+			ifdef SOUND
+				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
+			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
 		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
+		 ifdef SOUND
+		 	LDFLAGS += -framework SDL2_mixer
+		 endif
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
