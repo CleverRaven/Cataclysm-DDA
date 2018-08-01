@@ -113,7 +113,7 @@
 					"fuel": 15,
 					"rotation": 270,
 					"status": -1,
-					"vehicle": "campground",
+					"vehicle": "campground_vehicles",
 					"x": 16,
 					"y": 2
 				},
@@ -122,7 +122,7 @@
 					"fuel": -1,
 					"rotation": 180,
 					"status": -1,
-					"vehicle": "campground",
+					"vehicle": "campground_vehicles",
 					"x": 3,
 					"y": 19
 				}
@@ -392,7 +392,7 @@
 					"fuel": -1,
 					"rotation": 0,
 					"status": -1,
-					"vehicle": "campground",
+					"vehicle": "campground_vehicles",
 					"x": 7,
 					"y": 10
 				},
@@ -401,7 +401,7 @@
 					"fuel": -1,
 					"rotation": 270,
 					"status": -1,
-					"vehicle": "campground",
+					"vehicle": "campground_vehicles",
 					"x": 17,
 					"y": 16
 				}
@@ -544,7 +544,7 @@
 					"fuel": 15,
 					"rotation": 90,
 					"status": -1,
-					"vehicle": "campground",
+					"vehicle": "campground_vehicles",
 					"x": 11,
 					"y": 19
 				}
