@@ -833,7 +833,7 @@
     "name_plural" : "nanomaterial canisters",
     "symbol" : "=",
     "color" : "light_gray",
-    "description" : "Steel canisters containing several types of nanomaterials.  A nanofabricator can turn them into usable items.",
+    "description" : "Steel canisters containing carbon, iron, titanium, copper and other elements in specifically engineered atomic scale configurations.  A nanofabricator can assemble them into usable items.",
     "material" : "steel",
     "volume" : 60,
     "weight" : 250,

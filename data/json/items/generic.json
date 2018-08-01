@@ -1123,7 +1123,7 @@
         "color": "cyan",
         "name": "nanofabricator template",
         "category": "spare_parts",
-        "description": "A lattice of golden metal lies inscribed in small disc of silicon substrate, it holds instructions to create an item through a nanofabricator.",
+        "description": "A state-of-the-art optical storage system.  This small slate of transparent glass holds, inscribed as a miniature pattern, the instructions required to create an item through a nanofabricator.",
         "price": 13500,
         "material": ["steel", "plastic"],
         "weight": 317,
