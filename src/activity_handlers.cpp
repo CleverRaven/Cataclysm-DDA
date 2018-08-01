@@ -86,7 +86,9 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
 {
     { activity_id( "ACT_BURROW" ), burrow_finish },
     { activity_id( "ACT_BUTCHER" ), butcher_finish },
+    { activity_id( "ACT_BUTCHER_FULL" ), butcher_finish },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_finish },
+    { activity_id( "ACT_QUARTER" ), butcher_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
     { activity_id( "ACT_FISH" ), fish_finish },
     { activity_id( "ACT_FORAGE" ), forage_finish },
@@ -253,7 +255,47 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
+    bool has_table_nearby = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 1 ) ) {
+        if( g->m.furn( pt ) == furn_id( "f_table" ) ) {
+            has_table_nearby = true;
+        }
+    }
+    // workshop butchery (full) prequisites
+    if( action == BUTCHER_FULL ) {
+            if( g->m.furn( u.pos() ) != furn_id( "f_butcher_rack" ) ){
+                u.add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
+                act.set_to_null();
+                return;
+            }
+            if ( !has_table_nearby ) {
+                u.add_msg_if_player( m_info, _( "You need a table nearby to perform a full butchery." ) );
+                act.set_to_null();
+                return;
+            }
+            if( ( !u.has_quality( quality_id( "CUT" ) ) || !u.has_quality( quality_id( "CUT_FINE" ) ) ) &&
+                ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+                u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
+                act.set_to_null();
+                return; 
+            }
+    }
+
+    item corpse_item = items[act.index];
     const mtype *corpse = items[act.index].get_mtype();
+
+    if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
+            u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
+            act.set_to_null();
+            return;
+    }
+    // applies to all butchery actions
+    if( corpse->in_species( HUMAN ) && ( !u.has_trait_flag( "CANNIBAL" ) || !u.has_trait_flag( "PSYCHOPATH" ) || !u.has_trait_flag( "SAPIOVORE" ) ) ) {
+        add_msg( m_info, _( "Why would you do this to mortal remains of a fellow human?" ) );
+        act.set_to_null();
+        return;
+    }
+
     int time_to_cut = 0;
     switch( corpse->size ) {
         // Time (roughly) in turns to cut up the corpse
@@ -753,7 +795,7 @@ void butchery_quarter( item *corpse_item, player &p )
     corpse_item->set_flag( "QUARTERED" );
     p.add_msg_if_player( m_good, _("You roughly slice the corpse of %s into four parts and set them aside."), corpse->nname().c_str() );
     for( int i = 1; i <= 4; i++ ) { // 4 quarters
-    g->m.add_item_or_charges( p.pos(), *corpse_item, true );
+        g->m.add_item_or_charges( p.pos(), *corpse_item, true );
     }
 }
 
@@ -766,7 +808,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = BUTCHER_FULL;
     } else if( act->id() == activity_id( "ACT_FIELD_DRESS" ) ) {
         action = F_DRESS;
-    } else if( act->id() == activity_id( "ACT_FIELD_DRESS" ) ) {
+    } else if( act->id() == activity_id( "ACT_QUARTER" ) ) {
         action = QUARTER;
     }
    
@@ -789,25 +831,16 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     time_point age = corpse_item.birthday();
     const field_id type_blood = corpse->bloodType();
     const field_id type_gib = corpse->gibType();
-    g->m.i_rem( p->pos(), act->index );
 
-    if( action == QUARTER &&
-        query_yn( _( "Quarter the corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() )  ) {
-        butchery_quarter( &corpse_item, *p );
-        act->set_to_null();
-        return;
-    }
-
-    if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
-            p->add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
+    if( action == QUARTER ) {
+        if( query_yn( _( "Quarter %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() )  ) {
+            butchery_quarter( &corpse_item, *p );
             act->set_to_null();
             return;
-    }
-    // applies to all butchery actions
-    if( corpse->in_species( HUMAN ) && ( !p->has_trait_flag( "CANNIBAL" ) || !p->has_trait_flag( "PSYCHOPATH" ) || !p->has_trait_flag( "SAPIOVORE" ) ) ) {
-        add_msg( m_info, _( "Why would you do this to mortal remains of a fellow human?" ) );
-        act->set_to_null();
-        return;
+        } else {
+            act->set_to_null();
+            return;
+        }
     }
 
     const int skill_level = p->get_skill_level( skill_survival );
@@ -817,31 +850,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( p->max_quality( quality_id( "CUT_FINE" ) ) ) {
         factor += rng( 0, 10 ); 
     }
-    bool has_table_nearby = false;
-    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( g->m.furn( p ) == furn_id( "f_table" ) ) {
-            has_table_nearby = true;
-        }
-    }
-    // workshop butchery (full) prequisites
-    if( action == BUTCHER_FULL && ( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
-            if( g->m.furn( p->pos() ) != furn_id( "f_butcher_rack" ) ){
-                p->add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
-                act->set_to_null();
-                return;
-            }
-            if ( !has_table_nearby ) {
-                p->add_msg_if_player( m_info, _( "You need a table nearby to perform a full butchery." ) );
-                act->set_to_null();
-                return;
-            }
-            if( ( !p->has_quality( quality_id( "CUT" ) ) || !p->has_quality( quality_id( "CUT_FINE" ) ) ) &&
-                ( !p->has_quality( quality_id( "SAW_W" ) ) || !p->has_quality( quality_id( "SAW_M" ) ) ) ) {
-                p->add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
-                act->set_to_null();
-                return; 
-            }
-    } // no "else" here to allow full butchery without field dressing too
 
     if( factor < 0 && one_in( 3 ) ) {
         add_msg( m_info, _("You don't trust the quality of your tools, but carry on anyway." ) );
@@ -880,14 +888,20 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             case 3:
                 p->add_msg_if_player(m_warning, _( "You made so many mistakes during the process that you doubt even vultures will be intrested in what's left of it." ) );
                 break;
-        g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-        g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        g->m.i_rem( p->pos(), act->index );
+        g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        for( int i = 1; i <= corpse->size; i++ ) {
+            g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(), corpse->size + 1 ) ) );
+            g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(), corpse->size + 1 ) ) );
+        }
         act->set_to_null();
         return;
         }
     }
 
     // all action types - yields
+    g->m.i_rem( p->pos(), act->index );
     if( corpse->harvest.is_null() ) {
         butchery_drops_hardcoded( &corpse_item, corpse, p, age, roll_butchery, action );
     } else {
@@ -935,8 +949,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "FIELD_DRESS_FAILED" );
-            g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-            g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+
+            g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            for( int i = 1; i <= corpse->size; i++ ) {
+                g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(), corpse->size + 1 ) ) );
+                g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(), corpse->size + 1 ) ) );
+            }
 
         } else { // success
             
@@ -952,11 +971,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "FIELD_DRESS" );
-            g->m.add_splatter( type_gib, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 1, ( corpse->size + 1 ) * 2 ) );
-            g->m.add_splatter( type_blood, random_entry( g->m.points_in_radius( p->pos(), 1 ) ), rng( corpse->size + 1, ( corpse->size + 1 ) * 2 ) );
+
+            g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            for( int i = 1; i <= corpse->size; i++ ) {
+                g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(), corpse->size + 1 ) ) );
+                g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(), corpse->size + 1 ) ) );
+            }
+
         }
         if( corpse->size > MS_TINY &&
-            query_yn( _( "Quarter the corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() ) ) {
+            query_yn( _( "Quarter %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() ) ) {
             butchery_quarter( &corpse_item, *p );
         } else {
             g->m.add_item_or_charges( p->pos(), corpse_item, true );

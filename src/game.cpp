@@ -10075,8 +10075,8 @@ void game::butcher()
     } butcher_type = BUTCHER_CORPSE;
     // Index to std::vector of indices...
     int indexer_index = 0;
-    // Always ask 
-    if( !corpses.empty() || !disassembles.empty() || !salvageables.empty() ) {
+    // Always ask before cutting up/disassembly, but not before butchery
+    if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
         uimenu kmenu;
         kmenu.text = _("Choose corpse to butcher / item to disassemble");
 
@@ -10180,11 +10180,11 @@ void game::butcher()
     case BUTCHER_CORPSE:
         {
             uimenu smenu;
-            smenu.text = _("Choose type of butchery for this corpse:");
-            smenu.addentry( BUTCHER, true, 'B' , _("Quick butcher") );
-            smenu.addentry( BUTCHER_FULL, true, 'b' , _("Full butcher") );
-            smenu.addentry( F_DRESS, true, 'f' , _("Field dress") );
-            smenu.addentry( QUARTER, true, 'k' , _("Quarter") );
+            smenu.text = _("Choose type of butchery:");
+            smenu.addentry( BUTCHER, true, 'B' , _("Quick butchery") );
+            smenu.addentry( BUTCHER_FULL, true, 'b' , _("Full butchery") );
+            smenu.addentry( F_DRESS, true, 'f' , _("Field dress corpse") );
+            smenu.addentry( QUARTER, true, 'k' , _("Quarter corpse") );
             smenu.addentry( CANCEL, true, 'q', _("Cancel"));
             smenu.return_invalid = true;
             smenu.query();
