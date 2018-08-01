@@ -646,7 +646,7 @@
         "description" : "You never learned to read!  Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER", "SLOWREADER"]
+        "cancels" : ["FASTREADER", "SLOWREADER","LOVES_BOOKS","HATES_BOOKS"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
