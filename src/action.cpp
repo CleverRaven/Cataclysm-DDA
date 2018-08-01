@@ -509,6 +509,9 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
+    if( g->m.has_items( p ) ) {
+        return true;
+    }
     const furn_t &xfurn_t = g->m.furn( p ).obj();
     const ter_t &xter_t = g->m.ter( p ).obj();
 

@@ -5421,8 +5421,11 @@
     "weight": 760,
     "color": "pink",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -12,
@@ -5442,8 +5445,11 @@
     "weight": 3767,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -5463,8 +5469,11 @@
     "weight": 11071,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -6913,11 +6922,12 @@
     "name": "MRE - Beef",
     "name_plural": "MREs - beef",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_veggy_box",
@@ -6927,11 +6937,12 @@
     "name": "MRE - Vegetarian",
     "name_plural": "MREs - vegetarian",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_chicken_box",
@@ -6941,11 +6952,12 @@
     "name": "MRE - Chicken",
     "name_plural": "MREs - chicken",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_hotdog_box",
@@ -6955,11 +6967,12 @@
     "name": "MRE - Hotdogs",
     "name_plural": "MREs - hotdogs",
     "category": "food",
-    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1200,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_ravioli_box",
@@ -6969,11 +6982,12 @@
     "name": "MRE - Ravioli",
     "name_plural": "MREs - ravioli",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1700,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "type": "COMESTIBLE",
@@ -7778,8 +7792,10 @@
     "weight": 100,
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
     "stim": -60,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -10139,7 +10155,6 @@
     "weight": 250,
     "color": "yellow",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
     "stim": -20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -10154,7 +10169,11 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "EATEN_COLD" ],
     "fun": -15
   },
   {

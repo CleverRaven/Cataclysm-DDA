@@ -472,8 +472,8 @@ void player::complete_craft()
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( trait_id( "HYPEROPIC" ) ) && !is_wearing( "glasses_reading" ) &&
-        !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+    if( has_trait( trait_id( "HYPEROPIC" ) ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+        !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making->skill_used == skill_id( "electronics" ) ) {
             main_rank_penalty = 2;
