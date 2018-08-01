@@ -2291,7 +2291,7 @@
         ],
         "components" : [
             [ [ "stick_long", 6 ], [ "2x4", 6 ] ],
-            [ ["string_36", 8 ], [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "wire", 8 ], [ "vine_30", 1 ] ],
+            [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
             [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
         ],
         "pre_note" : "Can be deconstructed without tools.",
