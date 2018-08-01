@@ -879,8 +879,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    temperature = 65; // Springtime-appropriate?
-    update_weather(); // Springtime-appropriate, definitely.
+    temperature = SPRING_TEMPERATURE;
+    update_weather();
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1784,13 +1784,8 @@ void game::update_weather()
 
 int game::get_temperature( const tripoint &location )
 {
-
-    if ( location.z < 0 ) {
-        // underground temperature = average New England temperature = 43F/6C rounded to int
-        return 43 + m.temperature( location );
-    }
-    // if not underground use weather determined temperature
-    return temperature + m.temperature( location );
+    //underground temperature = average New England temperature = 43F/6C rounded to int
+    return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 : m.temperature( location ) );
 }
 
 int game::assign_mission_id()
@@ -2613,7 +2608,12 @@ bool game::handle_action()
     }
 
     if( act == ACTION_NULL ) {
-        add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
+        const input_event &&evt = ctxt.get_raw_input();
+        if( !evt.sequence.empty() ) {
+            const long ch = evt.get_first_input();
+            const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
+            add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+        }
         return false;
     }
 

@@ -1425,8 +1425,14 @@ void CheckMessages()
                 if( !add_alt_code( *ev.text.text ) ) {
                     const char *c = ev.text.text;
                     int len = strlen(ev.text.text);
-                    const unsigned lc = UTF8_getch( &c, &len );
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    if( len > 0 ) {
+                        const unsigned lc = UTF8_getch( &c, &len );
+                        last_input = input_event( lc, CATA_INPUT_KEYBOARD );   
+                    } else {
+                        // no key pressed in this event
+                        last_input = input_event();
+                        last_input.type = CATA_INPUT_KEYBOARD;
+                    }
                     last_input.text = ev.text.text;
                     text_refresh = true;
                 }
@@ -1435,8 +1441,14 @@ void CheckMessages()
             {
                 const char *c = ev.edit.text;
                 int len = strlen( ev.edit.text );
-                const unsigned lc = UTF8_getch( &c, &len );
-                last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                if( len > 0 ) {
+                    const unsigned lc = UTF8_getch( &c, &len );
+                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                } else {
+                    // no key pressed in this event
+                    last_input = input_event();
+                    last_input.type = CATA_INPUT_KEYBOARD;
+                }
                 last_input.edit = ev.edit.text;
                 last_input.edit_refresh = true;
                 text_refresh = true;

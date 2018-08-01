@@ -588,7 +588,7 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
-        // Returns outdoor or indoor temperature of given location
+        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;

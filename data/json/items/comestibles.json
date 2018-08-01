@@ -5421,8 +5421,11 @@
     "weight": 760,
     "color": "pink",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -12,
@@ -5442,8 +5445,11 @@
     "weight": 3767,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -5463,8 +5469,11 @@
     "weight": 11071,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -7783,8 +7792,10 @@
     "weight": 100,
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
     "stim": -60,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -10144,7 +10155,6 @@
     "weight": 250,
     "color": "yellow",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
     "stim": -20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -10159,7 +10169,11 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "EATEN_COLD" ],
     "fun": -15
   },
   {
