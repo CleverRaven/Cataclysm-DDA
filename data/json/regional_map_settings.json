@@ -191,7 +191,9 @@
               "recyclecenter": 1,
               "landfill": 1,
               "abandonedwarehouse": 1,
-              "emptycommerciallot": 1
+              "emptycommerciallot": 1,
+              "lancenter": 1,
+              "dollarstore": 3
           }
       },
       "weather": {
