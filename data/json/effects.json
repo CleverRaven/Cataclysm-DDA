@@ -625,7 +625,7 @@
         "desc": ["You have an infected wound."],
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
-        "apply_message": "Your bite wound feels infected",
+        "apply_message": "Your bite wound feels infected.",
         "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
@@ -1312,7 +1312,7 @@
         ],
         "desc": [ "You drank some alcohol.  You feel warm inside.",
                   "You drank alcohol.  Party on!",
-                  "You drank lots of alcohol.  Are those white mice?", 
+                  "You drank lots of alcohol.  Are those white mice?",
                   "You drank unholy amounts of alcohol.  It's the end of the world, what do you care?" ],
         "max_intensity": 4,
         "apply_message": "You feel lightheaded.",
@@ -1824,7 +1824,7 @@
         "type": "effect_type",
         "id": "stim_overdose",
         "name": [ "Stimulant Overdose" ],
-        "desc": [ "You can't sit still as you feel your heart pounding out of your chest. You probably overdosed on those stims." ],
+        "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
         "max_intensity": 1000,
         "int_dur_factor": 1,
         "base_mods": {
@@ -1839,5 +1839,13 @@
             "per_mod": [-0.071]
         },
         "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "weak_antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "antibiotic"
     }
 ]

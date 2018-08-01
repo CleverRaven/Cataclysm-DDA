@@ -629,13 +629,13 @@
         "id" : "s_library",
         "name" : "library",
         "copy-from" : "generic_city_building",
-        "color" : "brown"
+        "color" : "i_brown"
     },{
         "type" : "overmap_terrain",
         "id" : "s_bookstore",
         "name" : "bookstore",
         "copy-from" : "generic_city_building",
-        "color" : "black_yellow"
+        "color" : "i_brown"
     },{
         "type" : "overmap_terrain",
         "id" : "s_restaurant",
@@ -659,7 +659,7 @@
         "id" : "s_teashop",
         "name" : "teashop",
         "copy-from" : "generic_city_building",
-        "color" : "white_magenta"
+        "color" : "c_light_cyan_magenta"
     },{
         "type" : "overmap_terrain",
         "id" : "bar",
@@ -856,6 +856,7 @@
         "type" : "overmap_terrain",
         "id" : "mil_surplus",
         "name" : "mil. surplus",
+        "sym": 77,
         "copy-from" : "generic_city_building",
         "color" : "i_light_gray"
     },{
@@ -863,7 +864,7 @@
         "id" : "furniture",
         "name" : "furniture store",
         "copy-from" : "generic_city_building",
-        "color" : "i_brown"
+        "color" : "brown"
     },{
         "type" : "overmap_terrain",
         "id" : "abstorefront",
@@ -2002,9 +2003,9 @@
     },{
         "type" : "overmap_terrain",
         "id" : "acid_anthill",
-        "name" : "anthill",
+        "name" : "sulfurous anthill",
         "sym" : 37,
-        "color" : "brown",
+        "color" : "green",
         "see_cost" : 2,
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
@@ -7478,21 +7479,21 @@
     "id": "candy_shop",
     "name": "candy shop",
     "copy-from": "generic_city_building",
-    "color": "yellow"
+    "color": "c_red_white"
   },
   {
     "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
     "copy-from": "generic_city_building",
-    "color": "yellow"
+    "color": "c_yellow_white"
   },
   {
     "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
     "copy-from": "generic_city_building",
-    "color": "white"
+    "color": "c_blue_white"
   },
   {
     "type": "overmap_terrain",

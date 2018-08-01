@@ -514,6 +514,39 @@ std::string vpart_info::name() const
     return name_;
 }
 
+int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
+                                    int width ) const
+{
+    int lines = 0;
+    if( ! description.empty() ) {
+        msg << _( "<color_white>Description</color>\n" );
+        msg << "> " << format_color;
+
+        const auto wrap_descrip = foldstring( description, width );
+        msg << wrap_descrip[0];
+        for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
+            msg << "\n  " << wrap_descrip[i];
+        }
+        msg << "</color>\n";
+        lines += 1 + wrap_descrip.size();
+
+        // borrowed from item.cpp and adjusted
+        const quality_id quality_jack( "JACK" );
+        const quality_id quality_lift( "LIFT" );
+        for( const auto &qual : qualities ) {
+            msg << "> " << format_color << string_format( _( "Has level %1$d %2$s quality" ),
+                    qual.second, qual.first.obj().name.c_str() );
+            if( qual.first == quality_jack || qual.first == quality_lift ) {
+                msg << string_format( _( " and is rated at %1$d %2$s" ),
+                                      ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ), weight_units() );
+            }
+            msg << ".</color>\n";
+            lines += 1;
+        }
+    }
+    return lines;
+}
+
 requirement_data vpart_info::install_requirements() const
 {
     return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data(),

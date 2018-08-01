@@ -224,6 +224,24 @@
     ]
   },
   {
+    "result": "bow_sling",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "archery", 1 ],
+    "time": 18000,
+    "autolearn": true,
+    "using": [ [ "filament", 40 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "rag", 10 ], [ "leather", 10 ] ],
+      [ [ "plastic_chunk", 2 ], [ "scrap", 1 ] ],
+      [ [ "rope_makeshift_6", 1 ], [ "rope_6", 1 ] ]
+    ]
+  },
+  {
     "result": "bscabbard",
     "type": "recipe",
     "category": "CC_ARMOR",

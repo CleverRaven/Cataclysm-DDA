@@ -1605,7 +1605,8 @@
       ["eyedrops", 35],
       ["shavingkit", 5],
       ["elec_hairtrimmer", 2],
-      ["nic_gum", 25]
+      ["nic_gum", 25],
+      ["weak_antibiotic", 30]
     ]
   },{
     "type" : "item_group",
@@ -3621,7 +3622,8 @@
       ["stethoscope", 35],
       ["jar_3l_glass", 15],
       ["magnifying_glass", 5],
-      ["chem_hydrogen_peroxide", 5]
+      ["chem_hydrogen_peroxide", 5],
+      ["weak_antibiotic", 15]
     ]
   },{
     "type" : "item_group",
@@ -5903,7 +5905,8 @@
       ["oxygen_tank", 10],
       ["smoxygen_tank", 20],
       ["bfipowder", 15],
-      ["quikclot", 10]
+      ["quikclot", 10],
+      ["weak_antibiotic", 40]
     ]
   },{
     "type" : "item_group",

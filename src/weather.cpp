@@ -80,7 +80,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end, con
         w_point w = wgen.get_weather( location, i, g->get_seed() );
 
         //Use weather if above ground, use map temp if below
-        double temperature = location.z >= 0 ? w.temperature : g->get_temperature( location );
+        double temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) ) + ( g->new_game ? 0 : g->m.temperature( g->m.getlocal( location ) ) );
 
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
     }

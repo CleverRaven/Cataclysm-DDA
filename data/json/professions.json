@@ -5193,7 +5193,7 @@
             }
         ],
         "traits": [
-			"PROF_AUTODOC"
+            "PROF_AUTODOC"
         ],
         "items": {
             "both": [

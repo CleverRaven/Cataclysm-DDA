@@ -575,6 +575,13 @@ public:
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
+        // Vehicle parts list - all the parts on a single tile
+        int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
+                             int hl = -1 ) const;
+
+        // Vehicle parts descriptions - descriptions for all the parts on a single tile
+        void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+                                 int &start_at, int &start_limit ) const;
 
     /**
      *  Operate vehicle controls
@@ -1117,6 +1124,8 @@ public:
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
+    // returns whether the door is open or not
+    bool is_open(int part_index) const;
 
     // Consists only of parts with the FOLDABLE tag.
     bool is_foldable() const;
