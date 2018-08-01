@@ -29,7 +29,7 @@
 					"fuel": 0,
 					"rotation": 0,
 					"status": 1,
-					"vehicle": "vehicles_dumpsite",
+					"vehicle": "dumpsite_vehicles",
 					"x": 13,
 					"y": 10
 				}
@@ -183,7 +183,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_dumpsite",
+					"vehicle": "dumpsite_vehicles",
 					"x": 9,
 					"y": 14
 				}
@@ -687,7 +687,7 @@
 					"fuel": 0,
 					"rotation": 270,
 					"status": 1,
-					"vehicle": "vehicles_dumpsite",
+					"vehicle": "dumpsite_vehicles",
 					"x": 8,
 					"y": 11
 				}
