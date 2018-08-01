@@ -104,7 +104,6 @@
     "color": "pink",
     "skill": "firstaid",
     "max_level": 1,
-    "intelligence": 0,
     "time": 8,
     "fun": 1
   }
