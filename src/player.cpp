@@ -9043,6 +9043,8 @@ int player::book_fun_for(const item &book) const
     } else if ( has_trait( trait_HATES_BOOKS ) ) {
         if( ( book.type->book->fun > 0 ) ) {
             return 0;
+        } else {
+            return ( book.type->book->fun - 1 );
         }
     }
     return book.type->book->fun;

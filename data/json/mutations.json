@@ -708,8 +708,8 @@
         "type" : "mutation",
         "id" : "HATES_BOOKS",
         "name" : "Hates Books",
-        "points" : -1,
-        "description" : "Reading is for nerds! You can't have fun at all by reading books.",
+        "points" : -2,
+        "description" : "Reading is for nerds! You can't have fun at all by reading books and all books are less fun for you.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["ILLITERATE","LOVES_BOOKS"]
