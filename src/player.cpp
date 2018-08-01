@@ -9333,8 +9333,8 @@ void player::do_read( item &book )
         if (reading->intel != 0) {
             add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
         }
-        if (reading->fun != 0) {
-            add_msg(m_info, _("Reading this book affects your morale by %d"), reading->fun);
+        if (book_fun_for( book ) != 0) {
+            add_msg(m_info, _("Reading this book affects your morale by %d"), book_fun_for( book ) );
         }
         add_msg(m_info, ngettext("A chapter of this book takes %d minute to read.",
                          "A chapter of this book takes %d minutes to read.", reading->time),
@@ -9396,9 +9396,9 @@ void player::do_read( item &book )
                     out_of_chapters.push_back( learner->disp_name() );
                 }
                 //50% penalty
-                fun_bonus = ( reading->fun * 5 ) / 2;
+                fun_bonus = ( book_fun_for( book ) * 5 ) / 2;
             } else {
-                fun_bonus = reading->fun * 5;
+                fun_bonus = book_fun_for( book ) * 5;
             }
             // If you don't have a problem with eating humans, To Serve Man becomes rewarding
             if( ( learner->has_trait( trait_CANNIBAL ) || learner->has_trait( trait_PSYCHOPATH ) ||
@@ -9410,7 +9410,7 @@ void player::do_read( item &book )
                 fun_bonus = 15;
                 learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 9_minutes, 9_minutes, true, book.type );
             } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 6_minutes, 3_minutes, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, book_fun_for( book ) * 15, 6_minutes, 3_minutes, true, book.type );
             }
         }
 
