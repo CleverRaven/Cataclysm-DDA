@@ -226,7 +226,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "25% chance to protect against fear_paralyze monster attack.",
-    "info": "This gear <good>partially protects</good> you from <info>mental influence</info>."
+    "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
   },
   {
     "id": "RAD_PROOF",
