@@ -52,7 +52,7 @@
       ],
       "terrain": {
         "#": "t_thconc_floor",
-        "+": "t_door_metal_c",
+        "+": "t_door_metal_locked",
         "q": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         ".": [
           "t_grass",
@@ -166,7 +166,7 @@
       "terrain": {
         "#": "t_thconc_floor",
         "&": "t_thconc_floor",
-        "+": "t_door_metal_c",
+        "+": "t_door_metal_locked",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
         "6": "t_gates_mech_control",
         "O": "t_thconc_floor",
