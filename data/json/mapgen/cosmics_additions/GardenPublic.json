@@ -1,0 +1,129 @@
+[
+  {
+    "method": "json",
+    "object": {
+      "add": [ { "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 } ],
+      "furniture": {
+        "#": "f_null",
+        ".": "f_null",
+        "4": "f_null",
+        "F": "f_flower_marloss",
+        "_": "f_null",
+        "b": "f_bench",
+        "d": "f_dahlia",
+        "f": "f_bluebell",
+        "o": "f_boulder_small"
+      },
+      "rows": [
+        "........................",
+        "........................",
+        "..4__#f#f#f..f#f#f#__4..",
+        "..__#fo_o_o..o_o_of#__..",
+        ".._#fo_____.._____of#_..",
+        "..#fo__#F#F..F#F#__of#..",
+        "..fo__#Fo_o..o_oF#__of..",
+        "..#__#Fo___..___oF#__#..",
+        "..fo_Fo__#d..d#__oF_of..",
+        "..#__#__#do..od#__#__#..",
+        "..fo_Fo_do....od_oF_of..",
+        "...........bb...........",
+        "...........bb...........",
+        "..fo_Fo_do....od_oF_of..",
+        "..#__#__#do..od#__#__#..",
+        "..fo_Fo__#d..d#__oF_of..",
+        "..#__#Fo___..___oF#__#..",
+        "..fo__#Fo_o..o_oF#__of..",
+        "..#fo__#F#F..F#F#__of#..",
+        ".._#fo_____.._____of#_..",
+        "..__#fo_o_o..o_o_of#__..",
+        "..4__#f#f#f..f#f#f#__4..",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_shrub",
+        ".": "t_sidewalk",
+        "4": "t_tree_willow",
+        "F": "t_shrub",
+        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_sidewalk",
+        "d": "t_shrub",
+        "f": "t_shrub",
+        "o": "t_grass"
+      }
+    },
+    "om_terrain": "publicgarden",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "method": "json",
+    "object": {
+      "add": [ { "item": "lighter", "chance": 9, "x": 18, "y": 19 } ],
+      "furniture": {
+        "#": "f_null",
+        "*": "f_datura",
+        ".": "f_null",
+        "B": "f_bluebell",
+        "F": "f_flower_marloss",
+        "S": "f_statue",
+        "_": "f_null",
+        "b": "f_bench",
+        "f": "f_dahlia",
+        "w": "f_null",
+        "P": "f_sign",
+        "|": "f_null"
+      },
+      "place_items": [ { "chance": 7, "item": "homebooks", "x": 2, "y": 12 } ],
+      "rows": [
+        "...........__...........",
+        "...........__...........",
+        "..||||||P.____.|||||||..",
+        "..|#f#f#f._**_.f#f#f#|..",
+        "..|fbbbb.._##_..bbbbf|..",
+        "..|#b....._**_.....b#|..",
+        "..|fb..F.._##_..F..bf|..",
+        "..|#b.FSF._**_.FSF.b#|..",
+        "..|f...F..____..F...fP..",
+        ".........__..__.........",
+        "..________wwww________..",
+        "___*#*#*_.wBBw._*#*#*___",
+        "___*#*#*_.wBBw._*#*#*___",
+        "..________wwww________..",
+        ".........__..__.........",
+        "..Pf...F..____..F...f|..",
+        "..|#b.FSF._**_.FSF.b#|..",
+        "..|fb..F.._##_..F..bf|..",
+        "..|#b....._**_.....b#|..",
+        "..|fbbbb.._##_..bbbbf|..",
+        "..|#f#f#f._**_.f#f#f#|..",
+        "..|||||||.____.P||||||..",
+        "...........__...........",
+        "...........__..........."
+      ],
+      "terrain": {
+        "#": "t_shrub",
+        "*": "t_shrub",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "B": "t_shrub",
+        "F": "t_grass",
+        "S": "t_grass",
+        "_": "t_sidewalk",
+        "b": "t_grass",
+        "f": "t_shrub",
+        "w": "t_water_sh",
+        "P": "t_fence",
+        "|": "t_fence"
+      },
+      "place_signs": [
+        { "signage": "<city> Public Garden", "x": 8, "y": 2 },
+        { "signage": "<city> Public Garden", "x": 2, "y": 15 },
+        { "signage": "<city> Public Garden", "x": 21, "y": 8 },
+        { "signage": "<city> Public Garden", "x": 15, "y": 21 }
+      ]
+    },
+    "om_terrain": "publicgarden",
+    "type": "mapgen",
+    "weight": 100
+  }
+]
