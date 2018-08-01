@@ -544,7 +544,7 @@
 					"fuel": 0,
 					"rotation": 90,
 					"status": 1,
-					"vehicle": "vehicles_forgotten",
+					"vehicle": "forgotten_vehicles",
 					"x": 16,
 					"y": 17
 				}
@@ -649,7 +649,7 @@
 					"fuel": 0,
 					"rotation": 180,
 					"status": 1,
-					"vehicle": "vehicles_forgotten",
+					"vehicle": "forgotten_vehicles",
 					"x": 5,
 					"y": 14
 				}
