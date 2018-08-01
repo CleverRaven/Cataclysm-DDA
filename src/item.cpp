@@ -1455,10 +1455,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     }
     if( is_book() ) {
-        const item *book_item = nullptr;
-        if ( is_book() ) {
-            book_item = this;
-        }
         insert_separation_line();
         const auto &book = *type->book;
         // Some things about a book you CAN tell by it's cover.
@@ -1492,10 +1488,10 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           _( "Requires <info>intelligence of</info> <num> to easily read." ),
                                           book.intel, true, "", true, true ) );
             }
-            if( g->u.book_fun_for( *book_item ) != 0 && parts->test(iteminfo_parts::BOOK_MORALECHANGE)) {
+            if( g->u.book_fun_for( *this ) != 0 && parts->test(iteminfo_parts::BOOK_MORALECHANGE)) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          g->u.book_fun_for( *book_item ), true, ( g->u.book_fun_for( *book_item ) > 0 ? "+" : "" ) ) );
+                                          g->u.book_fun_for( *this ), true, ( g->u.book_fun_for( *this ) > 0 ? "+" : "" ) ) );
             }
             if (parts->test(iteminfo_parts::BOOK_TIMEPERCHAPTER))
                 info.push_back( iteminfo( "BOOK", "",
