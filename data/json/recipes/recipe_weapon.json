@@ -19,7 +19,7 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick_long", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
   },
   {
     "type": "recipe",
