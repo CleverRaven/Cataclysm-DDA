@@ -21,35 +21,38 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "NO_NPC_PICKUP" ), zone_type( translate_marker( "No NPC Pickup" ) ) );
     types.emplace( zone_type_id( "LOOT_UNSORTED" ), zone_type( translate_marker( "Loot: Unsorted" ) ) );
     types.emplace( zone_type_id( "LOOT_FOOD" ), zone_type( translate_marker( "Loot: Food" ) ) );
-    types.emplace( zone_type_id( "LOOT_PFOOD" ), zone_type( translate_marker( "Loot: P.Food" ) ) );
+    types.emplace( zone_type_id( "LOOT_PFOOD" ), zone_type( translate_marker_context( "perishable food",
+                   "Loot: P.Food" ) ) );
     types.emplace( zone_type_id( "LOOT_DRINK" ), zone_type( translate_marker( "Loot: Drink" ) ) );
-    types.emplace( zone_type_id( "LOOT_PDRINK" ), zone_type( translate_marker( "Loot: P.Drink" ) ) );
+    types.emplace( zone_type_id( "LOOT_PDRINK" ),
+                   zone_type( translate_marker_context( "perishable drink", "Loot: P.Drink" ) ) );
     types.emplace( zone_type_id( "LOOT_GUNS" ), zone_type( translate_marker( "Loot: Guns" ) ) );
     types.emplace( zone_type_id( "LOOT_MAGAZINES" ),
-                   zone_type( translate_marker( "Loot: Magazines" ) ) );
+                   zone_type( translate_marker_context( "gun magazines", "Loot: Magazines" ) ) );
     types.emplace( zone_type_id( "LOOT_AMMO" ), zone_type( translate_marker( "Loot: Ammo" ) ) );
     types.emplace( zone_type_id( "LOOT_WEAPONS" ), zone_type( translate_marker( "Loot: Weapons" ) ) );
     types.emplace( zone_type_id( "LOOT_TOOLS" ), zone_type( translate_marker( "Loot: Tools" ) ) );
     types.emplace( zone_type_id( "LOOT_CLOTHING" ), zone_type( translate_marker( "Loot: Clothing" ) ) );
     types.emplace( zone_type_id( "LOOT_FCLOTHING" ),
-                   zone_type( translate_marker( "Loot: F.Clothing" ) ) );
+                   zone_type( translate_marker_context( "filthy clothing", "Loot: F.Clothing" ) ) );
     types.emplace( zone_type_id( "LOOT_DRUGS" ), zone_type( translate_marker( "Loot: Drugs" ) ) );
     types.emplace( zone_type_id( "LOOT_BOOKS" ), zone_type( translate_marker( "Loot: Books" ) ) );
     types.emplace( zone_type_id( "LOOT_MODS" ), zone_type( translate_marker( "Loot: Mods" ) ) );
     types.emplace( zone_type_id( "LOOT_MUTAGENS" ), zone_type( translate_marker( "Loot: Mutagens" ) ) );
     types.emplace( zone_type_id( "LOOT_BIONICS" ), zone_type( translate_marker( "Loot: Bionics" ) ) );
     types.emplace( zone_type_id( "LOOT_VEHICLE_PARTS" ),
-                   zone_type( translate_marker( "Loot: V.Parts" ) ) );
+                   zone_type( translate_marker_context( "vehicle parts", "Loot: V.Parts" ) ) );
     types.emplace( zone_type_id( "LOOT_OTHER" ), zone_type( translate_marker( "Loot: Other" ) ) );
     types.emplace( zone_type_id( "LOOT_FUEL" ), zone_type( translate_marker( "Loot: Fuel" ) ) );
     types.emplace( zone_type_id( "LOOT_SEEDS" ), zone_type( translate_marker( "Loot: Seeds" ) ) );
     types.emplace( zone_type_id( "LOOT_CHEMICAL" ), zone_type( translate_marker( "Loot: Chemical" ) ) );
     types.emplace( zone_type_id( "LOOT_SPARE_PARTS" ),
-                   zone_type( translate_marker( "Loot: S.Parts" ) ) );
+                   zone_type( translate_marker_context( "spare parts", "Loot: S.Parts" ) ) );
     types.emplace( zone_type_id( "LOOT_ARTIFACTS" ),
                    zone_type( translate_marker( "Loot: Artifacts" ) ) );
     types.emplace( zone_type_id( "LOOT_ARMOR" ), zone_type( translate_marker( "Loot: Armor" ) ) );
-    types.emplace( zone_type_id( "LOOT_FARMOR" ), zone_type( translate_marker( "Loot: F.Armor" ) ) );
+    types.emplace( zone_type_id( "LOOT_FARMOR" ), zone_type( translate_marker_context( "filthy armor",
+                   "Loot: F.Armor" ) ) );
     types.emplace( zone_type_id( "LOOT_WOOD" ), zone_type( translate_marker( "Loot: Wood" ) ) );
     types.emplace( zone_type_id( "LOOT_IGNORE" ), zone_type( translate_marker( "Loot: Ignore" ) ) );
 }
