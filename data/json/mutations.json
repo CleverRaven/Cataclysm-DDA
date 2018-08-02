@@ -709,7 +709,7 @@
         "id" : "HATES_BOOKS",
         "name" : "Hates Books",
         "points" : -2,
-        "description" : "Reading is for nerds! You can't have fun at all by reading books and all books are less fun for you.",
+        "description" : "Reading is for nerds! Boring books are more boring, and you can't have fun by reading books.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["ILLITERATE","LOVES_BOOKS"]
