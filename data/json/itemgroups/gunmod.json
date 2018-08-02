@@ -20,11 +20,8 @@
     "//" : "Less common gunmods including those only used by police/paramilitary forces.",
     "items": [
       [ "adjustable_stock", 80],
-      [ "barrel_big", 20 ],
       [ "barrel_ported", 20 ],
-      [ "barrel_rifled", 20 ],
       [ "bipod", 20 ],
-      [ "blowback", 20 ],
       [ "folding_stock", 60 ],
       [ "grip", 80 ],
       [ "gun_crossbow", 20 ],

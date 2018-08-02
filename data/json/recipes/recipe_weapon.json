@@ -1251,19 +1251,6 @@
   },
   {
     "type": "recipe",
-    "result": "blowback",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 8,
-    "time": 20000,
-    "book_learn": [ [ "book_icef", 4 ], [ "textbook_mechanics", 4 ], [ "manual_pistol", 6 ], [ "manual_smg", 5 ], [ "manual_rifle", 5 ] ],
-    "tools": [ [ [ "large_repairkit", 50 ] ] ],
-    "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "grip",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
