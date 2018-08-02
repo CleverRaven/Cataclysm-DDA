@@ -15,7 +15,7 @@
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
     "damage_modifier": 1,
-    "dispersion_modifier": -30,
+    "dispersion_modifier": -90,
     "min_skills": [ [ "weapon", 4 ] ]
   },
   {

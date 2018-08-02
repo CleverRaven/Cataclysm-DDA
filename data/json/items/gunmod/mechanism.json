@@ -34,7 +34,7 @@
     "location": "mechanism",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "launcher" ],
     "install_time": 30000,
-    "dispersion_modifier": -30,
+    "dispersion_modifier": -60,
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ], [ "gun", 2 ] ]
   },
   {
