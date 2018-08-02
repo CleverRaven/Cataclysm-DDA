@@ -2091,7 +2091,7 @@
         "type" : "furniture",
         "id" : "f_still",
         "name": "still",
-        "description": "Invaluable equipment in brewery and chemistry, that distills liquids.",
+        "description": "An essential component for brewing and chemistry that allows for refining liquid mixtures.",
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
