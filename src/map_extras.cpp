@@ -56,11 +56,11 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     int dir1 = rng(0, 359);
     
     if( one_in( 3 ) ) {
-        m.add_vehicle( vproto_id( "policecar" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
+        m.add_vehicle( vproto_id( "helicopter_wreck_1a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
     } else if( one_in( 2 ) ) {
-        m.add_vehicle( vproto_id( "military_cargo_truck" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
+        m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
     } else {
-        m.add_vehicle( vproto_id( "policecar" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
+        m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), rng(1, 33) );
     }
 
     for( int x = 0; x < SEEX * 2; x++ ) {
