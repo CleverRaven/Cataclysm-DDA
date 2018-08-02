@@ -83,6 +83,7 @@
     "volume": 0,
     "price": 0,
     "damage_modifier": 3,
+    "dispersion_modifier": -45,
     "range_modifier": 3,
     "flags": [ "IRREMOVABLE" ]
   },
