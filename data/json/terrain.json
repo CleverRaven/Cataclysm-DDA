@@ -3912,7 +3912,6 @@
         }
     },{
         "type" : "terrain",
-
         "id" : "t_chainfence",
         "aliases" : [
             "t_chainfence_h",
@@ -6921,5 +6920,32 @@
     "roof": "t_flat_roof",
     "examine_action": "climb_down",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
-  }
+  },
+  {
+      "type" : "terrain",
+      "id" : "t_rootcellar",
+      "name": "root cellar",
+      "symbol": "=",
+      "description": "A cellar dug into the earth for storing food in a cool environment.",
+      "color": [ "green" ],
+      "move_cost": 0,
+      "flags": ["TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT"],
+      "deconstruct": {
+        "ter_set": "t_pit",
+        "items": [
+          { "item": "rock", "count": 40 },
+          { "item": "stick", "count": [16, 16] }
+        ]
+      },
+      "bash": {
+          "str_min": 18, "str_max": 50,
+          "sound": "crunch!",
+          "sound_fail": "whump!",
+          "ter_set": "t_pit_shallow",
+          "items": [
+              { "item": "rock", "count": 8 },
+              { "item": "stick", "count": [8, 12] }
+          ]
+      }
+  }   
 ]

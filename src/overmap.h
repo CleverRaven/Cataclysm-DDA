@@ -341,6 +341,13 @@ class overmap
      */
     static tripoint draw_overmap();
     /**
+     * Interactive point choosing; used as the map screen.
+     * The map is initially centered on the @ref origin.
+     * @returns The absolute coordinates of the chosen point or
+     * invalid_point if canceled with Escape (or similar key).
+     */
+    static tripoint draw_overmap( tripoint origin );
+    /**
      * Draw overmap like with @ref draw_overmap() and display hordes.
      */
     static tripoint draw_hordes();
@@ -420,13 +427,6 @@ public:
     std::array<map_layer, OVERMAP_LAYERS> layer;
     std::unordered_map<tripoint, scent_trace> scents;
 
-    /**
-     * When monsters despawn during map-shifting they will be added here.
-     * map::spawn_monsters will load them and place them into the reality bubble
-     * (adding it to the creature tracker and putting it onto the map).
-     * This stores each submap worth of monsters in a different bucket of the multimap.
-     */
-    std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
     oter_id get_default_terrain( int z ) const;
@@ -436,6 +436,15 @@ public:
     // open existing overmap, or generate a new one
     void open( overmap_special_batch &enabled_specials );
  public:
+
+    /**
+     * When monsters despawn during map-shifting they will be added here.
+     * map::spawn_monsters will load them and place them into the reality bubble
+     * (adding it to the creature tracker and putting it onto the map).
+     * This stores each submap worth of monsters in a different bucket of the multimap.
+     */
+    std::unordered_multimap<tripoint, monster> monster_map;
+
   // parse data in an opened overmap file
   void unserialize(std::istream &fin);
   // Parse per-player overmap view data.
@@ -507,7 +516,7 @@ public:
   void place_building( const tripoint &p, om_direction::type dir, const city &town );
 
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
-  bool build_lab(int x, int y, int z, int s, bool ice = false);
+  bool build_lab(int x, int y, int z, int s, std::vector<point> *lab_train_points, const std::string prefix, int train_odds);
   void build_anthill(int x, int y, int z, int s);
   void build_acid_anthill(int x, int y, int z, int s);
   void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
@@ -585,5 +594,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
+// Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
+bool is_ot_subtype(const char* otype, const oter_id &oter);
 
 #endif

@@ -684,7 +684,7 @@
     "nutrition": 20,
     "description": "A mushy, gray semi-liquid soup made from mushrooms.",
     "price": 450,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "phase": "liquid",
     "charges": 4,
@@ -706,7 +706,7 @@
     "nutrition": 10,
     "description": "It smells of tomatoes.  Not very filling, but it goes well with grilled cheese.",
     "price": 400,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
@@ -2684,7 +2684,7 @@
     "nutrition": 38,
     "description": "Biscuits, human flesh, and delicious mushroom soup all crammed together into a wonderfully greasy and tasteful mush.",
     "price": 9000,
-    "material": [ "hflesh", "wheat" ],
+    "material": [ "hflesh", "wheat", "mushroom" ],
     "volume": 3,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -2706,7 +2706,7 @@
     "nutrition": 38,
     "description": "Biscuits, meat, and delicious mushroom soup all crammed together into a wonderfully greasy and tasteful mush.",
     "price": 1000,
-    "material": [ "flesh", "wheat" ],
+    "material": [ "flesh", "wheat", "mushroom" ],
     "volume": 3,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -3903,7 +3903,7 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": -3,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -3922,7 +3922,7 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "flags": [ "HIDDEN_POISON", "TRADER_AVOID" ],
     "fun": -3
@@ -3941,7 +3941,7 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "flags": "HIDDEN_HALLU",
     "fun": -3
@@ -3959,7 +3959,7 @@
     "nutrition": 18,
     "description": "A tasty cooked wild mushroom.",
     "price": 150,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -3978,7 +3978,7 @@
     "nutrition": 12,
     "description": "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must be cooked before they are safe to eat.",
     "price": 2000,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -3995,7 +3995,7 @@
     "nutrition": 18,
     "description": "A tasty cooked morel mushroom.",
     "price": 1500,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 4,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -4012,7 +4012,7 @@
     "nutrition": 16,
     "description": "A delicious serving of fried morsels of morel mushroom.",
     "price": 1500,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "charges": 2,
     "fun": 12,
@@ -4033,7 +4033,7 @@
     "nutrition": 8,
     "description": "Dried mushrooms are a tasty and healthy addition to many meals.",
     "price": 180,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "charges": 4,
     "fun": 1
@@ -4052,7 +4052,7 @@
     "nutrition": 8,
     "description": "A hallucinogenic mushroom which has been dehydrated for storage.  Will still cause hallucinations if eaten.",
     "price": 180,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "charges": 4,
     "fun": 1
@@ -4231,7 +4231,7 @@
     "nutrition": 5,
     "description": "Tasty crunchy nuts from a pinecone.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
     "charges": 2,
     "fun": 2
@@ -4251,7 +4251,7 @@
     "nutrition": 15,
     "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
     "price": 0,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1
   },
   {
@@ -4269,7 +4269,7 @@
     "nutrition": 15,
     "description": "A handful roasted nuts from a hickory tree.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 2
@@ -4288,7 +4288,7 @@
     "nutrition": 15,
     "description": "Delicious hickory nut ambrosia.  A drink worthy of the gods.",
     "price": 100,
-    "material": [ "veggy", "milk" ],
+    "material": [ "nut", "milk" ],
     "volume": 1,
     "phase": "liquid",
     "charges": 4,
@@ -4404,7 +4404,7 @@
     "nutrition": 18,
     "description": "Juicy red tomato.  It gained popularity in Italy after being brought back from the New World.",
     "price": 90,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -4496,19 +4496,12 @@
     "quench": -18,
     "healthy": 1,
     "nutrition": 18,
-    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.",
+    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.  Can be disassembled to cloves.",
     "price": 600,
-    "material": "veggy",
+    "material": "garlic",
     "volume": 1,
     "fun": -18,
-    "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?",
-    "use_action": {
-      "target": "garlic_clove",
-      "msg": "You split the bulb into cloves.",
-      "target_charges": 6,
-      "menu_text": "Split",
-      "type": "transform"
-    }
+    "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?"
   },
   {
     "type": "COMESTIBLE",
@@ -4617,7 +4610,7 @@
     "nutrition": 18,
     "description": "An irradiated tomato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 120,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1
   },
   {
@@ -5021,7 +5014,7 @@
     "description": "Tomato sauce, yum yum.",
     "price": 320,
     "//": "Small cans--needs upsized after the string freeze.",
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
@@ -5043,7 +5036,7 @@
     "nutrition": 48,
     "description": "A spicy stew containing chili peppers, meat, tomatoes and beans.",
     "price": 290,
-    "material": [ "flesh", "veggy" ],
+    "material": [ "flesh", "veggy", "bean", "tomato" ],
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -5065,7 +5058,7 @@
     "nutrition": 48,
     "description": "A spicy stew containing chili peppers, human flesh, tomatoes and beans.",
     "price": 2500,
-    "material": [ "hflesh", "veggy" ],
+    "material": [ "hflesh", "veggy", "bean", "tomato" ],
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -5086,7 +5079,7 @@
     "nutrition": 18,
     "description": "Olive oil, basil, garlic, pine nuts.  Simple and delicious.",
     "price": 230,
-    "material": "veggy",
+    "material": [ "veggy", "nut", "garlic" ],
     "volume": 1,
     "phase": "liquid",
     "fun": 4
@@ -5106,7 +5099,7 @@
     "nutrition": 40,
     "description": "Canned beans.  A staple among canned goods, these are reputedly good for one's coronary health.",
     "price": 150,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "rot_spawn": "GROUP_CARRION"
@@ -5126,7 +5119,7 @@
     "nutrition": 50,
     "description": "Greasy Prospector improved pork and beans with hickory smoked pig fat chunks.",
     "price": 200,
-    "material": [ "flesh", "veggy" ],
+    "material": [ "flesh", "bean" ],
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
@@ -5428,8 +5421,11 @@
     "weight": 760,
     "color": "pink",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -12,
@@ -5449,8 +5445,11 @@
     "weight": 3767,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -5470,8 +5469,11 @@
     "weight": 11071,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -5503,7 +5505,7 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-    "flags": ["MYCUS_OK"],
+    "flags": [ "MYCUS_OK" ],
     "fun": 30
   },
   {
@@ -5546,7 +5548,8 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-     "fun": 30
+    "flags": [ "MYCUS_OK" ],
+    "fun": 30
   },
   {
     "type": "COMESTIBLE",
@@ -5640,7 +5643,7 @@
     "nutrition": 1,
     "description": "Dehydrated great northern beans.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": 300,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "charges": 8,
     "fun": -6
@@ -5660,7 +5663,7 @@
     "nutrition": 50,
     "description": "A hearty serving of cooked great northern beans.",
     "price": 100,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
@@ -5679,7 +5682,7 @@
     "nutrition": 44,
     "description": "Slow-cooked beans with meat.  Tasty and very filling.",
     "price": 700,
-    "material": [ "veggy", "flesh" ],
+    "material": [ "bean", "flesh" ],
     "volume": 1,
     "charges": 4,
     "//": "One beans + one protein/veg = 2 servings",
@@ -5701,7 +5704,7 @@
     "nutrition": 39,
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": 700,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
     "//": "One beans + one protein/veg = 2 servings",
@@ -5805,7 +5808,7 @@
     "nutrition": 26,
     "description": "A serving of beans and rice that has been cooked together.  Delicious and healthy!",
     "price": 500,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -5826,7 +5829,7 @@
     "nutrition": 36,
     "description": "Slow-cooked beans and rice with meat and seasonings.  Tasty and very filling.",
     "price": 750,
-    "material": [ "veggy", "flesh" ],
+    "material": [ "veggy", "bean", "flesh" ],
     "volume": 1,
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
@@ -5847,7 +5850,7 @@
     "nutrition": 33,
     "description": "Slow-cooked beans and rice with vegetables and seasonings.  Tasty and very filling.",
     "price": 750,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
@@ -6054,7 +6057,7 @@
     "nutrition": 6,
     "description": "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
     "price": 0,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
     "charges": 2,
     "fun": -20
@@ -6066,13 +6069,14 @@
     "name_plural": "cooked acorn meal",
     "weight": 212,
     "color": "brown",
+    "spoils_in": 8640,
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
     "nutrition": 42,
     "description": "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1
   },
   {
@@ -6842,7 +6846,7 @@
     "nutrition": 40,
     "description": "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its smell brings back great memories.",
     "price": 990,
-    "material": [ "wheat", "veggy" ],
+    "material": [ "wheat", "veggy", "tomato" ],
     "volume": 8,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -6918,11 +6922,12 @@
     "name": "MRE - Beef",
     "name_plural": "MREs - beef",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_veggy_box",
@@ -6932,11 +6937,12 @@
     "name": "MRE - Vegetarian",
     "name_plural": "MREs - vegetarian",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_chicken_box",
@@ -6946,11 +6952,12 @@
     "name": "MRE - Chicken",
     "name_plural": "MREs - chicken",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_hotdog_box",
@@ -6960,11 +6967,12 @@
     "name": "MRE - Hotdogs",
     "name_plural": "MREs - hotdogs",
     "category": "food",
-    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1200,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_ravioli_box",
@@ -6974,11 +6982,12 @@
     "name": "MRE - Ravioli",
     "name_plural": "MREs - ravioli",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1700,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "type": "COMESTIBLE",
@@ -7420,7 +7429,7 @@
     "nutrition": 50,
     "description": "Spaghetti, with a generous helping of pesto on top.  Yum!",
     "price": 1000,
-    "material": [ "wheat", "veggy" ],
+    "material": [ "wheat", "veggy", "nut" ],
     "volume": 7,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -7783,8 +7792,10 @@
     "weight": 100,
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
     "stim": -60,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -7940,7 +7951,7 @@
     "nutrition": 31,
     "description": "A sandwich, consisting of ground meat and tomato sauce served on a hamburger bun.",
     "price": 900,
-    "material": [ "flesh", "veggy", "wheat" ],
+    "material": [ "flesh", "tomato", "wheat" ],
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -8024,7 +8035,7 @@
     "nutrition": 33,
     "description": "A bacon, lettuce, and tomato sandwich on toasted bread.",
     "price": 400,
-    "material": [ "flesh", "veggy", "wheat" ],
+    "material": [ "flesh", "veggy", "wheat", "tomato" ],
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -10132,7 +10143,7 @@
     "nutrition": 18,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": 350,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "stack_size": 2,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -10144,7 +10155,6 @@
     "weight": 250,
     "color": "yellow",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
     "stim": -20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -10159,7 +10169,11 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "EATEN_COLD" ],
     "fun": -15
   },
   {
@@ -10841,3 +10855,4 @@
     "flags": [ "EATEN_HOT" ]
   }
 ]
+

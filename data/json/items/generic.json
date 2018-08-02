@@ -238,7 +238,8 @@
         "type": "GENERIC",
         "category": "spare_parts",
         "name": "bundle of rags",
-        "description": "Cotton rags, bundled tightly together for storage. Disassemble to unpack.",
+        "name_plural": "bundles of rags",
+        "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
         "weight": 800,
         "volume": 3,
         "price": 0,
@@ -251,7 +252,8 @@
         "type": "GENERIC",
         "category": "spare_parts",
         "name": "bundle of leather",
-        "description": "Leather patches, bundled tightly together for storage. Disassemble to unpack.",
+        "name_plural": "bundles of leather",
+        "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
         "weight": 1000,
         "volume": 4,
         "price": 20000,
@@ -264,7 +266,8 @@
         "type": "GENERIC",
         "category": "spare_parts",
         "name": "bundle of felt",
-        "description": "Felt patches, bundled tightly together for storage. Disassemble to unpack.",
+        "name_plural": "bundles of felt",
+        "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
         "weight": 1000,
         "volume": 4,
         "price": 20000,
@@ -2399,18 +2402,5 @@
         "symbol": ".",
         "color": "white",
         "ammo_type": "components"
-    },
-    {
-        "id": "anesthesia",
-        "type": "GENERIC",
-        "name": "anesthetic kit",
-        "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
-        "weight": 100,
-        "volume": 1,
-        "price": 50000,
-        "material": "plastic",
-        "symbol": "!",
-        "color": "cyan",
-        "flags": [ "ANESTHESIA" ]
     }
 ]

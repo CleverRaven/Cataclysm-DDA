@@ -114,6 +114,9 @@ class vpart_info
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
 
+        /** A text description of the part as a vehicle part */
+        std::string description;
+
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 
@@ -144,6 +147,10 @@ class vpart_info
 
         /** Legacy parts don't specify installation requirements */
         bool legacy = true;
+
+        /** Format the description for display */
+        int format_description( std::ostringstream &msg, std::string format_color, int width ) const;
+
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;

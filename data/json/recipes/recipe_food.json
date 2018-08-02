@@ -1307,14 +1307,17 @@
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
   ],
-  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1], [ "food_processor", 20 ] ]
+  ],
   "components": [
     [
       [ "acorns", 1 ]
     ],
     [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -6526,7 +6529,7 @@
     "tools":[ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
         [ [ "meat_tainted", 12 ] ],
-        [ [ "hard_liquor_chem", 7, "LIST" ] ]
+        [ [ "hard_liquor_chem", 1, "LIST" ] ]
     ]
 },{
   "type" : "recipe",

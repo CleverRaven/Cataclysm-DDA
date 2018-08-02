@@ -11,7 +11,7 @@
 void give_all_mutations( player &p, const mutation_category_trait &category,
                          bool include_postthresh )
 {
-    const std::vector<trait_id> category_mutations = mutations_category[category.category_full];
+    const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
     // Add the threshold mutation first
     if( include_postthresh && !category.threshold_mut.is_empty() ) {
@@ -52,9 +52,8 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 {
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;
-        const auto &cat_id = cur_cat.category;
-        const auto &cat_id_full = cur_cat.category_full;
-        if( cat_id_full == "MUTCAT_ANY" ) {
+        const auto &cat_id = cur_cat.id;
+        if( cat_id == "ANY" ) {
             continue;
         }
 
@@ -64,7 +63,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 
             THEN( cat_id + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                CHECK( dummy.get_highest_category() == cat_id_full );
+                CHECK( dummy.get_highest_category() == cat_id );
             }
         }
 
@@ -74,7 +73,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 
             THEN( cat_id + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                CHECK( dummy.get_highest_category() == cat_id_full );
+                CHECK( dummy.get_highest_category() == cat_id );
             }
         }
     }
@@ -88,9 +87,8 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
 
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;
-        const auto &cat_id = cur_cat.category;
-        const auto &cat_id_full = cur_cat.category_full;
-        if( cat_id_full == "MUTCAT_ANY" ) {
+        const auto &cat_id = cur_cat.id;
+        if( cat_id == "ANY" ) {
             continue;
         }
 
@@ -98,7 +96,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
             npc dummy;
             give_all_mutations( dummy, cur_cat, false );
 
-            int category_strength = dummy.mutation_category_level[cat_id_full];
+            int category_strength = dummy.mutation_category_level[cat_id];
             int total_strength = get_total_category_strength( dummy );
             float breach_chance = category_strength / ( float ) total_strength;
 

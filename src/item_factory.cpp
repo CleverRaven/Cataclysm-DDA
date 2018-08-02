@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "options.h"
+#include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -538,6 +539,7 @@ void Item_factory::init()
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
+    add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
     add_iuse( "CATFOOD", &iuse::catfood );
@@ -549,6 +551,7 @@ void Item_factory::init()
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
+    add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
@@ -559,6 +562,7 @@ void Item_factory::init()
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
+    add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
@@ -569,6 +573,7 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
+    add_iuse( "FILL_PIT", &iuse::fill_pit );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
@@ -614,8 +619,6 @@ void Item_factory::init()
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
-    add_iuse( "MUTAGEN", &iuse::mutagen );
-    add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
@@ -676,6 +679,7 @@ void Item_factory::init()
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
+    add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
@@ -710,6 +714,8 @@ void Item_factory::init()
     add_actor( new saw_barrel_actor() );
     add_actor( new install_bionic_actor() );
     add_actor( new detach_gunmods_actor() );
+    add_actor( new mutagen_actor() );
+    add_actor( new mutagen_iv_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -1060,6 +1066,18 @@ const itype * Item_factory::find_template( const itype_id& id ) const
         return rt->second.get();
     }
 
+    //If we didn't find the item maybe it is a building instead!
+    if( oter_str_id( id.c_str() ).is_valid()){
+        itype *def = new itype();
+        def->id = id;
+        def->name = string_format( "DEBUG: %s", id.c_str() );
+        def->name_plural = string_format( "%s", id.c_str() );
+        const recipe *making = &recipe_id( id.c_str() ).obj();
+        def->description = string_format( making->description );
+        m_runtimes[ id ].reset( def );
+        return def;
+    }
+
     debugmsg( "Missing item definition: %s", id.c_str() );
 
     itype *def = new itype();
@@ -1161,6 +1179,13 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
     slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
+    // No dreams unless specified for artifacts embedded in items.
+    // If specifying dreams, message should be set too,
+    // since the array with the defaults isn't accessible from here.
+    slot.dream_freq_unmet = jo.get_int(    "dream_freq_unmet", 0 );
+    slot.dream_freq_met   = jo.get_int(    "dream_freq_met",   0 );
+    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" ); //@todo Make sure it doesn't cause problems if this is empty
+    slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
@@ -1672,6 +1697,11 @@ static void set_allergy_flags( itype &item_template )
         std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
         std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
         std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "nut" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
         std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
         std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
         std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),

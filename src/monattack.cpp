@@ -2598,7 +2598,7 @@ bool mattack::fear_paralyze(monster *z)
         return false; // TODO: handle friendly monsters
     }
     if ( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.is_wearing("tinfoil_hat") && one_in(4))) {
+        if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in(4))) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
         ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if ( rng(0, 20) > g->u.get_int() ) {

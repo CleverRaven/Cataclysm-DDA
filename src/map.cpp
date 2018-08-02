@@ -3935,6 +3935,12 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         if(!check_only) {
             sounds::sound( p, 6, "", true, "open_door", ter.id.str() );
             ter_set(p, ter.open );
+
+            if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
+                && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
+                tripoint mp = p + tripoint( ( p.x - g->u.pos().x ) * 2, ( p.y - g->u.pos().y ) * 2, p.z );
+                g->spawn_hallucination( mp );
+            }
         }
 
         return true;
@@ -4932,36 +4938,30 @@ long remove_charges_in_list(const itype *type, map_stack stack, long quantity)
 void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
                             map *m, const tripoint &p, std::list<item> &ret )
 {
-    if( type == "water" && f.examine == &iexamine::toilet ) {
-        auto items = m->i_at( p );
-        auto water = items.begin();
-        for( ; water != items.end(); ++water ) {
-            if( water->typeId() == "water" ) {
-                break;
+    if( m->has_flag( "LIQUIDCONT", p ) ) {
+        auto item_list = m->i_at( p );
+        auto current_item = item_list.begin();
+        for( ; current_item != item_list.end(); ++current_item ) {
+            // looking for a liquid that matches
+            if( current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
+                ret.push_back( *current_item );
+                if( current_item->charges - quantity > 0 ) {
+                    // Update the returned liquid amount to match the requested amount
+                    ret.back().charges = quantity;
+                    // Update the liquid item in the world to contain the leftover liquid
+                    current_item->charges -= quantity;
+                    // All the liquid needed was found, no other sources will be needed
+                    quantity = 0;
+                } else {
+                    // The liquid copy in ret already contains how much was available
+                    // The leftover quantity returned will check other sources
+                    quantity -= current_item->charges;
+                    // Remove liquid item from the world
+                    item_list.erase( current_item );
+                }
+                return;
             }
         }
-
-        // If the toilet is not empty
-        if( water != items.end() ) {
-            // There is water, copy it to report back to the outer method
-            ret.push_back( *water );
-            if( water->charges - quantity > 0 ) {
-                // Update the returned water amount to match the requested amount
-                ret.back().charges = quantity;
-                // Update the water item in the world to contain the leftover water
-                water->charges -= quantity;
-                // All the water needed was found, no other sources will be needed
-                quantity = 0;
-            } else {
-                // The water copy in ret already contains how much was available
-                // The leftover quantity returned will check other sources
-                quantity -= water->charges;
-                // Remove water item from the world
-                items.erase( water );
-            }
-        }
-
-        return;
     }
 
     const itype *itt = f.crafting_pseudo_item_type();
@@ -7277,6 +7277,11 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue;
             }
             monster tmp( spawn_details.name );
+
+            // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
+            if( group.horde ) {
+                tmp.set_horde_attraction( MHA_ALWAYS );
+            }
             for( int i = 0; i < spawn_details.pack_size; i++) {
                 group.monsters.push_back( tmp );
             }

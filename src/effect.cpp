@@ -317,6 +317,11 @@ bool effect_type::load_mod_data( JsonObject &jsobj, const std::string &member ) 
         extract_effect(j, mod_data, "vomit_chance_bot", member, "VOMIT",    "chance_bot");
         extract_effect(j, mod_data, "vomit_tick",       member, "VOMIT",    "tick");
 
+        // Then healing effects
+        extract_effect( j, mod_data, "healing_rate",    member, "HEAL_RATE",  "amount" );
+        extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
+        extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
+
         return true;
     } else {
         return false;
@@ -840,6 +845,7 @@ int effect::get_avg_mod(std::string arg, bool reduced) const
 
 int effect::get_amount(std::string arg, bool reduced) const
 {
+    int intensity_capped = ( ( eff_type->max_effective_intensity > 0 ) ? std::min( eff_type->max_effective_intensity, intensity ) : intensity );
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "amount"));
@@ -848,7 +854,7 @@ int effect::get_amount(std::string arg, bool reduced) const
     }
     found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "amount"));
     if (found != mod_data.end()) {
-        ret += found->second * (intensity - 1);
+        ret += found->second * (intensity_capped - 1);
     }
     return int(ret);
 }
@@ -1200,6 +1206,8 @@ void load_effect_type(JsonObject &jo)
     new_etype.pain_sizing = jo.get_bool("pain_sizing", false);
     new_etype.hurt_sizing = jo.get_bool("hurt_sizing", false);
     new_etype.harmful_cough = jo.get_bool("harmful_cough", false);
+
+    new_etype.max_effective_intensity = jo.get_int( "max_effective_intensity", 0 );
 
     new_etype.load_mod_data(jo, "base_mods");
     new_etype.load_mod_data(jo, "scaling_mods");

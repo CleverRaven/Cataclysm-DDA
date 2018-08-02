@@ -420,5 +420,10 @@
     "id": "acidbomb_act",
     "type": "MIGRATION",
     "replace": "acidbomb"
+  },
+  {
+    "id": "1st_aid_survivor",
+    "type": "MIGRATION",
+    "replace": "1st_aid"
   }
 ]

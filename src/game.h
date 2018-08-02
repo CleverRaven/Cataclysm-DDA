@@ -317,8 +317,8 @@ class game
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        /** Spawns a hallucination close to the player. */
-        bool spawn_hallucination();
+        /** Spawns a hallucination at a determined position (or random position close to the player). */
+        bool spawn_hallucination( const tripoint &p = tripoint_min );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
@@ -494,6 +494,8 @@ class game
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
+        /** Return list of killed NPC */
+        std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = NULL, bool add_teleglow = true );
@@ -527,6 +529,7 @@ class game
 
         void process_artifact( item &it, player &p );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
+        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );
@@ -585,7 +588,7 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
-        // Returns outdoor or indoor temperature of given location
+        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;

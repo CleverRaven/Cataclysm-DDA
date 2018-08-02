@@ -586,7 +586,6 @@
     "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
-    "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
@@ -1166,6 +1165,32 @@
       "max_volume": 2,
       "draw_cost": 30,
       "flags": [ "SHEATH_KNIFE" ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "spearsling",
+    "type": "ARMOR",
+    "name": "spear strap",
+    "description": "A cloth strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
+    "weight": 160,
+    "volume": 2,
+    "price": 5200,
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Holster spear",
+      "holster_msg": "You holster your %s.",
+      "max_volume": 14,
+      "draw_cost": 50,
+      "flags": [ "SHEATH_SPEAR" ]
     },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
@@ -2061,7 +2086,7 @@
     "material_thickness": 8,
     "environmental_protection": 6,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -2995,7 +3020,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_eye",
@@ -3014,7 +3039,7 @@
     "coverage": 75,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_monocle",
@@ -3039,7 +3064,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_reading",
@@ -3064,7 +3089,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_safety",
@@ -3625,7 +3650,7 @@
     "id": "gobag",
     "type": "ARMOR",
     "name": "go bag",
-    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Disassemble to unpack and enjoy.",
+    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate or disassemble to unpack and enjoy.",
     "weight": 18043,
     "volume": 143,
     "price": 100000,
@@ -3638,7 +3663,8 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "goggles_ski",
@@ -4567,16 +4593,16 @@
     "category": "clothing",
     "name": "hide bag",
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
-
     "symbol": "[",
     "color": "pink",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
-    "coverage": 5,
-    "encumbrance": 100,
-    "storage": 60,
-    "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-
+    "armor_data": {
+      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "coverage": 5,
+      "encumbrance": 100,
+      "storage": 60,
+      "material_thickness": 1,
+      "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    }
   },
   {
     "id": "hide_tainted_bag",
@@ -4587,13 +4613,14 @@
     "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
     "symbol": "[",
     "color": "pink",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
-    "coverage": 5,
-    "encumbrance": 100,
-    "storage": 60,
-    "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-
+    "armor_data": {
+      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "coverage": 5,
+      "encumbrance": 100,
+      "storage": 60,
+      "material_thickness": 1,
+      "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    }
   },
   {
     "id": "holy_symbol",
@@ -7080,7 +7107,7 @@
     "material_thickness": 11,
     "environmental_protection": 10,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_heavy",
@@ -7104,7 +7131,7 @@
     "material_thickness": 12,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_light",
@@ -7128,7 +7155,7 @@
     "material_thickness": 9,
     "environmental_protection": 8,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_light",
@@ -8079,7 +8106,7 @@
     "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ]
   },
   {
     "id": "stockings",
@@ -8836,7 +8863,7 @@
     "color": "yellow",
     "covers": [ "HEAD" ],
     "coverage": 90,
-    "flags": [ "SKINTIGHT", "TRADER_AVOID" ]
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ]
   },
   {
     "id": "tool_belt",

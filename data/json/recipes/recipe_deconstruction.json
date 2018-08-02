@@ -1293,7 +1293,8 @@
       [ [ "rollmat", 1 ] ],
       [ [ "sleeping_bag", 1 ] ],
       [ [ "ear_plugs", 1 ] ]
-    ]
+    ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "gold_bracelet",
@@ -1630,7 +1631,7 @@
       [ [ "heatpack", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "mre_chicken_box",
@@ -1656,7 +1657,7 @@
       [ [ "heatpack", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "mre_hotdog_box",
@@ -1682,7 +1683,7 @@
       [ [ "heatpack", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "mre_ravioli_box",
@@ -1708,7 +1709,7 @@
       [ [ "heatpack", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "mre_veggy_box",
@@ -1734,7 +1735,7 @@
       [ [ "heatpack", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "multi_cooker",
@@ -2418,7 +2419,6 @@
       [ [ "rope_6", 1 ] ]
     ]
   },
-
   {
     "result": "bundle_rag",
     "type": "uncraft",
@@ -2447,6 +2447,29 @@
     "components": [
       [ [ "felt_patch", 10 ] ]
     ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "1st_aid",
+    "type": "uncraft",
+    "time": 100,
+    "components": [
+      [ [ "medical_tape", 20 ] ],
+      [ [ "aspirin", 10 ] ],
+      [ [ "bottle_plastic_small", 2 ] ],
+      [ [ "disinfectant", 10 ] ],
+      [ [ "saline", 5 ] ],
+      [ [ "bandages", 6 ] ],
+      [ [ "medical_gauze", 6 ] ],
+      [ [ "booklet_firstaid", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "garlic",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "garlic_clove", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
   }
 ]

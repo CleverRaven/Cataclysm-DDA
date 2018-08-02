@@ -131,5 +131,33 @@
       [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ],
       [ [ "clockworks", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "livestock_carrier",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 12 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "frame", 4 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "livestock_carrier",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 12 ] ], [ [ "cargo_rack", 1 ] ] ]
   }
 ]

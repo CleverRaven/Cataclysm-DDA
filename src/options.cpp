@@ -1237,6 +1237,13 @@ void options_manager::init()
 
     get_option("ANIMATION_SCT").setPrerequisite("ANIMATIONS");
 
+    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with unicode font" ),
+        translate_marker( "If true, will display scrolling combat text with unicode font." ),
+        true
+        );
+
+    get_option("ANIMATION_SCT_USE_FONT").setPrerequisite("ANIMATION_SCT");
+
     add( "ANIMATION_DELAY", "graphics", translate_marker( "Animation delay" ),
         translate_marker( "The amount of time to pause between animation frames in ms." ),
         0, 100, 10
@@ -1962,7 +1969,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool sidebar_style_changed = false;
-    bool terminal_size_changed = true;
+    bool terminal_size_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {

@@ -448,6 +448,13 @@ def extract_mapgen(item):
             for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
                 sign = v.get("signage", None)
                 writestr(outfile, sign, comment="Sign")
+        elif objkey == "computers":
+            for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
+                if "name" in v:
+                    writestr(outfile, v.get("name"), comment="Computer name")
+                if "options" in v:
+                    for opt in v.get("options"):
+                        writestr(outfile, opt.get("name"), comment="Computer option")
 
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")

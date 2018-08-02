@@ -78,6 +78,7 @@ void done_extract_clay( const tripoint & );
 void done_mark_firewood( const tripoint & );
 
 void failure_standard( const tripoint & );
+void failure_deconstruct(const tripoint & );
 };
 
 // Helper functions, nobody but us needs to call these.
@@ -1151,6 +1152,11 @@ void construct::failure_standard( const tripoint & )
     add_msg( m_info, _( "You cannot build there!" ) );
 }
 
+void construct::failure_deconstruct( const tripoint & )
+{
+    add_msg( m_info, _( "You cannot deconstruct this!" ) );
+}
+
 template <typename T>
 void assign_or_debugmsg( T &dest, const std::string &fun_id,
                          const std::map<std::string, T> &possible )
@@ -1244,10 +1250,13 @@ void load_construction( JsonObject &jo )
             { "done_mark_firewood", construct::done_mark_firewood }
         }
     };
-    static const std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map = {{
-            { "", construct::failure_standard },
-        }
-    };
+    std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;
+    if ( jo.has_string( "pre_special" ) && jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
+        explain_fail_map[""] = construct::failure_deconstruct;
+    }
+    else {
+        explain_fail_map[""] = construct::failure_standard;
+    }
 
     assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );

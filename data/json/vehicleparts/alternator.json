@@ -6,6 +6,7 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
+    "description": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery.",
     "flags": [ "ALTERNATOR" ]
   },
   {

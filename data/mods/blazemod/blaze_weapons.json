@@ -21,8 +21,9 @@
     "sight_dispersion": 150,
     "durability": 9,
     "burst": 3,
-    "clip_size": 3,
     "reload": 150,
+    "magazine_well": 1,
+    "magazines": [ [ "bolt", [ "bolt_hopper" ] ] ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
@@ -45,9 +46,10 @@
     "ranged_damage": 60,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 1000,
-    "valid_mod_locations": [],
+    "reload": 750,
+    "valid_mod_locations": [  ],
+    "magazine_well": 1,
+    "magazines": [ [ "h_projectile", [ "cannister_rack" ] ] ],
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -71,9 +73,9 @@
     "ranged_damage": 60,
     "durability": 6,
     "loudness": 150,
-    "clip_size": 1,
-    "reload": 250,
-    "valid_mod_locations": [],
+    "clip_size": 5,
+    "reload": 1250,
+    "valid_mod_locations": [  ],
     "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
   },
   {
@@ -97,9 +99,9 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 3,
+    "clip_size": 12,
     "reload": 750,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
@@ -123,7 +125,7 @@
     "sight_dispersion": 150,
     "durability": 8,
     "ups_charges": 249,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "LASER", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
   },
@@ -149,7 +151,7 @@
     "durability": 8,
     "burst": 5,
     "ups_charges": 29,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "LASER", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
   },
@@ -174,7 +176,7 @@
     "sight_dispersion": 150,
     "durability": 8,
     "ups_charges": 499,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "EXPLOSIVE", "LASER", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
   },
@@ -199,10 +201,11 @@
     "pierce": 30,
     "sight_dispersion": 150,
     "durability": 5,
-    "clip_size": 1,
     "ups_charges": 9,
-    "reload": 750,
-    "valid_mod_locations": [],
+    "reload": 150,
+    "valid_mod_locations": [  ],
+    "magazine_well": 1,
+    "magazines": [ [ "nail", [ "nailmag" ] ] ],
     "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
   },
   {
@@ -227,9 +230,10 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 5,
-    "clip_size": 5,
-    "reload": 2750,
-    "valid_mod_locations": [],
+    "reload": 150,
+    "valid_mod_locations": [  ],
+    "magazine_well": 1,
+    "magazines": [ [ "nail", [ "nailmag" ] ] ],
     "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
   },
   {
@@ -256,7 +260,7 @@
     "clip_size": 1,
     "ups_charges": 249,
     "reload": 200,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "FRAG", "TRAIL", "WIDE" ]
   },
   {
@@ -281,9 +285,9 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 5,
-    "clip_size": 5,
+    "clip_size": 15,
     "reload": 750,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -308,9 +312,9 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 3,
+    "clip_size": 12,
     "reload": 2500,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -334,9 +338,9 @@
     "ranged_damage": 150,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
+    "clip_size": 12,
     "reload": 750,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -362,10 +366,11 @@
     "sight_dispersion": 150,
     "durability": 5,
     "burst": 25,
-    "clip_size": 25,
     "ups_charges": 1,
-    "reload": 750,
-    "valid_mod_locations": [],
+    "reload": 150,
+    "valid_mod_locations": [  ],
+    "magazine_well": 1,
+    "magazines": [ [ "BB", [ "bb_hopper" ] ] ],
     "flags": [ "BURST_ONLY", "MOUNTED_GUN", "NEVER_JAMS" ]
   },
   {
@@ -390,9 +395,9 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 3,
+    "clip_size": 12,
     "reload": 750,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -416,7 +421,7 @@
     "pierce": 10,
     "durability": 8,
     "ups_charges": 249,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "BOUNCE", "LIGHTNING", "MOUNTED_GUN" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
@@ -441,8 +446,9 @@
     "sight_dispersion": 150,
     "durability": 9,
     "burst": 5,
-    "clip_size": 5,
-    "reload": 2000,
+    "magazine_well": 1,
+    "magazines": [ [ "pebble", [ "pebble_hopper" ] ] ],
+    "reload": 150,
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   }
 ]

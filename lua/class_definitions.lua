@@ -2172,6 +2172,18 @@ global_functions = {
         args = { "string", "string", "int" },
         rval = "bool"
     },
+    get_monster_at = {
+        cpp_name = "get_monster_at",
+        args = { "tripoint" },
+        rval = "monster&",
+        desc = "Returns a reference to monster at given tripoint, *or* nil if there is no monster."
+    },
+    get_critter_at = {
+        cpp_name = "get_critter_at",
+        args = { "tripoint" },
+        rval = "Creature&",
+        desc = "Returns a reference to creature at given tripoint, *or* nil if there is no creature."
+    },
     create_monster = {
         cpp_name = "create_monster",
         args = { "mtype_id", "tripoint" },
