@@ -4557,11 +4557,11 @@
     "to_hit": 2,
     "bashing": 6,
     "cutting": 20,
-    "material": "steel",
+    "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "flags": [ "REACH_ATTACK" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
   },
   {
     "id": "makeshift_hammer",
