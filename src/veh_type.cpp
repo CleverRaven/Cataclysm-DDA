@@ -552,24 +552,6 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
     }
-    if( has_flag( "ENGINE" ) || has_flag( "ALTERNATOR" ) ) {
-        int actual_power = base.engine_displacement();
-        if( actual_power == 0 ) {
-            actual_power = power;
-        }
-        long_descrip << string_format( _( "\nPower: %1$5d" ), actual_power );
-        if( has_flag( "ENGINE" ) &&  fuel_type != "null" ) {
-            //~ %1$s is fuel type
-            long_descrip << string_format( _( "     Fuel: %1$s" ), fuel_type );
-        }
-    } else if( power > 0 ) {
-        long_descrip << string_format( _( "\nPower %1$5.2f fuel units per turn" ), power / 100.0 );
-    }
-    if( epower ) {
-        //~ %1$s is generation or drain
-        long_descrip << string_format( _( "\nElectrical power %1$s: %2$d watts" ),
-                                       epower > 0 ? _( "generation" ) : _( "drain" ), std::abs( epower ) );
-    }
 
     if( ! long_descrip.str().empty() ) {
         const auto wrap_descrip = foldstring( long_descrip.str(), width );
