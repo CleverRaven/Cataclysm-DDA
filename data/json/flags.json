@@ -222,6 +222,13 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "PSYSHIELD_PARTIAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "25% chance to protect against fear_paralyze monster attack.",
+    "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
+  },
+  {
     "id": "RAD_PROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

@@ -713,6 +713,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```PSYSHIELD_PARTIAL``` 25% chance to protect against fear_paralyze monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
