@@ -1691,7 +1691,6 @@
     "use_action": {
       "target": "bone_marrow",
       "msg": "You snap the bone into two pieces and extract the marrow.",
-      "target_charges": 2,
       "menu_text": "Extract marrow",
       "type": "transform"
     }
@@ -1709,6 +1708,7 @@
     "nutrition": 15,
     "description": "A soft, spongy substance found in bones. Chock-full of good stuff.",
     "price": 0,
+    "charges": 2,
     "material": "bone",
     "volume": 1,
     "vitamins": [ [ "calcium", 5 ], [ "iron", 10 ] ]
@@ -1733,7 +1733,6 @@
     "use_action": {
       "target": "tainted_marrow",
       "msg": "You snap the bone into two pieces and extract the marrow.",
-      "target_charges": 2,
       "menu_text": "Extract marrow",
       "type": "transform"
     }
@@ -1752,6 +1751,7 @@
     "nutrition": 5,
     "description": "A wet, green chunk of spongy goop extracted from a rotten bone. You could eat it, if you were desperate.",
     "price": 0,
+    "charges": 2,
     "material": "bone",
     "volume": 1
   },
@@ -1774,7 +1774,6 @@
     "use_action": {
       "target": "human_marrow",
       "msg": "You snap the bone into two pieces and extract the marrow.",
-      "target_charges": 2,
       "menu_text": "Extract marrow",
       "type": "transform"
     }
@@ -1792,6 +1791,7 @@
     "nutrition": 10,
     "description": "Soft, spongy marrow tissue from a human bone.",
     "price": 0,
+    "charges": 2,
     "material": [ "bone", "hflesh" ],
     "volume": 1
   },

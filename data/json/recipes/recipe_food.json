@@ -9978,5 +9978,16 @@
       [ "water_clean", 2 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "bone_marrow",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 1 ],
+    "time": 100,
+    "autolearn": true,
+    "components": [ [ [ "bone", 1 ] ] ]
   }
 ]
