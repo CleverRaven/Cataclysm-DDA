@@ -307,13 +307,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         // maximum space for either window if they're both the same size
         unsigned max_shared_y = ( maxy - infooffsetybottom ) / 2;
         // both are larger than the shared size
-        if( std::min( bionics_win_size_y, trait_win_size_y ) < max_shared_y ) {
+        if( std::min( bionics_win_size_y, trait_win_size_y ) > max_shared_y ) {
             bionics_win_size_y = max_shared_y;
             // trait window is less than the shared size, so give space to bionics
         } else if( trait_win_size_y < max_shared_y ) {
             bionics_win_size_y = maxy - infooffsetybottom - trait_win_size_y;
         }
-        // fall through if bionics is larger
+        // fall through if bionics is smaller
         trait_win_size_y = maxy - infooffsetybottom - bionics_win_size_y;
     }
 
@@ -738,6 +738,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     line = 0;
     bool done = false;
     size_t half_y = 0;
+    size_t bionics_useful_size_y = bionics_win_size_y - 1;
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.
@@ -953,21 +954,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 center_print( w_bionics, 0, h_light_gray, title_BIONICS );
                 trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                                 string_format( _( "Bionic Power: %1$d" ), max_power_level ) );
-                if( line <= ( bionics_win_size_y - 1 ) / 2 ) {
+
+                if( line <= ( ( bionics_useful_size_y - 1 ) / 2 ) ) {
                     min = 0;
-                    max = bionics_win_size_y;
-                    if( bionicslist.size() < max ) {
-                        max = bionicslist.size();
-                    }
-                } else if( line >= bionicslist.size() - ( bionics_win_size_y + 1 ) / 2 ) {
-                    min = ( bionicslist.size() < bionics_win_size_y ? 0 : bionicslist.size() - bionics_win_size_y );
+                    max = std::min( bionicslist.size(), bionics_useful_size_y );
+                } else if( line >= ( bionicslist.size() - ( bionics_useful_size_y + 1 ) / 2 ) ) {
+                    min = ( bionicslist.size() < bionics_useful_size_y ? 0 : bionicslist.size() - bionics_useful_size_y
+                            + 1 );
                     max = bionicslist.size();
                 } else {
-                    min = line - ( bionics_win_size_y - 1 ) / 2;
-                    max = line + bionics_win_size_y / 2 + 1;
-                    if( bionicslist.size() < max ) {
-                        max = bionicslist.size();
-                    }
+                    min = line - ( bionics_useful_size_y - 1 ) / 2;
+                    max = std::min( bionicslist.size(), ( size_t )( 1 + line + bionics_useful_size_y / 2 ) );
                 }
 
                 for( size_t i = min; i < max; i++ ) {
