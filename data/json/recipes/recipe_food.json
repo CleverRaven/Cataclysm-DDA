@@ -9989,5 +9989,27 @@
     "time": 100,
     "autolearn": true,
     "components": [ [ [ "bone", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tainted_marrow",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 1 ],
+    "time": 100,
+    "autolearn": true,
+    "components": [ [ [ "bone_tainted", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "human_marrow",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 1 ],
+    "time": 100,
+    "autolearn": true,
+    "components": [ [ [ "bone_human", 1 ] ] ]
   }
 ]
