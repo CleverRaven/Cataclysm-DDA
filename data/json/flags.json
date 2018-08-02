@@ -415,7 +415,7 @@
     "id": "BIONIC_TOGGLED",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic only has a function when activated, else it causes it's effect every turn."
+    "description": "This bionic only has a function when activated, else it causes its effect every turn."
   },
   {
     "id": "BIONIC_GUN",
