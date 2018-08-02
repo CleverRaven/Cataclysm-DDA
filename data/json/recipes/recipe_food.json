@@ -2665,7 +2665,7 @@
   "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
-      [ "bone", 10 ]
+      [ "bone_marrow", 20 ]
     ],
     [
       [ "water", 1 ],
@@ -2688,7 +2688,7 @@
   "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
-      [ "bone_human", 10 ]
+      [ "human_marrow", 20 ]
     ],
     [
       [ "water", 1 ],
@@ -6096,7 +6096,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "bone", 20 ]
+      [ "bone_marrow", 40 ]
     ],
     [
       [ "water", 2 ],
@@ -6131,7 +6131,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "bone_human", 20 ]
+      [ "human_marrow", 40 ]
     ],
     [
       [ "water", 2 ],
