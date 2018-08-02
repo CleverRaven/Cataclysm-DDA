@@ -9993,23 +9993,38 @@
   {
     "type": "recipe",
     "result": "tainted_marrow",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 1 ],
-    "time": 100,
-    "autolearn": true,
+    "copy-from": "bone_marrow",
     "components": [ [ [ "bone_tainted", 1 ] ] ]
   },
   {
     "type": "recipe",
     "result": "human_marrow",
+    "copy-from": "bone_marrow",
+    "components": [ [ [ "bone_human", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cooked_marrow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "skills_required": [ "survival", 1 ],
-    "time": 100,
+    "time": 900,
     "autolearn": true,
-    "components": [ [ [ "bone_human", 1 ] ] ]
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "bone_marrow", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cooked_human_marrow",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 900,
+    "book_learn": [ [ "cookbook_human", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "human_marrow", 1 ] ] ]
   }
 ]

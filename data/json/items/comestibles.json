@@ -1691,6 +1691,7 @@
     "use_action": {
       "target": "bone_marrow",
       "msg": "You snap the bone into two pieces and extract the marrow.",
+      "target_charges": 2,
       "menu_text": "Extract marrow",
       "type": "transform"
     }
@@ -1699,18 +1700,37 @@
     "type": "COMESTIBLE",
     "id": "bone_marrow",
     "name": "bone marrow",
-    "weight": 110,
+    "weight": 55,
     "color": "white",
     "spoils_in": 120,
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 2,
     "nutrition": 15,
-    "description": "A soft, spongy substance found in bones. Chock-full of good stuff.",
+    "description": "A soft, spongy substance found in bones.  Chock-full of good stuff, but it looks and tastes unpleasant.",
     "price": 0,
     "charges": 2,
     "material": "bone",
     "volume": 1,
+    "fun": -3,
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 10 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cooked_marrow",
+    "name": "roasted marrow",
+    "weight": 55,
+    "color": "brown",
+    "spoils_in": 168,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 2,
+    "nutrition": 15,
+    "description": "Marrow from animal bones that's been cooked and prepared.  Tasty!",
+    "price": 0,
+    "material": "bone",
+    "volume": 1,
+    "fun": 5,
     "vitamins": [ [ "calcium", 5 ], [ "iron", 10 ] ]
   },
   {
@@ -1733,6 +1753,32 @@
     "use_action": {
       "target": "tainted_marrow",
       "msg": "You snap the bone into two pieces and extract the marrow.",
+      "target_charges": 2,
+      "menu_text": "Extract marrow",
+      "type": "transform"
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_tainted",
+    "category": "other",
+    "name": "tainted bone",
+    "weight": 212,
+    "color": "light_gray",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -1,
+    "nutrition": 2,
+    "description": "A rotten and brittle bone from some unnatural creature or other.",
+    "price": 0,
+    "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
+    "material": "bone",
+    "volume": 1,
+    "fun": -10,
+    "use_action": {
+      "target": "tainted_marrow",
+      "msg": "You snap the bone into two pieces and extract the marrow.",
+      "target_charges": 1,
       "menu_text": "Extract marrow",
       "type": "transform"
     }
@@ -1741,7 +1787,7 @@
     "type": "COMESTIBLE",
     "id": "tainted_marrow",
     "name": "tainted marrow",
-    "weight": 100,
+    "weight": 20,
     "color": "white",
     "spoils_in": 60,
     "use_action": "POISON",
@@ -1749,7 +1795,7 @@
     "symbol": "%",
     "healthy": -1,
     "nutrition": 5,
-    "description": "A wet, green chunk of spongy goop extracted from a rotten bone. You could eat it, if you were desperate.",
+    "description": "A wet, green chunk of spongy goop extracted from a rotten bone.  You could eat it, if you were desperate.",
     "price": 0,
     "charges": 2,
     "material": "bone",
@@ -1774,6 +1820,7 @@
     "use_action": {
       "target": "human_marrow",
       "msg": "You snap the bone into two pieces and extract the marrow.",
+      "target_charges": 2,
       "menu_text": "Extract marrow",
       "type": "transform"
     }
@@ -1782,7 +1829,7 @@
     "type": "COMESTIBLE",
     "id": "human_marrow",
     "name": "human bone marrow",
-    "weight": 110,
+    "weight": 55,
     "color": "white",
     "spoils_in": 120,
     "comestible_type": "FOOD",
@@ -1793,6 +1840,24 @@
     "price": 0,
     "charges": 2,
     "material": [ "bone", "hflesh" ],
+    "fun": -4,
+    "volume": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cooked_human_marrow",
+    "name": "marvin marrow",
+    "weight": 55,
+    "color": "white",
+    "spoils_in": 168,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "nutrition": 10,
+    "description": "Cooked marrow from human bones.  Evidently this one didn't drink enough milk.",
+    "price": 0,
+    "material": [ "bone", "hflesh" ],
+    "fun": 2,
     "volume": 1
   },
   {
