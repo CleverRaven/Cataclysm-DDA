@@ -1004,19 +1004,28 @@
   {
     "type": "vehicle_part",
     "id": "controls_electronic",
-    "name": "electronic control unit",
+    "name": "electronics control unit",
     "symbol": "$",
     "color": "yellow",
     "broken_symbol": "$",
     "broken_color": "red",
     "damage_modifier": 10,
-    "durability": 180,
+    "durability": 50,
     "bonus": 10,
     "epower": -25,
-    "item": "vehicle_controls",
+    "item": "electronics_controls",
     "description": "Some switches and knobs to control the vehicle's electrical systems.",
-    "difficulty": 3,
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "folded_volume": 3,
+    "flags": [ "CTRL_ELECTRONIC", "FOLDABLE", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "requirements": {
+      "install": {
+        "time": 35000,
+        "skills": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
+        "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
     "breaks_into": "ig_vp_device"
   },
   {
