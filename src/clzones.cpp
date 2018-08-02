@@ -214,11 +214,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 {
     auto cat = it.get_category();
 
-    auto typeId = it.typeId();
-    if( typeId == "2x4" ||
-        typeId == "log" ||
-        typeId == "splinter" ||
-        typeId == "stick" ) {
+    if( it.has_flag( "FIREWOOD" ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where ) ) {
             return zone_type_id( "LOOT_WOOD" );
         }

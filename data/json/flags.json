@@ -122,6 +122,12 @@
     "conflicts": [ "SUPER_FANCY" ]
   },
   {
+    "id": "FIREWOOD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item can serve as a firewood."
+  },
+  {
     "id": "FIX_FARSIGHT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
