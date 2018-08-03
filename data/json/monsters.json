@@ -3090,8 +3090,7 @@
       "NO_BREATHE",
       "REVIVES",
       "BONES"
-    ],
-    "upgrades": { "half_life": 28, "into": "mon_zombie_nullfield" }
+    ]
   },
   {
     "id": "mon_zombie_nullfield",
@@ -3135,7 +3134,8 @@
       "CBM_SUBS",
       "NO_BREATHE",
       "REVIVES",
-      "BONES"
+      "BONES",
+      "ELECTRIC_FIELD"
     ]
   },
   {
@@ -3368,6 +3368,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into": "mon_zombie_nullfield" },
     "flags": [
       "SEES",
       "HEARS",

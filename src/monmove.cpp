@@ -1131,6 +1131,18 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         }
     }
 
+    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+        for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
+            const auto items = g->m.i_at( zap );
+            for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
+                if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                    g->m.add_field( zap, fd_fire, 2, 1_minutes );
+                    break;
+                }
+            }
+        }
+    }
+
     return true;
 }
 
