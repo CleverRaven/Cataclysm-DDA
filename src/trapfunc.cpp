@@ -652,7 +652,8 @@ void trapfunc::pit( Creature *c, const tripoint &p )
                     ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
-                n->add_msg_if_player( m_info, _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                n->add_msg_if_player( m_info,
+                                      _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             } else {
                 int dodge = n->get_dodge();
                 ///\EFFECT_DODGE reduces damage taken falling into a pit
@@ -694,7 +695,8 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                     ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
-                n->add_msg_if_player( m_info, _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                n->add_msg_if_player( m_info,
+                                      _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
                 ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the spikes within." ) );
@@ -771,7 +773,8 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                     ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
-                n->add_msg_if_player( m_info, _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                n->add_msg_if_player( m_info,
+                                      _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
                 ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the glass shards within." ) );
@@ -987,7 +990,8 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
                     g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
             } else if( g->u.has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
-                add_msg( m_info, _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                add_msg( m_info,
+                         _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             } else {
                 g->u.impact( 20, p );
             }
@@ -1062,7 +1066,8 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( pl->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
-        pl->add_msg_if_player( m_info, _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+        pl->add_msg_if_player( m_info,
+                               _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
     } else {
         pl->impact( height * 10, where );
     }
