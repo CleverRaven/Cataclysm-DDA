@@ -2320,14 +2320,11 @@
             "description" : "Mount Metal Butchering Rack",
             "category" : "FURN",
             "required_skills" : [ [ "fabrication", 0 ] ],
-            "time" : 15,
-            "qualities": [
-                [ { "id": "SCREW", "level": 1 } ]
-            ],
+            "time" : 5,
             "components" : [
-                [ [ "metal_bucher_rack", 1 ] ]
+                [ [ "metal_butcher_rack", 1 ] ]
             ],
-            "pre_note" : "It's legs are foldable and hold in place by screws.",
+            "pre_note" : "Its legs are foldable and held in place by thumbscrews.",
             "pre_special" : "check_empty",
             "post_terrain" : "f_metal_butcher_rack"
     }  

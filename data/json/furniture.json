@@ -2997,7 +2997,7 @@
         "bgcolor": "brown",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMABLE_ASH", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT", "BUTCHER_EQ", "ORGANIC"],
+        "flags": ["PLACE_ITEM", "TRANSPARENT", "FLAMABLE_ASH", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT", "BUTCHER_EQ", "ORGANIC"],
         "deconstruct": {
             "items": [
             { "item": "stick_long", "count": 6 }
@@ -3021,10 +3021,12 @@
         "bgcolor": "light_gray",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ"],
+        "deployed_item": "metal_butcher_rack",
+        "examine_action": "deployed_furniture",
+        "flags": ["PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ"],
         "deconstruct": {
             "items": [
-            { "item": "metal_bucher_rack", "count": 1 }
+            { "item": "metal_butcher_rack", "count": 1 }
             ]
         },
         "bash": {
