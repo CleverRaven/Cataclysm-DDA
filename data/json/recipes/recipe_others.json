@@ -866,16 +866,6 @@
   },
   {
     "type": "recipe",
-    "result": "towel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "survival",
-    "time": 4000,
-    "autolearn": true,
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "towel_soiled", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
