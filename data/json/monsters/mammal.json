@@ -481,7 +481,7 @@
     "id": "mon_dog",
     "type": "MONSTER",
     "name": "dog",
-    "description": "This once average mixed breed dog has clearly gone feral.  You can almost imagine petting it until you see the look of hunger in its eyes.  You have no doubt it would kill you if given the chance",
+    "description": "This once-domestic mixed-breed dog has clearly gone feral.  Its body language and wild expression betray gnawing, desperate hunger.",
     "default_faction": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
