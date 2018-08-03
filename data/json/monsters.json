@@ -247,7 +247,7 @@
     "type": "MONSTER",
     "name": "blank body",
     "name_plural": "blank bodies",
-    "description": "This aberration's appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Naked and trembling, it almost seems pitiful but for the way that its unearthly presence makes the hair on the back of your neck stand up in nameless horror.",
+    "description": "This aberration's appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Naked and trembling, it almost seems pitiful but for the way that its appearance dips to the very bottom of the uncanny valley.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 5,
