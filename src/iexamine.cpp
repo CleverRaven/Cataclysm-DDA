@@ -3787,6 +3787,9 @@ void smoker_load_food( player &p, const tripoint &examp )
 
     // filter SMOKABLE food
     inventory inv = p.crafting_inventory();
+    inv.remove_items_with( []( const item & it ) {
+        return it.rotten();
+    } );
     std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
         return it.has_flag( "SMOKABLE" );
     } );
@@ -3856,6 +3859,9 @@ void smoker_load_food( player &p, const tripoint &examp )
 
     // select from where to get the items from and place them
     inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.remove_items_with( []( const item & it ) {
+    return it.rotten();
+    } );
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
     moved = p.consume_items( selected, 1 );
     for( item m : moved ) {
