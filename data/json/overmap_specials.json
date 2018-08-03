@@ -2097,5 +2097,148 @@
     "city_distance": [ -1, 10 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 5 ]
+  },{
+    "type": "overmap_special",
+    "id": "junkyard",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "junkyard_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "junkyard_1b_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "junkyard_2a_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "junkyard_2b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 5 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 6 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "dumpsite",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "dumpsite_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 2, 8 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 0, 8 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "nature trail",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "NatureTrail_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "NatureTrail_1b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 1, 8 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 6 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "public pond",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "PublicPond_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "PublicPond_1b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 1, 6 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "cemetery",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "Cemetery_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "Cemetery_1b_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 5 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 7 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "botanical garden",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "BotanicalGarden_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "BotanicalGarden_1b_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 4 ],
+    "city_sizes": [ 5, 12 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "tree farm",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "TreeFarm_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "TreeFarm_1b_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 1, 6 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "shooting range",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shootingrange_1a_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "shootingrange_2a_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 1, 8 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campground",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "campground_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "campground_1b_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "campground_2a_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "campground_2b_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 1, 9 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "desolate barn",
+    "locations": [ "land" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 0, 10 ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "desolatebarn_north" } ],
+    "occurrences": [ 0, 15 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "landscaping supply co",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "landscapingsupplyco_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "landscapingsupplyco_1b_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 3 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "CLASSIC" ]
   }
 ]

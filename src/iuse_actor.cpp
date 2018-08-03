@@ -376,9 +376,9 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 
     dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
     const auto &sd = explosion.shrapnel;
-    if( sd.count > 0 ) {
-        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
-        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
+    if( sd.casing_mass > 0 ) {
+        dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), "", sd.casing_mass );
+        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), "", sd.fragment_mass );
     }
 }
 

@@ -2091,7 +2091,7 @@
         "type" : "furniture",
         "id" : "f_still",
         "name": "still",
-        "description": "Invaluable equipment in brewery and chemisty, that distills liquids.",
+        "description": "An essential component for brewing and chemistry that allows for refining liquid mixtures.",
         "symbol": "^",
         "color": "light_red",
         "move_cost_mod": -1,
@@ -2919,7 +2919,7 @@
         "id" : "f_autodoc",
         "name": "Autodoc Mk. XI",
         "symbol": "&",
-        "description": "A surgical apparatus used for installation and uninstallation of bionics. It's only as skilled as its operator.",
+        "description": "A surgical apparatus used for installation and uninstallation of bionics.  It's only as skilled as its operator.",
         "color": "light_cyan",
         "move_cost_mod": -1,
         "required_str": -1,
@@ -2962,7 +2962,7 @@
         "id" : "f_autodoc_couch",
         "name": "Autodoc operation couch",
         "symbol": "H",
-        "description": "A plush red sofa made less comfortable by the medical machinery directly above it. It has a single leather strap on the right armrest.",
+        "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
         "bgcolor": "red",
         "move_cost_mod": 2,
         "required_str": 10,
@@ -3036,5 +3036,68 @@
                 { "item": "pipe", "count": [1, 3] }
             ]
         }
+    },
+    {
+    "type": "furniture",
+    "id": "f_recycle_bin",
+    "name": "recycle bin",
+    "description": "Stores items for recycling.",
+    "symbol": "{",
+    "color": "light_green",
+    "move_cost_mod": -1,
+    "required_str": 5,
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "plastic_chunk", "count": [ 2, 7 ] }, { "item": "pipe", "count": [ 1, 2 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rubble_landfill",
+    "name": "pile of trashy rubble",
+    "description": "Trash topped with dirt and grass, it smells gross and but another mans trash...",
+    "symbol": "#",
+    "color": "green",
+    "move_cost_mod": 8,
+    "max_volume": 3000,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "UNSTABLE", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT" ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_target",
+    "name": "target",
+    "description": "A shooting target in a rough shape of a human.",
+    "symbol": "@",
+    "color": "black",
+    "move_cost_mod": 2,
+    "required_str": 5,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "sheet_metal", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_woodchips",
+    "name": "pile of woodchips",
+    "symbol": "X",
+    "description": "Pile of chipped wood pieces.  You can move it with a shovel.",
+    "color": "brown",
+    "move_cost_mod": 6,
+    "max_volume": 3000,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY" ],
+    "examine_action": "rubble"
+  }
 ]
