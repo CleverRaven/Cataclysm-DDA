@@ -1800,6 +1800,126 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_mushroom_seed",
+        "name": "starting mushroom bed",
+        "symbol": "^",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "examine_action": "aggie_plant"
+    },{
+        "type" : "furniture",
+        "id" : "f_mushroom_seedling",
+        "name": "weak mushroom bed",
+        "symbol": "#",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "examine_action": "aggie_plant"
+    },{
+        "type" : "furniture",
+        "id" : "f_mushroom_mature",
+        "name": "mature mushroom bed",
+        "symbol": "#",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "examine_action": "aggie_plant"
+    },{
+        "type" : "furniture",
+        "id" : "f_mushroom_mature_harvest",
+        "name": "mushroom bed with grown mushrooms",
+        "symbol": "#",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "examine_action": "aggie_plant"
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_blueberry",
+        "name": "blueberry bush",
+        "symbol": "#",
+        "color": "blue_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_blueberry_harvest",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_blueberry_harvest",
+        "name": "blueberry bush_harvest",
+        "symbol": "#",
+        "color": "light_blue_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_blueberry",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_strawberry",
+        "name": "strawberry bush",
+        "symbol": "#",
+        "color": "red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_strawberry_harvest",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_strawberry_harvest",
+        "name": "strawberry bush_harvest",
+        "symbol": "#",
+        "color": "light_red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_strawberry",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_fvat_empty",
         "name": "empty fermenting vat",
         "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",

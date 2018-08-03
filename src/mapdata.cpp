@@ -831,6 +831,9 @@ furn_id f_null,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_datura,f_dandelion,f_cattails,f_bluebell,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
+    f_mushroom_seed, f_mushroom_seedling, f_mushroom_mature, f_mushroom_mature_harvest,
+    f_shrub_blueberry, f_shrub_blueberry_harvest,
+    f_shrub_strawberry, f_shrub_strawberry_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_standing_tank,
@@ -924,6 +927,14 @@ void set_furn_ids() {
     f_plant_seedling = furn_id( "f_plant_seedling" );
     f_plant_mature = furn_id( "f_plant_mature" );
     f_plant_harvest = furn_id( "f_plant_harvest" );
+    f_mushroom_seed = furn_id( "f_mushroom_seed" );
+    f_mushroom_seedling = furn_id( "f_mushroom_seedling" );
+    f_mushroom_mature = furn_id( "f_mushroom_mature" );
+    f_mushroom_mature_harvest = furn_id( "f_mushroom_mature_harvest" );
+    f_shrub_blueberry = furn_id( "f_shrub_blueberry" );
+    f_shrub_blueberry_harvest = furn_id( "f_shrub_blueberry_harvest" );
+    f_shrub_strawberry = furn_id( "f_shrub_strawberry" );
+    f_shrub_strawberry_harvest = furn_id( "f_shrub_strawberry_harvest" );
     f_fvat_empty = furn_id( "f_fvat_empty" );
     f_fvat_full = furn_id( "f_fvat_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
@@ -1108,6 +1119,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
+    optional( jo, was_loaded, "transforms_into", transforms_into, furn_str_id::NULL_ID() );
 
     load_symbol( jo );
     transparent = false;
