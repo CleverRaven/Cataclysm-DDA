@@ -68,5 +68,12 @@
     "//": "Small amount of strong acid - will need more to melt anything",
     "field": "fd_acid",
     "chance": 50
+  },
+  {
+    "id": "emit_shock_cloud",
+    "type": "emit",
+    "//": "Thick cloud of lightning (example: null zombie)",
+    "field": "fd_electricity",
+    "qty": 20
   }
 ]
