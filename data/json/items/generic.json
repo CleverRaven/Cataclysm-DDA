@@ -2112,7 +2112,7 @@
         "name": "pile of straw",
         "name_plural": "piles of straw",
         "category": "spare_parts",
-        "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
+        "description": "A pile of dry grass.  Can be used to craft straw bed if there is nothing else to sleep on.",
         "material": ["paper"],
         "flags": "TRADER_AVOID",
         "weight": 20,
