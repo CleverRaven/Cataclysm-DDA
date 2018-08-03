@@ -3095,7 +3095,7 @@
   {
     "id": "mon_zombie_nullfield",
     "type": "MONSTER",
-    "name": "null zombie",
+    "name": "incandescent husk",
     "description": "This once-human is visible only as a glowing white silhouette that you have to squint to see, cloaked in a crackling field of lightning that pulses like a beating heart.  It walks slowly and deliberately, the thunderstorm surrounding it eagerly jumping to anything conductive within its grasp.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
