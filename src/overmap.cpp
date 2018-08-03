@@ -3653,7 +3653,12 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         }
     }
     if( generate_stairs && !generated_lab.empty() ) {
-        const point p = random_entry( generated_lab );
+        point p;
+        int tries = 0;
+        do {
+            p = random_entry( generated_lab );
+            tries++;
+        } while( ter( p.x, p.y, z + 1 ) != labt && tries < 15 );
         ter( p.x, p.y, z + 1 ) = labt_stairs;
     }
 
