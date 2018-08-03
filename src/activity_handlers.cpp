@@ -256,14 +256,14 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     bool has_table_nearby = false;
-    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 1 ) ) {
-        if( g->m.furn( pt ) == furn_id( "f_table" ) ) {
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag_furn( "FLAT_FURN", pt ) || g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) {
             has_table_nearby = true;
         }
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( g->m.furn( u.pos() ) != furn_id( "f_butcher_rack" ) ){
+            if( !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
                 u.add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
                 act.set_to_null();
                 return;
@@ -291,9 +291,15 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // applies to all butchery actions
     if( corpse->in_species( HUMAN ) && ( !u.has_trait_flag( "CANNIBAL" ) || !u.has_trait_flag( "PSYCHOPATH" ) || !u.has_trait_flag( "SAPIOVORE" ) ) ) {
-        add_msg( m_info, _( "Why would you do this to mortal remains of a fellow human?" ) );
-        act.set_to_null();
-        return;
+        if( query_yn( "Would you do this to mortal remains of a fellow human?" ) ) {
+            g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+            add_msg( m_info, _( "You clench your teeth at the prospect of this gruesome job." ) );
+        } else {
+            add_msg( m_info, _( "It needs a coffin, not a knife." ) );
+            act.set_to_null();
+            return;
+        }
+
     }
 
     int time_to_cut = 0;

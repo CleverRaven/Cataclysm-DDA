@@ -98,6 +98,7 @@ extern const morale_type MORALE_SHAVE;
 extern const morale_type MORALE_VOMITED;
 extern const morale_type MORALE_PERM_FILTHY;
 extern const morale_type MORALE_PERM_DEBUG;
+extern const morale_type MORALE_BUTCHER;
 
 #endif
 

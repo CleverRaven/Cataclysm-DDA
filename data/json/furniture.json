@@ -610,7 +610,7 @@
         "color": "light_red",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_FURN"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 4 },
@@ -734,7 +734,7 @@
         "move_cost_mod": 2,
         "required_str": 8,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 6 },
@@ -788,7 +788,7 @@
         "move_cost_mod": 2,
         "required_str": -1,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 4 },
@@ -816,7 +816,7 @@
         "color": "blue",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 6 },
@@ -2992,28 +2992,49 @@
         "type" : "furniture",
         "id" : "f_butcher_rack",
         "name": "butchering rack",
-        "description": "A butchering rack designed to hang the carcass in the air.",
-        "symbol": "#",
+        "description": "Butchering rack designed to hang the carcass in the air.",
+        "symbol": "^",
         "bgcolor": "brown",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMABLE_ASH", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT"],
-        "crafting_pseudo_item": "char_smoker",
-        "examine_action": "reload_furniture",
+        "flags": ["TRANSPARENT", "FLAMABLE_ASH", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT", "BUTCHER_EQ", "ORGANIC"],
         "deconstruct": {
             "items": [
             { "item": "stick_long", "count": 6 }
             ]
         },
         "bash": {
-            "str_min": 18, "str_max": 50,
+            "str_min": 8, "str_max": 30,
             "sound": "crunch!",
             "sound_fail": "whump!",
             "items": [
                 { "item": "stick_long", "count": [1, 6] }
             ]
         }
-
-
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_metal_butcher_rack",
+        "name": "metal butchering rack",
+        "description": "Metal butchering rack designed to hang the carcass in the air.  It can be deconstructed and folded for easy transportation.",
+        "symbol": "^",
+        "bgcolor": "light_gray",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ"],
+        "deconstruct": {
+            "items": [
+            { "item": "metal_bucher_rack", "count": 1 }
+            ]
+        },
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "count": [1, 3] },
+                { "item": "pipe", "count": [1, 3] }
+            ]
+        }
     }
 ]
