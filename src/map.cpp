@@ -3816,8 +3816,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( impassable( p ) && !trans( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
-    } else {
-        dam -= proj.momentum_loss;
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
