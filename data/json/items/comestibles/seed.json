@@ -50,7 +50,15 @@
     "name": "blueberry seeds",
     "name_plural": "blueberry seeds",
     "description": "Some blueberry seeds.",
-    "seed_data": { "plant_name": "blueberry", "fruit": "blueberries", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": {
+      "plant_name": "blueberry",
+      "fruit": "blueberries",
+      "fruit_count": 5,
+      "grow": 91,
+      "grow_secondary": 45,
+      "is_shrub": true,
+      "grow_into": "f_shrub_blueberry_harvest"
+    }
   },
   {
     "id": "seed_cranberries",
@@ -90,7 +98,15 @@
     "name": "strawberry seeds",
     "name_plural": "strawberry seeds",
     "description": "Some strawberry seeds.",
-    "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": {
+      "plant_name": "strawberry",
+      "fruit": "strawberries",
+      "fruit_count": 5,
+      "grow": 91,
+      "grow_secondary": 45,
+      "is_shrub": true,
+      "grow_into": "f_shrub_strawberry_harvest"
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -117,6 +133,27 @@
     "weight": 5,
     "stack_size": 40,
     "seed_data": { "plant_name": "sugar beet", "fruit": "sugar_beet", "grow": 90 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_sugar_beet_raw",
+    "copy-from": "seed",
+    "price": 120,
+    "name": "sugar beet seeds",
+    "name_plural": "sugar beet seeds",
+    "description": "Some sugar beet seeds.",
+    "volume": 1,
+    "weight": 310,
+    "stack_size": 10,
+    "charges": 1,
+    "seed_data": {
+      "plant_name": "sugar beet",
+      "fruit": "sugar_beet",
+      "fruit_count": 0,
+      "seed": "sugar_beet",
+      "seed_count": 5,
+      "grow": 90
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -236,6 +273,28 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_carrot_raw",
+    "copy-from": "seed",
+    "price": 50,
+    "name": "seed carrot",
+    "name_plural": "seed carrots",
+    "description": "A raw carrot prepared for planting.",
+    "weight": 80,
+    "volume": 1,
+    "stack_size": 10,
+    "charges": 1,
+    "seed_data": {
+      "plant_name": "carrot",
+      "fruit": "carrot",
+      "fruit_count": 0,
+      "seed": "seed_carrot",
+      "seed_count": 5,
+      "byproducts": [ "withered" ],
+      "grow": 65
+    }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_corn",
     "copy-from": "seed",
     "price": 50,
@@ -267,6 +326,24 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_potato",
+    "copy-from": "seed",
+    "price": 50,
+    "name": "potato seed",
+    "name_plural": "potato seeds",
+    "description": "Some potato seeds.",
+    "seed_data": { 
+      "plant_name": "potatoes",
+      "fruit": "potato_raw",
+      "fruit_count": 10,
+      "seed": "seed_potato",
+      "seed_count": 5,
+      "byproducts": [ "withered" ],
+      "grow": 95
+    }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_potato_raw",
     "copy-from": "seed",
     "price": 50,
@@ -275,7 +352,15 @@
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": 20,
     "stack_size": 10,
-    "seed_data": { "plant_name": "potatoes", "fruit": "potato_raw", "fruit_count": 10, "byproducts": [ "withered" ], "grow": 95 }
+    "seed_data": { 
+      "plant_name": "potatoes",
+      "fruit": "potato_raw",
+      "fruit_count": 10,
+      "seed": "seed_potato",
+      "seed_count": 5,
+      "byproducts": [ "withered" ],
+      "grow": 95
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -493,7 +578,14 @@
     "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": 91 }
+    "seed_data": {
+      "plant_name": "mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom",
+      "fruit_count": 2,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -502,7 +594,14 @@
     "name": "morel mushroom spores",
     "name_plural": "morel mushroom spores",
     "description": "Some morel mushroom spores.  You could probably plant these.",
-    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": 91 }
+    "seed_data": {
+      "plant_name": "morel mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom_morel",
+      "fruit_count": 2,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -511,7 +610,14 @@
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
     "flags": "HIDDEN_HALLU",
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_magic", "grow": 91 }
+    "seed_data": {
+      "plant_name": "mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom_magic",
+      "fruit_count": 2,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -520,7 +626,14 @@
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
     "flags": "HIDDEN_POISON",
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_poison", "grow": 91 }
+    "seed_data": {
+      "plant_name": "mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom_poison",
+      "fruit_count": 2,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "id": "datura_seed",
