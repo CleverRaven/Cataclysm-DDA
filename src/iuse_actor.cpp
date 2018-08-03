@@ -1030,16 +1030,15 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
     if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
             p.add_msg_if_player( _( "You successfully light a fire." ) );
-        }
-        else {
+        } else {
             if( one_in( 4 ) ) {
-                p.add_msg_if_player( m_mixed, _( "You light a fire, but it isn't enough. You need to light more." ) );
-            }
-            else {
+                p.add_msg_if_player( m_mixed,
+                                     _( "You light a fire, but it isn't enough. You need to light more." ) );
+            } else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
                 p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 24_hours, 8_hours );
                 p.rem_morale( MORALE_PYROMANIA_NOFIRE );
-            }5
+            } 5
         }
     }
 }
