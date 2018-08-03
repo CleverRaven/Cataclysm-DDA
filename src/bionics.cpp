@@ -938,7 +938,11 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level, bool auto
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
         remove_bionic( b_id );
-        g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+        if( item::type_is_defined( b_id.c_str() ) ) {
+            g->m.spawn_item( pos(), b_id.c_str(), 1 );
+        } else {
+            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+        }
     } else {
         add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                           pgettext( "memorial_female", "Failed to remove bionic: %s." ),
