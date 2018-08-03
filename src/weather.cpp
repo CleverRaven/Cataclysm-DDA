@@ -83,7 +83,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
         //Use weather if above ground, use map temp if below
 
         double temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) ) + ( g->new_game ? 0 : g->m.temperature( g->m.getlocal( location ) ) );
-        
+
         if( !g->new_game && g->m.ter( g->m.getlocal( location ) ) == t_rootcellar ) {
             temperature = AVERAGE_ANNUAL_TEMPERATURE;
         }
@@ -101,8 +101,11 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
     int water = seed.get_var( "water", 0 );
     int fertilizer = seed.get_var( "fertilizer", 0 );
     int weed = seed.get_var( "weed", 0 );
+    bool is_mature = seed.get_var( "is_mature", 0 );
+    bool growing_was_started = seed.get_var( "growing_was_started", 0 );
     float water_requirement = seed.type->seed->water_requirement;
     float weed_susceptibility = seed.type->seed->weed_susceptibility;
+    bool is_mushroom = seed.type->seed->is_mushroom;
 
     /*
     1L = 10 units of water
@@ -112,7 +115,8 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
 
     Common IRL watering is 50L per week per square meter.
 
-    Per season plant will have -2000 health without watering and -4300 health without watering and weed control
+    Per season plant will have -2000 health without watering,
+    -4300 health without watering and weed control,
     +4300 health is possible for the best conditions.
     */
     int water_max = 500;
@@ -122,78 +126,105 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
 
     time_duration eff_grow_time = 0;
 
-    if( location.z < 0 ) {
+    // only mushrooms can grow underground
+    if( !is_mushroom && location.z < 0 ) {
         return 0;
     }
+
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
         weather_type wtype = wgen.get_weather_conditions( location, i, g->get_seed() );
+        int temperature = w.temperature;
+
+        // Plants will not start to grow if the temperature is too cold
+        if ( temperature < 40 && !growing_was_started )
+            continue;
+
+        // Start growing and reset health
+        if ( temperature > 40 && !growing_was_started ) {
+            growing_was_started = true;
+            health = 0;
+        }
 
         // plant grow speed
-        int temperature = w.temperature;
         float temperature_coeff = 0.0f;
         if( temperature > 70 ) {
             temperature_coeff = 1.0f;
         } else if( temperature > 32 ) {
             temperature_coeff = ( temperature - 32 ) / 38.0f;
-        } else if ( ( temperature < 23 ) && one_in( 20 ) ) {
-            // Freezing can kill the plant
-            seed.set_var( "frozen", 1 );
-            return eff_grow_time;
-        }
-        eff_grow_time += 1_hours * temperature_coeff;
+        } else if ( temperature < 23 ) {
+            // Freezing will kill the plant or reset fruit grow for perennial plants
+            if( is_mature ) {
+                seed.set_var( "growing_was_started", 0 );
+                continue;
+            } else {
+                seed.set_var( "frozen", 1 );
+                return eff_grow_time;
+            }
 
-        // Low temperature damage the plant
-        if( !seed.is_warm_enought() ){
-            health -= 1;
+        }
+        if( !is_mushroom ) {
+            eff_grow_time += 1_hours * temperature_coeff;
+        } else if( water > 0 ) {
+            // Mushrooms will grow only if have enough water
+            eff_grow_time += 1_hours * temperature_coeff;
+        }
+
+        // Low temperature damage the plant unless plant is mushroom or mature perennial
+        if( !seed.is_warm_enought() && !is_mature && !is_mushroom ) {
+            health -= 2;
         }
 
         // Absorb fertilizer
-        if( fertilizer > 0 ){
+        if( fertilizer > 0 ) {
             fertilizer -= 1;
             health += roll_remainder( 3.0f * temperature_coeff );
         }
 
         // Absorb water
-        water -= roll_remainder( 3.0f * water_requirement ) ;
+        water -= roll_remainder( 3.0f * water_requirement );
         if ( water <= 0 ){
             health -= 1;
         }
 
-        // Precipitation was reduced 10 times to compensate rain frequency
-        switch( wtype ) {
-            case WEATHER_DRIZZLE:
-                water += 4;
-                break;
-            case WEATHER_RAINY:
-            case WEATHER_THUNDER:
-            case WEATHER_LIGHTNING:
-                water += 8;
-                break;
-            default:
-                break;
+        // Precipitation was reduced 10 times to compensate abnormal rain frequency
+        if( location.z >= 0 ) {
+            switch( wtype ) {
+                case WEATHER_DRIZZLE:
+                    water += 4;
+                    break;
+                case WEATHER_RAINY:
+                case WEATHER_THUNDER:
+                case WEATHER_LIGHTNING:
+                    water += 8;
+                    break;
+                default:
+                    break;
+            }
         }
 
         // Air temperature above 80F(26C) increase water consumption
         if( temperature > 80 ) {
             water -= roll_remainder( 5.0f * water_requirement ) ;
-            if ( water <= 0 ){
-                health -= 1;
+            if ( water <= 0 ) {
+                health -= 2;
             }
         }
 
         // Grow weeds
-        if( weed == weed_max ){
-            health -= roll_remainder( 2.0f * weed_susceptibility ) ;
-            fertilizer -= 2;
-            water -= 6;
-        } else {
-            weed += roll_remainder( 1.0f / calendar::season_ratio() );
-            if( one_in( weed_max - weed) ){
-                    health -= roll_remainder( 1.0f * weed_susceptibility ) ;
-                    fertilizer -= 1;
-                    water -= 3;
+        if( location.z >= 0 ) {
+            if( weed == weed_max ) {
+                health -= roll_remainder( 2.0f * weed_susceptibility ) ;
+                fertilizer -= 2;
+                water -= 6;
+            } else {
+                weed += roll_remainder( 1.0f / calendar::season_ratio() );
+                if( one_in( weed_max - weed) ){
+                        health -= roll_remainder( 1.0f * weed_susceptibility ) ;
+                        fertilizer -= 1;
+                        water -= 3;
+                }
             }
         }
 
@@ -206,6 +237,8 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
         seed.set_var( "water", water );
         seed.set_var( "fertilizer", fertilizer );
         seed.set_var( "weed", weed );
+        seed.set_var( "growing_was_started", growing_was_started );
+        seed.set_var( "is_mature", is_mature );
     }
     return eff_grow_time;
 }

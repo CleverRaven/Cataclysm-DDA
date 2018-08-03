@@ -107,6 +107,8 @@ bool has_keg( const tripoint &pos );
 
 
 std::list<item> get_harvest_items( item &seed );
+void proceed_plant_after_harvest( const int x, const int y, const int z );
+void proceed_plant_after_harvest( const tripoint &examp );
 
 } //namespace iexamine
 
