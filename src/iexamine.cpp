@@ -1766,7 +1766,12 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     used_seed.front().set_var( "fertilizer", 0 );
     used_seed.front().set_var( "weed", 0 );
     g->m.add_item_or_charges( examp, used_seed.front() );
-    g->m.set( examp, t_dirt, f_plant_seed );
+    item &seed = g->m.i_at( examp ).front();
+    if( seed.type->seed->is_mushroom ) {
+        g->m.set( examp, t_dirt, f_mushroom_seed );
+    } else {
+        g->m.set( examp, t_dirt, f_plant_seed );
+    }
     p.moves -= 500;
     add_msg(_("Planted %s"), std::get<1>( seed_entries[seed_index] ).c_str() );
 }
@@ -1798,11 +1803,17 @@ std::list<item> iexamine::get_harvest_items( item &seed )
     int health = seed.get_var( "health", 0 );
 
     // Multiplier for fruit yield.
-    // Should be in range (0, 2), equal to 1 if plant has default health (0).
-    const time_duration seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
-    float fruit_multiplier = ( 3.0f * to_hours<int>( seed_grow_time )  + health ) / ( 3.0f * to_hours<int>( seed_grow_time ) );
+    // Should be in range (0.1, 2), equal to 1 if plant has default health (0).
+    time_duration seed_grow_time = 0;
+    if( seed.get_var( "is_mature", 0 ) ) {
+        seed_grow_time = seed.type->seed->grow_secondary * calendar::season_ratio();
+    } else {
+        seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
+    }
+    float fruit_multiplier = ( 3.0f * to_hours<int>( seed_grow_time )  + health ) /
+                             ( 3.0f * to_hours<int>( seed_grow_time ) );
+    fruit_multiplier = std::max( fruit_multiplier, 0.1f );
     fruit_multiplier *= calendar::season_ratio();
-    fruit_multiplier = std::max( fruit_multiplier, 0.0f );
 
     std::string fruit_id;
     fruit_id = seed.type->seed->fruit_id;
@@ -1825,6 +1836,30 @@ std::list<item> iexamine::get_harvest_items( item &seed )
     return result;
 }
 
+void iexamine::proceed_plant_after_harvest( const int x, const int y, const int z ) {
+    return proceed_plant_after_harvest( tripoint( x, y, z ) );
+}
+
+void iexamine::proceed_plant_after_harvest( const tripoint &examp ) {
+    item &seed = g->m.i_at( examp ).front();
+    if( g->m.furn(examp) == f_mushroom_mature_harvest ) {
+        // Mushrooms
+        seed.set_var( "seed_age", 1 );
+        seed.set_birthday( calendar::turn );
+        g->m.furn_set(examp, f_mushroom_mature );
+    } else if( seed.type->seed->is_shrub && seed.get_var( "can_be_harvested", 0 ) ) {
+        // Berries
+        seed.set_var( "seed_age", 1 );
+        seed.set_birthday( calendar::turn );
+        seed.set_var( "can_be_harvested", 0 );
+        g->m.furn_set( examp, g->m.get_furn_transforms_into( examp ) );
+    } else {
+        // Generic seed
+        g->m.i_clear( examp );
+        g->m.furn_set( examp, f_null );
+    }
+}
+
 void iexamine::aggie_plant(player &p, const tripoint &examp)
 {
     if( g->m.i_at( examp ).empty() ) {
@@ -1841,7 +1876,8 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
 
     const std::string pname = seed.get_plant_name();
 
-    if (g->m.furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
+    if ( ( g->m.furn(examp) == f_plant_harvest || seed.get_var( "can_be_harvested", 0 ) ) &&
+           query_yn( _("Harvest the %s?"), pname.c_str() ) ) {
         const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, examp);
@@ -1863,13 +1899,11 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
                 g->m.furn_set(examp, f_flower_fungal);
                 add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
             }
-        } else { // Generic seed, use the seed item data
-            g->m.i_clear(examp);
-            g->m.furn_set(examp, f_null);
-
+        } else {
             for( auto &i : get_harvest_items( seed ) ) {
                 g->m.add_item_or_charges( examp, i );
             }
+            proceed_plant_after_harvest( examp );
             p.moves -= 500;
         }
     } else if (g->m.furn(examp) != f_plant_harvest) {
@@ -1877,19 +1911,25 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
         int water = seed.get_var( "water", 0 );
         int fertilizer = seed.get_var( "fertilizer", 0 );
         int weed = seed.get_var( "weed", 0 );
+        bool growing_was_started = seed.get_var( "growing_was_started", 0 );
+        bool is_mature = seed.get_var( "is_mature", 0 );
 
-        const time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
+        time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
         int seed_age_days = to_days<int>( seed_age );
-        const time_duration seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
+
+        time_duration seed_grow_time = 0;
+        if( is_mature ){
+            seed_grow_time = seed.type->seed->grow_secondary * calendar::season_ratio();
+        } else {
+           seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
+        }
         int seed_grow_time_days = to_days<int>( seed_grow_time );
 
         uimenu pmenu;
         pmenu.return_invalid = true;
 
         std::stringstream data;
-      //  data << string_format( _( "Plant info - %-15s" ), pname ) << string_format( _( "Plant info - %-15s" ), pname ) << std::endl;
         data << string_format( _( "%-15s" ), pname ) << std::endl;
-      //  pmenu.text = data.str();
         pmenu.text = pname;
 
         //pmenu.text = _( "Plant info - %s", seedType );
@@ -1898,6 +1938,8 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
         pmenu.addentry( 3, true,  MENU_AUTOASSIGN, _("water       %s"), water );
         pmenu.addentry( 4, true,  MENU_AUTOASSIGN, _("fertilizer  %s"), fertilizer );
         pmenu.addentry( 5, true,  MENU_AUTOASSIGN, _("weed        %s"), weed );
+        pmenu.addentry( 6, false, MENU_AUTOASSIGN, _("grow        %s"), ( growing_was_started ? 1 : 0 ) );
+        pmenu.addentry( 7, false, MENU_AUTOASSIGN, _("is_mature   %s"), ( is_mature ? 1 : 0 ) );
         pmenu.query();
 
         int action_index = pmenu.ret;
