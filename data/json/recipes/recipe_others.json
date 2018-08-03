@@ -51,8 +51,7 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 12 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
   },
   {
@@ -64,8 +63,7 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 12 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
   {
@@ -229,7 +227,7 @@
     "time": 25000,
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "flashlight", 1 ] ],
       [ [ "amplifier", 1 ] ],
@@ -798,8 +796,7 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 50 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ],
@@ -885,8 +882,7 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
-    "using": [ [ "filament", 50 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
   },
   {
@@ -946,7 +942,7 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 50 ] ]
+    "components": [ [ [ "filament", 50, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3078,7 +3074,6 @@
     "time": 10000,
     "autolearn": true,
     "using": [ [ "filament", 20 ], [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 2 ] ] ]
   },
   {
@@ -3091,7 +3086,6 @@
     "time": 50000,
     "autolearn": true,
     "using": [ [ "filament", 80 ], [ "cordage", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 12 ] ] ]
   },
   {
@@ -3414,8 +3408,7 @@
     "difficulty": 2,
     "time": 30000,
     "autolearn": true,
-    "using": [ [ "filament", 60 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
@@ -3742,8 +3735,7 @@
     "difficulty": 4,
     "time": 35000,
     "autolearn": true,
-    "using": [ [ "filament", 4 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
@@ -3756,8 +3748,7 @@
     "difficulty": 4,
     "time": 40000,
     "autolearn": true,
-    "using": [ [ "filament", 4 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
@@ -3771,8 +3762,7 @@
     "difficulty": 6,
     "time": 60000,
     "book_learn": [ [ "scots_cookbook", 3 ] ],
-    "using": [ [ "filament", 20 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
