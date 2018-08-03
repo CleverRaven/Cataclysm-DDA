@@ -1807,6 +1807,7 @@ int player::run_cost( int base_cost, bool diag ) const
     const bool flatground = movecost < 105;
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
+    const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS" , pos() );
 
     if( has_trait( trait_PARKOUR ) && movecost > 100 ) {
         movecost *= .5f;
@@ -1818,6 +1819,11 @@ int player::run_cost( int base_cost, bool diag ) const
         movecost *= 1.25f;
         if( movecost < 100 ) {
             movecost = 100;
+        }
+    }
+    if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
+        if( movecost > 75 ) {
+            movecost = 75; // Mycal characters are faster on their home territory, even through things like shrubs
         }
     }
 
@@ -2817,9 +2823,7 @@ bool player::sight_impaired() const
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
                !has_trait( trait_CEPH_EYES ) ) ||
              ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
-               !is_wearing( "glasses_eye" ) &&
-               !is_wearing( "glasses_monocle" ) &&
-               !is_wearing( "glasses_bifocal" ) &&
+               !worn_with_flag( "FIX_NEARSIGHT" ) &&
                !has_effect( effect_contacts ) &&
                !has_bionic( bio_eye_optic ) ) ||
                 has_trait( trait_PER_SLIME ) );
@@ -4257,7 +4261,7 @@ void player::update_needs( int rate_multiplier )
     if( worn_with_flag( "SLOWS_THIRST" ) ) {
         thirst_rate *= 0.7f;
     }
-	
+
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
         // Recycler won't help much with mutant metabolism - it is intended for human one
@@ -4352,7 +4356,7 @@ void player::update_needs( int rate_multiplier )
     if( is_wearing( "solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 25 );
     }
-    
+
     if( is_wearing( "q_solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 50 );
     }
@@ -7487,7 +7491,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
     }
-    
+
     for( auto &i : worn ) {
         if( i.has_flag( "ONLY_ONE" ) && i.typeId() == it.typeId() ) {
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname().c_str() );
@@ -8923,16 +8927,16 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "You don't know enough about %s to understand the jargon!" ),
-                                          skill.obj().name().c_str() ) );
+        reasons.push_back( string_format( _( "You need %s %d to understand the jargon!" ),
+                                          skill.obj().name().c_str(), type->req ) );
         return nullptr;
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !is_wearing( "glasses_reading" ) &&
-               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
@@ -8959,10 +8963,10 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name().c_str() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s doesn't know enough about %s to understand the jargon!" ),
-                                              elem->disp_name().c_str(), skill.obj().name().c_str() ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->is_wearing( "glasses_reading" ) &&
-                   !elem->is_wearing( "glasses_bifocal" ) && !elem->has_effect( effect_contacts ) ) {
+            reasons.push_back( string_format( _( "%s needs %s %d to understand the jargon!" ),
+                                              elem->disp_name().c_str(), skill.obj().name().c_str(), type->req ) );
+        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
+                   !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name().c_str() ) );
         } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {

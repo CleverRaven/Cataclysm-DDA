@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "drawing_primitives.h"
+#include "fragment_cloud.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -3488,6 +3489,9 @@ bash_params map::bash( const tripoint &p, const int str,
     bash_params bsh{
         str, silent, destroy, bash_floor, (float)rng_float( 0, 1.0f ), false, false, false
     };
+    if( !inbounds( p ) ) {
+        return bsh;
+    }
 
     bash_field( p, bsh );
     bash_items( p, bsh );
@@ -3812,8 +3816,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( impassable( p ) && !trans( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
-    } else {
-        dam -= proj.momentum_loss;
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
@@ -7527,10 +7529,8 @@ void map::build_outside_cache( const int zlev )
                         const int x = sx + ( smx * SEEX );
                         const int y = sy + ( smy * SEEY );
                         // Add 1 to both coordinates, because we're operating on the padded cache
-                        for( int dx = 0; dx <= 2; dx++ )
-                        {
-                            for( int dy = 0; dy <= 2; dy++ )
-                            {
+                        for( int dx = 0; dx <= 2; dx++ ) {
+                            for( int dy = 0; dy <= 2; dy++ ) {
                                 padded_cache[x + dx][y + dy] = false;
                             }
                         }
@@ -7546,6 +7546,75 @@ void map::build_outside_cache( const int zlev )
     }
 
     ch.outside_cache_dirty = false;
+}
+
+void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
+    std::array<fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &obstacle_caches )
+{
+    const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
+    const point max_submap{ std::min( my_MAPSIZE - 1, end.x / SEEX ),
+                            std::min( my_MAPSIZE - 1, end.y / SEEY ) };
+    // Find and cache all the map obstacles.
+    // For now setting obstacles to be extremely dense and fill their squares.
+    // In future, scale effective obstacle density by the thickness of the obstacle.
+    // Also consider modelling partial obstacles.
+    for( int sz = start.z; sz <= end.z; sz++ ) {
+        for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
+            for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
+                auto const cur_submap = get_submap_at_grid( smx, smy, sz );
+                const int z = sz + OVERMAP_DEPTH;
+
+                // TODO: Init indices to prevent iterating over unused submap sections.
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        int ter_move = cur_submap->get_ter( sx, sy ).obj().movecost;
+                        int furn_move = cur_submap->get_furn( sx, sy ).obj().movecost;
+                        const int x = sx + ( smx * SEEX );
+                        const int y = sy + ( smy * SEEY );
+                        if( ter_move == 0 || furn_move < 0 || ter_move + furn_move == 0 ) {
+                            (*obstacle_caches[z])[x][y].velocity = 1000.0f;
+                            (*obstacle_caches[z])[x][y].density = 0.0f;
+                        } else {
+                             // Magic number warning, this is the density of air at sea level at
+			     // some nominal temp and humidity.
+                             // TODO: figure out if our temp/altitude/humidity variation is
+                             // sufficient to bother setting this differently.
+                            (*obstacle_caches[z])[x][y].velocity = 1.2f;
+                            (*obstacle_caches[z])[x][y].density = 1.0f;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    VehicleList vehs = get_vehicles( start, end );
+    // Cache all the vehicle stuff in one loop
+    for( auto &v : vehs ) {
+        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+            int px = v.x + v.v->parts[part].precalc[0].x;
+            int py = v.y + v.v->parts[part].precalc[0].y;
+            int pz = v.z + OVERMAP_DEPTH;
+            if( px < start.x || py < start.y || v.z < start.z ||
+                px > end.x || py > end.y || v.z > end.z ) {
+                continue;
+            }
+
+            if( vpart_position( *v.v, part ).obstacle_at_part() ) {
+                (*obstacle_caches[pz])[px][py].velocity = 1000.0f;
+                (*obstacle_caches[pz])[px][py].density = 0.0f;
+            }
+        }
+    }
+    // Iterate over creatures and set them to block their squares relative to their size.
+    for( Creature &critter : g->all_creatures() ) {
+         const tripoint &loc = critter.pos();
+         int z = loc.z + OVERMAP_DEPTH;
+         // TODO: scale this with expected creature "thickness".
+         (*obstacle_caches[z])[loc.x][loc.y].velocity = 1000.0f;
+         // ranged_target_size is "proportion of square that is blocked", and density needs to be
+         // "transmissivity of square", so we need the reciprocal.
+         (*obstacle_caches[z])[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
+    }
 }
 
 void map::build_floor_cache( const int zlev )

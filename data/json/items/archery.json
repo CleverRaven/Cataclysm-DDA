@@ -232,7 +232,7 @@
       "loudness": 0,
       "count": 10,
       "effects": ["RECOVER_60"]
-   }, 
+   },
    {
       "type" : "AMMO",
       "id" : "arrow_cf",
@@ -579,7 +579,7 @@
       "symbol" : "(",
       "color" : "yellow",
       "name" : "reflex recurve bow",
-      "description" : "A modernised bow that combines the traits from both the reflex and the recurve bows, with both limbs and tips curving away from the archer, and reinforced with composite materials.  This dramatically increases the power and requires significant strength to draw the bow effectively, but can still be fired quickly.",
+      "description" : "A modernized bow that combines the traits from both the reflex and the recurve bows, with both limbs and tips curving away from the archer, and reinforced with composite materials.  This dramatically increases the power and requires significant strength to draw the bow effectively, but can still be fired quickly.",
       "price" : 72000,
       "material" : ["wood"],
       "flags" : ["FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED"],

@@ -194,6 +194,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -878,8 +879,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    temperature = 65; // Springtime-appropriate?
-    update_weather(); // Springtime-appropriate, definitely.
+    temperature = SPRING_TEMPERATURE;
+    update_weather();
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1463,7 +1464,7 @@ bool game::do_turn()
     if( calendar::once_every( 1_hours ) ) {
         lua_callback( "on_hour_passed" );
     }
- 
+
     if( calendar::once_every( 1_minutes ) ) {
         lua_callback("on_minute_passed");
     }
@@ -1783,13 +1784,8 @@ void game::update_weather()
 
 int game::get_temperature( const tripoint &location )
 {
-    
-    if ( location.z < 0 ) {
-        // underground temperature = average New England temperature = 43F/6C rounded to int
-        return 43 + m.temperature( location );
-    }
-    // if not underground use weather determined temperature
-    return temperature + m.temperature( location );
+    //underground temperature = average New England temperature = 43F/6C rounded to int
+    return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 : m.temperature( location ) );
 }
 
 int game::assign_mission_id()
@@ -2612,7 +2608,12 @@ bool game::handle_action()
     }
 
     if( act == ACTION_NULL ) {
-        add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
+        const input_event &&evt = ctxt.get_raw_input();
+        if( !evt.sequence.empty() ) {
+            const long ch = evt.get_first_input();
+            const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
+            add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+        }
         return false;
     }
 
@@ -6024,8 +6025,8 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if (u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_effect( effect_contacts)) {
+    if (u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( "FIX_FARSIGHT" ) &&
+        !u.has_effect( effect_contacts) ) {
         add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
         return;
     }
@@ -11367,8 +11368,9 @@ bool game::walk_move( const tripoint &dest_loc )
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
-    const bool slowed = ( !u.has_trait( trait_id( "PARKOUR" ) ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
-                  mcost_to > 4 || mcost_from > 4;
+    const bool fungus = m.has_flag_ter_or_furn( "FUNGUS" , u.pos() ) || m.has_flag_ter_or_furn( "FUNGUS" , dest_loc ); //fungal furniture has no slowing effect on mycus characters
+    const bool slowed = ( ( !u.has_trait( trait_PARKOUR ) && ( mcost_to > 2 || mcost_from > 2 ) ) || mcost_to > 4 || mcost_from > 4 ) &&
+                        !( u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {

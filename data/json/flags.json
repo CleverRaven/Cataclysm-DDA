@@ -48,7 +48,7 @@
     "id": "CBM",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
-    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> or <info>ask a surgeon</info> to install it into your body."
+    "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
   },
   {
     "id": "CLIMATE_CONTROL",
@@ -102,6 +102,18 @@
     "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FIX_FARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects farsightedness</good>."
+  },
+  {
+    "id": "FIX_NEARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
     "id": "FILTHY",
@@ -208,6 +220,13 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Increases warmth for hands if the player's hands are cold and the player is wielding nothing.",
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
+  },
+  {
+    "id": "PSYSHIELD_PARTIAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "25% chance to protect against fear_paralyze monster attack.",
+    "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
   },
   {
     "id": "RAD_PROOF",
@@ -396,7 +415,7 @@
     "id": "BIONIC_TOGGLED",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic only has a function when activated, else it causes it's effect every turn."
+    "description": "This bionic only has a function when activated, else it causes its effect every turn."
   },
   {
     "id": "BIONIC_GUN",
