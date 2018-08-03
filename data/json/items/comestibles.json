@@ -6217,7 +6217,6 @@
     "price": 750,
     "material": "veggy",
     "volume": 12,
-    "charges": 8,
     "bashing": 2,
     "fun": -1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
