@@ -1569,6 +1569,7 @@ void Item_factory::load_container( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
+    assign( jo, "grow_secondary", slot.grow_secondary, false, 1_days );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
     slot.comfortable_temperature = jo.get_int( "comfortable_temperature", 0 );
     slot.fruit_id = jo.get_string( "fruit" );
@@ -1578,6 +1579,9 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
     slot.byproducts = jo.get_string_array( "byproducts" );
     slot.water_requirement = jo.get_float( "water_requirement", 1.0f );
     slot.weed_susceptibility = jo.get_float( "weed_susceptibility", 1.0f );
+    slot.grow_into = jo.get_string( "grow_into", "" );
+    slot.is_mushroom = jo.get_bool( "is_mushroom", false );
+    slot.is_shrub = jo.get_bool( "is_shrub", false );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo, const std::string & )
