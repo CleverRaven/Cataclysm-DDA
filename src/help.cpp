@@ -50,7 +50,7 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "a: Introduction" ) );
     headers.push_back( _( "b: Movement" ) );
     headers.push_back( _( "c: Viewing" ) );
-    headers.push_back( _( "d: Hunger, thirst and sleep" ) );
+    headers.push_back( _( "d: Hunger, thirst, and sleep" ) );
     headers.push_back( _( "e: Pain and stimulants" ) );
     headers.push_back( _( "f: Addiction" ) );
     headers.push_back( _( "g: Morale and learning" ) );
