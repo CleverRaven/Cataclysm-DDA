@@ -5,6 +5,7 @@
 #include "game.h"
 #include "messages.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "player.h"
 #include "ui.h"
 #include "npc.h"
@@ -49,7 +50,7 @@ void teleport_short()
 
 void teleport_long()
 {
-    const tripoint where( overmap::draw_overmap() );
+    const tripoint where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
