@@ -536,13 +536,10 @@
     },{
         "type" : "overmap_terrain",
         "id" : "church",
+        "copy-from" : "generic_city_building",
         "name" : "church",
         "sym" : 67,
-        "color" : "light_red",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_red"
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_1_NW",
@@ -697,13 +694,10 @@
     },{
         "type" : "overmap_terrain",
         "id" : "s_garage",
+        "copy-from" : "generic_city_building",
         "name" : "garage",
         "sym" : 79,
-        "color" : "white",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "cabin_strange",
@@ -744,12 +738,10 @@
     },{
         "type" : "overmap_terrain",
         "id" : "sugar_house",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "sugar house",
         "sym" : 83,
-        "color" : "i_brown",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2
+        "color" : "i_brown"
     },{
         "type" : "overmap_terrain",
         "id" : "farm_1",
@@ -874,13 +866,10 @@
     },{
         "type" : "overmap_terrain",
         "id" : "s_music",
+        "copy-from" : "generic_city_building",
         "name" : "music store",
         "sym" : 109,
-        "color" : "brown",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "brown"
     },{
         "type" : "overmap_terrain",
         "id" : "megastore_entrance",
@@ -904,13 +893,10 @@
     },{
         "type" : "overmap_terrain",
         "abstract" : "generic_hospital",
+        "copy-from" : "generic_city_building",
         "name" : "hospital",
         "sym" : 72,
-        "color" : "red",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "red"
     },{
         "type" : "overmap_terrain",
         "id" : "hospital_1",
@@ -1224,148 +1210,115 @@
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_1",
+        "copy-from" : "generic_city_building",
         "name" : "hotel parking",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_2",
+        "copy-from" : "generic_city_building",
         "name" : "hotel parking",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_3",
+        "copy-from" : "generic_city_building",
         "name" : "hotel parking",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_4",
+        "copy-from" : "generic_city_building",
         "name" : "hotel parking",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_5",
+        "copy-from" : "generic_city_building",
         "name" : "hotel entrance",
         "sym" : 72,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_6",
+        "copy-from" : "generic_city_building",
         "name" : "hotel parking",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_7",
+        "copy-from" : "generic_city_building",
         "name" : "hotel tower",
         "sym" : 72,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_8",
+        "copy-from" : "generic_city_building",
         "name" : "hotel tower",
         "sym" : 72,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_9",
+        "copy-from" : "generic_city_building",
         "name" : "hotel tower",
         "sym" : 72,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_b_1",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "hotel basement",
         "sym" : 66,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_b_2",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "hotel basement",
         "sym" : 66,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_b_3",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "hotel basement",
         "sym" : 66,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "motel_entrance",
+        "copy-from" : "generic_city_building",
         "name" : "motel",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "motel_1",
+        "copy-from" : "generic_city_building",
         "name" : "motel",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "motel_2",
+        "copy-from" : "generic_city_building",
         "name" : "motel",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "motel_3",
+        "copy-from" : "generic_city_building",
         "name" : "motel",
         "sym" : 104,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },{
         "type" : "overmap_terrain",
         "id" : "dirtroad1_aban1",
@@ -1477,12 +1430,10 @@
     },{
         "type" : "overmap_terrain",
         "id" : "station_radio",
+        "copy-from" : "generic_city_building",
         "name" : "radio station",
         "sym" : 88,
-        "color" : "i_light_gray",
-        "see_cost" : 5,
-        "extras" : "build",
-        "flags" : [ "SIDEWALK" ]
+        "color" : "i_light_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "shelter",
@@ -5373,204 +5324,178 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_1",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194412,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_2",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_3",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_4",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_5",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194411,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_6",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_7",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_8",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_9",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_10",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_11",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_12",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_13",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_14",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_15",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_16",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_17",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_18",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_19",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "refugee center",
         "sym" : 4194414,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_20",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_21",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194413,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_22",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_23",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194423,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_24",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_25",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 4194410,
-        "color" : "dark_gray",
-        "see_cost" : 5,
-        "mondensity" : 2
+        "color" : "dark_gray"
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_cabin",
@@ -5672,12 +5597,10 @@
     },{
         "type" : "overmap_terrain",
         "id" : "warehouse",
+        "copy-from" : "generic_city_building",
         "name" : "small warehouse",
         "sym" : 119,
-        "color" : "light_blue",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_blue"
     },
     {
         "type" : "overmap_terrain",
@@ -6399,138 +6322,108 @@
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_a1",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_a2",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_a3",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_a4",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_a5",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_b1",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_b2",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_b3",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_b4",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_b5",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_c1",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_c2",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_c3",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_c4",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "football_field_c5",
+        "copy-from" : "generic_city_building",
         "name" : "football field",
         "sym" : 79,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "light_green"
     },{
         "type" : "overmap_terrain",
         "id" : "campsite",
@@ -6608,20 +6501,18 @@
     },{
         "type" : "overmap_terrain",
         "id" : "pump_station_1",
+        "copy-from" : "generic_city_building",
         "name" : "pump station",
         "sym" : 80,
         "color" : "red",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "KNOWN_DOWN", "SIDEWALK" ]
+        "flags" : [ "KNOWN_DOWN" ]
     },{
         "type" : "overmap_terrain",
         "id" : "pump_station_2",
+        "copy-from" : "generic_city_building",
         "name" : "pump station",
         "sym" : 80,
         "color" : "red",
-        "see_cost" : 5,
-        "mondensity" : 2,
         "flags" : [ "KNOWN_DOWN" ]
     },{
         "type" : "overmap_terrain",
@@ -6656,70 +6547,61 @@
     },{
         "type" : "overmap_terrain",
         "id" : "garage_gas_2",
+        "copy-from" : "generic_city_building",
         "name" : "garage",
         "sym" : 79,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "garage_gas_3",
+        "copy-from" : "generic_city_building",
         "name" : "garage",
         "sym" : 79,
-        "color" : "white",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "cemetery_4square_00",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "religious cemetery",
         "sym" : 110,
         "color" : "white",
-        "see_cost" : 5,
         "extras" : "field",
-        "mondensity" : 2,
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cemetery_4square_10",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "religious cemetery",
         "sym" : 110,
         "color" : "white",
-        "see_cost" : 5,
         "extras" : "field",
-        "mondensity" : 2,
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cemetery_4square_01",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "religious cemetery",
         "sym" : 110,
         "color" : "white",
-        "see_cost" : 5,
         "extras" : "field",
-        "mondensity" : 2,
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cemetery_4square_11",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "religious cemetery",
         "sym" : 110,
         "color" : "white",
-        "see_cost" : 5,
         "extras" : "field",
-        "mondensity" : 2,
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "4way_road",
+        "copy-from" : "generic_city_building_no_sidewalk",
         "name" : "road",
         "sym" : 43,
         "color" : "light_gray",
-        "see_cost" : 5,
-        "extras" : "forest",
-        "mondensity" : 2,
+        "extras" : "field",
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
@@ -6827,109 +6709,90 @@
   {
     "id": "dispensary",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "dispensary",
     "sym": 68,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "i_green"
   },
   {
     "id": "art_gallery",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "art gallery",
     "sym": 97,
-    "color": "i_yellow",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "i_yellow"
   },
   {
     "id": "state_park_0_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "id": "state_park_0_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "id": "state_park_1_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "state park parking",
     "sym": 36,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "i_green"
   },
   {
     "id": "state_park_1_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "id": "fishing_pond_0_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_blue"
   },
   {
     "id": "fishing_pond_0_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_blue"
   },
   {
     "id": "fishing_pond_1_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "i_blue"
   },
   {
     "id": "fishing_pond_1_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_blue"
   },
   {
     "id": "cemetery_small",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "small cemetery",
     "sym": 67,
-    "color": "light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "light_gray"
   },
   {
     "id": "mansion_c",
@@ -7260,151 +7123,123 @@
   {
     "id": "orchard",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "orchard",
     "sym": 35,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "i_green"
   },
   {
     "id": "dispensary",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "dispensary",
     "sym": 68,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "i_green"
   },
   {
     "id": "skate_park",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "skate park",
     "sym": 79,
-    "color": "light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "light_gray"
   },
   {
     "id": "small_office",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "small office",
     "sym": 111,
-    "color": "brown",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "brown"
   },
   {
     "id": "small_wooded_trail",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "small wooded trail",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "i_green"
   },
   {
     "id": "derelict_property",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "derelict property",
     "sym": 88,
     "color": "i_brown",
-    "see_cost": 5,
-    "mondensity": 2,
     "extras": "field"
   },
   {
     "id": "state_park_0_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "id": "state_park_0_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "id": "state_park_1_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "state park parking",
     "sym": 36,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "i_green"
   },
   {
     "id": "state_park_1_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "id": "pavilion",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "pavilion",
     "sym": 65,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "i_green"
   },
   {
     "id": "fishing_pond_0_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_blue"
   },
   {
     "id": "fishing_pond_0_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_blue"
   },
   {
     "id": "fishing_pond_1_0",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "i_blue"
   },
   {
     "id": "fishing_pond_1_1",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "fishing pond",
     "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "i_blue"
   },
   {
     "id": "hunting_blind",
@@ -7419,13 +7254,10 @@
   {
     "id": "small_storage_units",
     "type": "overmap_terrain",
+    "copy-from" : "generic_city_building",
     "name": "small storage units",
     "sym": 35,
-    "color": "i_yellow",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
+    "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
@@ -8055,122 +7887,98 @@
   },{
     "type": "overmap_terrain",
     "id": "dumpsite",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "dumpsite",
     "sym": 68,
-    "color": "brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "dump",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "dump",
     "sym": 68,
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "recyclecenter",
+    "copy-from" : "generic_city_building",
     "name": "recycle center",
     "sym": 82,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
     "id": "landfill",
+    "copy-from" : "generic_city_building",
     "name": "landfill",
     "sym": 76,
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "junkyard_1a",
+    "copy-from" : "generic_city_building",
     "name": "junkyard",
     "sym": 74,
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "junkyard_1b",
+    "copy-from" : "generic_city_building",
     "name": "junkyard",
     "sym": 74,
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "junkyard_2a",
+    "copy-from" : "generic_city_building",
     "name": "junkyard",
     "sym": 74,
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "junkyard_2b",
+    "copy-from" : "generic_city_building",
     "name": "junkyard",
     "sym": 74,
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "NatureTrail_1a",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "nature trail",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
     "id": "NatureTrail_1b",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "nature trail",
     "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
     "id": "PublicPond_1a",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "public pond",
     "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
     "id": "PublicPond_1b",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "public pond",
     "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
@@ -8315,82 +8123,65 @@
   {
     "type": "overmap_terrain",
     "id": "desolatebarn",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "desolate barn",
     "sym": 66,
-    "color": "brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "emptycommerciallot",
+    "copy-from" : "generic_city_building",
     "name": "empty commercial lot",
     "sym": 79,
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "emptyresidentiallot",
+    "copy-from" : "generic_city_building",
     "name": "empty residential lot",
     "sym": 79,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
     "id": "abandonedwarehouse",
+    "copy-from" : "generic_city_building",
     "name": "abandoned warehouse",
     "sym": 119,
-    "color": "brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "dollarstore",
+    "copy-from" : "generic_city_building",
     "name": "dollar store",
     "sym": 36,
-    "color": "yellow",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": "lancenter",
+    "copy-from" : "generic_city_building",
     "name": "lan center",
     "sym": 76,
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "landscapingsupplyco_1a",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "landscaping supply co",
     "sym": 76,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
     "id": "landscapingsupplyco_1b",
+    "copy-from" : "generic_city_building_no_sidewalk",
     "name": "landscaping supply co",
     "sym": 76,
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
+    "color": "i_green"
   }
 ]
-
