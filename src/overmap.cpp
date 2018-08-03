@@ -3653,12 +3653,16 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         }
     }
     if( generate_stairs && !generated_lab.empty() ) {
+        std::random_shuffle( generated_lab.begin(), generated_lab.end() );
+
+        // we want a spot where labs are above, but we'll settle for the last element if necessary.
         point p;
-        int tries = 0;
-        do {
-            p = random_entry( generated_lab );
-            tries++;
-        } while( ter( p.x, p.y, z + 1 ) != labt && tries < 15 );
+        for( auto elem : generated_lab) {
+            p = elem;
+            if( ter( p.x, p.y, z + 1 ) == labt ) {
+                break;
+            }
+        }
         ter( p.x, p.y, z + 1 ) = labt_stairs;
     }
 
