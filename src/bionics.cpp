@@ -806,7 +806,8 @@ int bionic_manip_cos( int p_int, int most_important_skill, int important_skill,
 {
     int chance_of_success = 0;
 
-    if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) || g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+    if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) ||
+        g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         chance_of_success = 100;
         return chance_of_success;
     }
