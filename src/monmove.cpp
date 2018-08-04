@@ -1132,12 +1132,35 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
+        if( calendar::once_every( 5_turns ) ) {
+            sounds::sound( pos(), 15, _( "zzzZZZzzzZZZzzzZZZ." ) );
+        }
         for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
+            const bool player_sees = g->u.sees( zap );
             const auto items = g->m.i_at( zap );
             for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
                 if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
                     g->m.add_field( zap, fd_fire, 2, 1_minutes );
+                    sounds::sound( pos(), 30, _( "fwoosh!" ) );
                     break;
+                }
+            }
+            if( zap != pos() ) {
+                g->emp_blast( zap ); // Fries electronics due to the intensity of the field
+            }
+            const auto t = g->m.ter( zap );
+            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+                if( one_in( 4 ) ) {
+                    g->explosion( p, 40, 0.8, true );
+                    if( player_sees ) {
+                        add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ).c_str() );
+                    }
+                } else {
+                    if( player_sees ) {
+                        add_msg( m_warning, _( "Lightning from %s engulfs the %s!" ), name().c_str(),
+                                 g->m.tername( zap ).c_str() );
+                    }
+                    g->m.add_field( zap, fd_fire, 1, 2_turns );
                 }
             }
         }

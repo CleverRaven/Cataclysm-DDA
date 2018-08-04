@@ -6149,8 +6149,11 @@ void game::emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     int rn;
+    const bool sight = g->u.sees( p );
     if (m.has_flag("CONSOLE", x, y)) {
-        add_msg(_("The %s is rendered non-functional!"), m.tername(x, y).c_str());
+        if( sight ) {
+            add_msg(_("The %s is rendered non-functional!"), m.tername(x, y).c_str());
+        }
         m.ter_set(x, y, t_console_broken);
         return;
     }
@@ -6158,11 +6161,15 @@ void game::emp_blast( const tripoint &p )
     if (m.ter(x, y) == t_card_science || m.ter(x, y) == t_card_military) {
         rn = rng(1, 100);
         if (rn > 92 || rn < 40) {
-            add_msg(_("The card reader is rendered non-functional."));
+            if( sight ) {
+                add_msg(_("The card reader is rendered non-functional."));
+            }
             m.ter_set(x, y, t_card_reader_broken);
         }
         if (rn > 80) {
-            add_msg(_("The nearby doors slide open!"));
+            if( sight ) {
+                add_msg(_("The nearby doors slide open!"));
+            }
             for (int i = -3; i <= 3; i++) {
                 for (int j = -3; j <= 3; j++) {
                     if (m.ter(x + i, y + j) == t_door_metal_locked) {
@@ -6172,7 +6179,9 @@ void game::emp_blast( const tripoint &p )
             }
         }
         if (rn >= 40 && rn <= 80) {
-            add_msg(_("Nothing happens."));
+            if( sight ) {
+                add_msg(_("Nothing happens."));
+            }
         }
     }
     if( monster *const mon_ptr = critter_at<monster>( p ) ) {
@@ -6193,7 +6202,9 @@ void game::emp_blast( const tripoint &p )
                     break;
             }
             if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
-                add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
+                if( sight ) {
+                    add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
+                }
                 m.add_item_or_charges( x, y, critter.to_item() );
                 for( auto & ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
@@ -6202,7 +6213,9 @@ void game::emp_blast( const tripoint &p )
                 }
                 remove_zombie( critter );
             } else {
-                add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
+                if( sight ) {
+                    add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
+                }
                 int dam = dice(10, 10);
                 critter.apply_damage( nullptr, bp_torso, dam );
                 critter.check_dead_state();
@@ -6210,7 +6223,7 @@ void game::emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
-        } else {
+        } else if( sight ) {
             add_msg(_("The %s is unaffected by the EMP blast."), critter.name().c_str());
         }
     }
