@@ -12716,6 +12716,14 @@ void game::update_map(int &x, int &y)
             it++;
         }
     }
+
+    scent.shift( shiftx * SEEX, shifty * SEEY );
+
+    // Also ensure the player is on current z-level
+    // get_levz() should later be removed, when there is no longer such a thing
+    // as "current z-level"
+    u.setpos( tripoint(x, y, get_levz()) );
+    
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();
@@ -12725,13 +12733,6 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-
-    scent.shift( shiftx * SEEX, shifty * SEEY );
-
-    // Also ensure the player is on current z-level
-    // get_levz() should later be removed, when there is no longer such a thing
-    // as "current z-level"
-    u.setpos( tripoint(x, y, get_levz()) );
 
     // Update what parts of the world map we can see
     update_overmap_seen();
