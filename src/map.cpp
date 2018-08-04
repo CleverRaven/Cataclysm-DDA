@@ -3562,6 +3562,11 @@ void map::bash_field( const tripoint &p, bash_params &params )
         params.bashed_solid = true; // To prevent bashing furniture/vehicles
         remove_field( p, fd_web );
     }
+    if( get_field( p, fd_vines ) != nullptr ) {
+        params.did_bash = true;
+        params.bashed_solid = true; // To prevent bashing furniture/vehicles
+        remove_field( p, fd_vines );
+    }
 }
 
 void map::destroy( const tripoint &p, const bool silent )

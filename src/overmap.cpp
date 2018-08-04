@@ -200,10 +200,11 @@ bool overmap_special_id::is_valid() const
     return specials.is_valid( *this );
 }
 
-city::city( int const X, int const Y, int const S)
+city::city( int const X, int const Y, int const S, om_zone::type ZT )
 : x (X)
 , y (Y)
 , s (S)
+, zt (ZT)
 , name( Name::get( nameIsTownName ) )
 {
 }
@@ -1731,6 +1732,8 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_specials( enabled_specials );
     polish_river();
 
+    place_zones();
+
     // @todo: there is no reason we can't generate the sublevels in one pass
     //       for that matter there is no reason we can't as we add the entrance ways either
 
@@ -1746,7 +1749,6 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_radios();
     dbg(D_INFO) << "overmap::generate done";
 }
-
 
 bool overmap::generate_sub(int const z)
 {
@@ -1994,6 +1996,24 @@ const city &overmap::get_nearest_city( const tripoint &p ) const
     }
     static city invalid_city;
     return invalid_city;
+}
+
+int overmap::in_city( point p )
+{
+    int notfound = -1;
+    for ( size_t i = 0; i < cities.size(); i++ ){
+        // ( x - cx )^2 + ( y - cy )^2 < r^2
+        int x = p.x - cities[i].x;
+        x = x * x;
+        int y = p.y - cities[i].y;
+        y = y * y;
+        int r = cities[i].s * cities[i].s;
+
+        if( ( x + y ) < r ){
+            return i;
+        }
+    }
+    return notfound;
 }
 
 // {note symbol, note color, offset to text}
@@ -3261,6 +3281,90 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
     }
 }
 
+int overmap::in_zone( tripoint p )
+{
+    dbg( D_ERROR ) << "overmap::in_zone: zones.size()=[" << zones.size() << "]";
+    int notfound = -1;
+    for( size_t i = 0; i < zones.size(); i++ ){
+        if( zones[i].contains_tripoint( p ) ){
+            dbg( D_ERROR ) << "found at [" << i << "]!";
+            return i;
+        }
+    }
+    dbg( D_ERROR ) << "NOT found!";
+    return notfound;
+}
+
+// creates a generally circular shape
+std::set<tripoint> generate_zone( tripoint c, int radius )
+{
+    std::set<tripoint> generated_points;
+
+    // start off with circle. ( x - cx )^2 + ( y - cy )^2 < r^2
+    for( int x = c.x - radius; x <= c.x + radius; x++ ){
+        for( int y = c.y - radius; y <= c.y + radius; y++ ){
+            int rx = ( x - c.x  )  *( x - c.x );
+            int ry = ( y - c.y ) * ( y - c.y );
+            if( ( rx + ry ) <= ( radius * radius ) ){
+                generated_points.insert( tripoint( x, y, c.z ) );
+            }
+        }
+    }
+    // do other stuff eventually
+
+    return generated_points;
+}
+
+void overmap::place_zones()
+{
+    // some cities will have a zone, triffids/fungus have zones
+    overmap_zone z;
+    for( int x = 0; x < OMAPX; x++ ){
+        for( int y = 0; y < OMAPY; y++ ){
+            if( is_ot_type( "triffid_grove", ter( x, y, 0 ) ) ){
+                z.center = tripoint( x, y, 0 );
+                z.size = rng( 3, 6 );
+                z.points = generate_zone( z.center, z.size );
+                z.type = om_zone::type::OMZONE_OVERGROWN;
+                zones.push_back( z );
+                this->add_note( x, y, 0, "T:Triffid Zone" );
+            } else if( is_ot_type( "fungal_bloom", ter( x, y, 0 ) ) ){
+                z.center = tripoint( x, y, 0 );
+                z.size = rng( 2, 8 );
+                z.points = generate_zone( z.center, z.size );
+                z.type = om_zone::type::OMZONE_FUNGAL;
+                zones.push_back( z );
+                this->add_note( x, y, 0, "F:Fungal Zone" );
+            }
+        }
+    }
+    for( auto itr = cities.begin(); itr != cities.end(); ++itr ){
+        city tmp = *itr;
+        if( one_in( 5 ) ){ // 20/80
+            z.center = tripoint( tmp.x, tmp.y, 0 );
+            z.size = tmp.s;
+            z.points = generate_zone( z.center, z.size );
+            z.type = om_zone::type::OMZONE_CITY;
+            zones.push_back( z );
+            this->add_note( tmp.x, tmp.y, 0, "L:Looted Zone" );
+        } else if( one_in( 8 ) ) { // 10/70
+            z.center = tripoint(tmp.x, tmp.y, 0 );
+            z.size = tmp.s;
+            z.points = generate_zone( z.center, z.size );
+            z.type = om_zone::type::OMZONE_FUNGAL;
+            zones.push_back( z );
+            this->add_note( tmp.x, tmp.y, 0, "F:Fungal Zone" );
+        } else if( one_in( 7 ) ) { // 10/60
+            z.center = tripoint( tmp.x, tmp.y, 0 );
+            z.size = tmp.s;
+            z.points = generate_zone( z.center, z.size );
+            z.type = om_zone::type::OMZONE_OVERGROWN;
+            zones.push_back( z );
+            this->add_note( tmp.x, tmp.y, 0, "T:Triffid Zone" );
+        }
+    }
+}
+
 void grow_forest_oter_id(oter_id &oid, bool swampy)
 {
     if (swampy && ( oid == ot_field || oid == ot_forest ) ) {
@@ -3503,6 +3607,7 @@ void overmap::place_cities()
             tmp.x = cx;
             tmp.y = cy;
             tmp.s = size;
+            tmp.zt = om_zone::random();
             cities.push_back(tmp);
 
             const auto start_dir = om_direction::random();
@@ -4312,6 +4417,29 @@ om_direction::type om_direction::random()
 bool om_direction::are_parallel( type dir1, type dir2 )
 {
     return dir1 == dir2 || dir1 == opposite( dir2 );
+}
+
+const std::string &om_zone::id( type zone_type )
+{
+    static const std::array < std::string, size + 1 > ids = { {
+            "OMZONE_NULL", "OMZONE_CITY", "OMZONE_BOMBED", "OMZONE_IRRADIATED", "OMZONE_CORRUPTED", "OMZONE_OVERGROWN", "OMZONE_FUNGAL", "OMZONE_MILITARIZED", "OMZONE_FLOODED", "OMZONE_TRAPPED", "OMZONE_MUTATED", "OMZONE_FORTIFIED", "OMZONE_BOTS"
+        }
+    };
+    return ids[static_cast<size_t>( zone_type ) + 1];
+}
+
+const std::string &om_zone::name( type zone_type )
+{
+    static const std::array < std::string, size + 1 > names = { {
+            _( "OMZONE_NULL" ), _( "OMZONE_CITY" ), _( "OMZONE_BOMBED" ), _( "OMZONE_IRRADIATED" ), _( "OMZONE_CORRUPTED" ), _( "OMZONE_OVERGROWN" ), _( "OMZONE_FUNGAL" ), _( "OMZONE_MILITARIZED" ), _( "OMZONE_FLOODED" ), _( "OMZONE_TRAPPED" ), _( "OMZONE_MUTATED" ), _( "OMZONE_FORTIFIED" ), _( "OMZONE_BOTS" )
+        }
+    };
+    return names[static_cast<size_t>( zone_type ) + 1];
+}
+
+om_zone::type om_zone::random()
+{
+    return static_cast<type>( rng( 0, size - 1 ) );
 }
 
 om_direction::type overmap::random_special_rotation( const overmap_special &special, const tripoint &p ) const

@@ -6625,6 +6625,25 @@ void game::smash()
         return;
     }
 
+    field_entry *f_vines = m.get_field( smashp, fd_vines );
+    if( f_vines != nullptr )
+    {
+        if( u.weapon.damage_melee( DT_CUT ) > 10 ) {
+            m.remove_field( smashp, fd_vines );
+            sounds::sound( smashp, 2, "" );
+            add_msg( m_info, _( "You hack away the vines." ) );
+        } else if( one_in( f_vines->getFieldDensity() ) ) {
+            m.remove_field( smashp, fd_vines );
+            sounds::sound( smashp, 2, "" );
+            add_msg( m_info, _( "You clear the vines." ) );
+        } else {
+            sounds::sound( smashp, 2, "" );
+            f_vines->setFieldDensity( f_vines->getFieldDensity() - 1 );
+            add_msg( m_info, _( "You thin the vines a little." ) );
+        }
+        return;
+    }
+
     for( const auto &maybe_corpse : m.i_at( smashp ) ) {
         if ( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
              maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {

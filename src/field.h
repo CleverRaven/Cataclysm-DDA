@@ -66,6 +66,7 @@ enum field_id : int {
  fd_gibs_flesh,
  fd_gibs_veggy,
  fd_web,
+ fd_vines,
  fd_slime,
  fd_acid,
  fd_sap,

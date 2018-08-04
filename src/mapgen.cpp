@@ -33,6 +33,7 @@
 #include "computer.h"
 #include "optional.h"
 #include "map_iterator.h"
+#include "fire.h"
 
 #include <algorithm>
 #include <cassert>
@@ -189,6 +190,20 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
                 add_spawn( spawn_details.name, spawn_details.pack_size, p->x, p->y );
             }
         }
+    }
+
+    const tripoint opoint = tripoint( x, y, z );
+    overmap &om = overmap_buffer.get_om_global( opoint );
+    dbg( D_ERROR ) << "[get_om_global] in [map::generate] at [" << x << ":" << y << ":" << z << "].";
+    int idx = om.in_zone( tripoint( overx, overy, z ) );
+    if( idx != -1 )
+    {
+        overmap_zone oz = om.zones[idx];
+        // max size: 16, min size: 1-2.
+        int strength = oz.size - oz.distance_from_center( tripoint( overx, overy, z ) );
+        dbg( D_ERROR ) << "will start post_process [" << om_zone::name( oz.type ) << "] with strength [" << strength << "] at [" << x << ":" << y << ":" << z << "].";
+        //debugmsg( "post_process: [%s] with strength [%d] at [%d:%d:%d]", om_zone::name( oz.type ), strength, x, y, z );
+        post_process( oz.type, strength );
     }
 
     // Okay, we know who are neighbors are.  Let's draw!
@@ -2095,6 +2110,223 @@ int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, const time_poin
     return 0;
 }
 #endif
+
+void map::process_zone_burned( const int distance )
+{
+    (void) distance; // @todo: utilize distance
+    while( one_in( 4 ) ) {
+		const int z = abs_sub.z;
+        tripoint center( rng( 4, 19 ), rng( 4, 19 ), z );
+        int radius = rng( 1, 4 );
+		tripoint_range burn_points = map::points_in_radius( center, radius );
+
+		for( auto burn_point: burn_points )
+		{
+            if( rl_dist( burn_point, center ) <= rng( 1, radius ) ) {
+                destroy( burn_point, false );
+                map_stack burn_point_items = i_at( burn_point );
+                for( auto i : burn_point_items ) {
+                    fire_data frd( 2, false );
+                    i.burn( frd );
+                }
+            }
+		}
+	}
+}
+
+void map::process_zone_looted( const int distance )
+{
+	(void) distance;
+
+    const int z = abs_sub.z;
+	tripoint_range loot_points = map::points_in_rectangle( tripoint( 0, 0, z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, z) );
+
+	for( auto loot_point: loot_points ) {
+		map_stack loot_point_items = i_at( loot_point );
+        // Loot items cost more than 200$ (arbitrary choice) - one_in( 2 )
+        for( auto i : loot_point_items ) {
+            if( one_in( 2 ) && ( i.price( false ) > 20000 ) ) {
+                bash( loot_point, 20 );
+                //loot_point_items.erase( i );
+            }
+        }
+        // Bash loot point with strength of 20 - one_in( 10 )
+        if( one_in( 10 ) ) {
+            bash( loot_point, 20, false );
+        }
+        // Add some blood - one_in( 5 )
+        if( one_in( 4 ) ) {
+            add_field( loot_point, fd_blood, 1 );
+        }
+    }
+}
+
+void map::process_zone_entriffidate( const int distance )
+{
+    // @todo: process_zone_entriffidate
+
+    int strength = distance;
+    if( distance <= 0 ) {
+        strength = 1;
+    } else if( distance > 16 ) {
+        strength = 16;
+    };
+
+    const int calc_max = 20;
+
+    const int z = abs_sub.z;
+
+	tripoint_range entriffidate_points = map::points_in_rectangle( tripoint( 0, 0, z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, z) );
+	for( auto entriffidate_point : entriffidate_points )
+	{
+        ter_id terid = ter( entriffidate_point );
+		int x = entriffidate_point.x;
+		int y = entriffidate_point.y;
+        // cover the walls in vines
+        if( terid == t_wall && x_in_y( strength, calc_max ) ) {
+            if( ( ter( x, y + 1 ) == t_dirt ) || ( ter( x, y + 1 ) == t_grass ) ||
+                ( ter( x, y - 1 ) == t_dirt ) || ( ter( x, y - 1 ) == t_grass ) ||
+                ( ter( x + 1, y ) == t_dirt ) || ( ter( x + 1, y ) == t_grass ) ||
+                ( ter( x - 1, y ) == t_dirt ) || ( ter( x - 1, y ) == t_grass ) ) {
+                /*
+                if(terid == "t_wall_h"){
+                    ter_set(x, y, "t_vine_wall_h");
+                } else if(terid == "t_wall_v"){
+                    ter_set(x, y, "t_vine_wall_v");
+                }
+                */
+                add_field( entriffidate_point, fd_vines, 2 );
+            }
+        }
+        // bust through some of the pavement
+        if( ( terid == t_pavement ) || ( terid == t_pavement_y ) ||
+            ( terid == t_sidewalk ) || ( terid == t_sand ) ) {
+            if( x_in_y( strength, calc_max ) ) {
+                ter_set( entriffidate_point, grass_or_dirt() );
+                terid = ter( entriffidate_point );
+            }
+        }
+        // place vegetation, at max density, roughly 60% chance to place something
+        if( ( terid == t_dirt ) || ( terid == t_grass ) ) {
+            if( x_in_y( strength, calc_max ) ) {
+                if( one_in( 3 ) ) {
+                    ter_set( entriffidate_point, t_underbrush );
+                } else if( one_in( 4 ) ) {
+                    ter_set( entriffidate_point, t_shrub );
+                } else if( one_in( 5 ) ) {
+                    ter_set( entriffidate_point, t_tree_young );
+                } else if( one_in( 6 ) ) {
+                    ter_set( entriffidate_point, t_tree );
+                }
+            }
+        }
+	}
+
+    // @todo: scale by strength
+    for( int n = rng( 3, 6 ); n > 0; n-- ) {
+        add_field( random_outdoor_tile( z ), fd_vines, rng( 1, 3 ), 0 );
+    }
+}
+
+void map::process_zone_fungalized( const int distance )
+{
+    (void) distance; // @todo: utilize distance
+    fungal_effects fe( *g, g->m );
+    const int z = abs_sub.z;
+	tripoint_range fungal_points = map::points_in_rectangle( tripoint( 0, 0, z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, z) );
+	for( auto fungal_point : fungal_points )
+	{
+	    if( one_in( 10 ) ) {
+			fe.spread_fungus( fungal_point );
+		}
+	}
+}
+
+// distance is distance from current point to the center of the zone, used to calculate density
+void map::post_process( std::set<om_zone::type> zone_types, int distance )
+{
+
+    const int z = abs_sub.z;
+
+    dbg( D_ERROR ) << "Actual post_process started with zone_types.size()=[" << zone_types.size() << "] at Z-level [ " << z << " ].";
+
+    for( om_zone::type zone_type : zone_types ) {
+        dbg( D_ERROR ) << "There is zone_type named [" << om_zone::name( zone_type ) << " with id=[" << om_zone::id( zone_type ) << "] to process.";
+        switch( zone_type ) {
+            case om_zone::type::OMZONE_CITY:
+                // as distance increases, amount of looting should decrease 1 in (distance^2)
+                if( one_in( distance ) ) {
+                    if( one_in( 10 ) ) {
+                        process_zone_burned( distance );
+                    } else {
+                        process_zone_looted( distance );
+                    }
+                }
+                // 90% chance of smashing stuff up
+                if( !one_in( 10 ) ) {
+					tripoint_range bash_points = map::points_in_rectangle( tripoint( 0, 0, z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, z) );
+					for( auto bash_point : bash_points )
+					{
+						const int bash_strength = 20;
+                        bash( bash_point, bash_strength, true );
+					}
+                }
+                // 10% chance of corpses
+                if( one_in( 10 ) ) {
+                    const int max_num_corpses = 8;
+                    int num_corpses = rng( 1, max_num_corpses );
+                    for( int i = 0; i < num_corpses; i++ ) {
+                        int x = rng( 0, SEEX * 2 - 1 ), y = rng( 0, SEEY * 2 - 1 );
+                        tripoint corpse_point( x, y, z );
+                        if( move_cost( corpse_point ) > 0 ) {
+                            add_corpse( corpse_point );
+                        }
+                    }
+                }
+                break;
+            case om_zone::type::OMZONE_BOMBED:
+                while( one_in( 4 ) ) {
+                    const int max_blast_radius = 4;
+                    int blast_radius = rng( 1, max_blast_radius );
+					tripoint center( rng( max_blast_radius, SEEX * 2 - max_blast_radius - 1 ), rng( max_blast_radius, SEEY * 2 - max_blast_radius - 1 ), z );
+					tripoint_range blast_points = map::points_in_radius( center, blast_radius );
+					for( auto destroy_point : blast_points )
+					{
+                        if( rl_dist( destroy_point, center ) <= rng( 1, blast_radius ) ) {
+                            destroy( destroy_point, false );
+                        }
+					}
+                }
+                break;
+            case om_zone::type::OMZONE_IRRADIATED:
+				break;
+            case om_zone::type::OMZONE_CORRUPTED:
+				break;
+            case om_zone::type::OMZONE_OVERGROWN:
+                // as distance increases the density of the overgrowth should decrease
+                process_zone_entriffidate( distance );
+                break;
+            case om_zone::type::OMZONE_FUNGAL:
+                // as distance increases the density of the fungal mass should decrease
+                process_zone_fungalized( distance );
+                break;
+            case om_zone::type::OMZONE_MILITARIZED:
+				break;
+            case om_zone::type::OMZONE_FLOODED:
+				break;
+            case om_zone::type::OMZONE_TRAPPED:
+				break;
+            case om_zone::type::OMZONE_MUTATED:
+				break;
+            case om_zone::type::OMZONE_FORTIFIED:
+				break;
+            case om_zone::type::OMZONE_BOTS:
+				break;
+            default:
+                break;
+        }
+    }
+}
 
 void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &dat, const time_point &t, float d ) {
     lua_mapgen( m, terrain_type, dat, t, d, scr );
@@ -8019,4 +8251,3 @@ void add_corpse( map *m, int x, int y )
 {
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
-
