@@ -150,7 +150,7 @@
     "id": "frostie_wheel",
     "type": "vehicle_part",
     "name": "snow slider",
-    "item": "frostie",
+    "item": "frostie_wheel",
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
@@ -169,7 +169,7 @@
     "id": "frostie_wheel_sea",
     "type": "vehicle_part",
     "name": "icy sea skimmer",
-    "item": "frostie",
+    "item": "frostie_boat",
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
@@ -1541,13 +1541,8 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "queengrow" } ],
-    "requirements": {
-      "repair": {
-        "time": 30000,
-        "using": [ [ "blobrep", 1 ] ]
-      }
-    },
-    "flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED" ]
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONICS", "SEAT", "BED" ]
   },
   {
     "id": "razorqueen",
