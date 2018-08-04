@@ -51,7 +51,7 @@
     "folded_volume": 1,
     "breaks_into": [ { "item": "bitergrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "descriptions": "A living blob, transformed into a heavy weapon.",
+    "descriptions": "A living blob, transformed into a heavy vehicle weapon.",
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE" ]
   },
   {
@@ -1614,7 +1614,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "razorqueengrow" } ],
-    "description": "A living blob turned into a vehicle weapon.",
+    "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
@@ -1634,7 +1634,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sharpgrow" } ],
-    "description": "A living blob turned into a vehicle weapon.",
+    "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
@@ -1654,7 +1654,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sicklegrow" } ],
-    "description": "A living blob turned into a vehicle weapon.",
+    "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
@@ -1674,7 +1674,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sparkiegrow" } ],
-    "description": "A living blob turned into a vehicle weapon.",
+    "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
@@ -1694,7 +1694,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "stickiegrow" } ],
-    "description": "A living blob turned into a vehicle weapon.",
+    "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
@@ -1714,7 +1714,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "torchiegrow" } ],
-    "description": "A living blob turned into a vehicle weapon.",
+    "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
@@ -1734,7 +1734,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "voideatergrow" } ],
-    "description": "A living blob turned into a vehicle weapon.",
+    "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   }
