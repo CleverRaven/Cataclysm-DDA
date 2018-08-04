@@ -27,4 +27,5 @@ If applicable, add screenshots to help explain your problem.
  - Mods loaded [e.g.dda, boats, hacktheplanet, StatsThroughSkills]
 
 **Additional context**  
-Add any other context about the problem here.
+Add any other context about the problem here.  
+E.g. A link to a savegame that allows the issue to be reproduced.
