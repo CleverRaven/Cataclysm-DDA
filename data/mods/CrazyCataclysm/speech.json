@@ -422,7 +422,7 @@
   {
     "type" : "speech",
     "speaker" : "mon_mi_go",
-    "sound" : "\"Don't be afraid.  It's just a big big lap dog.\"",
+    "sound" : "\"Don't be afraid.  It's just a big, big lap dog.\"",
     "volume" : 20
   },
   {
@@ -477,12 +477,6 @@
     "type" : "speech",
     "speaker" : "mon_mi_go",
     "sound" : "\"They’re here!\"",
-    "volume" : 20
-  },
-  {
-    "type" : "speech",
-    "speaker" : "mon_mi_go",
-    "sound" : "\"There's no place like home.\"",
     "volume" : 20
   },
   {
