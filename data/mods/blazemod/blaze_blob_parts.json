@@ -598,7 +598,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "description": "A living, glowing blob.  Having been filled with electrical power, it stores that power and  can release it to power other parts of the vehicle, allowing it to act as a storage battery.",
+    "description": "A living, glowing blob.  Having been filled with electrical power, it stores that power and can release it to power other parts of the vehicle, allowing it to act as a storage battery.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
@@ -629,7 +629,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "description": "A living, glowing blob.  It consumes blob feed and produces electrical power, allowing it to be used as a reactor.  It also glows, and can be turned on to illuminate several squares inside the vehicle.  It also does not currently work.",
+    "description": "A living, glowing blob.  It consumes blob feed and produces electrical power, allowing it to be used as a reactor.  It also glows, and can be turned on to illuminate several squares inside the vehicle.  It also does not currently work because the game code does not support the fuel type, but that will be corrected soon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "REACTOR", "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
@@ -1009,7 +1009,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "description": "A living blog, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
   },
@@ -1070,7 +1070,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "description": "A living blog, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
   },
@@ -1131,7 +1131,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "description": "A living blog, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
   },
