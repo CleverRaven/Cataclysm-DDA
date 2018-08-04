@@ -271,11 +271,11 @@
     "color": "light_blue"
   },
   {
-    "id": "frostie_boat",
+    "id": "frostie_hull",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": "gelacier wheel",
-    "description": "A biological mystery, this blob's internal structures exist in within a pool of low-density fluid that remains liquid despite being in a super-cooled state; yet possesses all the malleability of its former self.  Fragments of frost continually flake off it.  It has formed itself into a wide, crude wheel.",
+    "description": "A biological mystery, this blob's internal structures exist in within a pool of low-density fluid that remains liquid despite being in a super-cooled state; yet possesses all the malleability of its former self.  Fragments of frost continually flake off it.  It has formed itself into a wide boat frame.",
     "weight": 6112,
     "volume": 20,
     "to_hit": -3,
