@@ -939,6 +939,7 @@
       },
       "items": {
         "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
       },
       "rows": [
         "44ddddddddddddddddddd444",
