@@ -139,7 +139,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 5,
-    "clip_size": 5,
+    "clip_size": 50,
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM" ]
   },
@@ -177,12 +177,14 @@
     "material": [ "flesh", "bone" ],
     "symbol": "&",
     "color": "magenta",
+    "ammo": "bfeed",
     "skill": "pistol",
     "range": 12,
     "ranged_damage": 7,
     "dispersion": 450,
     "sight_dispersion": 150,
     "durability": 10,
+    "clip_size": 10,
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
@@ -227,7 +229,7 @@
     "dispersion": 450,
     "sight_dispersion": 150,
     "durability": 10,
-    "clip_size": 20,
+    "clip_size": 100,
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_RELOAD", "FIRE_20" ]
   },
@@ -342,7 +344,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 5,
-    "clip_size": 5,
+    "clip_size": 50,
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -669,7 +671,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 20,
-    "clip_size": 20,
+    "clip_size": 240,
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -715,7 +717,7 @@
     "dispersion": 450,
     "sight_dispersion": 150,
     "durability": 10,
-    "clip_size": 20,
+    "clip_size": 250,
     "ammo_effects": [ "JET", "BEANBAG", "BLINDS_EYES", "RECOVER_100", "WIDE", "NO_BOOM", "CUSTOM_EXPLOSION" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20" ]
   },
@@ -760,7 +762,7 @@
     "dispersion": 900,
     "sight_dispersion": 150,
     "durability": 10,
-    "clip_size": 20,
+    "clip_size": 250,
     "ammo_effects": [ "JET", "ACID_BOMB", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "FIRE_20" ]
   },
@@ -953,7 +955,7 @@
     "dispersion": 900,
     "sight_dispersion": 150,
     "durability": 10,
-    "clip_size": 50,
+    "clip_size": 250,
     "ammo_effects": [ "FRAG", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20" ]
   },
@@ -1022,7 +1024,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 3,
-    "clip_size": 3,
+    "clip_size": 36,
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
@@ -1154,7 +1156,7 @@
     "dispersion": 900,
     "sight_dispersion": 150,
     "durability": 10,
-    "clip_size": 20,
+    "clip_size": 500,
     "ammo_effects": [ "JET", "BEANBAG", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "FIRE_20" ]
   },
@@ -1201,7 +1203,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 3,
-    "clip_size": 20,
+    "clip_size": 180,
     "ammo_effects": [ "INCENDIARY", "FLARE", "WIDE", "NO_BOOM", "STREAM" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20" ]
   },
