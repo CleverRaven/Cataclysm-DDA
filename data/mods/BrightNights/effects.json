@@ -22,7 +22,7 @@
     "max_effective_intensity": 4,
     "max_duration": 1200,
     "base_mods": {
-        "healing_rate": [60],
+        "healing_rate": [50],
         "healing_head": [50],
         "healing_torso": [150]
     },
@@ -42,7 +42,7 @@
     "max_effective_intensity": 4,
     "max_duration": 1200,
     "base_mods": {
-        "healing_rate": [60],
+        "healing_rate": [50],
         "healing_head": [50],
         "healing_torso": [150]
     },
