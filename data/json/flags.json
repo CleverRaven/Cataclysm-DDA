@@ -222,6 +222,12 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "POWERED",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "description": "If turned ON, it uses its own source of power, instead of relying on power of the user."
+  },
+  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
