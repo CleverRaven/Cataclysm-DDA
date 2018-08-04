@@ -502,6 +502,26 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "golf_shoes",
+    "type": "ARMOR",
+    "name": "pair of golf shoes",
+    "name_plural": "pairs of golf shoes",
+    "description": "Snug fit sport shoes with hard ridges on the bottom",
+    "weight": 820,
+    "volume": 6,
+    "price": 6500,
+    "bashing": 2,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "FEET" ],
+    "coverage": 70,
+    "encumbrance": 12,
+    "warmth": 15,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "clogs",
     "type": "ARMOR",
     "name": "pair of wooden clogs",

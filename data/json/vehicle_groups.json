@@ -307,5 +307,27 @@
       [ "pickup", 500 ],
       [ "hippie_van", 300 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parkinglotbasic",
+    "vehicles": [
+      [ "bubble_car", 50 ],
+      [ "car_sports_electric", 100 ],
+      [ "cube_van", 1000 ],
+      [ "car_mini", 750 ],
+      [ "beetle", 750 ],
+      [ "car", 1000 ],
+      [ "electric_car", 750 ],
+      [ "hippie_van", 750 ],
+      [ "motorcycle", 500 ],
+      [ "superbike", 50 ],
+      [ "motorcycle_sidecart", 300 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "golf_carts",
+    "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ],
   }
 ]
