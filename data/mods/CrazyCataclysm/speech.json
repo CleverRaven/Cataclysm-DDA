@@ -380,7 +380,7 @@
   {
     "type" : "speech",
     "speaker" : "mon_mi_go",
-    "sound" : "\"Roads? Where we're going we don't need roads.\"",
+    "sound" : "\"Roads?  Where we're going, we don't need roads.\"",
     "volume" : 20
   },
   {
@@ -389,22 +389,19 @@
     "sound" : "\"Fasten your seatbelts. It's going to be a bumpy night.\"",
     "volume" : 20
   },
-  {  },
   {
     "type" : "speech",
     "speaker" : "mon_mi_go",
     "sound" : "\"You've got to ask yourself one question:  'Do I feel lucky?'  Well, do ya punk?\"",
     "volume" : 20
   },
-  {  },
   {
     "type" : "speech",
     "speaker" : "mon_mi_go",
     "sound" : "\"You had me at hello.\"",
     "volume" : 20
   },
-  {  },
-  {
+    {
     "type" : "speech",
     "speaker" : "mon_mi_go",
     "sound" : "\"Houston, we have a problem.\"",
@@ -493,7 +490,8 @@
     "speaker" : "mon_mi_go",
     "sound" : "\"It's only a flesh wound!\"",
     "volume" : 20
-  },   {
+  },
+  {
     "type" : "speech",
     "speaker" : "mon_mi_go",
     "sound" : "\"Leeeeeeeeeeeeeroy!  Jenkins rebuild!\"",
