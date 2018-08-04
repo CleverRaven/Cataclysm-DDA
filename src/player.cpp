@@ -1506,6 +1506,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth -= 500;
     } else if( trap_at_pos.loadid == tr_rollmat ) {
         floor_bedding_warmth -= 1000;
+    } else if( furn_at_pos == f_chair || furn_at_pos == f_bench ) {
+        floor_bedding_warmth -= 1500;
     } else {
         floor_bedding_warmth -= 2000;
     }
@@ -9751,7 +9753,8 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy += 3;
         } else if (furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami) {
             sleepy += 2;
-        } else if (ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+        } else if (furn_at_pos == f_chair || furn_at_pos == f_bench ||
+                    ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
                     ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
                     ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple) {
             sleepy += 1;
