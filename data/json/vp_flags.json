@@ -63,7 +63,7 @@
     "id": "CURTAIN",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "Curtains block line of sight. They can be 'o'pened and 'c'losed to toggle the effect. A Door Motor can be installed to allow control of a Curtain from vehicle controls. "
+    "info": "Closed, it prevents people from seeing through the curtain.  A door motor allows you to remotely open or close it from the vehicle controls."
   },
   {
     "id": "DOOR",
