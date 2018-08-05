@@ -9729,8 +9729,8 @@
       "type": "holster",
       "holster_prompt": "Sheath golf club",
       "holster_msg": "You awkwardly sheath your %s",
-      "max_volume": 40,
-      "draw_cost": 50,
+      "max_volume": 4,
+      "draw_cost": 40,
       "flags": [ "SHEATH_GOLF" ]
     }
   }
