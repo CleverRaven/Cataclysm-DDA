@@ -2470,5 +2470,16 @@
     "time": 100,
     "components": [ [ [ "garlic_clove", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "leaf_spring",
+    "type": "uncraft",
+    "time": 3000,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [
+      [ [ "steel_lump", 4 ] ]
+    ]
   }
 ]
