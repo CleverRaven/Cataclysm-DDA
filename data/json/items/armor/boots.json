@@ -506,7 +506,7 @@
     "type": "ARMOR",
     "name": "pair of golf shoes",
     "name_plural": "pairs of golf shoes",
-    "description": "Snug fit sport shoes with hard ridges on the bottom",
+    "description": "Snug fit sport shoes with hard ridges on the bottom.",
     "weight": 820,
     "volume": 6,
     "price": 6500,
