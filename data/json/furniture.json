@@ -1841,7 +1841,7 @@
     },{
         "type" : "furniture",
         "id" : "f_shrub_blueberry",
-        "name": "blueberry bush",
+        "name": "blueberry shrub",
         "symbol": "#",
         "color": "blue_green",
         "move_cost_mod": 2,
@@ -1861,7 +1861,7 @@
     },{
         "type" : "furniture",
         "id" : "f_shrub_blueberry_harvest",
-        "name": "blueberry bush_harvest",
+        "name": "blueberry shrub",
         "symbol": "#",
         "color": "light_blue_green",
         "move_cost_mod": 2,
@@ -1881,7 +1881,7 @@
     },{
         "type" : "furniture",
         "id" : "f_shrub_strawberry",
-        "name": "strawberry bush",
+        "name": "strawberry shrub",
         "symbol": "#",
         "color": "red_green",
         "move_cost_mod": 2,
@@ -1901,7 +1901,7 @@
     },{
         "type" : "furniture",
         "id" : "f_shrub_strawberry_harvest",
-        "name": "strawberry bush_harvest",
+        "name": "strawberry shrub",
         "symbol": "#",
         "color": "light_red_green",
         "move_cost_mod": 2,
@@ -1916,6 +1916,130 @@
             "ter_set": "t_dirt",
             "items": [
                 { "item": "withered", "prob": 50, "count": [1, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_cranberry",
+        "name": "cranberry shrub",
+        "symbol": "#",
+        "color": "red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_cranberry_harvest",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_cranberry_harvest",
+        "name": "cranberry shrub",
+        "symbol": "#",
+        "color": "light_red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_cranberry",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_blackberry",
+        "name": "blackberry bush",
+        "symbol": "#",
+        "color": "red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_blackberry_harvest",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] },
+                { "item": "stick_long", "count": [0, 5] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_blackberry_harvest",
+        "name": "blackberry bush",
+        "symbol": "#",
+        "color": "light_red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_blackberry",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] },
+                { "item": "stick_long", "count": [0, 5] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_raspberry",
+        "name": "raspberry bush",
+        "symbol": "#",
+        "color": "red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_raspberry_harvest",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] },
+                 { "item": "stick_long", "count": [0, 5] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shrub_raspberry_harvest",
+        "name": "raspberry bush",
+        "symbol": "#",
+        "color": "light_red_green",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN"],
+        "transforms_into": "f_shrub_raspberry",
+        "examine_action": "aggie_plant",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 50, "count": [1, 2] },
+                { "item": "stick_long", "count": [0, 5] }
             ]
         }
     },{

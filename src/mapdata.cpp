@@ -834,6 +834,9 @@ furn_id f_null,
     f_mushroom_seed, f_mushroom_seedling, f_mushroom_mature, f_mushroom_mature_harvest,
     f_shrub_blueberry, f_shrub_blueberry_harvest,
     f_shrub_strawberry, f_shrub_strawberry_harvest,
+    f_shrub_cranberry, f_shrub_cranberry_harvest,
+    f_shrub_blackberry, f_shrub_blackberry_harvest,
+    f_shrub_raspberry, f_shrub_raspberry_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_standing_tank,
@@ -935,6 +938,12 @@ void set_furn_ids() {
     f_shrub_blueberry_harvest = furn_id( "f_shrub_blueberry_harvest" );
     f_shrub_strawberry = furn_id( "f_shrub_strawberry" );
     f_shrub_strawberry_harvest = furn_id( "f_shrub_strawberry_harvest" );
+    f_shrub_cranberry = furn_id( "f_shrub_cranberry" );
+    f_shrub_cranberry_harvest = furn_id( "f_shrub_cranberry_harvest" );
+    f_shrub_blackberry = furn_id( "f_shrub_blackberry" );
+    f_shrub_blackberry_harvest = furn_id( "f_shrub_blackberry_harvest" );
+    f_shrub_raspberry = furn_id( "f_shrub_raspberry" );
+    f_shrub_raspberry_harvest = furn_id( "f_shrub_raspberry_harvest" );
     f_fvat_empty = furn_id( "f_fvat_empty" );
     f_fvat_full = furn_id( "f_fvat_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
