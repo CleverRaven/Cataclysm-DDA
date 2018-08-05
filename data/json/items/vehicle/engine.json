@@ -48,7 +48,7 @@
     "weight": 20000,
     "volume": 6,
     "price": 10000,
-    "displacement": 60,
+    "displacement": 600,
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -60,7 +60,7 @@
     "weight": 10000,
     "volume": 3,
     "price": 6000,
-    "displacement": 30,
+    "displacement": 300,
     "faults": [  ]
   },
   {
@@ -72,7 +72,7 @@
     "weight": 130000,
     "volume": 14,
     "price": 15000,
-    "displacement": 250
+    "displacement": 2500
   },
   {
     "id": "i6_diesel",
@@ -83,7 +83,7 @@
     "weight": 185000,
     "volume": 28,
     "price": 27000,
-    "displacement": 600
+    "displacement": 6000
   },
   {
     "id": "v2_combustion",
@@ -94,7 +94,7 @@
     "weight": 45000,
     "volume": 8,
     "price": 10000,
-    "displacement": 100
+    "displacement": 1000
   },
   {
     "id": "v6_combustion",
@@ -105,7 +105,7 @@
     "weight": 180000,
     "volume": 19,
     "price": 18000,
-    "displacement": 400
+    "displacement": 4000
   },
   {
     "id": "v6_diesel",
@@ -116,7 +116,7 @@
     "weight": 190000,
     "volume": 20,
     "price": 20000,
-    "displacement": 400
+    "displacement": 4000
   },
   {
     "id": "v8_combustion",
@@ -127,7 +127,7 @@
     "weight": 250000,
     "volume": 30,
     "price": 25000,
-    "displacement": 650
+    "displacement": 6500
   },
   {
     "id": "v8_diesel",
@@ -138,7 +138,7 @@
     "weight": 255000,
     "volume": 32,
     "price": 26500,
-    "displacement": 650
+    "displacement": 6500
   },
   {
     "id": "v12_combustion",
@@ -149,7 +149,7 @@
     "weight": 300000,
     "volume": 58,
     "price": 36000,
-    "displacement": 1200
+    "displacement": 12000
   },
   {
     "id": "v12_diesel",
@@ -160,7 +160,7 @@
     "weight": 310000,
     "volume": 60,
     "price": 32000,
-    "displacement": 1200
+    "displacement": 12000
   },
   {
     "id": "engine_block_massive",

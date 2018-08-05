@@ -6715,7 +6715,7 @@ void game::handbrake()
         add_msg(m_warning, _("You lose control of %s."), veh->name.c_str());
         veh->turn(veh->last_turn > 0 ? 60 : -60);
     } else {
-        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
+        float braking_power = abs( veh->velocity ) / 2 + 10 * 100;
         if( abs( veh->velocity ) < braking_power ) {
             veh->stop();
         } else {
@@ -10824,8 +10824,8 @@ void game::pldrive(int x, int y)
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
-            u.practice( skill_driving, veh->velocity / 5 );
-            veh->velocity = int(veh->forward_velocity());
+            u.practice( skill_driving, int(veh->velocity) / 5 );
+            veh->velocity = veh->forward_velocity();
             veh->skidding = false;
             veh->move.init(veh->turn_dir);
         }

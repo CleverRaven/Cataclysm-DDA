@@ -422,7 +422,7 @@ bool map::vehact( vehicle &veh )
 
     // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
     const float k_slowdown = 20.0f / ( 2.0f + 9 * ( veh.k_dynamics() * veh.k_mass() ) );
-    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
+    const float slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
     add_msg( m_debug, "%s vel: %d, slowdown: %d", veh.name.c_str(), veh.velocity, slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
@@ -706,8 +706,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     // Find collisions
     // Velocity of car before collision
     // Split into vertical and horizontal movement
-    const int &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
-    const int velocity_before = coll_velocity;
+    const float &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
+    const float velocity_before = coll_velocity;
     if( velocity_before == 0 ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name.c_str(), vertical ? "vertically" : "horizontally" );
@@ -760,7 +760,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         veh.vertical_velocity = 0;
     }
 
-    const int velocity_after = coll_velocity;
+    const float velocity_after = coll_velocity;
     const bool can_move = velocity_after != 0 && sgn(velocity_after) == sgn(velocity_before);
 
     int coll_turn = 0;
