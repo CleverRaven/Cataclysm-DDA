@@ -9710,7 +9710,7 @@
   {
     "id": "golf_bag",
     "type": "ARMOR",
-    "name": "golf_bag",
+    "name": "golf bag",
     "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back.",
     "weight": 1900,
     "volume": 15,
@@ -9723,14 +9723,14 @@
     "encumbrance": 16,
     "storage": 60,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "BELTED", "OVERSIZE" ],
     "use_action": {
       "type": "holster",
       "holster_prompt": "Sheath golf club",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 20,
-      "draw_cost": 40,
+      "holster_msg": "You awkwardly sheath your %s",
+      "max_volume": 40,
+      "draw_cost": 50,
       "flags": [ "SHEATH_GOLF" ]
     }
   }

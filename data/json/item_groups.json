@@ -9396,10 +9396,10 @@
     "items": [
       [ "hat_golf", 50 ],
       [ "gloves_golf", 40 ],
-      [ "golf_bag", 10 ],
-      [ "golf_tee", 100 ],
-      [ "golf_ball", 100 ],
-      [ "towel", 15 ],
+      [ "golf_bag", 25 ],
+      [ "golf_tee", 80 ],
+      [ "golf_ball", 90 ],
+      [ "towel", 40 ],
       [ "golf_club", 75 ]
     ]
   },

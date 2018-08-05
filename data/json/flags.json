@@ -278,7 +278,7 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "description": "This item can be stored in a bag of the appropriate size."
-  }
+  },
   {
     "id": "SKINTIGHT",
     "type": "json_flag",
