@@ -31,6 +31,7 @@
 - ```BLIND_EASY``` Easy to craft with little to no light
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 
 ## Furniture & Terrain
 
