@@ -126,6 +126,7 @@ const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_recover( "recover" );
@@ -135,6 +136,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_smoke( "smoke" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stimpack( "stimpack" );
+const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
@@ -7645,6 +7647,26 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes. Slightly." ) );
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
+    return it->type->charges_to_use();
+}
+
+int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
+    if( p->has_effect( effect_infected ) && !p->has_effect( effect_strong_antibiotic ) ) {
+        p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
+    }
+    p->add_effect( effect_strong_antibiotic, 12_hours );
+    return it->type->charges_to_use();
+}
+
+int iuse::panacea( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
+    if( !p->has_effect( effect_panacea ) ) {
+        p->add_msg_if_player( m_good, _( "You feel AMAZING!" ) );
+    }
+    p->add_effect( effect_panacea, 1_minutes );
     return it->type->charges_to_use();
 }
 

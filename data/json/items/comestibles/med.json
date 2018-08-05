@@ -1330,5 +1330,23 @@
         "healthy" : -2,
         "use_action" : "WEAK_ANTIBIOTIC",
         "flags" : "NPC_SAFE"
+    },
+    {
+        "id" : "panacea",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "Verum Remedium",
+        "name_plural" : "Verum Remediums",
+        "description" : "An apple-red gel capsule the size of your thumbnail, filled with a thick oily liquid that shifts from black to purple at unpredictable intervals, flecked with tiny gray dots.  Given the place you got it from, it's either very potent, or highly experimental.  Holding it, all the little aches and pains seem to fade, just for a moment...",
+        "weight" : 15,
+        "volume" : 1,
+        "price" : 1000000,
+        "stack_size" : 5,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "red",
+        "healthy" : 25,
+        "use_action" : "PANACEA",
+        "flags" : "NPC_SAFE"
     }
 ]
