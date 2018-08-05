@@ -256,6 +256,41 @@ void player::disp_info()
         effect_text.push_back( pain_text.str() );
     }
 
+    int starvation_base_penalty = get_starvation() + 300;
+
+    if( starvation_base_penalty > 300 ) {
+        std::stringstream starvation_text;
+
+        if( starvation_base_penalty > 1400 ) {
+            effect_name.push_back( _( "Severely Malnourished" ) );
+            starvation_text <<
+                            _( "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n" );
+        } else {
+            effect_name.push_back( _( "Malnourished" ) );
+            starvation_text <<
+                            _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
+        }
+
+
+        if( starvation_base_penalty > 500 ) {
+            starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
+        }
+        if( starvation_base_penalty > 1000 ) {
+            starvation_text << _( "Dexterity" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+        }
+        if( starvation_base_penalty > 1000 ) {
+            starvation_text << _( "Intelligence" ) << " -" << int( starvation_base_penalty / 1000 ) << "   ";
+        }
+
+        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
+
+        if( get_hunger() + get_starvation() > 100 ) {
+            starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
+        }
+
+        effect_text.push_back( starvation_text.str() );
+    }
+
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather == WEATHER_SUNNY ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
@@ -597,9 +632,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( get_hunger() > 100 ) {
-        pen = abs( hunger_speed_penalty( get_hunger() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Hunger              -%s%d%%" ),
+    if( get_hunger() + get_starvation() > 100 ) {
+        pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
+        mvwprintz( w_speed, line, 1, c_red, _( "Inanition           -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
