@@ -1157,7 +1157,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                     }
                 } else {
                     if( player_sees ) {
-                        add_msg( m_warning, _( "Lightning from %s engulfs the %s!" ), name().c_str(),
+                        add_msg( m_warning, _( "Lightning from %1$s engulfs the %2$s!" ), name().c_str(),
                                  g->m.tername( zap ).c_str() );
                     }
                     g->m.add_field( zap, fd_fire, 1, 2_turns );
