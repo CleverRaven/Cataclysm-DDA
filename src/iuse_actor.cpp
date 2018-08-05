@@ -3466,7 +3466,7 @@ iuse_actor *saw_barrel_actor::clone() const
 
 long install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    return p.install_bionics( *it.type, -1, false ) ? it.type->charges_to_use() : 0;
+    return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
 }
 
 ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,

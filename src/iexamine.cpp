@@ -3496,6 +3496,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     }
 
+    player &installer = p;
+    player &patient = p;
+
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
         return;
@@ -3556,8 +3559,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( ( *itemtype ), -1, true ) ) {
-                p.introduce_into_anesthesia( duration, needs_anesthesia );
+            if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
+                patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps );
@@ -3566,7 +3569,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case UNINSTALL_CBM: {
-            bionic_collection installed_bionics = *g->u.my_bionics;
+            bionic_collection installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
                 popup( _( "You don't have any bionics installed." ) );
                 return;
@@ -3605,8 +3608,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
-                p.introduce_into_anesthesia( duration, needs_anesthesia );
+            if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
+                patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
             }
             break;
         }
