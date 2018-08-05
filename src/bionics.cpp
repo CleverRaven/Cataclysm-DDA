@@ -869,12 +869,13 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
     }
 
     if( !has_bionic( b_id ) ) {
-        popup( _( "You don't have this bionic installed." ) );
+        popup( _( "%s don't have this bionic installed." ), disp_name() );
         return false;
     }
 
     if( b_id == "bio_blaster" ) {
-        popup( _( "Removing your Fusion Blaster Arm would leave you with a useless stump." ) );
+        popup( _( "Removing %s Fusion Blaster Arm would leave %s with a useless stump." ),
+               disp_name( true ), disp_name() );
         return false;
     }
 
@@ -930,11 +931,14 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
     int success = chance_of_success - rng( 1, 100 );
 
     if( success > 0 ) {
-        add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
-                          pgettext( "memorial_female", "Removed bionic: %s." ),
-                          bionics[b_id].name.c_str() );
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
+                              pgettext( "memorial_female", "Removed bionic: %s." ),
+                              bionics[b_id].name.c_str() );
+        }
         // until bionics can be flagged as non-removable
-        add_msg( m_neutral, _( "You jiggle your parts back into their familiar places." ) );
+        add_msg_player_or_npc( m_neutral, _( "You jiggle the parts back into their familiar places." ),
+                               _( "<npcname> jiggles the parts back into their familiar places." ) );
         add_msg( m_good, _( "Successfully removed %s." ), bionics[b_id].name.c_str() );
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
@@ -945,10 +949,11 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
             g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
         }
     } else {
-        add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
-                          pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                          bionics[b_id].name.c_str() );
-        bionics_uninstall_failure( this );
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
+                              pgettext( "memorial_female", "Failed to remove bionic: %s." ),
+                              bionics[b_id].name.c_str() );
+        }
         bionics_uninstall_failure( installer.disp_name() );
     }
     g->refresh_all();
@@ -1015,10 +1020,11 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 
     int success = chance_of_success - rng( 0, 99 );
     if( success > 0 ) {
-        add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
-                          pgettext( "memorial_female", "Installed bionic: %s." ),
-                          bioid->name.c_str() );
-
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
+                              pgettext( "memorial_female", "Installed bionic: %s." ),
+                              bioid->name.c_str() );
+        }
         if( bioid->upgraded_bionic ) {
             remove_bionic( bioid->upgraded_bionic );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
@@ -1037,13 +1043,10 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
             }
         }
     } else {
-        add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
-                          pgettext( "memorial_female", "Installed bionic: %s." ),
-                          bioid->name.c_str() );
-        if( autodoc ) {
-            bionics_install_failure( this, difficult, success, true );
-        } else {
-            bionics_install_failure( this, difficult, success, false );
+        if( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
+                              pgettext( "memorial_female", "Failed install of bionic: %s." ),
+                              bioid->name.c_str() );
         }
         bionics_install_failure( installer, difficult, success, adjusted_skill );
     }
@@ -1072,10 +1075,10 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
 
     switch( rng( 1, 5 ) ) {
         case 1:
-            add_msg( m_neutral, _( "You flub the installation." ) );
+            add_msg( m_neutral, _( "%s flub the installation." ), installer.disp_name() );
             break;
         case 2:
-            add_msg( m_neutral, _( "You mess up the installation." ) );
+            add_msg( m_neutral, _( "%s mess up the installation." ), installer.disp_name() );
             break;
         case 3:
             add_msg( m_neutral, _( "The installation fails." ) );
@@ -1084,7 +1087,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             add_msg( m_neutral, _( "The installation is a failure." ) );
             break;
         case 5:
-            add_msg( m_neutral, _( "You screw up the installation." ) );
+            add_msg( m_neutral, _( "%s screw up the installation." ), installer.disp_name() );
             break;
     }
 
@@ -1100,31 +1103,31 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
         }
     }
 
-    if( fail_type == 3 && u->num_bionics() == 0 ) {
+    if( fail_type == 3 && num_bionics() == 0 ) {
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }
 
     switch( fail_type ) {
 
         case 1:
-            if( !( u->has_trait( trait_id( "NOPAIN" ) ) ) ) {
-                add_msg( m_bad, _( "It really hurts!" ) );
-                u->mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+            if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
+                add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
             break;
 
         case 2:
-            add_msg( m_bad, _( "Your body is damaged!" ) );
-            u->hurtall( rng( failure_level, failure_level * 2 ), u ); // you hurt yourself
+            add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
+            hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
             break;
 
         case 3:
-            if( u->num_bionics() <= failure_level && u->max_power_level == 0 ) {
-                add_msg( m_bad, _( "All of your existing bionics are lost!" ) );
+            if( num_bionics() <= failure_level && max_power_level == 0 ) {
+                add_msg( m_bad, _( "All of %s existing bionics are lost!" ), disp_name( true ) );
             } else {
-                add_msg( m_bad, _( "Some of your existing bionics are lost!" ) );
+                add_msg( m_bad, _( "Some of %s existing bionics are lost!" ), disp_name( true ) );
             }
-            for( int i = 0; i < failure_level && u->remove_random_bionic(); i++ ) {
+            for( int i = 0; i < failure_level && remove_random_bionic(); i++ ) {
                 ;
             }
             break;
@@ -1139,21 +1142,25 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             } );
 
             if( valid.empty() ) { // We've got all the bad bionics!
-                if( u->max_power_level > 0 ) {
-                    int old_power = u->max_power_level;
-                    add_msg( m_bad, _( "You lose power capacity!" ) );
-                    u->max_power_level = rng( 0, u->max_power_level - 25 );
-                    u->add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
-                                         pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                         old_power - u->max_power_level );
+                if( max_power_level > 0 ) {
+                    int old_power = max_power_level;
+                    add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
+                    max_power_level = rng( 0, max_power_level - 25 );
+                    if( is_player() ) {
+                        add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
+                                          pgettext( "memorial_female", "Lost %d units of power capacity." ),
+                                          old_power - max_power_level );
+                    }
                 }
                 // @todo: What if we can't lose power capacity?  No penalty?
             } else {
                 const bionic_id &id = random_entry( valid );
                 add_bionic( id );
-                u->add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
-                                     pgettext( "memorial_female", "Installed bad bionic: %s." ),
-                                     bionics[ id ].name.c_str() );
+                if( is_player() ) {
+                    add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
+                                      pgettext( "memorial_female", "Installed bad bionic: %s." ),
+                                      bionics[ id ].name.c_str() );
+                }
             }
         }
         break;
@@ -1508,11 +1515,16 @@ void bionic::deserialize( JsonIn &jsin )
     charge = jo.get_int( "charge" );
 }
 
-void player::introduce_into_anesthesia( time_duration const &duration,
+void player::introduce_into_anesthesia( time_duration const &duration, player &installer,
                                         bool anesthetic ) //used by the Autodoc
 {
-    add_msg_if_player( m_info,
-                       _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM, and settle into position, sliding your right wrist into the sofa's strap." ) );
+    installer.add_msg_player_or_npc( m_info,
+                                     _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM" ),
+                                     _( "<npcname> sets up the operation, configuring the Autodoc to manipulate a CBM." ) );
+
+    add_msg_player_or_npc( m_info,
+                           _( "You settle into position, sliding your right wrist into the couch's strap." ),
+                           _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( anesthetic ) {
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );

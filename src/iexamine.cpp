@@ -3524,6 +3524,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     amenu.query();
 
+    auto popup_player_or_npc = []( player &pat, const std::string player_str, const std::string npc_str ) {
+        if( pat.is_player() ) {
+            popup( player_str, PF_NONE );
+        } else {
+            popup( string_format( npc_str, pat.disp_name() ), PF_NONE );
+       }
+    };
     switch( static_cast<options>( amenu.ret ) ) {
         case INSTALL_CBM: {
             const item_location bionic = g->inv_map_splice( []( const item &e ) {
@@ -3538,17 +3545,34 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( p.has_bionic( bid ) ) {
-                popup( _( "You have already installed this bionic."  ) );
+            if( patient.is_npc() && !bid->npc_install ) {
+                //~ %2$s is the bionic CBM display name, %2$s is the patient name
+                popup( _( "%1$s cannot be installed on npc %2$s"), it->display_name().c_str(), patient.name );
                 return;
-            } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
-                popup( _( "You have no base version of this bionic to upgrade." ) );
+            }
+
+            //~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient name
+            add_msg( _( "%1$s prepares to install the %2$s on %3$s." ), installer.name,
+                     it->display_name().c_str(), patient.name );
+            if( patient.has_bionic( bid ) ) {
+                //~ %1$s is patient name
+                popup_player_or_npc( patient, _( "You have already installed this bionic."  ),
+                                     _( "%1$s has already installed this bionic." ) );
+                return;
+            } else if( bid->upgraded_bionic && !patient.has_bionic( bid->upgraded_bionic ) ) {
+                //~ %1$s is patient name
+                popup_player_or_npc( patient, _( "You have no base version of this bionic to upgrade." ),
+                                     _( "%1$s has no base version of this bionic to upgrade." ) );
                 return;
             } else {
-                const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                                    std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                const bool downgrade = std::any_of( bid->available_upgrades.begin(),
+                                                    bid->available_upgrades.end(),
+                                                    std::bind( &player::has_bionic, &patient,
+                                                    std::placeholders::_1 ) );
                 if( downgrade ) {
-                    popup( _( "You have already installed a superior version of this bionic." ) );
+                    //~ %1$s is patient name
+                    popup_player_or_npc( patient, _( "You have already installed a superior version of this bionic." ),
+                                         _( "%1$s has installed a superior version of this bionic." ) );
                     return;
                 }
             }
@@ -3571,8 +3595,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case UNINSTALL_CBM: {
             bionic_collection installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
-                popup( _( "You don't have any bionics installed." ) );
-                return;
+                //~ %1$s is patient name
+                popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
+                                     _( "%1$s doesn't have any bionics installed." ) );
             }
 
             if( !has_anesthesia && needs_anesthesia ) {
