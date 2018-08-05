@@ -1846,6 +1846,7 @@ void iexamine::proceed_plant_after_harvest( const tripoint &examp ) {
         // Mushrooms
         seed.set_var( "seed_age", 1 );
         seed.set_birthday( calendar::turn );
+        seed.set_var( "can_be_harvested", 0 );
         g->m.furn_set(examp, f_mushroom_mature );
     } else if( seed.type->seed->is_shrub && seed.get_var( "can_be_harvested", 0 ) ) {
         // Berries
@@ -1906,7 +1907,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             proceed_plant_after_harvest( examp );
             p.moves -= 500;
         }
-    } else if (g->m.furn(examp) != f_plant_harvest) {
+    } else if ( g->m.furn(examp) != f_plant_harvest ) {
         int health = seed.get_var( "health", 0 );
         int water = seed.get_var( "water", 0 );
         int fertilizer = seed.get_var( "fertilizer", 0 );

@@ -6869,6 +6869,7 @@ void map::grow_plant( const tripoint &p )
                 seed_item.set_birthday( until );
                 furn_set(p, furn_str_id( "f_mushroom_mature_harvest" ) );
                 seed_item.set_var( "is_mature", 1 );
+                seed_item.set_var( "can_be_harvested", 1 );
             }
         }
         // Mushrooms grow on beds
@@ -6927,9 +6928,9 @@ void map::grow_plant( const tripoint &p )
             if ( seed_item.type->seed->is_shrub ) {
                 furn_set( p, furn_str_id( seed_item.type->seed->grow_into ) );
                 seed_item.set_var( "is_mature", 1 );
+                seed_item.set_var( "can_be_harvested", 1 );
                 return;
             }
-            i_clear( p );
             furn_set(p, furn_str_id( "f_plant_harvest" ) );
         }
     }

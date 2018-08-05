@@ -135,7 +135,7 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
         weather_type wtype = wgen.get_weather_conditions( location, i, g->get_seed() );
-        int temperature = w.temperature;
+        int temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) );
 
         // Plants will not start to grow if the temperature is too cold
         if ( temperature < 40 && !growing_was_started )
