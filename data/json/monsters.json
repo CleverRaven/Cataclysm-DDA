@@ -1080,7 +1080,7 @@
     "id": "mon_flying_polyp",
     "type": "MONSTER",
     "name": "flying polyp",
-    "description": "A half polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises seeming like wind through a window.",
+    "description": "A half polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises seeming like wind through a window that makes all of your instincts flare with terror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 42,
