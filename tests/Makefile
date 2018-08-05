@@ -27,8 +27,8 @@ TEST_TARGET = $(BUILD_PREFIX)cata_test
 
 tests: $(TEST_TARGET)
 
-$(BUILD_PREFIX)cata_test: $(ODIR) $(OBJS) $(CATA_LIB)
-	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+$(TEST_TARGET): $(ODIR) $(OBJS) $(CATA_LIB)
+	+$(LD) $(W32FLAGS) -o $@ $(OBJS) $(CATA_LIB) $(LDFLAGS)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
