@@ -923,6 +923,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
+- ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM and it can be installed on an NPC.
 
 ## Books
 
