@@ -11,7 +11,7 @@
         "entries":
         [
             { "item": "milk", "prob": 9 },
-			{ "item": "trumpet", "prob": 1 }
+            { "item": "trumpet", "prob": 1 }
         ]
     }
 ]
