@@ -2401,6 +2401,27 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_glass_frosted_c",
+        "name": "closed frosted glass door",
+        "description": "A sliding door of frosted white glass.",
+        "symbol": "+",
+        "color": "white",
+        "flags": [
+            "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        ],
+        "open": "t_door_glass_frosted_o",
+        "copy-from": "t_door_glass_c"
+    },{
+        "type" : "terrain",
+        "id" : "t_door_glass_frosted_o",
+        "name": "open frosted glass door",
+        "description": "A sliding glass door that has been left open for all manner of things to travel through.",
+        "symbol": "'",
+        "color": "white",
+        "close": "t_door_glass_frosted_c",
+        "copy-from": "t_door_glass_o"
+    },{
+        "type" : "terrain",
         "id" : "t_portcullis",
         "name": "makeshift portcullis",
         "description": "An immense gateway scrapped together with various bits of steel and metal scraps.",
