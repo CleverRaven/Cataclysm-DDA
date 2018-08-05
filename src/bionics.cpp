@@ -1537,14 +1537,4 @@ void player::introduce_into_anesthesia( time_duration const &duration, player &i
         ;
     }
     fall_asleep( duration );
-    if( anesthetic ) {
-        std::vector<item_comp> comps;
-        std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
-            return it.has_flag( "ANESTHESIA" );
-        } );
-        for( const item *anesthesia_item : a_filter ) {
-            comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
-        }
-        consume_items( comps );
-    }
 }

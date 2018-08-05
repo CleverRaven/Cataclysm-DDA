@@ -60,6 +60,7 @@ const skill_id skill_survival( "survival" );
 
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -3478,6 +3479,25 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_patient, bool &adjacent_couch )
+{
+    for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( couch_loc ) == couch ) {
+            adjacent_couch = true;
+            if( p.pos() == couch_loc ) {
+                return p;
+            }
+            for( const npc *e : g->allies() ) {
+                if( e->pos() == couch_loc ) {
+                   return  *g->critter_by_id<player>( e->getID() );
+                }
+            }
+        }
+    }
+    return null_patient;
+}
+
 player &best_installer( player &p )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
@@ -3516,36 +3536,35 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     };
 
     bool adjacent_couch = false;
-    bool in_position = false;
-    bool needs_anesthesia = true;
-    for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( couch_loc ) == couch ) {
-            adjacent_couch = true;
-            if( p.pos() == couch_loc ) {
-                in_position = true;
-            }
-        }
-    }
+    static player null_player;
+    player &patient = player_on_couch( p, examp, null_player, adjacent_couch );
     player &installer = best_installer( p );
-
-    player &patient = p;
 
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
         return;
     }
-    if( !in_position ) {
+    if( &patient == &null_player ) {
         popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
         return;
     }
+
+    bool needs_anesthesia = true;
+    std::vector<item_comp> acomps;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
+    } else {
+        std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( "ANESTHESIA" );
+        } );
+        for( const item *anesthesia_item : a_filter ) {
+            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+        }
+        if( !acomps.size() ) {
+            popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+            return;
+        }
     }
-
-    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
-        return it.has_flag( "ANESTHESIA" );
-    } );
 
     uimenu amenu;
     amenu.selected = 0;
@@ -3577,7 +3596,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( patient.is_npc() && !bid->npc_install ) {
+            if( patient.is_npc() && !bid->npc_usable ) {
                 //~ %2$s is the bionic CBM display name, %2$s is the patient name
                 popup( _( "%1$s cannot be installed on npc %2$s"), it->display_name().c_str(), patient.name );
                 return;
@@ -3609,17 +3628,15 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            if( !has_anesthesia && needs_anesthesia ) {
-                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
-                return;
-            }
-
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps );
+                p.consume_items( comps, 1 );
+                if( needs_anesthesia ) {
+                    p.consume_items( acomps, 1 );
+                }
             }
             break;
         }
@@ -3630,10 +3647,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 //~ %1$s is patient name
                 popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
                                      _( "%1$s doesn't have any bionics installed." ) );
-            }
-
-            if( !has_anesthesia && needs_anesthesia ) {
-                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
                 return;
             }
 
@@ -3667,6 +3680,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const time_duration duration = difficulty * 20_minutes;
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
+                if( needs_anesthesia ) {
+                    p.consume_items( acomps, 1 );
+                }
             }
             break;
         }
