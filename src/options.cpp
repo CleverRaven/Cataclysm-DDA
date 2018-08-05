@@ -1237,6 +1237,13 @@ void options_manager::init()
 
     get_option("ANIMATION_SCT").setPrerequisite("ANIMATIONS");
 
+    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with unicode font" ),
+        translate_marker( "If true, will display scrolling combat text with unicode font." ),
+        true
+        );
+
+    get_option("ANIMATION_SCT_USE_FONT").setPrerequisite("ANIMATION_SCT");
+
     add( "ANIMATION_DELAY", "graphics", translate_marker( "Animation delay" ),
         translate_marker( "The amount of time to pause between animation frames in ms." ),
         0, 100, 10

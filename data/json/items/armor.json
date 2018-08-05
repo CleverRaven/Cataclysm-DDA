@@ -2086,7 +2086,7 @@
     "material_thickness": 8,
     "environmental_protection": 6,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -3020,7 +3020,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_eye",
@@ -3039,7 +3039,7 @@
     "coverage": 75,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_monocle",
@@ -3064,7 +3064,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_reading",
@@ -3089,7 +3089,7 @@
       "moves_slow": 25000,
       "need_sunlight": true
     },
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_safety",
@@ -3650,7 +3650,7 @@
     "id": "gobag",
     "type": "ARMOR",
     "name": "go bag",
-    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Disassemble to unpack and enjoy.",
+    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate or disassemble to unpack and enjoy.",
     "weight": 18043,
     "volume": 143,
     "price": 100000,
@@ -3663,7 +3663,8 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "goggles_ski",
@@ -4591,7 +4592,7 @@
     "type": "COMESTIBLE",
     "category": "clothing",
     "name": "hide bag",
-    "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
+    "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage.  It will still rot and needs to be cured and tanned.",
     "symbol": "[",
     "color": "pink",
     "armor_data": {
@@ -4609,7 +4610,7 @@
     "type": "COMESTIBLE",
     "category": "clothing",
     "name": "tainted hide bag",
-    "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage. It will still rot and needs to be cured and tanned.",
+    "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage.  It will still rot and needs to be cured and tanned.",
     "symbol": "[",
     "color": "pink",
     "armor_data": {
@@ -7106,7 +7107,7 @@
     "material_thickness": 11,
     "environmental_protection": 10,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_heavy",
@@ -7130,7 +7131,7 @@
     "material_thickness": 12,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_light",
@@ -7154,7 +7155,7 @@
     "material_thickness": 9,
     "environmental_protection": 8,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_light",
@@ -8862,7 +8863,7 @@
     "color": "yellow",
     "covers": [ "HEAD" ],
     "coverage": 90,
-    "flags": [ "SKINTIGHT", "TRADER_AVOID" ]
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ]
   },
   {
     "id": "tool_belt",

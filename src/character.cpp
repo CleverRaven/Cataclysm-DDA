@@ -544,8 +544,7 @@ void Character::recalc_sight_limits()
         // You can kinda see out a bit.
         sight_max = 2;
     } else if ( (has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE )) &&
-            !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
+            !worn_with_flag( "FIX_NEARSIGHT" ) && !has_effect( effect_contacts )) {
         sight_max = 4;
     } else if (has_trait( trait_PER_SLIME )) {
         sight_max = 6;
@@ -2252,7 +2251,7 @@ int Character::throw_range( const item &it ) const
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 8 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
+    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
@@ -2265,8 +2264,8 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR caps throwing range */
 
     /** @EFFECT_THROW caps throwing range */
-    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
-        return str_cur * 1.5 + get_skill_level( skill_throw );
+    if( ret > str_cur * 3 + get_skill_level( skill_throw ) ) {
+        return str_cur * 3 + get_skill_level( skill_throw );
     }
 
     return ret;

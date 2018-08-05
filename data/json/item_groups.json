@@ -1605,7 +1605,8 @@
       ["eyedrops", 35],
       ["shavingkit", 5],
       ["elec_hairtrimmer", 2],
-      ["nic_gum", 25]
+      ["nic_gum", 25],
+      ["weak_antibiotic", 30]
     ]
   },{
     "type" : "item_group",
@@ -3621,7 +3622,8 @@
       ["stethoscope", 35],
       ["jar_3l_glass", 15],
       ["magnifying_glass", 5],
-      ["chem_hydrogen_peroxide", 5]
+      ["chem_hydrogen_peroxide", 5],
+      ["weak_antibiotic", 15]
     ]
   },{
     "type" : "item_group",
@@ -5903,7 +5905,8 @@
       ["oxygen_tank", 10],
       ["smoxygen_tank", 20],
       ["bfipowder", 15],
-      ["quikclot", 10]
+      ["quikclot", 10],
+      ["weak_antibiotic", 40]
     ]
   },{
     "type" : "item_group",
@@ -8991,6 +8994,380 @@
       { "group": "softdrugs", "prob": 20 },
       { "group": "bionics_common", "prob": 5 },
       { "group": "harddrugs", "prob": 5 }
+    ]
+  },{
+    "id": "recycle_paper",
+    "type": "item_group",
+    "items": [
+      [ "mag_dude", 25 ],
+      [ "mag_beauty", 25 ],
+      [ "mag_glam", 25 ],
+      [ "mag_comic", 25 ],
+      [ "mag_gaming", 25 ],
+      [ "mag_news", 25 ],
+      [ "mag_traps", 25 ],
+      [ "mag_cars", 25 ],
+      [ "mag_swimming", 25 ],
+      [ "mag_tv", 25 ],
+      [ "mag_melee", 25 ],
+      [ "mag_porn", 25 ],
+      [ "ZSG", 10 ],
+      [ "glassblowing_book", 15 ],
+      [ "textbook_chemistry", 15 ],
+      [ "child_book", 15 ],
+      [ "holybook_bible1", 5 ],
+      [ "holybook_quran", 5 ],
+      [ "novel_thriller", 15 ],
+      [ "novel_sports", 15 ],
+      [ "novel_war", 15 ],
+      [ "novel_western", 15 ],
+      [ "novel_experimental", 15 ],
+      [ "recipe_elfa", 15 ],
+      [ "recipe_bows", 15 ],
+      [ "manual_stabbing", 20 ],
+      [ "manual_dodge", 20 ],
+      [ "manual_driving", 20 ],
+      [ "manual_throw", 20 ],
+      [ "manual_zui_quan", 20 ],
+      [ "howto_computer", 20 ],
+      [ "touristmap", 25 ],
+      [ "restaurantmap", 25 ],
+      [ "roadmap", 25 ],
+      [ "modern_tanner", 20 ],
+      [ "pocket_survival", 20 ],
+      [ "flyer", 40 ],
+      [ "paper", 50 ],
+      [ "wrapper", 35 ],
+      [ "phonebook", 45 ],
+      [ "one_year_old_newspaper", 35 ],
+      [ "months_old_newspaper", 40 ],
+      [ "weeks_old_newspaper", 40 ],
+      [ "one_year_old_newspaper", 35 ],
+      [ "years_old_newspaper", 30 ],
+      [ "many_years_old_newspaper", 30 ]
+    ]
+  },
+  {
+    "id": "recycle_electronic",
+    "type": "item_group",
+    "items": [
+      [ "usb_drive", 45 ],
+      [ "two_way_radio", 20 ],
+      [ "transponder", 25 ],
+      [ "receiver", 25 ],
+      [ "small_lcd_screen", 30 ],
+      [ "mobile_memory_card", 35 ],
+      [ "mobile_memory_card_used", 35 ],
+      [ "mobile_memory_card_encrypted", 35 ],
+      [ "radiocontrol", 20 ],
+      [ "radio_car", 20 ],
+      [ "RAM", 45 ],
+      [ "radio", 20 ],
+      [ "power_supply", 25 ],
+      [ "processor", 25 ],
+      [ "mp3", 25 ],
+      [ "laptop", 20 ],
+      [ "hotplate", 20 ],
+      [ "flashlight", 25 ],
+      [ "coffeemaker", 20 ],
+      [ "clock", 25 ],
+      [ "circuit", 25 ],
+      [ "cell_phone", 35 ],
+      [ "e_scrap", 55 ],
+      [ "amplifier", 25 ]
+    ]
+  },
+  {
+    "id": "recycle_plastic",
+    "type": "item_group",
+    "items": [
+      [ "barrette", 30 ],
+      [ "vibrator", 20 ],
+      [ "bubblewrap", 30 ],
+      [ "syringe", 35 ],
+      [ "glowstick_dead", 15 ],
+      [ "cash_card", 5 ],
+      [ "id_science", 5 ],
+      [ "ear_spool", 15 ],
+      [ "lighter", 30 ],
+      [ "funnel", 25 ],
+      [ "canteen", 20 ],
+      [ "gloves_medical", 20 ],
+      [ "fitover_sunglasses", 20 ],
+      [ "goggles_swim", 20 ],
+      [ "bag_plastic", 40 ],
+      [ "plastic_shopping_bag", 40 ],
+      [ "jug_plastic", 40 ],
+      [ "bottle_plastic", 40 ],
+      [ "bottle_plastic_small", 40 ],
+      [ "cup_plastic", 30 ],
+      [ "bowl_plastic", 30 ],
+      [ "plastic_chunk", 50 ]
+    ]
+  },
+  {
+    "id": "recycle_glass",
+    "type": "item_group",
+    "items": [
+      [ "glass_sheet", 10 ],
+      [ "glasses_reading", 20 ],
+      [ "glasses_bifocal", 20 ],
+      [ "glasses_eye", 20 ],
+      [ "marble", 20 ],
+      [ "fish_bowl", 15 ],
+      [ "jar_3l_glass", 35 ],
+      [ "magnifying_glass", 20 ],
+      [ "mirror", 25 ],
+      [ "glass_shard", 65 ],
+      [ "crackpipe", 5 ],
+      [ "glass", 30 ],
+      [ "glass_bowl", 30 ],
+      [ "glass_plate", 30 ],
+      [ "bottle_glass", 45 ],
+      [ "pipe_glass", 10 ],
+      [ "jar_glass", 35 ],
+      [ "flask_glass", 20 ]
+    ]
+  },
+  {
+    "id": "recycle_aluminum",
+    "type": "item_group",
+    "items": [
+      [ "teleumbrella", 15 ],
+      [ "cane", 30 ],
+      [ "toaster", 30 ],
+      [ "stethoscope", 20 ],
+      [ "spray_can", 45 ],
+      [ "flask_hip", 25 ],
+      [ "aluminum_foil", 35 ],
+      [ "golf_club", 30 ],
+      [ "canister_empty", 40 ],
+      [ "antenna", 30 ],
+      [ "bat_metal", 20 ],
+      [ "can_drink", 50 ],
+      [ "keg", 15 ],
+      [ "tongs", 30 ],
+      [ "material_aluminium_ingot", 25 ]
+    ]
+  },
+  {
+    "id": "recycle_copper",
+    "type": "item_group",
+    "items": [
+      [ "cu_pipe", 40 ],
+      [ "cable", 35 ],
+      [ "pot_copper", 30 ],
+      [ "copper", 50 ],
+      [ "copper_ear", 10 ],
+      [ "copper_bracelet", 10 ]
+    ]
+  },
+  {
+    "id": "recycle_iron",
+    "type": "item_group",
+    "items": [
+      [ "bolt_metal", 10 ],
+      [ "oil_lamp", 20 ],
+      [ "waffleiron", 20 ],
+      [ "spring", 40 ],
+      [ "rebar_rail", 35 ],
+      [ "pastaextruder", 30 ],
+      [ "nail", 50 ],
+      [ "well_pump", 15 ],
+      [ "manhole_cover", 20 ],
+      [ "hairpin", 40 ],
+      [ "pan", 30 ],
+      [ "cow_bell", 25 ]
+    ]
+  },
+  {
+    "id": "recycle_battery",
+    "type": "item_group",
+    "items": [
+      [ "battery", 50 ],
+      [ "storage_battery", 25 ],
+      [ "medium_storage_battery", 35 ],
+      [ "small_storage_battery", 45 ],
+      [ "battery_motorbike", 30 ],
+      [ "battery_car", 25 ]
+    ]
+  },
+  {
+    "id": "recycle_steel",
+    "type": "item_group",
+    "items": [
+      [ "can_food", 50 ],
+      [ "scrap", 50 ],
+      [ "steel_chunk", 50 ],
+      [ "steel_lump", 50 ],
+      [ "jerrycan_big", 25 ],
+      [ "jumper_cable_heavy", 20 ],
+      [ "wheel_metal", 25 ],
+      [ "foot_crank", 25 ],
+      [ "chain", 35 ],
+      [ "rebar", 35 ],
+      [ "pipe", 40 ],
+      [ "muffler", 30 ],
+      [ "pot", 30 ],
+      [ "teapot", 25 ],
+      [ "fishing_hook_basic", 35 ],
+      [ "spike", 30 ],
+      [ "wire_barbed", 25 ],
+      [ "wire", 35 ],
+      [ "sheet_metal", 20 ],
+      [ "frame", 20 ],
+      [ "basket", 25 ],
+      [ "wrench", 30 ],
+      [ "shovel", 30 ],
+      [ "crowbar", 30 ],
+      [ "crucible", 25 ],
+      [ "beartrap", 15 ],
+      [ "blade", 30 ],
+      [ "spoon", 35 ],
+      [ "fork", 35 ],
+      [ "knife_butter", 35 ],
+      [ "knife_steak", 35 ]
+    ]
+  },
+  {
+    "id": "wheels",
+    "type": "item_group",
+    "items": [
+      [ "wheel_wood", 25 ],
+      [ "wheel_metal", 25 ],
+      [ "wheel_small", 35 ],
+      [ "wheel_motorbike", 25 ],
+      [ "wheel_bicycle", 40 ],
+      [ "wheel", 50 ]
+    ]
+  },
+  {
+    "id": "barrels",
+    "type": "item_group",
+    "items": [ [ "wooden_barrel", 30 ], [ "30gal_barrel", 50 ], [ "30gal_drum", 45 ], [ "55gal_drum", 35 ] ]
+  },
+  {
+    "id": "casings",
+    "type": "item_group",
+    "items": [
+      [ "9mm_casing", 100 ],
+      [ "22_casing", 95 ],
+      [ "38_casing", 75 ],
+      [ "40_casing", 80 ],
+      [ "44_casing", 35 ],
+      [ "45_casing", 65 ],
+      [ "454_casing", 10 ],
+      [ "500_casing", 10 ],
+      [ "57mm_casing", 10 ],
+      [ "46mm_casing", 10 ],
+      [ "762_casing", 85 ],
+      [ "223_casing", 85 ],
+      [ "3006_casing", 40 ],
+      [ "308_casing", 50 ],
+      [ "40mm_casing", 10 ],
+      [ "50_casing", 30 ],
+      [ "700nx_casing", 10 ],
+      [ "300_casing", 60 ],
+      [ "762R_casing", 10 ],
+      [ "32_casing", 70 ]
+    ]
+  },
+  {
+    "id": "dollar_clothes",
+    "type": "item_group",
+    "items": [
+      [ "bandana", 25 ],
+      [ "boxer_shorts", 25 ],
+      [ "boxer_briefs", 25 ],
+      [ "boy_shorts", 25 ],
+      [ "bra", 25 ],
+      [ "socks", 45 ],
+      [ "stockings", 20 ],
+      [ "hat_cotton", 35 ],
+      [ "copper_bracelet", 10 ],
+      [ "sunglasses", 25 ],
+      [ "tieclip", 15 ],
+      [ "hairpin", 15 ]
+    ]
+  },
+  {
+    "id": "dollar_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_mechanics", 15 ],
+      [ "mag_unarmed", 15 ],
+      [ "mag_comic", 15 ],
+      [ "mag_gaming", 15 ],
+      [ "mag_news", 15 ],
+      [ "mag_tv", 15 ],
+      [ "mag_survival", 15 ],
+      [ "mag_beauty", 15 ],
+      [ "mag_carpentry", 15 ],
+      [ "mag_cars", 15 ],
+      [ "child_book", 20 ],
+      [ "fairy_tales", 20 ],
+      [ "family_cookbook", 25 ]
+    ]
+  },
+  {
+    "id": "dollar_tools",
+    "type": "item_group",
+    "items": [
+      [ "rope_6", 20 ],
+      [ "string_36", 25 ],
+      [ "handflare", 15 ],
+      [ "duct_tape", 25 ],
+      [ "flashlight", 25 ],
+      [ "thread", 20 ],
+      [ "battery", 25 ],
+      [ "superglue", 25 ],
+      [ "candle", 25 ],
+      [ "hammer", 20 ],
+      [ "screwdriver", 20 ],
+      [ "lighter", 25 ],
+      [ "pockknife", 15 ]
+    ]
+  },
+  {
+    "id": "dollar_kitchen",
+    "type": "item_group",
+    "items": [
+      [ "cup_plastic", 20 ],
+      [ "bowl_plastic", 20 ],
+      [ "canteen", 10 ],
+      [ "flask_hip", 15 ],
+      [ "fork", 25 ],
+      [ "spoon", 25 ],
+      [ "knife_butter", 25 ],
+      [ "pan", 15 ],
+      [ "pot", 15 ],
+      [ "teapot", 15 ]
+    ]
+  },
+  {
+    "id": "dollar_food",
+    "type": "item_group",
+    "items": [
+      [ "fruit_leather", 20 ],
+      [ "chips", 30 ],
+      [ "pretzels", 30 ],
+      [ "chocolate", 20 ],
+      [ "cereal", 25 ],
+      [ "cereal3", 25 ],
+      [ "soup_tomato", 25 ],
+      [ "soup_chicken", 25 ],
+      [ "lasagne_raw", 25 ],
+      [ "macaroni_raw", 25 ],
+      [ "can_beans", 20 ],
+      [ "can_spam", 20 ],
+      [ "can_pineapple", 20 ],
+      [ "can_tuna", 20 ],
+      [ "can_cheese", 20 ],
+      [ "dry_rice", 20 ],
+      [ "dry_beans", 20 ],
+      [ "bread", 40 ],
+      [ "cookies", 25 ],
+      [ "candy", 20 ]
     ]
   }
 ]

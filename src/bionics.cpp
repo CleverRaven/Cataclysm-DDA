@@ -938,7 +938,11 @@ bool player::uninstall_bionic( bionic_id const &b_id, int skill_level, bool auto
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
         remove_bionic( b_id );
-        g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+        if( item::type_is_defined( b_id.c_str() ) ) {
+            g->m.spawn_item( pos(), b_id.c_str(), 1 );
+        } else {
+            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+        }
     } else {
         add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                           pgettext( "memorial_female", "Failed to remove bionic: %s." ),
@@ -1535,20 +1539,31 @@ void bionic::deserialize( JsonIn &jsin )
     charge = jo.get_int( "charge" );
 }
 
-void player::introduce_into_anesthesia( time_duration const &duration )
+void player::introduce_into_anesthesia( time_duration const &duration,
+                                        bool anesthetic ) //used by the Autodoc
 {
     add_msg_if_player( m_info,
-                       _( "You type data into the console, configuring Autodoc to work with a CBM." ) );
-    add_effect( effect_narcosis, duration );
-    fall_asleep( duration );
-    add_msg_if_player( m_info,
-                       _( "Autodoc injected you with anesthesia, and while you were sleeping conducted a medical operation on you." ) );
-    std::vector<item_comp> comps;
-    std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( "ANESTHESIA" );
-    } );
-    for( const item *anesthesia_item : a_filter ) {
-        comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+                       _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM, and settle into position, sliding your right wrist into the sofa's strap." ) );
+    if( anesthetic ) {
+        add_msg_if_player( m_mixed,
+                           _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+
+        add_effect( effect_narcosis, duration );
+        //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
+    } else {
+        add_msg_if_player( m_mixed,
+                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) )
+        ;
     }
-    consume_items( comps );
+    fall_asleep( duration );
+    if( anesthetic ) {
+        std::vector<item_comp> comps;
+        std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( "ANESTHESIA" );
+        } );
+        for( const item *anesthesia_item : a_filter ) {
+            comps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+        }
+        consume_items( comps );
+    }
 }

@@ -6070,6 +6070,11 @@ void vehicle::close(int part_index)
   }
 }
 
+bool vehicle::is_open(int part_index) const
+{
+  return parts[part_index].open;
+}
+
 void vehicle::open_all_at(int p)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);

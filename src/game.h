@@ -230,14 +230,14 @@ class game
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-                    const tripoint &p, float power, float factor = 0.8f,
-                    bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
-                );
+        void explosion(
+            const tripoint &p, float power, float factor = 0.8f,
+            bool fire = false, int casing_mass = 0, float fragment_mass = 0.05
+        );
 
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-                    const tripoint &p, const explosion_data &ex
-                );
+        void explosion(
+            const tripoint &p, const explosion_data &ex
+        );
 
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
@@ -246,13 +246,13 @@ class game
          * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
          * @param src source from which shrapnel radiates outwards in a uniformly random distribution
          * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param count arbitrary measure of quantity shrapnel emitted affecting number of hits
-         * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
+         * @param casing_mass total mass of bomb casing, determines fragment velocity.
+         * @param fragment_mass mass of individual fragments, affects range, damage and coverage.
          * @param range maximum distance shrapnel may travel
-         * @return map containing all tiles considered with value being sum of damage received (if any)
+         * @return vector containing all tiles that took damage.
          */
-        std::unordered_map<tripoint, int> shrapnel( const tripoint &src, int power, int count, int mass,
-                int range = -1 );
+        std::vector<tripoint> shrapnel( const tripoint &src, int power, int casing_mass,
+                                        float fragment_mass, int range = -1 );
 
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
@@ -588,7 +588,7 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
-        // Returns outdoor or indoor temperature of given location
+        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;

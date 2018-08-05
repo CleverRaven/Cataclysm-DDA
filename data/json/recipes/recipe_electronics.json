@@ -1876,6 +1876,27 @@
   ]
 },{
   "type" : "recipe",
+  "result": "electronics_controls",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 1 ],
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "using": [ [ "soldering_standard", 150 ] ],
+  "qualities":[
+      {"id":"SCREW","level":1}
+  ],
+  "components": [
+    [ [ "e_scrap", 5 ] ],
+    [ [ "amplifier", 1 ] ],
+    [ [ "cable", 5 ] ],
+    [ [ "plastic_chunk", 5 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "camera_control",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",

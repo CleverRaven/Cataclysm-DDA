@@ -479,8 +479,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     float range = rl_dist( pos(), target );
     proj.range = range;
-    // Prevent light items from landing immediately
-    proj.momentum_loss = std::min( impact.total_damage() / 10.0f, 1.0f );
     int skill_lvl = get_skill_level( skill_used );
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
     const float range_factor = std::min<float>( range, skill_lvl + 3 );
@@ -529,7 +527,10 @@ static std::string print_recoil( const player &p)
 
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
-static int draw_targeting_window( const catacurses::window &w_target, const std::string &name, player &p, target_mode mode, input_context &ctxt, const std::vector<aim_type> &aim_types, bool switch_mode, bool switch_ammo, bool tiny )
+static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
+                                  player &p, target_mode mode, input_context &ctxt,
+                                  const std::vector<aim_type> &aim_types, bool switch_mode,
+                                  bool switch_ammo, bool tiny )
 {
     draw_border(w_target);
     // Draw the "title" of the window.

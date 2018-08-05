@@ -382,8 +382,7 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
-  "using": [ [ "filament", 40 ] ],
-  "qualities": [ { "id": "SEW", "level": 1 } ],
+  "using": [ [ "sewing_standard", 40 ] ],
   "components": [
      [
       [ "rag", 1 ],
@@ -409,11 +408,7 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
-  "using": [ [ "filament", 10 ] ],
-  "qualities" : [
-    { "id" : "SEW" , "level" : 1 },
-    { "id" : "CUT" , "level" : 1 }
-  ],
+  "using": [ [ "sewing_standard", 10 ] ],
   "components": [
     [
       [ "fur", 4 ],
@@ -857,7 +852,7 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
-  "skills_required": [[ "survival", 1 ], [ "archery", 2 ]],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
