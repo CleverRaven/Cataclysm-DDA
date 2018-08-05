@@ -2418,6 +2418,7 @@
         "description": "A sliding glass door that has been left open for all manner of things to travel through.",
         "symbol": "'",
         "color": "white",
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "close": "t_door_glass_frosted_c",
         "copy-from": "t_door_glass_o"
     },{
