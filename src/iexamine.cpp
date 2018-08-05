@@ -13,6 +13,7 @@
 #include "ammo.h"
 #include "line.h"
 #include "player.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "uistate.h"
@@ -51,6 +52,8 @@ const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
 const skill_id skill_fabrication( "fabrication" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
@@ -3475,6 +3478,35 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+player &best_installer( player &p )
+{
+    float player_skill = p.bionics_adjusted_skill( skill_firstaid,
+                                                   skill_computer,
+                                                   skill_electronics,
+                                                   true );
+    float best_ally_skill = 0;
+    size_t best_ally_index = -1;
+    for( size_t i = 0; i < g->allies().size() ; i ++ ) {
+        const npc *e = g->allies()[ i ];
+        if( e->has_effect( effect_sleep ) ) {
+            continue;
+        }
+        player &ally = *g->critter_by_id<player>( e->getID() );
+        float ally_skill = ally.bionics_adjusted_skill( skill_firstaid,
+                                                        skill_computer,
+                                                        skill_electronics,
+                                                        true );
+        if( ( ally_skill > player_skill ) && ( ally_skill > best_ally_skill ) ) {
+            best_ally_skill = ally_skill;
+            best_ally_index = i;
+        }
+    }
+    if( best_ally_skill > player_skill ) {
+        return *g->critter_by_id<player>( g->allies()[ best_ally_index ]->getID() );
+    }
+    return p;
+}
+
 void iexamine::autodoc( player &p, const tripoint &examp )
 {
     enum options {
@@ -3495,8 +3527,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
         }
     }
+    player &installer = best_installer( p );
 
-    player &installer = p;
     player &patient = p;
 
     if( !adjacent_couch ) {
