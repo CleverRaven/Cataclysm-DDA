@@ -3624,7 +3624,13 @@ long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
     }
 
-    p.mod_hunger( m_category.mutagen_hunger * mut_count );
+    if( m_category.mutagen_hunger * mut_count + p.get_hunger() > 300 ) {
+        // in this case starvation is directly updated
+        p.mod_starvation( m_category.mutagen_hunger * mut_count - ( 300 - p.get_hunger() ) );
+        p.set_hunger( 300 );
+    } else {
+        p.mod_hunger( m_category.mutagen_hunger * mut_count ) ;
+    }
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
 
