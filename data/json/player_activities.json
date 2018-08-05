@@ -11,7 +11,8 @@
     "type": "activity_type",
     "stop_phrase": "Stop reading?",
     "rooted": true,
-    "based_on": "speed"
+    "based_on": "speed",
+    "refuel_fires": true
   },
   {
     "id": "ACT_GAME",
@@ -32,20 +33,23 @@
     "id": "ACT_CRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "neither"
+    "based_on": "neither",
+    "refuel_fires": true
   },
   {
     "id": "ACT_LONGCRAFT",
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
-    "based_on": "neither"
+    "based_on": "neither",
+    "refuel_fires": true
   },
   {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "stop_phrase": "Stop disassembly?",
     "suspendable": false,
-    "based_on": "speed"
+    "based_on": "speed",
+    "refuel_fires": true
   },
   {
     "id": "ACT_BUTCHER",
@@ -58,7 +62,8 @@
     "type": "activity_type",
     "stop_phrase": "Stop salvaging?",
     "based_on": "speed",
-    "no_resume": true
+    "no_resume": true,
+    "refuel_fires": true
   },
   {
     "id": "ACT_FORAGE",
@@ -325,6 +330,30 @@
     "id": "ACT_JACKHAMMER",
     "type": "activity_type",
     "stop_phrase": "Stop drilling?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_DIG",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_FILL_PIT",
+    "type": "activity_type",
+    "stop_phrase": "Stop filling?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_SHAVE",
+    "type": "activity_type",
+    "stop_phrase": "Stop shaving?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_HAIRCUT",
+    "type": "activity_type",
+    "stop_phrase": "Stop cutting your hair?",
     "based_on": "speed"
   }
 ]

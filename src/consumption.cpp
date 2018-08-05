@@ -567,11 +567,25 @@ bool player::eat( item &food, bool force )
         add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                food.tname().c_str() );
     } else if( drinkable ) {
-        add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
-                               food.tname().c_str() );
+        if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
+            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
+
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
+            add_msg( _( "You drink your %s (rotten)." ), food.tname().c_str() );
+        } else {
+            add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
+                                   food.tname().c_str() );
+        }
     } else if( chew ) {
-        add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                               food.tname().c_str() );
+        if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
+            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
+
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
+            add_msg( _( "You eat your %s (rotten)." ), food.tname().c_str() );
+        } else {
+            add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                   food.tname().c_str() );
+        }
     }
 
     if( item::find_type( food.type->comestible->tool )->tool ) {
@@ -646,11 +660,11 @@ bool player::eat( item &food, bool force )
     }
     if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() ||
             has_trait( trait_id( "THRESH_URSINE" ) ) ) &&
-        mutation_category_level["MUTCAT_URSINE"] > 40 ) {
-        //Need at least 5 bear mutations for effect to show, to filter out mutations in common with other mutcats
+        mutation_category_level["URSINE"] > 40 ) {
+        //Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
         int honey_fun = has_trait( trait_id( "THRESH_URSINE" ) ) ?
-                        std::min( mutation_category_level["MUTCAT_URSINE"] / 8, 20 ) :
-                        mutation_category_level["MUTCAT_URSINE"] / 12;
+                        std::min( mutation_category_level["URSINE"] / 8, 20 ) :
+                        mutation_category_level["URSINE"] / 12;
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {

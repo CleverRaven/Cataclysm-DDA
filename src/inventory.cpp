@@ -15,6 +15,9 @@
 #include "mapdata.h"
 #include "map_iterator.h"
 #include <algorithm>
+#include "messages.h" //for rust message
+#include "output.h"
+#include "translations.h"
 
 const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}");
 
@@ -398,6 +401,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
@@ -466,6 +470,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             forge.charges = veh->fuel_left("battery", true);
             forge.item_tags.insert("PSEUDO");
             add_item(forge);
+        }
+        if( kilnpart ) {
+            item kiln("kiln", 0);
+            kiln.charges = veh->fuel_left("battery", true);
+            kiln.item_tags.insert("PSEUDO");
+            add_item(kiln);
         }
         if( chempart ) {
             item hotplate("hotplate", 0);
@@ -793,9 +803,15 @@ void inventory::rust_iron_items()
         for( auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
-                !elem_stack_iter.has_flag( "WATERPROOF" ) && elem_stack_iter.damage() < elem_stack_iter.max_damage() &&
-                one_in( 500 ) ) {
+                !elem_stack_iter.has_flag( "WATERPROOF" ) && 
+                elem_stack_iter.damage() < elem_stack_iter.max_damage()/2 && //Passivation layer prevents further rusting
+                one_in( 500 ) &&
+                //Scale with volume, bigger = slower (see #24204)
+                one_in(static_cast<int>( 14 * std::cbrt(  0.5 * std::max( 0.05, (double)(elem_stack_iter.base_volume().value())/250 ) )) ) &&
+                //                       ^season length   ^14/5*0.75/3.14 (from volume of sphere)
+                g->m.water_from(g->u.pos()).typeId() == "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
+                add_msg(m_bad, _("Your %s is damaged by rust."), elem_stack_iter.tname().c_str() );
             }
         }
     }
@@ -970,4 +986,10 @@ const itype_bin &inventory::get_binned_items() const
 
     binned = true;
     return binned_items;
+}
+
+void inventory::copy_invlet_of( const inventory &other )
+{
+    assigned_invlet = other.assigned_invlet;
+    invlet_cache = other.invlet_cache;
 }

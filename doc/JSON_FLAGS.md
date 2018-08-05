@@ -31,6 +31,7 @@
 - ```BLIND_EASY``` Easy to craft with little to no light
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 
 ## Furniture & Terrain
 
@@ -213,6 +214,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ATTACKMON``` Attacks other monsters.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
+- ```BIRDFOOD``` Becomes friendly / tamed with bird food.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BLEED``` Causes the player to bleed.
 - ```BONES``` May produce bones and sinews when butchered.
@@ -466,6 +468,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```
+- ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO``` Cargo holding area.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
@@ -693,11 +696,14 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
+- ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
 - ```ONLY_ONE``` You can wear only one.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FIX_FARSIGHT``` This gear corrects farsightedness.
+- ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.
@@ -708,11 +714,14 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```PSYSHIELD_PARTIAL``` 25% chance to protect against fear_paralyze monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
 - ```SKINTIGHT``` Undergarment layer.
+- ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
+- ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
 - ```STURDY``` This clothing is a lot more resistant to damage than normal.
 - ```SUN_GLASSES``` Prevents glaring when in sunlight.
 - ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
@@ -752,6 +761,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
 - ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
 - ```BANDAGE``` Stop bleeding.
+- ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
@@ -773,7 +783,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```IODINE``` Adds disease `iodine`.
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
 - ```METH``` Adds disease `meth`
-- ```MUTAGEN``` Causes mutation.
 - ```PKILL``` Reduces pain. Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
 - ```PLANTBLECH``` Causes vomiting if player does not contain plant mutations
 - ```POISON``` Adds diseases `poison` and `foodpoison`.
@@ -796,29 +805,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-- ```MUTAGEN_ANY``` Causes mutation in any branch.
-- ```MUTAGEN_ALPHA``` Causes mutation in the alpha branch.
-- ```MUTAGEN_BEAST``` Causes mutation in the beast branch.
-- ```MUTAGEN_BIRD``` Causes mutation in the bird branch.
-- ```MUTAGEN_CATTLE``` Causes mutation in the cattle branch.
-- ```MUTAGEN_CEPHALOPOD``` Causes mutation in the cephalopod branch.
-- ```MUTAGEN_CHIMERA``` Causes mutation in the chimera branch.
-- ```MUTAGEN_ELFA``` Causes mutation in the elfa branch.
-- ```MUTAGEN_FELINE``` Causes mutation in the feline (cat) branch.
-- ```MUTAGEN_FISH``` Causes mutation in the fish branch.
-- ```MUTAGEN_INSECT``` Causes mutation in the insect branch.
-- ```MUTAGEN_LIZARD``` Causes mutation in the lizard branch.
-- ```MUTAGEN_LUPINE``` Causes mutation in the lupine (wolf) branch.
-- ```MUTAGEN_MEDICAL``` Causes mutation in the medical branch.
-- ```MUTAGEN_PLANT``` Causes mutation in the plant branch.
-- ```MUTAGEN_RAPTOR``` Causes mutation in the raptor branch.
-- ```MUTAGEN_RAT``` Causes mutation in the rat branch.
-- ```MUTAGEN_SLIME``` Causes mutation in the slime branch.
-- ```MUTAGEN_SPIDER``` Causes mutation in the spider branch.
-- ```MUTAGEN_TROGLOBITE``` Causes mutation in the troglobite branch.
-- ```MUTAGEN_URSINE``` Causes mutation in the ursine (bear) branch.
-- ```MUTAGEN_STRONG``` Chance of mutating several times.
-- ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`). Still needs one of the mutation flags from the above list.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
@@ -1037,6 +1023,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TURRET``` Activate a turret.
 - ```WASHCLOTHES``` Wash clothes with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
+- ```BREAK_STICK``` Breaks long stick into two.
 
 ## Generic
 

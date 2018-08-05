@@ -362,8 +362,14 @@ class item : public visitable<item>
     std::string info(std::vector<iteminfo> &dump, const iteminfo_query *parts = nullptr, int batch = 1) const;
 
 
-    /** Burns the item. Returns true if the item was destroyed. */
-    bool burn( fire_data &bd, bool contained );
+        /**
+         * Calculate all burning calculations, but don't actually apply them to item.
+         * DO apply them to @ref fire_data argument, though.
+         * @return Amount of "burn" that would be applied to the item.
+         */
+        float simulate_burn( fire_data &bd ) const;
+        /** Burns the item. Returns true if the item was destroyed. */
+        bool burn( fire_data &bd );
 
     // Returns the category of this item.
     const item_category &get_category() const;
@@ -1558,7 +1564,7 @@ public:
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
-        int gun_dispersion( bool with_ammo = true ) const;
+        int gun_dispersion( bool with_ammo = true, bool with_scaling = true ) const;
         /**
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */

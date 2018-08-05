@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 
 #include <queue>
+#include <algorithm>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -896,7 +897,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
 
-                            fire_data frd{ cur.getFieldDensity(), 0.0f, 0.0f };
+                            fire_data frd( cur.getFieldDensity(), !can_spread );
                             // The highest # of items this fire can remove in one turn
                             int max_consume = cur.getFieldDensity() * 2;
 
@@ -905,7 +906,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // destroyed by the fire, this changes the item weight, but may not actually
                                 // destroy it. We need to spawn products anyway.
                                 const units::mass old_weight = fuel->weight( false );
-                                bool destroyed = fuel->burn( frd, can_spread);
+                                bool destroyed = fuel->burn( frd );
                                 // If the item is considered destroyed, it may have negative charge count,
                                 // see `item::burn?. This in turn means `item::weight` returns a negative value,
                                 // which we can not use, so only call `weight` when it's still an existing item.
@@ -916,9 +917,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
-                                    // But remember its contents
+                                    // But remember its contents, except for irremovable mods, if any
                                     std::copy( fuel->contents.begin(), fuel->contents.end(),
                                                std::back_inserter( new_content ) );
+                                    new_content.erase( std::remove_if( new_content.begin(), new_content.end(), [&]( const item & i ) {
+                                        return i.is_irremovable();
+                                    } ), new_content.end() );
                                     fuel = items_here.erase( fuel );
                                     consumed++;
                                 } else {

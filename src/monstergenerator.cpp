@@ -454,6 +454,7 @@ void MonsterGenerator::init_flags()
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
     flag_map["CATFOOD"] = MF_CATFOOD;
     flag_map["CATTLEFODDER"] = MF_CATTLEFODDER;
+    flag_map["BIRDFOOD"] = MF_BIRDFOOD;
     flag_map["DOGFOOD"] = MF_DOGFOOD;
     flag_map["MILKABLE"] = MF_MILKABLE;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;

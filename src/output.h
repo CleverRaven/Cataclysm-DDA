@@ -670,6 +670,11 @@ std::string format_volume( const units::volume &volume );
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value );
 
+inline const std::string format_money( unsigned long cents )
+{
+    return string_format( _( "$%.2f" ), cents / 100.0 );
+}
+
 /** Get the width in font glyphs of the drawing screen.
  *
  *  May differ from OPTIONS["TERMINAL_X"], for instance in

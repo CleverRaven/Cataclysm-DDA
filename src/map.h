@@ -52,6 +52,7 @@ enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
+struct fragment_cloud;
 struct submap;
 class item_location;
 class map_cursor;
@@ -1160,6 +1161,9 @@ class map
 
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
+        // Unlike the other caches, this populates a supplied cache instead of an internal cache.
+        void build_obstacle_cache( const tripoint &start, const tripoint &end,
+                                   std::array<fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &obstacle_caches );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -1336,7 +1340,7 @@ class map
         void draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                        const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                        const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                       const oter_id t_above, const time_point &when, const float density,
+                       const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
                        const int zlevel, const regional_settings *rsettings );
 
         void build_transparency_cache( int zlev );

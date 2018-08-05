@@ -95,6 +95,7 @@ public:
     void set_seen(int x, int y, int z, bool seen = true);
     bool has_vehicle( int x, int y, int z );
     bool has_horde(int x, int y, int z);
+    int get_horde_size(int x, int y, int z);
     std::vector<om_vehicle> get_vehicle( int x, int y, int z );
     const regional_settings& get_settings(int x, int y, int z);
 

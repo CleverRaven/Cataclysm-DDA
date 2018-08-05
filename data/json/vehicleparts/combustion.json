@@ -6,7 +6,8 @@
     "symbol": "*",
     "color": "light_red",
     "broken_color": "red",
-    "flags": [ "ENGINE", "TOOL_WRENCH" ]
+    "flags": [ "ENGINE", "TOOL_WRENCH" ],
+    "description": "A combustion engine.  Burns fuel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels."
   },
   {
     "id": "diesel_engine_i6",

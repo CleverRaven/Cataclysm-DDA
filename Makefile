@@ -725,6 +725,23 @@ ifdef LTO
   # optimization flags to be specified on the link line, and requires them to
   # match the original invocations.
   LDFLAGS += $(CXXFLAGS)
+
+  # If GCC or CLANG, use a wrapper for AR (if it exists) else test fails to build
+  ifndef CLANG
+    GCCAR := $(shell command -v gcc-ar 2> /dev/null)
+    ifdef GCCAR
+      ifneq (,$(findstring gcc version,$(shell $(CXX) -v </dev/null 2>&1)))
+        AR = gcc-ar
+      endif
+    endif
+  else
+    LLVMAR := $(shell command -v llvm-ar 2> /dev/null)
+    ifdef LLVMAR
+      ifneq (,$(findstring clang version,$(shell $(CXX) -v </dev/null 2>&1)))
+        AR = llvm-ar
+      endif
+    endif
+  endif
 endif
 
 all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)

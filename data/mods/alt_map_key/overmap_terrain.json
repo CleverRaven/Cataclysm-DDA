@@ -281,6 +281,16 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
+        "id" : "house_prepper",
+        "name" : "house",
+        "sym" : 94,
+        "color" : "light_green",
+        "see_cost" : 2,
+        "extras" : "build",
+        "mondensity" : 2,
+        "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
         "id" : "s_lot",
         "name" : "parking lot",
         "sym" : 112,

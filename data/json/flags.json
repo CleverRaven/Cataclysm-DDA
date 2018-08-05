@@ -48,7 +48,13 @@
     "id": "CBM",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
-    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> to safely install it into your body, or you may attempt to perform a <info>self-installation</info> with a higher risk of damaging yourself."
+    "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
+  },
+  {
+    "id": "CLIMATE_CONTROL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This piece of clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
     "id": "COLLAR",
@@ -96,6 +102,18 @@
     "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FIX_FARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects farsightedness</good>."
+  },
+  {
+    "id": "FIX_NEARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
     "id": "FILTHY",
@@ -204,6 +222,13 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "PSYSHIELD_PARTIAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "25% chance to protect against fear_paralyze monster attack.",
+    "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
+  },
+  {
     "id": "RAD_PROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -243,12 +268,30 @@
     "description": "This item can be stored in a scabbard of the appropriate size."
   },
   {
+    "id": "SHEATH_SPEAR",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a sling of the appropriate size."
+  },
+  {
     "id": "SKINTIGHT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Undergarment layer.",
     "info": "This clothing <info>lies close</info> to the skin.",
     "conflicts": [ "BELTED", "OUTER", "WAIST" ]
+  },
+  {
+    "id": "SLOWS_MOVEMENT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
+  },
+  {
+    "id": "SLOWS_THIRST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing <good>slows your thirst</good> by reducing moisture loss."
   },
   {
     "id": "STURDY",
@@ -372,7 +415,7 @@
     "id": "BIONIC_TOGGLED",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic only has a function when activated, else it causes it's effect every turn."
+    "description": "This bionic only has a function when activated, else it causes its effect every turn."
   },
   {
     "id": "BIONIC_GUN",

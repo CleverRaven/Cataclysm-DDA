@@ -1,6 +1,6 @@
 #pragma once
-#ifndef H_GENERIC_FACTORY
-#define H_GENERIC_FACTORY
+#ifndef GENERIC_FACTORY_H
+#define GENERIC_FACTORY_H
 
 #include "string_id.h"
 #include "int_id.h"

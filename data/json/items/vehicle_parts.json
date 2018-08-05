@@ -231,7 +231,7 @@
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["steel"],
-        "techniques" : ["WBLOCK_2"],
+        "techniques" : ["WBLOCK_1"],
         "volume" : 14,
         "bashing" : 19,
         "category" : "veh_parts",
@@ -267,6 +267,21 @@
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 8000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "electronics_controls",
+        "name" : "electronics control unit",
+        "description" : "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
+        "weight" : 1311,
+        "to_hit" : -4,
+        "color" : "cyan",
+        "symbol" : "$",
+        "material" : ["plastic"],
+        "volume" : 6,
+        "bashing" : 1,
+        "category" : "veh_parts",
+        "price" : 4000
     },
     {
         "type":"GENERIC",
@@ -751,6 +766,22 @@
         "bashing" : 2,
         "category" : "veh_parts",
         "price" : 40000
+    },
+    {
+      "id": "livestock_carrier",
+      "type": "GENERIC",
+      "name": "livestock carrier",
+      "description": "A heavy frame outfitted with tie-downs and attachment points for carrying cargo, with additional railings to keep a large animal in place.  It is meant to hold large animals for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+      "weight": 96000,
+      "volume": 250,
+      "price": 48000,
+      "category": "veh_parts",
+      "material": [ "steel", "plastic" ],
+      "symbol": "]",
+      "color": "light_gray",
+      "properties": [ [ "monster_size_capacity", "LARGE" ] ],
+      "use_action": "CAPTURE_MONSTER_VEH",
+      "flags": [ "TRADER_AVOID", "USE_PART_ITEM" ]
     },
     {
         "type":"GENERIC",

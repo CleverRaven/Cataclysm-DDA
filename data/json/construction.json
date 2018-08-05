@@ -27,24 +27,6 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
-        "description" : "Dig Pit", "//": "Step 1: shallow pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Dig Pit", "//": "Step 2: deep pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 90,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_pit"
-    },{
-        "type" : "construction",
         "description" : "Spike Pit",
         "category" : "DIG",
         "required_skills" : [ [ "survival", 1 ] ],
@@ -65,60 +47,6 @@
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_pit_glass"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in a pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in the spiked pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_spiked",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in a glass pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_glass",
-        "post_terrain" : "t_pit_shallow"
-    },{
-        "type" : "construction",
-        "description" : "Fill Pit", "//": "fill in the shallow pit",
-        "category" : "DIG",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 15,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "pre_terrain" : "t_pit_shallow",
-        "post_terrain" : "t_dirt"
-    },{
-        "type" : "construction",
-        "description" : "Till Soil",
-        "category" : "FARM_WOOD",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 30,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_dirtmound"
-    },{
-        "type" : "construction",
-        "description" : "Tamp Ground",
-        "category" : "FARM_WOOD",
-        "required_skills" : [ [ "survival", 0 ] ],
-        "time" : 5,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain": "t_dirtmound",
-        "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Planks",
@@ -2343,5 +2271,31 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Build Root Cellar",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "survival", 4 ], [ "fabrication", 4 ] ],
+        "time" : 130,
+        "qualities": [
+            [ { "id": "DIG", "level": 2 } ],
+            [ { "id": "HAMMER", "level": 2 } ]
+        ],
+        "components" : [
+            [ [ "rock", 40 ], [ "brick", 40] ],
+            [ [ "2x4", 6 ], [ "stick", 6 ] ],
+            [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
+        ],
+        "pre_note":  "You need a deep pit to construct a root cellar.",
+        "pre_terrain": "t_pit",
+        "post_terrain": "t_rootcellar"
+    },{
+        "type" : "construction",
+        "description" : "Mark firewood source",
+        "category" : "OTHER",
+        "required_skills" : [],
+        "time" : 0,
+        "pre_special" : "check_no_trap",
+        "post_special" : "done_mark_firewood"
     }
 ]

@@ -326,7 +326,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     /* Now the fun begins. */
     int input = inp_mngr.get_input_event().get_first_input(); // @todo: use input context
 
-    while( input != 'q' && input != 'Q' && input != 27 /*escape*/ ) {
+    while( input != 'q' && input != 'Q' && input != KEY_ESCAPE ) {
         process_input( input, w );
         if( ret ) {
             break;

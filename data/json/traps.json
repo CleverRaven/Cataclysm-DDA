@@ -467,5 +467,17 @@
         "drops" : ["metal_funnel"],
         "benign" : true,
         "funnel_radius": 400
+    },
+    {
+        "type" : "trap",
+        "id": "tr_firewood_source",
+        "name" : "firewood source",
+        "color" : "green",
+        "symbol" : "x",
+        "visibility" : -1,
+        "avoidance" : 0,
+        "difficulty" : 0,
+        "action" : "none",
+        "benign" : true
     }
 ]

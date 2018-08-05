@@ -560,7 +560,7 @@
         "name": "RM13 combat armor (on)",
         "name_plural": "RM13 combat armors (on)",
         "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
-        "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_PROOF", "ELECTRIC_IMMUNE", "THERMOMETER", "TRADER_AVOID"],
+        "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_PROOF", "ELECTRIC_IMMUNE", "THERMOMETER", "TRADER_AVOID", "CLIMATE_CONTROL"],
         "price": 50000000,
         "material": ["ceramic", "kevlar"],
         "weight" : 6820,
@@ -800,6 +800,7 @@
         "coverage": 100,
         "encumbrance": 30,
         "warmth": 15,
+        "qualities": [ [ "GLARE", 2 ] ],
         "material_thickness": 3,
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
@@ -807,7 +808,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_fsurvivorxl",
@@ -826,6 +827,7 @@
         "coverage": 100,
         "encumbrance": 35,
         "warmth": 15,
+        "qualities": [ [ "GLARE", 2 ] ],
         "material_thickness": 3,
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
@@ -833,7 +835,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "mask_bunker",
@@ -843,7 +845,7 @@
         "color": "light_gray",
         "name": "firefighter PBA mask",
         "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-        "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+        "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
         "price": 100000,
         "material": [ "plastic", "nomex" ],
         "weight": 1260,
@@ -887,7 +889,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_lsurvivor",
@@ -915,7 +917,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_survivor",
@@ -942,7 +944,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_survivorxl",
@@ -969,7 +971,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "mask_wsurvivor",
@@ -996,7 +998,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_wsurvivorxl",
@@ -1023,7 +1025,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "hazmat_suit",

@@ -5,6 +5,7 @@
 #include "game.h"
 #include "messages.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "player.h"
 #include "ui.h"
 #include "npc.h"
@@ -14,6 +15,7 @@
 #include "vitamin.h"
 #include "mission.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "morale_types.h"
 
 #include <algorithm>
@@ -48,7 +50,7 @@ void teleport_short()
 
 void teleport_long()
 {
-    const tripoint where( overmap::draw_overmap() );
+    const tripoint where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
@@ -134,10 +136,11 @@ void character_edit_menu()
         nmenu.text = _( "Player" );
     }
 
-    enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+    enum { D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
            D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
            D_TELE, D_MUTATE, D_CLASS
          };
+    nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
@@ -278,6 +281,16 @@ void character_edit_menu()
                 p.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 p.apply_persistent_morale();
             }
+        }
+        break;
+        case D_NAME: {
+            std::string filterstring;
+            string_input_popup()
+            .title( _( "Rename:" ) )
+            .width( 85 )
+            .description( string_format( _( "NPC: \n%s\n" ), p.name ) )
+            .edit( filterstring );
+            p.name = filterstring;
         }
         break;
         case D_PAIN: {

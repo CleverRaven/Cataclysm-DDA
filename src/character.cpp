@@ -30,6 +30,7 @@
 #include <sstream>
 #include <numeric>
 
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -38,12 +39,14 @@ const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
+const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -530,7 +533,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() || in_sleep_state() ) {
+    if( is_blind() || in_sleep_state() || has_effect( effect_narcosis ) ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
@@ -544,8 +547,7 @@ void Character::recalc_sight_limits()
         // You can kinda see out a bit.
         sight_max = 2;
     } else if ( (has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE )) &&
-            !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
+            !worn_with_flag( "FIX_NEARSIGHT" ) && !has_effect( effect_contacts )) {
         sight_max = 4;
     } else if (has_trait( trait_PER_SLIME )) {
         sight_max = 6;
@@ -1973,13 +1975,13 @@ float Character::get_hit_base() const
 
 hp_part Character::body_window( bool precise ) const
 {
-    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0 );
+    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0, 0, 0 );
 }
 
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                bool bleed, bool bite, bool infect ) const
+                                bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const
 {
     catacurses::window hp_window = catacurses::newwin( 10, 31, ( TERMY - 10 ) / 2, ( TERMX - 31 ) / 2 );
     draw_border(hp_window);
@@ -2033,7 +2035,7 @@ hp_part Character::body_window( const std::string &menu_header,
             e.allowed = true;
         } else if( limb_is_broken ) {
             continue;
-        } else if( current_hp < maximal_hp && e.bonus != 0 ) {
+        } else if( current_hp < maximal_hp && ( e.bonus != 0 || is_bandage || is_disinfectant ) ) {
             e.allowed = true;
         } else {
             continue;
@@ -2271,7 +2273,7 @@ int Character::throw_range( const item &it ) const
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 8 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
+    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
@@ -2284,8 +2286,8 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR caps throwing range */
 
     /** @EFFECT_THROW caps throwing range */
-    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
-        return str_cur * 1.5 + get_skill_level( skill_throw );
+    if( ret > str_cur * 3 + get_skill_level( skill_throw ) ) {
+        return str_cur * 3 + get_skill_level( skill_throw );
     }
 
     return ret;
@@ -2666,4 +2668,55 @@ float Character::healing_rate( float at_rest_quality ) const
     }
 
     return final_rate;
+}
+
+float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
+{
+    float rate_medicine = 0.0f;
+    float bandaged_rate = 0.0f;
+    float disinfected_rate = 0.0f;
+
+    const effect &e_bandaged = get_effect( effect_bandaged, bp );
+    const effect &e_disinfected = get_effect( effect_disinfected, bp );
+
+    if( !e_bandaged.is_null() ) {
+        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        if( bp == bp_head ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+        }
+        if( bp == bp_torso ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+        }
+    }
+
+    if( !e_disinfected.is_null() ) {
+        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        if( bp == bp_head ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+        }
+        if( bp == bp_torso ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+        }
+    }
+
+    rate_medicine += bandaged_rate + disinfected_rate;
+    rate_medicine *= 1.0f + mutation_value( "healing_resting" );
+    rate_medicine *= 1.0f + at_rest_quality;
+
+    // increase healing if character has both effects
+    if( !e_bandaged.is_null() && !e_disinfected.is_null() ){
+        rate_medicine *= 2;
+    }
+
+    if( get_healthy() > 0.0f ) {
+        rate_medicine *= 1.0f + get_healthy() / 200.0f;
+    } else {
+        rate_medicine *= 1.0f + get_healthy() / 400.0f;
+    }
+    float primary_hp_mod = mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        // HP mod can't get below -1.0
+        rate_medicine *= 1.0f + primary_hp_mod;
+    }
+    return rate_medicine;
 }

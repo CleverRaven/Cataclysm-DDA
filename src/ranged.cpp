@@ -468,8 +468,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     float range = rl_dist( pos(), target );
     proj.range = range;
-    // Prevent light items from landing immediately
-    proj.momentum_loss = std::min( impact.total_damage() / 10.0f, 1.0f );
     int skill_lvl = get_skill_level( skill_used );
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
     const float range_factor = std::min<float>( range, skill_lvl + 3 );
@@ -518,7 +516,10 @@ static std::string print_recoil( const player &p)
 
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
-static int draw_targeting_window( const catacurses::window &w_target, const std::string &name, player &p, target_mode mode, input_context &ctxt, const std::vector<aim_type> &aim_types, bool switch_mode, bool switch_ammo, bool tiny )
+static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
+                                  player &p, target_mode mode, input_context &ctxt,
+                                  const std::vector<aim_type> &aim_types, bool switch_mode,
+                                  bool switch_ammo, bool tiny )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -1535,15 +1536,20 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         return 0.0;
     }
     double skill_shortfall = double( MAX_SKILL ) - skill;
-    // Flat penalty of 3 dispersion per point of skill under max.
-    double dispersion_penalty = 3.0 * skill_shortfall;
-    if( skill >= 5 ) {
+    // Flat penalty dispersion per point of skill under max.
+    double flat_penalty = get_option< float >( "GUN_DISPERSION_FLAT_PENALTY_PER_SKILL" );
+    double dispersion_penalty = flat_penalty * skill_shortfall;
+    double skill_threshold = get_option< float >( "GUN_DISPERSION_SKILL_THRESHOLD" );
+    double mult_post_threshold = get_option< float >( "GUN_DISPERSION_MULT_POST_SKILL_THRESHOLD" );
+    if( skill >= skill_threshold) {
+        double post_threshold_skill_shortfall = double( MAX_SKILL ) - skill;
         // Lack of mastery multiplies the dispersion of the weapon.
-        return dispersion_penalty + skill_shortfall * weapon_dispersion / 5.0;
+        return dispersion_penalty + weapon_dispersion * post_threshold_skill_shortfall * mult_post_threshold / ( double( MAX_SKILL ) - skill_threshold );
     }
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
-    double lower_skill_shortfall = 5.0 - skill;
-    dispersion_penalty += weapon_dispersion + lower_skill_shortfall * weapon_dispersion * 3.0 / 5.0;
+    double pre_threshold_skill_shortfall = skill_threshold - skill;
+    double mult_pre_thershold = get_option< float >( "GUN_DISPERSION_MULT_PRE_SKILL_THRESHOLD" );
+    dispersion_penalty += weapon_dispersion * ( mult_post_threshold + pre_threshold_skill_shortfall * mult_pre_thershold / skill_threshold);
 
     return dispersion_penalty;
 }
