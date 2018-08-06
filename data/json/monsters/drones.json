@@ -120,7 +120,7 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": "mininuke hack",
-    "description": "Twice as large as a normal manhack, this flying drone appears to have a mininuke inside.  If this is targeting you...  Run.",
+    "description": "Many times as large as a normal manhack, this flying drone appears to have a mininuke inside.  If this is targeting you...  Run.",
     "diff": 40,
     "hp": 20,
     "speed": 150,

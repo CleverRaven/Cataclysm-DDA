@@ -619,8 +619,6 @@ void Item_factory::init()
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
-    add_iuse( "MUTAGEN", &iuse::mutagen );
-    add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
@@ -716,6 +714,8 @@ void Item_factory::init()
     add_actor( new saw_barrel_actor() );
     add_actor( new install_bionic_actor() );
     add_actor( new detach_gunmods_actor() );
+    add_actor( new mutagen_actor() );
+    add_actor( new mutagen_iv_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );

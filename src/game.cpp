@@ -66,6 +66,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "omdata.h"
 #include "crafting.h"
 #include "construction.h"
@@ -879,8 +880,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    temperature = 65; // Springtime-appropriate?
-    update_weather(); // Springtime-appropriate, definitely.
+    temperature = SPRING_TEMPERATURE;
+    update_weather();
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1784,13 +1785,8 @@ void game::update_weather()
 
 int game::get_temperature( const tripoint &location )
 {
-
-    if ( location.z < 0 ) {
-        // underground temperature = average New England temperature = 43F/6C rounded to int
-        return 43 + m.temperature( location );
-    }
-    // if not underground use weather determined temperature
-    return temperature + m.temperature( location );
+    //underground temperature = average New England temperature = 43F/6C rounded to int
+    return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 : m.temperature( location ) );
 }
 
 int game::assign_mission_id()
@@ -2613,7 +2609,12 @@ bool game::handle_action()
     }
 
     if( act == ACTION_NULL ) {
-        add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
+        const input_event &&evt = ctxt.get_raw_input();
+        if( !evt.sequence.empty() ) {
+            const long ch = evt.get_first_input();
+            const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
+            add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+        }
         return false;
     }
 
@@ -4199,7 +4200,7 @@ void game::debug()
         }
         break;
         case 20:
-            overmap::draw_hordes();
+            ui::omap::display_hordes();
             break;
         case 21: {
             item_group::debug_spawn();
@@ -4245,10 +4246,10 @@ void game::debug()
         }
         break;
         case 25:
-            overmap::draw_weather();
+            ui::omap::display_weather();
             break;
         case 26:
-            overmap::draw_scents();
+            ui::omap::display_scents();
             break;
         case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char * const msg ) {
@@ -4330,7 +4331,7 @@ void game::debug()
             break;
 
         case 30:
-            overmap::draw_editor();
+            ui::omap::display_editor();
             break;
 
         case 31: {
@@ -4372,7 +4373,7 @@ void game::debug()
 
 void game::draw_overmap()
 {
-    overmap::draw_overmap();
+    ui::omap::display();
 }
 
 void game::disp_kills()
@@ -7950,7 +7951,8 @@ void game::zones_manager()
                 //show zone position on overmap;
                 tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
                 tripoint zone_overmap = ms_to_omt_copy( zones.zones[active_index].get_center_point() );
-                overmap::draw_zones( player_overmap_position, zone_overmap, active_index );
+
+                ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
                 zones_manager_shortcuts(w_zones_info);
@@ -12716,6 +12718,14 @@ void game::update_map(int &x, int &y)
             it++;
         }
     }
+
+    scent.shift( shiftx * SEEX, shifty * SEEY );
+
+    // Also ensure the player is on current z-level
+    // get_levz() should later be removed, when there is no longer such a thing
+    // as "current z-level"
+    u.setpos( tripoint(x, y, get_levz()) );
+    
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();
@@ -12725,13 +12735,6 @@ void game::update_map(int &x, int &y)
 
     // Spawn monsters if appropriate
     m.spawn_monsters( false ); // Static monsters
-
-    scent.shift( shiftx * SEEX, shifty * SEEY );
-
-    // Also ensure the player is on current z-level
-    // get_levz() should later be removed, when there is no longer such a thing
-    // as "current z-level"
-    u.setpos( tripoint(x, y, get_levz()) );
 
     // Update what parts of the world map we can see
     update_overmap_seen();
