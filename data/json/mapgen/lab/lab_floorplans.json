@@ -51,7 +51,7 @@
     }
   },
   {
-    "//": "military bunker with 1-in-10 chance of the doors being smashed in by a hulk.",
+    "//": "military bunker",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
@@ -133,14 +133,14 @@
         }
       },
       "place_nested": [
-        { "chunks": [ [ "null", 90 ], [ "lab_hulk_smash", 10 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "lab_hulk_smash", 5 ] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
         { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
     }
   },
   {
-    "//": "prisoner containment with 1-in-10 chance of the doors being smashed in by a hulk.",
+    "//": "prisoner containment",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
@@ -231,7 +231,7 @@
         }
       },
       "place_nested": [
-        { "chunks": [ [ "null", 90 ], [ "lab_hulk_smash", 10 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "lab_hulk_smash", 5 ] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
         { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
       ]
@@ -250,7 +250,7 @@
         { "x": 12, "y": 13, "items": true }
       ],
       "place_monster": [
-        { "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk" ], "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
+        { "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk", "mon_nakedmolerat_giant" ], "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 }
       ],
       "place_loot": [
         { "group": "everyday_corpse", "x": [10,13], "y": [1,3], "repeat": 2 }
