@@ -146,7 +146,7 @@ const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
-const morale_type MORALE_BUTCHER( "morale_bucher" );
+const morale_type MORALE_BUTCHER( "morale_butcher" );
 
 namespace
 {

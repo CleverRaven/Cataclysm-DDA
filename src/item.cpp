@@ -2495,13 +2495,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( has_flag( "LITCIG" ) ) {
         ret << _( " (lit)" );
     }
-    if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
-        if ( has_flag( "QUARTERED" ) ) {
-            ret << _( " (quartered carcass)" );            
-        } else {
-            ret << _( " (carcass)" );
-        }
-    }
     if( already_used_by_player( g->u ) ) {
         ret << _( " (used)" );
     }
@@ -6165,12 +6158,32 @@ bool item::is_reloadable() const
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
+    bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
+    bool quartered = has_flag( "QUARTERED" );
     if( corpse != nullptr && typeId() == "corpse" ) {
         if( corpse_name.empty() ) {
+            if( f_dressed && !quartered ){
+                return string_format( npgettext( "item name", "%s carcass",
+                                "%s carcasses", quantity ),
+                    corpse->nname().c_str() );
+            } else if( f_dressed && quartered ){
+                return string_format( npgettext( "item name", "quartered %s carcass",
+                                        "quartered %s carcasses", quantity ),
+                            corpse->nname().c_str() );        
+            }
             return string_format( npgettext( "item name", "%s corpse",
                                          "%s corpses", quantity ),
                                corpse->nname().c_str() );
         } else {
+            if( f_dressed && !quartered ){
+                return string_format( npgettext( "item name", "%s carcass of %s",
+                                "%s carcasses of %s", quantity ),
+                    corpse->nname().c_str() );
+            } else if( f_dressed && quartered ){
+                return string_format( npgettext( "item name", "%s quartered carcass of %s",
+                                        "%s quartered carcasses of %s", quantity ),
+                            corpse->nname().c_str() );        
+            }
             return string_format( npgettext( "item name", "%s corpse of %s",
                                          "%s corpses of %s", quantity ),
                                corpse->nname().c_str(), corpse_name.c_str() );
