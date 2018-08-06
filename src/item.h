@@ -1226,7 +1226,7 @@ public:
         /**
          * Is temperature comfortable for this plant.
          */
-        bool is_warm_enought() const;
+        bool is_warm_enought( int temperature ) const;
         /*@}*/
 
         /**
