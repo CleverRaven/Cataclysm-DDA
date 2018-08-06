@@ -298,7 +298,7 @@
         "locations" : [ "land" ],
         "city_distance" : [8, -1],
         "city_sizes" : [4, 12],
-        "occurrences" : [0, 30]
+        "occurrences" : [1, 30]
     },{
         "type" : "overmap_special",
         "id" : "Central Lab",
@@ -360,7 +360,7 @@
         "locations" : [ "land" ],
         "city_distance" : [8, -1],
         "city_sizes" : [4, 12],
-        "occurrences" : [0, 30]
+        "occurrences" : [0, 3]
     },{
         "type" : "overmap_special",
         "id" : "FEMA Camp",
