@@ -86,8 +86,8 @@
         "t": {}
       },
       "items": { 
-		"Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-		"P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
 	  },
       "place_loot": [
         { "group": "bed", "x": [ 12, 13 ], "y": [ 18, 19 ], "chance": 90, "repeat": [ 1, 3 ] },

@@ -1542,7 +1542,7 @@
 		"qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
 		"components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
 		"pre_special": "check_empty",
-		"post_terrain": "f_stool"
+		"post_terrain": "f_rack_coat"
     },{
         "type" : "construction",
         "description" : "Build Bench",

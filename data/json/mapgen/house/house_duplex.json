@@ -98,10 +98,10 @@
       ],
       "toilets": { "t": {  } },
       "items": { 
-		"B": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-		"p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
-		"W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
-		"Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
+        "B": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
+        "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
+        "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
 	  },
       "add": [  ],
       "place_loot": [

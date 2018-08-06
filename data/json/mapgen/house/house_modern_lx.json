@@ -84,7 +84,7 @@
       },
       "toilets": { "t": {  } },
       "items": { 
-		"Z": { "item": "mail", "chance": 25, "repeat": [ 1, 5 ] }
+        "Z": { "item": "mail", "chance": 25, "repeat": [ 1, 5 ] }
 	  },
       "place_loot": [
         { "group": "bed", "x": [ 5, 6 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 1, 4 ] },

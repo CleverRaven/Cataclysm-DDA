@@ -61,7 +61,7 @@
         "]": "f_bookcase",
         "a": [ "f_stool", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null" ],
         "b": "f_stool",
-		"d": "f_desk",
+        "d": "f_desk",
         "f": "f_indoor_plant",
         "h": "f_chair",
         "q": "f_bluebell",

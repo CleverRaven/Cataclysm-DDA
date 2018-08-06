@@ -116,7 +116,7 @@
         "T": {}
       },
       "items": { 
-		"Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
 	  },
       "place_items": [
         { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75 },

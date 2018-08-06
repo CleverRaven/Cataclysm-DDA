@@ -62,7 +62,7 @@
         "t": "f_table"
       },
       "items": { 
-		"Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
 	  },
       "place_items": [
         { "item": "livingroom", "x": [ 4, 8 ], "y": [ 13, 18 ], "chance": 60 },

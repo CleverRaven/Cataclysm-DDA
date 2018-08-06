@@ -96,8 +96,8 @@
       },
       "toilets": { "t": {  } },
       "items": { 
-		"Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
-		"W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
+        "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
+        "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
 	  },
       "place_loot": [
         { "group": "livingroom", "x": [ 10, 17 ], "y": [ 15, 19 ], "chance": 90, "repeat": [ 1, 6 ] },
