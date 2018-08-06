@@ -46,7 +46,7 @@
       "fruit": "blackberries",
       "fruit_count": 5,
       "grow": 91,
-      "grow_secondary": 45,
+      "grow_secondary": 35,
       "is_shrub": true,
       "grow_into": "f_shrub_blackberry_harvest"
     }
@@ -63,7 +63,7 @@
       "fruit": "blueberries",
       "fruit_count": 5,
       "grow": 91,
-      "grow_secondary": 45,
+      "grow_secondary": 35,
       "is_shrub": true,
       "grow_into": "f_shrub_blueberry_harvest"
     }
@@ -80,7 +80,7 @@
       "fruit": "cranberries",
       "fruit_count": 5,
       "grow": 91,
-      "grow_secondary": 45,
+      "grow_secondary": 35,
       "is_shrub": true,
       "grow_into": "f_shrub_cranberry_harvest"
     }
@@ -110,7 +110,7 @@
       "fruit": "raspberries",
       "fruit_count": 5,
       "grow": 91,
-      "grow_secondary": 45,
+      "grow_secondary": 35,
       "is_shrub": true,
       "grow_into": "f_shrub_raspberry_harvest"
     }
@@ -127,7 +127,7 @@
       "fruit": "strawberries",
       "fruit_count": 5,
       "grow": 91,
-      "grow_secondary": 45,
+      "grow_secondary": 35,
       "is_shrub": true,
       "grow_into": "f_shrub_strawberry_harvest"
     }
@@ -212,7 +212,7 @@
       "plant_name": "tomato",
       "fruit": "tomato",
       "water_requirement": 2.0,
-       "comfortable_temperature": 5,
+      "comfortable_temperature": 5,
       "byproducts": [ "withered" ],
       "grow": 65
     }
@@ -371,7 +371,13 @@
     "name_plural": "chili pepper seeds",
     "color": "white",
     "description": "Some chili pepper seeds.",
-    "seed_data": { "plant_name": "chili pepper", "fruit": "chili_pepper", "comfortable_temperature": 10, "byproducts": [ "withered" ], "grow": 65 }
+    "seed_data": {
+      "plant_name": "chili pepper",
+      "fruit": "chili_pepper",
+      "comfortable_temperature": 10,
+      "byproducts": [ "withered" ],
+      "grow": 65
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -649,6 +655,7 @@
       "is_mushroom": true,
       "fruit": "mushroom",
       "fruit_count": 2,
+      "water_requirement": 0.5,
       "grow": 45,
       "grow_secondary": 10
     }
@@ -665,6 +672,7 @@
       "is_mushroom": true,
       "fruit": "mushroom_morel",
       "fruit_count": 2,
+      "water_requirement": 0.5,
       "grow": 45,
       "grow_secondary": 10
     }
@@ -681,6 +689,7 @@
       "is_mushroom": true,
       "fruit": "mushroom_magic",
       "fruit_count": 2,
+      "water_requirement": 0.5,
       "grow": 45,
       "grow_secondary": 10
     }
@@ -697,6 +706,7 @@
       "is_mushroom": true,
       "fruit": "mushroom_poison",
       "fruit_count": 2,
+      "water_requirement": 0.5,
       "grow": 45,
       "grow_secondary": 10
     }
