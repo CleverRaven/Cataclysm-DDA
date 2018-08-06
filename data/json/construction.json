@@ -2103,7 +2103,7 @@
         "pre_terrain" : "t_grass_long",
         "post_terrain" : "t_grass",
         "tools": [
-        [ [ "scythe", 2 ], [ "sickle", 2 ] ]
+        [ [ "scythe" ], [ "sickle" ] ]
         ],
     },{
         "type" : "construction",
@@ -2138,7 +2138,7 @@
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 6,
-        "qualities": [ [ { { "id": "DIG", "level": 1 } ] ],
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass_golf",
         "post_terrain" : "t_dirt"
     },{
@@ -2147,7 +2147,7 @@
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 6,
-        "qualities": [ [ { { "id": "DIG", "level": 1 } ] ],
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass_white",
         "post_terrain" : "t_dirt"
     },{
