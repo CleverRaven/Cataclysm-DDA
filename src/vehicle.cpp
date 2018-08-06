@@ -726,6 +726,7 @@ void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
     add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+    add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
     add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
     add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
