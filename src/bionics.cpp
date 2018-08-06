@@ -784,8 +784,8 @@ void player::bionics_uninstall_failure( player &installer )
             break;
         case 2:
             installer.add_msg_player_or_npc( m_neutral,
-                                              _( "You mess up the removal." ),
-                                              _( "<npcname> messes up the removal." ) );
+                                             _( "You mess up the removal." ),
+                                             _( "<npcname> messes up the removal." ) );
             break;
         case 3:
             add_msg( m_neutral, _( "The removal fails." ) );
@@ -795,8 +795,8 @@ void player::bionics_uninstall_failure( player &installer )
             break;
         case 5:
             installer.add_msg_player_or_npc( m_neutral,
-                                              _( "You screw up the removal." ),
-                                              _( "<npcname> screws up the removal." ) );
+                                             _( "You screw up the removal." ),
+                                             _( "<npcname> screws up the removal." ) );
             break;
     }
     add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );

@@ -3610,7 +3610,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             if( patient.is_npc() && !bid->npc_usable ) {
                 //~ %1$s is the bionic CBM display name, %2$s is the patient name
-                popup( _( "%1$s cannot be installed on %2$s"), it->display_name().c_str(), patient.name );
+                popup( _( "%1$s cannot be installed on %2$s."), it->display_name().c_str(), patient.name );
                 return;
             }
 

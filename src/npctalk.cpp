@@ -660,7 +660,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                    beta->name.c_str() );
     }
     if( topic == "TALK_SEDATED" ) {
-        return string_format( _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off" ),
+        return string_format( _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
                               beta->name.c_str() );
     }
 
