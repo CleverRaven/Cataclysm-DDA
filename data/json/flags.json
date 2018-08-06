@@ -32,6 +32,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
   },
   {
+    "id": "BIONIC_NPC_USABLE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "A <good>follower</good> could <info>make use of this CBM</info> if installed properly.",
+  },
+  {
     "id": "BLIND",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
