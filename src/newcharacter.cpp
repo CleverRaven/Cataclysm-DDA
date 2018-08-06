@@ -183,10 +183,11 @@ tab_direction set_stats( const catacurses::window &w, player &u, points_left &po
 tab_direction set_traits( const catacurses::window &w, player &u, points_left &points );
 tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points,
                             const tab_direction direction );
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points, 
+tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
                               const tab_direction direction );
 tab_direction set_skills( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_description( const catacurses::window &w, player &u, bool allow_reroll, points_left &points );
+tab_direction set_description( const catacurses::window &w, player &u, bool allow_reroll,
+                               points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
 static void save_template( const player &u, const std::string &name );
@@ -499,22 +500,22 @@ bool player::create(character_type type, const std::string &tempname)
         wrefresh( w );
         switch( tab ) {
             case 0:
-                result = set_points     ( w, *this, points );
+                result = set_points( w, *this, points );
                 break;
             case 1:
-                result = set_scenario   ( w, *this, points, result );
+                result = set_scenario( w, *this, points, result );
                 break;
             case 2:
-                result = set_profession ( w, *this, points, result );
+                result = set_profession( w, *this, points, result );
                 break;
             case 3:
-                result = set_traits     ( w, *this, points );
+                result = set_traits( w, *this, points );
                 break;
             case 4:
-                result = set_stats      ( w, *this, points );
+                result = set_stats( w, *this, points );
                 break;
             case 5:
-                result = set_skills     ( w, *this, points );
+                result = set_skills( w, *this, points );
                 break;
             case 6:
                 result = set_description( w, *this, allow_reroll, points );
@@ -1312,7 +1313,7 @@ struct {
 } profession_sorter;
 
 /** Handle the profession tab of the character generation menu */
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points, 
+tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
                               const tab_direction direction )
 {
     draw_tabs( w, _("PROFESSION") );
