@@ -1759,31 +1759,6 @@
     }
   },
   {
-    "type": "GENERIC",
-    "id": "bone_tainted",
-    "category": "other",
-    "name": "tainted bone",
-    "weight": 212,
-    "color": "light_gray",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "nutrition": 2,
-    "description": "A rotten and brittle bone from some unnatural creature or other.",
-    "price": 0,
-    "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
-    "material": "bone",
-    "volume": 1,
-    "fun": -10,
-    "use_action": {
-      "target": "tainted_marrow",
-      "msg": "You snap the bone into two pieces and extract the marrow.",
-      "target_charges": 1,
-      "menu_text": "Extract marrow",
-      "type": "transform"
-    }
-  },
-  {
     "type": "COMESTIBLE",
     "id": "tainted_marrow",
     "name": "tainted marrow",
