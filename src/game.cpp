@@ -7164,7 +7164,18 @@ bool pet_menu(monster *z)
     }
 
     if( milk == choice ) {
+        // pin the cow in place if it isn't already
+        bool temp_tie = !z->has_effect( effect_tied );
+        if( temp_tie ) {
+            z->add_effect( effect_tied, 1_turns, num_bp, true);
+        }
+
         monexamine::milk_source( *z );
+
+        if( temp_tie ) {
+            z->remove_effect( effect_tied );
+        }
+
         return true;
     }
 
