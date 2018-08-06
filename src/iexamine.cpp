@@ -3498,32 +3498,52 @@ player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_pat
     return null_patient;
 }
 
-player &best_installer( player &p )
+player &best_installer( player &p, player &null_player, int difficulty )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
                                                    skill_computer,
                                                    skill_electronics,
                                                    true );
-    float best_ally_skill = 0;
-    size_t best_ally_index = -1;
+
+    std::vector< std::pair<float, long>> ally_skills;
+    ally_skills.reserve( g->allies().size() );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
+        std::pair<float, long> ally_skill;
         const npc *e = g->allies()[ i ];
-        if( e->has_effect( effect_sleep ) ) {
-            continue;
-        }
+
         player &ally = *g->critter_by_id<player>( e->getID() );
-        float ally_skill = ally.bionics_adjusted_skill( skill_firstaid,
+        ally_skill.second = i;
+        ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
                                                         skill_computer,
                                                         skill_electronics,
                                                         true );
-        if( ( ally_skill > player_skill ) && ( ally_skill > best_ally_skill ) ) {
-            best_ally_skill = ally_skill;
-            best_ally_index = i;
+        ally_skills.push_back( ally_skill );
+    }
+    std::sort( ally_skills.begin(), ally_skills.end(), [&]( std::pair<float, long> &lhs, std::pair<float, long> &rhs ) {
+        return rhs.first < lhs.first;
+    } );
+    int player_cos = bionic_manip_cos( player_skill, true, difficulty );
+    for( size_t i = 0; i < g->allies().size() ; i ++ ) {
+        if( ally_skills[ i ].first > player_skill ) {
+            const npc *e = g->allies()[ ally_skills[ i ].second ];
+            player &ally = *g->critter_by_id<player>( e->getID() );
+            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
+            if( e->has_effect( effect_sleep ) ) {
+                //~ %1$s is the name of the ally
+                if( !g->u.query_yn( string_format( _( "%1$s is asleep, but has a %2$d chance of success compared to your %3$d chance of success.  Continue with a higher risk of failure?" ), ally.disp_name(), ally_cos, player_cos ) ) ) {
+                     return null_player;
+                } else {
+                     continue;
+                }
+            }
+            //~ %1$s is the name of the ally
+            add_msg( _( "%1$s will perform the operation with a %2$d chance of success." ), ally.disp_name(), ally_cos );
+            return ally;
+        } else {
+            break;
         }
     }
-    if( best_ally_skill > player_skill ) {
-        return *g->critter_by_id<player>( g->allies()[ best_ally_index ]->getID() );
-    }
+
     return p;
 }
 
@@ -3538,7 +3558,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     bool adjacent_couch = false;
     static player null_player;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch );
-    player &installer = best_installer( p );
 
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
@@ -3602,9 +3621,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            //~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient name
-            add_msg( _( "%1$s prepares to install the %2$s on %3$s." ), installer.name,
-                     it->display_name().c_str(), patient.name );
             if( patient.has_bionic( bid ) ) {
                 //~ %1$s is patient name
                 popup_player_or_npc( patient, _( "You have already installed this bionic."  ),
@@ -3627,6 +3643,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     return;
                 }
             }
+            player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
+            if( &installer == &null_player ) {
+                return;
+            }
+
+            //~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient name
+            add_msg( _( "%1$s prepares to install the %2$s on %3$s." ), installer.name,
+                     it->display_name().c_str(), patient.name );
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
@@ -3678,6 +3702,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
+
+            player &installer = best_installer( p, null_player, difficulty );
+            if( &installer == &null_player ) {
+                return;
+            }
+
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
