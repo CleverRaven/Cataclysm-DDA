@@ -2218,7 +2218,7 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "bone_human",
     "copy-from": "bone",
     "name": "human bone",
