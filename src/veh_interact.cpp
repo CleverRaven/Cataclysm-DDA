@@ -174,6 +174,8 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action("TIRE_CHANGE");
     main_context.register_action("ASSIGN_CREW");
     main_context.register_action("RELABEL");
+    main_context.register_action("PREV_TAB");
+    main_context.register_action("NEXT_TAB");
     main_context.register_action("FUEL_LIST_DOWN");
     main_context.register_action("FUEL_LIST_UP");
     main_context.register_action("DESC_LIST_DOWN");

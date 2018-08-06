@@ -139,7 +139,7 @@
           { "item": "lab_pants", "chance": 10 }
         ]
       },
-      "b": { 
+      "b": {
         "items": [ { "item": "bed", "chance": 50 } ]
       },
       "]": {
