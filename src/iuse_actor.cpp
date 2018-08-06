@@ -376,9 +376,9 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 
     dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
     const auto &sd = explosion.shrapnel;
-    if( sd.count > 0 ) {
-        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
-        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
+    if( sd.casing_mass > 0 ) {
+        dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), "", sd.casing_mass );
+        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), "", sd.fragment_mass );
     }
 }
 
@@ -2717,9 +2717,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+            if( fix.precise_damage() > 1 ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+            } else {
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
+            }
             handle_components( pl, fix, false, false );
-            fix.mod_damage( -1 );
+            fix.set_damage( std::max( fix.precise_damage() - 1, 0. ) );
             return AS_SUCCESS;
         }
 
@@ -3472,7 +3476,8 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
         return ret_val<bool>::make_failure();
     }
 
-    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) ) {
+    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
+        !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     }
 
@@ -3624,7 +3629,13 @@ long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
     }
 
-    p.mod_hunger( m_category.mutagen_hunger * mut_count );
+    if( m_category.mutagen_hunger * mut_count + p.get_hunger() > 300 ) {
+        // in this case starvation is directly updated
+        p.mod_starvation( m_category.mutagen_hunger * mut_count - ( 300 - p.get_hunger() ) );
+        p.set_hunger( 300 );
+    } else {
+        p.mod_hunger( m_category.mutagen_hunger * mut_count ) ;
+    }
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
 

@@ -21,6 +21,7 @@
 #include "vehicle_selector.h"
 #include "veh_interact.h"
 #include "item_search.h"
+#include "item_location.h"
 #include "string_input_popup.h"
 
 #include <map>
@@ -1015,7 +1016,32 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     } else {
                         wprintw( w_pickup, " - " );
                     }
-                    std::string item_name = this_item.display_name( stacked_here[true_it].size() );
+                    std::string item_name;
+                    if( stacked_here[true_it].begin()->_item.ammo_type() == "money" ) {
+                        //Count charges
+                        //TODO: transition to the item_location system used for the inventory
+                        unsigned long charges_total = 0;
+                        for( const auto item : stacked_here[true_it] ) {
+                            charges_total += item._item.charges;
+                        }
+                        //Picking up none or all the cards in a stack
+                        if( !getitem[true_it].pick || getitem[true_it].count == 0 ) {
+                            item_name = stacked_here[true_it].begin()->_item.display_money( stacked_here[true_it].size(),
+                                        charges_total );
+                        } else {
+                            unsigned long charges = 0;
+                            int c = getitem[true_it].count;
+                            for( auto it = stacked_here[true_it].begin(); it != stacked_here[true_it].end() &&
+                                 c > 0; ++it, --c ) {
+                                charges += it->_item.charges;
+                            }
+                            item_name = string_format( _( "%s of %s" ),
+                                                       stacked_here[true_it].begin()->_item.display_money( getitem[true_it].count, charges ),
+                                                       format_money( charges_total ) );
+                        }
+                    } else {
+                        item_name = this_item.display_name( stacked_here[true_it].size() );
+                    }
                     if( stacked_here[true_it].size() > 1 ) {
                         item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name.c_str() );
                     }

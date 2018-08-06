@@ -27,8 +27,10 @@
       ",": "t_floor_blue",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
-      "+": "t_door_metal_c",
-      "D": "t_door_metal_locked",
+      "+": "t_door_glass_frosted_c",
+      "W": "t_door_c",
+      "M": "t_door_metal_c",
+      "L": "t_door_metal_locked",
       "#": "t_rock"
     },
     "toilets": {
@@ -139,7 +141,7 @@
           { "item": "lab_pants", "chance": 10 }
         ]
       },
-      "b": { 
+      "b": {
         "items": [ { "item": "bed", "chance": 50 } ]
       },
       "]": {

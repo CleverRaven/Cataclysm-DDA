@@ -31,6 +31,7 @@
 - ```BLIND_EASY``` Easy to craft with little to no light
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 
 ## Furniture & Terrain
 
@@ -922,6 +923,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
+- ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM and it can be installed on an NPC.
 
 ## Books
 

@@ -15320,7 +15320,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_o",
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 2115,
           "bg": 652,
           "rotates": false
@@ -21168,7 +21168,7 @@
           "fg": 2112
         },
         {
-          "id": "t_door_glass_c",
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "fg": 2114,
           "rotates": false
         },
