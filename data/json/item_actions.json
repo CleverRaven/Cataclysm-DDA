@@ -10,7 +10,7 @@
     },{
         "type" : "item_action",
         "id" : "SEW_ADVANCED",
-        "name" : "Modify Clothing"
+        "name" : "Modify clothing"
     },{
         "type" : "item_action",
         "id" : "firestarter",
@@ -338,7 +338,7 @@
     },{
         "type" : "item_action",
         "id" : "FILL_PIT",
-        "name" : "Fill pit / tamp ground"
+        "name" : "Fill pit/tamp ground"
     },{
         "type" : "item_action",
         "id" : "FIRECRACKER",
@@ -722,7 +722,7 @@
     },{
         "type" : "item_action",
         "id" : "consume_drug",
-        "name" : "Consume"
+        "name" : "Take"
     },{
         "type" : "item_action",
         "id" : "delayed_transform",
@@ -787,7 +787,7 @@
     {
         "type" : "item_action",
         "id" : "CHOP_LOGS",
-        "name" : "Chop a Tree Trunk into logs"
+        "name" : "Chop a tree trunk into logs"
     },
     {
         "type" : "item_action",
