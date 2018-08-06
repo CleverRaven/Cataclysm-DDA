@@ -1847,5 +1847,23 @@
     {
         "type": "effect_type",
         "id": "antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "strong_antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "panacea",
+        "name": [ "Panacea" ],
+        "desc": [ "You feel incredible! You could take on the world!" ],
+        "max_duration": 10,
+        "base_mods": {
+            "speed_mod": [20],
+            "str_mod": [2],
+            "dex_mod": [2],
+            "int_mod": [2],
+            "per_mod": [2]
+        }
     }
 ]
