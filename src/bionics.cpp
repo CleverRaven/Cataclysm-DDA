@@ -774,14 +774,18 @@ void player::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( std::string installer_name )
+void player::bionics_uninstall_failure( player &installer )
 {
     switch( rng( 1, 5 ) ) {
         case 1:
-            add_msg( m_neutral, _( "%s flub the removal." ), installer_name );
+            installer.add_msg_player_or_npc( m_neutral,
+                                             _( "You flub the removal." ),
+                                             _( "<npcname> flubs the removal." ) );
             break;
         case 2:
-            add_msg( m_neutral, _( "%s mess up the removal." ), installer_name );
+            installer.add_msg_player_or_npc( m_neutral,
+                                              _( "You mess up the removal." ),
+                                              _( "<npcname> messes up the removal." ) );
             break;
         case 3:
             add_msg( m_neutral, _( "The removal fails." ) );
@@ -790,7 +794,9 @@ void player::bionics_uninstall_failure( std::string installer_name )
             add_msg( m_neutral, _( "The removal is a failure." ) );
             break;
         case 5:
-            add_msg( m_neutral, _( "%s screw up the removal." ), installer_name );
+            installer.add_msg_player_or_npc( m_neutral,
+                                              _( "You screw up the removal." ),
+                                              _( "<npcname> screws up the removal." ) );
             break;
     }
     add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
@@ -954,7 +960,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
                               pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                               bionics[b_id].name.c_str() );
         }
-        bionics_uninstall_failure( installer.disp_name() );
+        bionics_uninstall_failure( installer );
     }
     g->refresh_all();
     return true;
@@ -1011,7 +1017,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         }
     }
 
-    // Practice skills only if conducting manual self-installation
+    // Practice skills only if conducting manual installation
     if( !autodoc ) {
         installer.practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
         installer.practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
@@ -1075,10 +1081,14 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
 
     switch( rng( 1, 5 ) ) {
         case 1:
-            add_msg( m_neutral, _( "%s flub the installation." ), installer.disp_name() );
+            installer.add_msg_player_or_npc( m_neutral,
+                                             _( "You flub the installation." ),
+                                             _( "<npcname> flubs the installation." ) );
             break;
         case 2:
-            add_msg( m_neutral, _( "%s mess up the installation." ), installer.disp_name() );
+            installer.add_msg_player_or_npc( m_neutral,
+                                             _( "You mess up the installation." ),
+                                             _( "<npcname> messes up the installation." ) );
             break;
         case 3:
             add_msg( m_neutral, _( "The installation fails." ) );
@@ -1087,7 +1097,9 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             add_msg( m_neutral, _( "The installation is a failure." ) );
             break;
         case 5:
-            add_msg( m_neutral, _( "%s screw up the installation." ), installer.disp_name() );
+            installer.add_msg_player_or_npc( m_neutral,
+                                             _( "You screw up the installation." ),
+                                             _( "<npcname> screws up the installation." ) );
             break;
     }
 

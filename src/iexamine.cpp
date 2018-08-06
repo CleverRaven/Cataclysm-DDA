@@ -3530,7 +3530,7 @@ player &best_installer( player &p, player &null_player, int difficulty )
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 //~ %1$s is the name of the ally
-                if( !g->u.query_yn( string_format( _( "%1$s is asleep, but has a %2$d chance of success compared to your %3$d chance of success.  Continue with a higher risk of failure?" ), ally.disp_name(), ally_cos, player_cos ) ) ) {
+                if( !g->u.query_yn( string_format( _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ), ally.disp_name(), ally_cos, player_cos ) ) ) {
                      return null_player;
                 } else {
                      continue;
@@ -3594,13 +3594,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     amenu.query();
 
-    auto popup_player_or_npc = []( player &pat, const std::string player_str, const std::string npc_str ) {
-        if( pat.is_player() ) {
-            popup( player_str, PF_NONE );
-        } else {
-            popup( string_format( npc_str, pat.disp_name() ), PF_NONE );
-       }
-    };
     switch( static_cast<options>( amenu.ret ) ) {
         case INSTALL_CBM: {
             const item_location bionic = g->inv_map_splice( []( const item &e ) {
@@ -3616,8 +3609,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const bionic_id &bid = itemtype->bionic->id;
 
             if( patient.is_npc() && !bid->npc_usable ) {
-                //~ %2$s is the bionic CBM display name, %2$s is the patient name
-                popup( _( "%1$s cannot be installed on npc %2$s"), it->display_name().c_str(), patient.name );
+                //~ %1$s is the bionic CBM display name, %2$s is the patient name
+                popup( _( "%1$s cannot be installed on %2$s"), it->display_name().c_str(), patient.name );
                 return;
             }
 
