@@ -741,9 +741,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         }
         // field dressing ignores everything outside below list
         if( action == F_DRESS ) {
-            if( entry.drop == "stomach" || entry.drop == "stomach_large" || entry.drop == "hstomach" || entry.drop == "hstomach_large" || entry.drop == "offal" ) {
-                roll = roll;
-            }
             if( entry.drop != "bone" ) {
                  roll = rng( 0, roll / 2 );
             }
