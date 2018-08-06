@@ -82,7 +82,7 @@
     },{
         "type" : "item_action",
         "id" : "METH",
-        "name" : "Smoke/snort meth"
+        "name" : "Smoke/snort"
     },{
         "type" : "item_action",
         "id" : "TAZER",
@@ -90,7 +90,7 @@
     },{
         "type" : "item_action",
         "id" : "ANTICONVULSANT",
-        "name" : "Take anticonvulsant"
+        "name" : "Take"
     },{
         "type" : "item_action",
         "id" : "LUMBER",
