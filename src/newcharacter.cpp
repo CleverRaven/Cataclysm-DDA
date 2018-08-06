@@ -181,8 +181,10 @@ enum struct tab_direction {
 tab_direction set_points( const catacurses::window &w, player &u, points_left &points );
 tab_direction set_stats( const catacurses::window &w, player &u, points_left &points );
 tab_direction set_traits( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points );
+tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points,
+                            const tab_direction direction );
+tab_direction set_profession( const catacurses::window &w, player &u, points_left &points, 
+                              const tab_direction direction );
 tab_direction set_skills( const catacurses::window &w, player &u, points_left &points );
 tab_direction set_description( const catacurses::window &w, player &u, bool allow_reroll, points_left &points );
 
@@ -482,6 +484,7 @@ bool player::create(character_type type, const std::string &tempname)
     };
 
     const bool allow_reroll = type == PLTYPE_RANDOM;
+    tab_direction result = tab_direction::QUIT;
     do {
         if( !w ) {
             // assert( type == PLTYPE_NOW );
@@ -494,16 +497,15 @@ bool player::create(character_type type, const std::string &tempname)
         }
         werase( w );
         wrefresh( w );
-        tab_direction result = tab_direction::QUIT;
         switch( tab ) {
             case 0:
                 result = set_points     ( w, *this, points );
                 break;
             case 1:
-                result = set_scenario   ( w, *this, points );
+                result = set_scenario   ( w, *this, points, result );
                 break;
             case 2:
-                result = set_profession ( w, *this, points );
+                result = set_profession ( w, *this, points, result );
                 break;
             case 3:
                 result = set_traits     ( w, *this, points );
@@ -1309,8 +1311,9 @@ struct {
     }
 } profession_sorter;
 
-/** Handle the profession tab of teh character generation menu */
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points )
+/** Handle the profession tab of the character generation menu */
+tab_direction set_profession( const catacurses::window &w, player &u, points_left &points, 
+                              const tab_direction direction )
 {
     draw_tabs( w, _("PROFESSION") );
     int cur_id = 0;
@@ -1341,6 +1344,10 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
     int profs_length = 0;
     std::string filterstring;
     std::vector<string_id<profession>> sorted_profs;
+
+    if( direction == tab_direction::FORWARD ) {
+        points.skill_points -= u.prof->point_cost();
+    }
 
     do {
         if (recalc_profs) {
@@ -1826,7 +1833,8 @@ struct {
     }
 } scenario_sorter;
 
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points, 
+                            const tab_direction direction )
 {
     draw_tabs( w, _("SCENARIO") );
 
@@ -1857,6 +1865,10 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
     int scens_length = 0;
     std::string filterstring;
     std::vector<const scenario *> sorted_scens;
+
+    if( direction == tab_direction::BACKWARD ) {
+        points.skill_points += u.prof->point_cost();
+    }
 
     do {
         if (recalc_scens) {
@@ -2002,10 +2014,12 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
         const auto permitted = sorted_scens[cur_id]->permitted_professions();
         const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
         const int prof_points = default_prof->point_cost();
-        wprintz( w_profession, prof_points > 0 ? c_green : c_light_gray,
+        wprintz( w_profession, c_light_gray, 
                  default_prof->gender_appropriate_name( u.male ).c_str() );
         if ( prof_points > 0 ) {
-            wprintz(w_profession, c_green, " (+%d)", prof_points);
+            wprintz(w_profession, c_red, " (-%d)", prof_points);
+        } else if( prof_points < 0 ) {
+            wprintz(w_profession, c_green, " (+%d)", -prof_points);
         }
 
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
