@@ -1156,6 +1156,7 @@ public:
     void operate_plow();
     void operate_rockwheel();
     void add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector<std::function<void()>> &actions, const std::string &name, char key, const std::string &flag );
+    void set_electronics_menu_options( std::vector<uimenu_entry> &options, std::vector<std::function<void()>> &actions );
     //main method for the control of multiple electronics
     void control_electronics();
     //main method for the control of individual engines
