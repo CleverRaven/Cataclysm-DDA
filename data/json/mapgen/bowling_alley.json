@@ -166,7 +166,7 @@
             "| ####     r    =  =   |",
             "|r   #c   &| GSSGSSGSSG|",
             "|r   #     | GSSGSSGSSG|",
-            "|r   #c    | GSSGSSGSSG|",
+            "|r  s#c    | GSSGSSGSSG|",
             "|-+--|     | GSSGSSGSSG|",
             "|F  r|     | GSSGSSGSSG|",
             "|F  r|+-|+-| GSSGSSGSSG|",
@@ -195,6 +195,7 @@
             "c": "t_floor",
             "l": "t_floor",
             "r": "t_floor",
+            "s": "t_floor",
             "t": "t_floor",
             "y": "t_pavement_y",
             "|": "t_wall"
@@ -210,6 +211,7 @@
             "c": "f_chair",
             "l": "f_vending_c",
             "r": "f_rack",
+            "s": "f_stool",
             "t": "f_table"
           },
           "toilets": {

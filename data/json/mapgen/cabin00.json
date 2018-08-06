@@ -17,7 +17,7 @@
         "|......................|",
         "|......................|",
         "|..######+###ww######..|",
-        "|..# RRR        DBBD#..|",
+        "|..# RRR   Y    DBBD#..|",
         "|..# RSR         BB #..|",
         "|..# rrr            #..|",
         "|..#                #..|",
@@ -45,6 +45,7 @@
         ".": "t_grass",
         "G": "t_fencegate_c",
         "R": "t_rock",
+        "Y": "t_floor",
         "W": "t_window_boarded",
         "r": "t_rock_floor",
         "w": "t_window_domestic",
@@ -56,9 +57,13 @@
         "D": "f_dresser",
         "L": "f_locker",
         "O": "f_sofa",
+        "Y": "f_rack_coat",
         "c": "f_chair",
         "t": "f_table"
       },
+      "items": { 
+		"Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
+	  },
       "place_items": [
         { "item": "livingroom", "x": [ 4, 8 ], "y": [ 13, 18 ], "chance": 60 },
         { "item": "dining", "x": [ 11, 12 ], "y": [ 14, 15 ], "chance": 60 },

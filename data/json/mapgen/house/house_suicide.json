@@ -9,7 +9,7 @@
       "rows": [
         "............ss..........",
         "............ss..........",
-        "............ss..........",
+        "...........pss..........",
         "..--vv--vv--ss......#...",
         "..-        -ss..........",
         "..v  hnnh  vsssssss.....",
@@ -36,6 +36,7 @@
         "#": "t_shrub",
         "+": "t_door_c",
         "-": "t_wall",
+        "p": "t_grass",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         ";": "t_door_locked",
         "L": "t_door_locked_interior",
@@ -48,6 +49,7 @@
         "@": "f_bed",
         "B": "f_bathtub",
         "O": "f_oven",
+        "p": "f_mailbox",
         "P": "f_indoor_plant",
         "S": "f_sink",
         "c": "f_counter",
@@ -62,6 +64,9 @@
       "toilets": {
         "t": {}
       },
+      "items": { 
+		"p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+	  },
       "place_loot": [
         { "group": "dresser", "x": [ 18, 18 ], "y": [ 20, 20 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "group": "dresser", "x": [ 20, 20 ], "y": [ 8, 8 ], "chance": 80, "repeat": [ 1, 4 ] },
