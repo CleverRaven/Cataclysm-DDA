@@ -1882,19 +1882,17 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
     if( ( g->m.furn( examp ) == f_plant_harvest || seed.get_var( "can_be_harvested", 0 ) ) &&
         query_yn( _( "Harvest the %s?" ), pname.c_str() ) ) {
         const std::string &seedType = seed.typeId();
-        if( seedType == "fungal_seeds" ) {
-            fungus( p, examp );
-            g->m.i_clear( examp );
-        } else if( seedType == "marloss_seed" ) {
-            fungus( p, examp );
-            g->m.i_clear( examp );
-            if( p.has_trait( trait_M_DEPENDENT ) && ( ( p.get_hunger() > 500 ) || p.get_thirst() > 300 ) ) {
-                g->m.ter_set( examp, t_marloss );
-                add_msg( m_info,
-                         _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
-            } else if( ( p.has_trait( trait_M_DEFENDER ) ) || ( ( p.has_trait( trait_M_SPORES ) ||
-                       p.has_trait( trait_M_FERTILE ) ) &&
-                       one_in( 2 ) ) ) {
+        if (seedType == "fungal_seeds") {
+            fungus(p, examp);
+            g->m.i_clear(examp);
+        } else if (seedType == "marloss_seed") {
+            fungus(p, examp);
+            g->m.i_clear(examp);
+            if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
+                g->m.ter_set(examp, t_marloss);
+                add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
+            } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
+                one_in(2)) ) {
                 g->summon_mon( mon_fungal_blossom, examp );
                 add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
             } else if( ( p.has_trait( trait_THRESH_MYCUS ) ) || one_in( 4 ) ) {

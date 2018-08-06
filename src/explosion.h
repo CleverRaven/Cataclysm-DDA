@@ -9,8 +9,8 @@ using itype_id = std::string;
 class JsonObject;
 
 struct shrapnel_data {
-    int count           = 0;
-    int mass            = 10;
+    int casing_mass = 0;
+    float fragment_mass = 0.05;
     // Percentage
     int recovery        = 0;
     itype_id drop       = "null";

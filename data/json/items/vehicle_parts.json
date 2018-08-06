@@ -270,6 +270,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "electronics_controls",
+        "name" : "electronics control unit",
+        "description" : "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
+        "weight" : 1311,
+        "to_hit" : -4,
+        "color" : "cyan",
+        "symbol" : "$",
+        "material" : ["plastic"],
+        "volume" : 6,
+        "bashing" : 1,
+        "category" : "veh_parts",
+        "price" : 4000
+    },
+    {
+        "type":"GENERIC",
         "id" : "motor",
         "name" : "electric motor",
         "description" : "A powerful electric motor.  Useful for crafting.",

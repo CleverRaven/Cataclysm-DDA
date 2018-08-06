@@ -680,12 +680,13 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ],
 "explode_in_fire" : true,         // Should the item explode if set on fire
 "explosion": {                    // Physical explosion data
-    "power" : 10,                 // Measure of explosion power, affects damage and range
+    "power" : 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
     "distance_factor" : 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
     "fire" : true,                // Should the explosion leave fire
+    "shrapnel": 200,              // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel" : {
-        "count" : 10,             // Number of shrapnel pieces
-        "mass" : 10,              // Mass of shrapnel pieces. Affects armor piercing and terrain smashing.
+        "casing_mass" : 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
+        "fragment_mass" : 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
         "recovery" : 10,          // Percentage chance to drop an item at landing point.
         "drop" : "nail"           // Which item to drop at landing point.
     }

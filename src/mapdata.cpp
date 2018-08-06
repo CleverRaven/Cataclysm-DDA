@@ -455,7 +455,7 @@ ter_id t_null,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-    t_door_glass_c, t_door_glass_o,
+    t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
@@ -617,6 +617,8 @@ void set_ter_ids() {
     t_door_bar_locked = ter_id( "t_door_bar_locked" );
     t_door_glass_c = ter_id( "t_door_glass_c" );
     t_door_glass_o = ter_id( "t_door_glass_o" );
+    t_door_glass_frosted_c = ter_id( "t_door_glass_frosted_c" );
+    t_door_glass_frosted_o = ter_id( "t_door_glass_frosted_o" );
     t_portcullis = ter_id( "t_portcullis" );
     t_recycler = ter_id( "t_recycler" );
     t_window = ter_id( "t_window" );
