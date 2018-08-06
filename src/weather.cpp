@@ -109,15 +109,9 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
 
     /*
     1L = 10 units of water
-    One plant tile will absorb 50 L/week ( 0.3 L/hour, 650 L/season )
+    One plant tile will absorb 33 L/week ( 0.2 L/hour, 430 L/season )
     Precipitation is 300 L/season
-    Watering once per week is recommended for the best results
-
-    Common IRL watering is 50L per week per square meter.
-
-    Per season plant will have -2000 health without watering,
-    -4300 health without watering and weed control,
-    +4300 health is possible for the best conditions.
+    Watering and weed control once per week is recommended for the best results
     */
     int water_max = 500;
 
@@ -138,11 +132,12 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
         int temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) );
 
         // Plants will not start to grow if the temperature is too cold
-        if ( temperature < 40 && !growing_was_started )
+        if( temperature < 40 && !growing_was_started ) {
             continue;
+        }
 
         // Start growing and reset health
-        if ( temperature > 40 && !growing_was_started ) {
+        if( temperature > 40 && !growing_was_started ) {
             growing_was_started = true;
             health = 0;
         }
@@ -153,7 +148,7 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
             temperature_coeff = 1.0f;
         } else if( temperature > 32 ) {
             temperature_coeff = ( temperature - 32 ) / 38.0f;
-        } else if ( temperature < 23 ) {
+        } else if( temperature < 23 ) {
             // Freezing will kill the plant or reset fruit grow for perennial plants
             if( is_mature ) {
                 seed.set_var( "growing_was_started", 0 );
@@ -172,7 +167,7 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
         }
 
         // Low temperature damage the plant unless plant is mushroom or mature perennial
-        if( !seed.is_warm_enought() && !is_mature && !is_mushroom ) {
+        if( !seed.is_warm_enought( temperature ) && !is_mature && !is_mushroom ) {
             health -= 2;
         }
 
@@ -183,8 +178,8 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
         }
 
         // Absorb water
-        water -= roll_remainder( 3.0f * water_requirement );
-        if ( water <= 0 ){
+        water -= roll_remainder( 2.0f * water_requirement );
+        if( water <= 0 ) {
             health -= 1;
         }
 
@@ -206,8 +201,8 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
 
         // Air temperature above 80F(26C) increase water consumption
         if( temperature > 80 ) {
-            water -= roll_remainder( 5.0f * water_requirement ) ;
-            if ( water <= 0 ) {
+            water -= roll_remainder( 3.0f * water_requirement ) ;
+            if( water <= 0 ) {
                 health -= 2;
             }
         }
@@ -217,21 +212,21 @@ time_duration get_crops_grow_since( const time_point &start, const time_point &e
             if( weed == weed_max ) {
                 health -= roll_remainder( 2.0f * weed_susceptibility ) ;
                 fertilizer -= 2;
-                water -= 6;
+                water -= 4;
             } else {
                 weed += roll_remainder( 1.0f / calendar::season_ratio() );
-                if( one_in( weed_max - weed) ){
-                        health -= roll_remainder( 1.0f * weed_susceptibility ) ;
-                        fertilizer -= 1;
-                        water -= 3;
+                if( one_in( weed_max - weed ) ) {
+                    health -= roll_remainder( 1.0f * weed_susceptibility ) ;
+                    fertilizer -= 1;
+                    water -= 2;
                 }
             }
         }
 
-        water = std::max( water , -water_max );
-        water = std::min( water , water_max );
-        fertilizer = std::max( fertilizer , 0 );
-        weed = std::min( weed , weed_max );
+        water = std::max( water, -water_max );
+        water = std::min( water, water_max );
+        fertilizer = std::max( fertilizer, 0 );
+        weed = std::min( weed, weed_max );
 
         seed.set_var( "health", health );
         seed.set_var( "water", water );
