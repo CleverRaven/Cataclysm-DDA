@@ -60,6 +60,12 @@
     "info": "Illuminated items in this space will not illuminate nearby squares."
   },
   {
+    "id": "CURTAIN",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Closed, it prevents people from seeing through the curtain.  A door motor allows you to remotely open or close it from the vehicle controls."
+  },
+  {
     "id": "DOOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],

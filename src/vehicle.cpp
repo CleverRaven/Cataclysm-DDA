@@ -1689,7 +1689,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
 
     // curtains must be installed on (reinforced)windshields
     // TODO: do this automatically using "location":"on_mountpoint"
-    if (part.has_flag("CURTAIN")) {
+    if ( part.has_flag( "WINDOW_CURTAIN" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "WINDOW" ) ) {
