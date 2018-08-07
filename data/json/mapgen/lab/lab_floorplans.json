@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "|----------..----------|",
         "|         |..|         |",
@@ -40,7 +40,7 @@
         "^": "f_rubble"
       },
       "terrain": {
-        "^": "t_rock_floor"
+        "^": "t_thconc_floor"
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
@@ -280,7 +280,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "       |       |       |",
         "       |       |       |",
@@ -333,7 +333,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
@@ -400,7 +400,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
@@ -470,7 +470,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
@@ -534,7 +534,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rotation": [ 0, 3 ],
       "rows": [
         "...!....!......!.....rrr",
@@ -570,7 +570,7 @@
       },
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ],
-        "!": [ "t_rock_floor", "t_rock_floor", "t_console_broken", "t_generator_broken"],
+        "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken"],
         "C": "t_centrifuge"
       },
       "mapping": {
@@ -646,7 +646,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "........................",
         ".......................l",
@@ -700,7 +700,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ".......D...............l",
         ".......D...............l",
@@ -794,7 +794,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "..cccccc.|...|,,,|..|,,,",
         "c........|...|,,,|.6|,,,",
@@ -877,7 +877,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,|..|.....|.........",
         ",,,,,|7.|.....|..cxcC...",
@@ -958,7 +958,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ".....|...........f.rrrrr",
         ".lll.|...........f......",
@@ -1041,7 +1041,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "terrain": {
-        "X": "t_rock_floor"
+        "X": "t_thconc_floor"
       },
        "furniture": {
         "X": ["f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ]
@@ -1065,7 +1065,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "#########|....|#########",
         "#|-|-|###|....|###|-|---",
@@ -1130,7 +1130,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "........................",
         "........................",
@@ -1196,7 +1196,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 1 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "BB|FFFt.|`````|.tFFF|BB|",
         "..+...F.w`````w.F...+..|",
