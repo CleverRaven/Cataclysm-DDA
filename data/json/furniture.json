@@ -2191,7 +2191,6 @@
             "furn_set": "f_vending_o",
             "items": [
                 { "item": "glass_shard", "count": [1, 3] },
-                { "item": "reinforced_glass_pane", "count": [0, 1] },
                 { "item": "sheet_metal", "count": [0, 2] },
                 { "item": "steel_chunk", "count": [1, 5] }
             ]
