@@ -85,9 +85,7 @@
         "n": "f_table",
         "o": "f_bookcase"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "items": { 
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
         "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }

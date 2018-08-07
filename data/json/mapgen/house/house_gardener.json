@@ -94,10 +94,7 @@
         "r": "f_rack"
       },
       "toilets": { "t": {  } },
-      "items": { 
-        "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
-	  },
+      "items": { "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] }, "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] } },
       "place_loot": [
         { "group": "hydro", "x": [ 5, 5 ], "y": [ 16, 20 ], "chance": 90, "repeat": [ 1, 7 ] },
         { "group": "hydro", "x": [ 7, 7 ], "y": [ 16, 20 ], "chance": 90, "repeat": [ 1, 7 ] },

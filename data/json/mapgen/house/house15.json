@@ -107,7 +107,7 @@
         "n": "f_table",
         "o": "f_bookcase"
       },
-      "toilets": { "t": {  } },
+      "toilets": { "t": { } },
       "place_loot": [
         { "group": "dresser", "x": [ 2, 2 ], "y": [ 17, 17 ], "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "cleaning", "x": [ 18, 19 ], "y": [ 16, 16 ], "chance": 90, "repeat": [ 1, 2 ] },

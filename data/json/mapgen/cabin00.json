@@ -61,9 +61,7 @@
         "c": "f_chair",
         "t": "f_table"
       },
-      "items": { 
-        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
-	  },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "livingroom", "x": [ 4, 8 ], "y": [ 13, 18 ], "chance": 60 },
         { "item": "dining", "x": [ 11, 12 ], "y": [ 14, 15 ], "chance": 60 },

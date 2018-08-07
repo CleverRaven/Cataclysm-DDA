@@ -217,9 +217,7 @@
         "w": "f_washer",
         "{": "f_bookcase"
       },
-      "items": { 
-        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }
-	  },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "bed", "x": 12, "y": 16, "chance": 70 },
         { "item": "bed", "x": 11, "y": 17, "chance": 90 },

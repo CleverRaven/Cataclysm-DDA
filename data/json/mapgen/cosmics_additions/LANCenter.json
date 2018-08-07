@@ -21,9 +21,7 @@
         "{": "f_fridge",
         "|": "f_null"
       },
-      "items": {
-        "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 }
-      },
+      "items": { "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 } },
       "place_items": [
         { "chance": 75, "item": "vending_drink_items", "x": 12, "y": 9 },
         { "chance": 75, "item": "fridge", "x": 10, "y": 9 },
@@ -110,9 +108,7 @@
         "{": "f_glass_fridge",
         "|": "f_null"
       },
-      "items": {
-        "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 }
-      },
+      "items": { "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 } },
       "place_items": [
         { "chance": 45, "item": "fridge", "x": 20, "y": 20 },
         { "chance": 50, "item": "vending_food_items", "x": 14, "y": 20 },

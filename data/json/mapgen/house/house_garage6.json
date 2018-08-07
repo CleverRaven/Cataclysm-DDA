@@ -107,9 +107,7 @@
         "o": "f_bookcase",
         "p": "f_indoor_plant"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "items": { 
         "w": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
