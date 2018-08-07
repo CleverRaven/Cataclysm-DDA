@@ -33,7 +33,6 @@ data/json/items/archery.json
 data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
-data/json/items/armor.json
 data/json/items/chemicals_and_resources.json
 data/json/items/comestibles/brewing.json
 data/json/items/comestibles/carnivore.json
