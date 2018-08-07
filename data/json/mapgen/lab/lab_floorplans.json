@@ -269,8 +269,8 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_terrain": [
-        { "ter": "t_door_metal_c", "x": 0, "y": 0 },
-        { "ter": "t_door_metal_c", "x": 1, "y": 0 }
+        { "ter": "t_door_glass_frosted_c", "x": 0, "y": 0 },
+        { "ter": "t_door_glass_frosted_c", "x": 1, "y": 0 }
       ]
     }
   },
@@ -311,7 +311,7 @@
         "lab_palette"
       ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_door_metal_c", "t_door_metal_c"]
+        "?": [ "t_concrete_wall", "t_door_glass_frosted_c", "t_door_glass_frosted_c"]
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 0, "y": 0 },
@@ -369,7 +369,7 @@
         "H": [ "f_armchair" ]
       },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
         "g": [ "t_wall_glass"]
       },
       "mapping": {
@@ -436,7 +436,7 @@
         "f": "f_null"
       },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
         "P": "t_generator_broken",
         "%": "t_machinery_heavy",
         "F": "t_chainfence_h",
@@ -506,7 +506,7 @@
         "f": "f_null"
       },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
         "=": "t_conveyor",
         "%": "t_machinery_heavy",
         "f": "t_chainfence_v",
@@ -569,7 +569,7 @@
         "f": "f_null"
       },
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ],
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
         "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken"],
         "C": "t_centrifuge"
       },
@@ -677,7 +677,7 @@
         "lab_palette", "lab_loot_home_office"
       ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
       },
       "mapping": {
         "t": {
@@ -740,7 +740,7 @@
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
         "M": "t_gates_control_concrete",
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c" ]
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
       },
       "mapping": {
         "X": {
