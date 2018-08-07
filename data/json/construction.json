@@ -1464,6 +1464,16 @@
         "pre_special" : "check_empty",
         "post_terrain" : "f_rack"
     },{
+        "type": "construction",
+        "description": "Build Coat Rack",
+        "category": "FURN",
+        "required_skills": [ [ "fabrication", 2 ] ],
+        "time": 25,
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
+        "pre_special": "check_empty",
+        "post_terrain": "f_rack_coat"
+    },{
         "type" : "construction",
         "description" : "Build Cupboard",
         "category" : "FURN",
@@ -1533,16 +1543,6 @@
         "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
         "pre_special": "check_empty",
         "post_terrain": "f_stool"
-    },{
-        "type": "construction",
-        "description": "Build Coat Rack",
-        "category": "FURN",
-        "required_skills": [ [ "fabrication", 2 ] ],
-        "time": 25,
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
-        "pre_special": "check_empty",
-        "post_terrain": "f_rack_coat"
     },{
         "type" : "construction",
         "description" : "Build Bench",
