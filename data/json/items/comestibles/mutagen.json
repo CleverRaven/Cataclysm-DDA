@@ -297,7 +297,7 @@
         "id" : "mutagen_jabberblood",
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
-        "name" : "jabberwock blood",
+        "name" : "congealed blood",
         "description": "A thick, soupy red liquid.  It looks and smells disgusting.",
         "color" : "red",
         "addiction_potential" : 0,
