@@ -2144,8 +2144,12 @@ void veh_interact::display_details( const vpart_info *part )
                         c_white, _("Charge: <color_light_gray>%s</color>"),
                         item::nname( part->fuel_type ).c_str() );
     }
-    if ( part->power != 0 ) {
-        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part->power );
+    int part_power = part->power;
+    if( part_power == 0 ) {
+        part_power = item( part->item ).engine_displacement();
+    }
+    if ( part_power != 0 ) {
+        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part_power );
     }
 
     // line 5 [vertical/hybrid] flags
