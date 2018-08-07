@@ -328,7 +328,7 @@ bool main_menu::opening_screen()
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["soundpackdir"] ) ) {
+    if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
         popup( _( "Unable to make sound directory. Check permissions." ) );
         return false;
     }
