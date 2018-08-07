@@ -2601,7 +2601,24 @@ void CheckMessages()
                     int len = strlen(ev.text.text);
                     if( len > 0 ) {
                         const unsigned lc = UTF8_getch( &c, &len );
-                        last_input = input_event( lc, CATA_INPUT_KEYBOARD );   
+                        last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+#ifdef __ANDROID__
+                        if (!android_is_hardware_keyboard_available()) {
+                            if (!is_string_input(touch_input_context) && !touch_input_context.allow_text_entry) {
+                                if (get_option<bool>("ANDROID_AUTO_KEYBOARD"))
+                                    SDL_StopTextInput();
+
+                                quick_shortcuts_t& qsl = quick_shortcuts_map[get_quick_shortcut_name(touch_input_context.get_category())];
+                                qsl.remove(last_input);
+                                add_quick_shortcut(qsl, last_input, false, true);
+                                refresh_display();
+                            }
+                            else if (lc == '\n' || lc == KEY_ESCAPE) {
+                                if (get_option<bool>("ANDROID_AUTO_KEYBOARD"))
+                                    SDL_StopTextInput();
+                            }
+                        }
+#endif
                     } else {
                         // no key pressed in this event
                         last_input = input_event();
@@ -2609,24 +2626,6 @@ void CheckMessages()
                     }
                     last_input.text = ev.text.text;
                     text_refresh = true;
-
-#ifdef __ANDROID__
-                    if (!android_is_hardware_keyboard_available()) {
-                        if (!is_string_input(touch_input_context) && !touch_input_context.allow_text_entry) {
-                            if (get_option<bool>("ANDROID_AUTO_KEYBOARD"))
-                                SDL_StopTextInput();
-
-                            quick_shortcuts_t& qsl = quick_shortcuts_map[get_quick_shortcut_name(touch_input_context.get_category())];
-                            qsl.remove(last_input);
-                            add_quick_shortcut(qsl, last_input, false, true);
-                            refresh_display();
-                        }
-                        else if (lc == '\n' || lc == KEY_ESCAPE) {
-                            if (get_option<bool>("ANDROID_AUTO_KEYBOARD"))
-                                SDL_StopTextInput();
-                        }
-                    }
-#endif
                 }
             break;
             case SDL_TEXTEDITING:
