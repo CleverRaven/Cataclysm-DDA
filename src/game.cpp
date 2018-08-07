@@ -7164,7 +7164,18 @@ bool pet_menu(monster *z)
     }
 
     if( milk == choice ) {
+        // pin the cow in place if it isn't already
+        bool temp_tie = !z->has_effect( effect_tied );
+        if( temp_tie ) {
+            z->add_effect( effect_tied, 1_turns, num_bp, true);
+        }
+
         monexamine::milk_source( *z );
+
+        if( temp_tie ) {
+            z->remove_effect( effect_tied );
+        }
+
         return true;
     }
 
@@ -9458,10 +9469,6 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } else if( source_pos != nullptr ) {
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
-            return true;
-        } else if( source_mon != nullptr ) {
-            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( u.activity, *source_mon, liquid );
             return true;
         } else {
             return false;
