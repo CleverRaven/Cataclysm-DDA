@@ -814,8 +814,18 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_tilesets
 
 std::vector<std::pair<std::string, std::string>> options_manager::build_soundpacks_list()
 {
+    // Search useer configuration direcotry for possible sound packs
+    auto config_soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+                                                             "soundpackdir", "soundpack-conf");
+    if( !config_soundpack_names.empty() ) {
+        return config_soundpack_names;
+    }
+
+    // Search standard directory for sound packs
     auto soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
                                                              "sounddir", "soundpack-conf");
+
+    // Select default built-in sound pack
     if( soundpack_names.empty() ) {
         soundpack_names.emplace_back( "basic", translate_marker( "Basic" ) );
     }
