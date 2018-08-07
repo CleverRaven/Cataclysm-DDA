@@ -482,7 +482,31 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"It's only a flesh wound!\"",
+    "sound": "\"Tis but a scratch!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Frankly, my dear, I don't give a damn.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"All work and no play makes Jack a dull boy.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Remember: all I'm offering is the truth.  Nothing more.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Don't call me Shirley.\"",
     "volume": 20
   },
   {
