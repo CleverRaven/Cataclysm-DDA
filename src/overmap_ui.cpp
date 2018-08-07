@@ -235,6 +235,9 @@ point draw_notes( int z )
                 // Print letter ('a' <=> cur_it == start)
                 mvwputch( w_notes, i + 2, 1, c_white, 'a' + i );
                 mvwprintz( w_notes, i + 2, 3, c_light_gray, "- %s", notes[cur_it].second.c_str() );
+#ifdef __ANDROID__
+                ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
+#endif
             }
             if( start >= maxitems ) {
                 mvwprintw( w_notes, maxitems + 2, 1, back_msg.c_str() );
