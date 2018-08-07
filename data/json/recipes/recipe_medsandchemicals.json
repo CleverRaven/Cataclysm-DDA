@@ -510,6 +510,16 @@
   ]
 },{
   "type" : "recipe",
+  "result": "mutagen_jabberblood", "//": "jabberwocks have a few of these pumping in them, and they can be crushed down for a lot of mutagen",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "autolearn": true,
+  "components": [ [ [ "jabberwock_heart", 1 ] ] ]
+},{
+  "type" : "recipe",
   "result": "iv_mutagen",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",

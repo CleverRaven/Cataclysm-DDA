@@ -88,5 +88,15 @@
       { "drop": "plant_sac", "base_num": [ 3, 6 ], "scale_num": [ 0.7, 0.9 ], "max": 10 },
       { "drop": "plant_fibre", "base_num": [ 4, 8 ], "scale_num": [ 0.5, 0.7 ], "max": 10 }
     ]
+  },
+  {
+    "id": "jabberwock",
+    "type": "harvest",
+    "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
+    "entries": [
+      { "drop": "meat_tainted", "base_num": [ 100, 130 ], "scale_num": [ 0.4, 0.5 ], "max": 150 },
+      { "drop": "fat_tainted", "base_num": [ 50, 80 ], "scale_num": [ 0.5, 0.7 ], "max": 90 },
+      { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3 }
+    ], "//": "what, you thought jabberwocks only had one heart?"
   }
 ]

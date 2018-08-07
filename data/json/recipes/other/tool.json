@@ -214,5 +214,18 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "wire", 4 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "teleporter",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "",
+    "difficulty": 1,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "wire", 4 ] ] ]
   }
 ]

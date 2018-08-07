@@ -1876,6 +1876,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "death_function": [ "JABBERWOCKY" ],
+    "harvest": "jabberwock",
     "flags": [
       "SEES",
       "HEARS",
