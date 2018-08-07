@@ -9659,16 +9659,12 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_
         break;
     case LD_KEG:
     case LD_GROUND:
-        add_msg( "filling a %s", target.dest_opt == LD_KEG ? "keg" : "ground" );
         if( create_activity() ) {
-            add_msg( "created a an activity" );
             serialize_liquid_target( u.activity, target.pos );
         } else {
             if( target.dest_opt == LD_KEG ) {
-                add_msg( "calling iexamine" );
                 iexamine::pour_into_keg( target.pos, liquid );
             } else {
-                add_msg( "calling add_item" );
                 m.add_item_or_charges( target.pos, liquid );
                 liquid.charges = 0;
             }
