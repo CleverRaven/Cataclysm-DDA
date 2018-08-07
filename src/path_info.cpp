@@ -80,7 +80,7 @@ void PATH_INFO::update_datadir()
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
-    update_pathname("sounddir", FILENAMES["datadir"] + "sound");
+    update_pathname("data_sound", FILENAMES["datadir"] + "sound");
 
     // Shared files
     update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
@@ -146,7 +146,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
     update_pathname("color_templates", FILENAMES["rawdir"] + "color_templates/");
-    update_pathname("sounddir", FILENAMES["datadir"] + "sound");
+    update_pathname("data_sound", FILENAMES["datadir"] + "sound");
 
     // Shared files
     update_pathname("title", FILENAMES["titledir"] + "en.title");

@@ -840,7 +840,7 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_soundpac
     }
 
     // Search data direcotry for sound packs
-    auto data_soundpacks = load_soundpack_from("sounddir");
+    auto data_soundpacks = load_soundpack_from("data_sound");
     result.insert(result.end(), data_soundpacks.begin(), data_soundpacks.end());
 
     // Select default built-in sound pack
