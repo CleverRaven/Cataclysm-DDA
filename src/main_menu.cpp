@@ -329,7 +329,7 @@ bool main_menu::opening_screen()
     }
 
     if( !assure_dir_exist( FILENAMES["soundpackdir"] ) ) {
-        popup( _( "Unable to make templates directory. Check permissions." ) );
+        popup( _( "Unable to make sound directory. Check permissions." ) );
         return false;
     }
 
