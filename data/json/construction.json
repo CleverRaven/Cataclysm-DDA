@@ -1137,7 +1137,7 @@
         ],
         "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_floor"
+        "post_terrain" : "t_floor_primitive"
     },{
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
