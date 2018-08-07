@@ -147,7 +147,7 @@
     "description": "A pouch for holding up to four full-sized grenades of various types.",
     "weight": 600,
     "volume": 5,
-    "price": 10000,
+    "price": 3000,
     "rigid": false,
     "material": "cotton",
     "symbol": "[",
