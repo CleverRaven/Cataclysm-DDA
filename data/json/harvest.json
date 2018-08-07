@@ -51,6 +51,19 @@
     ]
   },
   {
+    "id": "animal_medium",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "base_num": [ 8, 12 ], "scale_num": [ 0.8, 0.9 ], "max": 15 },
+      { "drop": "offal", "base_num": [ 3, 6 ], "scale_num": [ 0.5, 0.7 ], "max": 7 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "bone", "base_num": [ 10, 20 ], "scale_num": [ 0.8, 0.9 ], "max": 25 },
+      { "drop": "sinew", "base_num": [ 25, 50 ], "scale_num": [ 0.6, 0.9 ], "max": 60 },
+      { "drop": "raw_fur", "base_num": [ 1, 2 ], "scale_num": [ 0.6, 0.8 ], "max": 2 },
+      { "drop": "fat", "base_num": [ 5, 10 ], "scale_num": [ 0.8, 0.9 ], "max": 15 }
+    ]
+  },
+  {
     "id": "acidant_med",
     "type": "harvest",
     "message": "You carefully carve open the carapace, avoiding the acrid corrosion.",
