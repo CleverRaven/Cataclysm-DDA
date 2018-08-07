@@ -31,6 +31,7 @@
     "item": "i6_diesel",
     "difficulty": 4,
     "durability": 400,
+    "power": 600,
     "epower": -350,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -46,6 +47,7 @@
     "difficulty": 4,
     "durability": 400,
     "epower": -250,
+    "power": 400,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
       { "item": "steel_chunk", "count": [ 30, 40 ] },
@@ -60,6 +62,7 @@
     "difficulty": 4,
     "durability": 400,
     "epower": -350,
+    "power": 650,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
       { "item": "steel_chunk", "count": [ 30, 40 ] },
@@ -74,6 +77,7 @@
     "difficulty": 2,
     "durability": 150,
     "epower": 0,
+    "power": 60,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
@@ -89,6 +93,7 @@
     "difficulty": 2,
     "durability": 120,
     "epower": 0,
+    "power": 30,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -103,6 +108,7 @@
     "difficulty": 2,
     "durability": 300,
     "epower": -150,
+    "power": 250,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 20, 30 ] },
       { "item": "steel_chunk", "count": [ 20, 30 ] },
@@ -117,6 +123,7 @@
     "difficulty": 6,
     "durability": 600,
     "epower": -350,
+    "power": 1200,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 45, 58 ] },
       { "item": "steel_chunk", "count": [ 45, 58 ] },
@@ -131,6 +138,7 @@
     "difficulty": 7,
     "durability": 600,
     "epower": -400,
+    "power": 1200,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 45, 58 ] },
       { "item": "steel_chunk", "count": [ 45, 58 ] },
@@ -145,6 +153,7 @@
     "difficulty": 3,
     "durability": 400,
     "epower": -200,
+    "power": 400,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
       { "item": "steel_chunk", "count": [ 30, 40 ] },
@@ -159,6 +168,7 @@
     "difficulty": 3,
     "durability": 400,
     "epower": -250,
+    "power": 650,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 40, 50 ] },
       { "item": "steel_chunk", "count": [ 40, 50 ] },
@@ -173,6 +183,7 @@
     "difficulty": 2,
     "durability": 200,
     "epower": -50,
+    "power": 100,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 10, 20 ] },
