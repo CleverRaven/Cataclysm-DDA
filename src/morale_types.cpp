@@ -38,6 +38,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_lactose" ),
             morale_type( "morale_antijunk" ),
             morale_type( "morale_antiwheat" ),
+            morale_type( "morale_sweettooth" ),
             morale_type( "morale_no_digest" ),
             morale_type( "morale_wet" ),
             morale_type( "morale_dried_off" ),
@@ -115,6 +116,7 @@ const morale_type MORALE_ANTIFRUIT( "morale_antifruit" );
 const morale_type MORALE_LACTOSE( "morale_lactose" );
 const morale_type MORALE_ANTIJUNK( "morale_antijunk" );
 const morale_type MORALE_ANTIWHEAT( "morale_antiwheat" );
+const morale_type MORALE_SWEETTOOTH( "morale_sweettooth" );
 const morale_type MORALE_NO_DIGEST( "morale_no_digest" );
 const morale_type MORALE_WET( "morale_wet" );
 const morale_type MORALE_DRIED_OFF( "morale_dried_off" );

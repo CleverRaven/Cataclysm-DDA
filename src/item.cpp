@@ -900,7 +900,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) * batch ) ) );
         if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
                                            ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
-                                             g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) 
+                                             g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) )
                                       && parts->test(iteminfo_parts::FOOD_SMELL) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
@@ -1136,7 +1136,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
                                           mod->gun_damage( true ).total_damage(), true, "", false, false, false ) );
         }
-        
+
         if (parts->test(iteminfo_parts::GUN_ARMORPIERCE))
             info.push_back( iteminfo( "GUN", space + _( "Armor-pierce: " ), "",
                                       get_ranged_pierce( gun ), true, "", !has_ammo, false ) );
@@ -1152,7 +1152,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           get_ranged_pierce( gun ) + ammo_pierce, true, "", true, false, false ) );
         }
 
-        
+
         if (parts->test(iteminfo_parts::GUN_DISPERSION))
             info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
                                       mod->gun_dispersion( false, false ), true, "", !has_ammo, true ) );
@@ -1220,7 +1220,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "GUN", _( "Recommended strength (burst): "), "",
                                ceil( mod->type->weight / 333.0_gram ), true, "", true, true );
         }
-        
+
         if (parts->test(iteminfo_parts::GUN_RELOAD_TIME))
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
@@ -1540,12 +1540,12 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
-            
+
             if (recipe_list.size() != book.recipes.size() && parts->test(iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES)) {
                 info.push_back(iteminfo("DESCRIPTION",
                     _("It might help you figuring out some <good>more recipes</good>.")));
             }
-            
+
         } else {
             if (parts->test(iteminfo_parts::BOOK_UNREAD))
                 info.push_back( iteminfo( "BOOK",
@@ -1706,7 +1706,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
             insert_separation_line();
             if (parts->test(iteminfo_parts::DESCRIPTION_MELEEDMG))
                 info.push_back( iteminfo( "DESCRIPTION", string_format( _( "<bold>Average melee damage:</bold>" ) ) ) );
-            if (parts->test(iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT))                
+            if (parts->test(iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT))
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "Critical hit chance %d%% - %d%%" ),
                                                   int( g->u.crit_chance( 0, 100, *this ) * 100 ),
@@ -1770,7 +1770,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
             }
         }
-        
+
         if (parts->test(iteminfo_parts::DESCRIPTION_CONDUCTIVITY)) {
             if( !conductive () ) {
                 info.push_back( iteminfo( "BASE", string_format( _( "* This item <good>does not conduct</good> electricity." ) ) ) );
@@ -1876,7 +1876,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         // @todo: Unhide when enforcing limits
-        if( is_bionic() && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) 
+        if( is_bionic() && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) )
             && parts->test(iteminfo_parts::DESCRIPTION_CBM_SLOTS)) {
             info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                 _( "This bionic is installed in the following body part(s):" ) ) ) );
@@ -1892,7 +1892,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                       _( "* This mod <bad>obscures sights</bad> of the base weapon." ) ) );
         }
 
-        if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 
+        if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0
             && parts->test(iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED)) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* The casing of this item has <neutral>cracked</neutral>, revealing an <info>ominous green glow</info>." ) ) );
@@ -1953,7 +1953,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                     []( const itype *e ) { return e->nname( 1 ); } ) );
         }
 
-        
+
         if (parts->test(iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION)) {
             for( auto &u : type->use_methods ) {
                 const auto tt = dynamic_cast<const delayed_transform_iuse *>( u.second.get_actor_ptr() );
@@ -3189,6 +3189,11 @@ int item::get_encumber() const
     if( item_tags.count("FIT") && has_flag( "VARSIZE" ) ) {
         encumber = std::max( encumber / 2, encumber - 10 );
     }
+    if( g->u.has_trait( trait_id( "SMALL2" ) ) ) { // smol mousefolk have more encumbrance
+        encumber *= 2;
+    } else if( g->u.has_trait( trait_id( "SMALL_OK" ) ) ) {
+        encumber *= 1.5;
+    }
 
     const int thickness = get_thickness();
     const int coverage = get_coverage();
@@ -3260,6 +3265,12 @@ int item::get_warmth() const
 
     if( item_tags.count("wooled") > 0 ) {
         wool_lined = 20 * get_coverage() / 100;
+    }
+
+    if( g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) ) ) { // half size = double warmth!
+        result *= 2;
+        fur_lined *= 2;
+        wool_lined *= 2;
     }
 
     return result + fur_lined + wool_lined;

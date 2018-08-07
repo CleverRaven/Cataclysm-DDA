@@ -263,6 +263,7 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_CRAFTY( "CRAFTY" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -276,6 +277,7 @@ static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
+static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FASTHEALER( "FASTHEALER" );
 static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
@@ -292,6 +294,7 @@ static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
+static const trait_id trait_GOODCARDIO2( "GOODCARDIO2" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -325,6 +328,7 @@ static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MOREPAIN( "MORE_PAIN" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
+static const trait_id trait_MOUSE_EARS( "MOUSE_EARS" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -379,6 +383,9 @@ static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SLOWREADER( "SLOWREADER" );
 static const trait_id trait_SLOWRUNNER( "SLOWRUNNER" );
+static const trait_id trait_SMALL( "SMALL" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_SMELLY2( "SMELLY2" );
 static const trait_id trait_SORES( "SORES" );
@@ -1791,6 +1798,15 @@ void player::recalc_speed_bonus()
     if( has_bionic( bio_speed ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
+    if( has_trait( trait_SMALL ) ) { // multiply by 1.05
+        set_speed_bonus( int( get_speed() * 1.05 ) - get_speed_base() );
+    }
+    if( has_trait( trait_SMALL2 ) ) { // multiply by 1.1
+        set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
+    }
+    if( has_trait( trait_SMALL_OK ) ) { // multiply by 1.15
+        set_speed_bonus( int( get_speed() * 1.15 ) - get_speed_base() );
+    }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = int( -0.75 * get_speed_base() );
@@ -1882,6 +1898,15 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_PONDEROUS3 ) ) {
         movecost *= 1.3f;
+    }
+    if( has_trait( trait_SMALL ) ) {
+        movecost *= 0.9f;
+    }
+    if( has_trait( trait_SMALL2 ) ) {
+        movecost *= 0.8f;
+    }
+    if( has_trait( trait_SMALL_OK ) ) {
+        movecost *= 0.75f;
     }
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
@@ -9721,6 +9746,10 @@ int player::sleep_spot( const tripoint &p ) const
         // so it's OK for the value to be that much higher
         sleepy += 24;
     }
+    if (has_trait( trait_EASYSLEEPER2 )) {
+        // Mousefolk can sleep just about anywhere.
+        sleepy += 40;
+    }
     if (has_trait( trait_CHLOROMORPH )) {
         plantsleep = true;
     }
@@ -10995,6 +11024,9 @@ int player::visibility( bool, int ) const
     if ( is_invisible() ) {
         return 0;
     }
+    if( has_trait( trait_CRAFTY ) ) {
+        return 60;
+    }
     // @todo:
     // if ( dark_clothing() && light check ...
     return 100;
@@ -11115,6 +11147,9 @@ int player::get_stamina_max() const
     }
     if( has_trait( trait_GOODCARDIO ) ) {
         return maxStamina * 1.25;
+    }
+    if( has_trait( trait_GOODCARDIO2 ) ) {
+        return maxStamina * 1.4;
     }
     return maxStamina;
 }
@@ -11353,6 +11388,9 @@ float player::hearing_ability() const
     }
     if( has_trait( trait_LUPINE_EARS ) ) {
         volume_multiplier *= 1.75;
+    }
+    if( has_trait( trait_MOUSE_EARS ) ) {
+        volume_multiplier *= 2;
     }
 
     if( has_effect( effect_deaf ) ) {
