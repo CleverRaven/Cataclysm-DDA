@@ -918,6 +918,55 @@
   ]
 },{
   "type" : "recipe",
+  "result": "mutagen_mouse",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 9,
+  "time": 10000,
+  "book_learn": [[ "recipe_animal", 8 ]],
+  "qualities":[
+    {"id":"CHEM","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 25, "LIST" ] ]
+  ],
+  "components": [
+    [
+      [ "mutagen", 1 ]
+    ],
+    [
+      [ "cheese", 2 ],
+      [ "chese_hard", 2 ],
+      [ "can_cheese", 2 ],
+    ],
+    [
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
+    ]
+  ], "//": "fun fact: mice don't like cheese as much as sugar! we include it in the recipe because most people correlate the two, and as a fun poke at it"
+},{
+    "type" : "recipe",
+  "result": "iv_mutagen_mouse",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_MUTAGEN",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 3 ],
+  "difficulty": 9,
+  "time": 15000,
+  "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
+  "qualities":[
+    {"id":"CHEM","level":3}
+  ], "tools": [
+    [ [ "surface_heat", 37, "LIST" ] ]
+  ],
+  "components": [
+    [
+      [ "mutagen_mouse", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "mutagen_feline",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
