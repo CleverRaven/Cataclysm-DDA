@@ -6685,10 +6685,18 @@ void game::use_item( int pos )
             add_msg( _( "Never mind." ) );
             return;
         }
-        int obtain_cost = loc.obtain_cost( u );
-        pos = loc.obtain( u );
-        // This method only handles items in te inventory, so refund the obtain cost.
-        u.moves += obtain_cost;
+
+        auto item = loc.get_item();
+
+        if(u.has_item(*loc))
+        {
+            pos = u.get_item_position(item);
+
+        } else{
+            wield(loc);
+            pos = -1;
+        }
+
     }
 
     refresh_all();
@@ -10657,16 +10665,27 @@ void game::wield()
     }
 }
 
-void game::read()
-{
-    // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
 
-    if( loc ) {
-        u.read( loc.obtain( u ) );
-    } else {
-        add_msg( _( "Never mind." ) );
+void game::read() {
+    // Can read items from inventory or within one tile (including in vehicles)
+    auto loc = game_menus::inv::read(u);
+
+    if (!loc) {
+        add_msg(_("Never mind."));
+        return;
     }
+
+    auto item = loc.get_item();
+    int pos;
+
+    if (u.has_item(*loc)) {
+        pos = u.get_item_position(item);
+
+    } else {
+        wield(loc);
+        pos = -1;
+    }
+    u.read(pos);
 }
 
 void game::chat()

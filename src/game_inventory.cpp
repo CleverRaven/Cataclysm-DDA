@@ -511,8 +511,15 @@ class activatable_inventory_preset : public pickup_inventory_preset
                                      "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
+            if( !p.has_item( *loc ) ) {
 
-            return pickup_inventory_preset::get_denial( loc );
+                const auto ret = p.can_wield( *loc );
+
+                if( !ret.success() ) {
+                    return trim_punctuation_marks( ret.str() );
+                }
+            }
+            return std::string();
         }
 
     protected:
@@ -680,7 +687,16 @@ class read_inventory_preset: public pickup_inventory_preset
             if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
                 return denials.front();
             }
-            return pickup_inventory_preset::get_denial( loc );
+
+            if( !p.has_item( *loc ) ) {
+
+                const auto ret = p.can_wield( *loc );
+
+                if( !ret.success() ) {
+                    return trim_punctuation_marks( ret.str() );
+                }
+            }
+            return std::string();
         }
 
     private:
