@@ -2416,19 +2416,5 @@
         "symbol": ".",
         "color": "white",
         "ammo_type": "components"
-    },
-    {
-        "id": "nether_organ",
-        "type": "AMMO",
-        "name": "nether organ",
-        "description": "A bizarre organ of unknown purpose torn out of an alien's corpse.",
-        "weight": 227,
-        "volume": 1,
-        "price": 500,
-        "stack_size": 3,
-        "material": [ "flesh" ],
-        "symbol": "0",
-        "color": "magenta",
-        "ammo_type": "components"
     }
 ]
