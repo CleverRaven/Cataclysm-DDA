@@ -92,10 +92,7 @@
         "n": "f_table",
         "o": "f_bookcase"
       },
-      "place_signs": [
-        { "signage": "the address has been defaced", "x": 1, "y": 2 },
-        { "signage": "the address is unreadable", "x": 23, "y": 2 }
-      ],
+      "place_signs": [ { "signage": "the address has been defaced", "x": 1, "y": 2 }, { "signage": "the address is unreadable", "x": 23, "y": 2 } ],
       "toilets": { "t": { } },
       "items": { 
         "B": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },

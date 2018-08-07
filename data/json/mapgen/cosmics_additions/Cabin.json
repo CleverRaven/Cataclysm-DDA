@@ -23,7 +23,11 @@
         "w": "f_null",
         "|": "f_null"
       },
-      "items": { "#": { "item": "bed", "chance": 20 }, "t": { "item": "dining", "chance": 15 }, "Y": { "item": "coat_rack", "chance": 30 } },
+      "items": { 
+        "#": { "item": "bed", "chance": 20 },
+        "t": { "item": "dining", "chance": 15 }, 
+        "Y": { "item": "coat_rack", "chance": 30 } 
+      },
       "place_items": [
         { "chance": 20, "item": "kitchen", "x": 11, "y": 10 },
         { "chance": 20, "item": "kitchen", "x": 11, "y": 8 },

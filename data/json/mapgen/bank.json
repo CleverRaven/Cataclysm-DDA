@@ -66,9 +66,7 @@
         "s": "f_sink",
         "t": "f_toilet"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "place_items": [
         { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
         { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },

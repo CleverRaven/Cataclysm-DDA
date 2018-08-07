@@ -96,9 +96,7 @@
         { "item": "ear_plugs", "x": 2, "y": 14, "chance": 50, "repeat": 2 },
         { "item": "powered_earmuffs", "x": 2, "y": 14, "chance": 30 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   }
 ]

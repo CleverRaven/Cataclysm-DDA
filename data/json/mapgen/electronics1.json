@@ -202,9 +202,7 @@
         "w": "f_washer",
         "y": "f_dryer"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "place_items": [
         { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "elecsto_cameras", "x": [ 3, 6 ], "y": 8, "chance": 60, "repeat": 1 },

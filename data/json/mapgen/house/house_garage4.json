@@ -82,10 +82,7 @@
         "o": "f_bookcase"
       },
       "toilets": { "t": {} },
-      "items": { 
-        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
-	  },
+      "items": {  "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }, "P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] } },
       "place_loot": [
         { "group": "bed", "x": [ 20, 21 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 1, 3 ] },
         { "group": "bedroom", "x": [ 15, 21 ], "y": [ 18, 21 ], "chance": 80, "repeat": [ 1, 4 ] },
@@ -102,12 +99,8 @@
         { "group": "softdrugs", "x": [ 2, 4 ], "y": [ 13, 16 ], "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "cleaning", "x": [ 2, 4 ], "y": [ 13, 16 ], "chance": 90, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 11, "y": 8, "chance": 10, "rotation": 0 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 11, "y": 8, "chance": 10, "rotation": 0 } ]
     }
   }
 ]

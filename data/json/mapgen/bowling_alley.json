@@ -214,9 +214,7 @@
             "s": "f_stool",
             "t": "f_table"
           },
-          "toilets": {
-            "T": {}
-          },
+          "toilets": { "T": {} },
           "place_items": [
             { "item": "bowling_item", "x": [ 22, 22 ], "y": [ 8, 9 ], "chance": 70 },
             { "item": "bowling_item", "x": [ 4, 4 ], "y": [ 19, 22 ], "chance": 70 },
@@ -239,9 +237,7 @@
             { "item": "bowling_food", "x": [ 1, 1 ], "y": [ 15, 16 ], "chance": 60 },
             { "item": "bowling_fridge", "x": [ 1, 1 ], "y": [ 19, 21 ], "chance": 70 }
           ],
-          "place_monsters": [
-            { "monster": "GROUP_PLAIN", "x": [ 2, 21 ], "y": [ 7, 22 ], "chance": 1 }
-          ]
+          "place_monsters": [ { "monster": "GROUP_PLAIN", "x": [ 2, 21 ], "y": [ 7, 22 ], "chance": 1 } ]
         }
       }
     ],

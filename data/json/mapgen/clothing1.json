@@ -80,9 +80,7 @@
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "place_items": [
         { "item": "tailorbooks", "x": 13, "y": 18, "chance": 50 },
         { "item": "tailorbooks", "x": 18, "y": 11, "chance": 50 },

@@ -124,11 +124,7 @@
         "w": "t_thconc_floor",
         "|": "t_wall_log"
       },
-      "furniture": {
-        "#": "f_bench",
-        "t": "f_table",
-        "w": "f_woodstove"
-      },
+      "furniture": { "#": "f_bench", "t": "f_table", "w": "f_woodstove" },
       "place_items": [
         { "item": "snacks", "x": 5, "y": 18, "chance": 25 },
         { "item": "snacks", "x": 15, "y": 15, "chance": 25 },

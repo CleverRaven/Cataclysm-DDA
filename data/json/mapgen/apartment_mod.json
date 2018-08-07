@@ -96,9 +96,7 @@
         "t": "f_table",
         "u": "f_cupboard"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         "B": { "item": "bed", "chance": 60 },
         "O": { "item": "oven", "chance": 70 },

@@ -84,9 +84,7 @@
         { "group": "bedroom", "x": [ 16, 20 ], "y": [ 8, 11 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "group": "bedroom", "x": [ 14, 20 ], "y": [ 17, 20 ], "chance": 80, "repeat": [ 1, 4 ] }
       ],
-      "place_nested": [
-        { "chunks": [ [ "bathroom_suicide", 100 ] ], "x": 18, "y": 13 }
-      ]
+      "place_nested": [ { "chunks": [ [ "bathroom_suicide", 100 ] ], "x": 18, "y": 13 } ]
     }
   },
   {
