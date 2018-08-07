@@ -6,6 +6,7 @@
 #include "messages.h"
 #include "mtype.h"
 #include "calendar.h"
+#include "player.h"
 #include <utility>
 
 const efftype_id effect_milked( "milked" );
@@ -27,6 +28,7 @@ void monexamine::milk_source( monster &source_mon )
             add_msg( _( "You milk the %s." ), source_mon.get_name().c_str() );
             long transferred_milk = remaining_milk - milk.charges;
             source_mon.add_effect( effect_milked, milking_freq * transferred_milk );
+            g->u.mod_moves( -to_moves<int>( transferred_milk * 1_minutes / 5 ) );
         }
     } else {
         add_msg( _( "The %s's udders run dry." ), source_mon.get_name().c_str() );
