@@ -4536,7 +4536,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "makeshift_hammer",
