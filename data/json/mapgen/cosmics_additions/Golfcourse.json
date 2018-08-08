@@ -15,10 +15,7 @@
         "s": "f_null",
         "w": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "........................",
         "...................ws...",
@@ -170,10 +167,7 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "44_...._444_...._4ss4444",
         "44......444_gggg._ss4444",
@@ -258,10 +252,7 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "444444444444444444444444",
         "444444444444444444444444",
@@ -344,10 +335,7 @@
         "d": "f_null",
         "g": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "4.........______________",
         "44ddP##&4444444444444444",
@@ -431,10 +419,7 @@
         "g": "f_null",
         "t": "f_trashcan"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "4......444_...._4_....._",
         "4......444_...._4_....._",
@@ -522,10 +507,7 @@
         "d": "f_null",
         "g": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "444444444444444444444444",
         "444444444444444444444444",
@@ -607,10 +589,7 @@
         "d": "f_null",
         "g": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "____________4444_...._44",
         "4444444444444444_...._44",
@@ -693,10 +672,7 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "4_...__4_...._4444444444",
         "4_..ss_4_...._44________",
@@ -937,10 +913,7 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
-        "v": { "item": "golf_green", "chance": 10 }
-      },
+      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
       "rows": [
         "44ddddddddddddddddddd444",
         "_______4444444444##dd444",
