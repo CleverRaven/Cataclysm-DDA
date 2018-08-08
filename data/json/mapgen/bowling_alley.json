@@ -212,9 +212,7 @@
             "r": "f_rack",
             "t": "f_table"
           },
-          "toilets": {
-            "T": {}
-          },
+          "toilets": { "T": {} },
           "place_items": [
             { "item": "bowling_item", "x": [ 22, 22 ], "y": [ 8, 9 ], "chance": 70 },
             { "item": "bowling_item", "x": [ 4, 4 ], "y": [ 19, 22 ], "chance": 70 },

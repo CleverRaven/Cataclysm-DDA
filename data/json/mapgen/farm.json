@@ -136,9 +136,7 @@
         "u": [ "f_cupboard" ],
         "y": [ "f_hay" ]
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         "B": { "item": "bed", "chance": 60 },
         "D": { "item": "hydro", "chance": 5 },
@@ -250,9 +248,7 @@
         "u": [ "f_cupboard" ],
         "y": [ "f_hay" ]
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         ".": { "item": "trash", "chance": 20 },
         "B": [ { "item": "livingroom", "chance": 20 }, { "item": "survival_armor", "chance": 20 }, { "item": "camping", "chance": 20 }, { "item": "gear_survival", "chance": 20 }, { "item": "bed", "chance": 40 } ],
