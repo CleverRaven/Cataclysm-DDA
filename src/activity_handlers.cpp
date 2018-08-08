@@ -913,10 +913,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
 
     // age of field dressed corpse does not change, but age of butchered elements does
-    // to simulate reduced decay of a field dressed corpse
+    // to simulate reduced decay of a field dressed corpse - its 1/4 of original
     // no FIELD_DRESS_FAILED here as it gets no benefit
     if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        age = time_point::from_turn( to_turn<int>( age ) / 4 );
+        age = time_point::from_turn( to_turn<int>( age ) + ( (calendar::turn - to_turn<int>( age ) ) * 3 / 4 ) );
     }
     
     //all action types - FATAL FAILURE
@@ -970,7 +970,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     case QUARTER:
         break;
     case BUTCHER:
-        p->add_msg_if_player( m_good, _("You try to quickly harvest any flesh you can from %s and leave the rest for vultures."), corpse_item.tname().c_str() );
+        p->add_msg_if_player( m_good, _("After quick attempt to harvest flesh from %s you leave the rest for the vultures."), corpse_item.tname().c_str() );
         g->m.i_rem( p->pos(), act->index );
         break; //no set_to_null here, for multibutchering
     case BUTCHER_FULL:
