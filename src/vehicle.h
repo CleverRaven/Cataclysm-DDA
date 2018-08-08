@@ -27,10 +27,10 @@ class npc;
 class vehicle;
 class vpart_info;
 enum vpart_bitflags : int;
-    using vpart_id = string_id<vpart_info>;
-    struct vehicle_prototype;
-    using vproto_id = string_id<vehicle_prototype>;
-    namespace catacurses
+using vpart_id = string_id<vpart_info>;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
+namespace catacurses
 {
 class window;
 } // namespace catacurses
