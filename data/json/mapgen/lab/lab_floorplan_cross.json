@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "          |..|         |",
         "          |..|         |",
@@ -56,7 +56,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "          |..|         |",
         "          |..|         |",
@@ -106,7 +106,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ".......................|",
         "...............hhhhhhh.|",

@@ -1137,7 +1137,7 @@
         ],
         "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_floor"
+        "post_terrain" : "t_floor_primitive"
     },{
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
@@ -2096,12 +2096,59 @@
         "post_terrain" : "t_dock"
     },{
         "type" : "construction",
-        "description" : "Cut Down Grass",
+        "description" : "Cut Grass",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 6,
-        "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_grass",
+        "tools": [
+        [ [ "scythe", -1 ], [ "sickle", -1 ] ]
+        ]
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_dead",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_golf",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_white",
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",

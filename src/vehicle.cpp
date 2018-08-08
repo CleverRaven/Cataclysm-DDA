@@ -1487,9 +1487,9 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
 
     const vehicle_part& vp = parts[ index ];
 
-    int pwr = vp.base.engine_displacement();
+    int pwr = vp.info().power;
     if( pwr == 0 ) {
-        pwr = vp.info().power;
+        pwr = vp.base.engine_displacement();
     }
 
     if (part_info(index).fuel_type == fuel_type_muscle) {

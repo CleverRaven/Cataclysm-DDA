@@ -23,7 +23,7 @@
       "x": "t_console_broken",
       "g": "t_reinforced_glass",
       "G": "t_reinforced_door_glass_c",
-      ".": "t_rock_floor",
+      ".": "t_thconc_floor",
       ",": "t_floor_blue",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",

@@ -4231,7 +4231,7 @@
       "need_charges_msg": "The L-stick(tm)'s batteries are empty.",
       "type": "transform"
     },
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ]
   },
   {
     "id": "l-stick_on",
@@ -4259,7 +4259,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
     "id": "landmine",
@@ -4536,7 +4536,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "makeshift_hammer",
@@ -6460,7 +6460,7 @@
     "charges_per_use": 100,
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "shocktonfa_off",

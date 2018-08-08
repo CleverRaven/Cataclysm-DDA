@@ -2251,5 +2251,29 @@
     "occurrences": [ 0, 4 ],
     "rotate": false,
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "golf course",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "golfcourse_00_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "golfcourse_01_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "golfcourse_02_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "golfcourse_10_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "golfcourse_11_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "golfcourse_12_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "golfcourse_20_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "golfcourse_21_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "golfcourse_22_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "golfcourse_30_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "golfcourse_31_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "golfcourse_32_north" }
+    ],
+    "connections": [ { "point": [ 3, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 7 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
   }
 ]

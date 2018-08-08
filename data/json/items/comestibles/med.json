@@ -1279,7 +1279,7 @@
         "comestible_type" : "MED",
         "name" : "disinfectant soaked rag",
         "name_plural" : "disinfectant soaked rags",
-        "description" : "A rag soaked in disinfectant.  Not as effective as pouring it on the wound, but useful to optimize the bottle contents.",
+        "description" : "A rag soaked in disinfectant.",
         "weight" : 80, "//" : "Can't copy-from rag, it breaks the stacking for some reason!",
         "volume" : 1,
         "price" : 250,

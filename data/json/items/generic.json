@@ -347,6 +347,34 @@
         "volume": 0,
         "to_hit": -3
     },
+	{
+		"id": "golf_tee",
+		"type": "GENERIC",
+		"category": "other",
+		"name": "golf tee",
+		"description": "A pin shaped piece of wood meant for holding a golf ball slightly off the ground.",
+		"weight": 3,
+		"volume": 1,
+		"price": 1000,
+		"material": "wood",
+		"symbol": "-",
+		"color": "white"
+	},
+    {
+		"id": "golf_ball",
+		"type": "GENERIC",
+		"category": "other",
+		"name": "golf ball",
+		"description": "A small ball with round indentations on it.",
+		"weight": 50,
+		"volume": 1,
+		"price": 2000,
+		"material": "stone",
+		"symbol": "*",
+		"color": "white",
+		"bashing": 5,
+		"to_hit": -3
+    },
     {
         "type":"GENERIC",
         "id": "pool_ball",
