@@ -66,6 +66,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "omdata.h"
 #include "crafting.h"
 #include "construction.h"
@@ -4199,7 +4200,7 @@ void game::debug()
         }
         break;
         case 20:
-            overmap::draw_hordes();
+            ui::omap::display_hordes();
             break;
         case 21: {
             item_group::debug_spawn();
@@ -4245,10 +4246,10 @@ void game::debug()
         }
         break;
         case 25:
-            overmap::draw_weather();
+            ui::omap::display_weather();
             break;
         case 26:
-            overmap::draw_scents();
+            ui::omap::display_scents();
             break;
         case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char * const msg ) {
@@ -4330,7 +4331,7 @@ void game::debug()
             break;
 
         case 30:
-            overmap::draw_editor();
+            ui::omap::display_editor();
             break;
 
         case 31: {
@@ -4372,7 +4373,7 @@ void game::debug()
 
 void game::draw_overmap()
 {
-    overmap::draw_overmap();
+    ui::omap::display();
 }
 
 void game::disp_kills()
@@ -7163,7 +7164,18 @@ bool pet_menu(monster *z)
     }
 
     if( milk == choice ) {
+        // pin the cow in place if it isn't already
+        bool temp_tie = !z->has_effect( effect_tied );
+        if( temp_tie ) {
+            z->add_effect( effect_tied, 1_turns, num_bp, true);
+        }
+
         monexamine::milk_source( *z );
+
+        if( temp_tie ) {
+            z->remove_effect( effect_tied );
+        }
+
         return true;
     }
 
@@ -7950,7 +7962,8 @@ void game::zones_manager()
                 //show zone position on overmap;
                 tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
                 tripoint zone_overmap = ms_to_omt_copy( zones.zones[active_index].get_center_point() );
-                overmap::draw_zones( player_overmap_position, zone_overmap, active_index );
+
+                ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
                 zones_manager_shortcuts(w_zones_info);
@@ -9456,10 +9469,6 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } else if( source_pos != nullptr ) {
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
-            return true;
-        } else if( source_mon != nullptr ) {
-            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( u.activity, *source_mon, liquid );
             return true;
         } else {
             return false;

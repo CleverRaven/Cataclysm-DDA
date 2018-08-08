@@ -15,6 +15,7 @@
 #include "ammo.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "skill.h"
 #include "translations.h"
@@ -4770,9 +4771,9 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
     om_range_mark( omt_pos, range );
     om_range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
     if( source == tripoint(-999,-999,-999) ){
-        where = overmap::draw_overmap();
+        where = ui::omap::choose_point();
     } else {
-        where = overmap::draw_overmap( source );
+        where = ui::omap::choose_point( source );
     }
     om_range_mark( omt_pos, range, false );
     om_range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );

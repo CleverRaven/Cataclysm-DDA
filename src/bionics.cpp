@@ -806,7 +806,8 @@ int bionic_manip_cos( int p_int, int most_important_skill, int important_skill,
 {
     int chance_of_success = 0;
 
-    if( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) {
+    if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) ||
+        g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         chance_of_success = 100;
         return chance_of_success;
     }
@@ -1426,6 +1427,7 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.capacity = jsobj.get_int( "capacity", 0 );
 
+    new_bionic.npc_usable = get_bool_or_flag( jsobj, "npc_usable", "BIONIC_NPC_USABLE", false );
     new_bionic.faulty = get_bool_or_flag( jsobj, "faulty", "BIONIC_FAULTY", false );
     new_bionic.power_source = get_bool_or_flag( jsobj, "power_source", "BIONIC_POWER_SOURCE", false );
 

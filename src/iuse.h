@@ -201,6 +201,9 @@ class iuse
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );
         int weak_antibiotic( player *, item *, bool, const tripoint & );
+        int strong_antibiotic( player *, item *, bool, const tripoint & );
+        int instant_antibiotic( player *, item *, bool, const tripoint & );
+        int panacea( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

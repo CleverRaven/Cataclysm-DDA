@@ -23,12 +23,14 @@
       "x": "t_console_broken",
       "g": "t_reinforced_glass",
       "G": "t_reinforced_door_glass_c",
-      ".": "t_rock_floor",
+      ".": "t_thconc_floor",
       ",": "t_floor_blue",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
-      "+": "t_door_metal_c",
-      "D": "t_door_metal_locked",
+      "+": "t_door_glass_frosted_c",
+      "W": "t_door_c",
+      "M": "t_door_metal_c",
+      "L": "t_door_metal_locked",
       "#": "t_rock"
     },
     "toilets": {

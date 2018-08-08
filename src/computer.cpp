@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "monster.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "output.h"
 #include "json.h"
 #include "overmapbuffer.h"
@@ -543,7 +544,7 @@ void computer::activate_function( computer_action action )
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        tripoint target = overmap::draw_overmap(0);
+        tripoint target = ui::omap::choose_point(0);
         if (target == overmap::invalid_tripoint) {
             add_msg(m_info, _("Target acquisition canceled."));
             return;
