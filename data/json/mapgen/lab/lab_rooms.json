@@ -84,7 +84,7 @@
       "palettes": [
         "lab_palette", "lab_loot_research"
       ],
-      "place_traps": [ { "trap": "tr_dissector", "x": [ 3, 3 ], "y": [ 4, 5 ] } ],
+      "place_traps": [ { "trap": "tr_dissector", "x": [ 1, 5 ], "y": [ 2, 5 ] } ],
       "place_monster": [ { "monster": "mon_broken_cyborg", "x": [0, 6], "y": [ 0, 6 ], "chance": 33 } ]
     }
   },
