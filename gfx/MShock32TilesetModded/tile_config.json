@@ -15107,7 +15107,7 @@
           "rotates": false
         },
         {
-          "id": "t_thconc_floor",
+          "id": [ "t_thconc_floor", "t_thconc_floor_olight" ],
           "fg": 650,
           "rotates": false
         },

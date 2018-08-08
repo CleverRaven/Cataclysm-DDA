@@ -231,6 +231,8 @@ void map::generate_lightmap( const int zlev )
                         add_light_source( p, 50 );
                     } else if (terrain == t_console) {
                         add_light_source( p, 10 );
+                    } else if (terrain == t_thconc_floor_olight) {
+                        add_light_source( p, 120 );
                     } else if (terrain == t_utility_light) {
                         add_light_source( p, 240 );
                     }

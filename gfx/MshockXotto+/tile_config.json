@@ -19095,7 +19095,7 @@
           "bg": 993
         },
         {
-          "id": "t_thconc_floor",
+          "id": [ "t_thconc_floor", "t_thconc_floor_olight" ],
           "fg": 993,
           "rotates": false
         },
