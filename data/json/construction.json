@@ -2103,8 +2103,8 @@
         "pre_terrain" : "t_grass_long",
         "post_terrain" : "t_grass",
         "tools": [
-        [ [ "scythe" ], [ "sickle" ] ]
-        ],
+        [ [ "scythe", -1 ], [ "sickle", -1 ] ]
+        ]
     },{
         "type" : "construction",
         "description" : "Remove Grass",
