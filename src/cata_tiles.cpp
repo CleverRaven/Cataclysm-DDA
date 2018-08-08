@@ -1560,10 +1560,28 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
                                             ll, apply_night_vision_goggles, height_3d );
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                     const std::string &subcategory, tripoint pos,
-                                     int subtile, int rota, lit_level ll,
-                                     bool apply_night_vision_goggles, int &height_3d )
+const tile_type *cata_tiles::find_tile_with_season( std::string id )
+{
+    constexpr size_t suffix_len = 15;
+    constexpr char season_suffix[4][suffix_len] = {
+        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
+    };
+
+    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
+
+    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
+    if( tt ) {
+        id = std::move( seasonal_id );
+    } else {
+        tt = tileset_ptr->find_tile_type( id );
+    }
+    return tt;
+}
+
+bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
+                                      const std::string &subcategory, tripoint pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d )
 {
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -1578,19 +1596,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         return false;
     }
 
-
-    constexpr size_t suffix_len = 15;
-    constexpr char season_suffix[4][suffix_len] = {
-        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
-
-    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
-
-    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
-    if( tt ) {
-        id = std::move(seasonal_id);
-    } else {
-        tt = tileset_ptr->find_tile_type( id );
-    }
+    const tile_type *tt = find_tile_with_season( id );
 
     if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;
