@@ -100,7 +100,7 @@
         { "vehicle": "bikeshop", "x": 6, "y": 7, "chance": 60, "status": 0, "rotation": 270 },
         { "vehicle": "bikeshop", "x": 21, "y": 7, "chance": 90, "rotation": 270 },
         { "vehicle": "bikeshop", "x": 6, "y": 14, "chance": 60, "status": 0 },
-        { "vehicle": "bikeshop", "x": 22, "y": 14, "chance": 60, "status": 0 }
+        { "vehicle": "bikeshop", "x": 17, "y": 13, "chance": 60, "status": 0 }
       ]
     }
   },

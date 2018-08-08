@@ -2456,14 +2456,13 @@
     "components": [
       [ [ "medical_tape", 20 ] ],
       [ [ "aspirin", 10 ] ],
-      [ [ "bottle_plastic_small", 2 ] ],
       [ [ "disinfectant", 10 ] ],
       [ [ "saline", 5 ] ],
       [ [ "bandages", 6 ] ],
       [ [ "medical_gauze", 6 ] ],
       [ [ "booklet_firstaid", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
   },
   {
     "result": "garlic",
@@ -2471,5 +2470,16 @@
     "time": 100,
     "components": [ [ [ "garlic_clove", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "leaf_spring",
+    "type": "uncraft",
+    "time": 3000,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [
+      [ [ "steel_lump", 4 ] ]
+    ]
   }
 ]

@@ -358,17 +358,11 @@
   },
   {
     "id": "bag_hflesh_vac",
+	"copy-from": "bag_meat_vac",
     "type": "GENERIC",
-    "category": "food",
     "name": "vacuum-packed salted simpleton slice",
     "description": "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use to open and eat to enjoy.",
-    "weight": 240,
-    "volume": 1,
-    "price": 0,
-    "bashing": 8,
     "material": [ "plastic", "hflesh" ],
-    "symbol": "%",
-    "color": "red",
     "use_action": {
       "target": "hflesh_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
@@ -4228,7 +4222,7 @@
     "ammo": "battery",
     "max_charges": 1000,
     "charges_per_use": 1,
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_1", "RAPID", "SHEATH_SPEAR" ],
     "use_action": {
       "target": "l-stick_on",
       "msg": "The L-stick(tm) lights up.",
@@ -4265,7 +4259,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
     "id": "landmine",
@@ -4542,7 +4536,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "makeshift_hammer",
@@ -6466,7 +6460,7 @@
     "charges_per_use": 100,
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "shocktonfa_off",
