@@ -1031,7 +1031,7 @@ void options_manager::init()
           { "es_ES", R"( Español ( España ) )" },
           { "ja", R"( 日本語 )" },
           { "ko", R"( 한국어 )" },
-          { "pl", R"( Polskie )" },
+          { "pl", R"( Polski )" },
           { "pt_BR", R"( Português ( Brasil ) )" },
           { "ru", R"( Русский )" },
           { "zh_CN", R"( 中文( 天朝 ) )" },

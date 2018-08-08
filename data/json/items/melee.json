@@ -1164,7 +1164,8 @@
     "weight": 300,
     "volume": 4,
     "bashing": 14,
-    "to_hit": 1
+    "to_hit": 1,
+    "flags": [ "SHEATH_GOLF" ]
   },
   {
     "type": "GENERIC",

@@ -713,12 +713,12 @@
             "rotates":false
         },
         {
-            "id":"t_door_glass_c",
+            "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
             "fg":358,
             "rotates":false
         },
         {
-            "id":"t_door_glass_o",
+            "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
             "fg":359,
             "bg":11,
             "rotates":false

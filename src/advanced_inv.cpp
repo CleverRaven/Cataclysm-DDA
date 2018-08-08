@@ -328,7 +328,18 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             }
         }
 
-        std::string item_name = it.display_name();
+        std::string item_name;
+		if (it.ammo_type() == "money") {
+			//Count charges
+			//TODO: transition to the item_location system used for the normal inventory
+			unsigned long charges_total = 0;
+			for (const auto item : sitem.items) {
+				charges_total += item->charges;
+			}
+				item_name = it.display_money(sitem.items.size(), charges_total);
+		} else {
+			item_name = it.display_name();
+		}
         if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             item_name = string_format( "%s %s", it.symbol().c_str(), item_name.c_str() );
         }

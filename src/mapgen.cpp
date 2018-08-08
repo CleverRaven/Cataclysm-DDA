@@ -3069,35 +3069,35 @@ ___DEEE|.R.|...,,...|sss\n",
                         }
                         // Top left
                         if (one_in(2)) {
-                            ter_set(SEEX - 2, int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX - 2, int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 1);
                         } else {
-                            ter_set(int(SEEX / 2), SEEY - 2, t_door_metal_c);
+                            ter_set(int(SEEX / 2), SEEY - 2, t_door_glass_frosted_c);
                             science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 2);
                         }
                         // Top right
                         if (one_in(2)) {
-                            ter_set(SEEX + 1, int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX + 1, int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 3);
                         } else {
-                            ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_metal_c);
+                            ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 2);
                         }
                         // Bottom left
                         if (one_in(2)) {
-                            ter_set(int(SEEX / 2), SEEY + 1, t_door_metal_c);
+                            ter_set(int(SEEX / 2), SEEY + 1, t_door_glass_frosted_c);
                             science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 0);
                         } else {
-                            ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 1);
                         }
                         // Bottom right
                         if (one_in(2)) {
-                            ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_metal_c);
+                            ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                          zlevel, 0);
                         } else {
-                            ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                          zlevel, 3);
                         }
@@ -3167,18 +3167,18 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX - 1, SEEY    , t_stairs_up);
                             ter_set(SEEX    , SEEY    , t_stairs_up);
                         }
-                        ter_set(SEEX - rng(0, 1), SEEY - 4, t_door_metal_c);
-                        ter_set(SEEX - rng(0, 1), SEEY + 3, t_door_metal_c);
-                        ter_set(SEEX - 4, SEEY + rng(0, 1), t_door_metal_c);
-                        ter_set(SEEX + 3, SEEY + rng(0, 1), t_door_metal_c);
-                        ter_set(SEEX - 4, int(SEEY / 2), t_door_metal_c);
-                        ter_set(SEEX + 3, int(SEEY / 2), t_door_metal_c);
-                        ter_set(int(SEEX / 2), SEEY - 4, t_door_metal_c);
-                        ter_set(int(SEEX / 2), SEEY + 3, t_door_metal_c);
-                        ter_set(SEEX + int(SEEX / 2), SEEY - 4, t_door_metal_c);
-                        ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_metal_c);
-                        ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_metal_c);
-                        ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_metal_c);
+                        ter_set(SEEX - rng(0, 1), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(SEEX - rng(0, 1), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, SEEY + rng(0, 1), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, SEEY + rng(0, 1), t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(int(SEEX / 2), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(int(SEEX / 2), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX + int(SEEX / 2), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
                         science_room(this, lw, tw, SEEX - 5, SEEY - 5, zlevel, rng(1, 2));
                         science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, zlevel, 2);
                         science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, zlevel, rng(2, 3));
@@ -7392,8 +7392,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                 m->ter_set(w1, y, t_concrete_wall);
                 m->ter_set(w2, y, t_concrete_wall);
             }
-            m->ter_set(w1, int((y1 + y2) / 2), t_door_metal_c);
-            m->ter_set(w2, int((y1 + y2) / 2), t_door_metal_c);
+            m->ter_set(w1, int((y1 + y2) / 2), t_door_glass_frosted_c);
+            m->ter_set(w2, int((y1 + y2) / 2), t_door_glass_frosted_c);
             science_room(m, x1, y1, w1 - 1, y2, z, 1);
             science_room(m, w2 + 1, y1, x2, y2, z, 3);
         } else {
@@ -7402,8 +7402,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                 m->ter_set(x, w1, t_concrete_wall);
                 m->ter_set(x, w2, t_concrete_wall);
             }
-            m->ter_set(int((x1 + x2) / 2), w1, t_door_metal_c);
-            m->ter_set(int((x1 + x2) / 2), w2, t_door_metal_c);
+            m->ter_set(int((x1 + x2) / 2), w1, t_door_glass_frosted_c);
+            m->ter_set(int((x1 + x2) / 2), w2, t_door_glass_frosted_c);
             science_room(m, x1, y1, x2, w1 - 1, z, 2);
             science_room(m, x1, w2 + 1, x2, y2, z, 0);
         }
