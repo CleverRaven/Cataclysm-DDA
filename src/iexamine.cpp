@@ -3479,7 +3479,8 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
-player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_patient, bool &adjacent_couch )
+player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_patient,
+                         bool &adjacent_couch )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
@@ -3490,7 +3491,7 @@ player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_pat
             }
             for( const npc *e : g->allies() ) {
                 if( e->pos() == couch_loc ) {
-                   return  *g->critter_by_id<player>( e->getID() );
+                    return  *g->critter_by_id<player>( e->getID() );
                 }
             }
         }
@@ -3501,9 +3502,9 @@ player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_pat
 player &best_installer( player &p, player &null_player, int difficulty )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
-                                                   skill_computer,
-                                                   skill_electronics,
-                                                   true );
+                         skill_computer,
+                         skill_electronics,
+                         true );
 
     std::vector< std::pair<float, long>> ally_skills;
     ally_skills.reserve( g->allies().size() );
@@ -3514,12 +3515,13 @@ player &best_installer( player &p, player &null_player, int difficulty )
         player &ally = *g->critter_by_id<player>( e->getID() );
         ally_skill.second = i;
         ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
-                                                        skill_computer,
-                                                        skill_electronics,
-                                                        true );
+                           skill_computer,
+                           skill_electronics,
+                           true );
         ally_skills.push_back( ally_skill );
     }
-    std::sort( ally_skills.begin(), ally_skills.end(), [&]( std::pair<float, long> &lhs, std::pair<float, long> &rhs ) {
+    std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, long> &lhs,
+    const std::pair<float, long> &rhs ) {
         return rhs.first < lhs.first;
     } );
     int player_cos = bionic_manip_cos( player_skill, true, difficulty );
@@ -3530,14 +3532,17 @@ player &best_installer( player &p, player &null_player, int difficulty )
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 //~ %1$s is the name of the ally
-                if( !g->u.query_yn( string_format( _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ), ally.disp_name(), ally_cos, player_cos ) ) ) {
-                     return null_player;
+                if( !g->u.query_yn( string_format(
+                                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
+                                        ally.disp_name(), ally_cos, player_cos ) ) ) {
+                    return null_player;
                 } else {
-                     continue;
+                    continue;
                 }
             }
             //~ %1$s is the name of the ally
-            add_msg( _( "%1$s will perform the operation with a %2$d chance of success." ), ally.disp_name(), ally_cos );
+            add_msg( _( "%1$s will perform the operation with a %2$d chance of success." ), ally.disp_name(),
+                     ally_cos );
             return ally;
         } else {
             break;
@@ -3596,7 +3601,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( static_cast<options>( amenu.ret ) ) {
         case INSTALL_CBM: {
-            const item_location bionic = g->inv_map_splice( []( const item &e ) {
+            const item_location bionic = g->inv_map_splice( []( const item & e ) {
                 return e.is_bionic();
             }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install." ) );
 
@@ -3610,13 +3615,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             if( patient.is_npc() && !bid->npc_usable ) {
                 //~ %1$s is the bionic CBM display name, %2$s is the patient name
-                popup( _( "%1$s cannot be installed on %2$s."), it->display_name().c_str(), patient.name );
+                popup( _( "%1$s cannot be installed on %2$s." ), it->display_name().c_str(), patient.name );
                 return;
             }
 
             if( patient.has_bionic( bid ) ) {
                 //~ %1$s is patient name
-                popup_player_or_npc( patient, _( "You have already installed this bionic."  ),
+                popup_player_or_npc( patient, _( "You have already installed this bionic." ),
                                      _( "%1$s has already installed this bionic." ) );
                 return;
             } else if( bid->upgraded_bionic && !patient.has_bionic( bid->upgraded_bionic ) ) {
@@ -3628,7 +3633,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 const bool downgrade = std::any_of( bid->available_upgrades.begin(),
                                                     bid->available_upgrades.end(),
                                                     std::bind( &player::has_bionic, &patient,
-                                                    std::placeholders::_1 ) );
+                                                            std::placeholders::_1 ) );
                 if( downgrade ) {
                     //~ %1$s is patient name
                     popup_player_or_npc( patient, _( "You have already installed a superior version of this bionic." ),
